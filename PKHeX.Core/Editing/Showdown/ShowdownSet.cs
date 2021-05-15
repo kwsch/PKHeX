@@ -31,7 +31,7 @@ namespace PKHeX.Core
         public string Nickname { get; set; } = string.Empty;
 
         /// <inheritdoc/>
-        public string Gender { get; private set; } = string.Empty;
+        public int Gender { get; private set; } = -1;
 
         /// <inheritdoc/>
         public int HeldItem { get; private set; }
@@ -268,8 +268,8 @@ namespace PKHeX.Core
                 specForm = specForm.Replace("♀", "-F");
 
             string result = GetSpeciesNickname(specForm);
-            if (Gender.Length != 0)
-                result += $" ({Gender})";
+            if (Gender != -1)
+                result += $" ({genders[Gender]})";
             if (HeldItem > 0)
             {
                 var items = Strings.GetItemStrings(Format);
@@ -335,7 +335,7 @@ namespace PKHeX.Core
             IVs = pkm.IVs;
             Moves = pkm.Moves;
             Nature = pkm.StatNature;
-            Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2];
+            Gender = pkm.Gender < 2 ? pkm.Gender : 2;
             Friendship = pkm.CurrentFriendship;
             Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth);
             Shiny = pkm.IsShiny;
@@ -397,16 +397,21 @@ namespace PKHeX.Core
         private void ParseFirstLineNoItem(string line)
         {
             // Gender Detection
-            if (line.EndsWith("(M)") || line.EndsWith("(F)"))
+            if (line.EndsWith("(M)"))
             {
-                Gender = line[^2].ToString();
-                line = line[0..^3];
+                line = line[..^3];
+                Gender = 0;
+            }
+            else if (line.EndsWith("(F)"))
+            {
+                line = line[..^3];
+                Gender = 1;
             }
             else // Meowstic Edge Case with no gender provided
             {
                 var s = Strings.Species;
                 if (line.Contains(s[(int)Meowstic]) || line.Contains(s[(int)Indeedee]))
-                    Gender = "M";
+                    Gender = 0;
             }
 
             // Nickname Detection
@@ -421,6 +426,9 @@ namespace PKHeX.Core
         private bool ParseSpeciesForm(string speciesLine)
         {
             speciesLine = speciesLine.Trim();
+            if (speciesLine.Length == 0)
+                return false;
+
             if (speciesLine.EndsWith(Gmax))
             {
                 CanGigantamax = true;
@@ -465,29 +473,34 @@ namespace PKHeX.Core
         private void ParseSpeciesNickname(string line)
         {
             int index = line.LastIndexOf('(');
-            string n1, n2;
-            if (index > 1) // correct format
+            string species, nickname;
+            if (index > 1) // parenthesis value after: Nickname (Species), correct.
             {
-                n1 = line[..index].Trim();
-                n2 = line[index..].Trim();
-                n2 = RemoveAll(n2, ParenJunk); // Trim out excess data
+                species = line[..index].Trim();
+                nickname = line[index..].Trim();
+                nickname = RemoveAll(nickname, ParenJunk); // Trim out excess data
             }
-            else // nickname first (manually created set, incorrect)
+            else // parenthesis value before: (Species) Nickname, incorrect
             {
+                int start = index + 1;
                 int end = line.IndexOf(')');
-                n2 = line.Substring(index + 1, end - 1);
-                n1 = end < line.Length - 2 ? line[(end + 2)..] : n2;
+                var tmp = line[start..end];
+                if (end < line.Length - 2)
+                {
+                    species = line[(end + 2)..];
+                    nickname = tmp;
+                }
+                else // (Species), or garbage
+                {
+                    species = tmp;
+                    nickname = string.Empty;
+                }
             }
 
-            if (ParseSpeciesForm(n2))
-            {
-                // successful parse on n2=>Species/Form, n1 is nickname
-                Nickname = n1;
-                return;
-            }
-            // other case is possibly true (or both invalid).
-            Nickname = n2;
-            ParseSpeciesForm(n1);
+            if (ParseSpeciesForm(species))
+                Nickname = nickname;
+            else if (ParseSpeciesForm(nickname))
+                Nickname = species;
         }
 
         private string ParseLineMove(string line)

@@ -88,7 +88,7 @@ namespace PKHeX.Core
         /// <returns>Initialized criteria data to be passed to generators.</returns>
         public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalInfo pi)
         {
-            int gender = string.IsNullOrWhiteSpace(s.Gender) ? -1 : PKX.GetGenderFromString(s.Gender);
+            int gender = s.Gender;
             return new EncounterCriteria
             {
                 Gender = gender,
