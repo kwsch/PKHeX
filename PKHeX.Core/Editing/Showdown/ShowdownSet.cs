@@ -10,7 +10,6 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class ShowdownSet : IBattleTemplate
     {
-        private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         private static readonly string[] Splitters = {"\r\n", "\n"};
         private static readonly string[] StatSplitters = { " / ", " " };
@@ -268,8 +267,13 @@ namespace PKHeX.Core
                 specForm = specForm.Replace("♀", "-F");
 
             string result = GetSpeciesNickname(specForm);
-            if (Gender is 0 or 1) // omit genderless or nonspecific
-                result += $" ({genders[Gender]})";
+
+            // omit genderless or nonspecific
+            if (Gender is 1)
+                result += " (F)";
+            else if (Gender is 0)
+                result += " (M)";
+
             if (HeldItem > 0)
             {
                 var items = Strings.GetItemStrings(Format);

@@ -137,6 +137,10 @@ namespace PKHeX.Core
                 return stringListCache.TryGetValue(fileName, out result);
         }
 
+        /// <summary>
+        /// Loads a text <see cref="file"/> into the program with a value of <see cref="txt"/>.
+        /// </summary>
+        /// <remarks>Caches the result array for future fetches.</remarks>
         public static string[] LoadStringList(string file, string? txt)
         {
             if (txt == null)
@@ -144,6 +148,7 @@ namespace PKHeX.Core
             string[] raw = txt.Split('\n');
             for (int i = 0; i < raw.Length; i++)
             {
+                // check for extra trimming; not all resources are "clean" with only \n line breaks.
                 var line = raw[i];
                 if (line.Length == 0)
                     continue;
