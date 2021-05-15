@@ -268,7 +268,7 @@ namespace PKHeX.Core
                 specForm = specForm.Replace("♀", "-F");
 
             string result = GetSpeciesNickname(specForm);
-            if (Gender != -1)
+            if (Gender is 0 or 1) // omit genderless or nonspecific
                 result += $" ({genders[Gender]})";
             if (HeldItem > 0)
             {
