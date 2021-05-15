@@ -8,8 +8,24 @@ namespace PKHeX.Core
     public static partial class Util
     {
         private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
-        private static readonly string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
-        private static readonly Dictionary<string, string> resourceNameMap = new();
+        private static readonly Dictionary<string, string> resourceNameMap = BuildLookup(thisAssembly.GetManifestResourceNames());
+
+        private static Dictionary<string, string> BuildLookup(IReadOnlyCollection<string> manifestNames)
+        {
+            var result = new Dictionary<string, string>(manifestNames.Count);
+            foreach (var resName in manifestNames)
+            {
+                var period = resName.LastIndexOf('.', resName.Length - 5);
+                var start = period + 1;
+                System.Diagnostics.Debug.Assert(start != 0);
+
+                // text file fetch excludes ".txt" (mixed case...); other extensions are used (all lowercase).
+                var fileName = resName.EndsWith(".txt") ? resName[start..^4].ToLower() : resName[start..];
+                result.Add(fileName, resName);
+            }
+            return result;
+        }
+
         private static readonly Dictionary<string, string[]> stringListCache = new();
 
         private static readonly object getStringListLoadLock = new();
@@ -169,9 +185,13 @@ namespace PKHeX.Core
 
         public static byte[] GetBinaryResource(string name)
         {
-            using var resource = thisAssembly.GetManifestResourceStream($"PKHeX.Core.Resources.byte.{name}");
+            if (!resourceNameMap.TryGetValue(name, out var resName))
+                return Array.Empty<byte>();
+
+            using var resource = thisAssembly.GetManifestResourceStream(resName);
             if (resource is null)
                 return Array.Empty<byte>();
+
             var buffer = new byte[resource.Length];
             resource.Read(buffer, 0, (int)resource.Length);
             return buffer;
@@ -179,14 +199,8 @@ namespace PKHeX.Core
 
         public static string? GetStringResource(string name)
         {
-            if (!resourceNameMap.TryGetValue(name, out var resourceName))
-            {
-                bool Match(string x) => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase);
-                resourceName = Array.Find(manifestResourceNames, Match);
-                if (resourceName == null)
-                    return null;
-                resourceNameMap.Add(name, resourceName);
-            }
+            if (!resourceNameMap.TryGetValue(name.ToLower(), out var resourceName))
+                return null;
 
             using var resource = thisAssembly.GetManifestResourceStream(resourceName);
             if (resource is null)
