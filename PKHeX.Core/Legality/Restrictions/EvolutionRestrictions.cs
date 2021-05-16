@@ -109,6 +109,11 @@ namespace PKHeX.Core
             if (pkm.Format < 4) // doesn't exist yet!
                 return true;
 
+            // OK if un-evolved from original encounter
+            int species = pkm.Species;
+            if (info.EncounterMatch.Species == species)
+                return true;
+
             // Exclude evolution paths that did not require a move w/level-up evolution
             var enc = info.EncounterOriginal;
             if (!SpeciesEvolutionWithMove.TryGetValue(enc.Species, out var entry))
