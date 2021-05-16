@@ -175,35 +175,6 @@ namespace PKHeX.Core
             return GetValidRelearn(pkm, species, form, Breeding.GetCanInheritMoves(species), version);
         }
 
-        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
-        {
-            // Return moves that the pokemon could learn after evolving
-            var moves = new List<int>();
-            for (int i = 1; i < evoChains.Length; i++)
-            {
-                if (evoChains[i].Count != 0)
-                    moves.AddRange(GetValidPostEvolutionMoves(pkm, species, evoChains[i], i, Version));
-            }
-
-            if (pkm.Generation >= 6)
-                moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
-            return moves.Distinct().ToList();
-        }
-
-        private static List<int> GetValidPostEvolutionMoves(PKM pkm, int species, IReadOnlyList<EvoCriteria> evoChain, int generation, GameVersion Version)
-        {
-            var evomoves = new List<int>();
-            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, species);
-            for (int i = 0; i <= index; i++)
-            {
-                var evo = evoChain[i];
-                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, evo.Form, Version: Version, types: MoveSourceType.ExternalSources, RemoveTransferHM: false, generation: generation);
-                // Moves from Species or any species after in the evolution phase
-                evomoves.AddRange(moves);
-            }
-            return evomoves;
-        }
-
         internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int generation, GameVersion Version)
         {
             var preevomoves = new List<int>();

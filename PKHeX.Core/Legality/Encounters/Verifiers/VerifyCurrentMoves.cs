@@ -306,12 +306,6 @@ namespace PKHeX.Core
                         FlagIncompatibleTransferHMs45(res, learnInfo.Source.CurrentMoves, gen, HMLearned, KnowDefogWhirlpool);
                     break;
             }
-
-            // Pokemon that evolved by leveling up while learning a specific move
-            // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
-            // including special and eggs moves before relearn generations
-            if (EvolutionRestrictions.SpeciesEvolutionWithMove.Contains(pkm.Species))
-                ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, info);
         }
 
         private static void ParseMovesByGeneration(PKM pkm, IList<CheckMoveResult> res, int gen, LegalInfo info, LearnInfo learnInfo)
@@ -646,52 +640,6 @@ namespace PKHeX.Core
                 if (levelN > levelJ)
                     res[m] = new CheckMoveResult(res[m], Invalid, string.Format(LMoveEvoFHigher, SpeciesStrings[(int)Species.Nincada], SpeciesStrings[(int)Species.Ninjask]), CurrentMove);
             }
-        }
-
-        private static void ParseEvolutionLevelupMove(PKM pkm, IList<CheckMoveResult> res, IReadOnlyList<int> currentMoves, LegalInfo info)
-        {
-            // Ignore if there is an invalid move or an empty move, this validation is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
-            // Ignore Mr. Mime and Sudowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
-            // Ignore if encounter species is the evolution species, the pokemon was not evolved by the player
-            if (info.EncounterMatch.Species == pkm.Species)
-                return;
-            if (!res.All(r => r?.Valid ?? false) || currentMoves.Any(m => m == 0) || (EvolutionRestrictions.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
-                return;
-
-            var ValidMoves = MoveList.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
-
-            // Add the evolution moves to valid moves in case some of these moves could not be learned after evolving
-            switch (pkm.Species)
-            {
-                case (int)Species.MrMime: // Mr. Mime (Mime Jr with Mimic)
-                case (int)Species.Sudowoodo: // Sudowoodo (Bonsly with Mimic)
-                    ValidMoves.Add((int)Move.Mimic);
-                    break;
-                case (int)Species.Ambipom: // Ambipom (Aipom with Double Hit)
-                    ValidMoves.Add((int)Move.DoubleHit);
-                    break;
-                case (int)Species.Lickilicky: // Lickilicky (Lickitung with Rollout)
-                    ValidMoves.Add((int)Move.Rollout);
-                    break;
-                case (int)Species.Tangrowth: // Tangrowth (Tangela with Ancient Power)
-                case (int)Species.Yanmega: // Yanmega (Yanma with Ancient Power)
-                case (int)Species.Mamoswine: // Mamoswine (Piloswine with Ancient Power)
-                    ValidMoves.Add((int)Move.AncientPower);
-                    break;
-                case (int)Species.Sylveon: // Sylveon (Eevee with Fairy Move)
-                    // Add every fairy moves without checking if Eevee learn it or not; pokemon moves are determined legal before this function
-                    ValidMoves.AddRange(EvolutionRestrictions.FairyMoves);
-                    break;
-                case (int)Species.Tsareena: // Tsareena (Steenee with Stomp)
-                    ValidMoves.Add((int)Move.Stomp);
-                    break;
-            }
-
-            if (currentMoves.Any(m => ValidMoves.Contains(m)))
-                return;
-
-            for (int m = 0; m < 4; m++)
-                res[m] = new CheckMoveResult(res[m], Invalid, string.Format(LMoveEvoFCombination_0, SpeciesStrings[pkm.Species]), CurrentMove);
         }
 
         private static void GetHMCompatibility(PKM pkm, IReadOnlyList<CheckResult> res, int gen, IReadOnlyList<int> moves, out bool[] HMLearned, out bool KnowDefogWhirlpool)

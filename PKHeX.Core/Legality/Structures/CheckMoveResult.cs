@@ -42,6 +42,11 @@
         public bool IsRelearn => Source == MoveSource.Relearn || (Source == MoveSource.EggMove && Generation >= 6);
 
         /// <summary>
+        /// Indicates if the source of the move was validated as originating from an egg.
+        /// </summary>
+        public bool IsEggSource => Source is MoveSource.EggMove or MoveSource.InheritLevelUp;
+
+        /// <summary>
         /// Checks if the Move should be present in a Relearn move pool (assuming Gen6+ origins).
         /// </summary>
         /// <remarks>Invalid moves that can't be validated should be here, hence the inclusion.</remarks>
