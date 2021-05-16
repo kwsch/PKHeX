@@ -71,18 +71,18 @@ namespace PKHeX.Core
         /// Minimum current level for a given species to have learned the evolve-move and be successfully evolved.
         /// </summary>
         /// <remarks>Having a value of 0 means the move can't be learned.</remarks>
-        private static readonly int[][] MinLevelEvolutionWithMove =
+        private static readonly byte[][] MinLevelEvolutionWithMove =
         {
-            new [] { 00, 00, 00, 00, 00, 29, 09, 02, 02 }, // Sylveon (Eevee with Fairy Move)
-            new [] { 00, 00, 00, 00, 18, 15, 15, 02, 02 }, // Mr. Mime (Mime Jr with Mimic)
-            new [] { 00, 00, 00, 00, 17, 17, 15, 02, 02 }, // Sudowoodo (Bonsly with Mimic)
-            new [] { 00, 00, 00, 00, 32, 32, 32, 02, 02 }, // Ambipom (Aipom with Double Hit)
-            new [] { 00, 00, 02, 00, 02, 33, 33, 02, 02 }, // Lickilicky (Lickitung with Rollout)
-            new [] { 00, 00, 00, 00, 02, 36, 38, 02, 02 }, // Tangrowth (Tangela with Ancient Power)
-            new [] { 00, 00, 00, 00, 02, 33, 33, 02, 02 }, // Yanmega (Yanma with Ancient Power)
-            new [] { 00, 00, 00, 00, 02, 02, 02, 02, 02 }, // Mamoswine (Piloswine with Ancient Power)
-            new [] { 00, 00, 00, 00, 00, 00, 00, 02, 28 }, // Tsareena (Steenee with Stomp)
-            new [] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
+            new byte[] { 00, 00, 00, 00, 00, 29, 09, 02, 02 }, // Sylveon (Eevee with Fairy Move)
+            new byte[] { 00, 00, 00, 00, 18, 15, 15, 02, 32 }, // Mr. Mime (Mime Jr with Mimic)
+            new byte[] { 00, 00, 00, 00, 17, 17, 15, 02, 16 }, // Sudowoodo (Bonsly with Mimic)
+            new byte[] { 00, 00, 00, 00, 32, 32, 32, 02, 00 }, // Ambipom (Aipom with Double Hit)
+            new byte[] { 00, 00, 02, 00, 02, 33, 33, 02, 06 }, // Lickilicky (Lickitung with Rollout)
+            new byte[] { 00, 00, 00, 00, 02, 36, 38, 02, 24 }, // Tangrowth (Tangela with Ancient Power)
+            new byte[] { 00, 00, 00, 00, 02, 33, 33, 02, 00 }, // Yanmega (Yanma with Ancient Power)
+            new byte[] { 00, 00, 00, 00, 02, 02, 02, 02, 02 }, // Mamoswine (Piloswine with Ancient Power)
+            new byte[] { 00, 00, 00, 00, 00, 00, 00, 02, 28 }, // Tsareena (Steenee with Stomp)
+            new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
         };
 
         private static readonly bool[][] CanEggHatchWithEvolveMove =
@@ -164,10 +164,16 @@ namespace PKHeX.Core
             // Get the minimum level in any generation when the pokemon could learn the evolve move
             var levels = MinLevelEvolutionWithMove[index];
             var lvl = 101;
-            for (int g = gen; g <= pkm.Format; g++)
+            var end = pkm.Format;
+            for (int g = gen; g <= end; g++)
             {
-                if (pkm.InhabitedGeneration(g) && levels[g] > 0)
-                    lvl = Math.Min(lvl, levels[g]);
+                var l = levels[g];
+                if (l == 0)
+                    continue;
+                if (l == 2)
+                    return 2; // true minimum
+                if (l < lvl)
+                    lvl = l; // best minimum
             }
             return lvl;
         }
