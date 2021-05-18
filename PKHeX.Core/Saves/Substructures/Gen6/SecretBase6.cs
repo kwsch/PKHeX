@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public string TrainerName
         {
             get => StringConverter.GetString6(Data, Offset + 0x218, 0x1A);
-            set => StringConverter.SetString6(TrainerName, 0x1A / 2).CopyTo(Data, Offset + 0x218);
+            set => StringConverter.SetString6(value, 0x1A / 2).CopyTo(Data, Offset + 0x218);
         }
 
         public string FlavorText1

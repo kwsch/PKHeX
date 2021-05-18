@@ -588,7 +588,7 @@ namespace PKHeX.Core
         public bool UnownUnlocked0
         {
             get => (UnownUnlocked & 1 << 0) == 1 << 0;
-            set => UnownUnlocked |= 1 << 0;
+            set => UnownUnlocked = (UnownUnlocked & ~(1 << 0)) | ((value ? 1 : 0) << 0);
         }
 
         /// <summary>
@@ -597,7 +597,7 @@ namespace PKHeX.Core
         public bool UnownUnlocked1
         {
             get => (UnownUnlocked & 1 << 1) == 1 << 1;
-            set => UnownUnlocked |= 1 << 1;
+            set => UnownUnlocked = (UnownUnlocked & ~(1 << 1)) | ((value ? 1 : 0) << 1);
         }
 
         /// <summary>
@@ -606,7 +606,7 @@ namespace PKHeX.Core
         public bool UnownUnlocked2
         {
             get => (UnownUnlocked & 1 << 2) == 1 << 2;
-            set => UnownUnlocked |= 1 << 2;
+            set => UnownUnlocked = (UnownUnlocked & ~(1 << 2)) | ((value ? 1 : 0) << 2);
         }
 
         /// <summary>
@@ -615,7 +615,7 @@ namespace PKHeX.Core
         public bool UnownUnlocked3
         {
             get => (UnownUnlocked & 1 << 3) == 1 << 3;
-            set => UnownUnlocked |= 1 << 3;
+            set => UnownUnlocked = (UnownUnlocked & ~(1 << 3)) | ((value ? 1 : 0) << 3);
         }
 
         /// <summary>
