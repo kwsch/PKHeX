@@ -92,9 +92,8 @@ namespace PKHeX.Core
 
         private static bool GetWasDual(IReadOnlyList<EvoCriteria> evos, PersonalTable pt, ISpeciesForm pk)
         {
-            for (var i = 0; i < evos.Count; i++)
+            foreach (var evo in evos)
             {
-                var evo = evos[i];
                 if (evo.Species == pk.Species)
                     continue;
 

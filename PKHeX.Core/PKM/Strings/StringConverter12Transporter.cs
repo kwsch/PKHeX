@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for converting a <see cref="string"/> from Generation 1 &amp; 2 games to Generation 7.
+    /// </summary>
     public static class StringConverter12Transporter
     {
         /// <summary>

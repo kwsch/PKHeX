@@ -134,9 +134,13 @@ namespace PKHeX.WinForms
             var path3DS = SaveFinder.Get3DSLocation(drives);
             if (path3DS == null)
                 return Array.Empty<CustomFolderPath>();
+
             var root = Path.GetPathRoot(path3DS);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable once HeuristicUnreachableCode
             if (root == null)
                 return Array.Empty<CustomFolderPath>();
+
             var paths = SaveFinder.Get3DSBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
@@ -146,9 +150,13 @@ namespace PKHeX.WinForms
             var pathNX = SaveFinder.GetSwitchLocation(drives);
             if (pathNX == null)
                 return Array.Empty<CustomFolderPath>();
+
             var root = Path.GetPathRoot(pathNX);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable once HeuristicUnreachableCode
             if (root == null)
                 return Array.Empty<CustomFolderPath>();
+
             var paths = SaveFinder.GetSwitchBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }

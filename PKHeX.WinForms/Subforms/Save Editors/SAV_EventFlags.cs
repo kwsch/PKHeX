@@ -80,26 +80,26 @@ namespace PKHeX.WinForms
 
             for (int i = 0; i < labels.Count; i++)
             {
-                var entry = labels[i];
-                var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
+                var (name, index) = labels[i];
+                var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
                 var chk = new CheckBox
                 {
                     CheckAlign = ContentAlignment.MiddleLeft,
                     Margin = Padding.Empty,
-                    Checked = values[entry.Index],
+                    Checked = values[index],
                     AutoSize = true
                 };
                 lbl.Click += (sender, e) => chk.Checked ^= true;
                 chk.CheckedChanged += (o, args) =>
                 {
-                    values[entry.Index] = chk.Checked;
-                    if (NUD_Flag.Value == entry.Index)
+                    values[index] = chk.Checked;
+                    if (NUD_Flag.Value == index)
                         c_CustomFlag.Checked = chk.Checked;
                 };
                 TLP_Flags.Controls.Add(chk, 0, i);
                 TLP_Flags.Controls.Add(lbl, 1, i);
 
-                FlagDict.Add(entry.Index, chk);
+                FlagDict.Add(index, chk);
             }
         }
 
@@ -145,13 +145,13 @@ namespace PKHeX.WinForms
 
                     updating = true;
                     var value = (ushort) mtb.Value;
-                    var match = map.Find(z => z.Value == value) ?? map[0];
-                    if (WinFormsUtil.GetIndex(cb) != match.Value)
-                        cb.SelectedValue = match.Value;
+                    var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
+                    if (WinFormsUtil.GetIndex(cb) != valueID)
+                        cb.SelectedValue = valueID;
 
                     Editor.Values[entry.Index] = value;
                     if (CB_Stats.SelectedIndex == entry.Index)
-                        MT_Stat.Text = mtb.Value.ToString();
+                        MT_Stat.Text = ((int)mtb.Value).ToString();
                     updating = false;
                 };
                 cb.SelectedValueChanged += (o, args) =>

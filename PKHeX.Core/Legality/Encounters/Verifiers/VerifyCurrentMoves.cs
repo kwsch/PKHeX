@@ -59,7 +59,7 @@ namespace PKHeX.Core
                 UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, gen, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
-                if (!ParseSettings.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
+                if (!AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
                     UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, gen, info);
             }
 

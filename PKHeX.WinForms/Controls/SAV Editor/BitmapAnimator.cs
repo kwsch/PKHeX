@@ -91,9 +91,10 @@ namespace PKHeX.WinForms.Controls
 
         private Image GetFrame(int frameIndex)
         {
-            if (GlowCache == null)
+            var cache = GlowCache;
+            if (cache == null)
                 throw new NullReferenceException(nameof(GlowCache));
-            var frame = GlowCache[frameIndex];
+            var frame = cache[frameIndex];
             if (frame != null)
                 return frame;
 
@@ -110,7 +111,7 @@ namespace PKHeX.WinForms.Controls
                 frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0);
             if (OriginalBackground != null)
                 frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);
-            return GlowCache[frameIndex] = frame;
+            return cache[frameIndex] = frame;
         }
 
         private Color GetFrameColor(double elapsedFraction) => ImageUtil.Blend(GlowToColor, GlowFromColor, elapsedFraction);

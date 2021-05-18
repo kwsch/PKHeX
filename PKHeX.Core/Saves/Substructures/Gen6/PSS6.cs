@@ -56,19 +56,19 @@ namespace PKHeX.Core
             // ulong unk2 = BitConverter.ToUInt64(savefile, r_offset + 0x48);
             // uint unk3 = BitConverter.ToUInt32(savefile, r_offset + 0x50);
             // uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
-            byte region = Data[ofs + 0x56];
-            byte country = Data[ofs + 0x57];
+            byte regionID = Data[ofs + 0x56];
+            byte countryID = Data[ofs + 0x57];
             byte game = Data[ofs + 0x5A];
             // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
             int favpkm = BitConverter.ToUInt16(Data, ofs + 0x9C) & 0x7FF;
 
             string gamename = GetGameName(game);
-            var countryRegion = GeoLocation.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
+            var (country, region) = GeoLocation.GetCountryRegionText(countryID, regionID, GameInfo.CurrentLanguage);
             result.Add($"OT: {otname}");
             result.Add($"Message: {message}");
             result.Add($"Game: {gamename}");
-            result.Add($"Country: {countryRegion.Item1}");
-            result.Add($"Region: {countryRegion.Item2}");
+            result.Add($"Country: {country}");
+            result.Add($"Region: {region}");
             result.Add($"Favorite: {GameInfo.Strings.specieslist[favpkm]}");
             return false;
         }

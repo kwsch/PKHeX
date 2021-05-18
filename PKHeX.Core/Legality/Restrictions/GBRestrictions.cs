@@ -233,13 +233,13 @@ namespace PKHeX
             int catch_rate = ((PK1)pk).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
-            if ((species == (int)Metapod || species == (int)Butterfree) && catch_rate == 120)
+            if ((species is (int)Metapod or (int)Butterfree) && catch_rate is 120)
             {
                 // Captured as Metapod without Caterpie moves
                 return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1CaterpieMoves.Contains(lm));
                 // There is no valid Butterfree encounter in generation 1 games
             }
-            if ((species == (int)Kakuna || species == (int)Beedrill) && (catch_rate == 45 || catch_rate == 120))
+            if ((species is (int)Kakuna or (int)Beedrill) && (catch_rate is 45 or 120))
             {
                 if (species == (int)Beedrill && catch_rate == 45) // Captured as Beedril without Weedle and Kakuna moves
                     return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));

@@ -217,7 +217,7 @@ namespace PKHeX.Core
             }
 
             // IVs have no side effects such as hidden power type in gen 8
-            // therefore all specified IVs are deliberate and should not be HT'd over for pokemon met in gen 8
+            // therefore all specified IVs are deliberate and should not be Hyper Trained for pokemon met in gen 8
             if (!pk.Gen8)
                 pk.SetSuggestedHyperTrainingData(Set.IVs);
 

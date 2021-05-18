@@ -117,13 +117,13 @@ namespace PKHeX.Core
         /// <param name="region">Region ID</param>
         /// <param name="language">Language ID</param>
         /// <returns>Tuple containing country and region</returns>
-        public static Tuple<string, string> GetCountryRegionText(int country, int region, string language)
+        public static (string Country, string Region) GetCountryRegionText(int country, int region, string language)
         {
             // Get Language we're fetching for
             int lang = Array.IndexOf(lang_geo, language);
             var countryName = GetCountryName(country, lang);
             var regionName = GetRegionName(country, region, lang);
-            return new Tuple<string, string>(countryName, regionName); // country, region
+            return (countryName, regionName);
         }
 
         public static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);

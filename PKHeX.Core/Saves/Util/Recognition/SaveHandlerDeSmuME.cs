@@ -13,20 +13,11 @@ namespace PKHeX.Core
 
         private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
 
-        private static bool GetHasSignature(byte[] input, byte[] signature, int start)
-        {
-            for (int i = 0; i < signature.Length; i++)
-            {
-                if (signature[i] != input[start + i])
-                    return false;
-            }
-            return true;
-        }
-
         private static bool GetHasFooterDSV(byte[] input)
         {
             var signature = FOOTER_DSV;
-            return GetHasSignature(input, signature, input.Length - signature.Length);
+            var start = input.Length - signature.Length;
+            return input.AsSpan(start).SequenceEqual(signature);
         }
 
         public bool IsRecognized(int size) => size is ExpectedSize;
