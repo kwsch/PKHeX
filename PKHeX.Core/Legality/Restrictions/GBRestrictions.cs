@@ -93,6 +93,7 @@ namespace PKHeX
             (int)Cloyster,
             (int)Exeggutor,
             (int)Starmie,
+            (int)Dragonite,
         };
 
         internal static readonly HashSet<int> Trade_Evolution1 = new()
@@ -384,17 +385,29 @@ namespace PKHeX
             yield return RB;
         }
 
-        private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate, IEnumerable<int> gen1)
+        private static bool GetCatchRateMatchesPreEvolution(PK1 pkm, int catch_rate)
         {
             // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-            var Lineage = gen1.Except(Species_NotAvailable_CatchRate);
-            return IsCatchRateRBY(Lineage) || IsCatchRateTrade() || IsCatchRateStadium();
+            var table = EvolutionTree.GetEvolutionTree(1);
+            var chain = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
+            foreach (var entry in chain)
+            {
+                var s = entry.Species;
+                if (Species_NotAvailable_CatchRate.Contains(s))
+                    continue;
+                if (catch_rate == PersonalTable.RB[s].CatchRate || catch_rate == PersonalTable.Y[s].CatchRate)
+                    return true;
+            }
 
-            // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
-            bool IsCatchRateRBY(IEnumerable<int> ds) => ds.Any(s => catch_rate == PersonalTable.RB[s].CatchRate || (s != 149 && catch_rate == PersonalTable.Y[s].CatchRate));
             // Krabby encounter trade special catch rate
-            bool IsCatchRateTrade() => catch_rate == 204 && (pkm.Species == (int)Krabby || pkm.Species == (int)Kingler);
-            bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
+            int species = pkm.Species;
+            if (catch_rate == 204 && (species is (int)Krabby or (int)Kingler))
+                return true;
+
+            if (Stadium_GiftSpecies.Contains(species) && Stadium_CatchRate.Contains(catch_rate))
+                return true;
+
+            return false;
         }
 
         /// <summary>
@@ -454,10 +467,7 @@ namespace PKHeX
             if (catch_rate == 0)
                 return TradebackType.WasTradeback;
 
-            var table = EvolutionTree.GetEvolutionTree(1);
-            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
-            var gen1 = lineage.Select(evolution => evolution.Species);
-            bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate, gen1);
+            bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate);
 
             if (!matchAny)
                 return TradebackType.WasTradeback;
