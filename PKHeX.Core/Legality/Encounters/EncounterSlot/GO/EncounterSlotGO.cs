@@ -81,9 +81,7 @@ namespace PKHeX.Core
             if (End == 0)
                 return start;
             var end = GetDate(End);
-            var delta = end - start;
-            var bias = Util.Rand.Next(0, delta.Days + 1);
-            return GetDate(Start).AddDays(bias);
+            return DateUtil.GetRandomDateWithin(start, end);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

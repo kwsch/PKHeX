@@ -62,5 +62,22 @@ namespace PKHeX.Core
                 sb.Append(Environment.NewLine).Append("Date: ").Append(Epoch2000.AddSeconds(value + secondsBias));
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Gets a random day within the random range of <see cref="start"/> and <see cref="end"/> days, inclusive.
+        /// </summary>
+        /// <param name="start">First valid date</param>
+        /// <param name="end">Last valid date</param>
+        /// <param name="r">Random to use</param>
+        /// <returns>Date within the specified range, inclusive.</returns>
+        public static DateTime GetRandomDateWithin(DateTime start, DateTime end, Random r)
+        {
+            var delta = end - start;
+            var bias = r.Next(delta.Days + 1);
+            return start.AddDays(bias);
+        }
+
+        /// <inheritdoc cref="GetRandomDateWithin(DateTime,DateTime,Random)"/>
+        public static DateTime GetRandomDateWithin(DateTime start, DateTime end) => GetRandomDateWithin(start, end, Util.Rand);
     }
 }
