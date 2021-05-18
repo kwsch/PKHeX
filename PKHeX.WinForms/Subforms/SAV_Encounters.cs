@@ -314,7 +314,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < end; i++)
             {
                 var enc = Results[i + begin];
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, enc.Form, 0, 0, 0, enc.EggEncounter, false, enc.Generation);
+                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, enc.Form, 0, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
             }
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;

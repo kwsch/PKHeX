@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public readonly int Level;
         public int Generation { get; }
         public GameVersion Version { get; }
+        public bool IsShiny => false;
 
         public EncounterEgg(int species, int form, int level, int gen, GameVersion game)
         {

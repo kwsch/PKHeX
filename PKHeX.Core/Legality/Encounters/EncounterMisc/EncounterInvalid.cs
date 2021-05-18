@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public bool EggEncounter { get; }
         public int Generation { get; }
         public GameVersion Version { get; }
+        public bool IsShiny => false;
 
         public string Name => "Invalid";
         public string LongName => "Invalid";

@@ -22,6 +22,8 @@ namespace PKHeX.Core
         /// <inheritdoc/>
         public Gender Gender { get; }
 
+        public override bool IsShiny => Shiny.IsShiny();
+
         protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
         {
             Start = start;
@@ -125,6 +127,23 @@ namespace PKHeX.Core
             if ((pkm.GetIV(2) & 1) != 1 || pkm.GetIV(2) != pkm.GetIV(5)) // DEF=SPD
                 return false;
             return (pkm.GetIV(0) & 1) == 1; // HP
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            base.SetPINGA(pk, criteria);
+            switch (Shiny)
+            {
+                case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():
+                case Shiny.Always when !pk.IsShiny: // Force Square
+                    pk.PID = (uint)(((pk.TID ^ 0 ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+                    break;
+
+                case Shiny.Random when pk.IsShiny && !criteria.Shiny.IsShiny():
+                case Shiny.Never when pk.IsShiny: // Force Not Shiny
+                    pk.PID ^= 0x1000_0000;
+                    break;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Object representing a <see cref="PKM"/>'s data and derived properties.
     /// </summary>
-    public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, ILangNick, IGameValueLimit, INature
+    public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }

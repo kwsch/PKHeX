@@ -42,6 +42,7 @@ namespace PKHeX.Core
         private const string _name = "Static Encounter";
         public string Name => _name;
         public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
+        public bool IsShiny => Shiny.IsShiny();
 
         protected EncounterStatic(GameVersion game) => Version = game;
 

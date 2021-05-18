@@ -9,6 +9,7 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public int Generation => Version.GetGeneration();
+        public bool IsShiny => false;
 
         private readonly byte[] Data;
         public const int SIZE = 0x30;

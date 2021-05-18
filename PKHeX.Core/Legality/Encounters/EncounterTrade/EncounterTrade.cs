@@ -52,6 +52,7 @@ namespace PKHeX.Core
         public string Name => _name;
         public string LongName => _name;
         public bool IsNicknamed { get; init; } = true;
+        public bool IsShiny => Shiny.IsShiny();
 
         public IReadOnlyList<string> Nicknames { get; internal set; } = Array.Empty<string>();
         public IReadOnlyList<string> TrainerNames { get; internal set; } = Array.Empty<string>();

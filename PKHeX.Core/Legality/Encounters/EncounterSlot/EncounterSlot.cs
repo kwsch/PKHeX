@@ -15,6 +15,7 @@ namespace PKHeX.Core
         public int LevelMax { get; }
         public abstract int Generation { get; }
         public bool EggEncounter => false;
+        public virtual bool IsShiny => false;
 
         protected EncounterSlot(EncounterArea area, int species, int form, int min, int max)
         {
