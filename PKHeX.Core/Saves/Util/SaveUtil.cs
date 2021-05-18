@@ -801,22 +801,5 @@ namespace PKHeX.Core
             FR or LG or FRLG => new SAV3FRLG(sav.State.BAK),
             _ => throw new ArgumentException(nameof(ver))
         };
-
-        /// <summary>
-        /// Gets the <see cref="PersonalTable"/> for a Gen3 save file.
-        /// </summary>
-        /// <param name="ver">Version to retrieve for</param>
-        /// <returns>Reference to the <see cref="PersonalTable"/>.</returns>
-        public static PersonalTable GetG3Personal(GameVersion ver) => ver switch
-        {
-            RS => PersonalTable.RS,
-            E => PersonalTable.E,
-            FRLG => PersonalTable.FR,
-            FR => PersonalTable.FR,
-            LG => PersonalTable.LG,
-            R => PersonalTable.RS,
-            S => PersonalTable.RS,
-            _ => throw new ArgumentException(nameof(ver))
-        };
     }
 }

@@ -55,8 +55,8 @@ namespace PKHeX.Core
             return memory_list1;
         }
 
-        public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
-        public string[] GetMemoryFeelings(int format) => format >= 8 ? s.memories.Slice(9, 25) : s.memories.Slice(10, 24); // empty line for 0 in gen8+
+        public ReadOnlySpan<string> GetMemoryQualities() => s.memories.AsSpan(2, 7);
+        public ReadOnlySpan<string> GetMemoryFeelings(int format) => format >= 8 ? s.memories.AsSpan(9, 25) : s.memories.AsSpan(10, 24); // empty line for 0 in gen8+
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType type) => type switch
         {

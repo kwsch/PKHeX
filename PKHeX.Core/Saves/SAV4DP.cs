@@ -97,6 +97,7 @@ namespace PKHeX.Core
             set => value.SaveAll(General);
         }
 
+        // reverse crc32 polynomial, nice!
         private const uint MysteryGiftDPSlotActive = 0xEDB88320;
 
         public bool[] GetMysteryGiftDPSlotActiveFlags()
