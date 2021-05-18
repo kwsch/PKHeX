@@ -139,5 +139,12 @@ namespace PKHeX.Core
                 arr[i] = !gifts[i].Empty;
             SetMysteryGiftDPSlotActiveFlags(arr);
         }
+
+        public override int M { get => BitConverter.ToUInt16(General, 0x1238); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x1238); }
+        public override int X { get => BitConverter.ToUInt16(General, 0x1240); set => BitConverter.GetBytes((ushort)(X2 = value)).CopyTo(General, 0x1240); }
+        public override int Y { get => BitConverter.ToUInt16(General, 0x1244); set => BitConverter.GetBytes((ushort)(Y2 = value)).CopyTo(General, 0x1244); }
+        public override int X2 { get => BitConverter.ToUInt16(General, 0x25FA); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x25FA); }
+        public override int Y2 { get => BitConverter.ToUInt16(General, 0x25FE); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x25FE); }
+        public override int Z { get => BitConverter.ToUInt16(General, 0x2602); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2602); }
     }
 }
