@@ -55,6 +55,8 @@
             this.CB_GameOrigin = new System.Windows.Forms.ComboBox();
             this.L_Version = new System.Windows.Forms.Label();
             this.TypeFilters = new System.Windows.Forms.FlowLayoutPanel();
+            this.CHK_IsEgg = new System.Windows.Forms.CheckBox();
+            this.CHK_Shiny = new System.Windows.Forms.CheckBox();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.hover = new System.Windows.Forms.ToolTip(this.components);
             this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -62,8 +64,6 @@
             this.TC_SearchOptions = new System.Windows.Forms.TabControl();
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
-            this.CHK_IsEgg = new System.Windows.Forms.CheckBox();
-            this.CHK_Shiny = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.TLP_Filters.SuspendLayout();
@@ -302,7 +302,7 @@
             // 
             this.FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.FLP_Egg.AutoSize = true;
-            this.FLP_Egg.Location = new System.Drawing.Point(0, 235);
+            this.FLP_Egg.Location = new System.Drawing.Point(0, 225);
             this.FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Egg.Name = "FLP_Egg";
             this.FLP_Egg.Size = new System.Drawing.Size(0, 0);
@@ -397,8 +397,40 @@
             this.TypeFilters.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TypeFilters.Location = new System.Drawing.Point(72, 146);
             this.TypeFilters.Name = "TypeFilters";
-            this.TypeFilters.Size = new System.Drawing.Size(228, 179);
+            this.TypeFilters.Size = new System.Drawing.Size(228, 159);
             this.TypeFilters.TabIndex = 123;
+            // 
+            // CHK_IsEgg
+            // 
+            this.CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CHK_IsEgg.AutoSize = true;
+            this.CHK_IsEgg.Checked = true;
+            this.CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.CHK_IsEgg.Location = new System.Drawing.Point(69, 0);
+            this.CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_IsEgg.Name = "CHK_IsEgg";
+            this.CHK_IsEgg.Size = new System.Drawing.Size(45, 17);
+            this.CHK_IsEgg.TabIndex = 125;
+            this.CHK_IsEgg.Text = "Egg";
+            this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_IsEgg.ThreeState = true;
+            this.CHK_IsEgg.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Shiny
+            // 
+            this.CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.CHK_Shiny.AutoSize = true;
+            this.CHK_Shiny.Checked = true;
+            this.CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            this.CHK_Shiny.Location = new System.Drawing.Point(17, 0);
+            this.CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_Shiny.Name = "CHK_Shiny";
+            this.CHK_Shiny.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Shiny.TabIndex = 126;
+            this.CHK_Shiny.Text = "Shiny";
+            this.CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_Shiny.ThreeState = true;
+            this.CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // RTB_Instructions
             // 
@@ -456,38 +488,6 @@
             this.Tab_Advanced.TabIndex = 1;
             this.Tab_Advanced.Text = "Advanced";
             this.Tab_Advanced.UseVisualStyleBackColor = true;
-            // 
-            // CHK_IsEgg
-            // 
-            this.CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Checked = true;
-            this.CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(69, 0);
-            this.CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_IsEgg.Name = "CHK_IsEgg";
-            this.CHK_IsEgg.Size = new System.Drawing.Size(45, 17);
-            this.CHK_IsEgg.TabIndex = 125;
-            this.CHK_IsEgg.Text = "Egg";
-            this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_IsEgg.ThreeState = true;
-            this.CHK_IsEgg.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Shiny
-            // 
-            this.CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_Shiny.AutoSize = true;
-            this.CHK_Shiny.Checked = true;
-            this.CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.CHK_Shiny.Location = new System.Drawing.Point(0, 0);
-            this.CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_Shiny.Name = "CHK_Shiny";
-            this.CHK_Shiny.Size = new System.Drawing.Size(52, 17);
-            this.CHK_Shiny.TabIndex = 126;
-            this.CHK_Shiny.Text = "Shiny";
-            this.CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Shiny.ThreeState = true;
-            this.CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // SAV_Encounters
             // 
