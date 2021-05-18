@@ -21,7 +21,7 @@ namespace PKHeX.Core.Searching
         public SearchComparison SearchFormat { private get; init; }
         public SearchComparison SearchLevel { private get; init; }
 
-        public bool? SearchShiny { private get; set; }
+        public bool? SearchShiny { get; set; }
         public bool? SearchLegal { private get; set; }
         public bool? SearchEgg { get; set; }
         public int? ESV { private get; set; }

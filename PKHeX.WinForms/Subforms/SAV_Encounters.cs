@@ -199,6 +199,8 @@ namespace PKHeX.WinForms
             var results = species.SelectMany(z => GetEncounters(z, moves, pk, versions));
             if (settings.SearchEgg != null)
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
+            if (settings.SearchShiny != null)
+                results = results.Where(z => z.IsShiny == settings.SearchShiny);
 
             // return filtered results
             var comparer = new ReferenceComparer<IEncounterInfo>();
@@ -256,6 +258,9 @@ namespace PKHeX.WinForms
 
             if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
                 settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
+
+            if (CHK_Shiny.CheckState != CheckState.Indeterminate)
+                settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;
 
             return settings;
         }
