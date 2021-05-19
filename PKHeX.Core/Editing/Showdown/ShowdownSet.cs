@@ -104,6 +104,21 @@ namespace PKHeX.Core
 
             FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
             Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Format);
+
+            // Handle edge case with fixed-gender forms.
+            if (Species is (int) Meowstic or (int) Indeedee)
+            {
+                if (Gender == 1) // Recognized with (F)
+                {
+                    FormName = "F";
+                    Form = 1;
+                }
+                else
+                {
+                    FormName = Form == 1 ? "F" : "M";
+                    Gender = Form;
+                }
+            }
         }
 
         private const int MaxMoveCount = 4;
@@ -410,12 +425,6 @@ namespace PKHeX.Core
             {
                 line = line[..^3];
                 Gender = 1;
-            }
-            else // Meowstic Edge Case with no gender provided
-            {
-                var s = Strings.Species;
-                if (line.Contains(s[(int)Meowstic]) || line.Contains(s[(int)Indeedee]))
-                    Gender = 0;
             }
 
             // Nickname Detection
