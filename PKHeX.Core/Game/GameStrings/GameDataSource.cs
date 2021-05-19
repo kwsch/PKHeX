@@ -10,12 +10,12 @@ namespace PKHeX.Core
     {
         public static readonly IReadOnlyList<ComboItem> Regions = new List<ComboItem>
         {
-            new ("Japan (日本)",      (int)RegionID.Japan),
-            new ("Americas (NA/SA)",  (int)RegionID.NorthAmerica),
-            new ("Europe (EU/AU)",    (int)RegionID.Europe),
-            new ("China (中国大陆)",   (int)RegionID.China),
-            new ("Korea (한국)",       (int)RegionID.Korea),
-            new ("Taiwan (香港/台灣)", (int)RegionID.Taiwan),
+            new ("Japan (日本)",      0),
+            new ("Americas (NA/SA)",  1),
+            new ("Europe (EU/AU)",    2),
+            new ("China (中国大陆)",   4),
+            new ("Korea (한국)",       5),
+            new ("Taiwan (香港/台灣)", 6),
         };
 
         private static readonly List<ComboItem> LanguageList = new()
