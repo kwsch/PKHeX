@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/04/06 - New Update:
+21/05/19 - New Update:
+ - Legality:
+ - - Added: Gen8 Distribution nests / met locations are now checked according to date of availability (epoch). Thanks @Lusamine!
+ - - Added: Gen8 nests that are inaccessible without enough badges are now checked for low level hosted raids. Thanks @Lusamine!
+ - - Fixed: Gen6 Strongest Trainer memories are now allowed for Maison-banned entities due to in-game party bug. Thanks Fetrim & @sora10pls!
+ - - Fixed: Gen2 Stadium gifts are now correctly flagged for having a female OT. Thanks @FeralFalcon!
+ - - Fixed: Egg move sources are now indicated correctly (inherited, egg move, initial, etc).
+ - - Fixed: Gen8 Shedinja affixed ribbon is now handled correctly. Yay bugs!
+ - Added: Program settings now have more customization options, including legality parse preferences.
+ - Removed: 40x30 sprites are now no longer toggleable; the current-gen 68x56 sprites are the way forward.
+ - Changed: Any 40x30 sprite boxes in the UI have been upsized to 68x56.
+ - Changed: Program settings are now saved as json next to the exe, rather than xml in a hidden user folder.
+ - Changed: Plugins failing to load will now indicate a more detailed error message.
+ - Changed: Minor internal refactorings to improve performance.
+ - Changed: String handling for special game characters has been improved (namely, Farfetch’d).
+ - Changed: Gen2 Stadium PKM files detecting language format has been improved. Thanks @suloku!
+ - Fixed: Gen3 Colosseum/XD saves now show the correct max money / item quantities. Thanks @CanoeHope!
+ - Fixed: Met location list now behaves properly when loading a different generation save file.
+ - Fixed: PKM Database no longer fails to load when a savefile has an invalid party count.
+
+21/04/06 - New Update: (87827) [3663314]
  - Legality:
  - - Added: New Egg Move order validation logic. Yay inheritance legality checking! Thanks @Lusamine!
  - - Fixed: Ability Patched wild encounter slots no longer show as invalid if they have the curry mark. Thanks Irina!
