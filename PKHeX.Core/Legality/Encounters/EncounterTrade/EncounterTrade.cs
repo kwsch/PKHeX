@@ -22,7 +22,7 @@ namespace PKHeX.Core
         public GameVersion Version { get; }
 
         public int CurrentLevel { get; init; } = -1;
-        public int Location { get; init; }
+        public abstract int Location { get; }
         public int Ability { get; init; }
         public int Gender { get; init; } = -1;
         public Nature Nature { get; init; } = Nature.Random;
@@ -62,19 +62,6 @@ namespace PKHeX.Core
         public bool HasTrainerName => TrainerNames.Count != 0;
 
         protected EncounterTrade(GameVersion game) => Version = game;
-
-        private static int GetDefaultMetLocation(int generation) => generation switch
-        {
-            1 => 0,
-            2 => Locations.LinkTrade2NPC,
-            3 => Locations.LinkTrade3NPC,
-            4 => Locations.LinkTrade4NPC,
-            5 => Locations.LinkTrade5NPC,
-            6 => Locations.LinkTrade6NPC,
-            7 => Locations.LinkTrade6NPC, // 7 is same as 6
-            8 => Locations.LinkTrade6NPC, // 8 is same as 6
-            _ => throw new IndexOutOfRangeException(nameof(generation)),
-        };
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
@@ -120,8 +107,7 @@ namespace PKHeX.Core
             var time = DateTime.Now;
             if (pk.Format != 2 || version == GameVersion.C)
             {
-                var location = Location != 0 ? Location : GetDefaultMetLocation(Generation);
-                SetMetData(pk, level, location, time);
+                SetMetData(pk, level, Location, time);
             }
             else
             {
@@ -226,8 +212,7 @@ namespace PKHeX.Core
             if (!pkm.HasOriginalMetLocation)
                 return evo.Level >= Level;
 
-            var loc = Location != 0 ? Location : GetDefaultMetLocation(Generation);
-            if (loc != pkm.Met_Location)
+            if (Location != pkm.Met_Location)
                 return false;
 
             if (pkm.Format < 5)

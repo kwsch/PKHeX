@@ -6,6 +6,7 @@ namespace PKHeX.Core
     public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public override int Generation => 8;
+        public override int Location => Locations.LinkTrade6NPC;
 
         public byte DynamaxLevel { get; set; }
         public int FlawlessIVCount { get; init; }

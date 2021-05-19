@@ -5,6 +5,7 @@ namespace PKHeX.Core
     public sealed record EncounterTrade7 : EncounterTrade, IMemoryOT
     {
         public override int Generation => 7;
+        public override int Location => Locations.LinkTrade6NPC;
         // immutable setters
         public int OT_Memory { get => 1; set => throw new InvalidOperationException(); }
         public int OT_Intensity { get => 3; set => throw new InvalidOperationException(); }

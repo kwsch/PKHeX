@@ -3,6 +3,7 @@
     public sealed record EncounterTrade6 : EncounterTrade, IMemoryOT
     {
         public override int Generation => 6;
+        public override int Location => Locations.LinkTrade6NPC;
         public int OT_Memory { get; set; }
         public int OT_Intensity { get; set; }
         public int OT_Feeling { get; set; }

@@ -46,6 +46,9 @@
             }
         }
 
+        public int MetLocation { get; init; }
+        public override int Location => MetLocation == default ? Locations.LinkTrade4NPC : MetLocation;
+
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (!base.IsMatchExact(pkm, evo))
@@ -103,6 +106,9 @@
         /// </summary>
         public readonly uint PID;
 
+        public int MetLocation { private get; init; }
+        public override int Location => MetLocation;
+
         public EncounterTrade4RanchGift(uint pid, int species, int level) : base(GameVersion.D)
         {
             PID = pid;
@@ -129,13 +135,14 @@
 
     public sealed record EncounterTrade4RanchSpecial : EncounterTrade4
     {
+        public override int Location => 3000;
+
         public EncounterTrade4RanchSpecial(int species, int level) : base(GameVersion.D)
         {
             Species = species;
             Level = level;
             Ball = 0x10;
             OTGender = 1;
-            Location = 3000;
             TrainerNames = RanchOTNames;
         }
 

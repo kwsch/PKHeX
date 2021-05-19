@@ -5,6 +5,7 @@ namespace PKHeX.Core
     public sealed record EncounterTrade3 : EncounterTrade, IContestStats
     {
         public override int Generation => 3;
+        public override int Location => Locations.LinkTrade3NPC;
 
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.

@@ -371,28 +371,28 @@ namespace PKHeX.Core
 
         private static readonly EncounterTrade4[] RanchGifts =
         {
-            new EncounterTrade4RanchGift(323975838, 025, 18) { Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, Location = 0068, Gender = 0, Ability = 1, CurrentLevel = 20, }, // Pikachu
-            new EncounterTrade4RanchGift(323977664, 037, 16) { Moves = new[] {412,109,053,219}, TID = 1000, SID = 21150, OTGender = 1, Location = 3000, Gender = 0, Ability = 1, CurrentLevel = 30, }, // Vulpix
-            new EncounterTrade4RanchGift(323975579, 077, 13) { Moves = new[] {036,033,039,052}, TID = 1000, SID = 01123, OTGender = 1, Location = 3000, Gender = 0, Ability = 2, CurrentLevel = 16, }, // Ponyta
-            new EncounterTrade4RanchGift(323975564, 108, 34) { Moves = new[] {076,111,014,205}, TID = 1000, SID = 03050, OTGender = 1, Location = 0077, Gender = 0, Ability = 1, CurrentLevel = 40, }, // Lickitung
-            new EncounterTrade4RanchGift(323977579, 114, 01) { Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, Location = 3000, Gender = 1, Ability = 2, }, // Tangela
-            new EncounterTrade4RanchGift(323977675, 133, 16) { Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, Location = 0068, Gender = 0, Ability = 2, CurrentLevel = 30, }, // Eevee
-            new EncounterTrade4RanchGift(323977588, 142, 20) { Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, Location = 0094, Gender = 0, Ability = 1, CurrentLevel = 50, }, // Aerodactyl
-            new EncounterTrade4RanchGift(232975554, 193, 22) { Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, Location = 0052, Gender = 0, Ability = 1, CurrentLevel = 45, Ball = 0x05, }, // Yanma
-            new EncounterTrade4RanchGift(323975570, 241, 16) { Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, Location = 3000, Gender = 1, Ability = 1, CurrentLevel = 48, }, // Miltank
-            new EncounterTrade4RanchGift(323975563, 285, 22) { Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, Location = 3000, Gender = 0, Ability = 2, CurrentLevel = 45, Ball = 0x05, }, // Shroomish
-            new EncounterTrade4RanchGift(323975559, 320, 30) { Moves = new[] {156,323,133,058}, TID = 1000, SID = 27046, OTGender = 1, Location = 0038, Gender = 0, Ability = 2, CurrentLevel = 45, }, // Wailmer
-            new EncounterTrade4RanchGift(323977657, 360, 01) { Moves = new[] {204,150,227,000}, TID = 1000, SID = 01788, OTGender = 1, Location = 0004, Gender = 0, Ability = 2, EggLocation = 2000, }, // Wynaut
-            new EncounterTrade4RanchGift(323975563, 397, 02) { Moves = new[] {355,017,283,018}, TID = 1000, SID = 59298, OTGender = 1, Location = 0016, Gender = 0, Ability = 2, CurrentLevel = 23, }, // Staravia
-            new EncounterTrade4RanchGift(323970584, 415, 05) { Moves = new[] {230,016,000,000}, TID = 1000, SID = 54140, OTGender = 1, Location = 0020, Gender = 1, Ability = 1, CurrentLevel = 20, }, // Combee
-            new EncounterTrade4RanchGift(323977539, 417, 09) { Moves = new[] {447,045,351,098}, TID = 1000, SID = 18830, OTGender = 1, Location = 0020, Gender = 1, Ability = 2, CurrentLevel = 10, }, // Pachirisu
-            new EncounterTrade4RanchGift(323974107, 422, 20) { Moves = new[] {363,352,426,104}, TID = 1000, SID = 39272, OTGender = 1, Location = 0028, Gender = 0, Ability = 2, CurrentLevel = 25, Form = 1 }, // Shellos
-            new EncounterTrade4RanchGift(323977566, 427, 10) { Moves = new[] {204,193,409,098}, TID = 1000, SID = 31045, OTGender = 1, Location = 3000, Gender = 1, Ability = 1, CurrentLevel = 16, }, // Buneary
-            new EncounterTrade4RanchGift(323975579, 453, 22) { Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, Location = 0052, Gender = 0, Ability = 2, CurrentLevel = 31, Ball = 0x05, }, // Croagunk
-            new EncounterTrade4RanchGift(323977566, 456, 15) { Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, Location = 0020, Gender = 1, Ability = 1, CurrentLevel = 35, }, // Finneon
-            new EncounterTrade4RanchGift(323975582, 459, 32) { Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, Location = 0031, Gender = 0, Ability = 1, CurrentLevel = 41, }, // Snover
-            new EncounterTrade4RanchSpecial(151, 50) { Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Location = 3000, Ball = 0x10, Gender = 2, }, // Mew
-            new EncounterTrade4RanchSpecial(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Location = 3000, Ball = 0x10, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
+            new EncounterTrade4RanchGift(323975838, 025, 18) { Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 1, CurrentLevel = 20, }, // Pikachu
+            new EncounterTrade4RanchGift(323977664, 037, 16) { Moves = new[] {412,109,053,219}, TID = 1000, SID = 21150, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 1, CurrentLevel = 30, }, // Vulpix
+            new EncounterTrade4RanchGift(323975579, 077, 13) { Moves = new[] {036,033,039,052}, TID = 1000, SID = 01123, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 16, }, // Ponyta
+            new EncounterTrade4RanchGift(323975564, 108, 34) { Moves = new[] {076,111,014,205}, TID = 1000, SID = 03050, OTGender = 1, MetLocation = 0077, Gender = 0, Ability = 1, CurrentLevel = 40, }, // Lickitung
+            new EncounterTrade4RanchGift(323977579, 114, 01) { Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 2, }, // Tangela
+            new EncounterTrade4RanchGift(323977675, 133, 16) { Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 2, CurrentLevel = 30, }, // Eevee
+            new EncounterTrade4RanchGift(323977588, 142, 20) { Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, MetLocation = 0094, Gender = 0, Ability = 1, CurrentLevel = 50, }, // Aerodactyl
+            new EncounterTrade4RanchGift(232975554, 193, 22) { Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 1, CurrentLevel = 45, Ball = 0x05, }, // Yanma
+            new EncounterTrade4RanchGift(323975570, 241, 16) { Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 48, }, // Miltank
+            new EncounterTrade4RanchGift(323975563, 285, 22) { Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 45, Ball = 0x05, }, // Shroomish
+            new EncounterTrade4RanchGift(323975559, 320, 30) { Moves = new[] {156,323,133,058}, TID = 1000, SID = 27046, OTGender = 1, MetLocation = 0038, Gender = 0, Ability = 2, CurrentLevel = 45, }, // Wailmer
+            new EncounterTrade4RanchGift(323977657, 360, 01) { Moves = new[] {204,150,227,000}, TID = 1000, SID = 01788, OTGender = 1, MetLocation = 0004, Gender = 0, Ability = 2, EggLocation = 2000, }, // Wynaut
+            new EncounterTrade4RanchGift(323975563, 397, 02) { Moves = new[] {355,017,283,018}, TID = 1000, SID = 59298, OTGender = 1, MetLocation = 0016, Gender = 0, Ability = 2, CurrentLevel = 23, }, // Staravia
+            new EncounterTrade4RanchGift(323970584, 415, 05) { Moves = new[] {230,016,000,000}, TID = 1000, SID = 54140, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 20, }, // Combee
+            new EncounterTrade4RanchGift(323977539, 417, 09) { Moves = new[] {447,045,351,098}, TID = 1000, SID = 18830, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 2, CurrentLevel = 10, }, // Pachirisu
+            new EncounterTrade4RanchGift(323974107, 422, 20) { Moves = new[] {363,352,426,104}, TID = 1000, SID = 39272, OTGender = 1, MetLocation = 0028, Gender = 0, Ability = 2, CurrentLevel = 25, Form = 1 }, // Shellos
+            new EncounterTrade4RanchGift(323977566, 427, 10) { Moves = new[] {204,193,409,098}, TID = 1000, SID = 31045, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 16, }, // Buneary
+            new EncounterTrade4RanchGift(323975579, 453, 22) { Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 2, CurrentLevel = 31, Ball = 0x05, }, // Croagunk
+            new EncounterTrade4RanchGift(323977566, 456, 15) { Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 35, }, // Finneon
+            new EncounterTrade4RanchGift(323975582, 459, 32) { Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, MetLocation = 0031, Gender = 0, Ability = 1, CurrentLevel = 41, }, // Snover
+            new EncounterTrade4RanchSpecial(151, 50) { Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Ball = 0x10, Gender = 2, }, // Mew
+            new EncounterTrade4RanchSpecial(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Ball = 0x10, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
         };
 
         private static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =
@@ -419,8 +419,8 @@ namespace PKHeX.Core
             new(HGSS, 0x00101596, 208, 01) { Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}}, // Any -> Steelix
 
             //Gift
-            new(HGSS, 0x00006B5E, 021, 20) { Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
-            new(HGSS, 0x000214D7, 213, 20) { Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
+            new(HGSS, 0x00006B5E, 021, 20) { Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, MetLocation = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
+            new(HGSS, 0x000214D7, 213, 20) { Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, MetLocation = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
         };
 
         private const string tradeDPPt = "tradedppt";

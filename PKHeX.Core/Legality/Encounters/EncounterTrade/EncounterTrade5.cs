@@ -3,6 +3,7 @@
     public sealed record EncounterTrade5 : EncounterTrade
     {
         public override int Generation => 5;
+        public override int Location => Locations.LinkTrade5NPC;
 
         public EncounterTrade5(GameVersion game) : base(game)
         {
@@ -12,6 +13,7 @@
     public sealed record EncounterTrade5PID : EncounterTrade
     {
         public override int Generation => 5;
+        public override int Location => Locations.LinkTrade5NPC;
 
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.

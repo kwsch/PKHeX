@@ -5,6 +5,7 @@ namespace PKHeX.Core
     public sealed record EncounterTrade2 : EncounterTradeGB
     {
         public override int Generation => 2;
+        public override int Location => Locations.LinkTrade2NPC;
 
         public EncounterTrade2(int species, int level, int tid) : base(species, level, GameVersion.GSC)
         {
