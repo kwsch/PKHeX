@@ -17,9 +17,8 @@ namespace PKHeX.Core
         private static List<ComboItem> GetCBListFromCSV(IReadOnlyList<string> inputCSV, int index)
         {
             var arr = new List<ComboItem>(inputCSV.Count);
-            for (int i = 1; i < inputCSV.Count; i++)
+            foreach (var line in inputCSV)
             {
-                var line = inputCSV[i];
                 var val = line[..3];
                 var text = StringUtil.GetNthEntry(line, index, 4);
                 var item = new ComboItem(text, Convert.ToInt32(val));
