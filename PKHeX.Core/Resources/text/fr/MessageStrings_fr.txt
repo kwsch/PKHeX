@@ -232,3 +232,4 @@ MsgItemPouchRemoved = The following item(s) have been removed from the {0} pouch
 MsgSaveDifferentTypes = Les types de sauvegarde ne sont pas les mêmes.
 MsgSaveDifferentVersions = Les versions ne sont pas les mêmes.
 MsgSaveNumberInvalid = Sauvegarde {0} invalide.
+MsgPluginFailLoad = Plugins failed to load. Please refer to the error message to identify the faulty plugin. A plugin may be out of date / incompatible with this build of the program.
