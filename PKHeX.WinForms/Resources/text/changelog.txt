@@ -1,7 +1,12 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/05/19 - New Update:
+21/05/21 - New Update:
+ - Fixed: Gen1-5 Money/Coin editing, no longer sets it to 0.
+ - Fixed: Showdown set imports sometimes failing (Gender, Nickname)
+ - Fixed: Country/Region display in the PKM Editor and Box Report now display correctly.
+
+21/05/19 - New Update: (4867) [3668181]
  - Legality:
  - - Added: Gen8 Distribution nests / met locations are now checked according to date of availability (epoch). Thanks @Lusamine!
  - - Added: Gen8 nests that are inaccessible without enough badges are now checked for low level hosted raids. Thanks @Lusamine!
