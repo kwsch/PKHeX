@@ -226,7 +226,7 @@ namespace PKHeX.Core
 
             pk.SetNickname(Set.Nickname);
             pk.SetForm(Set.Form);
-            pk.SetGender(Set.Gender);
+            pk.SetSaneGender(Set.Gender);
             pk.SetMaximumPPUps(Set.Moves);
 
             if (pk.Format >= 3)
