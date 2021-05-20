@@ -259,7 +259,7 @@ namespace PKHeX.WinForms
             showChangelog = false;
 
             // Version Check
-            if (Settings.Startup.Version.Length > 0) // already run on system
+            if (Settings.Startup.Version.Length > 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
             {
                 bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
                 showChangelog = parsed && lastrev < CurrentProgramVersion;

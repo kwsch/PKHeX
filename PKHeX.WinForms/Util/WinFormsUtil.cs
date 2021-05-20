@@ -229,8 +229,12 @@ namespace PKHeX.WinForms
         public static void AddSaveFileExtensions(IEnumerable<string> exts)
         {
             // Only add new (unique) extensions
-            var newExtensions = exts.Distinct().Except(CustomSaveExtensions);
-            CustomSaveExtensions.AddRange(newExtensions);
+            var dest = CustomSaveExtensions;
+            foreach (var ext in exts)
+            {
+                if (!dest.Contains(ext))
+                    dest.Add(ext);
+            }
         }
 
         private static readonly List<string> CustomSaveExtensions = new()

@@ -118,6 +118,9 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Automatically Detect Save File on Program Startup")]
         public AutoLoadSetting AutoLoadSaveOnStartup { get; set; } = AutoLoadSetting.RecentBackup;
 
+        [LocalizedDescription("Show the changelog when a new version of the program is run for the first time.")]
+        public bool ShowChangelogOnUpdate { get; set; } = true;
+
         public List<string> RecentlyLoaded = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.
