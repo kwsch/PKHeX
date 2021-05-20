@@ -90,7 +90,12 @@ namespace PKHeX.Core
                     return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
                 return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
             }
-            set => SetStringKeepTerminatorStyle(value, otname);
+            set
+            {
+                if (value == OT_Name)
+                    return;
+                SetStringKeepTerminatorStyle(value, otname);
+            }
         }
 
         private void SetStringKeepTerminatorStyle(string value, byte[] exist)
