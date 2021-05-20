@@ -21,8 +21,8 @@ namespace PKHeX.WinForms
             TB_OTName.MaxLength = SAV.OTLength;
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
             B_MaxCoins.Click += (sender, e) => MT_Coins.Text = SAV.MaxCoins.ToString();
-            MT_Money.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxMoney) + 1));
-            MT_Coins.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxCoins) + 1));
+            MT_Money.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxMoney) + 1),'0');
+            MT_Coins.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxCoins) + 1),'0');
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
