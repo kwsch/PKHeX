@@ -4,7 +4,7 @@
 namespace PKHeX.Core
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct DecorationInventory3
+    public readonly struct DecorationInventory3
     {
         public const int SIZE = 150;
 

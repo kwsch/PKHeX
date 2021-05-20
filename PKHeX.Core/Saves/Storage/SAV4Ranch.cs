@@ -8,21 +8,23 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 <see cref="SaveFile"/> object for My Pokémon Ranch saves.
     /// </summary>
-    public sealed class SAV4Ranch : BulkStorage
+    public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     {
-        public override int SIZE_STORED => 0x88 + 0x1C;
+        protected override int SIZE_STORED => 0x88 + 0x1C;
         protected override int SIZE_PARTY => SIZE_STORED;
+
+        public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
+        public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
 
         public override int BoxCount { get; }
         public override int SlotCount { get; }
 
         public override PersonalTable Personal => PersonalTable.Pt;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
-        public override SaveFile Clone() => new SAV4Ranch((byte[])Data.Clone());
-        public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
-        protected override string BAKText => $"{OT} {PlayTimeString}";
+        protected override SaveFile CloneInternal() => new SAV4Ranch((byte[])Data.Clone());
+        public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");
+        protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
         public override string Extension => ".bin";
-        public override string Filter { get; } = "Ranch G4 Storage|*.bin*";
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -84,12 +86,12 @@ namespace PKHeX.Core
             SetData(result, 0);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+                value = value[..maxLength]; // Hard cap
             string temp = value
                 .PadRight(value.Length + 1, (char)0) // Null Terminator
                 .PadRight(PadToSize, (char)PadWith); // Padding

@@ -11,27 +11,27 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HallOfFame : Form
     {
-        private readonly SaveFile Origin;
+        private readonly SAV6 Origin;
         private readonly SAV6 SAV;
 
-        public SAV_HallOfFame(SaveFile sav)
+        private bool editing;
+
+        private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
+        private readonly byte[] data;
+
+        public SAV_HallOfFame(SAV6 sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
 
-            Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
+            data = SAV.Data.Slice(SAV.HoF, 0x1B40); // Copy HoF section of save into Data
             Setup();
             LB_DataEntry.SelectedIndex = 0;
-            NUP_PartyIndex_ValueChanged(null, EventArgs.Empty);
+            NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
             TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont();
             editing = true;
         }
-
-        private bool editing;
-
-        private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
-        private readonly byte[] data = new byte[0x1B40];
 
         private void Setup()
         {
@@ -60,10 +60,7 @@ namespace PKHeX.WinForms
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource, null);
         }
 
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -100,7 +97,7 @@ namespace PKHeX.WinForms
                 groupBox1.Enabled = true;
                 var moncount = AddEntries(offset, s, year, month, day);
 
-                if (sender != null)
+                if (sender != this)
                 {
                     NUP_PartyIndex.Maximum = moncount == 0 ? 1 : moncount;
                     NUP_PartyIndex.Value = 1;
@@ -155,8 +152,8 @@ namespace PKHeX.WinForms
             uint shiny = slgf >> 14 & 0x1;
             // uint unkn = slgf >> 15;
 
-            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
+            string nickname = StringConverter.GetString6(data, offset + 0x18, 24);
+            string OTname = StringConverter.GetString6(data, offset + 0x30, 24);
 
             string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
@@ -203,8 +200,8 @@ namespace PKHeX.WinForms
             TB_TID.Text = BitConverter.ToUInt16(data, offset + 0x10).ToString("00000");
             TB_SID.Text = BitConverter.ToUInt16(data, offset + 0x12).ToString("00000");
 
-            TB_Nickname.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            TB_OT.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
+            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
+            TB_OT.Text = StringConverter.GetString6(data, offset + 0x30, 24);
 
             uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint form = slgf & 0x1F;
@@ -285,12 +282,12 @@ namespace PKHeX.WinForms
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            var spec = WinFormsUtil.GetIndex(CB_Species);
+            var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(spec, form, gender, 0, item, false, CHK_Shiny.Checked);
-            DisplayEntry(null, EventArgs.Empty); // refresh text view
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
+            DisplayEntry(this, EventArgs.Empty); // refresh text view
         }
 
         private void Validate_TextBoxes()
@@ -319,13 +316,14 @@ namespace PKHeX.WinForms
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 
-            Write_Entry(null, EventArgs.Empty);
+            Write_Entry(this, EventArgs.Empty);
         }
 
         private void SetForms()
         {
             int species = WinFormsUtil.GetIndex(CB_Species);
-            bool hasForms = PersonalTable.AO[species].HasFormes || new[] { 664, 665, 414 }.Contains(species);
+            var pi = PersonalTable.AO[species];
+            bool hasForms = FormInfo.HasFormSelection(pi, species, 6);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();
@@ -335,7 +333,7 @@ namespace PKHeX.WinForms
         private void UpdateSpecies(object sender, EventArgs e)
         {
             SetForms();
-            UpdateNickname(null, EventArgs.Empty);
+            UpdateNickname(this, EventArgs.Empty);
         }
 
         private void UpdateShiny(object sender, EventArgs e)
@@ -343,13 +341,13 @@ namespace PKHeX.WinForms
             if (!editing)
                 return; //Don't do writing until loaded
 
-            var spec = WinFormsUtil.GetIndex(CB_Species);
+            var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(spec, form, gender, 0, item, false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
 
-            Write_Entry(null, EventArgs.Empty);
+            Write_Entry(this, EventArgs.Empty);
         }
 
         private void UpdateGender(object sender, EventArgs e)
@@ -357,41 +355,41 @@ namespace PKHeX.WinForms
             // Get Gender Threshold
             int species = WinFormsUtil.GetIndex(CB_Species);
             var pi = SAV.Personal[species];
-
-            var fg = pi.FixedGender;
-            if (fg == -1) // dual gender
+            if (pi.IsDualGender)
             {
-                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                var fg = PKX.GetGenderFromString(Label_Gender.Text);
                 fg = (fg ^ 1) & 1;
                 Label_Gender.Text = Main.GenderSymbols[fg];
             }
             else
             {
+                var fg = pi.FixedGender;
                 Label_Gender.Text = Main.GenderSymbols[fg];
                 return;
             }
 
-            if (PKX.GetGenderFromString(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
+            var g = PKX.GetGenderFromString(CB_Form.Text);
+            if (g == 0 && Label_Gender.Text != gendersymbols[0])
                 CB_Form.SelectedIndex = 1;
-            else if (PKX.GetGenderFromString(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
+            else if (g == 1 && Label_Gender.Text != gendersymbols[1])
                 CB_Form.SelectedIndex = 0;
 
             if (species == (int)Species.Pyroar)
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
-            Write_Entry(null, EventArgs.Empty);
+            Write_Entry(this, EventArgs.Empty);
         }
 
         private void SetGenderLabel(int gender)
         {
-            if (gender == 0)
-                Label_Gender.Text = gendersymbols[0];    // Male
-            else if (gender == 1)
-                Label_Gender.Text = gendersymbols[1];    // Female
-            else
-                Label_Gender.Text = gendersymbols[2];    // Genderless
+            Label_Gender.Text = gender switch
+            {
+                0 => gendersymbols[0], // M
+                1 => gendersymbols[1], // F
+                _ => gendersymbols[2] // -
+            };
 
-            Write_Entry(null, EventArgs.Empty);
+            Write_Entry(this, EventArgs.Empty);
         }
 
         private void B_CopyText_Click(object sender, EventArgs e)
@@ -410,26 +408,25 @@ namespace PKHeX.WinForms
             if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
             // Ensure Last Entry is Cleared
             Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
-            DisplayEntry(LB_DataEntry, null);
+            DisplayEntry(LB_DataEntry, EventArgs.Empty);
         }
 
         private void ChangeNickname(object sender, MouseEventArgs e)
         {
-            TextBox tb = !(sender is TextBox) ? TB_Nickname : (TextBox) sender;
+            TextBox tb = sender is TextBox box ? box : TB_Nickname;
             // Special Character Form
             if (ModifierKeys != Keys.Control)
                 return;
 
             int offset = LB_DataEntry.SelectedIndex * 0x1B4;
-            var nicktrash = data.Skip(offset + 0x18).Take(24).ToArray();
+            var nicktrash = data.Slice(offset + 0x18, 24);
             SAV.SetString(TB_Nickname.Text, 12).CopyTo(nicktrash, 0);
             var d = new TrashEditor(tb, nicktrash, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
             d.FinalBytes.CopyTo(data, offset + 0x18);
 
-            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            TB_Nickname.Text = nickname;
+            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
         }
     }
 }

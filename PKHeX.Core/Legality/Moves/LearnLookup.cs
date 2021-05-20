@@ -30,13 +30,13 @@ namespace PKHeX.Core
 
         public List<int> AddMoves(List<int> moves, int species, int form, int max, int min = 0)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             return AddMovesIndex(moves, index, max, min);
         }
 
         public List<int> AddMoves1(List<int> moves, int species, int form, int max, int min)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             return AddMovesIndex1(moves, index, max, min);
         }
 
@@ -49,13 +49,13 @@ namespace PKHeX.Core
 
         public List<int> GetMoves(int species, int form, int min, int max)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             return Learn[index].GetMoveList(max, min);
         }
 
         public LearnVersion GetIsLevelUp(int species, int form, int move)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             if (index <= 0)
                 return LearnNONE;
             var lv = Learn[index].GetLevelLearnMove(move);
@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         public LearnVersion GetIsLevelUp(int species, int form, int move, int max)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             if (index <= 0)
                 return LearnNONE;
             var lv = Learn[index].GetLevelLearnMove(move);
@@ -77,7 +77,7 @@ namespace PKHeX.Core
 
         public LearnVersion GetIsLevelUpMin(int species, int move, int max, int min, int form)
         {
-            int index = Table.GetFormeIndex(species, form);
+            int index = Table.GetFormIndex(species, form);
             if (index <= 0)
                 return LearnNONE;
             var lv = Learn[index].GetLevelLearnMove(move, min);
@@ -88,7 +88,7 @@ namespace PKHeX.Core
 
         public LearnVersion GetIsLevelUpG1(int species, int form, int move, int max, int min = 0)
         {
-            int index = PersonalTable.RB.GetFormeIndex(species, form);
+            int index = PersonalTable.RB.GetFormIndex(species, form);
             if (index == 0)
                 return LearnNONE;
 

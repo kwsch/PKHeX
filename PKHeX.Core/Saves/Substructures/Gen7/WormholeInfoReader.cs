@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public bool WormholeShininess // 0x4535 = Misc (0x4400 in USUM) + 0x0135
         {
             get => SAV.Data[SAV.Misc.Offset + 0x0135] == 1;
-            set => SAV.Data[SAV.Misc.Offset + 0x0135] = (byte)(value ? 1 : 0);
+            set => SAV.Data[SAV.Misc.Offset + 0x0135] = value ? (byte)1 : (byte)0;
         }
 
         public const int WormholeSlotMax = 15;
@@ -30,7 +30,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value < 1 || value > WormholeSlotMax)
+                if (value is < 1 or > WormholeSlotMax)
                     return;
                 for (int i = 1; i <= WormholeSlotMax; i++)
                 {
@@ -129,7 +129,7 @@ namespace PKHeX.Core
 
         public static int WormholeSlotToPokemon(int mapid, int slot)
         {
-            if (slot < 1 || slot > WormholeSlotMax)
+            if (slot is < 1 or > WormholeSlotMax)
                 return -1;
 
             return mapid switch

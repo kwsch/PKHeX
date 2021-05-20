@@ -21,8 +21,8 @@ namespace PKHeX.WinForms
             TB_OTName.MaxLength = SAV.OTLength;
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
             B_MaxCoins.Click += (sender, e) => MT_Coins.Text = SAV.MaxCoins.ToString();
-            MT_Money.Mask = "00000000000".Substring(0, SAV.MaxMoney.ToString().Length);
-            MT_Coins.Mask = "00000000000".Substring(0, SAV.MaxCoins.ToString().Length);
+            MT_Money.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxMoney) + 1), '0');
+            MT_Coins.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxCoins) + 1), '0');
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             }
-            if (SAV is SAV3Colosseum || SAV is SAV3XD)
+            if (SAV is SAV3Colosseum or SAV3XD)
             {
                 GB_Map.Visible = false;
                 GB_Badges.Visible = false;
@@ -153,11 +153,11 @@ namespace PKHeX.WinForms
                 cba[i].Checked = (badgeval & 1 << i) != 0;
             }
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
             CAL_AdventureStartDate.Value = date;
             CAL_AdventureStartTime.Value = time;
 
-            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
 
@@ -206,7 +206,7 @@ namespace PKHeX.WinForms
                 sav1.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav1.Badges = badgeval & 0xFF;
                 sav1.PikaFriendship = (byte)Math.Min(255, Util.ToUInt32(MT_PikaFriend.Text));
-                sav1.PikaBeachScore = (byte)Math.Min(9999, Util.ToUInt32(MT_PikaBeach.Text));
+                sav1.PikaBeachScore = (ushort)Math.Min(9999, Util.ToUInt32(MT_PikaBeach.Text));
                 sav1.BattleEffects = CHK_BattleEffects.Checked;
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav1.Sound = CB_SoundType.SelectedIndex;
@@ -258,8 +258,8 @@ namespace PKHeX.WinForms
                 s.BattleSubway.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
-            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             Origin.CopyChangesFrom(SAV);
             Close();

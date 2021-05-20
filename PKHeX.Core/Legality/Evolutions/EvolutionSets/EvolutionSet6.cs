@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class EvolutionSet6
     {
-        internal static readonly HashSet<int> EvosWithArg = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
+        internal static readonly HashSet<int> EvosWithArg = new() {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;
 
         private static EvolutionMethod[] GetMethods(byte[] data)
@@ -18,12 +18,12 @@ namespace PKHeX.Core
             {
                 var method = BitConverter.ToUInt16(data, i + 0);
                 var arg = BitConverter.ToUInt16(data, i + 2);
-                var spec = BitConverter.ToUInt16(data, i + 4);
+                var species = BitConverter.ToUInt16(data, i + 4);
 
                 // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
                 var lvl = EvosWithArg.Contains(method) ? 0 : arg;
 
-                evos[i/SIZE] = new EvolutionMethod(method, spec, argument: arg, level: lvl);
+                evos[i/SIZE] = new EvolutionMethod(method, species, argument: arg, level: lvl);
             }
             return evos;
         }

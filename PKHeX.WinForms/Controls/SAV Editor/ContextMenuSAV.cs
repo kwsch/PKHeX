@@ -11,10 +11,10 @@ namespace PKHeX.WinForms.Controls
     {
         public ContextMenuSAV() => InitializeComponent();
 
-        public SaveDataEditor<PictureBox> Editor { private get; set; }
-        public SlotChangeManager Manager { get; set; }
+        public SaveDataEditor<PictureBox> Editor { private get; set; } = null!;
+        public SlotChangeManager Manager { get; set; } = null!;
 
-        public event LegalityRequest RequestEditorLegality;
+        public event LegalityRequest? RequestEditorLegality;
         public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);
 
         public void OmniClick(object sender, EventArgs e, Keys z)
@@ -98,7 +98,7 @@ namespace PKHeX.WinForms.Controls
                     WinFormsUtil.Alert(MsgSaveSlotLocked);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new IndexOutOfRangeException(nameof(msg));
             }
             return false;
         }
@@ -132,7 +132,11 @@ namespace PKHeX.WinForms.Controls
         private static SlotViewInfo<PictureBox> GetSenderInfo(ref object sender)
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            if (pb == null)
+                throw new InvalidCastException("Unable to find PictureBox");
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            if (view == null)
+                throw new InvalidCastException("Unable to find View Parent");
             var loc = view.GetSlotData(pb);
             sender = pb;
             return new SlotViewInfo<PictureBox>(loc, view);

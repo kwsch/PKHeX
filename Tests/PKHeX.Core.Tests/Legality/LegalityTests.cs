@@ -11,8 +11,11 @@ namespace PKHeX.Tests.Legality
     {
         static LegalityTest()
         {
-            if (!EncounterEvent.Initialized)
-                EncounterEvent.RefreshMGDB();
+            if (EncounterEvent.Initialized)
+                return;
+
+            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            EncounterEvent.RefreshMGDB();
         }
 
         [Theory]
@@ -51,8 +54,9 @@ namespace PKHeX.Tests.Legality
                 var format = PKX.GetPKMFormatFromExtension(file[^1], -1);
                 format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
 
-                ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
-                ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
+                var dn = fi.DirectoryName ?? string.Empty;
+                ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");
+                ParseSettings.AllowGen1Tradeback = dn.Contains("1 Tradeback");
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
                 if (pkm == null)
@@ -64,10 +68,13 @@ namespace PKHeX.Tests.Legality
                     continue;
                 }
 
-                var fn = Path.Combine(fi.Directory.Name, fi.Name);
+                var fn = Path.Combine(dn, fi.Name);
                 if (isValid)
                 {
-                    var invalid = legality.Results.Where(z => !z.Valid);
+                    var info = legality.Info;
+                    var result = legality.Results.Concat(info.Moves).Concat(info.Relearn);
+                    // ReSharper disable once ConstantConditionalAccessQualifier
+                    var invalid = result.Where(z => z?.Valid == false);
                     var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
                     legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
                 }

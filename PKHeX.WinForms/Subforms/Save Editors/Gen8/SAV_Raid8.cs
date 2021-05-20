@@ -39,9 +39,14 @@ namespace PKHeX.WinForms
 
         private void B_ActivateAll_Click(object sender, EventArgs e)
         {
-            bool export = (ModifierKeys & Keys.Alt) != 0;
-            if (export)
+            bool alt = (ModifierKeys & Keys.Alt) != 0;
+            if (alt)
             {
+                if ((ModifierKeys & Keys.Control) == 0)
+                {
+                    Raids.DectivateAllRaids();
+                    LoadDen(CB_Den.SelectedIndex);
+                }
                 var txt = Raids.DumpAll();
                 var concat = string.Join(Environment.NewLine, txt);
                 if (WinFormsUtil.SetClipboardText(concat))

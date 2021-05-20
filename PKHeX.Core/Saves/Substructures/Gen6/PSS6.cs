@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PKHeX.Core
 {
     public static class PSS6
     {
         private const string Header = "PSS List";
-        private static readonly string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
+        private static readonly string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby" };
 
         public static List<string> GetPSSParse(SAV6 SAV)
         {
@@ -48,8 +47,8 @@ namespace PKHeX.Core
             if (pssID == 0)
                 return false; // no data
 
-            string otname = Util.TrimFromZero(Encoding.Unicode.GetString(Data, ofs + 8, 0x1A));
-            string message = Util.TrimFromZero(Encoding.Unicode.GetString(Data, ofs + 0x22, 0x22));
+            string otname = StringConverter.GetString6(Data, ofs + 8, 0x1A);
+            string message = StringConverter.GetString6(Data, ofs + 8 + 0x1A, 0x22);
 
             // Trim terminated
 
@@ -57,19 +56,19 @@ namespace PKHeX.Core
             // ulong unk2 = BitConverter.ToUInt64(savefile, r_offset + 0x48);
             // uint unk3 = BitConverter.ToUInt32(savefile, r_offset + 0x50);
             // uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
-            byte region = Data[ofs + 0x56];
-            byte country = Data[ofs + 0x57];
+            byte regionID = Data[ofs + 0x56];
+            byte countryID = Data[ofs + 0x57];
             byte game = Data[ofs + 0x5A];
             // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
             int favpkm = BitConverter.ToUInt16(Data, ofs + 0x9C) & 0x7FF;
 
             string gamename = GetGameName(game);
-            var countryRegion = GeoLocation.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
+            var (country, region) = GeoLocation.GetCountryRegionText(countryID, regionID, GameInfo.CurrentLanguage);
             result.Add($"OT: {otname}");
             result.Add($"Message: {message}");
             result.Add($"Game: {gamename}");
-            result.Add($"Country: {countryRegion.Item1}");
-            result.Add($"Region: {countryRegion.Item2}");
+            result.Add($"Country: {country}");
+            result.Add($"Region: {region}");
             result.Add($"Favorite: {GameInfo.Strings.specieslist[favpkm]}");
             return false;
         }

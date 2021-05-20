@@ -10,11 +10,13 @@ namespace PKHeX.WinForms
 {
     public static class WinFormsTranslator
     {
-        private static readonly Dictionary<string, TranslationContext> Context = new Dictionary<string, TranslationContext>();
+        private static readonly Dictionary<string, TranslationContext> Context = new();
         internal static void TranslateInterface(this Control form, string lang) => TranslateForm(form, GetContext(lang));
 
         private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
         private static string GetTranslationFileNameExternal(string lang) => $"lang_{lang}.txt";
+
+        public static IReadOnlyDictionary<string, string> GetDictionary(string lang) => GetContext(lang).Lookup;
 
         private static TranslationContext GetContext(string lang)
         {
@@ -61,12 +63,14 @@ namespace PKHeX.WinForms
             if (File.Exists(externalLangPath))
             {
                 try { return File.ReadAllLines(externalLangPath); }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch { /* In use? Just return the internal resource. */ }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             if (Util.IsStringListCached(file, out var result))
                 return result;
-            var txt = (string)Properties.Resources.ResourceManager.GetObject(file);
+            var txt = (string?)Properties.Resources.ResourceManager.GetObject(file);
             return Util.LoadStringList(file, txt);
         }
 
@@ -91,7 +95,7 @@ namespace PKHeX.WinForms
                                 yield return obj;
                         }
 
-                        if (z is ListControl || z is TextBoxBase || z is LinkLabel || z is NumericUpDown || z is ContainerControl)
+                        if (z is ListControl or TextBoxBase or LinkLabel or NumericUpDown or ContainerControl)
                             break; // undesirable to modify, ignore
 
                         if (!string.IsNullOrWhiteSpace(z.Text))
@@ -103,7 +107,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
         {
-            foreach (Control child in control.Controls)
+            foreach (var child in control.Controls.OfType<Control>())
             {
                 if (child is T childOfT)
                     yield return childOfT;
@@ -172,9 +176,12 @@ namespace PKHeX.WinForms
                 var argCount = constructors[0].GetParameters().Length;
                 try
                 {
-                    var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
+                    var _ = (Form?)System.Activator.CreateInstance(t, new object[argCount]);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
+                // This is a debug utility method, will always be logging. Shouldn't ever fail.
                 catch
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     Debug.Write($"Failed to create a new form {t}");
                 }
@@ -204,6 +211,34 @@ namespace PKHeX.WinForms
                 File.WriteAllLines(fn, result);
             }
         }
+
+        public static void LoadSettings<T>(string defaultLanguage, bool add = true)
+        {
+            var context = (Dictionary<string, string>)Context[defaultLanguage].Lookup;
+            var props = typeof(T).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            foreach (var prop in props)
+            {
+                var p = prop.PropertyType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                foreach (var x in p)
+                {
+                    var individual = (LocalizedDescriptionAttribute[])x.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false);
+                    foreach (var v in individual)
+                    {
+                        var hasKey = context.ContainsKey(v.Key);
+                        if (add)
+                        {
+                            if (!hasKey)
+                                context.Add(v.Key, v.Fallback);
+                        }
+                        else
+                        {
+                            if (hasKey)
+                                context.Remove(v.Key);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public sealed class TranslationContext
@@ -211,7 +246,8 @@ namespace PKHeX.WinForms
         public bool AddNew { private get; set; }
         public bool RemoveUsedKeys { private get; set; }
         public const char Separator = '=';
-        private readonly Dictionary<string, string> Translation = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> Translation = new();
+        public IReadOnlyDictionary<string, string> Lookup => Translation;
 
         public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {
@@ -220,7 +256,7 @@ namespace PKHeX.WinForms
                 Translation.Add(kvp[0], kvp[1]);
         }
 
-        public string GetTranslatedText(string val, string fallback)
+        public string? GetTranslatedText(string val, string? fallback)
         {
             if (RemoveUsedKeys)
                 Translation.Remove(val);

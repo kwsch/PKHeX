@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for MYSTRY Mew origins.
+    /// </summary>
     public static class MystryMew
     {
         private static readonly ushort[] Seeds =
@@ -30,13 +33,37 @@ namespace PKHeX.Core
             0xFE9D
         };
 
+        private const int FramesPerMew = 5;
+        private const int MewPerRestrictedSeed = 5;
+
+        /// <summary>
+        /// Gets a random valid seed based on the input <see cref="random"/> value.
+        /// </summary>
+        public static uint GetSeed(uint random, PIDType type = PIDType.BACD_U)
+        {
+            uint restricted = random % (uint)Seeds.Length;
+            var seed = (uint)Seeds[restricted];
+            if (type == PIDType.BACD_R)
+                return seed;
+
+            uint position = (random % (MewPerRestrictedSeed - 1)) + 1;
+            for (int i = 0; i < position; i++)
+                seed = RNG.LCRNG.Advance(seed, FramesPerMew);
+
+            return seed;
+        }
+
+        /// <summary>
+        /// Checks if the seed is a known seed.
+        /// </summary>
+        /// <param name="seed">Origin seed (for the PID/IV)</param>
         public static int GetSeedIndex(uint seed)
         {
             for (int i = 0; i < 5; i++)
             {
                 if (seed <= ushort.MaxValue)
                     return Array.BinarySearch(Seeds, (ushort)seed);
-                seed = RNG.LCRNG.Reverse(seed, 5);
+                seed = RNG.LCRNG.Reverse(seed, FramesPerMew);
             }
 
             return -1;

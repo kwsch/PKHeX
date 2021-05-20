@@ -18,7 +18,7 @@ namespace PKHeX.Core
             ChecksumMirror = chkMirror;
         }
 
-        private ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(data, Offset, Length);
+        private ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, Offset, Length));
 
         protected override bool ChecksumValid(byte[] data)
         {

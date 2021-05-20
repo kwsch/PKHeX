@@ -17,10 +17,10 @@ namespace PKHeX.Core
             {
                 var method = BitConverter.ToUInt16(data, i + 0);
                 var arg = BitConverter.ToUInt16(data, i + 2);
-                var spec = BitConverter.ToUInt16(data, i + 4);
+                var species = BitConverter.ToUInt16(data, i + 4);
                 var form = (sbyte) data[i + 6];
                 var level = data[i + 7];
-                evos[i / SIZE] = new EvolutionMethod(method, spec, argument: arg, level: level, form: form);
+                evos[i / SIZE] = new EvolutionMethod(method, species, argument: arg, level: level, form: form);
             }
             return evos;
         }

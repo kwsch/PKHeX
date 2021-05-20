@@ -2,14 +2,17 @@
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterTrade2 : EncounterTradeGB
+    public sealed record EncounterTrade2 : EncounterTradeGB
     {
-        public EncounterTrade2(int species, int level, int tid) : base(species, level)
+        public override int Generation => 2;
+        public override int Location => Locations.LinkTrade2NPC;
+
+        public EncounterTrade2(int species, int level, int tid) : base(species, level, GameVersion.GSC)
         {
             TID = tid;
         }
 
-        public override bool IsMatch(PKM pkm)
+        public override bool IsMatchExact(PKM pkm, DexLevel dl)
         {
             if (Level > pkm.CurrentLevel) // minimum required level
                 return false;
@@ -22,7 +25,7 @@ namespace PKHeX.Core
                     return false;
                 if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
                     return false;
-                if (pkm.Format == 2 && pkm.Met_Location != 0 && pkm.Met_Location != 126)
+                if (pkm.Format == 2 && pkm.Met_Location is not (0 or 126))
                     return false;
             }
 
@@ -51,36 +54,42 @@ namespace PKHeX.Core
             if (pkm.Korean)
                 return GetOT((int)LanguageID.Korean) == OT;
 
-            if (pkm.Format >= 7)
-            {
-                switch (Species)
-                {
-                    case (int)Voltorb:
-                        // Spanish FALCÁN trade loses the accented A on transfer
-                        if (OT == "FALCÁN")
-                            return false;
-                        if (OT == "FALC N")
-                            return true;
-                        break;
-                    case (int)Shuckle:
-                        // Spanish MANÍA trade loses the accented I on transfer
-                        if (OT == "MANÍA")
-                            return false;
-                        if (OT == "MAN A")
-                            return true;
-                        break;
-                }
-            }
+            var lang = GetInternationalLanguageID(OT);
+            if (pkm.Format < 7)
+                return lang != -1;
 
+            switch (Species)
+            {
+                case (int)Voltorb when pkm.Language == (int)LanguageID.French:
+                    if (lang == (int)LanguageID.Spanish)
+                        return false;
+                    if (lang != -1)
+                        return true;
+                    return OT == "FALCçN"; // FALCÁN
+
+                case (int)Shuckle when pkm.Language == (int)LanguageID.French:
+                    if (lang == (int)LanguageID.Spanish)
+                        return false;
+                    if (lang != -1)
+                        return true;
+                    return OT == "MANôA"; // MANÍA
+
+                default: return lang != -1;
+            }
+        }
+
+        private int GetInternationalLanguageID(string OT)
+        {
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Spanish;
 
+            var tr = TrainerNames;
             for (int i = start; i <= end; i++)
             {
-                if (TrainerNames[i] == OT)
-                    return true;
+                if (tr[i] == OT)
+                    return i;
             }
-            return false;
+            return -1;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace PKHeX.Core
     {
         public string PropertyName { get; }
         public string PropertyValue { get; private set; }
-        public bool Evaluator { get; private set; }
+        public bool Evaluator { get; private init; }
 
         public StringInstruction(string name, string value)
         {
@@ -55,7 +55,7 @@ namespace PKHeX.Core
 
         public void SetRandRange(string pv)
         {
-            string str = pv.Substring(1);
+            string str = pv[1..];
             var split = str.Split(SplitRange);
             int.TryParse(split[0], out RandomMinimum);
             int.TryParse(split[1], out RandomMaximum);
@@ -76,14 +76,14 @@ namespace PKHeX.Core
             var raw = GetRelevantStrings(lines, Exclude, Require);
             return from line in raw
                 let eval = line[0] == Require
-                let split = line.Substring(1).Split(SplitInstruction)
+                let split = line[1..].Split(SplitInstruction)
                 where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
                 select new StringInstruction(split[0], split[1]) { Evaluator = eval };
         }
 
         public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
         {
-            var raw = GetRelevantStrings(lines, Apply).Select(line => line.Substring(1));
+            var raw = GetRelevantStrings(lines, Apply).Select(line => line[1..]);
             return from line in raw
                 select line.Split(SplitInstruction) into split
                 where split.Length == 2

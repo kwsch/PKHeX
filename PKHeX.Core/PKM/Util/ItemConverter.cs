@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class ItemConverter
     {
-        /// <summary>Unused item ID, placeholder for item/sprite finding</summary>
+        /// <summary>Unused item ID, placeholder for item/sprite finding in Generations 2-4.</summary>
         private const ushort NaN = 128;
 
         /// <summary>
@@ -136,32 +136,21 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">Gen1 Item ID</param>
         /// <returns>Gen2 Item ID</returns>
-        /// <remarks>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</remarks>
-        private static int GetTeruSamaItem(int value)
+        /// <remarks>
+        /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</br>
+        /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/data/items/catch_rate_items.asm#L5-L17</br>
+        /// </remarks>
+        private static int GetTeruSamaItem(int value) => value switch
         {
-            switch (value)
-            {
-                case 0x19: return 0x92; // Leftovers
-                case 0x2D: return 0x53; // Bitter Berry
-                case 0x32: return 0xAE; // Leftovers
-
-                case 0x5A:
-                case 0x64:
-                case 0x78:
-                case 0x87:
-                case 0xBE:
-                case 0xC3:
-                case 0xDC:
-                case 0xFA:
-                case 0xFF:
-                    return 0xAD; // Berry
-
-                default: return value;
-            }
-        }
+            0x19 => 0x92, // Leftovers
+            0x2D => 0x53, // Bitter Berry
+            0x32 => 0xAE, // Leftovers
+            0x5A or 0x64 or 0x78 or 0x87 or 0xBE or 0xC3 or 0xDC or 0xFA or 0xFF => 0xAD, // Berry
+            _ => value,
+        };
 
         /// <summary>
-        /// Converts a Gen1 Item to Gen2 Item.
+        /// Converts a Gen1 <see cref="PK1.Catch_Rate"/> value to Gen2 Item.
         /// </summary>
         /// <param name="value">Gen1 Item</param>
         /// <returns>Gen2 Item</returns>
@@ -219,15 +208,12 @@ namespace PKHeX.Core
         /// <param name="item">Item ID</param>
         /// <param name="generation">Generation the <see cref="item"/> exists in</param>
         /// <returns>True if is an HM</returns>
-        internal static bool IsItemHM(ushort item, int generation)
+        internal static bool IsItemHM(ushort item, int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => (196 <= item && item <= 200), // HMs
-                2 => (item >= 243), // HMs
-                3 => (339 <= item && item <= 346),
-                _ => ((420 <= item && item <= 427) || item == 737)
-            };
-        }
+            1 => item is >= 196 and <= 200, // HMs
+            2 => item is >= 243, // HMs
+            3 => item is >= 339 and <= 346,
+            _ => item is >= 420 and <= 427 or 737,
+        };
     }
 }

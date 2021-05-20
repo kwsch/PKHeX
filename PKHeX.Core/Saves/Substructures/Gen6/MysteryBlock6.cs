@@ -13,35 +13,31 @@ namespace PKHeX.Core
         public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
         public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-        public bool[] MysteryGiftReceivedFlags
+        public bool[] GetReceivedFlags() => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
+
+        public void SetReceivedFlags(bool[] value)
         {
-            get => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
-            set
-            {
-                if (value.Length != MaxReceivedFlag)
-                    return;
-                ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
-                SAV.Edited = true;
-            }
+            if (value.Length != MaxReceivedFlag)
+                return;
+            ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
+            SAV.State.Edited = true;
         }
 
-        public DataMysteryGift[] MysteryGiftCards
+        public DataMysteryGift[] GetGifts()
         {
-            get
-            {
-                var cards = new DataMysteryGift[MaxCardsPresent];
-                for (int i = 0; i < cards.Length; i++)
-                    cards[i] = GetGift(i);
-                return cards;
-            }
-            set
-            {
-                int count = Math.Min(MaxCardsPresent, value.Length);
-                for (int i = 0; i < count; i++)
-                    SetGift(value[i], i);
-                for (int i = value.Length; i < MaxCardsPresent; i++)
-                    SetGift(new WC6(), i);
-            }
+            var cards = new DataMysteryGift[MaxCardsPresent];
+            for (int i = 0; i < cards.Length; i++)
+                cards[i] = GetGift(i);
+            return cards;
+        }
+
+        public void SetGifts(DataMysteryGift[] value)
+        {
+            int count = Math.Min(MaxCardsPresent, value.Length);
+            for (int i = 0; i < count; i++)
+                SetGift(value[i], i);
+            for (int i = value.Length; i < MaxCardsPresent; i++)
+                SetGift(new WC6(), i);
         }
 
         public DataMysteryGift GetGift(int index)
@@ -65,7 +61,7 @@ namespace PKHeX.Core
 
             if (wc6.CardID == 2048 && wc6.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!(SAV is SAV6AO ao))
+                if (SAV is not SAV6AO ao)
                     return;
                 // Set the special received data
                 var info = ao.Blocks.Sango;

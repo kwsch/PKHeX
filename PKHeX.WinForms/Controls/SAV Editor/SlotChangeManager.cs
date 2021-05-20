@@ -18,12 +18,12 @@ namespace PKHeX.WinForms.Controls
     public sealed class SlotChangeManager : IDisposable
     {
         public readonly SAVEditor SE;
-        public readonly SlotTrackerImage LastSlot = new SlotTrackerImage();
-        public readonly DragManager Drag = new DragManager();
-        public SaveDataEditor<PictureBox> Env { get; set; }
+        public readonly SlotTrackerImage LastSlot = new();
+        public readonly DragManager Drag = new();
+        public SaveDataEditor<PictureBox> Env { get; set; } = null!;
 
-        public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
-        public readonly SlotHoverHandler Hover = new SlotHoverHandler();
+        public readonly List<BoxEditor> Boxes = new();
+        public readonly SlotHoverHandler Hover = new();
 
         public SlotChangeManager(SAVEditor se) => SE = se;
 
@@ -33,34 +33,41 @@ namespace PKHeX.WinForms.Controls
             LastSlot.Reset();
         }
 
-        public void MouseEnter(object sender, EventArgs e)
+        public void MouseEnter(object? sender, EventArgs e)
         {
-            var pb = (PictureBox)sender;
+            if (sender is not PictureBox pb)
+                return;
             if (pb.Image == null)
                 return;
             Hover.Start(pb, LastSlot);
         }
 
-        public void MouseLeave(object sender, EventArgs e)
+        public void MouseLeave(object? sender, EventArgs e)
         {
             Hover.Stop();
         }
 
-        public void MouseClick(object sender, MouseEventArgs e)
+        public void MouseClick(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (!Drag.Info.DragDropInProgress)
                 SE.ClickSlot(sender, e);
         }
 
-        public void MouseUp(object sender, MouseEventArgs e)
+        public void MouseUp(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Button == MouseButtons.Left)
                 Drag.Info.LeftMouseIsDown = false;
             Drag.Info.Source = null;
         }
 
-        public void MouseDown(object sender, MouseEventArgs e)
+        public void MouseDown(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Button == MouseButtons.Left)
             {
                 Drag.Info.LeftMouseIsDown = true;
@@ -68,16 +75,20 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public void QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        public void QueryContinueDrag(object? sender, QueryContinueDragEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Action != DragAction.Cancel && e.Action != DragAction.Drop)
                 return;
             Drag.Info.LeftMouseIsDown = false;
             Drag.Info.DragDropInProgress = false;
         }
 
-        public void DragEnter(object sender, DragEventArgs e)
+        public void DragEnter(object? sender, DragEventArgs e)
         {
+            if (sender == null)
+                return;
             if ((e.AllowedEffect & DragDropEffects.Copy) != 0) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
@@ -90,12 +101,16 @@ namespace PKHeX.WinForms.Controls
         private static SlotViewInfo<T> GetSlotInfo<T>(T pb) where T : Control
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
+            if (view == null)
+                throw new InvalidCastException("Unable to find View Parent");
             var src = view.GetSlotData(pb);
             return new SlotViewInfo<T>(src, view);
         }
 
-        public void MouseMove(object sender, MouseEventArgs e)
+        public void MouseMove(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (!Drag.CanStartDrag)
                 return;
 
@@ -110,8 +125,10 @@ namespace PKHeX.WinForms.Controls
             HandleMovePKM(pb, encrypt);
         }
 
-        public void DragDrop(object sender, DragEventArgs e)
+        public void DragDrop(object? sender, DragEventArgs e)
         {
+            if (sender == null)
+                return;
             PictureBox pb = (PictureBox)sender;
             var info = GetSlotInfo(pb);
             if (!info.CanWriteTo())
@@ -165,16 +182,19 @@ namespace PKHeX.WinForms.Controls
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
         {
             // Make File
-            PKM pk = Drag.Info.Source.ReadCurrent();
+            var pk = Drag.Info.Source!.ReadCurrent();
             string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
                 var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
                 external = TryMakeDragDropPKM(pb, data, newfile);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
-                WinFormsUtil.Error("Drag & Drop Error", x);
+                WinFormsUtil.Error("Drag && Drop Error", x);
                 external = false;
             }
 
@@ -205,7 +225,7 @@ namespace PKHeX.WinForms.Controls
             if (result == DragDropEffects.Copy) // viewed in tabs or cloned
             {
                 if (Drag.Info.Destination == null) // apply 'view' highlight
-                    Env.Slots.Get(Drag.Info.Source.Slot);
+                    Env.Slots.Get(Drag.Info.Source!.Slot);
                 return false;
             }
             return true;
@@ -213,7 +233,7 @@ namespace PKHeX.WinForms.Controls
 
         private void HandleDropPKM(PictureBox pb, DragEventArgs e, DropModifier mod)
         {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
             if (files == null)
             {
                 Drag.Reset();
@@ -240,7 +260,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Drag.Info.Source == null) // external source
             {
-                bool badDest = !dest.CanWriteTo();
+                bool badDest = !dest!.CanWriteTo();
                 if (!TryLoadFiles(files, e, badDest))
                     WinFormsUtil.Alert(MessageStrings.MsgSaveSlotBadData);
             }
@@ -263,7 +283,7 @@ namespace PKHeX.WinForms.Controls
             if (files.Count == 0)
                 return false;
 
-            var sav = Drag.Info.Destination.View.SAV;
+            var sav = Drag.Info.Destination!.View.SAV;
             var path = files[0];
             var temp = FileUtil.GetSingleFromPath(path, sav);
             if (temp == null)
@@ -272,7 +292,7 @@ namespace PKHeX.WinForms.Controls
                 return true; // treat as handled
             }
 
-            PKM pk = PKMConverter.ConvertToType(temp, sav.PKMType, out string c);
+            var pk = PKMConverter.ConvertToType(temp, sav.PKMType, out string c);
             if (pk == null)
             {
                 WinFormsUtil.Error(c);
@@ -283,7 +303,7 @@ namespace PKHeX.WinForms.Controls
             if (badDest && (pk.Species == 0 || pk.IsEgg))
                 return false;
 
-            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk.Format, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
             {
                 c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                 WinFormsUtil.Error(c);
@@ -303,15 +323,15 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            Env.Slots.Set(Drag.Info.Destination.Slot, pk);
+            Env.Slots.Set(Drag.Info.Destination!.Slot, pk);
             Debug.WriteLine(c);
             return true;
         }
 
         private bool TrySetPKMDestination(PictureBox pb, DropModifier mod)
         {
-            PKM pk = Drag.Info.Source.ReadCurrent();
-            var msg = Drag.Info.Destination.CanWriteTo(pk);
+            var pk = Drag.Info.Source!.ReadCurrent();
+            var msg = Drag.Info.Destination!.CanWriteTo(pk);
             if (msg != WriteBlockedMessage.None)
                 return false;
 
@@ -319,7 +339,7 @@ namespace PKHeX.WinForms.Controls
                 TrySetPKMSource(pb, mod);
 
             // Copy from temp to destination slot.
-            Env.Slots.Set(Drag.Info.Destination.Slot, pk);
+            Env.Slots.Set(Drag.Info.Destination!.Slot, pk);
             Drag.ResetCursor(pb.FindForm());
             return true;
         }
@@ -331,12 +351,12 @@ namespace PKHeX.WinForms.Controls
 
             if (sender.Image == null || mod == DropModifier.Overwrite)
             {
-                Env.Slots.Delete(Drag.Info.Source.Slot);
+                Env.Slots.Delete(Drag.Info.Source!.Slot);
                 return true;
             }
 
             var pk = Drag.Info.Destination.ReadCurrent();
-            Env.Slots.Set(Drag.Info.Source.Slot, pk);
+            Env.Slots.Set(Drag.Info.Source!.Slot, pk);
             return true;
         }
 
@@ -352,7 +372,7 @@ namespace PKHeX.WinForms.Controls
         public void Dispose()
         {
             Hover.Dispose();
-            SE?.Dispose();
+            SE.Dispose();
             LastSlot.OriginalBackground?.Dispose();
             LastSlot.CurrentBackground?.Dispose();
         }

@@ -28,18 +28,6 @@
             nameof(IRibbonSetOnly3.Unused3), nameof(IRibbonSetOnly3.Unused4),
         };
 
-        internal static int[] RibbonCounts(this IRibbonSetOnly3 set)
-        {
-            return new[]
-            {
-                set.RibbonCountG3Cool,
-                set.RibbonCountG3Beauty,
-                set.RibbonCountG3Cute,
-                set.RibbonCountG3Smart,
-                set.RibbonCountG3Tough,
-            };
-        }
-
         internal static string[] RibbonNames(this IRibbonSetOnly3 _) => RibbonSetNamesOnly3;
     }
 }

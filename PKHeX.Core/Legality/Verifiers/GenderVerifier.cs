@@ -24,8 +24,7 @@ namespace PKHeX.Core
 
             // Check for PID relationship to Gender & Nature if applicable
             int gen = data.Info.Generation;
-
-            if (3 <= gen && gen <= 5)
+            if (gen is 3 or 4 or 5)
             {
                 // Gender-PID & Nature-PID relationship check
                 var result = IsValidGenderPID(data) ? GetValid(LPIDGenderMatch) : GetInvalid(LPIDGenderMismatch);
@@ -74,19 +73,15 @@ namespace PKHeX.Core
             return gender == current;
         }
 
-        private static bool IsValidGenderMismatch(PKM pkm)
+        private static bool IsValidGenderMismatch(PKM pkm) => pkm.Species switch
         {
-            switch (pkm.Species)
-            {
-                case (int)Species.Shedinja when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
-                    return pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F); // 50M-50F
+            // Shedinja evolution gender glitch, should match original Gender
+            (int) Species.Shedinja when pkm.Format == 4 => pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F), // 50M-50F
 
-                case (int)Species.Marill    when pkm.Format >= 6:
-                case (int)Species.Azumarill when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
-                    return pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F;
+            // Evolved from Azurill after transferring to keep gender
+            (int) Species.Marill or (int) Species.Azumarill when pkm.Format >= 6 => pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F,
 
-                default: return false;
-            }
-        }
+            _ => false
+        };
     }
 }

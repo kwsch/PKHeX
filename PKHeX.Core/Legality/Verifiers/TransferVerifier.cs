@@ -18,10 +18,20 @@ namespace PKHeX.Core
 
         public void VerifyTransferLegalityG12(LegalityAnalysis data)
         {
-            VerifyTransferVCNatureEXP(data);
+            VerifyVCOTGender(data);
+            VerifyVCNatureEXP(data);
+            VerifyVCShinyXorIfShiny(data);
+            VerifyVCGeolocation(data);
         }
 
-        private void VerifyTransferVCNatureEXP(LegalityAnalysis data)
+        private void VerifyVCOTGender(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.OT_Gender == 1 && pkm.Version != (int)GameVersion.C)
+                data.AddLine(GetInvalid(LG2OTGender));
+        }
+
+        private void VerifyVCNatureEXP(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var met = pkm.Met_Level;
@@ -44,19 +54,33 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool VerifyVCNature(int growth, int nature)
+        private static bool VerifyVCNature(int growth, int nature) => growth switch
         {
             // exp % 25 with a limited amount of EXP does not allow for every nature
-            return growth switch
-            {
-                0 => // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-                (nature < (int) Nature.Brave || nature > (int) Nature.Relaxed),
-                4 => // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-                (nature < (int) Nature.Gentle && nature > (int) Nature.Bold),
-                5 => // Slow -- Can't be Impish or Lax
-                (nature != (int) Nature.Impish && nature != (int) Nature.Lax),
-                _ => true
-            };
+            0 => (0x01FFFF03 & (1 << nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+            4 => (0x001FFFC0 & (1 << nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+            5 => (0x01FFFCFF & (1 << nature)) != 0, // Slow -- Can't be Impish or Lax
+            _ => true
+        };
+
+        private static void VerifyVCShinyXorIfShiny(LegalityAnalysis data)
+        {
+            // Star, not square. Requires transferring a shiny and having the initially random PID to already be a Star shiny.
+            // (15:65536, ~1:4096) odds on a given shiny transfer!
+            var xor = data.pkm.ShinyXor;
+            if (xor is <= 15 and not 0)
+                data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
+        }
+
+        private static void VerifyVCGeolocation(LegalityAnalysis data)
+        {
+            if (data.pkm is not PK7 pk7)
+                return;
+
+            // VC Games were region locked to the Console, meaning not all language games are available.
+            var within = Locale3DS.IsRegionLockedLanguageValidVC(pk7.ConsoleRegion, pk7.Language);
+            if (!within)
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)pk7.Language}", ((LanguageID)pk7.Language).ToString()), CheckIdentifier.Language));
         }
 
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
@@ -85,13 +109,11 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case (int)Species.Celebi:
-                    if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
+                    if (loc is not (Locations.Transfer4_CelebiUnused or Locations.Transfer4_CelebiUsed))
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
-                case (int)Species.Raikou:
-                case (int)Species.Entei:
-                case (int)Species.Suicune:
-                    if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
+                case (int)Species.Raikou or (int)Species.Entei or (int)Species.Suicune:
+                    if (loc is not (Locations.Transfer4_CrownUnused or Locations.Transfer4_CrownUsed))
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:
@@ -104,63 +126,68 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = pkm.Species;
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, pkm.Form);
             if (!pi.IsPresentInGame) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
+                return;
             }
-            else if (data.Info.Generation < 8 && pkm.Format >= 8)
+
+            var enc = data.EncounterMatch;
+            if (enc.Version == GameVersion.GO || enc is WC8 {IsHOMEGift: true})
             {
-                if (!pkm.GG && pkm is IScaledSize s)
+                VerifyHOMETracker(data, pkm);
+            }
+            else if (enc.Generation < 8 && pkm.Format >= 8)
+            {
+                if (enc is EncounterStatic7 {IsTotem: true} s)
                 {
-                    if (s.HeightScalar != 0)
+                    if (Legal.Totem_NoTransfer.Contains(s.Species))
                         data.AddLine(GetInvalid(LTransferBad));
-                    if (s.WeightScalar != 0)
+                    if (pkm.Form != FormInfo.GetTotemBaseForm(s.Species, s.Form))
                         data.AddLine(GetInvalid(LTransferBad));
-
-                    var enc = data.EncounterMatch;
-                    if (data.Info.Generation == 7 && FormConverter.IsTotemForm(enc.Species, enc.Form, 7))
-                    {
-                        if (Legal.Totem_NoTransfer.Contains(data.EncounterMatch.Species))
-                            data.AddLine(GetInvalid(LTransferBad));
-                        if (pkm.AltForm != FormConverter.GetTotemBaseForm(enc.Species, enc.Form))
-                            data.AddLine(GetInvalid(LTransferBad));
-                    }
                 }
 
-                // Tracker value is set via Transfer across HOME.
-                // Can't validate the actual values (we aren't the server), so we can only check against zero.
-                if (pkm is IHomeTrack home && home.Tracker == 0)
-                {
-                    data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
-                    // To the reader: It seems like the best course of action for setting a tracker is:
-                    // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
-                    // - Don't make one up.
-                }
+                VerifyHOMETransfer(data, pkm);
+                VerifyHOMETracker(data, pkm);
+            }
+        }
+
+        private void VerifyHOMETransfer(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm is not IScaledSize s)
+                return;
+
+            if (pkm.LGPE || pkm.GO)
+                return; // can have any size value
+            if (s.HeightScalar != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+            if (s.WeightScalar != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+        }
+
+        private void VerifyHOMETracker(LegalityAnalysis data, PKM pkm)
+        {
+            // Tracker value is set via Transfer across HOME.
+            // Can't validate the actual values (we aren't the server), so we can only check against zero.
+            if (pkm is IHomeTrack {Tracker: 0})
+            {
+                data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+                // To the reader: It seems like the best course of action for setting a tracker is:
+                // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
+                // - Don't make one up.
             }
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
-            // Check existing EncounterMatch
-            if (encounter is EncounterInvalid)
-                yield break; // Avoid duplicate invalid message
-
-            if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
-            {
-                bool exceptions = false;
-                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == (int)Species.Mew && pkm.TID == 22796;
-                if (!exceptions)
-                    yield return GetInvalid(LG1GBEncounter);
-            }
-
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);
             if (pkm.Egg_Location != transfer.EggLocation)
                 yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred
-            if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
+            if (encounter is EncounterStatic2Odd {Version: GameVersion.C, EggLocation: 256}) // Dizzy Punch Gifts
                 FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
             bool checkShiny = pkm.VC2 || (pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1);
@@ -174,7 +201,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Species == (int)Species.Unown)
             {
-                if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
+                if (pkm.Form is not (8 or 21) && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
         }
@@ -187,7 +214,7 @@ namespace PKHeX.Core
 
             var chk = Moves[index];
             if (chk.Generation == gen) // not obtained from a future gen
-                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, LTransferMove, CheckIdentifier.Move);
+                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, LTransferMove, CheckIdentifier.CurrentMove);
         }
     }
 }

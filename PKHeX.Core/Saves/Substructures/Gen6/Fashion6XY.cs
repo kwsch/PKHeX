@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class Fashion6XY : SaveBlock
+    public sealed class Fashion6XY : SaveBlock
     {
         public Fashion6XY(SAV6XY sav, int offset) : base(sav) => Offset = offset;
 

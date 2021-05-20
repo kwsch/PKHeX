@@ -2,11 +2,14 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for Generating and Verifying Gen8 Raid Templates against PKM data.
+    /// </summary>
     public static class RaidRNG
     {
         public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
         {
-            var pi = PersonalTable.SWSH.GetFormeEntry(raid.Species, raid.Form);
+            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
             var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
@@ -17,23 +20,20 @@ namespace PKHeX.Core
         {
             // Ensure the species-form is set correctly (nature)
             pk8.Species = raid.Species;
-            pk8.AltForm = raid.Form;
-            var pi = PersonalTable.SWSH.GetFormeEntry(raid.Species, raid.Form);
+            pk8.Form = raid.Form;
+            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
             var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
             ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
         }
 
-        private static int RemapAbilityToParam(int a)
+        private static int RemapAbilityToParam(int a) => a switch
         {
-            return a switch
-            {
-                -1 => 254,
-                0 => 255,
-                _ => (a >> 1)
-            };
-        }
+            -1 => 254,
+            0 => 255,
+            _ => (a >> 1)
+        };
 
         private static int[] GetBlankIVTemplate() => new[] {-1, -1, -1, -1, -1, -1};
 
@@ -102,17 +102,21 @@ namespace PKHeX.Core
             if (pk.IV_SPE != ivs[5])
                 return false;
 
-            int abil;
-            if (ability_param == 254)
-                abil = (int)rng.NextInt(3);
-            else if (ability_param == 255)
-                abil = (int)rng.NextInt(2);
-            else
-                abil = ability_param;
+            int abil = ability_param switch
+            {
+                254 => (int)rng.NextInt(3),
+                255 => (int)rng.NextInt(2),
+                _ => ability_param
+            };
             abil <<= 1; // 1/2/4
 
-            if ((pk.AbilityNumber == 4) != (abil == 4))
-                return false;
+            var current = pk.AbilityNumber;
+            if (abil == 4)
+            {
+                if (current != 4)
+                    return false;
+            }
+            // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
 
             switch (gender_ratio)
             {
@@ -137,14 +141,14 @@ namespace PKHeX.Core
 
             if (nature_param == -1)
             {
-                if (pk.Species == (int) Species.Toxtricity && pk.AltForm == 0)
+                if (pk.Species == (int) Species.Toxtricity && pk.Form == 0)
                 {
                     var table = Nature0;
                     var choice = table[rng.NextInt((uint)table.Length)];
                     if (pk.Nature != choice)
                         return false;
                 }
-                else if (pk.Species == (int) Species.Toxtricity && pk.AltForm == 1)
+                else if (pk.Species == (int) Species.Toxtricity && pk.Form == 1)
                 {
                     var table = Nature1;
                     var choice = table[rng.NextInt((uint)table.Length)];
@@ -233,41 +237,31 @@ namespace PKHeX.Core
             pk.IV_SPD = ivs[4];
             pk.IV_SPE = ivs[5];
 
-            int abil;
-            if (ability_param == 254)
-                abil = (int)rng.NextInt(3);
-            else if (ability_param == 255)
-                abil = (int)rng.NextInt(2);
-            else
-                abil = ability_param;
+            int abil = ability_param switch
+            {
+                254 => (int)rng.NextInt(3),
+                255 => (int)rng.NextInt(2),
+                _ => ability_param
+            };
             pk.RefreshAbility(abil);
 
-            switch (gender_ratio)
+            pk.Gender = gender_ratio switch
             {
-                case 255:
-                    pk.Gender = 2;
-                    break;
-                case 254:
-                    pk.Gender = 1;
-                    break;
-                case 000:
-                    pk.Gender = 0;
-                    break;
-                default:
-                    var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
-                    pk.Gender = gender;
-                    break;
-            }
+                255 => 2,
+                254 => 1,
+                000 => 0,
+                _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0
+            };
 
             int nature;
             if (nature_param == -1)
             {
-                if (pk.Species == (int)Species.Toxtricity && pk.AltForm == 0)
+                if (pk.Species == (int)Species.Toxtricity && pk.Form == 0)
                 {
                     var table = Nature0;
                     nature = table[rng.NextInt((uint)table.Length)];
                 }
-                else if (pk.Species == (int)Species.Toxtricity && pk.AltForm == 1)
+                else if (pk.Species == (int)Species.Toxtricity && pk.Form == 1)
                 {
                     var table = Nature1;
                     nature = table[rng.NextInt((uint)table.Length)];

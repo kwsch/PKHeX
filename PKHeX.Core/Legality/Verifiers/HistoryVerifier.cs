@@ -26,7 +26,7 @@ namespace PKHeX.Core
             if (data.pkm is IGeoTrack t)
                 VerifyGeoLocationData(data, t, data.pkm);
 
-            if (pkm.VC && pkm is PK7 g && g.Geo1_Country == 0) // VC transfers set Geo1 Country
+            if (pkm.VC && pkm is PK7 {Geo1_Country: 0}) // VC transfers set Geo1 Country
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoMemoryMissing));
 
             if (!pkm.IsUntraded)
@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
             else if (pkm.HT_Friendship != 0)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipHT0));
-            else if (pkm.HT_Affection != 0)
+            else if (pkm is IAffection {HT_Affection: not 0})
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionHT0));
 
             // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
@@ -81,7 +81,7 @@ namespace PKHeX.Core
                 const int vc = 7; // VC transfers use SM personal info
                 var evos = data.Info.EvoChainsAllGens[vc];
                 var fs = pkm.OT_Friendship;
-                if (evos.All(z => GetBaseFriendship(vc, z.Species) != fs))
+                if (evos.All(z => GetBaseFriendship(vc, z.Species, z.Form) != fs))
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
             else if (neverOT)
@@ -89,23 +89,22 @@ namespace PKHeX.Core
                 // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
                 // If none match, then it is not a valid OT friendship.
                 var fs = pkm.OT_Friendship;
-                if (GetBaseFriendship(origin, data.Info.EncounterMatch.Species) != fs)
+                var enc = data.Info.EncounterMatch;
+                if (GetBaseFriendship(origin, enc.Species, enc.Form) != fs)
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
         }
 
         private void VerifyOTAffection(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
         {
+            if (pkm is not IAffection a)
+                return;
+
             if (origin < 6)
             {
                 // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
                 // VC encounters cannot obtain OT affection since they can't visit Gen6.
-                if ((origin <= 2 && pkm.OT_Affection != 0) || IsInvalidContestAffection(pkm))
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
-            }
-            else if (origin == 8)
-            {
-                if (pkm.OT_Affection != 0)
+                if ((origin <= 2 && a.OT_Affection != 0) || IsInvalidContestAffection(a))
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
             }
             else if (neverOT)
@@ -114,17 +113,17 @@ namespace PKHeX.Core
                 {
                     if (pkm.IsUntraded && pkm.XY)
                     {
-                        if (pkm.OT_Affection != 0)
+                        if (a.OT_Affection != 0)
                             data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                     }
-                    else if (IsInvalidContestAffection(pkm))
+                    else if (IsInvalidContestAffection(a))
                     {
                         data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                     }
                 }
                 else
                 {
-                    if (pkm.OT_Affection != 0)
+                    if (a.OT_Affection != 0)
                         data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                 }
             }
@@ -171,34 +170,35 @@ namespace PKHeX.Core
         }
 
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
-        private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
+        private static bool IsInvalidContestAffection(IAffection pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
-        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int gen)
+        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int generation)
         {
-            if (gen < 6)
-                return true;
+            // Handlers introduced in Generation 6. OT Handling was always the case for Generation 3-5 data.
+            if (generation < 6)
+                return generation >= 3;
+
             return enc switch
             {
-                EncounterTrade _ => false,
+                EncounterTrade => false,
+                EncounterSlot8GO => false,
                 WC6 wc6 when wc6.OT_Name.Length > 0 => false,
                 WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
                 WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
+                WC8 {IsHOMEGift: true} => false,
                 _ => true
             };
         }
 
-        private static int GetBaseFriendship(int gen, int species)
+        private static int GetBaseFriendship(int generation, int species, int form) => generation switch
         {
-            return gen switch
-            {
-                1 => PersonalTable.USUM[species].BaseFriendship,
-                2 => PersonalTable.USUM[species].BaseFriendship,
+            1 => PersonalTable.USUM[species].BaseFriendship,
+            2 => PersonalTable.USUM[species].BaseFriendship,
 
-                6 => PersonalTable.AO[species].BaseFriendship,
-                7 => PersonalTable.USUM[species].BaseFriendship,
-                8 => PersonalTable.SWSH[species].BaseFriendship,
-                _ => throw new IndexOutOfRangeException(),
-            };
-        }
+            6 => PersonalTable.AO[species].BaseFriendship,
+            7 => PersonalTable.USUM[species].BaseFriendship,
+            8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
+            _ => throw new IndexOutOfRangeException(),
+        };
     }
 }

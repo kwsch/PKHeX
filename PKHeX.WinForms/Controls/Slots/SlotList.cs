@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -9,10 +10,10 @@ namespace PKHeX.WinForms.Controls
     {
         private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
         private readonly LabelType[] Labels = new LabelType[names.Length];
-        private readonly List<PictureBox> slots = new List<PictureBox>();
-        private List<SlotInfoMisc> SlotOffsets = new List<SlotInfoMisc>();
+        private readonly List<PictureBox> slots = new();
+        private List<SlotInfoMisc> SlotOffsets = new();
         public int SlotCount { get; private set; }
-        public SaveFile SAV { get; set; }
+        public SaveFile SAV { get; set; } = null!;
         public bool FlagIllegal { get; set; }
 
         public SlotList()
@@ -36,11 +37,11 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// Hides all slots from the <see cref="SlotList"/>.
         /// </summary>
-        public void HideAllSlots() => LoadSlots(0, null);
+        public void HideAllSlots() => LoadSlots(0, _ => { });
 
         public void NotifySlotOld(ISlotInfo previous)
         {
-            if (!(previous is SlotInfoMisc m))
+            if (previous is not SlotInfoMisc m)
                 return;
             var index = SlotOffsets.FindIndex(z => m.Equals(z));
             if (index < 0)
@@ -51,7 +52,7 @@ namespace PKHeX.WinForms.Controls
 
         public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
         {
-            if (!(slot is SlotInfoMisc m))
+            if (slot is not SlotInfoMisc m)
                 return;
             var index = GetViewIndex(m);
             if (index < 0)
@@ -71,7 +72,15 @@ namespace PKHeX.WinForms.Controls
         public ISlotInfo GetSlotData(int slot) => SlotOffsets[slot];
 
         public IList<PictureBox> SlotPictureBoxes => slots;
-        public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl<PictureBox>(sender));
+
+        public int GetSlot(PictureBox sender)
+        {
+            var view = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            if (view == null)
+                return -1;
+            return slots.IndexOf(view);
+        }
+
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
         public int ViewIndex { get; set; } = -1;
 
@@ -105,20 +114,18 @@ namespace PKHeX.WinForms.Controls
         private void AddSlots(int count)
         {
             for (int i = 0; i < count; i++)
-                slots.Add(GetPictureBox(i));
+                slots.Add(GetPictureBox(i, SpriteUtil.Spriter));
         }
 
         private const int PadPixels = 2;
-        private const int SlotWidth = 40;
-        private const int SlotHeight = 30;
 
-        private static PictureBox GetPictureBox(int index)
+        private static PictureBox GetPictureBox(int index, SpriteBuilder s)
         {
-            return new PictureBox
+            return new()
             {
                 BorderStyle = BorderStyle.FixedSingle,
-                Width = SlotWidth + 2,
-                Height = SlotHeight + 2,
+                Width = s.Width + 2,
+                Height = s.Height + 2,
                 AllowDrop = true,
                 Margin = new Padding(PadPixels),
                 SizeMode = PictureBoxSizeMode.CenterImage,
@@ -126,7 +133,7 @@ namespace PKHeX.WinForms.Controls
             };
         }
 
-        private class LabelType : Label
+        private sealed class LabelType : Label
         {
             public StorageSlotType Type;
         }
@@ -136,7 +143,10 @@ namespace PKHeX.WinForms.Controls
             for (var i = 0; i < names.Length; i++)
             {
                 var name = names[i];
-                Enum.TryParse<StorageSlotType>(name, out var val);
+                bool result = Enum.TryParse<StorageSlotType>(name, out var val);
+                if (!result)
+                    continue;
+
                 var label = new LabelType
                 {
                     Name = $"L_{name}",

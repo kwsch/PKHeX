@@ -1,0 +1,211 @@
+﻿19/12/26 - New Update: (37582) [2308287]
+ - Legality:
+ - - Added: PP Count verification, Egg TR/StatNature checks, etc.
+ - - Added: More static encounter locations.
+ - - Added: Handling for downleveled raid content, and location crossover comparisons for wild encounters.
+ - - Changed: Encounter yielding pattern for Gen8 is now slightly different from the one used for Gen5-7 (now yields more).
+ - - Fixed: EvolutionTree regressions have been resolved. Please report any further issues with legality!
+ - Added: Gen8 simple Raid Den parameter editor.
+ - Added: Gen8 Watts are now editable in the Trainer Data editor. Thanks @Atzgi!
+ - Added: Gen1 Yellow Pikachu Beach score editing.
+ - Changed: The Friendship and Form row in the PKM editor has been split, and the Ability row has been moved up.
+ - Changed: Blank Gen2 saves now act as Virtual Console blanks rather than GB Era blanks.
+ - Fixed: Gen8 Box edits made after using a popup save editor (eg. Trainer Editor) are now written correctly.
+ - Fixed: Gen8 Ingredients are now allowed as held items. Thanks @Narithegreat!
+ - Fixed: Gen8 QR Code image generation now works properly with the larger sprites.
+ - Fixed: Gen8 Trainer Card # (3 digits) now pads with \0 instead of 0, allowing for non-3-digit values.
+ - Fixed: Gen8 Traditional Chinese species names are now in the program. Thanks @iiippppk!
+ - Fixed: Gen4 PCD cards now export correctly with their PGT payload encrypted, rather than as the WC4 format.
+ - Fixed: Daycare/GameSync values from the previously loaded save are no longer erroneously applied to a new save if the caret is in the textbox.
+
+19/12/09 - New Update: (54579) [2270705]
+ - Legality:
+ - - Updated: Banlist now checks for unavailable forms and unavailable hidden abilities.
+ - - Changed: Another round of legality check updates. Thanks @iiippppk, @BetaLeaf, @crzyc, @Bappsack & @ReignOfComputer
+ - - Changed: Rewrote EvolutionTree and MemoryVerifier to better handle the new rules that were introduced in Gen8.
+ - - Added: Gen6 In-game trades are now checked for their Memory values.
+ - Batch Editor:
+ - - Added: $suggest for Ball, sets a legal ball, with preference for color matching.
+ - - Added: $shiny0 for square shinies.
+ - - Added: $suggestAll for all TR moves
+ - - Added: $suggest for all legal Ribbons, and $suggestNone to remove all but required ribbons.
+ - Changed: Gen7 LGP/E now uses the large box sprites. Thanks @sora10pls!
+ - Added: Alcremie can now specify the topping type (next to form).
+ - Added: Click the Nature/StatNature labels to copy the other's value.
+ - Added: Gen8 Trainer Card's trainer number can now be edited via the Trainer Editor.
+ - Fixed: Gen5 CGear Background import from file now works. Thanks @CyraFen!
+ - Fixed: Gen3 Blank Saves now behave correctly when setting a slot.
+ - Fixed: VC origin sprite (GameBoy) now displays properly.
+
+19/11/25 - New Update: (59766) [2216126]
+ - Legality:
+ - - Updated with detection for numerous encounter types. There's still a few stragglers and mechanics left to handle.
+ - - Thanks to everyone who has helped report issues & contributed updates!
+ - Added: Shift click the Shiny button to yield a Square (ultra) shiny, regular click for default Star type.
+ - Added: Sprites now display for Square (ultra) shiny vs regular Star type.
+ - Added: Technical Record popup window (below Relearn Moves) to flag which move has been instructed. Shift click to apply current move flags.
+ - Added: Batch Editor $suggest for Nature/StatNature copies the other value.
+ - Added: Gen8 League Card (Trainer Card) name can now be edited in the Trainer Editor.
+ - Added: Gen8 Pokédex now can set all Battled Count via the Modify button dropdown.
+ - Fixed: Gen8 Pokédex no longer clears Battled Count when updating flags.
+ - Fixed: Gen7 save corruption fixed.
+ - Fixed: Gen6 box names are no longer truncated.
+ - Fixed: Gen4 daycare slot reading fixed.
+ - Fixed: Party slot dragging to same slot no longer deletes the next slot.
+
+19/11/15 - New Update: (75698) [2156360]
+ - Introducing Sword/Shield support! Thanks @SciresM and @sora10pls for troubleshooting prior to release!
+ - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for Generation 8 parsing.
+ - - Bag editing, Pokédex, and Trainer Info editing is provided.
+ - Changed: PKHeX.Core.dll is now merged in with the main executable.
+ - Changed: PKHeX.WinForms spriting has now been split into a separate project. On build, it is merged into the main executable.
+ - Changed: .NET Core 3 support added for WinForms builds. .NET Framework 4.6 build is still the main build option.
+ - Changed: Project internals now use C# language version 8, the latest. Nullable compiler checks enabled for PKHeX.Core.
+ - Removed: Mono build no longer required due to font loading rework. No platform specific code remains!
+ - Changed: Slot grids are now generated instead of manually created. Party and Battle Box now appear differently.
+ - Changed: Encounter Slot generators now use game-specific logic to yield slots.
+ - Fixed: Gen6 Fashion for females now exposes the remaining fields.
+ - Fixed: Legality parsing for misc things fixed. Thanks @Rayqo, @steph9009, @iiippppk!
+ - Fixed: Mystery Gift received flags are now set correctly. Thanks tsubasa830!
+ - Fixed: Loading box data binaries now applies it to the current box. Thanks @PKMWM1!
+ - Fixed: Gen4 Poketch now behaves correctly in the editor, no longer deleting itself.
+
+19/09/19 - New Update: (80783) [2080662]
+ - Legality:
+ - - Updated GO shiny banlist.
+ - Refactoring prep work for SwSh has changed some internal behavior.
+ - - Changed: Slot drag & drop / update notifications has been rewritten.
+ - - Changed: SAV4 split into SAV4DP/SAV4Pt/SAV4HGSS
+ - - Changed: Encounter Area -> encounter slot yielding behavior is now unique per Area generation-type.
+ - - Changed: Some PKHeX.Core api method signatures have changed / will change in next update.
+ - Added: Undo/Redo of party slot changes.
+ - Added: Gen4 (HGSS) Pokegear rolodex editing. Thanks @sora10pls!
+ - Fixed: Gen5 daycare slot 2 reading, and EXP reading.
+ - Fixed: Gen6 Multiplayer tab (Mega/Rayquaza flag, message strings) is now visible again.
+ - Fixed: Gen7 box flags are now shown (unknown purpose). Form now hides the flag label if no flags exist for the SaveFile type.
+
+19/08/19 - New Update: (46394) [1999879]
+ - Legality:
+ - - Added: Super Training data for Eggs & GB era are now checked. Thanks @Narithegreat!
+ - - Added: More Colosseum met locations for shadow encounters. Thanks @ReignOfComputer!
+ - - Changed: Distribution Super Training missions are now flagged as Invalid (never released).
+ - Added: Hovering over a slot in the Database now shows a preview tooltip like the Box view. Thanks SadisticMystic!
+ - Changed: Misc internal changes to logic (migrating into PKHeX.Core and solidifying abstractions).
+ - Fixed: Bad filenames on external media no longer cause exceptions when detecting a savefile.
+ - Fixed: Suggesting moves for certain VC encounters no longer cause exceptions.
+ - Fixed: Celebrate, Happy Hour, Hold Hands, and partner moves are now allowed for LGPE move selection.
+ - Fixed: Reverted Gen4->5 decapitalization on nicknames. Thanks @Ammako!
+ - Updated: More event flags for gen3 have been added. Thanks @sora10pls & @rboninsegna!
+ - Updated: Spanish translation has been updated. Thanks @XxPhoenix1996xX!
+
+19/07/05 - New Update: (80492) [1953485]
+ - Legality:
+ - - Added: Recognition for Method 3 encounters. Be suspicious if any of your Gen3 mons have this PID type :)
+ - - Fixed: Gen2 In-game trades checking is now more accurate. Thanks @WEERSOQUEER!
+ - - Fixed: Minor regressions have been fixed. Thanks @Ammako, @sora10pls, @SpiredMoth, @iiippppk!
+ - Added: Gen6 ORAS secret bases can now be dumped & shared. Special QR bases might not be supported completely.
+ - Changed: PK1/2 transferring to Gen7 will try and use the destination's language. Thanks @marcrobledo!
+ - Changed: Gen7 LGPE now hides unavailable moves/species from the PKM editor.
+ - Changed: Gen7 LGPE starter sprites have been revised for visual differences. Thanks @sora10pls!
+ - Changed: Updated Mailbox editor. Thanks @pokecal!
+ - Changed: Some logic has been refactored & extracted, for better reuse (in other projects).
+ - Fixed: Gen5 shiny mystery gifts no longer cause the program to freeze. Thanks @Ammako & Certesh!
+ - Fixed: The Box view now shows the correct wallpaper. Thanks @sora10pls!
+ - Fixed: Gen2 Crystal Japanese event flags now read/write from the correct offset. Thanks TheSlayer!
+
+19/05/15 - New Update: (93107) [1872993]
+ - Legality:
+ - - Added: Initial support for complete savefile cross-comparison checks. Control click the Checksums button in the SAV tab.
+ - - Added: shiny check for Ash Greninja edge case. Thanks @WardenUnleashed & @DaWoblefet!
+ - - Added: VC transfer nature checks (gained no/little XP after transfer). Thanks @SadisticMystic!
+ - - Fixed: B2W2 French OT in-game trade name. Thanks @WEERSOQUEER!
+ - - Fixed: Gen1 Machoke catch rate forced value is now correct. Thanks @Ninjistix!
+ - Added: Gen7 LGPE wb7full drag&drop support. Thanks @ReignOfComputer!
+ - Added: Gen4 DPPt Poffin Editor. Thanks @sora10pls!
+ - Changed: Colo/XD Fateful Encounter flags are now detected differently. Thanks @ReclaimerShawn & @ijuintekka!
+ - Fixed: Gen7 LGPE Mystery Gift flags are now set properly. Thanks @CanoeHope!
+ - Fixed: Gen1->2 transfer no longer throws errors. Thanks Maddaren!
+ - Fixed: Box Wallpaper editor now loads the correct backgrounds. Thanks yajegamer!
+
+19/04/02 - New Update: (64806) [1779886]
+ - Legality:
+ - - No parsing issues reported -- is it perfect yet? ^:)
+ - - Changed: Updated Hidden Ability banlist (bank monkeys).
+ - Added: Gen2 can now set the RTC 'reset' flag directly. Thanks @SatoMew!
+ - Added: Settings can now be reset via button in the Settings Editor.
+ - Added: Learnability API is now functional; not yet hooked to GUI.
+ - Changed: Multiple minor performance improvements have been added.
+ - Fixed: Gen7 Stamp editing now added missing stamp. Thanks @PKMWM1!
+ - Fixed: Gen3 C/XD saves now export correctly.
+
+19/03/11 - New Update: (40203) [1715080]
+ - Legality:
+ - - Changed: Updated GO shiny banlist.
+ - - Fixed: Silvally pledge moves are now restricted correctly.
+ - - Fixed: Ribbon Missing/Invalid was incorrectly swapped, now indicates correct legality message.
+ - Added: New setting can skip the "Legal!" popup if the tab pkm is legal. Sound effect still plays.
+ - Added: Program Color settings can now be manipulated via settings.
+ - Added: Box Sort by IEncounterable type.
+ - Added: Box Delete of extra clones.
+ - Added: Gen3 Records Editing (via Misc Edits)
+ - Added: Gen2 Event Flags for GS are now editable. Added flag IDs for GS & Crystal (including decorations).
+ - Added: Gen3 Hall of Fame block checksums are now fixed when exporting the save file.
+ - Changed: Changing the Blank Save File setting will now instantly load a new blank save file.
+ - Changed: Shortcut list updated with current shortcuts.
+ - Removed: Powersave backup loading logic (with xorpads) removed.
+ - Fixed: *.pb7 now appears as a file-open filter.
+ - Fixed: Gen6 XY Safari 3rd Slot Unlock now functions correctly.
+ - Fixed: Trash Byte editor Clear/Apply now functions as intended.
+ - Fixed: Gen1/2 pp/stat calculations now behave correctly. Thanks @SadisticMystic!
+
+19/02/07 - New Update: (51622) [1674877]
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks ThePunish3D, @crzyc, @Subject21J & @ReignOfComputer
+ - - Fixed: Pokémon Link encounters are now detected correctly.
+ - Added: Changing the blank save file setting will now instantly load that blank save file.
+ - Added: Ranch save file storage can now be viewed and edited (including platinum patched).
+ - Changed: Gen1 tradeback prompt is now a setting.
+ - Changed: Gen3 version select now displays the prompt message (merged two windows together). Thanks BlackShark!
+ - Fixed: Gen3 PC item max count fixed. Thanks @ShadowMario3!
+ - Fixed: Certain blank save file types now load correctly.
+ - Fixed: Ability loading for a blank save file no longer behaves incorrectly. Thanks @Kxcii!
+ - Fixed: Relearn move suggestions no longer throw an error under certain scenarios. Ty @DaWoblefet!
+
+19/01/14 - New Update: (40285) [1623255]
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks ThePunish3D, @SteelPhase, @NinFanBoyFTW
+ - Added: New setting can now change which type of blank save file is loaded when the program starts.
+ - Added: PokeStock bank files can now be read & saved (like a save file).
+ - Added: Gen6 HoF & Secret Base editor now use the in-game font. Thanks @PMArkive!
+ - Fixed: Gen4 Pokédex Give All no longer causes an error. Thanks Nasz, Deadbolt!
+ - Fixed: LGPE Box Sorting now no longer behaves incorrectly. Thanks @Ninjistix!
+ - Fixed: LGPE pk7 setting to save file now no longer detects handling trainer incorrectly (resetting friendship).
+ - Fixed: XK3 pkm with two abilities no longer read incorrectly. Thanks TORNADO!
+ - Fixed: Loading boxes now detects overriden settings correctly. Thanks @bpxhmemcpy!
+
+19/01/02 - New Update: (27034) [1582970]
+ - Legality:
+ - - Changed: Another round of legality check updates. Thanks finalevil151, @NinFanBoyFTW, Brittany, Taargüs Taargüs!
+ - Batch Editor:
+ - - Added: All PKM formats now have `Status_Condition` to modify the health status.
+ - - Added: `.Stats=$suggest` wildcard for recalculating stats (useful for lgpe).
+ - - Added: Added $suggest wildcard for `HeightAbsolute`, `.WeightAbsolute`, and `Stat_CP` (useful for lgpe).
+ - - Fixed: Gen1/2/7b format PKM now update their `Stat_Level` when their `CurrentLevel` is modified.
+ - - Changed: Setting Language for Gen1/2 format PKM will update their nicknames if they do not have one.
+ - Added: Party Slot index indication for lgpe.
+ - Added: Mystery Gift Record read/write for LGPE.
+ - Added: Randomizing IVs for LGPE now sets IVs according to the GO->LGPE conversion pattern.
+ - Added: Can now toggle the 'Favorite' marking for individual lgpe PKM.
+ - Added: Sorting by Version now sorts by Met Location afterward.
+ - Added: Locked storage slots are now repointed on bulk sort/move rather than disallowing any changes.
+ - Added: New setting to toggle automatic backups of savefiles, and automatic loading on startup.
+ - Added: PK5 PokeStar status legality checks and get/set properties. (data[0x87] >= 250)
+ - Fixed: PB7 (lgpe) format Hyper Training can now be edited.
+ - Fixed: PB7 (lgpe) format no longer shows Medals/Ribbons/Memories sub-editors.
+ - Fixed: LGPE saves no longer clamp fossils to count=1. Thanks @TheOGMew3!
+ - Fixed: B/W Volcarona Event Flag now points to the correct flag ID. Thanks @Kxcii!
+ - Changed: Encounter Database/Browser can now filter for certain encounter types, and different versions.
+ - Changed: Importing pkms from a folder/dump no longer overwrite slots that already have pkm data.
+ - Changed: SAV4 version detect speed improved by removing checksum checks in favor of block fingerprint detection.
+ - Changed: Updated French Translation. Thanks @Ntonio36!
+ - Changed: Updated Spanish Translation. Thanks @XxPhoenix1996xX!

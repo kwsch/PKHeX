@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Base class for Pokédex logic operations.
+    /// </summary>
     public abstract class ZukanBase
     {
         protected readonly SaveFile SAV;
@@ -14,18 +17,25 @@ namespace PKHeX.Core
             PokeDex = dex;
         }
 
+        #region Overall Info
+        /// <summary> Count of unique Species Seen </summary>
         public int SeenCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetSeen);
+        /// <summary> Count of unique Species Caught (Owned) </summary>
         public int CaughtCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetCaught);
 
         public decimal PercentSeen => (decimal)SeenCount / SAV.MaxSpeciesID;
         public decimal PercentCaught => (decimal)CaughtCount / SAV.MaxSpeciesID;
+        #endregion
 
+        /// <summary> Gets if the Species has been Seen by the player. </summary>
         public abstract bool GetSeen(int species);
+        /// <summary> Gets if the Species has been Caught (Owned) by the player. </summary>
         public abstract bool GetCaught(int species);
 
+        /// <summary> Adds the Pokémon's information to the Pokédex. </summary>
         public abstract void SetDex(PKM pkm);
 
-        // Bulk Manipulation
+        #region Overall Manipulation
         public abstract void SeenNone();
         public abstract void CaughtNone();
 
@@ -36,8 +46,12 @@ namespace PKHeX.Core
 
         public abstract void SetDexEntryAll(int species, bool shinyToo = false);
         public abstract void ClearDexEntryAll(int species);
+        #endregion
     }
 
+    /// <summary>
+    /// Base class for Pokédex operations, exposing the shared structure features used by Generations 5, 6, and 7.
+    /// </summary>
     public abstract class Zukan : ZukanBase
     {
         protected readonly int PokeDexLanguageFlags;
@@ -59,10 +73,10 @@ namespace PKHeX.Core
         protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
         protected virtual void SetSpindaDexData(PKM pkm, bool alreadySeen) { }
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
-        protected abstract void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true);
+        protected abstract void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true);
 
-        protected virtual bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
-        protected virtual void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
+        protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
+        protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
 
         public override bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
         public virtual void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
@@ -116,7 +130,7 @@ namespace PKHeX.Core
         {
             if (SAV.Version == GameVersion.Invalid) // sanity
                 return;
-            if (pkm.Species == 0 || pkm.Species > SAV.MaxSpeciesID) // out of range
+            if ((uint)(pkm.Species - 1) >= (uint)SAV.MaxSpeciesID) // out of range
                 return;
             if (pkm.IsEgg) // do not add
                 return;
@@ -126,7 +140,7 @@ namespace PKHeX.Core
                 SetSpindaDexData(pkm, GetSeen(species));
 
             int bit = pkm.Species - 1;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             int gender = pkm.Gender & 1;
             bool shiny = pkm.IsShiny;
             int lang = pkm.Language;
@@ -252,7 +266,7 @@ namespace PKHeX.Core
 
             var entry = SAV.Personal[species];
             int baseBit = species - 1;
-            int fc = entry.FormeCount;
+            int fc = entry.FormCount;
             for (int f = 0; f < fc; f++)
             {
                 if (!entry.OnlyFemale)

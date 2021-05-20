@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class EventWork<T> : EventVar where T : struct
     {
         public T Value;
-        public readonly IList<EventWorkVal> Options = new List<EventWorkVal> { new EventWorkVal() };
+        public readonly IList<EventWorkVal> Options = new List<EventWorkVal> { new() };
 
         public EventWork(int index, EventVarType t, IReadOnlyList<string> pieces) : base(index, t, pieces[1])
         {

@@ -8,12 +8,24 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4HGSS : SAV4
     {
-        public SAV4HGSS() => Initialize();
-        public SAV4HGSS(byte[] data) : base(data) => Initialize();
-        protected override SAV4 CloneInternal() => Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
+        public SAV4HGSS()
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public SAV4HGSS(byte[] data) : base(data)
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public override Zukan4 Dex { get; }
+        protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
 
         public override PersonalTable Personal => PersonalTable.HGSS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
+        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
         protected override int GeneralSize => 0xF628;
         protected override int StorageSize => 0x12310; // Start 0xF700, +0 starts box data
         protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?
@@ -89,7 +101,7 @@ namespace PKHeX.Core
         {
             const int maxlen = 8;
             if (value.Length > maxlen)
-                value = value.Substring(0, maxlen); // Hard cap
+                value = value[..maxlen]; // Hard cap
             int offset = GetBoxNameOffset(box);
             var str = SetString(value, maxlen);
             SetData(Storage, str, offset);
@@ -118,7 +130,7 @@ namespace PKHeX.Core
         }
         #endregion
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {
@@ -138,6 +150,13 @@ namespace PKHeX.Core
             set => value.SaveAll(General);
         }
 
+        public override int M { get => BitConverter.ToUInt16(General, 0x1234); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x1234); }
+        public override int X { get => BitConverter.ToUInt16(General, 0x123C); set => BitConverter.GetBytes((ushort)(X2 = value)).CopyTo(General, 0x123C); }
+        public override int Y { get => BitConverter.ToUInt16(General, 0x1240); set => BitConverter.GetBytes((ushort)(Y2 = value)).CopyTo(General, 0x1240); }
+        public override int X2 { get => BitConverter.ToUInt16(General, 0x236E); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x236E); }
+        public override int Y2 { get => BitConverter.ToUInt16(General, 0x2372); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2372); }
+        public override int Z { get => BitConverter.ToUInt16(General, 0x2376); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2376); }
+
         public int Badges16
         {
             get => General[Trainer1 + 0x1F];
@@ -150,20 +169,18 @@ namespace PKHeX.Core
         public PokegearNumber GetCallerAtIndex(int index) => (PokegearNumber)General[OFS_GearRolodex + index];
         public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
-        public PokegearNumber[] PokeGearRoloDex
+        public PokegearNumber[] GetPokeGearRoloDex()
         {
-            get
-            {
-                var arr = new PokegearNumber[GearMaxCallers];
-                for (int i = 0; i < arr.Length; i++)
-                    arr[i] = GetCallerAtIndex(i);
-                return arr;
-            }
-            set
-            {
-                for (int i = 0; i < value.Length; i++)
-                    SetCallerAtIndex(i, value[i]);
-            }
+            var arr = new PokegearNumber[GearMaxCallers];
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = GetCallerAtIndex(i);
+            return arr;
+        }
+
+        public void SetPokeGearRoloDex(IReadOnlyList<PokegearNumber> value)
+        {
+            for (int i = 0; i < value.Count; i++)
+                SetCallerAtIndex(i, value[i]);
         }
 
         public void PokeGearUnlockAllCallers()
@@ -206,28 +223,14 @@ namespace PKHeX.Core
         public void SetApricornCount(int i, int count) => General[0xE558 + i] = (byte)count;
 
         // Pokewalker
-        private const int OFS_WALKER = 0xE70C;
+        private const int OFS_WALKER = 0xE704;
 
-        public bool[] PokewalkerCoursesUnlocked
-        {
-            get
-            {
-                var val = BitConverter.ToUInt32(General, OFS_WALKER);
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    courses[i] = ((val >> i) & 1) == 1;
-                return courses;
-            }
-            set
-            {
-                uint val = 0;
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    val |= value[i] ? 1u << i : 0;
-                SetData(General, BitConverter.GetBytes(val), OFS_WALKER);
-            }
-        }
+        public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
+        public uint PokewalkerWatts { get => BitConverter.ToUInt32(General, OFS_WALKER + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x4); }
 
-        public void PokewalkerCoursesUnlockAll() => SetData(General, BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
+        public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32);
+        public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
+
+        public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
     }
 }

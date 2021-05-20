@@ -14,7 +14,7 @@
         /* 09 @ 0x05C00, len = 0x3F7A0 */ PokeListPokemon,
         /* 10 @ 0x45400, len = 0x00008 */ PlayTime,
         /* 11 @ 0x45600, len = 0x00E90 */ WB7Record,
-        /* 12 @ 0x46600, len = 0x010A4 */ _12,
+        /* 12 @ 0x46600, len = 0x010A4 */ CaptureRecord,
         /* 13 @ 0x47800, len = 0x000F0 */ _13,
         /* 14 @ 0x47A00, len = 0x06010 */ _14,
         /* 15 @ 0x4DC00, len = 0x00200 */ _15, // stuff containing data about recent captures?

@@ -18,6 +18,7 @@ namespace PKHeX.WinForms
     {
         private readonly PKMEditor PKME_Tabs;
         private SaveFile SAV => PKME_Tabs.RequestSaveFile;
+        private readonly SummaryPreviewer ShowSet = new();
 
         public SAV_Encounters(PKMEditor f1)
         {
@@ -47,10 +48,14 @@ namespace PKHeX.WinForms
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
+                    if (sender == null)
+                        return;
                     if (ModifierKeys == Keys.Control)
                         ClickView(sender, e);
                 };
                 slot.ContextMenuStrip = mnu;
+                if (Main.Settings.Hover.HoverSlotShowText)
+                    slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
             Counter = L_Count.Text;
@@ -93,12 +98,20 @@ namespace PKHeX.WinForms
         }
 
         private readonly PictureBox[] PKXBOXES;
-        private List<IEncounterable> Results;
+        private List<IEncounterInfo> Results = new();
         private int slotSelected = -1; // = null;
-        private Image slotColor;
+        private Image? slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
+
+        private bool GetShiftedIndex(ref int index)
+        {
+            if (index >= RES_MAX)
+                return false;
+            index += SCR_Box.Value * RES_MIN;
+            return index < Results.Count;
+        }
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -152,7 +165,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             // Trigger a Reset
-            ResetFilters(null, EventArgs.Empty);
+            ResetFilters(this, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)
@@ -162,7 +175,7 @@ namespace PKHeX.WinForms
             CB_GameOrigin.SelectedIndex = 0;
 
             RTB_Instructions.Clear();
-            if (sender == null)
+            if (sender == this)
                 return; // still starting up
             foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
                 chk.Checked = true;
@@ -171,14 +184,14 @@ namespace PKHeX.WinForms
         }
 
         // View Updates
-        private IEnumerable<IEncounterable> SearchDatabase()
+        private IEnumerable<IEncounterInfo> SearchDatabase()
         {
             var settings = GetSearchSettings();
             var moves = settings.Moves.ToArray();
 
             // If nothing is specified, instead of just returning all possible encounters, just return nothing.
             if (settings.Species <= 0 && moves.Length == 0)
-                return Array.Empty<IEncounterable>();
+                return Array.Empty<IEncounterInfo>();
             var pk = SAV.BlankPKM;
 
             var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
@@ -186,27 +199,42 @@ namespace PKHeX.WinForms
             var results = species.SelectMany(z => GetEncounters(z, moves, pk, versions));
             if (settings.SearchEgg != null)
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
+            if (settings.SearchShiny != null)
+                results = results.Where(z => z.IsShiny == settings.SearchShiny);
 
             // return filtered results
-            var comparer = new ReferenceComparer<IEncounterable>();
+            var comparer = new ReferenceComparer<IEncounterInfo>();
             results = results.Distinct(comparer); // only distinct objects
 
             // when all sprites in new size are available, remove this filter
             results = SAV is SAV8SWSH
-                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame)
+                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
                 : results.Where(z => z.Generation <= 7);
             return results;
         }
 
-        private class ReferenceComparer<T> : IEqualityComparer<T>
+        private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
         {
-            public bool Equals(T x, T y) => RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
-            public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
+            public bool Equals(T? x, T? y)
+            {
+                if (x == null)
+                    return false;
+                if (y == null)
+                    return false;
+                return RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
+            }
+
+            public int GetHashCode(T obj)
+            {
+                if (obj == null) throw new ArgumentNullException(nameof(obj));
+                return RuntimeHelpers.GetHashCode(obj);
+            }
         }
 
-        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
+        private static IEnumerable<IEncounterInfo> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
+            pk.SetGender(pk.GetSaneGender());
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
         }
 
@@ -230,6 +258,9 @@ namespace PKHeX.WinForms
 
             if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
                 settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
+
+            if (CHK_Shiny.CheckState != CheckState.Indeterminate)
+                settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;
 
             return settings;
         }
@@ -257,7 +288,7 @@ namespace PKHeX.WinForms
                 FillPKXBoxes(e.NewValue);
         }
 
-        private void SetResults(List<IEncounterable> res)
+        private void SetResults(List<IEncounterInfo> res)
         {
             Results = res;
 
@@ -274,10 +305,13 @@ namespace PKHeX.WinForms
 
         private void FillPKXBoxes(int start)
         {
-            if (Results == null)
+            if (Results.Count == 0)
             {
                 for (int i = 0; i < RES_MAX; i++)
+                {
                     PKXBOXES[i].Image = null;
+                    PKXBOXES[i].BackgroundImage = null;
+                }
                 return;
             }
             int begin = start*RES_MIN;
@@ -285,8 +319,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < end; i++)
             {
                 var enc = Results[i + begin];
-                var form = GetForm(enc);
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, 0, enc.EggEncounter, false, enc.Generation);
+                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, enc.Form, 0, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
             }
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
@@ -295,18 +328,6 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
                 PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
-        }
-
-        private static int GetForm(IEncounterable enc)
-        {
-            return enc switch
-            {
-                EncounterSlot s => s.Form,
-                EncounterStatic s => s.Form,
-                MysteryGift m => m.Form,
-                EncounterTrade t => t.Form,
-                _ => 0
-            };
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
@@ -324,6 +345,16 @@ namespace PKHeX.WinForms
             int newval = oldval + (e.Delta < 0 ? 1 : -1);
             if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
                 FillPKXBoxes(SCR_Box.Value = newval);
+        }
+
+        private void ShowHoverTextForSlot(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            int index = Array.IndexOf(PKXBOXES, pb);
+            if (!GetShiftedIndex(ref index))
+                return;
+
+            ShowSet.Show(pb, Results[index]);
         }
     }
 }

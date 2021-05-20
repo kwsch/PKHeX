@@ -77,7 +77,7 @@ namespace PKHeX.Core
             55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67
         };
 
-        internal static readonly ushort[] HeldItems_DP = ArrayUtil.ConcatAll(Pouch_Items_DP, Pouch_Mail_DP, Pouch_Medicine_DP, Pouch_Berries_DP, Pouch_Ball_DP, Pouch_TMHM_DP.Take(Pouch_TMHM_DP.Length - 8).ToArray());
+        internal static readonly ushort[] HeldItems_DP = ArrayUtil.ConcatAll(Pouch_Items_DP, Pouch_Mail_DP, Pouch_Medicine_DP, Pouch_Berries_DP, Pouch_Ball_DP, Pouch_TMHM_DP.Slice(0, Pouch_TMHM_DP.Length - 8));
         #endregion
 
         #region Pt
@@ -96,7 +96,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Ball_Pt = Pouch_Ball_DP;
         internal static readonly ushort[] Pouch_Battle_Pt = Pouch_Battle_DP;
 
-        internal static readonly ushort[] HeldItems_Pt = ArrayUtil.ConcatAll(Pouch_Items_Pt, Pouch_Mail_Pt, Pouch_Medicine_Pt, Pouch_Berries_Pt, Pouch_Ball_Pt, Pouch_TMHM_Pt.Take(Pouch_TMHM_Pt.Length - 8).ToArray());
+        internal static readonly ushort[] HeldItems_Pt = ArrayUtil.ConcatAll(Pouch_Items_Pt, Pouch_Mail_Pt, Pouch_Medicine_Pt, Pouch_Berries_Pt, Pouch_Ball_Pt, Pouch_TMHM_Pt.Slice(0, Pouch_TMHM_Pt.Length - 8));
         #endregion
 
         #region HGSS
@@ -117,7 +117,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Battle_HGSS = Pouch_Battle_DP;
 
-        internal static readonly ushort[] HeldItems_HGSS = ArrayUtil.ConcatAll(Pouch_Items_HGSS, Pouch_Mail_HGSS, Pouch_Medicine_HGSS, Pouch_Berries_HGSS, Pouch_Ball_Pt, Pouch_TMHM_HGSS.Take(Pouch_TMHM_HGSS.Length - 8).ToArray());
+        internal static readonly ushort[] HeldItems_HGSS = ArrayUtil.ConcatAll(Pouch_Items_HGSS, Pouch_Mail_HGSS, Pouch_Medicine_HGSS, Pouch_Berries_HGSS, Pouch_Ball_Pt, Pouch_TMHM_HGSS.Slice(0, Pouch_TMHM_HGSS.Length - 8));
         #endregion
 
         internal static readonly int[] TM_4 =
@@ -134,19 +134,42 @@ namespace PKHeX.Core
             430, 433,
         };
 
-        internal static readonly HashSet<int> HM_HGSS = new HashSet<int>
+        internal static readonly HashSet<int> HM_4_RemovePokeTransfer = new()
         {
-            015, 019, 057, 070, 250, 249, 127, 431 // Whirlpool(HGSS)
+            (int)Move.Cut,
+            (int)Move.Fly,
+            (int)Move.Surf,
+            (int)Move.Strength,
+            (int)Move.RockSmash,
+            (int)Move.Waterfall,
+            (int)Move.RockClimb,
+
+            // Exclude Defog and Whirlpool; check separately.
+            // Defog (DPPt) excluded since it's actually useful -- prefer to fake transfer from HGSS instead of DPPt.
         };
 
-        internal static readonly HashSet<int> HM_DPPt = new HashSet<int>
+        internal static readonly int[] HM_DPPt =
         {
-            015, 019, 057, 070, 432, 249, 127, 431 // Defog(DPPt)
+            (int)Move.Cut,
+            (int)Move.Fly,
+            (int)Move.Surf,
+            (int)Move.Strength,
+            (int)Move.Defog,
+            (int)Move.RockSmash,
+            (int)Move.Waterfall,
+            (int)Move.RockClimb,
         };
 
-        internal static readonly HashSet<int> HM_4_RemovePokeTransfer = new HashSet<int>
+        internal static readonly int[] HM_HGSS =
         {
-            015, 019, 057, 070, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS) excluded
+            (int)Move.Cut,
+            (int)Move.Fly,
+            (int)Move.Surf,
+            (int)Move.Strength,
+            (int)Move.Whirlpool,
+            (int)Move.RockSmash,
+            (int)Move.Waterfall,
+            (int)Move.RockClimb,
         };
 
         internal static readonly byte[] MovePP_DP =
@@ -164,35 +187,14 @@ namespace PKHeX.Core
             10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls4_DPPt = new HashSet<int>
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-        };
-
-        internal static readonly HashSet<int> WildPokeBalls4_HGSS = new HashSet<int>
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-            17, 18, 19, 20, 21, 22, 23
-            // Comp Ball not usable in wild
-        };
-
-        internal static readonly int[] FutureEvolutionsGen4 =
-        {
-            700
-        };
-
-        internal static readonly HashSet<int> UnreleasedItems_4 = new HashSet<int>
+        internal static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
             147, // Mosaic Mail
             499, // Sport Ball
             500, // Park Ball
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
+        });
 
         internal static readonly int[] Tutors_4 =
         {
@@ -218,14 +220,7 @@ namespace PKHeX.Core
             new[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
         };
 
-        // Encounter Slots that are replaced
-        internal static readonly int[] Slot4_Swarm = { 0, 1 };
-        internal static readonly int[] Slot4_Time = { 2, 3 };
-        internal static readonly int[] Slot4_Sound = { 2, 3, 4, 5 };
-        internal static readonly int[] Slot4_Radar = { 4, 5, 10, 11 };
-        internal static readonly int[] Slot4_Dual = { 8, 9 };
-
-        internal static readonly HashSet<int> ValidMet_DP = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_DP = new()
         {
             // 063: Flower Paradise unreleased DP event
             // 079: Newmoon Island unreleased DP event
@@ -239,12 +234,12 @@ namespace PKHeX.Core
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
         };
 
-        internal static readonly HashSet<int> ValidMet_Pt = new HashSet<int>(ValidMet_DP.Concat(new[]
+        internal static readonly HashSet<int> ValidMet_Pt = new(ValidMet_DP)
         {
             63, 79, 85, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125,
-        }));
+        };
 
-        internal static readonly HashSet<int> ValidMet_HGSS = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_HGSS = new()
         {
             080, 112, 113, 114, 115, 116,
             126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140,
@@ -255,29 +250,29 @@ namespace PKHeX.Core
             221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,      234,                               //233: Pokéwalker
         };
 
-        internal static readonly HashSet<int> ValidMet_4 = new HashSet<int>(ValidMet_Pt.Concat(ValidMet_HGSS));
+        internal static readonly HashSet<int> ValidMet_4 = new(ValidMet_Pt.Concat(ValidMet_HGSS));
 
-        internal static readonly HashSet<int> GiftEggLocation4 = new HashSet<int>
+        internal static readonly HashSet<int> GiftEggLocation4 = new()
         {
             2009, 2010, 2011, 2013, 2014
         };
 
-        internal static readonly HashSet<int> EggLocations4 = new HashSet<int>
+        internal static readonly HashSet<int> EggLocations4 = new()
         {
             2000, 2002, 2009, 2010, 2011, 2013, 2014
         };
 
-        internal static int GetTransfer45MetLocation(PKM pk5)
+        internal static int GetTransfer45MetLocation(PKM pkm)
         {
-            if (pk5.Gen4 && pk5.FatefulEncounter)
+            if (!pkm.Gen4 || !pkm.FatefulEncounter)
+                return Locations.Transfer4; // Pokétransfer
+
+            return pkm.Species switch
             {
-                var spec = pk5.Species;
-                if (spec == 251) // Celebi
-                    return Locations.Transfer4_CelebiUnused;
-                if (243 <= spec && spec <= 245) // Beast
-                    return Locations.Transfer4_CrownUnused;
-            }
-            return Locations.Transfer4; // Pokétransfer (not Crown);
+                243 or 244 or 245 => Locations.Transfer4_CrownUnused, // Beast
+                251 => Locations.Transfer4_CelebiUnused, // Celebi
+                _ => Locations.Transfer4
+            };
         }
 
         internal static int[] RemoveMovesHM45(int[] moves)
@@ -298,10 +293,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="moves">Current moves</param>
         /// <returns>Preferred move ban list</returns>
-        private static HashSet<int> GetFavorableHMBanlist(int[] moves)
+        private static ICollection<int> GetFavorableHMBanlist(int[] moves)
         {
             // if has defog, return ban list with whirlpool
-            return moves.Contains(432) ? HM_HGSS : HM_DPPt;
+            return moves.Contains((int)Move.Defog) ? HM_HGSS : HM_DPPt;
         }
     }
 }

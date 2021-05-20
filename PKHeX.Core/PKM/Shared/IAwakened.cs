@@ -24,20 +24,34 @@ namespace PKHeX.Core
         /// Clears all values.
         /// </summary>
         /// <param name="pk">Data to clear from</param>
-        public static void AwakeningClear(this IAwakened pk) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = 0;
+        public static void AwakeningClear(this IAwakened pk) => pk.AwakeningSetAllTo(0);
 
         /// <summary>
         /// Sets all values to the maximum value.
         /// </summary>
-        /// <param name="pk">Data to clear from</param>
+        /// <param name="pk">Data to set values for</param>
         public static void AwakeningMax(this IAwakened pk) => pk.AwakeningSetAllTo(Legal.AwakeningMax);
 
         /// <summary>
         /// Sets all values to the specified value.
         /// </summary>
-        /// <param name="pk">Data to clear from</param>
+        /// <param name="pk">Data to set values for</param>
         /// <param name="value">Value to set all to</param>
         public static void AwakeningSetAllTo(this IAwakened pk, int value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
+
+        /// <summary>
+        /// Sets all values to the specified value.
+        /// </summary>
+        /// <param name="pk">Data to set values for</param>
+        /// <param name="min">Minimum value to set</param>
+        /// <param name="max">Maximum value to set</param>
+        public static void AwakeningSetRandom(this IAwakened pk, int min = 0, int max = Legal.AwakeningMax)
+        {
+            var rnd = Util.Rand;
+            int randClamp = max + 1;
+            for (int index = 0; index < 6; index++)
+                pk.SetAV(index, rnd.Next(min, randClamp));
+        }
 
         /// <summary>
         /// Gets if all values are within legal limits.
@@ -66,39 +80,32 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to set to</param>
         /// <param name="value">Value to set</param>
-        public static void SetAV(this IAwakened pk, int index, int value)
+        public static int SetAV(this IAwakened pk, int index, int value) => index switch
         {
-            switch (index)
-            {
-                case 0: pk.AV_HP = value; break;
-                case 1: pk.AV_ATK = value; break;
-                case 2: pk.AV_DEF = value; break;
-                case 3: pk.AV_SPE = value; break;
-                case 4: pk.AV_SPA = value; break;
-                case 5: pk.AV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
+            0 => pk.AV_HP = value,
+            1 => pk.AV_ATK = value,
+            2 => pk.AV_DEF = value,
+            3 => pk.AV_SPE = value,
+            4 => pk.AV_SPA = value,
+            5 => pk.AV_SPD = value,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Sets one of the <see cref="IAwakened"/> values based on its index within the array.
         /// </summary>
         /// <param name="pk">Pokémon to check.</param>
         /// <param name="index">Index to get</param>
-        public static int GetAV(this IAwakened pk, int index)
+        public static int GetAV(this IAwakened pk, int index) => index switch
         {
-            return index switch
-            {
-                0 => pk.AV_HP,
-                1 => pk.AV_ATK,
-                2 => pk.AV_DEF,
-                3 => pk.AV_SPE,
-                4 => pk.AV_SPA,
-                5 => pk.AV_SPD,
-                _ => throw new ArgumentOutOfRangeException(nameof(index))
-            };
-        }
+            0 => pk.AV_HP,
+            1 => pk.AV_ATK,
+            2 => pk.AV_DEF,
+            3 => pk.AV_SPE,
+            4 => pk.AV_SPA,
+            5 => pk.AV_SPD,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Sets the values based on the current <see cref="PKM.IVs"/>.

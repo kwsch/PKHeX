@@ -9,11 +9,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
-        public static void SetGender(this PKM pk, string gender)
+        /// <remarks>Has special logic for an unspecified gender.</remarks>
+        public static void SetSaneGender(this PKM pk, int gender)
         {
-            int g = string.IsNullOrEmpty(gender)
-                ? pk.GetSaneGender()
-                : PKX.GetGenderFromString(gender);
+            int g = gender == -1 ? pk.GetSaneGender() : gender;
             pk.SetGender(g);
         }
 

@@ -1,9 +1,17 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.PIDType;
+
+namespace PKHeX.Core
 {
+    /// <summary>
+    /// PID + IV correlation.
+    /// </summary>
+    /// <remarks>This is just a catch-all enumeration to describe the different correlations.</remarks>
     public enum PIDType
     {
         /// <summary> No relationship between the PID and IVs </summary>
         None,
+
+        #region LCRNG
 
         /// <summary> Method 1 Variants (H1/J/K) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
@@ -44,7 +52,7 @@
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed
         /// </summary>
-        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        /// <remarks><see cref="RNG.LCRNG"/> seed is clamped to 16bits.</remarks>
         BACD_R,
 
         /// <summary>
@@ -56,7 +64,7 @@
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny.
         /// </summary>
-        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        /// <remarks><see cref="RNG.LCRNG"/> seed is clamped to 16bits.</remarks>
         BACD_R_A,
 
         /// <summary>
@@ -68,7 +76,7 @@
         /// <summary>
         /// Event Reversed Order PID restricted to 8bit Origin Seed, shiny
         /// </summary>
-        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        /// <remarks><see cref="RNG.LCRNG"/> seed is clamped to 16bits.</remarks>
         BACD_R_S,
 
         /// <summary>
@@ -80,7 +88,7 @@
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny (nyx)
         /// </summary>
-        /// <remarks><see cref="RNG.LCRNG"/></remarks>
+        /// <remarks><see cref="RNG.LCRNG"/> seed is clamped to 16bits.</remarks>
         BACD_R_AX,
 
         /// <summary>
@@ -90,7 +98,7 @@
         BACD_U_AX,
 
         /// <summary>
-        /// Generation 4 Cute Charm forced to an 8 bit buffered PID
+        /// Generation 4 Cute Charm PID, which is forced to an 8 bit PID value based on the gender &amp; gender ratio value.
         /// </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         CuteCharm,
@@ -101,58 +109,103 @@
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         ChainShiny,
 
-        // XDRNG Based
+        #endregion
+
+        #region XDRNG
+
         /// <summary>
-        /// Standard <see cref="GameVersion.CXD"/> PIDIV
+        /// Generation 3 <see cref="GameVersion.CXD"/> PID+IV correlation.
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         CXD,
 
-        // XDRNG Based
         /// <summary>
-        /// Antishiny Rerolled <see cref="GameVersion.CXD"/> PIDIV
+        /// Generation 3 <see cref="GameVersion.CXD"/> PID+IV correlation that was rerolled because it was shiny.
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         CXDAnti,
 
         /// <summary>
-        /// Standard <see cref="GameVersion.CXD"/> PIDIV which is immediately after the RNG calls that create the TID and SID.
+        /// Generation 3 <see cref="GameVersion.CXD"/> PID+IV which is created immediately after the TID and SID RNG calls.
         /// </summary>
-        /// <remarks><see cref="RNG.XDRNG"/></remarks>
+        /// <remarks><see cref="RNG.XDRNG"/>. The second starter is created after the first starter, with the same TID and SID.</remarks>
         CXD_ColoStarter,
 
         /// <summary>
-        /// Pokémon Channel Jirachi
+        /// Generation 3 Pokémon Channel Jirachi
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         Channel,
 
         /// <summary>
-        /// XD PokeSpot PID
+        /// Generation 3 <see cref="GameVersion.CXD"/> PokeSpot PID
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         PokeSpot,
 
-        // ARNG Based
+        #endregion
+
+        #region ARNG
+
         /// <summary>
-        /// 4th Generation Mystery Gift Anti-Shiny
+        /// Generation 4 Mystery Gift Anti-Shiny
         /// </summary>
         /// <remarks><see cref="RNG.ARNG"/></remarks>
         G4MGAntiShiny,
 
-        // Formulaic
+        #endregion
+
+        #region Formulaic
+
         /// <summary>
-        /// 5th Generation Mystery Gift Shiny
+        /// Generation 5 Mystery Gift Shiny
         /// </summary>
         /// <remarks>Formulaic based on TID, SID, and Gender bytes.</remarks>
         /// <remarks>Unrelated to IVs</remarks>
         G5MGShiny,
 
         /// <summary>
-        /// 4th Generation Pokewalker PID, never Shiny.
+        /// Generation 4 Pokewalker PID, never Shiny.
         /// </summary>
         /// <remarks>Formulaic based on TID, SID, and Gender bytes.</remarks>
         /// <remarks>Unrelated to IVs</remarks>
         Pokewalker,
+
+        /// <summary>
+        /// Generation 8 Raid PID
+        /// </summary>
+        /// <remarks>Formulaic based on PID &amp; EC values from a 64bit-seed.</remarks>
+        Raid8,
+
+        /// <summary>
+        /// Generation 8 Overworld Spawn PID
+        /// </summary>
+        /// <remarks>Formulaic based on PID &amp; EC values from a 32bit-seed.</remarks>
+        Overworld8,
+
+        #endregion
     }
+
+#if DEBUG
+    public static class PIDTypeExtensions
+    {
+        public static RNGType GetRNGType(this PIDType type) => type switch
+        {
+            0 => RNGType.None,
+            <= ChainShiny => RNGType.LCRNG,
+            <= PokeSpot => RNGType.XDRNG,
+            G4MGAntiShiny => RNGType.ARNG,
+            _ => RNGType.None,
+        };
+
+        public static bool IsReversedPID(this PIDType type) => type switch
+        {
+            CXD or CXDAnti => true,
+            BACD_R or BACD_R_A or BACD_R_S => true,
+            BACD_U or BACD_U_A or BACD_U_S => true,
+            Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown => true,
+            _ => false
+        };
+    }
+#endif
 }

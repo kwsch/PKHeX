@@ -40,7 +40,7 @@ namespace PKHeX.Core
         Beast = 26,
     }
 
-    public static partial class Extensions
+    public static class BallExtensions
     {
         /// <summary>
         /// Checks if the <see cref="ball"/> is an Apricorn Ball (HG/SS)

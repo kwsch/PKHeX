@@ -19,5 +19,12 @@ namespace PKHeX.Tests.Util
             var names = Core.Util.GetAbilitiesList(GameLanguage.DefaultLanguage);
             names.Length.Should().Be((int)Ability.MAX_COUNT);
         }
+
+        [Fact]
+        public void GetsCorrectNumberOfMoveNames()
+        {
+            var names = Core.Util.GetMovesList(GameLanguage.DefaultLanguage);
+            names.Length.Should().Be((int)Move.MAX_COUNT);
+        }
     }
 }

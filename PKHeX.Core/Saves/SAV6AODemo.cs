@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AODemo : SAV6
     {
-        public SAV6AODemo(byte[] data) : base(data, SaveBlockAccessor6AODemo.boAOdemo)
+        public SAV6AODemo(byte[] data) : base(data, SaveBlockAccessor6AODemo.BlockMetadataOffset)
         {
             Blocks = new SaveBlockAccessor6AODemo(this);
             Initialize();
         }
 
-        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO, SaveBlockAccessor6AODemo.boAOdemo)
+        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO, SaveBlockAccessor6AODemo.BlockMetadataOffset)
         {
             Blocks = new SaveBlockAccessor6AODemo(this);
             Initialize();
@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.AO;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
-        public override SaveFile Clone() => new SAV6AODemo((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV6AODemo((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
@@ -33,21 +33,15 @@ namespace PKHeX.Core
             Party            = 0x03E00;
             EventConst       = 0x04600;
 
-            EventFlag = EventConst + 0x2FC;
+            EventFlag = EventConst + 0x2F0;
         }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int) GameVersion.AS => GameVersion.AS,
-                    (int) GameVersion.OR => GameVersion.OR,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int) GameVersion.AS => GameVersion.AS,
+            (int) GameVersion.OR => GameVersion.OR,
+            _ => GameVersion.Invalid
+        };
 
         public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }
         public override int Vivillon { get => Blocks.Misc.Vivillon; set => Blocks.Misc.Vivillon = value; } // unused

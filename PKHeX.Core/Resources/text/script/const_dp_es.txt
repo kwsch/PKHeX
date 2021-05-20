@@ -1,4 +1,4 @@
-0048	Inicial	387:Turtwig,390:Chimchar,393:Piplup
+0048	Inicial	0:Sin Elegir,387:Turtwig,390:Chimchar,393:Piplup
 0152	Dialga/Palkia	00:Evento,01:Evento,02:Evento,03:Evento,04:Desaparecido,05:Luchable
 0158	Heatran	00:No Activado,01:Luchable,02:Desaparecido
 0054	Isla Plenilunio	0:No Activado,520:En el Mapa
@@ -8,3 +8,5 @@
 0067	Carné Socio	0:No Activado,4617:Activado
 0068	Carta Pr Oak	0:No Activado,4370:Activado
 0069	Flauta Azur	0:No Activado,4387:Activado
+0062	Spiritomb	0:Desaparecido,32:Aparecido
+0138	Torre Sagrada	0:No Activado,1:Activado

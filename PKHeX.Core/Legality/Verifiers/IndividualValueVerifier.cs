@@ -26,15 +26,10 @@ namespace PKHeX.Core
             }
 
             var pkm = data.pkm;
-            if (pkm.IVTotal == 0)
-            {
-                data.AddLine(Get(LFatefulMystery, Severity.Fishy));
-            }
-            else
             {
                 var hpiv = pkm.IV_HP;
                 if (hpiv < 30 && AllIVsEqual(pkm, hpiv))
-                    data.AddLine(Get(LIVAllEqual, Severity.Fishy));
+                    data.AddLine(Get(string.Format(LIVAllEqual_0, hpiv), Severity.Fishy));
             }
         }
 
@@ -75,18 +70,20 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyIVsGen8(LegalityAnalysis data)
-        {
-            // todo special rules
-        }
-
         private void VerifyIVsGen7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.GO)
                 VerifyIVsGoTransfer(data);
-            else if (pkm.AbilityNumber == 4)
+            else if (pkm.AbilityNumber == 4 && !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities, pkm.Species))
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
+        }
+
+        private void VerifyIVsGen8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.GO)
+                VerifyIVsGoTransfer(data);
         }
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)
@@ -94,7 +91,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
-            else if (w.Type == SlotType.FriendSafari)
+            else if (w.Area.Type == SlotType.FriendSafari)
                 VerifyIVsFlawless(data, 2);
         }
 
@@ -112,32 +109,8 @@ namespace PKHeX.Core
 
         private void VerifyIVsGoTransfer(LegalityAnalysis data)
         {
-            var pkm = data.pkm;
-            if (!IsGoIVSetValid(pkm))
+            if (data.EncounterMatch is EncounterSlotGO g && !g.GetIVsValid(data.pkm))
                 data.AddLine(GetInvalid(LIVNotCorrect));
-
-            if (!pkm.IsShiny)
-                return;
-            var banlist = Legal.GoTransferSpeciesShinyBan;
-
-            // all Shiny Alola Forms are legal, while some of their respective Kanto Forms are not
-            if (banlist.Contains(pkm.Species) && pkm.AltForm != 1)
-                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
-        }
-
-        private static bool IsGoIVSetValid(PKM pkm)
-        {
-            // Stamina*2 | 1 -> HP
-            // ATK * 2 | 1 -> ATK&SPA
-            // DEF * 2 | 1 -> DEF&SPD
-            // Speed is random.
-
-            // All IVs must be odd (except speed) and equal to their counterpart.
-            if ((pkm.GetIV(1) & 1) != 1 || pkm.GetIV(1) != pkm.GetIV(4)) // ATK=SPA
-                return false;
-            if ((pkm.GetIV(2) & 1) != 1 || pkm.GetIV(2) != pkm.GetIV(5)) // DEF=SPD
-                return false;
-            return (pkm.GetIV(0) & 1) == 1; // HP
         }
     }
 }

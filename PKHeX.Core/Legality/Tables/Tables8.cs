@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     public static partial class Legal
     {
         // Current Binaries
-        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R1;
-        internal const int MaxMoveID_8 = MaxMoveID_8_R1;
-        internal const int MaxItemID_8 = MaxItemID_8_R1;
-        internal const int MaxAbilityID_8 = MaxAbilityID_8_R1;
+        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R2;
+        internal const int MaxMoveID_8 = MaxMoveID_8_R2;
+        internal const int MaxItemID_8 = MaxItemID_8_R2;
+        internal const int MaxAbilityID_8 = MaxAbilityID_8_R2;
 
         // Orion (No DLC)
         internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
@@ -22,6 +21,12 @@ namespace PKHeX.Core
         internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
         internal const int MaxItemID_8_R1 = 1589; // Mark Charm
         internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
+        // Rigel 2 (DLC 2: Crown Tundra)
+        internal const int MaxSpeciesID_8_R2 = 898; // Calyrex
+        internal const int MaxMoveID_8_R2 = 826; // Eerie Spell
+        internal const int MaxItemID_8_R2 = 1607; // Reins of Unity
+        internal const int MaxAbilityID_8_R2 = 267; // As One
 
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
         internal const int MaxGameID_8 = 45;
@@ -50,6 +55,12 @@ namespace PKHeX.Core
             180, 182, 184, 186, 188,
             190, 192, 194, 196, 198,
             200, 202,
+
+                      204, 206, 208,
+            210, 212, 214, 216, 218,
+            220, 222, 224, 226, 228,
+            230, 232, 234, 236, 238,
+            240, 242, 244, 246,
         };
 
         internal static readonly int[] Met_SWSH_3 =
@@ -106,6 +117,9 @@ namespace PKHeX.Core
             1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549,
             1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567,
             1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1581, 1582, 1588,
+
+            // DLC 2
+            1592, 1604, 1606
         };
 
         internal static readonly ushort[] Pouch_Ball_SWSH =
@@ -121,7 +135,7 @@ namespace PKHeX.Core
             055, 056, 057, 058, 059, 060, 061, 062, 063, 1580
         };
 
-        internal static readonly ushort[] Pouch_Items_SWSH = Pouch_Regular_SWSH.Concat(Pouch_Ball_SWSH).Concat(Pouch_Battle_SWSH).ToArray();
+        internal static readonly ushort[] Pouch_Items_SWSH = ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH);
 
         internal static readonly ushort[] Pouch_Key_SWSH =
         {
@@ -132,6 +146,9 @@ namespace PKHeX.Core
             943, 944, 945, 946,
             1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
+
+            // DLC 2
+            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
         };
 
         internal static readonly ushort[] TM_SWSH =
@@ -163,7 +180,7 @@ namespace PKHeX.Core
             1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
         };
 
-        internal static readonly ushort[] Pouch_TMHM_SWSH = TM_SWSH.Concat(TR_SWSH).ToArray();
+        internal static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(TM_SWSH, TR_SWSH);
 
         internal static readonly ushort[] Pouch_Medicine_SWSH =
         {
@@ -204,39 +221,6 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
-        internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int> {
-            (int)Ball.Poke,
-            (int)Ball.Great,
-            (int)Ball.Ultra,
-            (int)Ball.Master,
-            (int)Ball.Net,
-            (int)Ball.Dive,
-            (int)Ball.Nest,
-            (int)Ball.Repeat,
-            (int)Ball.Timer,
-            (int)Ball.Luxury,
-            (int)Ball.Premier,
-            (int)Ball.Dusk,
-            (int)Ball.Heal,
-            (int)Ball.Quick,
-
-            // Ball Guy
-            (int)Ball.Fast,
-            (int)Ball.Level,
-            (int)Ball.Lure,
-            (int)Ball.Heavy,
-            (int)Ball.Love,
-            (int)Ball.Friend,
-            (int)Ball.Moon,
-            (int)Ball.Dream,
-            (int)Ball.Beast,
-
-            // DLC 1 Additions
-            (int)Ball.Safari,
-            (int)Ball.Sport,
-            // no cherish ball
-        };
-
         internal static readonly int[] Tutors_SWSH_1 =
         {
             805, 807, 812, 804,
@@ -246,7 +230,7 @@ namespace PKHeX.Core
             798, 802,
         };
 
-        internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
+        internal static readonly HashSet<int> GalarOriginForms = new()
         {
             (int)Species.Meowth,
             (int)Species.Ponyta,
@@ -263,7 +247,7 @@ namespace PKHeX.Core
             (int)Species.Stunfisk,
         };
 
-        internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
+        internal static readonly HashSet<int> GalarVariantFormEvolutions = new()
         {
             (int)Species.MrMime,
             (int)Species.Weezing,
@@ -279,11 +263,9 @@ namespace PKHeX.Core
             {(int)Species.Cursola, 1},
         };
 
-        internal static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
-
         internal static readonly int[] EggLocations8 = {Locations.Daycare5, Locations.LinkTrade6};
 
-        internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_SWSH = new()
         {
                            006, 008,
                  012, 014, 016, 018,
@@ -304,7 +286,14 @@ namespace PKHeX.Core
             160,      164, 166, 168,
             170, 172, 174, 176, 178,
             180, 182, 184, 186, 188,
-            190, 192, 194, 196
+            190, 192, 194, 196, 198,
+            200,
+
+            202, 204, 206, 208, 210,
+            212, 214, 216, 218, 220,
+            222, 224, 226, 228, 230,
+            232, 234, 236, 238, 240,
+            242, 244, 246,
         };
 
         public static readonly int[] TMHM_SWSH =
@@ -353,33 +342,12 @@ namespace PKHeX.Core
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
             10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
-            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05
-
-        };
-
-        internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>(); // none as of DLC 1!
-
-        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
-        {
-            029, // Nidoran
-            032, // Nidoran
-            100, // Voltorb
-            // 436, // Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
-            669 + (3 << 11), // Flabébé-Blue
+            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
+        internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, new ushort[]
         {
-            112, // Griseous Orb
-            116, // Douse Drive
-            117, // Shock Drive
-            118, // Burn Drive
-            119, // Chill Drive
-            135, // Adamant Orb
-            136, // Lustrous Orb
-            225, // Soul Dew
-
             298, // Flame Plate
             299, // Splash Plate
             300, // Zap Plate
@@ -398,19 +366,16 @@ namespace PKHeX.Core
             313, // Iron Plate
             // 644, // Pixie Plate
 
-            322, // Electirizer
-            323, // Magmarizer
-
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
             // 1281, // ★And337 (Corviknight)
             // 1282, // ★And603 (Eiscue)
             // 1283, // ★And390 (Stonjourner)
             // 1284, // ★Sgr6879 (Copperajah)
-            1285, // ★Sgr6859
-            1286, // ★Sgr6913
-            1287, // ★Sgr7348
-            1288, // ★Sgr7121
+            // 1285, // ★Sgr6859 (Centiskorch)
+            1286, // ★Sgr6913 (Flapple/Appletun)
+            1287, // ★Sgr7348 (Sandaconda)
+            1288, // ★Sgr7121 (Duraludon)
             1289, // ★Sgr6746
             1290, // ★Sgr7194
             1291, // ★Sgr7337
@@ -704,21 +669,13 @@ namespace PKHeX.Core
 
             016, // Cherish Ball
             500, // Park Ball
-
-            193, // Payapa Berry
-            208, // Enigma Berry
-            209, // Micle Berry
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
-        };
+        });
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8+1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();
 
         /// <summary>
         /// Moves that are kill
         /// </summary>
-        public static readonly HashSet<int> DummiedMoves_SWSH = new HashSet<int>
+        public static readonly HashSet<int> DummiedMoves_SWSH = new()
         {
             002, 003, 004, 013, 026, 027, 041, 049, 082, 096,
             099, 112, 117, 119, 121, 125, 128, 131, 132, 134,

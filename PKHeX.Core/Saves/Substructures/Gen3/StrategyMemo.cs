@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         private readonly bool XD;
         public const int SIZE_ENTRY = 12;
-        private readonly List<StrategyMemoEntry> Entries = new List<StrategyMemoEntry>();
+        private readonly List<StrategyMemoEntry> Entries = new();
         public const int MAX_COUNT = 500;
         public const int MAX_SIZE = MAX_COUNT * SIZE_ENTRY;
         private StrategyMemoEntry? this[int Species] => Entries.Find(e => e.Species == Species);

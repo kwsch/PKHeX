@@ -3,11 +3,12 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public sealed class PK2 : GBPKM
+    public sealed class PK2 : GBPKML, ICaughtData2
     {
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 
-        public override bool Valid => Species <= 252;
+        internal const byte EggSpeciesValue = 0xFD;
+        public override bool Valid => Species is <= Legal.MaxSpeciesID_2 or EggSpeciesValue; // egg
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
@@ -15,14 +16,21 @@ namespace PKHeX.Core
 
         public override int Format => 2;
 
-        public PK2(bool jp = false) : base(new byte[PokeCrypto.SIZE_2PARTY], jp) { }
-        public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
+        public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+        private static byte[] EnsurePartySize(byte[] data)
+        {
+            if (data.Length != PokeCrypto.SIZE_2PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_2PARTY);
+            return data;
+        }
 
         public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
         {
             Identifier = Identifier,
-            otname = (byte[])otname.Clone(),
-            nick = (byte[])nick.Clone(),
+            OT_Trash = otname,
+            Nickname_Trash = nick,
             IsEgg = IsEgg,
         };
 
@@ -42,9 +50,7 @@ namespace PKHeX.Core
         public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0xD); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD); }
         public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0xF); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xF); }
         public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x11); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); }
-        public int EV_SPC { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
-        public override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
-        public override int EV_SPD { get => EV_SPC; set { } }
+        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
         public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes(value).CopyTo(Data, 0x15); }
         public override int Move1_PP { get => Data[0x17] & 0x3F; set => Data[0x17] = (byte)((Data[0x17] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
@@ -98,7 +104,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new PK1(Japanese) {TradebackStatus = TradebackType.WasTradeback};
+            PK1 pk1 = new(Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 
@@ -114,8 +120,8 @@ namespace PKHeX.Core
                 pk1.Stat_Level = Stat_Level;
             }
             // Status = 0
-            pk1.otname = (byte[])otname.Clone();
-            pk1.nick = (byte[])nick.Clone();
+            pk1.OT_Trash = otname;
+            pk1.Nickname_Trash = nick;
 
             pk1.ClearInvalidMoves();
 
@@ -145,10 +151,10 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Met_Location = Legal.Transfer2, // "Johto region", hardcoded.
+                Met_Location = Locations.Transfer2, // "Johto region", hardcoded.
                 Gender = Gender,
                 IsNicknamed = false,
-                AltForm = AltForm,
+                Form = Form,
 
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,
@@ -160,28 +166,30 @@ namespace PKHeX.Core
             var lang = TransferLanguage(PKMConverter.Language);
             pk7.Language = lang;
             pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
-            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
-                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
-            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
-            var special = Species == 151 || Species == 251;
+            var special = Species is 151 or 251;
             var new_ivs = new int[6];
             int flawless = special ? 5 : 3;
             var rnd = Util.Rand;
             for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+                new_ivs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
                 new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
-            if (IsShiny)
-                pk7.SetShiny();
+            switch (IsShiny ? Shiny.Always : Shiny.Never)
+            {
+                case Shiny.Always when !pk7.IsShiny: // Force Square
+                    pk7.PID = (uint)(((pk7.TID ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF));
+                    break;
+                case Shiny.Never when pk7.IsShiny: // Force Not Shiny
+                    pk7.PID ^= 0x1000_0000;
+                    break;
+            }
 
-            int abil = 2; // Hidden
-            if (Legal.TransferSpeciesDefaultAbility_2.Contains(Species))
-                abil = 0; // Reset
+            int abil = Legal.TransferSpeciesDefaultAbilityGen2(Species) ? 0 : 2; // Hidden
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
             if (special)
@@ -191,29 +199,68 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = Korean ? Nickname
-                    : StringConverter12.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(nick, Japanese);
             }
-            pk7.OT_Name = Korean ? OT_Name
-                : StringConverter12.GetG1ConvertedString(otname, Japanese);
+            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
+            else
+                pk7.OT_Name = Korean ? OT_Name : StringConverter12Transporter.GetString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
+            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
-            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
 
             // Dizzy Punch cannot be transferred
             {
-                var moves = pk7.Moves;
-                var index = Array.IndexOf(moves, 146); // Dizzy Punch
+                var index = pk7.GetMoveIndex(146); // Dizzy Punch
                 if (index != -1)
                 {
-                    moves[index] = 0;
-                    pk7.Moves = moves;
+                    pk7.SetMove(index, 0);
                     pk7.FixMoves();
                 }
             }
 
             pk7.RefreshChecksum();
             return pk7;
+        }
+
+        public SK2 ConvertToSK2()
+        {
+            return new(Japanese)
+            {
+                Species = Species,
+                HeldItem = HeldItem,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                TID = TID,
+                EXP = EXP,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPE = EV_SPE,
+                EV_SPC = EV_SPC,
+                DV16 = DV16,
+                Move1_PP = Move1_PP,
+                Move2_PP = Move2_PP,
+                Move3_PP = Move3_PP,
+                Move4_PP = Move4_PP,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                CurrentFriendship = CurrentFriendship,
+                IsEgg = IsEgg,
+                Stat_Level = Stat_Level,
+                PKRS_Days = PKRS_Days,
+                PKRS_Strain = PKRS_Strain,
+                CaughtData = CaughtData,
+
+                // Only copies until first 0x50 terminator, but just copy everything
+                Nickname = Nickname,
+                OT_Name = OT_Name,
+            };
         }
     }
 }

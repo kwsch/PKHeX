@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class SimpleTrainerInfo : ITrainerInfo
+    public sealed class SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     {
         public string OT { get; set; } = "PKHeX";
         public int TID { get; set; } = 12345;
@@ -9,7 +9,7 @@
         public int Language { get; set; } = (int)LanguageID.English;
 
         public int ConsoleRegion { get; set; } = 1; // North America
-        public int SubRegion { get; set; } = 7; // California
+        public int Region { get; set; } = 7; // California
         public int Country { get; set; } = 49; // USA
 
         public int Game { get; }
@@ -18,8 +18,8 @@
         public SimpleTrainerInfo(GameVersion game = GameVersion.SW)
         {
             Game = (int) game;
-            if (GameVersion.GG.Contains(game) || game.GetGeneration() >= 8)
-                ConsoleRegion = SubRegion = Country = 0;
+            if (GameVersion.Gen7b.Contains(game) || game.GetGeneration() >= 8)
+                ConsoleRegion = Region = Country = 0;
         }
     }
 }

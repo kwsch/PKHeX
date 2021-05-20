@@ -27,23 +27,27 @@ Control + Click on...
 - Individual EVs: Set EV to max.
 - Randomize IVs: Set all IVs to max.
 - Randomize AVs: Set all AVs to max.
-- Randomize EVs: Set all EVs to 0.
+- Randomize EVs: Set all EVs to max (if appropriate).
 - PP Ups Label: Set all PP Ups to 0. (Click = 3)
 - Friendship Label: Set Friendship to 0. (Click = 255 or Base)
 - Level box: Set Level to 100.
+- Shiny Button: Make Star Shiny (Xor1)
 
 Alt + Click on...
 - Preview Sprite to load from a QR url on your clipboard.
 - Species: Export Showdown/Smogon set to Clipboard.
+- Randomize IVs: Set all IVs to 0.
 - Randomize AVs: Set all AVs to 0.
+- Randomize EVs: Set all EVs to 0.
 - Individual IVs: Set IV to 0.
 - Individual AVs: Set AV to 0.
 - Individual EVs: Set EV to 0.
+- Shiny Button: Set SID instead of PID when making shiny
 
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
 - Individual IVs: Hyper Train the IV (toggles Hyper Training in Gen7 onwards)
-- Shiny Button: Make Square Shiny
+- Shiny Button: Make Square Shiny (Xor0)
 - Moves: Apply random moveset.
 
 Hold Control when dragging to save encrypted (ekx).

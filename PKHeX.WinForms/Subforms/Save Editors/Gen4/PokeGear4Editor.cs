@@ -7,8 +7,8 @@ namespace PKHeX.WinForms
     public partial class PokeGear4Editor : UserControl
     {
         public PokeGear4Editor() => InitializeComponent();
-        private PokegearNumber[] Rolodex;
-        private SAV4HGSS SAV;
+        private PokegearNumber[] Rolodex = null!;
+        private SAV4HGSS SAV = null!;
 
         public void Initialize(SAV4HGSS sav)
         {
@@ -16,11 +16,11 @@ namespace PKHeX.WinForms
             RefreshList();
         }
 
-        public void Save() => SAV.PokeGearRoloDex = Rolodex;
+        public void Save() => SAV.SetPokeGearRoloDex(Rolodex);
 
         private void RefreshList()
         {
-            PG_Rolodex.SelectedObject = Rolodex = SAV.PokeGearRoloDex;
+            PG_Rolodex.SelectedObject = Rolodex = SAV.GetPokeGearRoloDex();
             PG_Rolodex.Refresh();
         }
 

@@ -14,23 +14,22 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            var encounter = data.EncounterMatch;
+            // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
+            var enc = data.EncounterMatch;
             var pkm = data.pkm;
-            var Info = data.Info;
+
             // Check Unobtainable Ribbons
-            var encounterContent = encounter is MysteryGift mg ? mg.Content : encounter;
             if (pkm.IsEgg)
             {
-                if (GetIncorrectRibbonsEgg(pkm, encounterContent))
+                if (GetIncorrectRibbonsEgg(pkm, enc))
                     data.AddLine(GetInvalid(LRibbonEgg));
                 return;
             }
 
-            int gen = Info.Generation < 3 ? 7 : Info.Generation; // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
-            var result = GetIncorrectRibbons(pkm, encounterContent, gen);
+            var result = GetIncorrectRibbons(pkm, enc);
             if (result.Count != 0)
             {
-                var msg = string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s)));
+                var msg = string.Join(Environment.NewLine, result);
                 data.AddLine(GetInvalid(msg));
             }
             else
@@ -39,28 +38,28 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, object encounterContent, int gen)
+        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterable enc)
         {
-            List<string> missingRibbons = new List<string>();
-            List<string> invalidRibbons = new List<string>();
-            IEnumerable<RibbonResult> ribs = GetRibbonResults(pkm, encounterContent, gen);
+            List<string> missingRibbons = new();
+            List<string> invalidRibbons = new();
+            var ribs = GetRibbonResults(pkm, enc);
             foreach (var bad in ribs)
                 (bad.Invalid ? invalidRibbons : missingRibbons).Add(bad.Name);
 
             var result = new List<string>();
             if (missingRibbons.Count > 0)
-                result.Add(string.Format(LRibbonFMissing_0, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
+                result.Add(string.Format(LRibbonFMissing_0, string.Join(", ", missingRibbons).Replace(RibbonInfo.PropertyPrefix, string.Empty)));
             if (invalidRibbons.Count > 0)
-                result.Add(string.Format(LRibbonFInvalid_0, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", string.Empty)))));
+                result.Add(string.Format(LRibbonFInvalid_0, string.Join(", ", invalidRibbons).Replace(RibbonInfo.PropertyPrefix, string.Empty)));
             return result;
         }
 
-        private static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
+        private static bool GetIncorrectRibbonsEgg(PKM pkm, IEncounterable enc)
         {
-            var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            if (encounterContent is IRibbonSetEvent3 event3)
+            var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), RibbonInfo.PropertyPrefix);
+            if (enc is IRibbonSetEvent3 event3)
                 names = names.Except(event3.RibbonNames());
-            if (encounterContent is IRibbonSetEvent4 event4)
+            if (enc is IRibbonSetEvent4 event4)
                 names = names.Except(event4.RibbonNames());
 
             foreach (var value in names.Select(name => ReflectUtil.GetValue(pkm, name)))
@@ -76,57 +75,62 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, object encounterContent, int gen)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterable enc)
         {
-            return GetInvalidRibbons(pkm, gen)
-                .Concat(GetInvalidRibbonsEvent1(pkm, encounterContent))
-                .Concat(GetInvalidRibbonsEvent2(pkm, encounterContent));
+            return GetInvalidRibbons(pkm, enc)
+                .Concat(GetInvalidRibbonsEvent1(pkm, enc))
+                .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc)
         {
-            bool artist = false;
             if (pkm is IRibbonSetOnly3 o3)
             {
-                artist = o3.RibbonCounts().Any(z => z == 4);
+                if (o3.RibbonWorld) // is a part of Event4, but O3 doesn't have the others
+                    yield return new RibbonResult(nameof(o3.RibbonWorld));
             }
             if (pkm is IRibbonSetUnique3 u3)
             {
-                if (gen != 3 || !IsAllowedBattleFrontier(pkm.Species))
+                if (enc.Generation != 3)
                 {
                     if (u3.RibbonWinning)
                         yield return new RibbonResult(nameof(u3.RibbonWinning));
                     if (u3.RibbonVictory)
                         yield return new RibbonResult(nameof(u3.RibbonVictory));
                 }
+                else
+                {
+                    if (u3.RibbonWinning && !CanHaveRibbonWinning(pkm, enc, 3))
+                        yield return new RibbonResult(nameof(u3.RibbonWinning));
+                    if (u3.RibbonVictory && !CanHaveRibbonVictory(pkm, 3))
+                        yield return new RibbonResult(nameof(u3.RibbonVictory));
+                }
             }
 
+            int gen = enc.Generation;
             if (pkm is IRibbonSetUnique4 u4)
             {
-                if (!IsAllowedBattleFrontier(pkm.Species, pkm.AltForm, 4) || gen > 4)
+                if (!IsAllowedBattleFrontier(pkm.Species, pkm.Form, 4) || gen > 4)
                 {
                     foreach (var z in GetInvalidRibbonsNone(u4.RibbonBitsAbility(), u4.RibbonNamesAbility()))
                         yield return z;
                 }
 
-                var c3 = u4.RibbonBitsContest3(); 
+                var c3 = u4.RibbonBitsContest3();
                 var c3n = u4.RibbonNamesContest3();
                 var iter3 = gen == 3 ? GetMissingContestRibbons(c3, c3n) : GetInvalidRibbonsNone(c3, c3n);
                 foreach (var z in iter3)
                     yield return z;
 
-                for (int i = 0; i < 5; ++i)
-                    artist |= c3[3 | i << 2]; // any master rank ribbon
-
                 var c4 = u4.RibbonBitsContest4();
                 var c4n = u4.RibbonNamesContest4();
-                var iter4 = (gen == 3 || gen == 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
+                var iter4 = (gen is 3 or 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
                 foreach (var z in iter4)
                     yield return z;
             }
             if (pkm is IRibbonSetCommon4 s4)
             {
-                bool inhabited4 = 3 <= gen && gen <= 4;
+                bool inhabited4 = gen is 3 or 4;
                 var iterate = GetInvalidRibbons4Any(pkm, s4, gen);
                 if (!inhabited4)
                     iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
@@ -135,11 +139,10 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                artist = s6.RibbonCountMemoryContest >= 4;
-                bool inhabited6 = 3 <= gen && gen <= 6;
+                bool inhabited6 = gen is >= 3 and <= 6;
 
                 var iterate = inhabited6
-                    ? GetInvalidRibbons6Any(pkm, s6, gen)
+                    ? GetInvalidRibbons6Any(pkm, s6, gen, enc)
                     : GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var z in iterate)
                     yield return z;
@@ -153,9 +156,9 @@ namespace PKHeX.Core
                 }
 
                 // Gen8+ replaced with Max Friendship. Gen6/7 uses affection.
-                if (pkm.Format <= 7 && s6.RibbonBestFriends) // can't lower affection
+                if (pkm is IAffection a && s6.RibbonBestFriends) // can't lower affection
                 {
-                    if (pkm.OT_Affection < 255 && pkm.IsUntraded)
+                    if (a.OT_Affection < 255 && pkm.IsUntraded)
                         yield return new RibbonResult(nameof(s6.RibbonBestFriends));
                 }
             }
@@ -168,9 +171,9 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon3 s3)
             {
-                if (s3.RibbonChampionG3Hoenn && gen != 3)
-                    yield return new RibbonResult(nameof(s3.RibbonChampionG3Hoenn)); // RSE HoF
-                if (s3.RibbonArtist && (gen != 3 || !artist))
+                if (s3.RibbonChampionG3 && gen != 3)
+                    yield return new RibbonResult(nameof(s3.RibbonChampionG3)); // RSE HoF
+                if (s3.RibbonArtist && gen != 3)
                     yield return new RibbonResult(nameof(s3.RibbonArtist)); // RSE Master Rank Portrait
                 if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5
                     yield return new RibbonResult(nameof(s3.RibbonEffort));
@@ -178,7 +181,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon8 s8)
             {
                 bool inhabited8 = gen <= 8;
-                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, enc) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -205,8 +208,8 @@ namespace PKHeX.Core
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            bool gen34 = gen == 3 || gen == 4;
-            bool not6 = pkm.Format < 6 || gen > 6 || gen < 3;
+            bool gen34 = gen is 3 or 4;
+            bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6;
             bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded));
 
@@ -223,22 +226,9 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool CanHaveFootprintRibbon(PKM pkm, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterable enc)
         {
-            if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
-                return true;
-            // Gen5: Can't obtain
-            // Gen6/7: Increase level by 30 from original level
-            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level >= 30))
-                return true;
-
-            // Gen8: Can't obtain
-            return false;
-        }
-
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen)
-        {
-            foreach (var p in GetInvalidRibbons6Memory(pkm, s6, gen))
+            foreach (var p in GetInvalidRibbons6Memory(pkm, s6, gen, enc))
                 yield return p;
 
             bool untraded = pkm.IsUntraded;
@@ -253,9 +243,9 @@ namespace PKHeX.Core
 
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
             // Affection is discarded on PK7->PK8 in favor of friendship, which can be lowered.
-            if (pkm.Format <= 7)
+            if (pkm is IAffection a)
             {
-                var affect = pkm.OT_Affection;
+                var affect = a.OT_Affection;
                 var contMemory = s6.RibbonNamesContest();
                 int contCount = 0;
                 var present = contMemory.Where((_, i) => contest[i] && affect < 20 * ++contCount);
@@ -263,8 +253,10 @@ namespace PKHeX.Core
                     yield return new RibbonResult(rib);
             }
 
+            // Gen6 can get the memory on those who did not participate by being in the party with other participants.
+            // This includes those who cannot enter into the Maison; having memory and no ribbon.
             const int memChatelaine = 30;
-            bool hasChampMemory = pkm.Format <= 7 && (pkm.HT_Memory == memChatelaine || pkm.OT_Memory == memChatelaine);
+            bool hasChampMemory = enc.Generation == 7 && pkm.Format == 7 && pkm is ITrainerMemories m && (m.HT_Memory == memChatelaine || m.OT_Memory == memChatelaine);
             if (!IsAllowedBattleFrontier(pkm.Species))
             {
                 if (hasChampMemory || s6.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
@@ -281,7 +273,7 @@ namespace PKHeX.Core
             yield return result;
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterable enc)
         {
             int contest = 0;
             int battle = 0;
@@ -289,7 +281,7 @@ namespace PKHeX.Core
             {
                 case 3:
                     contest = IsAllowedInContest4(pkm.Species) ? 40 : 20;
-                    battle = IsAllowedBattleFrontier(pkm.Species) ? 8 : 0;
+                    battle = IsAllowedBattleFrontier(pkm.Species) ? CanHaveRibbonWinning(pkm, enc, 3) ? 8 : 7 : 0;
                     break;
                 case 4:
                     contest = IsAllowedInContest4(pkm.Species) ? 20 : 0;
@@ -341,7 +333,7 @@ namespace PKHeX.Core
             }
 
             const int memChampion = 27;
-            bool hasChampMemory = (pkm.Format < 8 && pkm.HT_Memory == memChampion) || (pkm.Gen6 && pkm.OT_Memory == memChampion);
+            bool hasChampMemory = pkm is ITrainerMemories m && ((pkm.Format < 8 && m.HT_Memory == memChampion) || (pkm.Gen6 && m.OT_Memory == memChampion));
             if (!hasChampMemory || s6.RibbonChampionKalos || s6.RibbonChampionG6Hoenn)
                 yield break;
 
@@ -363,7 +355,8 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8,
+            IEncounterable enc)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
             {
@@ -377,13 +370,16 @@ namespace PKHeX.Core
             else
             {
                 const int memChampion = 27;
-                bool hasChampMemory = (pkm.Format == 8 && pkm.HT_Memory == memChampion) || (pkm.Gen8 && pkm.OT_Memory == memChampion);
-                if (hasChampMemory && !s8.RibbonChampionGalar)
-                    yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+                {
+                    bool hasChampMemory = (pkm.Format == 8 && pkm is IMemoryHT {HT_Memory: memChampion}) ||
+                                          (pkm.Gen8 && pkm is IMemoryOT {OT_Memory: memChampion});
+                    if (hasChampMemory && !s8.RibbonChampionGalar)
+                        yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+                }
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
-                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm))
+                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
 
                 if (s8.RibbonTowerMaster)
@@ -396,54 +392,59 @@ namespace PKHeX.Core
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                     const int strongest = 30;
-                    if (pkm.OT_Memory == strongest || pkm.HT_Memory == strongest)
+                    if (pkm is IMemoryOT {OT_Memory: strongest} || pkm is IMemoryHT {HT_Memory: strongest})
                     {
-                        if (pkm.Gen8 || !IsAllowedBattleFrontier(pkm.Species) || (pkm is IRibbonSetCommon6 s6 && !s6.RibbonBattlerSkillful))
+                        if (pkm.Gen8 || !IsAllowedBattleFrontier(pkm.Species) || pkm is IRibbonSetCommon6 {RibbonBattlerSkillful: false})
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                     }
                 }
             }
         }
 
-        private static bool CanParticipateInRankedSWSH(PKM pkm)
+        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterable enc)
         {
-            if (!pkm.SWSH && pkm is IBattleVersion v && v.BattleVersion == 0)
+            if (!pkm.SWSH && pkm is IBattleVersion {BattleVersion: 0})
                 return false;
 
             // Clamp to permitted species
-            var spec = pkm.Species;
-           
-            if (638 <= spec && spec <= 640)
-                return true; // Sub Legends
-            if (722 <= spec && spec <= 730)
-                return true; // Gen7 starters
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[spec];
-            var galarDex = pi.PokeDexIndex;
-            var armorDex = pi.ArmorDexIndex;
-            if (1 <= galarDex && galarDex <= 397)
-                return true;
-            if (1 <= armorDex && armorDex <= 210)
-                return true;
+            var species = pkm.Species;
+            if (species > Legal.MaxSpeciesID_8_R2)
+                return false;
+            if (Legal.Legends.Contains(species))
+            {
+                // Box Legends were only allowed for a single rule-set until May 1st.
+                // This rule-set disallowed Mythicals, but everything else present in the game was usable.
+                if (Legal.Mythicals.Contains(species))
+                    return false;
 
-            return false;
+                if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
+                {
+                    if (pkm.MetDate >= new DateTime(2021, 5, 1))
+                        return false;
+                }
+            }
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species];
+            return pi.IsPresentInGame;
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, object encounterContent)
+        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterable enc)
         {
-            if (!(pkm is IRibbonSetEvent3 set1))
+            if (pkm is not IRibbonSetEvent3 set1)
                 yield break;
             var names = set1.RibbonNames();
             var sb = set1.RibbonBits();
-            var eb = encounterContent is IRibbonSetEvent3 e3 ? e3.RibbonBits() : new bool[sb.Length];
+            var eb = enc is IRibbonSetEvent3 e3 ? e3.RibbonBits() : new bool[sb.Length];
 
-            if (pkm.Gen3)
+            if (enc.Generation == 3)
             {
                 eb[0] = sb[0]; // permit Earth Ribbon
-                if (pkm.Version == 15 && encounterContent is EncounterStaticShadow s)
+                if (pkm.Version == 15 && enc is EncounterStaticShadow s)
                 {
                     // only require national ribbon if no longer on origin game
-                    bool xd = s.Version == GameVersion.XD;
-                    eb[1] = !((xd && pkm is XK3 x && !x.RibbonNational) || (!xd && pkm is CK3 c && !c.RibbonNational));
+                    bool untraded = s.Version == GameVersion.XD
+                        ? pkm is XK3 {RibbonNational: false}
+                        : pkm is CK3 {RibbonNational: false};
+                    eb[1] = !untraded;
                 }
             }
 
@@ -454,15 +455,15 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, object encounterContent)
+        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, IEncounterable enc)
         {
-            if (!(pkm is IRibbonSetEvent4 set2))
+            if (pkm is not IRibbonSetEvent4 set2)
                 yield break;
             var names = set2.RibbonNames();
             var sb = set2.RibbonBits();
-            var eb = encounterContent is IRibbonSetEvent4 e4 ? e4.RibbonBits() : new bool[sb.Length];
+            var eb = enc is IRibbonSetEvent4 e4 ? e4.RibbonBits() : new bool[sb.Length];
 
-            if (encounterContent is EncounterStatic s && s.RibbonWishing)
+            if (enc is EncounterStatic7 {Species: (int)Species.Magearna})
                 eb[1] = true; // require Wishing Ribbon
 
             for (int i = 0; i < sb.Length; i++)
@@ -490,6 +491,41 @@ namespace PKHeX.Core
             if (gen == 4 && species == (int)Species.Pichu && form == 1) // spiky
                 return false;
             return IsAllowedBattleFrontier(species);
+        }
+
+        private static bool CanHaveFootprintRibbon(PKM pkm, int gen)
+        {
+            if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
+                return true;
+            // Gen5: Can't obtain
+            // Gen6/7: Increase level by 30 from original level
+            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level >= 30))
+                return true;
+
+            // Gen8: Can't obtain
+            return false;
+        }
+
+        private static bool CanHaveRibbonWinning(PKM pkm, IEncounterable enc, int gen)
+        {
+            if (gen != 3)
+                return false;
+            if (!IsAllowedBattleFrontier(pkm.Species))
+                return false;
+            if (pkm.Format == 3)
+                return pkm.Met_Level <= 50;
+
+            // Most encounter types can be below level 50; only Shadow Dragonite & Tyranitar, and select Gen3 Event Gifts.
+            // These edge cases can't be obtained below level 50, unlike some wild Pokémon which can be encountered at different locations for lower levels.
+            if (enc.LevelMin <= 50)
+                return true;
+
+            return enc is not EncounterStaticShadow or WC3;
+        }
+
+        private static bool CanHaveRibbonVictory(PKM pkm, int gen)
+        {
+            return gen == 3 && IsAllowedBattleFrontier(pkm.Species);
         }
     }
 }

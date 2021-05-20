@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -103,22 +102,7 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls5 = new HashSet<int>
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-            // HGSS balls not usable
-            // Dream ball not usable in wild
-        };
-
-        internal static readonly HashSet<int> DreamWorldBalls = new HashSet<int> (WildPokeBalls5.Concat(new[] { 25 }));
-
-        internal static readonly int[] FutureEvolutionsGen5 =
-        {
-            700
-        };
-
-        internal static readonly HashSet<int> UnreleasedItems_5 = new HashSet<int>
+        internal static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -137,9 +121,7 @@ namespace PKHeX.Core
             499, // Sport Ball
             500, // Park Ball
             576, // Dream Ball
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2 + 1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
+        });
 
         internal static readonly int[][] Tutors_B2W2 =
         {
@@ -149,7 +131,7 @@ namespace PKHeX.Core
             new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 } // Nacrene City
         };
 
-        internal static readonly HashSet<int> ValidMet_BW = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_BW = new()
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040,
@@ -159,7 +141,7 @@ namespace PKHeX.Core
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
         };
 
-        internal static readonly HashSet<int> ValidMet_B2W2 = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_B2W2 = new()
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022,      024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,      //023 Route 10, 040->134 Victory Road
@@ -171,85 +153,12 @@ namespace PKHeX.Core
             141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153,
         };
 
-        internal static readonly HashSet<int> EggLocations5 = new HashSet<int>
+        internal static readonly HashSet<int> EggLocations5 = new()
         {
             Locations.LinkTrade5NPC,
             Locations.LinkTrade5,
             Locations.Daycare5,
             60003, // Breeder (NPC)
-        };
-
-        /// <summary>
-        /// Some mixed-gender species were only distributed male-only. Ban hidden abilities on these species when bred in Gen5.
-        /// </summary>
-        internal static readonly HashSet<int> Ban_BreedHidden5 = new HashSet<int>
-        {
-            // Only males distributed; unable to pass to offspring
-            001, // Bulbasaur
-            004, // Charmander
-            007, // Squirtle
-            128, // Tauros
-            152, // Chikorita
-            155, // Cyndaquil
-            158, // Totodile
-            236, // Tyrogue
-            252, // Treecko
-            255, // Torchic
-            258, // Mudkip
-            387, // Turtwig
-            390, // Chimchar
-            393, // Piplup
-            511, // Pansage
-            513, // Pansear
-            515, // Panpour
-            574, // Gothita
-
-            // Genderless; unable to pass to offspring
-            081, // Magnemite
-            100, // Voltorb
-            120, // Staryu
-            132, // Ditto... can't breed anyway.
-            137, // Porygon
-            374, // Beldum
-            436, // Bronzor
-            622, // Golett
-
-            // Not available at all
-            092, // Gastly
-            109, // Koffing
-            200, // Misdreavus
-            201, // Unown
-            287, // Slakoth
-            311, // Plusle
-            311, // Minun
-            337, // Lunatone
-            338, // Solrock
-            343, // Baltoy
-            351, // Castform
-            352, // Kecleon
-            355, // Duskull
-            358, // Chimecho
-            420, // Cherrim
-            433, // Chingling
-            479, // Rotom
-            489, // Phione
-            495, // Snivy
-            498, // Tepig
-            501, // Oshawott
-            538, // Throh
-            539, // Sawk
-            561, // Sigilyph
-            562, // Yamask
-            566, // Archen
-            570, // Zorua
-            597, // Ferroseed
-            599, // Klink
-            602, // Tynamo
-            607, // Litwick
-            615, // Cryogonal
-            627, // Rufflet
-            633, // Deino
-            636, // Larvesta
         };
     }
 }

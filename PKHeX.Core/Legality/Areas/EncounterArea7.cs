@@ -1,81 +1,71 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.Gen7"/> encounter area
     /// </summary>
-    public sealed class EncounterArea7 : EncounterArea32
+    public sealed record EncounterArea7 : EncounterArea
     {
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
+        public static EncounterArea7[] GetAreas(byte[][] input, GameVersion game)
         {
-            int species = pkm.Species;
-            int form = pkm.AltForm;
+            var result = new EncounterArea7[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea7(input[i], game);
+            return result;
+        }
 
-            // Edge Case Handling
-            switch (species)
+        private EncounterArea7(byte[] data, GameVersion game) : base(game)
+        {
+            Location = data[0] | (data[1] << 8);
+            Type = (SlotType)data[2];
+
+            Slots = ReadSlots(data);
+        }
+
+        private EncounterSlot7[] ReadSlots(byte[] data)
+        {
+            const int size = 4;
+            int count = (data.Length - 4) / size;
+            var slots = new EncounterSlot7[count];
+            for (int i = 0; i < slots.Length; i++)
             {
-                case 744 when form == 1: // Rockruff Event
-                case 745 when form == 2: // Lycanroc Event
-                    yield break;
+                int offset = 4 + (size * i);
+                ushort SpecForm = BitConverter.ToUInt16(data, offset);
+                int species = SpecForm & 0x3FF;
+                int form = SpecForm >> 11;
+                int min = data[offset + 2];
+                int max = data[offset + 3];
+                slots[i] = new EncounterSlot7(this, species, form, min, max);
             }
 
-            EncounterSlot? slotMax = null;
-            void CachePressureSlot(EncounterSlot s)
-            {
-                if (slotMax != null && s.LevelMax > slotMax.LevelMax)
-                    slotMax = s;
-            }
+            return slots;
+        }
 
-            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        {
+            foreach (var slot in Slots)
             {
-                foreach (var slot in slots)
+                foreach (var evo in chain)
                 {
-                    if (species == slot.Species ? slot.Form == form : slot.Form == 0)
-                        yield return slot;
-                    CachePressureSlot(slot);
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                        break;
+
+                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(slot.Species))
+                    {
+                        if (slot.Species != (int)Species.Minior) // Random Color, edge case
+                            break;
+                    }
+
+                    yield return slot;
+                    break;
                 }
             }
-            else if (ShouldMatchSlotForm()) // match slot form
-            {
-                foreach (var slot in slots)
-                {
-                    if (slot.Form == form)
-                        yield return slot;
-                    CachePressureSlot(slot);
-                }
-            }
-            else
-            {
-                foreach (var slot in slots)
-                {
-                    yield return slot; // no form checking
-                    CachePressureSlot(slot);
-                }
-            }
-
-            // Filter for Form Specific
-            // Pressure Slot
-            if (slotMax == null)
-                yield break;
-
-            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
-            {
-                if (species == slotMax.Species ? slotMax.Form == form : slotMax.Form == 0)
-                    yield return GetPressureSlot(slotMax, pkm);
-            }
-            else if (ShouldMatchSlotForm()) // match slot form
-            {
-                if (slotMax.Form == form)
-                    yield return GetPressureSlot(slotMax, pkm);
-            }
-            else
-            {
-                yield return GetPressureSlot(slotMax, pkm);
-            }
-
-            bool ShouldMatchSlotForm() => Legal.WildForms.Contains(species) || Legal.AlolanOriginForms.Contains(species) || FormConverter.IsTotemForm(species, form, 7);
         }
     }
 }

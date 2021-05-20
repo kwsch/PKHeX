@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
-    public sealed class PK1 : GBPKM
+    public sealed class PK1 : GBPKML
     {
         public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
@@ -16,23 +16,30 @@ namespace PKHeX.Core
 
         public override int Format => 1;
 
-        public PK1(bool jp = false) : base(new byte[PokeCrypto.SIZE_1PARTY], jp) { }
-        public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
+        public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+        private static byte[] EnsurePartySize(byte[] data)
+        {
+            if (data.Length != PokeCrypto.SIZE_1PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_1PARTY);
+            return data;
+        }
 
         public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
         {
             Identifier = Identifier,
-            otname = (byte[])otname.Clone(),
-            nick = (byte[])nick.Clone(),
+            OT_Trash = otname,
+            Nickname_Trash = nick,
         };
 
         protected override byte[] Encrypt() => new PokeList1(this).Write();
 
         #region Stored Attributes
-        public int SpeciesID1 { get => Data[0]; set => Data[0] = (byte)value; } // raw access
+        public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
         public override int Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
-        public int Stat_LevelBox { get => Data[3];set => Data[3] = (byte)value; }
+        public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
         public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
         public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
         public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
@@ -47,9 +54,7 @@ namespace PKHeX.Core
         public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
         public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x15); }
         public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x17); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x17); }
-        public int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
-        public override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
-        public override int EV_SPD { get => EV_SPC; set { } }
+        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
         public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x1B); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1B); }
         public override int Move1_PP { get => Data[0x1D] & 0x3F; set => Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x1E] & 0x3F; set => Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | Math.Min(63, value)); }
@@ -73,9 +78,11 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
+        private static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
+
         private void SetSpeciesValues(int value)
         {
-            var updated = (byte)SpeciesConverter.SetG1Species(value);
+            var updated = SpeciesConverter.SetG1Species(value);
             if (SpeciesID1 == updated)
                 return;
 
@@ -85,23 +92,34 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
+            if (TradebackStatus == TradebackType.WasTradeback)
+                return;
+            if (IsCatchRateHeldItem(Catch_Rate))
+                return;
+            if (value == (int)Core.Species.Pikachu && Catch_Rate == 0xA3) // Light Ball (starter)
+                return;
+
+            int Rate = Catch_Rate;
+            int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
+            for (int z = baseSpecies; z <= value; z++)
             {
-                int Rate = Catch_Rate;
-                int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
-                for (int z = baseSpecies; z <= value; z++)
-                {
-                    if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
-                        return;
-                }
-                Catch_Rate = PersonalTable.RB[value].CatchRate;
+                if (Rate == PersonalTable.RB[z].CatchRate || Rate == PersonalTable.Y[z].CatchRate)
+                    return;
             }
+            Catch_Rate = PersonalTable.RB[value].CatchRate;
         }
 
         public override int Version { get => (int)GameVersion.RBY; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
         public override bool CanHoldItem(IReadOnlyList<ushort> valid) => false;
+        public override int Met_Location { get => 0; set { } }
+        public override int OT_Gender { get => 0; set { } }
+        public override int Met_Level { get => 0; set { } }
+        public override int CurrentFriendship { get => 0; set { } }
+        public override bool IsEgg { get => false; set { } }
+        public override int HeldItem { get => 0; set { } }
+        public override int OT_Friendship { get => 0; set { } }
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -109,14 +127,17 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_1;
         public override int MaxItemID => Legal.MaxItemID_1;
 
+        // Extra
+        public int Gen2Item => ItemConverter.GetItemFuture1(Catch_Rate);
+
         public PK2 ConvertToPK2()
         {
-            PK2 pk2 = new PK2(Japanese) {Species = Species};
+            PK2 pk2 = new(Japanese) {Species = Species};
             Array.Copy(Data, 0x7, pk2.Data, 0x1, 0x1A);
             otname.CopyTo(pk2.otname, 0);
             nick.CopyTo(pk2.nick, 0);
 
-            pk2.HeldItem = ItemConverter.GetItemFuture1(pk2.HeldItem);
+            pk2.HeldItem = Gen2Item;
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
             pk2.Stat_Level = CurrentLevel;
 
@@ -146,9 +167,9 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
+                Met_Location = Locations.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
-                OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
+                OT_Name = StringConverter12Transporter.GetString(otname, Japanese),
                 IsNicknamed = false,
 
                 CurrentHandler = 1,
@@ -170,18 +191,23 @@ namespace PKHeX.Core
             int flawless = Species == (int)Core.Species.Mew ? 5 : 3;
             var rnd = Util.Rand;
             for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+                new_ivs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
                 new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
-            if (IsShiny)
-                pk7.SetShiny();
+            switch (IsShiny ? Shiny.Always : Shiny.Never)
+            {
+                case Shiny.Always when !pk7.IsShiny: // Force Square
+                    pk7.PID = (uint)(((pk7.TID ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF));
+                    break;
+                case Shiny.Never when pk7.IsShiny: // Force Not Shiny
+                    pk7.PID ^= 0x1000_0000;
+                    break;
+            }
 
-            int abil = 2; // Hidden
-            if (Legal.TransferSpeciesDefaultAbility_1.Contains(Species))
-                abil = 0; // Reset
+            int abil = Legal.TransferSpeciesDefaultAbilityGen1(Species) ? 0 : 2; // Hidden
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
             if (Species == (int)Core.Species.Mew) // Mew gets special treatment.
@@ -191,10 +217,10 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = StringConverter12.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = StringConverter12Transporter.GetString(nick, Japanese);
             }
 
-            pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT(bank:true); // oh no, memories on gen7 pkm
 
             pk7.RefreshChecksum();
             return pk7;

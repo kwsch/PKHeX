@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
         private void SAV_BoxViewer_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Remove viewer from manager list
-            Box.M.Boxes.Remove(Box);
+            Box.M?.Boxes.Remove(Box);
             parent.EditEnv.Slots.Publisher.Subscribers.Remove(Box);
         }
     }

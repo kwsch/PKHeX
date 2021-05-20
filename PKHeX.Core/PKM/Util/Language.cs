@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core
 {
@@ -10,72 +11,48 @@ namespace PKHeX.Core
     {
         private static readonly int[] Languages_3 =
         {
-            (int)LanguageID.Japanese,
-            (int)LanguageID.English,
-            (int)LanguageID.French,
-            (int)LanguageID.German,
-            (int)LanguageID.Spanish,
-            (int)LanguageID.Italian,
+            (int)Japanese,
+            (int)English,
+            (int)French,
+            (int)German,
+            (int)Spanish,
+            (int)Italian,
         };
 
         // check Korean for the VC case, never possible to match string outside of this case
-        private static readonly int[] Languages_GB = Languages_3.Concat(new[] {(int)LanguageID.Korean}).ToArray();
+        private static readonly int[] Languages_GB = Languages_3.Concat(new[] {(int)Korean}).ToArray();
         private static readonly int[] Languages_46 = Languages_GB;
-        private static readonly int[] Languages_7 = Languages_46.Concat(new[] {(int)LanguageID.ChineseS, (int)LanguageID.ChineseT}).ToArray();
+        private static readonly int[] Languages_7 = Languages_46.Concat(new[] {(int)ChineseS, (int)ChineseT}).ToArray();
+        private const LanguageID SafeLanguage = English;
 
-        public static IReadOnlyList<int> GetAvailableGameLanguages(int generation = PKX.Generation)
+        public static IReadOnlyList<int> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch
         {
-            if (generation < 3)
-                return Languages_GB;
-            if (generation < 4)
-                return Languages_3;
-            if (generation < 7)
-                return Languages_46;
-            return Languages_7;
-        }
+            < 3 => Languages_GB,
+            < 4 => Languages_3,
+            < 7 => Languages_46,
+              _ => Languages_7,
+        };
 
-        public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any)
+        public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
         {
-            switch (generation)
-            {
-                case 1:
-                case 2:
-                    if (Languages_GB.Contains((int)prefer) && (prefer != LanguageID.Korean || game == GameVersion.C))
-                        return prefer;
-                    return LanguageID.English;
-                case 3:
-                    if (Languages_3.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-                case 4:
-                case 5:
-                case 6:
-                    if (Languages_46.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-                default:
-                    if (Languages_7.Contains((int)prefer))
-                        return prefer;
-                    return LanguageID.English;
-            }
-        }
+            1 when game == GameVersion.BU => Japanese,
+            1 or 2      => Languages_GB.Contains((int)prefer) && (prefer != Korean || game == GameVersion.C) ? prefer : SafeLanguage,
+            3           => Languages_3 .Contains((int)prefer) ? prefer : SafeLanguage,
+            4 or 5 or 6 => Languages_46.Contains((int)prefer) ? prefer : SafeLanguage,
+            _           => Languages_7 .Contains((int)prefer) ? prefer : SafeLanguage,
+        };
 
-        public static string GetLanguage2CharName(this LanguageID lang)
+        public static string GetLanguage2CharName(this LanguageID language) => language switch
         {
-            switch (lang)
-            {
-                default: return GameLanguage.DefaultLanguage;
-
-                case LanguageID.Japanese: return "ja";
-                case LanguageID.French: return "fr";
-                case LanguageID.Italian: return "it";
-                case LanguageID.German: return "de";
-                case LanguageID.Spanish: return "es";
-                case LanguageID.Korean: return "ko";
-                case LanguageID.ChineseS:
-                case LanguageID.ChineseT: return "zh";
-            }
-        }
+            Japanese => "ja",
+            French => "fr",
+            Italian => "it",
+            German => "de",
+            Spanish => "es",
+            Korean => "ko",
+            ChineseS or ChineseT => "zh",
+            _ => GameLanguage.DefaultLanguage,
+        };
 
         /// <summary>
         /// Gets the Main Series language ID from a GameCube (C/XD) language ID.
@@ -84,7 +61,7 @@ namespace PKHeX.Core
         /// <returns>Main Series language ID.</returns>
         public static byte GetMainLangIDfromGC(byte value)
         {
-            if (value <= 2 || value > 7)
+            if (value is <= 2 or > 7)
                 return value;
             return (byte) GCtoMainSeries[(LanguageGC)value];
         }
@@ -96,27 +73,27 @@ namespace PKHeX.Core
         /// <returns>GameCube (C/XD) language ID.</returns>
         public static byte GetGCLangIDfromMain(byte value)
         {
-            if (value <= 2 || value > 7)
+            if (value is <= 2 or > 7)
                 return value;
             return (byte) MainSeriesToGC[(LanguageID)value];
         }
 
-        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new Dictionary<LanguageID, LanguageGC>
+        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new()
         {
-            {LanguageID.German, LanguageGC.German},
-            {LanguageID.French, LanguageGC.French},
-            {LanguageID.Italian, LanguageGC.Italian},
-            {LanguageID.Spanish, LanguageGC.Spanish},
-            {LanguageID.UNUSED_6, LanguageGC.UNUSED_6},
+            {German, LanguageGC.German},
+            {French, LanguageGC.French},
+            {Italian, LanguageGC.Italian},
+            {Spanish, LanguageGC.Spanish},
+            {UNUSED_6, LanguageGC.UNUSED_6},
         };
 
-        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new Dictionary<LanguageGC, LanguageID>
+        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new()
         {
-            {LanguageGC.German, LanguageID.German},
-            {LanguageGC.French, LanguageID.French},
-            {LanguageGC.Italian, LanguageID.Italian},
-            {LanguageGC.Spanish, LanguageID.Spanish},
-            {LanguageGC.UNUSED_6, LanguageID.UNUSED_6},
+            {LanguageGC.German, German},
+            {LanguageGC.French, French},
+            {LanguageGC.Italian, Italian},
+            {LanguageGC.Spanish, Spanish},
+            {LanguageGC.UNUSED_6, UNUSED_6},
         };
     }
 }

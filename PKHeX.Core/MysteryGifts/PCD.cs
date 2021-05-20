@@ -12,10 +12,10 @@ namespace PKHeX.Core
     /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
     /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
     /// </remarks>
-    public sealed class PCD : DataMysteryGift
+    public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x358; // 856
-        public override int Format => 4;
+        public override int Generation => 4;
 
         public override int Level
         {
@@ -49,13 +49,9 @@ namespace PKHeX.Core
 
         private PGT? _gift;
 
-        public byte[] Information
-        {
-            get => Data.SliceEnd(PGT.Size);
-            set => value.CopyTo(Data, Data.Length - PGT.Size);
-        }
+        public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
+        public void SetMetadata(byte[] data) => data.CopyTo(Data, Data.Length - PGT.Size);
 
-        public override object Content => Gift.PK;
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
         public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
         public override bool IsItem { get => Gift.IsItem; set => Gift.IsItem = value; }
@@ -129,7 +125,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)
@@ -161,25 +157,53 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != evo.Form && !Legal.IsFormChangeable(pkm, Species, wc.AltForm))
+            if (wc.Form != evo.Form && !FormInfo.IsFormChangeable(wc.Species, wc.Form, pkm.Form, pkm.Format))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
-            if (wc.PID == 1 && pkm.IsShiny) return false;
-            if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm is IContestStats s && s.IsContestBelow(wc))
+            // Milotic is the only gift to come with Contest stats.
+            if (wc.Species == (int)Core.Species.Milotic && pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
+
+            if (wc.PID == 1)
+            {
+                // Random PID, never shiny
+                // PID=0 was never used (pure random).
+                if (pkm.IsShiny)
+                    return false;
+
+                // Don't check gender. All gifts that have PID=1 are genderless, with one exception.
+                // The KOR Arcanine can end up with either gender, even though the template may have a specified gender.
+            }
+            else
+            {
+                // Fixed PID
+                if (wc.Gender != pkm.Gender)
+                    return false;
+            }
 
             return true;
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
-        {
-            if (!CanBeReceivedBy(pkm.Version))
-                return false;
-            return Species != pkm.Species;
-        }
+        protected override bool IsMatchPartial(PKM pkm) => CanBeReceivedBy(pkm.Version);
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
+
+        public bool RibbonEarth { get => Gift.RibbonEarth; set => Gift.RibbonEarth = value; }
+        public bool RibbonNational { get => Gift.RibbonNational; set => Gift.RibbonNational = value; }
+        public bool RibbonCountry { get => Gift.RibbonCountry; set => Gift.RibbonCountry = value; }
+        public bool RibbonChampionBattle { get => Gift.RibbonChampionBattle; set => Gift.RibbonChampionBattle = value; }
+        public bool RibbonChampionRegional { get => Gift.RibbonChampionRegional; set => Gift.RibbonChampionRegional = value; }
+        public bool RibbonChampionNational { get => Gift.RibbonChampionNational; set => Gift.RibbonChampionNational = value; }
+        public bool RibbonClassic { get => Gift.RibbonClassic; set => Gift.RibbonClassic = value; }
+        public bool RibbonWishing { get => Gift.RibbonWishing; set => Gift.RibbonWishing = value; }
+        public bool RibbonPremier { get => Gift.RibbonPremier; set => Gift.RibbonPremier = value; }
+        public bool RibbonEvent { get => Gift.RibbonEvent; set => Gift.RibbonEvent = value; }
+        public bool RibbonBirthday { get => Gift.RibbonBirthday; set => Gift.RibbonBirthday = value; }
+        public bool RibbonSpecial { get => Gift.RibbonSpecial; set => Gift.RibbonSpecial = value; }
+        public bool RibbonWorld { get => Gift.RibbonWorld; set => Gift.RibbonWorld = value; }
+        public bool RibbonChampionWorld { get => Gift.RibbonChampionWorld; set => Gift.RibbonChampionWorld = value; }
+        public bool RibbonSouvenir { get => Gift.RibbonSouvenir; set => Gift.RibbonSouvenir = value; }
     }
 }

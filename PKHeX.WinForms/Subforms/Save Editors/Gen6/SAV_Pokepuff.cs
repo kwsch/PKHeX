@@ -7,15 +7,15 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Pokepuff : Form
     {
-        private readonly IPokePuff SAV;
+        private readonly ISaveBlock6Main SAV;
 
         public SAV_Pokepuff(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (IPokePuff)sav;
+            SAV = (ISaveBlock6Main)sav;
 
-            var puffs = SAV.Puff.Puffs;
+            var puffs = SAV.Puff.GetPuffs();
             Setup(puffs.Length);
             LoadPuffs(puffs);
 
@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvPuff = new DataGridViewComboBoxColumn
+            DataGridViewComboBoxColumn dgvPuff = new()
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
             };
@@ -85,19 +85,19 @@ namespace PKHeX.WinForms
         private void B_All_Click(object sender, EventArgs e)
         {
             SAV.Puff.MaxCheat(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private void B_None_Click(object sender, EventArgs e)
         {
             SAV.Puff.Reset();
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private void B_Sort_Click(object sender, EventArgs e)
         {
             SAV.Puff.Sort(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private byte[] GetPuffs()
@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
             var puffs = new List<byte>();
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                string puff = dgv.Rows[i].Cells[1].Value.ToString();
+                var puff = dgv.Rows[i].Cells[1].Value?.ToString();
                 int index = (byte)Array.IndexOf(pfa, puff);
                 puffs.Add((byte)index);
             }
@@ -115,7 +115,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             var puffs = GetPuffs();
-            SAV.Puff.Puffs = puffs;
+            SAV.Puff.SetPuffs(puffs);
             SAV.Puff.PuffCount = puffs.Length;
             Close();
         }

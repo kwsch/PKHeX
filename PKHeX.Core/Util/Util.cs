@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace PKHeX.Core
 {
@@ -51,8 +52,7 @@ namespace PKHeX.Core
                 if (!IsNum(c))
                     continue;
                 result *= 10;
-                result += c;
-                result -= '0';
+                result += (uint)(c - '0');
             }
             return result;
         }
@@ -123,23 +123,29 @@ namespace PKHeX.Core
 
         public static byte[] GetBytesFromHexString(string seed)
         {
-            return Enumerable.Range(0, seed.Length)
-                .Where(x => x % 2 == 0)
-                .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                .Reverse().ToArray();
+            byte[] result = new byte[seed.Length / 2];
+            for (int i = 0; i < result.Length; i++)
+            {
+                var slice = seed.Substring(i * 2, 2);
+                result[^(i+1)] = Convert.ToByte(slice, 16);
+            }
+            return result;
         }
 
         public static string GetHexStringFromBytes(byte[] data, int offset, int length)
         {
-            data = data.Skip(offset).Take(length).Reverse().ToArray();
-            return BitConverter.ToString(data).Replace("-", string.Empty);
+            data = data.Slice(offset, length);
+            var sb = new StringBuilder(data.Length * 2);
+            for (int i = data.Length - 1; i >= 0; i--)
+                sb.AppendFormat("{0:x2}", data[i]);
+            return sb.ToString();
         }
 
         private static bool IsNum(char c) => (uint)(c - '0') <= 9;
         private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
         private static bool IsHexLower(char c) => (uint)(c - 'a') <= 5;
         private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
-        private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
+        private static string TitleCase(string word) => char.ToUpper(word[0]) + word[1..].ToLower();
 
         /// <summary>
         /// Filters the string down to only valid hex characters, returning a new string.
@@ -154,13 +160,6 @@ namespace PKHeX.Core
         public static string ToTitleCase(string str) => string.IsNullOrWhiteSpace(str) ? string.Empty : string.Join(" ", str.Split(' ').Select(TitleCase));
 
         /// <summary>
-        /// Trims a string at the first instance of a 0xFFFF terminator.
-        /// </summary>
-        /// <param name="input">String to trim.</param>
-        /// <returns>Trimmed string.</returns>
-        public static string TrimFromFFFF(string input) => TrimFromFirst(input, (char)0xFFFF);
-
-        /// <summary>
         /// Trims a string at the first instance of a 0x0000 terminator.
         /// </summary>
         /// <param name="input">String to trim.</param>
@@ -171,7 +170,19 @@ namespace PKHeX.Core
         private static string TrimFromFirst(string input, char c)
         {
             int index = input.IndexOf(c);
-            return index < 0 ? input : input.Substring(0, index);
+            return index < 0 ? input : input[..index];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void TrimFromFirst(StringBuilder input, char c)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] != c)
+                    continue;
+                input.Remove(i, input.Length - i);
+                return;
+            }
         }
 
         public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray)

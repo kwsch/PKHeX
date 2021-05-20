@@ -56,7 +56,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(391, 326);
+            this.B_Save.Location = new System.Drawing.Point(533, 476);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 9;
@@ -67,7 +67,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(320, 326);
+            this.B_Cancel.Location = new System.Drawing.Point(462, 476);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(71, 23);
             this.B_Cancel.TabIndex = 8;
@@ -78,18 +78,18 @@ namespace PKHeX.WinForms
             // B_Output
             // 
             this.B_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Output.Location = new System.Drawing.Point(391, 12);
+            this.B_Output.Location = new System.Drawing.Point(533, 12);
             this.B_Output.Name = "B_Output";
             this.B_Output.Size = new System.Drawing.Size(75, 23);
             this.B_Output.TabIndex = 2;
-            this.B_Output.Text = "Output";
+            this.B_Output.Text = "Export";
             this.B_Output.UseVisualStyleBackColor = true;
             this.B_Output.Click += new System.EventHandler(this.B_Output_Click);
             // 
             // B_Import
             // 
             this.B_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Import.Location = new System.Drawing.Point(391, 34);
+            this.B_Import.Location = new System.Drawing.Point(533, 34);
             this.B_Import.Name = "B_Import";
             this.B_Import.Size = new System.Drawing.Size(75, 23);
             this.B_Import.TabIndex = 3;
@@ -106,7 +106,7 @@ namespace PKHeX.WinForms
             this.LB_Received.Location = new System.Drawing.Point(12, 31);
             this.LB_Received.Name = "LB_Received";
             this.LB_Received.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_Received.Size = new System.Drawing.Size(78, 316);
+            this.LB_Received.Size = new System.Drawing.Size(78, 472);
             this.LB_Received.Sorted = true;
             this.LB_Received.TabIndex = 1;
             this.LB_Received.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LB_Received_KeyDown);
@@ -141,7 +141,7 @@ namespace PKHeX.WinForms
             this.RTB.Location = new System.Drawing.Point(111, 59);
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
-            this.RTB.Size = new System.Drawing.Size(355, 100);
+            this.RTB.Size = new System.Drawing.Size(497, 100);
             this.RTB.TabIndex = 4;
             this.RTB.Text = "";
             // 
@@ -157,7 +157,7 @@ namespace PKHeX.WinForms
             // L_QR
             // 
             this.L_QR.AutoSize = true;
-            this.L_QR.Location = new System.Drawing.Point(249, 7);
+            this.L_QR.Location = new System.Drawing.Point(259, 21);
             this.L_QR.Name = "L_QR";
             this.L_QR.Size = new System.Drawing.Size(26, 13);
             this.L_QR.TabIndex = 62;
@@ -167,9 +167,9 @@ namespace PKHeX.WinForms
             // PB_Preview
             // 
             this.PB_Preview.BackColor = System.Drawing.Color.Transparent;
-            this.PB_Preview.Location = new System.Drawing.Point(242, 23);
+            this.PB_Preview.Location = new System.Drawing.Point(295, 2);
             this.PB_Preview.Name = "PB_Preview";
-            this.PB_Preview.Size = new System.Drawing.Size(40, 30);
+            this.PB_Preview.Size = new System.Drawing.Size(68, 56);
             this.PB_Preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Preview.TabIndex = 63;
             this.PB_Preview.TabStop = false;
@@ -212,13 +212,13 @@ namespace PKHeX.WinForms
             this.FLP_Gifts.AutoScroll = true;
             this.FLP_Gifts.Location = new System.Drawing.Point(111, 164);
             this.FLP_Gifts.Name = "FLP_Gifts";
-            this.FLP_Gifts.Size = new System.Drawing.Size(355, 153);
+            this.FLP_Gifts.Size = new System.Drawing.Size(497, 306);
             this.FLP_Gifts.TabIndex = 5;
             // 
             // B_UnusedAll
             // 
             this.B_UnusedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_UnusedAll.Location = new System.Drawing.Point(111, 326);
+            this.B_UnusedAll.Location = new System.Drawing.Point(253, 476);
             this.B_UnusedAll.Name = "B_UnusedAll";
             this.B_UnusedAll.Size = new System.Drawing.Size(71, 23);
             this.B_UnusedAll.TabIndex = 6;
@@ -229,7 +229,7 @@ namespace PKHeX.WinForms
             // B_UsedAll
             // 
             this.B_UsedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_UsedAll.Location = new System.Drawing.Point(182, 326);
+            this.B_UsedAll.Location = new System.Drawing.Point(324, 476);
             this.B_UsedAll.Name = "B_UsedAll";
             this.B_UsedAll.Size = new System.Drawing.Size(75, 23);
             this.B_UsedAll.TabIndex = 7;
@@ -242,7 +242,7 @@ namespace PKHeX.WinForms
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 369);
+            this.ClientSize = new System.Drawing.Size(634, 511);
             this.Controls.Add(this.B_UnusedAll);
             this.Controls.Add(this.B_UsedAll);
             this.Controls.Add(this.FLP_Gifts);
@@ -260,7 +260,7 @@ namespace PKHeX.WinForms
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 600);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(500, 400);
+            this.MinimumSize = new System.Drawing.Size(650, 550);
             this.Name = "SAV_Wondercard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wonder Card I/O";

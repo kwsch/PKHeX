@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -9,22 +10,22 @@ namespace PKHeX.Core
     public abstract class SAV8 : SaveFile, ISaveBlock8Main
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "Main SAV|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
-        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen == 8; // future: change to <= when HOME released
+            return gen <= 8; // future: change to <= when HOME released
         }).ToArray();
 
         protected SAV8(byte[] data) : base(data) { }
         protected SAV8() { }
 
         // Configuration
-        public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+        public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
         public override PKM BlankPKM => new PK8();
         public override Type PKMType => typeof(PK8);
 
@@ -54,28 +55,25 @@ namespace PKHeX.Core
         public abstract TrainerCard8 TrainerCard { get; }
         public abstract RaidSpawnList8 Raid { get; }
         public abstract RaidSpawnList8 RaidArmor { get; }
+        public abstract RaidSpawnList8 RaidCrown { get; }
         public abstract TitleScreen8 TitleScreen { get; }
         public abstract TeamIndexes8 TeamIndexes { get; }
         #endregion
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                var game = (GameVersion)Game;
-                if (game == GameVersion.SW || game == GameVersion.SH)
-                    return game;
-                return GameVersion.Invalid;
-            }
-        }
+            (int)GameVersion.SW => GameVersion.SW,
+            (int)GameVersion.SH => GameVersion.SH,
+            _ => GameVersion.Invalid
+        };
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+            return StringConverter.SetString7b(value, maxLength, PadToSize, PadWith);
         }
 
         // Player Information
@@ -93,7 +91,7 @@ namespace PKHeX.Core
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
         // Inventory
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
@@ -102,14 +100,33 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             PK8 pk = (PK8)pkm;
             // Apply to this Save File
             DateTime Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
+
+            if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk.Species, pk.Form))
+            {
+                pk.FormArgumentElapsed = pk.FormArgumentMaximum = 0;
+                pk.FormArgumentRemain = (byte)GetFormArgument(pkm);
+            }
+
             pkm.RefreshChecksum();
             AddCountAcquired(pkm);
+        }
+
+        private static uint GetFormArgument(PKM pkm)
+        {
+            if (pkm.Form == 0)
+                return 0;
+            return pkm.Species switch
+            {
+                (int)Species.Furfrou => 5u, // Furfrou
+                (int)Species.Hoopa => 3u, // Hoopa
+                _ => 0u
+            };
         }
 
         private void AddCountAcquired(PKM pkm)
@@ -123,6 +140,7 @@ namespace PKHeX.Core
                 Records.AddRecord(01); // wild capture
                 Records.AddRecord(06); // total captured
                 Records.AddRecord(16); // wild encountered
+                Records.AddRecord(23); // total battled
             }
             if (pkm.CurrentHandler == 1)
                 Records.AddRecord(17, 2); // trade * 2 -- these games count 1 trade as 2 for some reason.
@@ -140,7 +158,6 @@ namespace PKHeX.Core
 
         protected override byte[] BoxBuffer => BoxInfo.Data;
         protected override byte[] PartyBuffer => PartyInfo.Data;
-        public override int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_PARTY); // party format in boxes!
         public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
     }

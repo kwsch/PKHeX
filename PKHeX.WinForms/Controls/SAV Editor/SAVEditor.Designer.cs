@@ -20,6 +20,8 @@
             base.Dispose(disposing);
             SortMenu?.Dispose();
             menu?.Dispose();
+            Menu_Undo = null;
+            Menu_Redo = null;
         }
 
         #region Component Designer generated code
@@ -82,7 +84,10 @@
             this.B_MailBox = new System.Windows.Forms.Button();
             this.B_OpenApricorn = new System.Windows.Forms.Button();
             this.B_Raids = new System.Windows.Forms.Button();
+            this.B_RaidArmor = new System.Windows.Forms.Button();
+            this.B_RaidCrown = new System.Windows.Forms.Button();
             this.B_Blocks = new System.Windows.Forms.Button();
+            this.B_OtherSlots = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -93,7 +98,6 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_RaidArmor = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -189,10 +193,10 @@
             // 
             this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
             this.SL_Extra.FlagIllegal = false;
-            this.SL_Extra.Location = new System.Drawing.Point(366, 0);
+            this.SL_Extra.Location = new System.Drawing.Point(341, 0);
             this.SL_Extra.Name = "SL_Extra";
             this.SL_Extra.SAV = null;
-            this.SL_Extra.Size = new System.Drawing.Size(75, 337);
+            this.SL_Extra.Size = new System.Drawing.Size(100, 337);
             this.SL_Extra.TabIndex = 30;
             this.SL_Extra.ViewIndex = -1;
             // 
@@ -211,7 +215,7 @@
             this.GB_Daycare.Controls.Add(this.DayCare_HasEgg);
             this.GB_Daycare.Location = new System.Drawing.Point(16, 4);
             this.GB_Daycare.Name = "GB_Daycare";
-            this.GB_Daycare.Size = new System.Drawing.Size(205, 170);
+            this.GB_Daycare.Size = new System.Drawing.Size(205, 191);
             this.GB_Daycare.TabIndex = 28;
             this.GB_Daycare.TabStop = false;
             this.GB_Daycare.Text = "Daycare";
@@ -219,7 +223,7 @@
             // L_XP2
             // 
             this.L_XP2.AutoSize = true;
-            this.L_XP2.Location = new System.Drawing.Point(74, 88);
+            this.L_XP2.Location = new System.Drawing.Point(84, 110);
             this.L_XP2.Name = "L_XP2";
             this.L_XP2.Size = new System.Drawing.Size(30, 13);
             this.L_XP2.TabIndex = 17;
@@ -228,7 +232,7 @@
             // L_XP1
             // 
             this.L_XP1.AutoSize = true;
-            this.L_XP1.Location = new System.Drawing.Point(74, 35);
+            this.L_XP1.Location = new System.Drawing.Point(84, 47);
             this.L_XP1.Name = "L_XP1";
             this.L_XP1.Size = new System.Drawing.Size(30, 13);
             this.L_XP1.TabIndex = 16;
@@ -236,7 +240,7 @@
             // 
             // TB_Daycare2XP
             // 
-            this.TB_Daycare2XP.Location = new System.Drawing.Point(108, 85);
+            this.TB_Daycare2XP.Location = new System.Drawing.Point(118, 107);
             this.TB_Daycare2XP.Name = "TB_Daycare2XP";
             this.TB_Daycare2XP.ReadOnly = true;
             this.TB_Daycare2XP.Size = new System.Drawing.Size(73, 20);
@@ -244,7 +248,7 @@
             // 
             // TB_Daycare1XP
             // 
-            this.TB_Daycare1XP.Location = new System.Drawing.Point(108, 32);
+            this.TB_Daycare1XP.Location = new System.Drawing.Point(118, 44);
             this.TB_Daycare1XP.Name = "TB_Daycare1XP";
             this.TB_Daycare1XP.ReadOnly = true;
             this.TB_Daycare1XP.Size = new System.Drawing.Size(73, 20);
@@ -253,7 +257,7 @@
             // L_DC2
             // 
             this.L_DC2.AutoSize = true;
-            this.L_DC2.Location = new System.Drawing.Point(74, 71);
+            this.L_DC2.Location = new System.Drawing.Point(84, 93);
             this.L_DC2.Name = "L_DC2";
             this.L_DC2.Size = new System.Drawing.Size(19, 13);
             this.L_DC2.TabIndex = 13;
@@ -262,7 +266,7 @@
             // L_DC1
             // 
             this.L_DC1.AutoSize = true;
-            this.L_DC1.Location = new System.Drawing.Point(74, 18);
+            this.L_DC1.Location = new System.Drawing.Point(84, 30);
             this.L_DC1.Name = "L_DC1";
             this.L_DC1.Size = new System.Drawing.Size(19, 13);
             this.L_DC1.TabIndex = 12;
@@ -271,7 +275,7 @@
             // L_DaycareSeed
             // 
             this.L_DaycareSeed.AutoSize = true;
-            this.L_DaycareSeed.Location = new System.Drawing.Point(23, 143);
+            this.L_DaycareSeed.Location = new System.Drawing.Point(23, 167);
             this.L_DaycareSeed.Name = "L_DaycareSeed";
             this.L_DaycareSeed.Size = new System.Drawing.Size(35, 13);
             this.L_DaycareSeed.TabIndex = 9;
@@ -280,7 +284,7 @@
             // TB_RNGSeed
             // 
             this.TB_RNGSeed.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_RNGSeed.Location = new System.Drawing.Point(61, 140);
+            this.TB_RNGSeed.Location = new System.Drawing.Point(61, 164);
             this.TB_RNGSeed.MaxLength = 16;
             this.TB_RNGSeed.Name = "TB_RNGSeed";
             this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
@@ -291,9 +295,9 @@
             // dcpkx2
             // 
             this.dcpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dcpkx2.Location = new System.Drawing.Point(26, 71);
+            this.dcpkx2.Location = new System.Drawing.Point(11, 81);
             this.dcpkx2.Name = "dcpkx2";
-            this.dcpkx2.Size = new System.Drawing.Size(42, 32);
+            this.dcpkx2.Size = new System.Drawing.Size(70, 58);
             this.dcpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx2.TabIndex = 11;
             this.dcpkx2.TabStop = false;
@@ -301,9 +305,9 @@
             // dcpkx1
             // 
             this.dcpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dcpkx1.Location = new System.Drawing.Point(26, 18);
+            this.dcpkx1.Location = new System.Drawing.Point(11, 19);
             this.dcpkx1.Name = "dcpkx1";
-            this.dcpkx1.Size = new System.Drawing.Size(42, 32);
+            this.dcpkx1.Size = new System.Drawing.Size(70, 58);
             this.dcpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx1.TabIndex = 10;
             this.dcpkx1.TabStop = false;
@@ -312,7 +316,7 @@
             // 
             this.DayCare_HasEgg.AutoSize = true;
             this.DayCare_HasEgg.Enabled = false;
-            this.DayCare_HasEgg.Location = new System.Drawing.Point(61, 123);
+            this.DayCare_HasEgg.Location = new System.Drawing.Point(61, 147);
             this.DayCare_HasEgg.Name = "DayCare_HasEgg";
             this.DayCare_HasEgg.Size = new System.Drawing.Size(91, 17);
             this.DayCare_HasEgg.TabIndex = 7;
@@ -322,7 +326,7 @@
             // L_ReadOnlyOther
             // 
             this.L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
-            this.L_ReadOnlyOther.Location = new System.Drawing.Point(32, 179);
+            this.L_ReadOnlyOther.Location = new System.Drawing.Point(33, 198);
             this.L_ReadOnlyOther.Name = "L_ReadOnlyOther";
             this.L_ReadOnlyOther.Size = new System.Drawing.Size(170, 13);
             this.L_ReadOnlyOther.TabIndex = 29;
@@ -404,7 +408,9 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenApricorn);
             this.FLP_SAVtools.Controls.Add(this.B_Raids);
             this.FLP_SAVtools.Controls.Add(this.B_RaidArmor);
+            this.FLP_SAVtools.Controls.Add(this.B_RaidCrown);
             this.FLP_SAVtools.Controls.Add(this.B_Blocks);
+            this.FLP_SAVtools.Controls.Add(this.B_OtherSlots);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -694,15 +700,45 @@
             this.B_Raids.UseVisualStyleBackColor = true;
             this.B_Raids.Click += new System.EventHandler(this.B_OpenRaids_Click);
             // 
+            // B_RaidArmor
+            // 
+            this.B_RaidArmor.Location = new System.Drawing.Point(3, 206);
+            this.B_RaidArmor.Name = "B_RaidArmor";
+            this.B_RaidArmor.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidArmor.TabIndex = 2;
+            this.B_RaidArmor.Text = "Raids (DLC 1)";
+            this.B_RaidArmor.UseVisualStyleBackColor = true;
+            this.B_RaidArmor.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
+            // B_RaidCrown
+            // 
+            this.B_RaidCrown.Location = new System.Drawing.Point(96, 206);
+            this.B_RaidCrown.Name = "B_RaidCrown";
+            this.B_RaidCrown.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidCrown.TabIndex = 4;
+            this.B_RaidCrown.Text = "Raids (DLC 2)";
+            this.B_RaidCrown.UseVisualStyleBackColor = true;
+            this.B_RaidCrown.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
             // B_Blocks
             // 
-            this.B_Blocks.Location = new System.Drawing.Point(96, 206);
+            this.B_Blocks.Location = new System.Drawing.Point(189, 206);
             this.B_Blocks.Name = "B_Blocks";
             this.B_Blocks.Size = new System.Drawing.Size(87, 23);
             this.B_Blocks.TabIndex = 1;
             this.B_Blocks.Text = "Block Data";
             this.B_Blocks.UseVisualStyleBackColor = true;
             this.B_Blocks.Click += new System.EventHandler(this.B_Blocks_Click);
+            // 
+            // B_OtherSlots
+            // 
+            this.B_OtherSlots.Location = new System.Drawing.Point(282, 206);
+            this.B_OtherSlots.Name = "B_OtherSlots";
+            this.B_OtherSlots.Size = new System.Drawing.Size(87, 23);
+            this.B_OtherSlots.TabIndex = 3;
+            this.B_OtherSlots.Text = "Other Slots";
+            this.B_OtherSlots.UseVisualStyleBackColor = true;
+            this.B_OtherSlots.Click += new System.EventHandler(this.B_OtherSlots_Click);
             // 
             // L_SaveSlot
             // 
@@ -807,16 +843,6 @@
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
             // 
-            // B_RaidArmor
-            // 
-            this.B_RaidArmor.Location = new System.Drawing.Point(3, 206);
-            this.B_RaidArmor.Name = "B_RaidArmor";
-            this.B_RaidArmor.Size = new System.Drawing.Size(87, 23);
-            this.B_RaidArmor.TabIndex = 2;
-            this.B_RaidArmor.Text = "Raids (DLC 1)";
-            this.B_RaidArmor.UseVisualStyleBackColor = true;
-            this.B_RaidArmor.Click += new System.EventHandler(this.B_OpenRaids_Click);
-            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -907,5 +933,7 @@
         private System.Windows.Forms.Button B_Raids;
         private System.Windows.Forms.Button B_Blocks;
         private System.Windows.Forms.Button B_RaidArmor;
+        private System.Windows.Forms.Button B_OtherSlots;
+        private System.Windows.Forms.Button B_RaidCrown;
     }
 }

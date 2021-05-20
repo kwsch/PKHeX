@@ -31,7 +31,7 @@ Pont suspendu
 Ruines du Conflit
 
 Ruines du Conflit
-[~ 33]
+
 Colline Dicarat
 
 Colline Dicarat
@@ -78,7 +78,7 @@ Colline Memento
 
 Ranch Ohana
 
-[~ 80]
+
 
 Parc Volcanique
 
@@ -94,10 +94,10 @@ Ruines de l’Éveil
 
 Côte Reculée d’Akala
 
-[~ 96]
-[~ 97]
-[~ 98]
-[~ 99]
+
+
+
+
 Tunnel Taupiqueur
 
 Club Hano-Hano

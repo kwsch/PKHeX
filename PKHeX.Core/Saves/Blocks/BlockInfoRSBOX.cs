@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -6,15 +8,16 @@ namespace PKHeX.Core
     public sealed class BlockInfoRSBOX : BlockInfo
     {
         public readonly uint SaveCount;
-        public readonly uint Checksum;
+        public readonly uint OriginalChecksum;
+        private const int ChecksumRegionSize = 0x1FF8;
 
         public BlockInfoRSBOX(byte[] data, int offset)
         {
             Offset = offset;
-            Length = 0x1FFC;
+            Length = 4 + ChecksumRegionSize;
 
             // Values stored in Big Endian format
-            Checksum = BigEndian.ToUInt32(data, Offset + 0);
+            OriginalChecksum = BigEndian.ToUInt32(data, Offset);
             ID = BigEndian.ToUInt32(data, Offset + 4);
             SaveCount = BigEndian.ToUInt32(data, Offset + 8);
         }
@@ -38,17 +41,8 @@ namespace PKHeX.Core
         private uint GetChecksum(byte[] data)
         {
             int start = Offset + 4;
-            int end = start + Length - 4;
-
-            return GetChecksum(data, start, end);
-        }
-
-        private static uint GetChecksum(byte[] data, int start, int end)
-        {
-            ushort chk = 0; // initial value
-            for (int j = start; j < end; j += 2)
-                chk += BigEndian.ToUInt16(data, j);
-            return (uint)(chk << 16 | (ushort)(0xF004 - chk));
+            var span = new ReadOnlySpan<byte>(data, start, ChecksumRegionSize);
+            return Checksums.CheckSum16BigInvert(span);
         }
     }
 }

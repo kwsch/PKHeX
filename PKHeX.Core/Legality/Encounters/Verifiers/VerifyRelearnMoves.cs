@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.LegalityAnalysis;
+using static PKHeX.Core.ParseSettings;
 
 namespace PKHeX.Core
 {
@@ -11,186 +10,125 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
-        private static readonly int[] RelearnEmpty = new int[4];
+        internal static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
+        private static readonly CheckResult DummyNone = new(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
 
-        public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)
+        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc, CheckResult[] result)
         {
-            if (info.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
-                return VerifyRelearnNone(pkm, info);
+            if (ShouldNotHaveRelearnMoves(enc, pkm))
+                return VerifyRelearnNone(pkm, result);
 
-            return info.EncounterMatch switch
+            return enc switch
             {
-                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
-                EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
-                EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav => VerifyRelearnDexNav(pkm, info),
-                _ => VerifyRelearnNone(pkm, info)
+                IRelearn s when s.Relearn.Count != 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn, result),
+                EncounterEgg e => VerifyEggMoveset(e, result, pkm.RelearnMoves),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result),
+                _ => VerifyRelearnNone(pkm, result)
             };
         }
 
-        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, IReadOnlyList<int> required)
+        public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm is IBattleVersion {BattleVersion: not 0};
+
+        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckResult[] result)
         {
-            CheckResult[] res = new CheckResult[4];
-            int[] relearn = pkm.RelearnMoves;
+            result[3] = CheckResult(pkm.RelearnMove4, required[3]);
+            result[2] = CheckResult(pkm.RelearnMove3, required[2]);
+            result[1] = CheckResult(pkm.RelearnMove2, required[1]);
+            result[0] = CheckResult(pkm.RelearnMove1, required[0]);
+            return result;
 
-            for (int i = 0; i < 4; i++)
+            static CheckResult CheckResult(int move, int require)
             {
-                res[i] = relearn[i] != required[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[required[i]]), CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
+                if (move == require)
+                    return DummyValid;
+                return new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[require]), CheckIdentifier.RelearnMove);
             }
-
-            info.RelearnBase = required;
-            return res;
         }
 
-        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, CheckResult[] result)
         {
-            var result = new CheckResult[4];
-            int[] relearn = pkm.RelearnMoves;
-
             // DexNav Pokémon can have 1 random egg move as a relearn move.
             var baseSpec = EvoBase.GetBaseSpecies(pkm);
-            result[0] = !MoveList.GetValidRelearn(pkm, baseSpec.Species, baseSpec.Form, true).Contains(relearn[0])
+            var firstRelearn = pkm.RelearnMove1;
+            var eggMoves = MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR);
+            result[0] = Array.IndexOf(eggMoves, firstRelearn) == -1 // not found
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
-                : new CheckResult(CheckIdentifier.RelearnMove);
+                : DummyValid;
 
             // All other relearn moves must be empty.
-            for (int i = 1; i < 4; i++)
-            {
-                result[i] = relearn[i] != 0
-                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
-            }
-
-            // Update the relearn base moves if the first relearn move is okay.
-            info.RelearnBase = result[0].Valid
-                ? relearn
-                : RelearnEmpty;
+            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
+            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
+            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
 
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnNone(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnNone(PKM pkm, CheckResult[] result)
         {
-            var result = new CheckResult[4];
-            int[] RelearnMoves = pkm.RelearnMoves;
-
             // No relearn moves should be present.
-            for (int i = 0; i < 4; i++)
-            {
-                result[i] = RelearnMoves[i] != 0
-                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
-            }
-
-            info.RelearnBase = RelearnEmpty;
+            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
+            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
+            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
+            result[0] = pkm.RelearnMove1 == 0 ? DummyValid : DummyNone;
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
+        internal static CheckResult[] VerifyEggMoveset(EncounterEgg e, CheckResult[] result, int[] moves, CheckIdentifier type = CheckIdentifier.RelearnMove)
         {
-            int[] RelearnMoves = pkm.RelearnMoves;
-            var result = new CheckResult[4];
-            // Level up moves cannot be inherited if Ditto is the parent
-            // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
-            bool inheritLvlMoves = Legal.GetCanInheritMoves(e.Species);
-
-            // Obtain level1 moves
-            var baseMoves = MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, 1);
-            int baseCt = Math.Min(4, baseMoves.Length);
-
-            // Obtain Inherited moves
-            var inheritMoves = MoveList.GetValidRelearn(pkm, e.Species, e.Form, inheritLvlMoves, e.Version).ToList();
-            int reqBase = GetRequiredBaseMoves(RelearnMoves, baseMoves, baseCt, inheritMoves);
-
-            // Check if the required amount of Base Egg Moves are present.
-            FlagBaseEggMoves(result, reqBase, baseMoves, RelearnMoves);
-
-            // Non-Base moves that can magically appear in the regular movepool
-            if (Legal.LightBall.Contains(pkm.Species))
-                inheritMoves.Add(344); // Volt Tackle
-
-            // If any splitbreed moves are invalid, flag accordingly
-            var splitMoves = e is EncounterEggSplit s
-                ? MoveList.GetValidRelearn(pkm, s.OtherSpecies, s.Form, inheritLvlMoves, e.Version).ToList()
-                : (IReadOnlyList<int>)Array.Empty<int>();
-
-            // Inherited moves appear after the required base moves.
-            // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.
-            bool splitInvalid = FlagInvalidInheritedMoves(result, reqBase, RelearnMoves, inheritMoves, splitMoves);
-            if (splitInvalid && e is EncounterEggSplit x)
-                FlagSplitbreedMoves(result, reqBase, x);
-
-            info.RelearnBase = baseMoves;
-            return result;
-        }
-
-        private static void FlagBaseEggMoves(CheckResult[] result, int required, IReadOnlyList<int> baseMoves, IReadOnlyList<int> RelearnMoves)
-        {
-            for (int i = 0; i < required; i++)
+            int gen = e.Generation;
+            var origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, moves, out var valid);
+            if (valid)
             {
-                if (!baseMoves.Contains(RelearnMoves[i]))
+                for (int i = 0; i < result.Length; i++)
                 {
-                    FlagRelearnMovesMissing(result, required, baseMoves, i);
-                    return;
+                    var msg = EggSourceUtil.GetSource(origins, gen, i);
+                    result[i] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Valid, msg, type);
                 }
-                result[i] = new CheckResult(Severity.Valid, LMoveRelearnEgg, CheckIdentifier.RelearnMove);
             }
-        }
-
-        private static void FlagRelearnMovesMissing(CheckResult[] result, int required, IReadOnlyList<int> baseMoves, int start)
-        {
-            for (int z = start; z < required; z++)
-                result[z] = new CheckResult(Severity.Invalid, LMoveRelearnEggMissing, CheckIdentifier.RelearnMove);
-
-            // provide the list of suggested base moves for the last required slot
-            string em = string.Join(", ", GetMoveNames(baseMoves));
-            result[required - 1].Comment += string.Format(Environment.NewLine + LMoveRelearnFExpect_0, em);
-        }
-
-        private static bool FlagInvalidInheritedMoves(CheckResult[] result, int required, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
-        {
-            bool splitInvalid = false;
-            bool isSplit = splitMoves.Count > 0;
-            for (int i = required; i < 4; i++)
+            else
             {
-                if (RelearnMoves[i] == 0) // empty
-                    result[i] = new CheckResult(Severity.Valid, LMoveSourceEmpty, CheckIdentifier.RelearnMove);
-                else if (inheritMoves.Contains(RelearnMoves[i])) // inherited
-                    result[i] = new CheckResult(Severity.Valid, LMoveSourceRelearn, CheckIdentifier.RelearnMove);
-                else if (isSplit && splitMoves.Contains(RelearnMoves[i])) // inherited
-                    splitInvalid = true;
-                else // not inheritable, flag
-                    result[i] = new CheckResult(Severity.Invalid, LMoveRelearnInvalid, CheckIdentifier.RelearnMove);
+                var expected = MoveBreed.GetExpectedMoves(moves, e);
+                origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, expected, out _);
+                for (int i = 0; i < moves.Length; i++)
+                {
+                    var msg = EggSourceUtil.GetSource(origins, gen, i);
+                    var expect = expected[i];
+                    CheckMoveResult line;
+                    if (moves[i] == expect)
+                    {
+                        line = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Valid, msg, type);
+                    }
+                    else
+                    {
+                        msg = string.Format(LMoveRelearnFExpect_0, MoveStrings[expect], msg);
+                        line = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, msg, type);
+                    }
+                    result[i] = line;
+                }
             }
 
-            return splitInvalid;
+            var dupe = IsAnyMoveDuplicate(moves);
+            if (dupe != NO_DUPE)
+                result[dupe] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
+            return result;
         }
 
-        private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEggSplit x)
+        private const int NO_DUPE = -1;
+
+        private static int IsAnyMoveDuplicate(int[] move)
         {
-            var other = x.OtherSpecies;
-            for (int i = required; i < 4; i++)
-            {
-                if (res[i] != null)
-                    continue;
+            int m1 = move[0];
+            int m2 = move[1];
 
-                string message = string.Format(LMoveEggFIncompatible0_1, SpeciesStrings[other], SpeciesStrings[x.Species]);
-                res[i] = new CheckResult(Severity.Invalid, message, CheckIdentifier.RelearnMove);
-            }
-        }
-
-        private static int GetRequiredBaseMoves(int[] RelearnMoves, IReadOnlyList<int> baseMoves, int baseCt, IReadOnlyList<int> inheritMoves)
-        {
-            var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
-            int inheritCt = inherited.Count;
-
-            // Get required amount of base moves
-            int unique = baseMoves.Union(inherited).Count();
-            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
-            if (RelearnMoves.Count(m => m != 0) < Math.Min(4, baseMoves.Count))
-                reqBase = Math.Min(4, unique);
-            return reqBase;
+            if (m1 != 0 && m1 == m2)
+                return 1;
+            int m3 = move[2];
+            if (m3 != 0 && (m1 == m3 || m2 == m3))
+                return 2;
+            int m4 = move[3];
+            if (m4 != 0 && (m1 == m4 || m2 == m4 || m3 == m4))
+                return 3;
+            return NO_DUPE;
         }
     }
 }

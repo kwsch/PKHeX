@@ -14,6 +14,9 @@ namespace PKHeX.Core
         public const int Width = 256; // px
         public const int Height = 192; // px
         public const int SIZE_CGB = 0x2600;
+        private const int ColorCount = 0x10;
+        private const int TileSize = 8;
+        private const int TileCount = (Width / TileSize) * (Height / TileSize); // 0x300
 
         /* CGearBackground Documentation
         * CGearBackgrounds (.cgb) are tiled images.
@@ -59,8 +62,8 @@ namespace PKHeX.Core
             byte[] ColorData = data.Slice(0x1FE0, 0x20);
             byte[] Region2 = data.Slice(0x2000, 0x600);
 
-            ColorPalette = new int[0x10];
-            for (int i = 0; i < 0x10; i++)
+            ColorPalette = new int[ColorCount];
+            for (int i = 0; i < ColorPalette.Length; i++)
                 ColorPalette[i] = GetRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
 
             Tiles = new Tile[0xFF];
@@ -76,11 +79,23 @@ namespace PKHeX.Core
             Map = new TileMap(Region2);
         }
 
+        public readonly int[] ColorPalette;
+        public readonly Tile[] Tiles;
+        public readonly TileMap Map;
+
+        // Track the original data
         private readonly byte[]? _cgb;
         private readonly byte[]? _psk;
+
+        /// <summary>
+        /// Writes the <see cref="CGearBackground"/> data to a binary form.
+        /// </summary>
+        /// <param name="B2W2">True if the destination game is <see cref="GameVersion.B2W2"/>, otherwise false for <see cref="GameVersion.BW"/>.</param>
+        /// <returns>Serialized skin data for writing to the save file</returns>
+        public byte[] GetSkin(bool B2W2) => B2W2 ? GetCGB() : GetPSK();
+
         private byte[] GetCGB() => _cgb ?? Write();
         private byte[] GetPSK() => _psk ?? CGBtoPSK(Write());
-        public byte[] GetSkin(bool B2W2) => B2W2 ? GetCGB() : GetPSK();
 
         private byte[] Write()
         {
@@ -152,15 +167,12 @@ namespace PKHeX.Core
             return cgb;
         }
 
-        private readonly int[] ColorPalette;
-        public Tile[] Tiles { get; }
-        public TileMap Map { get; }
-
         private static int ValToIndex(int val)
         {
-            if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
+            var trunc = (val & 0x3FF);
+            if (trunc is < 0xA0 or > 0x280)
                 return (val & 0x5C00) | 0xFF;
-            return ((val % 0x20) + (17 * (((val & 0x3FF) - 0xA0) / 0x20))) | (val & 0x5C00);
+            return ((val % 0x20) + (17 * ((trunc - 0xA0) / 0x20))) | (val & 0x5C00);
         }
 
         private static byte Convert8to5(int colorval)
@@ -222,7 +234,7 @@ namespace PKHeX.Core
             var colors = GetColorData(pixels);
 
             var Palette = colors.Distinct().ToArray();
-            if (Palette.Length > 0x10)
+            if (Palette.Length > ColorCount)
                 throw new ArgumentException($"Too many unique colors. Expected <= 16, got {Palette.Length}");
 
             var tiles = GetTiles(colors, Palette);
@@ -242,31 +254,33 @@ namespace PKHeX.Core
             return colors;
         }
 
-        private static Tile[] GetTiles(IReadOnlyList<int> colors, int[] Palette)
+        private static Tile[] GetTiles(IReadOnlyList<int> colors, int[] palette)
         {
-            var tiles = new Tile[0x300];
+            var tiles = new Tile[TileCount];
             for (int i = 0; i < tiles.Length; i++)
+                tiles[i] = GetTile(colors, palette, i);
+            return tiles;
+        }
+
+        private static Tile GetTile(IReadOnlyList<int> colors, int[] palette, int tileIndex)
+        {
+            int x = (tileIndex * 8) % Width;
+            int y = 8 * ((tileIndex * 8) / Width);
+
+            var t = new Tile();
+            for (uint ix = 0; ix < 8; ix++)
             {
-                int x = (i * 8) % Width;
-                int y = 8 * ((i * 8) / Width);
-
-                var t = new Tile();
-                for (uint ix = 0; ix < 8; ix++)
+                for (uint iy = 0; iy < 8; iy++)
                 {
-                    for (uint iy = 0; iy < 8; iy++)
-                    {
-                        int index = ((int)(y + iy) * Width) + (int)(x + ix);
-                        int c = colors[index];
+                    int index = ((int) (y + iy) * Width) + (int) (x + ix);
+                    int c = colors[index];
 
-                        t.ColorChoices[(ix % 8) + (iy * 8)] = Array.IndexOf(Palette, c);
-                    }
+                    t.ColorChoices[(ix % 8) + (iy * 8)] = Array.IndexOf(palette, c);
                 }
-
-                t.SetTile(Palette);
-                tiles[i] = t;
             }
 
-            return tiles;
+            t.SetTile(palette);
+            return t;
         }
 
         private static void GetTileList(IReadOnlyList<Tile> tiles, out List<Tile> tilelist, out TileMap tm)

@@ -31,7 +31,7 @@ Ponte Sospeso
 Tempio del Conflitto
 
 Tempio del Conflitto
-[~ 33]
+
 Collina Diecicarati
 
 Collina Diecicarati
@@ -78,7 +78,7 @@ Colle della Memoria
 
 Fattoria Ohana
 
-[~ 80]
+
 
 Parco Vulcano Wela
 
@@ -94,10 +94,10 @@ Tempio della Vita
 
 Punta Akala
 
-[~ 96]
-[~ 97]
-[~ 98]
-[~ 99]
+
+
+
+
 Tunnel Diglett
 
 Resort Hanu Hanu

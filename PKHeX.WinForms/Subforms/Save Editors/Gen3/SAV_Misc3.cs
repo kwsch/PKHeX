@@ -19,12 +19,12 @@ namespace PKHeX.WinForms
 
             LoadRecords();
 
-            if (SAV.FRLG || SAV.E)
-                ReadJoyful();
+            if (SAV is IGen3Joyful j)
+                ReadJoyful(j);
             else
                 tabControl1.Controls.Remove(TAB_Joyful);
 
-            if (SAV.E)
+            if (SAV is SAV3E)
             {
                 ReadFerry();
                 ReadBattleFrontier();
@@ -35,56 +35,51 @@ namespace PKHeX.WinForms
                 tabControl1.Controls.Remove(TAB_BF);
             }
 
-            if (SAV.FRLG)
+            if (SAV is SAV3FRLG frlg)
             {
-                TB_OTName.Text = SAV.GetString(SAV.GetBlockOffset(4) + 0xBCC, 8);
+                TB_RivalName.Text = frlg.RivalName;
+
+                // Trainer Card Species
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
-                int[] HoennListMixed = {
-                     277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
-                 304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
-                                         322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,
-                                         339,340,321,351,352,308,332,333,334,344,345,358,359,380,379,348,349,323,324,
-                                     326,327,318,319,388,389,390,391,328,329,385,317,377,378,361,362,369,411,376,360,
-                                     346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
-                     401,402,403,407,408,404,405,406,409,410
-                };
-                var speciesList = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID).Select(v =>
-                    new ComboItem (v.Text, v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252])
-                ).ToList();
-                int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
+                var legal = GameInfo.FilteredSources.Species.ToList();
                 for (int i = 0; i < cba.Length; i++)
                 {
                     cba[i].Items.Clear();
                     cba[i].InitializeBinding();
-                    cba[i].DataSource = new BindingSource(speciesList, null);
-                    cba[i].SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, ofsTCM + (i << 1));
+                    cba[i].DataSource = new BindingSource(legal, null);
+                    var g3Species = SAV.GetEventConst(0x43 + i);
+                    var species = SpeciesConverter.GetG4Species(g3Species);
+                    cba[i].SelectedValue = species;
                 }
             }
             else
-            { TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false; }
+            { TB_RivalName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false; }
 
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (tabControl1.Controls.Contains(TAB_Joyful))
-                SaveJoyful();
+            if (tabControl1.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
+                SaveJoyful(j);
             if (tabControl1.Controls.Contains(TAB_Ferry))
                 SaveFerry();
             if (tabControl1.Controls.Contains(TAB_BF))
                 SaveBattleFrontier();
-            if (SAV.FRLG)
+            if (SAV is SAV3FRLG frlg)
             {
-                SAV.SetData(SAV.SetString(TB_OTName.Text, TB_OTName.MaxLength), SAV.GetBlockOffset(4) + 0xBCC);
+                frlg.RivalName = TB_RivalName.Text;
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
-                int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
                 for (int i = 0; i < cba.Length; i++)
-                    BitConverter.GetBytes((ushort)(int)cba[i].SelectedValue).CopyTo(SAV.Data, ofsTCM + (i << 1));
+                {
+                    var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
+                    var g3Species = SpeciesConverter.GetG3Species(species);
+                    SAV.SetEventConst(0x43 + i, (ushort)g3Species);
+                }
             }
 
-            if (!SAV.RS)
-                SAV.BP = (ushort)NUD_BP.Value;
+            if (SAV is SAV3E se)
+                se.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
             Origin.CopyChangesFrom(SAV);
@@ -94,48 +89,24 @@ namespace PKHeX.WinForms
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         #region Joyful
-        private int JUMPS_IN_ROW, JUMPS_SCORE, JUMPS_5_IN_ROW;
-        private int BERRIES_IN_ROW, BERRIES_SCORE, BERRIES_5_IN_ROW;
-
-        private void ReadJoyful()
+        private void ReadJoyful(IGen3Joyful j)
         {
-            switch (SAV.Version)
-            {
-                case GameVersion.E:
-                    JUMPS_IN_ROW = SAV.GetBlockOffset(0) + 0x1fc;
-                    JUMPS_SCORE = SAV.GetBlockOffset(0) + 0x208;
-                    JUMPS_5_IN_ROW = SAV.GetBlockOffset(0) + 0x200;
-
-                    BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0x210;
-                    BERRIES_SCORE = SAV.GetBlockOffset(0) + 0x20c;
-                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0x212;
-                    break;
-                case GameVersion.FRLG:
-                    JUMPS_IN_ROW = SAV.GetBlockOffset(0) + 0xB00;
-                    JUMPS_SCORE = SAV.GetBlockOffset(0) + 0xB0C;
-                    JUMPS_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB04;
-
-                    BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0xB14;
-                    BERRIES_SCORE = SAV.GetBlockOffset(0) + 0xB10;
-                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB16;
-                    break;
-            }
-            TB_J1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, JUMPS_IN_ROW)).ToString();
-            TB_J2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, JUMPS_SCORE)).ToString();
-            TB_J3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, JUMPS_5_IN_ROW)).ToString();
-            TB_B1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_IN_ROW)).ToString();
-            TB_B2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_SCORE)).ToString();
-            TB_B3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_5_IN_ROW)).ToString();
+            TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
+            TB_J2.Text = Math.Min(        9999, j.JoyfulJumpScore).ToString();
+            TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
+            TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
+            TB_B2.Text = Math.Min(        9999, j.JoyfulBerriesScore).ToString();
+            TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
         }
 
-        private void SaveJoyful()
+        private void SaveJoyful(IGen3Joyful j)
         {
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J1.Text)).CopyTo(SAV.Data, JUMPS_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J2.Text)).CopyTo(SAV.Data, JUMPS_SCORE);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J3.Text)).CopyTo(SAV.Data, JUMPS_5_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B1.Text)).CopyTo(SAV.Data, BERRIES_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B2.Text)).CopyTo(SAV.Data, BERRIES_SCORE);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B3.Text)).CopyTo(SAV.Data, BERRIES_5_IN_ROW);
+            j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
+            j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
+            j.JoyfulJump5InRow = (ushort)Util.ToUInt32(TB_J3.Text);
+            j.JoyfulBerriesInRow  = (ushort)Util.ToUInt32(TB_B1.Text);
+            j.JoyfulBerriesScore  = (ushort)Util.ToUInt32(TB_B2.Text);
+            j.JoyfulBerries5InRow = (ushort)Util.ToUInt32(TB_B3.Text);
         }
         #endregion
 
@@ -155,7 +126,9 @@ namespace PKHeX.WinForms
             if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
                 tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
-            var p = Array.Find(Pouches, z => z.Type == InventoryType.KeyItems);
+            var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
+            if (p == null)
+                throw new ArgumentException(nameof(InventoryPouch.Type));
 
             // check for missing tickets
             var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();
@@ -232,20 +205,17 @@ namespace PKHeX.WinForms
         #endregion
 
         #region BattleFrontier
-        private int[] Symbols;
-        private int ofsSymbols;
-        private Color[] SymbolColorA;
-        private Button[] SymbolButtonA;
+        private Button[] SymbolButtonA = null!;
         private bool editingcont;
         private bool editingval;
-        private RadioButton[] StatRBA;
-        private NumericUpDown[] StatNUDA;
-        private Label[] StatLabelA;
+        private RadioButton[] StatRBA = null!;
+        private NumericUpDown[] StatNUDA = null!;
+        private Label[] StatLabelA = null!;
         private bool loading;
-        private int[][] BFF;
-        private string[][] BFT;
-        private int[][] BFV;
-        private string[] BFN;
+        private int[][] BFF = null!;
+        private string[]?[] BFT = null!;
+        private int[][] BFV = null!;
+        private string[] BFN = null!;
 
         private void ChangeStat1(object sender, EventArgs e)
         {
@@ -259,15 +229,17 @@ namespace PKHeX.WinForms
             foreach (RadioButton rb in StatRBA)
                 rb.Checked = false;
 
-            if (BFT[BFF[facility][1]] == null)
+            var bft = BFT[BFF[facility][1]];
+            if (bft == null)
             {
                 CB_Stats2.Visible = false;
             }
             else
             {
                 CB_Stats2.Visible = true;
-                for (int i = 0; i < BFT[BFF[facility][1]].Length; i++)
-                    CB_Stats2.Items.Add(BFT[BFF[facility][1]][i]);
+                foreach (var t in bft)
+                    CB_Stats2.Items.Add(t);
+
                 CB_Stats2.SelectedIndex = 0;
             }
 
@@ -292,11 +264,12 @@ namespace PKHeX.WinForms
                 return;
 
             int BattleType = CB_Stats2.SelectedIndex;
-            if (BFT[BFF[Facility][1]] == null)
+            var bft = BFT[BFF[Facility][1]];
+            if (bft == null)
                 BattleType = 0;
             else if (BattleType < 0)
                 return;
-            else if (BattleType >= BFT[BFF[Facility][1]].Length)
+            else if (BattleType >= bft.Length)
                 return;
 
             int RBi = -1;
@@ -317,15 +290,16 @@ namespace PKHeX.WinForms
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0)
                     return;
-                if (val > 9999) val = 9999;
-                BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi));
+                if (val > 9999)
+                    val = 9999;
+                BitConverter.GetBytes(val).CopyTo(SAV.Small, BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi));
                 return;
             }
             if (SetValToSav == -1)
             {
                 int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
-                int offset = SAV.GetBlockOffset(0) + 0xCDC;
-                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Data, offset) & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, offset);
+                const int offset = 0xCDC;
+                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Small, offset) & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Small, offset);
                 return;
             }
             if (!SetSavToVal)
@@ -334,11 +308,12 @@ namespace PKHeX.WinForms
             editingval = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                int vali = BitConverter.ToUInt16(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi));
-                if (vali > 9999) vali = 9999;
+                int vali = BitConverter.ToUInt16(SAV.Small, BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi));
+                if (vali > 9999)
+                    vali = 9999;
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
             }
-            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.GetBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
+            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Small, 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
             editingval = false;
         }
 
@@ -390,14 +365,8 @@ namespace PKHeX.WinForms
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
-            SymbolColorA = new[] { Color.Transparent, Color.Silver, Color.Silver, Color.Gold };
             SymbolButtonA = new[] { BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB };
-            ofsSymbols = SAV.GetBlockOffset(2) + 0x408;
-            int iSymbols = BitConverter.ToInt32(SAV.Data, ofsSymbols) >> 4 & 0x7FFF;
-            CHK_ActivatePass.Checked = (iSymbols >> 14 & 1) != 0;
-            Symbols = new int[7];
-            for (int i = 0; i < 7; i++)
-                Symbols[i] = iSymbols >> i * 2 & 3;
+            CHK_ActivatePass.Checked = SAV.GetEventFlag(0x860 + 0x72);
             SetFrontierSymbols();
 
             CB_Stats1.Items.Clear();
@@ -411,33 +380,39 @@ namespace PKHeX.WinForms
         private void SetFrontierSymbols()
         {
             for (int i = 0; i < SymbolButtonA.Length; i++)
-                SymbolButtonA[i].BackColor = SymbolColorA[Symbols[i]];
+            {
+                var flagIndex = 0x860 + 0x64 + (i * 2);
+                var silver = SAV.GetEventFlag(flagIndex);
+                var gold = SAV.GetEventFlag(flagIndex + 1);
+                var value = silver ? gold ? Color.Gold : Color.Silver : Color.Transparent;
+                SymbolButtonA[i].BackColor = value;
+            }
         }
 
         private void SaveBattleFrontier()
         {
-            uint iSymbols = 0;
             for (int i = 0; i < 7; i++)
-                iSymbols |= (uint)((Symbols[i] & 3) << i * 2);
-            if (CHK_ActivatePass.Checked)
-                iSymbols |= 1 << 14;
+            {
+                var color = SymbolButtonA[i].BackColor;
+                bool silver = color != Color.Transparent;
+                bool gold = color == Color.Gold;
 
-            uint val = (uint)((BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4)) | (iSymbols & 0x7FFF) << 4);
-            BitConverter.GetBytes(val).CopyTo(SAV.Data, ofsSymbols);
+                var flagIndex = 0x860 + 0x64 + (i * 2);
+                SAV.SetEventFlag(flagIndex, silver);
+                SAV.SetEventFlag(flagIndex, gold);
+            }
+            SAV.SetEventFlag(0x860 + 0x72, CHK_ActivatePass.Checked);
         }
 
         private void BTN_Symbol_Click(object sender, EventArgs e)
         {
-            int index = Array.IndexOf(SymbolButtonA, sender);
-            if (index < 0)
+            var match = Array.Find(SymbolButtonA, z => z == sender);
+            if (match == null)
                 return;
 
-            // 0 (none) | 1 (silver) | 2 (silver) | 3 (gold)
-            // bit rotation 00 -> 01 -> 11 -> 00
-            if (Symbols[index] == 1) Symbols[index] = 3;
-            else Symbols[index] = (Symbols[index] + 1) & 3;
-
-            SetFrontierSymbols();
+            var color = match.BackColor;
+            color = color == Color.Transparent ? Color.Silver : color == Color.Silver ? Color.Gold : Color.Transparent;
+            match.BackColor = color;
         }
         #endregion
 
@@ -474,11 +449,11 @@ namespace PKHeX.WinForms
                     LoadFame(val);
             };
 
-            if (!SAV.RS)
+            if (SAV is SAV3E em)
             {
-                NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
-                NUD_BPEarned.Value = SAV.BPEarned;
-                NUD_BPEarned.ValueChanged += (s, e) => SAV.BPEarned = (uint)NUD_BPEarned.Value;
+                NUD_BP.Value = Math.Min(NUD_BP.Maximum, em.BP);
+                NUD_BPEarned.Value = em.BPEarned;
+                NUD_BPEarned.ValueChanged += (s, e) => em.BPEarned = (uint)NUD_BPEarned.Value;
             }
             else
             {
@@ -486,11 +461,11 @@ namespace PKHeX.WinForms
                 NUD_BPEarned.Visible = L_BPEarned.Visible = false;
             }
 
-            NUD_FameH.ValueChanged += (s, e) => ChangeFame();
-            NUD_FameM.ValueChanged += (s, e) => ChangeFame();
-            NUD_FameS.ValueChanged += (s, e) => ChangeFame();
+            NUD_FameH.ValueChanged += (s, e) => ChangeFame(records);
+            NUD_FameM.ValueChanged += (s, e) => ChangeFame(records);
+            NUD_FameS.ValueChanged += (s, e) => ChangeFame(records);
 
-            void ChangeFame() => records.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
+            void ChangeFame(Record3 r3) => r3.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
             void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
             void LoadFame(uint val) => SetFameTime(val);
         }

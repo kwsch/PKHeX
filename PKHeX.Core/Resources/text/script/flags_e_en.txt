@@ -65,7 +65,8 @@
 0x305	Overworld Hidden (Rayquaza)
 0x2FB	Overworld Hidden (Deoxys)
 0x2FC	Overworld Hidden (Deoxys Triangle)
-
+0x3C3	Overworld Hidden (Root Fossil)
+0x3C4	Overworld Hidden (Claw Fossil)
 0x3C9	Uncovered Kecleon (Fortree City)
 0x3CA	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	Uncovered Kecleon (Route 120, Bridge)
@@ -76,6 +77,13 @@
 0x3DC	Uncovered Kecleon (Route 120, Behind Ancient Tomb)
 0x3DD	Uncovered Kecleon (Route 119, Right of Ninja Boy)
 0x3DE	Uncovered Kecleon (Route 119, Left of Ninja Boy)
+
+0x3CE	Overworld Hidden (Voltorb 1 in New Mauville)
+0x3CF	Overworld Hidden (Voltorb 2 in New Mauville)
+0x3D0	Overworld Hidden (Voltorb 3 in New Mauville)
+
+0x3D1	Overworld Hidden (Electrode 1 in Aqua Hideout)
+0x3D2	Overworld Hidden (Electrode 2 in Aqua Hideout)
 
 0x1B1	Used Move Tutor in Slateport City (Swagger)
 0x1B2	Used Move Tutor in Mauville City (Rollout)
@@ -102,7 +110,8 @@
 0x8AB	Unlocked Lanette's PC
 0x8AD	Used White Flute
 0x8AE	Used Black Flute
-0x8AF	Completed Sealed Chamber Puzzle
+0x8AF	Completed Sealed Chamber Puzzle (1)
+0x0E4	Completed Sealed Chamber Puzzle (2)
 0x8B0	Completed Regirock Puzzle
 0x8B1	Completed Regice Puzzle
 0x8B2	Completed Registeel Puzzle

@@ -9,7 +9,7 @@ namespace PKHeX.WinForms.Controls
     public sealed class BoxMenuStrip : ContextMenuStrip
     {
         private readonly SAVEditor SAV;
-        private readonly List<ItemVisibility> CustomItems = new List<ItemVisibility>();
+        private readonly List<ItemVisibility> CustomItems = new();
         private readonly BoxManipulator Manipulator;
 
         public BoxMenuStrip(SAVEditor sav)
@@ -40,7 +40,7 @@ namespace PKHeX.WinForms.Controls
             CustomItems.Add(new ItemVisibility(tsi, item));
         }
 
-        private static readonly Dictionary<BoxManipType, Image> ManipTypeImage = new Dictionary<BoxManipType, Image>
+        private static readonly Dictionary<BoxManipType, Image> ManipTypeImage = new()
         {
             [BoxManipType.DeleteAll] = Resources.nocheck,
             [BoxManipType.DeleteEggs] = Resources.about,
@@ -112,8 +112,8 @@ namespace PKHeX.WinForms.Controls
             Resources.wand,
         };
 
-        public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.SAV.CurrentBox, All);
-        public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.SAV.CurrentBox, All);
+        public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.CurrentBox, All);
+        public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.CurrentBox, All);
 
         private static bool All => (ModifierKeys & Keys.Shift) != 0;
         private static bool Reverse => (ModifierKeys & Keys.Control) != 0;

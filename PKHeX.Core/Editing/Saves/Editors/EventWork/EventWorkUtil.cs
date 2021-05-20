@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class EventWorkUtil
     {
-        private static readonly Dictionary<char, EventVarType> TypeDict = new Dictionary<char, EventVarType>
+        private static readonly Dictionary<char, EventVarType> TypeDict = new()
         {
             ['z'] = EventVarType.Zone,
             ['s'] = EventVarType.System,
@@ -20,18 +20,20 @@ namespace PKHeX.Core
 
         private static bool GetIndex(string l, out int index, out EventVarType type)
         {
-            if (!TypeDict.TryGetValue(l[0], out type))
+            var typeChar = l[0];
+            if (!TypeDict.TryGetValue(typeChar, out type))
             {
-                Debug.WriteLine($"Rejected line due to bad type. {l[0]}");
+                Debug.WriteLine($"Rejected line due to bad type: {typeChar}");
                 index = -1;
                 return false;
             }
-            if (!int.TryParse(l.Substring(1), out index))
-            {
-                Debug.WriteLine($"Rejected line due to bad index. {l[0]}");
-                return false;
-            }
-            return true;
+
+            var indexString = l[1..];
+            if (int.TryParse(indexString, out index))
+                return true;
+
+            Debug.WriteLine($"Rejected line due to bad index: {indexString}");
+            return false;
         }
 
         /// <summary>

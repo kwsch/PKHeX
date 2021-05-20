@@ -11,12 +11,11 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK5(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-        protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
+        protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
         public override string Extension => ".sav";
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
-        public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
         public override Type PKMType => typeof(PK5);
@@ -67,8 +66,8 @@ namespace PKHeX.Core
         protected int CGearDataOffset;
         protected int EntreeForestOffset;
         private int AdventureInfo;
-        public int GTS { get; protected set; } = int.MinValue;
-        public int Fused { get; protected set; } = int.MinValue;
+        public int GTS { get; } = int.MinValue;
+        public int Fused { get; } = int.MinValue;
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
@@ -102,10 +101,10 @@ namespace PKHeX.Core
         public bool BattleBoxLocked
         {
             get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live
-            set => Data[BattleBoxOffset + 0x358] = (byte)(value ? 1 : 0);
+            set => Data[BattleBoxOffset + 0x358] = value ? (byte)1 : (byte)0;
         }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk5 = (PK5)pkm;
             // Apply to this Save File
@@ -128,7 +127,7 @@ namespace PKHeX.Core
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
         public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
@@ -149,7 +148,7 @@ namespace PKHeX.Core
         private bool CGearSkinPresent
         {
             get => Data[CGearSkinInfoOffset + 2] == 1;
-            set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
+            set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
         }
 
         public byte[] CGearSkinData
@@ -176,7 +175,7 @@ namespace PKHeX.Core
                 chkbytes.CopyTo(Data, footer + 2); // checksum
                 chkbytes.CopyTo(Data, footer + 0x100); // second checksum
                 dlcfooter.CopyTo(Data, footer + 0x102);
-                ushort skinchkval = Checksums.CRC16_CCITT(Data, footer + 0x100, 4);
+                ushort skinchkval = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(Data, footer + 0x100, 4));
                 BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
 
                 // Indicate in the save file that data is present
@@ -185,13 +184,13 @@ namespace PKHeX.Core
                 chkbytes.CopyTo(Data, CGearSkinInfoOffset);
                 CGearSkinPresent = true;
 
-                Edited = true;
+                State.Edited = true;
             }
         }
 
         public EntreeForest EntreeData
         {
-            get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
+            get => new(GetData(EntreeForestOffset, 0x850));
             set => SetData(value.Write(), EntreeForestOffset);
         }
 

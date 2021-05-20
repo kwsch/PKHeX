@@ -15,8 +15,8 @@ namespace PKHeX.Core
             if (pkm.Format >= 6)
                 VerifyEC(data);
 
-            var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch.Species == (int)Species.Wurmple)
+            var enc = data.EncounterMatch;
+            if (enc.Species == (int)Species.Wurmple)
                 VerifyECPIDWurmple(data);
 
             if (pkm.PID == 0)
@@ -24,26 +24,12 @@ namespace PKHeX.Core
             if (pkm.Nature >= 25) // out of range
                 data.AddLine(GetInvalid(LPIDNatureMismatch));
 
-            var Info = data.Info;
-            if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
-            {
-                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 &&wc8.EncryptionConstant == 0)
-                {
-                    // We'll allow this to pass.
-                }
-                else
-                {
-                    data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
-                }
-            }
-
             VerifyShiny(data);
         }
 
         private void VerifyShiny(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var Info = data.Info;
 
             switch (data.EncounterMatch)
             {
@@ -51,22 +37,39 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
-                    // gen5 correlation
-                    if (Info.Generation != 5)
+                    if (s is EncounterStatic8U {Shiny: Shiny.Random})
+                    {
+						// Underground Raids are originally anti-shiny on encounter.
+						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
+                        var xor = pkm.ShinyXor;
+                        if (xor is <= 15 and not 1)
+                            data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
                         break;
+                    }
+
+                    if (s.Generation != 5)
+                        break;
+
+                    // Generation 5 has a correlation for wild captures.
+                    // Certain static encounter types are just generated straightforwardly.
                     if (s.Location == 75) // Entree Forest
                         break;
-                    if (s.Gift || s.Roaming || s.Ability != 4)
+
+                    // Not wild / forced ability
+                    if (s.Gift || s.Ability == 4)
                         break;
-                    if (s is EncounterStatic5N)
+
+                    // Forced PID or generated without an encounter
+                    // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
+                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random || s5.Species == (int)Species.Crustle))
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
 
-                case EncounterSlot w:
-                    if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
+                case EncounterSlot5 w:
+                    if (w.Area.Type == SlotType.HiddenGrotto && pkm.IsShiny)
                         data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
-                    if (Info.Generation == 5 && w.Type != SlotType.HiddenGrotto)
+                    if (w.Area.Type != SlotType.HiddenGrotto)
                         VerifyG5PID_IDCorrelation(data);
                     break;
 
@@ -98,8 +101,9 @@ namespace PKHeX.Core
             {
                 // Indicate what it will evolve into
                 uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
-                var spec = evoVal == 0 ? LegalityAnalysis.SpeciesStrings[267] : LegalityAnalysis.SpeciesStrings[269];
-                var msg = string.Format(L_XWurmpleEvo_0, spec);
+                var evolvesTo = evoVal == 0 ? (int)Species.Beautifly : (int)Species.Dustox;
+                var species = ParseSettings.SpeciesStrings[evolvesTo];
+                var msg = string.Format(L_XWurmpleEvo_0, species);
                 data.AddLine(GetValid(msg, CheckIdentifier.EC));
             }
             else if (!WurmpleUtil.IsWurmpleEvoValid(pkm))
@@ -108,27 +112,42 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyEC(LegalityAnalysis data)
+        private static void VerifyEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var Info = data.Info;
 
             if (pkm.EncryptionConstant == 0)
+            {
+                if (Info.EncounterMatch is WC8 {PID: 0, EncryptionConstant: 0})
+                    return; // HOME Gifts
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
+            }
 
-            if (3 <= Info.Generation && Info.Generation <= 5)
+            // Gen3-5 => Gen6 have PID==EC with an edge case exception.
+            if (Info.Generation is 3 or 4 or 5)
             {
                 VerifyTransferEC(data);
+                return;
             }
-            else
+
+            // Gen1-2, Gen6+ should have PID != EC
+            if (pkm.PID == pkm.EncryptionConstant)
+            {
+                data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                return;
+            }
+
+            // Check for Gen3-5 => Gen6 edge case being incorrectly applied here.
+            if ((pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
             {
                 int xor = pkm.TSV ^ pkm.PSV;
-                if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
+                if (xor >> 3 == 1) // 8 <= x <= 15
                     data.AddLine(Get(LTransferPIDECXor, Severity.Fishy, CheckIdentifier.EC));
             }
         }
 
-        private void VerifyTransferEC(LegalityAnalysis data)
+        private static void VerifyTransferEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.

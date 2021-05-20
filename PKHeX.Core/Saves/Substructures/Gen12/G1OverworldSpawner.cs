@@ -12,46 +12,47 @@ namespace PKHeX.Core
         public G1OverworldSpawner(SAV1 sav)
         {
             SAV = sav;
-            EventFlags = sav.EventFlags;
+            EventFlags = sav.GetEventFlags();
             SpawnFlags = sav.EventSpawnFlags;
             bool yellow = SAV.Yellow;
 
             // FlagPairs set for Red/Blue when appropriate.
-            FlagEevee = new FlagPairG1 {SpawnFlag = 0x45};
-            FlagAerodactyl = new FlagPairG1 {EventFlag = 0x069, SpawnFlag = 0x34};
-            FlagHitmonlee = new FlagPairG1 {EventFlag = 0x356, SpawnFlag = 0x4A};
-            FlagHitmonchan = new FlagPairG1 {EventFlag = 0x357, SpawnFlag = 0x4B};
-            FlagVoltorb_1 = new FlagPairG1 {EventFlag = 0x461, SpawnFlag = 0x4D};
-            FlagVoltorb_2 = new FlagPairG1 {EventFlag = 0x462, SpawnFlag = 0x4E};
-            FlagVoltorb_3 = new FlagPairG1 { EventFlag = 0x463, SpawnFlag = 0x4F};
-            FlagElectrode_1 = new FlagPairG1 {EventFlag = 0x464, SpawnFlag = 0x50};
-            FlagVoltorb_4 = new FlagPairG1 {EventFlag = 0x465, SpawnFlag = 0x51};
-            FlagVoltorb_5 = new FlagPairG1 {EventFlag = 0x466, SpawnFlag = 0x52};
-            FlagElectrode_2 = new FlagPairG1 {EventFlag = 0x467, SpawnFlag = 0x53};
-            FlagVoltorb_6 = new FlagPairG1 {EventFlag = 0x468, SpawnFlag = 0x54};
-            FlagZapdos = new FlagPairG1 {EventFlag = 0x469, SpawnFlag = 0x55};
-            FlagMoltres = new FlagPairG1 {EventFlag = 0x53E, SpawnFlag = 0x5B};
-            FlagKabuto = new FlagPairG1 {EventFlag = 0x57E, SpawnFlag = 0x6D};
-            FlagOmanyte = new FlagPairG1 {EventFlag = 0x57F, SpawnFlag = 0x6E};
-            FlagMewtwo = new FlagPairG1 {EventFlag = 0x8C1, SpawnFlag = 0xD1};
-            FlagArticuno = new FlagPairG1 {EventFlag = 0x9DA, SpawnFlag = 0xE3};
+            FlagEevee = new FlagPairG1(0x45);
+            FlagAerodactyl = new FlagPairG1(0x069, 0x34);
+            FlagHitmonlee = new FlagPairG1(0x356, 0x4A);
+            FlagHitmonchan = new FlagPairG1(0x357, 0x4B);
+            FlagVoltorb_1 = new FlagPairG1(0x461, 0x4D);
+            FlagVoltorb_2 = new FlagPairG1(0x462, 0x4E);
+            FlagVoltorb_3 = new FlagPairG1(0x463, 0x4F);
+            FlagElectrode_1 = new FlagPairG1(0x464, 0x50);
+            FlagVoltorb_4 = new FlagPairG1(0x465, 0x51);
+            FlagVoltorb_5 = new FlagPairG1(0x466, 0x52);
+            FlagElectrode_2 = new FlagPairG1(0x467, 0x53);
+            FlagVoltorb_6 = new FlagPairG1(0x468, 0x54);
+            FlagZapdos = new FlagPairG1(0x469, 0x55);
+            FlagMoltres = new FlagPairG1(0x53E, 0x5B);
+            FlagKabuto = new FlagPairG1(0x57E, 0x6D);
+            FlagOmanyte = new FlagPairG1(0x57F, 0x6E);
+            FlagMewtwo = new FlagPairG1(0x8C1, 0xD1);
+            FlagArticuno = new FlagPairG1(0x9DA, 0xE3);
 
             if (yellow) // slightly different
             {
-                FlagKabuto.EventFlag = 0x578;
-                FlagAerodactyl.SpawnFlag = 0x33;
-                FlagMewtwo.SpawnFlag = 0xD7;
-                FlagArticuno.SpawnFlag = 0xEB;
-                FlagKabuto.SpawnFlag += 2;
-                FlagOmanyte.SpawnFlag += 2;
+                FlagKabuto = new FlagPairG1(0x578, 0x6D);
+                FlagAerodactyl = new FlagPairG1(0x069, 0x33);
+                FlagMewtwo = new FlagPairG1(0x8C1, 0xD7);
+                FlagArticuno = new FlagPairG1(0x9DA, 0xEB);
+                FlagKabuto = new FlagPairG1(0x57E, 0x6F);
+                FlagOmanyte = new FlagPairG1(0x57F, 0x70);
 
-                FlagBulbasaur = new FlagPairG1 { EventFlag = 0x0A8, SpawnFlag = 0x34 };
-                FlagSquirtle = new FlagPairG1 { EventFlag = 0x147 }; // Given by Officer Jenny after badged
-                FlagCharmander = new FlagPairG1 { EventFlag = 0x54F }; // Given by Damian, doesn't despawn
+                FlagBulbasaur = new FlagPairG1(0x0A8, 0x34);
+                FlagSquirtle = new FlagPairG1(0x147, 0); // Given by Officer Jenny after badged
+                FlagCharmander = new FlagPairG1(0x54F, 0); // Given by Damian, doesn't despawn
             }
         }
 
 #pragma warning disable IDE0052 // Remove unread private members
+        public const string FlagPropertyPrefix = "Flag"; // reflection
         private FlagPairG1 FlagMewtwo { get; }
         private FlagPairG1 FlagArticuno { get; }
         private FlagPairG1 FlagZapdos { get; }
@@ -77,17 +78,17 @@ namespace PKHeX.Core
 
         public void Save()
         {
-            SAV.EventFlags = EventFlags;
+            SAV.SetEventFlags(EventFlags);
             SAV.EventSpawnFlags = SpawnFlags;
         }
 
         public IEnumerable<FlagPairG1Detail> GetFlagPairs()
         {
-            var pz = ReflectUtil.GetPropertiesStartWithPrefix(GetType(), "Flag");
+            var pz = ReflectUtil.GetPropertiesStartWithPrefix(GetType(), FlagPropertyPrefix);
 
             foreach (var pair in pz)
             {
-                if (!(ReflectUtil.GetValue(this, pair) is FlagPairG1 p))
+                if (ReflectUtil.GetValue(this, pair) is not FlagPairG1 p)
                     continue;
                 yield return new FlagPairG1Detail(p, pair, EventFlags, SpawnFlags);
             }
@@ -96,19 +97,20 @@ namespace PKHeX.Core
 
     public sealed class FlagPairG1
     {
-        internal int SpawnFlag { get; set; }
-        internal int EventFlag { get; set; }
+        internal readonly int SpawnFlag;
+        internal readonly int EventFlag;
 
-        internal FlagPairG1() { }
+        internal FlagPairG1(int script, int hide) : this(hide) => EventFlag = script;
+        internal FlagPairG1(int hide) => SpawnFlag = hide;
     }
 
     public sealed class FlagPairG1Detail
     {
         private readonly FlagPairG1 Backing;
-
         public readonly string Name;
-        internal readonly bool[] Event;
-        internal readonly bool[] Spawn;
+
+        private readonly bool[] Event;
+        private readonly bool[] Spawn;
 
         public FlagPairG1Detail(FlagPairG1 back, string name, bool[] ev, bool[] spawn)
         {
@@ -118,18 +120,18 @@ namespace PKHeX.Core
             Spawn = spawn;
         }
 
-        public void Invert() => SetState(!IsDespawned);
+        public void Invert() => SetState(!IsHidden);
         public void Reset() => SetState(false);
 
-        public void SetState(bool despawned)
+        public void SetState(bool hide)
         {
             if (Backing.EventFlag != 0)
-                Event[Backing.EventFlag] = despawned;
+                Event[Backing.EventFlag] = hide;
             if (Backing.SpawnFlag != 0)
-                Spawn[Backing.SpawnFlag] = despawned;
+                Spawn[Backing.SpawnFlag] = hide;
         }
 
-        public bool IsDespawned
+        public bool IsHidden
         {
             get
             {

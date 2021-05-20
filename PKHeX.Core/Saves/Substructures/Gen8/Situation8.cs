@@ -12,15 +12,5 @@ namespace PKHeX.Core
         public float Z { get => BitConverter.ToSingle(Data, Offset + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10); }
         public float Y { get => (int)BitConverter.ToSingle(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
         public float R { get => (int)BitConverter.ToSingle(Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20); }
-
-        public void UpdateOverworldCoordinates()
-        {
-            //var o = ((SAV8)SAV).Overworld;
-            //o.M = M;
-            //o.X = X;
-            //o.Z = Z;
-            //o.Y = Y;
-            //o.R = R;
-        }
     }
 }

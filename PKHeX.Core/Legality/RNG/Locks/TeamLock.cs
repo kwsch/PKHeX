@@ -6,7 +6,7 @@ namespace PKHeX.Core
         public readonly string Comment;
         public readonly NPCLock[] Locks;
 
-        internal TeamLock Clone() => new TeamLock(Species, Comment, (NPCLock[])Locks.Clone());
+        internal TeamLock Clone() => new(Species, Comment, (NPCLock[])Locks.Clone());
 
         public TeamLock(int species, NPCLock[] locks)
         {

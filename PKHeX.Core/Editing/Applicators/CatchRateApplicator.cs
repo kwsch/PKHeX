@@ -19,12 +19,12 @@
             if (la.Info.Generation == 2)
                 return 0;
 
-            var v = la.EncounterOriginal;
+            var v = la.EncounterMatch;
             switch (v)
             {
                 case EncounterTrade1 c:
                     return c.GetInitialCatchRate();
-                case EncounterStatic s when s.Version == GameVersion.Stadium && s.Species == (int)Species.Psyduck:
+                case EncounterStatic1E { Version: GameVersion.Stadium, Species: (int)Species.Psyduck}:
                     return pk1.Japanese ? 167 : 168; // Amnesia Psyduck has different catch rates depending on language
                 default:
                 {

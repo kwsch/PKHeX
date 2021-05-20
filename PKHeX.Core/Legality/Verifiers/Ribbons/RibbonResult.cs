@@ -3,7 +3,7 @@
     /// <summary>
     /// Legality Check Parse object containing information about a single ribbon.
     /// </summary>
-    internal class RibbonResult
+    internal sealed class RibbonResult
     {
         /// <summary>Ribbon Display Name</summary>
         public string Name { get; private set; }

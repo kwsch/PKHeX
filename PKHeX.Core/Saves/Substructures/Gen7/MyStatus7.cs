@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -61,16 +60,10 @@ namespace PKHeX.Core
             }
         }
 
-        public byte[] FestaID // 12byte
+        public uint FestaID
         {
-            get => Data.Skip(Offset + 0x28).Take(4).Concat(Data.Skip(Offset + 0x18).Take(8)).ToArray();
-            set
-            {
-                if (value.Length != 12)
-                    return;
-                Array.Copy(value, 0, Data, Offset + 0x28, 4);
-                Array.Copy(value, 4, Data, Offset + 0x18, 8);
-            }
+            get => BitConverter.ToUInt32(Data, Offset + 0x28);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x28);
         }
 
         public int SubRegion

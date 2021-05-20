@@ -32,17 +32,17 @@ namespace PKHeX.Core
         /// <param name="tr">Trainer info to apply</param>
         public static void TemplateFields(PKM pk, ITrainerInfo tr)
         {
-            pk.Move1 = 1;
-            pk.Move1_PP = 40;
+            pk.Move1 = (int)Move.Pound;
+            pk.HealPP();
             pk.Ball = 4;
             pk.MetDate = DateTime.Today;
 
             if (tr.Game >= 0)
                 pk.Version = tr.Game;
-            int spec = ((GameVersion)pk.Version).GetMaxSpeciesID();
-            if (spec <= 0)
-                spec = pk.MaxSpeciesID;
-            pk.Species = spec;
+            int species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
+            if (species <= 0)
+                species = pk.MaxSpeciesID;
+            pk.Species = species;
             var lang = tr.Language;
             if (lang <= 0)
                 lang = (int)LanguageID.English;
@@ -55,11 +55,11 @@ namespace PKHeX.Core
             pk.OT_Gender = tr.Gender;
             pk.TID = tr.TID;
             pk.SID = tr.SID;
-            if (tr.ConsoleRegion >= 0)
+            if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
             {
-                pk.ConsoleRegion = tr.ConsoleRegion;
-                pk.Country = tr.Country;
-                pk.Region = tr.SubRegion;
+                gt.ConsoleRegion = o.ConsoleRegion;
+                gt.Country = o.Country;
+                gt.Region = o.Region;
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)

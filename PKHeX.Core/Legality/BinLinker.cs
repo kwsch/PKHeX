@@ -12,12 +12,10 @@ namespace PKHeX.Core
         /// <returns>Unpacked array containing all files that were packed.</returns>
         public static byte[][] Unpack(byte[] fileData, string identifier)
         {
-            if (fileData.Length < 4)
-                throw new ArgumentException(nameof(fileData));
-
-            if (identifier[0] != fileData[0] || identifier[1] != fileData[1])
-                throw new ArgumentException(nameof(identifier));
-
+#if DEBUG
+            System.Diagnostics.Debug.Assert(fileData.Length > 4);
+            System.Diagnostics.Debug.Assert(identifier[0] == fileData[0] && identifier[1] == fileData[1]);
+#endif
             int count = BitConverter.ToUInt16(fileData, 2); int ctr = 4;
             int start = BitConverter.ToInt32(fileData, ctr); ctr += 4;
             byte[][] returnData = new byte[count][];

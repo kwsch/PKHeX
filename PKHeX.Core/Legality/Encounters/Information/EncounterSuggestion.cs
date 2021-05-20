@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using static PKHeX.Core.GameVersion;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -39,7 +41,7 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
         {
-            if (!pkm.IsNative && pkm.GenNumber < 5)
+            if (!pkm.IsNative && pkm.Generation < 5)
                 return pkm.CurrentLevel; // be generous with transfer conditions
             if (pkm.Format < 5) // and native
                 return pkm.Format == 2 && pkm.Met_Location != 0 ? 1 : 0;
@@ -48,26 +50,20 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
         {
-            switch (pkm.GenNumber)
-            {
-                case 1:
-                case 2:
-                case 3:
-                    return 0;
-                case 4:
-                    return traded ? Locations.LinkTrade4 : Locations.Daycare4;
-                case 5:
-                    return traded ? Locations.LinkTrade5 : Locations.Daycare5;
-                default:
-                    return traded ? Locations.LinkTrade6 : Locations.Daycare5;
-            }
+            return GetSuggestedEncounterEggLocationEgg(pkm.Generation, traded);
         }
 
-        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterArea area, int loc = -1)
+        public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false) => generation switch
         {
-            var slots = area.Slots.OrderBy(s => s.LevelMin);
-            var first = slots.First();
-            var met = loc != -1 ? loc : area.Location;
+            1 or 2 or 3 => 0,
+            4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
+            5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
+            _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
+        };
+
+        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterSlot first, int loc = -1)
+        {
+            var met = loc != -1 ? loc : first.Location;
             return new EncounterSuggestionData(pkm, first, met);
         }
 
@@ -81,63 +77,31 @@ namespace PKHeX.Core
         /// Gets a valid Egg hatch location for the origin game.
         /// </summary>
         /// <param name="pkm">Pokémon data to suggest for</param>
-        public static int GetSuggestedEggMetLocation(PKM pkm)
+        public static int GetSuggestedEggMetLocation(PKM pkm) => (GameVersion)pkm.Version switch
         {
-            // Return one of legal hatch locations for game
-            switch ((GameVersion)pkm.Version)
+            R or S or E or FR or LG => pkm.Format switch
             {
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    return pkm.Format switch
-                    {
-                        3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
-                        4 => Locations.Transfer3, // Pal Park
-                        _ => Locations.Transfer4,
-                    };
+                3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
+                4 => Locations.Transfer3, // Pal Park
+                _ => Locations.Transfer4,
+            },
 
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.Pt:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationDPPt;
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationHGSS;
+            D or P or Pt => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
+            HG or SS => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
 
-                case GameVersion.B:
-                case GameVersion.W:
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return Locations.HatchLocation5;
+            B or W or B2 or W2 => Locations.HatchLocation5,
 
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return Locations.HatchLocation6XY;
-                case GameVersion.AS:
-                case GameVersion.OR:
-                    return Locations.HatchLocation6AO;
+            X or Y => Locations.HatchLocation6XY,
+            AS or OR => Locations.HatchLocation6AO,
 
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.US:
-                case GameVersion.UM:
-                    return Locations.HatchLocation7;
+            SN or MN or US or UM => Locations.HatchLocation7,
+            RD or BU or GN or Y => Locations.Transfer1,
+            GD or SV or C => Locations.Transfer2,
+            GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
 
-                case GameVersion.SW:
-                case GameVersion.SH:
-                    return Locations.HatchLocation8;
-
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                case GameVersion.GSC:
-                case GameVersion.RBY:
-                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
-            }
-            return -1;
-        }
+            SW or SH => Locations.HatchLocation8,
+            _ => -1,
+        };
 
         /// <summary>
         /// Gets the correct Transfer Met location for the origin game.
@@ -148,20 +112,16 @@ namespace PKHeX.Core
         /// </remarks>
         public static int GetSuggestedTransferLocation(PKM pkm)
         {
+            if (pkm.Version == (int)GO)
+                return Locations.GO8;
             if (pkm.HasOriginalMetLocation)
                 return -1;
-            if (pkm.Version == (int) GameVersion.GO)
-                return 30012;
             if (pkm.VC1)
-                return Legal.Transfer1;
+                return Locations.Transfer1;
             if (pkm.VC2)
-                return Legal.Transfer2;
+                return Locations.Transfer2;
             if (pkm.Format == 4) // Pal Park
                 return Locations.Transfer3;
-
-            if (pkm.GenNumber >= 5)
-                return -1;
-
             if (pkm.Format >= 5) // Transporter
                 return Legal.GetTransfer45MetLocation(pkm);
             return -1;
@@ -184,6 +144,13 @@ namespace PKHeX.Core
             return startLevel;
         }
 
+        /// <summary>
+        /// Gets the suggested <see cref="PKM.Met_Level"/> based on a baseline <see cref="minLevel"/> and the <see cref="pkm"/>'s current moves.
+        /// </summary>
+        /// <param name="pkm">Entity to calculate for</param>
+        /// <param name="minLevel">Encounter minimum level to calculate for</param>
+        /// <returns>Minimum level the <see cref="pkm"/> can have for its <see cref="PKM.Met_Level"/></returns>
+        /// <remarks>Brute-forces the value by cloning the <see cref="pkm"/> and adjusting the <see cref="PKM.Met_Level"/> and returning the lowest valid value.</remarks>
         public static int GetSuggestedMetLevel(PKM pkm, int minLevel)
         {
             var clone = pkm.Clone();
@@ -201,7 +168,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterSuggestionData : IRelearn
+    public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
     {
         private readonly IEncounterable? Encounter;
 
@@ -211,7 +178,7 @@ namespace PKHeX.Core
         {
             Encounter = enc;
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             Location = met;
 
             LevelMin = enc.LevelMin;
@@ -221,7 +188,7 @@ namespace PKHeX.Core
         public EncounterSuggestionData(PKM pkm, int met, int lvl)
         {
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             Location = met;
 
             LevelMin = lvl;
@@ -236,5 +203,7 @@ namespace PKHeX.Core
         public int LevelMax { get; }
 
         public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
+        public int GetSuggestedEncounterType() => Encounter is IEncounterTypeTile t ? t.TypeEncounter.GetIndex() : 0;
+        public bool HasEncounterType(int format) => Encounter is IEncounterTypeTile t && t.HasTypeEncounter(format);
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace PKHeX.Core
 {
-    internal class SAV1Offsets
+    internal sealed class SAV1Offsets
     {
         public static readonly SAV1Offsets INT = GetINT();
         public static readonly SAV1Offsets JPN = GetJPN();
 
-        private static SAV1Offsets GetINT() => new SAV1Offsets
+        private static SAV1Offsets GetINT() => new()
         {
             DexCaught = 0x25A3,
             DexSeen = 0x25B6,
@@ -30,7 +30,7 @@
             ChecksumOfs = 0x3523,
         };
 
-        private static SAV1Offsets GetJPN() => new SAV1Offsets
+        private static SAV1Offsets GetJPN() => new()
         {
             DexCaught = 0x259E,
             DexSeen = 0x25B1,
@@ -56,26 +56,26 @@
         };
 
         public int OT { get; } = 0x2598;
-        public int DexCaught { get; private set; }
-        public int DexSeen { get; private set; }
-        public int Items { get; private set; }
-        public int Money { get; private set; }
-        public int Options { get; private set; }
-        public int Badges { get; private set; }
-        public int TID { get; private set; }
-        public int PikaFriendship { get; private set; }
-        public int PikaBeachScore { get; private set; }
-        public int PrinterBrightness { get; private set; }
-        public int PCItems { get; private set; }
-        public int CurrentBoxIndex { get; private set; }
-        public int Coin { get; private set; }
-        public int ObjectSpawnFlags { get; private set; }
-        public int Starter { get; private set; }
-        public int EventFlag { get; private set; }
-        public int PlayTime { get; private set; }
-        public int Daycare { get; private set; }
-        public int Party { get; private set; }
-        public int CurrentBox { get; private set; }
-        public int ChecksumOfs { get; private set; }
+        public int DexCaught { get; private init; }
+        public int DexSeen { get; private init; }
+        public int Items { get; private init; }
+        public int Money { get; private init; }
+        public int Options { get; private init; }
+        public int Badges { get; private init; }
+        public int TID { get; private init; }
+        public int PikaFriendship { get; private init; }
+        public int PikaBeachScore { get; private init; }
+        public int PrinterBrightness { get; private init; }
+        public int PCItems { get; private init; }
+        public int CurrentBoxIndex { get; private init; }
+        public int Coin { get; private init; }
+        public int ObjectSpawnFlags { get; private init; }
+        public int Starter { get; private init; }
+        public int EventFlag { get; private init; }
+        public int PlayTime { get; private init; }
+        public int Daycare { get; private init; }
+        public int Party { get; private init; }
+        public int CurrentBox { get; private init; }
+        public int ChecksumOfs { get; private init; }
     }
 }

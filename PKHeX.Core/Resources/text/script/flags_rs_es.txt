@@ -14,7 +14,7 @@
 0x80A	Recibida Medalla Calor
 0x80B	Recibida Medalla Equilibrio
 0x80C	Recibida Medalla Pluma 
-0x80D	Recibida Medalla Mente 
+0x80D	Recibida Medalla Mente (Entrada sellada a la Guarida Magma/Aqua)
 0x80E	Recibida Medalla Lluvia 
 
 0x099	Intercambio en Ciudad Férrica
@@ -37,9 +37,25 @@
 0x3A7	Oculto en el mundo (Regirock)
 0x3A8	Oculto en el mundo (Regice)
 0x3A9	Oculto en el mundo (Registeel)
+0x3C3	Oculto en el mundo (Fósil Raíz)
+0x3C4	Oculto en el mundo (Fósil Garra)
+0x3C9	Descubierto Kecleon (Ciudad Arborada)
+0x3CA	Descubierto Kecleon (Ruta 120, Puente)
+0x3D5	Descubierto Kecleon (Ruta 120, Puente)
+0x3D6	Descubierto Kecleon (Ruta 120, Escaleras)
+0x3D9	Descubierto Kecleon (Ruta 120, Detrás de la Señaln)
+0x3DA	Descubierto Kecleon (Ruta 120, detrás de los Árboles de Bayas)
+0x3DB	Descubierto Kecleon (Ruta 120, Izquierda del Laberiento de Hierba Alta)
+0x3DC	Descubierto Kecleon (Ruta 120, Detrás de la Tumba Antigua)
+0x3DD	Descubierto Kecleon (Ruta 119, Derecha del Niño Ninja)
+0x3DE	Descubierto Kecleon (Ruta 119, Above Waterfall)
 
-0x3D1	Oculto en el mundo (Electrode 1 in Hideout)
-0x3D2	Oculto en el mundo (Electrode 2 in Hideout)
+0x3CE	Oculto en el mundo (Voltorb 1 en Malvalanova)
+0x3CF	Oculto en el mundo (Voltorb 2 en Malvalanova)
+0x3D0	Oculto en el mundo (Voltorb 3 en Malvalanova)
+
+0x3D1	Oculto en el mundo (Electrode 1 en Guarida)
+0x3D2	Oculto en el mundo (Electrode 2 en Guarida)
 
 0x800	Recibido Pokémon Inicial
 0x801	Recibida PokéDex
@@ -47,7 +63,6 @@
 0x804	Entrada al Hall de la Fama
 0x805	Usado Easy Chat
 0x806	Encontrar al Fardón
-0x80D	Entrada sellada a la Guarida Magma/Aqua
 0x830	Vista TV en Casa
 0x834	Mixed Records
 0x835	Poner Reloj
@@ -58,7 +73,8 @@
 0x84C	Regalo Misterioso Habilitado
 0x84D	Usada Flauta Blanca
 0x84E	Usada Flauta Negra
-0x84F	Completado Puzzle de la Camara Sellada
+0x84F	Completado Puzzle de la Camara Sellada (1)
+0x0E4	Completado Puzzle de la Camara Sellada (2)
 0x850	Completado Puzzle de Regirock
 0x851	Completado Puzzle de Regice
 0x852	Completado Puzzle de Registeel

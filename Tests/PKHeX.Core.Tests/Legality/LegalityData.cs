@@ -21,9 +21,9 @@ namespace PKHeX.Tests.Legality
                 if (gen <= 4)
                     continue;
 
-                if (!(t.GetValue(typeof(EvolutionTree)) is EvolutionTree fTree))
+                if (t.GetValue(typeof(EvolutionTree)) is not EvolutionTree fTree)
                     throw new ArgumentException(nameof(fTree));
-                if (!(fEntries.GetValue(fTree) is IReadOnlyList<EvolutionMethod[]> entries))
+                if (fEntries.GetValue(fTree) is not IReadOnlyList<EvolutionMethod[]> entries)
                     throw new ArgumentException(nameof(entries));
                 var feebas = entries[(int)Species.Feebas];
 

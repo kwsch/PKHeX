@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Sorting methods for <see cref="IEnumerable{PKM}"></see> lists.
+    /// </summary>
     public static class PKMSorting
     {
         /// <summary>
@@ -173,7 +176,7 @@ namespace PKHeX.Core
         private static IOrderedEnumerable<PKM> FinalSortBy(this IOrderedEnumerable<PKM> result)
         {
             var postSorted = result
-                .ThenBy(p => p.AltForm) // altforms sorted
+                .ThenBy(p => p.Form) // forms sorted
                 .ThenBy(p => p.Gender) // gender sorted
                 .ThenBy(p => p.IsNicknamed);
             return postSorted;

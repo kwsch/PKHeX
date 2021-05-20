@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -28,6 +27,7 @@ namespace PKHeX.Core
 
         public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, ((index1 * 3) + index2) * 2);
         public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, ((index1 * 3) + index2) * 2);
+        public override void CopyTo(SaveFile sav) => sav.SetData(((SAV3)sav).Large, DataOffset);
 
         public override string AuthorName
         {
@@ -36,7 +36,8 @@ namespace PKHeX.Core
             {
                 if (value.Length == 0)
                 {
-                    Enumerable.Repeat<byte>(0xFF, 8).ToArray().CopyTo(Data, 0x12);
+                    for (int i = 0; i < 8; i++)
+                        Data[0x12 + i] = 0xFF;
                 }
                 else
                 {
@@ -51,15 +52,12 @@ namespace PKHeX.Core
         public override int AppearPKM { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)(value == 0 ? 1 : value)).CopyTo(Data, 0x1E); }
         public override int MailType { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
 
-        public override bool? IsEmpty
+        public override bool? IsEmpty => MailType switch
         {
-            get
-            {
-                if (MailType == 0) return true;
-                else if (MailType >= 0x79 && MailType <= 0x84) return false;
-                else return null;
-            }
-        }
+            0 => true,
+            >= 0x79 and <= 0x84 => false,
+            _ => null
+        };
 
         public override void SetBlank() => (new Mail3()).Data.CopyTo(Data, 0);
     }

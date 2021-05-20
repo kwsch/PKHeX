@@ -28,11 +28,11 @@ namespace PKHeX.Core
             for (int y = 0; y < 3; y++)
             {
                 for (int x = 0; x < 4; x++)
-                    SetMessage(y, x, (ushort)(x == 1 ? 0 : 0xFFFF));
+                    SetMessage(y, x, x == 1 ? (ushort)0 : (ushort)0xFFFF);
             }
         }
 
-        public override void CopyTo(PK5 pk5) => pk5.HeldMailData = Data;
+        public override void CopyTo(PK5 pk5) => pk5.SetHeldMailData(Data);
         public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
         public override ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
         public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }
@@ -46,15 +46,12 @@ namespace PKHeX.Core
         public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (((index1 * 4) + index2) * 2));
         public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (((index1 * 4) + index2) * 2));
 
-        public override bool? IsEmpty
+        public override bool? IsEmpty => MailType switch
         {
-            get
-            {
-                if (MailType == 0xFF) return true;
-                if (MailType <= 11) return false;
-                return null;
-            }
-        }
+            0xFF => true,
+            <= 11 => false,
+            _ => null
+        };
 
         public override void SetBlank() => SetBlank(null, null);
         public void SetBlank(byte? lang, byte? ver) => new Mail5(lang: lang, ver: ver).Data.CopyTo(Data, 0);

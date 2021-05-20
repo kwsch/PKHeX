@@ -20,7 +20,7 @@ namespace PKHeX.Core
         }
 
         private int GetMemberOffset(int i) => Offset + (i * HallFame3PKM.SIZE);
-        private HallFame3PKM GetMember(int i) => new HallFame3PKM(Parent, GetMemberOffset(i), Japanese);
+        private HallFame3PKM GetMember(int i) => new(Parent, GetMemberOffset(i), Japanese);
 
         public HallFame3PKM[] Team
         {
@@ -38,12 +38,8 @@ namespace PKHeX.Core
 
         public static HallFame3Entry[] GetEntries(SAV3 sav)
         {
-            byte[] data = new byte[SAV3.SIZE_BLOCK_USED * 2];
+            byte[] data = sav.GetHallOfFameData();
             Debug.Assert(data.Length > MaxLength);
-
-            // HoF Data is split across two sav blocks
-            Array.Copy(sav.Data, 0x1C000, data, 0, SAV3.SIZE_BLOCK_USED);
-            Array.Copy(sav.Data, 0x1D000, data, SAV3.SIZE_BLOCK_USED, SAV3.SIZE_BLOCK_USED);
             bool Japanese = sav.Japanese;
 
             var entries = new HallFame3Entry[MaxEntries];
@@ -55,12 +51,7 @@ namespace PKHeX.Core
         public static void SetEntries(SAV3 sav, HallFame3Entry[] entries)
         {
             byte[] data = entries[0].Team[0].Data;
-            if (data.Length != MaxLength)
-                throw new ArgumentException(nameof(data));
-
-            // HoF Data is split across two sav blocks
-            Array.Copy(data, 0,                    sav.Data, 0x1C000, SAV3.SIZE_BLOCK_USED);
-            Array.Copy(data, SAV3.SIZE_BLOCK_USED, sav.Data, 0x1D000, SAV3.SIZE_BLOCK_USED);
+            sav.SetHallOfFameData(data);
         }
     }
 

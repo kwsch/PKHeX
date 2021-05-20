@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using PKHeX.Core;
-using Exception = System.Exception;
 
 namespace PKHeX.WinForms
 {
     /// <summary>
     /// Drawing Configuration for painting and updating controls
     /// </summary>
+    [Serializable]
     public sealed class DrawConfig : IDisposable
     {
         private const string PKM = "Pokémon Editor";
@@ -72,15 +71,12 @@ namespace PKHeX.WinForms
 
         public DrawConfig() => LoadBrushes();
 
-        public Color GetGenderColor(int gender)
+        public Color GetGenderColor(int gender) => gender switch
         {
-            return gender switch
-            {
-                0 => Male,
-                1 => Female,
-                _ => TextColor
-            };
-        }
+            0 => Male,
+            1 => Female,
+            _ => TextColor
+        };
 
         public bool GetMarkingColor(int markval, out Color c)
         {
@@ -95,7 +91,8 @@ namespace PKHeX.WinForms
         public Color GetText(bool highlight) => highlight ? TextHighlighted : TextColor;
         public Color GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackColor);
 
-        public readonly BrushSet Brushes = new BrushSet();
+        [NonSerialized]
+        public readonly BrushSet Brushes = new();
 
         public void LoadBrushes()
         {
@@ -118,62 +115,20 @@ namespace PKHeX.WinForms
                     continue;
 
                 var name = p.Name;
-                var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)).ToArgb() : p.GetValue(this);
+                var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)!).ToArgb() : p.GetValue(this);
                 lines.Add($"{name}\t{value}");
             }
             return string.Join("\n", lines);
-        }
-
-        public static DrawConfig GetConfig(string data)
-        {
-            var config = new DrawConfig();
-            if (string.IsNullOrWhiteSpace(data))
-                return config;
-
-            var lines = data.Split('\n');
-            foreach (var l in lines)
-                config.ApplyLine(l);
-
-            return config;
-        }
-
-        private void ApplyLine(string l)
-        {
-            var t = typeof(DrawConfig);
-            var split = l.Split('\t');
-            var name = split[0];
-            var value = split[1];
-
-            try
-            {
-                var pi = t.GetProperty(name);
-                if (pi == null)
-                    throw new ArgumentNullException(name);
-                if (pi.PropertyType == typeof(Color))
-                {
-                    var color = Color.FromArgb(int.Parse(value));
-                    pi.SetValue(this, color);
-                }
-                else
-                {
-                    pi.SetValue(this, value);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Failed to write {name} to {value}!");
-                Debug.WriteLine(e.Message);
-            }
         }
     }
 
     public sealed class BrushSet : IDisposable
     {
-        public Brush Text { get; set; }
-        public Brush BackLegal { get; set; }
-        public Brush BackDefault { get; set; }
-        public Brush TextHighlighted { get; set; }
-        public Brush BackHighlighted { get; set; }
+        public Brush Text { get; set; } = Brushes.Black;
+        public Brush BackLegal { get; set; } = Brushes.DarkSeaGreen;
+        public Brush BackDefault { get; set; } = Brushes.White;
+        public Brush TextHighlighted { get; set; } = Brushes.White;
+        public Brush BackHighlighted { get; set; } = Brushes.Blue;
 
         public Brush GetText(bool highlight) => highlight ? TextHighlighted : Text;
         public Brush GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackDefault);

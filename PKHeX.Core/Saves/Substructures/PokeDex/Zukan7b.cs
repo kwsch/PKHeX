@@ -3,29 +3,17 @@ using System;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Beluga specific Dex manipulator, slightly modified from Gen7.
-    /// </summary>
-    public class Zukan7b : Zukan7
+    /// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
+    /// </summary>>
+    public sealed class Zukan7b : Zukan7
     {
-        private const int SIZE_MAGIC = 4; // 0x2F120F17 magic
-        private const int SIZE_FLAGS = 4;
-        private const int SIZE_MISC = 0x80; // Misc Data (1024 bits)
-        private const int SIZE_CAUGHT = 0x68; // 832 bits
-
-        protected override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
-        protected override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
-
-        protected override int BitSeenSize => 0x8C; // 1120 bits
-        protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
-        protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
-
         public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
         {
         }
 
         public override void SetDex(PKM pkm)
         {
-            if (!TryGetSizeEntryIndex(pkm.Species, pkm.AltForm, out _))
+            if (!TryGetSizeEntryIndex(pkm.Species, pkm.Form, out _))
                 return;
             SetSizeData((PB7)pkm);
             base.SetDex(pkm);
@@ -63,7 +51,7 @@ namespace PKHeX.Core
         private void SetSizeData(PB7 pkm)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             if (!TryGetSizeEntryIndex(species, form, out int index))
                 return;
 
@@ -110,15 +98,19 @@ namespace PKHeX.Core
         {
             var tree = EvolutionTree.GetEvolutionTree(pkm, 7);
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
 
             int height = pkm.HeightScalar;
             int weight = pkm.WeightScalar;
 
             // update for all species in potential lineage
             var allspec = tree.GetEvolutionsAndPreEvolutions(species, form);
-            foreach (var s in allspec)
-                SetSizeData(group, s, form, height, weight);
+            foreach (var sf in allspec)
+            {
+                var s = sf & 0x7FF;
+                var f = sf >> 11;
+                SetSizeData(group, s, f, height, weight);
+            }
         }
 
         public void SetSizeData(DexSizeType group, int species, int form, int height, int weight)
@@ -156,7 +148,7 @@ namespace PKHeX.Core
 
         private static readonly ushort[] SizeDexInfoTable =
         {
-            // spec, form, index
+            // species, form, index
             808, 0, 151,
             809, 0, 152,
 
@@ -199,8 +191,8 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case 020: // Raticate
-                case 105: // Marowak
+                // Totems with Alolan Forms
+                case 020 or 105: // Raticate or Marowak
                     formStart = 0;
                     formEnd = 1;
                     return true;

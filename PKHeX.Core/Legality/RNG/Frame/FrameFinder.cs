@@ -8,7 +8,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks a <see cref="PIDIV"/> to see if any encounter frames can generate the spread. Requires further filtering against matched Encounter Slots and generation patterns.
         /// </summary>
-        /// <param name="pidiv">Matched <see cref="PIDIV"/> containing <see cref="PIDIV.RNG"/> info and <see cref="PIDIV.OriginSeed"/>.</param>
+        /// <param name="pidiv">Matched <see cref="PIDIV"/> containing info and <see cref="PIDIV.OriginSeed"/>.</param>
         /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
             var seeds = pk.Species == (int)Species.Unown && pk.FRLG // reversed await case
-                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.AltForm)
+                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.Form)
                 : SeedInfo.GetSeedsUntilNature(pidiv, info);
 
             var frames = pidiv.Type == PIDType.CuteCharm
@@ -62,7 +62,7 @@ namespace PKHeX.Core
                     yield return f;
 
                 // Generate frames for other slots after the regular slots
-                if (info.AllowLeads && (f.Lead == LeadRequired.CuteCharm || f.Lead == LeadRequired.None))
+                if (info.AllowLeads && (f.Lead is LeadRequired.CuteCharm or LeadRequired.None))
                     list.Add(f);
             }
             foreach (var f in list)

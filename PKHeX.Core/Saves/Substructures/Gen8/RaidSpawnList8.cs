@@ -16,8 +16,9 @@ namespace PKHeX.Core
 
         public const int RaidCountLegal_O0 = 100;
         public const int RaidCountLegal_R1 = 90;
+        public const int RaidCountLegal_R2 = 86;
 
-        public RaidSpawnDetail GetRaid(int entry) => new RaidSpawnDetail(Data, entry * RaidSpawnDetail.SIZE);
+        public RaidSpawnDetail GetRaid(int entry) => new(Data, entry * RaidSpawnDetail.SIZE);
 
         public RaidSpawnDetail[] GetAllRaids()
         {
@@ -25,6 +26,16 @@ namespace PKHeX.Core
             for (int i = 0; i < result.Length; i++)
                 result[i] = GetRaid(i);
             return result;
+        }
+
+        public void DectivateAllRaids()
+        {
+            for (int i = 0; i < CountUsed; i++)
+            {
+                if (i == 16) // Watchtower, special
+                    continue;
+                GetRaid(i).Deactivate();
+            }
         }
 
         public void ActivateAllRaids(bool rare, bool isEvent)
@@ -50,7 +61,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class RaidSpawnDetail
+    public sealed class RaidSpawnDetail
     {
         public const int SIZE = 0x18;
 
@@ -125,7 +136,7 @@ namespace PKHeX.Core
         [Category(Derived), Description("Rare encounter details used instead of Common details.")]
         public bool IsRare
         {
-            get => DenType == RaidType.Rare || DenType == RaidType.RareWish;
+            get => DenType is RaidType.Rare or RaidType.RareWish;
             set
             {
                 if (value)
@@ -142,7 +153,7 @@ namespace PKHeX.Core
         [Category(Derived), Description("Wishing Piece was used for Raid encounter.")]
         public bool IsWishingPiece
         {
-            get => DenType == RaidType.CommonWish || DenType == RaidType.RareWish;
+            get => DenType is RaidType.CommonWish or RaidType.RareWish;
             set
             {
                 if (value)
@@ -195,6 +206,13 @@ namespace PKHeX.Core
             IsEvent = isEvent;
         }
 
+        public void Deactivate()
+        {
+            DenType = RaidType.None;
+            Stars = 0;
+            RandRoll = 0;
+        }
+
         public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType}\t{Flags:X2}";
 
         // The games use a xoroshiro RNG to create the PKM from the stored seed.
@@ -209,34 +227,5 @@ namespace PKHeX.Core
         RareWish = 4,
         Event = 5,
         DynamaxCrystal = 6,
-    }
-
-    public class TypeConverterU64 : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
-        }
-
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType == typeof(string) && value is ulong)
-                return $"{value:X16}"; // no 0x prefix
-            return base.ConvertTo(context, culture, value, destinationType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            if (!(value is string input))
-                return base.ConvertFrom(context, culture, value);
-            if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                input = input.Substring(2);
-            return ulong.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0ul;
-        }
     }
 }

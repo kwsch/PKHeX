@@ -49,10 +49,9 @@ namespace PKHeX.Core
 
     public sealed class FakeSaveFile : SaveFile
     {
-        public static readonly FakeSaveFile Default = new FakeSaveFile();
-        protected override string BAKText => "Fake Save File";
-        public override SaveFile Clone() => this;
-        public override string Filter => string.Empty;
+        public static readonly FakeSaveFile Default = new();
+        protected internal override string ShortSummary => "Fake Save File";
+        protected override SaveFile CloneInternal() => this;
         public override string Extension => string.Empty;
         public override bool ChecksumsValid => true;
         public override string ChecksumInfo => string.Empty;
@@ -81,7 +80,7 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => BlankPKM;
         protected override byte[] DecryptPKM(byte[] data) => data;
         public override PKM BlankPKM => new PK3();
-        public override int SIZE_STORED => 0;
+        protected override int SIZE_STORED => 0;
         protected override int SIZE_PARTY => 0;
     }
 }

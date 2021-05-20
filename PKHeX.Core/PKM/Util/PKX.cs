@@ -11,10 +11,10 @@ namespace PKHeX.Core
         internal static readonly PersonalTable Personal = PersonalTable.SWSH;
         public const int Generation = 8;
 
-        private static readonly HashSet<int> Sizes = new HashSet<int>
+        private static readonly HashSet<int> Sizes = new()
         {
             PokeCrypto.SIZE_1JLIST,   PokeCrypto.SIZE_1ULIST,
-            PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,
+            PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,
             PokeCrypto.SIZE_3STORED,  PokeCrypto.SIZE_3PARTY,
             PokeCrypto.SIZE_3CSTORED, PokeCrypto.SIZE_3XSTORED,
             PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,
@@ -69,12 +69,12 @@ namespace PKHeX.Core
         {
             if (s.Length != 1)
                 return 2;
-            switch (s[0])
+            return s[0] switch
             {
-                case '♂': case 'M': return 0;
-                case '♀': case 'F': return 1;
-                default: return 2;
-            }
+                '♂' or 'M' => 0,
+                '♀' or 'F' => 1,
+                _ => 2,
+            };
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace PKHeX.Core
         /// <param name="gender">Current Gender</param>
         /// <param name="origin">Origin Generation</param>
         /// <param name="nature">Nature</param>
-        /// <param name="form">AltForm</param>
+        /// <param name="form">Form</param>
         /// <param name="oldPID">Current PID</param>
         /// <remarks>Used to retain ability bits.</remarks>
         /// <returns>Rerolled PID.</returns>
@@ -129,7 +129,7 @@ namespace PKHeX.Core
             uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
-            bool singleGender = gt == 255 || gt == 254 || gt == 0; // skip gender check
+            bool singleGender = gt is 0 or 254 or 255; // single gender, skip gender check
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.Rand32(rnd);
@@ -190,16 +190,13 @@ namespace PKHeX.Core
             return GetGenderFromPIDAndRatio(pid, gt);
         }
 
-        public static int GetGenderFromPIDAndRatio(uint pid, int gr)
+        public static int GetGenderFromPIDAndRatio(uint pid, int gr) => gr switch
         {
-            return gr switch
-            {
-                255 => 2,
-                254 => 1,
-                0 => 0,
-                _ => ((pid & 0xFF) < gr ? 1 : 0)
-            };
-        }
+            255 => 2,
+            254 => 1,
+            0 => 0,
+            _ => (pid & 0xFF) < gr ? 1 : 0
+        };
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -209,7 +206,7 @@ namespace PKHeX.Core
         public static string[] GetPKMExtensions(int maxGeneration = Generation)
         {
             var result = new List<string>();
-            int min = maxGeneration <= 2 || maxGeneration >= 7 ? 1 : 3;
+            int min = maxGeneration is <= 2 or >= 7 ? 1 : 3;
             for (int i = min; i <= maxGeneration; i++)
                 result.Add($"pk{i}");
 
@@ -236,7 +233,7 @@ namespace PKHeX.Core
         {
             if (string.IsNullOrEmpty(ext))
                 return prefer;
-            return GetPKMFormatFromExtension(ext[ext.Length - 1], prefer);
+            return GetPKMFormatFromExtension(ext[^1], prefer);
         }
 
         /// <summary>
@@ -247,7 +244,7 @@ namespace PKHeX.Core
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(char last, int prefer)
         {
-            if ('1' <= last && last <= '9')
+            if (last is >= '1' and <= '9')
                 return last - '0';
             return last == 'x' ? 6 : prefer;
         }

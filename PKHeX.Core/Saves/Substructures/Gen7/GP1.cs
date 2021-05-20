@@ -7,14 +7,22 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public sealed class GP1
+    public sealed class GP1 : IEncounterInfo
     {
         public const int SIZE = 0x1B0;
-        public byte[] Data { get; }
-        public GP1() => Data = (byte[])Blank.Clone();
-        public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+        public readonly byte[] Data;
+
+        public GameVersion Version => GameVersion.GO;
+        public bool EggEncounter => false;
+        public int LevelMin => Level;
+        public int LevelMax => Level;
+        public int Generation => 7;
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPB7(sav);
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria) => ConvertToPB7(sav, criteria);
 
         public GP1(byte[] data) => Data = data;
+        public GP1() : this((byte[])Blank.Clone()) { }
+        public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
         public static GP1 FromData(byte[] data, int offset)
         {
@@ -60,7 +68,7 @@ namespace PKHeX.Core
             get
             {
                 var height = HeightF * 100f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
                 var avgHeight = pi.Height;
                 return PB7.GetHeightScalar(height, avgHeight);
             }
@@ -72,16 +80,16 @@ namespace PKHeX.Core
             {
                 var height = HeightF * 100f;
                 var weight = WeightF * 10f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
                 var avgHeight = pi.Height;
                 var avgWeight = pi.Weight;
                 return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
             }
         }
 
-        public int IV1 => BitConverter.ToInt32(Data, 0x50);
-        public int IV2 => BitConverter.ToInt32(Data, 0x54);
-        public int IV3 => BitConverter.ToInt32(Data, 0x58);
+        public int IV_HP => BitConverter.ToInt32(Data, 0x50);
+        public int IV_ATK => BitConverter.ToInt32(Data, 0x54);
+        public int IV_DEF => BitConverter.ToInt32(Data, 0x58);
         public int Date => BitConverter.ToInt32(Data, 0x5C); // ####.##.## YYYY.MM.DD
         public int Year => Date / 1_00_00;
         public int Month => (Date / 1_00) % 1_00;
@@ -89,7 +97,7 @@ namespace PKHeX.Core
 
         public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
-        public int AltForm => Data[0x72];
+        public int Form => Data[0x72];
         public bool IsShiny => Data[0x73] == 1;
 
         // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO
@@ -103,7 +111,7 @@ namespace PKHeX.Core
         public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
         public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
+        public string FormString => Form != 0 ? $"-{Form}" : string.Empty;
         private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
         public string FileName => $"{FileNameWithoutExtension}.gp1";
 
@@ -111,14 +119,14 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV1:00}.{IV2:00}.{IV3:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
             }
         }
 
         public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
-        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+        public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
         public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
         public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
@@ -129,7 +137,7 @@ namespace PKHeX.Core
             {
                 Version = (int) GameVersion.GO,
                 Species = Species,
-                AltForm = AltForm,
+                Form = Form,
                 Met_Location = 50, // Go complex
                 Met_Year = Year - 2000,
                 Met_Month = Month,
@@ -155,19 +163,22 @@ namespace PKHeX.Core
                 pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
             }
 
-            pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
-            pk.IV_ATK = pk.IV_SPA = (IV2 * 2) + 1;
-            pk.IV_HP = (IV1 * 2) + 1;
+            pk.IV_DEF = pk.IV_SPD = (IV_DEF * 2) + 1;
+            pk.IV_ATK = pk.IV_SPA = (IV_ATK * 2) + 1;
+            pk.IV_HP = (IV_HP * 2) + 1;
             pk.IV_SPE = Util.Rand.Next(32);
 
             var pi = pk.PersonalInfo;
             const int av = 3;
             pk.Gender = criteria.GetGender(Gender, pi);
             pk.Nature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbilityFromType(av, pi));
+            pk.RefreshAbility(criteria.GetAbilityFromType(av));
 
-            if (IsShiny)
-                pk.SetShiny();
+            bool isShiny = pk.IsShiny;
+            if (IsShiny && !isShiny) // Force Square
+                pk.PID = (uint)(((sav.TID ^ sav.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+            else if (isShiny)
+                pk.PID ^= 0x1000_0000;
 
             var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
             pk.Moves = moves;

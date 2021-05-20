@@ -38,7 +38,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateFlagState(object sender, EventArgs e)
         {
-            if (!(sender is CheckBox c))
+            if (sender is not CheckBox c)
                 return;
 
             Image resource;

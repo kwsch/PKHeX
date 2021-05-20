@@ -4,7 +4,11 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public class SaveBlockMetadata<T>
+    /// <summary>
+    /// Utilizes Reflection to obtain all defined accessor property names and object values.
+    /// </summary>
+    /// <typeparam name="T">Type of accessor</typeparam>
+    public sealed class SaveBlockMetadata<T>
     {
         private readonly Dictionary<SaveBlock, string> BlockList;
 

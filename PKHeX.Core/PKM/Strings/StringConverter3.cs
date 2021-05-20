@@ -8,6 +8,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter3
     {
+        private const byte TerminatorByte = 0xFF;
+        private const char Terminator = (char)TerminatorByte;
+        private const char TerminatorBigEndian = (char)0; // GC
+
         /// <summary>
         /// Converts a Generation 3 encoded value array to string.
         /// </summary>
@@ -18,37 +22,38 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString3(byte[] data, int offset, int count, bool jp)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
                 var c = GetG3Char(val, jp); // Convert to Unicode
-                if (c == 0xFF) // Stop if Terminator/Invalid
+                if (c == Terminator) // Stop if Terminator/Invalid
                     break;
                 s.Append(c);
             }
-            return StringConverter.SanitizeString(s.ToString());
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>
         /// Converts a string to a Generation 3 encoded value array.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="jp">String destination is Japanese font.</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
-        /// <returns></returns>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
+        /// <returns>Encoded data.</returns>
         public static byte[] SetString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-            var data = new byte[value.Length + 1]; // +1 for 0xFF
+                value = value[..maxLength]; // Hard cap
+            var data = new byte[value.Length + 1]; // +1 for Terminator
             for (int i = 0; i < value.Length; i++)
             {
                 var chr = value[i];
                 var val = SetG3Char(chr, jp);
-                if (val == 0xFF) // end
+                if (val == Terminator) // end
                 {
                     Array.Resize(ref data, i + 1);
                     break;
@@ -56,9 +61,13 @@ namespace PKHeX.Core
                 data[i] = val;
             }
             if (data.Length > 0)
-                data[data.Length - 1] = 0xFF;
+                data[^1] = TerminatorByte;
             if (data.Length > maxLength && padTo <= maxLength)
+            {
+                // Truncate
                 Array.Resize(ref data, maxLength);
+                return data;
+            }
             if (data.Length < padTo)
             {
                 var start = data.Length;
@@ -76,23 +85,30 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetBEString3(byte[] data, int offset, int count)
         {
-            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, count));
+            var raw = Encoding.BigEndianUnicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromFirst(sb, TerminatorBigEndian);
+            return sb.ToString();
         }
 
         /// <summary>Gets the bytes for a Big Endian string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = TerminatorBigEndian)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-            var temp = StringConverter.SanitizeString(value)
-                .PadRight(value.Length + 1, (char)0) // Null Terminator
-                .PadRight(padTo, (char)padWith);
-            return Encoding.BigEndianUnicode.GetBytes(temp);
+                value = value[..maxLength]; // Hard cap
+            var sb = new StringBuilder(value);
+            StringConverter.SanitizeString(sb);
+            sb.Append(TerminatorBigEndian);
+            var delta = padTo - value.Length;
+            if (delta > 0)
+                sb.Append((char)padWith, delta);
+            var result = sb.ToString();
+            return Encoding.BigEndianUnicode.GetBytes(result);
         }
 
         /// <summary>
@@ -104,8 +120,6 @@ namespace PKHeX.Core
         private static char GetG3Char(byte chr, bool jp)
         {
             var table = jp ? G3_JP : G3_EN;
-            if (chr >= table.Length)
-                return (char)0xFF;
             return table[chr];
         }
 
@@ -121,7 +135,9 @@ namespace PKHeX.Core
                 return 0xB4;
             var table = jp ? G3_JP : G3_EN;
             var index = Array.IndexOf(table, chr);
-            return (byte)(index > -1 ? index : 0xFF);
+            if (index == -1)
+                return TerminatorByte;
+            return (byte)index;
         }
 
         private static readonly char[] G3_EN =
@@ -142,6 +158,9 @@ namespace PKHeX.Core
             'V',  'W',  'X',  'Y', 'Z',  'a',  'b',  'c',  'd',  'e',  'f',  'g', 'h',  'i',  'j',  'k', // D
             'l',  'm',  'n',  'o', 'p',  'q',  'r',  's',  't',  'u',  'v',  'w', 'x',  'y',  'z',  '0', // E
             ':',  'Ä',  'Ö',  'Ü', 'ä',  'ö',  'ü',                                                      // F
+
+            // Make the total length 256 so that any byte access is always within the array
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
         };
 
         private static readonly char[] G3_JP =
@@ -162,6 +181,9 @@ namespace PKHeX.Core
             'Ｖ', 'Ｗ', 'Ｘ', 'Ｙ', 'Ｚ', 'ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ', 'ｆ', 'ｇ', 'ｈ', 'ｉ', 'ｊ', 'ｋ', // D
             'ｌ', 'ｍ', 'ｎ', 'ｏ', 'ｐ', 'ｑ', 'ｒ', 'ｓ', 'ｔ', 'ｕ', 'ｖ', 'ｗ', 'ｘ', 'ｙ', 'ｚ', '0',  // E
             ':',  'Ä',  'Ö',  'Ü',  'ä',  'ö', 'ü',                                                      // F
+
+            // Make the total length 256 so that any byte access is always within the array
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
         };
     }
 }

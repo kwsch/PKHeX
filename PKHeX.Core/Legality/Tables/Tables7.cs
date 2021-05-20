@@ -92,7 +92,7 @@ namespace PKHeX.Core
             846,
         };
 
-        internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
+        internal static readonly ushort[] Pouch_Items_SM = ArrayUtil.ConcatAll(Pouch_Regular_SM, Pouch_Ball_SM, Pouch_Battle_SM);
 
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 631, 632, 638,
@@ -100,10 +100,10 @@ namespace PKHeX.Core
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
 
-        internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
+        internal static readonly ushort[] Pouch_Key_USUM = ArrayUtil.ConcatAll(Pouch_Key_SM, new ushort[] {
             933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
             440,
-        }).ToArray();
+        });
 
         public static readonly ushort[] Pouch_Roto_USUM = {
             949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
@@ -137,28 +137,28 @@ namespace PKHeX.Core
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
 
-        internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
+        internal static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, new ushort[] { // Bead
             927, 928, 929, 930, 931, 932
-        }).ToArray();
+        });
 
-        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
+        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, new ushort[] { // Piece
             921, 922, 923, 924, 925, 926
-        }).ToArray();
+        });
 
-        public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
-            .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new KeyValuePair<int, int>(k, v))
-            .ToDictionary(x => x.Key, x => x.Value);
+        public static readonly Dictionary<int, int> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
+
+        private static Dictionary<int, int> GetDictionary(IReadOnlyList<ushort> key, IReadOnlyList<ushort> held)
+        {
+            var result = new Dictionary<int, int>(held.Count);
+            for (int i = 0; i < key.Count; i++)
+                result.Add(key[i], held[i]);
+            return result;
+        }
 
         internal static readonly ushort[] HeldItems_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_SM);
         internal static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
 
-        internal static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
-            0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
-            0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
-            0x1A, // Beast
-        };
-
-        internal static readonly HashSet<int> AlolanOriginForms = new HashSet<int>
+        internal static readonly HashSet<int> AlolanOriginForms = new()
         {
             019, // Rattata
             020, // Raticate
@@ -177,16 +177,16 @@ namespace PKHeX.Core
             089, // Muk
         };
 
-        internal static readonly HashSet<int> AlolanVariantEvolutions12 = new HashSet<int>
+        internal static readonly HashSet<int> AlolanVariantEvolutions12 = new()
         {
             026, // Raichu
             103, // Exeggutor
             105, // Marowak
         };
 
-        internal static readonly HashSet<int> EvolveToAlolanForms = new HashSet<int>(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
+        internal static readonly HashSet<int> EvolveToAlolanForms = new(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
 
-        public static readonly HashSet<int> PastGenAlolanNatives = new HashSet<int>
+        public static readonly HashSet<int> PastGenAlolanNatives = new()
         {
             010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
             051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074, 075,
@@ -233,227 +233,6 @@ namespace PKHeX.Core
             100, 101 // Voltorb & Electrode
         };
 
-        public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
-        {
-            142, // Aerodacyl
-            137, 233, 474, // Porygon++
-            138, 139, 140, 141,  // Gen1 Fossils
-            345, 346, 347, 348,  // Gen3 Fossils
-            408, 409, 410, 411,  // Gen4 Fossils
-            564, 565, 566, 567,  // Gen5 Fossils
-            696, 697, 698, 699,  // Gen6 Fossils
-        };
-
-        internal static readonly HashSet<int> PastGenAlolanScans = new HashSet<int>
-        {
-            069, // Bellsprout
-            111, // Rhyhorn
-            116, // Horsea
-            152, // Chikorita
-            155, // Cyndaquil
-            158, // Totodile
-            220, // Swinub
-            363, // Spheal
-            543, // Venipede
-            574, // Gothita
-            599, // Klink
-            607, // Litwick
-            610, // Axew
-            633, // Deino
-            679, // Honedge
-
-            183, 298, // Marill {Azurill}
-            315, 406, // Roselia {Budew}
-
-            175, // [468] Togekiss (Togepi)
-            287, // [288] Vigoroth (Slakoth)
-            396, // [397] Staravia (Starly)
-            403, // [404] Luxio (Shinx)
-            495, // [497] Serperior (Snivy)
-            577, // [578] Duosion (Solosis)
-
-            498, // [500] Emboar (Tepig)
-            501, // [503] Samurott (Oshawott)
-            532, // [534] Conkeldurr (Timburr)
-            540, // [542] Leavanny (Sewaddle)
-            602, // [604] Eelektross (Tynamo)
-
-            004, // Charmander
-            007, // Squirtle
-            095, // Onix
-            663, 664, // Scatterbug
-            001, // Bulbasaur
-            280, // Ralts
-            255, 256, // Combusken
-            013, 014, 015, // Beedrill
-            252, 253, // Grovyle
-            258, 259, // Marshtomp
-            393, 394, // Prinplup
-            387, 388, // Grotle
-            016, 017, 018, // Pidgeot
-            389, 390, 391, // Monferno
-            304, 305, 306, // Aggron
-            479, // Rotom
-            650, 651, 652, // Chesnaught
-            656, 657, 658, // Greninja
-            653, 654, 655, // Delphox
-        };
-
-        internal static readonly HashSet<int> Inherit_Apricorn6 = new HashSet<int>
-        {
-            010, 013, 016, 019, 021, 023, 025, 027, 029, 035, 037, 039, 041,
-            043, 046, 048, 050, 052, 054, 056, 058, 060, 063, 066, 069, 072, 074, 077, 079, 083, 084, 086, 088, 090, 092,
-            095, 096, 098, 102, 104, 108, 109, 111, 113, 114, 115, 116, 118, 122, 124, 125, 126, 129, 131, 143, 147, 161,
-            163, 165, 167, 170, 177, 179, 183, 185, 187, 190, 191, 193, 194, 198, 200, 202, 203, 204, 206, 207, 209, 211,
-            213, 214, 215, 216, 218, 220, 222, 223, 225, 226, 227, 228, 231, 234, 235, 241, 246, 261, 263, 265, 273, 276,
-            278, 280, 285, 287, 293, 296, 302, 303, 307, 311, 312, 316, 322, 325, 327, 333, 339, 359, 366, 369, 370, 396,
-            399, 401, 403, 406, 412, 415, 418, 420, 427, 433, 441, 455,
-
-            032, // Via Nidoran-F
-
-            440, // Via Chansey
-            238, // Via Jynx
-            239, // Via Electabuzz
-            240, // Via Magmar
-            298, // Via Marill
-            360, // Via Wobbuffet
-            438, // Via Sudowoodo
-            439, // Via Mr. Mime
-            446, // Via Snorlax
-            458, // Via Mantine
-            358, // Via Chingling
-            172, // Via Pikachu
-            173, // Via Clefairy
-            174, // Via Jigglypuff
-        };
-
-        internal static readonly HashSet<int> AlolanCaptureOffspring = new HashSet<int>
-        {
-            010, 019, 021, 025, 027, 035, 037, 039, 041, 046,
-            050, 052, 054, 056, 058, 060, 063, 066, 072, 074,
-            079, 081, 088, 090, 092, 096, 102, 104, 113, 115,
-            118, 120, 123, 127, 128, 129, 131, 132, 133, 143,
-            147, 165, 167, 170, 172, 173, 174, 185, 198, 200,
-            209, 212, 215, 222, 225, 227, 235, 239, 240, 241,
-            278, 283, 296, 299, 302, 318, 320, 324, 327, 328,
-            339, 349, 351, 359, 361, 369, 370, 371, 374, 422,
-            425, 438, 440, 443, 446, 447, 456, 506, 524, 546,
-            548, 551, 568, 582, 587, 594, 627, 629, 661, 674,
-            703, 704, 707, 708,
-
-            731, 734, 736, 739, 741, 742, 744, 746, 747, 749,
-            751, 753, 755, 757, 759, 761, 764, 765, 766, 767,
-            769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
-            782,
-
-            // USUM Additions
-            023, 086, 108, 122, 163, 177, 179, 190, 204,
-            206, 214, 223, 226, 228, 238, 246, 303, 309, 341, 343,
-            352, 353, 357, 366, 427, 439, 458, 550,
-            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
-            667, 669, 676, 686, 690, 692, 701, 702,
-            714,
-
-            // Wormhole
-            333, 193, 561, 580, 276, 451, 531, 694, 273, 325,
-            459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
-
-            // Static Encounters
-            100,
-        };
-
-        internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
-
-        internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
-        {
-            100, // Voltorb
-            343, // Baltoy
-            436, // Bronzor
-
-            // Others are capturable in the Alola region
-            // Magnemite, Staryu, Tauros
-        };
-
-        internal static readonly HashSet<int> Inherit_Apricorn7 = new HashSet<int> (Inherit_Apricorn6.Concat(Inherit_ApricornMale7).Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct());
-
-        internal static readonly HashSet<int> Inherit_SafariMale = new HashSet<int>
-        {
-            128, // Tauros
-
-            081, // Magnemite
-            100, // Voltorb
-            337, // Lunatone
-            338, // Solrock
-            374, // Beldum
-            436, // Bronzor
-        };
-
-        internal static readonly HashSet<int> Inherit_DreamMale = new HashSet<int>
-        {
-            // Starting with Gen7, Males pass Ball via breeding with Ditto.
-            001, 004, 007, // Gen1 Starters
-            025, // Pikachu
-            128, // Tauros
-            172, // Pichu
-            236, // Tyrogue (100% Male)
-            252, 255, 258, // Gen2 Starters
-            387, 390, 393, // Gen3 Starters
-            511, 513, 515, // Gen5 Monkeys
-            538, // Throh
-            539, // Sawk
-            574, // Gothita
-
-            081, // Magnemite
-            100, // Voltorb
-            120, // Staryu
-            137, // Porygon
-            337, // Lunatone
-            338, // Solrock
-            343, // Baltoy
-            374, // Beldum
-            436, // Bronzor
-            479, // Rotom
-            599, // Klink
-            622, // Golett
-        };
-
-        internal static readonly HashSet<int> Ban_Gen3Ball_7 = new HashSet<int>
-        {
-            489, // Phione
-            566, 567, 696, 697, 698, 699 // Fossil Only obtain
-        };
-
-        internal static readonly HashSet<int> Ban_Gen4Ball_7 = new HashSet<int>
-        {
-            489, // Phione
-            566, 567, 696, 697, 698, 699 // Fossil Only obtain
-        };
-
-        internal static readonly HashSet<int> Ban_SafariBallHidden_7 = new HashSet<int>
-        {
-            029, 030, 031, 032, 033, 034, // Nidos
-            313, 314, // Volbeat/Illumise
-
-            081, // Magnemite
-            100, // Voltorb
-            115, // Kangaskhan
-            128, // Tauros
-            132, // Ditto
-            241, // Miltank
-            374, // Beldum
-            436, // Bronzor
-            440, // Happiny
-
-            // others not possible
-            236, // Tyrogue (100% Male)
-            120, // Staryu
-            337, // Lunatone
-            338, // Solrock
-            479, // Rotom
-            599, // Klink
-            622, // Golett
-        };
-
         internal static readonly int[] ZygardeMoves =
         {
             245, // Extreme Speed
@@ -463,21 +242,22 @@ namespace PKHeX.Core
             687, // Core Enforcer
         };
 
-        internal static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        internal static readonly HashSet<int> Totem_Alolan = new()
         {
             020, // Raticate (Normal, Alolan, Totem)
             105, // Marowak (Normal, Alolan, Totem)
             778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
         };
 
-        internal static readonly HashSet<int> Totem_NoTransfer = new HashSet<int>
+        internal static readonly HashSet<int> Totem_NoTransfer = new()
         {
+            105, // Marowak
             752, // Araquanid
             777, // Togedemaru
             743, // Ribombee
         };
 
-        internal static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        internal static readonly HashSet<int> Totem_USUM = new()
         {
             020, // Raticate
             735, // Gumshoos
@@ -495,17 +275,17 @@ namespace PKHeX.Core
 
         internal static readonly int[] EggLocations7 = {Locations.Daycare5, Locations.LinkTrade6};
 
-        internal static readonly HashSet<int> ValidMet_SM = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_SM = new()
         {
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
-            050, 052, 054, 056, 058, 060, 062, 064, 066, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
+            050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
             100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
             150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
 
             30016 // Poké Pelago
         };
 
-        internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>(ValidMet_SM)
+        internal static readonly HashSet<int> ValidMet_USUM = new(ValidMet_SM)
         {
             // 194, 195, 196, 197, // Unobtainable new Locations
             198,
@@ -548,38 +328,8 @@ namespace PKHeX.Core
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01,
         };
 
-        internal static readonly HashSet<int> Ban_NoHidden7 = new HashSet<int>
-        {
-            // SOS slots have 0 call rate
-            767, // Wimpod
-            768, // Golisopod
-
-            // No Encounter
-            774, // Minior
-
-            //Pre-Gen
-            710 + (1 << 11), //Pumpkaboo-Small
-            711 + (1 << 11), //Gourgeist-Small
-            710 + (2 << 11), //Pumpkaboo-Large
-            711 + (2 << 11), //Gourgeist-Large
-
-            // Same abilities (1/2/H), not available as H
-            (int)Species.Honedge,
-            (int)Species.Doublade,
-            (int)Species.Aegislash,
-        };
-
-        internal static readonly HashSet<int> Ban_NoHidden7Apricorn = new HashSet<int>
-        {
-            029, // Nidoran
-            032, // Nidoran
-            100, // Voltorb
-            436, // Bronzor
-            669 + (3 << 11), // Flabébé-Blue
-        };
-
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_7 = new HashSet<int>
+        internal static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -642,8 +392,7 @@ namespace PKHeX.Core
             590, // Relic Crown
             699, // Discount Coupon
             715, // Fairy Gem
-        };
+        });
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_USUM+1).Select(i => HeldItems_USUM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }

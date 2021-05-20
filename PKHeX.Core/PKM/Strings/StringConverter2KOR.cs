@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter2KOR
     {
+        /// <summary>
+        /// Checks if any of the characters inside <see cref="str"/> are from the special Korean codepoint pages.
+        /// </summary>
         public static bool GetIsG2Korean(string str) => str.All(z => U2GSC_KOR.Any(x => x.ContainsKey(z)));
 
         /// <summary>
@@ -22,47 +26,50 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString2KOR(byte[] data, int offset, int count)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
                 var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
-                if (val <= 0xB && val != 0)
-                    val = data[offset + ++i];
+                if (val is <= 0xB and not 0)
+                    val = data[offset + (++i)];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
-                if (c == '\0') // Stop if Terminator
+                if (c == G1Terminator) // Stop if Terminator
                     break;
                 s.Append(c);
             }
-            return StringConverter.SanitizeString(s.ToString());
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>
         /// Converts a string to Generation 1 encoded data.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString2KOR(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-
-            var dict = U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
-                return new[] { dict[G1TradeOT], dict[G1Terminator] };
+                return new[] { G1TradeOTCode, G1TerminatorCode };
 
-            var arr = new List<byte>(padTo);
+            if (value.Length > maxLength)
+                value = value[..maxLength]; // Hard cap
+
+            var kor = U2GSC_KOR;
+            var dict = U2RBY_U;
+            var capacity = Math.Max(value.Length * 2, padTo);
+            var arr = new List<byte>(capacity);
             foreach (char c in value)
             {
                 var koreanChar = false;
                 // although the 0x00 and 0x0B dictionaries are identical, the game only uses 0x0B.
-                for (byte i = 1; i < U2GSC_KOR.Length; i++)
+                for (byte i = 1; i < kor.Length; i++)
                 {
-                    var table = U2GSC_KOR[i];
+                    var table = kor[i];
                     if (!table.TryGetValue(c, out byte val))
                         continue;
                     koreanChar = true;
@@ -99,14 +106,15 @@ namespace PKHeX.Core
             return nick;
         }
 
-        private static readonly Dictionary<string, string> KorG2Localized = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> KorG2Localized = new()
         {
             { "덩쿠리", "덩구리" }, // Tangela
             { "슈륙챙이", "수륙챙이" }, // Poliwhirl
         };
 
         #region Gen 2 Korean Character Tables
-        private static readonly Dictionary<char, byte> U2GSC_KOR_0 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_0 = new()
+        {
             {'ㄱ', 0x00}, {'ㄴ', 0x01}, {'ㄷ', 0x02}, {'ㄹ', 0x03}, {'ㅁ', 0x04}, {'ㅂ', 0x05}, {'ㅅ', 0x06}, {'ㅇ', 0x07}, {'ㅈ', 0x08}, {'ㅊ', 0x09}, {'ㅋ', 0x0A}, {'ㅌ', 0x0B}, {'ㅍ', 0x0C}, {'ㅎ', 0x0D}, {'ㄲ', 0x0E}, {'ㄸ', 0x0F},
             {'ㅃ', 0x10}, {'ㅆ', 0x11}, {'ㅉ', 0x12},
             {'ㅏ', 0x20}, {'ㅑ', 0x21}, {'ㅓ', 0x22}, {'ㅕ', 0x23}, {'ㅗ', 0x24}, {'ㅛ', 0x25}, {'ㅜ', 0x26}, {'ㅠ', 0x27}, {'ㅡ', 0x28}, {'ㅣ', 0x29}, {'ㅐ', 0x2A}, {'ㅒ', 0x2B}, {'ㅔ', 0x2C}, {'ㅖ', 0x2D}, {'ㅘ', 0x2E}, {'ㅙ', 0x2F},
@@ -116,7 +124,8 @@ namespace PKHeX.Core
             {'\u3000', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_1 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_1 = new()
+        {
             {'가', 0x01}, {'각', 0x02}, {'간', 0x03}, {'갇', 0x04}, {'갈', 0x05}, {'갉', 0x06}, {'갊', 0x07}, {'감', 0x08}, {'갑', 0x09}, {'값', 0x0A}, {'갓', 0x0B}, {'갔', 0x0C}, {'강', 0x0D}, {'갖', 0x0E}, {'갗', 0x0F},
             {'같', 0x10}, {'갚', 0x11}, {'갛', 0x12}, {'개', 0x13}, {'객', 0x14}, {'갠', 0x15}, {'갤', 0x16}, {'갬', 0x17}, {'갭', 0x18}, {'갯', 0x19}, {'갰', 0x1A}, {'갱', 0x1B}, {'갸', 0x1C}, {'갹', 0x1D}, {'갼', 0x1E}, {'걀', 0x1F},
             {'걋', 0x20}, {'걍', 0x21}, {'걔', 0x22}, {'걘', 0x23}, {'걜', 0x24}, {'거', 0x25}, {'걱', 0x26}, {'건', 0x27}, {'걷', 0x28}, {'걸', 0x29}, {'걺', 0x2A}, {'검', 0x2B}, {'겁', 0x2C}, {'것', 0x2D}, {'겄', 0x2E}, {'겅', 0x2F},
@@ -134,7 +143,8 @@ namespace PKHeX.Core
             {'꼭', 0xF0}, {'꼰', 0xF1}, {'꼲', 0xF2}, {'꼴', 0xF3}, {'꼼', 0xF4}, {'꼽', 0xF5}, {'꼿', 0xF6}, {'꽁', 0xF7}, {'꽂', 0xF8}, {'꽃', 0xF9}, {'꽈', 0xFA}, {'꽉', 0xFB}, {'꽐', 0xFC}, {'꽜', 0xFD}, {'꽝', 0xFE}, {'꽤', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_2 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_2 = new()
+        {
             {'꽥', 0x00}, {'꽹', 0x01}, {'꾀', 0x02}, {'꾄', 0x03}, {'꾈', 0x04}, {'꾐', 0x05}, {'꾑', 0x06}, {'꾕', 0x07}, {'꾜', 0x08}, {'꾸', 0x09}, {'꾹', 0x0A}, {'꾼', 0x0B}, {'꿀', 0x0C}, {'꿇', 0x0D}, {'꿈', 0x0E}, {'꿉', 0x0F},
             {'꿋', 0x10}, {'꿍', 0x11}, {'꿎', 0x12}, {'꿔', 0x13}, {'꿜', 0x14}, {'꿨', 0x15}, {'꿩', 0x16}, {'꿰', 0x17}, {'꿱', 0x18}, {'꿴', 0x19}, {'꿸', 0x1A}, {'뀀', 0x1B}, {'뀁', 0x1C}, {'뀄', 0x1D}, {'뀌', 0x1E}, {'뀐', 0x1F},
             {'뀔', 0x20}, {'뀜', 0x21}, {'뀝', 0x22}, {'뀨', 0x23}, {'끄', 0x24}, {'끅', 0x25}, {'끈', 0x26}, {'끊', 0x27}, {'끌', 0x28}, {'끎', 0x29}, {'끓', 0x2A}, {'끔', 0x2B}, {'끕', 0x2C}, {'끗', 0x2D}, {'끙', 0x2E},
@@ -152,7 +162,8 @@ namespace PKHeX.Core
             {'댑', 0xF0}, {'댓', 0xF1}, {'댔', 0xF2}, {'댕', 0xF3},               {'더', 0xF5}, {'덕', 0xF6}, {'덖', 0xF7}, {'던', 0xF8}, {'덛', 0xF9}, {'덜', 0xFA}, {'덞', 0xFB}, {'덟', 0xFC}, {'덤', 0xFD}, {'덥', 0xFE},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_3 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_3 = new()
+        {
             {'덧', 0x01}, {'덩', 0x02}, {'덫', 0x03}, {'덮', 0x04}, {'데', 0x05}, {'덱', 0x06}, {'덴', 0x07}, {'델', 0x08}, {'뎀', 0x09}, {'뎁', 0x0A}, {'뎃', 0x0B}, {'뎄', 0x0C}, {'뎅', 0x0D}, {'뎌', 0x0E}, {'뎐', 0x0F},
             {'뎔', 0x10}, {'뎠', 0x11}, {'뎡', 0x12}, {'뎨', 0x13}, {'뎬', 0x14}, {'도', 0x15}, {'독', 0x16}, {'돈', 0x17}, {'돋', 0x18}, {'돌', 0x19}, {'돎', 0x1A},               {'돔', 0x1C}, {'돕', 0x1D}, {'돗', 0x1E}, {'동', 0x1F},
             {'돛', 0x20}, {'돝', 0x21}, {'돠', 0x22}, {'돤', 0x23}, {'돨', 0x24}, {'돼', 0x25}, {'됐', 0x26}, {'되', 0x27}, {'된', 0x28}, {'될', 0x29}, {'됨', 0x2A}, {'됩', 0x2B}, {'됫', 0x2C}, {'됴', 0x2D}, {'두', 0x2E}, {'둑', 0x2F},
@@ -170,7 +181,8 @@ namespace PKHeX.Core
             {'렝', 0xF0}, {'려', 0xF1}, {'력', 0xF2}, {'련', 0xF3}, {'렬', 0xF4}, {'렴', 0xF5}, {'렵', 0xF6}, {'렷', 0xF7}, {'렸', 0xF8}, {'령', 0xF9}, {'례', 0xFA}, {'롄', 0xFB}, {'롑', 0xFC}, {'롓', 0xFD}, {'로', 0xFE}, {'록', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_4 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_4 = new()
+        {
             {'론', 0x00}, {'롤', 0x01}, {'롬', 0x02}, {'롭', 0x03}, {'롯', 0x04}, {'롱', 0x05}, {'롸', 0x06}, {'롼', 0x07}, {'뢍', 0x08}, {'뢨', 0x09}, {'뢰', 0x0A}, {'뢴', 0x0B}, {'뢸', 0x0C}, {'룀', 0x0D}, {'룁', 0x0E}, {'룃', 0x0F},
             {'룅', 0x10}, {'료', 0x11}, {'룐', 0x12}, {'룔', 0x13}, {'룝', 0x14}, {'룟', 0x15}, {'룡', 0x16}, {'루', 0x17}, {'룩', 0x18}, {'룬', 0x19}, {'룰', 0x1A}, {'룸', 0x1B}, {'룹', 0x1C}, {'룻', 0x1D}, {'룽', 0x1E}, {'뤄', 0x1F},
             {'뤘', 0x20}, {'뤠', 0x21}, {'뤼', 0x22}, {'뤽', 0x23}, {'륀', 0x24}, {'륄', 0x25}, {'륌', 0x26}, {'륏', 0x27}, {'륑', 0x28}, {'류', 0x29}, {'륙', 0x2A}, {'륜', 0x2B}, {'률', 0x2C}, {'륨', 0x2D}, {'륩', 0x2E},
@@ -188,7 +200,8 @@ namespace PKHeX.Core
             {'뱅', 0xF0}, {'뱉', 0xF1}, {'뱌', 0xF2}, {'뱍', 0xF3}, {'뱐', 0xF4}, {'뱝', 0xF5}, {'버', 0xF6}, {'벅', 0xF7}, {'번', 0xF8}, {'벋', 0xF9}, {'벌', 0xFA}, {'벎', 0xFB}, {'범', 0xFC}, {'법', 0xFD}, {'벗', 0xFE},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_5 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_5 = new()
+        {
             {'벙', 0x01}, {'벚', 0x02}, {'베', 0x03}, {'벡', 0x04}, {'벤', 0x05}, {'벧', 0x06}, {'벨', 0x07}, {'벰', 0x08}, {'벱', 0x09}, {'벳', 0x0A}, {'벴', 0x0B}, {'벵', 0x0C}, {'벼', 0x0D}, {'벽', 0x0E}, {'변', 0x0F},
             {'별', 0x10}, {'볍', 0x11}, {'볏', 0x12}, {'볐', 0x13}, {'병', 0x14}, {'볕', 0x15}, {'볘', 0x16}, {'볜', 0x17}, {'보', 0x18}, {'복', 0x19}, {'볶', 0x1A}, {'본', 0x1B}, {'볼', 0x1C}, {'봄', 0x1D}, {'봅', 0x1E}, {'봇', 0x1F},
             {'봉', 0x20}, {'봐', 0x21}, {'봔', 0x22}, {'봤', 0x23}, {'봬', 0x24}, {'뵀', 0x25}, {'뵈', 0x26}, {'뵉', 0x27}, {'뵌', 0x28}, {'뵐', 0x29}, {'뵘', 0x2A}, {'뵙', 0x2B}, {'뵤', 0x2C}, {'뵨', 0x2D}, {'부', 0x2E}, {'북', 0x2F},
@@ -206,7 +219,8 @@ namespace PKHeX.Core
             {'셈', 0xF0}, {'셉', 0xF1}, {'셋', 0xF2}, {'셌', 0xF3}, {'셍', 0xF4}, {'셔', 0xF5}, {'셕', 0xF6}, {'션', 0xF7}, {'셜', 0xF8}, {'셤', 0xF9}, {'셥', 0xFA}, {'셧', 0xFB}, {'셨', 0xFC}, {'셩', 0xFD}, {'셰', 0xFE}, {'셴', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_6 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_6 = new()
+        {
             {'셸', 0x00}, {'솅', 0x01}, {'소', 0x02}, {'속', 0x03}, {'솎', 0x04}, {'손', 0x05}, {'솔', 0x06}, {'솖', 0x07}, {'솜', 0x08}, {'솝', 0x09}, {'솟', 0x0A}, {'송', 0x0B}, {'솥', 0x0C}, {'솨', 0x0D}, {'솩', 0x0E}, {'솬', 0x0F},
             {'솰', 0x10}, {'솽', 0x11}, {'쇄', 0x12}, {'쇈', 0x13}, {'쇌', 0x14}, {'쇔', 0x15}, {'쇗', 0x16}, {'쇘', 0x17}, {'쇠', 0x18}, {'쇤', 0x19}, {'쇨', 0x1A}, {'쇰', 0x1B}, {'쇱', 0x1C}, {'쇳', 0x1D}, {'쇼', 0x1E}, {'쇽', 0x1F},
             {'숀', 0x20}, {'숄', 0x21}, {'숌', 0x22}, {'숍', 0x23}, {'숏', 0x24}, {'숑', 0x25}, {'수', 0x26}, {'숙', 0x27}, {'순', 0x28}, {'숟', 0x29}, {'술', 0x2A}, {'숨', 0x2B}, {'숩', 0x2C}, {'숫', 0x2D}, {'숭', 0x2E}, {'쌰', 0x2F},
@@ -224,7 +238,8 @@ namespace PKHeX.Core
             {'언', 0xF0}, {'얹', 0xF1}, {'얻', 0xF2}, {'얼', 0xF3}, {'얽', 0xF4}, {'얾', 0xF5}, {'엄', 0xF6}, {'업', 0xF7}, {'없', 0xF8}, {'엇', 0xF9}, {'었', 0xFA}, {'엉', 0xFB}, {'엊', 0xFC}, {'엌', 0xFD}, {'엎', 0xFE},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_7 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_7 = new()
+        {
             {'에', 0x01}, {'엑', 0x02}, {'엔', 0x03}, {'엘', 0x04}, {'엠', 0x05}, {'엡', 0x06}, {'엣', 0x07}, {'엥', 0x08}, {'여', 0x09}, {'역', 0x0A}, {'엮', 0x0B}, {'연', 0x0C}, {'열', 0x0D}, {'엶', 0x0E}, {'엷', 0x0F},
             {'염', 0x10}, {'엽', 0x11}, {'엾', 0x12}, {'엿', 0x13}, {'였', 0x14}, {'영', 0x15}, {'옅', 0x16}, {'옆', 0x17}, {'옇', 0x18}, {'예', 0x19}, {'옌', 0x1A}, {'옐', 0x1B}, {'옘', 0x1C}, {'옙', 0x1D}, {'옛', 0x1E}, {'옜', 0x1F},
             {'오', 0x20}, {'옥', 0x21}, {'온', 0x22}, {'올', 0x23}, {'옭', 0x24}, {'옮', 0x25}, {'옰', 0x26}, {'옳', 0x27}, {'옴', 0x28}, {'옵', 0x29}, {'옷', 0x2A}, {'옹', 0x2B}, {'옻', 0x2C}, {'와', 0x2D}, {'왁', 0x2E}, {'완', 0x2F},
@@ -242,7 +257,8 @@ namespace PKHeX.Core
             {'좇', 0xF0}, {'좋', 0xF1}, {'좌', 0xF2}, {'좍', 0xF3}, {'좔', 0xF4}, {'좝', 0xF5}, {'좟', 0xF6}, {'좡', 0xF7}, {'좨', 0xF8}, {'좼', 0xF9}, {'좽', 0xFA}, {'죄', 0xFB}, {'죈', 0xFC}, {'죌', 0xFD}, {'죔', 0xFE}, {'죕', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_8 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_8 = new()
+        {
             {'죗', 0x00}, {'죙', 0x01}, {'죠', 0x02}, {'죡', 0x03}, {'죤', 0x04}, {'죵', 0x05}, {'주', 0x06}, {'죽', 0x07}, {'준', 0x08}, {'줄', 0x09}, {'줅', 0x0A}, {'줆', 0x0B}, {'줌', 0x0C}, {'줍', 0x0D}, {'줏', 0x0E}, {'중', 0x0F},
             {'줘', 0x10}, {'줬', 0x11}, {'줴', 0x12}, {'쥐', 0x13}, {'쥑', 0x14}, {'쥔', 0x15}, {'쥘', 0x16}, {'쥠', 0x17}, {'쥡', 0x18}, {'쥣', 0x19}, {'쥬', 0x1A}, {'쥰', 0x1B}, {'쥴', 0x1C}, {'쥼', 0x1D}, {'즈', 0x1E}, {'즉', 0x1F},
             {'즌', 0x20}, {'즐', 0x21}, {'즘', 0x22}, {'즙', 0x23}, {'즛', 0x24}, {'증', 0x25}, {'지', 0x26}, {'직', 0x27}, {'진', 0x28}, {'짇', 0x29}, {'질', 0x2A}, {'짊', 0x2B}, {'짐', 0x2C}, {'집', 0x2D}, {'짓', 0x2E},
@@ -260,7 +276,8 @@ namespace PKHeX.Core
             {'췻', 0xF0}, {'췽', 0xF1}, {'츄', 0xF2}, {'츈', 0xF3}, {'츌', 0xF4}, {'츔', 0xF5}, {'츙', 0xF6}, {'츠', 0xF7}, {'측', 0xF8}, {'츤', 0xF9}, {'츨', 0xFA}, {'츰', 0xFB}, {'츱', 0xFC}, {'츳', 0xFD}, {'층', 0xFE},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_9 = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_9 = new()
+        {
             {'치', 0x01}, {'칙', 0x02}, {'친', 0x03}, {'칟', 0x04}, {'칠', 0x05}, {'칡', 0x06}, {'침', 0x07}, {'칩', 0x08}, {'칫', 0x09}, {'칭', 0x0A}, {'카', 0x0B}, {'칵', 0x0C}, {'칸', 0x0D}, {'칼', 0x0E}, {'캄', 0x0F},
             {'캅', 0x10}, {'캇', 0x11}, {'캉', 0x12}, {'캐', 0x13}, {'캑', 0x14}, {'캔', 0x15}, {'캘', 0x16}, {'캠', 0x17}, {'캡', 0x18}, {'캣', 0x19}, {'캤', 0x1A}, {'캥', 0x1B}, {'캬', 0x1C}, {'캭', 0x1D}, {'컁', 0x1E}, {'커', 0x1F},
             {'컥', 0x20}, {'컨', 0x21}, {'컫', 0x22}, {'컬', 0x23}, {'컴', 0x24}, {'컵', 0x25}, {'컷', 0x26}, {'컸', 0x27}, {'컹', 0x28}, {'케', 0x29}, {'켁', 0x2A}, {'켄', 0x2B}, {'켈', 0x2C}, {'켐', 0x2D}, {'켑', 0x2E}, {'켓', 0x2F},
@@ -278,7 +295,8 @@ namespace PKHeX.Core
             {'팀', 0xF0}, {'팁', 0xF1}, {'팃', 0xF2}, {'팅', 0xF3}, {'파', 0xF4}, {'팍', 0xF5}, {'팎', 0xF6}, {'판', 0xF7}, {'팔', 0xF8}, {'팖', 0xF9}, {'팜', 0xFA}, {'팝', 0xFB}, {'팟', 0xFC}, {'팠', 0xFD}, {'팡', 0xFE}, {'팥', 0xFF},
         };
 
-        private static readonly Dictionary<char, byte> U2GSC_KOR_A = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2GSC_KOR_A = new()
+        {
             {'패', 0x00}, {'팩', 0x01}, {'팬', 0x02}, {'팰', 0x03}, {'팸', 0x04}, {'팹', 0x05}, {'팻', 0x06}, {'팼', 0x07}, {'팽', 0x08}, {'퍄', 0x09}, {'퍅', 0x0A}, {'퍼', 0x0B}, {'퍽', 0x0C}, {'펀', 0x0D}, {'펄', 0x0E}, {'펌', 0x0F},
             {'펍', 0x10}, {'펏', 0x11}, {'펐', 0x12}, {'펑', 0x13}, {'페', 0x14}, {'펙', 0x15}, {'펜', 0x16}, {'펠', 0x17}, {'펨', 0x18}, {'펩', 0x19}, {'펫', 0x1A}, {'펭', 0x1B}, {'펴', 0x1C}, {'편', 0x1D}, {'펼', 0x1E}, {'폄', 0x1F},
             {'폅', 0x20}, {'폈', 0x21}, {'평', 0x22}, {'폐', 0x23}, {'폘', 0x24}, {'폡', 0x25}, {'폣', 0x26}, {'포', 0x27}, {'폭', 0x28}, {'폰', 0x29}, {'폴', 0x2A}, {'폼', 0x2B}, {'폽', 0x2C}, {'폿', 0x2D}, {'퐁', 0x2E},
@@ -298,7 +316,8 @@ namespace PKHeX.Core
 
         private static readonly Dictionary<char, byte> U2GSC_KOR_B = U2GSC_KOR_0;
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_0 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_0 = new()
+        {
             {0x00, 'ㄱ'}, {0x01, 'ㄴ'}, {0x02, 'ㄷ'}, {0x03, 'ㄹ'}, {0x04, 'ㅁ'}, {0x05, 'ㅂ'}, {0x06, 'ㅅ'}, {0x07, 'ㅇ'}, {0x08, 'ㅈ'}, {0x09, 'ㅊ'}, {0x0A, 'ㅋ'}, {0x0B, 'ㅌ'}, {0x0C, 'ㅍ'}, {0x0D, 'ㅎ'}, {0x0E, 'ㄲ'}, {0x0F, 'ㄸ'},
             {0x10, 'ㅃ'}, {0x11, 'ㅆ'}, {0x12, 'ㅉ'},
             {0x20, 'ㅏ'}, {0x21, 'ㅑ'}, {0x22, 'ㅓ'}, {0x23, 'ㅕ'}, {0x24, 'ㅗ'}, {0x25, 'ㅛ'}, {0x26, 'ㅜ'}, {0x27, 'ㅠ'}, {0x28, 'ㅡ'}, {0x29, 'ㅣ'}, {0x2A, 'ㅐ'}, {0x2B, 'ㅒ'}, {0x2C, 'ㅔ'}, {0x2D, 'ㅖ'}, {0x2E, 'ㅘ'}, {0x2F, 'ㅙ'},
@@ -308,7 +327,8 @@ namespace PKHeX.Core
             {0xFF, '\u3000'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_1 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_1 = new()
+        {
             {0x01, '가'}, {0x02, '각'}, {0x03, '간'}, {0x04, '갇'}, {0x05, '갈'}, {0x06, '갉'}, {0x07, '갊'}, {0x08, '감'}, {0x09, '갑'}, {0x0A, '값'}, {0x0B, '갓'}, {0x0C, '갔'}, {0x0D, '강'}, {0x0E, '갖'}, {0x0F, '갗'},
             {0x10, '같'}, {0x11, '갚'}, {0x12, '갛'}, {0x13, '개'}, {0x14, '객'}, {0x15, '갠'}, {0x16, '갤'}, {0x17, '갬'}, {0x18, '갭'}, {0x19, '갯'}, {0x1A, '갰'}, {0x1B, '갱'}, {0x1C, '갸'}, {0x1D, '갹'}, {0x1E, '갼'}, {0x1F, '걀'},
             {0x20, '걋'}, {0x21, '걍'}, {0x22, '걔'}, {0x23, '걘'}, {0x24, '걜'}, {0x25, '거'}, {0x26, '걱'}, {0x27, '건'}, {0x28, '걷'}, {0x29, '걸'}, {0x2A, '걺'}, {0x2B, '검'}, {0x2C, '겁'}, {0x2D, '것'}, {0x2E, '겄'}, {0x2F, '겅'},
@@ -326,7 +346,8 @@ namespace PKHeX.Core
             {0xF0, '꼭'}, {0xF1, '꼰'}, {0xF2, '꼲'}, {0xF3, '꼴'}, {0xF4, '꼼'}, {0xF5, '꼽'}, {0xF6, '꼿'}, {0xF7, '꽁'}, {0xF8, '꽂'}, {0xF9, '꽃'}, {0xFA, '꽈'}, {0xFB, '꽉'}, {0xFC, '꽐'}, {0xFD, '꽜'}, {0xFE, '꽝'}, {0xFF, '꽤'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_2 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_2 = new()
+        {
             {0x00, '꽥'}, {0x01, '꽹'}, {0x02, '꾀'}, {0x03, '꾄'}, {0x04, '꾈'}, {0x05, '꾐'}, {0x06, '꾑'}, {0x07, '꾕'}, {0x08, '꾜'}, {0x09, '꾸'}, {0x0A, '꾹'}, {0x0B, '꾼'}, {0x0C, '꿀'}, {0x0D, '꿇'}, {0x0E, '꿈'}, {0x0F, '꿉'},
             {0x10, '꿋'}, {0x11, '꿍'}, {0x12, '꿎'}, {0x13, '꿔'}, {0x14, '꿜'}, {0x15, '꿨'}, {0x16, '꿩'}, {0x17, '꿰'}, {0x18, '꿱'}, {0x19, '꿴'}, {0x1A, '꿸'}, {0x1B, '뀀'}, {0x1C, '뀁'}, {0x1D, '뀄'}, {0x1E, '뀌'}, {0x1F, '뀐'},
             {0x20, '뀔'}, {0x21, '뀜'}, {0x22, '뀝'}, {0x23, '뀨'}, {0x24, '끄'}, {0x25, '끅'}, {0x26, '끈'}, {0x27, '끊'}, {0x28, '끌'}, {0x29, '끎'}, {0x2A, '끓'}, {0x2B, '끔'}, {0x2C, '끕'}, {0x2D, '끗'}, {0x2E, '끙'},
@@ -344,7 +365,8 @@ namespace PKHeX.Core
             {0xF0, '댑'}, {0xF1, '댓'}, {0xF2, '댔'}, {0xF3, '댕'},               {0xF5, '더'}, {0xF6, '덕'}, {0xF7, '덖'}, {0xF8, '던'}, {0xF9, '덛'}, {0xFA, '덜'}, {0xFB, '덞'}, {0xFC, '덟'}, {0xFD, '덤'}, {0xFE, '덥'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_3 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_3 = new()
+        {
             {0x01, '덧'}, {0x02, '덩'}, {0x03, '덫'}, {0x04, '덮'}, {0x05, '데'}, {0x06, '덱'}, {0x07, '덴'}, {0x08, '델'}, {0x09, '뎀'}, {0x0A, '뎁'}, {0x0B, '뎃'}, {0x0C, '뎄'}, {0x0D, '뎅'}, {0x0E, '뎌'}, {0x0F, '뎐'},
             {0x10, '뎔'}, {0x11, '뎠'}, {0x12, '뎡'}, {0x13, '뎨'}, {0x14, '뎬'}, {0x15, '도'}, {0x16, '독'}, {0x17, '돈'}, {0x18, '돋'}, {0x19, '돌'}, {0x1A, '돎'},               {0x1C, '돔'}, {0x1D, '돕'}, {0x1E, '돗'}, {0x1F, '동'},
             {0x20, '돛'}, {0x21, '돝'}, {0x22, '돠'}, {0x23, '돤'}, {0x24, '돨'}, {0x25, '돼'}, {0x26, '됐'}, {0x27, '되'}, {0x28, '된'}, {0x29, '될'}, {0x2A, '됨'}, {0x2B, '됩'}, {0x2C, '됫'}, {0x2D, '됴'}, {0x2E, '두'}, {0x2F, '둑'},
@@ -362,7 +384,8 @@ namespace PKHeX.Core
             {0xF0, '렝'}, {0xF1, '려'}, {0xF2, '력'}, {0xF3, '련'}, {0xF4, '렬'}, {0xF5, '렴'}, {0xF6, '렵'}, {0xF7, '렷'}, {0xF8, '렸'}, {0xF9, '령'}, {0xFA, '례'}, {0xFB, '롄'}, {0xFC, '롑'}, {0xFD, '롓'}, {0xFE, '로'}, {0xFF, '록'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_4 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_4 = new()
+        {
             {0x00, '론'}, {0x01, '롤'}, {0x02, '롬'}, {0x03, '롭'}, {0x04, '롯'}, {0x05, '롱'}, {0x06, '롸'}, {0x07, '롼'}, {0x08, '뢍'}, {0x09, '뢨'}, {0x0A, '뢰'}, {0x0B, '뢴'}, {0x0C, '뢸'}, {0x0D, '룀'}, {0x0E, '룁'}, {0x0F, '룃'},
             {0x10, '룅'}, {0x11, '료'}, {0x12, '룐'}, {0x13, '룔'}, {0x14, '룝'}, {0x15, '룟'}, {0x16, '룡'}, {0x17, '루'}, {0x18, '룩'}, {0x19, '룬'}, {0x1A, '룰'}, {0x1B, '룸'}, {0x1C, '룹'}, {0x1D, '룻'}, {0x1E, '룽'}, {0x1F, '뤄'},
             {0x20, '뤘'}, {0x21, '뤠'}, {0x22, '뤼'}, {0x23, '뤽'}, {0x24, '륀'}, {0x25, '륄'}, {0x26, '륌'}, {0x27, '륏'}, {0x28, '륑'}, {0x29, '류'}, {0x2A, '륙'}, {0x2B, '륜'}, {0x2C, '률'}, {0x2D, '륨'}, {0x2E, '륩'},
@@ -380,7 +403,8 @@ namespace PKHeX.Core
             {0xF0, '뱅'}, {0xF1, '뱉'}, {0xF2, '뱌'}, {0xF3, '뱍'}, {0xF4, '뱐'}, {0xF5, '뱝'}, {0xF6, '버'}, {0xF7, '벅'}, {0xF8, '번'}, {0xF9, '벋'}, {0xFA, '벌'}, {0xFB, '벎'}, {0xFC, '범'}, {0xFD, '법'}, {0xFE, '벗'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_5 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_5 = new()
+        {
             {0x01, '벙'}, {0x02, '벚'}, {0x03, '베'}, {0x04, '벡'}, {0x05, '벤'}, {0x06, '벧'}, {0x07, '벨'}, {0x08, '벰'}, {0x09, '벱'}, {0x0A, '벳'}, {0x0B, '벴'}, {0x0C, '벵'}, {0x0D, '벼'}, {0x0E, '벽'}, {0x0F, '변'},
             {0x10, '별'}, {0x11, '볍'}, {0x12, '볏'}, {0x13, '볐'}, {0x14, '병'}, {0x15, '볕'}, {0x16, '볘'}, {0x17, '볜'}, {0x18, '보'}, {0x19, '복'}, {0x1A, '볶'}, {0x1B, '본'}, {0x1C, '볼'}, {0x1D, '봄'}, {0x1E, '봅'}, {0x1F, '봇'},
             {0x20, '봉'}, {0x21, '봐'}, {0x22, '봔'}, {0x23, '봤'}, {0x24, '봬'}, {0x25, '뵀'}, {0x26, '뵈'}, {0x27, '뵉'}, {0x28, '뵌'}, {0x29, '뵐'}, {0x2A, '뵘'}, {0x2B, '뵙'}, {0x2C, '뵤'}, {0x2D, '뵨'}, {0x2E, '부'}, {0x2F, '북'},
@@ -398,7 +422,8 @@ namespace PKHeX.Core
             {0xF0, '셈'}, {0xF1, '셉'}, {0xF2, '셋'}, {0xF3, '셌'}, {0xF4, '셍'}, {0xF5, '셔'}, {0xF6, '셕'}, {0xF7, '션'}, {0xF8, '셜'}, {0xF9, '셤'}, {0xFA, '셥'}, {0xFB, '셧'}, {0xFC, '셨'}, {0xFD, '셩'}, {0xFE, '셰'}, {0xFF, '셴'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_6 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_6 = new()
+        {
             {0x00, '셸'}, {0x01, '솅'}, {0x02, '소'}, {0x03, '속'}, {0x04, '솎'}, {0x05, '손'}, {0x06, '솔'}, {0x07, '솖'}, {0x08, '솜'}, {0x09, '솝'}, {0x0A, '솟'}, {0x0B, '송'}, {0x0C, '솥'}, {0x0D, '솨'}, {0x0E, '솩'}, {0x0F, '솬'},
             {0x10, '솰'}, {0x11, '솽'}, {0x12, '쇄'}, {0x13, '쇈'}, {0x14, '쇌'}, {0x15, '쇔'}, {0x16, '쇗'}, {0x17, '쇘'}, {0x18, '쇠'}, {0x19, '쇤'}, {0x1A, '쇨'}, {0x1B, '쇰'}, {0x1C, '쇱'}, {0x1D, '쇳'}, {0x1E, '쇼'}, {0x1F, '쇽'},
             {0x20, '숀'}, {0x21, '숄'}, {0x22, '숌'}, {0x23, '숍'}, {0x24, '숏'}, {0x25, '숑'}, {0x26, '수'}, {0x27, '숙'}, {0x28, '순'}, {0x29, '숟'}, {0x2A, '술'}, {0x2B, '숨'}, {0x2C, '숩'}, {0x2D, '숫'}, {0x2E, '숭'}, {0x2F, '쌰'},
@@ -416,7 +441,8 @@ namespace PKHeX.Core
             {0xF0, '언'}, {0xF1, '얹'}, {0xF2, '얻'}, {0xF3, '얼'}, {0xF4, '얽'}, {0xF5, '얾'}, {0xF6, '엄'}, {0xF7, '업'}, {0xF8, '없'}, {0xF9, '엇'}, {0xFA, '었'}, {0xFB, '엉'}, {0xFC, '엊'}, {0xFD, '엌'}, {0xFE, '엎'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_7 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_7 = new()
+        {
             {0x01, '에'}, {0x02, '엑'}, {0x03, '엔'}, {0x04, '엘'}, {0x05, '엠'}, {0x06, '엡'}, {0x07, '엣'}, {0x08, '엥'}, {0x09, '여'}, {0x0A, '역'}, {0x0B, '엮'}, {0x0C, '연'}, {0x0D, '열'}, {0x0E, '엶'}, {0x0F, '엷'},
             {0x10, '염'}, {0x11, '엽'}, {0x12, '엾'}, {0x13, '엿'}, {0x14, '였'}, {0x15, '영'}, {0x16, '옅'}, {0x17, '옆'}, {0x18, '옇'}, {0x19, '예'}, {0x1A, '옌'}, {0x1B, '옐'}, {0x1C, '옘'}, {0x1D, '옙'}, {0x1E, '옛'}, {0x1F, '옜'},
             {0x20, '오'}, {0x21, '옥'}, {0x22, '온'}, {0x23, '올'}, {0x24, '옭'}, {0x25, '옮'}, {0x26, '옰'}, {0x27, '옳'}, {0x28, '옴'}, {0x29, '옵'}, {0x2A, '옷'}, {0x2B, '옹'}, {0x2C, '옻'}, {0x2D, '와'}, {0x2E, '왁'}, {0x2F, '완'},
@@ -434,7 +460,8 @@ namespace PKHeX.Core
             {0xF0, '좇'}, {0xF1, '좋'}, {0xF2, '좌'}, {0xF3, '좍'}, {0xF4, '좔'}, {0xF5, '좝'}, {0xF6, '좟'}, {0xF7, '좡'}, {0xF8, '좨'}, {0xF9, '좼'}, {0xFA, '좽'}, {0xFB, '죄'}, {0xFC, '죈'}, {0xFD, '죌'}, {0xFE, '죔'}, {0xFF, '죕'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_8 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_8 = new()
+        {
             {0x00, '죗'}, {0x01, '죙'}, {0x02, '죠'}, {0x03, '죡'}, {0x04, '죤'}, {0x05, '죵'}, {0x06, '주'}, {0x07, '죽'}, {0x08, '준'}, {0x09, '줄'}, {0x0A, '줅'}, {0x0B, '줆'}, {0x0C, '줌'}, {0x0D, '줍'}, {0x0E, '줏'}, {0x0F, '중'},
             {0x10, '줘'}, {0x11, '줬'}, {0x12, '줴'}, {0x13, '쥐'}, {0x14, '쥑'}, {0x15, '쥔'}, {0x16, '쥘'}, {0x17, '쥠'}, {0x18, '쥡'}, {0x19, '쥣'}, {0x1A, '쥬'}, {0x1B, '쥰'}, {0x1C, '쥴'}, {0x1D, '쥼'}, {0x1E, '즈'}, {0x1F, '즉'},
             {0x20, '즌'}, {0x21, '즐'}, {0x22, '즘'}, {0x23, '즙'}, {0x24, '즛'}, {0x25, '증'}, {0x26, '지'}, {0x27, '직'}, {0x28, '진'}, {0x29, '짇'}, {0x2A, '질'}, {0x2B, '짊'}, {0x2C, '짐'}, {0x2D, '집'}, {0x2E, '짓'},
@@ -452,7 +479,8 @@ namespace PKHeX.Core
             {0xF0, '췻'}, {0xF1, '췽'}, {0xF2, '츄'}, {0xF3, '츈'}, {0xF4, '츌'}, {0xF5, '츔'}, {0xF6, '츙'}, {0xF7, '츠'}, {0xF8, '측'}, {0xF9, '츤'}, {0xFA, '츨'}, {0xFB, '츰'}, {0xFC, '츱'}, {0xFD, '츳'}, {0xFE, '층'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_9 = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_9 = new()
+        {
             {0x01, '치'}, {0x02, '칙'}, {0x03, '친'}, {0x04, '칟'}, {0x05, '칠'}, {0x06, '칡'}, {0x07, '침'}, {0x08, '칩'}, {0x09, '칫'}, {0x0A, '칭'}, {0x0B, '카'}, {0x0C, '칵'}, {0x0D, '칸'}, {0x0E, '칼'}, {0x0F, '캄'},
             {0x10, '캅'}, {0x11, '캇'}, {0x12, '캉'}, {0x13, '캐'}, {0x14, '캑'}, {0x15, '캔'}, {0x16, '캘'}, {0x17, '캠'}, {0x18, '캡'}, {0x19, '캣'}, {0x1A, '캤'}, {0x1B, '캥'}, {0x1C, '캬'}, {0x1D, '캭'}, {0x1E, '컁'}, {0x1F, '커'},
             {0x20, '컥'}, {0x21, '컨'}, {0x22, '컫'}, {0x23, '컬'}, {0x24, '컴'}, {0x25, '컵'}, {0x26, '컷'}, {0x27, '컸'}, {0x28, '컹'}, {0x29, '케'}, {0x2A, '켁'}, {0x2B, '켄'}, {0x2C, '켈'}, {0x2D, '켐'}, {0x2E, '켑'}, {0x2F, '켓'},
@@ -470,7 +498,8 @@ namespace PKHeX.Core
             {0xF0, '팀'}, {0xF1, '팁'}, {0xF2, '팃'}, {0xF3, '팅'}, {0xF4, '파'}, {0xF5, '팍'}, {0xF6, '팎'}, {0xF7, '판'}, {0xF8, '팔'}, {0xF9, '팖'}, {0xFA, '팜'}, {0xFB, '팝'}, {0xFC, '팟'}, {0xFD, '팠'}, {0xFE, '팡'}, {0xFF, '팥'},
         };
 
-        private static readonly Dictionary<byte, char> GSC2U_KOR_A = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> GSC2U_KOR_A = new()
+        {
             {0x00, '패'}, {0x01, '팩'}, {0x02, '팬'}, {0x03, '팰'}, {0x04, '팸'}, {0x05, '팹'}, {0x06, '팻'}, {0x07, '팼'}, {0x08, '팽'}, {0x09, '퍄'}, {0x0A, '퍅'}, {0x0B, '퍼'}, {0x0C, '퍽'}, {0x0D, '펀'}, {0x0E, '펄'}, {0x0F, '펌'},
             {0x10, '펍'}, {0x11, '펏'}, {0x12, '펐'}, {0x13, '펑'}, {0x14, '페'}, {0x15, '펙'}, {0x16, '펜'}, {0x17, '펠'}, {0x18, '펨'}, {0x19, '펩'}, {0x1A, '펫'}, {0x1B, '펭'}, {0x1C, '펴'}, {0x1D, '편'}, {0x1E, '펼'}, {0x1F, '폄'},
             {0x20, '폅'}, {0x21, '폈'}, {0x22, '평'}, {0x23, '폐'}, {0x24, '폘'}, {0x25, '폡'}, {0x26, '폣'}, {0x27, '포'}, {0x28, '폭'}, {0x29, '폰'}, {0x2A, '폴'}, {0x2B, '폼'}, {0x2C, '폽'}, {0x2D, '폿'}, {0x2E, '퐁'},
@@ -490,6 +519,7 @@ namespace PKHeX.Core
 
         private static readonly Dictionary<byte, char> GSC2U_KOR_B = GSC2U_KOR_0;
 
+        /// <summary> Unicode codepoint => Gen2 value dictionary pages. </summary>
         private static readonly Dictionary<char, byte>[] U2GSC_KOR =
         {
             U2GSC_KOR_0, U2GSC_KOR_1, U2GSC_KOR_2, U2GSC_KOR_3,
@@ -497,6 +527,7 @@ namespace PKHeX.Core
             U2GSC_KOR_8, U2GSC_KOR_9, U2GSC_KOR_A, U2GSC_KOR_B,
         };
 
+        /// <summary> Gen2 value => Unicode codepoint dictionary pages. </summary>
         private static readonly Dictionary<byte, char>[] GSC2U_KOR =
         {
             GSC2U_KOR_0, GSC2U_KOR_1, GSC2U_KOR_2, GSC2U_KOR_3,

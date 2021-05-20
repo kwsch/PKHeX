@@ -190,7 +190,12 @@
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
             this.Tab_Ultra = new System.Windows.Forms.TabPage();
+            this.GB_Rotom = new System.Windows.Forms.GroupBox();
+            this.CHK_RotoLoto2 = new System.Windows.Forms.CheckBox();
+            this.CHK_RotoLoto1 = new System.Windows.Forms.CheckBox();
+            this.L_RotomAffection = new System.Windows.Forms.Label();
             this.TB_RotomOT = new System.Windows.Forms.TextBox();
+            this.NUD_RotomAffection = new System.Windows.Forms.NumericUpDown();
             this.L_RotomOT = new System.Windows.Forms.Label();
             this.GB_Surf = new System.Windows.Forms.GroupBox();
             this.L_Surf3 = new System.Windows.Forms.Label();
@@ -237,6 +242,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
             this.Tab_Ultra.SuspendLayout();
+            this.GB_Rotom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RotomAffection)).BeginInit();
             this.GB_Surf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
@@ -1976,8 +1983,7 @@
             // 
             // Tab_Ultra
             // 
-            this.Tab_Ultra.Controls.Add(this.TB_RotomOT);
-            this.Tab_Ultra.Controls.Add(this.L_RotomOT);
+            this.Tab_Ultra.Controls.Add(this.GB_Rotom);
             this.Tab_Ultra.Controls.Add(this.GB_Surf);
             this.Tab_Ultra.Location = new System.Drawing.Point(4, 22);
             this.Tab_Ultra.Name = "Tab_Ultra";
@@ -1987,10 +1993,54 @@
             this.Tab_Ultra.Text = "Ultra";
             this.Tab_Ultra.UseVisualStyleBackColor = true;
             // 
+            // GB_Rotom
+            // 
+            this.GB_Rotom.Controls.Add(this.CHK_RotoLoto2);
+            this.GB_Rotom.Controls.Add(this.CHK_RotoLoto1);
+            this.GB_Rotom.Controls.Add(this.L_RotomAffection);
+            this.GB_Rotom.Controls.Add(this.TB_RotomOT);
+            this.GB_Rotom.Controls.Add(this.NUD_RotomAffection);
+            this.GB_Rotom.Controls.Add(this.L_RotomOT);
+            this.GB_Rotom.Location = new System.Drawing.Point(6, 117);
+            this.GB_Rotom.Name = "GB_Rotom";
+            this.GB_Rotom.Size = new System.Drawing.Size(173, 105);
+            this.GB_Rotom.TabIndex = 9;
+            this.GB_Rotom.TabStop = false;
+            this.GB_Rotom.Text = "Rotom";
+            // 
+            // CHK_RotoLoto2
+            // 
+            this.CHK_RotoLoto2.AutoSize = true;
+            this.CHK_RotoLoto2.Location = new System.Drawing.Point(74, 82);
+            this.CHK_RotoLoto2.Name = "CHK_RotoLoto2";
+            this.CHK_RotoLoto2.Size = new System.Drawing.Size(53, 17);
+            this.CHK_RotoLoto2.TabIndex = 11;
+            this.CHK_RotoLoto2.Text = "Loto2";
+            this.CHK_RotoLoto2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_RotoLoto1
+            // 
+            this.CHK_RotoLoto1.AutoSize = true;
+            this.CHK_RotoLoto1.Location = new System.Drawing.Point(74, 67);
+            this.CHK_RotoLoto1.Name = "CHK_RotoLoto1";
+            this.CHK_RotoLoto1.Size = new System.Drawing.Size(53, 17);
+            this.CHK_RotoLoto1.TabIndex = 10;
+            this.CHK_RotoLoto1.Text = "Loto1";
+            this.CHK_RotoLoto1.UseVisualStyleBackColor = true;
+            // 
+            // L_RotomAffection
+            // 
+            this.L_RotomAffection.Location = new System.Drawing.Point(-3, 43);
+            this.L_RotomAffection.Name = "L_RotomAffection";
+            this.L_RotomAffection.Size = new System.Drawing.Size(76, 20);
+            this.L_RotomAffection.TabIndex = 9;
+            this.L_RotomAffection.Text = "Affection:";
+            this.L_RotomAffection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // TB_RotomOT
             // 
             this.TB_RotomOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_RotomOT.Location = new System.Drawing.Point(85, 117);
+            this.TB_RotomOT.Location = new System.Drawing.Point(74, 19);
             this.TB_RotomOT.MaxLength = 12;
             this.TB_RotomOT.Name = "TB_RotomOT";
             this.TB_RotomOT.Size = new System.Drawing.Size(93, 20);
@@ -1998,13 +2048,31 @@
             this.TB_RotomOT.Text = "WWWWWWWWWWWW";
             this.TB_RotomOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // NUD_RotomAffection
+            // 
+            this.NUD_RotomAffection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_RotomAffection.Location = new System.Drawing.Point(74, 45);
+            this.NUD_RotomAffection.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_RotomAffection.Name = "NUD_RotomAffection";
+            this.NUD_RotomAffection.Size = new System.Drawing.Size(47, 20);
+            this.NUD_RotomAffection.TabIndex = 8;
+            this.NUD_RotomAffection.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
             // L_RotomOT
             // 
-            this.L_RotomOT.Location = new System.Drawing.Point(12, 114);
+            this.L_RotomOT.Location = new System.Drawing.Point(-3, 19);
             this.L_RotomOT.Name = "L_RotomOT";
-            this.L_RotomOT.Size = new System.Drawing.Size(67, 32);
+            this.L_RotomOT.Size = new System.Drawing.Size(76, 20);
             this.L_RotomOT.TabIndex = 5;
-            this.L_RotomOT.Text = "Rotom OT Name:";
+            this.L_RotomOT.Text = "OT Name:";
             this.L_RotomOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Surf
@@ -2181,7 +2249,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
             this.Tab_Ultra.ResumeLayout(false);
-            this.Tab_Ultra.PerformLayout();
+            this.GB_Rotom.ResumeLayout(false);
+            this.GB_Rotom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RotomAffection)).EndInit();
             this.GB_Surf.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
@@ -2366,5 +2436,10 @@
         private System.Windows.Forms.Label L_RotomOT;
         private Controls.TrainerID trainerID1;
         private Subforms.Save_Editors.TrainerStat TrainerStats;
+        private System.Windows.Forms.NumericUpDown NUD_RotomAffection;
+        private System.Windows.Forms.GroupBox GB_Rotom;
+        private System.Windows.Forms.CheckBox CHK_RotoLoto2;
+        private System.Windows.Forms.CheckBox CHK_RotoLoto1;
+        private System.Windows.Forms.Label L_RotomAffection;
     }
 }

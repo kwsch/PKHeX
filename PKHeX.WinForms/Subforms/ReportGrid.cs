@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -42,14 +42,14 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgReportColumnRestoreSuccess);
             };
 
-            ContextMenuStrip mnu = new ContextMenuStrip();
+            ContextMenuStrip mnu = new();
             mnu.Items.Add(mnuHide);
             mnu.Items.Add(mnuRestore);
 
             dgData.ContextMenuStrip = mnu;
         }
 
-        private sealed class PokemonList<T> : SortableBindingList<T> { }
+        private sealed class PokemonList<T> : SortableBindingList<T> where T : class { }
 
         public void PopulateData(IList<PKM> Data)
         {
@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
                 dgData.Columns[i].Width = w;
             }
             dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            Data_Sorted(null, EventArgs.Empty); // trigger row resizing
+            Data_Sorted(this, EventArgs.Empty); // trigger row resizing
 
             ResumeLayout();
         }
@@ -96,7 +96,7 @@ namespace PKHeX.WinForms
                 dgData.Rows[i].Height = height;
         }
 
-        private void PromptSaveCSV(object sender, FormClosingEventArgs e)
+        private async void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
                 return;
@@ -106,20 +106,19 @@ namespace PKHeX.WinForms
                 FileName = "Box Data Dump.csv"
             };
             if (savecsv.ShowDialog() == DialogResult.OK)
-                Export_CSV(savecsv.FileName);
+                await Export_CSV(savecsv.FileName).ConfigureAwait(false);
         }
 
-        private void Export_CSV(string path)
+        private async Task Export_CSV(string path)
         {
-            var sb = new StringBuilder();
+            using var fs = new FileStream(path, FileMode.Create);
+            using var s = new StreamWriter(fs);
 
             var headers = dgData.Columns.Cast<DataGridViewColumn>();
-            sb.AppendLine(string.Join(",", headers.Select(column => $"\"{column.HeaderText}\"")));
+            await s.WriteLineAsync(string.Join(",", headers.Skip(1).Select(column => $"\"{column.HeaderText}\""))).ConfigureAwait(false);
 
             foreach (var cells in from DataGridViewRow row in dgData.Rows select row.Cells.Cast<DataGridViewCell>())
-                sb.AppendLine(string.Join(",", cells.Select(cell => $"\"{cell.Value}\"")));
-
-            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+                await s.WriteLineAsync(string.Join(",", cells.Skip(1).Select(cell => $"\"{cell.Value}\""))).ConfigureAwait(false);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

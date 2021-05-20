@@ -18,6 +18,7 @@ namespace PKHeX.Core
         internal const int SIZE_2JLIST = 63;
         internal const int SIZE_2PARTY = 48;
         internal const int SIZE_2STORED = 32;
+        internal const int SIZE_2STADIUM = 60;
 
         internal const int SIZE_3CSTORED = 312;
         internal const int SIZE_3XSTORED = 196;
@@ -253,7 +254,7 @@ namespace PKHeX.Core
         /// <returns>Decrypted data.</returns>
         public static byte[] DecryptArray3(byte[] ekm)
         {
-            Debug.Assert(ekm.Length == SIZE_3PARTY || ekm.Length == SIZE_3STORED);
+            Debug.Assert(ekm.Length is SIZE_3PARTY or SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(ekm, 0);
             uint OID = BitConverter.ToUInt32(ekm, 4);
@@ -295,7 +296,7 @@ namespace PKHeX.Core
         /// <returns>Encrypted data.</returns>
         public static byte[] EncryptArray3(byte[] pkm)
         {
-            Debug.Assert(pkm.Length == SIZE_3PARTY || pkm.Length == SIZE_3STORED);
+            Debug.Assert(pkm.Length is SIZE_3PARTY or SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(pkm, 0);
             uint OID = BitConverter.ToUInt32(pkm, 4);
@@ -312,12 +313,12 @@ namespace PKHeX.Core
         /// Gets the checksum of a 232 byte array.
         /// </summary>
         /// <param name="data">Decrypted Pokémon data.</param>
-        public static ushort GetCHK(byte[] data)
+        /// <param name="partyStart">Offset at which the Stored data ends and the Party data starts.</param>
+        public static ushort GetCHK(byte[] data, int partyStart)
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_6STORED; i += 2)
+            for (int i = 8; i < partyStart; i += 2)
                 chk += BitConverter.ToUInt16(data, i);
-
             return chk;
         }
 
@@ -334,6 +335,10 @@ namespace PKHeX.Core
             return chk;
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 3 Format encryption check which verifies the checksum</remarks>
         public static void DecryptIfEncrypted3(ref byte[] pkm)
         {
             ushort chk = GetCHK3(pkm);
@@ -341,18 +346,30 @@ namespace PKHeX.Core
                 pkm = DecryptArray3(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 4 &amp; 5 Format encryption check which checks for the unused bytes</remarks>
         public static void DecryptIfEncrypted45(ref byte[] pkm)
         {
             if (BitConverter.ToUInt32(pkm, 0x64) != 0)
                 pkm = DecryptArray45(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 6 &amp; 7 Format encryption check</remarks>
         public static void DecryptIfEncrypted67(ref byte[] pkm)
         {
             if (BitConverter.ToUInt16(pkm, 0xC8) != 0 || BitConverter.ToUInt16(pkm, 0x58) != 0)
                 pkm = DecryptArray6(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 8 Format encryption check</remarks>
         public static void DecryptIfEncrypted8(ref byte[] pkm)
         {
             if (BitConverter.ToUInt16(pkm, 0x70) != 0 || BitConverter.ToUInt16(pkm, 0xC0) != 0)

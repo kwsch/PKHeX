@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = SAV.MyStatus.MaxWatt.ToString();
+            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -36,8 +36,8 @@ namespace PKHeX.WinForms
 
             TC_Editor.TabPages.Remove(Tab_BadgeMap); // needs more work
 
-            ChangeTitleScreenIndex(null, EventArgs.Empty);
-            ChangeTrainerCardIndex(null, EventArgs.Empty);
+            ChangeTitleScreenIndex(this, EventArgs.Empty);
+            ChangeTrainerCardIndex(this, EventArgs.Empty);
 
             //Loading = false;
         }
@@ -96,11 +96,11 @@ namespace PKHeX.WinForms
 
             L_Started.Visible = CAL_AdventureStartDate.Visible = CAL_AdventureStartTime.Visible = false;
             L_Fame.Visible = CAL_HoFDate.Visible = CAL_HoFTime.Visible = false;
-            // Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            // DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
             // CAL_AdventureStartDate.Value = date;
             // CAL_AdventureStartTime.Value = time;
             // 
-            // Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            // DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             // CAL_HoFDate.Value = date;
             // CAL_HoFTime.Value = time;
         }
@@ -168,8 +168,8 @@ namespace PKHeX.WinForms
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            //SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            //SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            //SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            //SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
             //
             //if (SAV.Played.LastSavedDate.HasValue)
             //    SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -182,7 +182,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -228,14 +228,14 @@ namespace PKHeX.WinForms
         {
             SAV.Blocks.TrainerCard.SetPartyData();
             System.Media.SystemSounds.Asterisk.Play();
-            ChangeTrainerCardIndex(null, EventArgs.Empty);
+            ChangeTrainerCardIndex(this, EventArgs.Empty);
         }
 
         private void B_CopyFromPartyToTitleScreen_Click(object sender, EventArgs e)
         {
             SAV.Blocks.TitleScreen.SetPartyData();
             System.Media.SystemSounds.Asterisk.Play();
-            ChangeTitleScreenIndex(null, EventArgs.Empty);
+            ChangeTitleScreenIndex(this, EventArgs.Empty);
         }
 
         //private string UpdateTip(int index)
@@ -243,8 +243,8 @@ namespace PKHeX.WinForms
         //    switch (index)
         //    {
         //        case 2: // Storyline Completed Time
-        //            var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-        //            return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
+        //            var seconds = DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+        //            return DateUtil.ConvertDateValueToString(SAV.GetRecord(index), seconds);
         //        default:
         //            return null;
         //    }

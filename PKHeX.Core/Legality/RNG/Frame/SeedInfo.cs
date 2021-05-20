@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Seed result value storage for passing frame seeds &amp; conditions.
+    /// </summary>
     public readonly struct SeedInfo
     {
         public readonly uint Seed;

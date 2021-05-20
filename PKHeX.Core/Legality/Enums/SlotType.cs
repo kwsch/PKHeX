@@ -8,7 +8,8 @@ namespace PKHeX.Core
     /// <remarks>
     /// Different from <see cref="EncounterType"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
     [Flags]
-    public enum SlotType
+#pragma warning disable RCS1191 // Declare enum value as combination of names.
+    public enum SlotType : byte
     {
         /// <summary>
         /// Default (un-assigned) encounter slot type.
@@ -18,125 +19,113 @@ namespace PKHeX.Core
         /// <summary>
         /// Slot is encountered via Grass.
         /// </summary>
-        Grass        = 1 << 00,
+        Grass = 1,
 
         /// <summary>
         /// Slot is encountered via Surfing.
         /// </summary>
-        Surf         = 1 << 01,
+        Surf = 2,
 
         /// <summary>
         /// Slot is encountered via Old Rod (Fishing).
         /// </summary>
-        Old_Rod      = 1 << 02,
+        Old_Rod = 3,
 
         /// <summary>
         /// Slot is encountered via Good Rod (Fishing).
         /// </summary>
-        Good_Rod     = 1 << 03,
+        Good_Rod = 4,
 
         /// <summary>
         /// Slot is encountered via Super Rod (Fishing).
         /// </summary>
-        Super_Rod    = 1 << 04,
+        Super_Rod = 5,
 
         /// <summary>
         /// Slot is encountered via Rock Smash.
         /// </summary>
-        Rock_Smash   = 1 << 05,
-
-        /// <summary>
-        /// Slot is encountered via a Horde.
-        /// </summary>
-        Horde        = 1 << 06,
-
-        /// <summary>
-        /// Slot is encountered via the Friend Safari.
-        /// </summary>
-        FriendSafari = 1 << 07,
-
-        /// <summary>
-        /// Slot is encountered through special means. Used to signify special slots for Gen2, sometimes for later follow-up).
-        /// </summary>
-        Special      = 1 << 08,
-
-        /// <summary>
-        /// Slot is encountered via SOS signal.
-        /// </summary>
-        SOS          = 1 << 09,
-
-        /// <summary>
-        /// Slot is encountered in a Swarm.
-        /// </summary>
-        Swarm        = 1 << 10,
+        Rock_Smash = 6,
 
         /// <summary>
         /// Slot is encountered via Headbutt.
         /// </summary>
-        Headbutt     = 1 << 11,
-
-        Headbutt_Special = Headbutt | Special,
-
-        /// <summary>
-        /// Slot is encountered via the Poké Radar.
-        /// </summary>
-        Pokeradar    = 1 << 12,
+        Headbutt = 7,
 
         /// <summary>
         /// Slot is encountered via a Honey Tree.
         /// </summary>
-        HoneyTree    = 1 << 13,
-
-        /// <summary>
-        /// Slot is encountered via a Hidden Grotto.
-        /// </summary>
-        HiddenGrotto = 1 << 14,
+        HoneyTree = 8,
 
         /// <summary>
         /// Slot is encountered via the Bug Catching Contest.
         /// </summary>
-        BugContest   = 1 << 15,
+        BugContest = 9,
 
         /// <summary>
-        /// Slot is encountered via the Go Park.
+        /// Slot is encountered via Generation 5 Hidden Grotto.
         /// </summary>
-        GoPark = 1 << 16,
+        HiddenGrotto = 10,
+
+        // GoPark = 11, UNUSED, now EncounterSlot7g
 
         /// <summary>
-        /// Slot is encountered in the Safari Zone.
+        /// Slot is encountered via Generation 6 Friend Safari.
         /// </summary>
-        Safari       = 1 << 30, // always used as a modifier to another slot type
+        FriendSafari = 12,
 
-        Grass_Safari = Grass | Safari,
-        Surf_Safari = Surf | Safari,
-        Old_Rod_Safari = Old_Rod | Safari,
-        Good_Rod_Safari = Good_Rod | Safari,
-        Super_Rod_Safari = Super_Rod | Safari,
-        Rock_Smash_Safari = Rock_Smash | Safari,
-        Pokeradar_Safari = Pokeradar | Safari,
+        /// <summary>
+        /// Slot is encountered via Generation 6 Horde Battle.
+        /// </summary>
+        Horde = 13,
+
+        // Pokeradar = 14, // UNUSED, don't need to differentiate Gen4 Radar Slots
+
+        /// <summary>
+        /// Slot is encountered via Generation 7 SOS triggers only.
+        /// </summary>
+        SOS = 15,
+
+        // Modifiers
+
+        /// <summary>
+        /// Used to differentiate the two types of headbutt tree encounters.
+        /// </summary>
+        /// <remarks><see cref="Headbutt"/></remarks>
+        Special = 1 << 6,
+
+        /// <summary>
+        /// Used to identify encounters that are triggered via alternate ESV proc calculations.
+        /// </summary>
+        Swarm = 1 << 7,
     }
 
     public static partial class Extensions
     {
-        internal static bool IsSafariType(this SlotType t) => (t & SlotType.Safari) != 0;
-
         internal static bool IsFishingRodType(this SlotType t)
         {
-            return (t & SlotType.Old_Rod) != 0 || (t & SlotType.Good_Rod) != 0 || (t & SlotType.Super_Rod) != 0;
+            t &= (SlotType)0xF;
+            return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
         }
 
-        internal static bool IsSweetScentType(this SlotType t)
+        internal static bool IsSweetScentType(this SlotType t) => t switch
         {
-            return !(t.IsFishingRodType() || (t & SlotType.Rock_Smash) != 0);
-        }
+            SlotType.Grass => true,
+            SlotType.Surf => true,
+            SlotType.BugContest => true,
 
-        public static Ball GetBall(this SlotType t)
+            _ => false,
+        };
+
+        public static Ball GetRequiredBallValueWild(this SlotType t, int generation, int location) => generation switch
         {
-            if (t == SlotType.BugContest)
-                return Ball.Sport;
-            if (t.IsSafariType())
-                return Ball.Safari;
-            return Ball.Poke;
-        }
+            3 when Locations.IsSafariZoneLocation3(location) => Ball.Safari,
+            4 when Locations.IsSafariZoneLocation4(location) => Ball.Safari,
+            4 when t == SlotType.BugContest => Ball.Sport,
+
+            // Poké Pelago
+            7 when location == 30016 => Ball.Poke,
+
+            _ => Ball.None,
+        };
     }
 }

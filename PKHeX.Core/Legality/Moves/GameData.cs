@@ -1,174 +1,106 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
     public static class GameData
     {
-        public static Learnset[] GetLearnsets(GameVersion game) => Learnsets[game];
-        public static PersonalTable GetPersonal(GameVersion game) => Personal[game];
+        public static Learnset[] GetLearnsets(GameVersion game) => Learnsets(game);
+        public static PersonalTable GetPersonal(GameVersion game) => Personal(game);
 
-        private static readonly Dictionary<GameVersion, Learnset[]> Learnsets = new Dictionary<GameVersion, Learnset[]>
+        public static Learnset GetLearnset(GameVersion game, int species, int form)
         {
-            { GameVersion.RD, Legal.LevelUpRB },
-            { GameVersion.BU, Legal.LevelUpRB },
-            { GameVersion.GN, Legal.LevelUpRB },
-            { GameVersion.YW, Legal.LevelUpY },
-            { GameVersion.GD, Legal.LevelUpGS },
-            { GameVersion.SV, Legal.LevelUpGS },
-            { GameVersion.C, Legal.LevelUpC },
+            var pt = Personal(game);
+            var index = pt.GetFormIndex(species, form);
+            var sets = Learnsets(game);
+            return sets[index];
+        }
 
-            { GameVersion.R, Legal.LevelUpRS },
-            { GameVersion.S, Legal.LevelUpRS },
-            { GameVersion.E, Legal.LevelUpE },
-            { GameVersion.FR, Legal.LevelUpFR },
-            { GameVersion.LG, Legal.LevelUpLG },
-            { GameVersion.COLO, Legal.LevelUpE },
-            { GameVersion.XD, Legal.LevelUpE },
+        private static Learnset[] Learnsets(GameVersion game) => game switch
+        {
+            RD or GN or BU or RB => Legal.LevelUpRB,
+            YW or RBY => Legal.LevelUpY,
+            GD or SV or GS => Legal.LevelUpGS,
+            C or GSC => Legal.LevelUpC,
 
-            { GameVersion.D, Legal.LevelUpDP },
-            { GameVersion.P, Legal.LevelUpDP },
-            { GameVersion.Pt, Legal.LevelUpPt },
-            { GameVersion.HG, Legal.LevelUpHGSS },
-            { GameVersion.SS, Legal.LevelUpHGSS },
+            R or S or RS or RSE => Legal.LevelUpRS,
+            E or COLO or XD or FRLG or CXD => Legal.LevelUpE,
+            FR => Legal.LevelUpFR,
+            LG => Legal.LevelUpLG,
 
-            { GameVersion.B, Legal.LevelUpBW },
-            { GameVersion.W, Legal.LevelUpBW },
-            { GameVersion.B2, Legal.LevelUpB2W2 },
-            { GameVersion.W2, Legal.LevelUpB2W2 },
+            D or P or DP => Legal.LevelUpDP,
+            Pt or DPPt => Legal.LevelUpPt,
+            HG or SS or HGSS => Legal.LevelUpHGSS,
 
-            { GameVersion.X, Legal.LevelUpXY },
-            { GameVersion.Y, Legal.LevelUpXY },
-            { GameVersion.AS, Legal.LevelUpAO },
-            { GameVersion.OR, Legal.LevelUpAO },
+            B or W or BW => Legal.LevelUpBW,
+            B2 or W2 or B2W2 => Legal.LevelUpB2W2,
 
-            { GameVersion.SN, Legal.LevelUpSM },
-            { GameVersion.MN, Legal.LevelUpSM },
-            { GameVersion.US, Legal.LevelUpUSUM },
-            { GameVersion.UM, Legal.LevelUpUSUM },
-            { GameVersion.GO, Legal.LevelUpGG },
-            { GameVersion.GP, Legal.LevelUpGG },
-            { GameVersion.GE, Legal.LevelUpGG },
+            X or Y or XY => Legal.LevelUpXY,
+            AS or OR or ORAS => Legal.LevelUpAO,
 
-            { GameVersion.SW, Legal.LevelUpSWSH },
-            { GameVersion.SH, Legal.LevelUpSWSH },
+            SN or MN or SM => Legal.LevelUpSM,
+            US or UM or USUM => Legal.LevelUpUSUM,
+            GO or GP or GE or GG => Legal.LevelUpGG,
 
-            { GameVersion.RB, Legal.LevelUpRB },
-            { GameVersion.RBY, Legal.LevelUpY },
-            { GameVersion.GS, Legal.LevelUpGS },
-            { GameVersion.GSC, Legal.LevelUpC },
-            { GameVersion.RS, Legal.LevelUpRS },
-            { GameVersion.RSE, Legal.LevelUpRS },
-            { GameVersion.FRLG, Legal.LevelUpE },
-            { GameVersion.CXD, Legal.LevelUpE },
-            { GameVersion.DP, Legal.LevelUpDP },
-            { GameVersion.DPPt, Legal.LevelUpDP },
-            { GameVersion.HGSS, Legal.LevelUpHGSS },
-            { GameVersion.BW, Legal.LevelUpBW },
-            { GameVersion.B2W2, Legal.LevelUpB2W2 },
-            { GameVersion.XY, Legal.LevelUpXY },
-            { GameVersion.ORAS, Legal.LevelUpAO },
-            { GameVersion.SM, Legal.LevelUpSM },
-            { GameVersion.USUM, Legal.LevelUpUSUM },
+            SW or SH or SWSH => Legal.LevelUpSWSH,
 
-            { GameVersion.GG, Legal.LevelUpGG },
-            { GameVersion.SWSH, Legal.LevelUpSWSH },
+            Gen1 => Legal.LevelUpY,
+            Gen2 => Legal.LevelUpC,
+            Gen3 => Legal.LevelUpE,
+            Gen4 => Legal.LevelUpHGSS,
+            Gen5 => Legal.LevelUpB2W2,
+            Gen6 => Legal.LevelUpAO,
+            Gen7 => Legal.LevelUpSM,
+            Gen7b => Legal.LevelUpGG,
+            Gen8 => Legal.LevelUpSWSH,
 
-            { GameVersion.Gen1, Legal.LevelUpY },
-            { GameVersion.Gen2, Legal.LevelUpC },
-            { GameVersion.Gen3, Legal.LevelUpE },
-            { GameVersion.Gen4, Legal.LevelUpHGSS },
-            { GameVersion.Gen5, Legal.LevelUpB2W2 },
-            { GameVersion.Gen6, Legal.LevelUpAO },
-            { GameVersion.Gen7, Legal.LevelUpSM },
-            { GameVersion.Gen8, Legal.LevelUpSWSH },
-            { GameVersion.VCEvents, Legal.LevelUpY },
-
-            { GameVersion.Stadium, Legal.LevelUpY },
-            { GameVersion.EventsGBGen1, Legal.LevelUpY },
-            { GameVersion.Stadium2, Legal.LevelUpGS },
-            { GameVersion.EventsGBGen2, Legal.LevelUpGS },
+            Stadium => Legal.LevelUpY,
+            Stadium2 => Legal.LevelUpGS,
+            _ => throw new ArgumentOutOfRangeException(nameof(game))
         };
 
-        private static readonly Dictionary<GameVersion, PersonalTable> Personal = new Dictionary<GameVersion, PersonalTable>
+        private static PersonalTable Personal(GameVersion game) => game switch
         {
-            { GameVersion.RD, PersonalTable.RB },
-            { GameVersion.BU, PersonalTable.RB },
-            { GameVersion.GN, PersonalTable.RB },
-            { GameVersion.YW, PersonalTable.Y },
-            { GameVersion.GD, PersonalTable.GS },
-            { GameVersion.SV, PersonalTable.GS },
-            { GameVersion.C, PersonalTable.C },
+            RD or GN or BU or RB => PersonalTable.RB,
+            YW or RBY => PersonalTable.Y,
+            GD or SV or GS => PersonalTable.GS,
+            C or GSC => PersonalTable.C,
 
-            { GameVersion.R, PersonalTable.RS },
-            { GameVersion.S, PersonalTable.RS },
-            { GameVersion.E, PersonalTable.E },
-            { GameVersion.FR, PersonalTable.FR },
-            { GameVersion.LG, PersonalTable.LG },
-            { GameVersion.COLO, PersonalTable.E },
-            { GameVersion.XD, PersonalTable.E },
+            R or S or RS or RSE => PersonalTable.RS,
+            E or COLO or XD or FRLG or CXD => PersonalTable.E,
+            FR => PersonalTable.FR,
+            LG => PersonalTable.LG,
 
-            { GameVersion.D, PersonalTable.DP },
-            { GameVersion.P, PersonalTable.DP },
-            { GameVersion.Pt, PersonalTable.Pt },
-            { GameVersion.HG, PersonalTable.HGSS },
-            { GameVersion.SS, PersonalTable.HGSS },
+            D or P or DP => PersonalTable.DP,
+            Pt or DPPt => PersonalTable.Pt,
+            HG or SS or HGSS => PersonalTable.HGSS,
 
-            { GameVersion.B, PersonalTable.BW },
-            { GameVersion.W, PersonalTable.BW },
-            { GameVersion.B2, PersonalTable.B2W2 },
-            { GameVersion.W2, PersonalTable.B2W2 },
+            B or W or BW => PersonalTable.BW,
+            B2 or W2 or B2W2 => PersonalTable.B2W2,
 
-            { GameVersion.X, PersonalTable.XY },
-            { GameVersion.Y, PersonalTable.XY },
-            { GameVersion.AS, PersonalTable.AO },
-            { GameVersion.OR, PersonalTable.AO },
+            X or Y or XY => PersonalTable.XY,
+            AS or OR or ORAS => PersonalTable.AO,
 
-            { GameVersion.SN, PersonalTable.SM },
-            { GameVersion.MN, PersonalTable.SM },
-            { GameVersion.US, PersonalTable.USUM },
-            { GameVersion.UM, PersonalTable.USUM },
-            { GameVersion.GO, PersonalTable.GG },
-            { GameVersion.GP, PersonalTable.GG },
-            { GameVersion.GE, PersonalTable.GG },
+            SN or MN or SM => PersonalTable.SM,
+            US or UM or USUM => PersonalTable.USUM,
+            GO or GP or GE or GG => PersonalTable.GG,
 
-            { GameVersion.SW, PersonalTable.SWSH },
-            { GameVersion.SH, PersonalTable.SWSH },
+            SW or SH or SWSH => PersonalTable.SWSH,
 
-            { GameVersion.RB, PersonalTable.RB },
-            { GameVersion.RBY, PersonalTable.Y },
-            { GameVersion.GS, PersonalTable.GS },
-            { GameVersion.GSC, PersonalTable.C },
-            { GameVersion.RS, PersonalTable.RS },
-            { GameVersion.RSE, PersonalTable.RS },
-            { GameVersion.FRLG, PersonalTable.E },
-            { GameVersion.CXD, PersonalTable.E },
-            { GameVersion.DP, PersonalTable.DP },
-            { GameVersion.DPPt, PersonalTable.DP },
-            { GameVersion.HGSS, PersonalTable.HGSS },
-            { GameVersion.BW, PersonalTable.BW },
-            { GameVersion.B2W2, PersonalTable.B2W2 },
-            { GameVersion.XY, PersonalTable.XY },
-            { GameVersion.ORAS, PersonalTable.AO },
-            { GameVersion.SM, PersonalTable.SM },
-            { GameVersion.USUM, PersonalTable.USUM },
-            { GameVersion.SWSH, PersonalTable.SWSH },
+            Gen1 => PersonalTable.Y,
+            Gen2 => PersonalTable.C,
+            Gen3 => PersonalTable.E,
+            Gen4 => PersonalTable.HGSS,
+            Gen5 => PersonalTable.B2W2,
+            Gen6 => PersonalTable.AO,
+            Gen7 => PersonalTable.USUM,
+            Gen7b => PersonalTable.GG,
+            Gen8 => PersonalTable.SWSH,
 
-            { GameVersion.GG, PersonalTable.GG },
+            Stadium => PersonalTable.Y,
+            Stadium2 => PersonalTable.GS,
 
-            { GameVersion.Gen1, PersonalTable.Y },
-            { GameVersion.Gen2, PersonalTable.C },
-            { GameVersion.Gen3, PersonalTable.E },
-            { GameVersion.Gen4, PersonalTable.HGSS },
-            { GameVersion.Gen5, PersonalTable.B2W2 },
-            { GameVersion.Gen6, PersonalTable.AO },
-            { GameVersion.Gen7, PersonalTable.SM },
-            { GameVersion.Gen8, PersonalTable.SWSH },
-            { GameVersion.VCEvents, PersonalTable.Y },
-
-            { GameVersion.Stadium, PersonalTable.Y },
-            { GameVersion.EventsGBGen1, PersonalTable.Y },
-            { GameVersion.Stadium2, PersonalTable.GS },
-            { GameVersion.EventsGBGen2, PersonalTable.GS },
+            _ => throw new ArgumentOutOfRangeException(nameof(game))
         };
     }
 }

@@ -44,8 +44,8 @@ namespace PKHeX.Core
             // Some games cannot acquire every Species that exists. Some can only acquire a subset.
             return sav switch
             {
-                SAV7b _ => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
-                    .Where(s => s.Value <= (int)Core.Species.Mew || s.Value == (int)Core.Species.Meltan || s.Value == (int)Core.Species.Melmetal),
+                SAV7b => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
+                    .Where(s => s.Value is <= (int)Core.Species.Mew or (int)Core.Species.Meltan or (int)Core.Species.Melmetal),
                 _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID)
             };
         }
@@ -58,7 +58,7 @@ namespace PKHeX.Core
             var legal = source.LegalMoveDataSource;
             return sav switch
             {
-                SAV7b _ => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
+                SAV7b => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
                 _ => legal.Where(m => m.Value <= sav.MaxMoveID)
             };
         }
@@ -87,10 +87,13 @@ namespace PKHeX.Core
         {
             var count = format == 3 && (abilities[1] == 0 || abilities[1] == abilities[0]) ? 1 : abilities.Count;
             var list = new ComboItem[count];
+
+            var alist = Source.Strings.Ability;
+            var suffix = AbilityIndexSuffixes;
             for (int i = 0; i < list.Length; i++)
             {
                 var ability = abilities[i];
-                list[i] = new ComboItem(Source.Source.Ability[ability] + AbilityIndexSuffixes[i], ability);
+                list[i] = new ComboItem(alist[ability] + suffix[i], ability);
             }
 
             return list;

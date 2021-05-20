@@ -1,4 +1,5 @@
 ﻿using System;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -7,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class FrameGenerator
     {
-        public uint Nature;
+        public uint Nature { get; init; }
         public readonly bool Gendered;
         public readonly int GenderHigh;
         public readonly int GenderLow;
@@ -17,10 +18,10 @@ namespace PKHeX.Core
         public readonly RNG RNG = RNG.LCRNG;
         public readonly bool Safari3;
 
-        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, lead);
+        public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
 
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, lead)
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new(seed, FrameType, lead)
         {
             RandESV = esv,
             RandLevel = lvl,
@@ -38,16 +39,12 @@ namespace PKHeX.Core
             switch (ver)
             {
                 // Method H
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.FR:
-                case GameVersion.LG:
-                case GameVersion.E:
+                case R or S or E or FR or LG:
                     DPPt = false;
                     FrameType = FrameType.MethodH;
-                    Safari3 = pk.Ball == 5 && !pk.FRLG;
+                    Safari3 = pk.Ball == 5 && ver is not (FR or LG);
 
-                    if (ver != GameVersion.E)
+                    if (ver != E)
                         return;
 
                     AllowLeads = true;
@@ -65,17 +62,14 @@ namespace PKHeX.Core
                     return;
 
                 // Method J
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.Pt:
+                case D or P or Pt:
                     DPPt = true;
                     AllowLeads = true;
                     FrameType = FrameType.MethodJ;
                     return;
 
                 // Method K
-                case GameVersion.HG:
-                case GameVersion.SS:
+                case HG or SS:
                     DPPt = false;
                     AllowLeads = true;
                     FrameType = FrameType.MethodK;
@@ -92,16 +86,15 @@ namespace PKHeX.Core
         /// <param name="ratio">Gender Ratio</param>
         /// <param name="max">Return Max (or Min)</param>
         /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-        private static int GetGenderMinMax(int gender, int ratio, bool max)
+        private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
         {
-            if (ratio == 0 || ratio == 0xFE || ratio == 0xFF)
-                gender = 2;
-            return gender switch
+            0 or >254 => max ? 255 : 0,
+            _ => gender switch
             {
-                0 => (max ? 255 : ratio), // male
-                1 => (max ? ratio - 1 : 0), // female
-                _ => (max ? 255 : 0),
-            };
-        }
+                0 => max ? 255 : ratio, // male
+                1 => max ? ratio - 1 : 0, // female
+                _ => max ? 255 : 0,
+            }
+        };
     }
 }

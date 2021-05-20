@@ -128,7 +128,7 @@ namespace PKHeX.Core
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of files imported.</returns>
-        public static int LoadBoxes(this SaveFile sav, IEnumerable<IEncounterable> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
+        public static int LoadBoxes(this SaveFile sav, IEnumerable<IEncounterConvertible> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             var pks = encounters.Select(z => z.ConvertToPKM(sav));
             return sav.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);
@@ -189,14 +189,45 @@ namespace PKHeX.Core
                     case PKM pk:
                         yield return pk;
                         break;
-                    case MysteryGift g when g.IsPokémon:
+                    case MysteryGift {IsPokémon: true} g:
                         yield return g.ConvertToPKM(sav);
                         break;
                     case GP1 g when g.Species != 0:
                         yield return g.ConvertToPB7(sav);
                         break;
+                    case IPokeGroup g:
+                        foreach (var p in g.Contents)
+                            yield return p;
+                        break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets box names for all boxes in the save file.
+        /// </summary>
+        /// <param name="sav"><see cref="SaveFile"/> that box names are being dumped for.</param>
+        /// <returns>Returns default English box names in the event the save file does not have names (not exportable), or fails to return a box name.</returns>
+        public static string[] GetBoxNames(SaveFile sav)
+        {
+            int count = sav.BoxCount;
+            var result = new string[count];
+            if (!sav.State.Exportable)
+            {
+                for (int i = 0; i < count; i++)
+                    result[i] = $"Box {i + 1}";
+                return result;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                try { result[i] = sav.GetBoxName(i); }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch { result[i] = $"Box {i + 1}"; }
+#pragma warning restore CA1031 // Do not catch general exception types
+            }
+
+            return result;
         }
     }
 }

@@ -15,12 +15,12 @@ namespace PKHeX.Core
         public static void SetPrimaryTrainer(ITrainerInfo t)
         {
             Trainer = t;
-            if (t.ConsoleRegion != 0)
-                Trainer67 = t;
+            if (t is IRegionOrigin o)
+                Trainer67 = o;
         }
 
         private static ITrainerInfo Trainer { get; set; } = new SimpleTrainerInfo();
-        private static ITrainerInfo Trainer67 { get; set; } = new SimpleTrainerInfo(GameVersion.SN);
+        private static IRegionOrigin Trainer67 { get; set; } = new SimpleTrainerInfo(GameVersion.SN);
         public static string OT_Name => Trainer.OT;
         public static int OT_Gender => Trainer.Gender;
         public static int Language => Trainer.Language;
@@ -28,19 +28,19 @@ namespace PKHeX.Core
         public static int Game => Trainer.Game;
         public static bool AllowIncompatibleConversion { private get; set; }
 
-        public static void SetConsoleRegionData3DS(PKM pkm)
+        public static void SetConsoleRegionData3DS(IRegionOrigin pkm)
         {
-            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            var trainer = Trainer is IRegionOrigin r ? r : Trainer67;
             pkm.ConsoleRegion = trainer.ConsoleRegion;
             pkm.Country = trainer.Country;
-            pkm.Region = trainer.SubRegion;
+            pkm.Region = trainer.Region;
         }
 
         public static void SetFirstCountryRegion(IGeoTrack pkm)
         {
-            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            var trainer = Trainer is IRegionOrigin r ? r : Trainer67;
             pkm.Geo1_Country = trainer.Country;
-            pkm.Geo1_Region = trainer.SubRegion;
+            pkm.Geo1_Region = trainer.Region;
         }
 
         /// <summary>
@@ -55,19 +55,16 @@ namespace PKHeX.Core
 
             switch (data.Length)
             {
-                case PokeCrypto.SIZE_1JLIST:
-                case PokeCrypto.SIZE_1ULIST:
+                case PokeCrypto.SIZE_1JLIST or PokeCrypto.SIZE_1ULIST:
                     return 1;
-                case PokeCrypto.SIZE_2ULIST:
-                case PokeCrypto.SIZE_2JLIST:
+                case PokeCrypto.SIZE_2JLIST or PokeCrypto.SIZE_2ULIST:
+                case PokeCrypto.SIZE_2STADIUM:
                     return 2;
-                case PokeCrypto.SIZE_3PARTY:
-                case PokeCrypto.SIZE_3STORED:
+                case PokeCrypto.SIZE_3PARTY or PokeCrypto.SIZE_3STORED:
                 case PokeCrypto.SIZE_3CSTORED:
                 case PokeCrypto.SIZE_3XSTORED:
                     return 3;
-                case PokeCrypto.SIZE_4PARTY:
-                case PokeCrypto.SIZE_4STORED:
+                case PokeCrypto.SIZE_4PARTY or PokeCrypto.SIZE_4STORED:
                 case PokeCrypto.SIZE_5PARTY:
                     if ((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
                         return 5;
@@ -77,7 +74,7 @@ namespace PKHeX.Core
                 case PokeCrypto.SIZE_6PARTY: // collision with PGT, same size.
                     if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
                         return -1;
-                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data))
+                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data, PokeCrypto.SIZE_6STORED))
                         return 6;
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
@@ -90,8 +87,7 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
-                case PokeCrypto.SIZE_8PARTY:
-                case PokeCrypto.SIZE_8STORED:
+                case PokeCrypto.SIZE_8PARTY or PokeCrypto.SIZE_8STORED:
                     return 8;
 
                 default:
@@ -108,35 +104,22 @@ namespace PKHeX.Core
         public static PKM? GetPKMfromBytes(byte[] data, int prefer = 7)
         {
             int format = GetPKMDataFormat(data);
-            switch (format)
+            return format switch
             {
-                case 1:
-                    var list1 = new PokeList1(data);
-                    return list1[0];
-                case 2:
-                    var list2 = new PokeList2(data);
-                    return list2[0];
-                case 3:
-                    return data.Length switch
-                    {
-                        PokeCrypto.SIZE_3CSTORED => new CK3(data),
-                        PokeCrypto.SIZE_3XSTORED => new XK3(data),
-                        _ => new PK3(data)
-                    };
-                case 4:
-                    if (BitConverter.ToUInt16(data, 0x04) != 0)
-                        return new BK4(data);
-                    return new PK4(data);
-                case 5:
-                    return new PK5(data);
-                case 6:
-                    var pkx = new PK6(data);
-                    return CheckPKMFormat7(pkx, prefer);
-                case 8:
-                    return new PK8(data);
-                default:
-                    return null;
-            }
+                1 => new PokeList1(data)[0],
+                2 => data.Length != PokeCrypto.SIZE_2STADIUM ? new PokeList2(data)[0] : new SK2(data),
+                3 => data.Length switch
+                {
+                    PokeCrypto.SIZE_3CSTORED => new CK3(data),
+                    PokeCrypto.SIZE_3XSTORED => new XK3(data),
+                    _ => new PK3(data)
+                },
+                4 => BitConverter.ToUInt16(data, 0x04) == 0 ? new PK4(data) : new BK4(data),
+                5 => new PK5(data),
+                6 => CheckPKMFormat7(new PK6(data), prefer),
+                8 => new PK8(data),
+                _ => null
+            };
         }
 
         /// <summary>
@@ -147,7 +130,7 @@ namespace PKHeX.Core
         /// <returns>Updated PKM if actually PK7</returns>
         private static G6PKM CheckPKMFormat7(PK6 pk, int prefer)
         {
-            if (GameVersion.GG.Contains(pk.Version))
+            if (GameVersion.Gen7b.Contains(pk.Version))
                 return new PB7(pk.Data);
             if (IsPK6FormatReallyPK7(pk, prefer))
                 return new PK7(pk.Data);
@@ -214,7 +197,7 @@ namespace PKHeX.Core
         {
             if (pk.Format >= 3 && pk.Format > format)
                 return false; // pk3->upward can't go backwards
-            if (pk.Format <= 2 && format > 2 && format < 7)
+            if (pk.Format <= 2 && format is > 2 and < 7)
                 return false; // pk1/2->upward has to be 7 or greater
             return true;
         }
@@ -257,11 +240,12 @@ namespace PKHeX.Core
             string srcName = srcType.Name;
             Debug.WriteLine($"Trying to convert {srcName} to {destName}.");
 
-            int destGeneration = destName.Last() - '0';
+            // All types that inherit PKM have the generation specifier as the last char in their class name.
+            int destGeneration = destName[^1] - '0';
             var pkm = ConvertPKM(pk, destType, destGeneration, ref comment);
             var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
             var formatted = string.Format(msg, srcName, destName);
-            comment = comment == null ? formatted : string.Concat(formatted, Environment.NewLine, comment);
+            comment = comment.Length != 0 ? formatted : string.Concat(formatted, Environment.NewLine, comment);
             return pkm;
         }
 
@@ -287,6 +271,7 @@ namespace PKHeX.Core
                 // Non-sequential
                 case PK1 pk1 when destGeneration > 2: return pk1.ConvertToPK7();
                 case PK2 pk2 when destGeneration > 2: return pk2.ConvertToPK7();
+                case PK2 pk2 when destType == typeof(SK2): return pk2.ConvertToSK2();
                 case PK3 pk3 when destType == typeof(CK3): return pk3.ConvertToCK3();
                 case PK3 pk3 when destType == typeof(XK3): return pk3.ConvertToXK3();
                 case PK4 pk4 when destType == typeof(BK4): return pk4.ConvertToBK4();
@@ -301,15 +286,18 @@ namespace PKHeX.Core
                 // Sequential
                 case PK1 pk1: return pk1.ConvertToPK2();
                 case PK2 pk2: return pk2.ConvertToPK1();
-                case CK3 ck3: return ck3.ConvertToPK3();
-                case XK3 xk3: return xk3.ConvertToPK3();
                 case PK3 pk3: return pk3.ConvertToPK4();
-                case BK4 bk4: return bk4.ConvertToPK4();
                 case PK4 pk4: return pk4.ConvertToPK5();
                 case PK5 pk5: return pk5.ConvertToPK6();
                 case PK6 pk6: return pk6.ConvertToPK7();
                 case PK7 pk7: return pk7.ConvertToPK8();
                 case PB7 pb7: return pb7.ConvertToPK8();
+
+                // Side-Formats back to Mainline
+                case SK2 sk2: return sk2.ConvertToPK2();
+                case CK3 ck3: return ck3.ConvertToPK3();
+                case XK3 xk3: return xk3.ConvertToPK3();
+                case BK4 bk4: return bk4.ConvertToPK4();
 
                 // None
                 default:
@@ -319,25 +307,24 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.AltForm"/>.
+        /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="pk">PKM to convert</param>
         /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
         /// <returns>Indication if Not Transferable</returns>
         private static bool IsNotTransferable(PKM pk, out string comment)
         {
-            switch (pk.Species)
+            switch (pk)
             {
+                case PK4 { Species: (int)Species.Pichu   } pk4   when pk4.Form != 0:
+                case PK6 { Species: (int)Species.Pikachu } pk6   when pk6.Form != 0:
+                case PB7 { Species: (int)Species.Pikachu } pika  when pika.Form != 0:
+                case PB7 { Species: (int)Species.Eevee   } eevee when eevee.Form != 0:
+                    comment = MsgPKMConvertFailForm;
+                    return true;
                 default:
                     comment = string.Empty;
                     return false;
-
-                case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
-                case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
-                case 025 when pk.AltForm == 8 && pk.LGPE: // Buddy Pikachu
-                case 133 when pk.AltForm == 1 && pk.LGPE: // Buddy Eevee
-                    comment = MsgPKMConvertFailForme;
-                    return true;
             }
         }
 
@@ -359,19 +346,27 @@ namespace PKHeX.Core
                 pk.HeldItem = 0;
 
             if (pk.Nickname.Length > limit.NickLength)
-                pk.Nickname = pk.Nickname.Substring(0, pk.NickLength);
+                pk.Nickname = pk.Nickname[..pk.NickLength];
 
             if (pk.OT_Name.Length > limit.OTLength)
-                pk.OT_Name = pk.OT_Name.Substring(0, pk.OTLength);
+                pk.OT_Name = pk.OT_Name[..pk.OTLength];
 
             if (pk.Moves.Any(move => move > limit.MaxMoveID))
                 pk.ClearInvalidMoves();
 
-            if (pk.EVs.Any(ev => ev > limit.MaxEV))
-                pk.EVs = pk.EVs.Select(ev => Math.Min(limit.MaxEV, ev)).ToArray();
+            int maxEV = pk.MaxEV;
+            for (int i = 0; i < 6; i++)
+            {
+                if (pk.GetEV(i) > maxEV)
+                    pk.SetEV(i, maxEV);
+            }
 
-            if (pk.IVs.Any(iv => iv > limit.MaxIV))
-                pk.IVs = pk.IVs.Select(iv => Math.Min(limit.MaxIV, iv)).ToArray();
+            int maxIV = pk.MaxIV;
+            for (int i = 0; i < 6; i++)
+            {
+                if (pk.GetIV(i) > maxIV)
+                    pk.SetIV(i, maxIV);
+            }
 
             return true;
         }
@@ -393,7 +388,7 @@ namespace PKHeX.Core
                 if (!AllowIncompatibleConversion)
                     return false;
             }
-            if (IsIncompatibleGB(target.Format, target.Japanese, pk.Japanese))
+            if (IsIncompatibleGB(target, target.Japanese, pk.Japanese))
             {
                 pkm = target;
                 c = GetIncompatibleGBMessage(pk, target.Japanese);
@@ -418,7 +413,7 @@ namespace PKHeX.Core
             return string.Format(MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
         }
 
-        public static bool IsIncompatibleGB(int format, bool destJapanese, bool srcJapanese) => format <= 2 && destJapanese != srcJapanese;
+        public static bool IsIncompatibleGB(PKM pk, bool destJapanese, bool srcJapanese) => pk.Format <= 2 && destJapanese != srcJapanese && !(pk is SK2 sk2 && sk2.IsPossible(srcJapanese));
 
         /// <summary>
         /// Gets a Blank <see cref="PKM"/> object of the specified type.
@@ -432,18 +427,21 @@ namespace PKHeX.Core
             return (PKM)Activator.CreateInstance(type, new object[argCount]);
         }
 
-        public static PKM GetBlank(int gen, GameVersion ver)
+        public static PKM GetBlank(int gen, GameVersion ver) => gen switch
         {
-            if (gen == 7 && GameVersion.GG.Contains(ver))
-                return new PB7();
-            return GetBlank(gen);
-        }
+            1 when ver == GameVersion.BU => new PK1(true),
+            7 when GameVersion.Gen7b.Contains(ver) => new PB7(),
+            _ => GetBlank(gen)
+        };
 
         public static PKM GetBlank(int gen, int ver) => GetBlank(gen, (GameVersion) ver);
 
         public static PKM GetBlank(int gen)
         {
             var type = Type.GetType($"PKHeX.Core.PK{gen}");
+            if (type is null)
+                throw new InvalidCastException($"Unable to get the type for PK{gen}.");
+
             return GetBlank(type);
         }
     }

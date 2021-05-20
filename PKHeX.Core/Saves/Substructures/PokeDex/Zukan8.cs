@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    // I wish I could replace this with raw pointers via Span :)
-    public class Zukan8 : ZukanBase
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.SWSH"/>.
+    /// </summary>>
+    public sealed class Zukan8 : ZukanBase
     {
         private readonly SCBlock Galar;
         private readonly SCBlock Rigel1;
         private readonly SCBlock Rigel2;
+
+        /// <summary>
+        /// Reverses a Species into the component <see cref="Zukan8Index"/> information.
+        /// </summary>
         public readonly IReadOnlyDictionary<int, Zukan8Index> DexLookup;
 
         public Zukan8(SAV8SWSH sav, SCBlock galar, SCBlock rigel1, SCBlock rigel2) : base(sav, 0)
@@ -20,23 +26,25 @@ namespace PKHeX.Core
             DexLookup = GetDexLookup(PersonalTable.SWSH, revision);
         }
 
+        /// <summary>
+        /// Checks how much DLC patches have been installed by detecting if DLC blocks are present.
+        /// </summary>
         public int GetRevision()
         {
             if (Rigel1.Data.Length == 0)
-                return 0; // No DLC data allocated
-            return 1;
+                return 0; // No DLC1 data allocated
+            if (Rigel2.Data.Length == 0)
+                return 1; // No DLC2 data allocated
+            return 2;
         }
 
-        private byte[] GetDexBlock(Zukan8Type infoDexType)
+        private byte[] GetDexBlock(Zukan8Type infoDexType) => infoDexType switch
         {
-            return infoDexType switch
-            {
-                Zukan8Type.Galar => Galar.Data,
-                Zukan8Type.Armor => Rigel1.Data,
-                Zukan8Type.Crown => Rigel2.Data,
-                _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null)
-            };
-        }
+            Zukan8Type.Galar => Galar.Data,
+            Zukan8Type.Armor => Rigel1.Data,
+            Zukan8Type.Crown => Rigel2.Data,
+            _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null)
+        };
 
         private static bool GetFlag(byte[] data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset + (bitIndex >> 3), bitIndex);
         private static void SetFlag(byte[] data, int offset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, offset + (bitIndex >> 3), bitIndex, value);
@@ -66,31 +74,18 @@ namespace PKHeX.Core
 
                 if (dexRevision == 1)
                     continue;
+
                 var crown = p.CrownDexIndex;
                 if (crown != 0)
                 {
-                    lookup.Add(i, new Zukan8Index(Zukan8Type.Crown, armor));
+                    lookup.Add(i, new Zukan8Index(Zukan8Type.Crown, crown));
                     // continue;
                 }
             }
             return lookup;
         }
 
-        public class Zukan8EntryInfo
-        {
-            public readonly int Species;
-            public readonly Zukan8Index Entry;
-
-            public Zukan8EntryInfo(int species, Zukan8Index entry)
-            {
-                Species = species;
-                Entry = entry;
-            }
-
-            public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
-        }
-
-        public List<Zukan8EntryInfo> GetRawIndexes(PersonalTable pt, int dexRevision)
+        public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable pt, int dexRevision)
         {
             var result = new List<Zukan8EntryInfo>();
             for (int i = 1; i <= pt.MaxSpeciesID; i++)
@@ -123,30 +118,30 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static int GetDexLangFlag(int lang)
+        private static int GetDexLangFlag(int lang) => lang switch
         {
-            if (lang > 10 || lang == 6 || lang <= 0)
-                return -1; // invalid language
+            > 10 or 6 or <= 0 => -1, // invalid language
+            // skip over langID 0 (unused) => [0-8]
+            // skip over langID 6 (unused)
+            >= 7 => lang - 2,
+            _ => lang - 1,
+        };
 
-            if (lang >= 7) // skip over langID 6 (unused)
-                lang--;
-            lang--; // skip over langID 0 (unused) => [0-8]
-            return lang;
-        }
-
+#if DEBUG
         public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
         {
             var dex = new List<string>();
             foreach (var d in DexLookup)
             {
-                var spec = d.Key;
+                var species = d.Key;
                 var entry = d.Value;
-                var name = entry.GetEntryName(speciesNames, spec);
+                var name = entry.GetEntryName(speciesNames, species);
                 dex.Add(name);
             }
             dex.Sort();
             return dex;
         }
+#endif
 
         #region Structure
 
@@ -178,7 +173,7 @@ namespace PKHeX.Core
 
         // Next 4 bytes are unused/reserved for future updates.
         private const int OFS_UNK1 = 0x28;
-        // Seen Gigantamax-1 AltForm:1 (Urshifu)
+        // Seen Gigantamax-1 Form:1 (Urshifu)
 
         // Next 4 bytes are Unused(?)
         private const int OFS_UNK2 = 0x2C;
@@ -310,15 +305,15 @@ namespace PKHeX.Core
             SetIsLanguageIndexObtained(species, langIndex, value);
         }
 
-        public uint GetAltFormDisplayed(int species)
+        public uint GetFormDisplayed(int species)
         {
             if (!GetEntry(species, out var entry))
                 return 0;
 
-            return GetAltFormDisplayed(entry);
+            return GetFormDisplayed(entry);
         }
 
-        public uint GetAltFormDisplayed(Zukan8Index entry)
+        public uint GetFormDisplayed(Zukan8Index entry)
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
@@ -326,15 +321,15 @@ namespace PKHeX.Core
             return (val >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
         }
 
-        public void SetAltFormDisplayed(int species, uint value = 0)
+        public void SetFormDisplayed(int species, uint value = 0)
         {
             if (!GetEntry(species, out var entry))
                 return;
 
-            SetAltFormDisplayed(entry, value);
+            SetFormDisplayed(entry, value);
         }
 
-        public void SetAltFormDisplayed(Zukan8Index entry, uint value = 0)
+        public void SetFormDisplayed(Zukan8Index entry, uint value = 0)
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
@@ -478,16 +473,19 @@ namespace PKHeX.Core
 
             bool owned = GetCaught(species);
 
-            var g = pkm.Gender == 1 ? 1 : 0;
+            var gender = pkm.Gender;
             bool shiny = pkm.IsShiny;
+            int form = pkm.Form;
+            var language = pkm.Language;
+
+            var g = gender & 1;
             var s = shiny ? 2 : 0;
-            int form = pkm.AltForm;
             if (species == (int)Species.Alcremie)
             {
                 form *= 7;
                 form += (int)((PK8)pkm).FormArgument; // alteration byte
             }
-            else if (species == (int) Species.Eternatus && pkm.AltForm == 1)
+            else if (species == (int) Species.Eternatus && form == 1)
             {
                 form = 0;
                 SetSeenRegion(species, 63, g | s);
@@ -495,12 +493,13 @@ namespace PKHeX.Core
 
             SetSeenRegion(species, form, g | s);
             SetCaught(species);
-            SetIsLanguageObtained(species, pkm.Language);
+            SetIsLanguageObtained(species, language);
             if (!owned)
             {
-                SetAltFormDisplayed(species, (byte)form);
+                SetFormDisplayed(species, (byte)form);
                 if (shiny)
                     SetDisplayShiny(species);
+                SetGenderDisplayed(species, (uint)g);
             }
 
             var count = GetBattledCount(species);
@@ -538,7 +537,7 @@ namespace PKHeX.Core
             var pt = PersonalTable.SWSH;
             for (int form = 0; form < fc; form++)
             {
-                var pi = pt.GetFormeEntry(species, form);
+                var pi = pt.GetFormEntry(species, form);
                 SeenAll(species, form, value, pi, shinyToo);
             }
 
@@ -628,7 +627,7 @@ namespace PKHeX.Core
         private void SetAllSeen(int species, bool value = true, bool shinyToo = false)
         {
             var pi = PersonalTable.SWSH[species];
-            var fc = pi.FormeCount;
+            var fc = pi.FormCount;
             if (species == (int) Species.Eternatus)
                 fc = 1; // ignore gigantamax
             SeenAll(species, fc, shinyToo, value);
@@ -683,7 +682,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static readonly HashSet<int> SpeciesWithGigantamaxData = new HashSet<int>
+        private static readonly HashSet<int> SpeciesWithGigantamaxData = new()
         {
             (int)Species.Charizard,
             (int)Species.Butterfree,
@@ -721,10 +720,17 @@ namespace PKHeX.Core
         #endregion
     }
 
+    /// <summary>
+    /// Indicates which <see cref="Zukan8Type"/> block will store the entry, and at what index.
+    /// </summary>
     public readonly struct Zukan8Index
     {
+        /// <summary> Index that the Pokédex entry is stored at. </summary>
         public readonly int Index;
+        /// <summary> Which block stores the Pokédex entry. </summary>
         public readonly Zukan8Type DexType;
+
+        public override string ToString() => $"{Index:000} - {DexType}";
 
         public Zukan8Index(Zukan8Type dexType, int index)
         {
@@ -738,17 +744,21 @@ namespace PKHeX.Core
             if (index < 1)
                 throw new IndexOutOfRangeException();
 
-            return (index - 1);
+            return index - 1;
         }
 
         public int Offset => GetSavedIndex() * Zukan8.EntrySize;
-        
-        private const int GalarCount = 400;
-        private const int Rigel1Count = 211;
-        private const int Rigel2Count = 2;
 
-        // expects zero based indexes
-        public static Zukan8Index GetFromRawIndex(int index)
+        private const int GalarCount = 400; // Count within Galar dex
+        private const int Rigel1Count = 211; // Count within Armor dex
+        private const int Rigel2Count = 210; // Count within Crown dex
+#if DEBUG
+        public const int TotalCount = GalarCount + Rigel1Count + Rigel2Count;
+        /// <summary>
+        /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
+        /// </summary>
+        /// <param name="index">Unique Pokédex index (incremental). Should be 0-indexed.</param>
+        public static Zukan8Index GetFromAbsoluteIndex(int index)
         {
             if (index < 0)
                 return new Zukan8Index();
@@ -766,14 +776,9 @@ namespace PKHeX.Core
 
             throw new ArgumentOutOfRangeException(nameof(index));
         }
+#endif
 
-        public string DexPrefix => DexType switch
-        {
-            Zukan8Type.Galar => "O0",
-            Zukan8Type.Armor => "R1",
-            Zukan8Type.Crown => "R2",
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        public string DexPrefix => DexType.GetZukanTypeInternalPrefix();
 
         public int AbsoluteIndex => DexType switch
         {
@@ -787,6 +792,26 @@ namespace PKHeX.Core
         {
             return $"{DexPrefix}.{Index:000} - {speciesNames[species]}";
         }
+
+        public override bool Equals(object obj) => obj is Zukan8Index x && x.Equals(this);
+        public bool Equals(Zukan8Index obj) => obj.Index == Index && obj.DexType == DexType;
+        public override int GetHashCode() => (int)DexType ^ (Index << 3);
+        public static bool operator ==(Zukan8Index left, Zukan8Index right) => left.Equals(right);
+        public static bool operator !=(Zukan8Index left, Zukan8Index right) => !(left == right);
+    }
+
+    public sealed class Zukan8EntryInfo
+    {
+        public readonly int Species;
+        public readonly Zukan8Index Entry;
+
+        public Zukan8EntryInfo(int species, Zukan8Index entry)
+        {
+            Species = species;
+            Entry = entry;
+        }
+
+        public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
     }
 
     public enum Zukan8Type : sbyte
@@ -795,5 +820,16 @@ namespace PKHeX.Core
         Galar,
         Armor,
         Crown,
+    }
+
+    public static class Zukan8TypeExtensions
+    {
+        public static string GetZukanTypeInternalPrefix(this Zukan8Type type) => type switch
+        {
+            Zukan8Type.Galar => "O0",
+            Zukan8Type.Armor => "R1",
+            Zukan8Type.Crown => "R2",
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
     }
 }

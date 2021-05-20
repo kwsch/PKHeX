@@ -10,12 +10,12 @@ namespace PKHeX.WinForms
 {
     public partial class QR : Form
     {
-        private readonly PKM pkm;
+        private readonly PKM? pkm;
         private readonly Image icon;
         private Image qr;
 
         private readonly string[] Lines;
-        private string extraText;
+        private string extraText = string.Empty;
 
         public QR(Image qr, Image icon, params string[] lines)
         {
@@ -77,12 +77,15 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage))
                 return;
             try { Clipboard.SetImage(PB_QR.Image); }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Clipboard can be locked periodically, just notify on failure.
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void UpdateBoxSlotCopies(object sender, EventArgs e)
         {
-            if (!(pkm is PK7 pk7))
+            if (pkm is not PK7 pk7)
                 throw new ArgumentException("Can't update QR7 if pkm isn't a PK7!");
             qr = ReloadQRData(pk7);
             RefreshImage();

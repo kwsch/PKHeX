@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -38,12 +39,10 @@ namespace PKHeX.Core
             if (!ParseSettings.AllowGen2Crystal(pkm))
                 return NONE;
             var info = PersonalTable.C[species];
-            for (int i = 0; i < Tutors_GSC.Length; i++)
-            {
-                if (Tutors_GSC[i] == move)
-                    return info.TMHM[57 + i] ? GameVersion.C : NONE;
-            }
-            return GetIsTutor1(pkm, species, move);
+            var tutor = Array.IndexOf(Tutors_GSC, move);
+            if (tutor != -1 && info.TMHM[57 + tutor])
+                return GameVersion.C;
+            return NONE;
         }
 
         private static GameVersion GetIsTutor3(int species, int move)
@@ -51,26 +50,20 @@ namespace PKHeX.Core
             // E Tutors (Free)
             // E Tutors (BP)
             var info = PersonalTable.E[species];
-            for (int i = 0; i < Tutor_E.Length; i++)
-            {
-                if (Tutor_E[i] == move && info.TypeTutors[i])
-                    return GameVersion.E;
-            }
+            var e = Array.IndexOf(Tutor_E, move);
+            if (e != -1 && info.TypeTutors[e])
+                return GameVersion.E;
 
             // FRLG Tutors
             // Only special tutor moves, normal tutor moves are already included in Emerald data
-            for (int i = 0; i < SpecialTutors_FRLG.Length; i++)
-            {
-                if (Tutor_FRLG[i] == move && species == SpecialTutors_Compatibility_FRLG[i])
-                    return GameVersion.FRLG;
-            }
+            var frlg = Array.IndexOf(SpecialTutors_FRLG, move);
+            if (frlg != -1 && SpecialTutors_Compatibility_FRLG[frlg] == species)
+                return GameVersion.FRLG;
 
             // XD
-            for (int i = 0; i < SpecialTutors_XD_Exclusive.Length; i++)
-            {
-                if (SpecialTutors_XD_Exclusive[i] == move && SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species))
-                    return GameVersion.XD;
-            }
+            var xd = Array.IndexOf(SpecialTutors_XD_Exclusive, move);
+            if (xd != -1 && SpecialTutors_Compatibility_XD_Exclusive[xd].Contains(species))
+                return GameVersion.XD;
 
             // XD (Mew)
             if (species == (int)Species.Mew && Tutor_3Mew.Contains(move))
@@ -81,42 +74,36 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor4(int species, int form, int move)
         {
-            var pi = PersonalTable.HGSS.GetFormeEntry(species, form);
-            for (int i = 0; i < Tutors_4.Length; i++)
-            {
-                if (Tutors_4[i] == move && pi.TypeTutors[i])
-                    return GameVersion.Gen4;
-            }
+            var pi = PersonalTable.HGSS.GetFormEntry(species, form);
+            var type = Array.IndexOf(Tutors_4, move);
+            if (type != -1 && pi.TypeTutors[type])
+                return GameVersion.Gen4;
 
-            for (int i = 0; i < SpecialTutors_4.Length; i++)
-            {
-                if (SpecialTutors_4[i] == move && SpecialTutors_Compatibility_4[i].Any(e => e == species))
-                    return GameVersion.HGSS;
-            }
+            var special = Array.IndexOf(SpecialTutors_4, move);
+            if (special != -1 && SpecialTutors_Compatibility_4[special].Contains(species))
+                return GameVersion.HGSS;
 
             return NONE;
         }
 
         private static GameVersion GetIsTutor5(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.B2W2.GetFormeEntry(species, form);
-            var arr = TypeTutor6;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == move && pi.TypeTutors[i])
+            var pi = PersonalTable.B2W2.GetFormEntry(species, form);
+            var type = Array.IndexOf(TypeTutor6, move);
+            if (type != -1 && pi.TypeTutors[type])
                     return GameVersion.Gen5;
-            }
 
             if (specialTutors && pkm.HasVisitedB2W2(species))
             {
                 var tutors = Tutors_B2W2;
                 for (int i = 0; i < tutors.Length; i++)
                 {
-                    for (int j = 0; j < tutors[i].Length; j++)
-                    {
-                        if (tutors[i][j] == move && pi.SpecialTutors[i][j])
-                            return GameVersion.B2W2;
-                    }
+                    var tutor = Array.IndexOf(tutors[i], move);
+                    if (tutor == -1)
+                        continue;
+                    if (pi.SpecialTutors[i][tutor])
+                        return GameVersion.B2W2;
+                    break;
                 }
             }
 
@@ -125,24 +112,22 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor6(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.AO.GetFormeEntry(species, form);
-            var arr = TypeTutor6;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == move && pi.TypeTutors[i])
-                    return GameVersion.Gen6;
-            }
+            var pi = PersonalTable.AO.GetFormEntry(species, form);
+            var type = Array.IndexOf(TypeTutor6, move);
+            if (type != -1 && pi.TypeTutors[type])
+                return GameVersion.Gen6;
 
             if (specialTutors && pkm.HasVisitedORAS(species))
             {
                 var tutors = Tutors_AO;
                 for (int i = 0; i < tutors.Length; i++)
                 {
-                    for (int j = 0; j < tutors[i].Length; j++)
-                    {
-                        if (tutors[i][j] == move && pi.SpecialTutors[i][j])
-                            return GameVersion.ORAS;
-                    }
+                    var tutor = Array.IndexOf(tutors[i], move);
+                    if (tutor == -1)
+                        continue;
+                    if (pi.SpecialTutors[i][tutor])
+                        return GameVersion.ORAS;
+                    break;
                 }
             }
 
@@ -151,22 +136,16 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor7(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.USUM.GetFormeEntry(species, form);
-            var arr = TypeTutor6;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == move && pi.TypeTutors[i])
-                    return GameVersion.Gen7;
-            }
+            var pi = PersonalTable.USUM.GetFormEntry(species, form);
+            var type = Array.IndexOf(TypeTutor6, move);
+            if (type != -1 && pi.TypeTutors[type])
+                return GameVersion.Gen7;
 
             if (specialTutors && pkm.HasVisitedUSUM(species))
             {
-                var tutors = Tutors_USUM;
-                for (int i = 0; i < tutors.Length; i++)
-                {
-                    if (tutors[i] == move && pi.SpecialTutors[0][i])
-                        return GameVersion.USUM;
-                }
+                var tutor = Array.IndexOf(Tutors_USUM, move);
+                if (tutor != -1 && pi.SpecialTutors[0][tutor])
+                    return GameVersion.USUM;
             }
 
             return NONE;
@@ -174,26 +153,24 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor8(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, form);
-            var arr = TypeTutor8;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (arr[i] == move && pi.TypeTutors[i])
-                    return GameVersion.Gen8;
-            }
-            var tutors = Tutors_SWSH_1;
-            for (int i = 0; i < tutors.Length; i++)
-            {
-                if (tutors[i] == move && pi.SpecialTutors[0][i])
-                    return GameVersion.USUM;
-            }
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
+            var type = Array.IndexOf(TypeTutor8, move);
+            if (type != -1 && pi.TypeTutors[type])
+                return GameVersion.Gen8;
+
+            if (!specialTutors)
+                return NONE;
+
+            var tutor = Array.IndexOf(Tutors_SWSH_1, move);
+            if (tutor != -1 && pi.SpecialTutors[0][tutor])
+                return GameVersion.USUM;
 
             return NONE;
         }
 
         public static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
-            List<int> moves = new List<int>();
+            List<int> moves = new();
             switch (generation)
             {
                 case 1: AddMovesTutor1(moves, species, pkm.Format); break;
@@ -241,7 +218,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor4(List<int> moves, int species, int form)
         {
-            var pi = PersonalTable.HGSS.GetFormeEntry(species, form);
+            var pi = PersonalTable.HGSS.GetFormEntry(species, form);
             moves.AddRange(Tutors_4.Where((_, i) => pi.TypeTutors[i]));
             moves.AddRange(SpecialTutors_4.Where((_, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
         }
@@ -251,7 +228,7 @@ namespace PKHeX.Core
             var pi = PersonalTable.B2W2[species];
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
             if (pkm.InhabitedGeneration(5) && specialTutors)
-                moves.AddRange(GetTutors(PersonalTable.B2W2.GetFormeEntry(species, form), Tutors_B2W2));
+                moves.AddRange(GetTutors(PersonalTable.B2W2.GetFormEntry(species, form), Tutors_B2W2));
         }
 
         private static void AddMovesTutor6(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
@@ -259,14 +236,14 @@ namespace PKHeX.Core
             var pi = PersonalTable.AO[species];
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
             if (specialTutors && pkm.HasVisitedORAS(species))
-                moves.AddRange(GetTutors(PersonalTable.AO.GetFormeEntry(species, form), Tutors_AO));
+                moves.AddRange(GetTutors(PersonalTable.AO.GetFormEntry(species, form), Tutors_AO));
         }
 
         private static void AddMovesTutor7(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            if (pkm.GG)
+            if (pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE)
                 return;
-            var pi = PersonalTable.USUM.GetFormeEntry(species, form);
+            var pi = PersonalTable.USUM.GetFormEntry(species, form);
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
             if (specialTutors && pkm.HasVisitedUSUM(species))
                 moves.AddRange(GetTutors(pi, Tutors_USUM));
@@ -274,7 +251,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, form);
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
             if (!pi.IsPresentInGame)
                 return;
             moves.AddRange(TypeTutor8.Where((_, i) => pi.TypeTutors[i]));
@@ -298,46 +275,46 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case (int)Species.Keldeo: // Keldeo
-                    r.Add(548); // Secret Sword
+                case (int)Species.Keldeo:
+                    r.Add((int)Move.SecretSword);
                     break;
                 case (int)Species.Meloetta:
-                    r.Add(547); // Relic Song
-                    break;
-                case (int)Species.Pikachu when Generation == 6 && pkm.Format == 6:
-                    int index = pkm.AltForm - 1;
-                    if (index >= 0 && index < CosplayPikachuMoves.Length)
-                        r.Add(CosplayPikachuMoves[index]);
+                    r.Add((int)Move.RelicSong);
                     break;
 
-                case (int)Species.Pikachu when Generation == 7 && pkm.AltForm == 8:
+                case (int)Species.Pikachu when Generation == 7 && pkm.Form == 8:
                     r.AddRange(Tutor_StarterPikachu);
                     break;
-                case (int)Species.Eevee when Generation == 7 && pkm.AltForm == 1:
+                case (int)Species.Eevee when Generation == 7 && pkm.Form == 1:
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case (int)Species.Pikachu when Generation == 7 && !(pkm is PB7):
-                case (int)Species.Raichu  when Generation == 7 && !(pkm is PB7):
-                    r.Add(344); // Volt Tackle
+                case (int)Species.Pikachu or (int)Species.Raichu when Generation == 7 && !pkm.GG:
+                    r.Add((int)Move.VoltTackle);
                     break;
             }
         }
 
-        internal static void AddSpecialFormChangeMoves(List<int> r, PKM pkm, int Generation, int species)
+        /// <summary> Rotom Moves that correspond to a specific form (form-0 ignored). </summary>
+        private static readonly int[] RotomMoves = { (int)Move.Overheat, (int)Move.HydroPump, (int)Move.Blizzard, (int)Move.AirSlash, (int)Move.LeafStorm };
+
+        internal static void AddSpecialFormChangeMoves(List<int> r, PKM pkm, int generation, int species)
         {
             switch (species)
             {
-                case (int)Species.Rotom when Generation >= 4: // rotom
-                    r.Add(RotomMoves[pkm.AltForm]);
+                case (int)Species.Rotom when generation >= 4:
+                    var formMoves = RotomMoves;
+                    var form = pkm.Form - 1;
+                    if ((uint)form < formMoves.Length)
+                        r.Add(RotomMoves[form]);
                     break;
-                case (int)Species.Zygarde when Generation == 7: // zygarde
+                case (int)Species.Zygarde when generation == 7:
                     r.AddRange(ZygardeMoves);
                     break;
-                case (int)Species.Necrozma when pkm.AltForm == 1: // Sun Necrozma
+                case (int)Species.Necrozma when pkm.Form == 1: // Sun
                     r.Add(713);
                     break;
-                case (int)Species.Necrozma when pkm.AltForm == 2: // Moon Necrozma
+                case (int)Species.Necrozma when pkm.Form == 2: // Moon
                     r.Add(714);
                     break;
             }

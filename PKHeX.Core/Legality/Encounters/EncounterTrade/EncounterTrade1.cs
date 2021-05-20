@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Linq;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Trade Encounter data with a fixed Catch Rate
@@ -7,27 +9,27 @@
     /// Generation 1 specific value used in detecting unmodified/un-traded Generation 1 Trade Encounter data.
     /// Species & Minimum level (legal) possible to acquire at.
     /// </remarks>
-    public sealed class EncounterTrade1 : EncounterTradeGB
+    public sealed record EncounterTrade1 : EncounterTradeGB
     {
-        /// <summary>
-        /// <see cref="PK1.Catch_Rate"/> value the encounter is found with.
-        /// </summary>
-        /// <remarks>
-        /// Gen1 Pokémon have a Catch Rate value when created by the game; depends on the origin version.
-        /// Few encounters use a value not from the game's Personal data.
-        /// </remarks>
-        private readonly byte Catch_Rate;
+        public override int Generation => 1;
+        public override int LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
 
-        private bool HasOddCatchRate => Catch_Rate != 0;
+        private readonly int LevelMinRBY;
+        private readonly int LevelMinGSC;
+        public override int Location => 0;
 
-        public EncounterTrade1(int species, int level, GameVersion game, byte rate) : this(species, level, game) => Catch_Rate = rate;
-        public EncounterTrade1(int species, int level, GameVersion game) : base(species, level) => Version = game;
+        public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc, game)
+        {
+            TrainerNames = StringConverter12.G1TradeOTName;
+
+            LevelMinRBY = rby;
+            LevelMinGSC = gsc;
+        }
+
+        public EncounterTrade1(int species, GameVersion game, int rby) : this(species, game, rby, rby) { }
 
         public byte GetInitialCatchRate()
         {
-            if (HasOddCatchRate)
-                return Catch_Rate;
-
             var pt = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
             return (byte)pt[Species].CatchRate;
         }
@@ -39,25 +41,97 @@
             pk1.Catch_Rate = GetInitialCatchRate();
         }
 
-        internal bool IsEncounterTrade1Valid(PKM pkm)
+        internal bool IsNicknameValid(PKM pkm)
+        {
+            var nick = pkm.Nickname;
+            if (pkm.Format <= 2)
+                return Nicknames.Contains(nick);
+
+            // Converted string 1/2->7 to language specific value
+            // Nicknames can be from any of the languages it can trade between.
+            int lang = pkm.Language;
+            if (lang == 1)
+            {
+                // Special consideration for Hiragana strings that are transferred
+                if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
+                    return nick == "ぐりお";
+                return nick == Nicknames[1];
+            }
+
+            return GetNicknameIndex(nick) >= 2;
+        }
+
+        internal bool IsTrainerNameValid(PKM pkm)
         {
             string ot = pkm.OT_Name;
             if (pkm.Format <= 2)
                 return ot == StringConverter12.G1TradeOTStr;
+
             // Converted string 1/2->7 to language specific value
-            var tr = GetOT(pkm.Language);
+            int lang = pkm.Language;
+            var tr = GetOT(lang);
             return ot == tr;
         }
 
-        public override bool IsMatch(PKM pkm)
+        private int GetNicknameIndex(string nickname)
         {
-            if (Level > pkm.CurrentLevel) // minimum required level
+            var nn = Nicknames;
+            for (int i = 0; i < nn.Count; i++)
+            {
+                if (nn[i] == nickname)
+                    return i;
+            }
+            return -1;
+        }
+
+        private bool CanObtainMinGSC()
+        {
+            if (!ParseSettings.AllowGen1Tradeback)
                 return false;
-            if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
+            if (Version == GameVersion.BU && EvolveOnTrade)
+                return ParseSettings.AllowGBCartEra;
+            return true;
+        }
+
+        private bool IsMatchLevel(PKM pkm, int lvl)
+        {
+            if (pkm is not PK1)
+                return lvl >= LevelMinGSC;
+            return lvl >= LevelMin;
+        }
+
+        public override bool IsMatchExact(PKM pkm, DexLevel dl)
+        {
+            if (!IsMatchLevel(pkm, pkm.CurrentLevel)) // minimum required level
+                return false;
+
+            if (Version == GameVersion.BU)
+            {
+                // Encounters with this version have to originate from the Japanese Blue game.
+                if (!pkm.Japanese)
+                    return false;
+                // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing un-evolved outsiders
+                if (EvolveOnTrade && !ParseSettings.AllowGBCartEra && pkm.CurrentLevel < LevelMinRBY)
+                    return false;
+            }
+
+            return true;
+        }
+
+        protected override bool IsMatchPartial(PKM pkm)
+        {
+            if (!IsTrainerNameValid(pkm))
+                return true;
+            if (!IsNicknameValid(pkm))
                 return true;
 
+            if (ParseSettings.AllowGen1Tradeback)
+                return false;
+            if (pkm is not PK1 pk1)
+                return false;
+
             var req = GetInitialCatchRate();
-            return req == pk1.Catch_Rate;
+            return req != pk1.Catch_Rate;
         }
     }
 }

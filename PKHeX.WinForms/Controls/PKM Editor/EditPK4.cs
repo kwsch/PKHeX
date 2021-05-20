@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK4()
         {
-            if (!(Entity is G4PKM pk4))
+            if (Entity is not G4PKM pk4)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk4);
@@ -32,7 +32,7 @@ namespace PKHeX.WinForms.Controls
 
         private G4PKM PreparePK4()
         {
-            if (!(Entity is G4PKM pk4))
+            if (Entity is not G4PKM pk4)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk4);

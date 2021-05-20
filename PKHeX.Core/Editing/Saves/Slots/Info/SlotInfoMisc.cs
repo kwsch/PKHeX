@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public int Offset { get; }
         public bool CanWriteTo(SaveFile sav) => false;
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.InvalidDestination;
-        public StorageSlotType Type { get; set; }
+        public StorageSlotType Type { get; init; }
 
         private readonly byte[] Data; // buffer to r/w
 
@@ -19,7 +19,12 @@ namespace PKHeX.Core
             Slot = slot;
             Offset = offset;
             PartyFormat = party;
-            Data = sav is SAV4 s ? s.General : sav.Data;
+            Data = sav switch
+            {
+                SAV4 s => s.General,
+                SAV3 s3 => s3.Large,
+                _ => sav.Data
+            };
         }
 
         public SlotInfoMisc(byte[] data, int slot, int offset, bool party = false)
@@ -44,7 +49,7 @@ namespace PKHeX.Core
             return PartyFormat ? sav.GetPartySlot(Data, Offset) : sav.GetStoredSlot(Data, Offset);
         }
 
-        private bool Equals(SlotInfoMisc other) => Offset == other.Offset;
+        private bool Equals(SlotInfoMisc other) => Offset == other.Offset && Data == other.Data;
         public bool Equals(ISlotInfo other) => other is SlotInfoMisc p && Equals(p);
         public override bool Equals(object obj) => obj is SlotInfoMisc p && Equals(p);
         public override int GetHashCode() => Offset;

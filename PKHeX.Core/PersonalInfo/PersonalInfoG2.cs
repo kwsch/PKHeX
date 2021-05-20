@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
@@ -37,12 +40,12 @@
         public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }
         public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)((Data[0x17] & 0x0F) | value << 4); }
 
-        public override int[] Items
+        public override IReadOnlyList<int> Items
         {
             get => new[] { Item1, Item2 };
             set
             {
-                if (value.Length != 2) return;
+                if (value.Count != 2) return;
                 Item1 = value[0];
                 Item2 = value[1];
             }
@@ -57,7 +60,8 @@
         public override int EV_SPD { get => SPD; set { } }
 
         // Future game values, unused
-        public override int[] Abilities { get => new[] { 0, 0 }; set { } }
+        public override IReadOnlyList<int> Abilities { get => Array.Empty<int>(); set { } }
+        public override int GetAbilityIndex(int abilityID) => -1;
         public override int BaseFriendship { get => 70; set { } }
         public override int EscapeRate { get => 0; set { } }
         public override int Color { get => 0; set { } }

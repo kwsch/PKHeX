@@ -17,7 +17,7 @@ namespace PKHeX.Core
 
         public PokeRadar6 Radar
         {
-            get => new PokeRadar6(Data.Slice(Offset + 0x04, PokeRadar6.SIZE));
+            get => new(Data.Slice(Offset + 0x04, PokeRadar6.SIZE));
             set => value.Data.CopyTo(Data, Offset + 0x04);
         }
 
@@ -25,7 +25,7 @@ namespace PKHeX.Core
 
         public Roamer6 Roamer
         {
-            get => new Roamer6(Data.Slice(Offset + 0x1C, Roamer6.SIZE));
+            get => new(Data.Slice(Offset + 0x1C, Roamer6.SIZE));
             set => value.Data.CopyTo(Data, Offset + 0x1C);
         }
 
@@ -89,9 +89,9 @@ namespace PKHeX.Core
 
         public static PokeRadarRecord ReadRecord(byte[] data, int ofs)
         {
-            var spec = BitConverter.ToUInt16(data, ofs);
+            var species = BitConverter.ToUInt16(data, ofs);
             var count = BitConverter.ToUInt16(data, ofs + 2);
-            return new PokeRadarRecord(spec, count);
+            return new PokeRadarRecord(species, count);
         }
 
         public void WriteRecord(byte[] data, int ofs)

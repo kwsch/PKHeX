@@ -1,5 +1,5 @@
 ﻿RibbonChampionKalos	Kalos Champion
-RibbonChampionG3Hoenn	Hoenn Champion (RSE)
+RibbonChampionG3	Champion (Gen3)
 RibbonChampionSinnoh	Sinnoh Champion
 RibbonBestFriends	Best Friends
 RibbonTraining	Training

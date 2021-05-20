@@ -1,84 +1,84 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
     public sealed class BV7 : BattleVideo
     {
         internal const int SIZE = 0x2BC0;
+        private const string NPC = "NPC";
+        private const int PlayerCount = 4;
 
-        internal new static bool IsValid(byte[] data)
-        {
-            return data.Length == SIZE;
-        }
-
-        public BV7(byte[] data)
-        {
-            Data = (byte[])data.Clone();
-        }
-
-        private readonly byte[] Data;
-        public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
         public override int Generation => 7;
+        private readonly byte[] Data;
 
-        private PKM[][] PlayerTeams
+        public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+        internal new static bool IsValid(byte[] data) => data.Length == SIZE;
+
+        public BV7(byte[] data) => Data = (byte[])data.Clone();
+
+        private static readonly int[] offsets = { 0xE41, 0x145E, 0x1A7B, 0x2098 };
+
+        public IReadOnlyList<PKM[]> PlayerTeams
         {
             get
             {
-                var Teams = new PKM[4][];
-                int[] offsets = {0xE41, 0x145E, 0x1A7B, 0x2098};
-                for (int t = 0; t < 4; t++)
-                {
-                    Teams[t] = new PKM[6];
-                    for (int p = 0; p < 6; p++)
-                    {
-                        int offset = offsets[t] + (PokeCrypto.SIZE_6PARTY * p);
-                        Teams[t][p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED)) {Identifier = $"Team {t}, Slot {p}"};
-                    }
-                }
+                var Teams = new PKM[PlayerCount][];
+                for (int t = 0; t < PlayerCount; t++)
+                    Teams[t] = GetTeam(t);
                 return Teams;
             }
             set
             {
-                var Teams = value;
-                int[] offsets = { 0xE41, 0x145E, 0x1A7B, 0x2098 };
-                for (int t = 0; t < 4; t++)
-                {
-                    for (int p = 0; p < 6; p++)
-                    {
-                        int offset = offsets[t] + (PokeCrypto.SIZE_6PARTY * p);
-                        Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
-                    }
-                }
+                for (int t = 0; t < PlayerCount; t++)
+                    SetTeam(value[t], t);
             }
         }
 
-        private const string NPC = "NPC";
-
-        public string[] PlayerNames
+        public PKM[] GetTeam(int teamIndex)
         {
-            get
+            var team = new PKM[6];
+            var ofs = offsets[teamIndex];
+            for (int p = 0; p < 6; p++)
             {
-                string[] trainers = new string[4];
-                for (int i = 0; i < 4; i++)
-                {
-                    trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x12C + (0x1A * i), 0x1A));
-                    if (string.IsNullOrWhiteSpace(trainers[i]))
-                        trainers[i] = NPC;
-                }
-                return trainers;
+                int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
+                team[p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED)) { Identifier = $"Team {teamIndex}, Slot {p}" };
             }
-            set
-            {
-                if (value.Length != 4)
-                    return;
 
-                for (int i = 0; i < 4; i++)
-                {
-                    string tr = value[i] == NPC ? string.Empty : value[i];
-                    Encoding.Unicode.GetBytes(tr.PadRight(0x1A / 2)).CopyTo(Data, 0xEC + (0x1A * i));
-                }
+            return team;
+        }
+
+        public void SetTeam(IReadOnlyList<PKM> team, int teamIndex)
+        {
+            var ofs = offsets[teamIndex];
+            for (int p = 0; p < 6; p++)
+            {
+                int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
+                team[p].EncryptedPartyData.CopyTo(Data, offset);
+            }
+        }
+
+        public string[] GetPlayerNames()
+        {
+            string[] trainers = new string[PlayerCount];
+            for (int i = 0; i < PlayerCount; i++)
+            {
+                var str = StringConverter.GetString7(Data, 0x12C + (0x1A * i), 0x1A);
+                trainers[i] = string.IsNullOrWhiteSpace(trainers[i]) ? NPC : str;
+            }
+            return trainers;
+        }
+
+        public void SetPlayerNames(IReadOnlyList<string> value)
+        {
+            if (value.Count != PlayerCount)
+                return;
+
+            for (int i = 0; i < PlayerCount; i++)
+            {
+                string tr = value[i] == NPC ? string.Empty : value[i];
+                StringConverter.SetString7(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
             }
         }
 
@@ -93,7 +93,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!Util.IsDateValid(MatchYear, MatchMonth, MatchDay))
+                if (!DateUtil.IsDateValid(MatchYear, MatchMonth, MatchDay))
                     return null;
                 return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
             }

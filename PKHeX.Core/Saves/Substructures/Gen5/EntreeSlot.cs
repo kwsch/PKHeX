@@ -35,7 +35,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// <see cref="PKM.AltForm"/> index
+        /// <see cref="PKM.Form"/> index
         /// </summary>
         public int Form // bits 23-27
         {
@@ -75,7 +75,7 @@ namespace PKHeX.Core
 
         public void Delete() => RawValue = 0;
 
-        public EntreeForestArea Area { get; internal set; }
+        public EntreeForestArea Area { get; init; }
 
         public EntreeSlot(byte[] data, int ofs)
         {

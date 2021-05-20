@@ -16,13 +16,15 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV4Sinnoh)(Origin = sav).Clone();
 
-            if (SAV is SAV4DP)
-                Table = HoneyTree.TableDP;
-            else if (SAV is SAV4Pt)
-                Table = HoneyTree.TablePt;
+            Table = SAV switch
+            {
+                SAV4DP => HoneyTree.TableDP,
+                SAV4Pt => HoneyTree.TablePt,
+                _ => throw new Exception()
+            };
 
             // Get Munchlax tree for this savegame in screen
-            MunchlaxTrees = SAV.MunchlaxTrees;
+            MunchlaxTrees = SAV.GetMunchlaxTrees();
 
             const string sep = "- ";
             L_Tree0.Text = string.Join(Environment.NewLine, MunchlaxTrees.Select(z => sep + CB_TreeList.Items[z]));
@@ -34,7 +36,7 @@ namespace PKHeX.WinForms
         private readonly int[][] Table;
         private int entry;
         private bool loading;
-        private HoneyTree Tree;
+        private HoneyTree? Tree;
 
         private int TreeSpecies => Table[(int)NUD_Group.Value][(int)NUD_Slot.Value];
         private void B_Catchable_Click(object sender, EventArgs e) => NUD_Time.Value = 1080;
@@ -71,7 +73,7 @@ namespace PKHeX.WinForms
             NUD_Group.Value = Math.Min(NUD_Group.Maximum, Tree.Group);
             NUD_Slot.Value = Math.Min(NUD_Slot.Maximum, Tree.Slot);
 
-            ChangeGroupSlot(null, EventArgs.Empty);
+            ChangeGroupSlot(this, EventArgs.Empty);
             loading = false;
         }
 

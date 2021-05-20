@@ -369,7 +369,6 @@
         /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="GP"/>
         /// <see cref="GE"/>
-        /// <see cref="GO"/>
         GG,
 
         /// <summary>
@@ -421,12 +420,18 @@
         Gen6,
 
         /// <summary>
-        /// Generation 7 Games
+        /// Generation 7 Games on the Nintendo 3DS
         /// </summary>
         /// <see cref="SM"/>
         /// <see cref="USUM"/>
-        /// <see cref="GG"/>
         Gen7,
+
+        /// <summary>
+        /// Generation 7 Games on the Nintendo Switch
+        /// </summary>
+        /// <see cref="GG"/>
+        /// <see cref="GO"/>
+        Gen7b,
 
         /// <summary>
         /// Generation 8 Games
@@ -435,40 +440,19 @@
         Gen8,
 
         /// <summary>
-        /// Generation 1/2 Game Boy Cartridge Era Only
+        /// Pocket Monsters Stadium data origin identifier
         /// </summary>
-        /// <remarks>
-        /// Since the original run of <see cref="RBY"/> and <see cref="GSC"/> could not transfer to future games,
-        /// any special encounters (event data) can only be allowed if the savedata originated from that era.
-        /// </remarks>
-        GBCartEraOnly,
+        StadiumJ,
 
         /// <summary>
         /// Pokémon Stadium data origin identifier
         /// </summary>
-        /// <see cref="GBCartEraOnly"/>
         Stadium,
 
         /// <summary>
         /// Pokémon Stadium 2 data origin identifier
         /// </summary>
-        /// <see cref="GBCartEraOnly"/>
         Stadium2,
-
-        /// <summary>
-        /// Generation 1 Game Boy Cartridge Era Only data origin identifier
-        /// </summary>
-        EventsGBGen1,
-
-        /// <summary>
-        /// Generation 2 Game Boy Cartridge Era Only data origin identifier
-        /// </summary>
-        EventsGBGen2,
-
-        /// <summary>
-        /// Generation 1/2 3DS Virtual Console data origin identifier
-        /// </summary>
-        VCEvents,
         #endregion
     }
 }

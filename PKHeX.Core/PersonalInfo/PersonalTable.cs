@@ -15,7 +15,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.SWSH"/>.
         /// </summary>
-        public static readonly PersonalTable SWSH = GetTable("swsh", GameVersion.SWSH); // todo
+        public static readonly PersonalTable SWSH = GetTable("swsh", GameVersion.SWSH);
 
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.GG"/>.
@@ -109,66 +109,38 @@ namespace PKHeX.Core
 
         private static PersonalTable GetTable(string game, GameVersion format)
         {
-            return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
+            return new(Util.GetBinaryResource($"personal_{game}"), format);
         }
 
-        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
+        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format) => format switch
         {
-            switch (format)
-            {
-                case GameVersion.RB: case GameVersion.YW: case GameVersion.RBY:
-                    return z => new PersonalInfoG1(z);
-                case GameVersion.GS: case GameVersion.C:
-                    return z => new PersonalInfoG2(z);
-                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
-                    return z => new PersonalInfoG3(z);
-                case GameVersion.DP: case GameVersion.Pt: case GameVersion.HGSS:
-                    return z => new PersonalInfoG4(z);
-                case GameVersion.BW:
-                    return z => new PersonalInfoBW(z);
-                case GameVersion.B2W2:
-                    return z => new PersonalInfoB2W2(z);
-                case GameVersion.XY:
-                    return z => new PersonalInfoXY(z);
-                case GameVersion.ORAS:
-                    return z => new PersonalInfoORAS(z);
-                case GameVersion.SM: case GameVersion.USUM:
-                    return z => new PersonalInfoSM(z);
-                case GameVersion.GG:
-                    return z => new PersonalInfoGG(z);
-                default:
-                    return z => new PersonalInfoSWSH(z);
-            }
-        }
+            GameVersion.RB or GameVersion.YW => z => new PersonalInfoG1(z),
+            GameVersion.GS or GameVersion.C => z => new PersonalInfoG2(z),
+            GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => z => new PersonalInfoG3(z),
+            GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => z => new PersonalInfoG4(z),
+            GameVersion.BW => z => new PersonalInfoBW(z),
+            GameVersion.B2W2 => z => new PersonalInfoB2W2(z),
+            GameVersion.XY => z => new PersonalInfoXY(z),
+            GameVersion.ORAS => z => new PersonalInfoORAS(z),
+            GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
+            GameVersion.GG => z => new PersonalInfoGG(z),
+            _ => z => new PersonalInfoSWSH(z),
+        };
 
-        private static int GetEntrySize(GameVersion format)
+        private static int GetEntrySize(GameVersion format) => format switch
         {
-            switch (format)
-            {
-                case GameVersion.RB:
-                case GameVersion.YW:
-                case GameVersion.RBY: return PersonalInfoG1.SIZE;
-                case GameVersion.GS:
-                case GameVersion.C: return PersonalInfoG2.SIZE;
-                case GameVersion.RS:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG: return PersonalInfoG3.SIZE;
-                case GameVersion.DP:
-                case GameVersion.Pt:
-                case GameVersion.HGSS: return PersonalInfoG4.SIZE;
-                case GameVersion.BW: return PersonalInfoBW.SIZE;
-                case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
-                case GameVersion.XY: return PersonalInfoXY.SIZE;
-                case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
-                case GameVersion.SM:
-                case GameVersion.USUM:
-                case GameVersion.GG: return PersonalInfoSM.SIZE;
-                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE;
-
-                default: return -1;
-            }
-        }
+            GameVersion.RB or GameVersion.YW => PersonalInfoG1.SIZE,
+            GameVersion.GS or GameVersion.C => PersonalInfoG2.SIZE,
+            GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => PersonalInfoG3.SIZE,
+            GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => PersonalInfoG4.SIZE,
+            GameVersion.BW => PersonalInfoBW.SIZE,
+            GameVersion.B2W2 => PersonalInfoB2W2.SIZE,
+            GameVersion.XY => PersonalInfoXY.SIZE,
+            GameVersion.ORAS => PersonalInfoORAS.SIZE,
+            GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
+            GameVersion.SWSH => PersonalInfoSWSH.SIZE,
+            _ => -1,
+        };
 
         static PersonalTable() // Finish Setup
         {
@@ -180,13 +152,10 @@ namespace PKHeX.Core
 
         private static void FixPersonalTableG1()
         {
-            // Update Yellow's catch rates; currently matches Red/Blue's values.
-            Y[25].CatchRate = 163; // Pikachu
-            Y[64].CatchRate = 96; // Kadabra
-
             // Load Gen2 Gender Ratios into Gen1
+            PersonalInfo[] rb = RB.Table, y = Y.Table, gs = GS.Table;
             for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
-                RB[i].Gender = Y[i].Gender = GS[i].Gender;
+                rb[i].Gender = y[i].Gender = gs[i].Gender;
         }
 
         private static void PopulateGen3Tutors()
@@ -194,18 +163,20 @@ namespace PKHeX.Core
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
             var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            var table = E.Table;
             for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
             {
-                E[i].AddTMHM(machine[i]);
-                E[i].AddTypeTutors(tutors[i]);
+                table[i].AddTMHM(machine[i]);
+                table[i].AddTypeTutors(tutors[i]);
             }
         }
 
         private static void PopulateGen4Tutors()
         {
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            var table = HGSS.Table;
             for (int i = 0; i < tutors.Length; i++)
-                HGSS[i].AddTypeTutors(tutors[i]);
+                table[i].AddTypeTutors(tutors[i]);
         }
 
         /// <summary>
@@ -214,11 +185,14 @@ namespace PKHeX.Core
         /// </summary>
         private static void CopyDexitGenders()
         {
-            for (int i = 1; i <= 807; i++)
+            var swsh = SWSH.Table;
+            var usum = USUM.Table;
+
+            for (int i = 1; i <= Legal.MaxSpeciesID_7_USUM; i++)
             {
-                var ss = SWSH[i];
+                var ss = swsh[i];
                 if (ss.HP == 0)
-                    ss.Gender = USUM[i].Gender;
+                    ss.Gender = usum[i].Gender;
             }
         }
 
@@ -227,10 +201,11 @@ namespace PKHeX.Core
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
             byte[][] entries = data.Split(size);
-            Table = new PersonalInfo[entries.Length];
-            for (int i = 0; i < Table.Length; i++)
-                Table[i] = get(entries[i]);
+            var table = new PersonalInfo[entries.Length];
+            for (int i = 0; i < table.Length; i++)
+                table[i] = get(entries[i]);
 
+            Table = table;
             MaxSpeciesID = format.GetMaxSpeciesID();
             Game = format;
         }
@@ -247,55 +222,47 @@ namespace PKHeX.Core
         {
             get
             {
-                if (0 <= index && index < Table.Length)
-                    return Table[index];
-                return Table[0];
+                var table = Table;
+                if ((uint)index >= table.Length)
+                    return table[0];
+                return table[index];
             }
             set
             {
-                if (index < 0 || index >= Table.Length)
+                var table = Table;
+                if ((uint)index >= table.Length)
                     return;
-                Table[index] = value;
+                table[index] = value;
             }
         }
 
         /// <summary>
-        /// Gets the abilities possible for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
-        /// <returns>Array of possible abilities</returns>
-        public int[] GetAbilities(int species, int forme)
-        {
-            return GetFormeEntry(species, forme).Abilities;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
-        /// </summary>
-        /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <param name="form"><see cref="PKM.Form"/></param>
         /// <returns>Entry index for the input criteria</returns>
-        public int GetFormeIndex(int species, int forme)
+        public int GetFormIndex(int species, int form)
         {
-            if (species > MaxSpeciesID)
-            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
-            return this[species].FormeIndex(species, forme);
+            if ((uint)species <= MaxSpeciesID)
+                return Table[species].FormIndex(species, form);
+            Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})");
+            return 0;
         }
 
         /// <summary>
-        /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <param name="form"><see cref="PKM.Form"/></param>
         /// <returns>Entry for the input criteria</returns>
-        public PersonalInfo GetFormeEntry(int species, int forme)
+        public PersonalInfo GetFormEntry(int species, int form)
         {
-            return this[GetFormeIndex(species, forme)];
+            return this[GetFormIndex(species, form)];
         }
 
         /// <summary>
-        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.AltForm"/> entreis.
+        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.Form"/> entries.
         /// </summary>
         public int TableLength => Table.Length;
 
@@ -320,7 +287,7 @@ namespace PKHeX.Core
             string[][] FormList = new string[MaxSpecies+1][];
             for (int i = 0; i < FormList.Length; i++)
             {
-                int FormCount = this[i].FormeCount;
+                int FormCount = this[i].FormCount;
                 FormList[i] = new string[FormCount];
                 if (FormCount <= 0)
                     continue;
@@ -334,15 +301,15 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> <see cref="PKM.AltForm"/> values.
+        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> <see cref="PKM.Form"/> values.
         /// </summary>
-        /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
+        /// <param name="forms">Raw string resource (Forms) for the corresponding table.</param>
         /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
         /// <param name="MaxSpecies">Max Species ID (<see cref="PKM.Species"/>)</param>
         /// <param name="baseForm">Pointers for base form IDs</param>
         /// <param name="formVal">Pointers for table indexes for each form</param>
         /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>
-        public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+        public string[] GetPersonalEntryList(string[][] forms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
             baseForm = new int[result.Length];
@@ -350,17 +317,17 @@ namespace PKHeX.Core
             for (int i = 0; i <= MaxSpecies; i++)
             {
                 result[i] = species[i];
-                if (AltForms[i].Length == 0)
+                if (forms[i].Length == 0)
                     continue;
                 int basePtr = this[i].FormStatsIndex;
                 if (basePtr <= 0)
                     continue;
-                for (int j = 1; j < AltForms[i].Length; j++)
+                for (int j = 1; j < forms[i].Length; j++)
                 {
                     int ptr = basePtr + j - 1;
                     baseForm[ptr] = i;
                     formVal[ptr] = j;
-                    result[ptr] = AltForms[i][j];
+                    result[ptr] = forms[i][j];
                 }
             }
             return result;

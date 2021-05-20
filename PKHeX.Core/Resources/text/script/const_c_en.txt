@@ -1,0 +1,2 @@
+52	Suicune (Tin Tower)	0:Battleable,1:Caught/Defeated
+54	Legendary Beasts (Burned Tower)	0:Not Awakened,1:Awakened/Fled

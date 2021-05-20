@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -176,8 +175,8 @@ namespace PKHeX.Core
             208, 209, 210, 211, 212, 686, 687, 688,
         };
 
-        internal static readonly ushort[] HeldItem_XY = new ushort[1].Concat(Pouch_Items_XY).Concat(Pouch_Medicine_XY).Concat(Pouch_Berry_XY).ToArray();
-        internal static readonly ushort[] HeldItem_AO = new ushort[1].Concat(Pouch_Items_AO).Concat(Pouch_Medicine_AO).Concat(Pouch_Berry_XY).ToArray();
+        internal static readonly ushort[] HeldItem_XY = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
+        internal static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
         #endregion
 
         #region TMHM
@@ -234,7 +233,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] EggLocations6 = {Locations.Daycare5, Locations.LinkTrade6};
 
-        internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_XY = new()
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
             038, 039, 040, 042, 043, 044, 046, 047, 048, 050, 051, 052, 054, 055, 056, 058, 060, 062, 063, 064, 066, 067,
@@ -243,7 +242,7 @@ namespace PKHeX.Core
             138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
         };
 
-        internal static readonly HashSet<int> ValidMet_AO = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_AO = new()
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242,
@@ -251,178 +250,6 @@ namespace PKHeX.Core
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
             332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354
         };
-
-        internal static readonly HashSet<int> FriendSafari = new HashSet<int>
-        {
-            190, 206, 216, 506, 294, 352, 531, 572, 113, 132, 133, 235,
-            012, 046, 165, 415, 267, 284, 313, 314, 049, 127, 214, 666,
-            262, 274, 624, 629, 215, 332, 342, 551, 302, 359, 510, 686,
-            444, 611, 148, 372, 714, 621, 705,
-            101, 417, 587, 702, 025, 125, 618, 694, 310, 404, 523, 596,
-            175, 209, 281, 702, 039, 303, 682, 684, 035, 670,
-            056, 067, 307, 619, 538, 539, 674, 236, 286, 297, 447,
-            058, 077, 126, 513, 005, 218, 636, 668, 038, 654, 662,
-            016, 021, 083, 084, 163, 520, 527, 581, 357, 627, 662, 701,
-            353, 608, 708, 710, 356, 426, 442, 623,
-            043, 114, 191, 511, 002, 541, 548, 586, 556, 651, 673,
-            027, 194, 231, 328, 051, 105, 290, 323, 423, 536, 660,
-            225, 361, 363, 459, 215, 614, 712, 087, 091, 131, 221,
-            014, 044, 268, 336, 049, 168, 317, 569, 089, 452, 454, 544,
-            063, 096, 326, 517, 202, 561, 677, 178, 203, 575, 578,
-            299, 525, 557, 095, 219, 222, 247, 112, 213, 689,
-            082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
-            098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
-        };
-
-        internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
-        internal static readonly HashSet<int> WildPokeballs6 = new HashSet<int> {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
-
-        internal static readonly HashSet<int> Ban_NoHidden6 = new HashSet<int>
-        {
-            //Not avaliable at Friend Safari or Horde Encounter
-            669 + (2 << 11), //Flabébé-Orange
-            670 + (2 << 11), //Floette-Orange
-            671 + (2 << 11), //Florges-Orange
-            669 + (4 << 11), //Flabébé-White
-            670 + (4 << 11), //Floette-White
-            671 + (4 << 11), //Florges-White
-
-            710 + (1 << 11), //Pumpkaboo-Small
-            711 + (1 << 11), //Gourgeist-Small
-            710 + (2 << 11), //Pumpkaboo-Large
-            711 + (2 << 11), //Gourgeist-Large
-            //Super Size can be obtained as a Pumpkaboo from event distributions
-
-            // Same abilities (1/2/H), not available as H
-            (int)Species.Honedge,
-            (int)Species.Doublade,
-            (int)Species.Aegislash,
-        };
-        #region Ball Table
-        internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>
-        {
-            010, 013, 046, 048, 123, 127, 265, 290, 314, 401, 415,
-
-            313, // Via Illumise
-        };
-
-        internal static readonly HashSet<int> Inherit_Safari = new HashSet<int>
-        {
-            016, 019, 020, 021, 022, 023, 024, 025, 027, 029, 035, 039, 041,
-            043, 046, 048, 050, 054, 055, 060, 063, 066, 069, 070, 074, 077, 079, 080, 083, 084, 088, 092, 095, 096, 098,
-            099, 102, 104, 108, 109, 111, 113, 114, 115, 118, 122, 123, 125, 126, 127, 129, 131, 147, 161, 163, 165, 167,
-            177, 179, 183, 187, 189, 190, 191, 193, 194, 198, 200, 202, 203, 204, 207, 209, 213, 214, 216, 223, 228, 229,
-            231, 234, 235, 241, 246, 263, 264, 270, 271, 273, 283, 284, 285, 286, 288, 298, 299, 304, 305, 307, 308, 309,
-            310, 314, 315, 316, 318, 324, 327, 328, 331, 332, 335, 336, 339, 341, 352, 353, 354, 355, 356, 357, 358, 363,
-            364, 371, 372, 396, 399, 400, 403, 404, 406, 417, 418, 419, 433, 443, 447, 449, 451, 453, 455,
-
-            032, // Via Nidoran-F
-            313, // Via Illumise
-
-            172, // Via Pikachu
-            173, // Via Clefairy
-            174, // Via Jigglypuff
-            239, // Via Electabuzz
-            240, // Via Magmar
-            298, // Via Marill
-            360, // Via Wobbuffet
-            406, // Via Roselia
-            433, // Via Chimecho
-            439, // Via Mr. Mime
-            440, // Via Chansey
-
-            287, // Via Vigoroth
-        };
-
-        internal static readonly HashSet<int> Inherit_Dream = new HashSet<int>
-        {
-            010, 013, 016, 019, 021, 023, 027, 029, 037, 041, 043, 046, 048, 050, 052, 054, 056, 058, 060, 063, 066, 069,
-            072, 074, 077, 079, 083, 084, 086, 088, 090, 092, 095, 096, 098, 102, 104, 108, 109, 111, 113, 114, 115, 116,
-            118, 122, 123, 127, 129, 131, 133, 138, 140, 142, 143, 147, 161, 163, 165, 167, 170, 173, 174, 175, 177, 179,
-            183, 185, 187, 190, 191, 193, 194, 198, 200, 202, 203, 204, 206, 207, 209, 211, 213, 214, 215, 216, 218, 220,
-            222, 223, 225, 226, 227, 228, 231, 234, 235, 238, 239, 240, 241, 246, 261, 263, 265, 270, 273, 276, 278, 280,
-            283, 285, 287, 290, 293, 296, 299, 300, 302, 303, 304, 307, 309, 311, 312, 314, 315, 316, 318, 320, 322, 324,
-            325, 327, 328, 331, 333, 335, 336, 339, 341, 345, 347, 349, 351, 352, 353, 355, 357, 358, 359, 361, 363, 366,
-            369, 370, 371, 396, 399, 401, 403, 408, 410, 412, 415, 417, 418, 420, 422, 425, 427, 431, 434, 441, 442, 443,
-            447, 449, 451, 453, 455, 456, 459, 517, 519, 525, 529, 531, 533, 535, 545, 546, 548, 550, 553, 556, 558, 559,
-            561, 564, 578, 580, 583, 587, 588, 594, 596, 605, 610, 616, 618, 621, 624, 631, 632,
-
-            032, // Via Nidoran-F
-            313, // Via Illumise
-
-            // Via Evolution
-            524, // Roggenrola
-            532, // Timburr
-            543, // Venipede
-            551, // Sandile
-            557, // Dwebble
-            577, // Solosis
-            582, // Vanillite
-            595, // Joltik
-
-            // Via Incense Breeding
-            298, 360, 406, 433, 438, 439, 440, 446, 458,
-        };
-
-        internal static readonly HashSet<int> Ban_DreamHidden = new HashSet<int>
-        {
-            311, // Plusle
-            312, // Minun
-            352, // Kecleon
-            355, // Duskull
-
-            // Via Pre-Evolution
-            356, // Dusclops
-            477, // Dusknoir
-        };
-
-        internal static readonly HashSet<int> Ban_Gen3Ball = new HashSet<int>
-        {
-            252, 255, 258, //1 - Treeko, Torchic, Mudkip
-            253, 256, 259, //2
-            254, 257, 260, //3
-            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
-            388, 391, 394, //2
-            389, 392, 395, //3
-            495, 498, 501, //1 - Snivy, Tepig, Oshawott
-            496, 499, 502, //2
-            497, 500, 503, //3
-            566, 567, 696, 697, 698, 699 // Fossil Only obtain
-        };
-
-        internal static readonly HashSet<int> Ban_Gen3BallHidden = new HashSet<int>
-        {
-            // can have HA and can be in gen 3 ball as eggs but can not at same time.
-            152, 155, 158, //1 - Gen2 Starters
-            153, 156, 159, //2
-            154, 157, 160, //3
-            585 + (1 << 11), //Deerling-Summer
-            586 + (1 << 11), //Sawsbuck-Summer
-            585 + (2 << 11), //Deerling-Autumn
-            586 + (2 << 11), //Sawsbuck-Autumn
-            585 + (3 << 11), //Deerling-Winter
-            586 + (3 << 11), //Sawsbuck-Winter
-            710 + (3 << 11), //Pumpkaboo-Super
-            711 + (3 << 11), //Gourgeist-Super
-        };
-
-        internal static readonly HashSet<int> Ban_Gen4Ball_6 = new HashSet<int>
-        {
-            152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
-            153, 156, 159, //2
-            154, 157, 160, //3
-            252, 255, 258, //1 - Treeko, Torchic, Mudkip
-            253, 256, 259, //2
-            254, 257, 260, //3
-            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
-            388, 391, 394, //2
-            389, 392, 395, //3
-            495, 498, 501, //1 - Snivy, Tepig, Oshawott
-            496, 499, 502, //2
-            497, 500, 503, //3
-            566, 567, 696, 697, 698, 699 // Fossil Only obtain
-        };
-        #endregion
 
         internal static readonly byte[] MovePP_XY =
         {
@@ -442,7 +269,7 @@ namespace PKHeX.Core
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
 
-        internal static readonly int[] UnreleasedItems_6 =
+        internal static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -479,8 +306,6 @@ namespace PKHeX.Core
             589, // Relic Statue
             590, // Relic Crown
             715, // Fairy Gem
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
+        });
     }
 }

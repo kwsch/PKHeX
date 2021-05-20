@@ -31,7 +31,7 @@ Hängebrücke
 Ruinen des Krieges
 
 Ruinen des Krieges
-[~ 33]
+
 Tenkarat-Hügel
 
 Tenkarat-Hügel
@@ -78,7 +78,7 @@ Hügel des Gedenkens
 
 Ohana-Farm
 
-[~ 80]
+
 
 Wela-Vulkanpark
 
@@ -94,10 +94,10 @@ Ruinen des Lebens
 
 Akala-Küstenstreifen
 
-[~ 96]
-[~ 97]
-[~ 98]
-[~ 99]
+
+
+
+
 Digda-Tunnel
 
 Hanohano-Resort

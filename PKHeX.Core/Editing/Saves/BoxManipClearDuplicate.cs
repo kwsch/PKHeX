@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     public sealed class BoxManipClearDuplicate<T> : BoxManipBase
     {
-        private readonly HashSet<T> HashSet = new HashSet<T>();
+        private readonly HashSet<T> HashSet = new();
         private readonly Func<PKM, bool> Criteria;
         public BoxManipClearDuplicate(BoxManipType type, Func<PKM, T> criteria) : this(type, criteria, _ => true) { }
 

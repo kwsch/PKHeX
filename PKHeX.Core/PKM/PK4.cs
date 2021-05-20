@@ -17,17 +17,16 @@ namespace PKHeX.Core
         public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         public override int Format => 4;
-        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
 
-        public override byte[] Data { get; }
-        public PK4() => Data = new byte[PokeCrypto.SIZE_4PARTY];
+        public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
+        public PK4(byte[] data) : base(DecryptParty(data)) { }
 
-        public PK4(byte[] data)
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted45(ref data);
-            if (data.Length != PokeCrypto.SIZE_4PARTY)
-                Array.Resize(ref data, PokeCrypto.SIZE_4PARTY);
-            Data = data;
+            Array.Resize(ref data, PokeCrypto.SIZE_4PARTY);
+            return data;
         }
 
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
@@ -56,12 +55,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public override byte CNT_Cool   { get => Data[0x1E]; set => Data[0x1E] = value; }
+        public override byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+        public override byte CNT_Cute   { get => Data[0x20]; set => Data[0x20] = value; }
+        public override byte CNT_Smart  { get => Data[0x21]; set => Data[0x21] = value; }
+        public override byte CNT_Tough  { get => Data[0x22]; set => Data[0x22] = value; }
+        public override byte CNT_Sheen  { get => Data[0x23]; set => Data[0x23] = value; }
 
         private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
         private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -148,7 +147,7 @@ namespace PKHeX.Core
         public override bool RibbonG3ToughSuper      { get => (RIB6 & (1 << 1)) == 1 << 1; set => RIB6 = (byte)((RIB6 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
         public override bool RibbonG3ToughHyper      { get => (RIB6 & (1 << 2)) == 1 << 2; set => RIB6 = (byte)((RIB6 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
         public override bool RibbonG3ToughMaster     { get => (RIB6 & (1 << 3)) == 1 << 3; set => RIB6 = (byte)((RIB6 & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
-        public override bool RibbonChampionG3Hoenn   { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+        public override bool RibbonChampionG3        { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
         public override bool RibbonWinning           { get => (RIB6 & (1 << 5)) == 1 << 5; set => RIB6 = (byte)((RIB6 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public override bool RibbonVictory           { get => (RIB6 & (1 << 6)) == 1 << 6; set => RIB6 = (byte)((RIB6 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public override bool RibbonArtist            { get => (RIB6 & (1 << 7)) == 1 << 7; set => RIB6 = (byte)((RIB6 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
@@ -163,7 +162,7 @@ namespace PKHeX.Core
 
         public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte) value; }
         // 0x43-0x47 Unused
         #endregion
@@ -326,7 +325,10 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
-        public byte[] HeldMailData { get => Data.Slice(0x9C, 0x38); set => value.CopyTo(Data, 0x9C); }
+
+        public byte[] GetHeldMailData() => Data.Slice(0x9C, 0x38);
+        public void SetHeldMailData(byte[] value) => value.CopyTo(Data, 0x9C);
+
         #endregion
 
         // Methods
@@ -353,8 +355,8 @@ namespace PKHeX.Core
             BK4 bk4 = ConvertTo<BK4>();
 
             // Enforce DP content only (no PtHGSS)
-            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes && Species != 201)
-                bk4.AltForm = 0;
+            if (Form != 0 && !PersonalTable.DP[Species].HasForms && Species != 201)
+                bk4.Form = 0;
             if (HeldItem > Legal.MaxItemID_4_DP)
                 bk4.HeldItem = 0;
             bk4.RefreshChecksum();
@@ -369,7 +371,7 @@ namespace PKHeX.Core
 
             DateTime moment = DateTime.Now;
 
-            PK5 pk5 = new PK5(Data) // Convert away!
+            PK5 pk5 = new((byte[])Data.Clone()) // Convert away!
             {
                 OT_Friendship = 70,
                 // Apply new met date
@@ -379,7 +381,7 @@ namespace PKHeX.Core
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == (int)Core.Species.Arceus)
             {
-                pk5.AltForm = 0;
+                pk5.Form = 0;
                 pk5.HeldItem = 0;
             }
             else if(!Legal.HeldItems_BW.Contains((ushort)HeldItem))

@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// RNG Encounter Slot Ranges to convert the [0,100) value into a slot index.
+    /// </summary>
     public static class SlotRange
     {
         private static readonly Range[] H_OldRod = GetRanges(70, 30);
@@ -15,83 +18,66 @@ namespace PKHeX.Core
         private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
         private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
-        public static int GetSlot(SlotType type, uint rand, FrameType t)
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
+        public static int GetSlot(SlotType type, uint rand, FrameType t) => t switch
         {
-            return t switch
-            {
-                FrameType.MethodH => HSlot(type, rand),
-                FrameType.MethodJ => JSlot(type, rand),
-                FrameType.MethodK => KSlot(type, rand),
-                _ => -1
-            };
-        }
+            FrameType.MethodH => HSlot(type, rand),
+            FrameType.MethodJ => JSlot(type, rand),
+            FrameType.MethodK => KSlot(type, rand),
+            _ => -1
+        };
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int HSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
+            if ((type & SlotType.Swarm) != 0)
+                return ESV < 50 ? 0 : -1;
+
             return type switch
             {
-                SlotType.Old_Rod =>        CalcSlot(ESV, H_OldRod),
-                SlotType.Old_Rod_Safari => CalcSlot(ESV, H_OldRod),
-                SlotType.Good_Rod =>        CalcSlot(ESV, H_GoodRod),
-                SlotType.Good_Rod_Safari => CalcSlot(ESV, H_GoodRod),
-                SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
-                SlotType.Super_Rod_Safari => CalcSlot(ESV, H_SuperRod),
-                SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
-                SlotType.Rock_Smash_Safari => CalcSlot(ESV, H_Surf),
-                SlotType.Surf =>        CalcSlot(ESV, H_Surf),
-                SlotType.Surf_Safari => CalcSlot(ESV, H_Surf),
-                SlotType.Swarm => (ESV < 50 ? 0 : -1),
+                SlotType.Old_Rod => CalcSlot(ESV, H_OldRod),
+                SlotType.Good_Rod => CalcSlot(ESV, H_GoodRod),
+                SlotType.Super_Rod => CalcSlot(ESV, H_SuperRod),
+                SlotType.Rock_Smash => CalcSlot(ESV, H_Surf),
+                SlotType.Surf => CalcSlot(ESV, H_Surf),
                 _ => CalcSlot(ESV, H_Regular)
             };
         }
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int KSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
-            switch (type)
+            return type switch
             {
-                case SlotType.Rock_Smash:
-                case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
-                case SlotType.Super_Rod:
-                case SlotType.Good_Rod:
-                case SlotType.Old_Rod:
-                    return CalcSlot(ESV, K_SuperRod);
-                case SlotType.BugContest:
-                    return CalcSlot(ESV, K_BCC);
-                case SlotType.Grass_Safari:
-                case SlotType.Surf_Safari:
-                case SlotType.Old_Rod_Safari:
-                case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari:
-                case SlotType.Rock_Smash_Safari:
-                    return 0; // (int)(rand % 10); /* Block Slot Priority not implemented */
-                case SlotType.Headbutt:
-                case SlotType.Headbutt_Special:
-                    return CalcSlot(ESV, K_Headbutt);
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Rock_Smash or SlotType.Surf => CalcSlot(ESV, H_Surf),
+                SlotType.Super_Rod or SlotType.Good_Rod or SlotType.Old_Rod => CalcSlot(ESV, K_SuperRod),
+                SlotType.BugContest => CalcSlot(ESV, K_BCC),
+                SlotType.Headbutt or SlotType.Headbutt | SlotType.Special => CalcSlot(ESV, K_Headbutt),
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int JSlot(SlotType type, uint rand)
         {
             uint ESV = rand / 656;
-            switch (type)
+            return type switch
             {
-                case SlotType.Old_Rod:
-                case SlotType.Rock_Smash:
-                case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
-                case SlotType.Good_Rod:
-                case SlotType.Super_Rod:
-                    return CalcSlot(ESV, J_SuperRod);
-                case SlotType.HoneyTree:
-                    return 0;
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Old_Rod or SlotType.Rock_Smash or SlotType.Surf => CalcSlot(ESV, H_Surf),
+                SlotType.Good_Rod or SlotType.Super_Rod => CalcSlot(ESV, J_SuperRod),
+                SlotType.HoneyTree => 0,
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
 
         private readonly struct Range
@@ -143,7 +129,7 @@ namespace PKHeX.Core
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
 #pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
-            if (slot.Type.IsSweetScentType())
+            if (slot.Area.Type.IsSweetScentType())
                 return true;
             return true; // todo
             //return GetCanEncounter(slot, frameType, rand, lead);
@@ -153,34 +139,33 @@ namespace PKHeX.Core
         public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
-            if ((slot.Type & SlotType.Rock_Smash) != 0)
+            var stype = slot.Area.Type;
+            if (stype == SlotType.Rock_Smash)
                 return proc < 60;
             if (frameType == FrameType.MethodH)
                 return true; // fishing encounters are disjointed by the hooked message.
-
-            // fishing
-            if ((slot.Type & SlotType.Old_Rod) != 0)
-            {
-                if (proc < 25)
-                    return true;
-                if (proc < 50)
-                    return lead == LeadRequired.None;
-            }
-            else if ((slot.Type & SlotType.Good_Rod) != 0)
-            {
-                if (proc < 50)
-                    return true;
-                if (proc < 75 && lead == LeadRequired.None)
-                    return lead == LeadRequired.None;
-            }
-            else if ((slot.Type & SlotType.Super_Rod) != 0)
-            {
-                if (proc < 75)
-                    return true;
-                return lead == LeadRequired.None; // < 100 always true
-            }
-            return false; // shouldn't hit here
+            return GetCanEncounterFish(lead, stype, proc);
         }
+
+        private static bool GetCanEncounterFish(LeadRequired lead, SlotType stype, int proc) => stype switch
+        {
+            // Lead:None => can be suction cups
+            SlotType.Old_Rod => proc switch
+            {
+                < 25 => true,
+                < 50 => lead == LeadRequired.None,
+                _ => false
+            },
+            SlotType.Good_Rod => proc switch
+            {
+                < 50 => true,
+                < 75 => lead == LeadRequired.None,
+                _ => false
+            },
+            SlotType.Super_Rod => proc < 75 || lead == LeadRequired.None,
+
+            _ => false
+        };
 
         /// <summary>
         /// Checks both Static and Magnet Pull ability type selection encounters to see if the encounter can be selected.
@@ -188,18 +173,18 @@ namespace PKHeX.Core
         /// <param name="slot">Slot Data</param>
         /// <param name="ESV">Rand16 value for the call</param>
         /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
-        internal static int GetSlotStaticMagnet(EncounterSlot slot, uint ESV)
+        internal static int GetSlotStaticMagnet<T>(T slot, uint ESV) where T : EncounterSlot, IMagnetStatic, INumberedSlot
         {
-            if (slot.Permissions.StaticIndex >= 0)
+            if (slot.StaticCount > 0 && slot.StaticIndex >= 0)
             {
-                var index = ESV % slot.Permissions.StaticCount;
-                if (index == slot.Permissions.StaticIndex)
+                var index = ESV % slot.StaticCount;
+                if (index == slot.StaticIndex)
                     return slot.SlotNumber;
             }
-            if (slot.Permissions.MagnetPullIndex >= 0)
+            if (slot.MagnetPullCount > 0 && slot.MagnetPullIndex >= 0)
             {
-                var index = ESV % slot.Permissions.MagnetPullCount;
-                if (index == slot.Permissions.MagnetPullIndex)
+                var index = ESV % slot.MagnetPullCount;
+                if (index == slot.MagnetPullIndex)
                     return slot.SlotNumber;
             }
             return -1;

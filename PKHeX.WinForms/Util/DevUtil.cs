@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -6,7 +7,6 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    #if DEBUG
     public static class DevUtil
     {
         public static void AddControl(ToolStripDropDownItem t)
@@ -46,12 +46,17 @@ namespace PKHeX.WinForms
 
         private static void UpdateTranslations()
         {
-            WinFormsTranslator.SetRemovalMode(false); // add mode
+            // add mode
+            WinFormsTranslator.SetRemovalMode(false);
+            WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
             WinFormsTranslator.LoadAllForms(LoadBanlist); // populate with every possible control
             WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
             WinFormsTranslator.DumpAll(Banlist); // dump current to file
+
+            // de-populate
             WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
-            WinFormsTranslator.LoadAllForms(LoadBanlist); // de-populate
+            WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage, false);
+            WinFormsTranslator.LoadAllForms(LoadBanlist);
             WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
 
             // Move translated files from the debug exe loc to their project location
@@ -93,7 +98,6 @@ namespace PKHeX.WinForms
             "Main.L_Potential", // ★☆☆☆ IV judge evaluation
             "SAV_HoneyTree.L_Tree0", // dynamic, don't bother
             "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
-            "SettingsEditor.BAKPrompt", // internal setting
             "SAV_GameSelect.L_Prompt", // prompt text (dynamic)
             "SAV_BlockDump8.L_BlockName", // Block name (dynamic)
         };
@@ -114,8 +118,8 @@ namespace PKHeX.WinForms
             var langs = new[] {DefaultLanguage}.Concat(Languages);
             foreach (var lang in langs)
             {
-                Util.SetLocalization(t, lang);
-                var entries = Util.GetLocalization(t);
+                LocalizationUtil.SetLocalization(t, lang);
+                var entries = LocalizationUtil.GetLocalization(t);
                 var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
                     .OrderBy(z => z.Variable) // sort by length (V1 = 2, V100 = 4)
                     .Select(z => z.Line); // sorted lines
@@ -125,7 +129,7 @@ namespace PKHeX.WinForms
 
                 var location = GetFileLocationInText(t.Name, dir, lang);
                 File.WriteAllLines(location, export);
-                Util.SetLocalization(t, DefaultLanguage);
+                LocalizationUtil.SetLocalization(t, DefaultLanguage);
             }
         }
 
@@ -144,11 +148,11 @@ namespace PKHeX.WinForms
             var path = Application.StartupPath;
             const string projname = "PKHeX\\";
             var pos = path.LastIndexOf(projname, StringComparison.Ordinal);
-            var str = path.Substring(0, pos + projname.Length);
+            var str = path[..(pos + projname.Length)];
             var coreFolder = Path.Combine(str, "PKHeX.Core", "Resources", "text");
 
             return coreFolder;
         }
     }
-    #endif
 }
+#endif

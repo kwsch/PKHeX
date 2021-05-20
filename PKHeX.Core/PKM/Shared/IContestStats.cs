@@ -1,33 +1,28 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public interface IContestStats
     {
-        int CNT_Cool { get; set; }
-        int CNT_Beauty { get; set; }
-        int CNT_Cute { get; set; }
-        int CNT_Smart { get; set; }
-        int CNT_Tough { get; set; }
-        int CNT_Sheen { get; set; }
+        byte CNT_Cool { get; }
+        byte CNT_Beauty { get; }
+        byte CNT_Cute { get; }
+        byte CNT_Smart { get; }
+        byte CNT_Tough { get; }
+        byte CNT_Sheen { get; }
+    }
+
+    public interface IContestStatsMutable
+    {
+        byte CNT_Cool { set; }
+        byte CNT_Beauty { set; }
+        byte CNT_Cute { set; }
+        byte CNT_Smart { set; }
+        byte CNT_Tough { set; }
+        byte CNT_Sheen { set; }
     }
 
     public static partial class Extensions
     {
-        public static void SetContestStats(this IContestStats dest, IReadOnlyList<int> stats)
-        {
-            if (stats.Count != 6)
-                return;
-
-            dest.CNT_Cool   = stats[0];
-            dest.CNT_Beauty = stats[1];
-            dest.CNT_Cute   = stats[2];
-            dest.CNT_Smart  = stats[3];
-            dest.CNT_Tough  = stats[4];
-            dest.CNT_Sheen  = stats[5];
-        }
-
-        public static int[] GetContestStats(this IContestStats stats) => new[]
+        public static byte[] GetContestStats(this IContestStats stats) => new[]
         {
             stats.CNT_Cool,
             stats.CNT_Beauty,
@@ -78,7 +73,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static void CopyContestStatsTo(this IContestStats source, IContestStats dest)
+        public static void CopyContestStatsTo(this IContestStats source, IContestStatsMutable dest)
         {
             dest.CNT_Cool = source.CNT_Cool;
             dest.CNT_Beauty = source.CNT_Beauty;

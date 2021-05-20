@@ -5,9 +5,10 @@ using static PKHeX.Core.Encounters8Nest;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 8 Nest Encounter (Raid)
+    /// Generation 8 Nest Encounter (Regular Raid Dens)
     /// </summary>
-    public sealed class EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
+    /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
+    public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
         private readonly uint MinRank;
         private readonly uint MaxRank;
@@ -15,12 +16,11 @@ namespace PKHeX.Core
 
         private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
 
-        public override int Location { get => SharedNest; set { } }
-        public override int Level { get => LevelMin; set { } }
+        public override int Level { get => LevelMin; init { } }
         public override int LevelMin => LevelCaps[MinRank * 2];
         public override int LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-        public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val)
+        public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val, GameVersion game) : base(game)
         {
             NestID = nestID;
             MinRank = minRank;
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             55, 60, // 4
         };
 
-        protected override bool IsMatchLevel(PKM pkm, int lvl)
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             var met = pkm.Met_Level;
             var metLevel = met - 15;
@@ -47,6 +47,13 @@ namespace PKHeX.Core
                 return false;
             if (rank > MaxRank)
                 return false;
+
+            if (rank <= 1)
+            {
+                if (InaccessibleRank12Nests.TryGetValue(pkm.Met_Location, out var nests) && nests.Contains(NestID))
+                    return false;
+            }
+
             if (rank < MinRank) // down-leveled
                 return IsDownLeveled(pkm, metLevel, met);
 
@@ -80,12 +87,12 @@ namespace PKHeX.Core
             return loc == SharedNest || (loc <= 255 && NestLocations.Contains((byte)loc));
         }
 
-        public override bool IsMatch(PKM pkm, int lvl)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            return base.IsMatch(pkm, lvl);
+            return base.IsMatchExact(pkm, evo);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class BoxLayout6 : SaveBlock
+    public sealed class BoxLayout6 : SaveBlock, IBoxDetailName, IBoxDetailWallpaper
     {
         // gfstr5[31] boxNames;
         // byte[31] wallpapers;
@@ -20,18 +20,18 @@
         public BoxLayout6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
         public BoxLayout6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-        public  int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
+        public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 
         public int GetBoxWallpaper(int box)
         {
-            if ((uint)box > SAV.BoxCount)
+            if ((uint)box >= SAV.BoxCount)
                 return 0;
             return Data[GetBoxWallpaperOffset(box)];
         }
 
         public void SetBoxWallpaper(int box, int value)
         {
-            if ((uint)box > SAV.BoxCount)
+            if ((uint)box >= SAV.BoxCount)
                 return;
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }

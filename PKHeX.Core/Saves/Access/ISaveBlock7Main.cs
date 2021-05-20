@@ -1,5 +1,9 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface for Accessing named blocks within a Generation 7 save file.
+    /// </summary>
+    /// <remarks>Blocks common for <see cref="SAV7SM"/> and <see cref="SAV7USUM"/>.</remarks>
     public interface ISaveBlock7Main
     {
         MyItem Items { get; }
@@ -21,5 +25,6 @@
         ResortSave7 ResortSave { get; }
         FieldMenu7 FieldMenu { get; }
         FashionBlock7 Fashion { get; }
+        HallOfFame7 Fame { get; }
     }
 }

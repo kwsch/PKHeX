@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -13,6 +12,7 @@ namespace PKHeX.Core
     public sealed class WR7 : DataMysteryGift
     {
         public const int Size = 0x140;
+        public override int Generation => 7;
 
         public WR7() : this(new byte[Size]) { }
         public WR7(byte[] data) : base(data) { }
@@ -85,8 +85,8 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x120, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0x120 + 0xB6); // careful with length
+            get => StringConverter.GetString7b(Data, 0x120, 0x1A);
+            set => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, 0x120 + 0xB6); // careful with length
         }
 
         public LanguageID LanguageReceived
@@ -95,10 +95,11 @@ namespace PKHeX.Core
             set => Data[0x13A] = (byte)value;
         }
 
-        // Mystery Gift implementation
-        public override int Format => 7;
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
+        // Mystery Gift implementation, unused.
+        public override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
+        protected override bool IsMatchPartial(PKM pkm) => false;
+
         public override int Location { get; set; }
         public override int EggLocation { get; set; }
         public override int Ball { get; set; } = 4;

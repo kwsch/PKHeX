@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -19,8 +18,8 @@ namespace PKHeX.WinForms
             // Constants @ 0x1C00
             // Cell Data @ 0x1D8C
             // Use constants 0x18C/2 = 198 thru +95
-            ushort[] constants = SAV.EventConsts;
-            ushort[] cells = constants.Skip(celloffset).Take(CellCount).ToArray();
+            ushort[] constants = SAV.GetEventConsts();
+            var cells = constants.AsSpan(celloffset, CellCount);
 
             int cellCount = constants[cellstotal];
             int cellCollected = constants[cellscollected];
@@ -28,7 +27,7 @@ namespace PKHeX.WinForms
             NUD_Cells.Value = cellCount;
             NUD_Collected.Value = cellCollected;
 
-            var combo = dgv.Columns[2] as DataGridViewComboBoxColumn;
+            var combo = (DataGridViewComboBoxColumn)dgv.Columns[2];
             foreach (string t in states)
                 combo.Items.Add(t); // add only the Names
             dgv.Columns[0].ValueType = typeof(int);
@@ -39,7 +38,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CellCount; i++)
             {
                 if (cells[i] > 2)
-                    throw new ArgumentException();
+                    throw new IndexOutOfRangeException("Unable to find cell index.");
 
                 dgv.Rows[i].Cells[0].Value = (i+1);
                 dgv.Rows[i].Cells[1].Value = locations[i];
@@ -55,13 +54,13 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            ushort[] constants = SAV.EventConsts;
+            ushort[] constants = SAV.GetEventConsts();
             for (int i = 0; i < CellCount; i++)
             {
                 string str = (string)dgv.Rows[i].Cells[2].Value;
                 int val = Array.IndexOf(states, str);
                 if (val < 0)
-                    throw new ArgumentException();
+                    throw new IndexOutOfRangeException("Unable to find cell index.");
 
                 constants[celloffset + i] = (ushort)val;
             }
@@ -71,7 +70,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV7USUM)
                 SAV.SetRecord(72, (int)NUD_Collected.Value);
 
-            SAV.EventConsts = constants;
+            SAV.SetEventConsts(constants);
             Origin.CopyChangesFrom(SAV);
 
             Close();
@@ -93,7 +92,7 @@ namespace PKHeX.WinForms
             }
 
             NUD_Collected.Value += added;
-            if (!(SAV is SAV7USUM))
+            if (SAV is not SAV7USUM)
                 NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();

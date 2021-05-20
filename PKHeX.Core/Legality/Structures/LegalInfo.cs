@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Calculated Information storage with properties useful for parsing the legality of the input <see cref="PKM"/>.
     /// </summary>
-    public sealed class LegalInfo
+    public sealed class LegalInfo : IGeneration
     {
         /// <summary>The <see cref="PKM"/> object used for comparisons.</summary>
         private readonly PKM pkm;
@@ -23,7 +22,7 @@ namespace PKHeX.Core
             get => _match;
             set
             {
-                if (_match != EncounterInvalid.Default && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+                if (!ReferenceEquals(_match, EncounterInvalid.Default) && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
                     _evochains = null; // clear if evo chain has the potential to be different
                 _match = value;
                 Parse.Clear();
@@ -42,18 +41,15 @@ namespace PKHeX.Core
         internal IEncounterable? EncounterOriginalGB;
         private IEncounterable _match = EncounterInvalid.Default;
 
-        /// <summary>Base Relearn Moves for the <see cref="EncounterMatch"/>.</summary>
-        public IReadOnlyList<int> RelearnBase { get; internal set; } = Array.Empty<int>();
-
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
-        public readonly List<CheckResult> Parse = new List<CheckResult>();
+        internal readonly List<CheckResult> Parse = new();
 
-        public CheckResult[] Relearn { get; internal set; } = new CheckResult[4];
+        public readonly CheckResult[] Relearn = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
 
-        private static readonly ValidEncounterMoves NONE = new ValidEncounterMoves();
+        private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterOriginal);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
         private IReadOnlyList<EvoCriteria>[]? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
@@ -84,7 +80,7 @@ namespace PKHeX.Core
 
             // Store repeatedly accessed values
             Game = (GameVersion)pkm.Version;
-            Generation = pkm.GenNumber;
+            Generation = pkm.Generation;
         }
 
         /// <summary>List of all near-matches that were rejected for a given reason.</summary>

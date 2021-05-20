@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public static partial class Util
+    public static class DateUtil
     {
         /// <summary>
         /// Determines whether or not the given date components are valid.
@@ -13,7 +13,14 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the date is valid.</returns>
         public static bool IsDateValid(int year, int month, int day)
         {
-            return !(year <= 0 || year > DateTime.MaxValue.Year || month < 1 || month > 12 || day < 1 || day > DateTime.DaysInMonth(year, month));
+            if (year is <= 0 or > 9999)
+                return false;
+            if (month is < 1 or > 12)
+                return false;
+            if (day < 1 || day > DateTime.DaysInMonth(year, month))
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -28,7 +35,7 @@ namespace PKHeX.Core
             return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsDateValid((int)year, (int)month, (int)day);
         }
 
-        private static readonly DateTime Epoch2000 = new DateTime(2000, 1, 1);
+        private static readonly DateTime Epoch2000 = new(2000, 1, 1);
         private const int SecondsPerDay = 60*60*24; // 86400
 
         public static int GetSecondsFrom2000(DateTime date, DateTime time)
@@ -47,13 +54,30 @@ namespace PKHeX.Core
 
         public static string ConvertDateValueToString(int value, int secondsBias = -1)
         {
-            string tip = string.Empty;
+            var sb = new System.Text.StringBuilder();
             if (value >= SecondsPerDay)
-                tip += (value / SecondsPerDay) + "d ";
-            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+                sb.Append(value / SecondsPerDay).Append("d ");
+            sb.Append(new DateTime(0).AddSeconds(value).ToString("HH:mm:ss"));
             if (secondsBias >= 0)
-                tip += Environment.NewLine + $"Date: {Epoch2000.AddSeconds(value + secondsBias)}";
-            return tip;
+                sb.Append(Environment.NewLine).Append("Date: ").Append(Epoch2000.AddSeconds(value + secondsBias));
+            return sb.ToString();
         }
+
+        /// <summary>
+        /// Gets a random day within the random range of <see cref="start"/> and <see cref="end"/> days, inclusive.
+        /// </summary>
+        /// <param name="start">First valid date</param>
+        /// <param name="end">Last valid date</param>
+        /// <param name="r">Random to use</param>
+        /// <returns>Date within the specified range, inclusive.</returns>
+        public static DateTime GetRandomDateWithin(DateTime start, DateTime end, Random r)
+        {
+            var delta = end - start;
+            var bias = r.Next(delta.Days + 1);
+            return start.AddDays(bias);
+        }
+
+        /// <inheritdoc cref="GetRandomDateWithin(DateTime,DateTime,Random)"/>
+        public static DateTime GetRandomDateWithin(DateTime start, DateTime end) => GetRandomDateWithin(start, end, Util.Rand);
     }
 }

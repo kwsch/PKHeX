@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
 
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
-            if (!(SAV is SAV6XY))
+            if (SAV is not SAV6XY)
                 TC_Editor.TabPages.Remove(Tab_Appearance);
 
             if (SAV is SAV6AODemo)
@@ -55,6 +55,7 @@ namespace PKHeX.WinForms
                 TC_Editor.TabPages.Remove(Tab_Maison);
             }
 
+            editing = true;
             GetComboBoxes();
             GetTextBoxes();
             editing = false;
@@ -121,14 +122,14 @@ namespace PKHeX.WinForms
             TB_Saying5.Text = status.Saying5;
 
             CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.SubRegion;
+            CB_Region.SelectedValue = SAV.Region;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data
             if (SAV is ISaveBlock6Main xyao)
             {
-                for (int i = 0; i < MaisonRecords.Length; i++)
+                for (int i = 0; i < MaisonBlock.MaisonStatCount; i++)
                     MaisonRecords[i].Text = xyao.Maison.GetMaisonStat(i).ToString();
             }
 
@@ -147,7 +148,10 @@ namespace PKHeX.WinForms
                     NUD_Z.Value = (decimal)sit.Z;
                     NUD_Y.Value = (decimal)sit.Y;
                 }
+                // If we can't accurately represent the coordinates, don't allow them to be changed.
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch { GB_Map.Enabled = false; }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             // Load BP and PokeMiles
@@ -183,11 +187,11 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
             CAL_AdventureStartDate.Value = date;
             CAL_AdventureStartTime.Value = time;
 
-            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
         }
@@ -200,7 +204,7 @@ namespace PKHeX.WinForms
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
+            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
@@ -217,7 +221,7 @@ namespace PKHeX.WinForms
             // Copy Maison Data in
             if (SAV is ISaveBlock6Main xyao)
             {
-                for (int i = 0; i < MaisonRecords.Length; i++)
+                for (int i = 0; i < MaisonBlock.MaisonStatCount; i++)
                     xyao.Maison.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
             }
 
@@ -263,8 +267,8 @@ namespace PKHeX.WinForms
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
 
-            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -280,7 +284,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -349,13 +353,13 @@ namespace PKHeX.WinForms
             PB_Sprite.Image = SAV.Sprite();
         }
 
-        private string UpdateTip(int index)
+        private string? UpdateTip(int index)
         {
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return DateUtil.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }

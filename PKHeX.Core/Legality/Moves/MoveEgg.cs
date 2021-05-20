@@ -1,126 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
-    internal static class MoveEgg
+    public static class MoveEgg
     {
-        internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
+        public static int[] GetEggMoves(PersonalInfo pi, int species, int form, GameVersion version, int generation)
         {
-            int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
-            if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
+            if (species > GetMaxSpeciesOrigin(generation))
                 return Array.Empty<int>();
 
-            if (pkm.Version == 15 || pkm.GG)
+            if (pi.Genderless && !FixedGenderFromBiGender.Contains(species))
                 return Array.Empty<int>();
 
-            if (version == GameVersion.Any)
-                version = (GameVersion)pkm.Version;
-            return GetEggMoves(gen, species, formnum, version);
+            if (!Breeding.CanGameGenerateEggs(version))
+                return Array.Empty<int>();
+
+            return GetEggMoves(generation, species, form, version);
         }
 
-        internal static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        public static int[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
         {
-            switch (gen)
-            {
-                case 1:
-                case 2:
-                    return (version == GameVersion.C ? EggMovesC : EggMovesGS)[species].Moves;
-                case 3:
-                    return EggMovesRS[species].Moves;
-                case 4:
-                    return version switch
-                    {
-                        GameVersion.HG => EggMovesHGSS[species].Moves,
-                        GameVersion.SS => EggMovesHGSS[species].Moves,
-                        _ => EggMovesDPPt[species].Moves
-                    };
-                case 5:
-                    return EggMovesBW[species].Moves;
-                case 6: // entries per species
-                    return version switch
-                    {
-                        GameVersion.OR => EggMovesAO[species].Moves,
-                        GameVersion.AS => EggMovesAO[species].Moves,
-                        _ => EggMovesXY[species].Moves
-                    };
+            1 or 2 => (version == C ? EggMovesC : EggMovesGS)[species].Moves,
+            3 => EggMovesRS[species].Moves,
+            4 when version is D or P or Pt => EggMovesDPPt[species].Moves,
+            4 when version is HG or SS => EggMovesHGSS[species].Moves,
+            5 => EggMovesBW[species].Moves,
 
-                case 7: // entries per form if required
-                    return version switch
-                    {
-                        GameVersion.US => GetFormEggMoves(species, formnum, EggMovesUSUM),
-                        GameVersion.UM => GetFormEggMoves(species, formnum, EggMovesUSUM),
-                        _ => GetFormEggMoves(species, formnum, EggMovesSM)
-                    };
+            6 when version is X or Y => EggMovesXY[species].Moves,
+            6 when version is OR or AS => EggMovesAO[species].Moves,
 
-                case 8:
-                    return version switch
-                    {
-                        _ => GetFormEggMoves(species, formnum, EggMovesSWSH)
-                    };
+            7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
+            7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
+            8 => GetFormEggMoves(species, form, EggMovesSWSH),
+            _ => Array.Empty<int>(),
+        };
 
-                default:
-                    return Array.Empty<int>();
-            }
-        }
-
-        private static int[] GetFormEggMoves(int species, int formnum, IReadOnlyList<EggMoves7> table)
+        private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
         {
             var entry = table[species];
-            if (formnum > 0 && entry.FormTableIndex > species)
-                entry = table[entry.FormTableIndex + formnum - 1];
+            if (form > 0 && entry.FormTableIndex > species)
+                entry = table[entry.FormTableIndex + form - 1];
             return entry.Moves;
         }
 
-        internal static int[] GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum, GameVersion version = GameVersion.Any)
+        internal static int[] GetRelearnLVLMoves(PKM pkm, int species, int form, int lvl, GameVersion version = Any)
         {
-            if (version == GameVersion.Any)
+            if (version == Any)
                 version = (GameVersion)pkm.Version;
             // A pkm can only have levelup relearn moves from the game it originated on
             // eg Plusle/Minun have Charm/Fake Tears (respectively) only in OR/AS, not X/Y
-            switch (version)
+            return version switch
             {
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return getMoves(LevelUpXY, PersonalTable.XY);
-                case GameVersion.AS:
-                case GameVersion.OR:
-                    return getMoves(LevelUpAO, PersonalTable.AO);
+                X or Y => getMoves(LevelUpXY, PersonalTable.XY),
+                OR or AS => getMoves(LevelUpAO, PersonalTable.AO),
+                SN or MN when species <= MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
+                US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
+                SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
+                _ => Array.Empty<int>(),
+            };
 
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    if (species > MaxSpeciesID_7)
-                        break;
-                    return getMoves(LevelUpSM, PersonalTable.SM);
-                case GameVersion.US:
-                case GameVersion.UM:
-                    return getMoves(LevelUpUSUM, PersonalTable.USUM);
-
-                case GameVersion.SW:
-                case GameVersion.SH:
-                    return getMoves(LevelUpSWSH, PersonalTable.SWSH);
-            }
-            return Array.Empty<int>();
-
-            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
+            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, form)].GetMoves(lvl);
         }
 
         public static bool GetIsSharedEggMove(PKM pkm, int gen, int move)
         {
             if (gen < 8 || pkm.IsEgg)
                 return false;
+            var egg = GetSharedEggMoves(pkm, gen);
+            return Array.IndexOf(egg, move) >= 0;
+        }
+
+        public static int[] GetSharedEggMoves(PKM pkm, int gen)
+        {
+            if (gen < 8 || pkm.IsEgg)
+                return Array.Empty<int>();
             var table = PersonalTable.SWSH;
-            var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
-            var baseSpecies = entry.BaseSpecies;
-            var baseForm = entry.FormIndex;
-
-            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
-            if (pkm.Species == (int)Species.Indeedee)
-                baseForm = pkm.AltForm;
-
-            var egg = GetEggMoves(8, baseSpecies, baseForm, GameVersion.SW);
-            return Array.Exists(egg, z => z == move);
+            var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
+            var baseSpecies = entry.HatchSpecies;
+            var baseForm = entry.HatchFormIndexEverstone;
+            return GetEggMoves(8, baseSpecies, baseForm, SW);
         }
     }
 }

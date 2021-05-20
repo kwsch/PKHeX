@@ -61,7 +61,7 @@ namespace PKHeX.Core
         public bool Unlock9thArea
         {
             get => Data[0x848] == 1;
-            set => Data[0x848] = (byte)(value ? 1 : 0);
+            set => Data[0x848] = value ? (byte)1 : (byte)0;
         }
 
         /// <summary>
@@ -111,15 +111,12 @@ namespace PKHeX.Core
             return (EntreeForestArea)((int)EntreeForestArea.First << area) | GetSlotPosition(index / Count18);
         }
 
-        private static EntreeForestArea GetSlotPosition(int index)
+        private static EntreeForestArea GetSlotPosition(int index) => index switch
         {
-            return index switch
-            {
-                0 => EntreeForestArea.Center,
-                1 => EntreeForestArea.Left,
-                2 => EntreeForestArea.Right,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+            0 => EntreeForestArea.Center,
+            1 => EntreeForestArea.Left,
+            2 => EntreeForestArea.Right,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

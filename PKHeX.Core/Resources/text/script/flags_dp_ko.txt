@@ -27,3 +27,9 @@
 1233	숲의양옥집에서 공포플레이트 찾음
 1234	숲의양옥집에서 TM90 찾음
 2736	숲의양옥집 TV에서 로토무 사라짐
+2401	Running Shoes disabled
+0251	Received Happiny Egg Gift
+0305	Received Eevee
+2430	Unlocked Bebe's PC
+2728	Friday Drifloon Disappeared
+2722	Today's Trophy Garden Pokémon Known

@@ -10,6 +10,8 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile SAV;
 
+        public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, Array.Empty<byte>(), sav) { }
+
         public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
             InitializeComponent();
@@ -20,7 +22,7 @@ namespace PKHeX.WinForms
             Raw = FinalBytes = raw;
 
             editing = true;
-            if (raw != null)
+            if (raw.Length != 0)
                 AddTrashEditing(raw.Length);
 
             var f = FontUtil.GetPKXFont();
@@ -44,9 +46,9 @@ namespace PKHeX.WinForms
             CenterToParent();
         }
 
-        private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
+        private readonly List<NumericUpDown> Bytes = new();
         public string FinalString;
-        public byte[] FinalBytes { get; private set; }
+        public byte[] FinalBytes;
         private readonly byte[] Raw;
         private bool editing;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -54,7 +56,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             FinalString = TB_Text.Text;
-            if (FinalBytes != null)
+            if (FinalBytes.Length == 0)
                 FinalBytes = Raw;
             Close();
         }
@@ -96,13 +98,13 @@ namespace PKHeX.WinForms
                     }
                 };
                 n.Value = Raw[i];
-                n.ValueChanged += UpdateNUD;
+                n.ValueChanged += (o, args) => UpdateNUD(n, args);
 
                 FLP_Hex.Controls.Add(l);
                 FLP_Hex.Controls.Add(n);
                 Bytes.Add(n);
             }
-            TB_Text.TextChanged += UpdateString;
+            TB_Text.TextChanged += (o, args) => UpdateString(TB_Text, args);
 
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
@@ -117,7 +119,8 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             // build bytes
-            var nud = sender as NumericUpDown;
+            if (sender is not NumericUpDown nud)
+                throw new Exception();
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
@@ -174,9 +177,9 @@ namespace PKHeX.WinForms
         private string GetString() => SAV.GetString(Raw, 0, Raw.Length);
 
         // Helpers
-        private static Label GetLabel(string str) => new Label {Text = str, AutoSize = true};
+        private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};
 
-        private static NumericUpDown GetNUD(int min, int max, bool hex) => new NumericUpDown
+        private static NumericUpDown GetNUD(int min, int max, bool hex) => new()
         {
             Maximum = max,
             Minimum = min,
@@ -186,15 +189,12 @@ namespace PKHeX.WinForms
             Margin = new Padding(0),
         };
 
-        private static ushort[] GetChars(int generation)
+        private static ushort[] GetChars(int generation) => generation switch
         {
-            return generation switch
-            {
-                6 => chars67,
-                7 => chars67,
-                _ => Array.Empty<ushort>()
-            };
-        }
+            6 => chars67,
+            7 => chars67,
+            _ => Array.Empty<ushort>(), // Undocumented
+        };
 
         private static readonly ushort[] chars67 =
         {

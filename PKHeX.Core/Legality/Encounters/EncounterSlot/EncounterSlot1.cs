@@ -1,43 +1,17 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 1 Wild Encounter Slot data
+    /// Encounter Slot found in <see cref="GameVersion.Gen1"/>.
     /// </summary>
-    public sealed class EncounterSlot1 : EncounterSlot
+    /// <inheritdoc cref="EncounterSlot"/>
+    public sealed record EncounterSlot1 : EncounterSlot, INumberedSlot
     {
-        public readonly int Rate;
+        public override int Generation => 1;
+        public int SlotNumber { get; }
 
-        public EncounterSlot1(int species, int min, int max, int rate, SlotType type, int slot)
+        public EncounterSlot1(EncounterArea1 area, int species, int min, int max, int slot) : base(area, species, 0, min, max)
         {
-            Species = species;
-            LevelMin = min;
-            LevelMax = max;
-            Rate = rate;
-            Type = type;
             SlotNumber = slot;
-        }
-
-        /// <summary>
-        /// Deserializes Gen1 Encounter Slots from data.
-        /// </summary>
-        /// <param name="data">Byte array containing complete slot data table.</param>
-        /// <param name="ofs">Offset to start reading from.</param>
-        /// <param name="count">Amount of slots to read.</param>
-        /// <param name="type">Type of encounter slot table.</param>
-        /// <param name="rate">Slot type encounter rate.</param>
-        /// <returns>Array of encounter slots.</returns>
-        public static EncounterSlot1[] ReadSlots(byte[] data, ref int ofs, int count, SlotType type, int rate)
-        {
-            var bump = type == SlotType.Surf ? 4 : 0;
-            var slots = new EncounterSlot1[count];
-            for (int slot = 0; slot < count; slot++)
-            {
-                int min = data[ofs++];
-                int species = data[ofs++];
-                int max = min + bump;
-                slots[slot] = new EncounterSlot1(species, min, max, rate, type, slot);
-            }
-            return slots;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
@@ -47,6 +21,7 @@
             var pk1 = (PK1)pk;
             if (Version == GameVersion.YW)
             {
+                // Since we don't keep track of Yellow's Personal Data, just handle any differences here.
                 pk1.Catch_Rate = Species switch
                 {
                     (int) Core.Species.Kadabra => 96,

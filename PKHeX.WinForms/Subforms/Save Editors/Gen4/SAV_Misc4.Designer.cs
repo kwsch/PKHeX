@@ -99,7 +99,13 @@
             this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
             this.L_CastleRank01 = new System.Windows.Forms.Label();
             this.TAB_Walker = new System.Windows.Forms.TabPage();
-            this.B_UnlockCourses = new System.Windows.Forms.Button();
+            this.GB_WalkerCourses = new System.Windows.Forms.GroupBox();
+            this.B_AllWalkerCourses = new System.Windows.Forms.Button();
+            this.CLB_WalkerCourses = new System.Windows.Forms.CheckedListBox();
+            this.NUD_Watts = new System.Windows.Forms.NumericUpDown();
+            this.L_Watts = new System.Windows.Forms.Label();
+            this.NUD_Steps = new System.Windows.Forms.NumericUpDown();
+            this.L_Steps = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
             this.B_AllSealsIllegal = new System.Windows.Forms.Button();
             this.B_AllSealsLegal = new System.Windows.Forms.Button();
@@ -148,6 +154,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
             this.TAB_Walker.SuspendLayout();
+            this.GB_WalkerCourses.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Watts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps)).BeginInit();
             this.Tab_Misc.SuspendLayout();
             this.Tab_Poffins.SuspendLayout();
             this.Tab_PokeGear.SuspendLayout();
@@ -1148,7 +1157,11 @@
             // 
             // TAB_Walker
             // 
-            this.TAB_Walker.Controls.Add(this.B_UnlockCourses);
+            this.TAB_Walker.Controls.Add(this.GB_WalkerCourses);
+            this.TAB_Walker.Controls.Add(this.NUD_Watts);
+            this.TAB_Walker.Controls.Add(this.L_Watts);
+            this.TAB_Walker.Controls.Add(this.NUD_Steps);
+            this.TAB_Walker.Controls.Add(this.L_Steps);
             this.TAB_Walker.Location = new System.Drawing.Point(4, 22);
             this.TAB_Walker.Name = "TAB_Walker";
             this.TAB_Walker.Padding = new System.Windows.Forms.Padding(3);
@@ -1157,15 +1170,93 @@
             this.TAB_Walker.Text = "Pokewalker";
             this.TAB_Walker.UseVisualStyleBackColor = true;
             // 
-            // B_UnlockCourses
+            // GB_WalkerCourses
             // 
-            this.B_UnlockCourses.Location = new System.Drawing.Point(153, 98);
-            this.B_UnlockCourses.Name = "B_UnlockCourses";
-            this.B_UnlockCourses.Size = new System.Drawing.Size(75, 55);
-            this.B_UnlockCourses.TabIndex = 0;
-            this.B_UnlockCourses.Text = "Unlock All Courses";
-            this.B_UnlockCourses.UseVisualStyleBackColor = true;
-            this.B_UnlockCourses.Click += new System.EventHandler(this.B_UnlockCourses_Click);
+            this.GB_WalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.GB_WalkerCourses.Controls.Add(this.B_AllWalkerCourses);
+            this.GB_WalkerCourses.Controls.Add(this.CLB_WalkerCourses);
+            this.GB_WalkerCourses.Location = new System.Drawing.Point(3, 3);
+            this.GB_WalkerCourses.Name = "GB_WalkerCourses";
+            this.GB_WalkerCourses.Size = new System.Drawing.Size(181, 230);
+            this.GB_WalkerCourses.TabIndex = 4;
+            this.GB_WalkerCourses.TabStop = false;
+            this.GB_WalkerCourses.Text = "Pokewalker Courses";
+            // 
+            // B_AllWalkerCourses
+            // 
+            this.B_AllWalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_AllWalkerCourses.Location = new System.Drawing.Point(6, 195);
+            this.B_AllWalkerCourses.Name = "B_AllWalkerCourses";
+            this.B_AllWalkerCourses.Size = new System.Drawing.Size(75, 25);
+            this.B_AllWalkerCourses.TabIndex = 0;
+            this.B_AllWalkerCourses.Text = "Check All";
+            this.B_AllWalkerCourses.UseVisualStyleBackColor = true;
+            this.B_AllWalkerCourses.Click += new System.EventHandler(this.B_AllWalkerCourses_Click);
+            // 
+            // CLB_WalkerCourses
+            // 
+            this.CLB_WalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CLB_WalkerCourses.CheckOnClick = true;
+            this.CLB_WalkerCourses.FormattingEnabled = true;
+            this.CLB_WalkerCourses.Location = new System.Drawing.Point(6, 16);
+            this.CLB_WalkerCourses.Name = "CLB_WalkerCourses";
+            this.CLB_WalkerCourses.Size = new System.Drawing.Size(169, 169);
+            this.CLB_WalkerCourses.TabIndex = 1;
+            // 
+            // NUD_Watts
+            // 
+            this.NUD_Watts.Location = new System.Drawing.Point(262, 6);
+            this.NUD_Watts.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_Watts.Name = "NUD_Watts";
+            this.NUD_Watts.Size = new System.Drawing.Size(64, 20);
+            this.NUD_Watts.TabIndex = 0;
+            this.NUD_Watts.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_Watts
+            // 
+            this.L_Watts.Location = new System.Drawing.Point(190, 3);
+            this.L_Watts.Name = "L_Watts";
+            this.L_Watts.Size = new System.Drawing.Size(66, 22);
+            this.L_Watts.TabIndex = 10;
+            this.L_Watts.Text = "Watts:";
+            this.L_Watts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Steps
+            // 
+            this.NUD_Steps.Location = new System.Drawing.Point(262, 38);
+            this.NUD_Steps.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_Steps.Name = "NUD_Steps";
+            this.NUD_Steps.Size = new System.Drawing.Size(64, 20);
+            this.NUD_Steps.TabIndex = 0;
+            this.NUD_Steps.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_Steps
+            // 
+            this.L_Steps.Location = new System.Drawing.Point(190, 35);
+            this.L_Steps.Name = "L_Steps";
+            this.L_Steps.Size = new System.Drawing.Size(66, 22);
+            this.L_Steps.TabIndex = 10;
+            this.L_Steps.Text = "Steps:";
+            this.L_Steps.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Tab_Misc
             // 
@@ -1291,6 +1382,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
             this.TAB_Walker.ResumeLayout(false);
+            this.GB_WalkerCourses.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Watts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps)).EndInit();
             this.Tab_Misc.ResumeLayout(false);
             this.Tab_Poffins.ResumeLayout(false);
             this.Tab_PokeGear.ResumeLayout(false);
@@ -1368,7 +1462,13 @@
         private System.Windows.Forms.Label L_CurrentApp;
         private System.Windows.Forms.Label L_CurrentMap;
         private System.Windows.Forms.TabPage TAB_Walker;
-        private System.Windows.Forms.Button B_UnlockCourses;
+        private System.Windows.Forms.GroupBox GB_WalkerCourses;
+        private System.Windows.Forms.CheckedListBox CLB_WalkerCourses;
+        private System.Windows.Forms.Button B_AllWalkerCourses;
+        private System.Windows.Forms.NumericUpDown NUD_Watts;
+        private System.Windows.Forms.Label L_Watts;
+        private System.Windows.Forms.NumericUpDown NUD_Steps;
+        private System.Windows.Forms.Label L_Steps;
         private System.Windows.Forms.NumericUpDown NUD_Coin;
         private System.Windows.Forms.Label L_Coin;
         private System.Windows.Forms.TabPage Tab_Misc;

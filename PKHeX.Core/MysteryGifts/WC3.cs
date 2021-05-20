@@ -21,22 +21,22 @@ namespace PKHeX.Core
         public PIDType Method;
 
         public override string OT_Name { get; set; } = string.Empty;
-        public int OT_Gender { get; set; } = 3;
+        public int OT_Gender { get; init; } = 3;
         public override int TID { get; set; }
         public override int SID { get; set; }
         public override int Location { get; set; } = 255;
         public override int EggLocation { get => 0; set {} }
         public override GameVersion Version { get; set; }
-        public int Language { get; set; } = -1;
+        public int Language { get; init; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
         public override IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
-        public bool NotDistributed { get; set; }
-        public Shiny Shiny { get; set; } = Shiny.Random;
-        public bool Fateful { get; set; } // Obedience Flag
+        public bool NotDistributed { get; init; }
+        public Shiny Shiny { get; init; } = Shiny.Random;
+        public bool Fateful { get; init; } // Obedience Flag
 
         // Mystery Gift Properties
-        public override int Format => 3;
+        public override int Generation => 3;
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
@@ -62,17 +62,17 @@ namespace PKHeX.Core
         public override int Form { get; set; }
 
         // Synthetic
-        private int? _metLevel;
+        private readonly int? _metLevel;
 
         public int Met_Level
         {
             get => _metLevel ?? (IsEgg ? 0 : Level);
-            set => _metLevel = value;
+            init => _metLevel = value;
         }
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            PK3 pk = new PK3
+            PK3 pk = new()
             {
                 Species = Species,
                 Met_Level = Met_Level,
@@ -125,11 +125,17 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private static void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
+        private void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
         {
+            pk.Language = (int)GetSafeLanguageNotEgg((LanguageID)sav.Language);
+            pk.OT_Name = sav.OT;
             // ugly workaround for character table interactions
-            pk.Language = (int)LanguageID.English;
-            pk.OT_Name = "PKHeX";
+            if (string.IsNullOrWhiteSpace(pk.OT_Name))
+            {
+                pk.Language = (int)LanguageID.English;
+                pk.OT_Name = "PKHeX";
+            }
+
             pk.OT_Gender = sav.Gender;
             pk.TID = sav.TID;
             pk.SID = sav.SID;
@@ -161,29 +167,31 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(Moves);
         }
 
-        private void SetPINGA(PK3 pk, EncounterCriteria criteria)
+        private void SetPINGA(PK3 pk, EncounterCriteria _)
         {
             var seed = Util.Rand32();
-            seed = GetSaneSeed(seed);
+            seed = TID == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
-        private uint GetSaneSeed(uint seed)
+        private uint GetSaneSeed(uint seed) => Method switch
         {
-            return Method switch
-            {
-                PIDType.BACD_R => (seed & 0x0000FFFF),
-                PIDType.BACD_R_S => (seed & 0x000000FF),
-                _ => seed
-            };
-        }
+            PIDType.BACD_R => seed & 0x0000FFFF, // u16
+            PIDType.BACD_R_S => seed & 0x000000FF, // u8
+            _ => seed
+        };
 
         private LanguageID GetSafeLanguage(LanguageID hatchLang)
         {
             if (IsEgg)
                 return LanguageID.Japanese;
+            return GetSafeLanguageNotEgg(hatchLang);
+        }
+
+        private LanguageID GetSafeLanguageNotEgg(LanguageID hatchLang)
+        {
             if (Language != -1)
-                return (LanguageID)Language;
+                return (LanguageID) Language;
             if (hatchLang < LanguageID.Korean && hatchLang != LanguageID.Hacked)
                 return hatchLang;
             return LanguageID.English; // fallback
@@ -194,24 +202,16 @@ namespace PKHeX.Core
             if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game
                 return version;
 
-            int rand = Util.Rand.Next(2); // 0 or 1
-            switch (version)
+            return version switch
             {
-                case GameVersion.FRLG:
-                    return GameVersion.FR + rand; // or LG
-                case GameVersion.RSE:
-                case GameVersion.RS:
-                    return GameVersion.S + rand; // or R
-
-                case GameVersion.COLO:
-                case GameVersion.XD:
-                    return GameVersion.CXD;
-                default:
-                    throw new Exception($"Unknown GameVersion: {version}");
-            }
+                GameVersion.FRLG => GameVersion.FR + Util.Rand.Next(2), // or LG
+                GameVersion.RS or GameVersion.RSE => GameVersion.S + Util.Rand.Next(2), // or R
+                GameVersion.COLO or GameVersion.XD => GameVersion.CXD,
+                _ => throw new Exception($"Unknown GameVersion: {version}")
+            };
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             // Gen3 Version MUST match.
             if (Version != 0 && !Version.Contains((GameVersion)pkm.Version))
@@ -238,7 +238,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
             if (Language != -1 && Language != pkm.Language) return false;
@@ -276,9 +276,7 @@ namespace PKHeX.Core
             return ot.Length == 7 && wc.StartsWith(ot);
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
-        {
-            return Species != pkm.Species;
-        }
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
+        protected override bool IsMatchPartial(PKM pkm) => false;
     }
 }

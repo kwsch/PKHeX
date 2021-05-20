@@ -30,9 +30,6 @@
         {
             this.B_Close = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
-            this.CHK_Flag = new System.Windows.Forms.CheckBox();
-            this.NUD_Count = new System.Windows.Forms.NumericUpDown();
-            this.L_Count = new System.Windows.Forms.Label();
             this.L_F1 = new System.Windows.Forms.Label();
             this.CB_F1 = new System.Windows.Forms.ComboBox();
             this.CB_F2 = new System.Windows.Forms.ComboBox();
@@ -61,7 +58,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.L_EC = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Close
@@ -85,48 +81,6 @@
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
-            // 
-            // CHK_Flag
-            // 
-            this.CHK_Flag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CHK_Flag.AutoSize = true;
-            this.CHK_Flag.Location = new System.Drawing.Point(12, 170);
-            this.CHK_Flag.Name = "CHK_Flag";
-            this.CHK_Flag.Size = new System.Drawing.Size(46, 17);
-            this.CHK_Flag.TabIndex = 25;
-            this.CHK_Flag.Text = "Flag";
-            this.CHK_Flag.UseVisualStyleBackColor = true;
-            this.CHK_Flag.Visible = false;
-            // 
-            // NUD_Count
-            // 
-            this.NUD_Count.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Count.Location = new System.Drawing.Point(163, 169);
-            this.NUD_Count.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Count.Name = "NUD_Count";
-            this.NUD_Count.Size = new System.Drawing.Size(55, 20);
-            this.NUD_Count.TabIndex = 27;
-            this.NUD_Count.Value = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Count.Visible = false;
-            // 
-            // L_Count
-            // 
-            this.L_Count.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Count.Location = new System.Drawing.Point(57, 166);
-            this.L_Count.Name = "L_Count";
-            this.L_Count.Size = new System.Drawing.Size(100, 23);
-            this.L_Count.TabIndex = 26;
-            this.L_Count.Text = "Count:";
-            this.L_Count.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_Count.Visible = false;
             // 
             // L_F1
             // 
@@ -378,18 +332,18 @@
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_EC.Location = new System.Drawing.Point(220, 4);
+            this.TB_EC.Location = new System.Drawing.Point(129, 169);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
             this.TB_EC.TabIndex = 65;
             this.TB_EC.Text = "12345678";
             // 
-            // Label_EncryptionConstant
+            // L_EC
             // 
-            this.L_EC.Location = new System.Drawing.Point(143, 5);
+            this.L_EC.Location = new System.Drawing.Point(37, 169);
             this.L_EC.Name = "L_EC";
-            this.L_EC.Size = new System.Drawing.Size(75, 15);
+            this.L_EC.Size = new System.Drawing.Size(90, 20);
             this.L_EC.TabIndex = 64;
             this.L_EC.Text = "Starter EC:";
             this.L_EC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -427,9 +381,6 @@
             this.Controls.Add(this.L_F2);
             this.Controls.Add(this.CB_F1);
             this.Controls.Add(this.L_F1);
-            this.Controls.Add(this.L_Count);
-            this.Controls.Add(this.NUD_Count);
-            this.Controls.Add(this.CHK_Flag);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Close);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -439,7 +390,6 @@
             this.Name = "SAV_HallOfFame7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Hall of Fame Viewer";
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -448,9 +398,6 @@
         #endregion
         private System.Windows.Forms.Button B_Close;
         private System.Windows.Forms.Button B_Cancel;
-        private System.Windows.Forms.CheckBox CHK_Flag;
-        private System.Windows.Forms.NumericUpDown NUD_Count;
-        private System.Windows.Forms.Label L_Count;
         private System.Windows.Forms.Label L_F1;
         private System.Windows.Forms.ComboBox CB_F1;
         private System.Windows.Forms.ComboBox CB_F2;

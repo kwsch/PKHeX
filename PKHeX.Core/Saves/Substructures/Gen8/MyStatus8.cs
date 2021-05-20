@@ -5,6 +5,8 @@ namespace PKHeX.Core
 {
     public sealed class MyStatus8 : SaveBlock
     {
+        public const uint MaxWatt = 9999999;
+
         public MyStatus8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         public string Number
@@ -14,7 +16,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 3; i++)
                     Data[0x01 + i] = (byte)(value.Length > i ? value[i] : '\0');
-                SAV.Edited = true;
+                SAV.State.Edited = true;
             }
         }
 
@@ -176,7 +178,5 @@ namespace PKHeX.Core
                 SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0xD0);
             }
         }
-
-        public uint MaxWatt => 9999999;
     }
 }

@@ -112,7 +112,7 @@ namespace PKHeX.WinForms.Controls
                     value = (int)NUD_Purification.Minimum;
 
                 NUD_Purification.Value = value;
-                CHK_Shadow.Checked = value > 0;
+                CHK_Shadow.Checked = ck3.IsShadow;
 
                 NUD_ShadowID.Value = Math.Max(ck3.ShadowID, 0);
             }
@@ -170,9 +170,9 @@ namespace PKHeX.WinForms.Controls
             LoadPKRS(pk);
             CHK_IsEgg.Checked = pk.IsEgg;
             CB_HeldItem.SelectedValue = pk.HeldItem;
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk.Form ? pk.Form : CB_Form.Items.Count - 1;
             if (pk is IFormArgument f)
-                CB_FormArgument.SelectedIndex = CB_FormArgument.Items.Count > f.FormArgument ? (int)f.FormArgument : CB_FormArgument.Items.Count - 1;
+                FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Format);
 
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 
@@ -185,9 +185,9 @@ namespace PKHeX.WinForms.Controls
             SavePKRS(pk);
             pk.IsEgg = CHK_IsEgg.Checked;
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
-            pk.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
+            pk.Form = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             if (Entity is IFormArgument f)
-                f.FormArgument = (uint)Math.Max(0, CB_FormArgument.SelectedIndex);
+                FA_Form.SaveArgument(f);
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
         }
 
@@ -219,7 +219,7 @@ namespace PKHeX.WinForms.Controls
             pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
             pk.Gender = PKX.GetGenderFromString(Label_Gender.Text);
 
-            if (pk is IContestStats s)
+            if (pk is IContestStatsMutable s)
                 Contest.CopyContestStatsTo(s);
 
             pk.FatefulEncounter = CHK_Fateful.Checked;
@@ -283,7 +283,9 @@ namespace PKHeX.WinForms.Controls
 
             LoadRelearnMoves(pk);
             LoadHandlingTrainer(pk);
-            LoadGeolocation(pk);
+
+            if (pk is IRegionOrigin tr)
+                LoadGeolocation(tr);
         }
 
         private void SaveMisc6(PKM pk)
@@ -294,18 +296,18 @@ namespace PKHeX.WinForms.Controls
             SaveRelearnMoves(pk);
             SaveHandlingTrainer(pk);
 
-            if (pk.Format <= 7 && !(pk is PB7))
-                SaveGeolocation(pk);
+            if (pk is IRegionOrigin tr)
+                SaveGeolocation(tr);
         }
 
-        private void LoadGeolocation(PKM pk)
+        private void LoadGeolocation(IRegionOrigin pk)
         {
             CB_Country.SelectedValue = pk.Country;
             CB_SubRegion.SelectedValue = pk.Region;
             CB_3DSReg.SelectedValue = pk.ConsoleRegion;
         }
 
-        private void SaveGeolocation(PKM pk)
+        private void SaveGeolocation(IRegionOrigin pk)
         {
             pk.Country = WinFormsUtil.GetIndex(CB_Country);
             pk.Region = WinFormsUtil.GetIndex(CB_SubRegion);
@@ -348,7 +350,7 @@ namespace PKHeX.WinForms.Controls
         private static void CheckTransferPIDValid(PKM pk)
         {
             var ver = pk.Version;
-            if (ver >= (int)GameVersion.X || ver == 0)
+            if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
                 return;
 
             uint EC = pk.EncryptionConstant;
@@ -377,19 +379,20 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadAbility4(PKM pk)
         {
-            int[] abils = pk.PersonalInfo.Abilities;
-            var index = GetAbilityIndex4(pk, abils);
-
+            var index = GetAbilityIndex4(pk);
             CB_Ability.SelectedIndex = Math.Min(CB_Ability.Items.Count - 1, index);
         }
 
-        private static int GetAbilityIndex4(PKM pk, int[] abils)
+        private static int GetAbilityIndex4(PKM pk)
         {
-            int abilityIndex = Array.IndexOf(abils, pk.Ability);
+            var pi = pk.PersonalInfo;
+            int abilityIndex = pi.GetAbilityIndex(pk.Ability);
             if (abilityIndex < 0)
                 return 0;
             if (abilityIndex >= 2)
                 return 2;
+
+            var abils = pi.Abilities;
             if (abils[0] == abils[1])
                 return pk.PIDAbility;
             return abilityIndex;

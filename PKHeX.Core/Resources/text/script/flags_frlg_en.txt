@@ -50,6 +50,8 @@
 0x2D0	Defeated Electrode (1)
 0x2D2	Defeated Electrode (2)
 
+0x060	Overworld Hidden (Hitmonlee ball)
+0x061	Overworld Hidden (Hitmonchan ball)
 0x02F	Overworld Hidden (Dome Fossil)
 0x030	Overworld Hidden (Helix Fossil)
 0x082	Overworld Hidden (Articuno)
@@ -77,12 +79,20 @@
 0x2CC	Used Move Tutor on Cinnabar Island (Metronome)
 0x2CD	Used Move Tutor in Saffron City (Mimic)
 0x2CE	Used Move Tutor on Four Island (Body Slam)
+0x2DE	Used Move Tutor at Cape Brink (Frenzy Plant)
+0x2DF	Used Move Tutor at Cape Brink (Blast Burn)
+0x2E0	Used Move Tutor at Cape Brink (Hydro Cannon)
+0x2E1	Cape Brink Move Tutor taught all 3 Moves
 
 0x829	Received Pokedex
 0x82F	Received Running Shoes
 0x834	Unlocked Bill's PC
+0x839	Enabled Mystery Gift
+0x840	Received National Pokedex
 0x2A1	Restored Connectivity to Kanto
 0x844	Restored Connectivity to Hoenn
+0x845	Received Tri-Pass
+0x846	Received Rainbow Pass
 0x29B	Received Fame Checker
 0x241	Received Bike Voucher
 0x2A5	Received Lift Key
@@ -95,8 +105,8 @@
 0x2D8	Sapphire Stolen
 0x2D6	Rocket Warehouse Door Opened
 0x2DC	Received Sapphire
-0x2FD	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
-0x256	Received Itemfinder (Oak's Aide, Route 11)
+0x2FA	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
+0x252	Received Itemfinder (Oak's Aide, Route 11)
 0x256	Received Exp. Share (Oak's Aide, Route 15)
 0x2FD	Received Amulet Coin (Oak's Aide, Route 16)
 0x25E	Received Old Amber

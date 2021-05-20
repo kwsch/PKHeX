@@ -6,8 +6,8 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class SizeCP : UserControl
     {
-        private IScaledSize ss;
-        private PB7 pkm;
+        private IScaledSize? ss;
+        private PB7? pkm;
         private bool Loading;
 
         public SizeCP()
@@ -60,31 +60,37 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_Auto.Checked)
                 return;
 
-            pkm.ResetCalculatedValues();
+            pkm?.ResetCalculatedValues();
             LoadStoredValues();
         }
 
         private void MT_CP_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(MT_CP.Text, out var cp))
+            if (int.TryParse(MT_CP.Text, out var cp) && pkm != null)
                 pkm.Stat_CP = Math.Min(65535, cp);
         }
 
         private void NUD_HeightScalar_ValueChanged(object sender, EventArgs e)
         {
-            ss.HeightScalar = (byte) NUD_HeightScalar.Value;
-            L_SizeH.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.HeightScalar)];
+            if (ss != null)
+            {
+                ss.HeightScalar = (byte) NUD_HeightScalar.Value;
+                L_SizeH.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.HeightScalar)];
+            }
 
             if (!CHK_Auto.Checked || Loading || pkm == null)
                 return;
             pkm.ResetHeight();
-            TB_HeightAbs.Text = pkm.HeightAbsolute.ToString();
+            TB_HeightAbs.Text = pkm.HeightAbsolute.ToString("F8");
         }
 
         private void NUD_WeightScalar_ValueChanged(object sender, EventArgs e)
         {
-            ss.WeightScalar = (byte) NUD_WeightScalar.Value;
-            L_SizeW.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.WeightScalar)];
+            if (ss != null)
+            {
+                ss.WeightScalar = (byte) NUD_WeightScalar.Value;
+                L_SizeW.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.WeightScalar)];
+            }
 
             if (!CHK_Auto.Checked || Loading || pkm == null)
                 return;
@@ -94,6 +100,8 @@ namespace PKHeX.WinForms.Controls
 
         private void TB_HeightAbs_TextChanged(object sender, EventArgs e)
         {
+            if (pkm == null)
+                return;
             if (CHK_Auto.Checked)
                 pkm.ResetHeight();
             else if (float.TryParse(TB_HeightAbs.Text, out var result))
@@ -102,6 +110,8 @@ namespace PKHeX.WinForms.Controls
 
         private void TB_WeightAbs_TextChanged(object sender, EventArgs e)
         {
+            if (pkm == null)
+                return;
             if (CHK_Auto.Checked)
                 pkm.ResetWeight();
             else if (float.TryParse(TB_WeightAbs.Text, out var result))

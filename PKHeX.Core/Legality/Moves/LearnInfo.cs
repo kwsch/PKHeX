@@ -2,15 +2,14 @@
 
 namespace PKHeX.Core
 {
-    internal class LearnInfo
+    internal sealed class LearnInfo
     {
         public bool MixedGen12NonTradeback { get; set; }
-        public List<int> Gen1Moves { get; } = new List<int>();
-        public List<int> Gen2PreevoMoves { get; } = new List<int>();
-        public List<int> EggMovesLearned { get; } = new List<int>();
-        public List<int> LevelUpEggMoves { get; } = new List<int>();
-        public List<int> EventEggMoves { get; } = new List<int>();
-        public List<int> IncenseMoves { get; } = new List<int>();
+        public List<int> Gen1Moves { get; } = new();
+        public List<int> Gen2PreevoMoves { get; } = new();
+        public List<int> EggMovesLearned { get; } = new();
+        public List<int> LevelUpEggMoves { get; } = new();
+        public List<int> EventEggMoves { get; } = new();
 
         public readonly MoveParseSource Source;
         public readonly bool IsGen2Pkm;

@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
         public bool CanLearn(int move) => AllowedMoves.Contains(move);
 
-        private readonly HashSet<int> AllowedMoves = new HashSet<int>();
+        private readonly HashSet<int> AllowedMoves = new();
         private ComboItem[] MoveDataAllowed = Array.Empty<ComboItem>();
 
         public void ReloadMoves(IReadOnlyList<int> moves)

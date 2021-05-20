@@ -43,7 +43,7 @@
             this.CB_TCM1 = new System.Windows.Forms.ComboBox();
             this.NUD_Coins = new System.Windows.Forms.NumericUpDown();
             this.L_Coins = new System.Windows.Forms.Label();
-            this.TB_OTName = new System.Windows.Forms.TextBox();
+            this.TB_RivalName = new System.Windows.Forms.TextBox();
             this.L_TrainerName = new System.Windows.Forms.Label();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_BP = new System.Windows.Forms.Label();
@@ -177,7 +177,7 @@
             this.TAB_Main.Controls.Add(this.GB_TCM);
             this.TAB_Main.Controls.Add(this.NUD_Coins);
             this.TAB_Main.Controls.Add(this.L_Coins);
-            this.TAB_Main.Controls.Add(this.TB_OTName);
+            this.TAB_Main.Controls.Add(this.TB_RivalName);
             this.TAB_Main.Controls.Add(this.L_TrainerName);
             this.TAB_Main.Controls.Add(this.NUD_BP);
             this.TAB_Main.Controls.Add(this.L_BP);
@@ -310,16 +310,16 @@
             this.L_Coins.Text = "Coins:";
             this.L_Coins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // TB_OTName
+            // TB_RivalName
             // 
-            this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(120, 93);
-            this.TB_OTName.MaxLength = 7;
-            this.TB_OTName.Name = "TB_OTName";
-            this.TB_OTName.Size = new System.Drawing.Size(63, 20);
-            this.TB_OTName.TabIndex = 31;
-            this.TB_OTName.Text = "WWWWWWW";
-            this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_RivalName.Location = new System.Drawing.Point(120, 93);
+            this.TB_RivalName.MaxLength = 7;
+            this.TB_RivalName.Name = "TB_RivalName";
+            this.TB_RivalName.Size = new System.Drawing.Size(63, 20);
+            this.TB_RivalName.TabIndex = 31;
+            this.TB_RivalName.Text = "WWWWWWW";
+            this.TB_RivalName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_TrainerName
             // 
@@ -1112,7 +1112,7 @@
         private System.Windows.Forms.Label L_B5Score;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox TB_OTName;
+        private System.Windows.Forms.TextBox TB_RivalName;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.Label L_BP;

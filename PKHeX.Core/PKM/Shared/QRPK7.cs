@@ -2,9 +2,18 @@
 
 namespace PKHeX.Core
 {
-    public sealed class QRPK7
+    public sealed class QRPK7 : IEncounterInfo
     {
+        public GameVersion Version => (GameVersion)CassetteVersion;
+        public bool EggEncounter => false;
+        public int LevelMin => Level;
+        public int LevelMax => Level;
+        public int Generation => Version.GetGeneration();
+        public bool IsShiny => false;
+
         private readonly byte[] Data;
+        public const int SIZE = 0x30;
+        public QRPK7(byte[] d) => Data = (byte[])d.Clone();
 
         public uint EncryptionConstant => BitConverter.ToUInt32(Data, 0);
         public int HT_Flags => Data[4];
@@ -23,7 +32,7 @@ namespace PKHeX.Core
         public int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
         public uint PID => BitConverter.ToUInt32(Data, 0x10);
-        public ushort Species => BitConverter.ToUInt16(Data, 0x14);
+        public int Species => BitConverter.ToUInt16(Data, 0x14);
         public ushort HeldItem => BitConverter.ToUInt16(Data, 0x16);
         public ushort Move1 => BitConverter.ToUInt16(Data, 0x18);
         public ushort Move2 => BitConverter.ToUInt16(Data, 0x1A);
@@ -34,7 +43,7 @@ namespace PKHeX.Core
         public int Nature => Data[0x22];
         public bool FatefulEncounter => (Data[0x23] & 1) == 1;
         public int Gender => (Data[0x23] >> 1) & 3;
-        public int AltForm => Data[0x23] >> 3;
+        public int Form => Data[0x23] >> 3;
         public int EV_HP => Data[0x24];
         public int EV_ATK => Data[0x25];
         public int EV_DEF => Data[0x26];
@@ -48,20 +57,15 @@ namespace PKHeX.Core
         public int CassetteVersion => Data[0x2E];
         public int Language => Data[0x2F];
 
-        public QRPK7(byte[] d)
-        {
-            if (d.Length != 0x30)
-            {
-                throw new ArgumentException("Invalid QRPK7 Data!");
-            }
-            Data = (byte[]) d.Clone();
-        }
+        /// <summary>
+        /// Converts the <see cref="Data"/> to a rough PKM.
+        /// </summary>
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
         /// <summary>
         /// Converts the <see cref="Data"/> to a rough PKM.
         /// </summary>
-        /// <returns></returns>
-        public PKM ConvertToPKM()
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             var pk = new PK7
             {
@@ -72,7 +76,7 @@ namespace PKHeX.Core
                 Gender = Gender,
                 Nature = Nature,
                 FatefulEncounter = FatefulEncounter,
-                AltForm = AltForm,
+                Form = Form,
                 HyperTrainFlags = HT_Flags,
                 IV_HP = IV_HP,
                 IV_ATK = IV_ATK,
@@ -100,8 +104,8 @@ namespace PKHeX.Core
                 Ball = Ball,
                 Version = CassetteVersion,
 
-                OT_Name = "PKHeX",
-                HT_Name = "PKHeX",
+                OT_Name = sav.OT,
+                HT_Name = sav.OT,
                 CurrentLevel = Level,
                 Met_Level = Level,
                 MetDate = DateTime.Now,

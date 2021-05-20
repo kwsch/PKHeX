@@ -10,13 +10,13 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         private readonly OPower6 Data;
 
-        public SAV_OPower(IOPower sav)
+        public SAV_OPower(ISaveBlock6Main sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Origin = (SaveFile)sav;
             SAV = Origin.Clone();
-            Data = ((IOPower)SAV).OPower;
+            Data = ((ISaveBlock6Main)SAV).OPower;
 
             Current = Types[0];
             foreach (var z in Types)
@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
             Data.MasterFlag = CHK_Master.Checked;
             SaveCurrent();
             Origin.Data = SAV.Data;
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
 
         private void LoadCurrent()

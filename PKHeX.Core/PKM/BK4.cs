@@ -26,8 +26,6 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public override byte[] Data { get; }
-
         public static BK4 ReadUnshuffle(byte[] data)
         {
             var PID = BigEndian.ToUInt32(data, 0);
@@ -38,9 +36,8 @@ namespace PKHeX.Core
             return result;
         }
 
-        public BK4(byte[] data)
+        public BK4(byte[] data) : base(data)
         {
-            Data = data;
             Sanity = 0x4000;
             ResetPartyStats();
         }
@@ -79,12 +76,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public override byte CNT_Cool   { get => Data[0x1E]; set => Data[0x1E] = value; }
+        public override byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+        public override byte CNT_Cute   { get => Data[0x20]; set => Data[0x20] = value; }
+        public override byte CNT_Smart  { get => Data[0x21]; set => Data[0x21] = value; }
+        public override byte CNT_Tough  { get => Data[0x22]; set => Data[0x22] = value; }
+        public override byte CNT_Sheen  { get => Data[0x23]; set => Data[0x23] = value; }
 
         private byte RIB3 { get => Data[0x24]; set => Data[0x24] = value; } // Unova 2
         private byte RIB2 { get => Data[0x25]; set => Data[0x25] = value; } // Unova 1
@@ -171,7 +168,7 @@ namespace PKHeX.Core
         public override bool RibbonG3ToughSuper { get => (RIB6 & (1 << 1)) == 1 << 1; set => RIB6 = (byte)((RIB6 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
         public override bool RibbonG3ToughHyper { get => (RIB6 & (1 << 2)) == 1 << 2; set => RIB6 = (byte)((RIB6 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
         public override bool RibbonG3ToughMaster { get => (RIB6 & (1 << 3)) == 1 << 3; set => RIB6 = (byte)((RIB6 & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
-        public override bool RibbonChampionG3Hoenn { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+        public override bool RibbonChampionG3 { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
         public override bool RibbonWinning { get => (RIB6 & (1 << 5)) == 1 << 5; set => RIB6 = (byte)((RIB6 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public override bool RibbonVictory { get => (RIB6 & (1 << 6)) == 1 << 6; set => RIB6 = (byte)((RIB6 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public override bool RibbonArtist { get => (RIB6 & (1 << 7)) == 1 << 7; set => RIB6 = (byte)((RIB6 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
@@ -186,7 +183,7 @@ namespace PKHeX.Core
 
         public override bool FatefulEncounter { get => (Data[0x40] & 0x80) == 0x80; set => Data[0x40] = (byte)((Data[0x40] & ~0x80) | (value ? 0x80 : 0)); }
         public override int Gender { get => (Data[0x40] >> 5) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x60) | ((value & 3) << 5)); }
-        public override int AltForm { get => Data[0x40] & 0x1F; set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
+        public override int Form { get => Data[0x40] & 0x1F; set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte)value; }
         // 0x43-0x47 Unused
         #endregion
@@ -353,7 +350,7 @@ namespace PKHeX.Core
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_STORED; i += 2)
+            for (int i = 8; i < PokeCrypto.SIZE_4STORED; i += 2)
                 chk += BigEndian.ToUInt16(Data, i);
             return chk;
         }

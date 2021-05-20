@@ -45,10 +45,10 @@ namespace PKHeX.WinForms
         private readonly bool Loading;
         private bool MapUpdated;
 
-        private static readonly string[] AllStyles = Enum.GetNames(typeof(BattleStyle7));
-        private readonly List<string> BattleStyles = new List<string>(AllStyles);
+        private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
+        private readonly List<string> BattleStyles = new(AllStyles);
 
-        private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
+        private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
         private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
@@ -65,13 +65,13 @@ namespace PKHeX.WinForms
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             CB_SkinColor.Items.Clear();
-            CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(SkinColor7)));
+            CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(PlayerSkinColor7)));
 
             L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
 
-            if (!(SAV is SAV7USUM))
+            if (SAV is not SAV7USUM)
                 BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
             foreach (string t in BattleStyles)
             {
@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
             MT_Money.Text = SAV.Money.ToString();
 
             CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.SubRegion;
+            CB_Region.SelectedValue = SAV.Region;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
             var timeA = SAV.GameTime.AlolaTime;
@@ -117,6 +117,8 @@ namespace PKHeX.WinForms
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
                 CB_AlolaTime.SelectedValue = (int)timeA;
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
@@ -129,7 +131,10 @@ namespace PKHeX.WinForms
                 NUD_Y.Value = (decimal)SAV.Situation.Y;
                 NUD_R.Value = (decimal)SAV.Situation.R;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Sometimes the coordinates aren't really decimal/float coordinates?
             catch { GB_Map.Enabled = false; }
+#pragma warning restore CA1031 // Do not catch general exception types
 
             // Load Play Time
             MT_Hours.Text = SAV.PlayedHours.ToString();
@@ -146,11 +151,11 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
             CAL_AdventureStartDate.Value = date;
             CAL_AdventureStartTime.Value = time;
 
-            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
 
@@ -236,7 +241,7 @@ namespace PKHeX.WinForms
                 188,-1,-1,
                 198,202,110,204,//Beach
             };
-            if (SAV.Version == GameVersion.UM || SAV.Version == GameVersion.MN)
+            if (SAV.Version is GameVersion.UM or GameVersion.MN)
             {
                 FlyDestNameIndex[28] = 142;
                 FlyDestNameIndex[36] = 178;
@@ -253,12 +258,10 @@ namespace PKHeX.WinForms
             CLB_FlyDest.Items.Clear();
             for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
             {
-                CLB_FlyDest.Items.Add(
-                    FlyDestNameIndex[i] < 0
-                    ? FlyDestAltName[u++]
-                    : metLocationList.First(v => v.Value == FlyDestNameIndex[i]).Text
-                    , SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i])
-                );
+                var dest = FlyDestNameIndex[i];
+                var name = dest < 0 ? FlyDestAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
+                var state = SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
+                CLB_FlyDest.Items.Add(name, state);
             }
             int[] MapUnmaskNameIndex = {
                 6,8,24,-1,18,-1,20,22,12,10,14,
@@ -280,12 +283,10 @@ namespace PKHeX.WinForms
             CLB_MapUnmask.Items.Clear();
             for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
             {
-                CLB_MapUnmask.Items.Add(
-                    MapUnmaskNameIndex[i] < 0
-                    ? MapUnmaskAltName[u++]
-                    : metLocationList.First(v => v.Value == MapUnmaskNameIndex[i]).Text
-                    , SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i])
-                );
+                var dest = MapUnmaskNameIndex[i];
+                var name = dest < 0 ? MapUnmaskAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
+                var state = SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
+                CLB_MapUnmask.Items.Add(name, state);
             }
         }
 
@@ -297,6 +298,9 @@ namespace PKHeX.WinForms
             NUD_Surf3.Value = SAV.Misc.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
             TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
+            NUD_RotomAffection.Value = Math.Min(NUD_RotomAffection.Maximum, SAV.FieldMenu.RotomAffection);
+            CHK_RotoLoto1.Checked = SAV.FieldMenu.RotomLoto1;
+            CHK_RotoLoto2.Checked = SAV.FieldMenu.RotomLoto2;
         }
 
         private void Save()
@@ -325,7 +329,7 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
+            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
@@ -350,8 +354,8 @@ namespace PKHeX.WinForms
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -393,8 +397,8 @@ namespace PKHeX.WinForms
             // Skin changed && (gender matches || override)
             int gender = CB_Gender.SelectedIndex & 1;
             int skin = CB_SkinColor.SelectedIndex & 1;
-            string gStr = CB_Gender.Items[gender].ToString();
-            string sStr = CB_Gender.Items[skin].ToString();
+            var gStr = CB_Gender.Items[gender].ToString();
+            var sStr = CB_Gender.Items[skin].ToString();
 
             if (SAV.MyStatus.DressUpSkinColor == CB_SkinColor.SelectedIndex)
                 return;
@@ -408,7 +412,7 @@ namespace PKHeX.WinForms
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
 
-            if (!(SAV is SAV7SM)) // unlock flags are in flag editor instead
+            if (SAV is not SAV7SM) // unlock flags are in flag editor instead
                 return;
 
             const int unlockStart = 292;
@@ -443,6 +447,10 @@ namespace PKHeX.WinForms
             SAV.Misc.SetSurfScore(2, (int)NUD_Surf2.Value);
             SAV.Misc.SetSurfScore(3, (int)NUD_Surf3.Value);
 
+            SAV.FieldMenu.RotomAffection = (ushort)NUD_RotomAffection.Value;
+            SAV.FieldMenu.RotomLoto1 = CHK_RotoLoto1.Checked;
+            SAV.FieldMenu.RotomLoto2 = CHK_RotoLoto2.Checked;
+
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
                 && DialogResult.Yes == // wants to update
@@ -474,7 +482,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -547,13 +555,13 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private string UpdateTip(int index)
+        private string? UpdateTip(int index)
         {
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return DateUtil.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }

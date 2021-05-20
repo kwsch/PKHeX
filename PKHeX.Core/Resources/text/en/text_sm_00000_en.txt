@@ -31,7 +31,7 @@ Plank Bridge
 Ruins of Conflict
 
 Ruins of Conflict
-[~ 33]
+
 Ten Carat Hill
 
 Ten Carat Hill
@@ -78,7 +78,7 @@ Memorial Hill
 
 Paniola Ranch
 
-[~ 80]
+
 
 Wela Volcano Park
 
@@ -94,10 +94,10 @@ Ruins of Life
 
 Akala Outskirts
 
-[~ 96]
-[~ 97]
-[~ 98]
-[~ 99]
+
+
+
+
 Diglett’s Tunnel
 
 Hano Grand Resort

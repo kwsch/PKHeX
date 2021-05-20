@@ -4,25 +4,23 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.WinForms
 {
     public sealed partial class SAV_EventWork : Form
     {
-        private readonly SaveFile Origin;
+        private readonly SAV7b Origin;
         private readonly IEventWork<int> SAV;
         private readonly SplitEventEditor<int> Editor;
 
-        public SAV_EventWork(SaveFile sav)
+        public SAV_EventWork(SAV7b sav)
         {
             InitializeComponent();
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
-            if (sav is SAV7b s7b)
-                SAV = s7b.Blocks.EventWork;
-            //else if (sav is SAV8SWSH s8ss)
-            //    SAV = s8ss.Blocks.EventWork;
+            SAV = sav.Blocks.EventWork;
             Origin = sav;
 
             DragEnter += Main_DragEnter;
@@ -205,14 +203,9 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            HandleSpecialFlags();
             Editor.Save();
-            Origin.Edited = true;
+            Origin.State.Edited = true;
             Close();
-        }
-
-        private void HandleSpecialFlags()
-        {
         }
 
         private void ChangeCustomFlag(object sender, EventArgs e)
@@ -253,33 +246,30 @@ namespace PKHeX.WinForms
             return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
-        private static string GetGameFilePrefix(GameVersion game)
+        private static string GetGameFilePrefix(GameVersion game) => game switch
         {
-            switch (game)
-            {
-                case GameVersion.SW: case GameVersion.SH: case GameVersion.SWSH: return "swsh";
-                case GameVersion.GP: case GameVersion.GE: case GameVersion.GG: return "gg";
-                case GameVersion.X: case GameVersion.Y: return "xy";
-                case GameVersion.OR: case GameVersion.AS: return "oras";
-                case GameVersion.SN: case GameVersion.MN: return "sm";
-                case GameVersion.US: case GameVersion.UM: return "usum";
-                case GameVersion.DP: return "dp";
-                case GameVersion.Pt: return "pt";
-                case GameVersion.HGSS: return "hgss";
-                case GameVersion.BW: return "bw";
-                case GameVersion.B2W2: return "b2w2";
-                case GameVersion.E: return "e";
-                case GameVersion.C: return "c";
-                case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
-                case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
-                default: throw new ArgumentException(nameof(game));
-            }
-        }
+            SW or SH or SWSH => "swsh",
+            GP or GE or GG => "gg",
+            X or Y => "xy",
+            OR or AS => "oras",
+            SN or MN => "sm",
+            US or UM => "usum",
+            DP => "dp",
+            Pt => "pt",
+            HGSS => "hgss",
+            BW => "bw",
+            B2W2 => "b2w2",
+            E => "e",
+            C => "c",
+            R or S or RS => "rs",
+            FR or LG or FRLG => "frlg",
+            _ => throw new IndexOutOfRangeException(nameof(game))
+        };
 
         private void DiffSaves()
         {
             var diff7b = new EventWorkDiff7b(TB_OldSAV.Text, TB_NewSAV.Text);
-            if (diff7b.Message != string.Empty)
+            if (diff7b.Message.Length != 0)
             {
                 WinFormsUtil.Alert(diff7b.Message);
                 return;
@@ -306,14 +296,14 @@ namespace PKHeX.WinForms
         {
             var index = (int)NUD_Flag.Value;
             SAV.SetFlag(index, c_CustomFlag.Checked);
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
 
         private void B_ApplyWork_Click(object sender, EventArgs e)
         {
             var index = CB_Stats.SelectedIndex;
             SAV.SetWork(index, (int)NUD_Stat.Value);
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
     }
 }

@@ -14,15 +14,15 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class EvolutionTree
     {
-        private static readonly EvolutionTree Evolves1 = new EvolutionTree(new[] { Get("rby") }, Gen1, PersonalTable.Y, MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves2 = new EvolutionTree(new[] { Get("gsc") }, Gen2, PersonalTable.C, MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves3 = new EvolutionTree(new[] { Get("g3") }, Gen3, PersonalTable.RS, MaxSpeciesID_3);
-        private static readonly EvolutionTree Evolves4 = new EvolutionTree(new[] { Get("g4") }, Gen4, PersonalTable.DP, MaxSpeciesID_4);
-        private static readonly EvolutionTree Evolves5 = new EvolutionTree(new[] { Get("g5") }, Gen5, PersonalTable.BW, MaxSpeciesID_5);
-        private static readonly EvolutionTree Evolves6 = new EvolutionTree(Unpack("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-        private static readonly EvolutionTree Evolves7 = new EvolutionTree(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-        private static readonly EvolutionTree Evolves7b = new EvolutionTree(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-        private static readonly EvolutionTree Evolves8 = new EvolutionTree(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        private static readonly EvolutionTree Evolves1 = new(new[] { Get("rby") }, Gen1, PersonalTable.Y, MaxSpeciesID_1);
+        private static readonly EvolutionTree Evolves2 = new(new[] { Get("gsc") }, Gen2, PersonalTable.C, MaxSpeciesID_2);
+        private static readonly EvolutionTree Evolves3 = new(new[] { Get("g3") }, Gen3, PersonalTable.RS, MaxSpeciesID_3);
+        private static readonly EvolutionTree Evolves4 = new(new[] { Get("g4") }, Gen4, PersonalTable.DP, MaxSpeciesID_4);
+        private static readonly EvolutionTree Evolves5 = new(new[] { Get("g5") }, Gen5, PersonalTable.BW, MaxSpeciesID_5);
+        private static readonly EvolutionTree Evolves6 = new(Unpack("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
+        private static readonly EvolutionTree Evolves7 = new(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
+        private static readonly EvolutionTree Evolves7b = new(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
+        private static readonly EvolutionTree Evolves8 = new(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
 
         private static byte[] Get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static byte[][] Unpack(string resource) => BinLinker.Unpack(Get(resource), resource);
@@ -34,35 +34,29 @@ namespace PKHeX.Core
             Evolves8.FixEvoTreeSS();
         }
 
-        internal static EvolutionTree GetEvolutionTree(int generation)
+        public static EvolutionTree GetEvolutionTree(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => Evolves1,
-                2 => Evolves2,
-                3 => Evolves3,
-                4 => Evolves4,
-                5 => Evolves5,
-                6 => Evolves6,
-                7 => Evolves7,
-                _ => Evolves8
-            };
-        }
+            1 => Evolves1,
+            2 => Evolves2,
+            3 => Evolves3,
+            4 => Evolves4,
+            5 => Evolves5,
+            6 => Evolves6,
+            7 => Evolves7,
+            _ => Evolves8
+        };
 
-        internal static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
+        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => Evolves1,
-                2 => Evolves2,
-                3 => Evolves3,
-                4 => Evolves4,
-                5 => Evolves5,
-                6 => Evolves6,
-                7 => (pkm.GG ? Evolves7b : Evolves7),
-                _ => Evolves8
-            };
-        }
+            1 => Evolves1,
+            2 => Evolves2,
+            3 => Evolves3,
+            4 => Evolves4,
+            5 => Evolves5,
+            6 => Evolves6,
+            7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
+            _ => Evolves8
+        };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
         private readonly GameVersion Game;
@@ -78,7 +72,7 @@ namespace PKHeX.Core
             Game = game;
             Personal = personal;
             MaxSpeciesTree = maxSpeciesTree;
-            Entries = GetEntries(data);
+            Entries = GetEntries(data, game);
 
             // Starting in Generation 7, forms have separate evolution data.
             int format = Game - Gen1 + 1;
@@ -92,7 +86,7 @@ namespace PKHeX.Core
         {
             for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
             {
-                var fc = Personal[sSpecies].FormeCount;
+                var fc = Personal[sSpecies].FormCount;
                 for (int sForm = 0; sForm < fc; sForm++)
                 {
                     var index = sSpecies;
@@ -117,10 +111,10 @@ namespace PKHeX.Core
         {
             for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
             {
-                var fc = Personal[sSpecies].FormeCount;
+                var fc = Personal[sSpecies].FormCount;
                 for (int sForm = 0; sForm < fc; sForm++)
                 {
-                    var index = Personal.GetFormeIndex(sSpecies, sForm);
+                    var index = Personal.GetFormIndex(sSpecies, sForm);
                     var evos = Entries[index];
                     foreach (var evo in evos)
                     {
@@ -138,21 +132,18 @@ namespace PKHeX.Core
             }
         }
 
-        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data)
+        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data, GameVersion game) => game switch
         {
-            return Game switch
-            {
-                Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                Gen3 => EvolutionSet3.GetArray(data[0]),
-                Gen4 => EvolutionSet4.GetArray(data[0]),
-                Gen5 => EvolutionSet5.GetArray(data[0]),
-                Gen6 => EvolutionSet6.GetArray(data),
-                Gen7 => EvolutionSet7.GetArray(data),
-                Gen8 => EvolutionSet7.GetArray(data),
-                _ => throw new Exception()
-            };
-        }
+            Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+            Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+            Gen3 => EvolutionSet3.GetArray(data[0]),
+            Gen4 => EvolutionSet4.GetArray(data[0]),
+            Gen5 => EvolutionSet5.GetArray(data[0]),
+            Gen6 => EvolutionSet6.GetArray(data),
+            Gen7 => EvolutionSet7.GetArray(data),
+            Gen8 => EvolutionSet7.GetArray(data),
+            _ => throw new Exception()
+        };
 
         private void FixEvoTreeSM()
         {
@@ -166,17 +157,19 @@ namespace PKHeX.Core
         {
             // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
             // Raichu cannot be evolved to the Alolan variant at this time.
-            BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
-            BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax g && g.CanGigantamax) || pkm.Gen8 || pkm.GG);
-            BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
+            BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax {CanGigantamax: true}) || pkm.Version is (int)GO or >= (int)GP);
+            BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
+            BanEvo((int)Species.Persian, 1, pkm => pkm is IGigantamax {CanGigantamax: true});
+            BanEvo((int)Species.Perrserker, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
 
-            BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Gen8);
-            BanEvo((int)Species.Marowak, 1, pkm => pkm.Gen8);
-            BanEvo((int)Species.Weezing, 0, pkm => pkm.Gen8);
-            BanEvo((int)Species.MrMime, 0, pkm => pkm.Gen8);
+            BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Version is (int)GO or >= (int)GP);
+            BanEvo((int)Species.Marowak, 1, pkm => pkm.Version is (int)GO or >= (int)GP);
+            BanEvo((int)Species.Weezing, 0, pkm => pkm.Version >= (int)SW);
+            BanEvo((int)Species.MrMime, 0, pkm => pkm.Version >= (int)SW);
 
             foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
-                BanEvo(s, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+                BanEvo(s, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
         }
 
         private void BanEvo(int species, int form, Func<PKM, bool> func)
@@ -201,22 +194,22 @@ namespace PKHeX.Core
         public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             if (maxSpeciesOrigin <= 0)
-                maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
+                maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm);
             if (pkm.IsEgg && !skipChecks)
             {
                 return new List<EvoCriteria>(1)
                 {
-                    new EvoCriteria(pkm.Species, pkm.AltForm) { Level = maxLevel, MinLevel = maxLevel },
+                    new(pkm.Species, pkm.Form) { Level = maxLevel, MinLevel = maxLevel },
                 };
             }
 
             // Shedinja's evolution case can be a little tricky; hard-code handling.
-            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= maxLevel))
+            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || minLevel < maxLevel))
             {
                 return new List<EvoCriteria>(2)
                 {
-                    new EvoCriteria((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
-                    new EvoCriteria((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = 1 },
+                    new((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
+                    new((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
                 };
             }
 
@@ -228,7 +221,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="species">Species ID</param>
         /// <param name="form">Form ID</param>
-        /// <returns>Enumerable of species IDs.</returns>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
         public IEnumerable<int> GetEvolutionsAndPreEvolutions(int species, int form)
         {
             foreach (var s in GetPreEvolutions(species, form))
@@ -238,7 +231,25 @@ namespace PKHeX.Core
                 yield return s;
         }
 
-        private IEnumerable<int> GetPreEvolutions(int species, int form)
+        public int GetBaseSpeciesForm(int species, int form, int skip = 0)
+        {
+            var chain = GetEvolutionsAndPreEvolutions(species, form);
+            foreach (var c in chain)
+            {
+                if (skip == 0)
+                    return c;
+                skip--;
+            }
+            return species | (form << 11);
+        }
+
+        /// <summary>
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve from, yielded in order of increasing evolution stage.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="form">Form ID</param>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
+        public IEnumerable<int> GetPreEvolutions(int species, int form)
         {
             int index = GetLookupKey(species, form);
             var node = Lineage[index];
@@ -248,17 +259,23 @@ namespace PKHeX.Core
                 if (s == 0)
                     continue;
                 var f = method.Form;
-                yield return s;
                 var preEvolutions = GetPreEvolutions(s, f);
                 foreach (var preEvo in preEvolutions)
                     yield return preEvo;
+                yield return s | (f << 11);
             }
         }
 
-        private IEnumerable<int> GetEvolutions(int species, int form)
+        /// <summary>
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to, yielded in order of increasing evolution stage.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="form">Form ID</param>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
+        public IEnumerable<int> GetEvolutions(int species, int form)
         {
             int format = Game - Gen1 + 1;
-            int index = format < 7 ? species : Personal.GetFormeIndex(species, form);
+            int index = format < 7 ? species : Personal.GetFormIndex(species, form);
             var evos = Entries[index];
             foreach (var method in evos)
             {
@@ -266,10 +283,10 @@ namespace PKHeX.Core
                 if (s == 0)
                     continue;
                 var f = method.GetDestinationForm(form);
-                yield return s;
+                yield return s | (f << 11);
                 var nextEvolutions = GetEvolutions(s, f);
-                foreach (var next in nextEvolutions)
-                    yield return next;
+                foreach (var nextEvo in nextEvolutions)
+                    yield return nextEvo;
             }
         }
 
@@ -285,7 +302,7 @@ namespace PKHeX.Core
         private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             int lvl = maxLevel;
             var first = new EvoCriteria(species, form) { Level = lvl };
 
@@ -334,12 +351,12 @@ namespace PKHeX.Core
             }
 
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
-            var last = dl[dl.Count - 1];
+            var last = dl[^1];
             if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
                 dl.RemoveAt(dl.Count - 1);
 
             // Last species is the wild/hatched species, the minimum level is 1 because it has not evolved from previous species
-            last = dl[dl.Count - 1];
+            last = dl[^1];
             last.MinLevel = 1;
             last.RequiresLvlUp = false;
             return dl;
@@ -347,7 +364,7 @@ namespace PKHeX.Core
 
         private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
         {
-            var last = dl[dl.Count - 1];
+            var last = dl[^1];
             if (!evo.RequiresLevelUp)
             {
                 // Evolutions like elemental stones, trade, etc

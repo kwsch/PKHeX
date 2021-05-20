@@ -14,31 +14,25 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// Gets the background image for a slot based on the provided <see cref="type"/>.
         /// </summary>
-        public static Image GetTouchTypeBackground(SlotTouchType type)
+        public static Image GetTouchTypeBackground(SlotTouchType type) => type switch
         {
-            return type switch
-            {
-                SlotTouchType.None => SpriteUtil.Spriter.Transparent,
-                SlotTouchType.Get => SpriteUtil.Spriter.View,
-                SlotTouchType.Set => SpriteUtil.Spriter.Set,
-                SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
-                SlotTouchType.Swap => SpriteUtil.Spriter.Set,
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-            };
-        }
+            SlotTouchType.None => SpriteUtil.Spriter.Transparent,
+            SlotTouchType.Get => SpriteUtil.Spriter.View,
+            SlotTouchType.Set => SpriteUtil.Spriter.Set,
+            SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
+            SlotTouchType.Swap => SpriteUtil.Spriter.Set,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
 
         /// <summary>
         /// Gets the type of action that should be performed for a Drag &amp; Drop request.
         /// </summary>
-        public static DropModifier GetDropModifier()
+        public static DropModifier GetDropModifier() => Control.ModifierKeys switch
         {
-            return Control.ModifierKeys switch
-            {
-                Keys.Shift => DropModifier.Clone,
-                Keys.Alt => DropModifier.Overwrite,
-                _ => DropModifier.None
-            };
-        }
+            Keys.Shift => DropModifier.Clone,
+            Keys.Alt => DropModifier.Overwrite,
+            _ => DropModifier.None
+        };
 
         /// <summary>
         /// Refreshes a <see cref="PictureBox"/> with the appropriate display content.
@@ -60,11 +54,12 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            var img = c is SlotInfoBox b
-                ? p.Sprite(s, b.Box, b.Slot, flagIllegal)
-                : c is SlotInfoParty ps
-                    ? p.Sprite(s, -1, ps.Slot, flagIllegal)
-                    : p.Sprite(s, -1, -1, flagIllegal);
+            var img = c switch
+            {
+                SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal),
+                SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal),
+                _ => p.Sprite(s, -1, -1, flagIllegal)
+            };
 
             pb.BackColor = Color.Transparent;
             pb.Image = img;

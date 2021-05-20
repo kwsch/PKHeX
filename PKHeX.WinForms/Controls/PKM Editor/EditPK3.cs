@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK3()
         {
-            if (!(Entity is G3PKM pk3))
+            if (Entity is not G3PKM pk3)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk3);
@@ -24,7 +24,7 @@ namespace PKHeX.WinForms.Controls
 
         private G3PKM PreparePK3()
         {
-            if (!(Entity is G3PKM pk3))
+            if (Entity is not G3PKM pk3)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk3);

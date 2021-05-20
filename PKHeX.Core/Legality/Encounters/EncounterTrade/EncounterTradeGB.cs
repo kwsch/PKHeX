@@ -1,13 +1,13 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class EncounterTradeGB : EncounterTrade
+    public abstract record EncounterTradeGB : EncounterTrade
     {
-        public EncounterTradeGB(int species, int level)
+        protected EncounterTradeGB(int species, int level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;
         }
 
-        public abstract bool IsMatch(PKM pkm);
+        public abstract override bool IsMatchExact(PKM pkm, DexLevel dl);
     }
 }

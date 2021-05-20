@@ -18,7 +18,7 @@ namespace PKHeX.Core
                 VerifyAwakenedValues(data, a);
                 return;
             }
-            var EncounterMatch = data.EncounterMatch;
+            var enc = data.EncounterMatch;
             int sum = pkm.EVTotal;
             if (sum > 0 && pkm.IsEgg)
                 data.AddLine(GetInvalid(LEffortEgg));
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             const int vitaMax = 100; // Vitamin Max
             if (format < 5) // 3/4
             {
-                if (EncounterMatch.LevelMin == 100) // only true for Gen4 and Format=4
+                if (enc.LevelMin == 100) // only true for Gen4 and Format=4
                 {
                     // Cannot EV train at level 100 -- Certain events are distributed at level 100.
                     if (evs.Any(ev => ev > vitaMax)) // EVs can only be increased by vitamins to a max of 100.
@@ -45,15 +45,15 @@ namespace PKHeX.Core
                 }
                 else // check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
                 {
-                    var growth = PersonalTable.HGSS[EncounterMatch.Species].EXPGrowth;
-                    var baseEXP = Experience.GetEXP(EncounterMatch.LevelMin, growth);
+                    var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
+                    var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
                     if (baseEXP == pkm.EXP && evs.Any(ev => ev > vitaMax))
                         data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
                 }
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
-            if (sum == 0 && !EncounterMatch.IsWithinRange(pkm))
+            if (sum == 0 && !enc.IsWithinEncounterRange(pkm))
                 data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
             else if (sum == 508)
                 data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
@@ -68,12 +68,13 @@ namespace PKHeX.Core
             if (sum != 0)
                 data.AddLine(GetInvalid(LEffortShouldBeZero));
 
-            var EncounterMatch = data.EncounterMatch;
             if (!awakened.AwakeningAllValid())
                 data.AddLine(GetInvalid(LAwakenedCap));
-            if (EncounterMatch is EncounterSlot s && s.Type == SlotType.GoPark && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
+
+            var enc = data.EncounterMatch;
+            if (enc is EncounterSlot7GO && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
                 data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2))); // go park transfers have 2 AVs for all stats.
-            else if (awakened.AwakeningSum() == 0 && !EncounterMatch.IsWithinRange(pkm))
+            else if (awakened.AwakeningSum() == 0 && !enc.IsWithinEncounterRange(pkm))
                 data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
         }
     }

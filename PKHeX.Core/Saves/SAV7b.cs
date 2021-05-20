@@ -7,23 +7,23 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SAV_BEEF
+    public sealed class SAV7b : SAV_BEEF, IGameSync
     {
-        protected override string BAKText => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
-        public override string Filter => "savedata|*.bin";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
-        public override string[] PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[^1] == '7').ToArray();
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();
-        public override int SIZE_STORED => SIZE_PARTY;
-        protected override int SIZE_PARTY => 260;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_6PARTY;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+        public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
         public override PersonalTable Personal => PersonalTable.GG;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
 
-        public override SaveFile Clone() => new SAV7b((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV7b((byte[])Data.Clone());
 
         public SaveBlockAccessor7b Blocks { get; }
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
         // Save Block accessors
 
-        public override InventoryPouch[] Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
         // Feature Overrides
         public override int Generation => 7;
@@ -82,21 +82,12 @@ namespace PKHeX.Core
 
         public bool FixPreWrite() => Blocks.Storage.CompressStorage();
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk = (PB7)pkm;
             // Apply to this Save File
-            int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
-            if (CT != pk.CurrentHandler) // Logic updated Friendship
-            {
-                // Copy over the Friendship Value only under certain circumstances
-                if (pk.Moves.Contains(216)) // Return
-                    pk.CurrentFriendship = pk.OppositeFriendship;
-                else if (pk.Moves.Contains(218)) // Frustration
-                    pk.CurrentFriendship = pk.OppositeFriendship;
-            }
             pk.RefreshChecksum();
         }
 
@@ -106,7 +97,7 @@ namespace PKHeX.Core
 
         protected override PKM GetPKM(byte[] data) => new PB7(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
-        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_STORED);
+        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_BOXSLOT);
         protected override IList<int>[] SlotPointers => new[] { Blocks.Storage.PokeListInfo };
 
         public override int GetPartyOffset(int slot) => Blocks.Storage.GetPartyOffset(slot);
@@ -127,27 +118,21 @@ namespace PKHeX.Core
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
+            return StringConverter.SetString7b(value, maxLength, PadToSize, PadWith);
         }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int)GameVersion.GP => GameVersion.GP,
-                    (int)GameVersion.GE => GameVersion.GE,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int)GameVersion.GP => GameVersion.GP,
+            (int)GameVersion.GE => GameVersion.GE,
+            _ => GameVersion.Invalid
+        };
 
         // Player Information
         public override int TID { get => Blocks.Status.TID; set => Blocks.Status.TID = value; }
@@ -177,10 +162,10 @@ namespace PKHeX.Core
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public override void SetEventFlag(int flagNumber, bool value) => Blocks.EventWork.SetFlag(flagNumber, value);
 
-        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.Flags; set => Blocks.GiftRecords.Flags = value; }
-        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.Records; set => Blocks.GiftRecords.Records = (WR7[])value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.GetFlags(); set => Blocks.GiftRecords.SetFlags(value); }
+        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.GetRecords(); set => Blocks.GiftRecords.SetRecords((WR7[])value); }
 
-        public override int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
-        public override string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }
+        public int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
+        public string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }
     }
 }

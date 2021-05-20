@@ -22,8 +22,10 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="child"></param>
         /// <param name="parent"></param>
-        internal static void CenterToForm(this Control child, Control parent)
+        internal static void CenterToForm(this Control child, Control? parent)
         {
+            if (parent == null)
+                return;
             int x = parent.Location.X + ((parent.Width - child.Width) / 2);
             int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
@@ -38,9 +40,9 @@ namespace PKHeX.WinForms
             child.Location = new Point(x, child.Location.Y);
         }
 
-        public static T FirstFormOfType<T>() where T : Form => (T)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
+        public static T? FirstFormOfType<T>() where T : Form => (T?)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
 
-        public static T FindFirstControlOfType<T>(Control aParent) where T : class
+        public static T? FindFirstControlOfType<T>(Control aParent) where T : class
         {
             while (true)
             {
@@ -54,7 +56,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static T GetUnderlyingControl<T>(object sender)
+        public static T? GetUnderlyingControl<T>(object sender) where T : class
         {
             while (true)
             {
@@ -139,7 +141,10 @@ namespace PKHeX.WinForms
             {
                 Error(MsgClipboardFailWrite, x);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Clipboard might be locked sometimes
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Error(MsgClipboardFailWrite);
             }
@@ -153,12 +158,12 @@ namespace PKHeX.WinForms
         /// <param name="cb">ComboBox to retrieve value for.</param>
         internal static int GetIndex(ListControl cb)
         {
-            return (int)(cb?.SelectedValue ?? 0);
+            return (int)(cb.SelectedValue ?? 0);
         }
 
-        public static void PanelScroll(object sender, ScrollEventArgs e)
+        public static void PanelScroll(object? sender, ScrollEventArgs e)
         {
-            if (!(sender is ScrollableControl p) || e.NewValue < 0)
+            if (sender is not ScrollableControl p || e.NewValue < 0)
                 return;
             switch (e.ScrollOrientation)
             {
@@ -169,7 +174,7 @@ namespace PKHeX.WinForms
                     p.VerticalScroll.Value = Clamp(e.NewValue, p.VerticalScroll);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new IndexOutOfRangeException(nameof(e.ScrollOrientation));
             }
             static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
         }
@@ -177,7 +182,9 @@ namespace PKHeX.WinForms
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
             Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (pi == null)
+                throw new Exception(nameof(dgv));
             pi.SetValue(dgv, setting, null);
         }
 
@@ -191,7 +198,12 @@ namespace PKHeX.WinForms
             control.ValueMember = nameof(ComboItem.Value);
         }
 
-        public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+        public static void RemoveDropCB(object? sender, KeyEventArgs e)
+        {
+            if (sender == null)
+                return;
+            ((ComboBox)sender).DroppedDown = false;
+        }
 
         /// <summary>
         /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
@@ -221,7 +233,7 @@ namespace PKHeX.WinForms
             CustomSaveExtensions.AddRange(newExtensions);
         }
 
-        private static readonly List<string> CustomSaveExtensions = new List<string>
+        private static readonly List<string> CustomSaveExtensions = new()
         {
             // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
             "sav", // standard
@@ -245,7 +257,7 @@ namespace PKHeX.WinForms
         /// <param name="extensions">Misc extensions of <see cref="PKM"/> files supported by the Save File.</param>
         /// <param name="path">Output result path</param>
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
-        public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string path)
+        public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string? path)
         {
             string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
             using var ofd = new OpenFileDialog
@@ -259,15 +271,15 @@ namespace PKHeX.WinForms
             };
 
             // Detect main
-            string msg = null;
-            SaveFile sav = null;
+            var msg = string.Empty;
+            SaveFile? sav = null;
             if (DetectSaveFileOnFileOpen)
                 sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 Error(msg);
 
             if (sav != null)
-                ofd.FileName = sav.FileName;
+                ofd.FileName = sav.Metadata.FileName;
 
             if (ofd.ShowDialog() != DialogResult.OK)
             {
@@ -289,7 +301,7 @@ namespace PKHeX.WinForms
             string pkx = pk.Extension;
             bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
             var genericFilter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : string.Empty) +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                          "|Binary File|*.bin" +
                          "|All Files|*.*";
             using var sfd = new SaveFileDialog
@@ -334,20 +346,24 @@ namespace PKHeX.WinForms
         {
             using var sfd = new SaveFileDialog
             {
-                Filter = sav.Filter,
-                FileName = sav.FileName,
+                Filter = sav.Metadata.Filter,
+                FileName = sav.Metadata.FileName,
                 FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
-            if (Directory.Exists(sav.FileFolder))
-                sfd.InitialDirectory = sav.FileFolder;
+            if (Directory.Exists(sav.Metadata.FileFolder))
+                sfd.InitialDirectory = sav.Metadata.FileFolder;
 
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
-            var path = sfd.FileName;
 
+            // Set box now that we're saving
             if (sav.HasBox)
                 sav.CurrentBox = currentBox;
+
+            var path = sfd.FileName;
+            if (path == null)
+                throw new NullReferenceException(nameof(sfd.FileName));
 
             ExportSAV(sav, path);
             return true;
@@ -355,23 +371,23 @@ namespace PKHeX.WinForms
 
         private static void ExportSAV(SaveFile sav, string path)
         {
-            var ext = Path.GetExtension(path)?.ToLower();
-            var flags = sav.GetSuggestedFlags(ext);
+            var ext = Path.GetExtension(path).ToLower();
+            var flags = sav.Metadata.GetSuggestedFlags(ext);
 
             try
             {
                 File.WriteAllBytes(path, sav.Write(flags));
-                sav.Edited = false;
-                sav.SetFileInfo(path);
+                sav.State.Edited = false;
+                sav.Metadata.SetExtraInfo(path);
                 Alert(MsgSaveExportSuccessPath, path);
             }
             catch (Exception x)
             {
                 switch (x)
                 {
-                    case UnauthorizedAccessException _:
-                    case FileNotFoundException _:
-                    case IOException _:
+                    case UnauthorizedAccessException:
+                    case FileNotFoundException:
+                    case IOException:
                         Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
                         break;
                     default:
@@ -390,7 +406,7 @@ namespace PKHeX.WinForms
         {
             using var sfd = new SaveFileDialog
             {
-                Filter = GetMysterGiftFilter(gift.Format, origin),
+                Filter = GetMysterGiftFilter(gift.Generation, origin),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (sfd.ShowDialog() != DialogResult.OK)
@@ -408,19 +424,17 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="format">Format specifier for the </param>
         /// <param name="origin">Game the format originated from/to</param>
-        public static string GetMysterGiftFilter(int format, GameVersion origin)
+        public static string GetMysterGiftFilter(int format, GameVersion origin) => format switch
         {
-            const string all = "|All Files|*.*";
-            return format switch
-            {
-                4 => ("Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all),
-                5 => ("Gen5 Mystery Gift|*.pgf" + all),
-                6 => ("Gen6 Mystery Gift|*.wc6;*.wc6full" + all),
-                7 => (GameVersion.GG.Contains(origin)
-                    ? "Beluga Gift Record|*.wr7" + all
-                    : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all),
-                _ => string.Empty
-            };
-        }
+            4 => "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all,
+            5 => "Gen5 Mystery Gift|*.pgf" + all,
+            6 => "Gen6 Mystery Gift|*.wc6;*.wc6full" + all,
+            7 => GameVersion.GG.Contains(origin)
+                ? "Beluga Gift Record|*.wr7" + all
+                : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
+            _ => string.Empty,
+        };
+
+        private const string all = "|All Files|*.*";
     }
 }

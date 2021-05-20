@@ -8,13 +8,16 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Analyzes content within a <see cref="SaveFile"/> for overall <see cref="PKM"/> legality analysis.
+    /// </summary>
     public sealed class BulkAnalysis
     {
         public readonly IReadOnlyList<PKM> AllData;
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
         public readonly ITrainerInfo Trainer;
-        public readonly List<CheckResult> Parse = new List<CheckResult>();
-        public readonly Dictionary<ulong, PKM> Trackers = new Dictionary<ulong, PKM>();
+        public readonly List<CheckResult> Parse = new();
+        public readonly Dictionary<ulong, PKM> Trackers = new();
         public readonly bool Valid;
 
         private readonly bool[] CloneFlags;
@@ -49,6 +52,9 @@ namespace PKHeX.Core
             CheckPIDReuse();
             if (Trainer.Generation >= 6)
                 CheckECReuse();
+
+            if (Trainer.Generation >= 8)
+                CheckHOMETrackerReuse();
 
             CheckDuplicateOwnedGifts();
             return Parse.All(z => z.Valid);
@@ -115,10 +121,8 @@ namespace PKHeX.Core
         {
             var dupes = AllAnalysis.Where(z =>
                     z.Info.Generation >= 3
-                    && z.EncounterOriginal is MysteryGift g
-                    && g.EggEncounter
-                    && !z.pkm.WasTradedEgg)
-                .GroupBy(z => ((MysteryGift)z.EncounterOriginal).CardTitle);
+                    && z.EncounterMatch is MysteryGift {EggEncounter: true} && !z.pkm.WasTradedEgg)
+                .GroupBy(z => ((MysteryGift)z.EncounterMatch).CardTitle);
 
             foreach (var dupe in dupes)
             {
@@ -153,6 +157,31 @@ namespace PKHeX.Core
             }
         }
 
+        private void CheckHOMETrackerReuse()
+        {
+            var dict = new Dictionary<ulong, LegalityAnalysis>();
+            for (int i = 0; i < AllData.Count; i++)
+            {
+                if (CloneFlags[i])
+                    continue; // already flagged
+                var cp = AllData[i];
+                var ca = AllAnalysis[i];
+                Debug.Assert(cp.Format >= 8);
+                Debug.Assert(cp is IHomeTrack);
+                var id = ((IHomeTrack)cp).Tracker;
+
+                if (id == 0)
+                    continue;
+
+                if (!dict.TryGetValue(id, out var pa))
+                {
+                    dict.Add(id, ca);
+                    continue;
+                }
+                AddLine(pa.pkm, ca.pkm, "HOME Tracker sharing detected.", Misc);
+            }
+        }
+
         private void CheckPIDReuse()
         {
             var dict = new Dictionary<uint, LegalityAnalysis>();
@@ -162,7 +191,7 @@ namespace PKHeX.Core
                     continue; // already flagged
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
-                bool g345 = 3 <= ca.Info.Generation && ca.Info.Generation <= 5;
+                bool g345 = ca.Info.Generation is 3 or 4 or 5;
                 var id = g345 ? cp.EncryptionConstant : cp.PID;
 
                 if (!dict.TryGetValue(id, out var pa))
@@ -212,7 +241,7 @@ namespace PKHeX.Core
         {
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
-            bool gbaNDS = 3 <= gen && gen <= 5;
+            bool gbaNDS = gen is 3 or 4 or 5;
 
             if (!gbaNDS)
             {
@@ -227,9 +256,9 @@ namespace PKHeX.Core
 
             // eggs/mystery gifts shouldn't share with wild encounters
             var cenc = ca.Info.EncounterMatch;
-            bool eggMysteryCurrent = cenc is EncounterEgg || cenc is MysteryGift;
+            bool eggMysteryCurrent = cenc is EncounterEgg or MysteryGift;
             var penc = pa.Info.EncounterMatch;
-            bool eggMysteryPrevious = penc is EncounterEgg || penc is MysteryGift;
+            bool eggMysteryPrevious = penc is EncounterEgg or MysteryGift;
 
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
@@ -247,7 +276,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            bool gbaNDS = 3 <= gen && gen <= 5;
+            bool gbaNDS = gen is 3 or 4 or 5;
             if (!gbaNDS)
             {
                 AddLine(pa.pkm, ca.pkm, "PID sharing for 3DS-onward origin detected.", ident);
@@ -256,9 +285,9 @@ namespace PKHeX.Core
 
             // eggs/mystery gifts shouldn't share with wild encounters
             var cenc = ca.Info.EncounterMatch;
-            bool eggMysteryCurrent = cenc is EncounterEgg || cenc is MysteryGift;
+            bool eggMysteryCurrent = cenc is EncounterEgg or MysteryGift;
             var penc = pa.Info.EncounterMatch;
-            bool eggMysteryPrevious = penc is EncounterEgg || penc is MysteryGift;
+            bool eggMysteryPrevious = penc is EncounterEgg or MysteryGift;
 
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
@@ -268,9 +297,9 @@ namespace PKHeX.Core
 
         private bool VerifyIDReuse(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
         {
-            if (pa.EncounterMatch is MysteryGift g1 && !g1.EggEncounter)
+            if (pa.EncounterMatch is MysteryGift {EggEncounter: false})
                 return false;
-            if (ca.EncounterMatch is MysteryGift g2 && !g2.EggEncounter)
+            if (ca.EncounterMatch is MysteryGift {EggEncounter: false})
                 return false;
 
             const CheckIdentifier ident = CheckIdentifier.Trainer;

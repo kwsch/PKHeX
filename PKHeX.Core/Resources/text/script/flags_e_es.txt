@@ -65,7 +65,8 @@
 0x305	Oculto en el mundo (Rayquaza)
 0x2FB	Oculto en el mundo (Deoxys)
 0x2FC	Oculto en el mundo (Triángulo de Deoxys)
-
+0x3C3	Oculto en el mundo (Fósil Raíz)
+0x3C4	Oculto en el mundo (Fósil Garra)
 0x3C9	Descubierto Kecleon (Ciudad Arborada)
 0x3CA	Descubierto Kecleon (Ruta 120, Puente)
 0x3D5	Descubierto Kecleon (Ruta 120, Puente)
@@ -76,6 +77,13 @@
 0x3DC	Descubierto Kecleon (Ruta 120, Detrás de la Tumba Antigua)
 0x3DD	Descubierto Kecleon (Ruta 119, Derecha del Niño Ninja)
 0x3DE	Descubierto Kecleon (Ruta 119, Izquierda del Niño Ninja)
+
+0x3CE	Oculto en el mundo (Voltorb 1 en Malvalanova)
+0x3CF	Oculto en el mundo (Voltorb 2 en Malvalanova)
+0x3D0	Oculto en el mundo (Voltorb 3 en Malvalanova)
+
+0x3D1	Oculto en el mundo (Electrode 1 en Guarida Aqua)
+0x3D2	Oculto en el mundo (Electrode 2 en Guarida Aqua)
 
 0x1B1	Usado el Tutor de Movimientos en Ciudad Portual (Contoneo)
 0x1B2	Usado el Tutor de Movimientos en Ciudad Malvalona (Desenrollar)
@@ -102,7 +110,8 @@
 0x8AB	Debloqueada PC de Aredia
 0x8AD	Usada Flauta Blanca
 0x8AE	Usada Flauta Negra
-0x8AF	Completado Puzzle de la Camara Sellada
+0x8AF	Completado Puzzle de la Camara Sellada (1)
+0x0E4	Completado Puzzle de la Camara Sellada (2)
 0x8B0	Completado Puzzle de Regirock
 0x8B1	Completado Puzzle de Regice
 0x8B2	Completado Puzzle de Registeel

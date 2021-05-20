@@ -143,18 +143,17 @@ namespace PKHeX.Core
                 }
                 else if (RCSV != NOT_FORCED) // CPU shiny value is required for a previous lock
                 {
-                    if (sv != RCSV)
+                    if (sv == RCSV)
                     {
-                        if (forcedOT) // current call to this method had forced the OT; clear the forced OT before breaking.
-                            RCSV = NOT_FORCED;
-                        yield break; // Since we can't skip this interrupt, we're done.
-                    }
-                    else // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
-                    {
-                        RCSV = (int)sv;
+                        // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
+                        RCSV = (int) sv;
                         forcedOT = true;
-                        // don't break
+                        continue; // don't break
                     }
+
+                    if (forcedOT) // current call to this method had forced the OT; clear the forced OT before breaking.
+                        RCSV = NOT_FORCED;
+                    yield break; // Since we can't skip this interrupt, we're done.
                 }
                 // Yield the final rerolled pid instead of the bad anti-shiny (metadata/validation).
                 yield return new SeedFrame(pid, start + (current.Seen ? 5 : 7));

@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
-    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
+    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IContestStatsMutable
     {
         private static readonly ushort[] Unused =
         {
-            0x87, // PokeStar Fame -- this is first to prevent 0x42 from being the first ExtraByte as this byte has GUI functionality
-            0x42, // Hidden Ability/NPokemon
             0x43, 0x44, 0x45, 0x46, 0x47,
             0x5E, // unused
             0x63, // last 8 bits of a 32bit ribbonset
             0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
             0x86, // unused
+            0x87, // PokeStar Fame
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -23,17 +21,16 @@ namespace PKHeX.Core
         public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
         public override int Format => 5;
-        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
 
-        public override byte[] Data { get; }
-        public PK5() => Data = new byte[PokeCrypto.SIZE_5PARTY];
+        public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
+        public PK5(byte[] data) : base(DecryptParty(data)) { }
 
-        public PK5(byte[] data)
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted45(ref data);
-            if (data.Length != PokeCrypto.SIZE_5PARTY)
-                Array.Resize(ref data, PokeCrypto.SIZE_5PARTY);
-            Data = data;
+            Array.Resize(ref data, PokeCrypto.SIZE_5PARTY);
+            return data;
         }
 
         public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};
@@ -72,12 +69,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public byte CNT_Cool   { get => Data[0x1E]; set => Data[0x1E] = value; }
+        public byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+        public byte CNT_Cute   { get => Data[0x20]; set => Data[0x20] = value; }
+        public byte CNT_Smart  { get => Data[0x21]; set => Data[0x21] = value; }
+        public byte CNT_Tough  { get => Data[0x22]; set => Data[0x22] = value; }
+        public byte CNT_Sheen  { get => Data[0x23]; set => Data[0x23] = value; }
 
         private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
         private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
@@ -164,7 +161,7 @@ namespace PKHeX.Core
         public bool RibbonG3ToughSuper      { get => (RIB6 & (1 << 1)) == 1 << 1; set => RIB6 = (byte)((RIB6 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
         public bool RibbonG3ToughHyper      { get => (RIB6 & (1 << 2)) == 1 << 2; set => RIB6 = (byte)((RIB6 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
         public bool RibbonG3ToughMaster     { get => (RIB6 & (1 << 3)) == 1 << 3; set => RIB6 = (byte)((RIB6 & ~(1 << 3)) | (value ? 1 << 3 : 0)); }
-        public bool RibbonChampionG3Hoenn   { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
+        public bool RibbonChampionG3        { get => (RIB6 & (1 << 4)) == 1 << 4; set => RIB6 = (byte)((RIB6 & ~(1 << 4)) | (value ? 1 << 4 : 0)); }
         public bool RibbonWinning           { get => (RIB6 & (1 << 5)) == 1 << 5; set => RIB6 = (byte)((RIB6 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public bool RibbonVictory           { get => (RIB6 & (1 << 6)) == 1 << 6; set => RIB6 = (byte)((RIB6 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool RibbonArtist            { get => (RIB6 & (1 << 7)) == 1 << 7; set => RIB6 = (byte)((RIB6 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
@@ -179,7 +176,7 @@ namespace PKHeX.Core
 
         public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
         public override int Nature { get => Data[0x41]; set => Data[0x41] = (byte)value; }
         public bool HiddenAbility { get => (Data[0x42] & 1) == 1; set => Data[0x42] = (byte)((Data[0x42] & ~0x01) | (value ? 1 : 0)); }
         public bool NPokémon { get => (Data[0x42] & 2) == 2; set => Data[0x42] = (byte)((Data[0x42] & ~0x02) | (value ? 2 : 0)); }
@@ -248,7 +245,7 @@ namespace PKHeX.Core
         public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
         // 0x86 Unused
         public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
-        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = (byte)(value ? 255 : 0); }
+        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = value ? (byte)255 : (byte)0; }
         #endregion
 
         #region Battle Stats
@@ -261,7 +258,11 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
-        public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
+
+        public byte[] GetHeldMailData() => Data.Slice(0x9C, 0x38);
+        public void SetHeldMailData(byte[] value) => value.CopyTo(Data, 0x9C);
+        public void ClearHeldMailData() => Array.Clear(Data, 0x9C, 0x38);
+
         #endregion
 
         // Generated Attributes
@@ -315,9 +316,15 @@ namespace PKHeX.Core
             return false;
         }
 
+        public override void RefreshAbility(int n)
+        {
+            base.RefreshAbility(n);
+            HiddenAbility = n == 2;
+        }
+
         public PK6 ConvertToPK6()
         {
-            PK6 pk6 = new PK6 // Convert away!
+            PK6 pk6 = new() // Convert away!
             {
                 EncryptionConstant = PID,
                 Species = Species,
@@ -325,171 +332,133 @@ namespace PKHeX.Core
                 SID = SID,
                 EXP = EXP,
                 PID = PID,
-                Ability = Ability
+                Ability = Ability,
+                AbilityNumber = 1 << CalculateAbilityIndex(),
+                Markings = Markings,
+                Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad IngameTrade (Japanese B/W)
+
+                CNT_Cool = CNT_Cool,
+                CNT_Beauty = CNT_Beauty,
+                CNT_Cute = CNT_Cute,
+                CNT_Smart = CNT_Smart,
+                CNT_Tough = CNT_Tough,
+                CNT_Sheen = CNT_Sheen,
+
+                // Cap EVs
+                EV_HP = Math.Min(EV_HP, 252),
+                EV_ATK = Math.Min(EV_ATK, 252),
+                EV_DEF = Math.Min(EV_DEF, 252),
+                EV_SPA = Math.Min(EV_SPA, 252),
+                EV_SPD = Math.Min(EV_SPD, 252),
+                EV_SPE = Math.Min(EV_SPE, 252),
+
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+
+                IV_HP = IV_HP,
+                IV_ATK = IV_ATK,
+                IV_DEF = IV_DEF,
+                IV_SPA = IV_SPA,
+                IV_SPD = IV_SPD,
+                IV_SPE = IV_SPE,
+                IsEgg = IsEgg,
+                IsNicknamed = IsNicknamed,
+
+                FatefulEncounter = FatefulEncounter,
+                Gender = Gender,
+                Form = Form,
+                Nature = Nature,
+
+                Version = Version,
+                OT_Name = OT_Name,
+
+                // Dates are kept upon transfer
+                MetDate = MetDate,
+                EggMetDate = EggMetDate,
+
+                // Locations are kept upon transfer
+                Met_Location = Met_Location,
+                Egg_Location = Egg_Location,
+
+                PKRS_Strain = PKRS_Strain,
+                PKRS_Days = PKRS_Days,
+                Ball = Ball,
+
+                // OT Gender & Encounter Level
+                Met_Level = Met_Level,
+                OT_Gender = OT_Gender,
+                EncounterType = EncounterType,
+
+                // Fill the Ribbon Counter Bytes
+                RibbonCountMemoryContest = CountContestRibbons(),
+                RibbonCountMemoryBattle = CountBattleRibbons(),
+
+                // Copy Ribbons to their new locations.
+                RibbonChampionG3 = RibbonChampionG3,
+                RibbonChampionSinnoh = RibbonChampionSinnoh,
+                RibbonEffort = RibbonEffort,
+
+                RibbonAlert = RibbonAlert,
+                RibbonShock = RibbonShock,
+                RibbonDowncast = RibbonDowncast,
+                RibbonCareless = RibbonCareless,
+                RibbonRelax = RibbonRelax,
+                RibbonSnooze = RibbonSnooze,
+                RibbonSmile = RibbonSmile,
+                RibbonGorgeous = RibbonGorgeous,
+
+                RibbonRoyal = RibbonRoyal,
+                RibbonGorgeousRoyal = RibbonGorgeousRoyal,
+                RibbonArtist = RibbonArtist,
+                RibbonFootprint = RibbonFootprint,
+                RibbonRecord = RibbonRecord,
+                RibbonLegend = RibbonLegend,
+                RibbonCountry = RibbonCountry,
+                RibbonNational = RibbonNational,
+
+                RibbonEarth = RibbonEarth,
+                RibbonWorld = RibbonWorld,
+                RibbonClassic = RibbonClassic,
+                RibbonPremier = RibbonPremier,
+                RibbonEvent = RibbonEvent,
+                RibbonBirthday = RibbonBirthday,
+                RibbonSpecial = RibbonSpecial,
+                RibbonSouvenir = RibbonSouvenir,
+
+                RibbonWishing = RibbonWishing,
+                RibbonChampionBattle = RibbonChampionBattle,
+                RibbonChampionRegional = RibbonChampionRegional,
+                RibbonChampionNational = RibbonChampionNational,
+                RibbonChampionWorld = RibbonChampionWorld,
+
+                // Write the Memories, Friendship, and Origin!
+                CurrentHandler = 1,
+                HT_Name = PKMConverter.OT_Name,
+                HT_Gender = PKMConverter.OT_Gender,
+                HT_Intensity = 1,
+                HT_Memory = 4,
+                HT_Feeling = Memories.GetRandomFeeling(4),
             };
-
-            int[] abilities = PersonalInfo.Abilities;
-            int abilval = Array.IndexOf(abilities, Ability);
-            if (abilval >= 0 && abilities[abilval] == abilities[2] && HiddenAbility)
-                abilval = 2; // hidden ability shared with a regular ability
-            if (abilval >= 0)
-            {
-                pk6.AbilityNumber = 1 << abilval;
-            }
-            else // Fallback (shouldn't happen)
-            {
-                if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
-                else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
-            }
-            pk6.Markings = Markings;
-            pk6.Language = Math.Max((int)LanguageID.Japanese, Language); // Hacked or Bad IngameTrade (Japanese B/W)
-
-            pk6.CNT_Cool = CNT_Cool;
-            pk6.CNT_Beauty = CNT_Beauty;
-            pk6.CNT_Cute = CNT_Cute;
-            pk6.CNT_Smart = CNT_Smart;
-            pk6.CNT_Tough = CNT_Tough;
-            pk6.CNT_Sheen = CNT_Sheen;
-
-            // Cap EVs
-            pk6.EV_HP = EV_HP > 252 ? 252 : EV_HP;
-            pk6.EV_ATK = EV_ATK > 252 ? 252 : EV_ATK;
-            pk6.EV_DEF = EV_DEF > 252 ? 252 : EV_DEF;
-            pk6.EV_SPA = EV_SPA > 252 ? 252 : EV_SPA;
-            pk6.EV_SPD = EV_SPD > 252 ? 252 : EV_SPD;
-            pk6.EV_SPE = EV_SPE > 252 ? 252 : EV_SPE;
-
-            pk6.Move1 = Move1;
-            pk6.Move2 = Move2;
-            pk6.Move3 = Move3;
-            pk6.Move4 = Move4;
-
-            pk6.Move1_PPUps = Move1_PPUps;
-            pk6.Move2_PPUps = Move2_PPUps;
-            pk6.Move3_PPUps = Move3_PPUps;
-            pk6.Move4_PPUps = Move4_PPUps;
-
-            // Fix PP
-            pk6.HealPP();
-
-            pk6.IV_HP = IV_HP;
-            pk6.IV_ATK = IV_ATK;
-            pk6.IV_DEF = IV_DEF;
-            pk6.IV_SPA = IV_SPA;
-            pk6.IV_SPD = IV_SPD;
-            pk6.IV_SPE = IV_SPE;
-            pk6.IsEgg = IsEgg;
-            pk6.IsNicknamed = IsNicknamed;
-
-            pk6.FatefulEncounter = FatefulEncounter;
-            pk6.Gender = Gender;
-            pk6.AltForm = AltForm;
-            pk6.Nature = Nature;
-
-            // Apply trash bytes for species name of current app language -- default to PKM's language if no match
-            int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
-            pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
-            if (IsNicknamed)
-                pk6.Nickname = Nickname;
-
-            pk6.Version = Version;
-
-            pk6.OT_Name = OT_Name;
-
-            // Dates are kept upon transfer
-            pk6.MetDate = MetDate;
-            pk6.EggMetDate = EggMetDate;
-
-            // Locations are kept upon transfer
-            pk6.Met_Location = Met_Location;
-            pk6.Egg_Location = Egg_Location;
-
-            pk6.PKRS_Strain = PKRS_Strain;
-            pk6.PKRS_Days = PKRS_Days;
-            pk6.Ball = Ball;
-
-            // OT Gender & Encounter Level
-            pk6.Met_Level = Met_Level;
-            pk6.OT_Gender = OT_Gender;
-            pk6.EncounterType = EncounterType;
-
-            // Ribbon Decomposer (Contest & Battle)
-            byte contestribbons = 0;
-            byte battleribbons = 0;
-
-            // Contest Ribbon Counter
-            for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
-            {
-                if ((Data[0x60] >> i & 1) == 1) contestribbons++;
-                if (((Data[0x61] >> i) & 1) == 1) contestribbons++;
-                if (((Data[0x3C] >> i) & 1) == 1) contestribbons++;
-                if (((Data[0x3D] >> i) & 1) == 1) contestribbons++;
-            }
-            for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
-            {
-                if (((Data[0x62] >> i) & 1) == 1) contestribbons++;
-                if (((Data[0x3E] >> i) & 1) == 1) contestribbons++;
-            }
-
-            // Battle Ribbon Counter
-            if (RibbonWinning) battleribbons++;
-            if (RibbonVictory) battleribbons++;
-            for (int i = 1; i < 7; i++)     // Sinnoh Battle Ribbons
-                if (((Data[0x24] >> i) & 1) == 1) battleribbons++;
-
-            // Fill the Ribbon Counter Bytes
-            pk6.RibbonCountMemoryContest = contestribbons;
-            pk6.RibbonCountMemoryBattle = battleribbons;
-
-            // Copy Ribbons to their new locations.
-            pk6.RibbonChampionG3Hoenn = RibbonChampionG3Hoenn;
-            pk6.RibbonChampionSinnoh = RibbonChampionSinnoh;
-            pk6.RibbonEffort = RibbonEffort;
-
-            pk6.RibbonAlert = RibbonAlert;
-            pk6.RibbonShock = RibbonShock;
-            pk6.RibbonDowncast = RibbonDowncast;
-            pk6.RibbonCareless = RibbonCareless;
-            pk6.RibbonRelax = RibbonRelax;
-            pk6.RibbonSnooze = RibbonSnooze;
-            pk6.RibbonSmile = RibbonSmile;
-            pk6.RibbonGorgeous = RibbonGorgeous;
-
-            pk6.RibbonRoyal = RibbonRoyal;
-            pk6.RibbonGorgeousRoyal = RibbonGorgeousRoyal;
-            pk6.RibbonArtist = RibbonArtist;
-            pk6.RibbonFootprint = RibbonFootprint;
-            pk6.RibbonRecord = RibbonRecord;
-            pk6.RibbonLegend = RibbonLegend;
-            pk6.RibbonCountry = RibbonCountry;
-            pk6.RibbonNational = RibbonNational;
-
-            pk6.RibbonEarth = RibbonEarth;
-            pk6.RibbonWorld = RibbonWorld;
-            pk6.RibbonClassic = RibbonClassic;
-            pk6.RibbonPremier = RibbonPremier;
-            pk6.RibbonEvent = RibbonEvent;
-            pk6.RibbonBirthday = RibbonBirthday;
-            pk6.RibbonSpecial = RibbonSpecial;
-            pk6.RibbonSouvenir = RibbonSouvenir;
-
-            pk6.RibbonWishing = RibbonWishing;
-            pk6.RibbonChampionBattle = RibbonChampionBattle;
-            pk6.RibbonChampionRegional = RibbonChampionRegional;
-            pk6.RibbonChampionNational = RibbonChampionNational;
-            pk6.RibbonChampionWorld = RibbonChampionWorld;
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
             PKMConverter.SetConsoleRegionData3DS(pk6);
             PKMConverter.SetFirstCountryRegion(pk6);
 
-            // Write the Memories, Friendship, and Origin!
-            pk6.CurrentHandler = 1;
-            pk6.HT_Name = PKMConverter.OT_Name;
-            pk6.HT_Gender = PKMConverter.OT_Gender;
-            pk6.HT_Intensity = 1;
-            pk6.HT_Memory = 4;
-            pk6.HT_Feeling = Memories.GetRandomFeeling(pk6.HT_Memory);
+            // Apply trash bytes for species name of current app language -- default to PKM's language if no match
+            int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, 5);
+            if (curLang < 0)
+                curLang = Language;
+            pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang, 6);
+            if (IsNicknamed)
+                pk6.Nickname = Nickname;
+
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 
@@ -501,6 +470,9 @@ namespace PKHeX.Core
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
 
+            // Fix PP
+            pk6.HealPP();
+
             // Fix Name Strings
             pk6.Nickname = StringConverter345.TransferGlyphs56(pk6.Nickname);
             pk6.OT_Name = StringConverter345.TransferGlyphs56(pk6.OT_Name);
@@ -509,6 +481,56 @@ namespace PKHeX.Core
             pk6.RefreshChecksum();
 
             return pk6; // Done!
+        }
+
+        private byte CountBattleRibbons()
+        {
+            byte count = 0;
+            if (RibbonWinning) count++;
+            if (RibbonVictory) count++;
+            for (int i = 1; i < 7; i++) // Sinnoh Battle Ribbons
+            {
+                if (((Data[0x24] >> i) & 1) == 1)
+                    count++;
+            }
+
+            return count;
+        }
+
+        private byte CountContestRibbons()
+        {
+            byte count = 0;
+            for (int i = 0; i < 8; i++) // Sinnoh 3, Hoenn 1
+            {
+                if ((Data[0x60] >> i & 1) == 1) count++;
+                if (((Data[0x61] >> i) & 1) == 1) count++;
+                if (((Data[0x3C] >> i) & 1) == 1) count++;
+                if (((Data[0x3D] >> i) & 1) == 1) count++;
+            }
+
+            for (int i = 0; i < 4; i++) // Sinnoh 4, Hoenn 2
+            {
+                if (((Data[0x62] >> i) & 1) == 1) count++;
+                if (((Data[0x3E] >> i) & 1) == 1) count++;
+            }
+
+            return count;
+        }
+
+        private int CalculateAbilityIndex()
+        {
+            var pi = (PersonalInfoB2W2) PersonalInfo;
+            if (HiddenAbility)
+                return 2;
+            if (pi.Ability1 == Ability)
+                return 0;
+            if (pi.Ability2 == Ability)
+                return 1;
+            // reset ability, invalid
+            var pid = PID;
+            if (Gen5)
+                pid >>= 16;
+            return (int)(pid & 1);
         }
     }
 }

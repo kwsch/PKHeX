@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Pokédex structure used for Generation 6 games.
+    /// </summary>
     public abstract class Zukan6 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
@@ -10,7 +13,7 @@ namespace PKHeX.Core
         protected override int BitSeenSize => 0x60;
         protected override int DexLangFlagByteCount => 631; // 721 * 7, rounded up
         protected override int DexLangIDCount => 7;
-        protected int SpindaOffset { get; set; }
+        protected int SpindaOffset { get; init; }
 
         protected Zukan6(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
         {
@@ -56,11 +59,11 @@ namespace PKHeX.Core
                 SetFlag(PokeDexLanguageFlags, lbit, value);
         }
 
-        protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
+        protected override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
             SetDexFlags(baseBit, baseBit, gender, shiny);
-            SetFormFlags(baseBit + 1, altform, shiny, value);
+            SetFormFlags(baseBit + 1, form, shiny, value);
         }
 
         public override void SetDex(PKM pkm)
@@ -78,7 +81,7 @@ namespace PKHeX.Core
             SetCaughtFlag(bit, pkm.Version);
 
             // Set the [Species/Gender/Shiny] Seen Flag
-            SetAllDexSeenFlags(pkm.Species - 1, pkm.AltForm, pkm.Gender, pkm.IsShiny);
+            SetAllDexSeenFlags(pkm.Species - 1, pkm.Form, pkm.Gender, pkm.IsShiny);
             SetAllDexFlagsLanguage(bit, pkm.Language);
             SetFormFlags(pkm);
         }
@@ -93,14 +96,14 @@ namespace PKHeX.Core
         private void SetFormFlags(PKM pkm)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             var shiny = pkm.IsShiny ? 1 : 0;
             SetFormFlags(species, form, shiny);
         }
 
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormCount;
             int f = DexFormIndexFetcher(species, fc);
             if (f < 0)
                 return;
@@ -178,6 +181,9 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.ORAS"/>.
+    /// </summary>
     public sealed class Zukan6AO : Zukan6
     {
         public Zukan6AO(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
@@ -206,6 +212,9 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.XY"/>.
+    /// </summary>
     public sealed class Zukan6XY : Zukan6
     {
         public Zukan6XY(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)

@@ -2,38 +2,18 @@
 {
     /// <summary>
     /// Common Encounter Properties base interface.
+    /// <inheritdoc cref="IEncounterInfo"/>
     /// </summary>
-    public interface IEncounterable : IVersion
+    public interface IEncounterable : IEncounterInfo
     {
-        int Species { get; }
-        int Form { get; }
+        /// <summary>
+        /// Short name to describe the encounter data, usually just indicating which of the main component encounter types the data is.
+        /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Long name to describe the encounter data, containing more detailed (type-specific) information.
+        /// </summary>
         string LongName { get; }
-        bool EggEncounter { get; }
-        int LevelMin { get; }
-        int LevelMax { get; }
-        int Generation { get; }
-
-        PKM ConvertToPKM(ITrainerInfo sav);
-        PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
-    }
-
-    public static partial class Extensions
-    {
-        private static bool IsWithinRange(this IEncounterable encounter, int lvl)
-        {
-            return encounter.LevelMin <= lvl && lvl <= encounter.LevelMax;
-        }
-
-        public static bool IsWithinRange(this IEncounterable encounter, PKM pkm)
-        {
-            if (!pkm.HasOriginalMetLocation)
-                return encounter.IsWithinRange(pkm.CurrentLevel);
-            if (encounter.EggEncounter)
-                return pkm.CurrentLevel == encounter.LevelMin;
-            if (encounter is MysteryGift g)
-                return pkm.CurrentLevel == g.Level;
-            return pkm.CurrentLevel == pkm.Met_Level;
-        }
     }
 }

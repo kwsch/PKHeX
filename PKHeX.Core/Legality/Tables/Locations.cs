@@ -8,7 +8,6 @@
         public const int LinkTrade4 = 2002;
         public const int LinkTrade5 = 30003;
         public const int LinkTrade6 = 30002;
-        public const int LinkGift6 = 30011;
 
         public const int Daycare4 = 2000;
         public const int Daycare5 = 60002;
@@ -29,8 +28,8 @@
         /// <summary> Route 117 in <see cref="GameVersion.RSE"/> </summary>
         public const int HatchLocationRSE = 32;
 
-        /// <summary> Route 17 in <see cref="GameVersion.FRLG"/> </summary>
-        public const int HatchLocationFRLG = 117;
+        /// <summary> Four Island in <see cref="GameVersion.FRLG"/> </summary>
+        public const int HatchLocationFRLG = 146;
 
         /// <summary> Solaceon Town in <see cref="GameVersion.DPPt"/> </summary>
         public const int HatchLocationDPPt = 4;
@@ -53,6 +52,12 @@
         /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
         public const int HatchLocation8 = 40;
 
+        /// <summary> Generation 1 -> Generation 7 Transfer Location (Kanto) </summary>
+        public const int Transfer1 = 30013;
+
+        /// <summary> Generation 2 -> Generation 7 Transfer Location (Johto) </summary>
+        public const int Transfer2 = 30017;
+
         /// <summary> Generation 3 -> Generation 4 Transfer Location (Pal Park) </summary>
         public const int Transfer3 = 0x37;
 
@@ -71,33 +76,46 @@
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
         public const int Transfer4_CrownUsed = 30013;
 
-        public static int TradedEggLocationNPC(int gen)
-        {
-            return gen switch
-            {
-                1 => LinkTrade2NPC,
-                2 => LinkTrade2NPC,
-                3 => LinkTrade3NPC,
-                4 => LinkTrade4NPC,
-                5 => LinkTrade5NPC,
-                _ => LinkTrade6NPC
-            };
-        }
+        /// <summary> Generation 6 Gift from Pokémon Link </summary>
+        public const int LinkGift6 = 30011;
 
-        public static int TradedEggLocation(int gen)
+        /// <summary> Generation 7 Transfer from GO to Pokémon LGP/E's GO Park </summary>
+        public const int GO7 = 50;
+
+        /// <summary> Generation 8 Transfer from GO to Pokémon HOME </summary>
+        public const int GO8 = 30012;
+
+        /// <summary> Generation 8 Gift from Pokémon HOME </summary>
+        public const int HOME8 = 30018;
+
+        public const int BugCatchingContest4 = 207;
+
+        public static int TradedEggLocationNPC(int generation) => generation switch
         {
-            return gen switch
-            {
-                4 => LinkTrade4,
-                5 => LinkTrade5,
-                _ => LinkTrade6
-            };
-        }
+            1 => LinkTrade2NPC,
+            2 => LinkTrade2NPC,
+            3 => LinkTrade3NPC,
+            4 => LinkTrade4NPC,
+            5 => LinkTrade5NPC,
+            _ => LinkTrade6NPC
+        };
+
+        public static int TradedEggLocation(int generation) => generation switch
+        {
+            4 => LinkTrade4,
+            5 => LinkTrade5,
+            _ => LinkTrade6
+        };
 
         public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;
         public static bool IsPtHGSSLocationEgg(int location) => 2010 < location && location < 3000;
         public static bool IsEventLocation5(int location) => 40000 < location && location < 50000;
 
-        public static bool IsSafariZoneLocation4(int loc) => loc == 52 || loc == 202;
+        private const int SafariLocation_RSE = 57;
+        private const int SafariLocation_FRLG = 136;
+        private const int SafariLocation_HGSS = 202;
+        private const int MarshLocation_DPPt = 52;
+        public static bool IsSafariZoneLocation3(int loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
+        public static bool IsSafariZoneLocation4(int loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
     }
 }

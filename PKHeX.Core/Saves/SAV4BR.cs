@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -10,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4BR : SaveFile
     {
-        protected override string BAKText => $"{Version} #{SaveCount:0000}";
-        public override string Filter => "PbrSaveData|*";
+        protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
         public override string Extension => string.Empty;
         public override PersonalTable Personal => PersonalTable.DP;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
@@ -33,31 +31,36 @@ namespace PKHeX.Core
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
-            SaveCount = Math.Max(BigEndian.ToUInt32(Data, 0x1C004C), BigEndian.ToUInt32(Data, 0x4C));
-            if (BigEndian.ToUInt32(Data, 0x1C004C) > BigEndian.ToUInt32(Data, 0x4C))
+            var first  = BigEndian.ToUInt32(Data, 0x00004C);
+            var second = BigEndian.ToUInt32(Data, 0x1C004C);
+            SaveCount = Math.Max(second, first);
+            if (second > first)
             {
+                // swap halves
                 byte[] tempData = new byte[0x1C0000];
                 Array.Copy(Data, 0, tempData, 0, 0x1C0000);
                 Array.Copy(Data, 0x1C0000, Data, 0, 0x1C0000);
                 tempData.CopyTo(Data, 0x1C0000);
             }
 
+            var names = (string[]) SaveNames;
             for (int i = 0; i < SAVE_COUNT; i++)
             {
-                if (!IsOTNamePresent(i))
-                    continue;
-                SaveSlots.Add(i);
-                SaveNames.Add(GetOTName(i));
+                var name = GetOTName(i);
+                if (string.IsNullOrWhiteSpace(name))
+                    name = $"Empty {i + 1}";
+                else if (_currentSlot == -1)
+                    _currentSlot = i;
+                names[i] = name;
             }
 
-            CurrentSlot = SaveSlots[0];
+            if (_currentSlot == -1)
+                _currentSlot = 0;
+
+            CurrentSlot = _currentSlot;
         }
 
-        private bool IsOTNamePresent(int i)
-        {
-            return BitConverter.ToUInt16(Data, 0x390 + (0x6FF00 * i)) != 0;
-        }
-
+        /// <summary> Amount of times the primary save has been saved </summary>
         private uint SaveCount;
 
         protected override byte[] GetFinalData()
@@ -67,28 +70,28 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV4BR(Write());
+        protected override SaveFile CloneInternal() => new SAV4BR(Write());
 
-        public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
-        public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);
+        public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
-        private int _currentSlot;
+        private int _currentSlot = -1;
+        private const int SIZE_SLOT = 0x6FF00;
 
         public int CurrentSlot
         {
-            get => SaveSlots.IndexOf(_currentSlot);
+            get => _currentSlot;
             // 4 save slots, data reading depends on current slot
             set
             {
-                _currentSlot = SaveSlots[value];
-                var ofs = 0x6FF00 * _currentSlot;
+                _currentSlot = value;
+                var ofs = SIZE_SLOT * _currentSlot;
                 Box = ofs + 0x978;
                 Party = ofs + 0x13A54; // first team slot after boxes
                 BoxName = ofs + 0x58674;
             }
         }
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
         public override PKM BlankPKM => new BK4();
         public override Type PKMType => typeof(BK4);
@@ -154,17 +157,13 @@ namespace PKHeX.Core
         private string GetOTName(int slot)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, 0x10);
-            return Util.TrimFromZero(str);
+            return GetString(Data, ofs, 16);
         }
 
         private void SetOTName(int slot, string name)
         {
-            if (name.Length > 7)
-                name = name.Substring(0, 7);
-            var bytes = Encoding.BigEndianUnicode.GetBytes(name.PadRight(8, '\0'));
             var ofs = 0x390 + (0x6FF00 * slot);
-            SetData(bytes, ofs);
+            SetData(SetString(name, 7, 8), ofs);
         }
 
         public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
@@ -172,6 +171,26 @@ namespace PKHeX.Core
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
+
+        public override int TID
+        {
+            get => (Data[(_currentSlot * SIZE_SLOT) + 0x12867] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12860];
+            set
+            {
+                Data[(_currentSlot * SIZE_SLOT) + 0x12867] = (byte)(value >> 8);
+                Data[(_currentSlot * SIZE_SLOT) + 0x12860] = (byte)(value & 0xFF);
+            }
+        }
+
+        public override int SID
+        {
+            get => (Data[(_currentSlot * SIZE_SLOT) + 0x12865] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12866];
+            set
+            {
+                Data[(_currentSlot * SIZE_SLOT) + 0x12865] = (byte)(value >> 8);
+                Data[(_currentSlot * SIZE_SLOT) + 0x12866] = (byte)(value & 0xFF);
+            }
+        }
 
         // Save file does not have Box Name / Wallpaper info
         private int BoxName = -1;
@@ -182,8 +201,8 @@ namespace PKHeX.Core
             if (BoxName < 0)
                 return $"BOX {box + 1}";
 
-            var str = Encoding.BigEndianUnicode.GetString(Data, BoxName + (box * BoxNameLength), BoxNameLength);
-            str = Util.TrimFromZero(str);
+            int ofs = BoxName + (box * BoxNameLength);
+            var str = GetString(ofs, BoxNameLength);
             if (string.IsNullOrWhiteSpace(str))
                 return $"BOX {box + 1}";
             return str;
@@ -195,12 +214,11 @@ namespace PKHeX.Core
                 return;
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, BoxNameLength);
-            str = Util.TrimFromZero(str);
+            var str = GetString(ofs, BoxNameLength);
             if (string.IsNullOrWhiteSpace(str))
                 return;
 
-            var data = Encoding.BigEndianUnicode.GetBytes(value.PadLeft(BoxNameLength / 2, '\0'));
+            var data = SetString(value, BoxNameLength / 2, BoxNameLength / 2);
             SetData(data, ofs);
         }
 
@@ -215,7 +233,7 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm) { /* There's no PokéDex */ }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk4 = (BK4)pkm;
             // Apply to this Save File
@@ -226,7 +244,7 @@ namespace PKHeX.Core
 
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
-            pkm.Sanity = (ushort)(isParty ? 0xC000 : 0x4000);
+            pkm.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
         }
 
         public static byte[] DecryptPBRSaveData(byte[] input)
@@ -236,7 +254,7 @@ namespace PKHeX.Core
             {
                 var keys = GetKeys(input, i);
                 Array.Copy(input, i, output, i, 8);
-                GCSaveUtil.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
+                GeniusCrypto.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
@@ -248,7 +266,7 @@ namespace PKHeX.Core
             {
                 var keys = GetKeys(input, i);
                 Array.Copy(input, i, output, i, 8);
-                GCSaveUtil.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
+                GeniusCrypto.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
@@ -313,13 +331,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4Unicode(data, offset, length);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-        {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter4.SetBEString4(value, maxLength, PadToSize, PadWith);
-        }
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => StringConverter4.SetBEString4Unicode(value, maxLength, PadToSize, PadWith);
     }
 }

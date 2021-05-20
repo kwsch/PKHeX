@@ -90,6 +90,10 @@ namespace PKHeX.Core
                 // Repeat the operation until no more ribbons are set.
             }
 
+            // Ribbon Deadlock
+            if (pk is IRibbonSetCommon6 c6)
+                InvertDeadlockContest(c6, la, true);
+
             return valid;
         }
 
@@ -120,6 +124,10 @@ namespace PKHeX.Core
         {
             var la = new LegalityAnalysis(pk);
             var valid = new List<string>();
+
+            // Ribbon Deadlock
+            if (pk is IRibbonSetCommon6 c6)
+                InvertDeadlockContest(c6, la, false);
 
             while (TryRemoveAllRibbons(pk, la, allRibbons, valid) != 0)
             {
@@ -182,14 +190,18 @@ namespace PKHeX.Core
         private static bool TryRemoveRibbon(PKM pk, LegalityAnalysis la, string rib)
         {
             RemoveRibbon(pk, rib);
-            LegalityAnalysis.Ribbon.Verify(la);
-            return la.Results.All(z => z.Valid);
+            return UpdateIsValid(la);
         }
 
         private static bool TryApplyRibbon(PKM pk, LegalityAnalysis la, string rib)
         {
             SetRibbonValue(pk, rib, 1);
-            LegalityAnalysis.Ribbon.Verify(la);
+            return UpdateIsValid(la);
+        }
+
+        private static bool UpdateIsValid(LegalityAnalysis la)
+        {
+            LegalityAnalyzers.Ribbon.Verify(la);
             return la.Results.All(z => z.Valid);
         }
 
@@ -210,6 +222,20 @@ namespace PKHeX.Core
                         ReflectUtil.SetValue(pk, rib, value != 0);
                     break;
             }
+        }
+
+        private static void InvertDeadlockContest(IRibbonSetCommon6 c6, LegalityAnalysis la, bool desiredState)
+        {
+            // RibbonContestStar depends on having all contest ribbons, and having RibbonContestStar requires all.
+            // Since the above logic sets individual ribbons, we must try setting this deadlock pair manually.
+            if (c6.RibbonMasterToughness == desiredState || c6.RibbonContestStar == desiredState)
+                return;
+
+            la.ResetParse();
+            c6.RibbonMasterToughness = c6.RibbonContestStar = desiredState;
+            bool result = UpdateIsValid(la);
+            if (!result)
+                c6.RibbonMasterToughness = c6.RibbonContestStar = !desiredState;
         }
     }
 }

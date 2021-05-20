@@ -79,7 +79,7 @@ namespace PKHeX.Core
         public static string MsgPKMMysteryGiftFail { get; set; } = "Mystery Gift is not a Pokémon.";
         public static string MsgPKMConvertFailFormat { get; set; } = "Cannot convert a {0} to {1}";
         public static string MsgPKMConvertFailBackwards { get; set; } = "Can't load {0}s to Gen{1} saves.";
-        public static string MsgPKMConvertFailForme { get; set; } = "Form cannot be transferred to future games.";
+        public static string MsgPKMConvertFailForm { get; set; } = "Form cannot be transferred to future games.";
         public static string MsgPKMConvertFailNoMethod { get; set; } = "Cannot transfer this format to the requested format.";
         public static string MsgPKMConvertIncompatible { get; set; } = "Cannot load {0} {1}s to {2} saves.";
         public static string MsgPKMConvertInternational { get; set; } = "International";
@@ -171,9 +171,8 @@ namespace PKHeX.Core
         public static string MsgSaveBoxImportPCFailBattle { get; set; } = "Battle Box slots prevent loading of PC data.";
         public static string MsgSaveBoxImportBoxBinary { get; set; } = "Box Binary loaded.";
         public static string MsgSaveBoxImportBoxFailBattle { get; set; } = "Battle Box slots in box prevent loading of box data.";
-        public static string MsgSaveBoxImportVideo { get; set; } = "Load Battle Video Pokémon data to the current box ({0})?";
-        public static string MsgSaveBoxImportVideoSuccess { get; set; } = "Battle Video data loaded to box slots.";
-        public static string MsgSaveBoxImportVideoFailGeneration { get; set; } = "Cannot load the Battle Video to a different generation save file.";
+        public static string MsgSaveBoxImportGroup { get; set; } = "Load Pokémon data from the file to the current box ({0})?";
+        public static string MsgSaveBoxImportGroupSuccess { get; set; } = "Pokémon data from the file was loaded to box slots.";
         public static string MsgSaveBoxImportOverwrite { get; set; } = "The current box will be overwritten.";
         public static string MsgSaveBoxImportSkippedLocked { get; set; } = "Skipped {0} locked slot(s).";
 
@@ -318,6 +317,8 @@ namespace PKHeX.Core
         public static string MsgSaveDifferentTypes { get; set; } = "Save File types are different.";
         public static string MsgSaveDifferentVersions { get; set; } = "Save File versions are not the same.";
         public static string MsgSaveNumberInvalid { get; set; } = "Save File {0} is not valid.";
+
+        public static string MsgPluginFailLoad { get; set; } = "Plugins failed to load. Please refer to the error message to identify the faulty plugin. A plugin may be out of date / incompatible with this build of the program.";
 
         #endregion
     }

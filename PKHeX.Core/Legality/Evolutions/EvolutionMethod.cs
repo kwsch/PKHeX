@@ -72,41 +72,32 @@ namespace PKHeX.Core
             RequiresLevelUp = false;
             switch ((EvolutionType)Method)
             {
-                case UseItem:
-                case UseItemWormhole:
-                case Crit3:
-                case HPDownBy49:
-                case SpinType:
-                case TowerOfDarkness:
-                case TowerOfWaters:
+                case UseItem or UseItemWormhole:
+                case Crit3 or HPDownBy49 or SpinType:
+                case TowerOfDarkness or TowerOfWaters:
                     return true;
                 case UseItemMale:
                     return pkm.Gender == 0;
                 case UseItemFemale:
                     return pkm.Gender == 1;
 
-                case Trade:
-                case TradeHeldItem:
-                case TradeSpecies:
+                case Trade or TradeHeldItem or TradeSpecies:
                     return !pkm.IsUntraded || skipChecks;
 
                 // Special Level Up Cases -- return false if invalid
-                case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
-                case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                case LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.Form && !skipChecks:
                     return false;
 
-                case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
+                case LevelUpBeauty when pkm is not IContestStats s || s.CNT_Beauty < Argument:
                     return skipChecks;
                 case LevelUpMale when pkm.Gender != 0:
                     return false;
                 case LevelUpFemale when pkm.Gender != 1:
                     return false;
-                case LevelUpFormFemale1 when pkm.Gender != 1 || pkm.AltForm != 1:
+                case LevelUpFormFemale1 when pkm.Gender != 1 || pkm.Form != 1:
                     return false;
 
-                case LevelUpVersion when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
-                case LevelUpVersionDay when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
-                case LevelUpVersionNight when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
+                case LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
                     return skipChecks; // Version checks come in pairs, check for any pair match
 
                 // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
@@ -127,31 +118,25 @@ namespace PKHeX.Core
 
         private bool HasMetLevelIncreased(PKM pkm, int lvl)
         {
-            int origin = pkm.GenNumber;
-            switch (origin)
+            int origin = pkm.Generation;
+            return origin switch
             {
-                case 1: // No met data in RBY
-                case 2: // No met data in GS, Crystal met data can be reset
-                    return true;
-                case 3:
-                case 4:
-                    if (pkm.Format > origin) // Pal Park / PokeTransfer updates Met Level
-                        return true;
-                    return pkm.Met_Level < lvl;
+                // No met data in RBY; No met data in GS, Crystal met data can be reset
+                1 or 2 => true,
 
-                case 5: // Bank keeps current level
-                case 6:
-                case 7:
-                case 8:
-                    return lvl >= Level && (!pkm.IsNative || pkm.Met_Level < lvl);
+                // Pal Park / PokeTransfer updates Met Level
+                3 or 4 => pkm.Format > origin || pkm.Met_Level < lvl,
 
-                default: return false;
-            }
+                // 5=>6 and later transfers keep current level
+                >=5 => lvl >= Level && (!pkm.IsNative || pkm.Met_Level < lvl),
+
+                _ => false,
+            };
         }
 
         public EvoCriteria GetEvoCriteria(int species, int form, int lvl)
         {
-            return new EvoCriteria(species, form)
+            return new(species, form)
             {
                 Level = lvl,
                 Method = Method,
@@ -160,9 +145,10 @@ namespace PKHeX.Core
 
         public static int GetAmpLowKeyResult(int n)
         {
-            if ((uint)(n - 1) > 22)
+            var index = n - 1;
+            if ((uint)index > 22)
                 return 0;
-            return (0x5BCA51 >> (n - 1)) & 1;
+            return (0b_0101_1011_1100_1010_0101_0001 >> index) & 1;
         }
     }
 }

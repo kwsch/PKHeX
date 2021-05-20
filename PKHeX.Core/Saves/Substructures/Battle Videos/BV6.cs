@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 // ReSharper disable UnusedType.Local
 
 namespace PKHeX.Core
@@ -10,6 +10,10 @@ namespace PKHeX.Core
         internal const int SIZE = 0x2E60;
         private const string NPC = "NPC";
         private readonly byte[] Data;
+        private const int PlayerCount = 4;
+
+        public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+        public override int Generation => 6;
 
         internal new static bool IsValid(byte[] data)
         {
@@ -24,14 +28,14 @@ namespace PKHeX.Core
 
         public string Debug1
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x6);
+            get => StringConverter.GetString6(Data, 0x6, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x6);
         }
 
         public string Debug2
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x50, 24));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x50);
+            get => StringConverter.GetString6(Data, 0x50, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x50);
         }
 
         public ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
@@ -44,66 +48,68 @@ namespace PKHeX.Core
         public int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
         public int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
 
-        public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-        public override int Generation => 6;
-
-        public string[] PlayerNames
+        public string[] GetPlayerNames()
         {
-            get
+            string[] trainers = new string[PlayerCount];
+            for (int i = 0; i < PlayerCount; i++)
             {
-                string[] trainers = new string[4];
-                for (int i = 0; i < 4; i++)
-                {
-                    trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xEC + (0x1A * i), 0x1A));
-                    if (string.IsNullOrWhiteSpace(trainers[i]))
-                        trainers[i] = NPC;
-                }
-                return trainers;
+                var str = StringConverter.GetString6(Data, 0xEC + (0x1A * i), 0x1A);
+                trainers[i] = string.IsNullOrWhiteSpace(str) ? NPC : str;
             }
-            set
-            {
-                if (value.Length != 4)
-                    return;
+            return trainers;
+        }
 
-                for (int i = 0; i < 4; i++)
-                {
-                    string tr = value[i] == NPC ? string.Empty : value[i];
-                    Encoding.Unicode.GetBytes(tr.PadRight(0x1A/2)).CopyTo(Data, 0xEC + (0x1A * i));
-                }
+        public void SetPlayerNames(IReadOnlyList<string> value)
+        {
+            if (value.Count != PlayerCount)
+                return;
+
+            for (int i = 0; i < PlayerCount; i++)
+            {
+                string tr = value[i] == NPC ? string.Empty : value[i];
+                StringConverter.SetString6(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
             }
         }
 
-        public PKM[][] PlayerTeams
+        public IReadOnlyList<PKM[]> PlayerTeams
         {
             get
             {
-                var Teams = new PKM[4][];
-                const int start = 0xE18;
-                for (int t = 0; t < 4; t++)
-                {
-                    Teams[t] = new PKM[6];
-                    for (int p = 0; p < 6; p++)
-                    {
-                        int offset = start + (PokeCrypto.SIZE_6PARTY*((t * 6) + p));
-                        offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
-                        Teams[t][p] = new PK6(Data.Slice(offset, PokeCrypto.SIZE_6PARTY)) {Identifier = $"Team {t}, Slot {p}"};
-                    }
-                }
+                var Teams = new PKM[PlayerCount][];
+                for (int t = 0; t < PlayerCount; t++)
+                    Teams[t] = GetTeam(t);
                 return Teams;
             }
             set
             {
                 var Teams = value;
-                const int start = 0xE18;
-                for (int t = 0; t < 4; t++)
-                {
-                    for (int p = 0; p < 6; p++)
-                    {
-                        int offset = start + (PokeCrypto.SIZE_6PARTY*((t * 6) + p));
-                        offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
-                        Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
-                    }
-                }
+                for (int t = 0; t < PlayerCount; t++)
+                    SetTeam(Teams[t], t);
+            }
+        }
+
+        public PKM[] GetTeam(int t)
+        {
+            var team = new PKM[6];
+            const int start = 0xE18;
+            for (int p = 0; p < 6; p++)
+            {
+                int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
+                offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
+                team[p] = new PK6(Data.Slice(offset, PokeCrypto.SIZE_6PARTY)) { Identifier = $"Team {t}, Slot {p}" };
+            }
+
+            return team;
+        }
+
+        public void SetTeam(IReadOnlyList<PKM> team, int t)
+        {
+            const int start = 0xE18;
+            for (int p = 0; p < 6; p++)
+            {
+                int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
+                offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
+                team[p].EncryptedPartyData.CopyTo(Data, offset);
             }
         }
 
@@ -127,7 +133,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!Util.IsDateValid(MatchYear, MatchMonth, MatchDay))
+                if (!DateUtil.IsDateValid(MatchYear, MatchMonth, MatchDay))
                     return null;
                 return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
             }
@@ -153,7 +159,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!Util.IsDateValid(UploadYear, UploadMonth, UploadDay))
+                if (!DateUtil.IsDateValid(UploadYear, UploadMonth, UploadDay))
                     return null;
                 return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
             }

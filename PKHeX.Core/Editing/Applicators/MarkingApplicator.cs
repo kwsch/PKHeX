@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for modifying the <see cref="PKM.Markings"/>.
+    /// </summary>
     public static class MarkingApplicator
     {
         /// <summary>
@@ -21,7 +24,7 @@ namespace PKHeX.Core
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
 
-            var markings = ivs.Select(MarkingMethod(pk)).ToArray();
+            var markings = ivs.Select(MarkingMethod(pk)).ToArray(); // future: stackalloc
             pk.Markings = PKX.ReorderSpeedLast(markings);
         }
 
@@ -56,15 +59,11 @@ namespace PKHeX.Core
         {
             switch (pk.Format)
             {
-                case 3:
-                case 4:
-                case 5:
-                case 6: // on/off
+                case 3 or 4 or 5 or 6: // on/off
                     markings[index] ^= 1; // toggle
                     pk.Markings = markings;
                     break;
-                case 7: // 0 (none) | 1 (blue) | 2 (pink)
-                case 8:
+                case 7 or 8: // 0 (none) | 1 (blue) | 2 (pink)
                     markings[index] = (markings[index] + 1) % 3; // cycle 0->1->2->0...
                     pk.Markings = markings;
                     break;
@@ -79,14 +78,12 @@ namespace PKHeX.Core
             return GetComplexMarking;
 
             static int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
-            static int GetComplexMarking(int val, int _)
+            static int GetComplexMarking(int val, int _) => val switch
             {
-                if (val == 31 || val == 1)
-                    return 1;
-                if (val == 30 || val == 0)
-                    return 2;
-                return 0;
-            }
+                31 or 1 => 1,
+                30 or 0 => 2,
+                _ => 0,
+            };
         }
     }
 }

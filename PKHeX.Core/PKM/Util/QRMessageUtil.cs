@@ -60,7 +60,7 @@ namespace PKHeX.Core
         /// <returns>QR Message</returns>
         public static string GetMessage(DataMysteryGift mg)
         {
-            var server = GetExploitURLPrefixWC(mg.Format);
+            var server = GetExploitURLPrefixWC(mg.Generation);
             var data = mg.Write();
             return GetMessageBase64(data, server);
         }
@@ -91,10 +91,12 @@ namespace PKHeX.Core
                 int payloadBegin = url.IndexOf('#');
                 if (payloadBegin < 0) // bad URL, need the payload separator
                     return null;
-                url = url.Substring(payloadBegin + 1); // Trim URL to right after #
+                url = url[(payloadBegin + 1)..]; // Trim URL to right after #
                 return Convert.FromBase64String(url);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return null;
             }

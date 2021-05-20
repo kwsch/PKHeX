@@ -3,7 +3,7 @@
     /// <summary>
     /// Tracks Geolocation history of a <see cref="PKM"/>
     /// </summary>
-    public interface IGeoTrack
+    public interface IGeoTrack : IRegionOrigin
     {
         int Geo1_Region { get; set; }
         int Geo2_Region { get; set; }
@@ -90,7 +90,9 @@
             }
         }
 
-        public static GeoValid GetValidity(this IGeoTrack g)
+        public static bool GetIsValid(this IGeoTrack g) => g.GetValidity() == GeoValid.Valid;
+
+        internal static GeoValid GetValidity(this IGeoTrack g)
         {
             bool end = false;
             GeoValid result;
@@ -121,7 +123,7 @@
         }
     }
 
-    public enum GeoValid
+    internal enum GeoValid
     {
         Valid,
         CountryAfterPreviousEmpty,

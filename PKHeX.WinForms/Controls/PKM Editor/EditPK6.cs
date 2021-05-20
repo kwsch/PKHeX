@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK6()
         {
-            if (!(Entity is PK6 pk6))
+            if (Entity is not PK6 pk6)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk6);
@@ -25,7 +25,7 @@ namespace PKHeX.WinForms.Controls
 
         private PK6 PreparePK6()
         {
-            if (!(Entity is PK6 pk6))
+            if (Entity is not PK6 pk6)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk6);
@@ -42,7 +42,7 @@ namespace PKHeX.WinForms.Controls
 
             // Unneeded Party Stats (Status, Flags, Unused)
             pk6.Data[0xE8] = pk6.Data[0xE9] = pk6.Data[0xEA] = pk6.Data[0xEB] =
-                pk6.Data[0xED] = pk6.Data[0xEE] = pk6.Data[0xEF] =
+                pk6.Data[0xEF] =
                 pk6.Data[0xFE] = pk6.Data[0xFF] = pk6.Data[0x100] =
                 pk6.Data[0x101] = pk6.Data[0x102] = pk6.Data[0x103] = 0;
 

@@ -8,7 +8,7 @@ namespace PKHeX.WinForms
 {
     public static class PluginLoader
     {
-        public static IEnumerable<T> LoadPlugins<T>(string pluginPath)
+        public static IEnumerable<T> LoadPlugins<T>(string pluginPath) where T : class
         {
             var dllFileNames = !Directory.Exists(pluginPath)
                 ? Enumerable.Empty<string>()
@@ -18,9 +18,14 @@ namespace PKHeX.WinForms
             return LoadPlugins<T>(pluginTypes);
         }
 
-        private static IEnumerable<T> LoadPlugins<T>(IEnumerable<Type> pluginTypes)
+        private static IEnumerable<T> LoadPlugins<T>(IEnumerable<Type> pluginTypes) where T : class
         {
-            return pluginTypes.Select(type => (T)Activator.CreateInstance(type));
+            foreach (var t in pluginTypes)
+            {
+                var activate = (T?) Activator.CreateInstance(t);
+                if (activate != null)
+                    yield return activate;
+            }
         }
 
         private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames)
@@ -39,7 +44,7 @@ namespace PKHeX.WinForms
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
             var pluginType = typeof(T);
-            return assemblies.Where(z => z != null).SelectMany(z => GetPluginTypes(z, pluginType));
+            return assemblies.SelectMany(z => GetPluginTypes(z, pluginType));
         }
 
         private static IEnumerable<Type> GetPluginTypes(Assembly z, Type pluginType)
@@ -49,7 +54,10 @@ namespace PKHeX.WinForms
                 var types = z.GetTypes();
                 return types.Where(type => IsTypePlugin(type, pluginType));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // User plugins can be out of date, with mismatching API surfaces.
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
                 return Enumerable.Empty<Type>();
@@ -60,7 +68,10 @@ namespace PKHeX.WinForms
         {
             if (type.IsInterface || type.IsAbstract)
                 return false;
-            if (type.GetInterface(pluginType.FullName) == null)
+            var name = pluginType.FullName;
+            if (name == null)
+                return false;
+            if (type.GetInterface(name) == null)
                 return false;
             return true;
         }

@@ -24,22 +24,16 @@ namespace PKHeX.Core
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
         {
             var pidiv = data.Info.PIDIV;
-            if (pidiv.Type != PIDType.CXD && pidiv.Type != PIDType.CXDAnti)
-                return;
+            if (pidiv.Type is not (PIDType.CXD or PIDType.CXDAnti))
+                return; // already flagged as invalid
 
-            bool valid;
-            var EncounterMatch = data.EncounterMatch;
             var pkm = data.pkm;
-            switch (EncounterMatch.Species)
+            bool valid = data.EncounterMatch.Species switch
             {
-                case (int)Species.Eevee:
-                    valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
-                case (int)Species.Espeon:
-                case (int)Species.Umbreon:
-                    valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
-                default:
-                    return;
-            }
+                (int)Species.Eevee => LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID),
+                (int)Species.Espeon or (int)Species.Umbreon => pidiv.Type == PIDType.CXD_ColoStarter,
+                _ => true
+            };
             if (!valid)
                 data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
         }

@@ -12,9 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-
-            bool checksRequired = EncounterMatch is EncounterStatic5N;
+            bool checksRequired = data.EncounterMatch is EncounterStatic5N;
             if (pkm is PK5 pk5)
             {
                 bool has = pk5.NPokémon;
@@ -27,6 +25,8 @@ namespace PKHeX.Core
             if (!checksRequired)
                 return;
 
+            if (pkm.OT_Gender != 0)
+                data.AddLine(GetInvalid(LG5OTGenderN, CheckIdentifier.Trainer));
             if (pkm.IVTotal != 30*6)
                 data.AddLine(GetInvalid(LG5IVAll30, CheckIdentifier.IVs));
             if (!VerifyNsPKMOTValid(pkm))
@@ -42,7 +42,7 @@ namespace PKHeX.Core
             var ot = pkm.OT_Name;
             if (ot.Length != 1)
                 return false;
-            var c = Legal.GetG5OT_NSparkle(pkm.Language);
+            var c = EncounterStatic5N.GetOT(pkm.Language);
             return c == ot;
         }
     }

@@ -25,6 +25,22 @@ namespace PKHeX.WinForms
             TLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
             PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
+
+            if (pk is IRibbonIndex x && x is PK8 pk8)
+            {
+                var names = Enum.GetNames(typeof(RibbonIndex));
+                var values = (RibbonIndex[])Enum.GetValues(typeof(RibbonIndex));
+                var items = names.Select((z, i) => new ComboItem(RibbonStrings.GetName("Ribbon"+z), (int) values[i])).OrderBy(z => z.Text);
+                var ds = new List<ComboItem> {new(GameInfo.GetStrings(Main.CurrentLanguage).Move[0], -1)};
+                ds.AddRange(items.ToArray());
+                CB_Affixed.InitializeBinding();
+                CB_Affixed.DataSource = ds;
+                CB_Affixed.SelectedValue = (int)pk8.AffixedRibbon;
+            }
+            else
+            {
+                CB_Affixed.Visible = false;
+            }
         }
 
         private readonly IReadOnlyList<RibbonInfo> riblist;
@@ -55,9 +71,9 @@ namespace PKHeX.WinForms
                 AddRibbonChoice(rib);
 
             // Force auto-size
-            foreach (RowStyle style in TLP_Ribbons.RowStyles)
+            foreach (var style in TLP_Ribbons.RowStyles.OfType<RowStyle>())
                 style.SizeType = SizeType.AutoSize;
-            foreach (ColumnStyle style in TLP_Ribbons.ColumnStyles)
+            foreach (var style in TLP_Ribbons.ColumnStyles.OfType<ColumnStyle>())
                 style.SizeType = SizeType.AutoSize;
         }
 
@@ -66,7 +82,7 @@ namespace PKHeX.WinForms
             var name = rib.Name;
             var pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
             var img = SpriteUtil.GetRibbonSprite(name);
-            pb.BackgroundImage = (Bitmap)img;
+            pb.BackgroundImage = img;
 
             var display = RibbonStrings.GetName(name);
             pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);
@@ -144,6 +160,9 @@ namespace PKHeX.WinForms
         {
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
+
+            if (pkm is IRibbonIndex x && x is PK8 pk8)
+                pk8.AffixedRibbon = (sbyte)WinFormsUtil.GetIndex(CB_Affixed);
         }
 
         private void B_All_Click(object sender, EventArgs e)
@@ -167,10 +186,13 @@ namespace PKHeX.WinForms
             if (ModifierKeys == Keys.Shift)
             {
                 RibbonApplicator.RemoveAllValidRibbons(pkm);
+                if (pkm is PK8 pk8)
+                    pk8.AffixedRibbon = -1;
                 Close();
                 return;
             }
 
+            CB_Affixed.SelectedValue = -1;
             foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
                 c.Checked = false;
             foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())

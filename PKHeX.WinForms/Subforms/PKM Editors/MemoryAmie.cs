@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             GetLangStrings();
             LoadFields();
 
-            if (!(pkm is IGeoTrack))
+            if (pkm is not IGeoTrack)
                 tabControl1.TabPages.Remove(Tab_Residence);
         }
 
@@ -61,21 +61,29 @@ namespace PKHeX.WinForms
             M_Fullness.Text = pkm.Fullness.ToString();
             M_Enjoyment.Text = pkm.Enjoyment.ToString();
 
-            // Load the CT Memories
-            M_CT_Friendship.Text = pkm.HT_Friendship.ToString();
-            M_CT_Affection.Text = pkm.HT_Affection.ToString();
-            CB_CTQual.SelectedIndex = Math.Max(0, pkm.HT_Intensity - 1);
-            CB_CTMemory.SelectedValue = pkm.HT_Memory;
-            CB_CTVar.SelectedValue = pkm.HT_TextVar;
-            CB_CTFeel.SelectedIndex = pkm.HT_Feeling;
-
-            // Load the OT Memories
             M_OT_Friendship.Text = pkm.OT_Friendship.ToString();
-            M_OT_Affection.Text = pkm.OT_Affection.ToString();
-            CB_OTQual.SelectedIndex = Math.Max(0, pkm.OT_Intensity - 1);
-            CB_OTMemory.SelectedValue = pkm.OT_Memory;
-            CB_OTVar.SelectedValue = pkm.OT_TextVar;
-            CB_OTFeel.SelectedIndex = pkm.OT_Feeling;
+            M_CT_Friendship.Text = pkm.HT_Friendship.ToString();
+
+            if (pkm is IAffection a)
+            {
+                M_OT_Affection.Text = a.OT_Affection.ToString();
+                M_CT_Affection.Text = a.HT_Affection.ToString();
+            }
+
+            if (pkm is ITrainerMemories m)
+            {
+                // Load the OT Memories
+                CB_OTQual.SelectedIndex = Math.Max(0, m.OT_Intensity - 1);
+                CB_OTMemory.SelectedValue = m.OT_Memory;
+                CB_OTVar.SelectedValue = m.OT_TextVar;
+                CB_OTFeel.SelectedIndex = m.OT_Feeling;
+
+                // Load the HT Memories
+                CB_CTQual.SelectedIndex = Math.Max(0, m.HT_Intensity - 1);
+                CB_CTMemory.SelectedValue = m.HT_Memory;
+                CB_CTVar.SelectedValue = m.HT_TextVar;
+                CB_CTFeel.SelectedIndex = m.HT_Feeling;
+            }
 
             CB_Handler.Items.Clear();
             CB_Handler.Items.Add($"{pkm.OT_Name} ({TextArgs.OT})"); // OTNAME : OT
@@ -94,7 +102,7 @@ namespace PKHeX.WinForms
             if (!pkm.IsEgg)
             {
                 bool enable;
-                if (pkm.GenNumber < 6)
+                if (pkm.Generation < 6)
                 {
                     // Previous Generation Mon
                     GB_M_OT.Text = $"{TextArgs.PastGen} {pkm.OT_Name}: {TextArgs.OT}"; // Past Gen OT : OTNAME
@@ -158,22 +166,29 @@ namespace PKHeX.WinForms
 
             // Save 0-255 stats
             pkm.HT_Friendship = Util.ToInt32(M_CT_Friendship.Text);
-            pkm.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
             pkm.OT_Friendship = Util.ToInt32(M_OT_Friendship.Text);
-            pkm.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
+
+            if (pkm is IAffection a)
+            {
+                a.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
+                a.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
+            }
             pkm.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
             pkm.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
 
             // Save Memories
-            pkm.HT_Memory = WinFormsUtil.GetIndex(CB_CTMemory);
-            pkm.HT_TextVar = CB_CTVar.Enabled ? WinFormsUtil.GetIndex(CB_CTVar) : 0;
-            pkm.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
-            pkm.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
+            if (pkm is ITrainerMemories m)
+            {
+                m.OT_Memory = WinFormsUtil.GetIndex(CB_OTMemory);
+                m.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.GetIndex(CB_OTVar) : 0;
+                m.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
+                m.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
 
-            pkm.OT_Memory = WinFormsUtil.GetIndex(CB_OTMemory);
-            pkm.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.GetIndex(CB_OTVar) : 0;
-            pkm.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
-            pkm.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
+                m.HT_Memory = WinFormsUtil.GetIndex(CB_CTMemory);
+                m.HT_TextVar = CB_CTVar.Enabled ? WinFormsUtil.GetIndex(CB_CTVar) : 0;
+                m.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
+                m.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
+            }
         }
 
         // Event Actions
@@ -216,11 +231,11 @@ namespace PKHeX.WinForms
             if (sender == CB_CTMemory)
             {
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.GenNumber);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.Generation);
                 var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
-                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.GenNumber);
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Generation);
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
@@ -243,7 +258,7 @@ namespace PKHeX.WinForms
             if (mem == 0)
             {
                 string nn = pkm.Nickname;
-                result = string.Format(GameInfo.Strings.memories[mem + 38], nn);
+                result = string.Format(GameInfo.Strings.memories[38], nn);
                 enabled = false;
             }
             else
@@ -296,7 +311,7 @@ namespace PKHeX.WinForms
 
         private void ChangeCountryText(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox cb) || !string.IsNullOrWhiteSpace(cb.Text))
+            if (sender is not ComboBox cb || !string.IsNullOrWhiteSpace(cb.Text))
                 return;
             cb.SelectedValue = 0;
             ChangeCountryIndex(sender, e);
@@ -304,7 +319,7 @@ namespace PKHeX.WinForms
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox tb)) return;
+            if (sender is not MaskedTextBox tb) return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
         }
@@ -326,7 +341,7 @@ namespace PKHeX.WinForms
                 PrevCountries[i].SelectedValue = 0;
         }
 
-        private class TextMarkup
+        private sealed class TextMarkup
         {
             public string Disabled { get; } = nameof(Disabled);
             public string NeverLeft { get; } = "Never left";
@@ -343,32 +358,29 @@ namespace PKHeX.WinForms
             public TextMarkup(string[] args)
             {
                 Array.Resize(ref args, 10);
-                if (args[0] != null) Disabled = args[0];
-                if (args[1] != null) NeverLeft = args[1];
-                if (args[2] != null) OT = args[2];
-                if (args[3] != null) PastGen = args[3];
-                if (args[4] != null) MemoriesWith = args[4];
+                if (!string.IsNullOrWhiteSpace(args[0])) Disabled = args[0];
+                if (!string.IsNullOrWhiteSpace(args[1])) NeverLeft = args[1];
+                if (!string.IsNullOrWhiteSpace(args[2])) OT = args[2];
+                if (!string.IsNullOrWhiteSpace(args[3])) PastGen = args[3];
+                if (!string.IsNullOrWhiteSpace(args[4])) MemoriesWith = args[4];
 
                 // Pokémon ; Area ; Item(s) ; Move ; Location
-                if (args[5] != null) Species = args[5] + ":";
-                if (args[6] != null) Area = args[6] + ":";
-                if (args[7] != null) Item = args[7] + ":";
-                if (args[8] != null) Move = args[8] + ":";
-                if (args[9] != null) Location = args[9] + ":";
+                if (!string.IsNullOrWhiteSpace(args[5])) Species = args[5] + ":";
+                if (!string.IsNullOrWhiteSpace(args[6])) Area = args[6] + ":";
+                if (!string.IsNullOrWhiteSpace(args[7])) Item = args[7] + ":";
+                if (!string.IsNullOrWhiteSpace(args[8])) Move = args[8] + ":";
+                if (!string.IsNullOrWhiteSpace(args[9])) Location = args[9] + ":";
             }
 
-            public string GetMemoryCategory(MemoryArgType type, int format)
+            public string GetMemoryCategory(MemoryArgType type, int format) => type switch
             {
-                return type switch
-                {
-                    MemoryArgType.GeneralLocation => Area,
-                    MemoryArgType.SpecificLocation when format == 6 => Location,
-                    MemoryArgType.Species => Species,
-                    MemoryArgType.Move => Move,
-                    MemoryArgType.Item => Item,
-                    _ => string.Empty
-                };
-            }
+                MemoryArgType.GeneralLocation => Area,
+                MemoryArgType.SpecificLocation when format == 6 => Location,
+                MemoryArgType.Species => Species,
+                MemoryArgType.Move => Move,
+                MemoryArgType.Item => Item,
+                _ => string.Empty
+            };
         }
     }
 }

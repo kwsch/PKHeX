@@ -40,20 +40,18 @@ namespace PKHeX.Core
             record.Data.CopyTo(Data, ofs);
         }
 
-        public WR7[] Records
+        public WR7[] GetRecords()
         {
-            get
-            {
-                var arr = new WR7[RecordMax];
-                for (int i = 0; i < arr.Length; i++)
-                    arr[i] = GetRecord(i);
-                return arr;
-            }
-            set
-            {
-                for (int i = 0; i < value.Length; i++)
-                    SetRecord(value[i], i);
-            }
+            var arr = new WR7[RecordMax];
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = GetRecord(i);
+            return arr;
+        }
+
+        public void SetRecords(WR7[] value)
+        {
+            for (int i = 0; i < value.Length; i++)
+                SetRecord(value[i], i);
         }
 
         public bool GetFlag(int flag)
@@ -73,20 +71,18 @@ namespace PKHeX.Core
                 Data[ofs] &= (byte)~mask;
         }
 
-        public bool[] Flags
+        public bool[] GetFlags()
         {
-            get
-            {
-                var value = new bool[FlagCountMax];
-                for (int i = 0; i < value.Length; i++)
-                    value[i] = GetFlag(i);
-                return value;
-            }
-            set
-            {
-                for (int i = 0; i < value.Length; i++)
-                    SetFlag(i, value[i]);
-            }
+            var value = new bool[FlagCountMax];
+            for (int i = 0; i < value.Length; i++)
+                value[i] = GetFlag(i);
+            return value;
+        }
+
+        public void SetFlags(bool[] value)
+        {
+            for (int i = 0; i < value.Length; i++)
+                SetFlag(i, value[i]);
         }
     }
 }

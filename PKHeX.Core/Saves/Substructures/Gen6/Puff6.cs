@@ -9,11 +9,8 @@ namespace PKHeX.Core
 
         public Puff6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
-        public byte[] Puffs
-        {
-            get => SAV.GetData(Offset, PuffSlots);
-            set => SAV.SetData(value, Offset);
-        }
+        public byte[] GetPuffs() => SAV.GetData(Offset, PuffSlots);
+        public void SetPuffs(byte[] value) => SAV.SetData(value, Offset);
 
         public int PuffCount
         {

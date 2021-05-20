@@ -8,10 +8,10 @@ namespace PKHeX.Drawing
     {
         public static bool AllowShinySprite { get; set; }
 
-        private const string Separator = "_";
-        private const string Cosplay = "c";
-        private const string Shiny = "s";
-        private const string GGStarter = "p";
+        private const char Separator = '_';
+        private const char Cosplay = 'c';
+        private const char Shiny = 's';
+        private const char GGStarter = 'p';
 
         /// <summary>
         /// Gets the resource name of the <see cref="Ball"/> sprite.
@@ -26,7 +26,7 @@ namespace PKHeX.Drawing
             if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(12); // longest expected string result
             sb.Append(Separator).Append(species);
 
             if (form != 0)
@@ -36,9 +36,14 @@ namespace PKHeX.Drawing
                 if (species == (int) Species.Pikachu)
                 {
                     if (generation == 6)
+                    {
                         sb.Append(Cosplay);
+                        gender = 1; // Cosplay Pikachu gift can only be Female, but personal entries are set to be either Gender
+                    }
                     else if (form == 8)
+                    {
                         sb.Append(GGStarter);
+                    }
                 }
                 else if (species == (int) Species.Eevee)
                 {
@@ -64,9 +69,9 @@ namespace PKHeX.Drawing
         }
 
         /// <summary>
-        /// Species that show their default Species sprite regardless of current <see cref="PKM.AltForm"/>
+        /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
         /// </summary>
-        private static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
+        private static readonly HashSet<int> SpeciesDefaultFormSprite = new()
         {
             (int)Species.Mothim,
             (int)Species.Arceus,
@@ -83,7 +88,7 @@ namespace PKHeX.Drawing
         /// <summary>
         /// Species that show a <see cref="PKM.Gender"/> specific Sprite
         /// </summary>
-        private static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
+        private static readonly HashSet<int> SpeciesGenderedSprite = new()
         {
             (int)Species.Pikachu,
             (int)Species.Hippopotas,

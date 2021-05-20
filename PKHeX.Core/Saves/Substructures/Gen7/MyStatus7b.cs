@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -39,21 +38,14 @@ namespace PKHeX.Core
 
         public string GameSyncID
         {
-            get
-            {
-                var data = Data.Skip(Offset + 0x10).Take(GameSyncIDSize / 2).Reverse().ToArray();
-                return BitConverter.ToString(data).Replace("-", string.Empty);
-            }
+            get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
             set
             {
                 if (value.Length > 16)
                     throw new ArgumentException(nameof(value));
 
-                Enumerable.Range(0, value.Length)
-                    .Where(x => x % 2 == 0)
-                    .Reverse()
-                    .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
-                    .ToArray().CopyTo(Data, Offset + 0x10);
+                var data = Util.GetBytesFromHexString(value);
+                SAV.SetData(data, Offset + 0x10);
             }
         }
 

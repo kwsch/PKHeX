@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -27,12 +27,12 @@ namespace PKHeX.Core
             get => Data[0x00]; set => Data[0x00] = value;
         }
 
-        public bool PL_enabled { get => PL_Flag != 0; set => PL_Flag = (byte)(value ? 1 << 7 : 0); }
+        public bool PL_enabled { get => PL_Flag != 0; set => PL_Flag = value ? (byte)(1 << 7) : (byte)0; }
 
         /// <summary>
         /// Name of data source
         /// </summary>
-        public string Origin { get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x01, 0x6E)); set => Encoding.Unicode.GetBytes(value.PadRight(54 + 1, '\0')).CopyTo(Data, 0x01); }
+        public string Origin { get => StringConverter.GetString6(Data, 0x01, 110); set => StringConverter.SetString6(value, 54, 55).CopyTo(Data, 0x01); }
 
         // Pokemon transfer flags?
         public uint Flags_1 { get => BitConverter.ToUInt32(Data, 0x099); set => BitConverter.GetBytes(value).CopyTo(Data, 0x099); }
@@ -43,12 +43,12 @@ namespace PKHeX.Core
         public uint Flags_6 { get => BitConverter.ToUInt32(Data, 0x3E1); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3E1); }
 
         // Pokémon
-        public PL6_PKM Poke_1 { get => new PL6_PKM(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
-        public PL6_PKM Poke_2 { get => new PL6_PKM(Data.Slice(0x145, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x145); }
-        public PL6_PKM Poke_3 { get => new PL6_PKM(Data.Slice(0x1ED, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x1ED); }
-        public PL6_PKM Poke_4 { get => new PL6_PKM(Data.Slice(0x295, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x295); }
-        public PL6_PKM Poke_5 { get => new PL6_PKM(Data.Slice(0x33D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x33D); }
-        public PL6_PKM Poke_6 { get => new PL6_PKM(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
+        public PL6_PKM Poke_1 { get => new(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
+        public PL6_PKM Poke_2 { get => new(Data.Slice(0x145, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x145); }
+        public PL6_PKM Poke_3 { get => new(Data.Slice(0x1ED, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x1ED); }
+        public PL6_PKM Poke_4 { get => new(Data.Slice(0x295, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x295); }
+        public PL6_PKM Poke_5 { get => new(Data.Slice(0x33D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x33D); }
+        public PL6_PKM Poke_6 { get => new(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
 
         // Item Properties
         public int Item_1     { get => BitConverter.ToUInt16(Data, 0x489); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x489); }
@@ -66,61 +66,6 @@ namespace PKHeX.Core
 
         public int BattlePoints { get => BitConverter.ToUInt16(Data, 0x4A1); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A1); }
         public int Pokemiles { get => BitConverter.ToUInt16(Data, 0x4A3); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); }
-
-        public uint[] Flags
-        {
-            get => new[] { Flags_1, Flags_2, Flags_3, Flags_4, Flags_5, Flags_6 }; set
-            {
-                if (value.Length > 0) Flags_1 = value[0];
-                if (value.Length > 1) Flags_2 = value[1];
-                if (value.Length > 2) Flags_3 = value[2];
-                if (value.Length > 3) Flags_4 = value[3];
-                if (value.Length > 4) Flags_5 = value[4];
-                if (value.Length > 5) Flags_6 = value[5];
-            }
-        }
-
-        public PL6_PKM[] Pokes
-        {
-            get => new[] { Poke_1, Poke_2, Poke_3, Poke_4, Poke_5, Poke_6 };
-            set
-            {
-                if (value.Length > 0) Poke_1 = value[0];
-                if (value.Length > 1) Poke_2 = value[1];
-                if (value.Length > 2) Poke_3 = value[2];
-                if (value.Length > 3) Poke_4 = value[3];
-                if (value.Length > 4) Poke_5 = value[4];
-                if (value.Length > 5) Poke_6 = value[5];
-            }
-        }
-
-        public int[] Items
-        {
-            get => new[] { Item_1, Item_2, Item_3, Item_4, Item_5, Item_6 };
-            set
-            {
-                if (value.Length > 0) Item_1 = value[0];
-                if (value.Length > 1) Item_2 = value[1];
-                if (value.Length > 2) Item_3 = value[2];
-                if (value.Length > 3) Item_4 = value[3];
-                if (value.Length > 4) Item_5 = value[4];
-                if (value.Length > 5) Item_6 = value[5];
-            }
-        }
-
-        public int[] Quantities
-        {
-            get => new[] { Quantity_1, Quantity_2, Quantity_3, Quantity_4, Quantity_5, Quantity_6 };
-            set
-            {
-                if (value.Length > 0) Quantity_1 = value[0];
-                if (value.Length > 1) Quantity_2 = value[1];
-                if (value.Length > 2) Quantity_3 = value[2];
-                if (value.Length > 3) Quantity_4 = value[3];
-                if (value.Length > 4) Quantity_5 = value[4];
-                if (value.Length > 5) Quantity_6 = value[5];
-            }
-        }
     }
 
     /// <summary>
@@ -155,8 +100,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x1E, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12 + 1, '\0')).CopyTo(Data, 0x1E);
+            get => StringConverter.GetString6(Data, 0x1E, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x1E);
         }
 
         public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
@@ -185,12 +130,12 @@ namespace PKHeX.Core
 
         public string OT
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x4E, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0x4E);
+            get => StringConverter.GetString6(Data, 0x4E, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x4E);
         }
 
         public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }
-        public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = (byte)(value ? 1 : 0); }
+        public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? (byte)1 : (byte)0; }
         public uint PID { get => BitConverter.ToUInt32(Data, 0x6C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x6C); }
         public int RelearnMove1 { get => BitConverter.ToUInt16(Data, 0x70); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
         public int RelearnMove2 { get => BitConverter.ToUInt16(Data, 0x72); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x72); }
@@ -224,27 +169,27 @@ namespace PKHeX.Core
         public int LevelMin => MetLevel;
         public int LevelMax => MetLevel;
 
-        public int[] Moves
+        public IReadOnlyList<int> Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
             set
             {
-                if (value.Length > 0) Move1 = value[0];
-                if (value.Length > 1) Move2 = value[1];
-                if (value.Length > 2) Move3 = value[2];
-                if (value.Length > 3) Move4 = value[3];
+                if (value.Count > 0) Move1 = value[0];
+                if (value.Count > 1) Move2 = value[1];
+                if (value.Count > 2) Move3 = value[2];
+                if (value.Count > 3) Move4 = value[3];
             }
         }
 
-        public int[] RelearnMoves
+        public IReadOnlyList<int> RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
             set
             {
-                if (value.Length > 0) RelearnMove1 = value[0];
-                if (value.Length > 1) RelearnMove2 = value[1];
-                if (value.Length > 2) RelearnMove3 = value[2];
-                if (value.Length > 3) RelearnMove4 = value[3];
+                if (value.Count > 0) RelearnMove1 = value[0];
+                if (value.Count > 1) RelearnMove2 = value[1];
+                if (value.Count > 2) RelearnMove3 = value[2];
+                if (value.Count > 3) RelearnMove4 = value[3];
             }
         }
     }

@@ -1,0 +1,34 @@
+(Aucun)
+Piège Fronde ↑
+Piège Fronde →
+Piège Fronde ↓
+Piège Fronde ←
+Piège Baliste ↑
+Piège Baliste →
+Piège Baliste ↓
+Piège Baliste ←
+Piège Télé
+Méga Piège Télé
+Piège Trou
+Piège Grotrou
+Piège Inversion
+Piège Confusion
+Piège Coureur
+Piège Invisible
+Piège Ralenti
+Piège Fumée
+Piège Nuage
+Piège Rocher
+Piège Grorocher
+Piège Mousse
+Piège Bulle
+Piège Alerte 1
+Piège Alerte 2
+Piège Alerte 3
+Piège Alerte 4
+Piège Feuille
+Piège Fleur
+Piège Feu
+Piège Brasier
+Piège Radar
+Foreuse

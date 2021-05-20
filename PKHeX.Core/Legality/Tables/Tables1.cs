@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -8,11 +8,6 @@ namespace PKHeX.Core
         internal const int MaxMoveID_1 = 165;
         internal const int MaxItemID_1 = 255;
         internal const int MaxAbilityID_1 = 0;
-
-        /// <summary>
-        /// Generation 1 -> Generation 7 Transfer Location (Kanto)
-        /// </summary>
-        public const int Transfer1 = 30013;
 
         internal static readonly ushort[] Pouch_Items_RBY =
         {
@@ -37,12 +32,16 @@ namespace PKHeX.Core
             35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 30, 30, 35, 35, 20, 15, 20, 20, 10, 20, 30, 05, 25, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 20, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,
             30, 25, 15, 30, 25, 05, 15, 10, 05, 20, 20, 20, 05, 35, 20, 25, 20, 20, 20, 15, 20, 10, 10, 40, 25, 10, 35, 30, 15, 20, 40, 10, 15, 30, 15, 20, 10, 15, 10, 05, 10, 10, 25, 10, 20, 40, 30, 30, 20, 20,
             15, 10, 40, 15, 20, 30, 20, 20, 10, 40, 40, 30, 30, 30, 20, 30, 10, 10, 20, 05, 10, 30, 20, 20, 20, 05, 15, 10, 20, 15, 15, 35, 20, 15, 10, 20, 30, 15, 40, 20, 15, 10, 05, 10, 30, 10, 15, 20, 15, 40,
-            40, 10, 05, 15, 10, 10, 10, 15, 30, 30, 10, 10, 20, 10, 10, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-            00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
-            00, 00, 00, 00, 00, 00
+            40, 10, 05, 15, 10, 10, 10, 15, 30, 30, 10, 10, 20, 10, 10,
         };
 
-        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_1 = new HashSet<int> {92, 93, 94, 109, 110, 151};
+        internal static bool TransferSpeciesDefaultAbilityGen1(int species)
+        {
+            System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_1);
+            return species is (int)Gastly or (int)Haunter or (int)Gengar
+                or (int)Koffing or (int)Weezing
+                or (int)Mew;
+        }
 
         internal static readonly int[] TMHM_RBY =
         {
@@ -53,19 +52,6 @@ namespace PKHeX.Core
             135, 138, 143, 156, 086, 149, 153, 157, 161, 164,
 
             015, 019, 057, 070, 148
-        };
-
-        internal static readonly int[] WildPokeBalls1 = {4};
-
-        internal static readonly HashSet<int> FutureEvolutionsGen1 = new HashSet<int>
-        {
-            169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
-        };
-
-        internal static readonly HashSet<int> FutureEvolutionsGen1_Gen2LevelUp = new HashSet<int>
-        {
-            // Crobat Espeon Umbreon Blissey
-            169,196,197,242
         };
     }
 }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     public abstract class SaveBlock
     {
         [Browsable(false)]
-        public int Offset { get; protected set; }
+        public int Offset { get; protected init; }
 
         public readonly byte[] Data;
         protected readonly SaveFile SAV;

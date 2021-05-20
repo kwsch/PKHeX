@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Stat/misc data for individual species or their associated alternate forme data.
+    /// Stat/misc data for individual species or their associated alternate form data.
     /// </summary>
     public abstract class PersonalInfo
     {
@@ -53,19 +54,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Base Stat values
         /// </summary>
-        public int[] Stats
-        {
-            get => new[] { HP, ATK, DEF, SPE, SPA, SPD };
-            set
-            {
-                HP = value[0];
-                ATK = value[1];
-                DEF = value[2];
-                SPE = value[3];
-                SPA = value[4];
-                SPD = value[5];
-            }
-        }
+        public IReadOnlyList<int> Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
 
         /// <summary>
         /// Amount of HP Effort Values to yield when defeating this entry.
@@ -130,7 +119,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Held Items the entry can be randomly encountered with.
         /// </summary>
-        public abstract int[] Items { get; set; }
+        public abstract IReadOnlyList<int> Items { get; set; }
 
         /// <summary>
         /// Gender Ratio value determining if the entry is a fixed gender or bi-gendered.
@@ -155,7 +144,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Full list of <see cref="PKM.Ability"/> values the entry can have.
         /// </summary>
-        public abstract int [] Abilities { get; set; }
+        public abstract IReadOnlyList<int> Abilities { get; set; }
+
+        /// <summary>
+        /// Gets the ability index without creating an array and looking through it.
+        /// </summary>
+        /// <param name="abilityID">Ability ID</param>
+        /// <returns>Ability Index</returns>
+        public abstract int GetAbilityIndex(int abilityID);
 
         /// <summary>
         /// Escape factor used for fleeing the Safari Zone or calling for help in SOS Battles.
@@ -163,19 +159,19 @@ namespace PKHeX.Core
         public abstract int EscapeRate { get; set; }
 
         /// <summary>
-        /// Count of <see cref="PKM.AltForm"/> values the entry can have.
+        /// Count of <see cref="PKM.Form"/> values the entry can have.
         /// </summary>
-        public virtual int FormeCount { get; set; } = 1;
+        public virtual int FormCount { get; set; } = 1;
 
         /// <summary>
-        /// Pointer to the first <see cref="PKM.AltForm"/> <see cref="PersonalInfo"/> index
+        /// Pointer to the first <see cref="PKM.Form"/> <see cref="PersonalInfo"/> index
         /// </summary>
         protected internal virtual int FormStatsIndex { get; set; }
 
         /// <summary>
-        /// Pointer to the <see cref="PKM.AltForm"/> sprite index.
+        /// Pointer to the <see cref="PKM.Form"/> sprite index.
         /// </summary>
-        public virtual int FormeSprite { get; set; }
+        public virtual int FormSprite { get; set; }
 
         /// <summary>
         /// Base Experience Yield factor
@@ -198,47 +194,19 @@ namespace PKHeX.Core
         public virtual int Weight { get; set; } = 0;
 
         /// <summary>
-        /// Dual Type IDs used for same-type attack bonuses, weakness, etc.
-        /// </summary>
-        public int[] Types
-        {
-            get => new[] { Type1, Type2 };
-            set
-            {
-                if (value.Length != 2) return;
-                Type1 = value[0];
-                Type2 = value[1];
-            }
-        }
-
-        /// <summary>
-        /// Dual Egg Group IDs used to determine if an egg should be created as a result of both parents sharing at least one group ID.
-        /// </summary>
-        public int[] EggGroups
-        {
-            get => new[] { EggGroup1, EggGroup2 };
-            set
-            {
-                if (value.Length != 2) return;
-                EggGroup1 = (byte)value[0];
-                EggGroup2 = (byte)value[1];
-            }
-        }
-
-        /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TMHM { get; protected set; } = Array.Empty<bool>();
+        public bool[] TMHM = Array.Empty<bool>();
 
         /// <summary>
         /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TypeTutors { get; protected set; } = Array.Empty<bool>();
+        public bool[] TypeTutors = Array.Empty<bool>();
 
         /// <summary>
         /// Special tutor learn compatibility flags for individual moves.
         /// </summary>
-        public bool[][] SpecialTutors { get; protected set; } = Array.Empty<bool[]>();
+        public bool[][] SpecialTutors = Array.Empty<bool[]>();
 
         protected static bool[] GetBits(byte[] data, int start = 0, int length = -1)
         {
@@ -275,21 +243,31 @@ namespace PKHeX.Core
         internal void AddTypeTutors(byte[] data, int start = 0, int length = -1) => TypeTutors = GetBits(data, start, length);
 
         /// <summary>
-        /// Gets the <see cref="PersonalTable"/> <see cref="PKM.AltForm"/> entry index for the input criteria, with fallback for the original species entry.
+        /// Gets the <see cref="PersonalTable"/> <see cref="PKM.Form"/> entry index for the input criteria, with fallback for the original species entry.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/> to retrieve for</param>
-        /// <param name="forme"><see cref="PKM.AltForm"/> to retrieve for</param>
-        /// <returns>Index the <see cref="PKM.AltForm"/> exists as in the <see cref="PersonalTable"/>.</returns>
-        public int FormeIndex(int species, int forme)
+        /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
+        /// <returns>Index the <see cref="PKM.Form"/> exists as in the <see cref="PersonalTable"/>.</returns>
+        public int FormIndex(int species, int form)
         {
-            if (forme <= 0) // no forme requested
+            if (!HasForm(form))
                 return species;
-            if (FormStatsIndex <= 0) // no formes present
-                return species;
-            if (forme >= FormeCount) // beyond range of species' formes
-                return species;
+            return FormStatsIndex + form - 1;
+        }
 
-            return FormStatsIndex + forme - 1;
+        /// <summary>
+        /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.Form"/> entry index available.
+        /// </summary>
+        /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
+        public bool HasForm(int form)
+        {
+            if (form <= 0) // no forme requested
+                return false;
+            if (FormStatsIndex <= 0) // no formes present
+                return false;
+            if (form >= FormCount) // beyond range of species' formes
+                return false;
+            return true;
         }
 
         /// <summary>
@@ -301,8 +279,9 @@ namespace PKHeX.Core
             return fix >= 0 ? fix : Util.Rand.Next(2);
         }
 
-        public bool IsDualGender => FixedGender < 0;
-
+        /// <summary>
+        /// Gets a gender value. Returns -1 if the entry <see cref="IsDualGender"/>.
+        /// </summary>
         public int FixedGender
         {
             get
@@ -316,6 +295,11 @@ namespace PKHeX.Core
                 return -1;
             }
         }
+
+        /// <summary>
+        /// Indicates that the entry has two genders.
+        /// </summary>
+        public bool IsDualGender => (uint)(Gender - 1) < 253;
 
         /// <summary>
         /// Indicates that the entry is exclusively Genderless.
@@ -335,7 +319,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Indicates if the entry has Formes or not.
         ///  </summary>
-        public bool HasFormes => FormeCount > 1;
+        public bool HasForms => FormCount > 1;
 
         /// <summary>
         /// Base Stat Total sum of all stats.
@@ -343,21 +327,20 @@ namespace PKHeX.Core
         public int BST => HP + ATK + DEF + SPE + SPA + SPD;
 
         /// <summary>
-        /// Checks to see if the <see cref="PKM.AltForm"/> is valid within the <see cref="FormeCount"/>
+        /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="FormCount"/>
         /// </summary>
-        /// <param name="forme"></param>
-        /// <returns></returns>
-        public bool IsFormeWithinRange(int forme)
+        /// <param name="form"></param>
+        public bool IsFormWithinRange(int form)
         {
-            if (forme == 0)
+            if (form == 0)
                 return true;
-            return forme < FormeCount;
+            return form < FormCount;
         }
 
         /// <summary>
         /// Checks to see if the provided Types match the entry's types.
         /// </summary>
-        /// <remarks>Input order matters! If input order does not matter, use <see cref="o:IsType(type1, type2)"/>.</remarks>
+        /// <remarks>Input order matters! If input order does not matter, use <see cref="IsType(int, int)"/> instead.</remarks>
         /// <param name="type1">First type</param>
         /// <param name="type2">Second type</param>
         /// <returns>Typing is an exact match</returns>

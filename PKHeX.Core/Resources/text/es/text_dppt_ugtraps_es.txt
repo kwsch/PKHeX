@@ -1,0 +1,34 @@
+(Ninguno)
+Trampa Movim. ↑
+Trampa Movim. →
+Trampa Movim. ↓
+Trampa Movim. ←
+Trampa Salto ↑
+Trampa Salto →
+Trampa Salto ↓
+Trampa Salto ←
+Teletrampa
+Superteletr.
+Trampa Agujero
+Trampa Fosa
+Trampa Inversa
+Trampa Confusa
+Corretrampa
+Trampa Desapar.
+Trampa Ralentí
+Trampa Humo
+Trampa Humo Gr.
+Trampa Piedras
+Trampa Rocas
+Trampa Espuma
+Trampa Burbuja
+Trampa Alerta 1
+Trampa Alerta 2
+Trampa Alerta 3
+Trampa Alerta 4
+Trampa Hoja
+Trampa Flor
+Trampa Brasas
+Trampa Fuego
+Trampa Radar
+Taladro

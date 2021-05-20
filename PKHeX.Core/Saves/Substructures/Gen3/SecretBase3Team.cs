@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
         private SecretBase3PKM GetPKM(int i)
         {
-            return new SecretBase3PKM
+            return new()
             {
                 PID = BitConverter.ToUInt32(Data, GetOffsetPID(i)),
                 Species = BitConverter.ToUInt16(Data, GetOffsetSpecies(i)),

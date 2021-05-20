@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     {
-        protected override string BAKText => $"{Version} #{SaveCount:0000}";
-        public override string Filter => this.GCFilter();
+        protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
@@ -95,15 +94,14 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone()
+        protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
             var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC!) : new SAV3RSBox(data);
-            sav.Header = (byte[])Header.Clone();
             return sav;
         }
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);
@@ -161,7 +159,7 @@ namespace PKHeX.Core
             box /= 2;
 
             int offset = Box + 0x1EC38 + (9 * box);
-            if (Data[offset] == 0 || Data[offset] == 0xFF)
+            if (Data[offset] is 0 or 0xFF)
                 boxName += $"BOX {box + 1}";
             boxName += GetString(offset, 9);
 

@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Pokédex structure used for Generation 7 games.
+    /// </summary>>
     public class Zukan7 : Zukan
     {
         private const int MAGIC = 0x2F120F17;
@@ -12,12 +15,12 @@ namespace PKHeX.Core
         private const int SIZE_MISC = 0x80; // Misc Data (1024 bits)
         private const int SIZE_CAUGHT = 0x68; // 832 bits
 
-        protected override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
-        protected override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
+        protected sealed override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
+        protected sealed override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
 
-        protected override int BitSeenSize => 0x8C; // 1120 bits
-        protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
-        protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
+        protected sealed override int BitSeenSize => 0x8C; // 1120 bits
+        protected sealed override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
+        protected sealed override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
         private readonly IList<int> FormBaseSpecies;
 
@@ -29,12 +32,12 @@ namespace PKHeX.Core
         {
             DexFormIndexFetcher = form;
             FormBaseSpecies = GetFormIndexBaseSpeciesList();
-            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
+            Debug.Assert(!SAV.State.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }
 
-        protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
+        protected sealed override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
         {
             int species = baseBit + 1;
 
@@ -42,8 +45,8 @@ namespace PKHeX.Core
                 isShiny = false;
 
             // Starting with Gen7, form bits are stored in the same region as the species flags.
-            int formstart = altform;
-            int formend = altform;
+            int formstart = form;
+            int formend = form;
             bool reset = GetSaneFormsToIterate(species, out int fs, out int fe, formstart);
             if (reset)
             {
@@ -52,17 +55,17 @@ namespace PKHeX.Core
             }
 
             int shiny = isShiny ? 1 : 0;
-            for (int form = formstart; form <= formend; form++)
+            for (int f = formstart; f <= formend; f++)
             {
                 int formBit = baseBit;
-                if (form > 0) // Override the bit to overwrite
+                if (f > 0) // Override the bit to overwrite
                 {
-                    int fc = SAV.Personal[species].FormeCount;
+                    int fc = SAV.Personal[species].FormCount;
                     if (fc > 1) // actually has forms
                     {
-                        int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
-                        if (f >= 0) // bit index valid
-                            formBit = f + form;
+                        int index = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+                        if (index >= 0) // bit index valid
+                            formBit = index + f;
                     }
                 }
                 SetDexFlags(baseBit, formBit, gender, shiny, value);
@@ -123,18 +126,16 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override int GetDexLangFlag(int lang)
+        protected sealed override int GetDexLangFlag(int lang) => lang switch
         {
-            if (lang > 10 || lang == 6 || lang <= 0)
-                return -1; // invalid language
+            > 10 or 6 or <= 0 => -1, // invalid language
+            // skip over langID 0 (unused) => [0-8]
+            // skip over langID 6 (unused)
+            >= 7 => lang - 2,
+            _ => lang - 1,
+        };
 
-            if (lang >= 7) // skip over langID 6 (unused)
-                lang--;
-            lang--; // skip over langID 0 (unused) => [0-8]
-            return lang;
-        }
-
-        protected override void SetSpindaDexData(PKM pkm, bool alreadySeen)
+        protected sealed override void SetSpindaDexData(PKM pkm, bool alreadySeen)
         {
             int shift = (pkm.Gender & 1) | (pkm.IsShiny ? 2 : 0);
             if (alreadySeen) // update?
@@ -164,14 +165,14 @@ namespace PKHeX.Core
         /// </summary>
         public uint CurrentViewedDex => BitConverter.ToUInt32(SAV.Data, PokeDex + 4) >> 9 & 0x3FF;
 
-        public IEnumerable<int> GetAllFormEntries(int spec)
+        public IEnumerable<int> GetAllFormEntries(int species)
         {
-            var fc = SAV.Personal[spec].FormeCount;
+            var fc = SAV.Personal[species].FormCount;
             for (int j = 1; j < fc; j++)
             {
                 int start = j;
                 int end = j;
-                if (GetSaneFormsToIterate(spec, out int s, out int n, j))
+                if (GetSaneFormsToIterate(species, out int s, out int n, j))
                 {
                     start = s;
                     end = n;
@@ -179,38 +180,38 @@ namespace PKHeX.Core
                 start = Math.Max(1, start);
                 for (int f = start; f <= end; f++)
                 {
-                    int x = GetDexFormIndex(spec, fc, f);
+                    int x = GetDexFormIndex(species, fc, f);
                     if (x >= 0)
                         yield return x;
                 }
             }
         }
 
-        public int GetDexFormIndex(int spec, int fc, int f)
+        public int GetDexFormIndex(int species, int fc, int f)
         {
-            var index = DexFormIndexFetcher(spec, fc, f);
+            var index = DexFormIndexFetcher(species, fc, f);
             if (index < 0)
                 return index;
             return index + SAV.MaxSpeciesID - 1;
         }
 
-        public IList<string> GetEntryNames(IReadOnlyList<string> Species)
+        public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
         {
             var names = new List<string>();
             var max = SAV.MaxSpeciesID;
             for (int i = 1; i <= max; i++)
-                names.Add($"{i:000} - {Species[i]}");
+                names.Add($"{i:000} - {speciesNames[i]}");
 
             // Add Formes
             int ctr = max + 1;
-            for (int spec = 1; spec <= max; spec++)
+            for (int species = 1; species <= max; species++)
             {
-                int c = SAV.Personal[spec].FormeCount;
+                int c = SAV.Personal[species].FormCount;
                 for (int f = 1; f < c; f++)
                 {
-                    int x = GetDexFormIndex(spec, c, f);
+                    int x = GetDexFormIndex(species, c, f);
                     if (x >= 0)
-                        names.Add($"{ctr++:000} - {Species[spec]}-{f}");
+                        names.Add($"{ctr++:000} - {speciesNames[species]}-{f}");
                 }
             }
             return names;
@@ -223,14 +224,14 @@ namespace PKHeX.Core
         private List<int> GetFormIndexBaseSpeciesList()
         {
             var baseSpecies = new List<int>();
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
+            for (int species = 1; species <= SAV.MaxSpeciesID; species++)
             {
-                int c = SAV.Personal[spec].FormeCount;
+                int c = SAV.Personal[species].FormCount;
                 for (int f = 1; f < c; f++)
                 {
-                    int x = GetDexFormIndex(spec, c, f);
+                    int x = GetDexFormIndex(species, c, f);
                     if (x >= 0)
-                        baseSpecies.Add(spec);
+                        baseSpecies.Add(species);
                 }
             }
             return baseSpecies;
@@ -247,8 +248,8 @@ namespace PKHeX.Core
                 return SAV.Personal[index + 1].Gender;
 
             index -= SAV.MaxSpeciesID;
-            int spec = FormBaseSpecies[index];
-            return SAV.Personal[spec].Gender;
+            int species = FormBaseSpecies[index];
+            return SAV.Personal[species].Gender;
         }
 
         public int GetBaseSpecies(int index)
@@ -259,7 +260,7 @@ namespace PKHeX.Core
             return FormBaseSpecies[index - SAV.MaxSpeciesID - 1];
         }
 
-        protected override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
+        protected sealed override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
         {
             lang = GetDexLangFlag(lang);
             if (lang < 0)

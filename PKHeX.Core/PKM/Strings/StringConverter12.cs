@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -9,9 +10,27 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter12
     {
-        public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z));
-        public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z));
+        public static bool GetIsG1Japanese(string str) => AllCharsInDictionary(str, U2RBY_J);
+        public static bool GetIsG1English(string str) => AllCharsInDictionary(str, U2RBY_U);
+        public static bool GetIsG1Japanese(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_J);
+        public static bool GetIsG1English(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_U);
 
+        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
+
+        private static bool AllCharsInDictionary(IReadOnlyList<byte> data, int start, int length, IReadOnlyDictionary<byte, char> d)
+        {
+            for (int i = start; i < start + length; i++)
+            {
+                var c = data[i];
+                if (c == 0)
+                    break;
+                if (!d.ContainsKey(c))
+                    return false;
+            }
+            return true;
+        }
+
+        public const byte G1TerminatorCode = 0x50;
         public const char G1Terminator = '\0';
         public const byte G1TradeOTCode = 0x5D;
         public const char G1TradeOT = '*';
@@ -35,7 +54,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Raw string bytes</param>
         /// <returns>Indication if the data is from a definitely-german string</returns>
-        public static bool IsG12German(IEnumerable<byte> data) => data.Any(z => z >= 0xC0 && z <= 0xC6);
+        public static bool IsG12German(IEnumerable<byte> data) => data.Any(z => z is >= 0xC0 and <= 0xC6);
 
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
@@ -56,58 +75,47 @@ namespace PKHeX.Core
         {
             var dict = jp ? RBY2U_J : RBY2U_U;
 
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
-                if (c == '\0') // Stop if Terminator
+                if (c == G1Terminator) // Stop if Terminator
                     break;
                 s.Append(c);
             }
-            return StringConverter.SanitizeString(s.ToString());
-        }
-
-        /// <summary>
-        /// Converts Generation 1 encoded data the same way Bank converts.
-        /// </summary>
-        /// <param name="data">Generation 1 encoded data.</param>
-        /// <param name="jp">Data source is Japanese.</param>
-        /// <returns>Decoded string.</returns>
-        public static string GetG1ConvertedString(byte[] data, bool jp)
-        {
-            var table = jp ? jp_table : us_table;
-            return string.Concat(data.TakeWhile(b => b != 0).Select(b => (char)table[b]).TakeWhile(b => b != 0));
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>
         /// Converts a string to Generation 1 encoded data.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="jp">Data destination is Japanese.</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-
-            var dict = jp ? U2RBY_J : U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
-                return new[] { dict[G1TradeOT], dict[G1Terminator] };
+                return new[] { G1TradeOTCode, G1TerminatorCode };
 
-            var arr = new List<byte>(padTo);
+            if (value.Length > maxLength)
+                value = value[..maxLength]; // Hard cap
+
+            var capacity = Math.Max(value.Length, padTo);
+            var arr = new List<byte>(capacity);
+            var dict = jp ? U2RBY_J : U2RBY_U;
             foreach (char c in value)
             {
                 if (!dict.TryGetValue(c, out byte val))
                     break;
                 arr.Add(val);
             }
-            var term = dict[G1Terminator]; // terminator
-            arr.Add(term);
+            arr.Add(G1TerminatorCode);
             while (arr.Count < padTo)
                 arr.Add((byte)padWith);
             return arr.ToArray();
@@ -128,53 +136,9 @@ namespace PKHeX.Core
         }
 
         #region Gen 1/2 Character Tables
-        /// <summary>
-        /// International 1->7 character translation table
-        /// </summary>
-        private static readonly ushort[] us_table =
-        {
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 0
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 1
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 2
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 3
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 4
-            0x0000, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 5
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 6
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 7
-            0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, // 8
-            0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057, 0x0058, 0x0059, 0x005A, 0x0028, 0x0029, 0x003A, 0x003B, 0x0028, 0x0029, // 9
-            0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068, 0x0069, 0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, // A
-            0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078, 0x0079, 0x007A, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // B
-            0x00C4, 0x00D6, 0x00DC, 0x00E4, 0x00F6, 0x00FC, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // C
-            0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // D
-            0x0020, 0x0050, 0x004D, 0x002D, 0x0020, 0x0020, 0x003F, 0x0021, 0x002D, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0xE08E, // E
-            0x0020, 0x0078, 0x002E, 0x002F, 0x002C, 0xE08F, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // F
-        };
 
-        /// <summary>
-        /// Japanese 1->7 character translation table
-        /// </summary>
-        private static readonly ushort[] jp_table =
+        internal static readonly Dictionary<byte, char> RBY2U_U = new()
         {
-            0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30AC, 0x30AE, 0x30B0, 0x30B2, 0x30B4, 0x30B6, 0x30B8, 0x30BA, 0x30BC, 0x30BE, 0x30C0, // 0
-            0x30C2, 0x30C5, 0x30C7, 0x30C9, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30D0, 0x30D3, 0x30D6, 0x30DC, 0x3000, 0x3000, 0x3000, // 1
-            0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x304C, 0x304E, 0x3050, 0x3052, 0x3054, 0x3056, 0x3058, 0x305A, 0x305C, 0x305E, // 2
-            0x3060, 0x3062, 0x3065, 0x3067, 0x3069, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3070, 0x3073, 0x3076, 0x30D9, 0x307C, 0x3000, // 3
-            0x30D1, 0x30D4, 0x30D7, 0x30DD, 0x3071, 0x3074, 0x3077, 0x30DA, 0x307D, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // 4
-            0x0000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // 5
-            0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // 6
-            0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // 7
-            0x30A2, 0x30A4, 0x30A6, 0x30A8, 0x30AA, 0x30AB, 0x30AD, 0x30AF, 0x30B1, 0x30B3, 0x30B5, 0x30B7, 0x30B9, 0x30BB, 0x30BD, 0x30BF, // 8
-            0x30C1, 0x30C4, 0x30C6, 0x30C8, 0x30CA, 0x30CB, 0x30CC, 0x30CD, 0x30CE, 0x30CF, 0x30D2, 0x30D5, 0x30DB, 0x30DE, 0x30DF, 0x30E0, // 9
-            0x30E1, 0x30E2, 0x30E4, 0x30E6, 0x30E8, 0x30E9, 0x30EB, 0x30EC, 0x30ED, 0x30EF, 0x30F2, 0x30F3, 0x30C3, 0x30E3, 0x30E5, 0x30E7, // A
-            0x30A3, 0x3042, 0x3044, 0x3046, 0x3048, 0x304A, 0x304B, 0x304D, 0x304F, 0x3051, 0x3053, 0x3055, 0x3057, 0x3059, 0x305B, 0x305D, // B
-            0x305F, 0x3061, 0x3064, 0x3066, 0x3068, 0x306A, 0x306B, 0x306C, 0x306D, 0x306E, 0x306F, 0x3072, 0x3075, 0x30D8, 0x307B, 0x307E, // C
-            0x307F, 0x3080, 0x3081, 0x3082, 0x3084, 0x3086, 0x3088, 0x3089, 0x30EA, 0x308B, 0x308C, 0x308D, 0x308F, 0x3092, 0x3093, 0x3063, // D
-            0x3083, 0x3085, 0x3087, 0x30FC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A1, 0x30A5, 0x30A7, 0x3000, 0x3000, 0x3000, 0x2642, // E
-            0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // F
-        };
-
-        internal static readonly Dictionary<byte, char> RBY2U_U = new Dictionary<byte, char>{
             {0x50, G1Terminator},
             {0x5D, G1TradeOT},
             {0x7F, ' '},
@@ -295,7 +259,8 @@ namespace PKHeX.Core
             {0xFF, '9'}
         };
 
-        private static readonly Dictionary<byte, char> RBY2U_J = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> RBY2U_J = new()
+        {
             {0x05, 'ガ'},
             {0x06, 'ギ'},
             {0x07, 'グ'},
@@ -467,7 +432,8 @@ namespace PKHeX.Core
             {0xFF, '9'}
         };
 
-        internal static readonly Dictionary<char, byte> U2RBY_U = new Dictionary<char, byte> {
+        internal static readonly Dictionary<char, byte> U2RBY_U = new()
+        {
             {G1Terminator, 0x50},
             {G1TradeOT, 0x5D}, // TRAINER (Localized per ROM)
             {' ', 0x7F},
@@ -563,7 +529,7 @@ namespace PKHeX.Core
             {'ó', 0xD4},
             {'ú', 0xD5},
 
-            {'\'', 0xE0}, // Alias ' to ’ for Farfetch'd
+            {'\'', 0xE0}, // Alias ' to ’ for Farfetch’d
             {'’', 0xE0},
             {'{', 0xE1}, /* Pk */
             {'}', 0xE2}, /* Mn */
@@ -588,7 +554,8 @@ namespace PKHeX.Core
             {'9', 0xFF}
         };
 
-        private static readonly Dictionary<char, byte> U2RBY_J = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2RBY_J = new()
+        {
             {'ガ', 0x05},
             {'ギ', 0x06},
             {'グ', 0x07},

@@ -1,26 +1,35 @@
 ﻿namespace PKHeX.Core
 {
-    public class PIDIV
+    /// <summary>
+    /// Stores details about a <see cref="PKM.EncryptionConstant"/> (PID) and any associated details being traced to a known correlation.
+    /// </summary>
+    public sealed record PIDIV
     {
-        public static readonly PIDIV None = new PIDIV { NoSeed = true, Type = PIDType.None };
-
-        /// <summary> The RNG that generated the PKM from the <see cref="OriginSeed"/> </summary>
-        public RNGType RNG;
+        internal static readonly PIDIV None = new();
+        internal static readonly PIDIV CuteCharm = new(PIDType.CuteCharm);
+        internal static readonly PIDIV Pokewalker = new(PIDType.Pokewalker);
+        internal static readonly PIDIV G5MGShiny = new(PIDType.G5MGShiny);
 
         /// <summary> The RNG seed which immediately generates the PIDIV (starting with PID or IVs, whichever comes first). </summary>
-        public uint OriginSeed;
+        public readonly uint OriginSeed;
 
         /// <summary> Indicates that there is no <see cref="OriginSeed"/> to refer to. </summary>
         /// <remarks> Some PIDIVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
-        public bool NoSeed;
+        public readonly bool NoSeed;
 
         /// <summary> Type of PIDIV correlation </summary>
-        public PIDType Type;
-    }
+        public readonly PIDType Type;
 
-    public sealed class PIDIVTSV : PIDIV
-    {
-        public int TSV1 { get; internal set; } = -1;
-        public int TSV2 { get; internal set; } = -1;
+        private PIDIV(PIDType type = PIDType.None)
+        {
+            NoSeed = true;
+            Type = type;
+        }
+
+        public PIDIV(PIDType type, uint seed)
+        {
+            OriginSeed = seed;
+            Type = type;
+        }
     }
 }

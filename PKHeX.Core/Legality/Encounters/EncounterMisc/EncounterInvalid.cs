@@ -5,9 +5,9 @@ namespace PKHeX.Core
     /// <summary>
     /// Invalid Encounter Data
     /// </summary>
-    public sealed class EncounterInvalid : IEncounterable
+    public sealed record EncounterInvalid : IEncounterable
     {
-        public static readonly EncounterInvalid Default = new EncounterInvalid();
+        public static readonly EncounterInvalid Default = new();
 
         public int Species { get; }
         public int Form { get; }
@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public bool EggEncounter { get; }
         public int Generation { get; }
         public GameVersion Version { get; }
+        public bool IsShiny => false;
 
         public string Name => "Invalid";
         public string LongName => "Invalid";
@@ -25,11 +26,11 @@ namespace PKHeX.Core
         public EncounterInvalid(PKM pkm)
         {
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             LevelMin = pkm.Met_Level;
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
-            Generation = pkm.GenNumber;
+            Generation = pkm.Generation;
             Version = (GameVersion)pkm.Version;
         }
 

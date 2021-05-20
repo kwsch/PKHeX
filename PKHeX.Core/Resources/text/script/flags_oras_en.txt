@@ -1,68 +1,69 @@
-0648	(OR) Groudon Defeated
-2839	(OR) Groudon Captured
-0647	(AS) Kyogre Defeated
-2840	(AS) Kyogre Captured
-0208	(OR) Ho-Oh Defeated
-2815	(OR) Ho-Oh Captured
-0209	(AS) Lugia Defeated
-2814	(AS) Lugia Captured
-2819	(AS) Dialga Captured
-2820	(OR) Palkia Captured
-2828	(OR) Tornadus Captured
-2829	(AS) Thundurus Captured
-2832	Landorus Captured
-0182	(OR) Reshiram Defeated
-2830	(OR) Reshiram Captured
-0183	(AS) Zekrom Defeated
-2831	(AS) Zekrom Captured
-0419	(OR) Latias Defeated
-2834	(OR) Latias Captured
-0420	(AS) Latios Defeated
-2835	(AS) Latios Captured
-2915	Eon Ticket Event Completed
-0945	Deoxys Defeated @ Sky Tower
-2842	Deoxys Captured @ Sky Tower
-0173	Raikou Defeated
-2811	Raikou Captured
-0174	Entei Defeated
-2812	Entei Captured
-0175	Suicune Defeated
-2813	Suicune Captured
-0176	Cobalion Defeated
-2825	Cobalion Captured
-0177	Terrakion Defeated
-2826	Terrakion Captured
-0178	Virizion Defeated
-2827	Virizion Captured
-0184	Kyurem Defeated
-2833	Kyurem Captured
-0179	Uxie Defeated
-2816	Uxie Captured
-0180	Mesprit Defeated
-2817	Mesprit Captured
-0181	Azelf Defeated
-2818	Azelf Captured
-0172	Cresselia Defeated
-2824	Cresselia Captured
-2823	Giratina Captured
-0260	Heatran Defeated
-2821	Heatran Captured
-0956	Regirock Defeated
-2836	Regirock Captured
-0957	Regice Defeated
-2837	Regice Captured
-0958	Registeel Defeated
-2838	Registeel Captured
-0252	Regigigas Defeated
-2822	Regigigas Captured
-0284	Singles Statuette
-0285	Doubles Statuette
-0286	Triples Statuette
-0287	Rotation Statuette
-0288	Multi Statuette
-0289	Super Singles Unlocked
-0290	Super Doubles Unlocked
-0291	Super Triples Unlocked
-0292	Super Rotation Unlocked
-0293	Super Multi Unlocked
-2642	Foreign DexNav Encounters Unlocked
+0744	(OR) Groudon Defeated
+2935	(OR) Groudon Captured
+0743	(AS) Kyogre Defeated
+2936	(AS) Kyogre Captured
+0304	(OR) Ho-Oh Defeated
+2911	(OR) Ho-Oh Captured
+0305	(AS) Lugia Defeated
+2910	(AS) Lugia Captured
+2915	(AS) Dialga Captured
+2916	(OR) Palkia Captured
+2924	(OR) Tornadus Captured
+2925	(AS) Thundurus Captured
+2928	Landorus Captured
+0278	(OR) Reshiram Defeated
+2926	(OR) Reshiram Captured
+0279	(AS) Zekrom Defeated
+2927	(AS) Zekrom Captured
+0515	Latias Disappeared
+2930	Latias Captured
+0516	Latios Disappeared
+2931	Latios Captured
+3010	Received Eon Ticket
+3011	Eon Ticket Event Completed
+1041	Deoxys Disappeared @ Sky Pillar
+2938	Deoxys Captured @ Sky Pillar
+0269	Raikou Defeated
+2907	Raikou Captured
+0270	Entei Defeated
+2908	Entei Captured
+0271	Suicune Defeated
+2909	Suicune Captured
+0272	Cobalion Defeated
+2921	Cobalion Captured
+0273	Terrakion Defeated
+2922	Terrakion Captured
+0274	Virizion Defeated
+2923	Virizion Captured
+0280	Kyurem Defeated
+2929	Kyurem Captured
+0275	Uxie Defeated
+2912	Uxie Captured
+0276	Mesprit Defeated
+2913	Mesprit Captured
+0277	Azelf Defeated
+2914	Azelf Captured
+0268	Cresselia Defeated
+2920	Cresselia Captured
+2919	Giratina Captured
+0356	Heatran Defeated
+2917	Heatran Captured
+1052	Regirock Defeated
+2932	Regirock Captured
+1053	Regice Defeated
+2933	Regice Captured
+1054	Registeel Defeated
+2934	Registeel Captured
+0348	Regigigas Defeated
+2918	Regigigas Captured
+0380	Singles Statuette
+0381	Doubles Statuette
+0382	Triples Statuette
+0383	Rotation Statuette
+0384	Multi Statuette
+0385	Super Singles Unlocked
+0386	Super Doubles Unlocked
+0387	Super Triples Unlocked
+0388	Super Rotation Unlocked
+0389	Super Multi Unlocked
+2738	Foreign DexNav Encounters Unlocked

@@ -1,9 +1,12 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// List of <see cref="PK1"/> prefixed by a count.
+    /// </summary>
     public sealed class PokeList2 : PokeListGB<PK2>
     {
-        protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? (byte)0xFD : (byte)pk.Species;
-        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg) => new PK2(dat) { otname = otname, nick = nick, IsEgg = egg };
+        protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? PK2.EggSpeciesValue : (byte)pk.Species;
+        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg) => new(dat, Japanese) { OT_Trash = otname, Nickname_Trash = nick, IsEgg = egg };
         protected override int GetEntrySize() => GetEntrySize(IsFormatParty);
 
         public PokeList2(byte[] d, PokeListType c = PokeListType.Single, bool jp = false) : base(d, c, jp) { }

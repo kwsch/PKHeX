@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface for Accessing named blocks within a Generation 8 save file.
+    /// </summary>
     public interface ISaveBlock8Main
     {
         Box8 BoxInfo { get; }
@@ -16,6 +19,7 @@
         TrainerCard8 TrainerCard { get; }
         RaidSpawnList8 Raid { get; }
         RaidSpawnList8 RaidArmor { get; }
+        RaidSpawnList8 RaidCrown { get; }
         TitleScreen8 TitleScreen { get; }
         TeamIndexes8 TeamIndexes { get; }
     }

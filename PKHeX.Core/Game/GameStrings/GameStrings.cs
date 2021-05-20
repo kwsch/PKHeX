@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -26,7 +25,8 @@ namespace PKHeX.Core
         public readonly string[] metSWSH_00000, metSWSH_30000, metSWSH_40000, metSWSH_60000;
 
         // Misc
-        public readonly string[] wallpapernames, puffs;
+        public readonly string[] wallpapernames, puffs, walkercourses;
+        public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
         private readonly string lang;
         private readonly int LanguageIndex;
 
@@ -40,6 +40,16 @@ namespace PKHeX.Core
 
         private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
         private const string NPC = "NPC";
+
+        /// <summary>
+        /// Item IDs that correspond to the <see cref="Ball"/> value.
+        /// </summary>
+        private static readonly int[] Items_Ball =
+        {
+            000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
+            013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
+            851
+        };
 
         public GameStrings(string l)
         {
@@ -70,7 +80,7 @@ namespace PKHeX.Core
             metGSC_00000 = Get("gsc_00000");
 
             metCXD_00000 = Get("cxd_00000");
-            metCXD_00000 = SanitizeMetStringsCXD(metCXD_00000);
+            SanitizeMetStringsCXD(metCXD_00000);
 
             // Current Generation strings
             natures = Util.GetNaturesList(l);
@@ -89,9 +99,9 @@ namespace PKHeX.Core
             encountertypelist = Get("encountertype");
             gamelist = Get("games");
 
-            balllist = new string[Legal.Items_Ball.Length];
+            balllist = new string[Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)
-                balllist[i] = itemlist[Legal.Items_Ball[i]];
+                balllist[i] = itemlist[Items_Ball[i]];
 
             pokeblocks = Get("pokeblock");
             forms = Get("forms");
@@ -100,8 +110,13 @@ namespace PKHeX.Core
             trainingbags = Get("trainingbag");
             trainingstage = Get("supertraining");
             puffs = Get("puff");
-            Array.Resize(ref puffs, puffs.Length + 1); // shift all down, 0th will be 'none' -- applied later
-            Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
+
+            walkercourses = Get("hgss_walkercourses");
+
+            uggoods = Get("dppt_uggoods");
+            ugspheres = Get("dppt_ugspheres");
+            ugtraps = Get("dppt_ugtraps");
+            ugtreasures = Get("dppt_ugtreasures");
 
             EggName = specieslist[0];
             metHGSS_00000 = Get("hgss_00000");
@@ -136,23 +151,26 @@ namespace PKHeX.Core
             Get("mail4").CopyTo(g4items, 137);
         }
 
-        private static string[] SanitizeMetStringsCXD(string[] cxd)
+        private static void SanitizeMetStringsCXD(string[] cxd)
         {
-            // Mark duplicate locations with their index
-            var metSanitize = (string[])cxd.Clone();
-            for (int i = 0; i < metSanitize.Length; i++)
+            // Less than 10% of met location values are unique.
+            // Just mark them with the ID if they aren't empty.
+            for (int i = 0; i < 227; i++)
             {
-                if (cxd.Count(z => z == metSanitize[i]) > 1)
-                    metSanitize[i] += $" [{i:000}]";
+                var str = cxd[i];
+                if (str.Length != 0)
+                    cxd[i] = $"{str} [{i:000}]";
             }
-
-            return metSanitize;
         }
 
         private void Sanitize()
         {
             SanitizeItemNames();
             SanitizeMetLocations();
+
+            // De-duplicate the Calyrex ability names
+            abilitylist[(int)Core.Ability.AsOneI] += $" ({specieslist[(int)Core.Species.Glastrier]})";
+            abilitylist[(int)Core.Ability.AsOneG] += $" ({specieslist[(int)Core.Species.Spectrier]})";
 
             // Replace the Egg Name with ---; egg name already stored to eggname
             specieslist[0] = "---";
@@ -165,7 +183,7 @@ namespace PKHeX.Core
         {
             // Fix Item Names (Duplicate entries)
             var HM06 = itemlist[425];
-            var HM0 = HM06.Substring(0, HM06.Length - 1); // language ambiguous!
+            var HM0 = HM06[..^1]; // language ambiguous!
             itemlist[426] = $"{HM0}7 (G4)";
             itemlist[427] = $"{HM0}8 (G4)";
             itemlist[456] += " (HG/SS)"; // S.S. Ticket
@@ -215,6 +233,10 @@ namespace PKHeX.Core
             itemlist[1585] += " (3)"; // Rotom Bike
             itemlist[1586] += " (4)"; // Rotom Bike
 
+            itemlist[1590] += " (1)"; // Reins of Unity
+            itemlist[1591] += " (2)"; // Reins of Unity
+            itemlist[1607] += " (3)"; // Reins of Unity
+
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
             // differentiate G3 Card Key from Colo
@@ -230,7 +252,7 @@ namespace PKHeX.Core
             SanitizeMetG7SM();
             SanitizeMetG8SWSH();
 
-            if (lang == "es" || lang == "it")
+            if (lang is "es" or "it")
             {
                 // Campeonato Mundial duplicates
                 for (int i = 27; i < 34; i++)
@@ -265,8 +287,8 @@ namespace PKHeX.Core
         private void SanitizeMetG5BW()
         {
             metBW2_00000[36] = $"{metBW2_00000[84]}/{metBW2_00000[36]}"; // Cold Storage in BW = PWT in BW2
-            metBW2_00000[40] += "(B/W)"; // Victory Road in BW
-            metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
+            metBW2_00000[40] += " (B/W)"; // Victory Road in BW
+            metBW2_00000[134] += " (B2/W2)"; // Victory Road in B2W2
             // BW2 Entries from 76 to 105 are for Entralink in BW
             for (int i = 76; i < 106; i++)
                 metBW2_00000[i] += "●";
@@ -308,17 +330,18 @@ namespace PKHeX.Core
         private void SanitizeMetG7SM()
         {
             // Sun/Moon duplicates -- elaborate!
-            var metSM_00000_good = (string[])metSM_00000.Clone();
-            for (int i = 0; i < metSM_00000.Length; i += 2)
+            for (int i = 6; i < metSM_00000.Length; i += 2)
             {
+                if (i is >= 194 and < 198)
+                    continue; // Skip Island Names (unused)
                 var nextLoc = metSM_00000[i + 1];
-                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
-                    metSM_00000_good[i] += $" ({nextLoc})";
-                if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
-                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
+                if (nextLoc.Length == 0)
+                    continue;
+                metSM_00000[i + 1] = string.Empty;
+                metSM_00000[i] += $" ({nextLoc})";
             }
-            Array.Copy(metSM_00000, 194, metSM_00000_good, 194, 4); // Restore Island Names (unused)
-            metSM_00000_good.CopyTo(metSM_00000, 0);
+            metSM_00000[32] += " (2)";
+            metSM_00000[102] += " (2)";
 
             metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
             metSM_30000[1] += $" ({EggName})";  // Egg From Link Trade
@@ -334,22 +357,15 @@ namespace PKHeX.Core
 
         private void SanitizeMetG8SWSH()
         {
-            // SWSH duplicates -- elaborate!
-            var metSWSH_00000_good = (string[])metSWSH_00000.Clone();
-            for (int i = 2; i < metSWSH_00000_good.Length; i += 2)
+            // SW/SH duplicates -- elaborate!
+            for (int i = 88; i < metSWSH_00000.Length; i += 2)
             {
                 var nextLoc = metSWSH_00000[i + 1];
-                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
-                    metSWSH_00000_good[i] += $" ({nextLoc})";
+                if (nextLoc.Length == 0)
+                    continue;
+                metSWSH_00000[i + 1] = string.Empty;
+                metSWSH_00000[i] += $" ({nextLoc})";
             }
-
-            for (int i = 121; i <= 155; i+=2)
-                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
-
-            for (int i = 165; i <= 195; i += 2)
-                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
-
-            metSWSH_00000_good.CopyTo(metSWSH_00000, 0);
 
             metSWSH_30000[0] += $" ({NPC})";      // Anything from an NPC
             metSWSH_30000[1] += $" ({EggName})";  // Egg From Link Trade
@@ -368,18 +384,15 @@ namespace PKHeX.Core
             // metSWSH_30000[17] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
         }
 
-        public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)
+        public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any) => generation switch
         {
-            return generation switch
-            {
-                0 => Array.Empty<string>(),
-                1 => g1items,
-                2 => g2items,
-                3 => GetItemStrings3(game),
-                4 => g4items, // mail names changed 4->5
-                _ => itemlist
-            };
-        }
+            0 => Array.Empty<string>(),
+            1 => g1items,
+            2 => g2items,
+            3 => GetItemStrings3(game),
+            4 => g4items, // mail names changed 4->5
+            _ => itemlist
+        };
 
         private string[] GetItemStrings3(GameVersion game)
         {
@@ -405,13 +418,20 @@ namespace PKHeX.Core
         /// <param name="isEggLocation">Location is from the <see cref="PKM.Egg_Location"/></param>
         /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
-        /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
-        /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
-        /// <returns>Location name</returns>
+        /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
+        /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
+        /// <returns>Location name. May be an empty string if no location name is known for that location value.</returns>
         public string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
             int gen = -1;
             int bankID = 0;
+
+            if (format == 1)
+            {
+                if (location == 0)
+                    return string.Empty;
+                format = 3; // Legality binaries have Location IDs that were manually remapped to Gen3 location IDs.
+            }
 
             if (format == 2)
             {
@@ -444,8 +464,8 @@ namespace PKHeX.Core
                     location--;
             }
 
-            var bank = GetLocationNames(gen, bankID, version);
-            if (bank.Count <= location)
+            var bank = GetLocationNames(gen, version, bankID);
+            if ((uint)location >= bank.Count)
                 return string.Empty;
             return bank[location];
         }
@@ -454,99 +474,72 @@ namespace PKHeX.Core
         /// Gets the location names array for a specified generation.
         /// </summary>
         /// <param name="gen">Generation to get location names for.</param>
-        /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <param name="version">Version of origin</param>
+        /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <returns>List of location names.</returns>
-        public IReadOnlyList<string> GetLocationNames(int gen, int bankID, GameVersion version)
+        public IReadOnlyList<string> GetLocationNames(int gen, GameVersion version, int bankID = 0) => gen switch
         {
-            switch (gen)
-            {
-                case 2: return metGSC_00000;
-                case 3:
-                    return GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000;
-                case 4: return GetLocationNames4(bankID);
-                case 5: return GetLocationNames5(bankID);
-                case 6: return GetLocationNames6(bankID);
-                case 7:
-                    if (GameVersion.GG.Contains(version))
-                        return GetLocationNames7GG(bankID);
-                    return GetLocationNames7(bankID);
-                case 8:
-                    return GetLocationNames8(bankID);
-                default:
-                    return Array.Empty<string>();
-            }
-        }
+            2 => metGSC_00000,
+            3 => GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000,
+            4 => GetLocationNames4(bankID),
+            5 => GetLocationNames5(bankID),
+            6 => GetLocationNames6(bankID),
+            7 => GameVersion.Gen7b.Contains(version) ? GetLocationNames7GG(bankID) : GetLocationNames7(bankID),
+            8 => GetLocationNames8(bankID),
+            _ => Array.Empty<string>()
+        };
 
-        private IReadOnlyList<string> GetLocationNames4(int bankID)
+        private IReadOnlyList<string> GetLocationNames4(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metHGSS_00000,
-                2 => metHGSS_02000,
-                3 => metHGSS_03000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metHGSS_00000,
+            2 => metHGSS_02000,
+            3 => metHGSS_03000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames5(int bankID)
+        public IReadOnlyList<string> GetLocationNames5(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metBW2_00000,
-                3 => metBW2_30000,
-                4 => metBW2_40000,
-                6 => metBW2_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metBW2_00000,
+            3 => metBW2_30000,
+            4 => metBW2_40000,
+            6 => metBW2_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames6(int bankID)
+        public IReadOnlyList<string> GetLocationNames6(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metXY_00000,
-                3 => metXY_30000,
-                4 => metXY_40000,
-                6 => metXY_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metXY_00000,
+            3 => metXY_30000,
+            4 => metXY_40000,
+            6 => metXY_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames7(int bankID)
+        public IReadOnlyList<string> GetLocationNames7(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metSM_00000,
-                3 => metSM_30000,
-                4 => metSM_40000,
-                6 => metSM_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metSM_00000,
+            3 => metSM_30000,
+            4 => metSM_40000,
+            6 => metSM_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames7GG(int bankID)
+        public IReadOnlyList<string> GetLocationNames7GG(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metGG_00000,
-                3 => metGG_30000,
-                4 => metGG_40000,
-                6 => metGG_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metGG_00000,
+            3 => metGG_30000,
+            4 => metGG_40000,
+            6 => metGG_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames8(int bankID)
+        public IReadOnlyList<string> GetLocationNames8(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metSWSH_00000,
-                3 => metSWSH_30000,
-                4 => metSWSH_40000,
-                6 => metSWSH_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metSWSH_00000,
+            3 => metSWSH_30000,
+            4 => metSWSH_40000,
+            6 => metSWSH_60000,
+            _ => Array.Empty<string>()
+        };
     }
 }

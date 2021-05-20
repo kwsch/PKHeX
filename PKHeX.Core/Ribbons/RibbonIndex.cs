@@ -6,7 +6,7 @@
     public enum RibbonIndex
     {
         ChampionKalos,
-        ChampionG3Hoenn,
+        ChampionG3,
         ChampionSinnoh,
         BestFriends,
         Training,
@@ -42,8 +42,8 @@
         ChampionRegional,
         ChampionNational,
         ChampionWorld,
-        MemoryContest,
-        MemoryBattle,
+        CountMemoryContest,
+        CountMemoryBattle,
         ChampionG6Hoenn,
         ContestStar,
         MasterCoolness,

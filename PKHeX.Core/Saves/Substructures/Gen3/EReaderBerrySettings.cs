@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.EReaderBerryMatch;
+﻿using System.Collections.Generic;
+using static PKHeX.Core.EReaderBerryMatch;
 
 namespace PKHeX.Core
 {
@@ -18,39 +19,79 @@ namespace PKHeX.Core
 
         private static int Language { get; set; }
 
+        /// <summary>
+        /// Checks if the most recently loaded Generation 3 Save File has a proper Enigma Berry that matches known distributions.
+        /// </summary>
         public static EReaderBerryMatch GetStatus()
         {
             if (IsEnigma) // no e-Reader Berry data provided, can't hold berry.
                 return NoData;
 
-            var matchUSA = Legal.EReaderBerriesNames_USA.Contains(Name);
-            if (matchUSA)
+            var name = Name;
+            if (EReaderBerriesNames_USA.Contains(name))
             {
-                if (Language <= 0)
-                    return ValidAny;
-                if (Language != 1)
-                    return ValidUSA;
-                return InvalidUSA;
+                return Language switch
+                {
+                    <= 0 => ValidAny,
+                    not 1 => ValidUSA,
+                    _ => InvalidUSA
+                };
             }
-
-            var matchJP = Legal.EReaderBerriesNames_JP.Contains(Name);
-            if (matchJP)
+            if (EReaderBerriesNames_JP.Contains(name))
             {
-                if (Language <= 0)
-                    return ValidAny;
-                if (Language == 1)
-                    return ValidJPN;
-                return InvalidJPN;
+                return Language switch
+                {
+                    <= 0 => ValidAny,
+                    1 => ValidJPN,
+                    _ => InvalidJPN
+                };
             }
-
             return NoMatch;
         }
 
+        private static readonly HashSet<string> EReaderBerriesNames_USA = new()
+        {
+            // USA Series 1
+            "PUMKIN",
+            "DRASH",
+            "EGGANT",
+            "STRIB",
+            "CHILAN",
+            "NUTPEA",
+        };
+
+        private static readonly HashSet<string> EReaderBerriesNames_JP = new()
+        {
+            // JP Series 1
+            "カチャ", // PUMKIN
+            "ブ－カ", // DRASH
+            "ビスナ", // EGGANT
+            "エドマ", // STRIB
+            "ホズ", // CHILAN
+            "ラッカ", // NUTPEA
+            "クオ", // KU
+            // JP Series 2
+            "ギネマ", // GINEMA
+            "クオ", // KUO
+            "ヤゴ", // YAGO
+            "トウガ", // TOUGA
+            "ニニク", // NINIKU
+            "トポ" // TOPO
+        };
+
         public static void LoadFrom(SAV3 sav3)
         {
-            IsEnigma = sav3.IsEBerryIsEnigma;
-            Name = sav3.EBerryName;
             Language = sav3.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
+            if (sav3.IsEBerryEngima)
+            {
+                IsEnigma = true;
+                Name = string.Empty;
+            }
+            else
+            {
+                IsEnigma = false;
+                Name = sav3.EBerryName;
+            }
         }
     }
 

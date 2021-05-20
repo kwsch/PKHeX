@@ -10,45 +10,45 @@ namespace PKHeX.Core
     public static class EncounterEvent
     {
         /// <summary>Event Database for Generation 3</summary>
-        public static WC3[] MGDB_G3 { get; private set; } = Array.Empty<WC3>();
+        public static IReadOnlyList<WC3> MGDB_G3 { get; private set; } = Array.Empty<WC3>();
 
         /// <summary>Event Database for Generation 4</summary>
-        public static PCD[] MGDB_G4 { get; private set; } = Array.Empty<PCD>();
+        public static IReadOnlyList<PCD> MGDB_G4 { get; private set; } = Array.Empty<PCD>();
 
         /// <summary>Event Database for Generation 5</summary>
-        public static PGF[] MGDB_G5 { get; private set; } = Array.Empty<PGF>();
+        public static IReadOnlyList<PGF> MGDB_G5 { get; private set; } = Array.Empty<PGF>();
 
         /// <summary>Event Database for Generation 6</summary>
-        public static WC6[] MGDB_G6 { get; private set; } = Array.Empty<WC6>();
+        public static IReadOnlyList<WC6> MGDB_G6 { get; private set; } = Array.Empty<WC6>();
 
         /// <summary>Event Database for Generation 7</summary>
-        public static WC7[] MGDB_G7 { get; private set; } = Array.Empty<WC7>();
+        public static IReadOnlyList<WC7> MGDB_G7 { get; private set; } = Array.Empty<WC7>();
 
         /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
-        public static WB7[] MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
+        public static IReadOnlyList<WB7> MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
 
         /// <summary>Event Database for Generation 8</summary>
-        public static WC8[] MGDB_G8 { get; private set; } = Array.Empty<WC8>();
+        public static IReadOnlyList<WC8> MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
         /// <summary>Indicates if the databases are initialized.</summary>
-        public static bool Initialized => MGDB_G3.Length != 0;
+        public static bool Initialized => MGDB_G3.Count != 0;
 
-        private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
+        private static HashSet<PCD> GetPCDDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
 
-        private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
+        private static HashSet<PGF> GetPGFDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
 
-        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<WC6>(
+        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new(
             ArrayUtil.EnumerateSplit(wc6full, WC6Full.Size).Select(d => new WC6Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc6bin, WC6.Size).Select(d => new WC6(d))));
 
-        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
+        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new(
             ArrayUtil.EnumerateSplit(wc7full, WC7Full.Size).Select(d => new WC7Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
-        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
+        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
         private static HashSet<WC8> GetWC8DB(byte[] wc8bin) =>
-            new HashSet<WC8>(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
+            new(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
 
         public static void RefreshMGDB(params string[] paths)
         {
@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
         {
-            var regular = new MysteryGift[][]
+            var regular = new IReadOnlyList<MysteryGift>[]
             {
                 MGDB_G4,
                 MGDB_G5,

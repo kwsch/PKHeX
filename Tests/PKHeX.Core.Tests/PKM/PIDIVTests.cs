@@ -98,7 +98,7 @@ namespace PKHeX.Tests.PKM
             var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = new[] {00, 20, 28, 11, 19, 00}, TID = 30317, SID = 00000};
             var a_pkRS = MethodFinder.Analyze(pkRS);
             Assert.Equal(PIDType.BACD_R_S, a_pkRS.Type);
-            Assert.True(0x0020 == a_pkRS.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
+            Assert.True(a_pkRS.OriginSeed == 0x0020, "Unable to match PID to BACD-R shiny spread origin seed");
 
             var gkRS = new PK3 { TID = 30317, SID = 00000 };
             PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);

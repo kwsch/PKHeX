@@ -1,5 +1,5 @@
 RibbonChampionKalos	칼로스챔피언리본
-RibbonChampionG3Hoenn	호연챔피언리본 (RSE)
+RibbonChampionG3	챔피언리본 (Gen3)
 RibbonChampionSinnoh	신오챔피언리본
 RibbonBestFriends	절친리본
 RibbonTraining	수행리본

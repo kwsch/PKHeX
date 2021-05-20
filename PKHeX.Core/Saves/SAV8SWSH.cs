@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.SWSH"/> games.
     /// </summary>
-    public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord
+    public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord, ISaveFileRevision
     {
         public SAV8SWSH(byte[] data) : this(data, SwishCrypto.Decrypt(data))
         {
@@ -18,6 +18,7 @@ namespace PKHeX.Core
             Data = Array.Empty<byte>();
             AllBlocks = blocks;
             Blocks = new SaveBlockAccessor8SWSH(this);
+            SaveRevision = Zukan.GetRevision();
             Initialize();
         }
 
@@ -25,6 +26,7 @@ namespace PKHeX.Core
         {
             AllBlocks = Meta8.GetBlankDataSWSH();
             Blocks = new SaveBlockAccessor8SWSH(this);
+            SaveRevision = Zukan.GetRevision();
             Initialize();
             ClearBoxes();
         }
@@ -37,8 +39,18 @@ namespace PKHeX.Core
             var newB = z.AllBlocks;
             for (int i = 0; i < mine.Count; i++)
                 newB[i].Data.CopyTo(mine[i].Data, 0);
-            Edited = true;
+            State.Edited = true;
         }
+
+        public int SaveRevision { get; }
+
+        public string SaveRevisionString => SaveRevision switch
+        {
+            0 => "-Base", // Vanilla
+            1 => "-IoA", // DLC 1: Isle of Armor
+            2 => "-CT", // DLC 2: Crown Tundra
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        };
 
         public IReadOnlyList<SCBlock> AllBlocks { get; }
         public override bool ChecksumsValid => true;
@@ -65,12 +77,13 @@ namespace PKHeX.Core
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
         public override RaidSpawnList8 Raid => Blocks.Raid;
         public override RaidSpawnList8 RaidArmor => Blocks.RaidArmor;
+        public override RaidSpawnList8 RaidCrown => Blocks.RaidCrown;
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
         public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 
         public T GetValue<T>(uint key) where T : struct
         {
-            if (!Exportable)
+            if (!State.Exportable)
                 return default;
             var value = Blocks.GetBlockValue(key);
             if (value is T v)
@@ -80,13 +93,13 @@ namespace PKHeX.Core
 
         public void SetValue<T>(uint key, T value) where T : struct
         {
-            if (!Exportable)
+            if (!State.Exportable)
                 return;
             Blocks.SetBlockValue(key, value);
         }
 
         #endregion
-        public override SaveFile Clone() => new SAV8SWSH(BAK, AllBlocks.Select(z => z.Clone()).ToArray());
+        protected override SaveFile CloneInternal() => new SAV8SWSH(State.BAK, AllBlocks.Select(z => z.Clone()).ToArray());
 
         private int m_spec, m_item, m_move, m_abil;
         public override int MaxMoveID => m_move;
@@ -103,7 +116,7 @@ namespace PKHeX.Core
             PokeDex = 0;
             TeamIndexes.LoadBattleTeams();
 
-            int rev = Zukan.GetRevision();
+            int rev = SaveRevision;
             if (rev == 0)
             {
                 m_move = Legal.MaxMoveID_8_O0;
@@ -111,12 +124,19 @@ namespace PKHeX.Core
                 m_item = Legal.MaxItemID_8_O0;
                 m_abil = Legal.MaxAbilityID_8_O0;
             }
-            else
+            else if (rev == 1)
             {
                 m_move = Legal.MaxMoveID_8_R1;
                 m_spec = Legal.MaxSpeciesID_8_R1;
                 m_item = Legal.MaxItemID_8_R1;
                 m_abil = Legal.MaxAbilityID_8_R1;
+            }
+            else
+            {
+                m_move = Legal.MaxMoveID_8_R2;
+                m_spec = Legal.MaxSpeciesID_8_R2;
+                m_item = Legal.MaxItemID_8_R2;
+                m_abil = Legal.MaxAbilityID_8_R2;
             }
         }
 
@@ -140,6 +160,18 @@ namespace PKHeX.Core
         }
 
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
+        public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor8SWSH.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor8SWSH.KBoxesUnlocked, (byte)value); }
+
+        public override byte[] BoxFlags
+        {
+            get => new [] {Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1)};
+            set
+            {
+                if (value.Length != 1)
+                    return;
+                Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type = (SCTypeCode)(value[0] & 1) + 1;
+            }
+        }
 
         public override bool HasBoxWallpapers => true;
         public override bool HasNamableBoxes => true;

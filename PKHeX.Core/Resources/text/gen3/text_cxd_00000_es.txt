@@ -1,4 +1,4 @@
-﻿
+﻿
 Puesto de Servicio (C) Laboratorio de Cífer (XD)
 Puesto de Servicio (C)
 Ciudad Oasis (C)
@@ -174,31 +174,31 @@ Mansión de Mecán (XD)
 Mansión de Mecán (XD)
 Coliseo Aura (XD)
 
-	
-	
-	
-	
-	
+
+
+
+
+
 Ciudad Oasis (XD)
 
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Puesto de Servicio (C)
 Guarida de Cepo (C)
 Ciudad Oasis (C)
@@ -227,31 +227,31 @@ Torre Colosal (C)
 Torre Colosal 2P (C)
 Torre Colosal 2P (C)
 Coliseo Colosal (C)
-Coliseo Mt. Batalla(C)
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+Coliseo Mt. Batalla (C)
 
 
 
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (ingame trade)

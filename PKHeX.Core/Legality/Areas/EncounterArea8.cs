@@ -4,13 +4,20 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.SWSH"/> encounter area
     /// </summary>
-    public sealed class EncounterArea8 : EncounterAreaSH
+    public sealed record EncounterArea8 : EncounterArea
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Slots from this area can cross over to another area, resulting in a different met location.
+        /// </summary>
+        /// <remarks>
+        /// Should only be true if it is a Symbol (visible) encounter.
+        /// </remarks>
+        public readonly bool PermitCrossover;
+
         public override bool IsMatchLocation(int location)
         {
             if (Location == location)
@@ -27,43 +34,73 @@ namespace PKHeX.Core
             return others.Contains((byte)location);
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var loc = Location;
-            if (IsWildArea8(loc) || IsWildArea8Armor(loc)) // wild area gets boosted up to level 60 post-game
+            // wild area gets boosted up to level 60 post-game
+            var met = pkm.Met_Level;
+            bool isBoosted = met == 60 && IsBoostedArea60(Location);
+            if (isBoosted)
+                return GetBoostedMatches(chain);
+            return GetUnboostedMatches(chain, met);
+        }
+
+        private IEnumerable<EncounterSlot> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int met)
+        {
+            foreach (var slot in Slots)
             {
-                const int boostTo = 60;
-                if (pkm.Met_Level == boostTo)
+                foreach (var evo in chain)
                 {
-                    var boost = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= boostTo));
-                    return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (!slot.IsLevelWithinRange(met))
+                        break;
+
+                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
+                        break;
+
+                    yield return slot;
+                    break;
                 }
             }
-            var slots = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= slot.LevelMin));
-
-            // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
         }
 
-        private static bool IsMatch(DexLevel evo, EncounterSlot slot)
+        private IEnumerable<EncounterSlot> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain)
         {
-            if (evo.Species != slot.Species)
-                return false;
-            if (evo.Form == slot.Form)
-                return true;
-            if (Legal.FormChange.Contains(evo.Species))
-                return true;
-            return false;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    // Ignore max met level comparison; we already know it is permissible to boost to level 60.
+                    if (slot.LevelMin > 60)
+                        break; // Can't downlevel, only boost to 60.
+
+                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
 
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
+        public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
+        public static bool IsBoostedArea60(int location) => IsWildArea(location);
 
-        public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
-        public static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
+        public static bool IsWildArea8(int location)      => location is >= 122 and <= 154; // Rolling Fields -> Lake of Outrage
+        public static bool IsWildArea8Armor(int location) => location is >= 164 and <= 194; // Fields of Honor -> Honeycalm Island
+        public static bool IsWildArea8Crown(int location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
         // Location, and areas that it can feed encounters to.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
         {
+            // Route 3
+            // City of Motostoke
+            {28, new byte[] {20}},
+
             // Rolling Fields
             // Dappled Grove, East Lake Axewell, West Lake Axewell
             // Also connects to South Lake Miloch but too much of a stretch
@@ -164,42 +201,48 @@ namespace PKHeX.Core
             // Honeycalm Sea
             // Honeycalm Island
             {192, new byte[] {194}},
+
+            // Frostpoint Field
+            // Freezington
+            {208, new byte[] {206}},
+
+            // Old Cemetery
+            // Giant’s Bed
+            {212, new byte[] {210}},
+
+            // Roaring-Sea Caves
+            // Giant’s Foot
+            {224, new byte[] {222}},
+
+            // Ballimere Lake
+            // Lakeside Cave
+            {230, new byte[] {232}},
         };
-    }
 
-    public abstract class EncounterAreaSH : EncounterArea
-    {
-        /// <summary>
-        /// Slots from this area can cross over to another area, resulting in a different met location.
-        /// </summary>
-        public bool PermitCrossover { get; internal set; }
-
-        /// <summary>
-        /// Gets an array of areas from an array of raw area data
-        /// </summary>
-        /// <param name="entries">Simplified raw format of an Area</param>
-        /// <returns>Array of areas</returns>
-        public static T[] GetArray<T>(byte[][] entries) where T : EncounterAreaSH, new()
+        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
         {
-            T[] data = new T[entries.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                var loc = data[i] = new T();
-                loc.LoadSlots(entries[i]);
-            }
-            return data;
+            var result = new EncounterArea8[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea8(input[i], symbol, game);
+            return result;
         }
 
-        private void LoadSlots(byte[] areaData)
+        private EncounterArea8(byte[] areaData, bool symbol, GameVersion game) : base(game)
         {
+            PermitCrossover = symbol;
             Location = areaData[0];
-            Slots = new EncounterSlot[areaData[1]];
+            Slots = ReadSlots(areaData, areaData[1]);
+        }
+
+        private EncounterSlot[] ReadSlots(byte[] areaData, byte slotCount)
+        {
+            var slots = new EncounterSlot[slotCount];
 
             int ctr = 0;
             int ofs = 2;
             do
             {
-                var flags = (AreaWeather8)BitConverter.ToUInt16(areaData, ofs);
+                var flags = (AreaWeather8) BitConverter.ToUInt16(areaData, ofs);
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
@@ -208,11 +251,13 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
-                    Slots[ctr] = new EncounterSlot8(specForm, min, max, flags);
+                    var species = specForm & 0x7FF;
+                    var form = specForm >> 11;
+                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags);
                 }
-            } while (ctr != Slots.Length);
-            foreach (var slot in Slots)
-                slot.Area = this;
+            } while (ctr != slots.Length);
+
+            return slots;
         }
     }
 
@@ -235,29 +280,16 @@ namespace PKHeX.Core
         Heavy_Fog = 1 << 8,
 
         All = Normal | Overcast | Raining | Thunderstorm | Intense_Sun | Snowing | Snowstorm | Sandstorm | Heavy_Fog,
+        Stormy = Raining | Thunderstorm,
+        Icy = Snowing | Snowstorm,
+        All_IoA = Normal | Overcast | Stormy | Intense_Sun | Sandstorm | Heavy_Fog,         // IoA can have everything but snow
+        All_CT = Normal | Overcast | Stormy | Intense_Sun | Icy | Heavy_Fog,                // CT can have everything but sand
+        No_Sun_Sand = Normal | Overcast | Stormy | Icy | Heavy_Fog,                         // Everything but sand and sun
+        All_Ballimere = Normal | Overcast | Stormy | Intense_Sun | Snowing | Heavy_Fog,     // All Ballimere Lake weather
 
         Shaking_Trees = 1 << 9,
         Fishing = 1 << 10,
 
         NotWeather = Shaking_Trees | Fishing,
-    }
-
-    /// <summary>
-    /// Encounter Slot found in <see cref="GameVersion.SWSH"/>
-    /// </summary>
-    public sealed class EncounterSlot8 : EncounterSlot
-    {
-        public readonly AreaWeather8 Weather;
-        public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
-
-        public EncounterSlot8(int specForm, int min, int max, AreaWeather8 weather)
-        {
-            Species = specForm & 0x7FF;
-            Form = specForm >> 11;
-            LevelMin = min;
-            LevelMax = max;
-
-            Weather = weather;
-        }
     }
 }

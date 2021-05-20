@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvBag = new DataGridViewComboBoxColumn
+            DataGridViewComboBoxColumn dgvBag = new()
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
             };
@@ -100,7 +100,9 @@ namespace PKHeX.WinForms
                 ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
                 comboBox.DroppedDown = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch { Console.WriteLine("Failed to modify item."); }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private bool loading = true;
@@ -123,7 +125,7 @@ namespace PKHeX.WinForms
             int emptyslots = 0;
             for (int i = 0; i < 12; i++)
             {
-                string bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                var bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
                 if (Array.IndexOf(trba, bag) == 0)
                 {
                     emptyslots++;

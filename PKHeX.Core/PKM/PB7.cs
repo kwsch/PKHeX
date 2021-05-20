@@ -26,22 +26,23 @@ namespace PKHeX.Core
         public override int SIZE_STORED => SIZE;
         private const int SIZE = 260;
         public override int Format => 7;
-        public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormeEntry(Species, AltForm);
-        public override byte[] Data { get; }
-        public PB7() => Data = new byte[SIZE];
+        public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
 
-        public PB7(byte[] data)
+        public PB7() : base(SIZE) { }
+        public PB7(byte[] data) : base(DecryptParty(data)) { }
+
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted67(ref data);
             if (data.Length != SIZE)
                 Array.Resize(ref data, SIZE);
-            Data = data;
+            return data;
         }
 
         public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7b(value, maxLength, Language, chinese: chinese);
+        private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
 
         // Structure
         #region Block A
@@ -107,7 +108,7 @@ namespace PKHeX.Core
         public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x1D] >> 3; set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x1D] >> 3; set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
         public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
         public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
         public override int EV_DEF { get => Data[0x20]; set => Data[0x20] = (byte)value; }
@@ -130,6 +131,10 @@ namespace PKHeX.Core
         public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
+        public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
+        public byte FormArgumentMaximum { get => (byte)(FormArgument >> 16); set => FormArgument = (FormArgument & ~0xFF0000u) | (uint)(value << 16); }
+
         #endregion
         #region Block B
         public override string Nickname
@@ -226,12 +231,12 @@ namespace PKHeX.Core
         // 0xA0 Unused
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
-        public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
-        public override int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-        public override int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-        public override int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+        // 0xA1 HT_Affection Unused
+        public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
+        public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
+        public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
         // 0xA7 Unused
-        public override int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
+        public int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
         // 0xAA Unused
         // 0xAB Unused
         public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
@@ -288,7 +293,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0xFA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFA); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0xFC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); }
         public int Stat_CP { get => BitConverter.ToUInt16(Data, 0xFE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFE); }
-        public bool Stat_Mega { get => Data[0x100] != 0; set => Data[0x100] = (byte)(value ? 1 : 0); }
+        public bool Stat_Mega { get => Data[0x100] != 0; set => Data[0x100] = value ? (byte)1 : (byte)0; }
         public int Stat_MegaForm { get => Data[0x101]; set => Data[0x101] = (byte)value; }
         // 102/103 unused
         #endregion
@@ -329,7 +334,6 @@ namespace PKHeX.Core
             if (HT_Name != tr.OT)
             {
                 HT_Friendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
-                HT_Affection = 0;
                 HT_Name = tr.OT;
             }
             CurrentHandler = 1;
@@ -339,7 +343,7 @@ namespace PKHeX.Core
         public void FixMemories()
         {
             if (IsUntraded)
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
         }
 
         // Maximums
@@ -393,15 +397,12 @@ namespace PKHeX.Core
             return AmplifyStat(nature, statIndex, initial);
         }
 
-        private static int AmplifyStat(int nature, int index, int initial)
+        private static int AmplifyStat(int nature, int index, int initial) => GetNatureAmp(nature, index) switch
         {
-            return GetNatureAmp(nature, index) switch
-            {
-                 1 => (110 * initial / 100), // 110%
-                -1 => (90 * initial / 100), // 90%
-                _ => initial
-            };
-        }
+            1 => 110 * initial / 100, // 110%
+            -1 => 90 * initial / 100, // 90%
+            _ => initial,
+        };
 
         private static sbyte GetNatureAmp(int nature, int index)
         {
@@ -600,7 +601,7 @@ namespace PKHeX.Core
 
         public PK8 ConvertToPK8()
         {
-            var pk8 = new PK8()
+            var pk8 = new PK8
             {
                 EncryptionConstant = EncryptionConstant,
                 Species = Species,
@@ -639,7 +640,7 @@ namespace PKHeX.Core
                 IsNicknamed = IsNicknamed,
                 FatefulEncounter = FatefulEncounter,
                 Gender = Gender,
-                AltForm = AltForm,
+                Form = Form,
                 Nature = Nature,
                 Nickname = Nickname,
                 Version = Version,
@@ -652,10 +653,6 @@ namespace PKHeX.Core
                 HyperTrainFlags = HyperTrainFlags,
 
                 // Memories don't exist in LGPE, and no memories are set on transfer.
-                OT_Memory = OT_Memory,
-                OT_TextVar = OT_TextVar,
-                OT_Feeling = OT_Feeling,
-                OT_Intensity = OT_Intensity,
 
                 OT_Friendship = OT_Friendship,
 

@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains a collection of methods that mutate the input Pokémon object, usually to obtain a <see cref="PIDType"/> correlation.
+    /// </summary>
     public static class PIDGenerator
     {
         private static void SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)
@@ -9,23 +12,23 @@ namespace PKHeX.Core
             var rng = RNG.LCRNG;
             var A = rng.Next(seed);
             var B = rng.Next(A);
-            var skipBetweenPID = type == PIDType.Method_3 || type == PIDType.Method_3_Unown;
+            var skipBetweenPID = type is PIDType.Method_3 or PIDType.Method_3_Unown;
             if (skipBetweenPID) // VBlank skip between PID rand() [RARE]
                 B = rng.Next(B);
 
-            var swappedPIDHalves = PIDType.Method_1_Unown <= type && type <= PIDType.Method_4_Unown;
+            var swappedPIDHalves = type is >= PIDType.Method_1_Unown and <= PIDType.Method_4_Unown;
             if (swappedPIDHalves) // switched order of PID halves, "BA.."
                 pk.PID = (A & 0xFFFF0000) | B >> 16;
             else
                 pk.PID = (B & 0xFFFF0000) | A >> 16;
 
             var C = rng.Next(B);
-            var skipIV1Frame = type == PIDType.Method_2 || type == PIDType.Method_2_Unown;
+            var skipIV1Frame = type is PIDType.Method_2 or PIDType.Method_2_Unown;
             if (skipIV1Frame) // VBlank skip after PID
                 C = rng.Next(C);
 
             var D = rng.Next(C);
-            var skipIV2Frame = type == PIDType.Method_4 || type == PIDType.Method_4_Unown;
+            var skipIV2Frame = type is PIDType.Method_4 or PIDType.Method_4_Unown;
             if (skipIV2Frame) // VBlank skip between IVs
                 D = rng.Next(D);
 
@@ -43,7 +46,7 @@ namespace PKHeX.Core
         private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
         {
             var rng = RNG.LCRNG;
-            bool shiny = type == PIDType.BACD_R_S || type == PIDType.BACD_U_S;
+            bool shiny = type is PIDType.BACD_R_S or PIDType.BACD_U_S;
             uint X = shiny ? rng.Next(seed) : seed;
             var A = rng.Next(X);
             var B = rng.Next(A);
@@ -58,7 +61,7 @@ namespace PKHeX.Core
 
                 pk.PID = PID;
             }
-            else if (type == PIDType.BACD_R_AX || type == PIDType.BACD_U_AX)
+            else if (type is PIDType.BACD_R_AX or PIDType.BACD_U_AX)
             {
                 uint low = B >> 16;
                 pk.PID = ((A & 0xFFFF0000) ^ (((uint)pk.TID ^ (uint)pk.SID ^ low) << 16)) | low;
@@ -70,7 +73,7 @@ namespace PKHeX.Core
 
             pk.IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
 
-            bool antishiny = type == PIDType.BACD_R_A || type == PIDType.BACD_U_A;
+            bool antishiny = type is PIDType.BACD_R_A or PIDType.BACD_U_A;
             while (antishiny && pk.IsShiny)
                 pk.PID = unchecked(pk.PID + 1);
         }
@@ -80,8 +83,7 @@ namespace PKHeX.Core
             var rng = RNG.XDRNG;
             switch (pk.Species)
             {
-                case (int)Species.Umbreon: // Colo Umbreon
-                case (int)Species.Eevee: // XD Eevee
+                case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
                     pk.TID = (int)((seed = rng.Next(seed)) >> 16);
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
                     seed = rng.Advance(seed, 2); // PID calls consumed
@@ -143,24 +145,20 @@ namespace PKHeX.Core
                 case PIDType.CXD:
                     return SetValuesFromSeedXDRNG;
 
-                case PIDType.Method_1:
-                case PIDType.Method_2:
-                case PIDType.Method_3:
-                case PIDType.Method_4:
-                case PIDType.Method_1_Unown:
-                case PIDType.Method_2_Unown:
-                case PIDType.Method_3_Unown:
-                case PIDType.Method_4_Unown:
+                case PIDType.Method_1 or PIDType.Method_2 or PIDType.Method_3 or PIDType.Method_4:
+                case PIDType.Method_1_Unown or PIDType.Method_2_Unown or PIDType.Method_3_Unown or PIDType.Method_4_Unown:
                 case PIDType.Method_1_Roamer:
                     return (pk, seed) => SetValuesFromSeedLCRNG(pk, t, seed);
 
                 case PIDType.BACD_R:
                 case PIDType.BACD_R_A:
                 case PIDType.BACD_R_S:
+                case PIDType.BACD_R_AX:
                     return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed & 0xFFFF);
                 case PIDType.BACD_U:
                 case PIDType.BACD_U_A:
                 case PIDType.BACD_U_S:
+                case PIDType.BACD_U_AX:
                     return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed);
 
                 case PIDType.PokeSpot:
@@ -205,7 +203,7 @@ namespace PKHeX.Core
             while (true)
             {
                 var seed = Util.Rand32();
-                if (!MethodFinder.IsPokeSpotActivation(slot, seed, out var _))
+                if (!MethodFinder.IsPokeSpotActivation(slot, seed, out _))
                     continue;
 
                 var rng = RNG.XDRNG;
@@ -237,7 +235,7 @@ namespace PKHeX.Core
             // Ensure nature is set to required nature without affecting shininess
             pid += nature - (pid % 25);
 
-            if (gr >= 0xFE || gr == 0) // non-dual gender
+            if (gr is 0 or >= 0xFE) // non-dual gender
                 return pid;
 
             // Ensure Gender is set to required gender without affecting other properties
@@ -275,13 +273,7 @@ namespace PKHeX.Core
         {
             if (specific == PIDType.Pokewalker)
             {
-                pk.Gender = gender;
-                do
-                {
-                    pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, (uint) nature, gender, pk.PersonalInfo.Gender);
-                } while (!pk.IsGenderValid());
-                pk.RefreshAbility((int)(pk.PID & 1));
-                SetRandomIVs(pk);
+                SetRandomPIDPokewalker(pk, nature, gender);
                 return;
             }
             switch (gen)
@@ -297,6 +289,19 @@ namespace PKHeX.Core
                     SetRandomWildPID(pk, nature, ability, gender);
                     break;
             }
+        }
+
+        public static void SetRandomPIDPokewalker(PKM pk, int nature, int gender)
+        {
+            // Pokewalker PIDs cannot yield multiple abilities from the input nature-gender-trainerID. Disregard any ability request.
+            pk.Gender = gender;
+            do
+            {
+                pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, (uint) nature, gender, pk.PersonalInfo.Gender);
+            } while (!pk.IsGenderValid());
+
+            pk.RefreshAbility((int) (pk.PID & 1));
+            SetRandomIVs(pk);
         }
 
         /// <summary>
@@ -401,16 +406,7 @@ namespace PKHeX.Core
 
         private static void SetRandomIVs(PKM pk)
         {
-            var rng = Util.Rand;
-            pk.IVs = new[]
-            {
-                rng.Next(32),
-                rng.Next(32),
-                rng.Next(32),
-                rng.Next(32),
-                rng.Next(32),
-                rng.Next(32),
-            };
+            pk.IVs = pk.SetRandomIVs();
         }
     }
 }

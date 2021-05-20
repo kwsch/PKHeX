@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -14,11 +13,6 @@ namespace PKHeX.Core
         internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
         internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
         public const int AwakeningMax = 200;
-
-        internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
-        {
-            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
-        };
 
         #region Met Locations
 
@@ -78,7 +72,7 @@ namespace PKHeX.Core
             1057,
         };
 
-        internal static readonly ushort[] Pouch_Candy_GG = Pouch_Candy_GG_Regular.Concat(Pouch_Candy_GG_Species).ToArray();
+        internal static readonly ushort[] Pouch_Candy_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG_Regular, Pouch_Candy_GG_Species);
 
         internal static readonly ushort[] Pouch_Medicine_GG =
         {
@@ -248,7 +242,7 @@ namespace PKHeX.Core
             // 741, // Veevee Volley -- Joycon Shake
         };
 
-        internal static readonly HashSet<short> AllowedMovesGG = new HashSet<short>
+        internal static readonly HashSet<short> AllowedMovesGG = new()
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
             010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
@@ -278,22 +272,5 @@ namespace PKHeX.Core
         };
 
         #endregion
-
-        internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
-        {
-            (int)Species.Spearow, (int)Species.Fearow,
-            (int)Species.Vulpix, (int)Species.Ninetales,
-            (int)Species.Paras, (int)Species.Parasect,
-            (int)Species.Slowpoke, (int)Species.Slowbro,
-            (int)Species.Doduo, (int)Species.Dodrio,
-            (int)Species.Hitmonlee, (int)Species.Hitmonchan,
-            (int)Species.Tangela,
-            (int)Species.Goldeen, (int)Species.Seaking,
-            (int)Species.Staryu, (int)Species.Starmie,
-            (int)Species.Ditto,
-            (int)Species.Porygon,
-            (int)Species.Snorlax,
-            (int)Species.Mew
-        };
     }
 }

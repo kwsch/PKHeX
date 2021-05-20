@@ -109,10 +109,9 @@ namespace PKHeX.Core
             {
                 if (Levels[i] > level)
                     break;
-                int move = Moves[i];
 
-                bool alreadyHasMove = false;
-                foreach (int m in moves) if (m == move) { alreadyHasMove = true; break; }
+                int move = Moves[i];
+                bool alreadyHasMove = Array.IndexOf(moves, move) >= 0;
                 if (alreadyHasMove)
                     continue;
 
@@ -185,6 +184,30 @@ namespace PKHeX.Core
                     return lv;
             }
             return -1;
+        }
+
+        public ReadOnlySpan<int> GetBaseEggMoves(int level)
+        {
+            // Count moves <= level
+            var count = 0;
+            foreach (var x in Levels)
+            {
+                if (x > level)
+                    break;
+                count++;
+            }
+
+            // Return a slice containing the moves <= level.
+            if (count == 0)
+                return ReadOnlySpan<int>.Empty;
+
+            int start = 0;
+            if (count > 4)
+            {
+                start = count - 4;
+                count = 4;
+            }
+            return Moves.AsSpan(start, count);
         }
     }
 }

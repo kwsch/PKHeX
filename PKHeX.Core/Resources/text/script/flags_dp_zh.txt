@@ -19,11 +19,17 @@
 2410	可爱华丽大赛大师
 2411	聪明华丽大赛大师
 2412	强壮华丽大赛大师
-0329	Rotom Caught
-0665	Encountered Ghost Butler in Old Chateau
-0666	Encountered Ghost Girl in Old Chateau
-0897	Found Antidote (hidden) in Old Chateau
-1008	Found Old Gateau in Old Chateau
-1233	Found Dread Plate in Old Chateau
-1234	Found TM90 in Old Chateau
-2736	Rotom disappeared in Old Chateau TV
+0329	洛托姆已捕捉
+0665	在森之洋馆遇到管家幽灵
+0666	在森之洋馆遇到小女孩幽灵
+0897	在森之洋馆找到解毒药 (隐藏)
+1008	在森之洋馆找到森之羊羹
+1233	在森之洋馆找到恶颜石板
+1234	在森之洋馆找到TM90
+2736	洛托姆已从森之洋馆电视消失
+2401	跑步鞋已关闭
+0251	得到小福蛋的蛋
+0305	已获得伊布
+2430	已解锁水木的电脑
+2728	星期五飘飘球已消失
+2722	Today's Trophy Garden Pokémon Known

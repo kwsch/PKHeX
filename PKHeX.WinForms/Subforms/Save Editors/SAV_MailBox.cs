@@ -35,9 +35,9 @@ namespace PKHeX.WinForms
             NUD_BoxSize.Visible = L_BoxSize.Visible = Gen == 2;
             GB_MessageTB.Visible = Gen == 2;
             GB_MessageNUD.Visible = Gen != 2;
-            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen == 4 || Gen == 5;
+            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen is 4 or 5;
             NUD_AuthorSID.Visible = Gen != 2;
-            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen == 4 || Gen == 5;
+            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen is 4 or 5;
             L_AppearPKM.Visible = AppearPKMs[0].Visible = Gen != 5;
             AppearPKMs[1].Visible = AppearPKMs[2].Visible = Gen == 4;
             NUD_MessageEnding.Visible = Gen == 5;
@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < m.Length; i++)
                     {
                         var ofs = sav3.GetMailOffset(i);
-                        var data = sav.GetData(ofs, Mail3.SIZE);
+                        var data = sav3.Large.Slice(ofs, Mail3.SIZE);
                         m[i] = new Mail3(data, ofs, sav3.Japanese);
                     }
 
@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
                 case SAV4 sav4:
                     m = new Mail4[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail4(((PK4)p[i]).HeldMailData);
+                        m[i] = new Mail4(((PK4)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                     {
                         int ofs = sav4.GetMailOffset(j);
@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
                 case SAV5 sav5:
                     m = new Mail5[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail5(((PK5)p[i]).HeldMailData);
+                        m[i] = new Mail5(((PK5)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                     {
                         int ofs = SAV5.GetMailOffset(j);
@@ -112,13 +112,13 @@ namespace PKHeX.WinForms
             MakePartyList();
             MakePCList();
 
-            if (Gen == 2 || Gen == 3)
+            if (Gen is 2 or 3)
             {
                 CB_AppearPKM1.Items.Clear();
                 CB_AppearPKM1.InitializeBinding();
                 CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
             }
-            else if (Gen == 4 || Gen == 5)
+            else if (Gen is 4 or 5)
             {
                 var species = GameInfo.FilteredSources.Species.ToList();
                 foreach (ComboBox a in AppearPKMs)
@@ -174,16 +174,6 @@ namespace PKHeX.WinForms
                 LB_PCBOX.SelectedIndex = 0;
         }
 
-        private readonly int[] HoennListMixed = {
-                277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
-            304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
-                                    322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,
-                                    339,340,321,351,352,308,332,333,334,344,345,358,359,380,379,348,349,323,324,
-                                326,327,318,319,388,389,390,391,328,329,385,317,377,378,361,362,369,411,376,360,
-                                346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
-                401,402,403,407,408,404,405,406,409,410
-        };
-
         private void LoadList()
         {
             if (entry < PartyBoxCount) MakePartyList();
@@ -236,7 +226,7 @@ namespace PKHeX.WinForms
             editing = false;
         }
 
-        private readonly Mail[] m;
+        private readonly Mail[] m = null!;
         private bool editing;
         private int entry;
         private readonly NumericUpDown[][] Messages;
@@ -246,9 +236,9 @@ namespace PKHeX.WinForms
         private readonly int Gen;
         private readonly byte ResetVer, ResetLang;
         private readonly int PartyBoxCount;
-        private string loadedLBItemLabel;
+        private string loadedLBItemLabel = null!;
         private bool LabelValue_GenderF;
-        private readonly int[] MailItemID;
+        private readonly int[] MailItemID = null!;
         private readonly IList<PKM> p;
 
         private void Save()
@@ -292,6 +282,7 @@ namespace PKHeX.WinForms
             mail.AuthorName = TB_AuthorName.Text;
             mail.AuthorTID = (ushort)NUD_AuthorTID.Value;
             mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
+            // ReSharper disable once ConstantNullCoalescingCondition
             int v = (int?)CB_AppearPKM1.SelectedValue ?? 0;
             if (Gen == 2)
             {
@@ -307,11 +298,16 @@ namespace PKHeX.WinForms
             }
             if (Gen == 3)
             {
-                mail.AppearPKM = v < 252 ? v : HoennListMixed[v - 252];
+                mail.AppearPKM = SpeciesConverter.GetG3Species(v);
                 return;
             }
+
+            // ReSharper disable once ConstantNullCoalescingCondition
             mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
+
+            // ReSharper disable once ConstantNullCoalescingCondition
             mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
+
             mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
             switch (mail)
             {
@@ -345,7 +341,7 @@ namespace PKHeX.WinForms
                     heldMailIDs[i] = h;
                     if (ItemIsMail(p[i].HeldItem))
                     {
-                        if (h < 0 || h > 5) //A
+                        if (h is < 0 or > 5) //A
                             ret.Add($"Party#{i + 1} MailID mismatch");
                         else if (m[h].IsEmpty == true) //B
                             ret.Add($"Party#{i + 1} MailID mismatch");
@@ -357,16 +353,17 @@ namespace PKHeX.WinForms
                 }
                 for (int i = 0; i < 6; i++)
                 {
-                    if (heldMailIDs.Count(v => v == i) > 1) //D
+                    var index = i;
+                    if (heldMailIDs.Count(v => v == index) > 1) //D
                         ret.Add($"MailID{i} duplicated");
-                    if (m[i].IsEmpty == false && heldMailIDs.All(v => v != i)) //E
+                    if (m[i].IsEmpty == false && heldMailIDs.All(v => v != index)) //E
                         ret.Add($"MailID{i} not referred");
                 }
             }
             // Gen2, Gen4
             // P: held item is mail, but mail is empty(invalid mail type. g2:not 181 to 189, g4:12 to 255). it should be not empty or held not mail.
             // Q: held item is not mail, but mail is not empty. it should be empty or held mail.
-            else if (Gen == 2 || Gen == 4)
+            else if (Gen is 2 or 4)
             {
                 for (int i = 0; i < p.Count; i++)
                 {
@@ -426,33 +423,29 @@ namespace PKHeX.WinForms
 
         private string GetSpeciesNameFromCB(int index)
         {
-            foreach (ComboItem i in CB_AppearPKM1.Items)
-            {
-                if (index == i.Value)
-                    return i.Text;
-            }
-            return "PKM";
+            var result = CB_AppearPKM1.Items.OfType<ComboItem>().FirstOrDefault(z => z.Value == index);
+            return result != null ? result.Text : "PKM";
         }
 
         private DialogResult ModifyHeldItem()
         {
             DialogResult ret = DialogResult.Abort;
             var s = p.Select((pkm, i) => ((sbyte)PKMNUDs[i].Value == entry) && ItemIsMail(pkm.HeldItem) ? pkm : null).ToArray();
-            if (s.Count(v => v != null) == 0)
+            if (s.All(v => v == null))
                 return ret;
             System.Media.SystemSounds.Question.Play();
             var msg = $"{s.Select((v, i) => v == null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";
             ret = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, msg);
             if (ret != DialogResult.Yes)
                 return ret;
-            foreach (PKM pkm in s)
+            foreach (var pkm in s)
             {
-                if (pkm != null)
-                {
-                    pkm.HeldItem = 0;
-                    if (Gen == 3)
-                        ((PK3)pkm).HeldMailID = -1;
-                }
+                if (pkm == null)
+                    continue;
+
+                pkm.HeldItem = 0;
+                if (Gen == 3)
+                    ((PK3)pkm).HeldMailID = -1;
             }
             LoadPKM(false);
             return ret;
@@ -537,15 +530,7 @@ namespace PKHeX.WinForms
             }
             if (Gen == 3)
             {
-                if (v < 252)
-                {
-                    AppearPKMs[0].SelectedValue = v;
-                }
-                else
-                {
-                    v = Array.IndexOf(HoennListMixed, v);
-                    AppearPKMs[0].SelectedValue = v >= 0 ? (252 + v) : 0;
-                }
+                AppearPKMs[0].SelectedValue = SpeciesConverter.GetG4Species(v);
                 editing = false;
                 return;
             }

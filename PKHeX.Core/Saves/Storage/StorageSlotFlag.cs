@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Flags describing special attributes for a <see cref="PKM"/> based on its origin from the parent <see cref="SaveFile"/>.
     /// </summary>
-    /// <remarks>If <see cref="None"/>, then it's a nonspecial slot.</remarks>
+    /// <remarks>If <see cref="None"/>, then it's not a special slot.</remarks>
     [Flags]
     public enum StorageSlotFlag
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -79,47 +80,62 @@ namespace PKHeX.Core
         public int AbilityH { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); }
         public override int EscapeRate { get => 0; set { } } // moved?
         protected internal override int FormStatsIndex { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); }
-        public override int FormeSprite { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); } // ???
-        public override int FormeCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+        public override int FormSprite { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); } // ???
+        public override int FormCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
         public override int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
         public bool IsPresentInGame { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
-        public bool SpriteForme { get => ((Data[0x21] >> 7) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x80) | (value ? 0x80 : 0)); }
+        public bool SpriteForm { get => ((Data[0x21] >> 7) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x80) | (value ? 0x80 : 0)); }
         public override int BaseEXP { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         public override int Height { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Weight { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public override int[] Items
+        public override IReadOnlyList<int> Items
         {
             get => new[] { Item1, Item2, Item3 };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Item1 = value[0];
                 Item2 = value[1];
                 Item3 = value[2];
             }
         }
 
-        public override int[] Abilities
+        public override IReadOnlyList<int> Abilities
         {
             get => new[] { Ability1, Ability2, AbilityH };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Ability1 = value[0];
                 Ability2 = value[1];
                 AbilityH = value[2];
             }
         }
 
+        public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
+
         public int Species { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
 
-        public int BaseSpecies { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
-        public int BaseSpeciesForm { get => BitConverter.ToUInt16(Data, 0x58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x58); } // local region base form
-        public int Flags { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A); } // not sure
+        public int HatchSpecies { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
+        public int LocalFormIndex { get => BitConverter.ToUInt16(Data, 0x58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x58); } // local region base form
+        public ushort RegionalFlags { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x5A); }
+        public bool IsRegionalForm { get => (RegionalFlags & 1) == 1; set => BitConverter.GetBytes((ushort)((RegionalFlags & 0xFFFE) | (value ? 1 : 0))).CopyTo(Data, 0x5A); }
         public int PokeDexIndex { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
-        public int FormIndex { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); } // form index of this entry
+        public int RegionalFormIndex { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); } // form index of this entry
         public int ArmorDexIndex { get => BitConverter.ToUInt16(Data, 0xAC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAC); }
         public int CrownDexIndex { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }
+
+        /// <summary>
+        /// Gets the Forme that any offspring will hatch with, assuming it is holding an Everstone.
+        /// </summary>
+        public int HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
+
+        /// <summary>
+        /// Checks if the entry shows up in any of the built-in Pokédex.
+        /// </summary>
+        public bool IsInDex => PokeDexIndex != 0 || ArmorDexIndex != 0 || CrownDexIndex != 0;
+
+        public bool HasHiddenAbility => AbilityH != Ability1;
     }
 }

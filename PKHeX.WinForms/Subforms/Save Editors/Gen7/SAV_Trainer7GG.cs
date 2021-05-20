@@ -43,7 +43,7 @@ namespace PKHeX.WinForms
 
         private void Main_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
             if (files == null || files.Length == 0)
                 return;
             ImportGP1From(files[0]);
@@ -57,7 +57,7 @@ namespace PKHeX.WinForms
             CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
             CB_Game.InitializeBinding();
-            CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.GG.Contains(z.Value)).ToList(), null);
+            CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.Gen7b.Contains(z.Value)).ToList(), null);
         }
 
         private void LoadTrainerInfo()
@@ -108,7 +108,7 @@ namespace PKHeX.WinForms
             TextBox tb = sender as TextBox ?? TB_OTName;
 
             // Special Character Form
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -146,7 +146,7 @@ namespace PKHeX.WinForms
 
         private void B_ExportGoFiles_Click(object sender, EventArgs e)
         {
-            var gofiles = Park.AllEntities.Where(z => z.Species != 0).ToArray();
+            var gofiles = Park.GetAllEntities().Where(z => z.Species != 0).ToArray();
             if (gofiles.Length == 0)
             {
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");

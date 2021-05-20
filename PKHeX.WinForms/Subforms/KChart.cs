@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -23,8 +24,8 @@ namespace PKHeX.WinForms
 
             Array.Resize(ref species, SAV.Personal.TableLength);
 
-            var AltForms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
-            species = SAV.Personal.GetPersonalEntryList(AltForms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
+            var forms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
+            species = SAV.Personal.GetPersonalEntryList(forms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
 
             DGV.Rows.Clear();
             for (int i = 1; i < species.Length; i++)
@@ -54,6 +55,7 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = GetIsNative(p, s);
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStatTotal(p.BST);
             row.Cells[r++].Value = p.BST.ToString("000");
+            row.Cells[r++].Value = p.CatchRate.ToString("000");
             row.Cells[r++].Value = SpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
             row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : SpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat(p.HP);
@@ -68,21 +70,26 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = p.SPD.ToString("000");
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat(p.SPE);
             row.Cells[r++].Value = p.SPE.ToString("000");
-            row.Cells[r++].Value = abilities[p.Abilities[0]];
-            row.Cells[r++].Value = abilities[p.Abilities[1]];
-            row.Cells[r].Value = abilities[p.Abilities.Length <= 2 ? 0 : p.Abilities[2]];
+            var abils = p.Abilities;
+            row.Cells[r++].Value = GetAbility(abils, 0);
+            row.Cells[r++].Value = GetAbility(abils, 1);
+            row.Cells[r].Value = GetAbility(abils, 2);
             row.Height = SpriteUtil.Spriter.Height + 1;
             DGV.Rows.Add(row);
         }
 
-        private static bool GetIsNative(PersonalInfo personalInfo, int s)
+        private string GetAbility(IReadOnlyList<int> abilityIDs, int index)
         {
-            return personalInfo switch
-            {
-                PersonalInfoSM _ => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
-                PersonalInfoSWSH ss => ss.PokeDexIndex > 0,
-                _ => true,
-            };
+            if ((uint)index >= abilityIDs.Count)
+                return abilities[0];
+            return abilities[abilityIDs[index]];
         }
+
+        private static bool GetIsNative(PersonalInfo personalInfo, int s) => personalInfo switch
+        {
+            PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
+            PersonalInfoSWSH ss => ss.IsInDex,
+            _ => true,
+        };
     }
 }

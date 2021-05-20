@@ -22,7 +22,6 @@ namespace PKHeX.Core
 
         public static PKM[] GetExtraPKM(this SaveFile sav, IList<SlotInfoMisc> slots)
         {
-            slots ??= sav.GetExtraSlots();
             var arr = new PKM[slots.Count];
             for (int i = 0; i < slots.Count; i++)
                 arr[i] = slots[i].Read(sav);
@@ -42,27 +41,24 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static readonly List<SlotInfoMisc> None = new List<SlotInfoMisc>();
+        private static readonly List<SlotInfoMisc> None = new();
 
-        private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all)
+        private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all) => sav switch
         {
-            return sav switch
-            {
-                SAV2 sav2 => GetExtraSlots2(sav2),
-                SAV3 sav3 => GetExtraSlots3(sav3),
-                SAV4 sav4 => GetExtraSlots4(sav4),
-                SAV5 sav5 => GetExtraSlots5(sav5),
-                SAV6XY xy => GetExtraSlots6XY(xy),
-                SAV6AO xy => GetExtraSlots6AO(xy),
-                SAV7 sav7 => GetExtraSlots7(sav7, all),
-                SAV8SWSH ss => GetExtraSlots8(ss),
-                _ => None
-            };
-        }
+            SAV2 sav2 => GetExtraSlots2(sav2),
+            SAV3 sav3 => GetExtraSlots3(sav3),
+            SAV4 sav4 => GetExtraSlots4(sav4),
+            SAV5 sav5 => GetExtraSlots5(sav5),
+            SAV6XY xy => GetExtraSlots6XY(xy),
+            SAV6AO xy => GetExtraSlots6AO(xy),
+            SAV7 sav7 => GetExtraSlots7(sav7, all),
+            SAV8SWSH ss => GetExtraSlots8(ss),
+            _ => None
+        };
 
         private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
         {
-            return new List<SlotInfoMisc>
+            return new()
             {
                 new SlotInfoMisc(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare } // egg
             };
@@ -70,17 +66,17 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots3(SAV3 sav)
         {
-            if (!sav.FRLG)
+            if (sav is not SAV3FRLG)
                 return None;
             return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GetBlockOffset(4) + 0xE18) {Type = StorageSlotType.Daycare }
+                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare }
             };
         }
 
         private static List<SlotInfoMisc> GetExtraSlots4(SAV4 sav)
         {
-            return new List<SlotInfoMisc>
+            return new()
             {
                 new SlotInfoMisc(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS },
             };
@@ -88,7 +84,7 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots5(SAV5 sav)
         {
-            return new List<SlotInfoMisc>
+            return new()
             {
                 new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
                 new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
@@ -104,11 +100,11 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots6XY(SAV6XY sav)
         {
-            return new List<SlotInfoMisc>
+            return new()
             {
                 new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
                 new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
-                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Offset + 0x90) {Type = StorageSlotType.Misc}, // Old Man
+                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc}, // Old Man
 
                 new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
                 new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
@@ -121,10 +117,11 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots6AO(SAV6AO sav)
         {
-            return new List<SlotInfoMisc>
+            return new()
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
-                new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
+                new SlotInfoMisc(sav.Data, 0, SAV6AO.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(sav.Data, 0, SAV6AO.Fused) {Type = StorageSlotType.Fused},
+                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc},
 
                 new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
                 new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
@@ -139,8 +136,8 @@ namespace PKHeX.Core
         {
             var list = new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.AllBlocks[07].Offset) {Type = StorageSlotType.GTS},
-                new SlotInfoMisc(sav.Data, 0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
+                new(sav.Data, 0, sav.AllBlocks[07].Offset) {Type = StorageSlotType.GTS},
+                new(sav.Data, 0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
             };
             if (sav is SAV7USUM)
             {
@@ -163,17 +160,26 @@ namespace PKHeX.Core
         {
             var fused = sav.Fused;
             var dc = sav.Daycare;
-            return new List<SlotInfoMisc>
+            var list = new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
+                new(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true) {Type = StorageSlotType.Fused},
+                new(fused.Data, 1, Fused8.GetFusedSlotOffset(1), true) {Type = StorageSlotType.Fused},
+                new(fused.Data, 2, Fused8.GetFusedSlotOffset(2), true) {Type = StorageSlotType.Fused},
 
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 0)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 1)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)),
+                new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 0)) {Type = StorageSlotType.Daycare},
+                new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 1)) {Type = StorageSlotType.Daycare},
+                new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)) {Type = StorageSlotType.Daycare},
+                new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)) {Type = StorageSlotType.Daycare},
             };
+
+            if (sav is SAV8SWSH {SaveRevision: >= 2} s8)
+            {
+                var block = s8.Blocks.GetBlockSafe(SaveBlockAccessor8SWSH.KFusedCalyrex);
+                var c = new SlotInfoMisc(block.Data, 3, 0, true) {Type = StorageSlotType.Fused};
+                list.Insert(3, c);
+            }
+
+            return list;
         }
     }
 }

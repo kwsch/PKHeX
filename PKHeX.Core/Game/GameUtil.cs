@@ -14,106 +14,79 @@ namespace PKHeX.Core
         /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
         /// </summary>
         /// <remarks>Ordered roughly by most recent games first.</remarks>
-        public static readonly IReadOnlyList<GameVersion> GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+        public static readonly IReadOnlyList<GameVersion> GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(IsValidSavedVersion).Reverse().ToArray();
 
         /// <summary>
         /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
         /// </summary>
         /// <param name="game">Game to check</param>
-        public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
+        public static bool IsValidSavedVersion(this GameVersion game) => game is > 0 and <= HighestGameID;
 
         /// <summary>
         /// Most recent game ID utilized by official games.
         /// </summary>
-        public const GameVersion HighestGameID = RB - 1;
+        internal const GameVersion HighestGameID = RB - 1;
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion GetMetLocationVersionGroup(GameVersion version)
+        public static GameVersion GetMetLocationVersionGroup(GameVersion version) => version switch
         {
-            switch (version)
-            {
-                // Side games
-                case CXD:
-                    return CXD;
-                case GO:
-                    return GO;
+            // Side games
+            CXD => CXD,
+            GO => GO,
 
-                // VC Transfers
-                case RD: case BU: case YW: case GN:
-                case GD: case SV: case C:
-                    return USUM;
+            // VC Transfers
+            RD or BU or YW or GN or GD or SV or C => USUM,
 
-                // Gen2 -- PK2
-                case GS: case GSC:
-                    return GSC;
+            // Gen2 -- PK2
+            GS or GSC => GSC,
 
-                // Gen3
-                case R: case S:
-                    return RS;
-                case E:
-                    return E;
-                case FR: case LG:
-                    return FR;
+            // Gen3
+            R or S => RS,
+            E => E,
+            FR or LG => FR,
 
-                // Gen4
-                case D: case P:
-                    return DP;
-                case Pt:
-                    return Pt;
-                case HG: case SS:
-                    return HGSS;
+            // Gen4
+            D or P => DP,
+            Pt => Pt,
+            HG or SS => HGSS,
 
-                // Gen5
-                case B: case W:
-                    return BW;
-                case B2: case W2:
-                    return B2W2;
+            // Gen5
+            B or W => BW,
+            B2 or W2 => B2W2,
 
-                // Gen6
-                case X: case Y:
-                    return XY;
-                case OR: case AS:
-                    return ORAS;
+            // Gen6
+            X or Y => XY,
+            OR or AS => ORAS,
 
-                // Gen7
-                case SN: case MN:
-                    return SM;
-                case US: case UM:
-                    return USUM;
-                case GP: case GE:
-                    return GG;
+            // Gen7
+            SN or MN => SM,
+            US or UM => USUM,
+            GP or GE => GG,
 
-                // Gen8
-                case SW: case SH:
-                    return SWSH;
-
-                default:
-                    return Invalid;
-            }
-        }
+            // Gen8
+            SW or SH => SWSH,
+            _ => Invalid,
+        };
 
         /// <summary>
         /// Gets a Version ID from the end of that Generation
         /// </summary>
         /// <param name="generation">Generation ID</param>
         /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
-        public static GameVersion GetVersion(int generation)
+        public static GameVersion GetVersion(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => RBY,
-                2 => C,
-                3 => E,
-                4 => SS,
-                5 => W2,
-                6 => AS,
-                7 => UM,
-                8 => SH,
-                _ => Invalid
-            };
-        }
+            1 => RBY,
+            2 => C,
+            3 => E,
+            4 => SS,
+            5 => W2,
+            6 => AS,
+            7 => UM,
+            8 => SH,
+            _ => Invalid
+        };
 
         /// <summary>
         /// Gets the Generation the <see cref="GameVersion"/> belongs to.
@@ -129,6 +102,7 @@ namespace PKHeX.Core
             if (Gen5.Contains(game)) return 5;
             if (Gen6.Contains(game)) return 6;
             if (Gen7.Contains(game)) return 7;
+            if (Gen7b.Contains(game)) return 7;
             if (Gen8.Contains(game)) return 8;
             return -1;
         }
@@ -146,14 +120,13 @@ namespace PKHeX.Core
             if (Gen4.Contains(game)) return Legal.MaxSpeciesID_4;
             if (Gen5.Contains(game)) return Legal.MaxSpeciesID_5;
             if (Gen6.Contains(game)) return Legal.MaxSpeciesID_6;
+            if (Gen7b.Contains(game)) return Legal.MaxSpeciesID_7b;
             if (Gen7.Contains(game))
             {
                 if (SM.Contains(game))
                     return Legal.MaxSpeciesID_7;
                 if (USUM.Contains(game))
                     return Legal.MaxSpeciesID_7_USUM;
-                if (GG.Contains(game))
-                    return Legal.MaxSpeciesID_7b;
                 return Legal.MaxSpeciesID_7_USUM;
             }
             if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
@@ -177,73 +150,48 @@ namespace PKHeX.Core
             if (g1 == g2 || g1 == Any)
                 return true;
 
-            switch (g1)
+            return g1 switch
             {
-                case RB:
-                    return g2 == RD || g2 == BU || g2 == GN;
-                case Stadium:
-                case EventsGBGen1:
-                case VCEvents:
-                case RBY:
-                    return RB.Contains(g2) || g2 == YW;
-                case Gen1:
-                    return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
+                RB => g2 is RD or BU or GN,
+                RBY or Stadium => RB.Contains(g2) || g2 == YW,
+                Gen1 => RBY.Contains(g2) || g2 == Stadium,
 
-                case GS: return g2 == GD || g2 == SV;
-                case Stadium2:
-                case EventsGBGen2:
-                case GSC:
-                    return GS.Contains(g2) || g2 == C;
-                case Gen2:
-                    return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
-                case GBCartEraOnly:
-                    return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
+                GS => g2 is GD or SV,
+                GSC or Stadium2 => GS.Contains(g2) || g2 == C,
+                Gen2 => GSC.Contains(g2) || g2 == Stadium2,
 
-                case RS: return g2 == R || g2 == S;
-                case RSE:
-                    return RS.Contains(g2) || g2 == E;
-                case FRLG: return g2 == FR || g2 == LG;
-                case COLO:
-                case XD: return g2 == CXD;
-                case CXD: return g2 == COLO || g2 == XD;
-                case RSBOX: return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
-                case Gen3:
-                    return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
+                RS => g2 is R or S,
+                RSE => RS.Contains(g2) || g2 == E,
+                FRLG => g2 is FR or LG,
+                COLO or XD => g2 == CXD,
+                CXD => g2 is COLO or XD,
+                RSBOX => RS.Contains(g2) || g2 == E || FRLG.Contains(g2),
+                Gen3 => RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX,
 
-                case DP: return g2 == D || g2 == P;
-                case HGSS: return g2 == HG || g2 == SS;
-                case DPPt:
-                    return DP.Contains(g2) || g2 == Pt;
-                case BATREV: return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
-                case Gen4:
-                    return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
+                DP => g2 is D or P,
+                HGSS => g2 is HG or SS,
+                DPPt => DP.Contains(g2) || g2 == Pt,
+                BATREV => DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2),
+                Gen4 => DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV,
 
-                case BW: return g2 == B || g2 == W;
-                case B2W2: return g2 == B2 || g2 == W2;
-                case Gen5:
-                    return BW.Contains(g2) || B2W2.Contains(g2);
+                BW => g2 is B or W,
+                B2W2 => g2 is B2 or W2,
+                Gen5 => BW.Contains(g2) || B2W2.Contains(g2),
 
-                case XY: return g2 == X || g2 == Y;
-                case ORAS: return g2 == OR || g2 == AS;
-                case Gen6:
-                    return XY.Contains(g2) || ORAS.Contains(g2);
+                XY => g2 is X or Y,
+                ORAS => g2 is OR or AS,
 
-                case SM:
-                    return g2 == SN || g2 == MN;
-                case USUM:
-                    return g2 == US || g2 == UM;
-                case GG:
-                    return g2 == GP || g2 == GE || g2 == GO;
-                case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
+                Gen6 => XY.Contains(g2) || ORAS.Contains(g2),
+                SM => g2 is SN or MN,
+                USUM => g2 is US or UM,
+                GG => g2 is GP or GE,
+                Gen7 => SM.Contains(g2) || USUM.Contains(g2),
+                Gen7b => GG.Contains(g2) || GO == g2,
 
-                case SWSH:
-                    return g2 == SW || g2 == SH;
-                case Gen8:
-                    return SWSH.Contains(g2);
-
-                default: return false;
-            }
+                SWSH => g2 is SW or SH,
+                Gen8 => SWSH.Contains(g2),
+                _ => false,
+            };
         }
 
         /// <summary>
@@ -253,7 +201,7 @@ namespace PKHeX.Core
         /// <param name="pkVersion"></param>
         public static GameVersion[] GetVersionsInGeneration(int generation, int pkVersion)
         {
-            if (GG.Contains(pkVersion))
+            if (Gen7b.Contains(pkVersion))
                 return new[] {GO, GP, GE};
             return GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
         }

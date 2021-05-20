@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         private List<ComboItem> GetItems(int format)
         {
-            var permit = format < 8 ? Legal.HeldItem_AO : Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct();
+            var permit = Memories.GetMemoryItemParams(format);
             var asInt = permit.Select(z => (int) z).ToArray();
             return Util.GetCBList(s.itemlist, asInt);
         }
@@ -55,20 +55,17 @@ namespace PKHeX.Core
             return memory_list1;
         }
 
-        public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
-        public string[] GetMemoryFeelings(int format) => format >= 8 ? s.memories.Slice(9, 25) : s.memories.Slice(10, 24); // empty line for 0 in gen8+
+        public ReadOnlySpan<string> GetMemoryQualities() => s.memories.AsSpan(2, 7);
+        public ReadOnlySpan<string> GetMemoryFeelings(int format) => format >= 8 ? s.memories.AsSpan(9, 25) : s.memories.AsSpan(10, 24); // empty line for 0 in gen8+
 
-        public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
+        public List<ComboItem> GetArgumentStrings(MemoryArgType type) => type switch
         {
-            return memIndex switch
-            {
-                MemoryArgType.Species => Species,
-                MemoryArgType.GeneralLocation => GeneralLocations,
-                MemoryArgType.Item => Items,
-                MemoryArgType.Move => Moves,
-                MemoryArgType.SpecificLocation => SpecificLocations,
-                _ => None
-            };
-        }
+            MemoryArgType.Species => Species,
+            MemoryArgType.GeneralLocation => GeneralLocations,
+            MemoryArgType.Item => Items,
+            MemoryArgType.Move => Moves,
+            MemoryArgType.SpecificLocation => SpecificLocations,
+            _ => None
+        };
     }
 }

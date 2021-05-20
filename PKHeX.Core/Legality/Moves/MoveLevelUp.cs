@@ -6,49 +6,48 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
-    internal static class MoveLevelUp
+    public static class MoveLevelUp
     {
         private static readonly LearnLookup
-            LearnSWSH = new LearnLookup(PersonalTable.SWSH, LevelUpSWSH, SWSH),
-            LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM),
-            LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM),
-            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, GG),
-            LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY),
-            LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS),
-            LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW),
-            LearnB2W2 = new LearnLookup(PersonalTable.B2W2, LevelUpB2W2, B2W2),
-            LearnDP = new LearnLookup(PersonalTable.DP, LevelUpDP, DP),
-            LearnPt = new LearnLookup(PersonalTable.Pt, LevelUpPt, Pt),
-            LearnHGSS = new LearnLookup(PersonalTable.HGSS, LevelUpHGSS, HGSS),
-            LearnRSE = new LearnLookup(PersonalTable.RS, LevelUpRS, RSE),
-            LearnFRLG = new LearnLookup(PersonalTable.LG, LevelUpLG, FRLG),
-            LearnGS = new LearnLookup(PersonalTable.GS, LevelUpGS, GS),
-            LearnC = new LearnLookup(PersonalTable.C, LevelUpC, C),
-            LearnRB = new LearnLookup(PersonalTable.RB, LevelUpRB, RB),
-            LearnY = new LearnLookup(PersonalTable.Y, LevelUpY, YW);
+            LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH, SWSH),
+            LearnSM = new(PersonalTable.SM, LevelUpSM, SM),
+            LearnUSUM = new(PersonalTable.USUM, LevelUpUSUM, USUM),
+            LearnGG = new(PersonalTable.GG, LevelUpGG, Gen7b),
+            LearnXY = new(PersonalTable.XY, LevelUpXY, XY),
+            LearnAO = new(PersonalTable.AO, LevelUpAO, ORAS),
+            LearnBW = new(PersonalTable.BW, LevelUpBW, BW),
+            LearnB2W2 = new(PersonalTable.B2W2, LevelUpB2W2, B2W2),
+            LearnDP = new(PersonalTable.DP, LevelUpDP, DP),
+            LearnPt = new(PersonalTable.Pt, LevelUpPt, Pt),
+            LearnHGSS = new(PersonalTable.HGSS, LevelUpHGSS, HGSS),
+            LearnRSE = new(PersonalTable.RS, LevelUpRS, RSE),
+            LearnFRLG = new(PersonalTable.LG, LevelUpLG, FRLG),
+            LearnGS = new(PersonalTable.GS, LevelUpGS, GS),
+            LearnC = new(PersonalTable.C, LevelUpC, C),
+            LearnRB = new(PersonalTable.RB, LevelUpRB, RB),
+            LearnY = new(PersonalTable.Y, LevelUpY, YW);
 
         public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int form, int lvl, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
         {
             if (pkm.IsMovesetRestricted(generation))
                 version = (GameVersion)pkm.Version;
 
-            switch (generation)
+            return generation switch
             {
-                case 1: return GetIsLevelUp1(species, move, lvl, form, minlvlG1, version);
-                case 2 when move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed(): return LearnNONE;
-                case 2: return GetIsLevelUp2(species, move, lvl, form, minlvlG2, pkm.Korean, version);
-
-                case 3: return GetIsLevelUp3(species, move, lvl, form, version);
-                case 4: return GetIsLevelUp4(species, move, lvl, form, version);
-                case 5: return GetIsLevelUp5(species, move, lvl, form, version);
-                case 6: return GetIsLevelUp6(species, move, lvl, form, version);
-                case 7: return GetIsLevelUp7(species, move, form, version); // move reminder can give any move 1-100
-                case 8: return GetIsLevelUp8(species, move, lvl, form, version);
-            }
-            return LearnNONE;
+                1 => GetIsLevelUp1(species, move, lvl, form, minlvlG1, version),
+                2 when move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed() => LearnNONE,
+                2 => GetIsLevelUp2(species, move, lvl, form, minlvlG2, pkm.Korean, version),
+                3 => GetIsLevelUp3(species, move, lvl, form, version),
+                4 => GetIsLevelUp4(species, move, lvl, form, version),
+                5 => GetIsLevelUp5(species, move, lvl, form, version),
+                6 => GetIsLevelUp6(species, move, lvl, form, version),
+                7 => GetIsLevelUp7(species, move, form, version), // move reminder can give any move 1-100
+                8 => GetIsLevelUp8(species, move, lvl, form, version),
+                _ => LearnNONE
+            };
         }
 
-        public static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
+        internal static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
         {
             if (move > MaxMoveID_1)
                 return LearnNONE;
@@ -64,7 +63,7 @@ namespace PKHeX.Core
                         return first;
                     return first.Level > second.Level ? second : first;
 
-                case RD: case BU: case GN: case RB:
+                case RD or BU or GN or RB:
                     return LearnRB.GetIsLevelUpG1(species, form, move, max, min);
                 case YW:
                     return LearnY.GetIsLevelUpG1(species, form, move, max, min);
@@ -84,7 +83,7 @@ namespace PKHeX.Core
                         return first;
                     return LearnC.GetIsLevelUpMin(species, move, max, min, form);
 
-                case GD: case SV: case GS:
+                case GD or SV or GS:
                     return LearnGS.GetIsLevelUpMin(species, move, max, min, form);
                 case C when !korean:
                     return LearnC.GetIsLevelUpMin(species, move, max, min, form);
@@ -106,9 +105,9 @@ namespace PKHeX.Core
                         return first;
                     return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
 
-                case R: case S: case E: case RS: case RSE:
+                case R or S or E or RS or RSE:
                     return LearnRSE.GetIsLevelUp(species, form, move, lvl);
-                case FR: case LG: case FRLG:
+                case FR or LG or FRLG:
                     return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -129,11 +128,11 @@ namespace PKHeX.Core
                         return LearnNONE;
                     return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
 
-                case D: case P: case DP:
+                case D or P or DP:
                     return LearnDP.GetIsLevelUp(species, form, move, lvl);
                 case Pt:
                     return LearnPt.GetIsLevelUp(species, form, move, lvl);
-                case HG: case SS: case HGSS:
+                case HG or SS or HGSS:
                     return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -148,9 +147,9 @@ namespace PKHeX.Core
                     if (first.IsLevelUp && species != 646)  // Kyurem moves are same for both versions, but forme movepool not present.
                         return first;
                     return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
-                case B: case W: case BW:
+                case B or W or BW:
                     return LearnBW.GetIsLevelUp(species, form, move, lvl);
-                case B2: case W2: case B2W2:
+                case B2 or W2 or B2W2:
                     return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -166,9 +165,9 @@ namespace PKHeX.Core
                         return first;
                     return LearnAO.GetIsLevelUp(species, form, move, lvl);
 
-                case X: case Y: case XY:
+                case X or Y or XY:
                     return LearnXY.GetIsLevelUp(species, form, move, lvl);
-                case OR: case AS: case ORAS:
+                case OR or AS or ORAS:
                     return LearnAO.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -178,7 +177,7 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
-                case GP: case GE: case GG: case GO:
+                case GP or GE or GG or GO:
                     return LearnGG.GetIsLevelUp(species, form, move);
 
                 case Any:
@@ -191,12 +190,12 @@ namespace PKHeX.Core
                         return LearnNONE;
                     return LearnSM.GetIsLevelUp(species, form, move);
 
-                case SN: case MN: case SM:
+                case SN or MN or SM:
                     if (species > MaxSpeciesID_7)
                         return LearnNONE;
                     return LearnSM.GetIsLevelUp(species, form, move);
 
-                case US: case UM: case USUM:
+                case US or UM or USUM:
                     if (species > MaxSpeciesID_7_USUM)
                         return LearnNONE;
                     return LearnUSUM.GetIsLevelUp(species, form, move);
@@ -209,7 +208,8 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                case SW: case SH:
+                case GO:
+                case SW or SH or SWSH:
                     if (species > MaxSpeciesID_8)
                         return LearnNONE;
                     return LearnSWSH.GetIsLevelUp(species, form, move, lvl);
@@ -228,17 +228,14 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        private static GameVersion GetDeoxysGameVersion3(int form)
+        private static GameVersion GetDeoxysGameVersion3(int form) => form switch
         {
-            return form switch
-            {
-                0 => RS,
-                1 => FR,
-                2 => LG,
-                3 => E,
-                _ => Invalid
-            };
-        }
+            0 => RS,
+            1 => FR,
+            2 => LG,
+            3 => E,
+            _ => Invalid
+        };
 
         private static Learnset? GetDeoxysLearn3(int form, GameVersion ver = Any)
         {
@@ -261,11 +258,11 @@ namespace PKHeX.Core
             return GameData.GetLearnsets(ver)[index];
         }
 
-        public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
+        public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int generation)
         {
-            if (pkm.IsMovesetRestricted(Generation))
+            if (pkm.IsMovesetRestricted(generation))
                 version = (GameVersion)pkm.Version;
-            return Generation switch
+            return generation switch
             {
                 1 => GetMovesLevelUp1(species, form, lvl, minlvlG1, version),
                 2 => GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version),
@@ -332,7 +329,7 @@ namespace PKHeX.Core
                     LearnRB.AddMoves1(moves, species, form, max, min);
                     return LearnY.AddMoves1(moves, species, form, max, min);
 
-                case RD: case BU: case GN: case RB:
+                case RD or BU or GN or RB:
                     return LearnRB.AddMoves1(moves, species, form, max, min);
                 case YW:
                     return LearnY.AddMoves1(moves, species, form, max, min);
@@ -350,7 +347,7 @@ namespace PKHeX.Core
                         return moves;
                     return LearnC.AddMoves(moves, species, form, max, min);
 
-                case GD: case SV: case GS:
+                case GD or SV or GS:
                     return LearnGS.AddMoves(moves, species, form, max, min);
                 case C when !korean:
                     return LearnC.AddMoves(moves, species, form, max, min);
@@ -375,9 +372,9 @@ namespace PKHeX.Core
                     LearnRSE.AddMoves(moves, species, form, max);
                     return LearnFRLG.AddMoves(moves, species, form, max);
 
-                case R: case S: case E: case RS: case RSE:
+                case R or S or E or RS or RSE:
                     return LearnRSE.AddMoves(moves, species, form, max);
-                case FR: case LG: case FRLG:
+                case FR or LG or FRLG:
                     return LearnFRLG.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -394,11 +391,11 @@ namespace PKHeX.Core
                         return moves;
                     return LearnHGSS.AddMoves(moves, species, form, max);
 
-                case D: case P: case DP:
+                case D or P or DP:
                     return LearnDP.AddMoves(moves, species, form, max);
                 case Pt:
                     return LearnPt.AddMoves(moves, species, form, max);
-                case HG: case SS: case HGSS:
+                case HG or SS or HGSS:
                     return LearnHGSS.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -413,9 +410,9 @@ namespace PKHeX.Core
                         LearnBW.AddMoves(moves, species, form, max);
                     return LearnB2W2.AddMoves(moves, species, form, max);
 
-                case B: case W: case BW:
+                case B or W or BW:
                     return LearnBW.AddMoves(moves, species, form, max);
-                case B2: case W2: case B2W2:
+                case B2 or W2 or B2W2:
                     return LearnB2W2.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -429,9 +426,9 @@ namespace PKHeX.Core
                     LearnXY.AddMoves(moves, species, form, max);
                     return LearnAO.AddMoves(moves, species, form, max);
 
-                case X: case Y: case XY:
+                case X or Y or XY:
                     return LearnXY.AddMoves(moves, species, form, max);
-                case AS: case OR: case ORAS:
+                case AS or OR or ORAS:
                     return LearnAO.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -443,7 +440,7 @@ namespace PKHeX.Core
                 max = 100; // Move reminder can teach any level in movepool now!
             switch (ver)
             {
-                case GP: case GE: case GG: case GO:
+                case GP or GE or GG or GO:
                     return LearnGG.AddMoves(moves, species, form, max);
 
                 case Any:
@@ -454,12 +451,12 @@ namespace PKHeX.Core
                         return moves;
                     return LearnSM.AddMoves(moves, species, form, max);
 
-                case SN: case MN: case SM:
+                case SN or MN or SM:
                     if (species > MaxSpeciesID_7)
                         return moves;
                     return LearnSM.AddMoves(moves, species, form, max);
 
-                case US: case UM: case USUM:
+                case US or UM or USUM:
                     if (species > MaxSpeciesID_7_USUM)
                         return moves;
                     LearnUSUM.AddMoves(moves, species, form, max);
@@ -474,7 +471,8 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                case SW: case SH: case SWSH:
+                case GO:
+                case SW or SH or SWSH:
                     if (species > MaxSpeciesID_8)
                         return moves;
                     return LearnSWSH.AddMoves(moves, species, form, max);
@@ -486,16 +484,16 @@ namespace PKHeX.Core
         {
             if (version <= 0)
                 version = (GameVersion)pk.Version;
-            return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
+            return GetEncounterMoves(pk.Species, pk.Form, level, version);
         }
 
         private static int[] GetEncounterMoves1(int species, int level, GameVersion version)
         {
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, 0);
+            var index = table.GetFormIndex(species, 0);
             var lvl0 = (int[])((PersonalInfoG1) table[index]).Moves.Clone();
-            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+            int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }
@@ -504,9 +502,9 @@ namespace PKHeX.Core
         {
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, 0);
+            var index = table.GetFormIndex(species, 0);
             var lvl0 = learn[species].GetEncounterMoves(1);
-            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+            int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }
@@ -519,7 +517,7 @@ namespace PKHeX.Core
                 return GetEncounterMoves2(species, level, version);
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, form);
+            var index = table.GetFormIndex(species, form);
             return learn[index].GetEncounterMoves(level);
         }
     }

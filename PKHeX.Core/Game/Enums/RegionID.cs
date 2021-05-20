@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// 3DS Console Region Identifiers
+    /// 3DS Console Region Identifiers used for Generation 6 &amp; 7 Mystery Gifts
     /// </summary>
     public enum RegionID : byte
     {

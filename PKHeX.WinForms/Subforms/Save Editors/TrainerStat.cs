@@ -15,9 +15,9 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
         }
 
         private bool Editing;
-        private ITrainerStatRecord SAV;
-        private Dictionary<int, string> RecordList; // index, description
-        public Func<int, string> GetToolTipText { private get; set; }
+        private ITrainerStatRecord SAV = null!;
+        private Dictionary<int, string> RecordList = null!; // index, description
+        public Func<int, string?>? GetToolTipText { private get; set; }
 
         public void LoadRecords(ITrainerStatRecord sav, Dictionary<int, string> records)
         {
@@ -26,12 +26,12 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
             CB_Stats.Items.Clear();
             for (int i = 0; i < sav.RecordCount; i++)
             {
-                if (!RecordList.TryGetValue(i, out string name))
+                if (!records.TryGetValue(i, out var name))
                     name = $"{i:D3}";
 
-                CB_Stats.Items.Add(name);
+                CB_Stats.Items.Add(name!);
             }
-            CB_Stats.SelectedIndex = RecordList.First().Key;
+            CB_Stats.SelectedIndex = records.First().Key;
         }
 
         private void ChangeStat(object sender, EventArgs e)
@@ -67,7 +67,7 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
 
         private void UpdateToolTipSpecial(int index, bool updateStats)
         {
-            var str = GetToolTipText(index);
+            var str = GetToolTipText?.Invoke(index);
             if (str != null)
             {
                 Tip.SetToolTip(NUD_Stat, str);
@@ -78,7 +78,7 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
 
         private void UpdateToolTipDefault(int index, bool updateStats)
         {
-            if (!updateStats || !RecordList.TryGetValue(index, out string tip))
+            if (!updateStats || !RecordList.TryGetValue(index, out var tip))
             {
                 Tip.RemoveAll();
                 return;

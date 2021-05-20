@@ -68,7 +68,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Extra list of Backup Paths used for detecting a save file.
         /// </summary>
-        public static readonly List<string> CustomBackupPaths = new List<string>();
+        public static readonly List<string> CustomBackupPaths = new();
 
         /// <summary>
         /// Finds a compatible save file that was most recently saved (by file write time).
@@ -147,18 +147,35 @@ namespace PKHeX.Core
             {
                 if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files))
                 {
-                    if (!(files is string[] msg)) // should always return string[]
+                    if (files is not string[] msg) // should always return string[]
                         continue;
                     if (msg.Length == 0) // folder doesn't exist
                         continue;
                     possible = msg;
                     return false;
                 }
-                if (files != null)
-                    possiblePaths.AddRange(files);
+                possiblePaths.AddRange(files);
             }
             possible = possiblePaths;
             return true;
+        }
+
+        public static bool DetectSaveFile(out string path, out SaveFile? sav) => DetectSaveFile(out path, out sav, Environment.GetLogicalDrives());
+
+        public static bool DetectSaveFile(out string path, out SaveFile? sav, IReadOnlyList<string> drives)
+        {
+            string errorMsg = string.Empty;
+            var result = FindMostRecentSaveFile(drives, ref errorMsg);
+            if (result == null)
+            {
+                path = errorMsg;
+                sav = null;
+                return false;
+            }
+
+            path = result.Metadata.FilePath!;
+            sav = result;
+            return File.Exists(path);
         }
     }
 }

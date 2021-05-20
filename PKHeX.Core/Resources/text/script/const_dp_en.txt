@@ -1,4 +1,4 @@
-0048	Starter	387:Turtwig,390:Chimchar,393:Piplup
+0048	Starter	0:Not Chosen,387:Turtwig,390:Chimchar,393:Piplup
 0152	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
 0158	Heatran	00:Not Activated,01:Battleable,02:Disappeared
 0054	Fullmoon Island	0:Not Activated,520:On the Map
@@ -8,3 +8,5 @@
 0067	Member Card	0:Not Activated,4617:Activated
 0068	Oak's Letter	0:Not Active,4370:Activated
 0069	Azure Flute	0:Not Activated,4387:Activated
+0062	Spiritomb	0:Disappeared,32:Appeared
+0138	Hallowed Tower	0:Not Activated,1:Activated

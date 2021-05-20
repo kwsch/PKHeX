@@ -24,14 +24,12 @@ namespace PKHeX.Core
             return MaxByType[maxes[recordID]];
         }
 
-        public static int GetOffset(int baseOfs, int recordID)
+        public static int GetOffset(int baseOfs, int recordID) => recordID switch
         {
-            if (recordID < LargeRecordCount)
-                return baseOfs + (recordID * sizeof(int));
-            if (recordID < Count)
-                return baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)); // first 100 are 4bytes, so bias the difference
-            return -1;
-        }
+            < LargeRecordCount => baseOfs + (recordID * sizeof(int)),
+            < Count => baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
+            _ => -1
+        };
 
         private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
 
@@ -163,7 +161,7 @@ namespace PKHeX.Core
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         };
 
-        public static readonly Dictionary<int, string> RecordList_6 = new Dictionary<int, string>
+        public static readonly Dictionary<int, string> RecordList_6 = new()
         {
             {000, "Steps Taken"},
             {001, "Times Saved"},
@@ -349,7 +347,7 @@ namespace PKHeX.Core
             {182, "Eon Ticket 2 (Mystery Gift)"},
         };
 
-        public static readonly Dictionary<int, string> RecordList_7 = new Dictionary<int, string>
+        public static readonly Dictionary<int, string> RecordList_7 = new()
         {
             {000, "Steps Taken"},
             {001, "Times Saved"},
@@ -530,7 +528,7 @@ namespace PKHeX.Core
             {198, "Highest Mantine Surf BP Earned"},
         };
 
-        public static readonly Dictionary<int, string> RecordList_8 = new Dictionary<int, string>
+        public static readonly Dictionary<int, string> RecordList_8 = new()
         {
             {00, "egg_hatching"},
             {01, "capture_wild"},

@@ -137,7 +137,7 @@ namespace PKHeX.WinForms
                     return;
             }
 
-            string destPath = null;
+            string? destPath = null;
             if (RB_Path.Checked)
             {
                 WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
@@ -159,7 +159,7 @@ namespace PKHeX.WinForms
             RunBatchEdit(sets, TB_Folder.Text, destPath);
         }
 
-        private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
+        private void RunBatchEdit(StringInstructionSet[] sets, string source, string? destination)
         {
             editor = new Core.BatchEditor();
             bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
@@ -171,7 +171,7 @@ namespace PKHeX.WinForms
                     RunBatchEditSaveFile(sets, boxes: true);
                 else if (RB_Party.Checked)
                     RunBatchEditSaveFile(sets, party: true);
-                else
+                else if (destination != null)
                     RunBatchEditFolder(sets, source, destination);
                 finished = true;
             };
@@ -230,7 +230,7 @@ namespace PKHeX.WinForms
         }
 
         // Mass Editing
-        private Core.BatchEditor editor = new Core.BatchEditor();
+        private Core.BatchEditor editor = new();
 
         private void ProcessSAV(IList<PKM> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
@@ -245,22 +245,25 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < files.Count; i++)
             {
-                string file = files[i];
-                var fi = new FileInfo(file);
-                if (!PKX.IsPKM(fi.Length))
-                {
-                    b.ReportProgress(i);
-                    continue;
-                }
-
-                int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
-                byte[] data = File.ReadAllBytes(file);
-                var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (editor.Process(pk, Filters, Instructions))
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedPartyData);
-
+                TryProcess(Filters, Instructions, files[i], destPath);
                 b.ReportProgress(i);
             }
+        }
+
+        private void TryProcess(IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, string source, string dest)
+        {
+            var fi = new FileInfo(source);
+            if (!PKX.IsPKM(fi.Length))
+                return;
+
+            int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
+            byte[] data = File.ReadAllBytes(source);
+            var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+            if (pk == null)
+                return;
+
+            if (editor.Process(pk, Filters, Instructions))
+                File.WriteAllBytes(Path.Combine(dest, Path.GetFileName(source)), pk.DecryptedPartyData);
         }
     }
 }

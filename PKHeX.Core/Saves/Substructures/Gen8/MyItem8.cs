@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace PKHeX.Core
 {
     public sealed class MyItem8 : MyItem
@@ -14,7 +16,7 @@ namespace PKHeX.Core
 
         public MyItem8(SaveFile SAV, SCBlock block) : base(SAV, block.Data) { }
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

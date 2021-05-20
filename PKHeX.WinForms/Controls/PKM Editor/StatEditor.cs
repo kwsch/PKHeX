@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
         public Color StatDecreased { get; set; } = Color.Blue;
         public Color StatHyperTrained { get; set; } = Color.LightGreen;
 
-        public IMainEditor MainEditor { private get; set; }
+        public IMainEditor MainEditor { private get; set; } = null!;
         public bool HaX { set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
         public bool Valid
@@ -60,7 +60,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickIV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             switch (ModifierKeys)
@@ -89,7 +89,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickEV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             if ((ModifierKeys & Keys.Control) != 0) // Max
@@ -106,7 +106,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickAV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             if ((ModifierKeys & Keys.Control) != 0) // Max
@@ -138,20 +138,21 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private void RefreshDerivedValues(object sender)
+        private void RefreshDerivedValues(object _)
         {
             if (Entity.Format < 3)
             {
                 TB_IVHP.Text = Entity.IV_HP.ToString();
                 TB_IVSPD.Text = Entity.IV_SPD.ToString();
 
-                MainEditor.UpdateIVsGB(sender == null);
+                MainEditor.UpdateIVsGB(false);
             }
 
             if (!ChangingFields)
             {
                 ChangingFields = true;
                 CB_HPType.SelectedValue = Entity.HPType;
+                Label_HiddenPowerPower.Text = Entity.HPPower.ToString();
                 ChangingFields = false;
             }
 
@@ -191,7 +192,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateAVs(object sender, EventArgs e)
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
             if (sender is MaskedTextBox m)
             {
@@ -212,10 +213,30 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
-            bool zero = (ModifierKeys & Keys.Control) != 0;
-            var evs = zero ? new int[6] : PKX.GetRandomEVs(Entity.Format);
+            var evs = ModifierKeys switch
+            {
+                Keys.Control => SetMaxEVs(Entity),
+                Keys.Alt => new int[6],
+                _ => PKX.GetRandomEVs(Entity.Format),
+            };
             LoadEVs(evs);
-            UpdateEVs(null, EventArgs.Empty);
+            UpdateEVs(sender, EventArgs.Empty);
+
+            static int[] SetMaxEVs(PKM entity)
+            {
+                if (entity.Format < 3)
+                    return Enumerable.Repeat((int) ushort.MaxValue, 6).ToArray();
+
+                var stats = entity.PersonalInfo.Stats;
+                var ordered = stats.Select((z, i) => new {Stat = z, Index = i}).OrderByDescending(z => z.Stat).ToArray();
+
+                var result = new int[6];
+                result[ordered[0].Index] = 252;
+                result[ordered[1].Index] = 252;
+                result[ordered[2].Index] = 6;
+
+                return result;
+            }
         }
 
         private void UpdateHackedStats(object sender, EventArgs e)
@@ -228,7 +249,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateHackedStatText(object sender, EventArgs e)
         {
-            if (!CHK_HackedStats.Checked || !(sender is TextBox tb))
+            if (!CHK_HackedStats.Checked || sender is not TextBox tb)
                 return;
 
             string text = tb.Text;
@@ -238,12 +259,13 @@ namespace PKHeX.WinForms.Controls
                 tb.Text = "65535";
         }
 
-        private void UpdateHyperTrainingFlag(int i, bool value)
+        private void UpdateHyperTrainingFlag(int index, bool value)
         {
+            var tb = MT_IVs[index];
             if (value)
-                MT_IVs[i].BackColor = StatHyperTrained;
+                tb.BackColor = StatHyperTrained;
             else
-                MT_IVs[i].ResetBackColor();
+                tb.ResetBackColor();
         }
 
         private void UpdateHPType(object sender, EventArgs e)
@@ -266,7 +288,7 @@ namespace PKHeX.WinForms.Controls
             if ((ModifierKeys & Keys.Alt) != 0) // EV
             {
                 bool min = e.Button != MouseButtons.Left;
-                if (Entity is PB7)
+                if (Entity is IAwakened)
                 {
                     var value = min ? 0 : 200;
                     MT_AVs[index].Text = value.ToString();
@@ -286,7 +308,7 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadHyperTraining()
         {
-            if (!(Entity is IHyperTrain h))
+            if (Entity is not IHyperTrain h)
             {
                 foreach (var iv in MT_IVs)
                     iv.ResetBackColor();
@@ -294,12 +316,12 @@ namespace PKHeX.WinForms.Controls
             }
 
             for (int i = 0; i < MT_IVs.Length; i++)
-                UpdateHyperTrainingFlag(i, h.GetHT(i));
+                UpdateHyperTrainingFlag(i, h.IsHyperTrained(i));
         }
 
         private void UpdateAVTotals()
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
             var total = a.AwakeningSum();
             TB_AVTotal.Text = total.ToString();
@@ -313,24 +335,24 @@ namespace PKHeX.WinForms.Controls
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
         }
 
-        private Color GetEVTotalColor(int evtotal, Color defaultColor)
+        private Color GetEVTotalColor(int evtotal, Color defaultColor) => evtotal switch
         {
-            if (evtotal > 510) // Background turns Red
-                return EVsInvalid;
-            if (evtotal == 510) // Maximum EVs
-                return EVsMaxed;
-            if (evtotal == 508) // Fishy EVs
-                return EVsFishy;
-            return defaultColor;
-        }
+            > 510 => EVsInvalid, // Background turns Red
+            510 => EVsMaxed, // Maximum EVs
+            508 => EVsFishy, // Fishy EVs
+            _ => defaultColor
+        };
 
         public void UpdateStats()
         {
             // Generate the stats.
-            if (!CHK_HackedStats.Checked || Entity.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
+            // Some entity formats don't store stat values regardless of Box/Party/Etc format.
+            // If its attack stat is zero, we need to generate party stats.
+            // PK1 format stores Current HP in the compact format, so we have to use attack stat!
+            if (!CHK_HackedStats.Checked || Entity.Stat_ATK == 0)
             {
                 var pt = MainEditor.RequestSaveFile.Personal;
-                var pi = pt.GetFormeEntry(Entity.Species, Entity.AltForm);
+                var pi = pt.GetFormEntry(Entity.Species, Entity.Form);
                 Entity.SetStats(Entity.GetStats(pi));
                 LoadBST(pi);
                 LoadPartyStats(Entity);
@@ -340,26 +362,30 @@ namespace PKHeX.WinForms.Controls
         private void LoadBST(PersonalInfo pi)
         {
             var stats = pi.Stats;
-            for (int i = 0; i < stats.Length; i++)
+            for (int i = 0; i < stats.Count; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
                 MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
             }
-            var bst = pi.BST;
+            var bst = pi.Stats.Sum();
             TB_BST.Text = bst.ToString("000");
             TB_BST.BackColor = ImageUtil.ColorBaseStatTotal(bst);
         }
 
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
-            var flawless = (ModifierKeys & Keys.Control) != 0;
-            var IVs = flawless ? Entity.SetRandomIVs(6) : Entity.SetRandomIVs();
+            var IVs = ModifierKeys switch
+            {
+                Keys.Control => Entity.SetRandomIVs(6),
+                Keys.Alt => new int[6],
+                _ => Entity.SetRandomIVs(),
+            };
             LoadIVs(IVs);
         }
 
         private void UpdateRandomAVs(object sender, EventArgs e)
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
 
             switch (ModifierKeys)
@@ -368,12 +394,10 @@ namespace PKHeX.WinForms.Controls
                     a.SetSuggestedAwakenedValues(Entity);
                     break;
                 case Keys.Alt:
-                    a.AwakeningSetAllTo(0);
+                    a.AwakeningClear();
                     break;
                 default:
-                    var rnd = Util.Rand;
-                    foreach (var index in Enumerable.Range(0, 6))
-                        a.SetAV(index, rnd.Next(Legal.AwakeningMax + 1));
+                    a.AwakeningSetRandom();
                     break;
             }
             LoadAVs(a);
@@ -476,6 +500,7 @@ namespace PKHeX.WinForms.Controls
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
             FLP_HPType.Visible = gen <= 7;
+            FLP_HPPower.Visible = gen <= 5;
             FLP_DynamaxLevel.Visible = gen >= 8;
 
             switch (gen)
@@ -527,8 +552,14 @@ namespace PKHeX.WinForms.Controls
         {
             ChangingFields = true;
             CB_HPType.InitializeBinding();
-            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
+            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.AsSpan(1, 16));
             ChangingFields = false;
+        }
+
+        private void CHK_Gigantamax_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ChangingFields)
+                ((PKMEditor) MainEditor).UpdateSprite();
         }
     }
 }

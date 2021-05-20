@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Logic for interacting with Pokédex AltForm flags
+    /// Logic for interacting with Pokédex Form flags
     /// </summary>
     public static class DexFormUtil
     {

@@ -5,16 +5,18 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed class DragManager
     {
-        public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; }
-        public event DragEventHandler RequestExternalDragDrop;
+        public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; } = new();
+        public event DragEventHandler? RequestExternalDragDrop;
         public void RequestDD(object sender, DragEventArgs e) => RequestExternalDragDrop?.Invoke(sender, e);
 
-        public void SetCursor(Form f, Cursor z)
+        public void SetCursor(Form? f, Cursor? z)
         {
-            Info.Cursor = f.Cursor = z;
+            if (f != null)
+                f.Cursor = z;
+            Info.Cursor = z;
         }
 
-        public void ResetCursor(Form sender)
+        public void ResetCursor(Form? sender)
         {
             SetCursor(sender, Cursors.Default);
         }

@@ -13,10 +13,12 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
                 return false;
-            var species = pkm.Species;
-            if (species == (int)Zacian || species == (int)Zamazenta || species == (int)Eternatus)
-                return false;
-            return true;
+            return CanHaveDynamaxLevel(pkm.Species);
+        }
+
+        private static bool CanHaveDynamaxLevel(int species)
+        {
+            return species is not ((int)Zacian or (int)Zamazenta or (int)Eternatus);
         }
     }
 }

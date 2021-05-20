@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface that exposes a <see cref="Version"/> to see which version the data originated in.
+    /// </summary>
     public interface IVersion
     {
+        /// <summary>
+        /// The version the data originated in.
+        /// </summary>
         GameVersion Version { get; }
-    }
-
-    internal interface IVersionSet
-    {
-        GameVersion Version { set; }
     }
 
     public static partial class Extensions
@@ -23,30 +22,17 @@ namespace PKHeX.Core
             return ver.GetSingleVersion();
         }
 
-        internal static void SetVersion<T>(this IEnumerable<T> arr, GameVersion game) where T : IVersion, IVersionSet
-        {
-            foreach (var z in arr)
-            {
-                if (((IVersion)z).Version <= 0)
-                    ((IVersionSet)z).Version = game;
-            }
-        }
-
-        internal static void SetVersion(this IEnumerable<EncounterArea> arr, GameVersion game)
-        {
-            foreach (var area in arr)
-                area.Slots.SetVersion(game);
-        }
-
         private static GameVersion GetSingleVersion(this IVersion ver)
         {
-            const int max = (int) GameVersion.RB;
-            if ((int)ver.Version < max)
+            const int max = (int)GameUtil.HighestGameID;
+            if ((int)ver.Version <= max)
                 return ver.Version;
             var rnd = Util.Rand;
             while (true) // this isn't optimal, but is low maintenance
             {
                 var game = (GameVersion)rnd.Next(1, max);
+                if (game == GameVersion.BU)
+                    continue; // Ignore this one; only can be Japanese language.
                 if (ver.CanBeReceivedBy(game))
                     return game;
             }

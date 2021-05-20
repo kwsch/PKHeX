@@ -29,10 +29,12 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < party.Count; i++)
                 ViewPoke(i).LoadFrom(party[i]);
+            for (int i = party.Count; i < 6; i++)
+                ViewPoke(i).Clear();
         }
     }
 
-    public class TitleScreen8Poke
+    public sealed class TitleScreen8Poke : ISpeciesForm
     {
         public const int SIZE = 0x28;
         private readonly byte[] Data;
@@ -50,7 +52,7 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
         }
 
-        public int AltForm
+        public int Form
         {
             get => BitConverter.ToInt32(Data, Offset + 0x04);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
@@ -65,7 +67,7 @@ namespace PKHeX.Core
         public bool IsShiny
         {
             get => Data[Offset + 0xC] != 0;
-            set => Data[Offset + 0xC] = (byte)(value ? 1 : 0);
+            set => Data[Offset + 0xC] = value ? (byte)1 : (byte)0;
         }
 
         public uint EncryptionConstant
@@ -104,10 +106,12 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x24);
         }
 
+        public void Clear() => Array.Clear(Data, Offset, SIZE);
+
         public void LoadFrom(PKM pkm)
         {
             Species = pkm.Species;
-            AltForm = pkm.AltForm;
+            Form = pkm.Form;
             Gender = pkm.Gender;
             IsShiny = pkm.IsShiny;
             EncryptionConstant = pkm.EncryptionConstant;
@@ -117,7 +121,7 @@ namespace PKHeX.Core
         public void LoadFrom(TrainerCard8Poke pkm)
         {
             Species = pkm.Species;
-            AltForm = pkm.AltForm;
+            Form = pkm.Form;
             Gender = pkm.Gender;
             IsShiny = pkm.IsShiny;
             EncryptionConstant = pkm.EncryptionConstant;

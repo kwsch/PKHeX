@@ -2,8 +2,8 @@
 {
     public interface ILocation
     {
-        int Location { get; set; }
-        int EggLocation { get; set; }
+        int Location { get; }
+        int EggLocation { get; }
     }
 
     public static partial class Extensions
@@ -15,7 +15,7 @@
                 : encounter.EggLocation;
         }
 
-        internal static string? GetEncounterLocation(this ILocation Encounter, int gen, int version = -1)
+        public static string? GetEncounterLocation(this ILocation Encounter, int gen, int version = -1)
         {
             int loc = Encounter.GetLocation();
             if (loc < 0)
