@@ -489,9 +489,9 @@ namespace PKHeX.Core
             string species, nickname;
             if (index > 1) // parenthesis value after: Nickname (Species), correct.
             {
-                species = line[..index].Trim();
-                nickname = line[index..].Trim();
-                nickname = RemoveAll(nickname, ParenJunk); // Trim out excess data
+                nickname = line[..index].Trim();
+                species = line[index..].Trim();
+                species = RemoveAll(species, ParenJunk); // Trim out excess data
             }
             else // parenthesis value before: (Species) Nickname, incorrect
             {
@@ -500,8 +500,8 @@ namespace PKHeX.Core
                 var tmp = line[start..end];
                 if (end < line.Length - 2)
                 {
-                    species = line[(end + 2)..];
-                    nickname = tmp;
+                    nickname = line[(end + 2)..];
+                    species = tmp;
                 }
                 else // (Species), or garbage
                 {
