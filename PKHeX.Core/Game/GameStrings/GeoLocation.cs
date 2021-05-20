@@ -4,11 +4,11 @@ namespace PKHeX.Core
 {
     public static class GeoLocation
     {
-        private static readonly string[][] CountryList = GetCountryList();
+        private static readonly string[]?[] CountryList = GetCountryList();
         internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
-        private static readonly string[][]?[] RegionList = new string[CountryList.Length][][];
+        private static readonly string[]?[]?[] RegionList = new string[CountryList.Length][][];
 
-        public static string[] GetCountryList(string language)
+        public static string[]? GetCountryList(string language)
         {
             int index = GetLanguageIndex(language);
             return CountryList[index];
@@ -16,26 +16,25 @@ namespace PKHeX.Core
 
         private const string INVALID = nameof(INVALID);
 
-        private static string[][] GetCountryList()
+        private static string[]?[] GetCountryList()
         {
             var input = Util.GetStringList("countries");
             return UnpackList(input);
         }
 
-        private static string[][] GetRegionList(int country)
+        private static string[]?[] GetRegionList(int country)
         {
             var input = Util.GetStringList($"sr_{country:000}");
             return UnpackList(input);
         }
 
-        private static string[][] UnpackList(string[] input)
+        private static string[]?[] UnpackList(string[] input)
         {
             var last = GetEntry(input[^1], out var lastIndex);
-            var list = new string[lastIndex+1][];
+            string[]?[] list = new string[lastIndex+1][];
             list[lastIndex] = last;
-            for (int i = 1; i < input.Length - 1; i++)
+            foreach (var line in input)
             {
-                var line = input[i];
                 var entry = GetEntry(line, out var index);
                 list[index] = entry;
             }
@@ -53,10 +52,10 @@ namespace PKHeX.Core
         {
             if (l < 0)
                 return INVALID;
-            if (country >= CountryList.Length)
+            if ((uint)country >= CountryList.Length)
                 return INVALID;
             var countryNames = CountryList[country];
-            if (l < countryNames.Length)
+            if (countryNames is not null && l < countryNames.Length)
                 return countryNames[l + 1];
             return INVALID;
         }
@@ -65,13 +64,13 @@ namespace PKHeX.Core
         {
             if (l < 0)
                 return INVALID;
-            if (country >= RegionList.Length)
+            if ((uint)country >= RegionList.Length)
                 return INVALID;
             var regionNames = RegionList[country] ??= GetRegionList(country);
-            if (region >= regionNames.Length)
+            if ((uint)region >= regionNames.Length)
                 return INVALID;
             var localized = regionNames[region];
-            if (l < localized.Length)
+            if (localized is not null && l < localized.Length)
                 return localized[l + 1];
             return INVALID;
         }
