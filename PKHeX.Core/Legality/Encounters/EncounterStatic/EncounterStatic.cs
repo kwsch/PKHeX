@@ -251,23 +251,8 @@ namespace PKHeX.Core
             return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
         }
 
-        protected virtual bool IsMatchEggLocation(PKM pkm)
-        {
-            if (pkm.IsEgg) // unhatched
-            {
-                if (!EggEncounter)
-                    return false;
-                if (EggLocation != pkm.Met_Location)
-                    return pkm.Met_Location == Locations.LinkTrade6 && pkm.Egg_Location == EggLocation;
-                return pkm.Egg_Location == 0;
-            }
-
-            if (EggLocation == pkm.Egg_Location)
-                return true;
-
-            // Only way to mismatch is to be a Link Traded egg.
-            return EggEncounter && pkm.Egg_Location == Locations.LinkTrade6;
-        }
+        // override me if the encounter type has any eggs
+        protected virtual bool IsMatchEggLocation(PKM pkm) => pkm.Egg_Location == 0;
 
         private bool IsMatchGender(PKM pkm)
         {

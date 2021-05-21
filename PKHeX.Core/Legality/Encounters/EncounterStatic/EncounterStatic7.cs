@@ -23,6 +23,23 @@ namespace PKHeX.Core
             return base.IsMatchLocation(pkm);
         }
 
+        protected override bool IsMatchEggLocation(PKM pkm)
+        {
+            var eggloc = pkm.Egg_Location;
+            if (!EggEncounter)
+                return eggloc == EggLocation;
+
+            if (!pkm.IsEgg) // hatched
+                return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+
+            // Unhatched:
+            if (eggloc != EggLocation)
+                return false;
+            if (pkm.Met_Location is not 0 or Locations.LinkTrade6)
+                return false;
+            return true;
+        }
+
         protected override bool IsMatchForm(PKM pkm, DexLevel evo)
         {
             if (SkipFormCheck)

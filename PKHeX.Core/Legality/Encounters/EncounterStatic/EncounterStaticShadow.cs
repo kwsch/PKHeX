@@ -41,11 +41,6 @@ namespace PKHeX.Core
             113, // Pyrite Town
         };
 
-        protected override bool IsMatchEggLocation(PKM pkm)
-        {
-            return true; // transfer location verified later
-        }
-
         protected override bool IsMatchLocation(PKM pkm)
         {
             if (pkm.Format != 3)

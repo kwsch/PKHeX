@@ -29,20 +29,19 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {
-            if (pkm.IsEgg) // unhatched
-            {
-                if (!EggEncounter)
-                    return false;
-                if (EggLocation != pkm.Met_Location)
-                    return pkm.Met_Location == Locations.LinkTrade5 && pkm.Egg_Location == EggLocation;
-                return pkm.Egg_Location == 0;
-            }
+            var eggloc = pkm.Egg_Location;
+            if (!EggEncounter)
+                return eggloc == EggLocation;
 
-            if (EggLocation == pkm.Egg_Location)
-                return true;
+            if (!pkm.IsEgg) // hatched
+                return eggloc == EggLocation || eggloc == Locations.LinkTrade5;
 
-            // Only way to mismatch is to be a Link Traded egg.
-            return EggEncounter && pkm.Egg_Location == Locations.LinkTrade5;
+            // Unhatched:
+            if (eggloc != EggLocation)
+                return false;
+            if (pkm.Met_Location is not 0 or Locations.LinkTrade5)
+                return false;
+            return true;
         }
 
         private static readonly int[] Roaming_MetLocation_BW =
