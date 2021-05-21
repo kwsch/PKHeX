@@ -1,18 +1,16 @@
-None
-Rock Smash (HGSS)
+Rien
+Éclate-Roc (HGSS)
 Hautes Herbes
 
 Dialga/Palkia
-Cave/Hall of Origin
+Grotte/Salle Originelle
 
-Surfing/Fishing
+Surf/Pêche
 
-Building/Enigma Stone
-Marsh/Safari
+Imeuble/Mystécristal
+Marais/Savane
 
-Starter/Fossil/Gift (DP)
-
-
+Départ/Fossile/Cadeau (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Gift (DP)
 
 
 
-Distortion World (Pt)
-Starter/Fossil/Gift (Pt/DP Trio)
+
+
+Monde Distorsion (Pt)
+Départ/Fossile/Cadeau (Pt/DP Trio)
