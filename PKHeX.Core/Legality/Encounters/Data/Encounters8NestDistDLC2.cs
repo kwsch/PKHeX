@@ -8,6 +8,17 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 831, Ability = A4, Moves = new[]{ 029, 024, 045, 033 }, Index = 69 }, // Wooloo
+            new(30,03,2) { Species = 831, Ability = A4, Moves = new[]{ 029, 024, 528, 033 }, Index = 69 }, // Wooloo
+            new(30,03,2) { Species = 832, Ability = A4, Moves = new[]{ 036, 024, 528, 371 }, Index = 69 }, // Dubwool
+            new(40,05,3) { Species = 831, Ability = A4, Moves = new[]{ 029, 179, 528, 024 }, Index = 69 }, // Wooloo
+            new(40,05,3) { Species = 832, Ability = A4, Moves = new[]{ 036, 179, 528, 371 }, Index = 69 }, // Dubwool
+            new(50,08,4) { Species = 831, Ability = A4, Moves = new[]{ 029, 179, 528, 371 }, Index = 69 }, // Wooloo
+            new(50,08,4) { Species = 832, Ability = A4, Moves = new[]{ 036, 179, 528, 024 }, Index = 69 }, // Dubwool
+            new(60,10,5) { Species = 831, Ability = A4, Moves = new[]{ 038, 179, 086, 371 }, Index = 69, Shiny = Shiny.Always }, // Wooloo
+            new(60,10,5) { Species = 831, Ability = A4, Moves = new[]{ 038, 179, 086, 371 }, Index = 69 }, // Wooloo
+            new(60,10,5) { Species = 832, Ability = A4, Moves = new[]{ 776, 038, 086, 371 }, Index = 69 }, // Dubwool
+
             new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
             new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
             new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
