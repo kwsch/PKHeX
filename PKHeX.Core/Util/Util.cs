@@ -137,7 +137,7 @@ namespace PKHeX.Core
             data = data.Slice(offset, length);
             var sb = new StringBuilder(data.Length * 2);
             for (int i = data.Length - 1; i >= 0; i--)
-                sb.AppendFormat("{0:x2}", data[i]);
+                sb.AppendFormat("{0:X2}", data[i]);
             return sb.ToString();
         }
 
