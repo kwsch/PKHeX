@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -8,13 +7,12 @@ namespace PKHeX.Core
     {
         private readonly bool XD;
         public const int SIZE_ENTRY = 12;
-        private readonly List<StrategyMemoEntry> Entries = new();
+        private readonly List<StrategyMemoEntry> Entries;
         public const int MAX_COUNT = 500;
-        public const int MAX_SIZE = MAX_COUNT * SIZE_ENTRY;
         private StrategyMemoEntry? this[int Species] => Entries.Find(e => e.Species == Species);
-        private readonly byte[] _unk;
+        private readonly ushort _unk;
 
-        public StrategyMemo(bool xd = true) : this(new byte[MAX_SIZE], 0, xd) { }
+        public StrategyMemo(bool xd = true) : this(new byte[4], 0, xd) { }
 
         public StrategyMemo(byte[] input, int offset, bool xd)
         {
@@ -22,7 +20,9 @@ namespace PKHeX.Core
             int count = BigEndian.ToInt16(input, offset);
             if (count > MAX_COUNT)
                 count = MAX_COUNT;
-            _unk = input.Slice(offset + 2, 2);
+            _unk = BigEndian.ToUInt16(input, offset + 2);
+
+            Entries = new List<StrategyMemoEntry>(count);
             for (int i = 0; i < count; i++)
             {
                 var entry = Read(input, offset, i);
@@ -38,8 +38,17 @@ namespace PKHeX.Core
             return new StrategyMemoEntry(XD, data);
         }
 
-        public byte[] Write() => BigEndian.GetBytes((short)Entries.Count).Concat(_unk) // count followed by populated entries
-            .Concat(Entries.SelectMany(entry => entry.Data)).ToArray();
+        public byte[] Write()
+        {
+            var result = new byte[4 + (Entries.Count * SIZE_ENTRY)];
+            BigEndian.GetBytes((short)Entries.Count).CopyTo(result, 0);
+            BigEndian.GetBytes((short)_unk).CopyTo(result, 2);
+
+            var count = Math.Min(MAX_COUNT, Entries.Count);
+            for (int i = 0; i < count; i++)
+                Entries[i].Data.CopyTo(result, 4 + (i * SIZE_ENTRY));
+            return result;
+        }
 
         public StrategyMemoEntry GetEntry(int Species)
         {
