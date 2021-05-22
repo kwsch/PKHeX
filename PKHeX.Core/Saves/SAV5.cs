@@ -207,5 +207,12 @@ namespace PKHeX.Core
         public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);
         public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
+
+        public Mail GetMail(int i)
+        {
+            int ofs = GetMailOffset(i);
+            var data = GetMailData(ofs);
+            return new Mail5(data, ofs);
+        }
     }
 }

@@ -562,6 +562,13 @@ namespace PKHeX.Core
         protected abstract int MailOffset { get; }
         public int GetMailOffset(int index) => (index * Mail3.SIZE) + MailOffset;
 
+        public Mail GetMail(int i)
+        {
+            var ofs = GetMailOffset(i);
+            var data = Large.Slice(ofs, Mail3.SIZE);
+            return new Mail3(data, ofs, Japanese);
+        }
+
         public abstract string EBerryName { get; }
         public abstract bool IsEBerryEngima { get; }
         public abstract MysteryEvent3 MysteryEvent { get; set; }
