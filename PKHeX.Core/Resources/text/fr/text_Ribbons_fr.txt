@@ -37,21 +37,21 @@ RibbonChampionNational	Champion National
 RibbonChampionWorld	Champion du Monde
 RibbonCountMemoryContest	Souvenir Concours
 RibbonCountMemoryBattle	Souvenir Combat
-RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
-RibbonContestStar	Contest Star
-RibbonMasterCoolness	Coolness Master
-RibbonMasterBeauty	Beauty Master
-RibbonMasterCuteness	Cuteness Master
-RibbonMasterCleverness	Cleverness Master
-RibbonMasterToughness	Toughness Master
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionG6Hoenn	Maître de Hoenn (ORAS)
+RibbonContestStar	Star des Concours
+RibbonMasterCoolness	Maître Sang-Froid
+RibbonMasterBeauty	Maître Beauté
+RibbonMasterCuteness	Maître Grâce
+RibbonMasterCleverness	Maître Intelligence
+RibbonMasterToughness	Maître Robustesse
+RibbonChampionAlola	Maître d'Alola
+RibbonBattleRoyale	Champion Royal
+RibbonBattleTreeGreat	Élite de l'Arbre
+RibbonBattleTreeMaster	Maître de l'Arbre
 RibbonG3Cool	Sang-Froid (G3)
 RibbonG3CoolSuper	Sang-Froid Super
 RibbonG3CoolHyper	Sang-Froid Hyper
-RibbonG3CoolMaster	Cool Master
+RibbonG3CoolMaster	Sang-Froid Master
 RibbonG3Beauty	Beauté (G3)
 RibbonG3BeautySuper	Beauté Super
 RibbonG3BeautyHyper	Beauté Hyper
@@ -69,33 +69,33 @@ RibbonG3ToughSuper	Robustesse Super
 RibbonG3ToughHyper	Robustesse Hyper
 RibbonG3ToughMaster	Robustesse Master
 RibbonG4Cool	Sang-Froid (G4)
-RibbonG4CoolGreat	Sang-Froid Great
+RibbonG4CoolGreat	Sang-Froid Méga	
 RibbonG4CoolUltra	Sang-Froid Ultra
 RibbonG4CoolMaster	Sang-Froid Master
 RibbonG4Beauty	Beauté (G4)
-RibbonG4BeautyGreat	Beauté Great
+RibbonG4BeautyGreat	Beauté Méga
 RibbonG4BeautyUltra	Beauté Ultra
 RibbonG4BeautyMaster	Beauté Master
 RibbonG4Cute	Grâce (G4)
-RibbonG4CuteGreat	Grâce Great
+RibbonG4CuteGreat	Grâce Méga
 RibbonG4CuteUltra	Grâce Ultra
 RibbonG4CuteMaster	Grâce Master
 RibbonG4Smart	Smart (G4)
-RibbonG4SmartGreat	Intelligence Great
+RibbonG4SmartGreat	Intelligence Méga
 RibbonG4SmartUltra	Intelligence Ultra
 RibbonG4SmartMaster	Intelligence Master
 RibbonG4Tough	Tough (G4)
-RibbonG4ToughGreat	Robustesse Great
+RibbonG4ToughGreat	Robustesse Méga
 RibbonG4ToughUltra	Robustesse Ultra
 RibbonG4ToughMaster	Robustesse Master
 RibbonWinning	Gagnant
 RibbonVictory	Victoire
-RibbonAbility	Capacité
-RibbonAbilityGreat	Great Ability
-RibbonAbilityDouble	Double Ability
-RibbonAbilityMulti	Multi Ability
-RibbonAbilityPair	Pair Ability
-RibbonAbilityWorld	World Ability
+RibbonAbility	Aptitude
+RibbonAbilityGreat	Aptitude Méga
+RibbonAbilityDouble	Aptitude Duo
+RibbonAbilityMulti	Aptitude Multi
+RibbonAbilityPair	Aptitude Paire
+RibbonAbilityWorld	Aptitude Monde
 RibbonCountG3Cool	Sang-Froid
 RibbonCountG3Beauty	Beauté
 RibbonCountG3Cute	Grâce
