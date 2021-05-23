@@ -408,6 +408,17 @@ namespace PKHeX.Core
             if (pk8.Favorite)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
+            var social = pk8.Sociability;
+            if (pk8.IsEgg)
+            {
+                if (social != 0)
+                    data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+            }
+            else if (social > byte.MaxValue)
+            {
+                data.AddLine(GetInvalid(string.Format(LMemorySocialTooHigh_0, byte.MaxValue), Encounter));
+            }
+
             var sn = pk8.StatNature;
             if (sn != pk8.Nature)
             {

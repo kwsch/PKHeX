@@ -356,7 +356,7 @@ namespace PKHeX.Core
             return (d[0x44] & 3) != 0;
         }
 
-        public uint U48 { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
+        public uint Sociability { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
 
         // 0x4C-0x4F unused
 
