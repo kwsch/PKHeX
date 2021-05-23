@@ -99,7 +99,7 @@ namespace PKHeX.Core
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
             Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
-            temp = Xor(temp, outdata.Slice(0, 0x10));
+            temp = Xor(temp, outdata.AsSpan(0, 0x10));
             var subkey = GetSubKey(temp);
             for (var i = 0; i < data.Length / 0x10; i++)
             {
@@ -145,7 +145,7 @@ namespace PKHeX.Core
             }
 
             // In between - CMAC stuff
-            var inbet = outdata.Slice(0, 0x10);
+            var inbet = outdata.AsSpan(0, 0x10);
             temp = Xor(temp, inbet);
             var subkey = GetSubKey(temp);
 
@@ -183,7 +183,7 @@ namespace PKHeX.Core
             return subkey;
         }
 
-        private static byte[] Xor(byte[] b1, byte[] b2)
+        private static byte[] Xor(byte[] b1, ReadOnlySpan<byte> b2)
         {
             Debug.Assert(b1.Length == b2.Length);
             var x = new byte[b1.Length];

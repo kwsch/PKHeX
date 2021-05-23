@@ -134,10 +134,10 @@ namespace PKHeX.Core
 
         public static string GetHexStringFromBytes(byte[] data, int offset, int length)
         {
-            data = data.Slice(offset, length);
-            var sb = new StringBuilder(data.Length * 2);
-            for (int i = data.Length - 1; i >= 0; i--)
-                sb.AppendFormat("{0:X2}", data[i]);
+            var arr = data.AsSpan(offset, length);
+            var sb = new StringBuilder(arr.Length * 2);
+            for (int i = arr.Length - 1; i >= 0; i--)
+                sb.AppendFormat("{0:X2}", arr[i]);
             return sb.ToString();
         }
 
