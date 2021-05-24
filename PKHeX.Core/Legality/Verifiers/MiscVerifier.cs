@@ -353,6 +353,8 @@ namespace PKHeX.Core
 
             if (pkm.Format >= 8)
             {
+                if (pkm.Fullness > 245) // Exiting camp is -10
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "<=245"), Encounter));
                 if (pkm.Enjoyment != 0)
                     data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
                 return;
