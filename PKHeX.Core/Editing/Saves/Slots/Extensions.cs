@@ -76,10 +76,13 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots4(SAV4 sav)
         {
-            return new()
+            var list = new List<SlotInfoMisc>
             {
                 new SlotInfoMisc(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS },
             };
+            if (sav is SAV4HGSS)
+                list.Add(new SlotInfoMisc(sav.General, 1, SAV4HGSS.WalkerPair) {Type = StorageSlotType.Misc});
+            return list;
         }
 
         private static List<SlotInfoMisc> GetExtraSlots5(SAV5 sav)

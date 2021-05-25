@@ -223,6 +223,7 @@ namespace PKHeX.Core
         public void SetApricornCount(int i, int count) => General[0xE558 + i] = (byte)count;
 
         // Pokewalker
+        public const int WalkerPair = 0xE5E0;
         private const int OFS_WALKER = 0xE704;
 
         public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
