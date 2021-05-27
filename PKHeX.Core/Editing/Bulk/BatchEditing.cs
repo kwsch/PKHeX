@@ -317,8 +317,9 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsLegalFiltered(cmd, () => info.Legal))
-                return true;
+            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            if (match != null)
+                return match.IsFiltered(info, cmd);
             return IsPropertyFiltered(cmd, info.Entity, props);
         }
 
@@ -331,8 +332,9 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsLegalFiltered(cmd, () => new LegalityAnalysis(pk).Valid))
-                return true;
+            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            if (match != null)
+                return match.IsFiltered(pk, cmd);
             return IsPropertyFiltered(cmd, pk, props);
         }
 
@@ -345,44 +347,11 @@ namespace PKHeX.Core
         /// <returns>True if filtered, else false.</returns>
         private static bool IsPropertyFiltered(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsIdentifierFiltered(cmd, pk))
-                return true;
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
                 return false;
             if (!pi.CanRead)
                 return false;
             return pi.IsValueEqual(pk, cmd.PropertyValue) == cmd.Evaluator;
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> should be filtered due to its <see cref="PKM.Identifier"/> containing a value.
-        /// </summary>
-        /// <param name="cmd">Command Filter</param>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsIdentifierFiltered(StringInstruction cmd, PKM pk)
-        {
-            if (cmd.PropertyName != IdentifierContains)
-                return false;
-
-            bool result = pk.Identifier?.Contains(cmd.PropertyValue) ?? false;
-            return result == cmd.Evaluator;
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> should be filtered due to its legality.
-        /// </summary>
-        /// <param name="cmd">Command Filter</param>
-        /// <param name="isLegal">Function to check if the <see cref="PKM"/> is legal.</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsLegalFiltered(StringInstruction cmd, Func<bool> isLegal)
-        {
-            if (cmd.PropertyName != PROP_LEGAL)
-                return false;
-
-            if (!bool.TryParse(cmd.PropertyValue, out bool legal))
-                return true;
-            return legal == isLegal() == cmd.Evaluator;
         }
 
         /// <summary>
@@ -458,6 +427,17 @@ namespace PKHeX.Core
             if (TryGetHasProperty(pk, cmd.PropertyName, out var pi))
                 ReflectUtil.SetValue(pi, pk, Util.Rand.Next(pk.MaxIV + 1));
         }
+
+        public static readonly List<IComplexFilter> FilterMods = new()
+        {
+            new ComplexFilter(PROP_LEGAL,
+                (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
+                (info, cmd) => info.Legality.Valid == cmd.Evaluator),
+
+            new ComplexFilter(IdentifierContains,
+                (pkm, cmd) => pkm.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator,
+                (info, cmd) => info.Entity.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator),
+        };
 
         public static readonly List<ISuggestModification> SuggestionMods = new()
         {
