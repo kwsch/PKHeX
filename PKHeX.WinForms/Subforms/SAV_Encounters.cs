@@ -305,30 +305,53 @@ namespace PKHeX.WinForms
 
         private void FillPKXBoxes(int start)
         {
+            var boxes = PKXBOXES;
             if (Results.Count == 0)
             {
                 for (int i = 0; i < RES_MAX; i++)
                 {
-                    PKXBOXES[i].Image = null;
-                    PKXBOXES[i].BackgroundImage = null;
+                    boxes[i].Image = null;
+                    boxes[i].BackgroundImage = null;
                 }
                 return;
             }
+
+            // Load new sprites
             int begin = start*RES_MIN;
             int end = Math.Min(RES_MAX, Results.Count - begin);
             for (int i = 0; i < end; i++)
             {
                 var enc = Results[i + begin];
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, enc.Form, 0, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
+                boxes[i].Image = GetImage(enc);
             }
-            for (int i = end; i < RES_MAX; i++)
-                PKXBOXES[i].Image = null;
 
+            // Clear empty slots
+            for (int i = end; i < RES_MAX; i++)
+                boxes[i].Image = null;
+
+            // Reset backgrounds for all
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
+                boxes[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
+
+            // Reload last viewed index's background if still within view
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
-                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
+                boxes[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
+
+        private static Image GetImage(IEncounterTemplate enc)
+        {
+            var gender = GetDisplayGender(enc);
+            return SpriteUtil.GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
+        }
+
+        public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
+        {
+            EncounterSlotGO g => (int) g.Gender & 1,
+            EncounterStatic s => Math.Max(0, s.Gender),
+            EncounterTrade t => Math.Max(0, t.Gender),
+            MysteryGift f => Math.Max(0, f.Gender),
+            _ => 0,
+        };
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
         {
