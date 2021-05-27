@@ -3,7 +3,7 @@
     /// <summary>
     /// Batch Editor Modification result for an individual <see cref="PKM"/>.
     /// </summary>
-    internal enum ModifyResult
+    public enum ModifyResult
     {
         /// <summary>
         /// The <see cref="PKM"/> has invalid data and is not a suitable candidate for modification.
