@@ -19,7 +19,7 @@ namespace System.Runtime.CompilerServices
 
 namespace System.Diagnostics.CodeAnalysis
 {
-    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Parameter)]
     internal sealed class NotNullWhenAttribute : Attribute
     {
         /// <summary>Initializes the attribute with the specified return value condition.</summary>

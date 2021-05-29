@@ -4,7 +4,7 @@
     {
         public const int BoxCount = 32;
 
-        private const int strlen = SAV6.LongStringLength / 2;
+        private const int StringMaxLength = SAV6.LongStringLength / 2;
 
         public BoxLayout8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
@@ -17,7 +17,7 @@
 
         public void SetBoxName(int box, string value)
         {
-            var data = SAV.SetString(value, strlen, strlen, 0);
+            var data = SAV.SetString(value, StringMaxLength, StringMaxLength, 0);
             var offset = GetBoxNameOffset(box);
             SAV.SetData(Data, data, offset);
         }

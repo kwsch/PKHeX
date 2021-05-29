@@ -150,13 +150,13 @@ namespace PKHeX.Core
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
+            if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
             {
                 if (!BallBreedLegality.Ban_Gen4Ball_6.Contains(species))
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
+            if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
             {
                 if (BallBreedLegality.Ban_Gen3Ball.Contains(species))
                     return GetInvalid(LBallSpecies);
@@ -182,7 +182,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (722 <= species && species <= 730) // G7 Starters
+            if (species is >= 722 and <= 730) // G7 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
             Ball ball = (Ball)pkm.Ball;
@@ -217,13 +217,13 @@ namespace PKHeX.Core
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
+            if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
             {
                 if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
+            if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
             {
                 if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -236,7 +236,7 @@ namespace PKHeX.Core
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
                 if (species == (int)Species.Voltorb && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
-                if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
+                if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -256,9 +256,9 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (722 <= species && species <= 730) // G7 Starters
+            if (species is >= 722 and <= 730) // G7 Starters
                 return VerifyBallEquals(data, (int)Poke);
-            if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // G8 Starters
+            if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
             if (IsGalarCatchAndBreed(species))
@@ -301,13 +301,13 @@ namespace PKHeX.Core
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Dusk <= ball && ball <= Quick) // Dusk Heal Quick
+            if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
             {
                 if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
-            if (Ultra <= ball && ball <= Premier) // Don't worry, Safari was already checked.
+            if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
             {
                 if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -318,7 +318,7 @@ namespace PKHeX.Core
             {
                 if (species == (int)Species.Flabébé && pkm.Form == 3 && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
+                if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -346,7 +346,7 @@ namespace PKHeX.Core
 
         private static bool IsGalarCatchAndBreed(int species)
         {
-            if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
+            if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // starter
                 return false;
 
             // Everything breed-able that is in the Galar Dex can be captured in-game.
@@ -356,7 +356,7 @@ namespace PKHeX.Core
                 return true;
 
             // Foreign Captures
-            if ((int)Species.Treecko <= species && species <= (int)Species.Swampert) // Dynamax Adventures
+            if (species is >= (int)Species.Treecko and <= (int)Species.Swampert) // Dynamax Adventures
                 return true;
 
             return false;

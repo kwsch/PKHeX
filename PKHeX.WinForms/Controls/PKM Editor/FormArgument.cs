@@ -60,10 +60,8 @@ namespace PKHeX.WinForms.Controls
             CurrentForm = form;
             CurrentGeneration = generation;
 
-            if (FormArgumentUtil.IsFormArgumentTypeDatePair(species, form))
-                CurrentValue = f.FormArgumentRemain;
-            else
-                CurrentValue = f.FormArgument;
+            bool isPair = FormArgumentUtil.IsFormArgumentTypeDatePair(species, form);
+            CurrentValue = isPair ? f.FormArgumentRemain : f.FormArgument;
 
             FieldsLoaded = true;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -771,7 +772,7 @@ namespace PKHeX.WinForms
             if (i < 0) return;
             int ofs = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 6 + (i >> 1 << 1);
             SAV.General[ofs] = (byte)((SAV.General[ofs] & ~(0xF << ((i & 1) << 2))) | (int)HallNUDA[i].Value << ((i & 1) << 2));
-            L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString();
+            L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString(CultureInfo.InvariantCulture);
         }
 
         private void NUD_HallStreaks_ValueChanged(object sender, EventArgs e)

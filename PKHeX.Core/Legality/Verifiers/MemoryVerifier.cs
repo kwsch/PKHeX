@@ -330,7 +330,7 @@ namespace PKHeX.Core
             // Transfer 6->7 & withdraw to same HT => keeps past gen memory
             // Don't require link trade memory for these past gen cases
             int gen = Info.Generation;
-            if (3 <= gen && gen < 7 && pkm.CurrentHandler == 1)
+            if (gen is >= 3 and < 7 && pkm.CurrentHandler == 1)
                 return;
 
             if (mem.HT_Memory != 4)

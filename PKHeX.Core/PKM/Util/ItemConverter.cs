@@ -211,7 +211,7 @@ namespace PKHeX.Core
         internal static bool IsItemHM(ushort item, int generation) => generation switch
         {
             1 => item is >= 196 and <= 200, // HMs
-            2 => item is >= 243, // HMs
+            2 => item    >= 243, // HMs
             3 => item is >= 339 and <= 346,
             _ => item is >= 420 and <= 427 or 737,
         };

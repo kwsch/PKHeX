@@ -58,7 +58,7 @@ namespace PKHeX.Core
 
             return generation switch
             {
-                1 or 2 => StringConverter12.SetString1(value, maxLength, jp, padTo, padWith),
+                1 or 2 => StringConverter12.SetString1(value, maxLength, jp, padTo, (byte)padWith),
                 3 => StringConverter3.SetString3(value, maxLength, jp, padTo, padWith),
                 4 => StringConverter4.SetString4(value, maxLength, padTo, padWith),
                 5 => SetString5(value, maxLength, padTo, padWith),

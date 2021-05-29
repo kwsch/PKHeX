@@ -7,10 +7,9 @@ namespace PKHeX.Core
     /// </summary>
     public abstract class SAV4Sinnoh : SAV4
     {
-        protected override int StorageStart => GeneralSize;
         protected override int FooterSize => 0x14;
-        protected SAV4Sinnoh() { }
-        protected SAV4Sinnoh(byte[] data) : base(data) { }
+        protected SAV4Sinnoh(int gSize, int sSize) : base(gSize, sSize) { }
+        protected SAV4Sinnoh(byte[] data, int gSize, int sSize, int sStart) : base(data, gSize, sSize, sStart) { }
 
         #region Storage
         // u32 currentBox

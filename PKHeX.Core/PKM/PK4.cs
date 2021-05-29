@@ -235,7 +235,7 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
-                else if ((value < 2000 && value > 111) || Locations.IsPtHGSSLocationEgg(value))
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);

@@ -95,8 +95,8 @@ namespace PKHeX.Core
             var data = pkm.Data;
             const int len = StringLength;
             data.CopyTo(result, 0);
-            gb.nick.CopyTo(result, PokeCrypto.SIZE_1STORED);
-            gb.otname.CopyTo(result, PokeCrypto.SIZE_1STORED + len);
+            gb.RawNickname.CopyTo(result, PokeCrypto.SIZE_1STORED);
+            gb.RawOT.CopyTo(result, PokeCrypto.SIZE_1STORED + len);
             return result;
         }
 

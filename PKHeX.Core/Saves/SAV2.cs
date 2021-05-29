@@ -282,7 +282,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? GBPKML.STRLEN_J : GBPKML.STRLEN_U;
+        private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
         // Checksums
         private ushort GetChecksum()
@@ -705,8 +705,8 @@ namespace PKHeX.Core
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength);
-            return StringConverter12.SetString1(value, maxLength, Japanese);
+                return StringConverter2KOR.SetString2KOR(value, maxLength, PadToSize, (byte)PadWith);
+            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
         }
 
         public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;

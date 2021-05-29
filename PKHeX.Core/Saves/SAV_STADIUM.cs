@@ -96,7 +96,7 @@
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
         }
     }
 }

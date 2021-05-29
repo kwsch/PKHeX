@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
             PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
 
-            if (pk is IRibbonIndex x && x is PK8 pk8)
+            if (pk is PK8 pk8)
             {
                 var names = Enum.GetNames(typeof(RibbonIndex));
                 var values = (RibbonIndex[])Enum.GetValues(typeof(RibbonIndex));
@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
 
-            if (pkm is IRibbonIndex x && x is PK8 pk8)
+            if (pkm is PK8 pk8)
                 pk8.AffixedRibbon = (sbyte)WinFormsUtil.GetIndex(CB_Affixed);
         }
 

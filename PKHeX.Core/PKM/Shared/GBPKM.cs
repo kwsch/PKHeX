@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public sealed override byte[] DecryptedBoxData => Encrypt();
         public sealed override byte[] DecryptedPartyData => Encrypt();
 
-        protected abstract IEnumerable<byte> GetNonNickname(int language);
+        protected abstract byte[] GetNonNickname(int language);
 
         private bool? _isnicknamed;
 

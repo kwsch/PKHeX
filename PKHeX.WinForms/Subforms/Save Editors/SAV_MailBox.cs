@@ -210,7 +210,7 @@ namespace PKHeX.WinForms
                 if (Gen != 3)
                     continue;
                 int k = ((PK3)p[i]).HeldMailID;
-                PKMNUDs[i].Value = k >= -1 && k <= 5 ? k : -1;
+                PKMNUDs[i].Value = k is >= -1 and <= 5 ? k : -1;
             }
             editing = false;
         }

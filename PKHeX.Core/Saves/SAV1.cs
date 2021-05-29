@@ -213,7 +213,7 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
-        private int StringLength => Japanese ? GBPKML.STRLEN_J : GBPKML.STRLEN_U;
+        private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
         public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
 
@@ -544,7 +544,7 @@ namespace PKHeX.Core
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
         }
     }
 }

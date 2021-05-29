@@ -199,7 +199,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetRandomVersion(GameVersion version)
         {
-            if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game
+            if (version is <= GameVersion.CXD and > 0) // single game
                 return version;
 
             return version switch

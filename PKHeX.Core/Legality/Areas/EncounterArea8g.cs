@@ -81,7 +81,7 @@ namespace PKHeX.Core
             }
             if (species <= Legal.MaxSpeciesID_7_USUM)
             {
-                bool lgpe = species is <= 151 && (form == 0 || ptGG[species].HasForm(form));
+                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForm(form));
                 return lgpe ? GameVersion.GG : GameVersion.USUM;
             }
 

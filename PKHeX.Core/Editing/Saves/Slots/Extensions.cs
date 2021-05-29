@@ -70,7 +70,7 @@ namespace PKHeX.Core
                 return None;
             return new List<SlotInfoMisc>
             {
-                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare }
+                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare}
             };
         }
 
@@ -78,7 +78,7 @@ namespace PKHeX.Core
         {
             var list = new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS },
+                new(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS},
             };
             if (sav is SAV4HGSS)
                 list.Add(new SlotInfoMisc(sav.General, 1, SAV4HGSS.WalkerPair) {Type = StorageSlotType.Misc});

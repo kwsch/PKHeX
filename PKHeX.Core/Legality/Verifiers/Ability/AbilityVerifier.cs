@@ -134,7 +134,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             int format = pkm.Format;
             var state = AbilityState.MustMatch;
-            if (3 <= format && format <= 5 && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
+            if (format is (3 or 4 or 5) && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
                 state = VerifyAbilityPreCapsule(data, abilities);
 
             int eabil = GetEncounterFixedAbilityNumber(enc);
@@ -384,7 +384,7 @@ namespace PKHeX.Core
         /// <param name="state">Permissive to allow ability to deviate under special circumstances</param>
         private CheckResult CheckMatch(PKM pkm, IReadOnlyList<int> abilities, int gen, AbilityState state)
         {
-            if (3 <= gen && gen <= 4 && pkm.AbilityNumber == 4)
+            if (gen is (3 or 4) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
 
             // other cases of hidden ability already flagged, all that is left is 1/2 mismatching

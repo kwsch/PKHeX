@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -49,8 +50,8 @@ namespace PKHeX.WinForms.Controls
             if (pkm != null)
             {
                 MT_CP.Text = Math.Min(65535, pkm.Stat_CP).ToString();
-                TB_HeightAbs.Text = pkm.HeightAbsolute.ToString();
-                TB_WeightAbs.Text = pkm.WeightAbsolute.ToString();
+                TB_HeightAbs.Text = pkm.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
+                TB_WeightAbs.Text = pkm.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
             }
             Loading = false;
         }
