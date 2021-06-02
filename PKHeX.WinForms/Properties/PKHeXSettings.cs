@@ -28,6 +28,7 @@ namespace PKHeX.WinForms
         // GUI Specific
         public DrawConfig Draw { get; set; } = new();
         public AdvancedSettings Advanced { get; set; } = new();
+        public EntityDatabaseSettings EntityDb { get; set; } = new();
 
         public static PKHeXSettings GetSettings(string configPath)
         {
@@ -206,6 +207,19 @@ namespace PKHeX.WinForms
     {
         [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
         public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
+    }
+
+    [Serializable]
+    public class EntityDatabaseSettings
+    {
+        [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
+        public bool SearchBackups { get; set; } = true;
+
+        [LocalizedDescription("When loading content for the PKM Database, search within OtherBackupPaths.")]
+        public bool SearchExtraSaves { get; set; } = true;
+
+        [LocalizedDescription("When loading content for the PKM Database, search subfolders within OtherBackupPaths.")]
+        public bool SearchExtraSavesDeep { get; set; } = true;
     }
 
     [Serializable]

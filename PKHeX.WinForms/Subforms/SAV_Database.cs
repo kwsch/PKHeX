@@ -318,10 +318,15 @@ namespace PKHeX.WinForms
 
         private void LoadDatabase()
         {
-            var otherPaths = new List<string>{Main.BackupPath};
-            otherPaths.AddRange(Main.Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+            var settings = Main.Settings;
+            var otherPaths = new List<string>();
+            if (settings.EntityDb.SearchBackups)
+                otherPaths.Add(Main.BackupPath);
 
-            RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths);
+            if (settings.EntityDb.SearchExtraSaves)
+                otherPaths.AddRange(settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+
+            RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep);
 
             // Load stats for pkm who do not have any
             foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
@@ -340,7 +345,7 @@ namespace PKHeX.WinForms
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths)
+        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
         {
             var dbTemp = new ConcurrentBag<PKM>();
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
@@ -350,7 +355,7 @@ namespace PKHeX.WinForms
 
             foreach (var folder in otherPaths)
             {
-                if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> result))
+                if (!SaveUtil.GetSavesFromFolder(folder, otherDeep, out IEnumerable<string> result))
                     continue;
 
                 var prefix = Path.GetDirectoryName(folder) + Path.DirectorySeparatorChar;
