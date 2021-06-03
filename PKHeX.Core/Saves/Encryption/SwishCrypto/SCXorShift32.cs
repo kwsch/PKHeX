@@ -60,7 +60,6 @@
             key ^= key << 13;
         }
 
-
 #if !NET5
         /// <summary>
         /// Count of bits set in value

@@ -17,19 +17,60 @@ namespace PKHeX.Core
         /// <summary>
         /// What kind of block is it?
         /// </summary>
-        public SCTypeCode Type { get; set; }
+        public SCTypeCode Type { get; private set; }
 
         /// <summary>
         /// For <see cref="SCTypeCode.Array"/>: What kind of array is it?
         /// </summary>
-        public SCTypeCode SubType { get; private set; }
+        public readonly SCTypeCode SubType;
 
         /// <summary>
         /// Decrypted data for this block.
         /// </summary>
-        public byte[] Data = Array.Empty<byte>();
+        public readonly byte[] Data;
 
-        internal SCBlock(uint key) => Key = key;
+        /// <summary>
+        /// Changes the block's Boolean type. Will throw if the old / new <see cref="Type"/> is not boolean.
+        /// </summary>
+        /// <param name="value">New boolean type to set.</param>
+        /// <remarks>Will throw if the requested block state changes are incorrect.</remarks>
+        public void ChangeBooleanType(SCTypeCode value)
+        {
+            if (Type is not (SCTypeCode.Bool1 or SCTypeCode.Bool2) || value is not (SCTypeCode.Bool1 or SCTypeCode.Bool2))
+                throw new InvalidOperationException($"Cannot change {Type} to {value}.");
+            Type = value;
+        }
+
+        /// <summary>
+        /// Replaces the current <see cref="Data"/> with a same-sized array <see cref="value"/>.
+        /// </summary>
+        /// <param name="value">New array to load (copy from).</param>
+        /// <remarks>Will throw if the requested block state changes are incorrect.</remarks>
+        public void ChangeData(ReadOnlySpan<byte> value)
+        {
+            if (value.Length != Data.Length)
+                throw new InvalidOperationException($"Cannot change size of {Type} block from {Data.Length} to {value.Length}.");
+            value.CopyTo(Data);
+        }
+
+        internal SCBlock(uint key, SCTypeCode type) : this(key, type, Array.Empty<byte>())
+        {
+        }
+
+        internal SCBlock(uint key, SCTypeCode type, byte[] arr)
+        {
+            Key = key;
+            Type = type;
+            Data = arr;
+        }
+
+        internal SCBlock(uint key, byte[] arr, SCTypeCode subType)
+        {
+            Key = key;
+            Type = SCTypeCode.Array;
+            Data = arr;
+            SubType = subType;
+        }
 
         public bool HasValue() => Type > SCTypeCode.Array;
         public object GetValue() => Type.GetValue(Data);
@@ -37,9 +78,11 @@ namespace PKHeX.Core
 
         public SCBlock Clone()
         {
-            var block = (SCBlock)MemberwiseClone();
-            block.Data = (byte[])Data.Clone();
-            return block;
+            if (Data.Length == 0)
+                return new SCBlock(Key, Type);
+            if (SubType == 0)
+                return new SCBlock(Key, Type, (byte[]) Data.Clone());
+            return new SCBlock(Key, (byte[])Data.Clone(), SubType);
         }
 
         /// <summary>
@@ -77,20 +120,20 @@ namespace PKHeX.Core
             // Create block, parse its key.
             var key = BitConverter.ToUInt32(data, offset);
             offset += 4;
-            var block = new SCBlock(key);
             var xk = new SCXorShift32(key);
 
             // Parse the block's type
-            block.Type = (SCTypeCode)(data[offset++] ^ xk.Next());
+            //var block = 
+            var type = (SCTypeCode)(data[offset++] ^ xk.Next());
 
-            switch (block.Type)
+            switch (type)
             {
                 case SCTypeCode.Bool1:
                 case SCTypeCode.Bool2:
                 case SCTypeCode.Bool3:
                     // Block types are empty, and have no extra data.
-                    Debug.Assert(block.Type != SCTypeCode.Bool3); // invalid type, haven't seen it used yet
-                    break;
+                    Debug.Assert(type != SCTypeCode.Bool3); // invalid type, haven't seen it used yet
+                    return new SCBlock(key, type);
 
                 case SCTypeCode.Object: // Cast raw bytes to Object
                 {
@@ -99,39 +142,35 @@ namespace PKHeX.Core
                     var arr = new byte[num_bytes];
                     for (int i = 0; i < arr.Length; i++)
                         arr[i] = (byte)(data[offset++] ^ xk.Next());
-                    block.Data = arr;
-                    break;
+
+                    return new SCBlock(key, type, arr);
                 }
 
                 case SCTypeCode.Array: // Cast raw bytes to SubType[]
                 {
                     var num_entries = BitConverter.ToUInt32(data, offset) ^ xk.Next32();
                     offset += 4;
-                    block.SubType = (SCTypeCode)(data[offset++] ^ xk.Next());
+                    var sub = (SCTypeCode)(data[offset++] ^ xk.Next());
 
-                    var num_bytes = num_entries * block.SubType.GetTypeSize();
+                    var num_bytes = num_entries * sub.GetTypeSize();
                     var arr = new byte[num_bytes];
                     for (int i = 0; i < arr.Length; i++)
                         arr[i] = (byte)(data[offset++] ^ xk.Next());
-                    block.Data = arr;
 #if DEBUG
-                    Debug.Assert(block.SubType > SCTypeCode.Array || Array.TrueForAll(block.Data, z => z <= 1));
+                    Debug.Assert(sub > SCTypeCode.Array || Array.TrueForAll(arr, z => z <= 1));
 #endif
-                    break;
+                    return new SCBlock(key, arr, sub);
                 }
 
                 default: // Single Value Storage
                 {
-                    var num_bytes = block.Type.GetTypeSize();
+                    var num_bytes = type.GetTypeSize();
                     var arr = new byte[num_bytes];
                     for (int i = 0; i < arr.Length; i++)
                         arr[i] = (byte)(data[offset++] ^ xk.Next());
-                    block.Data = arr;
-                    break;
+                    return new SCBlock(key, type, arr);
                 }
             }
-
-            return block;
         }
     }
 }

@@ -169,7 +169,8 @@ namespace PKHeX.Core
             {
                 if (value.Length != 1)
                     return;
-                Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type = (SCTypeCode)(value[0] & 1) + 1;
+                var block = Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked);
+                block.ChangeBooleanType((SCTypeCode)(value[0] & 1) + 1);
             }
         }
 
