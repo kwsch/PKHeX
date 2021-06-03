@@ -369,10 +369,16 @@ namespace PKHeX.WinForms
 
         private void SetFlagsFromClickPoint(int inpX, int inpY)
         {
-            if (inpX < 0) inpX = 0;
-            else if (inpX > 95) inpX = 95;
-            if (inpY < 0) inpY = 0;
-            else if (inpY > 79) inpY = 79;
+            static int Clamp(int value, int min, int max)
+            {
+                if (value < min)
+                    return min;
+                if (value > max)
+                    return max;
+                return value;
+            }
+            inpX = Clamp(inpX, 0, 95);
+            inpY = Clamp(inpY, 0, 79);
             int i = (inpX >> 2) + (24 * (inpY >> 2));
             byte[] ndab = new byte[120];
             DotArtistByte.CopyTo(ndab, 0);

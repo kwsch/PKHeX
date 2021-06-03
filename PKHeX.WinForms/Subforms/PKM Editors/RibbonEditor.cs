@@ -159,7 +159,7 @@ namespace PKHeX.WinForms
         private void Save()
         {
             foreach (var rib in riblist)
-                ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
+                ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : rib.RibbonCount);
 
             if (pkm is PK8 pk8)
                 pk8.AffixedRibbon = (sbyte)WinFormsUtil.GetIndex(CB_Affixed);

@@ -82,6 +82,7 @@ namespace PKHeX.Core
         public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
         {
             int beginCount = cbList.Count;
+            cbList.Capacity += allowed.Length;
             foreach (var index in allowed)
             {
                 var item = new ComboItem(inStrings[index - offset], index);
@@ -93,6 +94,7 @@ namespace PKHeX.Core
         public static void AddCBWithOffset(List<ComboItem> cbList, Span<string> inStrings, int offset)
         {
             int beginCount = cbList.Count;
+            cbList.Capacity += inStrings.Length;
             for (int i = 0; i < inStrings.Length; i++)
             {
                 var x = inStrings[i];
@@ -105,6 +107,7 @@ namespace PKHeX.Core
         public static void AddCB(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int[] allowed)
         {
             int beginCount = cbList.Count;
+            cbList.Capacity += allowed.Length;
             foreach (var index in allowed)
             {
                 var item = new ComboItem(inStrings[index], index);
@@ -113,25 +116,23 @@ namespace PKHeX.Core
             cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
-        public static List<ComboItem> GetVariedCBListBall(string[] inStrings, ushort[] stringNum, byte[] stringVal)
+        public static ComboItem[] GetVariedCBListBall(string[] inStrings, ushort[] stringNum, byte[] stringVal)
         {
             const int forcedTop = 3; // 3 Balls are preferentially first
-            var list = new List<ComboItem>(forcedTop + stringNum.Length)
-            {
-                new(inStrings[4], (int)Ball.Poke),
-                new(inStrings[3], (int)Ball.Great),
-                new(inStrings[2], (int)Ball.Ultra),
-            };
+            var list = new ComboItem[forcedTop + stringNum.Length];
+            list[0] = new ComboItem(inStrings[4], (int)Ball.Poke);
+            list[1] = new ComboItem(inStrings[3], (int)Ball.Great);
+            list[2] = new ComboItem(inStrings[2], (int)Ball.Ultra);
 
             for (int i = 0; i < stringNum.Length; i++)
             {
                 int index = stringNum[i];
                 var val = stringVal[i];
                 var txt = inStrings[index];
-                list.Add(new ComboItem(txt, val));
+                list[i + 3] = new ComboItem(txt, val);
             }
 
-            list.Sort(forcedTop, stringNum.Length, Comparer);
+            Array.Sort(list, 3, list.Length - 3, Comparer);
             return list;
         }
 

@@ -303,7 +303,7 @@ namespace PKHeX.Core
             if (!pi.CanWrite)
                 return ModifyResult.Error;
 
-            object val = cmd.Random ? (object)cmd.RandomValue : cmd.PropertyValue;
+            object val = cmd.Random ? cmd.RandomValue : cmd.PropertyValue;
             ReflectUtil.SetValue(pi, pk, val);
             return ModifyResult.Modified;
         }

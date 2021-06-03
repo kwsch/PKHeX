@@ -471,14 +471,9 @@ namespace PKHeX.WinForms
 
             // Check for Gender Changes
             // Get Gender Threshold
-            int gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].Gender;
-
-            if (gt == 255)      // Genderless
-                genderflag = 2;
-            else if (gt == 254) // Female Only
-                genderflag = 1;
-            else if (gt == 0) // Male Only
-                genderflag = 0;
+            var gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].FixedGender;
+            if (gt != -1)
+                genderflag = gt;
 
             SetGenderLabel();
             SetAbilityList();

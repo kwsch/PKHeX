@@ -58,7 +58,7 @@ namespace PKHeX.Core
             return lines;
         }
 
-        private IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
+        private static IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
         {
             var lines = l.Valid ? new List<string> {L_ALegal} : GetLegalityReportLines(l);
             var info = l.Info;

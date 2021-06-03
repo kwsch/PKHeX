@@ -55,14 +55,12 @@ namespace PKHeX.Core
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
-        private static GameVersion GetOtherTradePair(GameVersion ver)
+        private static GameVersion GetOtherTradePair(GameVersion ver) => ver switch
         {
-            if (ver <= GameVersion.OR) // gen6
-                return (GameVersion)((int)ver ^ 2);
-            if (ver <= GameVersion.MN) // gen7
-                return ver + 2;
-            return ver - 2;
-        }
+            <= GameVersion.OR => (GameVersion) ((int) ver ^ 2), // gen6
+            <= GameVersion.MN => ver + 2, // gen7
+            _ => ver - 2
+        };
 
         private static bool HasOtherGamePair(GameVersion ver)
         {

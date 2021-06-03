@@ -517,7 +517,7 @@ namespace PKHeX.WinForms
 
                 BatchInstructions = RTB_Instructions.Lines,
 
-                Level = int.TryParse(TB_Level.Text, out var lvl) ? (int?)lvl : null,
+                Level = int.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
                 SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
                 EVType = CB_EVTrain.SelectedIndex,
                 IVType = CB_IV.SelectedIndex,

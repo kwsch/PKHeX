@@ -36,7 +36,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }

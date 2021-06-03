@@ -93,7 +93,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LPIDTypeMismatch));
         }
 
-        private void VerifyECPIDWurmple(LegalityAnalysis data)
+        private static void VerifyECPIDWurmple(LegalityAnalysis data)
         {
             var pkm = data.pkm;
 

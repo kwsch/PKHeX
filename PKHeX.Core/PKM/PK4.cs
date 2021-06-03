@@ -32,7 +32,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
 
         // Structure
         public override uint PID { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
