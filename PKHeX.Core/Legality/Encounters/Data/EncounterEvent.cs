@@ -68,8 +68,8 @@ namespace PKHeX.Core
             {
                 static void AddOrExpand<T>(ref ICollection<T> arr, T obj)
                 {
-                    if (arr is HashSet<T>)
-                        arr.Add(obj);
+                    if (arr is HashSet<T> h)
+                        h.Add(obj);
                     else
                         arr = new HashSet<T>(arr) {obj};
                 }
@@ -88,6 +88,8 @@ namespace PKHeX.Core
             {
                 if (arr is T[] x)
                     return x;
+
+                // rather than use Linq to build an array, just do it the quick way directly.
                 var result = new T[arr.Count];
                 ((HashSet<T>)arr).CopyTo(result, 0);
                 return result;
