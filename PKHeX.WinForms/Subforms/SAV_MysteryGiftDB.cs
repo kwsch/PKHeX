@@ -329,6 +329,7 @@ namespace PKHeX.WinForms
         private void SetResults(List<MysteryGift> res)
         {
             Results = new List<MysteryGift>(res);
+            ShowSet.Clear();
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;
