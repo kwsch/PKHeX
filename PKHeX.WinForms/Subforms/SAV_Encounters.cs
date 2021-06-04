@@ -206,10 +206,13 @@ namespace PKHeX.WinForms
             var comparer = new ReferenceComparer<IEncounterInfo>();
             results = results.Distinct(comparer); // only distinct objects
 
-            // when all sprites in new size are available, remove this filter
-            results = SAV is SAV8SWSH
-                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
-                : results.Where(z => z.Generation <= 7);
+            if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
+            {
+                results = SAV is SAV8SWSH
+                    ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
+                    : results.Where(z => z.Generation <= 7);
+            }
+
             return results;
         }
 
