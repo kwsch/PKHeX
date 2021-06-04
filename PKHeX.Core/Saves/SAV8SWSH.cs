@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -9,8 +8,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord, ISaveFileRevision
     {
-        public SAV8SWSH(byte[] data) : this(data, SwishCrypto.Decrypt(data))
+        public SAV8SWSH(byte[] data) : base(data)
         {
+            Data = Array.Empty<byte>();
+            AllBlocks = SwishCrypto.Decrypt(data);
+            Blocks = new SaveBlockAccessor8SWSH(this);
+            SaveRevision = Zukan.GetRevision();
+            Initialize();
         }
 
         private SAV8SWSH(byte[] data, IReadOnlyList<SCBlock> blocks) : base(data)
@@ -99,7 +103,13 @@ namespace PKHeX.Core
         }
 
         #endregion
-        protected override SaveFile CloneInternal() => new SAV8SWSH(State.BAK, AllBlocks.Select(z => z.Clone()).ToArray());
+        protected override SaveFile CloneInternal()
+        {
+            var blockCopy = new SCBlock[AllBlocks.Count];
+            for (int i = 0; i < AllBlocks.Count; i++)
+                blockCopy[i] = AllBlocks[i].Clone();
+            return new SAV8SWSH(State.BAK, blockCopy);
+        }
 
         private int m_spec, m_item, m_move, m_abil;
         public override int MaxMoveID => m_move;
