@@ -29,6 +29,7 @@ namespace PKHeX.WinForms
         public DrawConfig Draw { get; set; } = new();
         public AdvancedSettings Advanced { get; set; } = new();
         public EntityDatabaseSettings EntityDb { get; set; } = new();
+        public EncounterDatabaseSettings EncounterDb { get; set; } = new();
 
         public static PKHeXSettings GetSettings(string configPath)
         {
@@ -220,6 +221,13 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("When loading content for the PKM Database, search subfolders within OtherBackupPaths.")]
         public bool SearchExtraSavesDeep { get; set; } = true;
+    }
+
+    [Serializable]
+    public class EncounterDatabaseSettings
+    {
+        [LocalizedDescription("Skips searching if the user forgot to enter Species / Move(s) into the search criteria.")]
+        public bool ReturnNoneIfEmptySearch { get; set; } = true;
     }
 
     [Serializable]

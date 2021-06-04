@@ -190,7 +190,7 @@ namespace PKHeX.WinForms
             var moves = settings.Moves.ToArray();
 
             // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-            if (settings.Species <= 0 && moves.Length == 0)
+            if (settings.Species <= 0 && moves.Length == 0 && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
                 return Array.Empty<IEncounterInfo>();
             var pk = SAV.BlankPKM;
 
