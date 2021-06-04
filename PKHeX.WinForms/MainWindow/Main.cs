@@ -1031,8 +1031,13 @@ namespace PKHeX.WinForms
             if (verbose)
             {
                 var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
-                if (dr == DialogResult.Yes)
-                    WinFormsUtil.SetClipboardText(report);
+                if (dr != DialogResult.Yes)
+                    return;
+#if DEBUG
+                var enc = SummaryPreviewer.GetTextLines(la.EncounterOriginal);
+                report += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
+#endif
+                WinFormsUtil.SetClipboardText(report);
             }
             else if (Settings.Display.IgnoreLegalPopup && la.Valid)
             {
