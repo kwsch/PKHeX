@@ -124,6 +124,9 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Show the changelog when a new version of the program is run for the first time.")]
         public bool ShowChangelogOnUpdate { get; set; } = true;
 
+        [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists.")]
+        public bool LoadPlugins { get; set; } = true;
+
         public List<string> RecentlyLoaded = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.

@@ -39,7 +39,9 @@ namespace PKHeX.WinForms
             FormLoadCustomBackupPaths();
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
-            FormLoadPlugins();
+
+            if (Settings.Startup.LoadPlugins)
+                FormLoadPlugins();
 
             if (HaX)
             {
