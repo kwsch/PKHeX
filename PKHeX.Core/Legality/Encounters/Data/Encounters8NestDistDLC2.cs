@@ -8,6 +8,30 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            
+            new(17,01,1) { Species = 002, Ability = A4, Moves = new[]{ 075, 077, 033, 079 }, Index = 71 }, // Ivysaur
+            new(17,01,1) { Species = 060, Ability = A4, Moves = new[]{ 055, 095, 001, 341 }, Index = 71 }, // Poliwag
+            new(17,01,1) { Species = 453, Ability = A4, Moves = new[]{ 040, 279, 189, 372 }, Index = 71 }, // Croagunk
+            new(17,01,1) { Species = 535, Ability = A4, Moves = new[]{ 497, 341, 045, 051 }, Index = 71 }, // Tympole
+            new(30,03,2) { Species = 002, Ability = A4, Moves = new[]{ 402, 077, 033, 036 }, Index = 71 }, // Ivysaur
+            new(30,03,2) { Species = 061, Ability = A4, Moves = new[]{ 061, 095, 001, 341 }, Index = 71 }, // Poliwhirl
+            new(30,03,2) { Species = 453, Ability = A4, Moves = new[]{ 474, 279, 189, 372 }, Index = 71 }, // Croagunk
+            new(30,03,2) { Species = 536, Ability = A4, Moves = new[]{ 061, 341, 175, 051 }, Index = 71 }, // Palpitoad
+            new(40,05,3) { Species = 003, Ability = A4, Moves = new[]{ 402, 188, 414, 036 }, Index = 71 }, // Venusaur
+            new(40,05,3) { Species = 186, Ability = A4, Moves = new[]{ 056, 411, 034, 341 }, Index = 71 }, // Politoed
+            new(40,05,3) { Species = 453, Ability = A4, Moves = new[]{ 092, 279, 404, 372 }, Index = 71 }, // Croagunk
+            new(40,05,3) { Species = 537, Ability = A4, Moves = new[]{ 503, 341, 438, 051 }, Index = 71 }, // Seismitoad
+            new(50,08,4) { Species = 003, Ability = A4, Moves = new[]{ 438, 188, 414, 036 }, Index = 71 }, // Venusaur
+            new(50,08,4) { Species = 186, Ability = A4, Moves = new[]{ 056, 411, 034, 414 }, Index = 71 }, // Politoed
+            new(50,08,4) { Species = 453, Ability = A4, Moves = new[]{ 188, 067, 404, 372 }, Index = 71 }, // Croagunk
+            new(50,08,4) { Species = 537, Ability = A4, Moves = new[]{ 503, 341, 438, 398 }, Index = 71 }, // Seismitoad
+            new(60,10,5) { Species = 003, Ability = A4, Moves = new[]{ 438, 188, 414, 034 }, Index = 71, CanGigantamax = true }, // Venusaur
+            new(60,10,5) { Species = 003, Ability = A4, Moves = new[]{ 438, 188, 414, 034 }, Index = 71 }, // Venusaur
+            new(60,10,5) { Species = 186, Ability = A4, Moves = new[]{ 056, 311, 034, 414 }, Index = 71, Shiny = Shiny.Always }, // Politoed
+            new(60,10,5) { Species = 186, Ability = A4, Moves = new[]{ 056, 311, 034, 414 }, Index = 71 }, // Politoed
+            new(60,10,5) { Species = 453, Ability = A4, Moves = new[]{ 188, 067, 404, 247 }, Index = 71 }, // Croagunk
+            new(60,10,5) { Species = 537, Ability = A4, Moves = new[]{ 503, 089, 438, 398 }, Index = 71 }, // Seismitoad
+
             new(17,01,1) { Species = 831, Ability = A4, Moves = new[]{ 029, 024, 045, 033 }, Index = 69 }, // Wooloo
             new(30,03,2) { Species = 831, Ability = A4, Moves = new[]{ 029, 024, 528, 033 }, Index = 69 }, // Wooloo
             new(30,03,2) { Species = 832, Ability = A4, Moves = new[]{ 036, 024, 528, 371 }, Index = 69 }, // Dubwool
