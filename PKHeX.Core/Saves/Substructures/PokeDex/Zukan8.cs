@@ -470,6 +470,8 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (!GetEntry(species, out _))
                 return;
+            if (pkm.IsEgg) // do not add
+                return;
 
             bool owned = GetCaught(species);
 

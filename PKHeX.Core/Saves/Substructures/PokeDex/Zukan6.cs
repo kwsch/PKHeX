@@ -68,13 +68,9 @@ namespace PKHeX.Core
 
         public override void SetDex(PKM pkm)
         {
-            if (PokeDex < 0)
+            if (pkm.Species is 0 or > Legal.MaxSpeciesID_6)
                 return;
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > SAV.MaxSpeciesID)
-                return;
-            if (SAV.Version == GameVersion.Invalid)
+            if (pkm.IsEgg) // do not add
                 return;
 
             int bit = pkm.Species - 1;
