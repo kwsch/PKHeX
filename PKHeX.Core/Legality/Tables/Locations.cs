@@ -107,9 +107,9 @@
             _ => LinkTrade6
         };
 
-        public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;
-        public static bool IsPtHGSSLocationEgg(int location) => 2010 < location && location < 3000;
-        public static bool IsEventLocation5(int location) => 40000 < location && location < 50000;
+        public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;
+        public static bool IsPtHGSSLocationEgg(int location) => location is > 2010 and < 3000;
+        public static bool IsEventLocation5(int location) => location is > 40000 and < 50000;
 
         private const int SafariLocation_RSE = 57;
         private const int SafariLocation_FRLG = 136;

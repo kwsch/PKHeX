@@ -315,6 +315,11 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm)
         {
+            if (pkm.Species is 0 or > Legal.MaxSpeciesID_3)
+                return;
+            if (pkm.IsEgg)
+                return;
+
             // Dex Related
             var entry = StrategyMemo.GetEntry(pkm.Species);
             if (entry.IsEmpty) // Populate

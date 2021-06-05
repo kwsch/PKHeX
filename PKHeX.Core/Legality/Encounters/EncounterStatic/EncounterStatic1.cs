@@ -43,9 +43,7 @@
 
         protected override bool IsMatchPartial(PKM pkm)
         {
-            if (pkm is not PK1 pk1)
-                return false;
-            if (!pk1.Gen1_NotTradeback)
+            if (pkm is not PK1 {Gen1_NotTradeback: true} pk1)
                 return false;
             if (IsCatchRateValid(pk1))
                 return false;

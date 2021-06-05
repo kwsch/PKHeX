@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4Pt : SAV4Sinnoh
     {
-        public SAV4Pt()
+        public SAV4Pt() : base(GeneralSize, StorageSize)
         {
             Initialize();
             Dex = new Zukan4(this, PokeDex);
         }
 
-        public SAV4Pt(byte[] data) : base(data)
+        public SAV4Pt(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize)
         {
             Initialize();
             Dex = new Zukan4(this, PokeDex);
@@ -26,8 +26,9 @@ namespace PKHeX.Core
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
         public override int MaxItemID => Legal.MaxItemID_4_Pt;
 
-        protected override int GeneralSize => 0xCF2C;
-        protected override int StorageSize => 0x121E4; // Start 0xCF2C, +4 starts box data
+        private const int GeneralSize = 0xCF2C;
+        private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
+        protected override int StorageStart => GeneralSize;
 
         private void Initialize()
         {

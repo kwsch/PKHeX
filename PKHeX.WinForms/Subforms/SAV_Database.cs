@@ -318,10 +318,15 @@ namespace PKHeX.WinForms
 
         private void LoadDatabase()
         {
-            var otherPaths = new List<string>{Main.BackupPath};
-            otherPaths.AddRange(Main.Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+            var settings = Main.Settings;
+            var otherPaths = new List<string>();
+            if (settings.EntityDb.SearchBackups)
+                otherPaths.Add(Main.BackupPath);
 
-            RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths);
+            if (settings.EntityDb.SearchExtraSaves)
+                otherPaths.AddRange(settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+
+            RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep);
 
             // Load stats for pkm who do not have any
             foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
@@ -340,7 +345,7 @@ namespace PKHeX.WinForms
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths)
+        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
         {
             var dbTemp = new ConcurrentBag<PKM>();
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
@@ -350,7 +355,7 @@ namespace PKHeX.WinForms
 
             foreach (var folder in otherPaths)
             {
-                if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> result))
+                if (!SaveUtil.GetSavesFromFolder(folder, otherDeep, out IEnumerable<string> result))
                     continue;
 
                 var prefix = Path.GetDirectoryName(folder) + Path.DirectorySeparatorChar;
@@ -363,8 +368,12 @@ namespace PKHeX.WinForms
             var bakpkm = dbTemp.Where(pk => pk.Species != 0).OrderBy(pk => pk.Identifier);
             var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
-            // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
-            db = SAV is SAV8SWSH ? db.Where(z => z is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => z is not PK8);
+            if (Main.Settings.EntityDb.FilterUnavailableSpecies)
+            {
+                db = SAV is SAV8SWSH
+                    ? db.Where(z => z is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
+                    : db.Where(z => z is not PK8);
+            }
 
             // Finalize the Database
             return new List<PKM>(db);
@@ -512,7 +521,7 @@ namespace PKHeX.WinForms
 
                 BatchInstructions = RTB_Instructions.Lines,
 
-                Level = int.TryParse(TB_Level.Text, out var lvl) ? (int?)lvl : null,
+                Level = int.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
                 SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
                 EVType = CB_EVTrain.SelectedIndex,
                 IVType = CB_IV.SelectedIndex,
@@ -581,6 +590,7 @@ namespace PKHeX.WinForms
         private void SetResults(List<PKM> res)
         {
             Results = res;
+            ShowSet.Clear();
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;

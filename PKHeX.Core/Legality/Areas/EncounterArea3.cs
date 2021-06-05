@@ -23,7 +23,7 @@ namespace PKHeX.Core
         {
             var result = new EncounterArea3[input.Length];
             for (int i = 0; i < input.Length; i++)
-                result[i] = new EncounterArea3(input[i], game, false);
+                result[i] = new EncounterArea3(input[i], game, SlotType.Swarm | SlotType.Grass);
             return result;
         }
 
@@ -36,10 +36,10 @@ namespace PKHeX.Core
             Slots = ReadRegularSlots(data);
         }
 
-        private EncounterArea3(byte[] data, GameVersion game, bool _) : base(game)
+        private EncounterArea3(byte[] data, GameVersion game, SlotType type) : base(game)
         {
             Location = data[0] | (data[1] << 8);
-            Type = SlotType.Swarm | SlotType.Grass;
+            Type = type;
             Rate = data[3];
 
             Slots = ReadSwarmSlots(data);

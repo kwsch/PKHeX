@@ -30,7 +30,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new PK6((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);
 
         // Structure
         #region Block A

@@ -53,7 +53,7 @@ namespace PKHeX.WinForms.Controls
                 Cry.PlayCry(enc, enc.Generation);
         }
 
-        private static IEnumerable<string> GetTextLines(IEncounterInfo enc)
+        public static IEnumerable<string> GetTextLines(IEncounterInfo enc)
         {
             var lines = new List<string>();
             var str = GameInfo.Strings.Species;

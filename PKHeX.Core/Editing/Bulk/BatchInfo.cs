@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Information wrapper used for Batch Editing to apply suggested values.
     /// </summary>
-    internal sealed class BatchInfo
+    public sealed class BatchInfo
     {
         internal PKM Entity { get; }
         internal BatchInfo(PKM pk) => Entity = pk;

@@ -98,7 +98,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
         /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString1(string value, int maxLength, bool jp, int padTo = 0, byte padWith = 0)
         {
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
                 return new[] { G1TradeOTCode, G1TerminatorCode };
@@ -117,7 +117,7 @@ namespace PKHeX.Core
             }
             arr.Add(G1TerminatorCode);
             while (arr.Count < padTo)
-                arr.Add((byte)padWith);
+                arr.Add(padWith);
             return arr.ToArray();
         }
 

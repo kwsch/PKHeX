@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.Move;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Restriction logic for evolutions that are a little more complex than <see cref="EvolutionMethod"/> can simply check.
+    /// </summary>
+    /// <remarks>
+    /// Currently only checks "is able to know a move required to level up".
+    /// </remarks>
     internal static class EvolutionRestrictions
     {
-        // List of species that evolve from a previous species having a move while leveling up
+        /// <summary>
+        /// List of species that evolve from a previous species having a move while leveling up
+        /// </summary>
         private static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
         {
-            {(int)Species.Eevee,      new(0, 0)}, // FairyMoves
-            {(int)Species.MimeJr,     new(1, (int)Move.Mimic)},
-            {(int)Species.Bonsly,     new(2, (int)Move.Mimic)},
-            {(int)Species.Aipom,      new(3, (int)Move.Mimic)},
-            {(int)Species.Lickitung,  new(4, (int)Move.Rollout)},
-            {(int)Species.Tangela,    new(5, (int)Move.AncientPower)},
-            {(int)Species.Yanma,      new(6, (int)Move.AncientPower)},
-            {(int)Species.Piloswine,  new(7, (int)Move.AncientPower)},
-            {(int)Species.Steenee,    new(8, (int)Move.Stomp)},
-            {(int)Species.Clobbopus,  new(9, (int)Move.Taunt)},
+            {(int)Eevee,      new(0, 0)}, // FairyMoves
+            {(int)MimeJr,     new(1, (int)Mimic)},
+            {(int)Bonsly,     new(2, (int)Mimic)},
+            {(int)Aipom,      new(3, (int)Mimic)},
+            {(int)Lickitung,  new(4, (int)Rollout)},
+            {(int)Tangela,    new(5, (int)AncientPower)},
+            {(int)Yanma,      new(6, (int)AncientPower)},
+            {(int)Piloswine,  new(7, (int)AncientPower)},
+            {(int)Steenee,    new(8, (int)Stomp)},
+            {(int)Clobbopus,  new(9, (int)Taunt)},
         };
 
         private readonly struct MoveEvolution
@@ -35,36 +45,36 @@ namespace PKHeX.Core
 
         private static readonly int[] FairyMoves =
         {
-            (int)Move.SweetKiss,
-            (int)Move.Charm,
-            (int)Move.Moonlight,
-            (int)Move.DisarmingVoice,
-            (int)Move.DrainingKiss,
-            (int)Move.CraftyShield,
-            (int)Move.FlowerShield,
-            (int)Move.MistyTerrain,
-            (int)Move.PlayRough,
-            (int)Move.FairyWind,
-            (int)Move.Moonblast,
-            (int)Move.FairyLock,
-            (int)Move.AromaticMist,
-            (int)Move.Geomancy,
-            (int)Move.DazzlingGleam,
-            (int)Move.BabyDollEyes,
-            (int)Move.LightofRuin,
-            (int)Move.TwinkleTackleP,
-            (int)Move.TwinkleTackleS,
-            (int)Move.FloralHealing,
-            (int)Move.GuardianofAlola,
-            (int)Move.FleurCannon,
-            (int)Move.NaturesMadness,
-            (int)Move.LetsSnuggleForever,
-            (int)Move.SparklySwirl,
-            (int)Move.MaxStarfall,
-            (int)Move.Decorate,
-            (int)Move.SpiritBreak,
-            (int)Move.StrangeSteam,
-            (int)Move.MistyExplosion,
+            (int)SweetKiss,
+            (int)Charm,
+            (int)Moonlight,
+            (int)DisarmingVoice,
+            (int)DrainingKiss,
+            (int)CraftyShield,
+            (int)FlowerShield,
+            (int)MistyTerrain,
+            (int)PlayRough,
+            (int)FairyWind,
+            (int)Moonblast,
+            (int)FairyLock,
+            (int)AromaticMist,
+            (int)Geomancy,
+            (int)DazzlingGleam,
+            (int)BabyDollEyes,
+            (int)LightofRuin,
+            (int)TwinkleTackleP,
+            (int)TwinkleTackleS,
+            (int)FloralHealing,
+            (int)GuardianofAlola,
+            (int)FleurCannon,
+            (int)NaturesMadness,
+            (int)LetsSnuggleForever,
+            (int)SparklySwirl,
+            (int)MaxStarfall,
+            (int)Decorate,
+            (int)SpiritBreak,
+            (int)StrangeSteam,
+            (int)MistyExplosion,
         };
 
         /// <summary>
@@ -123,7 +133,7 @@ namespace PKHeX.Core
             if (move == 0)
             {
                 // Other evolutions are fine.
-                if (pkm.Species != (int) Species.Sylveon)
+                if (pkm.Species != (int)Sylveon)
                     return true;
             }
 
@@ -159,7 +169,7 @@ namespace PKHeX.Core
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
             // VC pokemon: minimum level is one level after transfer to generation 7
             // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
-            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && gen == 3) || pkm.VC || pkm.Species == (int) Species.Sylveon)
+            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && gen == 3) || pkm.VC || pkm.Species == (int)Sylveon)
                 lvl = Math.Max(pkm.Met_Level + 1, lvl);
             return lvl;
         }

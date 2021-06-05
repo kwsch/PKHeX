@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,59 +8,65 @@ namespace PKHeX.Core
     /// <remarks>This format stores <see cref="PKM.Nickname"/> and <see cref="PKM.OT_Name"/> in buffers separate from the rest of the details.</remarks>
     public abstract class GBPKML : GBPKM
     {
-        internal const int STRLEN_J = 6;
-        internal const int STRLEN_U = 11;
+        internal const int StringLengthJapanese = 6;
+        internal const int StringLengthNotJapan = 11;
         public sealed override int OTLength => Japanese ? 5 : 7;
         public sealed override int NickLength => Japanese ? 5 : 10;
-        public sealed override bool Japanese => otname.Length == STRLEN_J;
+        public sealed override bool Japanese => RawOT.Length == StringLengthJapanese;
 
-        internal readonly byte[] otname;
-        internal readonly byte[] nick;
+        internal readonly byte[] RawOT;
+        internal readonly byte[] RawNickname;
 
         // Trash Bytes
-        public sealed override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) value.CopyTo(nick, 0); } }
-        public sealed override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) value.CopyTo(otname, 0); } }
+        public sealed override byte[] Nickname_Trash { get => RawNickname; set { if (value.Length == RawNickname.Length) value.CopyTo(RawNickname, 0); } }
+        public sealed override byte[] OT_Trash { get => RawOT; set { if (value.Length == RawOT.Length) value.CopyTo(RawOT, 0); } }
 
         protected GBPKML(int size, bool jp = false) : base(size)
         {
-            int strLen = jp ? STRLEN_J : STRLEN_U;
+            int strLen = jp ? StringLengthJapanese : StringLengthNotJapan;
 
             // initialize string buffers
-            otname = new byte[strLen];
-            nick = new byte[strLen];
-            for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = StringConverter12.G1TerminatorCode;
+            RawOT = new byte[strLen];
+            RawNickname = new byte[strLen];
+            for (int i = 0; i < RawOT.Length; i++)
+                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
         }
 
         protected GBPKML(byte[] data, bool jp = false) : base(data)
         {
-            int strLen = jp ? STRLEN_J : STRLEN_U;
+            int strLen = jp ? StringLengthJapanese : StringLengthNotJapan;
 
             // initialize string buffers
-            otname = new byte[strLen];
-            nick = new byte[strLen];
-            for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = StringConverter12.G1TerminatorCode;
+            RawOT = new byte[strLen];
+            RawNickname = new byte[strLen];
+            for (int i = 0; i < RawOT.Length; i++)
+                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
         }
 
-        public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(nick);
+        public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(RawNickname);
 
-        protected override IEnumerable<byte> GetNonNickname(int language)
+        protected override byte[] GetNonNickname(int language)
         {
             var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
             var len = Nickname_Trash.Length;
-            var bytes = SetString(name, len);
-            var data = bytes.Concat(Enumerable.Repeat((byte)0x50, len - bytes.Length));
+            var data = SetString(name, len, len, 0x50);
             if (!Korean)
-                data = data.Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
+            {
+                // Decimal point<->period fix
+                for (int i = 0; i < data.Length; i++)
+                {
+                    if (data[i] == 0xF2)
+                        data[i] = 0xE8;
+                }
+            }
             return data;
         }
 
-        private byte[] SetString(string value, int maxLength)
+        private byte[] SetString(string value, int maxLength, int padTo = 0, byte padWith = 0)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength - 1);
-            return StringConverter12.SetString1(value, maxLength - 1, Japanese);
+                return StringConverter2KOR.SetString2KOR(value, maxLength - 1, padTo, padWith);
+            return StringConverter12.SetString1(value, maxLength - 1, Japanese, padTo, padWith);
         }
 
         public sealed override string Nickname
@@ -70,15 +74,15 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter2KOR.GetString2KOR(nick, 0, nick.Length);
-                return StringConverter12.GetString1(nick, 0, nick.Length, Japanese);
+                    return StringConverter2KOR.GetString2KOR(RawNickname, 0, RawNickname.Length);
+                return StringConverter12.GetString1(RawNickname, 0, RawNickname.Length, Japanese);
             }
             set
             {
                 if (!IsNicknamed && Nickname == value)
                     return;
 
-                SetStringKeepTerminatorStyle(value, nick);
+                SetStringKeepTerminatorStyle(value, RawNickname);
             }
         }
 
@@ -87,10 +91,15 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
-                return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
+                    return StringConverter2KOR.GetString2KOR(RawOT, 0, RawOT.Length);
+                return StringConverter12.GetString1(RawOT, 0, RawOT.Length, Japanese);
             }
-            set => SetStringKeepTerminatorStyle(value, otname);
+            set
+            {
+                if (value == OT_Name)
+                    return;
+                SetStringKeepTerminatorStyle(value, RawOT);
+            }
         }
 
         private void SetStringKeepTerminatorStyle(string value, byte[] exist)

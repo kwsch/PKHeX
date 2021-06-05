@@ -1490,7 +1490,7 @@ namespace PKHeX.WinForms.Controls
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     int gen = Entity.Generation;
-                    bool pre3DS = 1 <= gen && gen < 6;
+                    bool pre3DS = gen is >= 1 and < 6;
                     if (pre3DS && TB_EC.Visible)
                         TB_EC.Text = TB_PID.Text;
                 }
@@ -1777,7 +1777,7 @@ namespace PKHeX.WinForms.Controls
             PB_BattleVersion.Visible = FLP_BattleVersion.Visible = t is IBattleVersion;
             BTN_History.Visible = gen >= 6 && !pb7;
             BTN_Ribbons.Visible = gen >= 3 && !pb7;
-            BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
+            BTN_Medals.Visible = gen is 6 or 7 && !pb7;
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
             FLP_OriginalNature.Visible = gen >= 8;
             B_Records.Visible = gen >= 8;
@@ -1828,7 +1828,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MetDate.Visible = gen >= 4;
             FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
-            FLP_EncounterType.Visible = gen >= 4 && gen <= 6;
+            FLP_EncounterType.Visible = gen is 4 or 5 or 6;
             FLP_TimeOfDay.Visible = gen == 2;
 
             Contest.ToggleInterface(Entity, gen);

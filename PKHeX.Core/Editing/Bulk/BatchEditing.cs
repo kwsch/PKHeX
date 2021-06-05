@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 
 using static PKHeX.Core.MessageStrings;
+using static PKHeX.Core.BatchModifications;
 
 namespace PKHeX.Core
 {
@@ -24,7 +25,7 @@ namespace PKHeX.Core
             typeof (PK2), typeof (SK2), typeof (PK1),
         };
 
-        public static readonly string[] CustomProperties = { PROP_LEGAL, PROP_RIBBONS };
+        public static readonly List<string> CustomProperties = new() { PROP_LEGAL, PROP_RIBBONS };
         public static readonly string[][] Properties = GetPropArray();
 
         private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
@@ -302,7 +303,7 @@ namespace PKHeX.Core
             if (!pi.CanWrite)
                 return ModifyResult.Error;
 
-            object val = cmd.Random ? (object)cmd.RandomValue : cmd.PropertyValue;
+            object val = cmd.Random ? cmd.RandomValue : cmd.PropertyValue;
             ReflectUtil.SetValue(pi, pk, val);
             return ModifyResult.Modified;
         }
@@ -316,8 +317,9 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsLegalFiltered(cmd, () => info.Legal))
-                return true;
+            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            if (match != null)
+                return match.IsFiltered(info, cmd);
             return IsPropertyFiltered(cmd, info.Entity, props);
         }
 
@@ -330,8 +332,9 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsLegalFiltered(cmd, () => new LegalityAnalysis(pk).Valid))
-                return true;
+            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            if (match != null)
+                return match.IsFiltered(pk, cmd);
             return IsPropertyFiltered(cmd, pk, props);
         }
 
@@ -344,44 +347,11 @@ namespace PKHeX.Core
         /// <returns>True if filtered, else false.</returns>
         private static bool IsPropertyFiltered(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            if (IsIdentifierFiltered(cmd, pk))
-                return true;
             if (!props.TryGetValue(cmd.PropertyName, out var pi))
                 return false;
             if (!pi.CanRead)
                 return false;
             return pi.IsValueEqual(pk, cmd.PropertyValue) == cmd.Evaluator;
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> should be filtered due to its <see cref="PKM.Identifier"/> containing a value.
-        /// </summary>
-        /// <param name="cmd">Command Filter</param>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsIdentifierFiltered(StringInstruction cmd, PKM pk)
-        {
-            if (cmd.PropertyName != IdentifierContains)
-                return false;
-
-            bool result = pk.Identifier?.Contains(cmd.PropertyValue) ?? false;
-            return result == cmd.Evaluator;
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> should be filtered due to its legality.
-        /// </summary>
-        /// <param name="cmd">Command Filter</param>
-        /// <param name="isLegal">Function to check if the <see cref="PKM"/> is legal.</param>
-        /// <returns>True if filtered, else false.</returns>
-        private static bool IsLegalFiltered(StringInstruction cmd, Func<bool> isLegal)
-        {
-            if (cmd.PropertyName != PROP_LEGAL)
-                return false;
-
-            if (!bool.TryParse(cmd.PropertyValue, out bool legal))
-                return true;
-            return legal == isLegal() == cmd.Evaluator;
         }
 
         /// <summary>
@@ -392,107 +362,10 @@ namespace PKHeX.Core
         /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
         private static ModifyResult SetSuggestedPKMProperty(string name, BatchInfo info, string propValue)
         {
-            static bool IsAll(string p) => p.EndsWith("All", true, CultureInfo.CurrentCulture);
-            static bool IsNone(string p) => p.EndsWith("None", true, CultureInfo.CurrentCulture);
-            var pk = info.Entity;
-            switch (name)
-            {
-                // pb7 only
-                case nameof(PB7.Stat_CP) when pk is PB7 pb7:
-                    pb7.ResetCP();
-                    return ModifyResult.Modified;
-                case nameof(PB7.HeightAbsolute) when pk is PB7 pb7:
-                    pb7.HeightAbsolute = pb7.CalcHeightAbsolute;
-                    return ModifyResult.Modified;
-                case nameof(PB7.WeightAbsolute) when pk is PB7 pb7:
-                    pb7.WeightAbsolute = pb7.CalcWeightAbsolute;
-                    return ModifyResult.Modified;
-
-                // Date Copy
-                case nameof(PKM.EggMetDate):
-                    pk.EggMetDate = pk.MetDate;
-                    return ModifyResult.Modified;
-                case nameof(PKM.MetDate):
-                    pk.MetDate = pk.EggMetDate;
-                    return ModifyResult.Modified;
-
-                case nameof(PKM.Nature) when pk.Format >= 8:
-                    pk.Nature = pk.StatNature;
-                    return ModifyResult.Modified;
-                case nameof(PKM.StatNature) when pk.Format >= 8:
-                    pk.StatNature = pk.Nature;
-                    return ModifyResult.Modified;
-                case nameof(PKM.Stats):
-                    pk.ResetPartyStats();
-                    return ModifyResult.Modified;
-                case nameof(IHyperTrain.HyperTrainFlags):
-                    pk.SetSuggestedHyperTrainingData();
-                    return ModifyResult.Modified;
-                case nameof(PKM.RelearnMoves):
-                    if (pk.Format >= 8)
-                    {
-                        pk.ClearRecordFlags();
-                        if (IsAll(propValue))
-                            pk.SetRecordFlags(); // all
-                        else if (!IsNone(propValue))
-                            pk.SetRecordFlags(pk.Moves); // whatever fit the current moves
-                    }
-                    pk.SetRelearnMoves(info.SuggestedRelearn);
-                    return ModifyResult.Modified;
-                case PROP_RIBBONS:
-                    if (IsNone(propValue))
-                        RibbonApplicator.RemoveAllValidRibbons(pk);
-                    else // All
-                        RibbonApplicator.SetAllValidRibbons(pk);
-                    return ModifyResult.Modified;
-                case nameof(PKM.Met_Location):
-                    var encounter = EncounterSuggestion.GetSuggestedMetInfo(pk);
-                    if (encounter == null)
-                        return ModifyResult.Error;
-
-                    int level = encounter.LevelMin;
-                    int location = encounter.Location;
-                    int minimumLevel = EncounterSuggestion.GetLowestLevel(pk, encounter.LevelMin);
-
-                    pk.Met_Level = level;
-                    pk.Met_Location = location;
-                    pk.CurrentLevel = Math.Max(minimumLevel, level);
-
-                    return ModifyResult.Modified;
-
-                case nameof(PKM.Heal):
-                    pk.Heal();
-                    return ModifyResult.Modified;
-                case nameof(PKM.HealPP):
-                    pk.HealPP();
-                    return ModifyResult.Modified;
-
-                case nameof(PKM.Move1_PP) or nameof(PKM.Move2_PP) or nameof(PKM.Move3_PP) or nameof(PKM.Move4_PP):
-                    pk.SetSuggestedMovePP(name[4] - '1'); // 0-3 int32
-                    return ModifyResult.Modified;
-
-                case nameof(PKM.Moves):
-                    return SetMoves(pk, info.Legality.GetMoveSet());
-
-                case nameof(PKM.Ball):
-                    BallApplicator.ApplyBallLegalByColor(pk);
-                    return ModifyResult.Modified;
-
-                default:
-                    return ModifyResult.Error;
-            }
-        }
-
-        /// <summary>
-        /// Sets the provided moves in a random order.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="moves">Moves to apply.</param>
-        private static ModifyResult SetMoves(PKM pk, int[] moves)
-        {
-            pk.SetMoves(moves);
-            pk.HealPP();
-            return ModifyResult.Modified;
+            var first = SuggestionMods.Find(z => z.IsMatch(name, propValue, info));
+            if (first != null)
+                return first.Modify(name, propValue, info);
+            return ModifyResult.Error;
         }
 
         /// <summary>
@@ -524,31 +397,17 @@ namespace PKHeX.Core
         /// <returns>True if modified, false if no modifications done.</returns>
         private static bool SetComplexProperty(PKM pk, StringInstruction cmd)
         {
-            static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-
-            if (cmd.PropertyName == nameof(PKM.MetDate))
-                pk.MetDate = ParseDate(cmd.PropertyValue);
-            else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                pk.EggMetDate = ParseDate(cmd.PropertyValue);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
-               pk.EncryptionConstant = Util.Rand32();
-            else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
-                pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
-                pk.SetPIDGender(pk.Gender);
-            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
-                pk.EncryptionConstant = pk.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture))
-                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0") ? Shiny.AlwaysSquare : cmd.PropertyValue.EndsWith("1") ? Shiny.AlwaysStar : Shiny.Random);
-            else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                Array.Clear(pk.Data, 0, pk.Data.Length);
-            else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
+            if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
+            {
                 SetRandomIVs(pk, cmd);
-            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))
-                pk.SetDefaultNickname();
-            else
+                return true;
+            }
+
+            var match = ComplexMods.Find(z => z.IsMatch(cmd.PropertyName, cmd.PropertyValue));
+            if (match == null)
                 return false;
 
+            match.Modify(pk, cmd);
             return true;
         }
 
@@ -568,5 +427,77 @@ namespace PKHeX.Core
             if (TryGetHasProperty(pk, cmd.PropertyName, out var pi))
                 ReflectUtil.SetValue(pi, pk, Util.Rand.Next(pk.MaxIV + 1));
         }
+
+        public static readonly List<IComplexFilter> FilterMods = new()
+        {
+            new ComplexFilter(PROP_LEGAL,
+                (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
+                (info, cmd) => info.Legality.Valid == cmd.Evaluator),
+
+            new ComplexFilter(IdentifierContains,
+                (pkm, cmd) => pkm.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator,
+                (info, cmd) => info.Entity.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator),
+        };
+
+        public static readonly List<ISuggestModification> SuggestionMods = new()
+        {
+            // PB7 Specific
+            new TypeSuggestion<PB7>(nameof(PB7.Stat_CP), p => p.ResetCP()),
+            new TypeSuggestion<PB7>(nameof(PB7.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
+            new TypeSuggestion<PB7>(nameof(PB7.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
+
+            // Date Copy
+            new TypeSuggestion<PKM>(nameof(PKM.EggMetDate), p => p.EggMetDate = p.MetDate),
+            new TypeSuggestion<PKM>(nameof(PKM.MetDate), p => p.MetDate = p.EggMetDate),
+
+            new TypeSuggestion<PKM>(nameof(PKM.Nature), p => p.Format >= 8, p => p.Nature = p.StatNature),
+            new TypeSuggestion<PKM>(nameof(PKM.StatNature), p => p.Format >= 8, p => p.StatNature = p.Nature),
+            new TypeSuggestion<PKM>(nameof(PKM.Stats), p => p.ResetPartyStats()),
+            new TypeSuggestion<PKM>(nameof(PKM.Ball), p => BallApplicator.ApplyBallLegalByColor(p)),
+            new TypeSuggestion<PKM>(nameof(PKM.Heal), p => p.Heal()),
+            new TypeSuggestion<PKM>(nameof(PKM.HealPP), p => p.HealPP()),
+            new TypeSuggestion<PKM>(nameof(IHyperTrain.HyperTrainFlags), p => p.SetSuggestedHyperTrainingData()),
+
+            new TypeSuggestion<PKM>(nameof(PKM.Move1_PP), p => p.SetSuggestedMovePP(0)),
+            new TypeSuggestion<PKM>(nameof(PKM.Move2_PP), p => p.SetSuggestedMovePP(1)),
+            new TypeSuggestion<PKM>(nameof(PKM.Move3_PP), p => p.SetSuggestedMovePP(2)),
+            new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.SetSuggestedMovePP(3)),
+
+            new ComplexSuggestion(nameof(PKM.Moves), (_, _, info) => SetMoves(info.Entity, info.Legality.GetMoveSet())),
+            new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => SetSuggestedRelearnData(info, value)),
+            new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => SetSuggestedRibbons(info, value)),
+            new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => SetSuggestedMetData(info)),
+        };
+
+        private static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
+        public static readonly List<IComplexSet> ComplexMods = new()
+        {
+            // Date
+            new ComplexSet(nameof(PKM.MetDate), (pk, cmd) => pk.MetDate = ParseDate(cmd.PropertyValue)),
+            new ComplexSet(nameof(PKM.EggMetDate), (pk, cmd) => pk.EggMetDate = ParseDate(cmd.PropertyValue)),
+
+            // Value Swap
+            new ComplexSet(nameof(PKM.EncryptionConstant), value => value == nameof(PKM.PID), (pk, _) => pk.EncryptionConstant = pk.PID),
+            new ComplexSet(nameof(PKM.PID), value => value == nameof(PKM.EncryptionConstant), (pk, _) => pk.PID = pk.EncryptionConstant),
+
+            // Realign to Derived Value
+            new ComplexSet(nameof(PKM.Ability), value => value.StartsWith("$"), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
+            new ComplexSet(nameof(PKM.AbilityNumber), value => value.StartsWith("$"), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
+
+            // Random
+            new ComplexSet(nameof(PKM.EncryptionConstant), value => value == CONST_RAND, (pk, _) => pk.EncryptionConstant = Util.Rand32()),
+            new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
+            new ComplexSet(nameof(PKM.Gender), value => value == CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
+
+            // Shiny
+            new ComplexSet(nameof(PKM.PID),
+                value => value.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture),
+                (pk, cmd) =>
+                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0") ? Shiny.AlwaysSquare : cmd.PropertyValue.EndsWith("1") ? Shiny.AlwaysStar : Shiny.Random)),
+
+            new ComplexSet(nameof(PKM.Species), value => value == "0", (pk, _) => Array.Clear(pk.Data, 0, pk.Data.Length)),
+            new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
+        };
     }
 }

@@ -45,7 +45,7 @@ namespace PKHeX.Core
             0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E,
         };
 
-        private static void CryptStaticXorpadBytes(byte[] data)
+        public static void CryptStaticXorpadBytes(byte[] data)
         {
             var xp = StaticXorpad;
             for (var i = 0; i < data.Length - SIZE_HASH; i++)
@@ -94,7 +94,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Decrypts the save data.
+        /// Decrypts the save data in-place, then unpacks the blocks.
         /// </summary>
         /// <param name="data">Encrypted save data</param>
         /// <returns>Decrypted blocks.</returns>
@@ -103,19 +103,8 @@ namespace PKHeX.Core
         /// </remarks>
         public static IReadOnlyList<SCBlock> Decrypt(byte[] data)
         {
-            var temp = GetDecryptedRawData(data);
-            return ReadBlocks(temp);
-        }
-
-        /// <summary>
-        /// Decrypts the save data, with raw block data concatenated together.
-        /// </summary>
-        public static byte[] GetDecryptedRawData(byte[] data)
-        {
-            // de-ref from input data, since we're going to modify the contents in-place
-            var temp = (byte[])data.Clone();
-            CryptStaticXorpadBytes(temp);
-            return temp;
+            CryptStaticXorpadBytes(data);
+            return ReadBlocks(data);
         }
 
         private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)

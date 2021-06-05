@@ -25,8 +25,6 @@ namespace PKHeX.Core
         protected override byte[] BoxBuffer => Storage;
         protected override byte[] PartyBuffer => General;
 
-        protected abstract int StorageSize { get; }
-        protected abstract int GeneralSize { get; }
         protected abstract int StorageStart { get; }
         public abstract Zukan4 Dex { get; }
 
@@ -36,20 +34,17 @@ namespace PKHeX.Core
         /// <inheritdoc />
         public override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
 
-        protected SAV4()
+        protected SAV4(int gSize, int sSize)
         {
-            Storage = new byte[StorageSize];
-            General = new byte[GeneralSize];
+            General = new byte[gSize];
+            Storage = new byte[sSize];
             ClearBoxes();
         }
 
-        protected SAV4(byte[] data) : base(data)
+        protected SAV4(byte[] data, int gSize, int sSize, int sStart) : base(data)
         {
-            var gSize = GeneralSize;
-            var sSize = StorageSize;
-            var sStart = StorageStart;
-            GeneralBlockPosition = GetActiveBlock(Data, 0, gSize);
-            StorageBlockPosition = GetActiveBlock(Data, sStart, sSize);
+            GeneralBlockPosition = GetActiveBlock(data, 0, gSize);
+            StorageBlockPosition = GetActiveBlock(data, sStart, sSize);
 
             var gbo = (GeneralBlockPosition == 0 ? 0 : PartitionSize);
             var sbo = (StorageBlockPosition == 0 ? 0 : PartitionSize) + sStart;
@@ -544,5 +539,11 @@ namespace PKHeX.Core
         }
 
         public byte[] GetMailData(int ofs) => General.Slice(ofs, Mail4.SIZE);
+
+        public Mail4 GetMail(int i)
+        {
+            int ofs = GetMailOffset(i);
+            return new Mail4(GetMailData(ofs), ofs);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -59,16 +60,7 @@ namespace PKHeX.Core
                 isShiny = shiny == Shiny.Always;
             }
 
-            if (isShiny)
-            {
-                if (!GetIsShiny(pk.TID, pk.SID, pid))
-                    pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
-            }
-            else
-            {
-                if (GetIsShiny(pk.TID, pk.SID, pid))
-                    pid ^= 0x1000_0000;
-            }
+            ForceShinyState(pk, isShiny, ref pid);
 
             if (pk.PID != pid)
                 return false;
@@ -179,6 +171,21 @@ namespace PKHeX.Core
             }
 
             return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
+        {
+            if (isShiny)
+            {
+                if (!GetIsShiny(pk.TID, pk.SID, pid))
+                    pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            }
+            else
+            {
+                if (GetIsShiny(pk.TID, pk.SID, pid))
+                    pid ^= 0x1000_0000;
+            }
         }
 
         private static bool ApplyDetailsTo(PKM pk, ulong seed, int[] ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)

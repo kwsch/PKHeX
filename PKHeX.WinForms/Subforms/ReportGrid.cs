@@ -127,7 +127,11 @@ namespace PKHeX.WinForms
             if (!cp)
                 return base.ProcessCmdKey(ref msg, keyData);
 
-            string data = dgData.GetClipboardContent().GetText();
+            var content = dgData.GetClipboardContent();
+            if (content == null)
+                return base.ProcessCmdKey(ref msg, keyData);
+
+            string data = content.GetText();
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
             if (dr != DialogResult.Yes)
             {

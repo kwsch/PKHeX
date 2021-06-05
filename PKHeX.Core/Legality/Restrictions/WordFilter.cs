@@ -9,9 +9,21 @@ namespace PKHeX.Core
     public static class WordFilter
     {
         /// <summary>
-        /// Source pattern regexes to check with
+        /// Regex patterns to check against
         /// </summary>
-        private static readonly string[] Patterns = Util.GetStringList("badwords");
+        /// <remarks>No need to keep the original pattern strings around; the <see cref="Regex"/> object retrieves this via <see cref="Regex.ToString()"/></remarks>
+        private static readonly Regex[] Regexes = LoadPatterns(Util.GetStringList("badwords"));
+
+        // if you're running this as a server and don't mind a few extra seconds of startup, add RegexOptions.Compiled for slightly better checking.
+        private const RegexOptions Options = RegexOptions.CultureInvariant;
+
+        private static Regex[] LoadPatterns(IReadOnlyList<string> patterns)
+        {
+            var result = new Regex[patterns.Count];
+            for (int i = 0; i < patterns.Count; i++)
+                result[i] = new Regex(patterns[i], Options);
+            return result;
+        }
 
         /// <summary>
         /// Due to some messages repeating (Trainer names), keep a list of repeated values for faster lookup.
@@ -43,13 +55,13 @@ namespace PKHeX.Core
             }
 
             // not in dictionary, check patterns
-            foreach (var pattern in Patterns)
+            foreach (var regex in Regexes)
             {
-                if (!Regex.IsMatch(msg, pattern))
+                if (!regex.IsMatch(msg))
                     continue;
 
                 // match found, cache result
-                regMatch = pattern;
+                regMatch = regex.ToString(); // fetches from regex field
                 lock (dictLock)
                     Lookup[msg] = regMatch;
                 return true;

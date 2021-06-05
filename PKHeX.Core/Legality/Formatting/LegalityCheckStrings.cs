@@ -308,6 +308,9 @@ namespace PKHeX.Core
         public static string LMemoryMissingHT { get; set; } = "Memory: Handling Trainer Memory missing.";
         public static string LMemoryMissingOT { get; set; } = "Memory: Original Trainer Memory missing.";
 
+        public static string LMemorySocialZero { get; set; } = "Social Stat should be zero.";
+        public static string LMemorySocialTooHigh_0 { get; set; } = "Social Stat should be <= {0}";
+
         public static string LMemoryStatAffectionHT0 { get; set; } = "Untraded: Handling Trainer Affection should be 0.";
         public static string LMemoryStatAffectionOT0 { get; set; } = "OT Affection should be 0.";
         public static string LMemoryStatFriendshipHT0 { get; set; } = "Untraded: Handling Trainer Friendship should be 0.";

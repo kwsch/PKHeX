@@ -213,14 +213,14 @@ namespace PKHeX.Core
 
         public static int GetSilvallyFormFromHeldItem(int item)
         {
-            if (904 <= item && item <= 920)
+            if (item is >= 904 and <= 920)
                 return item - 903;
             return 0;
         }
 
         public static int GetGenesectFormFromHeldItem(int item)
         {
-            if (116 <= item && item <= 119)
+            if (item is >= 116 and <= 119)
                 return item - 115;
             return 0;
         }

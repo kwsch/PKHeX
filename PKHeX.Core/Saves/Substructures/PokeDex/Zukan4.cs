@@ -281,6 +281,8 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (species is 0 or > Legal.MaxSpeciesID_4)
                 return;
+            if (pkm.IsEgg) // do not add
+                return;
 
             var gender = pkm.Gender;
             var form = pkm.Form;
@@ -292,6 +294,7 @@ namespace PKHeX.Core
         {
             SetCaught(species);
             SetSeenGender(species, gender);
+            SetSeen(species);
             SetForms(species, form, gender);
             SetLanguage(species, language);
         }

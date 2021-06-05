@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -130,7 +129,7 @@ namespace PKHeX.Core
         private string GetString(int offset, int length) => StringConverter12.GetString1(Data, offset, length - 1, Japanese);
         private byte[] SetString(string value, int length) => StringConverter12.SetString1(value, length - 1, Japanese);
 
-        protected override IEnumerable<byte> GetNonNickname(int language)
+        protected override byte[] GetNonNickname(int language)
         {
             var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
             return SetString(name, StringLength);

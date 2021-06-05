@@ -39,9 +39,10 @@ namespace PKHeX.Core
 
             sav.ApplyTo(pk);
 
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language, version);
             pk.Species = Species;
             pk.Form = Form;
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, gen);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
             pk.Ball = (int)Ball.Poke;
@@ -51,13 +52,21 @@ namespace PKHeX.Core
             pk.HealPP();
             SetPINGA(pk, criteria);
 
-            if (gen <= 2 && version != GameVersion.C)
+            if (gen <= 2)
+            {
+                if (version != GameVersion.C)
+                {
+                    pk.OT_Gender = 0;
+                }
+                else
+                {
+                    pk.Met_Location = Locations.HatchLocationC;
+                    pk.Met_Level = 1;
+                }
                 return pk;
+            }
 
             SetMetData(pk);
-
-            if (gen < 3)
-                return pk;
 
             if (gen >= 4)
                 pk.SetEggMetData(version, (GameVersion)sav.Game);

@@ -128,8 +128,6 @@ namespace PKHeX.Core
 
         public override void SetDex(PKM pkm)
         {
-            if (SAV.Version == GameVersion.Invalid) // sanity
-                return;
             if ((uint)(pkm.Species - 1) >= (uint)SAV.MaxSpeciesID) // out of range
                 return;
             if (pkm.IsEgg) // do not add

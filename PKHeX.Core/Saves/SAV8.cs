@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen <= 8; // future: change to <= when HOME released
+            return gen <= 8;
         }).ToArray();
 
         protected SAV8(byte[] data) : base(data) { }

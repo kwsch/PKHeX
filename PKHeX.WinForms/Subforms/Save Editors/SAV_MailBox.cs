@@ -68,13 +68,9 @@ namespace PKHeX.WinForms
                 case SAV3 sav3:
                     m = new Mail3[6 + 10];
                     for (int i = 0; i < m.Length; i++)
-                    {
-                        var ofs = sav3.GetMailOffset(i);
-                        var data = sav3.Large.Slice(ofs, Mail3.SIZE);
-                        m[i] = new Mail3(data, ofs, sav3.Japanese);
-                    }
+                        m[i] = sav3.GetMail(i);
 
-                    MailItemID = Enumerable.Range(0x79, 12).ToArray();
+                    MailItemID = new[] {121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132};
                     PartyBoxCount = 6;
                     break;
                 case SAV4 sav4:
@@ -82,14 +78,11 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail4(((PK4)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                    {
-                        int ofs = sav4.GetMailOffset(j);
-                        m[i] = new Mail4(sav4.GetMailData(ofs), ofs);
-                    }
-                    var l4 = (Mail4)m.Last();
+                        m[i] = sav4.GetMail(j);
+                    var l4 = (Mail4)m[^1];
                     ResetVer = l4.AuthorVersion;
                     ResetLang = l4.AuthorLanguage;
-                    MailItemID = Enumerable.Range(0x89, 12).ToArray();
+                    MailItemID = new[] {137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148};
                     PartyBoxCount = p.Count;
                     break;
                 case SAV5 sav5:
@@ -97,15 +90,11 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail5(((PK5)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                    {
-                        int ofs = SAV5.GetMailOffset(j);
-                        var data = sav5.GetMailData(ofs);
-                        m[i] = new Mail5(data, ofs);
-                    }
-                    var l5 = (Mail5)m.Last();
+                        m[i] = sav5.GetMail(j);
+                    var l5 = (Mail5)m[^1];
                     ResetVer = l5.AuthorVersion;
                     ResetLang = l5.AuthorLanguage;
-                    MailItemID = Enumerable.Range(0x89, 12).ToArray();
+                    MailItemID = new[] {137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148};
                     PartyBoxCount = p.Count;
                     break;
             }
@@ -221,7 +210,7 @@ namespace PKHeX.WinForms
                 if (Gen != 3)
                     continue;
                 int k = ((PK3)p[i]).HeldMailID;
-                PKMNUDs[i].Value = k >= -1 && k <= 5 ? k : -1;
+                PKMNUDs[i].Value = k is >= -1 and <= 5 ? k : -1;
             }
             editing = false;
         }

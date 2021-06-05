@@ -99,7 +99,7 @@ namespace PKHeX.Core
                     }
 
                     var data = File.ReadAllBytes(f);
-                    data.CopyTo(block.Data, 0);
+                    block.ChangeData(data);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch

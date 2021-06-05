@@ -202,7 +202,7 @@ namespace PKHeX.Core
 
         public BV3 BattleVideo
         {
-            get => !HasBattleVideo ? new() : new(Data.Slice(OFS_BV + 4, BV3.SIZE));
+            get => !HasBattleVideo ? new BV3() : new BV3(Data.Slice(OFS_BV + 4, BV3.SIZE));
             set => SetData(Data, value.Data, OFS_BV + 4);
         }
     }

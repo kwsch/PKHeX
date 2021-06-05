@@ -60,7 +60,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new PK8((byte[])Data.Clone()) { Identifier = Identifier };
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
@@ -356,7 +356,7 @@ namespace PKHeX.Core
             return (d[0x44] & 3) != 0;
         }
 
-        public uint U48 { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
+        public uint Sociability { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
 
         // 0x4C-0x4F unused
 

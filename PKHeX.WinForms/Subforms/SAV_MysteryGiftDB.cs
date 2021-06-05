@@ -212,14 +212,16 @@ namespace PKHeX.WinForms
         {
             var db = EncounterEvent.GetAllEvents();
 
-            // when all sprites in new size are available, remove this filter
-            db = SAV switch
+            if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
             {
-                SAV8SWSH => db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame),
-                SAV7b => db.Where(z => z is WB7),
-                SAV7 => db.Where(z => z.Generation < 7 || z is WC7),
-                _ => db.Where(z => z.Generation <= SAV.Generation)
-            };
+                db = SAV switch
+                {
+                    SAV8SWSH => db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame),
+                    SAV7b => db.Where(z => z is WB7),
+                    SAV7 => db.Where(z => z.Generation < 7 || z is WC7),
+                    _ => db.Where(z => z.Generation <= SAV.Generation)
+                };
+            }
 
             RawDB = new List<MysteryGift>(db);
             foreach (var mg in RawDB)
@@ -329,6 +331,7 @@ namespace PKHeX.WinForms
         private void SetResults(List<MysteryGift> res)
         {
             Results = new List<MysteryGift>(res);
+            ShowSet.Clear();
 
             SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);
             if (SCR_Box.Maximum > 0) SCR_Box.Maximum--;

@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4HGSS : SAV4
     {
-        public SAV4HGSS()
+        public SAV4HGSS() : base(GeneralSize, StorageSize)
         {
             Initialize();
             Dex = new Zukan4(this, PokeDex);
         }
 
-        public SAV4HGSS(byte[] data) : base(data)
+        public SAV4HGSS(byte[] data) : base(data, GeneralSize, StorageSize, GeneralSize + GeneralGap)
         {
             Initialize();
             Dex = new Zukan4(this, PokeDex);
@@ -26,8 +26,9 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.HGSS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
         public override int MaxItemID => Legal.MaxItemID_4_HGSS;
-        protected override int GeneralSize => 0xF628;
-        protected override int StorageSize => 0x12310; // Start 0xF700, +0 starts box data
+        private const int GeneralSize = 0xF628;
+        private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data
+        private const int GeneralGap = 0xD8;
         protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?
         protected override int FooterSize => 0x10;
 
@@ -223,6 +224,7 @@ namespace PKHeX.Core
         public void SetApricornCount(int i, int count) => General[0xE558 + i] = (byte)count;
 
         // Pokewalker
+        public const int WalkerPair = 0xE5E0;
         private const int OFS_WALKER = 0xE704;
 
         public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }

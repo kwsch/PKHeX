@@ -282,7 +282,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? GBPKML.STRLEN_J : GBPKML.STRLEN_U;
+        private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
         // Checksums
         private ushort GetChecksum()
@@ -534,22 +534,13 @@ namespace PKHeX.Core
         protected override void SetDex(PKM pkm)
         {
             int species = pkm.Species;
-            if (!CanSetDex(species))
+            if (species is 0 or > Legal.MaxSpeciesID_2)
+                return;
+            if (pkm.IsEgg)
                 return;
 
             SetCaught(pkm.Species, true);
             SetSeen(pkm.Species, true);
-        }
-
-        private bool CanSetDex(int species)
-        {
-            if (species <= 0)
-                return false;
-            if (species > MaxSpeciesID)
-                return false;
-            if (Version == GameVersion.Invalid)
-                return false;
-            return true;
         }
 
         private void SetUnownFormFlags()
@@ -705,8 +696,8 @@ namespace PKHeX.Core
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength);
-            return StringConverter12.SetString1(value, maxLength, Japanese);
+                return StringConverter2KOR.SetString2KOR(value, maxLength, PadToSize, (byte)PadWith);
+            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
         }
 
         public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;

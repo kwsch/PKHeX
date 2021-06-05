@@ -129,11 +129,11 @@ namespace PKHeX.Core
             if (!e.MoveNext())
                 return;
 
-            ParseFirstLine(e.Current);
+            ParseFirstLine(e.Current!);
             int movectr = 0;
             while (e.MoveNext())
             {
-                var line = e.Current;
+                var line = e.Current!;
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 

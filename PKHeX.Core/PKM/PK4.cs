@@ -32,7 +32,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
 
         private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
 
         // Structure
         public override uint PID { get => BitConverter.ToUInt32(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
@@ -235,7 +235,7 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
-                else if ((value < 2000 && value > 111) || Locations.IsPtHGSSLocationEgg(value))
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);

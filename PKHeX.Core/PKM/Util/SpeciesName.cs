@@ -81,13 +81,12 @@ namespace PKHeX.Core
         /// <returns>Generation specific default species name</returns>
         public static string GetSpeciesNameGeneration(int species, int language, int generation)
         {
-            if (generation < 5)
-                return GetSpeciesName1234(species, language, generation);
-
-            if (generation == 7 && language == (int) LanguageID.ChineseS)
-                return GetSpeciesName7ZH(species, language);
-
-            return GetSpeciesName(species, language);
+            return generation switch
+            {
+                <= 4 => GetSpeciesName1234(species, language, generation),
+                7 when language == (int) LanguageID.ChineseS => GetSpeciesName7ZH(species, language),
+                _ => GetSpeciesName(species, language)
+            };
         }
 
         private static string GetSpeciesName1234(int species, int language, int generation)

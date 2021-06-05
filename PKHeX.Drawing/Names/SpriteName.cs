@@ -74,11 +74,9 @@ namespace PKHeX.Drawing
         private static readonly HashSet<int> SpeciesDefaultFormSprite = new()
         {
             (int)Species.Mothim,
-            (int)Species.Arceus,
             (int)Species.Scatterbug,
             (int)Species.Spewpa,
             (int)Species.Rockruff,
-            (int)Species.Silvally,
             (int)Species.Mimikyu,
             (int)Species.Sinistea,
             (int)Species.Polteageist,

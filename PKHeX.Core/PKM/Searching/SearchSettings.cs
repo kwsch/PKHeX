@@ -114,7 +114,7 @@ namespace PKHeX.Core.Searching
             if (SearchEgg != null)
                 res = FilterResultEgg(res);
 
-            if (Level != null)
+            if (Level is not null or 0)
                 res = SearchUtil.FilterByLevel(res, SearchLevel, (int)Level);
 
             if (SearchLegal != null)

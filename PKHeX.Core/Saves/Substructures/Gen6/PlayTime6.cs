@@ -35,7 +35,7 @@ namespace PKHeX.Core
         public DateTime? LastSavedDate
         {
             get => !DateUtil.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay)
-                ? (DateTime?)null
+                ? null
                 : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
             set
             {

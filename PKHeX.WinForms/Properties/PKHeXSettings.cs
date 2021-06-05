@@ -28,6 +28,9 @@ namespace PKHeX.WinForms
         // GUI Specific
         public DrawConfig Draw { get; set; } = new();
         public AdvancedSettings Advanced { get; set; } = new();
+        public EntityDatabaseSettings EntityDb { get; set; } = new();
+        public EncounterDatabaseSettings EncounterDb { get; set; } = new();
+        public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
 
         public static PKHeXSettings GetSettings(string configPath)
         {
@@ -118,6 +121,12 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Automatically Detect Save File on Program Startup")]
         public AutoLoadSetting AutoLoadSaveOnStartup { get; set; } = AutoLoadSetting.RecentBackup;
 
+        [LocalizedDescription("Show the changelog when a new version of the program is run for the first time.")]
+        public bool ShowChangelogOnUpdate { get; set; } = true;
+
+        [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists.")]
+        public bool LoadPlugins { get; set; } = true;
+
         public List<string> RecentlyLoaded = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.
@@ -203,6 +212,39 @@ namespace PKHeX.WinForms
     {
         [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
         public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
+    }
+
+    [Serializable]
+    public class EntityDatabaseSettings
+    {
+        [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
+        public bool SearchBackups { get; set; } = true;
+
+        [LocalizedDescription("When loading content for the PKM Database, search within OtherBackupPaths.")]
+        public bool SearchExtraSaves { get; set; } = true;
+
+        [LocalizedDescription("When loading content for the PKM Database, search subfolders within OtherBackupPaths.")]
+        public bool SearchExtraSavesDeep { get; set; } = true;
+
+        [LocalizedDescription("Hides unavailable Species if the currently loaded save file cannot import them.")]
+        public bool FilterUnavailableSpecies { get; set; } = true;
+    }
+
+    [Serializable]
+    public class EncounterDatabaseSettings
+    {
+        [LocalizedDescription("Skips searching if the user forgot to enter Species / Move(s) into the search criteria.")]
+        public bool ReturnNoneIfEmptySearch { get; set; } = true;
+
+        [LocalizedDescription("Hides unavailable Species if the currently loaded save file cannot import them.")]
+        public bool FilterUnavailableSpecies { get; set; } = true;
+    }
+
+    [Serializable]
+    public class MysteryGiftDatabaseSettings
+    {
+        [LocalizedDescription("Hides gifts if the currently loaded save file cannot (indirectly) receive them.")]
+        public bool FilterUnavailableSpecies { get; set; } = true;
     }
 
     [Serializable]

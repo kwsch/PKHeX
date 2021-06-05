@@ -165,18 +165,18 @@ namespace PKHeX.Core
             return version switch
             {
                 CXD      when currentGen == 3 => MetGen3CXD,
-                R or S   when currentGen == 3 => Partition1(MetGen3, z => z is <= 87), // Ferry
+                R or S   when currentGen == 3 => Partition1(MetGen3, z => z    <= 87), // Ferry
                 E        when currentGen == 3 => Partition1(MetGen3, z => z is <= 87 or >= 197 and <= 212), // Trainer Hill
                 FR or LG when currentGen == 3 => Partition1(MetGen3, z => z is > 87 and < 197), // Celadon Dept.
-                D or P   when currentGen == 4 => Partition2(MetGen4, z => z is <= 111, 4), // Battle Park
-                Pt       when currentGen == 4 => Partition2(MetGen4, z => z is <= 125, 4), // Rock Peak Ruins
+                D or P   when currentGen == 4 => Partition2(MetGen4, z => z    <= 111, 4), // Battle Park
+                Pt       when currentGen == 4 => Partition2(MetGen4, z => z    <= 125, 4), // Rock Peak Ruins
                 HG or SS when currentGen == 4 => Partition2(MetGen4, z => z is > 125 and < 234, 4), // Celadon Dept.
 
                 B  or W  => MetGen5,
-                B2 or W2 => Partition2(MetGen5, z => z is <= 116), // Abyssal Ruins
-                X  or Y  => Partition2(MetGen6, z => z is <= 168), // Unknown Dungeon
+                B2 or W2 => Partition2(MetGen5, z => z    <= 116), // Abyssal Ruins
+                X  or Y  => Partition2(MetGen6, z => z    <= 168), // Unknown Dungeon
                 OR or AS => Partition2(MetGen6, z => z is > 168 and <= 354), // Secret Base
-                SN or MN => Partition2(MetGen7, z => z is < 200), // Outer Cape
+                SN or MN => Partition2(MetGen7, z => z    < 200), // Outer Cape
                 US or UM
                    or RD or BU or GN or YW
                    or GD or SV or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel

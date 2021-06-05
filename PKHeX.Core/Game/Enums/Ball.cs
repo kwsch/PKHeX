@@ -47,6 +47,6 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ball">Ball ID</param>
         /// <returns>True if Apricorn, false if not.</returns>
-        public static bool IsApricornBall(this Ball ball) => Ball.Fast <= ball && ball <= Ball.Moon;
+        public static bool IsApricornBall(this Ball ball) => ball is >= Ball.Fast and <= Ball.Moon;
     }
 }

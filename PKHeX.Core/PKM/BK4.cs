@@ -256,7 +256,7 @@ namespace PKHeX.Core
                     BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x44);
                     BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
-                else if ((value < 2000 && value > 111) || Locations.IsPtHGSSLocationEgg(value))
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x44);
@@ -287,7 +287,7 @@ namespace PKHeX.Core
                     BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x46);
                     BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
-                else if ((value < 2000 && value > 111) || Locations.IsPtHGSSLocationEgg(value))
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
                 {
                     // Met location not in DP, set to Faraway Place
                     BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x46);

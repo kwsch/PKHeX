@@ -32,7 +32,7 @@ namespace PKHeX.Core
             return GetMatchingGifts(pkm, table, chain);
         }
 
-        private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm) => generation switch
+        private static IReadOnlyCollection<MysteryGift> GetTable(int generation, PKM pkm) => generation switch
         {
             3 => MGDB_G3,
             4 => MGDB_G4,
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             _ => Array.Empty<MysteryGift>()
         };
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB, IReadOnlyList<DexLevel> chain)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, IReadOnlyList<DexLevel> chain)
         {
             if (PGT.IsRangerManaphy(pkm))
             {
@@ -55,7 +55,7 @@ namespace PKHeX.Core
                 yield return g;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyCollection<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
         {
             foreach (var mg in DB)
             {

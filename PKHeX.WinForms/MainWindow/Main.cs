@@ -39,7 +39,9 @@ namespace PKHeX.WinForms
             FormLoadCustomBackupPaths();
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
-            FormLoadPlugins();
+
+            if (Settings.Startup.LoadPlugins)
+                FormLoadPlugins();
 
             if (HaX)
             {
@@ -259,7 +261,7 @@ namespace PKHeX.WinForms
             showChangelog = false;
 
             // Version Check
-            if (Settings.Startup.Version.Length > 0) // already run on system
+            if (Settings.Startup.Version.Length > 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
             {
                 bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
                 showChangelog = parsed && lastrev < CurrentProgramVersion;
@@ -1031,8 +1033,13 @@ namespace PKHeX.WinForms
             if (verbose)
             {
                 var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
-                if (dr == DialogResult.Yes)
-                    WinFormsUtil.SetClipboardText(report);
+                if (dr != DialogResult.Yes)
+                    return;
+#if DEBUG
+                var enc = SummaryPreviewer.GetTextLines(la.EncounterOriginal);
+                report += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
+#endif
+                WinFormsUtil.SetClipboardText(report);
             }
             else if (Settings.Display.IgnoreLegalPopup && la.Valid)
             {

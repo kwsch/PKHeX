@@ -13,8 +13,8 @@ namespace PKHeX.WinForms
 
         private readonly Zukan7b Dex;
         private readonly CaptureRecords Captured;
-        private int Index = -1;
-        private bool Loading = true;
+        private int Index;
+        private bool Loading;
 
         public SAV_Capture7GG(SaveFile sav)
         {
@@ -24,6 +24,8 @@ namespace PKHeX.WinForms
             Dex = SAV.Blocks.Zukan;
             Captured = SAV.Blocks.Captured;
 
+            Loading = true;
+            Index = -1;
             // Clear Listbox and ComboBox
             LB_Species.Items.Clear();
             CB_Species.Items.Clear();

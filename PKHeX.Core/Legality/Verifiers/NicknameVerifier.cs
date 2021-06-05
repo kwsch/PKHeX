@@ -218,7 +218,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private void VerifyNicknameEgg(LegalityAnalysis data)
+        private static void VerifyNicknameEgg(LegalityAnalysis data)
         {
             var Info = data.Info;
             var pkm = data.pkm;

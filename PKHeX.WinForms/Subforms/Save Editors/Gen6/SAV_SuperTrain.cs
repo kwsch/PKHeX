@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -51,8 +52,8 @@ namespace PKHeX.WinForms
             FillTrainingBags();
 
             CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * 30));
-            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 30)).ToString();
-            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 31)).ToString();
+            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 30)).ToString(CultureInfo.InvariantCulture);
+            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 31)).ToString(CultureInfo.InvariantCulture);
         }
 
         private void FillTrainingBags()
@@ -113,7 +114,7 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             loading = true;
-            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString();
+            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString(CultureInfo.InvariantCulture);
             TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + (4 * index)).ToString();
             CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * index));
             loading = false;

@@ -30,6 +30,23 @@
             return loc is 180 or 186 or 194;
         }
 
+        protected override bool IsMatchEggLocation(PKM pkm)
+        {
+            var eggloc = pkm.Egg_Location;
+            if (!EggEncounter)
+                return eggloc == EggLocation;
+
+            if (!pkm.IsEgg) // hatched
+                return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+
+            // Unhatched:
+            if (eggloc != EggLocation)
+                return false;
+            if (pkm.Met_Location is not 0 or Locations.LinkTrade6)
+                return false;
+            return true;
+        }
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);

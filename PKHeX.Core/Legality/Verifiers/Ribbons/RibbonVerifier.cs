@@ -69,8 +69,8 @@ namespace PKHeX.Core
                 if (HasFlag(value) || HasCount(value))
                     return true;
 
-                static bool HasFlag(object o) => o is bool z && z;
-                static bool HasCount(object o) => o is int z && z > 0;
+                static bool HasFlag(object o) => o is true;
+                static bool HasCount(object o) => o is > 0;
             }
             return false;
         }
@@ -84,11 +84,10 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc)
         {
-            if (pkm is IRibbonSetOnly3 o3)
-            {
-                if (o3.RibbonWorld) // is a part of Event4, but O3 doesn't have the others
-                    yield return new RibbonResult(nameof(o3.RibbonWorld));
-            }
+            // is a part of Event4, but O3 doesn't have the others
+            if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
+                yield return new RibbonResult(nameof(IRibbonSetOnly3.RibbonWorld));
+
             if (pkm is IRibbonSetUnique3 u3)
             {
                 if (enc.Generation != 3)

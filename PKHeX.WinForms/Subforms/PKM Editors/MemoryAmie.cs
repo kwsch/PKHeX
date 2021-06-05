@@ -70,6 +70,9 @@ namespace PKHeX.WinForms
                 M_CT_Affection.Text = a.HT_Affection.ToString();
             }
 
+            if (pkm is PK8 pk8)
+                MT_Sociability.Text = Math.Min(byte.MaxValue, pk8.Sociability).ToString();
+
             if (pkm is ITrainerMemories m)
             {
                 // Load the OT Memories
@@ -97,6 +100,7 @@ namespace PKHeX.WinForms
 
             GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled =
             BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled =
+            L_Sociability.Enabled = MT_Sociability.Enabled = 
             L_Fullness.Enabled = L_Enjoyment.Enabled = !pkm.IsEgg;
 
             if (!pkm.IsEgg)
@@ -145,6 +149,7 @@ namespace PKHeX.WinForms
 
             // Affection no longer stored in gen8+, so only show in gen6/7.
             L_OT_Affection.Visible = L_CT_Affection.Visible = M_OT_Affection.Visible = M_CT_Affection.Visible = pkm.Format <= 7;
+            L_Sociability.Visible = MT_Sociability.Visible = pkm.Format >= 8;
         }
 
         private void SaveFields()
@@ -189,6 +194,9 @@ namespace PKHeX.WinForms
                 m.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
                 m.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
             }
+
+            if (pkm is PK8 pk8)
+                pk8.Sociability = (byte)Util.ToInt32(MT_Sociability.Text);
         }
 
         // Event Actions

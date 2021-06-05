@@ -85,6 +85,9 @@
             this.L_CT_TextLine = new System.Windows.Forms.Label();
             this.L_CT_Quality = new System.Windows.Forms.Label();
             this.Tab_Residence = new System.Windows.Forms.TabPage();
+            this.Tab_Other = new System.Windows.Forms.TabPage();
+            this.MT_Sociability = new System.Windows.Forms.MaskedTextBox();
+            this.L_Sociability = new System.Windows.Forms.Label();
             this.L_Handler = new System.Windows.Forms.Label();
             this.CB_Handler = new System.Windows.Forms.ComboBox();
             this.L_Arguments = new System.Windows.Forms.Label();
@@ -95,11 +98,13 @@
             this.Tab_CTMemory.SuspendLayout();
             this.GB_M_CT.SuspendLayout();
             this.Tab_Residence.SuspendLayout();
+            this.Tab_Other.SuspendLayout();
             this.SuspendLayout();
             // 
             // BTN_Save
             // 
-            this.BTN_Save.Location = new System.Drawing.Point(286, 266);
+            this.BTN_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_Save.Location = new System.Drawing.Point(286, 242);
             this.BTN_Save.Name = "BTN_Save";
             this.BTN_Save.Size = new System.Drawing.Size(76, 23);
             this.BTN_Save.TabIndex = 30;
@@ -109,7 +114,8 @@
             // 
             // BTN_Cancel
             // 
-            this.BTN_Cancel.Location = new System.Drawing.Point(204, 266);
+            this.BTN_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BTN_Cancel.Location = new System.Drawing.Point(204, 242);
             this.BTN_Cancel.Name = "BTN_Cancel";
             this.BTN_Cancel.Size = new System.Drawing.Size(76, 23);
             this.BTN_Cancel.TabIndex = 29;
@@ -488,25 +494,25 @@
             // 
             // L_Enjoyment
             // 
-            this.L_Enjoyment.Location = new System.Drawing.Point(94, 271);
+            this.L_Enjoyment.Location = new System.Drawing.Point(43, 82);
             this.L_Enjoyment.Name = "L_Enjoyment";
-            this.L_Enjoyment.Size = new System.Drawing.Size(70, 13);
+            this.L_Enjoyment.Size = new System.Drawing.Size(120, 13);
             this.L_Enjoyment.TabIndex = 99;
             this.L_Enjoyment.Text = "Enjoyment:";
             this.L_Enjoyment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Fullness
             // 
-            this.L_Fullness.Location = new System.Drawing.Point(1, 271);
+            this.L_Fullness.Location = new System.Drawing.Point(43, 56);
             this.L_Fullness.Name = "L_Fullness";
-            this.L_Fullness.Size = new System.Drawing.Size(60, 13);
+            this.L_Fullness.Size = new System.Drawing.Size(120, 13);
             this.L_Fullness.TabIndex = 98;
             this.L_Fullness.Text = "Fullness:";
             this.L_Fullness.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // M_Enjoyment
             // 
-            this.M_Enjoyment.Location = new System.Drawing.Point(167, 268);
+            this.M_Enjoyment.Location = new System.Drawing.Point(174, 79);
             this.M_Enjoyment.Mask = "000";
             this.M_Enjoyment.Name = "M_Enjoyment";
             this.M_Enjoyment.Size = new System.Drawing.Size(24, 20);
@@ -516,7 +522,7 @@
             // 
             // M_Fullness
             // 
-            this.M_Fullness.Location = new System.Drawing.Point(64, 268);
+            this.M_Fullness.Location = new System.Drawing.Point(174, 53);
             this.M_Fullness.Mask = "000";
             this.M_Fullness.Name = "M_Fullness";
             this.M_Fullness.Size = new System.Drawing.Size(24, 20);
@@ -526,13 +532,18 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.Tab_OTMemory);
             this.tabControl1.Controls.Add(this.Tab_CTMemory);
             this.tabControl1.Controls.Add(this.Tab_Residence);
-            this.tabControl1.Location = new System.Drawing.Point(7, 7);
+            this.tabControl1.Controls.Add(this.Tab_Other);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(355, 228);
+            this.tabControl1.Size = new System.Drawing.Size(376, 236);
             this.tabControl1.TabIndex = 0;
             // 
             // Tab_OTMemory
@@ -541,7 +552,7 @@
             this.Tab_OTMemory.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMemory.Name = "Tab_OTMemory";
             this.Tab_OTMemory.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMemory.Size = new System.Drawing.Size(347, 202);
+            this.Tab_OTMemory.Size = new System.Drawing.Size(368, 210);
             this.Tab_OTMemory.TabIndex = 1;
             this.Tab_OTMemory.Text = "Memories with OT";
             this.Tab_OTMemory.UseVisualStyleBackColor = true;
@@ -552,7 +563,7 @@
             this.Tab_CTMemory.Location = new System.Drawing.Point(4, 22);
             this.Tab_CTMemory.Name = "Tab_CTMemory";
             this.Tab_CTMemory.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_CTMemory.Size = new System.Drawing.Size(347, 202);
+            this.Tab_CTMemory.Size = new System.Drawing.Size(368, 210);
             this.Tab_CTMemory.TabIndex = 2;
             this.Tab_CTMemory.Text = "Memories with notOT";
             this.Tab_CTMemory.UseVisualStyleBackColor = true;
@@ -707,14 +718,50 @@
             this.Tab_Residence.Location = new System.Drawing.Point(4, 22);
             this.Tab_Residence.Name = "Tab_Residence";
             this.Tab_Residence.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Residence.Size = new System.Drawing.Size(347, 202);
+            this.Tab_Residence.Size = new System.Drawing.Size(368, 210);
             this.Tab_Residence.TabIndex = 0;
             this.Tab_Residence.Text = "Residence";
             this.Tab_Residence.UseVisualStyleBackColor = true;
             // 
+            // Tab_Other
+            // 
+            this.Tab_Other.Controls.Add(this.MT_Sociability);
+            this.Tab_Other.Controls.Add(this.L_Sociability);
+            this.Tab_Other.Controls.Add(this.M_Enjoyment);
+            this.Tab_Other.Controls.Add(this.L_Handler);
+            this.Tab_Other.Controls.Add(this.M_Fullness);
+            this.Tab_Other.Controls.Add(this.L_Fullness);
+            this.Tab_Other.Controls.Add(this.CB_Handler);
+            this.Tab_Other.Controls.Add(this.L_Enjoyment);
+            this.Tab_Other.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Other.Name = "Tab_Other";
+            this.Tab_Other.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Other.Size = new System.Drawing.Size(368, 210);
+            this.Tab_Other.TabIndex = 3;
+            this.Tab_Other.Text = "Other";
+            this.Tab_Other.UseVisualStyleBackColor = true;
+            // 
+            // MT_Sociability
+            // 
+            this.MT_Sociability.Location = new System.Drawing.Point(174, 105);
+            this.MT_Sociability.Mask = "000";
+            this.MT_Sociability.Name = "MT_Sociability";
+            this.MT_Sociability.Size = new System.Drawing.Size(24, 20);
+            this.MT_Sociability.TabIndex = 102;
+            this.MT_Sociability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_Sociability
+            // 
+            this.L_Sociability.Location = new System.Drawing.Point(43, 108);
+            this.L_Sociability.Name = "L_Sociability";
+            this.L_Sociability.Size = new System.Drawing.Size(120, 13);
+            this.L_Sociability.TabIndex = 103;
+            this.L_Sociability.Text = "Sociability:";
+            this.L_Sociability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // L_Handler
             // 
-            this.L_Handler.Location = new System.Drawing.Point(44, 242);
+            this.L_Handler.Location = new System.Drawing.Point(43, 29);
             this.L_Handler.Name = "L_Handler";
             this.L_Handler.Size = new System.Drawing.Size(120, 13);
             this.L_Handler.TabIndex = 101;
@@ -726,15 +773,16 @@
             this.CB_Handler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Handler.Enabled = false;
             this.CB_Handler.FormattingEnabled = true;
-            this.CB_Handler.Location = new System.Drawing.Point(175, 239);
+            this.CB_Handler.Location = new System.Drawing.Point(174, 26);
             this.CB_Handler.Name = "CB_Handler";
             this.CB_Handler.Size = new System.Drawing.Size(117, 21);
             this.CB_Handler.TabIndex = 26;
             // 
             // L_Arguments
             // 
+            this.L_Arguments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.L_Arguments.AutoSize = true;
-            this.L_Arguments.Location = new System.Drawing.Point(338, 4);
+            this.L_Arguments.Location = new System.Drawing.Point(12, 252);
             this.L_Arguments.Name = "L_Arguments";
             this.L_Arguments.Size = new System.Drawing.Size(33, 13);
             this.L_Arguments.TabIndex = 102;
@@ -746,18 +794,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(374, 297);
+            this.ClientSize = new System.Drawing.Size(374, 273);
             this.Controls.Add(this.L_Arguments);
-            this.Controls.Add(this.L_Handler);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.CB_Handler);
             this.Controls.Add(this.BTN_Cancel);
             this.Controls.Add(this.BTN_Save);
-            this.Controls.Add(this.L_Enjoyment);
-            this.Controls.Add(this.L_Fullness);
-            this.Controls.Add(this.M_Fullness);
-            this.Controls.Add(this.M_Enjoyment);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -773,6 +814,8 @@
             this.GB_M_CT.ResumeLayout(false);
             this.GB_M_CT.PerformLayout();
             this.Tab_Residence.ResumeLayout(false);
+            this.Tab_Other.ResumeLayout(false);
+            this.Tab_Other.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -840,5 +883,8 @@
         private System.Windows.Forms.ComboBox CB_Region1;
         private System.Windows.Forms.ComboBox CB_Region0;
         private System.Windows.Forms.Button B_ClearAll;
+        private System.Windows.Forms.TabPage Tab_Other;
+        private System.Windows.Forms.MaskedTextBox MT_Sociability;
+        private System.Windows.Forms.Label L_Sociability;
     }
 }

@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
         private readonly Dictionary<int, NumericUpDown> WorkDict = new();
         private readonly Dictionary<int, CheckBox> FlagDict = new();
 
-        private bool editing = true;
+        private bool editing;
 
         public SAV_EventFlags(SaveFile sav)
         {
@@ -25,6 +25,7 @@ namespace PKHeX.WinForms
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
 
+            editing = true;
             CB_Stats.Items.Clear();
             for (int i = 0; i < editor.Values.Length; i++)
                 CB_Stats.Items.Add(i.ToString());

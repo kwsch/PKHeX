@@ -18,6 +18,8 @@ namespace PKHeX.Core
     {
         public string PropertyName { get; }
         public string PropertyValue { get; private set; }
+
+        /// <summary> True if ==, false if != </summary>
         public bool Evaluator { get; private init; }
 
         public StringInstruction(string name, string value)

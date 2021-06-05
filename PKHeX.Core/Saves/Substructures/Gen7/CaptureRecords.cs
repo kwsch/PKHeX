@@ -33,14 +33,12 @@ namespace PKHeX.Core
         public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_CAPTURE, value)).CopyTo(Data, GetCapturedOffset(index));
         public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_TRANSFER, value)).CopyTo(Data, GetTransferredOffset(index));
 
-        public static int GetSpeciesIndex(int species)
+        public static int GetSpeciesIndex(int species) => (uint)species switch
         {
-            if (species <= (int)Species.Mew)
-                return species - 1;
-            if (species is (int)Species.Meltan or (int)Species.Melmetal)
-                return species - 657; // 151, 152
-            return -1;
-        }
+            <= (int) Species.Mew => species - 1,
+            (int) Species.Meltan or (int) Species.Melmetal => species - 657, // 151, 152
+            _ => -1
+        };
 
         public static int GetIndexSpecies(int index)
         {

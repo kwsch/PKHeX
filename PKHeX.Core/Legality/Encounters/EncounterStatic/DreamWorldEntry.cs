@@ -43,6 +43,7 @@ namespace PKHeX.Core
             {
                 Species = Species,
                 Form = Form,
+                Gender = Gender,
                 Level = Level,
                 Ability = ability,
                 Location = 075,

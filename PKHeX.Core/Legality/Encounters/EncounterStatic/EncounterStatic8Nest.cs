@@ -110,6 +110,9 @@ namespace PKHeX.Core
                 if (pk.Nature != pk.StatNature && ((Nature)pk.StatNature).IsNeutral())
                     pk.StatNature = (int)Nature.Serious;
             }
+            var pid = pk.PID;
+            RaidRNG.ForceShinyState(pk, Shiny == Shiny.Always, ref pid);
+            pk.PID = pid;
         }
     }
 }

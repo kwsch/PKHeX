@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -368,10 +369,16 @@ namespace PKHeX.WinForms
 
         private void SetFlagsFromClickPoint(int inpX, int inpY)
         {
-            if (inpX < 0) inpX = 0;
-            else if (inpX > 95) inpX = 95;
-            if (inpY < 0) inpY = 0;
-            else if (inpY > 79) inpY = 79;
+            static int Clamp(int value, int min, int max)
+            {
+                if (value < min)
+                    return min;
+                if (value > max)
+                    return max;
+                return value;
+            }
+            inpX = Clamp(inpX, 0, 95);
+            inpY = Clamp(inpY, 0, 79);
             int i = (inpX >> 2) + (24 * (inpY >> 2));
             byte[] ndab = new byte[120];
             DotArtistByte.CopyTo(ndab, 0);
@@ -478,7 +485,7 @@ namespace PKHeX.WinForms
                     {
                         for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
                         {
-                            if (h != BitConverter.ToInt32(SAV.General, a) || BitConverter.ToInt16(SAV.General, a + 0xBA8) != 0xBA0)
+                            if (h != BitConverter.ToInt32(SAV.Data, a) || BitConverter.ToInt16(SAV.Data, a + 0xBA8) != 0xBA0)
                                 continue;
 
                             f = true;
@@ -529,7 +536,7 @@ namespace PKHeX.WinForms
             }
 
             if (HallStatUpdated)
-                BitConverter.GetBytes(Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(SAV.General, ofsHallStat, 0xBAE))).CopyTo(SAV.General, ofsHallStat + 0xBAE);
+                BitConverter.GetBytes(Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE))).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
         }
 
         private void SetPrints()
@@ -750,7 +757,7 @@ namespace PKHeX.WinForms
 
             if (ofsHallStat > 0)
             {
-                ushort v = BitConverter.ToUInt16(SAV.General, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+                ushort v = BitConverter.ToUInt16(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
                 NUD_HallStreaks.Value = v > 9999 ? 9999 : v;
             }
         }
@@ -771,14 +778,14 @@ namespace PKHeX.WinForms
             if (i < 0) return;
             int ofs = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 6 + (i >> 1 << 1);
             SAV.General[ofs] = (byte)((SAV.General[ofs] & ~(0xF << ((i & 1) << 2))) | (int)HallNUDA[i].Value << ((i & 1) << 2));
-            L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString();
+            L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString(CultureInfo.InvariantCulture);
         }
 
         private void NUD_HallStreaks_ValueChanged(object sender, EventArgs e)
         {
             if (editing || ofsHallStat < 0)
                 return;
-            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.General, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
             HallStatUpdated = true;
         }
         #endregion

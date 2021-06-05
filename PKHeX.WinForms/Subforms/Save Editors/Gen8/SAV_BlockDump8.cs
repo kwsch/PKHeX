@@ -31,16 +31,13 @@ namespace PKHeX.WinForms
             CB_Key.InitializeBinding();
             CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
 
-            ComboItem[] boolToggle =
-            {
-                new(nameof(SCTypeCode.Bool1), (int)SCTypeCode.Bool1),
-                new(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
-                new(nameof(SCTypeCode.Bool3), (int)SCTypeCode.Bool3),
-            };
             CB_TypeToggle.InitializeBinding();
-            CB_TypeToggle.DataSource = boolToggle;
-
-            CB_TypeToggle.SelectedIndexChanged += (o, args) => CB_TypeToggle_SelectedIndexChanged(CB_TypeToggle, args);
+            CB_TypeToggle.DataSource = new[]
+            {
+                new ComboItem(nameof(SCTypeCode.Bool1), (int)SCTypeCode.Bool1),
+                new ComboItem(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
+            };
+            CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
 
             CB_Key.SelectedIndex = 0;
         }
@@ -109,14 +106,14 @@ namespace PKHeX.WinForms
             PG_BlockView.Visible = false;
         }
 
-        private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)
+        private void CB_TypeToggle_SelectedIndexChanged(object? sender, EventArgs e)
         {
             var block = CurrentBlock;
             var cType = block.Type;
             var cValue = (SCTypeCode)WinFormsUtil.GetIndex(CB_TypeToggle);
             if (cType == cValue)
                 return;
-            block.Type = cValue;
+            block.ChangeBooleanType(cValue);
             UpdateBlockSummaryControls();
         }
 

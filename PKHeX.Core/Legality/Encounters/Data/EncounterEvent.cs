@@ -33,52 +33,75 @@ namespace PKHeX.Core
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Count != 0;
 
-        private static HashSet<PCD> GetPCDDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
+        private static PCD[] GetPCDDB(byte[] bin) => Get(bin, PCD.Size, d => new PCD(d));
+        private static PGF[] GetPGFDB(byte[] bin) => Get(bin, PGF.Size, d => new PGF(d));
 
-        private static HashSet<PGF> GetPGFDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
+        private static WC6[] GetWC6DB(byte[] wc6bin, byte[] wc6full) => WC6Full.GetArray(wc6full, wc6bin);
+        private static WC7[] GetWC7DB(byte[] wc7bin, byte[] wc7full) => WC7Full.GetArray(wc7full, wc7bin);
 
-        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new(
-            ArrayUtil.EnumerateSplit(wc6full, WC6Full.Size).Select(d => new WC6Full(d).Gift)
-            .Concat(ArrayUtil.EnumerateSplit(wc6bin, WC6.Size).Select(d => new WC6(d))));
+        private static WB7[] GetWB7DB(byte[] bin) => Get(bin, WB7.SizeFull, d => new WB7(d));
+        private static WC8[] GetWC8DB(byte[] bin) => Get(bin, WC8.Size, d => new WC8(d));
 
-        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new(
-            ArrayUtil.EnumerateSplit(wc7full, WC7Full.Size).Select(d => new WC7Full(d).Gift)
-            .Concat(ArrayUtil.EnumerateSplit(wc7bin, WC7.Size).Select(d => new WC7(d))));
-
-        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
-
-        private static HashSet<WC8> GetWC8DB(byte[] wc8bin) =>
-            new(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
+        private static T[] Get<T>(byte[] bin, int size, Func<byte[], T> ctor)
+        {
+            var result = new T[bin.Length / size];
+            System.Diagnostics.Debug.Assert(result.Length * size == bin.Length);
+            for (int i = 0; i < result.Length; i++)
+            {
+                var offset = i * size;
+                var slice = bin.Slice(offset, size);
+                result[i] = ctor(slice);
+            }
+            return result;
+        }
 
         public static void RefreshMGDB(params string[] paths)
         {
-            var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
-            var g5 = GetPGFDB(Util.GetBinaryResource("pgf.pkl"));
-            var g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
-            var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
-            var b7 = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
-            var g8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
+            ICollection<PCD> g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
+            ICollection<PGF> g5 = GetPGFDB(Util.GetBinaryResource("pgf.pkl"));
+            ICollection<WC6> g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
+            ICollection<WC7> g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
+            ICollection<WB7> b7 = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
+            ICollection<WC8> g8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
 
             foreach (var gift in paths.Where(Directory.Exists).SelectMany(MysteryUtil.GetGiftsFromFolder))
             {
+                static void AddOrExpand<T>(ref ICollection<T> arr, T obj)
+                {
+                    if (arr is HashSet<T> h)
+                        h.Add(obj);
+                    else
+                        arr = new HashSet<T>(arr) {obj};
+                }
                 switch (gift)
                 {
-                    case PCD pcd: g4.Add(pcd); continue;
-                    case PGF pgf: g5.Add(pgf); continue;
-                    case WC6 wc6: g6.Add(wc6); continue;
-                    case WC7 wc7: g7.Add(wc7); continue;
-                    case WB7 wb7: b7.Add(wb7); continue;
-                    case WC8 wc8: g8.Add(wc8); continue;
+                    case PCD pcd: AddOrExpand(ref g4, pcd); continue;
+                    case PGF pgf: AddOrExpand(ref g5, pgf); continue;
+                    case WC6 wc6: AddOrExpand(ref g6, wc6); continue;
+                    case WC7 wc7: AddOrExpand(ref g7, wc7); continue;
+                    case WB7 wb7: AddOrExpand(ref b7, wb7); continue;
+                    case WC8 wc8: AddOrExpand(ref g8, wc8); continue;
                 }
             }
 
+            static T[] SetArray<T>(ICollection<T> arr)
+            {
+                if (arr is T[] x)
+                    return x;
+
+                // rather than use Linq to build an array, just do it the quick way directly.
+                var result = new T[arr.Count];
+                ((HashSet<T>)arr).CopyTo(result, 0);
+                return result;
+            }
+
             MGDB_G3 = Encounter_WC3; // hardcoded
-            MGDB_G4 = g4.ToArray();
-            MGDB_G5 = g5.ToArray();
-            MGDB_G6 = g6.ToArray();
-            MGDB_G7 = g7.ToArray();
-            MGDB_G7GG = b7.ToArray();
-            MGDB_G8 = g8.ToArray();
+            MGDB_G4 = SetArray(g4);
+            MGDB_G5 = SetArray(g5);
+            MGDB_G6 = SetArray(g6);
+            MGDB_G7 = SetArray(g7);
+            MGDB_G7GG = SetArray(b7);
+            MGDB_G8 = SetArray(g8);
         }
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)

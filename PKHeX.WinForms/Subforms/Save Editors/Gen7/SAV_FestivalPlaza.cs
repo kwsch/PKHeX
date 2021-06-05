@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -12,13 +13,14 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
 
-        private int entry = -1;
+        private int entry;
 
         public SAV_FestivalPlaza(SaveFile sav)
         {
             InitializeComponent();
             SAV = (SAV7)(Origin = sav).Clone();
             editing = true;
+            entry = -1;
             typeMAX = SAV is SAV7USUM ? 0x7F : 0x7C;
             TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
@@ -341,7 +343,7 @@ namespace PKHeX.WinForms
         private void NUD_FC_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            L_FC_CollectedV.Text = (NUD_FC_Current.Value + NUD_FC_Used.Value).ToString();
+            L_FC_CollectedV.Text = (NUD_FC_Current.Value + NUD_FC_Used.Value).ToString(CultureInfo.InvariantCulture);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)

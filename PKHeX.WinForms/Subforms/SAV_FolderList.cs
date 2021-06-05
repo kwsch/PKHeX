@@ -97,7 +97,7 @@ namespace PKHeX.WinForms
         {
             Button button = GetCustomButton(name);
             button.Enabled = Directory.Exists(path);
-            button.Click += (s, e) =>
+            button.Click += (_, _) =>
             {
                 if (!Directory.Exists(path))
                 {
@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
             FLP_Buttons.Controls.Add(button);
 
             var hover = new ToolTip {AutoPopDelay = 30_000};
-            button.MouseHover += (s, e) => hover.Show(path, button);
+            button.MouseHover += (_, _) => hover.Show(path, button);
         }
 
         private static Button GetCustomButton(string name)
@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
                 Text = "Open",
                 Image = Resources.open,
             };
-            mnuOpen.Click += (sender, e) => ClickOpenFile(dgv);
+            mnuOpen.Click += (_, _) => ClickOpenFile(dgv);
 
             var mnuBrowseAt = new ToolStripMenuItem
             {
@@ -208,7 +208,7 @@ namespace PKHeX.WinForms
                 Text = "Browse...",
                 Image = Resources.folder,
             };
-            mnuBrowseAt.Click += (sender, e) => ClickOpenFolder(dgv);
+            mnuBrowseAt.Click += (_, _) => ClickOpenFolder(dgv);
 
             ContextMenuStrip mnu = new();
             mnu.Items.Add(mnuOpen);

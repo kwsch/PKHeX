@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
         object IEnumerator.Current => Current;
         public void Dispose() => Enumerator.Dispose();
-        public T Current => didPeek ? peek! : Enumerator.Current;
+        public T Current => didPeek ? peek! : Enumerator.Current ?? throw new NullReferenceException();
 
         #endregion
 
