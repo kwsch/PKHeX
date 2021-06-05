@@ -445,7 +445,7 @@ namespace PKHeX.Core
             {230, new byte[] {157,158,159,160,161,162,163,164,165,166,171,172,173,174,175,176,177,178,179,180,181,182,183,184,189,190,191,192,193,194}}, // Ballimere Lake
             {234, new byte[] {175,176}}, // Dyna Tree Hill
 
-            {162, new byte[] {6,43,41,37,7,40,75,66,73,76,130,150,131,138,139,145,151,152,154,146,142,143,169,170,193,194}}, // Completely inaccessible
+            {162, new byte[] {6,7,37,40,41,43,66,73,75,76,130,131,138,139,142,143,145,146,150,151,152,154,169,170,193,194}}, // Completely inaccessible
         };
 
         // Abilities Allowed
@@ -518,20 +518,20 @@ namespace PKHeX.Core
             new(Nest005,3,4,4,SWSH) { Species = 709, Ability = A4 }, // Trevenant
             new(Nest005,4,4,4,SWSH) { Species = 711, Ability = A4 }, // Gourgeist
             new(Nest005,4,4,4,SWSH) { Species = 593, Ability = A4 }, // Jellicent
-            new(Nest006,0,0,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
-            new(Nest006,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
-            new(Nest006,1,2,2,SWSH) { Species = 320, Ability = A3 }, // Wailmer
+          //new(Nest006,0,0,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
+          //new(Nest006,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
+            new(Nest006,2,2,2,SWSH) { Species = 320, Ability = A3 }, // Wailmer
             new(Nest006,2,3,3,SWSH) { Species = 224, Ability = A3 }, // Octillery
             new(Nest006,2,4,4,SWSH) { Species = 226, Ability = A3 }, // Mantine
             new(Nest006,2,4,4,SWSH) { Species = 171, Ability = A3 }, // Lanturn
             new(Nest006,3,4,4,SWSH) { Species = 321, Ability = A4 }, // Wailord
             new(Nest006,4,4,4,SWSH) { Species = 746, Ability = A4 }, // Wishiwashi
             new(Nest006,4,4,4,SWSH) { Species = 130, Ability = A4 }, // Gyarados
-            new(Nest007,0,0,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
-            new(Nest007,0,0,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
-            new(Nest007,0,1,1,SWSH) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
-            new(Nest007,0,1,1,SWSH) { Species = 751, Ability = A3 }, // Dewpider
-            new(Nest007,1,2,2,SWSH) { Species = 320, Ability = A3 }, // Wailmer
+          //new(Nest007,0,0,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
+          //new(Nest007,0,0,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
+          //new(Nest007,0,1,1,SWSH) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
+          //new(Nest007,0,1,1,SWSH) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest007,2,2,2,SWSH) { Species = 320, Ability = A3 }, // Wailmer
             new(Nest007,2,3,3,SWSH) { Species = 746, Ability = A3 }, // Wishiwashi
             new(Nest007,2,4,4,SWSH) { Species = 834, Ability = A3 }, // Drednaw
             new(Nest007,2,4,4,SWSH) { Species = 847, Ability = A3 }, // Barraskewda
@@ -812,11 +812,11 @@ namespace PKHeX.Core
             new(Nest036,0,0,1,SWSH) { Species = 714, Ability = A3 }, // Noibat
             new(Nest036,0,1,1,SWSH) { Species = 714, Ability = A3 }, // Noibat
             new(Nest036,1,2,2,SWSH) { Species = 329, Ability = A3 }, // Vibrava
-            new(Nest037,0,0,1,SWSH) { Species = 714, Ability = A3 }, // Noibat
-            new(Nest037,0,0,1,SWSH) { Species = 840, Ability = A3 }, // Applin
-            new(Nest037,0,1,1,SWSH) { Species = 885, Ability = A3 }, // Dreepy
-            new(Nest037,1,1,2,SWSH) { Species = 714, Ability = A3 }, // Noibat
-            new(Nest037,1,2,2,SWSH) { Species = 840, Ability = A3 }, // Applin
+          //new(Nest037,0,0,1,SWSH) { Species = 714, Ability = A3 }, // Noibat
+          //new(Nest037,0,0,1,SWSH) { Species = 840, Ability = A3 }, // Applin
+          //new(Nest037,0,1,1,SWSH) { Species = 885, Ability = A3 }, // Dreepy
+          //new(Nest037,1,1,2,SWSH) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest037,2,2,2,SWSH) { Species = 840, Ability = A3 }, // Applin
             new(Nest037,2,3,3,SWSH) { Species = 886, Ability = A3 }, // Drakloak
             new(Nest037,2,4,4,SWSH) { Species = 715, Ability = A3 }, // Noivern
             new(Nest037,4,4,4,SWSH) { Species = 887, Ability = A4 }, // Dragapult
@@ -842,18 +842,18 @@ namespace PKHeX.Core
             new(Nest039,2,4,4,SWSH) { Species = 832, Ability = A3 }, // Dubwool
             new(Nest039,3,4,4,SWSH) { Species = 660, Ability = A4 }, // Diggersby
             new(Nest039,4,4,4,SWSH) { Species = 143, Ability = A4 }, // Snorlax
-            new(Nest040,0,0,1,SWSH) { Species = 535, Ability = A3 }, // Tympole
-            new(Nest040,0,0,1,SWSH) { Species = 090, Ability = A3 }, // Shellder
-            new(Nest040,0,1,1,SWSH) { Species = 170, Ability = A3 }, // Chinchou
-            new(Nest040,1,2,2,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
+          //new(Nest040,0,0,1,SWSH) { Species = 535, Ability = A3 }, // Tympole
+          //new(Nest040,0,0,1,SWSH) { Species = 090, Ability = A3 }, // Shellder
+          //new(Nest040,0,1,1,SWSH) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest040,2,2,2,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
             new(Nest040,2,4,4,SWSH) { Species = 171, Ability = A3 }, // Lanturn
             new(Nest040,4,4,4,SWSH) { Species = 847, Ability = A4 }, // Barraskewda
-            new(Nest041,0,0,1,SWSH) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
-            new(Nest041,0,0,1,SWSH) { Species = 098, Ability = A3 }, // Krabby
-            new(Nest041,0,1,1,SWSH) { Species = 341, Ability = A3 }, // Corphish
-            new(Nest041,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
-            new(Nest041,1,1,2,SWSH) { Species = 688, Ability = A3 }, // Binacle
-            new(Nest041,1,2,2,SWSH) { Species = 771, Ability = A3 }, // Pyukumuku
+          //new(Nest041,0,0,1,SWSH) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
+          //new(Nest041,0,0,1,SWSH) { Species = 098, Ability = A3 }, // Krabby
+          //new(Nest041,0,1,1,SWSH) { Species = 341, Ability = A3 }, // Corphish
+          //new(Nest041,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
+          //new(Nest041,1,1,2,SWSH) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest041,2,2,2,SWSH) { Species = 771, Ability = A3 }, // Pyukumuku
             new(Nest041,2,3,3,SWSH) { Species = 099, Ability = A3 }, // Kingler
             new(Nest041,2,4,4,SWSH) { Species = 342, Ability = A3 }, // Crawdaunt
             new(Nest041,2,4,4,SWSH) { Species = 689, Ability = A3 }, // Barbaracle
@@ -868,11 +868,11 @@ namespace PKHeX.Core
             new(Nest042,2,3,3,SWSH) { Species = 356, Ability = A3 }, // Dusclops
             new(Nest042,4,4,4,SWSH) { Species = 477, Ability = A4 }, // Dusknoir
             new(Nest042,4,4,4,SWSH) { Species = 094, Ability = A4 }, // Gengar
-            new(Nest043,0,0,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
-            new(Nest043,0,0,1,SWSH) { Species = 349, Ability = A3 }, // Feebas
-            new(Nest043,0,1,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
-            new(Nest043,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
-            new(Nest043,1,2,2,SWSH) { Species = 747, Ability = A3 }, // Mareanie
+          //new(Nest043,0,0,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
+          //new(Nest043,0,0,1,SWSH) { Species = 349, Ability = A3 }, // Feebas
+          //new(Nest043,0,1,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
+          //new(Nest043,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest043,2,2,2,SWSH) { Species = 747, Ability = A3 }, // Mareanie
             new(Nest043,2,3,3,SWSH) { Species = 211, Ability = A3 }, // Qwilfish
             new(Nest043,2,4,4,SWSH) { Species = 748, Ability = A3 }, // Toxapex
             new(Nest043,3,4,4,SWSH) { Species = 771, Ability = A4 }, // Pyukumuku
@@ -1089,11 +1089,11 @@ namespace PKHeX.Core
             new(Nest065,2,3,3,SWSH) { Species = 132, Ability = A3 }, // Ditto
             new(Nest065,3,4,4,SWSH) { Species = 132, Ability = A4 }, // Ditto
             new(Nest065,4,4,4,SWSH) { Species = 132, Ability = A4 }, // Ditto
-            new(Nest066,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
-            new(Nest066,0,0,1,SWSH) { Species = 341, Ability = A3 }, // Corphish
-            new(Nest066,0,1,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
-            new(Nest066,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
-            new(Nest066,1,2,2,SWSH) { Species = 747, Ability = A3 }, // Mareanie
+          //new(Nest066,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
+          //new(Nest066,0,0,1,SWSH) { Species = 341, Ability = A3 }, // Corphish
+          //new(Nest066,0,1,1,SWSH) { Species = 846, Ability = A3 }, // Arrokuda
+          //new(Nest066,0,1,1,SWSH) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest066,2,2,2,SWSH) { Species = 747, Ability = A3 }, // Mareanie
             new(Nest066,2,3,3,SWSH) { Species = 342, Ability = A3 }, // Crawdaunt
             new(Nest066,2,4,4,SWSH) { Species = 748, Ability = A3 }, // Toxapex
             new(Nest066,3,4,4,SWSH) { Species = 771, Ability = A4 }, // Pyukumuku
@@ -1168,11 +1168,11 @@ namespace PKHeX.Core
             new(Nest072,3,4,4,SWSH) { Species = 866, Ability = A4 }, // Mr. Rime
             new(Nest072,4,4,4,SWSH) { Species = 478, Ability = A4 }, // Froslass
             new(Nest072,4,4,4,SWSH) { Species = 471, Ability = A4 }, // Glaceon
-            new(Nest073,0,0,1,SWSH) { Species = 175, Ability = A3 }, // Togepi
-            new(Nest073,0,1,1,SWSH) { Species = 859, Ability = A3 }, // Impidimp
-            new(Nest073,0,1,1,SWSH) { Species = 280, Ability = A3 }, // Ralts
-            new(Nest073,1,2,2,SWSH) { Species = 176, Ability = A3 }, // Togetic
-            new(Nest073,1,2,2,SWSH) { Species = 860, Ability = A3 }, // Morgrem
+          //new(Nest073,0,0,1,SWSH) { Species = 175, Ability = A3 }, // Togepi
+          //new(Nest073,0,1,1,SWSH) { Species = 859, Ability = A3 }, // Impidimp
+          //new(Nest073,0,1,1,SWSH) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest073,2,2,2,SWSH) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest073,2,2,2,SWSH) { Species = 860, Ability = A3 }, // Morgrem
             new(Nest073,2,4,4,SWSH) { Species = 868, Ability = A3 }, // Milcery
             new(Nest073,3,4,4,SWSH) { Species = 282, Ability = A4 }, // Gardevoir
             new(Nest073,3,4,4,SWSH) { Species = 861, Ability = A4 }, // Grimmsnarl
@@ -1190,21 +1190,21 @@ namespace PKHeX.Core
             new(Nest074,3,4,4,SWSH) { Species = 195, Ability = A4 }, // Quagsire
             new(Nest074,4,4,4,SWSH) { Species = 752, Ability = A4 }, // Araquanid
             new(Nest074,4,4,4,SWSH) { Species = 130, Ability = A4 }, // Gyarados
-            new(Nest075,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
-            new(Nest075,0,0,1,SWSH) { Species = 223, Ability = A3 }, // Remoraid
-            new(Nest075,0,1,1,SWSH) { Species = 320, Ability = A3 }, // Wailmer
-            new(Nest075,0,1,1,SWSH) { Species = 688, Ability = A3 }, // Binacle
-            new(Nest075,1,2,2,SWSH) { Species = 098, Ability = A3 }, // Krabby
-            new(Nest075,1,2,2,SWSH) { Species = 771, Ability = A3 }, // Pyukumuku
+          //new(Nest075,0,0,1,SWSH) { Species = 458, Ability = A3 }, // Mantyke
+          //new(Nest075,0,0,1,SWSH) { Species = 223, Ability = A3 }, // Remoraid
+          //new(Nest075,0,1,1,SWSH) { Species = 320, Ability = A3 }, // Wailmer
+          //new(Nest075,0,1,1,SWSH) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest075,2,2,2,SWSH) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest075,2,2,2,SWSH) { Species = 771, Ability = A3 }, // Pyukumuku
             new(Nest075,2,3,3,SWSH) { Species = 099, Ability = A3 }, // Kingler
             new(Nest075,3,4,4,SWSH) { Species = 211, Ability = A4 }, // Qwilfish
             new(Nest075,3,4,4,SWSH) { Species = 224, Ability = A4 }, // Octillery
             new(Nest075,4,4,4,SWSH) { Species = 321, Ability = A4 }, // Wailord
             new(Nest075,4,4,4,SWSH) { Species = 226, Ability = A4 }, // Mantine
-            new(Nest076,0,0,1,SWSH) { Species = 850, Ability = A3 }, // Sizzlipede
-            new(Nest076,0,1,1,SWSH) { Species = 607, Ability = A3 }, // Litwick
-            new(Nest076,0,1,1,SWSH) { Species = 004, Ability = A3 }, // Charmander
-            new(Nest076,1,2,2,SWSH) { Species = 005, Ability = A3 }, // Charmeleon
+          //new(Nest076,0,0,1,SWSH) { Species = 850, Ability = A3 }, // Sizzlipede
+          //new(Nest076,0,1,1,SWSH) { Species = 607, Ability = A3 }, // Litwick
+          //new(Nest076,0,1,1,SWSH) { Species = 004, Ability = A3 }, // Charmander
+            new(Nest076,2,2,2,SWSH) { Species = 005, Ability = A3 }, // Charmeleon
             new(Nest076,2,3,3,SWSH) { Species = 631, Ability = A3 }, // Heatmor
             new(Nest076,2,4,4,SWSH) { Species = 324, Ability = A3 }, // Torkoal
             new(Nest076,3,4,4,SWSH) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
@@ -1698,16 +1698,16 @@ namespace PKHeX.Core
             new(Nest129,4,4,4,SWSH) { Species = 448, Ability = A2 }, // Lucario
             new(Nest129,4,4,4,SWSH) { Species = 625, Ability = A2 }, // Bisharp
             new(Nest130,2,4,4,SWSH) { Species = 113, Ability = A3 }, // Chansey
-            new(Nest130,0,1,1,SWSH) { Species = 116, Ability = A3 }, // Horsea
-            new(Nest130,1,2,2,SWSH) { Species = 840, Ability = A3 }, // Applin
+          //new(Nest130,0,1,1,SWSH) { Species = 116, Ability = A3 }, // Horsea
+            new(Nest130,2,2,2,SWSH) { Species = 840, Ability = A3 }, // Applin
             new(Nest130,1,2,2,SWSH) { Species = 117, Ability = A3 }, // Seadra
             new(Nest130,2,3,3,SWSH) { Species = 621, Ability = A3 }, // Druddigon
             new(Nest130,3,4,4,SWSH) { Species = 621, Ability = A4 }, // Druddigon
             new(Nest130,3,4,4,SWSH) { Species = 130, Ability = A4 }, // Gyarados
             new(Nest130,4,4,4,SWSH) { Species = 230, Ability = A4 }, // Kingdra
             new(Nest131,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest131,0,1,1,SWSH) { Species = 116, Ability = A2 }, // Horsea
-            new(Nest131,0,1,1,SWSH) { Species = 621, Ability = A2 }, // Druddigon
+          //new(Nest131,0,1,1,SWSH) { Species = 116, Ability = A2 }, // Horsea
+          //new(Nest131,0,1,1,SWSH) { Species = 621, Ability = A2 }, // Druddigon
             new(Nest131,2,3,3,SWSH) { Species = 117, Ability = A2 }, // Seadra
             new(Nest131,3,4,4,SWSH) { Species = 621, Ability = A2 }, // Druddigon
             new(Nest131,3,4,4,SWSH) { Species = 715, Ability = A2 }, // Noivern
@@ -1784,8 +1784,8 @@ namespace PKHeX.Core
             new(Nest137,4,4,4,SWSH) { Species = 091, Ability = A2 }, // Cloyster
             new(Nest137,4,4,4,SWSH) { Species = 748, Ability = A2 }, // Toxapex
             new(Nest138,2,4,4,SWSH) { Species = 113, Ability = A3 }, // Chansey
-            new(Nest138,0,1,1,SWSH) { Species = 170, Ability = A3 }, // Chinchou
-            new(Nest138,1,2,2,SWSH) { Species = 120, Ability = A3 }, // Staryu
+          //new(Nest138,0,1,1,SWSH) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest138,2,2,2,SWSH) { Species = 120, Ability = A3 }, // Staryu
             new(Nest138,2,3,3,SWSH) { Species = 320, Ability = A3 }, // Wailmer
             new(Nest138,2,3,3,SWSH) { Species = 746, Ability = A3 }, // Wishiwashi
             new(Nest138,3,4,4,SWSH) { Species = 321, Ability = A4 }, // Wailord
@@ -1793,9 +1793,9 @@ namespace PKHeX.Core
             new(Nest138,3,4,4,SWSH) { Species = 121, Ability = A4 }, // Starmie
             new(Nest138,4,4,4,SWSH) { Species = 319, Ability = A4 }, // Sharpedo
             new(Nest139,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest139,0,1,1,SWSH) { Species = 120, Ability = A2 }, // Staryu
-            new(Nest139,1,2,2,SWSH) { Species = 320, Ability = A2 }, // Wailmer
-            new(Nest139,1,2,2,SWSH) { Species = 279, Ability = A2 }, // Pelipper
+          //new(Nest139,0,1,1,SWSH) { Species = 120, Ability = A2 }, // Staryu
+            new(Nest139,2,2,2,SWSH) { Species = 320, Ability = A2 }, // Wailmer
+            new(Nest139,2,2,2,SWSH) { Species = 279, Ability = A2 }, // Pelipper
             new(Nest139,2,3,3,SWSH) { Species = 171, Ability = A2 }, // Lanturn
             new(Nest139,2,3,3,SWSH) { Species = 117, Ability = A2 }, // Seadra
             new(Nest139,3,4,4,SWSH) { Species = 171, Ability = A2 }, // Lanturn
@@ -1814,14 +1814,14 @@ namespace PKHeX.Core
             new(Nest141,3,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
             new(Nest141,4,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
             new(Nest142,2,4,4,SWSH) { Species = 113, Ability = A3 }, // Chansey
-            new(Nest142,0,1,1,SWSH) { Species = 415, Ability = A3 }, // Combee
-            new(Nest142,1,2,2,SWSH) { Species = 415, Ability = A3 }, // Combee
+          //new(Nest142,0,1,1,SWSH) { Species = 415, Ability = A3 }, // Combee
+            new(Nest142,2,2,2,SWSH) { Species = 415, Ability = A3 }, // Combee
             new(Nest142,2,3,3,SWSH) { Species = 415, Ability = A3 }, // Combee
             new(Nest142,3,4,4,SWSH) { Species = 416, Ability = A4 }, // Vespiquen
             new(Nest142,4,4,4,SWSH) { Species = 416, Ability = A4 }, // Vespiquen
             new(Nest143,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest143,0,1,1,SWSH) { Species = 415, Ability = A2, Gender = 1 }, // Combee
-            new(Nest143,1,2,2,SWSH) { Species = 415, Ability = A2, Gender = 1 }, // Combee
+          //new(Nest143,0,1,1,SWSH) { Species = 415, Ability = A2, Gender = 1 }, // Combee
+            new(Nest143,2,2,2,SWSH) { Species = 415, Ability = A2, Gender = 1 }, // Combee
             new(Nest143,2,3,3,SWSH) { Species = 416, Ability = A2 }, // Vespiquen
             new(Nest143,3,4,4,SWSH) { Species = 416, Ability = A2 }, // Vespiquen
             new(Nest143,4,4,4,SWSH) { Species = 416, Ability = A2 }, // Vespiquen
@@ -1838,10 +1838,10 @@ namespace PKHeX.Core
             new(Nest144,4,4,4,SWSH) { Species = 407, Ability = A2 }, // Roserade
             new(Nest144,4,4,4,SWSH) { Species = 003, Ability = A2, CanGigantamax = true }, // Venusaur
             new(Nest145,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest145,0,1,1,SWSH) { Species = 129, Ability = A2 }, // Magikarp
-            new(Nest145,0,1,1,SWSH) { Species = 072, Ability = A2 }, // Tentacool
-            new(Nest145,1,2,2,SWSH) { Species = 120, Ability = A2 }, // Staryu
-            new(Nest145,1,2,2,SWSH) { Species = 688, Ability = A2 }, // Binacle
+          //new(Nest145,0,1,1,SWSH) { Species = 129, Ability = A2 }, // Magikarp
+          //new(Nest145,0,1,1,SWSH) { Species = 072, Ability = A2 }, // Tentacool
+            new(Nest145,2,2,2,SWSH) { Species = 120, Ability = A2 }, // Staryu
+            new(Nest145,2,2,2,SWSH) { Species = 688, Ability = A2 }, // Binacle
             new(Nest145,2,3,3,SWSH) { Species = 073, Ability = A2 }, // Tentacruel
             new(Nest145,2,3,3,SWSH) { Species = 130, Ability = A2 }, // Gyarados
             new(Nest145,3,4,4,SWSH) { Species = 073, Ability = A2 }, // Tentacruel
@@ -1850,10 +1850,10 @@ namespace PKHeX.Core
             new(Nest145,4,4,4,SWSH) { Species = 689, Ability = A2 }, // Barbaracle
             new(Nest145,4,4,4,SWSH) { Species = 009, Ability = A2, CanGigantamax = true }, // Blastoise
             new(Nest146,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest146,0,1,1,SWSH) { Species = 098, Ability = A2 }, // Krabby
-            new(Nest146,0,1,1,SWSH) { Species = 688, Ability = A2 }, // Binacle
-            new(Nest146,1,2,2,SWSH) { Species = 072, Ability = A2 }, // Tentacool
-            new(Nest146,1,2,2,SWSH) { Species = 223, Ability = A2 }, // Remoraid
+          //new(Nest146,0,1,1,SWSH) { Species = 098, Ability = A2 }, // Krabby
+          //new(Nest146,0,1,1,SWSH) { Species = 688, Ability = A2 }, // Binacle
+            new(Nest146,2,2,2,SWSH) { Species = 072, Ability = A2 }, // Tentacool
+            new(Nest146,2,2,2,SWSH) { Species = 223, Ability = A2 }, // Remoraid
             new(Nest146,2,3,3,SWSH) { Species = 073, Ability = A2 }, // Tentacruel
             new(Nest146,2,3,3,SWSH) { Species = 224, Ability = A2 }, // Octillery
             new(Nest146,3,4,4,SWSH) { Species = 713, Ability = A2 }, // Avalugg
@@ -1895,26 +1895,26 @@ namespace PKHeX.Core
             new(Nest149,4,4,4,SWSH) { Species = 553, Ability = A2 }, // Krookodile
             new(Nest149,4,4,4,SWSH) { Species = 844, Ability = A2, CanGigantamax = true }, // Sandaconda
             new(Nest150,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest150,0,1,1,SWSH) { Species = 840, Ability = A2 }, // Applin
-            new(Nest150,0,1,1,SWSH) { Species = 420, Ability = A2 }, // Cherubi (DLC1)
-            new(Nest150,0,1,1,SWSH) { Species = 761, Ability = A2 }, // Bounsweet (DLC2)
-            new(Nest150,1,2,2,SWSH) { Species = 420, Ability = A2 }, // Cherubi
-            new(Nest150,1,2,2,SWSH) { Species = 840, Ability = A2 }, // Applin
+          //new(Nest150,0,1,1,SWSH) { Species = 840, Ability = A2 }, // Applin
+          //new(Nest150,0,1,1,SWSH) { Species = 420, Ability = A2 }, // Cherubi (DLC1)
+          //new(Nest150,0,1,1,SWSH) { Species = 761, Ability = A2 }, // Bounsweet (DLC2)
+            new(Nest150,2,2,2,SWSH) { Species = 420, Ability = A2 }, // Cherubi
+            new(Nest150,2,2,2,SWSH) { Species = 840, Ability = A2 }, // Applin
             new(Nest150,2,3,3,SWSH) { Species = 762, Ability = A2 }, // Steenee
             new(Nest150,3,4,4,SWSH) { Species = 820, Ability = A2 }, // Greedent
             new(Nest150,4,4,4,SWSH) { Species = 763, Ability = A2 }, // Tsareena
             new(Nest151,2,4,4,SWSH) { Species = 113, Ability = A3 }, // Chansey
-            new(Nest151,0,0,1,SWSH) { Species = 132, Ability = A3 }, // Ditto
-            new(Nest151,0,1,2,SWSH) { Species = 132, Ability = A3 }, // Ditto
-            new(Nest151,1,2,3,SWSH) { Species = 132, Ability = A3 }, // Ditto
+          //new(Nest151,0,0,1,SWSH) { Species = 132, Ability = A3 }, // Ditto
+          //new(Nest151,0,1,2,SWSH) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest151,2,2,3,SWSH) { Species = 132, Ability = A3 }, // Ditto
             new(Nest151,2,3,3,SWSH) { Species = 132, Ability = A3 }, // Ditto
             new(Nest151,2,3,3,SWSH) { Species = 132, Ability = A4 }, // Ditto
             new(Nest151,3,4,4,SWSH) { Species = 132, Ability = A4 }, // Ditto
             new(Nest151,4,4,4,SWSH) { Species = 132, Ability = A4 }, // Ditto
             new(Nest152,2,4,4,SWSH) { Species = 242, Ability = A2 }, // Blissey
-            new(Nest152,0,0,1,SWSH) { Species = 132, Ability = A2 }, // Ditto
-            new(Nest152,0,1,2,SWSH) { Species = 132, Ability = A2 }, // Ditto
-            new(Nest152,1,2,3,SWSH) { Species = 132, Ability = A2 }, // Ditto
+          //new(Nest152,0,0,1,SWSH) { Species = 132, Ability = A2 }, // Ditto
+          //new(Nest152,0,1,2,SWSH) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,2,2,3,SWSH) { Species = 132, Ability = A2 }, // Ditto
             new(Nest152,2,3,3,SWSH) { Species = 132, Ability = A2 }, // Ditto
             new(Nest152,3,4,4,SWSH) { Species = 132, Ability = A2 }, // Ditto
             new(Nest152,4,4,4,SWSH) { Species = 132, Ability = A2 }, // Ditto
@@ -1931,9 +1931,9 @@ namespace PKHeX.Core
             new(Nest153,4,4,4,SWSH) { Species = 465, Ability = A4 }, // Tangrowth
             new(Nest153,4,4,4,SWSH) { Species = 003, Ability = A4 }, // Venusaur
             new(Nest154,2,4,4,SWSH) { Species = 113, Ability = A3 }, // Chansey
-            new(Nest154,0,1,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
-            new(Nest154,0,1,1,SWSH) { Species = 072, Ability = A3 }, // Tentacool
-            new(Nest154,1,2,2,SWSH) { Species = 120, Ability = A3 }, // Staryu
+          //new(Nest154,0,1,1,SWSH) { Species = 129, Ability = A3 }, // Magikarp
+          //new(Nest154,0,1,1,SWSH) { Species = 072, Ability = A3 }, // Tentacool
+            new(Nest154,2,2,2,SWSH) { Species = 120, Ability = A3 }, // Staryu
             new(Nest154,1,2,2,SWSH) { Species = 090, Ability = A3 }, // Shellder
             new(Nest154,2,3,3,SWSH) { Species = 073, Ability = A3 }, // Tentacruel
             new(Nest154,2,3,3,SWSH) { Species = 130, Ability = A3 }, // Gyarados
@@ -2080,8 +2080,8 @@ namespace PKHeX.Core
             new(Nest168,4,4,5,SWSH) { Species = 699, Ability = A2 }, // Aurorus
             new(Nest168,4,4,5,SWSH) { Species = 473, Ability = A2 }, // Mamoswine
             new(Nest169,2,4,4,SWSH) { Species = 531, Ability = A4 }, // Audino
-            new(Nest169,0,1,1,SWSH) { Species = 363, Ability = A3 }, // Spheal
-            new(Nest169,1,2,2,SWSH) { Species = 363, Ability = A3 }, // Spheal
+          //new(Nest169,0,1,1,SWSH) { Species = 363, Ability = A3 }, // Spheal
+            new(Nest169,2,2,2,SWSH) { Species = 363, Ability = A3 }, // Spheal
             new(Nest169,2,3,3,SWSH) { Species = 364, Ability = A3 }, // Sealeo
             new(Nest169,2,3,3,SWSH) { Species = 615, Ability = A3 }, // Cryogonal
             new(Nest169,3,4,4,SWSH) { Species = 584, Ability = A4 }, // Vanilluxe
@@ -2090,9 +2090,9 @@ namespace PKHeX.Core
             new(Nest169,4,4,4,SWSH) { Species = 713, Ability = A4 }, // Avalugg
             new(Nest169,4,4,4,SWSH) { Species = 131, Ability = A4 }, // Lapras
             new(Nest170,2,4,5,SWSH) { Species = 225, Ability = A2 }, // Delibird
-            new(Nest170,0,1,2,SWSH) { Species = 131, Ability = A2 }, // Lapras
-            new(Nest170,0,1,2,SWSH) { Species = 363, Ability = A2 }, // Spheal
-            new(Nest170,1,2,3,SWSH) { Species = 364, Ability = A2 }, // Sealeo
+          //new(Nest170,0,1,2,SWSH) { Species = 131, Ability = A2 }, // Lapras
+          //new(Nest170,0,1,2,SWSH) { Species = 363, Ability = A2 }, // Spheal
+            new(Nest170,2,2,3,SWSH) { Species = 364, Ability = A2 }, // Sealeo
             new(Nest170,2,3,4,SWSH) { Species = 713, Ability = A2 }, // Avalugg
             new(Nest170,2,3,4,SWSH) { Species = 615, Ability = A2 }, // Cryogonal
             new(Nest170,3,4,5,SWSH) { Species = 365, Ability = A2 }, // Walrein
@@ -2306,9 +2306,9 @@ namespace PKHeX.Core
             new(Nest192,4,4,5,SWSH) { Species = 855, Ability = A2, Form = 1 }, // Polteageist-1
             new(Nest192,4,4,5,SWSH) { Species = 869, Ability = A2, CanGigantamax = true }, // Alcremie
             new(Nest193,2,4,4,SWSH) { Species = 531, Ability = A4 }, // Audino
-            new(Nest193,0,1,1,SWSH) { Species = 133, Ability = A3 }, // Eevee
-            new(Nest193,0,4,2,SWSH) { Species = 133, Ability = A3 }, // Eevee
-            new(Nest193,0,4,3,SWSH) { Species = 133, Ability = A3 }, // Eevee
+          //new(Nest193,0,1,1,SWSH) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest193,2,4,2,SWSH) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest193,2,4,3,SWSH) { Species = 133, Ability = A3 }, // Eevee
             new(Nest193,2,4,4,SWSH) { Species = 136, Ability = A3 }, // Flareon
             new(Nest193,2,4,4,SWSH) { Species = 135, Ability = A3 }, // Jolteon
             new(Nest193,2,4,4,SWSH) { Species = 134, Ability = A3 }, // Vaporeon
@@ -2318,9 +2318,9 @@ namespace PKHeX.Core
             new(Nest193,2,4,4,SWSH) { Species = 471, Ability = A4 }, // Glaceon
             new(Nest193,2,4,4,SWSH) { Species = 700, Ability = A4 }, // Sylveon
             new(Nest194,2,4,5,SWSH) { Species = 225, Ability = A2 }, // Delibird
-            new(Nest194,0,1,2,SWSH) { Species = 133, Ability = A2 }, // Eevee
-            new(Nest194,0,4,3,SWSH) { Species = 133, Ability = A2 }, // Eevee
-            new(Nest194,0,4,4,SWSH) { Species = 133, Ability = A2, Gender = 1 }, // Eevee
+          //new(Nest194,0,1,2,SWSH) { Species = 133, Ability = A2 }, // Eevee
+            new(Nest194,2,4,3,SWSH) { Species = 133, Ability = A2 }, // Eevee
+            new(Nest194,2,4,4,SWSH) { Species = 133, Ability = A2, Gender = 1 }, // Eevee
             new(Nest194,2,4,5,SWSH) { Species = 136, Ability = A2 }, // Flareon
             new(Nest194,2,4,5,SWSH) { Species = 135, Ability = A2 }, // Jolteon
             new(Nest194,2,4,5,SWSH) { Species = 134, Ability = A2 }, // Vaporeon
@@ -2361,10 +2361,10 @@ namespace PKHeX.Core
             new(Nest002,0,1,1,SW) { Species = 688, Ability = A3 }, // Binacle
             new(Nest002,3,4,4,SW) { Species = 558, Ability = A4 }, // Crustle
             new(Nest002,4,4,4,SW) { Species = 526, Ability = A4 }, // Gigalith
-            new(Nest006,0,1,1,SW) { Species = 223, Ability = A3 }, // Remoraid
-            new(Nest006,0,1,1,SW) { Species = 170, Ability = A3 }, // Chinchou
-            new(Nest006,1,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
-            new(Nest007,1,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
+          //new(Nest006,0,1,1,SW) { Species = 223, Ability = A3 }, // Remoraid
+          //new(Nest006,0,1,1,SW) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest006,2,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest007,2,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
             new(Nest008,1,1,2,SW) { Species = 090, Ability = A3 }, // Shellder
             new(Nest009,1,1,2,SW) { Species = 083, Ability = A3, Form = 1 }, // Farfetch’d-1
             new(Nest009,1,2,2,SW) { Species = 539, Ability = A3 }, // Sawk
@@ -2439,14 +2439,14 @@ namespace PKHeX.Core
             new(Nest036,3,4,4,SW) { Species = 330, Ability = A4 }, // Flygon
             new(Nest036,4,4,4,SW) { Species = 776, Ability = A4 }, // Turtonator
             new(Nest036,4,4,4,SW) { Species = 784, Ability = A4 }, // Kommo-o
-            new(Nest037,0,1,1,SW) { Species = 782, Ability = A3 }, // Jangmo-o
+          //new(Nest037,0,1,1,SW) { Species = 782, Ability = A3 }, // Jangmo-o
             new(Nest037,2,4,4,SW) { Species = 783, Ability = A3 }, // Hakamo-o
             new(Nest037,3,4,4,SW) { Species = 784, Ability = A4 }, // Kommo-o
             new(Nest037,4,4,4,SW) { Species = 841, Ability = A4 }, // Flapple
             new(Nest039,1,1,2,SW) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
             new(Nest039,4,4,4,SW) { Species = 628, Ability = A4 }, // Braviary
-            new(Nest040,0,1,1,SW) { Species = 747, Ability = A3 }, // Mareanie
-            new(Nest040,1,1,2,SW) { Species = 536, Ability = A3 }, // Palpitoad
+          //new(Nest040,0,1,1,SW) { Species = 747, Ability = A3 }, // Mareanie
+          //new(Nest040,1,1,2,SW) { Species = 536, Ability = A3 }, // Palpitoad
             new(Nest040,2,3,3,SW) { Species = 091, Ability = A3 }, // Cloyster
             new(Nest040,2,4,4,SW) { Species = 746, Ability = A3 }, // Wishiwashi
             new(Nest040,3,4,4,SW) { Species = 537, Ability = A4 }, // Seismitoad
@@ -2455,7 +2455,7 @@ namespace PKHeX.Core
             new(Nest042,4,4,4,SW) { Species = 867, Ability = A3 }, // Runerigus
             new(Nest042,3,4,4,SW) { Species = 855, Ability = A4 }, // Polteageist
             new(Nest042,3,4,4,SW) { Species = 711, Ability = A4 }, // Gourgeist
-            new(Nest043,1,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest043,2,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
             new(Nest044,1,2,2,SW) { Species = 632, Ability = A3 }, // Durant
             new(Nest044,2,3,3,SW) { Species = 600, Ability = A3 }, // Klang
             new(Nest045,0,1,1,SW) { Species = 588, Ability = A3 }, // Karrablast
@@ -2504,16 +2504,16 @@ namespace PKHeX.Core
             new(Nest063,4,4,4,SW) { Species = 612, Ability = A4 }, // Haxorus
             new(Nest064,3,4,4,SW) { Species = 628, Ability = A4 }, // Braviary
             new(Nest064,3,4,4,SW) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
-            new(Nest066,1,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest066,2,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
             new(Nest070,0,0,1,SW) { Species = 037, Ability = A3 }, // Vulpix
             new(Nest070,0,1,1,SW) { Species = 037, Ability = A3 }, // Vulpix
             new(Nest070,1,2,2,SW) { Species = 608, Ability = A3 }, // Lampent
             new(Nest070,2,3,3,SW) { Species = 631, Ability = A3 }, // Heatmor
-            new(Nest073,0,0,1,SW) { Species = 684, Ability = A3 }, // Swirlix
+          //new(Nest073,0,0,1,SW) { Species = 684, Ability = A3 }, // Swirlix
             new(Nest073,2,4,4,SW) { Species = 685, Ability = A3 }, // Slurpuff
             new(Nest075,2,4,4,SW) { Species = 550, Ability = A3 }, // Basculin
-            new(Nest076,0,0,1,SW) { Species = 037, Ability = A3 }, // Vulpix
-            new(Nest076,1,2,2,SW) { Species = 038, Ability = A3 }, // Ninetales
+          //new(Nest076,0,0,1,SW) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest076,2,2,2,SW) { Species = 038, Ability = A3 }, // Ninetales
             new(Nest076,3,4,4,SW) { Species = 038, Ability = A4 }, // Ninetales
             new(Nest077,1,2,2,SW) { Species = 550, Ability = A3 }, // Basculin
             new(Nest078,0,0,1,SW) { Species = 273, Ability = A3 }, // Seedot
@@ -2593,20 +2593,20 @@ namespace PKHeX.Core
             new(Nest123,3,4,4,SW) { Species = 560, Ability = A2 }, // Scrafty
             new(Nest123,4,4,4,SW) { Species = 865, Ability = A2 }, // Sirfetch’d
             new(Nest127,4,4,4,SW) { Species = 770, Ability = A2 }, // Palossand
-            new(Nest130,0,1,1,SW) { Species = 782, Ability = A3 }, // Jangmo-o
+          //new(Nest130,0,1,1,SW) { Species = 782, Ability = A3 }, // Jangmo-o
             new(Nest130,2,3,3,SW) { Species = 783, Ability = A3 }, // Hakamo-o
             new(Nest130,3,4,4,SW) { Species = 841, Ability = A4 }, // Flapple
             new(Nest130,4,4,4,SW) { Species = 784, Ability = A4 }, // Kommo-o
-            new(Nest131,1,2,2,SW) { Species = 776, Ability = A2 }, // Turtonator
-            new(Nest131,1,2,2,SW) { Species = 782, Ability = A2 }, // Jangmo-o
+            new(Nest131,2,2,2,SW) { Species = 776, Ability = A2 }, // Turtonator
+            new(Nest131,2,2,2,SW) { Species = 782, Ability = A2 }, // Jangmo-o
             new(Nest131,2,3,3,SW) { Species = 783, Ability = A2 }, // Hakamo-o
             new(Nest131,3,4,4,SW) { Species = 776, Ability = A2 }, // Turtonator
             new(Nest131,4,4,4,SW) { Species = 784, Ability = A2 }, // Kommo-o
             new(Nest135,4,4,4,SW) { Species = 550, Ability = A2 }, // Basculin
-            new(Nest138,0,1,1,SW) { Species = 692, Ability = A3 }, // Clauncher
-            new(Nest138,1,2,2,SW) { Species = 692, Ability = A3 }, // Clauncher
+          //new(Nest138,0,1,1,SW) { Species = 692, Ability = A3 }, // Clauncher
+            new(Nest138,2,2,2,SW) { Species = 692, Ability = A3 }, // Clauncher
             new(Nest138,4,4,4,SW) { Species = 693, Ability = A4 }, // Clawitzer
-            new(Nest139,0,1,1,SW) { Species = 692, Ability = A2 }, // Clauncher
+          //new(Nest139,0,1,1,SW) { Species = 692, Ability = A2 }, // Clauncher
             new(Nest139,3,4,4,SW) { Species = 693, Ability = A2 }, // Clawitzer
             new(Nest139,4,4,4,SW) { Species = 693, Ability = A2 }, // Clawitzer
             new(Nest147,1,2,2,SW) { Species = 550, Ability = A2 }, // Basculin
@@ -2636,8 +2636,8 @@ namespace PKHeX.Core
             new(Nest167,3,4,4,SW) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
             new(Nest168,0,1,2,SW) { Species = 554, Ability = A2, Form = 1 }, // Darumaka-1
             new(Nest168,3,4,5,SW) { Species = 555, Ability = A2, Form = 2 }, // Darmanitan-2
-            new(Nest169,0,1,1,SW) { Species = 613, Ability = A3 }, // Cubchoo
-            new(Nest169,1,2,2,SW) { Species = 712, Ability = A3 }, // Bergmite
+          //new(Nest169,0,1,1,SW) { Species = 613, Ability = A3 }, // Cubchoo
+            new(Nest169,2,2,2,SW) { Species = 712, Ability = A3 }, // Bergmite
             new(Nest170,4,4,5,SW) { Species = 131, Ability = A2 }, // Lapras
             new(Nest172,1,2,3,SW) { Species = 083, Ability = A2, Form = 1 }, // Farfetch’d-1
             new(Nest172,3,4,5,SW) { Species = 865, Ability = A2 }, // Sirfetch’d
@@ -2712,10 +2712,10 @@ namespace PKHeX.Core
             new(Nest002,0,1,1,SH) { Species = 524, Ability = A3 }, // Roggenrola
             new(Nest002,3,4,4,SH) { Species = 526, Ability = A4 }, // Gigalith
             new(Nest002,4,4,4,SH) { Species = 558, Ability = A4 }, // Crustle
-            new(Nest006,0,1,2,SH) { Species = 223, Ability = A3 }, // Remoraid
-            new(Nest006,0,1,2,SH) { Species = 170, Ability = A3 }, // Chinchou
-            new(Nest006,1,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new(Nest007,1,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+          //new(Nest006,0,1,2,SH) { Species = 223, Ability = A3 }, // Remoraid
+          //new(Nest006,0,1,2,SH) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest006,2,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest007,2,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
             new(Nest008,1,1,1,SH) { Species = 090, Ability = A3 }, // Shellder
             new(Nest009,1,1,2,SH) { Species = 759, Ability = A3 }, // Stufful
             new(Nest009,1,2,2,SH) { Species = 538, Ability = A3 }, // Throh
@@ -2790,14 +2790,14 @@ namespace PKHeX.Core
             new(Nest036,3,4,4,SH) { Species = 612, Ability = A4 }, // Haxorus
             new(Nest036,4,4,4,SH) { Species = 780, Ability = A4 }, // Drampa
             new(Nest036,4,4,4,SH) { Species = 706, Ability = A4 }, // Goodra
-            new(Nest037,0,1,1,SH) { Species = 704, Ability = A3 }, // Goomy
+          //new(Nest037,0,1,1,SH) { Species = 704, Ability = A3 }, // Goomy
             new(Nest037,2,4,4,SH) { Species = 705, Ability = A3 }, // Sliggoo
             new(Nest037,3,4,4,SH) { Species = 706, Ability = A4 }, // Goodra
             new(Nest037,4,4,4,SH) { Species = 842, Ability = A4 }, // Appletun
             new(Nest039,1,1,2,SH) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
             new(Nest039,4,4,4,SH) { Species = 765, Ability = A4 }, // Oranguru
-            new(Nest040,0,1,1,SH) { Species = 536, Ability = A3 }, // Palpitoad
-            new(Nest040,1,1,2,SH) { Species = 747, Ability = A3 }, // Mareanie
+          //new(Nest040,0,1,1,SH) { Species = 536, Ability = A3 }, // Palpitoad
+          //new(Nest040,1,1,2,SH) { Species = 747, Ability = A3 }, // Mareanie
             new(Nest040,2,3,3,SH) { Species = 748, Ability = A3 }, // Toxapex
             new(Nest040,2,4,4,SH) { Species = 091, Ability = A3 }, // Cloyster
             new(Nest040,3,4,4,SH) { Species = 746, Ability = A4 }, // Wishiwashi
@@ -2806,7 +2806,7 @@ namespace PKHeX.Core
             new(Nest042,4,4,4,SH) { Species = 302, Ability = A3 }, // Sableye
             new(Nest042,3,4,4,SH) { Species = 867, Ability = A4 }, // Runerigus
             new(Nest042,3,4,4,SH) { Species = 864, Ability = A4 }, // Cursola
-            new(Nest043,1,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest043,2,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
             new(Nest044,1,2,2,SH) { Species = 600, Ability = A3 }, // Klang
             new(Nest044,2,3,3,SH) { Species = 632, Ability = A3 }, // Durant
             new(Nest045,0,1,1,SH) { Species = 616, Ability = A3 }, // Shelmet
@@ -2855,16 +2855,16 @@ namespace PKHeX.Core
             new(Nest063,4,4,4,SH) { Species = 330, Ability = A4 }, // Flygon
             new(Nest064,3,4,4,SH) { Species = 765, Ability = A4 }, // Oranguru
             new(Nest064,3,4,4,SH) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
-            new(Nest066,1,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest066,2,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
             new(Nest070,0,0,1,SH) { Species = 058, Ability = A3 }, // Growlithe
             new(Nest070,0,1,1,SH) { Species = 058, Ability = A3 }, // Growlithe
             new(Nest070,1,2,2,SH) { Species = 631, Ability = A3 }, // Heatmor
             new(Nest070,2,3,3,SH) { Species = 608, Ability = A3 }, // Lampent
-            new(Nest073,0,0,1,SH) { Species = 682, Ability = A3 }, // Spritzee
+          //new(Nest073,0,0,1,SH) { Species = 682, Ability = A3 }, // Spritzee
             new(Nest073,2,4,4,SH) { Species = 683, Ability = A3 }, // Aromatisse
             new(Nest075,2,4,4,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new(Nest076,0,0,1,SH) { Species = 058, Ability = A3 }, // Growlithe
-            new(Nest076,1,2,2,SH) { Species = 631, Ability = A3 }, // Heatmor
+          //new(Nest076,0,0,1,SH) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest076,2,2,2,SH) { Species = 631, Ability = A3 }, // Heatmor
             new(Nest076,3,4,4,SH) { Species = 059, Ability = A4 }, // Arcanine
             new(Nest077,1,2,2,SH) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
             new(Nest078,0,0,1,SH) { Species = 270, Ability = A3 }, // Lotad
@@ -2944,20 +2944,20 @@ namespace PKHeX.Core
             new(Nest123,3,4,4,SH) { Species = 454, Ability = A2 }, // Toxicroak
             new(Nest123,4,4,4,SH) { Species = 870, Ability = A2 }, // Falinks
             new(Nest127,4,4,4,SH) { Species = 864, Ability = A2 }, // Cursola
-            new(Nest130,0,1,1,SH) { Species = 704, Ability = A3 }, // Goomy
+          //new(Nest130,0,1,1,SH) { Species = 704, Ability = A3 }, // Goomy
             new(Nest130,2,3,3,SH) { Species = 705, Ability = A3 }, // Sliggoo
             new(Nest130,3,4,4,SH) { Species = 842, Ability = A4 }, // Appletun
             new(Nest130,4,4,4,SH) { Species = 706, Ability = A4 }, // Goodra
-            new(Nest131,1,2,2,SH) { Species = 780, Ability = A2 }, // Drampa
-            new(Nest131,1,2,2,SH) { Species = 704, Ability = A2 }, // Goomy
+            new(Nest131,2,2,2,SH) { Species = 780, Ability = A2 }, // Drampa
+            new(Nest131,2,2,2,SH) { Species = 704, Ability = A2 }, // Goomy
             new(Nest131,2,3,3,SH) { Species = 705, Ability = A2 }, // Sliggoo
             new(Nest131,3,4,4,SH) { Species = 780, Ability = A2 }, // Drampa
             new(Nest131,4,4,4,SH) { Species = 706, Ability = A2 }, // Goodra
             new(Nest135,4,4,4,SH) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
-            new(Nest138,0,1,1,SH) { Species = 690, Ability = A3 }, // Skrelp
-            new(Nest138,1,2,2,SH) { Species = 690, Ability = A3 }, // Skrelp
+          //new(Nest138,0,1,1,SH) { Species = 690, Ability = A3 }, // Skrelp
+            new(Nest138,2,2,2,SH) { Species = 690, Ability = A3 }, // Skrelp
             new(Nest138,4,4,4,SH) { Species = 691, Ability = A4 }, // Dragalge
-            new(Nest139,0,1,1,SH) { Species = 690, Ability = A2 }, // Skrelp
+          //new(Nest139,0,1,1,SH) { Species = 690, Ability = A2 }, // Skrelp
             new(Nest139,3,4,4,SH) { Species = 691, Ability = A2 }, // Dragalge
             new(Nest139,4,4,4,SH) { Species = 691, Ability = A2 }, // Dragalge
             new(Nest147,1,2,2,SH) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
@@ -2984,8 +2984,8 @@ namespace PKHeX.Core
             new(Nest165,4,4,4,SH) { Species = 348, Ability = A4 }, // Armaldo
             new(Nest166,4,4,5,SH) { Species = 346, Ability = A2 }, // Cradily
             new(Nest167,0,1,1,SH) { Species = 220, Ability = A3 }, // Swinub
-            new(Nest169,0,1,1,SH) { Species = 875, Ability = A3 }, // Eiscue
-            new(Nest169,1,2,2,SH) { Species = 875, Ability = A3 }, // Eiscue
+          //new(Nest169,0,1,1,SH) { Species = 875, Ability = A3 }, // Eiscue
+            new(Nest169,2,2,2,SH) { Species = 875, Ability = A3 }, // Eiscue
             new(Nest170,4,4,5,SH) { Species = 131, Ability = A2, CanGigantamax = true }, // Lapras
             new(Nest172,3,4,5,SH) { Species = 107, Ability = A2 }, // Hitmonchan
             new(Nest172,4,4,5,SH) { Species = 068, Ability = A2 }, // Machamp
