@@ -232,4 +232,4 @@ MsgItemPouchRemoved = Los siguientes artículos se han eliminado de la bolsa {0}
 MsgSaveDifferentTypes = Los tipos de archivos de guardado son diferentes.
 MsgSaveDifferentVersions = Las versiones de los archivos de guardado no son iguales.
 MsgSaveNumberInvalid = Archivo de Guardado {0} no es válido.
-MsgPluginFailLoad = Plugins failed to load. Please refer to the error message to identify the faulty plugin. A plugin may be out of date / incompatible with this build of the program.
+MsgPluginFailLoad = No se pudieron cargar los complementos. Consulte el mensaje de error para identificar el complemento defectuoso. Un complemento puede estar desactualizado o ser incompatible con esta compilación del programa.
