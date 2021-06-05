@@ -292,6 +292,7 @@ namespace PKHeX.Core
         {
             SetCaught(species);
             SetSeenGender(species, gender);
+            SetSeen(species);
             SetForms(species, form, gender);
             SetLanguage(species, language);
         }
