@@ -41,45 +41,6 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 635, Ability = A4, Moves = new[]{ 406, 304, 399, 056 }, Index = 39 }, // Hydreigon
             new(60,10,5) { Species = 877, Ability = A4, Moves = new[]{ 783, 037, 242, 402 }, Index = 39 }, // Morpeko
 
-            new(17,01,1) { Species = 848, Ability = A4, Moves = new[]{ 609, 051, 496, 715 }, Index = 38 }, // Toxel
-            new(17,01,1) { Species = 835, Ability = A4, Moves = new[]{ 609, 033, 044, 046 }, Index = 38 }, // Yamper
-            new(17,01,1) { Species = 695, Ability = A4, Moves = new[]{ 085, 098, 001, 189 }, Index = 38 }, // Heliolisk
-            new(17,01,1) { Species = 840, Ability = A4, Moves = new[]{ 110, 310, 000, 000 }, Index = 38 }, // Applin
-            new(17,01,1) { Species = 597, Ability = A4, Moves = new[]{ 033, 042, 232, 106 }, Index = 38 }, // Ferroseed
-            new(17,01,1) { Species = 829, Ability = A4, Moves = new[]{ 075, 496, 229, 670 }, Index = 38 }, // Gossifleur
-            new(30,03,2) { Species = 836, Ability = A4, Moves = new[]{ 609, 209, 204, 706 }, Index = 38 }, // Boltund
-            new(30,03,2) { Species = 695, Ability = A4, Moves = new[]{ 085, 098, 001, 189 }, Index = 38 }, // Heliolisk
-            new(30,03,2) { Species = 597, Ability = A4, Moves = new[]{ 442, 042, 232, 106 }, Index = 38 }, // Ferroseed
-            new(30,03,2) { Species = 830, Ability = A4, Moves = new[]{ 536, 496, 229, 670 }, Index = 38 }, // Eldegoss
-            new(40,05,3) { Species = 836, Ability = A4, Moves = new[]{ 609, 209, 424, 706 }, Index = 38 }, // Boltund
-            new(40,05,3) { Species = 695, Ability = A4, Moves = new[]{ 085, 098, 447, 189 }, Index = 38 }, // Heliolisk
-            new(40,05,3) { Species = 598, Ability = A4, Moves = new[]{ 442, 438, 398, 106 }, Index = 38 }, // Ferrothorn
-            new(40,05,3) { Species = 830, Ability = A4, Moves = new[]{ 536, 304, 229, 670 }, Index = 38 }, // Eldegoss
-            new(50,08,4) { Species = 836, Ability = A4, Moves = new[]{ 609, 528, 424, 706 }, Index = 38 }, // Boltund
-            new(50,08,4) { Species = 695, Ability = A4, Moves = new[]{ 085, 304, 447, 523 }, Index = 38 }, // Heliolisk
-            new(50,08,4) { Species = 598, Ability = A4, Moves = new[]{ 360, 438, 398, 014 }, Index = 38 }, // Ferrothorn
-            new(50,08,4) { Species = 830, Ability = A4, Moves = new[]{ 536, 304, 229, 437 }, Index = 38 }, // Eldegoss
-            new(60,10,5) { Species = 836, Ability = A4, Moves = new[]{ 609, 528, 424, 706 }, Index = 38 }, // Boltund
-            new(60,10,5) { Species = 695, Ability = A4, Moves = new[]{ 085, 304, 447, 523 }, Index = 38 }, // Heliolisk
-            new(60,10,5) { Species = 598, Ability = A4, Moves = new[]{ 360, 438, 398, 014 }, Index = 38 }, // Ferrothorn
-            new(60,10,5) { Species = 830, Ability = A4, Moves = new[]{ 536, 304, 063, 437 }, Index = 38 }, // Eldegoss
-            new(30,03,2,SW) { Species = 849, Ability = A4, Moves = new[]{ 351, 506, 491, 103 }, Index = 38, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(30,03,2,SW) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 310, 029 }, Index = 38, CanGigantamax = true }, // Appletun
-            new(40,05,3,SW) { Species = 849, Ability = A4, Moves = new[]{ 435, 506, 398, 103 }, Index = 38, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(40,05,3,SW) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 029 }, Index = 38, CanGigantamax = true }, // Appletun
-            new(50,08,4,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 398, 586 }, Index = 38, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(50,08,4,SW) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 523 }, Index = 38, CanGigantamax = true }, // Appletun
-            new(60,10,5,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 586 }, Index = 38, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(60,10,5,SW) { Species = 842, Ability = A4, Moves = new[]{ 787, 034, 406, 523 }, Index = 38, CanGigantamax = true }, // Appletun
-            new(30,03,2,SH) { Species = 849, Ability = A4, Moves = new[]{ 351, 506, 491, 103 }, Index = 38, CanGigantamax = true }, // Toxtricity
-            new(30,03,2,SH) { Species = 841, Ability = A4, Moves = new[]{ 406, 073, 491, 184 }, Index = 38, CanGigantamax = true }, // Flapple
-            new(40,05,3,SH) { Species = 849, Ability = A4, Moves = new[]{ 435, 506, 474, 103 }, Index = 38, CanGigantamax = true }, // Toxtricity
-            new(40,05,3,SH) { Species = 841, Ability = A4, Moves = new[]{ 406, 788, 491, 184 }, Index = 38, CanGigantamax = true }, // Flapple
-            new(50,08,4,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 586 }, Index = 38, CanGigantamax = true }, // Toxtricity
-            new(50,08,4,SH) { Species = 841, Ability = A4, Moves = new[]{ 406, 788, 491, 263 }, Index = 38, CanGigantamax = true }, // Flapple
-            new(60,10,5,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 586 }, Index = 38, CanGigantamax = true }, // Toxtricity
-            new(60,10,5,SH) { Species = 841, Ability = A4, Moves = new[]{ 406, 788, 491, 263 }, Index = 38, CanGigantamax = true }, // Flapple
-
             new(17,01,1) { Species = 036, Ability = A4, Moves = new[]{ 574, 001, 204, 045 }, Index = 37 }, // Clefable
             new(17,01,1) { Species = 040, Ability = A4, Moves = new[]{ 497, 574, 001, 111 }, Index = 37 }, // Wigglytuff
             new(17,01,1) { Species = 044, Ability = A4, Moves = new[]{ 078, 079, 230, 051 }, Index = 37 }, // Gloom
@@ -150,37 +111,6 @@ namespace PKHeX.Core
             new(60,10,5,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 586 }, Index = 36, CanGigantamax = true }, // Toxtricity
             new(60,10,5,SH) { Species = 841, Ability = A4, Moves = new[]{ 406, 788, 491, 263 }, Index = 36, CanGigantamax = true }, // Flapple
 
-            new(17,01,1) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 240 }, Index = 35 }, // Chewtle
-            new(17,01,1) { Species = 349, Ability = A4, Moves = new[]{ 150, 033, 175, 057 }, Index = 35 }, // Feebas
-            new(17,01,1) { Species = 194, Ability = A4, Moves = new[]{ 341, 021, 039, 055 }, Index = 35 }, // Wooper
-            new(17,01,1) { Species = 843, Ability = A4, Moves = new[]{ 028, 035, 523, 693 }, Index = 35 }, // Silicobra
-            new(17,01,1) { Species = 449, Ability = A4, Moves = new[]{ 341, 328, 044, 033 }, Index = 35 }, // Hippopotas
-            new(17,01,1) { Species = 422, Ability = A4, Moves = new[]{ 352, 106, 189, 055 }, Index = 35, Form = 1 }, // Shellos-1
-            new(30,03,2) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 317, 055 }, Index = 35, CanGigantamax = true }, // Drednaw
-            new(30,03,2) { Species = 349, Ability = A4, Moves = new[]{ 057, 033, 175, 150 }, Index = 35 }, // Feebas
-            new(30,03,2) { Species = 195, Ability = A4, Moves = new[]{ 341, 021, 401, 055 }, Index = 35 }, // Quagsire
-            new(30,03,2) { Species = 843, Ability = A4, Moves = new[]{ 091, 029, 523, 693 }, Index = 35 }, // Silicobra
-            new(30,03,2) { Species = 449, Ability = A4, Moves = new[]{ 341, 036, 044, 242 }, Index = 35 }, // Hippopotas
-            new(30,03,2) { Species = 423, Ability = A4, Moves = new[]{ 189, 352, 246, 106 }, Index = 35, Form = 1 }, // Gastrodon-1
-            new(40,05,3) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 317, 055 }, Index = 35, CanGigantamax = true }, // Drednaw
-            new(40,05,3) { Species = 350, Ability = A4, Moves = new[]{ 057, 239, 034, 574 }, Index = 35 }, // Milotic
-            new(40,05,3) { Species = 195, Ability = A4, Moves = new[]{ 341, 021, 401, 005 }, Index = 35 }, // Quagsire
-            new(40,05,3) { Species = 844, Ability = A4, Moves = new[]{ 693, 523, 201, 091 }, Index = 35, CanGigantamax = true }, // Sandaconda
-            new(40,05,3) { Species = 450, Ability = A4, Moves = new[]{ 341, 422, 036, 242 }, Index = 35 }, // Hippowdon
-            new(40,05,3) { Species = 423, Ability = A4, Moves = new[]{ 414, 352, 246, 106 }, Index = 35, Form = 1 }, // Gastrodon-1
-            new(50,08,4) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 35, CanGigantamax = true }, // Drednaw
-            new(50,08,4) { Species = 350, Ability = A4, Moves = new[]{ 057, 231, 034, 574 }, Index = 35 }, // Milotic
-            new(50,08,4) { Species = 195, Ability = A4, Moves = new[]{ 341, 280, 401, 005 }, Index = 35 }, // Quagsire
-            new(50,08,4) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 201, 091 }, Index = 35, CanGigantamax = true }, // Sandaconda
-            new(50,08,4) { Species = 450, Ability = A4, Moves = new[]{ 089, 422, 036, 242 }, Index = 35 }, // Hippowdon
-            new(50,08,4) { Species = 423, Ability = A4, Moves = new[]{ 414, 503, 311, 106 }, Index = 35, Form = 1 }, // Gastrodon-1
-            new(60,10,5) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 35, CanGigantamax = true }, // Drednaw
-            new(60,10,5) { Species = 350, Ability = A4, Moves = new[]{ 503, 231, 034, 574 }, Index = 35 }, // Milotic
-            new(60,10,5) { Species = 195, Ability = A4, Moves = new[]{ 089, 280, 401, 005 }, Index = 35 }, // Quagsire
-            new(60,10,5) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 201, 091 }, Index = 35, CanGigantamax = true }, // Sandaconda
-            new(60,10,5) { Species = 450, Ability = A4, Moves = new[]{ 089, 422, 231, 242 }, Index = 35 }, // Hippowdon
-            new(60,10,5) { Species = 423, Ability = A4, Moves = new[]{ 414, 503, 311, 352 }, Index = 35, Form = 1 }, // Gastrodon-1
-
             new(17,01,1) { Species = 025, Ability = A4, Moves = new[]{ 084, 098, 204, 086 }, Index = 34 }, // Pikachu
             new(17,01,1) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 }, Index = 34 }, // Raichu
             new(17,01,1) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 }, Index = 34, Form = 1 }, // Raichu-1
@@ -239,37 +169,6 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 450, Ability = A4, Moves = new[]{ 089, 422, 231, 242 }, Index = 33 }, // Hippowdon
             new(60,10,5) { Species = 423, Ability = A4, Moves = new[]{ 414, 503, 311, 352 }, Index = 33, Form = 1 }, // Gastrodon-1
 
-            new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 205, 045, 249 }, Index = 32 }, // Cufant
-            new(17,01,1) { Species = 208, Ability = A4, Moves = new[]{ 242, 442, 106, 422 }, Index = 32 }, // Steelix
-            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 232, 006, 242, 045 }, Index = 32, Form = 2 }, // Meowth-2
-            new(17,01,1) { Species = 837, Ability = A4, Moves = new[]{ 229, 261, 479, 108 }, Index = 32 }, // Rolycoly
-            new(17,01,1) { Species = 111, Ability = A4, Moves = new[]{ 479, 523, 196, 182 }, Index = 32 }, // Rhyhorn
-            new(17,01,1) { Species = 095, Ability = A4, Moves = new[]{ 174, 225, 034, 106 }, Index = 32 }, // Onix
-            new(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 523, 023, 334, 249 }, Index = 32 }, // Cufant
-            new(30,03,2) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 32 }, // Steelix
-            new(30,03,2) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 242, 269 }, Index = 32 }, // Perrserker
-            new(30,03,2) { Species = 838, Ability = A4, Moves = new[]{ 229, 488, 157, 108 }, Index = 32 }, // Carkol
-            new(30,03,2) { Species = 111, Ability = A4, Moves = new[]{ 350, 523, 196, 182 }, Index = 32 }, // Rhyhorn
-            new(30,03,2) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 034, 106 }, Index = 32 }, // Onix
-            new(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 32, CanGigantamax = true }, // Copperajah
-            new(40,05,3) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 32 }, // Steelix
-            new(40,05,3) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 154, 269 }, Index = 32 }, // Perrserker
-            new(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 108 }, Index = 32, CanGigantamax = true }, // Coalossal
-            new(40,05,3) { Species = 112, Ability = A4, Moves = new[]{ 036, 529, 008, 182 }, Index = 32 }, // Rhydon
-            new(40,05,3) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 021, 201 }, Index = 32 }, // Onix
-            new(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 32, CanGigantamax = true }, // Copperajah
-            new(50,08,4) { Species = 208, Ability = A4, Moves = new[]{ 157, 231, 328, 422 }, Index = 32 }, // Steelix
-            new(50,08,4) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 154, 269 }, Index = 32 }, // Perrserker
-            new(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 115 }, Index = 32, CanGigantamax = true }, // Coalossal
-            new(50,08,4) { Species = 464, Ability = A4, Moves = new[]{ 350, 089, 008, 182 }, Index = 32 }, // Rhyperior
-            new(50,08,4) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 784, 201 }, Index = 32 }, // Onix
-            new(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 276, 089, 583, 442 }, Index = 32, CanGigantamax = true }, // Copperajah
-            new(60,10,5) { Species = 208, Ability = A4, Moves = new[]{ 038, 231, 529, 422 }, Index = 32 }, // Steelix
-            new(60,10,5) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 370, 269 }, Index = 32 }, // Perrserker
-            new(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 076, 682, 157, 115 }, Index = 32, CanGigantamax = true }, // Coalossal
-            new(60,10,5) { Species = 464, Ability = A4, Moves = new[]{ 444, 089, 008, 224 }, Index = 32 }, // Rhyperior
-            new(60,10,5) { Species = 095, Ability = A4, Moves = new[]{ 776, 444, 784, 201 }, Index = 32 }, // Onix
-
             new(17,01,1) { Species = 320, Ability = A4, Moves = new[]{ 362, 034, 310, 054 }, Index = 31 }, // Wailmer
             new(17,01,1) { Species = 098, Ability = A4, Moves = new[]{ 055, 341, 043, 232 }, Index = 31 }, // Krabby
             new(17,01,1) { Species = 771, Ability = A4, Moves = new[]{ 240, 219, 213, 269 }, Index = 31 }, // Pyukumuku
@@ -300,68 +199,6 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 593, Ability = A4, Moves = new[]{ 056, 058, 605, 433 }, Index = 31 }, // Jellicent
             new(60,10,5) { Species = 226, Ability = A4, Moves = new[]{ 036, 403, 060, 331 }, Index = 31 }, // Mantine
             new(60,10,5) { Species = 319, Ability = A4, Moves = new[]{ 057, 242, 423, 305 }, Index = 31 }, // Sharpedo
-
-            new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 205, 045, 249 }, Index = 30 }, // Cufant
-            new(17,01,1) { Species = 208, Ability = A4, Moves = new[]{ 242, 442, 106, 422 }, Index = 30 }, // Steelix
-            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 232, 006, 242, 045 }, Index = 30, Form = 2 }, // Meowth-2
-            new(17,01,1) { Species = 837, Ability = A4, Moves = new[]{ 229, 261, 479, 108 }, Index = 30 }, // Rolycoly
-            new(17,01,1) { Species = 111, Ability = A4, Moves = new[]{ 479, 523, 196, 182 }, Index = 30 }, // Rhyhorn
-            new(17,01,1) { Species = 095, Ability = A4, Moves = new[]{ 174, 225, 034, 106 }, Index = 30 }, // Onix
-            new(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 523, 023, 334, 249 }, Index = 30 }, // Cufant
-            new(30,03,2) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 30 }, // Steelix
-            new(30,03,2) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 242, 269 }, Index = 30 }, // Perrserker
-            new(30,03,2) { Species = 838, Ability = A4, Moves = new[]{ 229, 488, 157, 108 }, Index = 30 }, // Carkol
-            new(30,03,2) { Species = 111, Ability = A4, Moves = new[]{ 350, 523, 196, 182 }, Index = 30 }, // Rhyhorn
-            new(30,03,2) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 034, 106 }, Index = 30 }, // Onix
-            new(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 30, CanGigantamax = true }, // Copperajah
-            new(40,05,3) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 30 }, // Steelix
-            new(40,05,3) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 154, 269 }, Index = 30 }, // Perrserker
-            new(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 108 }, Index = 30, CanGigantamax = true }, // Coalossal
-            new(40,05,3) { Species = 112, Ability = A4, Moves = new[]{ 036, 529, 008, 182 }, Index = 30 }, // Rhydon
-            new(40,05,3) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 021, 201 }, Index = 30 }, // Onix
-            new(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 30, CanGigantamax = true }, // Copperajah
-            new(50,08,4) { Species = 208, Ability = A4, Moves = new[]{ 157, 231, 328, 422 }, Index = 30 }, // Steelix
-            new(50,08,4) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 154, 269 }, Index = 30 }, // Perrserker
-            new(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 115 }, Index = 30, CanGigantamax = true }, // Coalossal
-            new(50,08,4) { Species = 464, Ability = A4, Moves = new[]{ 350, 089, 008, 182 }, Index = 30 }, // Rhyperior
-            new(50,08,4) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 784, 201 }, Index = 30 }, // Onix
-            new(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 276, 089, 583, 442 }, Index = 30, CanGigantamax = true }, // Copperajah
-            new(60,10,5) { Species = 208, Ability = A4, Moves = new[]{ 038, 231, 529, 422 }, Index = 30 }, // Steelix
-            new(60,10,5) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 370, 269 }, Index = 30 }, // Perrserker
-            new(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 076, 682, 157, 115 }, Index = 30, CanGigantamax = true }, // Coalossal
-            new(60,10,5) { Species = 464, Ability = A4, Moves = new[]{ 444, 089, 008, 224 }, Index = 30 }, // Rhyperior
-            new(60,10,5) { Species = 095, Ability = A4, Moves = new[]{ 776, 444, 784, 201 }, Index = 30 }, // Onix
-
-            new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 205, 045, 249 }, Index = 28 }, // Cufant
-            new(17,01,1) { Species = 208, Ability = A4, Moves = new[]{ 242, 442, 106, 422 }, Index = 28 }, // Steelix
-            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 232, 006, 242, 045 }, Index = 28, Form = 2 }, // Meowth-2
-            new(17,01,1) { Species = 837, Ability = A4, Moves = new[]{ 229, 261, 479, 108 }, Index = 28 }, // Rolycoly
-            new(17,01,1) { Species = 111, Ability = A4, Moves = new[]{ 479, 523, 196, 182 }, Index = 28 }, // Rhyhorn
-            new(17,01,1) { Species = 095, Ability = A4, Moves = new[]{ 174, 225, 034, 106 }, Index = 28 }, // Onix
-            new(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 523, 023, 334, 249 }, Index = 28 }, // Cufant
-            new(30,03,2) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 28 }, // Steelix
-            new(30,03,2) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 242, 269 }, Index = 28 }, // Perrserker
-            new(30,03,2) { Species = 838, Ability = A4, Moves = new[]{ 229, 488, 157, 108 }, Index = 28 }, // Carkol
-            new(30,03,2) { Species = 111, Ability = A4, Moves = new[]{ 350, 523, 196, 182 }, Index = 28 }, // Rhyhorn
-            new(30,03,2) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 034, 106 }, Index = 28 }, // Onix
-            new(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 28, CanGigantamax = true }, // Copperajah
-            new(40,05,3) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 }, Index = 28 }, // Steelix
-            new(40,05,3) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 154, 269 }, Index = 28 }, // Perrserker
-            new(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 108 }, Index = 28, CanGigantamax = true }, // Coalossal
-            new(40,05,3) { Species = 112, Ability = A4, Moves = new[]{ 036, 529, 008, 182 }, Index = 28 }, // Rhydon
-            new(40,05,3) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 021, 201 }, Index = 28 }, // Onix
-            new(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, Index = 28, CanGigantamax = true }, // Copperajah
-            new(50,08,4) { Species = 208, Ability = A4, Moves = new[]{ 157, 231, 328, 422 }, Index = 28 }, // Steelix
-            new(50,08,4) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 154, 269 }, Index = 28 }, // Perrserker
-            new(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 115 }, Index = 28, CanGigantamax = true }, // Coalossal
-            new(50,08,4) { Species = 464, Ability = A4, Moves = new[]{ 350, 089, 008, 182 }, Index = 28 }, // Rhyperior
-            new(50,08,4) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 784, 201 }, Index = 28 }, // Onix
-            new(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 276, 089, 583, 442 }, Index = 28, CanGigantamax = true }, // Copperajah
-            new(60,10,5) { Species = 208, Ability = A4, Moves = new[]{ 038, 231, 529, 422 }, Index = 28 }, // Steelix
-            new(60,10,5) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 370, 269 }, Index = 28 }, // Perrserker
-            new(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 076, 682, 157, 115 }, Index = 28, CanGigantamax = true }, // Coalossal
-            new(60,10,5) { Species = 464, Ability = A4, Moves = new[]{ 444, 089, 008, 224 }, Index = 28 }, // Rhyperior
-            new(60,10,5) { Species = 095, Ability = A4, Moves = new[]{ 776, 444, 784, 201 }, Index = 28 }, // Onix
 
             new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 205, 045, 249 }, Index = 27 }, // Cufant
             new(17,01,1) { Species = 208, Ability = A4, Moves = new[]{ 242, 442, 106, 422 }, Index = 27 }, // Steelix

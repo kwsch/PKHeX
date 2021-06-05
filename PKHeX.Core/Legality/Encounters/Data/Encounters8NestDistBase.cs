@@ -142,27 +142,6 @@ namespace PKHeX.Core
             new(50,08,4,SH) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 247, 056 }, Index = 19, Form = 2 }, // Rotom-2
             new(60,10,5,SH) { Species = 479, Ability = A4, Moves = new[]{ 521, 056, 247, 261 }, Index = 19, Form = 2 }, // Rotom-2
 
-            new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 091, 249, 205, 523 }, Index = 18 }, // Cufant
-            new(17,01,1) { Species = 568, Ability = A4, Moves = new[]{ 001, 499, 491, 133 }, Index = 18 }, // Trubbish
-            new(17,01,1) { Species = 004, Ability = A4, Moves = new[]{ 424, 052, 108, 225 }, Index = 18 }, // Charmander
-            new(17,01,1) { Species = 884, Ability = A4, Moves = new[]{ 468, 249, 043, 232 }, Index = 18 }, // Duraludon
-            new(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 334, 091, 205, 523 }, Index = 18 }, // Cufant
-            new(30,03,2) { Species = 568, Ability = A4, Moves = new[]{ 036, 499, 124, 133 }, Index = 18 }, // Trubbish
-            new(30,03,2) { Species = 005, Ability = A4, Moves = new[]{ 053, 163, 108, 225 }, Index = 18 }, // Charmeleon
-            new(30,03,2) { Species = 884, Ability = A4, Moves = new[]{ 468, 249, 784, 232 }, Index = 18 }, // Duraludon
-            new(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 334, 070, 442, 523 }, Index = 18, CanGigantamax = true }, // Copperajah
-            new(40,05,3) { Species = 569, Ability = A4, Moves = new[]{ 188, 499, 034, 707 }, Index = 18, CanGigantamax = true }, // Garbodor
-            new(40,05,3) { Species = 006, Ability = A4, Moves = new[]{ 053, 403, 108, 225 }, Index = 18, CanGigantamax = true }, // Charizard
-            new(40,05,3) { Species = 884, Ability = A4, Moves = new[]{ 442, 555, 784, 334 }, Index = 18, CanGigantamax = true }, // Duraludon
-            new(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 667, 442, 438, 523 }, Index = 18, CanGigantamax = true }, // Copperajah
-            new(50,08,4) { Species = 569, Ability = A4, Moves = new[]{ 441, 499, 402, 707 }, Index = 18, CanGigantamax = true }, // Garbodor
-            new(50,08,4) { Species = 006, Ability = A4, Moves = new[]{ 053, 403, 076, 257 }, Index = 18, CanGigantamax = true }, // Charizard
-            new(50,08,4) { Species = 884, Ability = A4, Moves = new[]{ 337, 430, 784, 776 }, Index = 18, CanGigantamax = true }, // Duraludon
-            new(60,10,5,SW) { Species = 879, Ability = A4, Moves = new[]{ 442, 583, 438, 089 }, Index = 18, CanGigantamax = true }, // Copperajah
-            new(60,10,5,SW) { Species = 884, Ability = A4, Moves = new[]{ 430, 406, 085, 334 }, Index = 18, CanGigantamax = true }, // Duraludon
-            new(60,10,5,SH) { Species = 569, Ability = A4, Moves = new[]{ 441, 409, 402, 707 }, Index = 18, CanGigantamax = true }, // Garbodor
-            new(60,10,5,SH) { Species = 006, Ability = A4, Moves = new[]{ 257, 403, 406, 411 }, Index = 18, CanGigantamax = true, Shiny = Shiny.Never }, // Charizard
-
             new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 091, 249, 205, 523 }, Index = 17 }, // Cufant
             new(17,01,1) { Species = 568, Ability = A4, Moves = new[]{ 001, 499, 491, 133 }, Index = 17 }, // Trubbish
             new(17,01,1) { Species = 004, Ability = A4, Moves = new[]{ 424, 052, 108, 225 }, Index = 17 }, // Charmander
@@ -277,54 +256,6 @@ namespace PKHeX.Core
             new(60,10,5,SW) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 }, Index = 14, CanGigantamax = true }, // Machamp
             new(60,10,5,SH) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, Index = 14 }, // Gengar
             new(60,10,5,SH) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, Index = 14, CanGigantamax = true }, // Gengar
-
-            new(17,01,1) { Species = 848, Ability = A4, Moves = new[]{ 609, 051, 496, 715 }, Index = 13 }, // Toxel
-            new(17,01,1,SW) { Species = 098, Ability = A4, Moves = new[]{ 055, 043, 106, 232 }, Index = 13 }, // Krabby
-            new(17,01,1,SW) { Species = 859, Ability = A4, Moves = new[]{ 044, 260, 590, 372 }, Index = 13 }, // Impidimp
-            new(30,03,2,SW) { Species = 099, Ability = A4, Moves = new[]{ 232, 341, 061, 023 }, Index = 13 }, // Kingler
-            new(30,03,2,SW) { Species = 099, Ability = A4, Moves = new[]{ 232, 341, 061, 023 }, Index = 13, CanGigantamax = true }, // Kingler
-            new(30,03,2,SW) { Species = 859, Ability = A4, Moves = new[]{ 389, 577, 260, 279 }, Index = 13 }, // Impidimp
-            new(30,03,2,SW) { Species = 849, Ability = A4, Moves = new[]{ 474, 209, 268, 175 }, Index = 13 }, // Toxtricity
-            new(40,05,3,SW) { Species = 099, Ability = A4, Moves = new[]{ 534, 232, 023, 106 }, Index = 13 }, // Kingler
-            new(40,05,3,SW) { Species = 099, Ability = A4, Moves = new[]{ 534, 232, 023, 106 }, Index = 13, CanGigantamax = true }, // Kingler
-            new(40,05,3,SW) { Species = 860, Ability = A4, Moves = new[]{ 492, 577, 421, 141 }, Index = 13 }, // Morgrem
-            new(40,05,3,SW) { Species = 849, Ability = A4, Moves = new[]{ 085, 474, 496, 103 }, Index = 13 }, // Toxtricity
-            new(40,05,3,SW) { Species = 849, Ability = A4, Moves = new[]{ 085, 474, 496, 103 }, Index = 13, CanGigantamax = true }, // Toxtricity
-            new(50,08,4,SW) { Species = 099, Ability = A4, Moves = new[]{ 359, 667, 157, 534 }, Index = 13 }, // Kingler
-            new(50,08,4,SW) { Species = 099, Ability = A4, Moves = new[]{ 359, 667, 157, 534 }, Index = 13, CanGigantamax = true }, // Kingler
-            new(50,08,4,SW) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 280, 409 }, Index = 13 }, // Grimmsnarl
-            new(50,08,4,SW) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 280, 409 }, Index = 13, CanGigantamax = true }, // Grimmsnarl
-            new(50,08,4,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 409 }, Index = 13 }, // Toxtricity
-            new(50,08,4,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 409 }, Index = 13, CanGigantamax = true }, // Toxtricity
-            new(60,10,5,SW) { Species = 099, Ability = A4, Moves = new[]{ 152, 667, 157, 404 }, Index = 13 }, // Kingler
-            new(60,10,5,SW) { Species = 099, Ability = A4, Moves = new[]{ 152, 667, 157, 404 }, Index = 13, CanGigantamax = true }, // Kingler
-            new(60,10,5,SW) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 409, 007 }, Index = 13 }, // Grimmsnarl
-            new(60,10,5,SW) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 409, 007 }, Index = 13, CanGigantamax = true }, // Grimmsnarl
-            new(60,10,5,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Index = 13 }, // Toxtricity
-            new(60,10,5,SW) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Index = 13, CanGigantamax = true }, // Toxtricity
-            new(17,01,1,SH) { Species = 825, Ability = A4, Moves = new[]{ 093, 522, 113, 115 }, Index = 13 }, // Dottler
-            new(17,01,1,SH) { Species = 856, Ability = A4, Moves = new[]{ 093, 589, 791, 574 }, Index = 13 }, // Hatenna
-            new(30,03,2,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 496, 095 }, Index = 13 }, // Orbeetle
-            new(30,03,2,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 496, 095 }, Index = 13, CanGigantamax = true }, // Orbeetle
-            new(30,03,2,SH) { Species = 856, Ability = A4, Moves = new[]{ 605, 060, 345, 347 }, Index = 13 }, // Hatenna
-            new(30,03,2,SH) { Species = 849, Ability = A4, Moves = new[]{ 599, 209, 268, 175 }, Index = 13, Form = 1 }, // Toxtricity-1
-            new(40,05,3,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 202, 109 }, Index = 13 }, // Orbeetle
-            new(40,05,3,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 202, 109 }, Index = 13, CanGigantamax = true }, // Orbeetle
-            new(40,05,3,SH) { Species = 857, Ability = A4, Moves = new[]{ 605, 345, 399, 500 }, Index = 13 }, // Hattrem
-            new(40,05,3,SH) { Species = 849, Ability = A4, Moves = new[]{ 085, 599, 496, 103 }, Index = 13, Form = 1 }, // Toxtricity-1
-            new(40,05,3,SH) { Species = 849, Ability = A4, Moves = new[]{ 085, 599, 496, 103 }, Index = 13, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(50,08,4,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 202, 247 }, Index = 13 }, // Orbeetle
-            new(50,08,4,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 202, 247 }, Index = 13, CanGigantamax = true }, // Orbeetle
-            new(50,08,4,SH) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 247 }, Index = 13 }, // Hatterene
-            new(50,08,4,SH) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 247 }, Index = 13, CanGigantamax = true }, // Hatterene
-            new(50,08,4,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 409 }, Index = 13, Form = 1 }, // Toxtricity-1
-            new(50,08,4,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 409 }, Index = 13, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new(60,10,5,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 247, 347 }, Index = 13 }, // Orbeetle
-            new(60,10,5,SH) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 247, 347 }, Index = 13, CanGigantamax = true }, // Orbeetle
-            new(60,10,5,SH) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 500 }, Index = 13 }, // Hatterene
-            new(60,10,5,SH) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 500 }, Index = 13, CanGigantamax = true }, // Hatterene
-            new(60,10,5,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Index = 13, Form = 1 }, // Toxtricity-1
-            new(60,10,5,SH) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Index = 13, Form = 1, CanGigantamax = true }, // Toxtricity-1
 
             new(17,01,1) { Species = 001, Ability = A4, Moves = new[]{ 033, 045, 022, 074 }, Index = 12 }, // Bulbasaur
             new(17,01,1) { Species = 004, Ability = A4, Moves = new[]{ 010, 045, 052, 108 }, Index = 12 }, // Charmander
@@ -515,55 +446,6 @@ namespace PKHeX.Core
             new(60,10,5,SH) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 573, 329 }, Index = 8 }, // Lapras
             new(60,10,5,SH) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 573, 329 }, Index = 8, CanGigantamax = true }, // Lapras
 
-            new(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 }, Index = 7 }, // Munchlax
-            new(17,01,1) { Species = 446, Ability = A2, Moves = new[]{ 033, 044, 122, 111 }, Index = 7 }, // Munchlax
-            new(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 }, Index = 7 }, // Snorlax
-            new(30,03,2) { Species = 143, Ability = A2, Moves = new[]{ 034, 242, 118, 111 }, Index = 7 }, // Snorlax
-            new(40,05,3) { Species = 012, Ability = A4, Moves = new[]{ 676, 403, 202, 527 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, Index = 7 }, // Snorlax
-            new(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, Index = 7, CanGigantamax = true }, // Snorlax
-            new(50,08,4) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 527, 078 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, Index = 7 }, // Snorlax
-            new(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, Index = 7, CanGigantamax = true }, // Snorlax
-            new(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, Index = 7 }, // Snorlax
-            new(70,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, Index = 7, CanGigantamax = true }, // Snorlax
-            new(17,01,1,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, Index = 7 }, // Butterfree
-            new(17,01,1,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(17,01,1,SW) { Species = 843, Ability = A4, Moves = new[]{ 693, 523, 189, 103 }, Index = 7 }, // Silicobra
-            new(17,01,1,SW) { Species = 833, Ability = A4, Moves = new[]{ 055, 044, 033, 213 }, Index = 7 }, // Chewtle
-            new(30,03,2,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 081, 079 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(30,03,2,SW) { Species = 843, Ability = A4, Moves = new[]{ 693, 523, 029, 137 }, Index = 7 }, // Silicobra
-            new(30,03,2,SW) { Species = 834, Ability = A4, Moves = new[]{ 317, 242, 055, 334 }, Index = 7 }, // Drednaw
-            new(30,03,2,SW) { Species = 834, Ability = A2, Moves = new[]{ 317, 242, 055, 334 }, Index = 7 }, // Drednaw
-            new(40,05,3,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 407, 424 }, Index = 7, CanGigantamax = true }, // Sandaconda
-            new(40,05,3,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 034, 317 }, Index = 7 }, // Drednaw
-            new(40,05,3,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 034, 317 }, Index = 7, CanGigantamax = true }, // Drednaw
-            new(50,08,4,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 342, 328 }, Index = 7, CanGigantamax = true }, // Sandaconda
-            new(50,08,4,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 350, 523 }, Index = 7 }, // Drednaw
-            new(50,08,4,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 350, 523 }, Index = 7, CanGigantamax = true }, // Drednaw
-            new(60,10,5,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 542, 202 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(70,10,5,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 342, 328 }, Index = 7, CanGigantamax = true }, // Sandaconda
-            new(60,10,5,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 7 }, // Drednaw
-            new(70,10,5,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 7, CanGigantamax = true }, // Drednaw
-            new(17,01,1,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, Index = 7 }, // Butterfree
-            new(17,01,1,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(17,01,1,SH) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 116, 064 }, Index = 7 }, // Rookidee
-            new(17,01,1,SH) { Species = 850, Ability = A4, Moves = new[]{ 044, 172, 141, 693 }, Index = 7 }, // Sizzlipede
-            new(30,03,2,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 081, 077 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(30,03,2,SH) { Species = 822, Ability = A4, Moves = new[]{ 403, 263, 179, 468 }, Index = 7 }, // Corvisquire
-            new(30,03,2,SH) { Species = 851, Ability = A4, Moves = new[]{ 172, 242, 404, 257 }, Index = 7 }, // Centiskorch
-            new(30,03,2,SH) { Species = 851, Ability = A2, Moves = new[]{ 172, 242, 404, 257 }, Index = 7 }, // Centiskorch
-            new(40,05,3,SH) { Species = 823, Ability = A4, Moves = new[]{ 065, 211, 034, 103 }, Index = 7, CanGigantamax = true }, // Corviknight
-            new(40,05,3,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 438, 053, 489 }, Index = 7 }, // Centiskorch
-            new(40,05,3,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 438, 053, 489 }, Index = 7, CanGigantamax = true }, // Centiskorch
-            new(50,08,4,SH) { Species = 823, Ability = A4, Moves = new[]{ 065, 442, 034, 334 }, Index = 7, CanGigantamax = true }, // Corviknight
-            new(50,08,4,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 424, 422, 242 }, Index = 7 }, // Centiskorch
-            new(50,08,4,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 424, 422, 242 }, Index = 7, CanGigantamax = true }, // Centiskorch
-            new(60,10,5,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 403, 079 }, Index = 7, CanGigantamax = true }, // Butterfree
-            new(70,10,5,SH) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 249, 103 }, Index = 7, CanGigantamax = true }, // Corviknight
-            new(60,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 7 }, // Centiskorch
-            new(70,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 7, CanGigantamax = true }, // Centiskorch
-            
             new(17,01,1) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 000, 000 }, Index = 6, Shiny = Shiny.Always }, // Magikarp
             new(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 }, Index = 6 }, // Munchlax
             new(17,01,1) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 000, 000 }, Index = 6 }, // Magikarp
@@ -656,54 +538,7 @@ namespace PKHeX.Core
             new(70,10,5,SH) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 249, 103 }, Index = 5, CanGigantamax = true }, // Corviknight
             new(60,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 5 }, // Centiskorch
             new(70,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 5, CanGigantamax = true }, // Centiskorch
-            
-            new(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 }, Index = 4 }, // Munchlax
-            new(17,01,1) { Species = 225, Ability = A4, Moves = new[]{ 217, 229, 098, 420 }, Index = 4 }, // Delibird
-            new(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 }, Index = 4 }, // Snorlax
-            new(30,03,2) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 034, 693 }, Index = 4 }, // Delibird
-            new(40,05,3) { Species = 012, Ability = A4, Moves = new[]{ 676, 403, 202, 527 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(40,05,3) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 280, 196 }, Index = 4 }, // Delibird
-            new(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, Index = 4, CanGigantamax = true }, // Snorlax
-            new(50,08,4) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 527, 078 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(50,08,4) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 034, 280 }, Index = 4 }, // Delibird
-            new(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, Index = 4, CanGigantamax = true }, // Snorlax
-            new(70,10,5) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 065, 280 }, Index = 4 }, // Delibird
-            new(70,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, Index = 4, CanGigantamax = true }, // Snorlax
-            new(17,01,1,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, Index = 4 }, // Butterfree
-            new(17,01,1,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(17,01,1,SW) { Species = 843, Ability = A4, Moves = new[]{ 693, 523, 189, 103 }, Index = 4 }, // Silicobra
-            new(17,01,1,SW) { Species = 833, Ability = A4, Moves = new[]{ 055, 044, 033, 213 }, Index = 4 }, // Chewtle
-            new(30,03,2,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 081, 079 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(30,03,2,SW) { Species = 843, Ability = A4, Moves = new[]{ 693, 523, 029, 137 }, Index = 4 }, // Silicobra
-            new(30,03,2,SW) { Species = 834, Ability = A4, Moves = new[]{ 317, 242, 055, 334 }, Index = 4 }, // Drednaw
-            new(40,05,3,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 407, 424 }, Index = 4, CanGigantamax = true }, // Sandaconda
-            new(40,05,3,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 034, 317 }, Index = 4 }, // Drednaw
-            new(40,05,3,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 034, 317 }, Index = 4, CanGigantamax = true }, // Drednaw
-            new(50,08,3,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 407, 424 }, Index = 4, CanGigantamax = true }, // Sandaconda
-            new(50,08,4,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 350, 523 }, Index = 4 }, // Drednaw
-            new(50,08,4,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 350, 523 }, Index = 4, CanGigantamax = true }, // Drednaw
-            new(60,10,5,SW) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 542, 202 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(70,10,5,SW) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 342, 328 }, Index = 4, CanGigantamax = true }, // Sandaconda
-            new(60,10,5,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 4 }, // Drednaw
-            new(70,10,5,SW) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, Index = 4, CanGigantamax = true }, // Drednaw
-            new(17,01,1,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, Index = 4 }, // Butterfree
-            new(17,01,1,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(17,01,1,SH) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 116, 064 }, Index = 4 }, // Rookidee
-            new(17,01,1,SH) { Species = 850, Ability = A4, Moves = new[]{ 044, 172, 141, 693 }, Index = 4 }, // Sizzlipede
-            new(30,03,2,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 081, 077 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(30,03,2,SH) { Species = 822, Ability = A4, Moves = new[]{ 403, 263, 179, 468 }, Index = 4 }, // Corvisquire
-            new(30,03,2,SH) { Species = 851, Ability = A4, Moves = new[]{ 172, 242, 404, 257 }, Index = 4 }, // Centiskorch
-            new(40,05,3,SH) { Species = 823, Ability = A4, Moves = new[]{ 065, 211, 034, 103 }, Index = 4, CanGigantamax = true }, // Corviknight
-            new(40,05,3,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 438, 053, 489 }, Index = 4 }, // Centiskorch
-            new(40,05,3,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 438, 053, 489 }, Index = 4, CanGigantamax = true }, // Centiskorch
-            new(50,08,4,SH) { Species = 823, Ability = A4, Moves = new[]{ 065, 442, 034, 334 }, Index = 4, CanGigantamax = true }, // Corviknight
-            new(50,08,4,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 424, 422, 242 }, Index = 4 }, // Centiskorch
-            new(50,08,4,SH) { Species = 851, Ability = A4, Moves = new[]{ 141, 424, 422, 242 }, Index = 4, CanGigantamax = true }, // Centiskorch
-            new(60,10,5,SH) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 403, 079 }, Index = 4, CanGigantamax = true }, // Butterfree
-            new(70,10,5,SH) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 249, 103 }, Index = 4, CanGigantamax = true }, // Corviknight
-            new(60,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 4 }, // Centiskorch
-            new(70,10,5,SH) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, Index = 4, CanGigantamax = true }, // Centiskorch
-            
+
             new(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 }, Index = 3 }, // Munchlax
             new(17,01,1) { Species = 225, Ability = A4, Moves = new[]{ 217, 229, 098, 420 }, Index = 3 }, // Delibird
             new(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 }, Index = 3 }, // Snorlax
