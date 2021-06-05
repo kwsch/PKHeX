@@ -534,22 +534,13 @@ namespace PKHeX.Core
         protected override void SetDex(PKM pkm)
         {
             int species = pkm.Species;
-            if (!CanSetDex(species))
+            if (species is 0 or > Legal.MaxSpeciesID_2)
+                return;
+            if (pkm.IsEgg)
                 return;
 
             SetCaught(pkm.Species, true);
             SetSeen(pkm.Species, true);
-        }
-
-        private bool CanSetDex(int species)
-        {
-            if (species <= 0)
-                return false;
-            if (species > MaxSpeciesID)
-                return false;
-            if (Version == GameVersion.Invalid)
-                return false;
-            return true;
         }
 
         private void SetUnownFormFlags()
