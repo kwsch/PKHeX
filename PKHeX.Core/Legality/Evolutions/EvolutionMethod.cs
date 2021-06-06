@@ -47,6 +47,8 @@ namespace PKHeX.Core
             Level = level;
         }
 
+        public override string ToString() => $"{(Species) Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
+
         /// <summary>
         /// Returns the form that the Pokémon will have after evolution.
         /// </summary>

@@ -12,6 +12,6 @@
 
         public bool IsTradeRequired => ((EvolutionType) Method).IsTrade();
 
-        public override string ToString() => $"{(Species) Species} [{MinLevel},{Level}] via {(EvolutionType) Method}";
+        public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{MinLevel},{Level}] via {(EvolutionType) Method}";
     }
 }
