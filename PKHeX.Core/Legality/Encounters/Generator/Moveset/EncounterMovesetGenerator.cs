@@ -264,6 +264,8 @@ namespace PKHeX.Core
             {
                 if (gift is WC3 {NotDistributed: true})
                     continue;
+                if (!IsSane(chain, gift))
+                    continue;
                 if (needs.Count == 0)
                 {
                     yield return gift;
@@ -288,6 +290,8 @@ namespace PKHeX.Core
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
             foreach (var enc in encounters)
             {
+                if (!IsSane(chain, enc))
+                    continue;
                 if (enc.IsUnobtainable())
                     continue;
                 if (needs.Count == 0)
@@ -339,6 +343,8 @@ namespace PKHeX.Core
             var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
             foreach (var trade in trades)
             {
+                if (!IsSane(chain, trade))
+                    continue;
                 if (needs.Count == 0)
                 {
                     yield return trade;
@@ -365,6 +371,8 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
             foreach (var slot in slots)
             {
+                if (!IsSane(chain, slot))
+                    continue;
                 if (slot.IsUnobtainable())
                     continue;
 
@@ -381,6 +389,22 @@ namespace PKHeX.Core
                 else if (slot.Generation <= 2 && !needs.Except(MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)).Any())
                     yield return slot;
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (evo.Form == enc.Form)
+                    return true;
+                if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Generation))
+                    return true;
+                break;
+            }
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

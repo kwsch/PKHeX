@@ -19,6 +19,9 @@ namespace PKHeX.Tests.Legality
         }
 
         [Theory]
+        [InlineData(nameof(Species.Perrserker), "Swift")]
+        [InlineData(nameof(Species.Perrserker), "Shock Wave")]
+        [InlineData(nameof(Species.Sirfetchd), "False Swipe")]
         [InlineData(nameof(Species.Bulbasaur), "Fly")]
         [InlineData(nameof(Species.Charizard), "Bubble")]
         [InlineData(nameof(Species.Mew), "Struggle")]
