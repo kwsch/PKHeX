@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 <see cref="SaveFile"/> object for <see cref="GameVersion.BW"/>.
+    /// </summary>
+    /// <inheritdoc cref="SAV5" />
     public sealed class SAV5BW : SAV5
     {
         public SAV5BW() : base(SaveUtil.SIZE_G5RAW)

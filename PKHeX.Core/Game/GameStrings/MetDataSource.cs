@@ -4,6 +4,9 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Cached copies of Met Location lists
+    /// </summary>
     public sealed class MetDataSource
     {
         private readonly List<ComboItem> MetGen2;

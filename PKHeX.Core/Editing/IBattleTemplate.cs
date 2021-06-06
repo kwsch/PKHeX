@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface containing details relevant for battling.
+    /// </summary>
     public interface IBattleTemplate : ISpeciesForm, IGigantamax, INature
     {
         /// <summary>

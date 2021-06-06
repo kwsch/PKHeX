@@ -28,12 +28,18 @@ namespace PKHeX.Core
 
         protected readonly int BlockInfoOffset;
 
+        /// <summary>
+        /// Timestamp that the save file was last saved at (Secure Value)
+        /// </summary>
         public ulong TimeStampCurrent
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset);
             set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset);
         }
 
+        /// <summary>
+        /// Timestamp that the save file was saved at prior to the <see cref="TimeStampCurrent"/> (Secure Value)
+        /// </summary>
         public ulong TimeStampPrevious
         {
             get => BitConverter.ToUInt64(Data, BlockInfoOffset);

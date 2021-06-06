@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Localizing Memory strings
+    /// </summary>
+    /// <remarks>
+    /// <see cref="IMemoryOT"/> and <see cref="IMemoryHT"/> parameters build strings.
+    /// </remarks>
     public sealed class MemoryStrings
     {
         private readonly GameStrings s;

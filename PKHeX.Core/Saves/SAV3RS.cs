@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="SaveFile"/> object for <see cref="GameVersion.RS"/>.
+    /// </summary>
+    /// <inheritdoc cref="SAV3" />
     public sealed class SAV3RS : SAV3, IGen3Hoenn
     {
         // Configuration
