@@ -150,7 +150,7 @@ namespace PKHeX.Core
         private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> chain)
         {
             if (pk.Species == (int)Species.Smeargle)
-                return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
+                return moves.Where(z => !Legal.IsValidSketch(z, pk.Format)).ToArray(); // Can learn anything
 
             // Roughly determine the generation the PKM is originating from
             var ver = pk.Version;

@@ -105,7 +105,7 @@ namespace PKHeX.Core
         private static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Smeargle)
-                return !Legal.InvalidSketch.Contains(move);
+                return Legal.IsValidSketch(move, generation);
 
             if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
                 return true;

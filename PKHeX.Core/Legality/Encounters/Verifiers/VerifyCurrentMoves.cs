@@ -136,9 +136,9 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 var move = currentMoves[i];
-                res[i] = Legal.InvalidSketch.Contains(move) || (pkm.Format is 6 && move is (int)Move.ThousandArrows or (int)Move.ThousandWaves)
-                    ? new CheckMoveResult(Unknown, pkm.Format, Invalid, LMoveSourceInvalidSketch, CurrentMove)
-                    : new CheckMoveResult(Sketch, pkm.Format, CurrentMove);
+                res[i] = Legal.IsValidSketch(move, pkm.Format)
+                    ? new CheckMoveResult(Sketch, pkm.Format, CurrentMove)
+                    : new CheckMoveResult(Unknown, pkm.Format, Invalid, LMoveSourceInvalidSketch, CurrentMove);
             }
 
             return res;

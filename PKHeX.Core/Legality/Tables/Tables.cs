@@ -81,9 +81,9 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// Moves that can not be obtained by using Sketch with Smeargle.
+        /// Moves that can not be obtained by using Sketch with Smeargle in any game.
         /// </summary>
-        internal static readonly HashSet<int> InvalidSketch = new(Z_Moves)
+        private static readonly HashSet<int> InvalidSketch = new(Z_Moves)
         {
             // Can't Sketch
             (int)Struggle,
@@ -92,6 +92,22 @@ namespace PKHeX.Core
             // Unreleased
             (int)LightofRuin,
         };
+
+        /// <summary>
+        /// Checks if Sketch can obtain the <see cref="move"/> in the requested <see cref="generation"/>
+        /// </summary>
+        /// <remarks>Doesn't bounds check the <see cref="generation"/> for max move ID.</remarks>
+        /// <param name="move">Move ID</param>
+        /// <param name="generation">Generation to check</param>
+        /// <returns>True if can be sketched, false if not available.</returns>
+        public static bool IsValidSketch(int move, int generation)
+        {
+            if (InvalidSketch.Contains(move))
+                return false;
+            if (generation is 6 && move is ((int)ThousandArrows or (int)ThousandWaves))
+                return false;
+            return true;
+        }
 
         /// <summary>
         /// Species that are from Mythical Distributions (disallowed species for competitive rulesets)
