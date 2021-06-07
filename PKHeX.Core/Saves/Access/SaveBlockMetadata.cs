@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
     /// <summary>
     /// Utilizes Reflection to obtain all defined accessor property names and object values.

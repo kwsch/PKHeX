@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PKHeX.Core;
 
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Species;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     /// <summary>
     /// Miscellaneous GB Era restriction logic for legality checking
