@@ -131,12 +131,37 @@ namespace PKHeX.Drawing
                 _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
             };
 
-            // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
-            int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
-            if (x + itemimg.Width > baseImage.Width)
-                x = baseImage.Width - itemimg.Width;
-            int y = ItemShiftY + (ItemMaxSize - itemimg.Height);
+            // Calculate number of null/blank pixels in item's sprite. If is 800 or more, it's a small item.
+            int pixels = CountNullPixels((Bitmap)itemimg);
+            int x, y;
+
+            if (pixels >= 800)
+            {
+                x = 39;
+                y = 29;
+            }
+            else
+            {
+                // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
+                x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
+                if (x + itemimg.Width > baseImage.Width)
+                    x = baseImage.Width - itemimg.Width;
+                y = ItemShiftY + (ItemMaxSize - itemimg.Height);
+            }
             return ImageUtil.LayerImage(baseImage, itemimg, x, y);
+        }
+
+        private int CountNullPixels(Bitmap bm)
+        {
+            int matches = 0;
+            for (int y = 0; y < bm.Height; y++)
+            {
+                for (int x = 0; x < bm.Width; x++)
+                {
+                    if (bm.GetPixel(x, y).Name == "0") matches++;
+                }
+            }
+            return matches;
         }
 
         private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed, bool altShiny)
