@@ -6,15 +6,22 @@ namespace PKHeX.Core
     {
         public static SCBlock[] GetBlankDataSWSH() => GetBlankBlockArray(DefaultChunkSizesSWSH);
 
+        /// <summary>
+        /// Create a blank block array using the provided <see cref="arr"/> definition.
+        /// </summary>
+        /// <param name="arr">Block specification tuples (key, size)</param>
+        /// <returns>List of blocks</returns>
         private static SCBlock[] GetBlankBlockArray(IReadOnlyList<uint> arr)
         {
             var blocks = new SCBlock[arr.Count / 2];
             for (int i = 0; i < blocks.Length; i++)
             {
                 int index = i * 2;
-                blocks[i] = new SCBlock(arr[index], SCTypeCode.None, new byte[(int)arr[index + 1]]);
+                var key = arr[index];
+                var length = (int) arr[index + 1];
+                var dummy = new byte[length];
+                blocks[i] = new SCBlock(key, SCTypeCode.None, dummy);
             }
-
             return blocks;
         }
 
