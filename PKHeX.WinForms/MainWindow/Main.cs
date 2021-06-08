@@ -774,7 +774,7 @@ namespace PKHeX.WinForms
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
             if (isBlank)
-                EditPKMUtil.TemplateFields(pk, sav);
+                EntityTemplates.TemplateFields(pk, sav);
             bool init = PKME_Tabs.IsInitialized;
             PKME_Tabs.CurrentPKM = pk;
             if (!init)

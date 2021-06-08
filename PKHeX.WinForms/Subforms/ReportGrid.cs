@@ -55,12 +55,12 @@ namespace PKHeX.WinForms
         {
             SuspendLayout();
             BoxBar.Step = 1;
-            var PL = new PokemonList<PKMSummaryImage>();
+            var PL = new PokemonList<EntitySummaryImage>();
             var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
                 pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth); // recalc Level
-                PL.Add(new PKMSummaryImage(pkm, strings));
+                PL.Add(new EntitySummaryImage(pkm, strings));
                 BoxBar.PerformStep();
             }
 

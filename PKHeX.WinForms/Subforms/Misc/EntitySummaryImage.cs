@@ -7,11 +7,11 @@ namespace PKHeX.WinForms
     /// <summary>
     /// Bind-able summary object that can fetch sprite and strings that summarize a <see cref="PKM"/>.
     /// </summary>
-    public sealed class PKMSummaryImage : PKMSummary
+    public sealed class EntitySummaryImage : EntitySummary
     {
         public Image Sprite => pkm.Sprite();
 
-        public PKMSummaryImage(PKM p, GameStrings strings) : base(p, strings)
+        public EntitySummaryImage(PKM p, GameStrings strings) : base(p, strings)
         {
         }
     }

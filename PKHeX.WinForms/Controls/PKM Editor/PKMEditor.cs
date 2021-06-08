@@ -812,7 +812,7 @@ namespace PKHeX.WinForms.Controls
 
             if (!silent)
             {
-                var suggestions = EditPKMUtil.GetSuggestionMessage(Entity, level, location, minlvl);
+                var suggestions = EntitySuggestionUtil.GetMetLocationSuggestionMessage(Entity, level, location, minlvl);
                 if (suggestions.Count <= 1) // no suggestion
                     return false;
 
