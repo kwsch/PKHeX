@@ -107,7 +107,7 @@
             this.GB_Stats = new System.Windows.Forms.GroupBox();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_BP = new System.Windows.Forms.Label();
-            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
+            this.TrainerStats = new Controls.TrainerStat();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Fame = new System.Windows.Forms.Label();
@@ -1497,7 +1497,7 @@
         private System.Windows.Forms.Label L_R;
         private Controls.TrainerID trainerID1;
         private System.Windows.Forms.GroupBox GB_Stats;
-        private Subforms.Save_Editors.TrainerStat TrainerStats;
+        private Controls.TrainerStat TrainerStats;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.TextBox TB_TrainerCardName;

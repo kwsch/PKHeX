@@ -127,7 +127,7 @@ namespace PKHeX.WinForms
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
-            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
+            this.TrainerStats = new Controls.TrainerStat();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Fame = new System.Windows.Forms.Label();
             this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
@@ -1725,7 +1725,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_TRNick;
         private System.Windows.Forms.TextBox TB_TRNick;
         private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
-        private Subforms.Save_Editors.TrainerStat TrainerStats;
+        private Controls.TrainerStat TrainerStats;
         private System.Windows.Forms.PropertyGrid PG_CurrentAppearance;
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
         private System.Windows.Forms.ToolTip Tip1;

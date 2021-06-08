@@ -103,7 +103,7 @@
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.L_Vivillon = new System.Windows.Forms.Label();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
-            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
+            this.TrainerStats = new Controls.TrainerStat();
             this.NUD_FC = new System.Windows.Forms.NumericUpDown();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_FC = new System.Windows.Forms.Label();
@@ -2435,7 +2435,7 @@
         private System.Windows.Forms.TextBox TB_RotomOT;
         private System.Windows.Forms.Label L_RotomOT;
         private Controls.TrainerID trainerID1;
-        private Subforms.Save_Editors.TrainerStat TrainerStats;
+        private Controls.TrainerStat TrainerStats;
         private System.Windows.Forms.NumericUpDown NUD_RotomAffection;
         private System.Windows.Forms.GroupBox GB_Rotom;
         private System.Windows.Forms.CheckBox CHK_RotoLoto2;

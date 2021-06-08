@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms.Subforms.Save_Editors
+namespace PKHeX.WinForms.Controls
 {
     public partial class TrainerStat : UserControl
     {

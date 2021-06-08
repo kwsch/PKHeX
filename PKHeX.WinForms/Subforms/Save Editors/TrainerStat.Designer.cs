@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Subforms.Save_Editors
+﻿namespace PKHeX.WinForms.Controls
 {
     partial class TrainerStat
     {
