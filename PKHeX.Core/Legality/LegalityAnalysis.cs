@@ -120,6 +120,16 @@ namespace PKHeX.Core
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
+
+                // Moves and Relearn arrays can potentially be empty on error.
+                // ReSharper disable once ConstantNullCoalescingCondition
+                for (int i = 0; i < Info.Moves.Length; i++)
+                    Info.Moves[i] ??= new CheckMoveResult(MoveSource.None, pkm.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+
+                // ReSharper disable once ConstantNullCoalescingCondition
+                for (int i = 0; i < Info.Relearn.Length; i++)
+                    Info.Relearn[i] ??= new CheckResult(Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
             }
 #endif
