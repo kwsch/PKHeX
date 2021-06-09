@@ -213,6 +213,13 @@ namespace PKHeX.WinForms
                     : results.Where(z => z.Generation <= 7);
             }
 
+            if (RTB_Instructions.Lines.Any(line => line.Length > 0))
+            {
+                var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+                BatchEditing.ScreenStrings(filters);
+                results = results.Where(enc => BatchEditing.IsFilterMatch(filters, enc)); // Compare across all filters
+            }
+
             return results;
         }
 
@@ -356,11 +363,6 @@ namespace PKHeX.WinForms
             MysteryGift f => Math.Max(0, f.Gender),
             _ => 0,
         };
-
-        private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
-        {
-            // todo
-        }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();
 
