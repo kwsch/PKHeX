@@ -25,7 +25,7 @@ namespace PKHeX.Core
             typeof (PK2), typeof (SK2), typeof (PK1),
         };
 
-        public static readonly List<string> CustomProperties = new() { PROP_LEGAL, PROP_RIBBONS };
+        public static readonly List<string> CustomProperties = new() { PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS };
         public static readonly string[][] Properties = GetPropArray();
 
         private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
@@ -38,6 +38,7 @@ namespace PKHeX.Core
         private const string CONST_BYTES = "$[]";
 
         private const string PROP_LEGAL = "Legal";
+        private const string PROP_TYPENAME = "ObjectType";
         private const string PROP_RIBBONS = "Ribbons";
         private const string IdentifierContains = nameof(PKM.Identifier) + "Contains";
 
@@ -192,6 +193,12 @@ namespace PKHeX.Core
         {
             foreach (var cmd in filters)
             {
+                if (cmd.PropertyName is PROP_TYPENAME)
+                {
+                    if ((obj.GetType().Name == cmd.PropertyValue) != cmd.Evaluator)
+                        return false;
+                }
+
                 if (!ReflectUtil.HasProperty(obj, cmd.PropertyName, out var pi))
                     return false;
                 try
@@ -433,6 +440,10 @@ namespace PKHeX.Core
             new ComplexFilter(PROP_LEGAL,
                 (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
                 (info, cmd) => info.Legality.Valid == cmd.Evaluator),
+
+            new ComplexFilter(PROP_TYPENAME,
+                (pkm, cmd) => (pkm.GetType().Name == cmd.PropertyValue) == cmd.Evaluator,
+                (info, cmd) => (info.Entity.GetType().Name == cmd.PropertyValue) == cmd.Evaluator),
 
             new ComplexFilter(IdentifierContains,
                 (pkm, cmd) => pkm.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator,
