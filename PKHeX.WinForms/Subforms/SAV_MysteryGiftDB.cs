@@ -260,11 +260,16 @@ namespace PKHeX.WinForms
             if (DialogResult.OK != fbd.ShowDialog())
                 return;
 
-            string path = fbd.SelectedPath;
-            Directory.CreateDirectory(path);
+            string folder = fbd.SelectedPath;
+            Directory.CreateDirectory(folder);
 
             foreach (var gift in Results.OfType<DataMysteryGift>()) // WC3 have no data
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Write());
+            {
+                var fileName = Util.CleanFileName(gift.FileName);
+                var path = Path.Combine(folder, fileName);
+                var data = gift.Write();
+                File.WriteAllBytes(path, data);
+            }
         }
 
         // View Updates

@@ -34,28 +34,36 @@ namespace PKHeX.Core
         {
             var lines = new List<string>();
             var info = l.Info;
-            var vMoves = info.Moves;
             var pkm = l.pkm;
-            for (int i = 0; i < 4; i++)
-            {
-                if (!vMoves[i].Valid)
-                    lines.Add(vMoves[i].Format(L_F0_M_1_2, i + 1));
-            }
 
+            AddMoves(info.Moves, lines);
             if (pkm.Format >= 6)
-            {
-                var vRelearn = info.Relearn;
-                for (int i = 0; i < 4; i++)
-                {
-                    if (!vRelearn[i].Valid)
-                        lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
-                }
-            }
+                AddRelearn(info.Relearn, lines);
 
             // Build result string...
             var outputLines = l.Results.Where(chk => !chk.Valid);
             lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
             return lines;
+        }
+
+        private static void AddMoves(CheckMoveResult[] moves, List<string> lines)
+        {
+            for (int i = 0; i < moves.Length; i++)
+            {
+                var move = moves[i];
+                if (!move.Valid)
+                    lines.Add(move.Format(L_F0_M_1_2, i + 1));
+            }
+        }
+
+        private static void AddRelearn(CheckResult[] relearn, List<string> lines)
+        {
+            for (int i = 0; i < relearn.Length; i++)
+            {
+                var move = relearn[i];
+                if (!move.Valid)
+                    lines.Add(move.Format(L_F0_RM_1_2, i + 1));
+            }
         }
 
         private static IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)

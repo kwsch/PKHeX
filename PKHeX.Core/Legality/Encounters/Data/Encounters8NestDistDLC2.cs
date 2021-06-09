@@ -8,7 +8,6 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
-            
             new(17,01,1) { Species = 002, Ability = A4, Moves = new[]{ 075, 077, 033, 079 }, Index = 71 }, // Ivysaur
             new(17,01,1) { Species = 060, Ability = A4, Moves = new[]{ 055, 095, 001, 341 }, Index = 71 }, // Poliwag
             new(17,01,1) { Species = 453, Ability = A4, Moves = new[]{ 040, 279, 189, 372 }, Index = 71 }, // Croagunk
