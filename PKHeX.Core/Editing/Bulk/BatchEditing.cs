@@ -197,6 +197,7 @@ namespace PKHeX.Core
                 {
                     if ((obj.GetType().Name == cmd.PropertyValue) != cmd.Evaluator)
                         return false;
+                    continue;
                 }
 
                 if (!ReflectUtil.HasProperty(obj, cmd.PropertyName, out var pi))
