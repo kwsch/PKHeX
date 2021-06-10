@@ -29,7 +29,7 @@
             }
 
             // Encounters can have different Catch Rates (RBG vs Y)
-            var table = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            var table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
             pk1.Catch_Rate = table[Species].CatchRate;
         }
 

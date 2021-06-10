@@ -31,7 +31,7 @@ namespace PKHeX.Core
             Version = version;
             Japanese = japanese;
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-            Personal = version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            Personal = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
             Initialize(version);
             ClearBoxes();
         }
@@ -42,7 +42,7 @@ namespace PKHeX.Core
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
             Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
-            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
             if (Version == GameVersion.Invalid)
                 return;
 

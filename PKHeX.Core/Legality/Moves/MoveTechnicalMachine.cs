@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 if (PersonalTable.RB[species].TMHM[i])
                     return GameVersion.RB;
                 if (PersonalTable.Y[species].TMHM[i])
-                    return GameVersion.Y;
+                    return GameVersion.YW;
             }
 
             return Legal.NONE;

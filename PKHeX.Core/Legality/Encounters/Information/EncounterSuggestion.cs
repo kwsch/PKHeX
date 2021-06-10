@@ -95,7 +95,7 @@ namespace PKHeX.Core
             AS or OR => Locations.HatchLocation6AO,
 
             SN or MN or US or UM => Locations.HatchLocation7,
-            RD or BU or GN or Y => Locations.Transfer1,
+            RD or BU or GN or YW => Locations.Transfer1,
             GD or SV or C => Locations.Transfer2,
             GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
 
