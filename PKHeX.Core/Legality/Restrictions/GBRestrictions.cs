@@ -103,6 +103,18 @@ namespace PKHeX.Core
             (int)Haunter,
         };
 
+        public static bool RateMatchesEncounter(int species, GameVersion version, int rate)
+        {
+            if (version.Contains(YW))
+            {
+                if (rate == PersonalTable.Y[species].CatchRate)
+                    return true;
+                if (version == YW) // no RB
+                    return false;
+            }
+            return rate == PersonalTable.RB[species].CatchRate;
+        }
+
         private static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
         {
             var result = new int[moves.Count];

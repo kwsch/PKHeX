@@ -164,24 +164,18 @@ namespace PKHeX.Core
             CheckResult GetWasNotTradeback()
             {
                 var e = data.EncounterMatch;
-                if (e is EncounterStatic1E {Version: GameVersion.Stadium} || e is EncounterTrade1)
+                if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
                 int species = pk1.Species;
-                if ((species == (int)Species.Dragonite && catch_rate == 9) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(species) && catch_rate == PersonalTable.RB[species].CatchRate))
-                    return GetInvalid(LG1CatchRateEvo);
-                if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
+                if (GBRestrictions.Species_NotAvailable_CatchRate.Contains(species) && catch_rate == PersonalTable.RB[species].CatchRate)
+                {
+                    if (species != (int) Species.Dragonite || catch_rate != 45 || !e.Version.Contains(GameVersion.YW))
+                        return GetInvalid(LG1CatchRateEvo);
+                }
+                if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, catch_rate))
                     return GetInvalid(pk1.Gen1_NotTradeback ? LG1CatchRateChain : LG1CatchRateNone);
                 return GetValid(LG1CatchRateMatchPrevious);
-            }
-
-            bool RateMatchesEncounter(int species)
-            {
-                if (catch_rate == PersonalTable.RB[species].CatchRate)
-                    return true;
-                if (catch_rate == PersonalTable.Y[species].CatchRate)
-                    return true;
-                return false;
             }
         }
 

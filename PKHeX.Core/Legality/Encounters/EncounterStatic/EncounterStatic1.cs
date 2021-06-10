@@ -73,9 +73,7 @@
             }
 
             // Encounters can have different Catch Rates (RBG vs Y)
-            var table = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
-            var rate = table[Species].CatchRate;
-            return catch_rate == rate;
+            return GBRestrictions.RateMatchesEncounter(Species, Version, catch_rate);
         }
     }
 }
