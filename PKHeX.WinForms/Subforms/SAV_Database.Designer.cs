@@ -463,7 +463,7 @@
             this.CB_EVTrain.Items.AddRange(new object[] {
             "Any",
             "None (0)",
-            "Some (127-0)",
+            "Some (127-1)",
             "Half (128-507)",
             "Full (508+)"});
             this.CB_EVTrain.Location = new System.Drawing.Point(83, 146);

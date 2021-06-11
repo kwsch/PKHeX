@@ -57,7 +57,7 @@ namespace PKHeX.Core.Searching
         public static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option) => option switch
         {
             1 => res.Where(pk => pk.EVTotal == 0), // None (0)
-            2 => res.Where(pk => pk.EVTotal < 128), // Some (127-0)
+            2 => res.Where(pk => pk.EVTotal is (not 0) and < 128), // Some (127-0)
             3 => res.Where(pk => pk.EVTotal is >= 128 and < 508), // Half (128-507)
             4 => res.Where(pk => pk.EVTotal >= 508), // Full (508+)
             _ => res
