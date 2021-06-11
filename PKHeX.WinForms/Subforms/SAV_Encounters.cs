@@ -194,9 +194,9 @@ namespace PKHeX.WinForms
                 return Array.Empty<IEncounterInfo>();
             var pk = SAV.BlankPKM;
 
-            var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
             var versions = settings.GetVersions(SAV);
-            var results = species.SelectMany(z => GetEncounters(z, moves, pk, versions));
+            var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
+            var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk);
             if (settings.SearchEgg != null)
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
             if (settings.SearchShiny != null)
@@ -223,6 +223,21 @@ namespace PKHeX.WinForms
             return results;
         }
 
+        private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, PersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk)
+        {
+            foreach (var s in species)
+            {
+                var pi = pt.GetFormEntry(s, 0);
+                var fc = pi.FormCount;
+                for (int f = 0; f < fc; f++)
+                {
+                    var encs = GetEncounters(s, f, moves, pk, versions);
+                    foreach (var enc in encs)
+                        yield return enc;
+                }
+            }
+        }
+
         private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
         {
             public bool Equals(T? x, T? y)
@@ -241,9 +256,10 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static IEnumerable<IEncounterInfo> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
+        private static IEnumerable<IEncounterInfo> GetEncounters(int species, int form, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
+            pk.Form = form;
             pk.SetGender(pk.GetSaneGender());
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
         }
