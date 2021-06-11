@@ -8,12 +8,18 @@ namespace PKHeX.Drawing
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
 
+        /// <summary> Width of the generated Sprite image. </summary>
         public abstract int Width { get; }
+        /// <summary> Height of the generated Sprite image. </summary>
         public abstract int Height { get; }
 
+        /// <summary> Minimum amount of padding on the right side of the image when layering an item sprite. </summary>
         protected abstract int ItemShiftX { get; }
+        /// <summary> Minimum amount of padding on the bottom side of the image when layering an item sprite. </summary>
         protected abstract int ItemShiftY { get; }
+        /// <summary> Max width / height of an item image. </summary>
         protected abstract int ItemMaxSize { get; }
+
         protected abstract int EggItemShiftX { get; }
         protected abstract int EggItemShiftY { get; }
 
