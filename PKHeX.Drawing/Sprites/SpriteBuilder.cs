@@ -132,7 +132,7 @@ namespace PKHeX.Drawing
             };
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
-            int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
+            int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2) - (int)System.Math.Pow(itemimg.Width, 0.7) + 4;
             if (x + itemimg.Width > baseImage.Width)
                 x = baseImage.Width - itemimg.Width;
             int y = ItemShiftY + (ItemMaxSize - itemimg.Height);
@@ -179,8 +179,8 @@ namespace PKHeX.Drawing
         public override int Height => 56;
         public override int Width => 68;
 
-        protected override int ItemShiftX => 52;
-        protected override int ItemShiftY => 24;
+        protected override int ItemShiftX => 40;
+        protected override int ItemShiftY => 22;
         protected override int ItemMaxSize => 32;
         protected override int EggItemShiftX => 18;
         protected override int EggItemShiftY => 1;
