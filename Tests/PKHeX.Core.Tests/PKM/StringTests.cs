@@ -58,5 +58,19 @@ namespace PKHeX.Tests.PKM
             indata.SequenceEqual(outdata).Should()
                 .BeTrue($"expected {check} to set properly, instead got {string.Join(", ", outdata.Select(z => $"{z:X2}"))}");
         }
+
+        [Theory]
+        [InlineData(0x0F5, 0xFF5E)] // ～
+        [InlineData(0x0FA, 0x2660)] // ♠
+        [InlineData(0x0FB, 0x2663)] // ♣
+        [InlineData(0x0FC, 0x2665)] // ♥
+        [InlineData(0x0FD, 0x2666)] // ♦
+        [InlineData(0x0FE, 0x2605)] // ★
+        [InlineData(0x105, 0x266A)] // ♪
+        public static void Encode45(ushort g4, char g5)
+        {
+            StringConverter4.ConvertChar2ValueG4(g5).Should().Be(g4);
+            StringConverter4.ConvertValue2CharG4(g4).Should().Be(g5);
+        }
     }
 }
