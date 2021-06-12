@@ -1,5 +1,5 @@
 0048	Inicial	0:Sin Elegir,387:Turtwig,390:Chimchar,393:Piplup
-0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
+0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Desaparecio,3:Cynthia da un huevo,4:Huevo Pendiente,5:Huevo Recibido
 0196	Dialga	0:Luchable,1:Desaparecido
 0197	Palkia	0:Luchable,1:Desaparecido
 0085	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido
@@ -12,7 +12,7 @@
 0068	Carta Prof Oak	0:No Activado,4370:Activado
 0069	Flauta Azur	0:No Activado,4387:Activado
 0070	Ll. Secreta	0:No Activado,4387:Activado
-0086	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
+0086	Arceus Event Hiker	0:No Activado,1:En la mina de Oreburgh,2:En la Biblioteca de Canalave 2F,3:Evento Completado
 0087	Evento de Sémola (Ruta 224)	0:No Activado,1:Puede ser activado,2:Activado
 0133	Sémola (Ruta 224)	0:No Activado,1:Activado,2:Aparecido
 0105	Estatua de las Ruinas de Hierro	0:Inactivo,270:Activado,280:Derrotado,290:Capturado

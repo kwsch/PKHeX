@@ -1,9 +1,9 @@
 0802	Cobalion Desaparecido
-0302	Cobalion (Rematch, Nivel +20)
+0302	Cobalion (Revancha, Nivel +20)
 0810	Terrakion Desaparecido
-0329	Terrakion (Rematch, Nivel +20)
+0329	Terrakion (Revancha, Nivel +20)
 0801	Virizion Desaparecido
-0300	Virizion (Rematch, Nivel +20)
+0300	Virizion (Revancha, Nivel +20)
 0667	Reshiram/Zekrom Desaparecido
 1004	Kyurem Desaparecido
 0922	Regirock Desaparecido
