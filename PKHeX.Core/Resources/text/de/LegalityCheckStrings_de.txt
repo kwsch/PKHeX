@@ -238,6 +238,8 @@ LMemoryIndexLinkHT = Should have a Link Trade HT Memory.
 LMemoryIndexVar = {0} Memory: TextVar should be index {1}.
 LMemoryMissingHT = Memory: Handling Trainer Memory missing.
 LMemoryMissingOT = Memory: Original Trainer Memory missing.
+LMemorySocialTooHigh_0 = Social Stat should be <= {0}
+LMemorySocialZero = Social Stat should be zero.
 LMemoryStatAffectionHT0 = Untraded: Handling Trainer Affection should be 0.
 LMemoryStatAffectionOT0 = OT Affection should be 0.
 LMemoryStatEnjoyment = Enjoyment should be {0}.

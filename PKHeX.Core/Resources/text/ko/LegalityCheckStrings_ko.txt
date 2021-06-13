@@ -238,6 +238,8 @@ LMemoryIndexLinkHT = 소유했던 통신교환 트레이너와의 추억을 가�
 LMemoryIndexVar = {0} 추억: TextVar는 인덱스 {1}이어야 합니다.
 LMemoryMissingHT = 추억: 소유했던 트레이너와의 추억이 없습니다.
 LMemoryMissingOT = 추억: 어버이와의 추억이 없습니다.
+LMemorySocialTooHigh_0 = Social Stat should be <= {0}
+LMemorySocialZero = Social Stat should be zero.
 LMemoryStatAffectionHT0 = 교환 경험 없음: 소유했던 트레이너와의 절친도는 0이어야 합니다.
 LMemoryStatAffectionOT0 = 어버이와의 절친도는 0이어야 합니다.
 LMemoryStatEnjoyment = Enjoyment should be {0}.

@@ -238,6 +238,8 @@ LMemoryIndexLinkHT = Vous devriez avoir un souvenir de l'entraîneur précédent
 LMemoryIndexVar = Mémoire {0} : TextVar doit être index {1}. 
 LMemoryMissingHT = Mémoire : Mémoire avec Dresseur actuel manquante.
 LMemoryMissingOT = Mémoire : Mémoire avec DO manquante.
+LMemorySocialTooHigh_0 = Social Stat should be <= {0}
+LMemorySocialZero = Social Stat should be zero.
 LMemoryStatAffectionHT0 = Non-échangés : L'affection avec le Dresseur Actuel doit être nulle.
 LMemoryStatAffectionOT0 = L'Affection pour le DO doit être nulle.
 LMemoryStatEnjoyment = Le plaisir doit être {0}.

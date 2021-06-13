@@ -238,6 +238,8 @@ LMemoryIndexLinkHT = 应该有连接交换持有人的回忆。
 LMemoryIndexVar = {0} 回忆: 文本值应为序号 {1}。
 LMemoryMissingHT = 回忆: 缺失持有人回忆。
 LMemoryMissingOT = 回忆: 缺失初训家回忆。
+LMemorySocialTooHigh_0 = Social Stat should be <= {0}
+LMemorySocialZero = Social Stat should be zero.
 LMemoryStatAffectionHT0 = 未交换: 持有人的友好度应为0。
 LMemoryStatAffectionOT0 = 初训家友好度应为0。
 LMemoryStatEnjoyment = 享受度应该为{0}。

@@ -238,6 +238,8 @@ LMemoryIndexLinkHT = Debería tener un recuerdo del entrenador anterior por inte
 LMemoryIndexVar = {0} Recuerdo: TextVar debería ser indicado {1}.
 LMemoryMissingHT = Recuerdo: Falta el recuerdo del entrenador anterior.
 LMemoryMissingOT = Recuerdo: Falta el recuerdo del entrenador original.
+LMemorySocialTooHigh_0 = Social Stat should be <= {0}
+LMemorySocialZero = Social Stat should be zero.
 LMemoryStatAffectionHT0 = No intercambiado: El Afecto con el entrenador anterior debería ser cero.
 LMemoryStatAffectionOT0 = El afecto del EO debería de ser cero.
 LMemoryStatEnjoyment = Los Mimos deberían ser {0}.
