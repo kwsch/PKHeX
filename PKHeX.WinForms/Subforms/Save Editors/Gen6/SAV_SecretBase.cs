@@ -11,35 +11,32 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SAV6AO SAV;
 
-        private byte[,] objdata;
-        private byte[,] pkmdata;
+        private SecretBase6? CurrentBase;
+        private int CurrentPKMIndex;
+        private SecretBase6PKM? CurrentPKM;
+
+        private int CurrentPlacementIndex ;
+        private SecretBase6GoodPlacement? CurrentPlacement;
+
+        private bool loading = true;
 
         public SAV_SecretBase(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6AO)(Origin = sav).Clone();
-            abilitylist = GameInfo.Strings.abilitylist;
+
+            NUD_FObject.Maximum = SecretBase6.COUNT_GOODS - 1; // zero indexed!
+            NUD_FPKM.Maximum = SecretBase6Other.COUNT_TEAM - 1; // zero indexed!
+            PG_Base.Font = FontUtil.GetPKXFont();
 
             SetupComboBoxes();
-            PopFavorite();
-            PopFavorite();
-            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = LB_Favorite.Font = FontUtil.GetPKXFont();
-            CB_Ability.InitializeBinding();
+            ReloadSecretBaseList();
+            LB_Bases.SelectedIndex = 0;
 
-            LB_Favorite.SelectedIndex = 0;
-            MT_Flags.Text = SAV.Records.GetRecord(080).ToString(); // read counter; also present in the Secret Base data block
-
-            var offset = GetSecretBaseOffset(0);
-            objdata = LoadObjectArray(offset);
-            pkmdata = LoadPKMData(0, offset);
-            B_SAV2FAV(this, EventArgs.Empty);
+            // Extra data
+            NUD_CapturedRecord.Value = SAV.Records.GetRecord(080);
         }
-
-        private bool editing;
-        private bool loading = true;
-
-        private readonly string[] abilitylist;
 
         private void SetupComboBoxes()
         {
@@ -47,6 +44,8 @@ namespace PKHeX.WinForms
             CB_HeldItem.InitializeBinding();
             CB_Species.InitializeBinding();
             CB_Nature.InitializeBinding();
+            CB_Ability.InitializeBinding();
+            CB_Form.InitializeBinding();
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
@@ -58,399 +57,272 @@ namespace PKHeX.WinForms
             CB_Move3.InitializeBinding();
             CB_Move4.InitializeBinding();
 
-            var MoveList = GameInfo.MoveDataSource;
-            CB_Move1.DataSource = new BindingSource(MoveList, null);
-            CB_Move2.DataSource = new BindingSource(MoveList, null);
-            CB_Move3.DataSource = new BindingSource(MoveList, null);
-            CB_Move4.DataSource = new BindingSource(MoveList, null);
+            var moves = GameInfo.MoveDataSource;
+            CB_Move1.DataSource = new BindingSource(moves, null);
+            CB_Move2.DataSource = new BindingSource(moves, null);
+            CB_Move3.DataSource = new BindingSource(moves, null);
+            CB_Move4.DataSource = new BindingSource(moves, null);
         }
 
-        // Repopulation Functions
-        private void PopFavorite()
-        {
-            LB_Favorite.Items.Clear();
-
-            const int playeroff = SAV6AO.SecretBase + 0x326;
-            const int favoff = SAV6AO.SecretBase + 0x63A;
-            string OT = StringConverter.GetString6(SAV.Data, playeroff + 0x218, 0x1A);
-            LB_Favorite.Items.Add($"* {OT}");
-            for (int i = 0; i < 30; i++)
-            {
-                string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (i * 0x3E0) + 0x218, 0x1A);
-                if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
-                    BaseTrainer = "Empty";
-                LB_Favorite.Items.Add($"{i} {BaseTrainer}");
-            }
-        }
-
-        private void B_SAV2FAV(object sender, EventArgs e)
+        private void ReloadSecretBaseList()
         {
             loading = true;
-            int index = LB_Favorite.SelectedIndex;
-            if (index < 0)
-                return;
-            var offset = GetSecretBaseOffset(index);
+            int index = LB_Bases.SelectedIndex;
+            LB_Bases.Items.Clear();
 
-            var bdata = new SecretBase6(SAV.Data, offset);
+            var block = SAV.SecretBase;
+            var self = block.GetSecretBaseSelf();
+            LB_Bases.Items.Add($"* {self.TrainerName}");
+            for (int i = 0; i < SecretBase6Block.OtherSecretBaseCount; i++)
+            {
+                var other = block.GetSecretBaseOther(i);
+                string name = other.TrainerName;
+                if (string.IsNullOrWhiteSpace(name))
+                    name = "Empty";
+                LB_Bases.Items.Add($"{i+1:00} {name}");
+            }
 
-            NUD_FBaseLocation.Value = bdata.BaseLocation;
-
-            TB_FOT.Text = bdata.TrainerName;
-            TB_FT1.Text = bdata.FlavorText1;
-            TB_FT2.Text = bdata.FlavorText2;
-
-            TB_FSay1.Text = bdata.Saying1;
-            TB_FSay2.Text = bdata.Saying2;
-            TB_FSay3.Text = bdata.Saying3;
-            TB_FSay4.Text = bdata.Saying4;
-
-            // Gather data for Object Array
-            objdata = LoadObjectArray(offset);
-
-            NUD_FObject.Value = 1; // Trigger Update
-            ChangeObjectIndex(this, EventArgs.Empty);
-
-            GB_PKM.Enabled = index > 0;
-
-            // Trainer Pokemon
-            pkmdata = LoadPKMData(index, offset);
-
-            NUD_FPKM.Value = 1;
-            ChangeFavPKM(this, EventArgs.Empty); // Trigger Update
+            if (index >= 0)
+                LB_Bases.SelectedIndex = index;
 
             loading = false;
-            B_Import.Enabled = B_Export.Enabled = index > 0;
-            currentIndex = index;
         }
 
-        private byte[,] LoadPKMData(int index, int offset)
+        private void ResetLoadNew()
         {
-            var result = new byte[3, 0x34];
-            if (index <= 0)
-                return result;
-            for (int i = 0; i < 3; i++)
-            {
-                for (int z = 0; z < 0x34; z++)
-                    result[i, z] = SAV.Data[offset + 0x32E + (0x34 * i) + z];
-            }
-            return result;
+            // Wipe all cached references so nothing is inadvertently saved
+            CurrentPKM = null;
+            CurrentPlacement = null;
+            CurrentBase = null;
+
+            CurrentPKMIndex = -1;
+            CurrentPlacementIndex = -1;
         }
 
-        private byte[,] LoadObjectArray(int offset)
+        private SecretBase6 GetSecretBaseReference(int index)
         {
-            byte[] data = SAV.Data;
-            var result = new byte[25, 12];
-            for (int i = 0; i < 25; i++)
-            {
-                for (int z = 0; z < 12; z++)
-                    result[i, z] = data[offset + 2 + (12 * i) + z];
-            }
-
-            return result;
+            if (index == 0)
+                return SAV.SecretBase.GetSecretBaseSelf();
+            return SAV.SecretBase.GetSecretBaseOther(index - 1);
         }
 
-        private static int GetSecretBaseOffset(int index)
+        private void LoadCurrent(SecretBase6 bdata)
         {
-            // OR/AS: Secret base @ 0x23A00
-            if (index == 0) // Self, 0x314 bytes? Doesn't store pokemon data
-                return SAV6AO.SecretBase + 0x326;
+            loading = true;
+            CurrentBase = bdata;
 
-            --index;
-            // Received
-            return SAV6AO.SecretBase + 0x63A + (index * SecretBase6.SIZE);
+            PG_Base.SelectedObject = bdata;
+
+            var pIndex = (int)NUD_FObject.Value;
+            LoadPlacement(bdata, bdata.GetPlacement(pIndex), pIndex);
+            if (bdata is SecretBase6Other o)
+                LoadOtherData(o);
+            else
+                SetOtherDataVisible(false);
+
+            loading = false;
         }
 
-        private void B_FAV2SAV(object sender, EventArgs e)
+        private void SaveCurrent(SecretBase6 bdata)
         {
-            // Write data back to save
-            int index = LB_Favorite.SelectedIndex; // store for restoring
-            if (!GB_PKM.Enabled && index > 0)
-            { WinFormsUtil.Error("Sorry, no overwriting someone else's base with your own data."); return; }
-            if (GB_PKM.Enabled && index == 0)
-            { WinFormsUtil.Error("Sorry, no overwriting of your own base with someone else's."); return; }
+            SavePlacement(bdata, (int)NUD_FObject.Value);
+            if (bdata is SecretBase6Other o)
+                SaveOtherData(o);
+        }
 
-            var name = LB_Favorite.Items[index].ToString();
-            if (name == "* " || name == $"{index} Empty")
-            { WinFormsUtil.Error("Sorry, no overwriting an empty base with someone else's."); return; }
-            if (index < 0)
+        private void LoadPlacement(SecretBase6 bdata, SecretBase6GoodPlacement p, int index)
+        {
+            SavePlacement(bdata, index);
+            CurrentPlacement = p;
+            CurrentPlacementIndex = index;
+
+            static decimal Clamp(NumericUpDown nud, decimal value) => Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
+            NUD_FObjType.Value = Clamp(NUD_FObjType, p.Good);
+            NUD_FX.Value = Clamp(NUD_FX, p.X);
+            NUD_FY.Value = Clamp(NUD_FY, p.Y);
+            NUD_FRot.Value = Clamp(NUD_FRot, p.Rotation);
+        }
+
+        private void SavePlacement(SecretBase6 bdata, int index)
+        {
+            var p = CurrentPlacement;
+            if (p is null || index < 0)
                 return;
-            int offset = GetSecretBaseOffset(index);
 
-            var bdata = new SecretBase6(SAV.Data, offset);
+            p.Good = (ushort) NUD_FObjType.Value;
+            p.X = (ushort) NUD_FX.Value;
+            p.Y = (ushort) NUD_FY.Value;
+            p.Rotation = (byte) NUD_FRot.Value;
 
-            int baseloc = (int)NUD_FBaseLocation.Value;
-            if (baseloc < 3)
-                baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
-            bdata.BaseLocation = baseloc;
-
-            bdata.TrainerName = TB_FOT.Text;
-            bdata.FlavorText1 = TB_FT1.Text;
-            bdata.FlavorText2 = TB_FT2.Text;
-
-            bdata.Saying1 = TB_FSay1.Text;
-            bdata.Saying2 = TB_FSay2.Text;
-            bdata.Saying3 = TB_FSay3.Text;
-            bdata.Saying4 = TB_FSay4.Text;
-
-            // Copy back Objects
-            for (int i = 0; i < 25; i++)
-            {
-                for (int z = 0; z < 12; z++)
-                    SAV.Data[offset + 2 + (12 * i) + z] = objdata[i, z];
-            }
-
-            if (GB_PKM.Enabled) // Copy pkm data back in
-            {
-                SaveFavPKM();
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int z = 0; z < 0x34; z++)
-                        SAV.Data[offset + 0x32E + (0x34 * i) + z] = pkmdata[i, z];
-                }
-            }
-            PopFavorite();
-            LB_Favorite.SelectedIndex = currentIndex = index;
+            bdata.SetPlacement(index, p);
         }
 
-        private int currentIndex;
-
-        // Button Specific
-        private void B_Cancel_Click(object sender, EventArgs e)
+        private void SaveOtherData(SecretBase6Other full)
         {
-            Close();
-        }
-
-        private void B_Save_Click(object sender, EventArgs e)
-        {
-            uint flags = Util.ToUInt32(MT_Flags.Text);
-            SAV.Records.SetRecord(080, (int)flags);
-            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV6AO.SecretBase + 0x62C, 4); // write counter
-            Origin.CopyChangesFrom(SAV);
-            Close();
-        }
-
-        private void B_GiveDecor_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 173; i++)
+            var pkm = CurrentPKM;
+            var index = CurrentPKMIndex;
+            if (pkm is not null && index >= 0)
             {
-                // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
-                // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
-
-                SAV.Data[SAV6AO.SecretBase + (i * 4)] = 25;
-                SAV.Data[SAV6AO.SecretBase + (i * 4) + 2] = 1;
+                SavePKM(pkm);
+                full.SetParticipant(index, pkm);
             }
         }
 
-        private void ChangeObjectIndex(object sender, EventArgs e)
+        private void LoadOtherData(SecretBase6Other full)
         {
-            int objindex = (int)NUD_FObject.Value - 1;
-            byte[] objinfo = new byte[12];
-            for (int i = 0; i < 12; i++)
-                objinfo[i] = objdata[objindex, i];
-
-            // Array with object data acquired. Fill data.
-            int val = objinfo[0]; if (val == 0xFF) val = -1;
-            byte x = objinfo[2];
-            byte y = objinfo[4];
-            byte rot = objinfo[6];
-            // byte unk1 = objinfo[7];
-            // ushort unk2 = BitConverter.ToUInt16(objinfo, 0x8);
-
-            // Set values to display
-            editing = true;
-
-            NUD_FObjType.Value = val;
-            NUD_FX.Value = x;
-            NUD_FY.Value = y;
-            NUD_FRot.Value = rot;
-
-            editing = false;
+            var pIndex = CurrentPKMIndex = (int)NUD_FPKM.Value;
+            var pkm = full.GetParticipant(pIndex);
+            LoadPKM(pkm);
+            SetOtherDataVisible(true);
         }
 
-        private void ChangeObjectQuality(object sender, EventArgs e)
+        private void SetOtherDataVisible(bool visible)
         {
-            if (editing) return;
-
-            int objindex = (int)NUD_FObject.Value - 1;
-
-            byte val = (byte)NUD_FObjType.Value;
-            byte x = (byte)NUD_FX.Value;
-            byte y = (byte)NUD_FY.Value;
-            byte rot = (byte)NUD_FRot.Value;
-
-            objdata[objindex, 0] = val;
-            objdata[objindex, 2] = x;
-            objdata[objindex, 4] = y;
-            objdata[objindex, 6] = rot;
+            PAN_PKM.Visible = visible;
         }
 
-        private int currentpkm;
-
-        private void ChangeFavPKM(object sender, EventArgs e)
+        private void SavePKM(SecretBase6PKM pkm)
         {
-            int index = (int)NUD_FPKM.Value;
-            SaveFavPKM(); // Save existing PKM
-            currentpkm = index;
-            LoadFavPKM();
+            pkm.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
+            pkm.Species = WinFormsUtil.GetIndex(CB_Species);
+            pkm.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
+            pkm.Ability = WinFormsUtil.GetIndex(CB_Ability);
+            pkm.AbilityNumber = CB_Ability.SelectedIndex << 1;
+            pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
+            pkm.Gender = PKX.GetGenderFromString(Label_Gender.Text);
+            pkm.Form = CB_Form.SelectedIndex;
+            pkm.EV_HP = Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
+            pkm.EV_ATK = Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
+            pkm.EV_DEF = Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
+            pkm.EV_SPA = Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);
+            pkm.EV_SPD = Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
+            pkm.EV_SPE = Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
+            pkm.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pkm.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pkm.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pkm.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pkm.Move1_PPUps = CB_PPu1.SelectedIndex;
+            pkm.Move2_PPUps = CB_PPu2.SelectedIndex;
+            pkm.Move3_PPUps = CB_PPu3.SelectedIndex;
+            pkm.Move4_PPUps = CB_PPu4.SelectedIndex;
+            pkm.IV_HP = Convert.ToByte(TB_HPIV.Text) & 0x1F;
+            pkm.IV_ATK = Convert.ToByte(TB_ATKIV.Text) & 0x1F;
+            pkm.IV_DEF = Convert.ToByte(TB_DEFIV.Text) & 0x1F;
+            pkm.IV_SPA = Convert.ToByte(TB_SPAIV.Text) & 0x1F;
+            pkm.IV_SPD = Convert.ToByte(TB_SPDIV.Text) & 0x1F;
+            pkm.IV_SPE = Convert.ToByte(TB_SPEIV.Text) & 0x1F;
+            pkm.IsShiny = CHK_Shiny.Checked;
+            pkm.CurrentFriendship = Convert.ToByte(TB_Friendship.Text);
+            pkm.Ball = WinFormsUtil.GetIndex(CB_Ball);
+            pkm.CurrentLevel = Convert.ToByte(TB_Level.Text);
         }
 
-        private void SaveFavPKM()
+        private void LoadPKM(SecretBase6PKM pkm)
         {
-            if (loading || !GB_PKM.Enabled) return;
-            int index = currentpkm;
-            byte[] pkm = new byte[0x34];
-
-            BitConverter.GetBytes(Util.GetHexValue(TB_EC.Text)).CopyTo(pkm, 0);
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Species)).CopyTo(pkm, 8);
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_HeldItem)).CopyTo(pkm, 0xA);
-            pkm[0xC] = (byte)Array.IndexOf(abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
-            pkm[0xD] = (byte)(CB_Ability.SelectedIndex << 1);
-            pkm[0x14] = (byte)WinFormsUtil.GetIndex(CB_Nature);
-
-            int fegform = 0;
-            fegform += PKX.GetGenderFromString(Label_Gender.Text) << 1;
-            fegform += CB_Form.SelectedIndex << 3;
-            pkm[0x15] = (byte)fegform;
-
-            pkm[0x16] = (byte)Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
-            pkm[0x17] = (byte)Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
-            pkm[0x18] = (byte)Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
-            pkm[0x19] = (byte)Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);
-            pkm[0x1A] = (byte)Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
-            pkm[0x1B] = (byte)Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
-
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move1)).CopyTo(pkm, 0x1C);
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move2)).CopyTo(pkm, 0x1E);
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move3)).CopyTo(pkm, 0x20);
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_Move4)).CopyTo(pkm, 0x22);
-
-            pkm[0x24] = (byte)CB_PPu1.SelectedIndex;
-            pkm[0x25] = (byte)CB_PPu2.SelectedIndex;
-            pkm[0x26] = (byte)CB_PPu3.SelectedIndex;
-            pkm[0x27] = (byte)CB_PPu4.SelectedIndex;
-
-            pkm[0x28] = (byte)(Convert.ToByte(TB_HPIV.Text) & 0x1F);
-            pkm[0x29] = (byte)(Convert.ToByte(TB_ATKIV.Text) & 0x1F);
-            pkm[0x2A] = (byte)(Convert.ToByte(TB_DEFIV.Text) & 0x1F);
-            pkm[0x2B] = (byte)(Convert.ToByte(TB_SPAIV.Text) & 0x1F);
-            pkm[0x2C] = (byte)(Convert.ToByte(TB_SPDIV.Text) & 0x1F);
-            pkm[0x2D] = (byte)(Convert.ToByte(TB_SPEIV.Text) & 0x1F);
-            int shiny = (CHK_Shiny.Checked? 1 : 0) << 6;
-            pkm[0x2D] |= (byte)shiny;
-
-            pkm[0x2E] = Convert.ToByte(TB_Friendship.Text);
-            pkm[0x2F] = (byte)WinFormsUtil.GetIndex(CB_Ball);
-            pkm[0x30] = Convert.ToByte(TB_Level.Text);
-
-            for (int i = 0; i < 0x34; i++) // Copy data back to storage.
-                pkmdata[index - 1, i] = pkm[i];
-        }
-
-        private void LoadFavPKM()
-        {
-            int index = currentpkm - 1;
-            byte[] fpkm = new byte[0x34];
-            for (int i = 0; i < 0x34; i++)
-                fpkm[i] = pkmdata[index, i];
-
-            uint ec = BitConverter.ToUInt32(fpkm, 0);
-            // uint unk = BitConverter.ToUInt32(fpkm, 4);
-            int species = BitConverter.ToInt16(fpkm, 8);
-            int item = BitConverter.ToInt16(fpkm, 0xA);
-            // int abil = fpkm[0xC];
-            int abil_no = fpkm[0xD];
-            MT_AbilNo.Text = abil_no.ToString();
-            // 6 unknown bytes, contest?
-
-            int nature = fpkm[0x14];
-            byte genform = fpkm[0x15];
-            genderflag = genform >> 1 & 0x3;
-            SetGenderLabel();
-
-            byte HP_EV = fpkm[0x16];
-            byte AT_EV = fpkm[0x17];
-            byte DE_EV = fpkm[0x18];
-            byte SA_EV = fpkm[0x19];
-            byte SD_EV = fpkm[0x1A];
-            byte SP_EV = fpkm[0x1B];
-
-            int move1 = BitConverter.ToInt16(fpkm, 0x1C);
-            int move2 = BitConverter.ToInt16(fpkm, 0x1E);
-            int move3 = BitConverter.ToInt16(fpkm, 0x20);
-            int move4 = BitConverter.ToInt16(fpkm, 0x22);
-
-            byte ppu1 = fpkm[0x24];
-            byte ppu2 = fpkm[0x25];
-            byte ppu3 = fpkm[0x26];
-            byte ppu4 = fpkm[0x27];
-
-            byte HP_IV = fpkm[0x28];
-            byte AT_IV = fpkm[0x29];
-            byte DE_IV = fpkm[0x2A];
-            byte SA_IV = fpkm[0x2B];
-            byte SD_IV = fpkm[0x2C];
-            byte SP_IV = fpkm[0x2D];
-
-            bool isshiny = (SP_IV & 0x40) > 0;
-            SP_IV &= 0x1F;
-
-            byte friendship = fpkm[0x2E];
-            int ball = fpkm[0x2F];
-            byte level = fpkm[0x30];
+            CurrentPKM = pkm;
 
             // Put data into fields.
-            TB_EC.Text = ec.ToString("X8");
-            CB_Species.SelectedValue = species;
-            CB_HeldItem.SelectedValue = item;
+            TB_EC.Text = pkm.EncryptionConstant.ToString("X8");
+            SetGenderLabel(pkm.Gender);
+            CB_Species.SelectedValue = pkm.Species;
+            CB_HeldItem.SelectedValue = pkm.HeldItem;
+            CB_Form.SelectedIndex = pkm.Form;
 
-            CB_Nature.SelectedValue = nature;
-            CB_Ball.SelectedValue = ball;
+            CB_Nature.SelectedValue = pkm.Nature;
+            CB_Ball.SelectedValue = pkm.Ball;
 
-            TB_HPIV.Text = HP_IV.ToString();
-            TB_ATKIV.Text = AT_IV.ToString();
-            TB_DEFIV.Text = DE_IV.ToString();
-            TB_SPAIV.Text = SA_IV.ToString();
-            TB_SPDIV.Text = SD_IV.ToString();
-            TB_SPEIV.Text = SP_IV.ToString();
+            TB_HPIV.Text = pkm.IV_HP.ToString();
+            TB_ATKIV.Text = pkm.IV_ATK.ToString();
+            TB_DEFIV.Text = pkm.IV_DEF.ToString();
+            TB_SPAIV.Text = pkm.IV_SPA.ToString();
+            TB_SPDIV.Text = pkm.IV_SPD.ToString();
+            TB_SPEIV.Text = pkm.IV_SPE.ToString();
 
-            TB_HPEV.Text = HP_EV.ToString();
-            TB_ATKEV.Text = AT_EV.ToString();
-            TB_DEFEV.Text = DE_EV.ToString();
-            TB_SPAEV.Text = SA_EV.ToString();
-            TB_SPDEV.Text = SD_EV.ToString();
-            TB_SPEEV.Text = SP_EV.ToString();
+            TB_HPEV.Text = pkm.EV_HP.ToString();
+            TB_ATKEV.Text = pkm.EV_ATK.ToString();
+            TB_DEFEV.Text = pkm.EV_DEF.ToString();
+            TB_SPAEV.Text = pkm.EV_SPA.ToString();
+            TB_SPDEV.Text = pkm.EV_SPD.ToString();
+            TB_SPEEV.Text = pkm.EV_SPE.ToString();
 
-            TB_Friendship.Text = friendship.ToString();
-            TB_Level.Text = level.ToString();
+            TB_Friendship.Text = pkm.CurrentFriendship.ToString();
+            TB_Level.Text = pkm.CurrentLevel.ToString();
 
-            CB_Move1.SelectedValue = move1;
-            CB_Move2.SelectedValue = move2;
-            CB_Move3.SelectedValue = move3;
-            CB_Move4.SelectedValue = move4;
-            CB_PPu1.SelectedIndex = ppu1;
-            CB_PPu2.SelectedIndex = ppu2;
-            CB_PPu3.SelectedIndex = ppu3;
-            CB_PPu4.SelectedIndex = ppu4;
+            CB_Move1.SelectedValue = pkm.Move1;
+            CB_Move2.SelectedValue = pkm.Move2;
+            CB_Move3.SelectedValue = pkm.Move3;
+            CB_Move4.SelectedValue = pkm.Move4;
+            CB_PPu1.SelectedIndex = pkm.Move1_PPUps;
+            CB_PPu2.SelectedIndex = pkm.Move2_PPUps;
+            CB_PPu3.SelectedIndex = pkm.Move3_PPUps;
+            CB_PPu4.SelectedIndex = pkm.Move4_PPUps;
 
-            CHK_Shiny.Checked = isshiny;
-
-            // Set Form
-            SetForms();
-            int form = genform >> 3;
-            CB_Form.SelectedIndex = form;
+            CHK_Shiny.Checked = pkm.IsShiny;
 
             // Set Ability
-            SetAbilityList();
+            SetAbilityList(pkm.Species, pkm.Form, pkm.AbilityNumber >> 1);
         }
 
+        #region Editing Index Changing
+        private void ChangeIndexBase(object sender, EventArgs e)
+        {
+            int index = LB_Bases.SelectedIndex;
+            if (index < 0 || loading)
+                return;
+
+            var bdata = CurrentBase;
+            if (bdata != null)
+                SaveCurrent(bdata);
+
+            ResetLoadNew();
+            bdata = CurrentBase = GetSecretBaseReference(index);
+            LoadCurrent(bdata);
+        }
+
+        private void ChangeIndexPlacement(object sender, EventArgs e)
+        {
+            var bdata = CurrentBase;
+            if (bdata is null)
+                return;
+
+            SavePlacement(bdata, CurrentPlacementIndex);
+            var pIndex = (int)NUD_FObject.Value;
+            LoadPlacement(bdata, bdata.GetPlacement(pIndex), pIndex);
+        }
+
+        private void ChangeIndexPKM(object sender, EventArgs e)
+        {
+            var bdata = CurrentBase;
+            if (bdata is not SecretBase6Other o)
+                return;
+
+            var pkm = CurrentPKM;
+            if (pkm is null || CurrentPKMIndex < 0)
+                return;
+
+            SavePKM(pkm);
+            o.SetParticipant(CurrentPKMIndex, pkm);
+
+            var index = CurrentPKMIndex = (int) NUD_FPKM.Value;
+            pkm = o.GetParticipant(index);
+            LoadPKM(pkm);
+        }
+        #endregion
+
+        #region PKM
         private void SetAbilityList()
         {
-            int abilityIndex = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = WinFormsUtil.GetIndex(CB_Species);
-            int form = CB_Form.SelectedIndex;
-            var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
+            var form = CB_Form.SelectedIndex;
+            var index = CB_Ability.SelectedIndex;
+            SetAbilityList(species, form, index);
+        }
 
-            CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abilities, 6);
+        private void SetAbilityList(int species, int form, int abilityIndex)
+        {
+            var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
+            var list = GameInfo.FilteredSources.GetAbilityList(abilities, 6);
+            CB_Ability.DataSource = new BindingSource(list, null);
             CB_Ability.SelectedIndex = abilityIndex < 3 ? abilityIndex : 0;
         }
 
@@ -460,8 +332,8 @@ namespace PKHeX.WinForms
             bool hasForms = FormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-            CB_Form.InitializeBinding();
-            CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+            var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
+            CB_Form.DataSource = new BindingSource(list, null);
         }
 
         private void UpdateSpecies(object sender, EventArgs e)
@@ -469,13 +341,14 @@ namespace PKHeX.WinForms
             // Get Forms for Given Species
             SetForms();
 
-            // Check for Gender Changes
-            // Get Gender Threshold
-            var gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].FixedGender;
-            if (gt != -1)
-                genderflag = gt;
+            var species = WinFormsUtil.GetIndex(CB_Species);
 
-            SetGenderLabel();
+            // Set a sane gender
+            var gender = SAV.Personal[species].FixedGender;
+            if (gender == -1)
+                gender = PKX.GetGenderFromString(Label_Gender.Text);
+            SetGenderLabel(gender);
+
             SetAbilityList();
         }
 
@@ -487,8 +360,6 @@ namespace PKHeX.WinForms
             if (PKX.GetGenderFromString(CB_Form.Text) < 2)
                 Label_Gender.Text = Main.GenderSymbols[CB_Form.SelectedIndex];
         }
-
-        private int genderflag;
 
         private void Label_Gender_Click(object sender, EventArgs e)
         {
@@ -503,55 +374,49 @@ namespace PKHeX.WinForms
             Label_Gender.Text = Main.GenderSymbols[fg];
         }
 
-        private void SetGenderLabel()
+        private void SetGenderLabel(int gender)
         {
-            Label_Gender.Text = Main.GenderSymbols[genderflag];
+            var symbols = Main.GenderSymbols;
+            if ((uint) gender >= symbols.Count)
+                gender = 0;
+            Label_Gender.Text = symbols[gender];
         }
+        #endregion
 
-        private void B_FDelete_Click(object sender, EventArgs e)
-        {
-            if (LB_Favorite.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your Secret Base."); return; }
-            int index = LB_Favorite.SelectedIndex - 1;
-
-            const int favoff = SAV6AO.SecretBase + 0x63A;
-            string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (index * 0x3E0) + 0x218, 0x1A);
-            if (string.IsNullOrEmpty(BaseTrainer))
-                BaseTrainer = "Empty";
-
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?"))
-                return;
-
-            const int max = 29;
-            const int size = SecretBase6.SIZE;
-            int offset = favoff + (index * size);
-            if (index != max) Array.Copy(SAV.Data, offset + size, SAV.Data, offset, size * (max - index));
-            // Ensure Last Entry is Cleared
-            Array.Copy(new byte[size], 0, SAV.Data, size * max, size);
-            PopFavorite();
-        }
-
+        #region I/O
         private void B_Import_Click(object sender, EventArgs e)
         {
             using var ofd = new OpenFileDialog();
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
+
             var path = ofd.FileName;
-            if (new FileInfo(path).Length != SecretBase6.SIZE)
+            if (new FileInfo(path).Length is not (SecretBase6.SIZE or SecretBase6Other.SIZE))
                 return;
-            var ofs = GetSecretBaseOffset(currentIndex);
+
             var data = File.ReadAllBytes(path);
-            SAV.SetData(data, ofs);
-            PopFavorite();
-            LB_Favorite.SelectedIndex = currentIndex;
-            B_SAV2FAV(sender, e); // load back from current index
+            var obj = SecretBase6.Read(data);
+            if (obj is null) // shouldn't happen, we already size-check above.
+                throw new NullReferenceException();
+
+            var sb = CurrentBase;
+            if (sb is null)
+                throw new NullReferenceException();
+
+            ResetLoadNew();
+            sb.Load(obj);
+            ReloadSecretBaseList();
+            LoadCurrent(sb);
+            System.Media.SystemSounds.Asterisk.Play();
         }
 
         private void B_Export_Click(object sender, EventArgs e)
         {
-            LB_Favorite.SelectedIndex = currentIndex;
-            B_FAV2SAV(sender, e); // save back to current index
-            var ofs = GetSecretBaseOffset(currentIndex);
-            var sb = new SecretBase6(SAV.Data, ofs);
+            var sb = CurrentBase;
+            if (sb is null)
+                throw new NullReferenceException();
+
+            SaveCurrent(sb);
             var tr = sb.TrainerName;
             if (string.IsNullOrWhiteSpace(tr))
                 tr = "Trainer";
@@ -560,8 +425,56 @@ namespace PKHeX.WinForms
                 return;
 
             var path = sfd.FileName;
-            var data = SAV.GetData(ofs, SecretBase6.SIZE);
+            var data = sb.Write();
             File.WriteAllBytes(path, data);
         }
+        #endregion
+
+        #region Meta Buttons
+        private void B_FDelete_Click(object sender, EventArgs e)
+        {
+            if (LB_Bases.SelectedIndex < 1)
+            {
+                WinFormsUtil.Alert("Cannot delete your Secret Base.");
+                return;
+            }
+
+            int index = LB_Bases.SelectedIndex - 1;
+            var bdata = CurrentBase;
+            if (bdata is null)
+                throw new NullReferenceException();
+
+            string BaseTrainer = bdata.TrainerName;
+            if (string.IsNullOrEmpty(BaseTrainer))
+                BaseTrainer = "Empty";
+
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?");
+            if (dr != DialogResult.Yes)
+                return;
+
+            SAV.Blocks.SecretBase.DeleteOther(index);
+            ReloadSecretBaseList();
+            ResetLoadNew();
+            bdata = CurrentBase = GetSecretBaseReference(index + 1);
+            LoadCurrent(bdata);
+            LB_Bases.SelectedIndex = index + 1;
+        }
+
+        private void B_GiveDecor_Click(object sender, EventArgs e) => SAV.Blocks.SecretBase.GiveAllGoods();
+        private void B_Cancel_Click(object sender, EventArgs e) => Close();
+
+        private void B_Save_Click(object sender, EventArgs e)
+        {
+            uint flags = (uint)NUD_CapturedRecord.Value;
+            SAV.Records.SetRecord(080, (int)flags);
+
+            var bdata = CurrentBase;
+            if (bdata != null)
+                SaveCurrent(bdata);
+
+            Origin.CopyChangesFrom(SAV);
+            Close();
+        }
+        #endregion
     }
 }

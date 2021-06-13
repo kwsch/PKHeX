@@ -95,6 +95,7 @@ namespace PKHeX.Core
         public SubEventLog6 SUBE { get; }
         public ConfigSave6 Config { get; }
         public Encount6 Encount { get; }
+        public SecretBase6Block SecretBase { get; }
 
         public SaveBlockAccessor6AO(SAV6AO sav)
         {
@@ -118,6 +119,7 @@ namespace PKHeX.Core
             Records = new RecordBlock6(sav, 0x1F400);
             SuperTrain = new SuperTrainBlock(sav, 0x20200);
             Link = new LinkBlock6(sav, 0x20E00);
+            SecretBase = new SecretBase6Block(sav, 0x23A00);
             Sango = new SangoInfoBlock(sav, 0x2B600);
         }
     }

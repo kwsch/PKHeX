@@ -57,8 +57,6 @@ namespace PKHeX.Core
         private const int Daycare2 = 0x1BC00 + 0x1F0;
         /// <summary> Offset of the Contest data block. </summary>
         public const int Contest = 0x23600;
-        /// <summary> Offset of the Secret Base block. </summary>
-        public const int SecretBase = 0x23A00;
 
         #region Blocks
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
@@ -83,6 +81,7 @@ namespace PKHeX.Core
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;
+        public SecretBase6Block SecretBase => Blocks.SecretBase;
         #endregion
 
         public override GameVersion Version => Game switch

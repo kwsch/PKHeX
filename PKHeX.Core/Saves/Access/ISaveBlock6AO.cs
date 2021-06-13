@@ -7,5 +7,6 @@
     {
         Misc6AO Misc { get; }
         Zukan6AO Zukan { get; }
+        SecretBase6Block SecretBase { get; }
     }
 }
