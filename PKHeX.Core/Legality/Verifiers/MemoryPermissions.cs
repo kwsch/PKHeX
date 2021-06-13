@@ -33,6 +33,8 @@ namespace PKHeX.Core
             if (generation == 6)
             {
                 // Key Item usage while in party on another species.
+                if (Memories.KeyItemUsableObserve6.Contains((ushort) item))
+                    return true;
                 if (Memories.KeyItemMemoryArgsGen6.Values.Any(z => z.Contains((ushort) item)))
                     return true;
             }
@@ -41,12 +43,20 @@ namespace PKHeX.Core
 
         public static bool CanUseItem(int generation, int item, int species)
         {
-            if (IsUsedKeyItem(generation, item, species))
+            if (IsUsedKeyItemUnspecific(generation, item))
+                return true;
+            if (IsUsedKeyItemSpecific(generation, item, species))
                 return true;
             return true; // todo
         }
 
-        private static bool IsUsedKeyItem(int generation, int item, int species) => generation switch
+        private static bool IsUsedKeyItemUnspecific(int generation, int item) => generation switch
+        {
+            6 => Memories.KeyItemUsableObserve6.Contains((ushort)item),
+            _ => false
+        };
+
+        private static bool IsUsedKeyItemSpecific(int generation, int item, int species) => generation switch
         {
             6 => Memories.KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort) item),
             8 => Memories.KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort) item),
