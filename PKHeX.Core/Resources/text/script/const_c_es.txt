@@ -1,0 +1,2 @@
+52	Suicune (Torre de Hojalata)	0:Batalla,1:Atrapado/Derrotado
+54	Bestias legendarias (Torre quemada)	0:No se han despertado,1:Despertar/Huida

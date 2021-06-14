@@ -66,4 +66,4 @@
 0387	Super Triples Desbloqueado
 0388	Super Rotación Desbloqueado
 0389	Super Multi Desbloqueado
-2738	Foreign DexNav Encounters Unlocked
+2738	Encuentros extranjeros de DexNav desbloqueados
