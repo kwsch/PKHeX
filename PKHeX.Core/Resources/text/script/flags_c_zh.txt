@@ -4,7 +4,7 @@
 1600	Cyndaquil ball at Elm's disappeared
 1601	Totodile ball at Elm's disappeared
 1602	Chikorita ball at Elm's disappeared
-0042	已捕获 树才怪
+1784	已捕获 树才怪
 0079	已接收 伊布
 1867	神兽已从烧焦塔消失
 0190	钢铁能检查GS球
