@@ -4,7 +4,7 @@
 1600	La bola de Cyndaquil de Elm ha desaparecido 
 1601	La bola de Totodile de Elm ha desaparecido 
 1602	La bola de Chikorita de Elm ha desaparecido 
-0042	Sudowoodo Capturado
+1784	Sudowoodo Capturado
 0079	Eevee Recibido
 1867	Las bestias legendarias desaparecieron de la torre incendiada
 0190	Kurt puede ver la GS Ball
