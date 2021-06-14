@@ -1,5 +1,5 @@
 0048	Inicial	0:Sin Elegir,387:Turtwig,390:Chimchar,393:Piplup
-0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Desaparecio,3:Cynthia da un huevo,4:Huevo Pendiente,5:Huevo Recibido
+0122	Huevo de Togepi	0:Estatua visitada,1:Recibido HM01,2:Cynthia Desaparecio,3:Cynthia da un huevo,4:Huevo Pendiente,5:Huevo Recibido
 0196	Dialga	0:Luchable,1:Desaparecido
 0197	Palkia	0:Luchable,1:Desaparecido
 0085	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido

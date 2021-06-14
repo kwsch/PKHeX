@@ -9,5 +9,5 @@
 0258	Teleportable (2do) Arceus	1:Sala Origen,2:Encuentro Fatídico
 0305	Iniciales de Kanto	0:No Activado,1:Activado,2:Pendiente,3:Bulbasaur,4:Squirtle,5:Charmander,6:Completo
 0116	Togepi de Regalo	0:No Activado,1:Activado,2:Pendiente,3:Obtenido,4:Completo
-0254	Evento de Celebi	0:No activado,5:Completado
+0254	Evento de Celebi	0:No Activado,5:Completado
 0314	Puntos de la Tarjeta Azul	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
