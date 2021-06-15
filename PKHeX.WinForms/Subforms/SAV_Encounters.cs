@@ -146,16 +146,20 @@ namespace PKHeX.WinForms
                 return EncounterCriteria.Unrestricted;
 
             var editor = PKME_Tabs.Data;
+            var tree = EvolutionTree.GetEvolutionTree(editor, editor.Format);
+            bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
+
             if (!settings.UseTabsAsCriteriaAnySpecies)
             {
-                var tree = EvolutionTree.GetEvolutionTree(editor, editor.Format);
-                bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
                 if (!isInChain)
                     return EncounterCriteria.Unrestricted;
             }
 
             var set = new ShowdownSet(editor);
-            return EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
+            var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
+            if (!isInChain)
+                criteria = criteria with {Gender = -1}; // Genderless tabs and a gendered enc -> let's play safe.
+            return criteria;
         }
 
         private void PopulateComboBoxes()
