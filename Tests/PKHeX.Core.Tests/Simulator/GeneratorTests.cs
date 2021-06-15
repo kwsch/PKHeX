@@ -49,7 +49,7 @@ namespace PKHeX.Tests.Simulator
             var ez = EncounterMovesetGenerator.GenerateEncounters(pk, pk.Moves, GameVersion.W2).OfType<EncounterStatic>().First();
             ez.Should().NotBeNull("Shiny Haxorus stationary encounter exists for B2/W2");
 
-            var criteria = new EncounterCriteria();
+            var criteria = EncounterCriteria.Unrestricted;
             var tr = new SimpleTrainerInfo(GameVersion.B2)
             {
                 TID = 57600,

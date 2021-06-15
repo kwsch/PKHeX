@@ -154,11 +154,8 @@ namespace PKHeX.WinForms
                     return EncounterCriteria.Unrestricted;
             }
 
-            return new EncounterCriteria
-            {
-                Gender = editor.Gender,
-                Nature = (Nature) editor.Nature,
-            };
+            var set = new ShowdownSet(editor);
+            return EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
         }
 
         private void PopulateComboBoxes()
