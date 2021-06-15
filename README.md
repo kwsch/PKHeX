@@ -6,7 +6,6 @@ PKHeX
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
-
 Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
 Supports the following files:
