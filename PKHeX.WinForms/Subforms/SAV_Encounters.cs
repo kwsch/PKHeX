@@ -131,12 +131,34 @@ namespace PKHeX.WinForms
             }
 
             var enc = Results[index];
-            var pk = enc.ConvertToPKM(SAV);
+            var criteria = GetCriteria(enc, Main.Settings.EncounterDb);
+            var pk = enc.ConvertToPKM(SAV, criteria);
             pk.RefreshChecksum();
             PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
             slotColor = SpriteUtil.Spriter.View;
             FillPKXBoxes(SCR_Box.Value);
+        }
+
+        private EncounterCriteria GetCriteria(ISpeciesForm enc, EncounterDatabaseSettings settings)
+        {
+            if (!settings.UseTabsAsCriteria)
+                return EncounterCriteria.Unrestricted;
+
+            var editor = PKME_Tabs.Data;
+            if (!settings.UseTabsAsCriteriaAnySpecies)
+            {
+                var tree = EvolutionTree.GetEvolutionTree(editor, editor.Format);
+                bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
+                if (!isInChain)
+                    return EncounterCriteria.Unrestricted;
+            }
+
+            return new EncounterCriteria
+            {
+                Gender = editor.Gender,
+                Nature = (Nature) editor.Nature,
+            };
         }
 
         private void PopulateComboBoxes()

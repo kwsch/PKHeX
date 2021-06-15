@@ -216,6 +216,22 @@ namespace PKHeX.Core
             return GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
         }
 
+        public bool IsSpeciesDerivedFrom(int species, int form, int otherSpecies, int otherForm, bool ignoreForm = true)
+        {
+            var evos = GetEvolutionsAndPreEvolutions(species, form);
+            foreach (var evo in evos)
+            {
+                var s = evo & 0x3FF;
+                if (s != otherSpecies)
+                    continue;
+                if (ignoreForm)
+                    return true;
+                var f = evo >> 11;
+                return f == otherForm;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from, yielded in order of increasing evolution stage.
         /// </summary>
