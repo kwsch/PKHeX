@@ -64,35 +64,4 @@ namespace PKHeX.Core
         public BlockInfo7b(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
         protected override ushort GetChecksum(byte[] data) => Checksums.CRC16NoInvert(new ReadOnlySpan<byte>(data, Offset, Length));
     }
-
-    public static class BlockInfoBEEFUtil
-    {
-        /// <summary>
-        /// Gets the <see cref="BlockInfo"/> for the input <see cref="data"/>.
-        /// </summary>
-        /// <param name="data">Complete data array</param>
-        /// <param name="blockInfoOffset">Offset the <see cref="BlockInfo"/> starts at.</param>
-        public static void DumpComputedBlockInfo(byte[] data, int blockInfoOffset)
-        {
-            blockInfoOffset += 0x14;
-
-            uint CurrentPosition = 0;
-            for (int i = 0;; i++)
-            {
-                int ofs = blockInfoOffset + (i * 8);
-
-                var Offset = CurrentPosition;
-                var Length = BitConverter.ToUInt32(data, ofs + 0);
-                if (Length == 0)
-                    break;
-                var ID = BitConverter.ToUInt16(data, ofs + 4);
-                // var Checksum = BitConverter.ToUInt16(data, ofs + 6);
-                Console.WriteLine($"ID={ID}, Offset=0x{Offset:X5}, Length=0x{Length:X5}");
-
-                // Expand out to nearest 0x200
-                var remainder = Length & 0x1FF;
-                CurrentPosition += remainder == 0 ? Length : Length + 0x200 - remainder;
-            }
-        }
-    }
 }

@@ -147,7 +147,7 @@ namespace PKHeX.Core
         {
             return data.Length switch
             {
-                SecretBase6.SIZE => new SecretBase6(data),
+                SIZE => new SecretBase6(data),
                 SecretBase6Other.SIZE => new SecretBase6Other(data),
                 _ => null,
             };
