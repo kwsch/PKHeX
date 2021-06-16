@@ -318,6 +318,9 @@ namespace PKHeX.Core
         public static string MsgSaveDifferentVersions { get; set; } = "Save File versions are not the same.";
         public static string MsgSaveNumberInvalid { get; set; } = "Save File {0} is not valid.";
 
+        public static string MsgSecretBaseDeleteConfirm { get; set; } = "Delete {0}'s secret base (Entry {1:00}) from your records?";
+        public static string MsgSecretBaseDeleteSelf { get; set; } = "Cannot delete your Secret Base.";
+
         public static string MsgPluginFailLoad { get; set; } = "Plugins failed to load. Please refer to the error message to identify the faulty plugin. A plugin may be out of date / incompatible with this build of the program.";
 
         #endregion

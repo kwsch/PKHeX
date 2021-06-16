@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
@@ -435,7 +436,7 @@ namespace PKHeX.WinForms
         {
             if (LB_Bases.SelectedIndex < 1)
             {
-                WinFormsUtil.Alert("Cannot delete your Secret Base.");
+                WinFormsUtil.Alert(MsgSecretBaseDeleteSelf);
                 return;
             }
 
@@ -448,7 +449,7 @@ namespace PKHeX.WinForms
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";
 
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete {BaseTrainer}'s base (Entry {index}) from your records?");
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgSecretBaseDeleteConfirm, BaseTrainer, index));
             if (dr != DialogResult.Yes)
                 return;
 
