@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=继续
 ErrorWindow.B_CopyToClipboard=复制到剪切板
 ErrorWindow.L_ProvideInfo=提交错误报告时请提供以下信息:
 LocalizedDescription.AllowGen1Tradeback=GB 允许二代传回的招式组合
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=导入时标记
 LocalizedDescription.ApplyNature=在导入时将修正性格应用于性格
 LocalizedDescription.AutoLoadSaveOnStartup=在程序启动时自动加载存档文件

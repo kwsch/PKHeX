@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=続ける
 ErrorWindow.B_CopyToClipboard=クリップボードにコピー
 ErrorWindow.L_ProvideInfo=Please provide this information when reporting this error:
 LocalizedDescription.AllowGen1Tradeback=GB: Allow Generation 2 tradeback learnsets
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=Apply Markings on Import
 LocalizedDescription.ApplyNature=Apply StatNature to Nature on Import
 LocalizedDescription.AutoLoadSaveOnStartup=Automatically Detect Save File on Program Startup
