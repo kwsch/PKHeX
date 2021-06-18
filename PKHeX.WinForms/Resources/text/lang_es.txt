@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=Continuar
 ErrorWindow.B_CopyToClipboard=Copiar al portapapeles
 ErrorWindow.L_ProvideInfo=Por favor, proporcione esta información cuando reporte el fallo:
 LocalizedDescription.AllowGen1Tradeback=GB: Permitir intercambio de movimientos desde la Generación 2.
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=Aplicar marcadores al importar
 LocalizedDescription.ApplyNature=Aplicar StatNature a la naturaleza al importar
 LocalizedDescription.AutoLoadSaveOnStartup=Detectar automáticamente el archivo de guardado al iniciar el programa

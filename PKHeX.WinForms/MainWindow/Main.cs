@@ -282,8 +282,7 @@ namespace PKHeX.WinForms
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
-            PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
-            WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
+            C_SAV.HaX = PKME_Tabs.HaX = HaX;
 
             #if DEBUG
             DevUtil.AddControl(Menu_Tools);
@@ -427,6 +426,8 @@ namespace PKHeX.WinForms
             SpriteBuilder.ShowEggSpriteAsItem = settings.Display.ShowEggSpriteAsHeldItem;
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
+            PKMConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
+            WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)
@@ -911,23 +912,26 @@ namespace PKHeX.WinForms
         // Language Translation
         private void ChangeMainLanguage(object sender, EventArgs e)
         {
-            if (CB_MainLanguage.SelectedIndex < 8)
-                CurrentLanguage = GameLanguage.Language2Char(CB_MainLanguage.SelectedIndex);
+            var index = CB_MainLanguage.SelectedIndex;
+            if ((uint)index < CB_MainLanguage.Items.Count)
+                CurrentLanguage = GameLanguage.Language2Char(index);
 
             // Set the culture (makes it easy to pass language to other forms)
-            Settings.Startup.Language = CurrentLanguage;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(CurrentLanguage[..2]);
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            var lang = CurrentLanguage;
+            Settings.Startup.Language = lang;
+            var ci = new CultureInfo(lang[..2]);
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = ci;
 
             Menu_Options.DropDown.Close();
 
-            LocalizeUtil.InitializeStrings(CurrentLanguage, C_SAV.SAV, HaX);
-            WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
-            LocalizedDescriptionAttribute.Localizer = WinFormsTranslator.GetDictionary(CurrentLanguage);
-            if (C_SAV.SAV is not FakeSaveFile)
+            var sav = C_SAV.SAV;
+            LocalizeUtil.InitializeStrings(lang, sav, HaX);
+            WinFormsUtil.TranslateInterface(this, lang); // Translate the UI to language.
+            LocalizedDescriptionAttribute.Localizer = WinFormsTranslator.GetDictionary(lang);
+
+            if (sav is not FakeSaveFile)
             {
                 var pk = PKME_Tabs.CurrentPKM.Clone();
-                var sav = C_SAV.SAV;
 
                 PKME_Tabs.ChangeLanguage(sav, pk);
                 Text = GetProgramTitle(sav);

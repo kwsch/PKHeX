@@ -210,6 +210,9 @@ namespace PKHeX.WinForms
     [Serializable]
     public class AdvancedSettings
     {
+        [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
+        public bool AllowIncompatibleConversion { get; set; }
+
         [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
         public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
     }

@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=Continuer
 ErrorWindow.B_CopyToClipboard=Copier dans le presse-papier
 ErrorWindow.L_ProvideInfo=Veuillez fournir les informations suivantes dans votre rapport d'erreur :
 LocalizedDescription.AllowGen1Tradeback=GB: Permettre les movepools de revenants de la Gén. 2
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=Appliquer des marques de l'import
 LocalizedDescription.ApplyNature=Appliquer StatNature à la nature lors de l'import
 LocalizedDescription.AutoLoadSaveOnStartup=Automatically Detect Save File on Program Startup

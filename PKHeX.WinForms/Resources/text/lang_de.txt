@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=Fortfahren
 ErrorWindow.B_CopyToClipboard=In Zwischenablage kopieren
 ErrorWindow.L_ProvideInfo=Bitte sende diese Information, wenn du den Fehler meldest:
 LocalizedDescription.AllowGen1Tradeback=AllowGen1Tradeback
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=Apply Markings on Import
 LocalizedDescription.ApplyNature=Apply StatNature to Nature on Import
 LocalizedDescription.AutoLoadSaveOnStartup=Automatically Detect Save File on Program Startup

@@ -73,6 +73,7 @@ ErrorWindow.B_Continue=계속
 ErrorWindow.B_CopyToClipboard=클립보드에 복사
 ErrorWindow.L_ProvideInfo=오류를 보고할 때 이 정보를 제공해 주세요:
 LocalizedDescription.AllowGen1Tradeback=GB: 2세대에서 옮겨온 1세대 기술 허용
+LocalizedDescription.AllowIncompatibleConversion=Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.
 LocalizedDescription.ApplyMarkings=가져오기 시 마킹하기
 LocalizedDescription.ApplyNature=임포트시 자연에 StatNature 적용
 LocalizedDescription.AutoLoadSaveOnStartup=Automatically Detect Save File on Program Startup
