@@ -1,7 +1,7 @@
 PKHeX
 =====
 <div>
-  <span>English</span> / <a href=".github/README-es.md">Español</a>
+  <span>English</span> / <a href=".github/README-es.md">Español</a> / <a href=".github/README-fr.md">Français</a>
 </div>
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)

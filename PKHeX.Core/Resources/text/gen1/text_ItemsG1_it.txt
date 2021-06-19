@@ -1,0 +1,256 @@
+﻿(None)
+Master Ball
+Ultra Ball
+Mega Ball
+Poké Ball
+Mappa Città
+Bicicletta
+????? (7)
+Safari Ball
+Pokédex
+Pietralunare
+Antidoto
+Antiscottatura
+Antigelo
+Sveglia
+Antiparalisi
+Ricarica Totale
+Pozione Max
+Iperpozione
+Superpozione
+Pozione
+BoulderBadge
+CascadeBadge
+ThunderBadge
+RainbowBadge
+SoulBadge
+MarshBadge
+VolcanoBadge
+EarthBadge
+Fune di fuga
+Repellente
+Ambra Antica
+Pietrafocaia
+Pietratuono
+Pietraidrica
+PS-Su
+Proteina
+Ferro
+Carburante
+Calcio
+Caramella rara
+Domofossile
+Helixfossile
+Chiave segreta
+????? (44)
+Buono Bici
+Precisione X
+Pietrafoglia
+Apriporta
+Pepita
+PP-Su (Inutilizzato)
+Pokébambola
+Cura Totale
+Revitalizzante
+Revitalizz. Max
+Superguardia
+Superrepellente
+Repellente Max
+Supercolpo
+Gettone
+Acqua Fresca
+Gassosa
+Lemonsucco
+Biglietto Nave
+Denti d'oro
+Attacco X
+Difesa X
+Velocità X
+Special X
+Salvadanaio
+Pacco di Oak
+Ricerca Strumenti
+Spettrosonda
+Pokéflauto
+Chiave Ascensore
+Condiv. Esp
+Amo Vecchio
+Amo Buono
+Super Amo
+PP-Su
+Etere
+Etere Max
+Elisir
+Elisir Max
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HM01
+HM02
+HM03
+HM04
+HM05
+TM01
+TM02
+TM03
+TM04
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+TM51
+TM52
+TM53
+TM54
+TM55
