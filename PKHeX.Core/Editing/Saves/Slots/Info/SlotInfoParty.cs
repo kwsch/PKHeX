@@ -8,6 +8,7 @@ namespace PKHeX.Core
     public sealed class SlotInfoParty : ISlotInfo
     {
         public int Slot { get; private set; }
+        public SlotOrigin Origin => SlotOrigin.Party;
         public bool CanWriteTo(SaveFile sav) => sav.HasParty;
 
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => pkm.IsEgg && sav.IsPartyAllEggs(Slot)

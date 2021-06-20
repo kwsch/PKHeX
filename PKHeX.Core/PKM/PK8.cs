@@ -57,7 +57,7 @@ namespace PKHeX.Core
             set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
         }
 
-        public override PKM Clone() => new PK8((byte[])Data.Clone()) { Identifier = Identifier };
+        public override PKM Clone() => new PK8((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);

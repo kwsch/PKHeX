@@ -19,9 +19,6 @@ namespace PKHeX.Core
 
         // Internal Attributes set on creation
         public readonly byte[] Data; // Raw Storage
-        public string? Identifier; // User or Form Custom Attribute
-        public int Box { get; set; } = -1; // Batch Editor
-        public int Slot { get; set; } = -1; // Batch Editor
 
         protected PKM(byte[] data) => Data = data;
         protected PKM(int size) => Data = new byte[size];
@@ -248,8 +245,6 @@ namespace PKHeX.Core
         public int SpecForm { get => Species + (Form << 11); set { Species = value & 0x7FF; Form = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
-        public StorageSlotFlag StorageFlags { get; internal set; }
-        public bool Locked => StorageFlags.HasFlagFast(StorageSlotFlag.Locked);
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 

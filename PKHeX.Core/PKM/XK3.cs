@@ -22,7 +22,7 @@ namespace PKHeX.Core
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
         public XK3(byte[] data) : base(data) { }
         public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
-        public override PKM Clone() => new XK3((byte[])Data.Clone()){Identifier = Identifier, Purification = Purification};
+        public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
 
         private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);

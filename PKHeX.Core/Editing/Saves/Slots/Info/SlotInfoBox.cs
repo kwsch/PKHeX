@@ -3,10 +3,11 @@ namespace PKHeX.Core
     /// <summary>
     /// Box Data <see cref="ISlotInfo"/>
     /// </summary>
-    public sealed class SlotInfoBox : ISlotInfo
+    public class SlotInfoBox : ISlotInfo
     {
         public int Box { get; }
         public int Slot { get; }
+        public SlotOrigin Origin => SlotOrigin.Box;
         public bool CanWriteTo(SaveFile sav) => sav.HasBox && !sav.IsSlotLocked(Box, Slot);
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.None;
 

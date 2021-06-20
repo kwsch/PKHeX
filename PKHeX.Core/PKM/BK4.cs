@@ -44,7 +44,7 @@ namespace PKHeX.Core
 
         public BK4() : this(new byte[PokeCrypto.SIZE_4STORED]) { }
 
-        public override PKM Clone() => new BK4((byte[])Data.Clone()){Identifier = Identifier};
+        public override PKM Clone() => new BK4((byte[])Data.Clone());
 
         public string GetString(int Offset, int Count) => StringConverter4.GetBEString4(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);

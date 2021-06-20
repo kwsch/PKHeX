@@ -46,6 +46,8 @@ namespace PKHeX.Core
         /// </remarks>
         public IEncounterable EncounterOriginal => Info.EncounterOriginal;
 
+        public readonly SlotOrigin SlotOrigin;
+
         /// <summary>
         /// Indicates if all checks ran to completion.
         /// </summary>
@@ -67,23 +69,27 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable table) : this(pk, table.GetFormEntry(pk.Species, pk.Form)) { }
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, PersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
         /// </summary>
         /// <param name="pk">Input data to check</param>
-        public LegalityAnalysis(PKM pk) : this(pk, pk.PersonalInfo) { }
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, SlotOrigin source = SlotOrigin.Party) : this(pk, pk.PersonalInfo, source) { }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="pi">Personal info to parse with</param>
-        public LegalityAnalysis(PKM pk, PersonalInfo pi)
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, PersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
         {
             pkm = pk;
             PersonalInfo = pi;
+            SlotOrigin = source;
 
             if (pkm.Format <= 2) // prior to storing GameVersion
                 pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);

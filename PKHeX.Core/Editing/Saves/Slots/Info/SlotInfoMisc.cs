@@ -8,6 +8,7 @@ namespace PKHeX.Core
         public int Slot { get; }
         public bool PartyFormat { get; }
         public int Offset { get; }
+        public SlotOrigin Origin => PartyFormat ? SlotOrigin.Party : SlotOrigin.Box;
         public bool CanWriteTo(SaveFile sav) => false;
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.InvalidDestination;
         public StorageSlotType Type { get; init; }

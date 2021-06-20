@@ -135,9 +135,7 @@ namespace PKHeX.Drawing
 
             if (!empty && flagIllegal)
             {
-                if (box >= 0)
-                    pk.Box = box;
-                var la = new LegalityAnalysis(pk, sav.Personal);
+                var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))

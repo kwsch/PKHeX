@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core.Searching
 {
@@ -9,90 +8,79 @@ namespace PKHeX.Core.Searching
     /// </summary>
     public static class SearchUtil
     {
-        public static IEnumerable<PKM> FilterByFormat(IEnumerable<PKM> res, int format, SearchComparison formatOperand)
+        public static bool SatisfiesFilterFormat(PKM pk, int format, SearchComparison formatOperand)
         {
             switch (formatOperand)
             {
-                case SearchComparison.GreaterThanEquals:
-                    res = res.Where(pk => pk.Format >= format); break;
-                case SearchComparison.Equals:
-                    res = res.Where(pk => pk.Format == format); break;
-                case SearchComparison.LessThanEquals:
-                    res = res.Where(pk => pk.Format <= format); break;
-
-                default:
-                    return res; /* Do nothing */
+                case SearchComparison.GreaterThanEquals when pk.Format < format:
+                case SearchComparison.Equals when pk.Format == format:
+                case SearchComparison.LessThanEquals when pk.Format > format:
+                    return false;
             }
 
             // Might need to clamp down further for generations that cannot exist in the current format.
             return format switch
             {
-                <= 2 => res.Where(pk => pk.Format <= 2), // 1-2
-                <= 6 => res.Where(pk => pk.Format >= 3), // 3-6
-                _ => res
+                <= 2 => pk.Format <= 2, // 1-2
+                <= 6 => pk.Format >= 3, // 3-6
+                _ => true
             };
         }
 
-        public static IEnumerable<PKM> FilterByGeneration(IEnumerable<PKM> res, int generation) => generation switch
+        public static bool SatisfiesFilterGeneration(PKM pk, int generation) => generation switch
         {
-            1 => res.Where(pk => pk.VC || pk.Format < 3),
-            2 => res.Where(pk => pk.VC || pk.Format < 3),
-            _ => res.Where(pk => pk.Generation == generation)
+            1 => pk.VC || pk.Format < 3,
+            2 => pk.VC || pk.Format < 3,
+            _ => pk.Generation == generation,
         };
 
-        public static IEnumerable<PKM> FilterByLevel(IEnumerable<PKM> res, SearchComparison option, int level)
+        public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, int level)
         {
             if (level > 100)
-                return res;
+                return true; // why???
 
             return option switch
             {
-                SearchComparison.LessThanEquals =>    res.Where(pk => pk.Stat_Level <= level),
-                SearchComparison.Equals =>            res.Where(pk => pk.Stat_Level == level),
-                SearchComparison.GreaterThanEquals => res.Where(pk => pk.Stat_Level >= level),
-                _ => res
+                SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
+                SearchComparison.Equals =>            pk.Stat_Level == level,
+                SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
+                _ => true
             };
         }
 
-        public static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option) => option switch
+        public static bool SatisfiesFilterEVs(PKM pk, int option) => option switch
         {
-            1 => res.Where(pk => pk.EVTotal == 0), // None (0)
-            2 => res.Where(pk => pk.EVTotal is (not 0) and < 128), // Some (127-1)
-            3 => res.Where(pk => pk.EVTotal is >= 128 and < 508), // Half (128-507)
-            4 => res.Where(pk => pk.EVTotal >= 508), // Full (508+)
-            _ => res
+            1 => pk.EVTotal == 0, // None (0)
+            2 => pk.EVTotal is (not 0) and < 128, // Some (127-1)
+            3 => pk.EVTotal is >= 128 and < 508, // Half (128-507)
+            4 => pk.EVTotal >= 508, // Full (508+)
+            _ => true
         };
 
-        public static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option) => option switch
+        public static bool SatisfiesFilterIVs(PKM pk, int option) => option switch
         {
-            1 => res.Where(pk => pk.IVTotal <= 90), // <= 90
-            2 => res.Where(pk => pk.IVTotal is >  90 and <= 120), // 91-120
-            3 => res.Where(pk => pk.IVTotal is > 120 and <= 150), // 121-150
-            4 => res.Where(pk => pk.IVTotal is > 150 and <  180), // 151-179
-            5 => res.Where(pk => pk.IVTotal >= 180), // 180+
-            6 => res.Where(pk => pk.IVTotal == 186), // == 186
-            _ => res
+            1 => pk.IVTotal <= 90, // <= 90
+            2 => pk.IVTotal is >  90 and <= 120, // 91-120
+            3 => pk.IVTotal is > 120 and <= 150, // 121-150
+            4 => pk.IVTotal is > 150 and <  180, // 151-179
+            5 => pk.IVTotal >= 180, // 180+
+            6 => pk.IVTotal == 186, // == 186
+            _ => true
         };
 
-        public static IEnumerable<PKM> FilterByMoves(IEnumerable<PKM> res, IEnumerable<int> requiredMoves)
+        public static bool SatisfiesFilterMoves(PKM pk, IEnumerable<int> requiredMoves)
         {
-            var moves = new HashSet<int>(requiredMoves);
-            int count = moves.Count;
-            return res.Where(pk =>
-                pk.Moves.Where(z => z > 0)
-                    .Count(moves.Contains) == count
-            );
+            foreach (var m in requiredMoves)
+            {
+                if (!pk.HasMove(m))
+                    return false;
+            }
+            return true;
         }
 
-        public static IEnumerable<PKM> FilterByBatchInstruction(IEnumerable<PKM> res, IList<string> inputInstructions)
+        public static bool SatisfiesFilterBatchInstruction(PKM pk, IReadOnlyList<StringInstruction> filters)
         {
-            if (inputInstructions.All(string.IsNullOrWhiteSpace))
-                return res; // none specified;
-
-            var lines = inputInstructions.Where(z => !string.IsNullOrWhiteSpace(z));
-            var filters = StringInstruction.GetFilters(lines).ToArray();
-            BatchEditing.ScreenStrings(filters);
-            return res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
+            return BatchEditing.IsFilterMatch(filters, pk); // Compare across all filters
         }
 
         public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod method) => method switch
@@ -118,25 +106,22 @@ namespace PKHeX.Core.Searching
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, CloneDetectionMethod type = CloneDetectionMethod.HashDetails)
         {
             var method = GetCloneDetectMethod(type);
-            return GetClones(res, method);
+            return GetExtraClones(res, method);
         }
 
-        public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, Func<PKM, string> method)
+        public static IEnumerable<T> GetExtraClones<T>(IEnumerable<T> db, Func<T, string> method)
         {
-            return res
-                .GroupBy(method)
-                .Where(grp => grp.Count() > 1)
-                .SelectMany(z => z);
-        }
-
-        public static IEnumerable<PKM> GetExtraClones(IEnumerable<PKM> db)
-        {
-            return GetExtraClones(db, HashByDetails);
-        }
-
-        public static IEnumerable<PKM> GetExtraClones(IEnumerable<PKM> db, Func<PKM, string> method)
-        {
-            return db.GroupBy(method).Where(grp => grp.Count() > 1).SelectMany(z => z.Skip(1));
+            var hs = new HashSet<string>();
+            var result = new List<T>();
+            foreach (var t in db)
+            {
+                var hash = method(t);
+                if (hs.Contains(hash))
+                    continue;
+                hs.Add(hash);
+                result.Add(t);
+            }
+            return result;
         }
     }
 }

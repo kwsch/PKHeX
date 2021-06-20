@@ -26,7 +26,6 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new SK2((byte[])Data.Clone(), Japanese)
         {
-            Identifier = Identifier,
             IsEgg = IsEgg,
         };
 

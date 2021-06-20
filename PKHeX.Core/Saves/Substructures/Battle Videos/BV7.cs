@@ -43,7 +43,7 @@ namespace PKHeX.Core
             for (int p = 0; p < 6; p++)
             {
                 int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
-                team[p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED)) { Identifier = $"Team {teamIndex}, Slot {p}" };
+                team[p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED));
             }
 
             return team;

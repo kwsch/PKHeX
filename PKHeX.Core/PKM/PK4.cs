@@ -29,7 +29,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
+        public override PKM Clone() => new PK4((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);

@@ -28,7 +28,6 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
         {
-            Identifier = Identifier,
             OT_Trash = RawOT,
             Nickname_Trash = RawNickname,
             IsEgg = IsEgg,

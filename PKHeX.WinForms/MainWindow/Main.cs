@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
             mnu.RequestEditorQR += (o, args) => ClickQR(mnu, args);
             mnu.RequestEditorSaveAs += (o, args) => MainMenuSave(mnu, args);
             dragout.ContextMenuStrip = mnu.mnuL;
-            C_SAV.menu.RequestEditorLegality += ShowLegality;
+            C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
         }
 
         private void FormLoadInitialFiles(string[] args)
@@ -353,7 +353,9 @@ namespace PKHeX.WinForms
 
             var report = new ReportGrid();
             report.Show();
-            report.PopulateData(C_SAV.SAV.BoxData);
+            var list = new List<SlotCache>();
+            SlotInfoLoader.AddFromSaveFile(C_SAV.SAV, list);
+            report.PopulateData(list);
         }
 
         private void MainMenuDatabase(object sender, EventArgs e)
@@ -1024,14 +1026,13 @@ namespace PKHeX.WinForms
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Hand.Play(); return; }
 
-            ShowLegality(sender, e, pk);
+            var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
+            PKME_Tabs.UpdateLegality(la);
+            DisplayLegalityReport(la);
         }
 
-        private void ShowLegality(object sender, EventArgs e, PKM pk)
+        private static void DisplayLegalityReport(LegalityAnalysis la)
         {
-            var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
-            if (pk.Slot < 0)
-                PKME_Tabs.UpdateLegality(la);
             bool verbose = ModifierKeys == Keys.Control;
             var report = la.Report(verbose);
             if (verbose)

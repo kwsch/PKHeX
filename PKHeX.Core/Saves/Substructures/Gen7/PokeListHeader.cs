@@ -123,14 +123,15 @@ namespace PKHeX.Core
             return SAV.GetBoxSlotOffset(position);
         }
 
-        public int GetPartyIndex(int box, int slot)
+        private int GetPartyIndex(int slotIndex)
         {
-            int slotIndex = slot + (SAV.BoxSlotCount * box);
-            if ((uint)slotIndex >= MAX_SLOTS)
+            if ((uint) slotIndex >= MAX_SLOTS)
                 return MAX_SLOTS;
             var index = Array.IndexOf(PokeListInfo, slotIndex);
             return index >= 0 ? index : MAX_SLOTS;
         }
+
+        public bool IsParty(int slotIndex) => GetPartyIndex(slotIndex) != MAX_SLOTS;
 
         public bool CompressStorage()
         {
