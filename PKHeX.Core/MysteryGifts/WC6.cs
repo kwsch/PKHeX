@@ -264,6 +264,8 @@ namespace PKHeX.Core
             }
         }
 
+        public bool IsLinkGift => MetLocation == Locations.LinkGift6;
+
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
@@ -329,7 +331,7 @@ namespace PKHeX.Core
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
-                FatefulEncounter = MetLocation != 30011, // Link gifts do not set fateful encounter
+                FatefulEncounter = !IsLinkGift, // Link gifts do not set fateful encounter
 
                 EVs = EVs,
             };

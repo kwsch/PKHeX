@@ -501,7 +501,6 @@ namespace PKHeX.Core
         public TradebackType TradebackStatus { get; set; } = TradebackType.Any;
         public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
         public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
-        public virtual bool WasLink => false;
 
         public bool WasEgg
         {

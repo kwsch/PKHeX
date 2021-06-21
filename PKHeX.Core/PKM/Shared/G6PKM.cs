@@ -112,7 +112,6 @@ namespace PKHeX.Core
         protected abstract void TradeHT(ITrainerInfo tr);
 
         // Legality Properties
-        public sealed override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public sealed override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
         public sealed override bool WasEventEgg => Generation < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
