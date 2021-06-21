@@ -69,8 +69,22 @@ namespace PKHeX.Core
             RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
             RibbonIndex.MarkFishing when !IsMarkAllowedFishing(x) => false,
             RibbonIndex.MarkDestiny => false,
+            >= RibbonIndex.MarkCloudy and <= RibbonIndex.MarkMisty => IsWeatherPermitted(mark, x),
             _ => true
         };
+
+        private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterable enc)
+        {
+            var permit = mark.GetWeather8();
+
+            // Encounter slots check location weather, while static encounters check weather per encounter.
+            return enc switch
+            {
+                EncounterSlot8 s => EncounterArea8.WeatherbyArea.TryGetValue(s.Location, out var weather) && weather.HasFlag(permit),
+                EncounterStatic8 s => s.Weather.HasFlag(permit),
+                _ => false,
+            };
+        }
 
         public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
         {
