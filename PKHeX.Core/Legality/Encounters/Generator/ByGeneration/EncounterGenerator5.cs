@@ -16,7 +16,7 @@ namespace PKHeX.Core
             int ctr = 0;
 
             var chain = EncounterOrigin.GetOriginChain(pkm);
-            if (pkm.WasEvent || pkm.WasEventEgg)
+            if (pkm.FatefulEncounter)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
                 { yield return z; ++ctr; }
