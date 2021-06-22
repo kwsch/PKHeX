@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
                 comboBox.DroppedDown = true;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
-            catch { Console.WriteLine("Failed to modify item."); }
+            catch { System.Diagnostics.Debug.WriteLine("Failed to modify item."); }
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 

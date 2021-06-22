@@ -172,7 +172,7 @@ namespace PKHeX.WinForms
             {
                 var constructors = t.GetConstructors();
                 if (constructors.Length == 0)
-                { System.Console.WriteLine($"No constructors: {t.Name}"); continue; }
+                { Debug.WriteLine($"No constructors: {t.Name}"); continue; }
                 var argCount = constructors[0].GetParameters().Length;
                 try
                 {
