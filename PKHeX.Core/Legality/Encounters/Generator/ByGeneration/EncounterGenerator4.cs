@@ -49,7 +49,7 @@ namespace PKHeX.Core
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
-            if (pkm.WasBredEgg)
+            if (Locations.IsEggLocationBred4(pkm.Egg_Location, (GameVersion)pkm.Version))
             {
                 foreach (var z in GenerateEggs(pkm, 4))
                     yield return z;

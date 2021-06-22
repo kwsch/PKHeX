@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            if (pkm.WasBredEgg)
+            if (Locations.IsEggLocationBred5(pkm.Egg_Location))
             {
                 foreach (var z in GenerateEggs(pkm, 5))
                 { yield return z; ++ctr; }

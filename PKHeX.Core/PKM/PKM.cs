@@ -520,21 +520,6 @@ namespace PKHeX.Core
             }
         }
 
-        public bool WasBredEgg
-        {
-            get
-            {
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => loc is Locations.Daycare4 or Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS),
-                    5 => loc is Locations.Daycare5 or Locations.LinkTrade5,
-                    6 or 7 or 8 => loc is Locations.Daycare5 or Locations.LinkTrade6,
-                    _ => false,// Gen 1/2 and pal park Gen 3
-                };
-            }
-        }
-
         public virtual bool WasGiftEgg
         {
             get
@@ -545,8 +530,8 @@ namespace PKHeX.Core
                 return Generation switch
                 {
                     4 => Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS),
-                    5 => loc == 60003,
-                    6 or 7 or 8 => loc == 60004,
+                    5 => loc == Locations.Breeder5,
+                    6 or 7 or 8 => loc == Locations.Breeder6,
                     _ => false,
                 };
             }

@@ -46,7 +46,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (pkm.WasBredEgg)
+            if (Locations.IsEggLocationBred6(pkm.Egg_Location))
             {
                 foreach (var z in GenerateEggs(pkm, 6))
                 { yield return z; ++ctr; }
