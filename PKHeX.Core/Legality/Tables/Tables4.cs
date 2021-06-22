@@ -274,29 +274,5 @@ namespace PKHeX.Core
                 _ => Locations.Transfer4
             };
         }
-
-        internal static int[] RemoveMovesHM45(int[] moves)
-        {
-            var banned = GetFavorableHMBanlist(moves);
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (banned.Contains(moves[i]))
-                    moves[i] = 0;
-            }
-
-            return moves;
-        }
-
-        /// <summary>
-        /// Transfer via advantageous game
-        /// </summary>
-        /// <param name="moves">Current moves</param>
-        /// <returns>Preferred move ban list</returns>
-        private static ICollection<int> GetFavorableHMBanlist(int[] moves)
-        {
-            // if has defog, return ban list with whirlpool
-            return moves.Contains((int)Move.Defog) ? HM_HGSS : HM_DPPt;
-        }
     }
 }
