@@ -1,4 +1,4 @@
-﻿Spiky
+﻿Spitzohr
 
 
 
@@ -1071,7 +1071,7 @@ Gigadynamax
 Schlingform
 Stopfform
 Tief
-Ruby
+Rubin
 Matcha
 Minz
 Zitronen

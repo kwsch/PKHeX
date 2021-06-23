@@ -2,8 +2,8 @@
 Saphir
 Rubin
 Smaragd
-Feuerrote
-Blattgrüne
+Feuerrot
+Blattgrün
 
 HeartGold
 SoulSilver
@@ -18,10 +18,10 @@ Kolosseum/XD
 
 
 
-Weiße
-Schwarze
-Weiße 2
-Schwarze 2
+Weiß
+Schwarz
+Weiß 2
+Schwarz 2
 X
 Y
 Alpha Saphir
@@ -33,12 +33,12 @@ Mond
 Ultrasonne
 Ultramond
 GO
-Rote
-Blaue [INT]/Grüne [JP]
-Blaue [JP]
-Gelbe
-Goldene
-Silberne
+Rot
+Blau [INT]/Grün [JP]
+Blau [JP]
+Gelb
+Gold
+Silber
 Kristall
 Let's Go, Pikachu!
 Let's Go, Evoli!
