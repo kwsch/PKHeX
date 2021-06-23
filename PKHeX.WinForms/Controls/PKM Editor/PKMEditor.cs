@@ -541,12 +541,7 @@ namespace PKHeX.WinForms.Controls
             return null;
         }
 
-        private void UpdateGender()
-        {
-            int gender = Entity.GetSaneGender();
-            Label_Gender.Text = gendersymbols[gender];
-            Label_Gender.ForeColor = Draw.GetGenderColor(gender);
-        }
+        private void UpdateGender() => UpdateGenderLabel(Label_Gender, Entity.GetSaneGender());
 
         private static void SetCountrySubRegion(ComboBox cb, string type)
         {
@@ -593,8 +588,7 @@ namespace PKHeX.WinForms.Controls
                 TB_PID.Text = Entity.PID.ToString("X8");
             }
             Entity.Gender = newGender;
-            Label_Gender.Text = gendersymbols[newGender];
-            Label_Gender.ForeColor = Draw.GetGenderColor(newGender);
+            UpdateGenderLabel(Label_Gender, newGender);
 
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = Math.Min(newGender, CB_Form.Items.Count - 1);
@@ -840,12 +834,17 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
+        private void UpdateGenderLabel(Label c, int gender)
+        {
+            ReloadGender(c, gendersymbols);
+            c.ForeColor = Draw.GetGenderColor(gender);
+        }
+
         public void UpdateIVsGB(bool skipForm)
         {
             if (!FieldsLoaded)
                 return;
-            Label_Gender.Text = gendersymbols[Entity.Gender];
-            Label_Gender.ForeColor = Draw.GetGenderColor(Entity.Gender);
+            UpdateGenderLabel(Label_Gender, Entity.Gender);
             if (Entity.Species == (int)Species.Unown && !skipForm)
                 CB_Form.SelectedIndex = Entity.Form;
 
@@ -1542,8 +1541,7 @@ namespace PKHeX.WinForms.Controls
                 FieldsLoaded = false;
                 Entity.PID = Util.GetHexValue(TB_PID.Text);
                 CB_Nature.SelectedValue = Entity.Nature;
-                Label_Gender.Text = gendersymbols[Entity.Gender];
-                Label_Gender.ForeColor = Draw.GetGenderColor(Entity.Gender);
+                UpdateGenderLabel(Label_Gender, Entity.Gender);
                 FieldsLoaded = true;
             }
         }
