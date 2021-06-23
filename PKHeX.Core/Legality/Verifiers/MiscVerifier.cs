@@ -273,10 +273,18 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
             }
 
-            var result = pkm.FatefulEncounter != pkm.WasLink
+            bool shouldHave = GetFatefulState(g);
+            var result = pkm.FatefulEncounter == shouldHave
                 ? GetValid(LFatefulMystery, Fateful)
                 : GetInvalid(LFatefulMysteryMissing, Fateful);
             data.AddLine(result);
+        }
+
+        private static bool GetFatefulState(MysteryGift g)
+        {
+            if (g is WC6 {IsLinkGift: true})
+                return false; // Pokémon Link fake-gifts do not have Fateful
+            return true;
         }
 
         private static void VerifyReceivability(LegalityAnalysis data, MysteryGift g)

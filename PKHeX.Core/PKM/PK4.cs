@@ -29,7 +29,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
+        public override PKM Clone() => new PK4((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
@@ -416,7 +416,13 @@ namespace PKHeX.Core
             pk5.Met_Level = pk5.CurrentLevel;
 
             // Remove HM moves; Defog should be kept if both are learned.
-            pk5.Moves = Legal.RemoveMovesHM45(pk5.Moves);
+            // if has defog, remove whirlpool.
+            bool hasDefog = HasMove((int) Move.Defog);
+            var banned = hasDefog ? Legal.HM_HGSS : Legal.HM_DPPt;
+            if (banned.Contains(Move1)) Move1 = 0;
+            if (banned.Contains(Move2)) Move2 = 0;
+            if (banned.Contains(Move3)) Move3 = 0;
+            if (banned.Contains(Move4)) Move4 = 0;
             pk5.FixMoves();
 
             pk5.RefreshChecksum();

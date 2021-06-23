@@ -19,9 +19,6 @@ namespace PKHeX.Core
 
         // Internal Attributes set on creation
         public readonly byte[] Data; // Raw Storage
-        public string? Identifier; // User or Form Custom Attribute
-        public int Box { get; set; } = -1; // Batch Editor
-        public int Slot { get; set; } = -1; // Batch Editor
 
         protected PKM(byte[] data) => Data = data;
         protected PKM(int size) => Data = new byte[size];
@@ -248,8 +245,6 @@ namespace PKHeX.Core
         public int SpecForm { get => Species + (Form << 11); set { Species = value & 0x7FF; Form = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
-        public StorageSlotFlag StorageFlags { get; internal set; }
-        public bool Locked => StorageFlags.HasFlagFast(StorageSlotFlag.Locked);
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
@@ -298,7 +293,7 @@ namespace PKHeX.Core
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
 
-        protected bool PtHGSS => Pt || HGSS;
+        protected internal bool PtHGSS => Pt || HGSS;
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;
@@ -506,81 +501,16 @@ namespace PKHeX.Core
         public TradebackType TradebackStatus { get; set; } = TradebackType.Any;
         public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
         public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
-        public virtual bool WasLink => false;
 
-        public bool WasEgg
-        {
-            get
-            {
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => (Legal.EggLocations4.Contains(loc) || (Species == (int) Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS)), // faraway
-                    5 => Legal.EggLocations5.Contains(loc),
-                    6 => Legal.EggLocations6.Contains(loc),
-                    7 => Legal.EggLocations7.Contains(loc),
-                    8 => Legal.EggLocations8.Contains(loc),
-                    // Gen 1/2 and pal park Gen 3
-                    _ => false
-                };
-            }
-        }
-
-        public bool WasBredEgg
-        {
-            get
-            {
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => loc is Locations.Daycare4 or Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS),
-                    5 => loc is Locations.Daycare5 or Locations.LinkTrade5,
-                    6 or 7 or 8 => loc is Locations.Daycare5 or Locations.LinkTrade6,
-                    _ => false,// Gen 1/2 and pal park Gen 3
-                };
-            }
-        }
-
-        public virtual bool WasGiftEgg
-        {
-            get
-            {
-                if (!WasEgg)
-                    return false;
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS),
-                    5 => loc == 60003,
-                    6 or 7 or 8 => loc == 60004,
-                    _ => false,
-                };
-            }
-        }
-
-        public virtual bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-
-        public virtual bool WasEventEgg
-        {
-            get
-            {
-                if (Gen4)
-                    return WasEgg && Species == (int) Core.Species.Manaphy;
-                // Gen5+
-                if (Met_Level != 1)
-                    return false;
-                int loc = Egg_Location;
-                return Locations.IsEventLocation5(loc) || (FatefulEncounter && loc != 0);
-            }
-        }
-
+        // Misc Egg Facts
+        public bool WasEgg => IsEgg || Egg_Location != 0;
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation);
 
         public virtual bool IsUntraded => false;
         public bool IsNative => Generation == Format;
-        public bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
+        public bool IsOriginValid => Species <= MaxSpeciesID;
 
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.

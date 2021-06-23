@@ -102,8 +102,8 @@ namespace PKHeX.WinForms
 
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.DatabasePath;
-        private List<PKM> Results = new();
-        private List<PKM> RawDB = new();
+        private List<SlotCache> Results = new();
+        private List<SlotCache> RawDB = new();
         private int slotSelected = -1; // = null;
         private Image? slotColor;
         private const int RES_MAX = 66;
@@ -124,11 +124,14 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            PKME_Tabs.PopulateFields(Results[index], false);
+            if (sender == mnu)
+                mnu.Hide();
+
             slotSelected = index;
             slotColor = SpriteUtil.Spriter.View;
             FillPKXBoxes(SCR_Box.Value);
-            L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
+            L_Viewed.Text = string.Format(Viewed, Results[index].Identify());
+            PKME_Tabs.PopulateFields(Results[index].Entity, false);
         }
 
         private void ClickDelete(object sender, EventArgs e)
@@ -141,27 +144,21 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            var pk = Results[index];
-            var path = pk.Identifier;
+            var entry = Results[index];
+            var pk = entry.Entity;
 
-#if LOADALL
-            if (path.StartsWith(EXTERNAL_SAV))
-            {
-                WinFormsUtil.Alert(MsgDBDeleteFailBackup);
-                return;
-            }
-#endif
-            if (path?.Contains(Path.DirectorySeparatorChar) == true)
+            if (entry.Source is SlotInfoFile f)
             {
                 // Data from Database: Delete file from disk
+                var path = f.Path;
                 if (File.Exists(path))
                     File.Delete(path);
             }
-            else
+            else if (entry.Source is SlotInfoBox b && entry.SAV == SAV)
             {
                 // Data from Box: Delete from save file
-                int box = pk.Box-1;
-                int slot = pk.Slot-1;
+                int box = b.Box-1;
+                int slot = b.Slot-1;
                 var change = new SlotInfoBox(box, slot);
                 var pkSAV = change.Read(SAV);
 
@@ -172,9 +169,14 @@ namespace PKHeX.WinForms
                 }
                 BoxView.EditEnv.Slots.Delete(change);
             }
+            else
+            {
+                WinFormsUtil.Error(MsgDBDeleteFailBackup, MsgDBDeleteFailWarning);
+                return;
+            }
             // Remove from database.
-            RawDB.Remove(pk);
-            Results.Remove(pk);
+            RawDB.Remove(entry);
+            Results.Remove(entry);
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = -1;
@@ -193,22 +195,17 @@ namespace PKHeX.WinForms
 
             string path = Path.Combine(DatabasePath, Util.CleanFileName(pk.FileName));
 
-            if (RawDB.Any(p => p.Identifier == path))
+            if (File.Exists(path))
             {
                 WinFormsUtil.Alert(MsgDBAddFailExistsFile);
                 return;
             }
 
             File.WriteAllBytes(path, pk.DecryptedBoxData);
-            pk.Identifier = path;
 
-            int pre = RawDB.Count;
-            RawDB.Add(pk);
-            RawDB = new List<PKM>(RawDB);
-            int post = RawDB.Count;
-            if (pre == post)
-            { WinFormsUtil.Alert(MsgDBAddFailExistsPKM); return; }
-            Results.Add(pk);
+            var info = new SlotInfoFile(path);
+            var entry = new SlotCache(info, pk);
+            Results.Add(entry);
 
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
@@ -313,7 +310,7 @@ namespace PKHeX.WinForms
 
             ReportGrid reportGrid = new();
             reportGrid.Show();
-            reportGrid.PopulateData(Results.ToArray());
+            reportGrid.PopulateData(Results);
         }
 
         private void LoadDatabase()
@@ -329,10 +326,10 @@ namespace PKHeX.WinForms
             RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep);
 
             // Load stats for pkm who do not have any
-            foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
+            foreach (var entry in RawDB)
             {
-                pk.Stat_Level = pk.CurrentLevel;
-                pk.SetStats(pk.GetStats(pk.PersonalInfo));
+                var pk = entry.Entity;
+                pk.ForcePartyData();
             }
 
             try
@@ -345,99 +342,47 @@ namespace PKHeX.WinForms
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
+        private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
         {
-            var dbTemp = new ConcurrentBag<PKM>();
+            var dbTemp = new ConcurrentBag<SlotCache>();
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
 
             var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
-            Parallel.ForEach(files, file => TryAddPKMsFromFolder(dbTemp, file, SAV, extensions));
+            Parallel.ForEach(files, file => SlotInfoLoader.AddFromLocalFile(file, dbTemp, SAV, extensions));
 
             foreach (var folder in otherPaths)
             {
-                if (!SaveUtil.GetSavesFromFolder(folder, otherDeep, out IEnumerable<string> result))
+                if (!SaveUtil.GetSavesFromFolder(folder, otherDeep, out IEnumerable<string> paths))
                     continue;
 
-                var prefix = Path.GetDirectoryName(folder) + Path.DirectorySeparatorChar;
-                Parallel.ForEach(result, file => TryAddPKMsFromSaveFilePath(dbTemp, file, prefix));
+                Parallel.ForEach(paths, file => TryAddPKMsFromSaveFilePath(dbTemp, file));
             }
 
             // Fetch from save file
-            var savpkm = SAV.BoxData.Where(pk => pk.Species != 0);
-
-            var bakpkm = dbTemp.Where(pk => pk.Species != 0).OrderBy(pk => pk.Identifier);
-            var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
+            SlotInfoLoader.AddFromSaveFile(SAV, dbTemp);
+            var result = new List<SlotCache>(dbTemp);
+            result.RemoveAll(z => !z.IsDataValid());
 
             if (Main.Settings.EntityDb.FilterUnavailableSpecies)
             {
-                db = SAV is SAV8SWSH
-                    ? db.Where(z => z is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
-                    : db.Where(z => z is not PK8);
+                if (SAV is SAV8SWSH)
+                    result.RemoveAll(z => !(z.Entity is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Entity.Species, z.Entity.Form)).IsPresentInGame));
             }
 
             // Finalize the Database
-            return new List<PKM>(db);
+            return result;
         }
 
-        private static void TryAddPKMsFromFolder(ConcurrentBag<PKM> dbTemp, string file, ITrainerInfo dest, ICollection<string> validExtensions)
-        {
-            var fi = new FileInfo(file);
-            if (!validExtensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length))
-                return;
-
-            var data = File.ReadAllBytes(file);
-            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
-            if (pk?.Species is not > 0)
-                return;
-            pk.Identifier = file;
-            dbTemp.Add(pk);
-        }
-
-        private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<PKM> dbTemp, string file, string externalFilePrefix)
+        private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
         {
             var sav = SaveUtil.GetVariantSAV(file);
             if (sav == null)
             {
-                Console.WriteLine("Unable to load SaveFile: " + file);
+                Debug.WriteLine("Unable to load SaveFile: " + file);
                 return;
             }
 
-            var path = externalFilePrefix + Path.GetFileName(file);
-            if (sav.HasBox)
-            {
-                foreach (var pk in sav.BoxData)
-                {
-                    if (pk.Species == 0)
-                        continue;
-
-                    pk.Identifier = Path.Combine(path, pk.Identifier ?? string.Empty);
-                    dbTemp.Add(pk);
-                }
-            }
-
-            if (sav.HasParty)
-            {
-                foreach (var pk in sav.PartyData)
-                {
-                    if (pk.Species == 0)
-                        continue;
-
-                    pk.Identifier = Path.Combine(path, pk.Identifier ?? string.Empty);
-                    dbTemp.Add(pk);
-                }
-            }
-
-            var extra = sav.GetExtraSlots(true);
-            foreach (var x in extra)
-            {
-                var pk = x.Read(sav);
-                if (pk.Species == 0)
-                    continue;
-
-                pk.Identifier = Path.Combine(path, pk.Identifier ?? x.Type.ToString());
-                dbTemp.Add(pk);
-            }
+            SlotInfoLoader.AddFromSaveFile(sav, dbTemp);
         }
 
         // IO Usage
@@ -462,7 +407,7 @@ namespace PKHeX.WinForms
             string path = fbd.SelectedPath;
             Directory.CreateDirectory(path);
 
-            foreach (PKM pkm in Results)
+            foreach (var pkm in Results.Select(z => z.Entity))
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedPartyData);
         }
 
@@ -472,7 +417,7 @@ namespace PKHeX.WinForms
                 return;
 
             int box = BoxView.Box.CurrentBox;
-            int ctr = SAV.LoadBoxes(Results, out var result, box, clearAll, overwrite, noSetb);
+            int ctr = SAV.LoadBoxes(Results.Select(z => z.Entity), out var result, box, clearAll, overwrite, noSetb);
             if (ctr <= 0)
                 return;
 
@@ -482,22 +427,19 @@ namespace PKHeX.WinForms
         }
 
         // View Updates
-        private IEnumerable<PKM> SearchDatabase()
+        private IEnumerable<SlotCache> SearchDatabase()
         {
             var settings = GetSearchSettings();
 
-            IEnumerable<PKM> res = RawDB;
+            IEnumerable<SlotCache> res = RawDB;
 
             // pre-filter based on the file path (if specified)
             if (!Menu_SearchBoxes.Checked)
-                res = res.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == true);
+                res = res.Where(z => z.SAV != SAV);
             if (!Menu_SearchDatabase.Checked)
-            {
-                res = res.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == false);
-#if LOADALL
-                res = res.Where(pk => pk.Identifier?.StartsWith(EXTERNAL_SAV, StringComparison.Ordinal) == false);
-#endif
-            }
+                res = res.Where(z => !IsIndividualFilePKMDB(z));
+            if (!Menu_SearchBackups.Checked)
+                res = res.Where(z => !IsBackupSaveFile(z));
 
             // return filtered results
             return settings.Search(res);
@@ -571,7 +513,7 @@ namespace PKHeX.WinForms
 
             if (results.Count == 0)
             {
-                if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
+                if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked && !Menu_SearchBackups.Checked)
                     WinFormsUtil.Alert(MsgDBSearchFail, MsgDBSearchNone);
                 else
                     WinFormsUtil.Alert(MsgDBSearchNone);
@@ -587,7 +529,7 @@ namespace PKHeX.WinForms
                 FillPKXBoxes(e.NewValue);
         }
 
-        private void SetResults(List<PKM> res)
+        private void SetResults(List<SlotCache> res)
         {
             Results = res;
             ShowSet.Clear();
@@ -617,7 +559,7 @@ namespace PKHeX.WinForms
             int begin = start*RES_MIN;
             int end = Math.Min(RES_MAX, Results.Count - begin);
             for (int i = 0; i < end; i++)
-                PKXBOXES[i].Image = Results[i + begin].Sprite(SAV, -1, -1, true);
+                PKXBOXES[i].Image = Results[i + begin].Entity.Sprite(SAV, -1, -1, true);
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 
@@ -688,19 +630,21 @@ namespace PKHeX.WinForms
                 return;
 
             var deleted = 0;
-            var db = RawDB.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == true)
-                .OrderByDescending(file => File.GetLastWriteTimeUtc(file.Identifier!));
+            var db = RawDB.Where(IsIndividualFilePKMDB)
+                .OrderByDescending(GetRevisedTime);
 
-            var clones = SearchUtil.GetExtraClones(db);
-            foreach (var pk in clones)
+            var hasher = SearchUtil.GetCloneDetectMethod(CloneDetectionMethod.HashDetails);
+            var duplicates = SearchUtil.GetExtraClones(db, z => hasher(z.Entity));
+            foreach (var entry in duplicates)
             {
-                var path = pk.Identifier;
-                if (path == null || !File.Exists(path))
+                var src = entry.Source;
+                var path = ((SlotInfoFile)src).Path;
+                if (!File.Exists(path))
                     continue;
 
                 try { File.Delete(path); ++deleted; }
 #pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + pk.Identifier); }
+                catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + path); }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
 
@@ -709,6 +653,24 @@ namespace PKHeX.WinForms
 
             WinFormsUtil.Alert(string.Format(MsgFileDeleteCount, deleted), MsgWindowClose);
             Close();
+        }
+
+        private static DateTime GetRevisedTime(SlotCache arg)
+        {
+            var src = arg.Source;
+            if (src is not SlotInfoFile f)
+                return DateTime.Now;
+            return File.GetLastWriteTimeUtc(f.Path);
+        }
+
+        private bool IsBackupSaveFile(SlotCache pk)
+        {
+            return pk.SAV is not FakeSaveFile && pk.SAV != SAV;
+        }
+
+        private bool IsIndividualFilePKMDB(SlotCache pk)
+        {
+            return pk.Source is SlotInfoFile f && f.Path.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal);
         }
 
         private void L_Viewed_MouseEnter(object sender, EventArgs e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
@@ -720,7 +682,7 @@ namespace PKHeX.WinForms
             if (!GetShiftedIndex(ref index))
                 return;
 
-            ShowSet.Show(pb, Results[index]);
+            ShowSet.Show(pb, Results[index].Entity);
         }
     }
 }

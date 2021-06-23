@@ -32,7 +32,7 @@ namespace PKHeX.Core
         {
             // Don't use the byte[] constructor, the DecryptIfEncrypted call is based on checksum.
             // An invalid checksum will shuffle the data; we already know it's un-shuffled. Set up manually.
-            var pk = new PK3 {Identifier = Identifier};
+            var pk = new PK3();
             Data.CopyTo(pk.Data, 0);
             return pk;
         }

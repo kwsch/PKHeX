@@ -47,7 +47,7 @@ namespace PKHeX.Core
                     if (newIndex < 0)
                         continue;
 
-                    Debug.WriteLine($"Repointing {pk.Nickname} from ({pk.Box}|{pk.Slot}) to {newIndex}");
+                    Debug.WriteLine($"Re-pointing {pk.Nickname} from {index} to {newIndex}");
                     Debug.WriteLine($"{result[newIndex]}");
                     p[i] = start + newIndex;
                 }

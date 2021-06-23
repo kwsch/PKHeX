@@ -36,6 +36,7 @@
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchBackups = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
@@ -170,6 +171,7 @@
             this.Menu_SearchSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchBoxes,
             this.Menu_SearchDatabase,
+            this.Menu_SearchBackups,
             this.Menu_SearchLegal,
             this.Menu_SearchIllegal,
             this.Menu_SearchClones});
@@ -186,6 +188,15 @@
             this.Menu_SearchBoxes.Name = "Menu_SearchBoxes";
             this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
             this.Menu_SearchBoxes.Text = "Search Within Boxes";
+            // 
+            // Menu_SearchBackups
+            // 
+            this.Menu_SearchBackups.Checked = true;
+            this.Menu_SearchBackups.CheckOnClick = true;
+            this.Menu_SearchBackups.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchBackups.Name = "Menu_SearchBackups";
+            this.Menu_SearchBackups.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchBackups.Text = "Search Within Backups";
             // 
             // Menu_SearchDatabase
             // 
@@ -1094,5 +1105,6 @@
         private System.Windows.Forms.TabPage Tab_General;
         private System.Windows.Forms.TabPage Tab_Advanced;
         private System.Windows.Forms.RichTextBox RTB_Instructions;
+        private System.Windows.Forms.ToolStripMenuItem Menu_SearchBackups;
     }
 }

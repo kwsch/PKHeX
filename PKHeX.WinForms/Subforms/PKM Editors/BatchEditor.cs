@@ -192,22 +192,29 @@ namespace PKHeX.WinForms
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             SetupProgressBar(files.Length * sets.Count);
             foreach (var set in sets)
-                ProcessFolder(files, set.Filters, set.Instructions, destination);
+                ProcessFolder(files, destination, set.Filters, set.Instructions);
         }
 
         private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
         {
-            IList<PKM> data;
-            if (party && SAV.HasParty && process(data = SAV.PartyData))
-                SAV.PartyData = data;
-            if (boxes && SAV.HasBox && process(data = SAV.BoxData))
-                SAV.BoxData = data;
-            bool process(IList<PKM> d)
+            var data = new List<SlotCache>();
+            if (party)
+            {
+                SlotInfoLoader.AddPartyData(SAV, data);
+                process(data);
+                SAV.PartyData = data.ConvertAll(z => z.Entity);
+            }
+            if (boxes)
+            {
+                SlotInfoLoader.AddBoxData(SAV, data);
+                process(data);
+                SAV.BoxData = data.ConvertAll(z => z.Entity);
+            }
+            void process(IList<SlotCache> d)
             {
                 SetupProgressBar(d.Count * sets.Count);
                 foreach (var set in sets)
                     ProcessSAV(d, set.Filters, set.Instructions);
-                return d.Count != 0;
             }
         }
 
@@ -232,25 +239,42 @@ namespace PKHeX.WinForms
         // Mass Editing
         private Core.BatchEditor editor = new();
 
-        private void ProcessSAV(IList<PKM> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
+        private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
+            var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+            if (filterMeta.Length != 0)
+                Filters = Filters.Except(filterMeta).ToArray();
+
             for (int i = 0; i < data.Count; i++)
             {
-                editor.Process(data[i], Filters, Instructions);
+                var entry = data[i];
+                var pk = data[i].Entity;
+
+                if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
+                    editor.AddSkipped();
+                else if(!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
+                    editor.AddSkipped();
+                else
+                    editor.Process(pk, Filters, Instructions);
+
                 b.ReportProgress(i);
             }
         }
 
-        private void ProcessFolder(IReadOnlyList<string> files, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, string destPath)
+        private void ProcessFolder(IReadOnlyList<string> files, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
         {
+            var filterMeta = pkFilters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+            if (filterMeta.Length != 0)
+                pkFilters = pkFilters.Except(filterMeta).ToArray();
+
             for (int i = 0; i < files.Count; i++)
             {
-                TryProcess(Filters, Instructions, files[i], destPath);
+                TryProcess(files[i], destDir, filterMeta, pkFilters, instructions);
                 b.ReportProgress(i);
             }
         }
 
-        private void TryProcess(IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, string source, string dest)
+        private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
         {
             var fi = new FileInfo(source);
             if (!PKX.IsPKM(fi.Length))
@@ -262,8 +286,13 @@ namespace PKHeX.WinForms
             if (pk == null)
                 return;
 
-            if (editor.Process(pk, Filters, Instructions))
-                File.WriteAllBytes(Path.Combine(dest, Path.GetFileName(source)), pk.DecryptedPartyData);
+            var info = new SlotInfoFile(source);
+            var entry = new SlotCache(info, pk);
+            if (BatchEditing.IsFilterMatchMeta(metaFilters, entry))
+                editor.Process(pk, pkFilters, instructions);
+
+            if (editor.Process(pk, pkFilters, instructions))
+                File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);
         }
     }
 }

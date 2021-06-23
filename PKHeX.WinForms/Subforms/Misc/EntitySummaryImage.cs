@@ -10,9 +10,11 @@ namespace PKHeX.WinForms
     public sealed class EntitySummaryImage : EntitySummary
     {
         public Image Sprite => pkm.Sprite();
+        public override string Position { get; }
 
-        public EntitySummaryImage(PKM p, GameStrings strings) : base(p, strings)
+        public EntitySummaryImage(PKM p, GameStrings strings, string position) : base(p, strings)
         {
+            Position = position;
         }
     }
 }

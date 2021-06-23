@@ -49,7 +49,7 @@ namespace PKHeX.Core
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
-            if (pkm.WasBredEgg)
+            if (Locations.IsEggLocationBred4(pkm.Egg_Location, (GameVersion)pkm.Version))
             {
                 foreach (var z in GenerateEggs(pkm, 4))
                     yield return z;
@@ -60,9 +60,7 @@ namespace PKHeX.Core
             IEncounterable? deferred = null;
             IEncounterable? partial = null;
 
-            bool sport = pkm.Ball == (int)Ball.Sport; // never static encounters (conflict with non bcc / bcc)
-            bool safari = pkm.Ball == (int)Ball.Safari; // never static encounters
-            bool safariSport = safari || sport;
+            bool safariSport = pkm.Ball is (int)Ball.Sport or (int)Ball.Safari; // never static encounters
             if (!safariSport)
             {
                 foreach (var z in GetValidStaticEncounter(pkm, chain))

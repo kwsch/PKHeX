@@ -18,7 +18,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < data.Length; i++)
                 {
                     var bytes = SAV.GetData(GetResortSlotOffset(i), PokeCrypto.SIZE_6STORED);
-                    data[i] = new PK7(bytes) { Identifier = $"Resort Slot {i}" };
+                    data[i] = new PK7(bytes);
                 }
                 return data;
             }

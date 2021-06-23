@@ -31,30 +31,35 @@ namespace PKHeX.Core
         {
             get => new[]
             {
-                GetTeam(0, 0),
-                GetTeam(0, 6 * PokeCrypto.SIZE_3PARTY),
+                GetTeam(0),
+                GetTeam(1),
             };
             set
             {
                 SetTeam(value[0], 0);
-                SetTeam(value[1], 6 * PokeCrypto.SIZE_3PARTY);
+                SetTeam(value[1], 1);
             }
         }
 
-        public PK3[] GetTeam(int teamIndex, int ofs)
+        public PK3[] GetTeam(int teamIndex)
         {
+            if ((uint)teamIndex > 2)
+                throw new ArgumentOutOfRangeException(nameof(teamIndex));
+
+            var ofs = (6 * PokeCrypto.SIZE_3PARTY) * teamIndex;
             var team = new PK3[6];
             for (int p = 0; p < 6; p++)
             {
                 int offset = ofs + (PokeCrypto.SIZE_3PARTY * p);
-                team[p] = new PK3(Data.Slice(offset, PokeCrypto.SIZE_3PARTY)) { Identifier = $"Team {teamIndex}, Slot {p}" };
+                team[p] = new PK3(Data.Slice(offset, PokeCrypto.SIZE_3PARTY));
             }
 
             return team;
         }
 
-        public void SetTeam(IReadOnlyList<PK3> team, int ofs)
+        public void SetTeam(IReadOnlyList<PK3> team, int teamIndex)
         {
+            var ofs = (6 * PokeCrypto.SIZE_3PARTY) * teamIndex;
             for (int p = 0; p < 6; p++)
             {
                 int offset = ofs + (PokeCrypto.SIZE_3PARTY * p);

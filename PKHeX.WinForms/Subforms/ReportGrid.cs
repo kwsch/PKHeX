@@ -51,16 +51,17 @@ namespace PKHeX.WinForms
 
         private sealed class PokemonList<T> : SortableBindingList<T> where T : class { }
 
-        public void PopulateData(IList<PKM> Data)
+        public void PopulateData(IList<SlotCache> Data)
         {
             SuspendLayout();
             BoxBar.Step = 1;
             var PL = new PokemonList<EntitySummaryImage>();
             var strings = GameInfo.Strings;
-            foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
+            foreach (var entry in Data)
             {
-                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth); // recalc Level
-                PL.Add(new EntitySummaryImage(pkm, strings));
+                var pkm = entry.Entity;
+                pkm.Stat_Level = pkm.CurrentLevel; // recalc Level
+                PL.Add(new EntitySummaryImage(pkm, strings, entry.Identify()));
                 BoxBar.PerformStep();
             }
 

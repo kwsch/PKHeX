@@ -122,6 +122,33 @@ namespace PKHeX.Core
         /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects based on the provided filter operations.
         /// </summary>
         /// <param name="list">Source list to sort</param>
+        /// <param name="sav">Save file destination</param>
+        /// <param name="check">Position check</param>
+        /// <param name="start">Starting position</param>
+        /// <returns>Enumerable list that is sorted</returns>
+        public static IEnumerable<PKM> BubbleUp(this IEnumerable<PKM> list, SaveFile sav, Func<int, bool> check, int start)
+        {
+            var matches = new List<PKM>();
+            var failures = new List<PKM>();
+            var ctr = start;
+            foreach (var x in list)
+            {
+                while (sav.IsSlotOverwriteProtected(ctr))
+                    ctr++;
+                bool isMatch = check(ctr);
+                var arr = isMatch ? matches : failures;
+                arr.Add(x);
+                ctr++;
+            }
+
+            var result = matches.Concat(failures);
+            return result.InitialSortBy();
+        }
+
+        /// <summary>
+        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects based on the provided filter operations.
+        /// </summary>
+        /// <param name="list">Source list to sort</param>
         /// <param name="filters">Filter operations to sort with (sorted with ThenBy after the initial sort).</param>
         /// <returns>Enumerable list that is sorted</returns>
         public static IEnumerable<PKM> OrderByCustom(this IEnumerable<PKM> list, params Func<PKM, IComparable>[] filters)

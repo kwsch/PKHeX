@@ -24,16 +24,19 @@ namespace PKHeX.Core
                 return -1;
 
             var boxData = sav.BoxData;
+            int boxSlotCount = sav.BoxSlotCount;
             var ctr = 0;
-            foreach (var pk in boxData)
+            for (var slot = 0; slot < boxData.Count; slot++)
             {
+                var pk = boxData[slot];
+                var box = slot / boxSlotCount;
                 if (pk.Species == 0 || !pk.Valid)
                     continue;
 
                 var boxFolder = path;
                 if (boxFolders)
                 {
-                    var boxName = Util.CleanFileName(sav.GetBoxName(pk.Box - 1));
+                    var boxName = Util.CleanFileName(sav.GetBoxName(box));
                     boxFolder = Path.Combine(path, boxName);
                     Directory.CreateDirectory(boxFolder);
                 }
@@ -62,10 +65,13 @@ namespace PKHeX.Core
                 return -1;
 
             var boxData = sav.BoxData;
+            int boxSlotCount = sav.BoxSlotCount;
             var ctr = 0;
-            foreach (var pk in boxData)
+            for (var slot = 0; slot < boxData.Count; slot++)
             {
-                if (pk.Species == 0 || !pk.Valid || pk.Box - 1 != currentBox)
+                var pk = boxData[slot];
+                var box = slot / boxSlotCount;
+                if (pk.Species == 0 || !pk.Valid || box != currentBox)
                     continue;
 
                 var fileName = Path.Combine(path, Util.CleanFileName(pk.FileName));

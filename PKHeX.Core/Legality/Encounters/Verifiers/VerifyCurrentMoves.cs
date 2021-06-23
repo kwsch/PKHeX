@@ -510,12 +510,13 @@ namespace PKHeX.Core
             else if (enc is not EncounterEgg)
             {
                 // Event eggs cannot inherit moves from parents; they are not bred.
+                var gift = enc is EncounterStatic {Gift: true}; // otherwise, EncounterInvalid
                 foreach (int m in RegularEggMovesLearned)
                 {
                     if (learnInfo.EggMovesLearned.Contains(m))
-                        res[m] = new CheckMoveResult(res[m], Invalid, pkm.WasGiftEgg ? LMoveEggMoveGift : LMoveEggInvalidEvent, CurrentMove);
+                        res[m] = new CheckMoveResult(res[m], Invalid, gift ? LMoveEggMoveGift : LMoveEggInvalidEvent, CurrentMove);
                     else if (learnInfo.LevelUpEggMoves.Contains(m))
-                        res[m] = new CheckMoveResult(res[m], Invalid, pkm.WasGiftEgg ? LMoveEggInvalidEventLevelUpGift : LMoveEggInvalidEventLevelUp, CurrentMove);
+                        res[m] = new CheckMoveResult(res[m], Invalid, gift ? LMoveEggInvalidEventLevelUpGift : LMoveEggInvalidEventLevelUp, CurrentMove);
                 }
             }
         }

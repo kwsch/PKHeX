@@ -84,7 +84,7 @@ namespace PKHeX.Core
         /// <param name="skip">Criteria for skipping a slot</param>
         /// <param name="start">Starting point to copy to</param>
         /// <returns>Count of <see cref="T"/> copied.</returns>
-        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, Func<T, bool> skip, int start = 0)
+        public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, Func<int, bool> skip, int start = 0)
         {
             int ctr = start;
             int skipped = 0;
@@ -101,14 +101,14 @@ namespace PKHeX.Core
             return ctr - start - skipped;
         }
 
-        public static int FindNextValidIndex<T>(IList<T> dest, Func<T, bool> skip, int ctr)
+        public static int FindNextValidIndex<T>(IList<T> dest, Func<int, bool> skip, int ctr)
         {
             while (true)
             {
                 if ((uint)ctr >= dest.Count)
                     return -1;
                 var exist = dest[ctr];
-                if (exist == null || !skip(exist))
+                if (exist == null || !skip(ctr))
                     return ctr;
                 ctr++;
             }

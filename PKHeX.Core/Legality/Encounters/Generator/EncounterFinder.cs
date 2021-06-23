@@ -123,22 +123,48 @@ namespace PKHeX.Core
         private static void VerifyWithoutEncounter(PKM pkm, LegalInfo info)
         {
             info.EncounterMatch = new EncounterInvalid(pkm);
-            string hint = GetHintWhyNotFound(pkm);
+            string hint = GetHintWhyNotFound(pkm, info.EncounterMatch.Generation);
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, info.Relearn);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
         }
 
-        private static string GetHintWhyNotFound(PKM pkm)
+        private static string GetHintWhyNotFound(PKM pkm, int gen)
         {
-            if (pkm.WasGiftEgg)
+            if (WasGiftEgg(pkm, gen, pkm.Egg_Location))
                 return LEncGift;
-            if (pkm.WasEventEgg)
+            if (WasEventEgg(pkm, gen))
                 return LEncGiftEggEvent;
-            if (pkm.WasEvent)
+            if (WasEvent(pkm, gen))
                 return LEncGiftNotFound;
             return LEncInvalid;
         }
+
+        private static bool WasGiftEgg(PKM pkm, int gen, int loc) => !pkm.FatefulEncounter && gen switch
+        {
+            3 => pkm.IsEgg && pkm.Met_Location == 253, // Gift Egg, indistinguible from normal eggs after hatch
+            4 => Legal.GiftEggLocation4.Contains(loc) || (pkm.Format != 4 && (loc == Locations.Faraway4 && pkm.HGSS)),
+            5 => loc is Locations.Breeder5,
+            _ => loc is Locations.Breeder6,
+        };
+
+        private static bool WasEventEgg(PKM pkm, int gen) => gen switch
+        {
+            // Event Egg, indistinguible from normal eggs after hatch
+            // can't tell after transfer
+            3 => pkm.Format == 3 && pkm.IsEgg && pkm.Met_Location == 255,
+
+            // Manaphy was the only generation 4 released event egg
+            _ => pkm.Egg_Location is not 0 && pkm.FatefulEncounter,
+        };
+
+        private static bool WasEvent(PKM pkm, int gen) => pkm.FatefulEncounter || gen switch
+        {
+            3 => (pkm.Met_Location == 255 && pkm.Format == 3),
+            4 => (Locations.IsEventLocation4(pkm.Met_Location) && pkm.Format == 4),
+          >=5 => Locations.IsEventLocation5(pkm.Met_Location),
+            _ => false,
+        };
     }
 }

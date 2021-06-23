@@ -32,6 +32,7 @@ namespace PKHeX.Core.Searching
 
         public CloneDetectionMethod SearchClones { private get; set; }
         public IList<string> BatchInstructions { private get; init; } = Array.Empty<string>();
+        private StringInstruction[] BatchFilters { get; set; } = Array.Empty<StringInstruction>();
 
         public readonly List<int> Moves = new();
 
@@ -59,80 +60,123 @@ namespace PKHeX.Core.Searching
         /// <returns>Search results that match all criteria</returns>
         public IEnumerable<PKM> Search(IEnumerable<PKM> list)
         {
-            var result = SearchSimple(list);
-            result = SearchIntermediate(result);
-            result = SearchComplex(result);
-
-            foreach (var filter in ExtraFilters)
-                result = result.Where(filter);
+            BatchFilters = StringInstruction.GetFilters(BatchInstructions).ToArray();
+            var result = SearchInner(list);
 
             if (SearchClones != CloneDetectionMethod.None)
-                result = SearchUtil.GetClones(result, SearchClones);
+            {
+                var method = SearchUtil.GetCloneDetectMethod(SearchClones);
+                result = SearchUtil.GetExtraClones(result, method);
+            }
 
             return result;
         }
 
-        private IEnumerable<PKM> SearchSimple(IEnumerable<PKM> res)
+        /// <summary>
+        /// Searches the input list, filtering out entries as specified by the settings.
+        /// </summary>
+        /// <param name="list">List of entries to search</param>
+        /// <returns>Search results that match all criteria</returns>
+        public IEnumerable<SlotCache> Search(IEnumerable<SlotCache> list)
         {
-            if (Format > 0)
-                res = SearchUtil.FilterByFormat(res, Format, SearchFormat);
-            if (Species > -1)
-                res = res.Where(pk => pk.Species == Species);
-            if (Ability > -1)
-                res = res.Where(pk => pk.Ability == Ability);
-            if (Nature > -1)
-                res = res.Where(pk => pk.Nature == Nature);
-            if (Item > -1)
-                res = res.Where(pk => pk.HeldItem == Item);
-            if (Version > -1)
-                res = res.Where(pk => pk.Version == Version);
+            BatchFilters = StringInstruction.GetFilters(BatchInstructions).ToArray();
+            var result = SearchInner(list);
 
-            return res;
+            if (SearchClones != CloneDetectionMethod.None)
+            {
+                var method = SearchUtil.GetCloneDetectMethod(SearchClones);
+                string GetHash(SlotCache z) => method(z.Entity);
+                result = SearchUtil.GetExtraClones(result, GetHash);
+            }
+
+            return result;
         }
 
-        private IEnumerable<PKM> SearchIntermediate(IEnumerable<PKM> res)
+        private IEnumerable<PKM> SearchInner(IEnumerable<PKM> list)
         {
-            if (Generation > 0)
-                res = SearchUtil.FilterByGeneration(res, Generation);
-            if (Moves.Count > 0)
-                res = SearchUtil.FilterByMoves(res, Moves);
-            if (HiddenPowerType > -1)
-                res = res.Where(pk => pk.HPType == HiddenPowerType);
-            if (SearchShiny != null)
-                res = res.Where(pk => pk.IsShiny == SearchShiny);
-
-            if (IVType > 0)
-                res = SearchUtil.FilterByIVs(res, IVType);
-            if (EVType > 0)
-                res = SearchUtil.FilterByEVs(res, EVType);
-
-            return res;
+            foreach (var pk in list)
+            {
+                if (IsSearchMatch(pk))
+                    continue;
+                yield return pk;
+            }
         }
 
-        private IEnumerable<PKM> SearchComplex(IEnumerable<PKM> res)
+        private IEnumerable<SlotCache> SearchInner(IEnumerable<SlotCache> list)
         {
-            if (SearchEgg != null)
-                res = FilterResultEgg(res);
-
-            if (Level is not null or 0)
-                res = SearchUtil.FilterByLevel(res, SearchLevel, (int)Level);
-
-            if (SearchLegal != null)
-                res = res.Where(pk => new LegalityAnalysis(pk).Valid == SearchLegal);
-
-            if (BatchInstructions.Count != 0)
-                res = SearchUtil.FilterByBatchInstruction(res, BatchInstructions);
-
-            return res;
+            foreach (var entry in list)
+            {
+                var pk = entry.Entity;
+                if (IsSearchMatch(pk))
+                    continue;
+                yield return entry;
+            }
         }
 
-        private IEnumerable<PKM> FilterResultEgg(IEnumerable<PKM> res)
+        private bool IsSearchMatch(PKM pk)
+        {
+            if (!SearchSimple(pk))
+                return false;
+            if (!SearchIntermediate(pk))
+                return false;
+            if (!SearchComplex(pk))
+                return false;
+
+            foreach (var filter in ExtraFilters)
+            {
+                if (!filter(pk))
+                    return false;
+            }
+            return true;
+        }
+
+        private bool SearchSimple(PKM pk)
+        {
+            if (Format > 0 && !SearchUtil.SatisfiesFilterFormat(pk, Format, SearchFormat))
+                return false;
+            if (Species > -1 && pk.Species != Species)
+                return false;
+            if (Ability > -1 && pk.Ability != Ability)
+                return false;
+            if (Nature > -1 && pk.StatNature != Nature)
+                return false;
+            if (Item > -1 && pk.HeldItem != Item)
+                return false;
+            if (Version > -1 && pk.Version != Version)
+                return false;
+            return true;
+        }
+
+        private bool SearchIntermediate(PKM pk)
+        {
+            if (Generation > 0 && !SearchUtil.SatisfiesFilterGeneration(pk, Generation)) return false;
+            if (Moves.Count > 0 && SearchUtil.SatisfiesFilterMoves(pk, Moves)) return false;
+            if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType) return false;
+            if (SearchShiny != null && pk.IsShiny != SearchShiny) return false;
+
+            if (IVType > 0 && SearchUtil.SatisfiesFilterIVs(pk, IVType)) return false;
+            if (EVType > 0 && SearchUtil.SatisfiesFilterEVs(pk, EVType)) return false;
+
+            return true;
+        }
+
+        private bool SearchComplex(PKM pk)
+        {
+            if (SearchEgg != null && !FilterResultEgg(pk)) return false;
+            if (Level is not null or 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, (int) Level)) return false;
+            if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal) return false;
+            if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters)) return false;
+
+            return true;
+        }
+
+        private bool FilterResultEgg(PKM pk)
         {
             if (SearchEgg == false)
-                return res.Where(pk => !pk.IsEgg);
+                return !pk.IsEgg;
             if (ESV != null)
-                return res.Where(pk => pk.IsEgg && pk.PSV == ESV);
-            return res.Where(pk => pk.IsEgg);
+                return pk.IsEgg && pk.PSV == ESV;
+            return pk.IsEgg;
         }
 
         public IReadOnlyList<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));

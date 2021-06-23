@@ -14,8 +14,8 @@ namespace PKHeX.WinForms.Controls
         public SaveDataEditor<PictureBox> Editor { private get; set; } = null!;
         public SlotChangeManager Manager { get; set; } = null!;
 
-        public event LegalityRequest? RequestEditorLegality;
-        public delegate void LegalityRequest(object sender, EventArgs e, PKM pkm);
+        public Action<LegalityAnalysis>? RequestEditorLegality;
+        public delegate void LegalityRequest(object sender, EventArgs e, LegalityAnalysis la);
 
         public void OmniClick(object sender, EventArgs e, Keys z)
         {
@@ -108,7 +108,9 @@ namespace PKHeX.WinForms.Controls
             var info = GetSenderInfo(ref sender);
             var sav = info.View.SAV;
             var pk = info.Slot.Read(sav);
-            RequestEditorLegality?.Invoke(sender, e, pk);
+            var type = info.Slot is SlotInfoBox ? SlotOrigin.Box : SlotOrigin.Party;
+            var la = new LegalityAnalysis(pk, sav.Personal, type);
+            RequestEditorLegality?.Invoke(la);
         }
 
         private void MenuOpening(object sender, CancelEventArgs e)

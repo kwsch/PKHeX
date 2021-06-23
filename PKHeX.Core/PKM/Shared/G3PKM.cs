@@ -24,9 +24,6 @@
         public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
         public sealed override int TSV => (TID ^ SID) >> 3;
         public sealed override bool Japanese => Language == (int)LanguageID.Japanese;
-        public sealed override bool WasEvent => Met_Location == 255; // Fateful
-        public sealed override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
-        public sealed override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
         public sealed override int Ability { get => ((PersonalInfoG3)PersonalInfo).GetAbility(AbilityBit); set { } }
         public sealed override uint EncryptionConstant { get => PID; set { } }

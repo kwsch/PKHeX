@@ -25,22 +25,51 @@ namespace PKHeX.Core
             typeof (PK2), typeof (SK2), typeof (PK1),
         };
 
-        public static readonly List<string> CustomProperties = new() { PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS };
+        /// <summary>
+        /// Extra properties to show in the list of selectable properties (GUI)
+        /// </summary>
+        public static readonly List<string> CustomProperties = new()
+        {
+            PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS,
+            IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
+        };
+
+        /// <summary>
+        /// Property names, indexed by <see cref="Types"/>.
+        /// </summary>
         public static readonly string[][] Properties = GetPropArray();
 
-        private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
-                .GroupBy(p => p.Name).Select(g => g.First()).ToDictionary(p => p.Name))
-                .ToArray();
+        private static readonly Dictionary<string, PropertyInfo>[] Props = GetPropertyDictionaries(Types);
 
-        private const string CONST_RAND = "$rand";
-        private const string CONST_SHINY = "$shiny";
+        private static Dictionary<string, PropertyInfo>[] GetPropertyDictionaries(IReadOnlyList<Type> types)
+        {
+            var result = new Dictionary<string, PropertyInfo>[types.Count];
+            for (int i = 0; i < types.Count; i++)
+                result[i] = GetPropertyDictionary(types[i], ReflectUtil.GetAllPropertyInfoPublic);
+            return result;
+        }
+
+        private static Dictionary<string, PropertyInfo> GetPropertyDictionary(Type type, Func<Type, IEnumerable<PropertyInfo>> selector)
+        {
+            var dict = new Dictionary<string, PropertyInfo>();
+            var props = selector(type);
+            foreach (var p in props)
+            {
+                if (!dict.ContainsKey(p.Name))
+                    dict.Add(p.Name, p);
+            }
+            return dict;
+        }
+
+        internal const string CONST_RAND = "$rand";
+        internal const string CONST_SHINY = "$shiny";
         private const string CONST_SUGGEST = "$suggest";
         private const string CONST_BYTES = "$[]";
 
-        private const string PROP_LEGAL = "Legal";
-        private const string PROP_TYPENAME = "ObjectType";
-        private const string PROP_RIBBONS = "Ribbons";
-        private const string IdentifierContains = nameof(PKM.Identifier) + "Contains";
+        internal const string PROP_LEGAL = "Legal";
+        internal const string PROP_TYPENAME = "ObjectType";
+        internal const string PROP_RIBBONS = "Ribbons";
+        internal const string IdentifierContains = nameof(IdentifierContains);
 
         private static string[][] GetPropArray()
         {
@@ -187,6 +216,30 @@ namespace PKHeX.Core
         /// Checks if the object is filtered by the provided <see cref="filters"/>.
         /// </summary>
         /// <param name="filters">Filters which must be satisfied.</param>
+        /// <param name="pk">Object to check.</param>
+        /// <returns>True if <see cref="pk"/> matches all filters.</returns>
+        public static bool IsFilterMatchMeta(IEnumerable<StringInstruction> filters, SlotCache pk)
+        {
+            foreach (var i in filters)
+            {
+                foreach (var filter in BatchFilters.FilterMeta)
+                {
+                    if (!filter.IsMatch(i.PropertyName))
+                        continue;
+
+                    if (!filter.IsFiltered(pk, i))
+                        return false;
+
+                    break;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the object is filtered by the provided <see cref="filters"/>.
+        /// </summary>
+        /// <param name="filters">Filters which must be satisfied.</param>
         /// <param name="obj">Object to check.</param>
         /// <returns>True if <see cref="obj"/> matches all filters.</returns>
         public static bool IsFilterMatch(IEnumerable<StringInstruction> filters, object obj)
@@ -325,7 +378,7 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
             if (match != null)
                 return match.IsFiltered(info, cmd);
             return IsPropertyFiltered(cmd, info.Entity, props);
@@ -340,7 +393,7 @@ namespace PKHeX.Core
         /// <returns>True if filter matches, else false.</returns>
         private static bool IsFilterMatch(StringInstruction cmd, PKM pk, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            var match = FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
+            var match = BatchFilters.FilterMods.Find(z => z.IsMatch(cmd.PropertyName));
             if (match != null)
                 return match.IsFiltered(pk, cmd);
             return IsPropertyFiltered(cmd, pk, props);
@@ -370,7 +423,7 @@ namespace PKHeX.Core
         /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
         private static ModifyResult SetSuggestedPKMProperty(string name, BatchInfo info, string propValue)
         {
-            var first = SuggestionMods.Find(z => z.IsMatch(name, propValue, info));
+            var first = BatchMods.SuggestionMods.Find(z => z.IsMatch(name, propValue, info));
             if (first != null)
                 return first.Modify(name, propValue, info);
             return ModifyResult.Error;
@@ -411,7 +464,7 @@ namespace PKHeX.Core
                 return true;
             }
 
-            var match = ComplexMods.Find(z => z.IsMatch(cmd.PropertyName, cmd.PropertyValue));
+            var match = BatchMods.ComplexMods.Find(z => z.IsMatch(cmd.PropertyName, cmd.PropertyValue));
             if (match == null)
                 return false;
 
@@ -435,81 +488,5 @@ namespace PKHeX.Core
             if (TryGetHasProperty(pk, cmd.PropertyName, out var pi))
                 ReflectUtil.SetValue(pi, pk, Util.Rand.Next(pk.MaxIV + 1));
         }
-
-        public static readonly List<IComplexFilter> FilterMods = new()
-        {
-            new ComplexFilter(PROP_LEGAL,
-                (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
-                (info, cmd) => info.Legality.Valid == cmd.Evaluator),
-
-            new ComplexFilter(PROP_TYPENAME,
-                (pkm, cmd) => (pkm.GetType().Name == cmd.PropertyValue) == cmd.Evaluator,
-                (info, cmd) => (info.Entity.GetType().Name == cmd.PropertyValue) == cmd.Evaluator),
-
-            new ComplexFilter(IdentifierContains,
-                (pkm, cmd) => pkm.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator,
-                (info, cmd) => info.Entity.Identifier?.Contains(cmd.PropertyValue) == cmd.Evaluator),
-        };
-
-        public static readonly List<ISuggestModification> SuggestionMods = new()
-        {
-            // PB7 Specific
-            new TypeSuggestion<PB7>(nameof(PB7.Stat_CP), p => p.ResetCP()),
-            new TypeSuggestion<PB7>(nameof(PB7.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
-            new TypeSuggestion<PB7>(nameof(PB7.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
-
-            // Date Copy
-            new TypeSuggestion<PKM>(nameof(PKM.EggMetDate), p => p.EggMetDate = p.MetDate),
-            new TypeSuggestion<PKM>(nameof(PKM.MetDate), p => p.MetDate = p.EggMetDate),
-
-            new TypeSuggestion<PKM>(nameof(PKM.Nature), p => p.Format >= 8, p => p.Nature = p.StatNature),
-            new TypeSuggestion<PKM>(nameof(PKM.StatNature), p => p.Format >= 8, p => p.StatNature = p.Nature),
-            new TypeSuggestion<PKM>(nameof(PKM.Stats), p => p.ResetPartyStats()),
-            new TypeSuggestion<PKM>(nameof(PKM.Ball), p => BallApplicator.ApplyBallLegalByColor(p)),
-            new TypeSuggestion<PKM>(nameof(PKM.Heal), p => p.Heal()),
-            new TypeSuggestion<PKM>(nameof(PKM.HealPP), p => p.HealPP()),
-            new TypeSuggestion<PKM>(nameof(IHyperTrain.HyperTrainFlags), p => p.SetSuggestedHyperTrainingData()),
-
-            new TypeSuggestion<PKM>(nameof(PKM.Move1_PP), p => p.SetSuggestedMovePP(0)),
-            new TypeSuggestion<PKM>(nameof(PKM.Move2_PP), p => p.SetSuggestedMovePP(1)),
-            new TypeSuggestion<PKM>(nameof(PKM.Move3_PP), p => p.SetSuggestedMovePP(2)),
-            new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.SetSuggestedMovePP(3)),
-
-            new ComplexSuggestion(nameof(PKM.Moves), (_, _, info) => SetMoves(info.Entity, info.Legality.GetMoveSet())),
-            new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => SetSuggestedRelearnData(info, value)),
-            new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => SetSuggestedRibbons(info, value)),
-            new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => SetSuggestedMetData(info)),
-        };
-
-        private static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-
-        public static readonly List<IComplexSet> ComplexMods = new()
-        {
-            // Date
-            new ComplexSet(nameof(PKM.MetDate), (pk, cmd) => pk.MetDate = ParseDate(cmd.PropertyValue)),
-            new ComplexSet(nameof(PKM.EggMetDate), (pk, cmd) => pk.EggMetDate = ParseDate(cmd.PropertyValue)),
-
-            // Value Swap
-            new ComplexSet(nameof(PKM.EncryptionConstant), value => value == nameof(PKM.PID), (pk, _) => pk.EncryptionConstant = pk.PID),
-            new ComplexSet(nameof(PKM.PID), value => value == nameof(PKM.EncryptionConstant), (pk, _) => pk.PID = pk.EncryptionConstant),
-
-            // Realign to Derived Value
-            new ComplexSet(nameof(PKM.Ability), value => value.StartsWith("$"), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
-            new ComplexSet(nameof(PKM.AbilityNumber), value => value.StartsWith("$"), (pk, cmd) => pk.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30)),
-
-            // Random
-            new ComplexSet(nameof(PKM.EncryptionConstant), value => value == CONST_RAND, (pk, _) => pk.EncryptionConstant = Util.Rand32()),
-            new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
-            new ComplexSet(nameof(PKM.Gender), value => value == CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
-
-            // Shiny
-            new ComplexSet(nameof(PKM.PID),
-                value => value.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture),
-                (pk, cmd) =>
-                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0") ? Shiny.AlwaysSquare : cmd.PropertyValue.EndsWith("1") ? Shiny.AlwaysStar : Shiny.Random)),
-
-            new ComplexSet(nameof(PKM.Species), value => value == "0", (pk, _) => Array.Clear(pk.Data, 0, pk.Data.Length)),
-            new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
-        };
     }
 }

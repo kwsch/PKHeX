@@ -39,7 +39,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};
+        public override PKM Clone() => new PB7((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);

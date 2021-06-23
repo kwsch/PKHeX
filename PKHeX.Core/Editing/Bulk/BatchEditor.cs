@@ -26,10 +26,10 @@ namespace PKHeX.Core
         {
             if (pkm.Species <= 0)
                 return false;
-            if (!pkm.Valid || pkm.Locked)
+            if (!pkm.Valid)
             {
                 Iterated++;
-                var reason = pkm.Locked ? "Locked." : "Not Valid.";
+                const string reason = "Not Valid.";
                 Debug.WriteLine($"{MsgBEModifyFailBlocked} {reason}");
                 return false;
             }
@@ -76,6 +76,11 @@ namespace PKHeX.Core
             }
 
             return editor;
+        }
+
+        public void AddSkipped()
+        {
+            ++Iterated;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public override int Execute(SaveFile sav, BoxManipParam param)
         {
-            IEnumerable<PKM> Method(IEnumerable<PKM> p) => Sorter(p);
+            IEnumerable<PKM> Method(IEnumerable<PKM> p, int index) => Sorter(p);
             return sav.SortBoxes(param.Start, param.Stop, Method, param.Reverse);
         }
     }

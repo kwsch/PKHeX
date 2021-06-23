@@ -57,7 +57,7 @@ namespace PKHeX.Core
             set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
         }
 
-        public override PKM Clone() => new PK8((byte[])Data.Clone()) { Identifier = Identifier };
+        public override PKM Clone() => new PK8((byte[])Data.Clone());
 
         private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
@@ -69,10 +69,7 @@ namespace PKHeX.Core
         public override byte[] Nickname_Trash { get => GetData(0x58, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x58); } }
         public override byte[] HT_Trash { get => GetData(0xA8, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xA8); } }
         public override byte[] OT_Trash { get => GetData(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xF8); } }
-        public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
-        public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-        public override bool WasEventEgg => Generation < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
-
+        
         // Maximums
         public override int MaxIV => 31;
         public override int MaxEV => 252;

@@ -46,6 +46,8 @@ namespace PKHeX.Core
         /// </remarks>
         public IEncounterable EncounterOriginal => Info.EncounterOriginal;
 
+        public readonly SlotOrigin SlotOrigin;
+
         /// <summary>
         /// Indicates if all checks ran to completion.
         /// </summary>
@@ -67,23 +69,27 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable table) : this(pk, table.GetFormEntry(pk.Species, pk.Form)) { }
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, PersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
         /// </summary>
         /// <param name="pk">Input data to check</param>
-        public LegalityAnalysis(PKM pk) : this(pk, pk.PersonalInfo) { }
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, SlotOrigin source = SlotOrigin.Party) : this(pk, pk.PersonalInfo, source) { }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="pi">Personal info to parse with</param>
-        public LegalityAnalysis(PKM pk, PersonalInfo pi)
+        /// <param name="source">Details about where the <see cref="pk"/> originated from.</param>
+        public LegalityAnalysis(PKM pk, PersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
         {
             pkm = pk;
             PersonalInfo = pi;
+            SlotOrigin = source;
 
             if (pkm.Format <= 2) // prior to storing GameVersion
                 pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
@@ -121,14 +127,16 @@ namespace PKHeX.Core
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
 
+                var moves = Info.Moves;
                 // Moves and Relearn arrays can potentially be empty on error.
                 // ReSharper disable once ConstantNullCoalescingCondition
-                for (int i = 0; i < Info.Moves.Length; i++)
-                    Info.Moves[i] ??= new CheckMoveResult(MoveSource.None, pkm.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                for (int i = 0; i < moves.Length; i++)
+                    moves[i] ??= new CheckMoveResult(MoveSource.None, pkm.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
 
+                var relearn = Info.Relearn;
                 // ReSharper disable once ConstantNullCoalescingCondition
-                for (int i = 0; i < Info.Relearn.Length; i++)
-                    Info.Relearn[i] ??= new CheckResult(Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                for (int i = 0; i < relearn.Length; i++)
+                    relearn[i] ??= new CheckResult(Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
 
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
             }

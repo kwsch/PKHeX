@@ -538,9 +538,9 @@ namespace PKHeX.Core
             int skipped = 0;
             for (int slot = 0; slot < BoxSlotCount; slot++)
             {
-                var pk = value[index + slot];
-                if (!pk.StorageFlags.IsOverwriteProtected())
-                    SetBoxSlotAtIndex(pk, box, slot);
+                var flags = GetSlotFlags(box, slot);
+                if (!flags.IsOverwriteProtected())
+                    SetBoxSlotAtIndex(value[index + slot], box, slot);
                 else
                     ++skipped;
             }
@@ -557,15 +557,10 @@ namespace PKHeX.Core
 
         public void AddBoxData(IList<PKM> data, int box, int index)
         {
-            var boxName = GetBoxName(box);
             for (int slot = 0; slot < BoxSlotCount; slot++)
             {
                 int i = slot + index;
                 data[i] = GetBoxSlotAtIndex(box, slot);
-                data[i].Identifier = $"{boxName}:{slot + 1:00}";
-                data[i].Box = box + 1;
-                data[i].Slot = slot + 1;
-                data[i].StorageFlags = GetSlotFlags(box, slot);
             }
         }
         #endregion
@@ -579,7 +574,6 @@ namespace PKHeX.Core
         public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotFlag.Locked);
         public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
         public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
-        public bool IsSlotOverwriteProtected(PKM pkm) => GetSlotFlags(pkm.Box, pkm.Slot).IsOverwriteProtected();
 
         private const int StorageFullValue = -1;
         public bool IsStorageFull => NextOpenBoxSlot() == StorageFullValue;
@@ -754,7 +748,7 @@ namespace PKHeX.Core
         /// <param name="sortMethod">Sorting logic required to order a <see cref="PKM"/> with respect to its peers; if not provided, will use a default sorting method.</param>
         /// <param name="reverse">Reverse the sorting order</param>
         /// <returns>Count of repositioned <see cref="PKM"/> slots.</returns>
-        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>>? sortMethod = null, bool reverse = false)
+        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, int, IEnumerable<PKM>>? sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
@@ -762,9 +756,10 @@ namespace PKHeX.Core
             if (BoxEnd >= BoxStart)
                 Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart + 1));
 
-            Func<PKM, bool> skip = IsSlotOverwriteProtected;
-            Section = Section.Where(z => !skip(z));
-            var Sorted = (sortMethod ?? PKMSorting.OrderBySpecies)(Section);
+            Func<int, bool> skip = IsSlotOverwriteProtected;
+            Section = Section.Where((_, i) => !skip(start + i));
+            var method = sortMethod ?? ((z, _) => z.OrderBySpecies());
+            var Sorted = method(Section, start);
             if (reverse)
                 Sorted = Sorted.ReverseSort();
 
@@ -921,6 +916,7 @@ namespace PKHeX.Core
             var BD = BoxData;
             var entryLength = GetDataForBox(BlankPKM).Length;
             var pkdata = ArrayUtil.EnumerateSplit(data, entryLength);
+
             pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected, start);
             BoxData = BD;
             return true;

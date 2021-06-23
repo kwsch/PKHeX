@@ -14,7 +14,7 @@ namespace PKHeX.Core
         private readonly ushort[] Stats;
         protected readonly PKM pkm; // protected for children generating extra properties
 
-        public string? Position => pkm.Identifier;
+        public virtual string Position => "???";
         public string Nickname => pkm.Nickname;
         public string Species => Get(Strings.specieslist, pkm.Species);
         public string Nature => Get(Strings.natures, pkm.StatNature);
