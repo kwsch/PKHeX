@@ -252,6 +252,12 @@ namespace PKHeX.WinForms
             {
                 var pi = pt.GetFormEntry(s, 0);
                 var fc = pi.FormCount;
+                if (fc == 0 && !Main.Settings.EncounterDb.FilterUnavailableSpecies) // not present in game
+                {
+                    // try again using past-gen table
+                    pi = PersonalTable.USUM.GetFormEntry(s, 0);
+                    fc = pi.FormCount;
+                }
                 for (int f = 0; f < fc; f++)
                 {
                     var encs = GetEncounters(s, f, moves, pk, versions);
