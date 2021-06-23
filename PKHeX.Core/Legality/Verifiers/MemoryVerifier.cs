@@ -314,7 +314,7 @@ namespace PKHeX.Core
             data.AddLine(commonResult);
         }
 
-        private static bool WasTradedSWSHEgg(PKM pkm) => pkm.SWSH && pkm.Egg_Location is Locations.LinkTrade6;
+        private static bool WasTradedSWSHEgg(PKM pkm) => pkm.SWSH && (!pkm.IsEgg ? pkm.Egg_Location : pkm.Met_Location) is Locations.LinkTrade6;
 
         private void VerifyHTMemoryTransferTo7(LegalityAnalysis data, PKM pkm, LegalInfo Info)
         {
