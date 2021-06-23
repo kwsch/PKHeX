@@ -293,7 +293,7 @@ namespace PKHeX.Core
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
 
-        protected bool PtHGSS => Pt || HGSS;
+        protected internal bool PtHGSS => Pt || HGSS;
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;
@@ -502,64 +502,15 @@ namespace PKHeX.Core
         public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
         public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
 
-        public bool WasEgg
-        {
-            get
-            {
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => (Legal.EggLocations4.Contains(loc) || (Species == (int) Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS)), // faraway
-                    5 => Legal.EggLocations5.Contains(loc),
-                    6 => Legal.EggLocations6.Contains(loc),
-                    7 => Legal.EggLocations7.Contains(loc),
-                    8 => Legal.EggLocations8.Contains(loc),
-                    // Gen 1/2 and pal park Gen 3
-                    _ => false
-                };
-            }
-        }
-
-        public virtual bool WasGiftEgg
-        {
-            get
-            {
-                if (!WasEgg)
-                    return false;
-                int loc = Egg_Location;
-                return Generation switch
-                {
-                    4 => Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS),
-                    5 => loc == Locations.Breeder5,
-                    6 or 7 or 8 => loc == Locations.Breeder6,
-                    _ => false,
-                };
-            }
-        }
-
-        public virtual bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-
-        public virtual bool WasEventEgg
-        {
-            get
-            {
-                if (Gen4)
-                    return WasEgg && Species == (int) Core.Species.Manaphy;
-                // Gen5+
-                if (Met_Level != 1)
-                    return false;
-                int loc = Egg_Location;
-                return Locations.IsEventLocation5(loc) || (FatefulEncounter && loc != 0);
-            }
-        }
-
+        // Misc Egg Facts
+        public bool WasEgg => IsEgg || Egg_Location != 0;
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation);
 
         public virtual bool IsUntraded => false;
         public bool IsNative => Generation == Format;
-        public bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
+        public bool IsOriginValid => Species <= MaxSpeciesID;
 
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.

@@ -20,7 +20,7 @@ namespace PKHeX.Core
             IEncounterable? deferred = null;
             IEncounterable? partial = null;
 
-            if (pkm.WasEvent || pkm.WasEventEgg || pkm.Met_Location == Locations.LinkGift6)
+            if (pkm.FatefulEncounter || pkm.Met_Location == Locations.LinkGift6)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
                 {

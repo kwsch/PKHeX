@@ -24,7 +24,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             int ctr = 0;
-            if (pkm.WasEvent || pkm.WasEventEgg)
+            if (pkm.FatefulEncounter)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
                 { yield return z; ++ctr; }

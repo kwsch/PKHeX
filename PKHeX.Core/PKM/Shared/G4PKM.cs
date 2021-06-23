@@ -48,10 +48,6 @@
         public sealed override int CurrentHandler { get => 0; set { } }
         public sealed override int AbilityNumber { get => 1 << PIDAbility; set { } }
 
-        // Legality Extensions
-        public sealed override bool WasEvent => Locations.IsEventLocation4(Met_Location) || FatefulEncounter;
-        public sealed override bool WasEventEgg => WasEgg && Species == (int)Core.Species.Manaphy; // Manaphy was the only generation 4 released event egg
-
         public abstract int ShinyLeaf { get; set; }
 
         #region Ribbons
