@@ -80,7 +80,7 @@ namespace PKHeX.Core
             // Encounter slots check location weather, while static encounters check weather per encounter.
             return enc switch
             {
-                EncounterSlot8 s => EncounterArea8.WeatherbyArea.TryGetValue(s.Location, out var weather) && weather.HasFlag(permit),
+                EncounterSlot8 s => EncounterArea8.WeatherbyArea.TryGetValue(s.Location, out var weather) && weather.HasFlag(permit) && (s.Weather.HasFlag(AreaWeather8.Fishing) || s.Weather.HasFlag(permit)),
                 EncounterStatic8 s => s.Weather.HasFlag(permit),
                 _ => false,
             };

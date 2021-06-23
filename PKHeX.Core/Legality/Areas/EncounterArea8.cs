@@ -279,6 +279,34 @@ namespace PKHeX.Core
             { 232, Overcast }, // Lakeside Cave
         };
 
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for standard symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbol = new()
+        {
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
+            { 216, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Tunnel to the Top from Path to the Peak
+            { 224, All_CT }, // Roaring-Sea Caves from Three-Point Pass
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for Sharpedo symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSharpedo = new()
+        {
+            { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations, for standard hidden grass encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
+        {
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
+        };
+
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
         {
             var result = new EncounterArea8[input.Length];
