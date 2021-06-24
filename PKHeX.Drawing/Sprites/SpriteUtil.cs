@@ -23,7 +23,7 @@ namespace PKHeX.Drawing
 
         public static Image? GetRibbonSprite(string name)
         {
-            var resource = name.Replace("CountG3", "G3").ToLower();
+            var resource = name.Replace("CountG3", "G3").ToLowerInvariant();
             return (Bitmap?)Resources.ResourceManager.GetObject(resource);
         }
 
@@ -37,14 +37,14 @@ namespace PKHeX.Drawing
         {
             if (max != 4) // Memory
             {
-                var sprite = name.ToLower();
+                var sprite = name.ToLowerInvariant();
                 if (max == value)
                     return sprite + "2";
                 return sprite;
             }
 
             // Count ribbons
-            string n = name.Replace("Count", string.Empty).ToLower();
+            string n = name.Replace("Count", string.Empty).ToLowerInvariant();
             return value switch
             {
                 2 => n + "super",

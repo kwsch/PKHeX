@@ -107,7 +107,7 @@ namespace PKHeX.Core
             // All names are uppercase.
             var sb = new System.Text.StringBuilder(nick);
             for (int i = 0; i < sb.Length; i++)
-                sb[i] = char.ToUpper(sb[i]);
+                sb[i] = char.ToUpperInvariant(sb[i]);
             if (language == (int)LanguageID.French)
                 StringConverter4.StripDiacriticsFR4(sb); // strips accents on E and I
 
@@ -134,7 +134,7 @@ namespace PKHeX.Core
                 return nick;
 
             // Gen2: All Caps
-            return nick.ToUpper();
+            return nick.ToUpperInvariant();
         }
 
         /// <summary>

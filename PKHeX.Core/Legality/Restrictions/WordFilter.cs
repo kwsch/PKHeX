@@ -46,7 +46,7 @@ namespace PKHeX.Core
                 return false;
             }
 
-            var msg = message.ToLower();
+            var msg = message.ToLowerInvariant();
             // Check dictionary
             lock (dictLock)
             {

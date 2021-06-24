@@ -62,7 +62,7 @@ namespace PKHeX.Core
             _ => null
         };
 
-        public string Extension => GetType().Name.ToLower();
+        public string Extension => GetType().Name.ToLowerInvariant();
         public string FileName => $"{CardHeader}.{Extension}";
         public abstract int Generation { get; }
 

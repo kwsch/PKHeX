@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
             CB_Format.Items.Clear();
             CB_Format.Items.Add(MsgAny);
             foreach (Type t in BatchEditing.Types)
-                CB_Format.Items.Add(t.Name.ToLower());
+                CB_Format.Items.Add(t.Name.ToLowerInvariant());
             CB_Format.Items.Add(MsgAll);
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;

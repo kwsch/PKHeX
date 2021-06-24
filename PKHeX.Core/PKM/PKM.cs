@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
-        public string Extension => GetType().Name.ToLower();
+        public string Extension => GetType().Name.ToLowerInvariant();
         public abstract PersonalInfo PersonalInfo { get; }
         public virtual IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 

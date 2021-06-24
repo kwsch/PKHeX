@@ -172,7 +172,7 @@ namespace PKHeX.Core
                 return LoadTemplateInternal(sav);
 
             var di = new DirectoryInfo(templatePath);
-            string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLower()}");
+            string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLowerInvariant()}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
                 return LoadTemplateInternal(sav);
