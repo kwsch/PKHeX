@@ -406,7 +406,7 @@ namespace PKHeX.Core
 
         private static void SetRandomIVs(PKM pk)
         {
-            pk.IVs = pk.SetRandomIVs();
+            pk.SetRandomIVs();
         }
     }
 }

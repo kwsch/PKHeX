@@ -350,12 +350,18 @@ namespace PKHeX.Core
 
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
+        public override GameVersion Version
+        {
+            get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SWSH;
+            set { }
+        }
+
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
 
-            int currentLevel = Level > 0 ? Level : Util.Rand.Next(1, 101);
+            int currentLevel = Level > 0 ? Level : (1 + Util.Rand.Next(100));
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
             var language = sav.Language;
@@ -429,7 +435,7 @@ namespace PKHeX.Core
                     pk.TrainerSID7 = 0;
                     while (pk.TSV == 0)
                     {
-                        pk.TrainerID7 = Util.Rand.Next(16, 999_999);
+                        pk.TrainerID7 = Util.Rand.Next(16, 999_999 + 1);
                     }
                 }
             }

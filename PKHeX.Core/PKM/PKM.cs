@@ -881,7 +881,8 @@ namespace PKHeX.Core
         /// </remarks>
         public void SetPIDUnown3(int form)
         {
-            do PID = Util.Rand32(); while (PKX.GetUnownForm(PID) != form);
+            var rnd = Util.Rand;
+            do PID = Util.Rand32(rnd); while (PKX.GetUnownForm(PID) != form);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
@@ -906,7 +907,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < count; i++)
                     ivs[i] = MaxIV;
-                Util.Shuffle(ivs); // Randomize IV order
+                Util.Shuffle(ivs, 0, ivs.Length, rnd); // Randomize IV order
             }
             return IVs = ivs;
         }

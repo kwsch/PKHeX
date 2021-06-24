@@ -28,7 +28,7 @@ namespace PKHeX.Core
             if ((Area.Type & (SlotType)0xF) == SlotType.Headbutt)
             {
                 while (!IsTreeAvailable(pk2.TID))
-                    pk2.TID = Util.Rand.Next(ushort.MaxValue);
+                    pk2.TID = Util.Rand.Next(ushort.MaxValue + 1);
             }
 
             if (Version == GameVersion.C)

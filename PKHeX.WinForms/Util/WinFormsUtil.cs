@@ -62,14 +62,14 @@ namespace PKHeX.WinForms
             {
                 switch (sender)
                 {
+                    case T p:
+                        return p;
                     case ToolStripItem t:
                         sender = t.Owner;
                         continue;
                     case ContextMenuStrip c:
                         sender = c.SourceControl;
                         continue;
-                    case T p:
-                        return p;
                     default:
                         return default;
                 }

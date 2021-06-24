@@ -20,7 +20,7 @@ namespace PKHeX.Core
                 System.Diagnostics.Debug.Assert(start != 0);
 
                 // text file fetch excludes ".txt" (mixed case...); other extensions are used (all lowercase).
-                var fileName = resName.EndsWith(".txt") ? resName[start..^4].ToLower() : resName[start..];
+                var fileName = resName.EndsWith(".txt") ? resName[start..^4].ToLowerInvariant() : resName[start..];
                 result.Add(fileName, resName);
             }
             return result;
@@ -199,7 +199,7 @@ namespace PKHeX.Core
 
         public static string? GetStringResource(string name)
         {
-            if (!resourceNameMap.TryGetValue(name.ToLower(), out var resourceName))
+            if (!resourceNameMap.TryGetValue(name.ToLowerInvariant(), out var resourceName))
                 return null;
 
             using var resource = thisAssembly.GetManifestResourceStream(resourceName);
