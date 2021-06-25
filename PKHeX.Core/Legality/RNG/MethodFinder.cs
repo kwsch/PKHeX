@@ -862,6 +862,7 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic4Pokewalker:
+                    return val == Pokewalker || (val == CuteCharm && GetCuteCharmMatch(pkm, pkm.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pkm));
                 case EncounterStatic4 {Species: (int)Species.Pichu}:
                     return val == Pokewalker;
                 case EncounterStatic4 {Shiny: Shiny.Always}:
