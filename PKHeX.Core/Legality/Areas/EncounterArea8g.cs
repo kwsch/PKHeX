@@ -15,12 +15,16 @@ namespace PKHeX.Core
         public int Species { get; }
         /// <summary> Form of the Species </summary>
         public int Form { get; }
+        public readonly EncounterSlot8GO[] Slots;
 
-        private EncounterArea8g(int species, int form) : base(GameVersion.GO)
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+
+        private EncounterArea8g(int species, int form, EncounterSlot8GO[] slots) : base(GameVersion.GO)
         {
             Species = species;
             Form = form;
             Location = Locations.GO8;
+            Slots = slots;
         }
 
         internal static EncounterArea8g[] GetArea(byte[][] data)
@@ -42,7 +46,7 @@ namespace PKHeX.Core
             var group = GetGroup(species, form);
 
             var result = new EncounterSlot8GO[(data.Length - 2) / entrySize];
-            var area = new EncounterArea8g(species, form) {Slots = result};
+            var area = new EncounterArea8g(species, form, result);
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = (i * entrySize) + 2;
@@ -102,11 +106,10 @@ namespace PKHeX.Core
 
             var ball = (Ball)pkm.Ball;
             var met = Math.Max(sf.MinLevel, pkm.Met_Level);
-            EncounterSlot? deferredIV = null;
+            EncounterSlot8GO? deferredIV = null;
 
-            foreach (var s in Slots)
+            foreach (var slot in Slots)
             {
-                var slot = (EncounterSlot8GO)s;
                 if (!slot.IsLevelWithinRange(met))
                     continue;
                 if (!slot.IsBallValid(ball))

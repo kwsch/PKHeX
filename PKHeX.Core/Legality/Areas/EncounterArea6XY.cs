@@ -9,6 +9,10 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea6XY : EncounterArea
     {
+        public readonly EncounterSlot6XY[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+
         public static EncounterArea6XY[] GetAreas(byte[][] input, GameVersion game, EncounterArea6XY safari)
         {
             var result = new EncounterArea6XY[input.Length + 1];
@@ -124,7 +128,7 @@ namespace PKHeX.Core
                         if (maxLevel != pkm.Met_Level)
                             break;
 
-                        yield return ((EncounterSlot6XY)slot).CreatePressureFormCopy(evo.Form);
+                        yield return slot.CreatePressureFormCopy(evo.Form);
                         break;
                     }
 

@@ -9,6 +9,10 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea5 : EncounterArea
     {
+        public readonly EncounterSlot5[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+
         public static EncounterArea5[] GetAreas(byte[][] input, GameVersion game)
         {
             var result = new EncounterArea5[input.Length];

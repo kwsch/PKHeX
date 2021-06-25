@@ -15,12 +15,16 @@ namespace PKHeX.Core
         public int Species { get; }
         /// <summary> Form of the Species </summary>
         public int Form { get; }
+        public readonly EncounterSlot7GO[] Slots;
 
-        private EncounterArea7g(int species, int form) : base(GameVersion.GO)
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+
+        private EncounterArea7g(int species, int form, EncounterSlot7GO[] slots) : base(GameVersion.GO)
         {
             Species = species;
             Form = form;
             Location = Locations.GO7;
+            Slots = slots;
         }
 
         internal static EncounterArea7g[] GetArea(byte[][] data)
@@ -40,7 +44,7 @@ namespace PKHeX.Core
             int form = sf >> 11;
 
             var result = new EncounterSlot7GO[(data.Length - 2) / entrySize];
-            var area = new EncounterArea7g(species, form) { Slots = result };
+            var area = new EncounterArea7g(species, form, result);
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = (i * entrySize) + 2;
@@ -72,11 +76,10 @@ namespace PKHeX.Core
 
             var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
             var met = Math.Max(sf.MinLevel, pkm.Met_Level);
-            EncounterSlot? deferredIV = null;
+            EncounterSlot7GO? deferredIV = null;
 
-            foreach (var s in Slots)
+            foreach (var slot in Slots)
             {
-                var slot = (EncounterSlot7GO)s;
                 if (!slot.IsLevelWithinRange(met))
                     continue;
                 //if (!slot.IsBallValid(ball)) -- can have any of the in-game balls due to re-capture

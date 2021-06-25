@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public GameVersion Version { get; }
         public int Location { get; protected init; }
         public SlotType Type { get; protected init; } = SlotType.Any;
-        public EncounterSlot[] Slots { get; protected init; } = Array.Empty<EncounterSlot>();
+        protected abstract IReadOnlyList<EncounterSlot> Raw { get; }
 
         protected EncounterArea(GameVersion game) => Version = game;
 
@@ -29,5 +29,8 @@ namespace PKHeX.Core
         /// <param name="location">Met Location ID</param>
         /// <returns>True if possibly originated from this area, false otherwise.</returns>
         public virtual bool IsMatchLocation(int location) => Location == location;
+
+        public bool HasSpecies(int species) => Raw.Any(z => z.Species == species);
+        public IEnumerable<EncounterSlot> GetSpecies(IReadOnlyList<DexLevel> chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
     }
 }
