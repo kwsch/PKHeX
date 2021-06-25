@@ -8,6 +8,23 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 852, Ability = A4, Moves = new[]{ 371, 249, 362, 364 }, Index = 73 }, // Clobbopus
+            new(17,01,1) { Species = 223, Ability = A4, Moves = new[]{ 055, 062, 060, 129 }, Index = 73 }, // Remoraid
+            new(17,01,1) { Species = 686, Ability = A4, Moves = new[]{ 371, 060, 035, 095 }, Index = 73 }, // Inkay
+            new(30,03,2) { Species = 852, Ability = A4, Moves = new[]{ 371, 066, 362, 364 }, Index = 73 }, // Clobbopus
+            new(30,03,2) { Species = 223, Ability = A4, Moves = new[]{ 061, 062, 060, 129 }, Index = 73 }, // Remoraid
+            new(30,03,2) { Species = 686, Ability = A4, Moves = new[]{ 400, 060, 035, 095 }, Index = 73 }, // Inkay
+            new(40,05,3) { Species = 853, Ability = A4, Moves = new[]{ 693, 276, 190, 034 }, Index = 73 }, // Grapploct
+            new(40,05,3) { Species = 224, Ability = A4, Moves = new[]{ 503, 058, 086, 129 }, Index = 73 }, // Octillery
+            new(40,05,3) { Species = 687, Ability = A4, Moves = new[]{ 492, 060, 035, 095 }, Index = 73 }, // Malamar
+            new(50,08,4) { Species = 853, Ability = A4, Moves = new[]{ 576, 276, 008, 034 }, Index = 73 }, // Grapploct
+            new(50,08,4) { Species = 224, Ability = A4, Moves = new[]{ 056, 058, 086, 129 }, Index = 73 }, // Octillery
+            new(50,08,4) { Species = 687, Ability = A4, Moves = new[]{ 492, 427, 163, 085 }, Index = 73 }, // Malamar
+            new(60,10,5) { Species = 853, Ability = A4, Moves = new[]{ 576, 276, 008, 707 }, Index = 73, Shiny = Shiny.Always }, // Grapploct
+            new(60,10,5) { Species = 853, Ability = A4, Moves = new[]{ 576, 276, 008, 707 }, Index = 73 }, // Grapploct
+            new(60,10,5) { Species = 224, Ability = A4, Moves = new[]{ 056, 058, 086, 053 }, Index = 73 }, // Octillery
+            new(60,10,5) { Species = 687, Ability = A4, Moves = new[]{ 492, 094, 157, 085 }, Index = 73 }, // Malamar
+
             new(17,01,1) { Species = 002, Ability = A4, Moves = new[]{ 075, 077, 033, 079 }, Index = 71 }, // Ivysaur
             new(17,01,1) { Species = 060, Ability = A4, Moves = new[]{ 055, 095, 001, 341 }, Index = 71 }, // Poliwag
             new(17,01,1) { Species = 453, Ability = A4, Moves = new[]{ 040, 279, 189, 372 }, Index = 71 }, // Croagunk
