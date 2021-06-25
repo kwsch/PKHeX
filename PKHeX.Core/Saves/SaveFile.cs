@@ -169,7 +169,7 @@ namespace PKHeX.Core
         /// <returns>Flag is Set (true) or not Set (false)</returns>
         public virtual bool GetEventFlag(int flagNumber)
         {
-            if (flagNumber >= EventFlagMax)
+            if ((uint)flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
             return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
@@ -182,7 +182,7 @@ namespace PKHeX.Core
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public virtual void SetEventFlag(int flagNumber, bool value)
         {
-            if (flagNumber >= EventFlagMax)
+            if ((uint)flagNumber >= EventFlagMax)
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
             SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
@@ -289,7 +289,7 @@ namespace PKHeX.Core
             get
             {
                 var count = PartyCount;
-                if (count > MaxPartyCount)
+                if ((uint)count > MaxPartyCount)
                     count = MaxPartyCount;
 
                 PKM[] data = new PKM[count];
@@ -616,7 +616,7 @@ namespace PKHeX.Core
         public void GetBoxSlotFromIndex(int index, out int box, out int slot)
         {
             box = index / BoxSlotCount;
-            if (box >= BoxCount)
+            if ((uint)box >= BoxCount)
                 throw new ArgumentOutOfRangeException(nameof(index));
             slot = index % BoxSlotCount;
         }
@@ -646,7 +646,7 @@ namespace PKHeX.Core
         {
             if (box == insertBeforeBox) // no movement required
                 return true;
-            if (box >= BoxCount || insertBeforeBox >= BoxCount) // invalid box positions
+            if ((uint)box >= BoxCount || (uint)insertBeforeBox >= BoxCount) // invalid box positions
                 return false;
 
             MoveBox(box, insertBeforeBox, BoxBuffer);
@@ -699,7 +699,7 @@ namespace PKHeX.Core
         {
             if (box1 == box2) // no movement required
                 return true;
-            if (box1 >= BoxCount || box2 >= BoxCount) // invalid box positions
+            if ((uint)box1 >= BoxCount || (uint)box2 >= BoxCount) // invalid box positions
                 return false;
 
             if (!IsBoxAbleToMove(box1) || !IsBoxAbleToMove(box2))
@@ -830,7 +830,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="action">Modification to perform on a <see cref="PKM"/></param>
         /// <param name="BoxStart">Starting box; if not provided, will iterate from the first box.</param>
-        /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
+        /// <param name="BoxEnd">Ending box (inclusive); if not provided, will iterate to the end.</param>
         /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
         public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
@@ -869,7 +869,7 @@ namespace PKHeX.Core
         public virtual int GetBoxWallpaper(int box)
         {
             int offset = GetBoxWallpaperOffset(box);
-            if (offset < 0 || box > BoxCount)
+            if (offset < 0 || (uint)box > BoxCount)
                 return box;
             return Data[offset];
         }
@@ -877,7 +877,7 @@ namespace PKHeX.Core
         public virtual void SetBoxWallpaper(int box, int value)
         {
             int offset = GetBoxWallpaperOffset(box);
-            if (offset < 0 || box > BoxCount)
+            if (offset < 0 || (uint)box > BoxCount)
                 return;
             Data[offset] = (byte)value;
         }
