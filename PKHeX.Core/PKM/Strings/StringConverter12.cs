@@ -54,7 +54,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Raw string bytes</param>
         /// <returns>Indication if the data is from a definitely-german string</returns>
-        public static bool IsG12German(IEnumerable<byte> data) => data.Any(z => z is >= 0xC0 and <= 0xC6);
+        public static bool IsG12German(ReadOnlySpan<byte> data)
+        {
+            foreach (var b in data)
+            {
+                if (b is >= 0xC0 and <= 0xC6)
+                    return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)

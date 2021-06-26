@@ -66,9 +66,9 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x58, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x58); } }
-        public override byte[] HT_Trash { get => GetData(0xA8, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xA8); } }
-        public override byte[] OT_Trash { get => GetData(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xF8); } }
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x58, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x58)); } }
+        public override Span<byte> HT_Trash { get => Data.AsSpan(0xA8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xA8)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xF8)); } }
         
         // Maximums
         public override int MaxIV => 31;

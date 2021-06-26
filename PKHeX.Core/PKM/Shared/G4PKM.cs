@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public abstract class G4PKM : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
@@ -22,7 +24,7 @@
         public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
         public sealed override int TSV => (TID ^ SID) >> 3;
 
-        protected internal bool PtHGSS => Pt || HGSS;
+        protected bool PtHGSS => Pt || HGSS;
 
         public sealed override int Characteristic
         {
@@ -42,8 +44,8 @@
         }
 
         // Trash Bytes
-        public sealed override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }
-        public sealed override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data, 0x68); } }
+        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x48)); } }
+        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data.AsSpan(0x68)); } }
 
         // Future Attributes
         public sealed override uint EncryptionConstant { get => PID; set { } }

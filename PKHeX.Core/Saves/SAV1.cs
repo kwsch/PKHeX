@@ -240,7 +240,7 @@ namespace PKHeX.Core
             set => SetString(value, OTLength).CopyTo(Data, Offsets.OT);
         }
 
-        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value.Length == StringLength) SetData(value, Offsets.OT); } }
+        public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
 
         public override int Gender
         {

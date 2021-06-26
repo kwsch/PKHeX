@@ -12,14 +12,14 @@ namespace PKHeX.WinForms
 
         public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, Array.Empty<byte>(), sav) { }
 
-        public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
+        public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = sav;
 
             FinalString = TB_NN.Text;
-            Raw = FinalBytes = raw;
+            Raw = FinalBytes = raw.ToArray();
 
             editing = true;
             if (raw.Length != 0)

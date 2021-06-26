@@ -31,11 +31,9 @@ namespace PKHeX.Core
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         // Trash Bytes
-        public abstract byte[] Nickname_Trash { get; set; }
-        public abstract byte[] OT_Trash { get; set; }
-        public virtual byte[] HT_Trash { get => Array.Empty<byte>(); set { } }
-
-        protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
+        public abstract Span<byte> Nickname_Trash { get; set; }
+        public abstract Span<byte> OT_Trash { get; set; }
+        public virtual Span<byte> HT_Trash { get => Span<byte>.Empty; set { } }
 
         protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, SIZE_STORED);
 
