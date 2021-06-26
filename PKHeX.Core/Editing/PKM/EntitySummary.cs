@@ -104,7 +104,6 @@ namespace PKHeX.Core
         public int Met_Year => pkm.MetDate.GetValueOrDefault().Year;
         public int Met_Month => pkm.MetDate.GetValueOrDefault().Month;
         public int Met_Day => pkm.MetDate.GetValueOrDefault().Day;
-        public int Encounter => pkm.EncounterType;
 
         #endregion
 

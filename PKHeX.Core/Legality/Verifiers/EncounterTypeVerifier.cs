@@ -11,8 +11,10 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
+            if (data.pkm is not IEncounterType e)
+                return;
             var type = data.EncounterMatch is IEncounterTypeTile t ? t.TypeEncounter : EncounterType.None;
-            var result = !type.Contains(data.pkm.EncounterType) ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
+            var result = !type.Contains(e.EncounterType) ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
             data.AddLine(result);
         }
     }

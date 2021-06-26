@@ -1200,7 +1200,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
-            if (Entity.Format >= 4)
+            if (Entity is IEncounterType)
             {
                 bool g4 = Entity.Gen4;
                 CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && Entity.Format < 7;

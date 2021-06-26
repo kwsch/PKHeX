@@ -223,7 +223,6 @@ namespace PKHeX.Core
         public virtual int RelearnMove2 { get => 0; set { } }
         public virtual int RelearnMove3 { get => 0; set { } }
         public virtual int RelearnMove4 { get => 0; set { } }
-        public virtual int EncounterType { get => 0; set { } }
 
         // Exposed but not Present in all
         public abstract int CurrentHandler { get; set; }
@@ -293,7 +292,6 @@ namespace PKHeX.Core
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
 
-        protected internal bool PtHGSS => Pt || HGSS;
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;

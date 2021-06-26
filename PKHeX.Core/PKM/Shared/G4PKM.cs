@@ -1,6 +1,8 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IContestStatsMutable
+    public abstract class G4PKM : PKM,
+        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
+        IContestStats, IContestStatsMutable, IEncounterType
     {
         protected G4PKM(byte[] data) : base(data) { }
         protected G4PKM(int size) : base(size) { }
@@ -19,6 +21,8 @@
 
         public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
         public sealed override int TSV => (TID ^ SID) >> 3;
+
+        protected internal bool PtHGSS => Pt || HGSS;
 
         public sealed override int Characteristic
         {
@@ -157,6 +161,8 @@
         public abstract byte CNT_Smart { get; set; }
         public abstract byte CNT_Tough { get; set; }
         public abstract byte CNT_Sheen { get; set; }
+
+        public abstract int EncounterType { get; set; }
 
         protected T ConvertTo<T>() where T : G4PKM, new()
         {

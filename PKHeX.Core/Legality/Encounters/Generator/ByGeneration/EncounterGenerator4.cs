@@ -22,7 +22,7 @@ namespace PKHeX.Core
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
                     deferredPIDIV.Add(z);
-                else if (pkm.Format <= 6 && !(z is IEncounterTypeTile t ? t.TypeEncounter.Contains(pkm.EncounterType) : pkm.EncounterType == 0))
+                else if (pkm is IEncounterType e && !(z is IEncounterTypeTile t ? t.TypeEncounter.Contains(e.EncounterType) : e.EncounterType == 0))
                     deferredEType.Add(z);
                 else
                     yield return z;
