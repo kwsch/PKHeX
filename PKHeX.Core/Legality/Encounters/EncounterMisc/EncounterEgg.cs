@@ -42,6 +42,7 @@ namespace PKHeX.Core
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language, version);
             pk.Species = Species;
             pk.Form = Form;
+            pk.Language = lang;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
