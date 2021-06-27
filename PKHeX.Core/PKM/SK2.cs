@@ -186,24 +186,32 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool IsJapanese(byte[] data)
+        private static bool IsJapanese(ReadOnlySpan<byte> data)
         {
-            if (!StringConverter12.GetIsG1Japanese(data, 0x24, StringLength))
+            if (!StringConverter12.GetIsG1Japanese(data.Slice(0x30, StringLength)))
                 return false;
-            if (!StringConverter12.GetIsG1Japanese(data, 0x30, StringLength))
+            if (!StringConverter12.GetIsG1Japanese(data.Slice(0x24, StringLength)))
                 return false;
 
             for (int i = 6; i < 0xC; i++)
             {
-                if (data[0x24 + i] is not (0 or StringConverter12.G1TerminatorCode))
-                    return false;
                 if (data[0x30 + i] is not (0 or StringConverter12.G1TerminatorCode))
+                    return false;
+                if (data[0x24 + i] is not (0 or StringConverter12.G1TerminatorCode))
                     return false;
             }
             return true;
         }
 
-        private static bool IsEnglish(byte[] data) => StringConverter12.GetIsG1English(data, 0x24, StringLength) && StringConverter12.GetIsG1English(data, 0x30, StringLength);
+        private static bool IsEnglish(ReadOnlySpan<byte> data)
+        {
+            if (!StringConverter12.GetIsG1English(data.Slice(0x30, StringLength)))
+                return false;
+            if (!StringConverter12.GetIsG1English(data.Slice(0x24, StringLength)))
+                return false;
+            return true;
+        }
+
         public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
         public void SwapLanguage() => IsEncodingJapanese ^= true;
     }
