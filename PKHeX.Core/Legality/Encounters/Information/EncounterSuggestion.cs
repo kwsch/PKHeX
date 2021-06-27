@@ -203,7 +203,7 @@ namespace PKHeX.Core
         public int LevelMax { get; }
 
         public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
-        public GroundTileType GetSuggestedEncounterType() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;
-        public bool HasEncounterType(int format) => Encounter is IGroundTypeTile t && t.HasTypeEncounter(format);
+        public GroundTileType GetSuggestedGroundTile() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;
+        public bool HasGroundTile(int format) => Encounter is IGroundTypeTile t && t.HasGroundTile(format);
     }
 }

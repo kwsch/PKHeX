@@ -21,6 +21,6 @@ namespace PKHeX.Core
         /// Gets if the resulting <see cref="PKM"/> will still have a value depending on the current <see cref="format"/>.
         /// </summary>
         /// <remarks>Generation 7 no longer stores this value.</remarks>
-        public static bool HasTypeEncounter(this IGroundTypeTile _, int format) => format is (4 or 5 or 6);
+        public static bool HasGroundTile(this IGroundTypeTile _, int format) => format is (4 or 5 or 6);
     }
 }
