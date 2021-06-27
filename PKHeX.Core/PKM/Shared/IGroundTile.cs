@@ -3,11 +3,11 @@
     /// <summary>
     /// Indicates the Type of Encounter Tile the Pokémon was encountered on.
     /// </summary>
-    public interface IEncounterType
+    public interface IGroundTile
     {
         /// <summary>
         /// Type of Encounter Tile the Pokémon was encountered on.
         /// </summary>
-        int EncounterType { get; set; }
+        GroundTileType GroundTile { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.GroundTilePermission;
 
 namespace PKHeX.Core
 {
@@ -198,33 +199,33 @@ namespace PKHeX.Core
         private static readonly EncounterStatic4[] Encounter_DPPt =
         {
             // Starters
-            new(DP) { Gift = true, Species = 387, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Turtwig @ Lake Verity
-            new(DP) { Gift = true, Species = 390, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Chimchar
-            new(DP) { Gift = true, Species = 393, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Piplup
-            new(Pt) { Gift = true, Species = 387, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Turtwig @ Route 201
-            new(Pt) { Gift = true, Species = 390, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Chimchar
-            new(Pt) { Gift = true, Species = 393, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Piplup
+            new(DP) { Gift = true, Species = 387, Level = 5, Location = 076, GroundTile = Max_DP }, // Turtwig @ Lake Verity
+            new(DP) { Gift = true, Species = 390, Level = 5, Location = 076, GroundTile = Max_DP }, // Chimchar
+            new(DP) { Gift = true, Species = 393, Level = 5, Location = 076, GroundTile = Max_DP }, // Piplup
+            new(Pt) { Gift = true, Species = 387, Level = 5, Location = 016, GroundTile = Max_Pt }, // Turtwig @ Route 201
+            new(Pt) { Gift = true, Species = 390, Level = 5, Location = 016, GroundTile = Max_Pt }, // Chimchar
+            new(Pt) { Gift = true, Species = 393, Level = 5, Location = 016, GroundTile = Max_Pt }, // Piplup
 
             // Fossil @ Mining Museum
-            new(DP) { Gift = true, Species = 138, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Omanyte
-            new(DP) { Gift = true, Species = 140, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Kabuto
-            new(DP) { Gift = true, Species = 142, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Aerodactyl
-            new(DP) { Gift = true, Species = 345, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Lileep
-            new(DP) { Gift = true, Species = 347, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Anorith
-            new(DP) { Gift = true, Species = 408, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Cranidos
-            new(DP) { Gift = true, Species = 410, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Shieldon
-            new(Pt) { Gift = true, Species = 138, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Omanyte
-            new(Pt) { Gift = true, Species = 140, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Kabuto
-            new(Pt) { Gift = true, Species = 142, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Aerodactyl
-            new(Pt) { Gift = true, Species = 345, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Lileep
-            new(Pt) { Gift = true, Species = 347, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Anorith
-            new(Pt) { Gift = true, Species = 408, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Cranidos
-            new(Pt) { Gift = true, Species = 410, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Shieldon
+            new(DP) { Gift = true, Species = 138, Level = 20, Location = 094, GroundTile = Max_DP }, // Omanyte
+            new(DP) { Gift = true, Species = 140, Level = 20, Location = 094, GroundTile = Max_DP }, // Kabuto
+            new(DP) { Gift = true, Species = 142, Level = 20, Location = 094, GroundTile = Max_DP }, // Aerodactyl
+            new(DP) { Gift = true, Species = 345, Level = 20, Location = 094, GroundTile = Max_DP }, // Lileep
+            new(DP) { Gift = true, Species = 347, Level = 20, Location = 094, GroundTile = Max_DP }, // Anorith
+            new(DP) { Gift = true, Species = 408, Level = 20, Location = 094, GroundTile = Max_DP }, // Cranidos
+            new(DP) { Gift = true, Species = 410, Level = 20, Location = 094, GroundTile = Max_DP }, // Shieldon
+            new(Pt) { Gift = true, Species = 138, Level = 20, Location = 094, GroundTile = Max_Pt }, // Omanyte
+            new(Pt) { Gift = true, Species = 140, Level = 20, Location = 094, GroundTile = Max_Pt }, // Kabuto
+            new(Pt) { Gift = true, Species = 142, Level = 20, Location = 094, GroundTile = Max_Pt }, // Aerodactyl
+            new(Pt) { Gift = true, Species = 345, Level = 20, Location = 094, GroundTile = Max_Pt }, // Lileep
+            new(Pt) { Gift = true, Species = 347, Level = 20, Location = 094, GroundTile = Max_Pt }, // Anorith
+            new(Pt) { Gift = true, Species = 408, Level = 20, Location = 094, GroundTile = Max_Pt }, // Cranidos
+            new(Pt) { Gift = true, Species = 410, Level = 20, Location = 094, GroundTile = Max_Pt }, // Shieldon
 
             // Gift
-            new(DP) { Gift = true, Species = 133, Level = 05, Location = 010, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Eevee @ Hearthome City
-            new(Pt) { Gift = true, Species = 133, Level = 20, Location = 010, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Eevee @ Hearthome City
-            new(Pt) { Gift = true, Species = 137, Level = 25, Location = 012, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Porygon @ Veilstone City
+            new(DP) { Gift = true, Species = 133, Level = 05, Location = 010, GroundTile = Max_DP, }, // Eevee @ Hearthome City
+            new(Pt) { Gift = true, Species = 133, Level = 20, Location = 010, GroundTile = Max_Pt, }, // Eevee @ Hearthome City
+            new(Pt) { Gift = true, Species = 137, Level = 25, Location = 012, GroundTile = Max_Pt, }, // Porygon @ Veilstone City
             new(Pt) { Gift = true, Species = 175, Level = 01, EggLocation = 2011 }, // Togepi Egg from Cynthia
             new(DP) { Gift = true, Species = 440, Level = 01, EggLocation = 2009 }, // Happiny Egg from Traveling Man
             new(DPPt) { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, // Riolu Egg from Riley
@@ -232,95 +233,95 @@ namespace PKHeX.Core
             // Stationary
             new(DP) { Species = 425, Level = 22, Location = 47, }, // Drifloon @ Valley Windworks
             new(Pt) { Species = 425, Level = 15, Location = 47, }, // Drifloon @ Valley Windworks
-            new(DP) { Species = 479, Level = 15, Location = 70, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Rotom @ Old Chateau
-            new(Pt) { Species = 479, Level = 20, Location = 70, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Rotom @ Old Chateau
+            new(DP) { Species = 479, Level = 15, Location = 70, GroundTile = Building, }, // Rotom @ Old Chateau
+            new(Pt) { Species = 479, Level = 20, Location = 70, GroundTile = Building, }, // Rotom @ Old Chateau
             new(DPPt) { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
 
             // Stationary Legendary
-            new(Pt) { Species = 377, Level = 30, Location = 125, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Regirock @ Rock Peak Ruins
-            new(Pt) { Species = 378, Level = 30, Location = 124, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Regice @ Iceberg Ruins
-            new(Pt) { Species = 379, Level = 30, Location = 123, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Registeel @ Iron Ruins
-            new(DPPt) { Species = 480, Level = 50, Location = 089, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Uxie @ Acuity Cavern
-            new(DPPt) { Species = 482, Level = 50, Location = 088, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Azelf @ Valor Cavern
-            new(D ) { Species = 483, Level = 47, Location = 051, TypeEncounter = EncounterType.DialgaPalkia }, // Dialga @ Spear Pillar
-            new( P) { Species = 484, Level = 47, Location = 051, TypeEncounter = EncounterType.DialgaPalkia }, // Palkia @ Spear Pillar
-            new(Pt) { Species = 483, Level = 70, Location = 051, TypeEncounter = EncounterType.DialgaPalkia }, // Dialga @ Spear Pillar
-            new(Pt) { Species = 484, Level = 70, Location = 051, TypeEncounter = EncounterType.DialgaPalkia }, // Palkia @ Spear Pillar
-            new(DP) { Species = 485, Level = 70, Location = 084, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Heatran @ Stark Mountain
-            new(Pt) { Species = 485, Level = 50, Location = 084, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Heatran @ Stark Mountain
-            new(DP) { Species = 486, Level = 70, Location = 064, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Regigigas @ Snowpoint Temple
-            new(Pt) { Species = 486, Level = 01, Location = 064, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Regigigas @ Snowpoint Temple
-            new(DP) { Species = 487, Level = 70, Location = 062, TypeEncounter = EncounterType.Cave_HallOfOrigin, Form = 0, }, // Giratina @ Turnback Cave
-            new(Pt) { Species = 487, Level = 47, Location = 062, TypeEncounter = EncounterType.Cave_HallOfOrigin, Form = 0, }, // Giratina @ Turnback Cave
-            new(Pt) { Species = 487, Level = 47, Location = 117, TypeEncounter = EncounterType.DistortionWorld_Pt,Form = 1, HeldItem = 112 }, // Giratina @ Distortion World
+            new(Pt) { Species = 377, Level = 30, Location = 125, GroundTile = Cave, }, // Regirock @ Rock Peak Ruins
+            new(Pt) { Species = 378, Level = 30, Location = 124, GroundTile = Cave, }, // Regice @ Iceberg Ruins
+            new(Pt) { Species = 379, Level = 30, Location = 123, GroundTile = Cave, }, // Registeel @ Iron Ruins
+            new(DPPt) { Species = 480, Level = 50, Location = 089, GroundTile = Cave, }, // Uxie @ Acuity Cavern
+            new(DPPt) { Species = 482, Level = 50, Location = 088, GroundTile = Cave, }, // Azelf @ Valor Cavern
+            new(D ) { Species = 483, Level = 47, Location = 051, GroundTile = Rock }, // Dialga @ Spear Pillar
+            new( P) { Species = 484, Level = 47, Location = 051, GroundTile = Rock }, // Palkia @ Spear Pillar
+            new(Pt) { Species = 483, Level = 70, Location = 051, GroundTile = Rock }, // Dialga @ Spear Pillar
+            new(Pt) { Species = 484, Level = 70, Location = 051, GroundTile = Rock }, // Palkia @ Spear Pillar
+            new(DP) { Species = 485, Level = 70, Location = 084, GroundTile = Cave }, // Heatran @ Stark Mountain
+            new(Pt) { Species = 485, Level = 50, Location = 084, GroundTile = Cave }, // Heatran @ Stark Mountain
+            new(DP) { Species = 486, Level = 70, Location = 064, GroundTile = Cave }, // Regigigas @ Snowpoint Temple
+            new(Pt) { Species = 486, Level = 01, Location = 064, GroundTile = Cave }, // Regigigas @ Snowpoint Temple
+            new(DP) { Species = 487, Level = 70, Location = 062, GroundTile = Cave, Form = 0, }, // Giratina @ Turnback Cave
+            new(Pt) { Species = 487, Level = 47, Location = 062, GroundTile = Cave, Form = 0, }, // Giratina @ Turnback Cave
+            new(Pt) { Species = 487, Level = 47, Location = 117, GroundTile = Distortion,Form = 1, HeldItem = 112 }, // Giratina @ Distortion World
 
             // Event
-            new(DP) { Species = 491, Level = 40, Location = 079, TypeEncounter = EncounterType.TallGrass }, // Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
-            new(Pt) { Species = 491, Level = 50, Location = 079, TypeEncounter = EncounterType.TallGrass }, // Darkrai @ Newmoon Island
+            new(DP) { Species = 491, Level = 40, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
+            new(Pt) { Species = 491, Level = 50, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island
             new(Pt) { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = true }, // Shaymin @ Flower Paradise
             new(DP) { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
-            new(DPPt) { Species = 493, Form = 0, Level = 80, Location = 086, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Arceus @ Hall of Origin (Unreleased)
+            new(DPPt) { Species = 493, Form = 0, Level = 80, Location = 086, GroundTile = Cave }, // Arceus @ Hall of Origin (Unreleased)
 
             // Roamers
-            new(DPPt) { Roaming = true, Species = 481, Level = 50, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing  }, // Mesprit
-            new(DPPt) { Roaming = true, Species = 488, Level = 50, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing }, // Cresselia
-            new(Pt) { Roaming = true, Species = 144, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing }, // Articuno
-            new(Pt) { Roaming = true, Species = 145, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing }, // Zapdos
-            new(Pt) { Roaming = true, Species = 146, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing }, // Moltres
+            new(DPPt) { Roaming = true, Species = 481, Level = 50, GroundTile = Grass | Water  }, // Mesprit
+            new(DPPt) { Roaming = true, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
+            new(Pt) { Roaming = true, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
+            new(Pt) { Roaming = true, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
+            new(Pt) { Roaming = true, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
         };
 
         private static readonly EncounterStatic4[] Encounter_HGSS =
         {
             // Starters
-            new(HGSS) { Gift = true, Species = 001, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Bulbasaur @ Pallet Town
-            new(HGSS) { Gift = true, Species = 004, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Charmander
-            new(HGSS) { Gift = true, Species = 007, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Squirtle
-            new(HGSS) { Gift = true, Species = 152, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Chikorita @ New Bark Town
-            new(HGSS) { Gift = true, Species = 155, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Cyndaquil
-            new(HGSS) { Gift = true, Species = 158, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP }, // Totodile
-            new(HGSS) { Gift = true, Species = 252, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Treecko @ Saffron City
-            new(HGSS) { Gift = true, Species = 255, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Torchic
-            new(HGSS) { Gift = true, Species = 258, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Mudkip
+            new(HGSS) { Gift = true, Species = 001, Level = 05, Location = 138, GroundTile = Max_Pt }, // Bulbasaur @ Pallet Town
+            new(HGSS) { Gift = true, Species = 004, Level = 05, Location = 138, GroundTile = Max_Pt }, // Charmander
+            new(HGSS) { Gift = true, Species = 007, Level = 05, Location = 138, GroundTile = Max_Pt }, // Squirtle
+            new(HGSS) { Gift = true, Species = 152, Level = 05, Location = 126, GroundTile = Max_DP }, // Chikorita @ New Bark Town
+            new(HGSS) { Gift = true, Species = 155, Level = 05, Location = 126, GroundTile = Max_DP }, // Cyndaquil
+            new(HGSS) { Gift = true, Species = 158, Level = 05, Location = 126, GroundTile = Max_DP }, // Totodile
+            new(HGSS) { Gift = true, Species = 252, Level = 05, Location = 148, GroundTile = Max_Pt }, // Treecko @ Saffron City
+            new(HGSS) { Gift = true, Species = 255, Level = 05, Location = 148, GroundTile = Max_Pt }, // Torchic
+            new(HGSS) { Gift = true, Species = 258, Level = 05, Location = 148, GroundTile = Max_Pt }, // Mudkip
 
             // Fossils @ Pewter City
-            new(HGSS) { Gift = true, Species = 138, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Omanyte
-            new(HGSS) { Gift = true, Species = 140, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Kabuto
-            new(HGSS) { Gift = true, Species = 142, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Aerodactyl
-            new(HGSS) { Gift = true, Species = 345, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Lileep
-            new(HGSS) { Gift = true, Species = 347, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Anorith
-            new(HGSS) { Gift = true, Species = 408, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Cranidos
-            new(HGSS) { Gift = true, Species = 410, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Shieldon
+            new(HGSS) { Gift = true, Species = 138, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Omanyte
+            new(HGSS) { Gift = true, Species = 140, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Kabuto
+            new(HGSS) { Gift = true, Species = 142, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Aerodactyl
+            new(HGSS) { Gift = true, Species = 345, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Lileep
+            new(HGSS) { Gift = true, Species = 347, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Anorith
+            new(HGSS) { Gift = true, Species = 408, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Cranidos
+            new(HGSS) { Gift = true, Species = 410, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Shieldon
 
             // Gift
-            new(HGSS) { Gift = true, Species = 072, Level = 15, Location = 130, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Tentacool @ Cianwood City
-            new(HGSS) { Gift = true, Species = 133, Level = 05, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee @ Goldenrod City
-            new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 222, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Moves = new[] {245} }, // Dratini @ Dragon's Den (ExtremeSpeed)
-            new(HGSS) { Gift = true, Species = 236, Level = 10, Location = 216, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Tyrogue @ Mt. Mortar
+            new(HGSS) { Gift = true, Species = 072, Level = 15, Location = 130, GroundTile = Max_Pt }, // Tentacool @ Cianwood City
+            new(HGSS) { Gift = true, Species = 133, Level = 05, Location = 131, GroundTile = Max_Pt }, // Eevee @ Goldenrod City
+            new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 222, GroundTile = Max_Pt, Moves = new[] {245} }, // Dratini @ Dragon's Den (ExtremeSpeed)
+            new(HGSS) { Gift = true, Species = 236, Level = 10, Location = 216, GroundTile = Max_Pt, }, // Tyrogue @ Mt. Mortar
             new(HGSS) { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
             new(HGSS) { Gift = true, Species = 179, Level = 01, EggLocation = 2014, }, // Mareep Egg from Primo
             new(HGSS) { Gift = true, Species = 194, Level = 01, EggLocation = 2014, }, // Wooper Egg from Primo
             new(HGSS) { Gift = true, Species = 218, Level = 01, EggLocation = 2014, }, // Slugma Egg from Primo
 
             // Celadon City Game Corner
-            new(HGSS) { Gift = true, Species = 122, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Mr. Mime
-            new(HGSS) { Gift = true, Species = 133, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee
-            new(HGSS) { Gift = true, Species = 137, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Porygon
+            new(HGSS) { Gift = true, Species = 122, Level = 15, Location = 144, GroundTile = Max_Pt }, // Mr. Mime
+            new(HGSS) { Gift = true, Species = 133, Level = 15, Location = 144, GroundTile = Max_Pt }, // Eevee
+            new(HGSS) { Gift = true, Species = 137, Level = 15, Location = 144, GroundTile = Max_Pt }, // Porygon
 
             // Goldenrod City Game Corner
-            new(HGSS) { Gift = true, Species = 063, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Abra
-            new(HG  ) { Gift = true, Species = 023, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Ekans
-            new(  SS) { Gift = true, Species = 027, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Sandshrew
-            new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Dratini
+            new(HGSS) { Gift = true, Species = 063, Level = 15, Location = 131, GroundTile = Max_Pt }, // Abra
+            new(HG  ) { Gift = true, Species = 023, Level = 15, Location = 131, GroundTile = Max_Pt }, // Ekans
+            new(  SS) { Gift = true, Species = 027, Level = 15, Location = 131, GroundTile = Max_Pt }, // Sandshrew
+            new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 131, GroundTile = Max_Pt }, // Dratini
 
             // Team Rocket HQ Trap Floor
-            new(HGSS) { Species = 100, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Voltorb
-            new(HGSS) { Species = 074, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Geodude
-            new(HGSS) { Species = 109, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Koffing
+            new(HGSS) { Species = 100, Level = 23, Location = 213, GroundTile = Building, }, // Voltorb
+            new(HGSS) { Species = 074, Level = 21, Location = 213, GroundTile = Building, }, // Geodude
+            new(HGSS) { Species = 109, Level = 21, Location = 213, GroundTile = Building, }, // Koffing
 
             // Stationary
-            new(HGSS) { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = Shiny.Always }, // Gyarados @ Lake of Rage
-            new(HGSS) { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Surfing_Fishing, }, // Lapras @ Union Cave Friday Only
-            new(HGSS) { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Electrode @ Team Rocket HQ
+            new(HGSS) { Species = 130, Level = 30, Location = 135, GroundTile = Water, Shiny = Shiny.Always }, // Gyarados @ Lake of Rage
+            new(HGSS) { Species = 131, Level = 20, Location = 210, GroundTile = Water, }, // Lapras @ Union Cave Friday Only
+            new(HGSS) { Species = 101, Level = 23, Location = 213, GroundTile = Building, }, // Electrode @ Team Rocket HQ
             new(HGSS) { Species = 143, Level = 50, Location = 159, }, // Snorlax @ Route 11
             new(HGSS) { Species = 143, Level = 50, Location = 160, }, // Snorlax @ Route 12
             new(HGSS) { Species = 185, Level = 20, Location = 184, }, // Sudowoodo @ Route 36, Encounter does not have type
@@ -334,37 +335,37 @@ namespace PKHeX.Core
                 Nature = Nature.Naughty,
                 Location = 214,
                 Moves = new[] { 344, 270, 207, 220 },
-                TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
+                GroundTile = Max_Pt,
                 Shiny = Shiny.Never
             },
 
             // Stationary Legendary
-            new(HGSS) { Species = 144, Level = 50, Location = 203, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Articuno @ Seafoam Islands
+            new(HGSS) { Species = 144, Level = 50, Location = 203, GroundTile = Cave }, // Articuno @ Seafoam Islands
             new(HGSS) { Species = 145, Level = 50, Location = 158, }, // Zapdos @ Route 10
-            new(HGSS) { Species = 146, Level = 50, Location = 219, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Moltres @ Mt. Silver Cave
-            new(HGSS) { Species = 150, Level = 70, Location = 199, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Mewtwo @ Cerulean Cave
+            new(HGSS) { Species = 146, Level = 50, Location = 219, GroundTile = Cave }, // Moltres @ Mt. Silver Cave
+            new(HGSS) { Species = 150, Level = 70, Location = 199, GroundTile = Cave }, // Mewtwo @ Cerulean Cave
             new(HGSS) { Species = 245, Level = 40, Location = 173, }, // Suicune @ Route 25
-            new(HGSS) { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Suicune @ Burned Tower
-            new(  SS) { Species = 249, Level = 45, Location = 218, TypeEncounter = EncounterType.Surfing_Fishing }, // Lugia @ Whirl Islands
-            new(HG  ) { Species = 249, Level = 70, Location = 218, TypeEncounter = EncounterType.Surfing_Fishing }, // Lugia @ Whirl Islands
-            new(HG  ) { Species = 250, Level = 45, Location = 205, TypeEncounter = EncounterType.Building_EnigmaStone }, // Ho-Oh @ Bell Tower
-            new(  SS) { Species = 250, Level = 70, Location = 205, TypeEncounter = EncounterType.Building_EnigmaStone }, // Ho-Oh @ Bell Tower
-            new(  SS) { Species = 380, Level = 40, Location = 140, TypeEncounter = EncounterType.Building_EnigmaStone }, // Latias @ Pewter City
-            new(HG  ) { Species = 381, Level = 40, Location = 140, TypeEncounter = EncounterType.Building_EnigmaStone }, // Latios @ Pewter City
-            new(HG  ) { Species = 382, Level = 50, Location = 232, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Kyogre @ Embedded Tower
-            new(  SS) { Species = 383, Level = 50, Location = 232, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Groudon @ Embedded Tower
-            new(HGSS) { Species = 384, Level = 50, Location = 232, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Rayquaza @ Embedded Tower
-            new(HGSS) { Species = 483, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Dialga @ Sinjoh Ruins
-            new(HGSS) { Species = 484, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Palkia @ Sinjoh Ruins
-            new(HGSS) { Species = 487, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
+            new(HGSS) { Species = 245, Level = 40, Location = 206, GroundTile = Cave }, // Suicune @ Burned Tower
+            new(  SS) { Species = 249, Level = 45, Location = 218, GroundTile = Water }, // Lugia @ Whirl Islands
+            new(HG  ) { Species = 249, Level = 70, Location = 218, GroundTile = Water }, // Lugia @ Whirl Islands
+            new(HG  ) { Species = 250, Level = 45, Location = 205, GroundTile = Building }, // Ho-Oh @ Bell Tower
+            new(  SS) { Species = 250, Level = 70, Location = 205, GroundTile = Building }, // Ho-Oh @ Bell Tower
+            new(  SS) { Species = 380, Level = 40, Location = 140, GroundTile = Building }, // Latias @ Pewter City
+            new(HG  ) { Species = 381, Level = 40, Location = 140, GroundTile = Building }, // Latios @ Pewter City
+            new(HG  ) { Species = 382, Level = 50, Location = 232, GroundTile = Cave }, // Kyogre @ Embedded Tower
+            new(  SS) { Species = 383, Level = 50, Location = 232, GroundTile = Cave }, // Groudon @ Embedded Tower
+            new(HGSS) { Species = 384, Level = 50, Location = 232, GroundTile = Cave }, // Rayquaza @ Embedded Tower
+            new(HGSS) { Species = 483, Level = 01, Location = 231, Gift = true, GroundTile = Max_Pt }, // Dialga @ Sinjoh Ruins
+            new(HGSS) { Species = 484, Level = 01, Location = 231, Gift = true, GroundTile = Max_Pt }, // Palkia @ Sinjoh Ruins
+            new(HGSS) { Species = 487, Level = 01, Location = 231, Gift = true, GroundTile = Max_Pt, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
 
             // Johto Roamers
-            new(HGSS) { Roaming = true, Species = 243, Level = 40, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Raikou
-            new(HGSS) { Roaming = true, Species = 244, Level = 40, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Entei
+            new(HGSS) { Roaming = true, Species = 243, Level = 40, GroundTile = Grass | Water, }, // Raikou
+            new(HGSS) { Roaming = true, Species = 244, Level = 40, GroundTile = Grass | Water, }, // Entei
 
             // Kanto Roamers
-            new(HG  ) { Roaming = true, Species = 380, Level = 35, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Latias
-            new(  SS) { Roaming = true, Species = 381, Level = 35, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Latios
+            new(HG  ) { Roaming = true, Species = 380, Level = 35, GroundTile = Grass | Water, }, // Latias
+            new(  SS) { Roaming = true, Species = 381, Level = 35, GroundTile = Grass | Water, }, // Latios
         };
         #endregion
         #region Trade Tables

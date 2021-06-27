@@ -310,8 +310,8 @@ namespace PKHeX.Core
 
         public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); }
-        public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
-        public int PokéathlonStat { get => Data[0x87]; set => Data[0x87] = (byte)value; }
+        public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
+        public byte PokéathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
         // Unused 0x87
         #endregion
 

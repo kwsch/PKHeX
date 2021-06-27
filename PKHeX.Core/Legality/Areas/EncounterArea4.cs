@@ -9,8 +9,8 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea4 : EncounterArea
     {
-        public readonly EncounterType TypeEncounter;
         public readonly int Rate;
+        public readonly GroundTilePermission GroundTile;
         public readonly EncounterSlot4[] Slots;
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
@@ -28,7 +28,8 @@ namespace PKHeX.Core
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
             Rate = data[3];
-            TypeEncounter = (EncounterType) BitConverter.ToUInt16(data, 4);
+            // although GroundTilePermission flags are 32bit, none have values > 16bit.
+            GroundTile = (GroundTilePermission) BitConverter.ToUInt16(data, 4);
 
             Slots = ReadRegularSlots(data);
         }

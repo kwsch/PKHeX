@@ -14,7 +14,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc2(pk5);
             LoadMisc3(pk5);
             LoadMisc4(pk5);
-            CB_EncounterType.SelectedValue = pk5.Gen4 ? pk5.EncounterType : 0;
+            CB_EncounterType.SelectedValue = pk5.Gen4 ? (int)pk5.GroundTile : 0;
             CB_EncounterType.Visible = Label_EncounterType.Visible = pk5.Gen4;
             CHK_NSparkle.Checked = pk5.NPokémon;
 
@@ -39,7 +39,7 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk5);
             SaveMisc4(pk5);
 
-            pk5.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
+            pk5.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_EncounterType);
             pk5.NPokémon = CHK_NSparkle.Checked;
             if (!HaX) // specify via extra 0x42 instead
                 pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1

@@ -7,20 +7,20 @@ namespace PKHeX.Core
     /// <seealso cref="EncounterSlot4"/>
     /// <seealso cref="EncounterStatic4"/>
     /// </remarks>
-    public interface IEncounterTypeTile
+    public interface IGroundTypeTile
     {
         /// <summary>
         /// Tile Type the <see cref="IEncounterable"/> was obtained on.
         /// </summary>
-        EncounterType TypeEncounter { get; }
+        GroundTilePermission GroundTile { get; }
     }
 
-    public static class EncounterTypeTileExtensions
+    public static class GroundTypeTileExtensions
     {
         /// <summary>
         /// Gets if the resulting <see cref="PKM"/> will still have a value depending on the current <see cref="format"/>.
         /// </summary>
-        /// <remarks>Generation 6 no longer stores this value.</remarks>
-        public static bool HasTypeEncounter(this IEncounterTypeTile _, int format) => format is 4 or 5;
+        /// <remarks>Generation 7 no longer stores this value.</remarks>
+        public static bool HasTypeEncounter(this IGroundTypeTile _, int format) => format is (4 or 5 or 6);
     }
 }

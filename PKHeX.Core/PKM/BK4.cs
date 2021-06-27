@@ -331,7 +331,7 @@ namespace PKHeX.Core
 
         public override int Met_Level { get => Data[0x84] >> 1; set => Data[0x84] = (byte)((Data[0x84] & 0x1) | value << 1); }
         public override int OT_Gender { get => Data[0x84] & 1; set => Data[0x84] = (byte)((Data[0x84] & ~0x1) | (value & 1)); }
-        public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
+        public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
         // Unused 0x87
         #endregion
 

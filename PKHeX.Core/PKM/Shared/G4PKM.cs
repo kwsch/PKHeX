@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public abstract class G4PKM : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
-        IContestStats, IContestStatsMutable, IEncounterType
+        IContestStats, IContestStatsMutable, IGroundTile
     {
         protected G4PKM(byte[] data) : base(data) { }
         protected G4PKM(int size) : base(size) { }
@@ -164,7 +164,7 @@ namespace PKHeX.Core
         public abstract byte CNT_Tough { get; set; }
         public abstract byte CNT_Sheen { get; set; }
 
-        public abstract int EncounterType { get; set; }
+        public abstract GroundTileType GroundTile { get; set; }
 
         protected T ConvertTo<T>() where T : G4PKM, new()
         {
@@ -223,7 +223,7 @@ namespace PKHeX.Core
                 PKRS_Days = PKRS_Days,
                 PKRS_Strain = PKRS_Strain,
                 Ball = Ball,
-                EncounterType = EncounterType,
+                GroundTile = GroundTile,
                 FatefulEncounter = FatefulEncounter,
 
                 Met_Level = Met_Level,

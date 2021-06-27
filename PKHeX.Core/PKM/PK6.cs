@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
     public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6,
-        IContestStats, IContestStatsMutable, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IEncounterType
+        IContestStats, IContestStatsMutable, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile
     {
         private static readonly ushort[] Unused =
         {
@@ -343,7 +343,7 @@ namespace PKHeX.Core
         public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
         public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
         public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
-        public int EncounterType { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
+        public GroundTileType GroundTile { get => (GroundTileType)Data[0xDE]; set => Data[0xDE] = (byte)value; }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
         public int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
         public int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }

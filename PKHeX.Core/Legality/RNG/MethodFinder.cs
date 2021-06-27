@@ -877,9 +877,9 @@ namespace PKHeX.Core
                         return true;
                     if (val != ChainShiny)
                         return false;
-                    // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
-                    // TypeEncounter TallGrass discard any cave or city
-                    return pkm.IsShiny && !pkm.HGSS && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
+                    // Chain shiny with poke radar is only possible in DPPt in grass, safari zone does not allow pokeradar
+                    // TypeEncounter Grass discard any cave or city
+                    return pkm.IsShiny && !pkm.HGSS && sl.GroundTile == GroundTilePermission.Grass && !Locations.IsSafariZoneLocation4(sl.Location);
                 case PGT: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 case PCD d when d.Gift.PK.PID != 1:

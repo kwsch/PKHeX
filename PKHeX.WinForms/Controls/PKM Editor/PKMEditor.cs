@@ -798,7 +798,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.CurrentLevel >= minlvl && Entity.Met_Level == level && Entity.Met_Location == location)
             {
-                if (!encounter.HasEncounterType(Entity.Format) || WinFormsUtil.GetIndex(CB_EncounterType) == encounter.GetSuggestedEncounterType())
+                if (!encounter.HasEncounterType(Entity.Format) || WinFormsUtil.GetIndex(CB_EncounterType) == (int)encounter.GetSuggestedEncounterType())
                     return false;
             }
             if (minlvl < level)
@@ -822,7 +822,7 @@ namespace PKHeX.WinForms.Controls
                 CB_MetLocation.SelectedValue = location;
 
                 if (encounter.HasEncounterType(Entity.Format))
-                    CB_EncounterType.SelectedValue = encounter.GetSuggestedEncounterType();
+                    CB_EncounterType.SelectedValue = (int)encounter.GetSuggestedEncounterType();
 
                 if (Entity.Gen6 && Entity.WasEgg && ModifyPKM)
                     Entity.SetHatchMemory6();
@@ -1200,7 +1200,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
-            if (Entity is IEncounterType)
+            if (Entity is IGroundTile)
             {
                 bool g4 = Entity.Gen4;
                 CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && Entity.Format < 7;
