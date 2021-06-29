@@ -63,7 +63,7 @@ namespace PKHeX.Core
             Box = BoxStart;
         }
 
-        public SAV2Stadium(bool japanese = false) : base(japanese, SaveUtil.SIZE_G1STAD)
+        public SAV2Stadium(bool japanese = false) : base(japanese, SaveUtil.SIZE_G2STAD)
         {
             Box = BoxStart;
             ClearBoxes();
