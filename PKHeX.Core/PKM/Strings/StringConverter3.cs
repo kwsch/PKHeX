@@ -20,12 +20,19 @@ namespace PKHeX.Core
         /// <param name="count">Length of data to read.</param>
         /// <param name="jp">Value source is Japanese font.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetString3(byte[] data, int offset, int count, bool jp)
+        public static string GetString3(byte[] data, int offset, int count, bool jp) => GetString3(data.AsSpan(offset, count), jp);
+
+        /// <summary>
+        /// Converts a Generation 3 encoded value array to string.
+        /// </summary>
+        /// <param name="data">Byte array containing string data.</param>
+        /// <param name="jp">Value source is Japanese font.</param>
+        /// <returns>Decoded string.</returns>
+        public static string GetString3(ReadOnlySpan<byte> data, bool jp)
         {
-            var s = new StringBuilder(count);
-            for (int i = 0; i < count; i++)
+            var s = new StringBuilder(data.Length);
+            foreach (var val in data)
             {
-                var val = data[offset + i];
                 var c = GetG3Char(val, jp); // Convert to Unicode
                 if (c == Terminator) // Stop if Terminator/Invalid
                     break;

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
-    public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IContestStatsMutable
+    public sealed class PK5 : PKM,
+        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, 
+        IContestStats, IContestStatsMutable, IGroundTile
     {
         private static readonly ushort[] Unused =
         {
@@ -39,8 +41,8 @@ namespace PKHeX.Core
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x48)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data.AsSpan(0x68)); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
@@ -242,7 +244,7 @@ namespace PKHeX.Core
         public override int Ball { get => Data[0x83]; set => Data[0x83] = (byte)value; }
         public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); }
-        public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
+        public GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
         // 0x86 Unused
         public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
         public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = value ? (byte)255 : (byte)0; }
@@ -394,7 +396,7 @@ namespace PKHeX.Core
                 // OT Gender & Encounter Level
                 Met_Level = Met_Level,
                 OT_Gender = OT_Gender,
-                EncounterType = EncounterType,
+                GroundTile = GroundTile,
 
                 // Fill the Ribbon Counter Bytes
                 RibbonCountMemoryContest = CountContestRibbons(),

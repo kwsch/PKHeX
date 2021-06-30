@@ -4,10 +4,10 @@ namespace PKHeX.Core
     /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed record EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IEncounterTypeTile
+    public sealed record EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IGroundTypeTile
     {
         public override int Generation => 4;
-        public EncounterType TypeEncounter => ((EncounterArea4)Area).TypeEncounter;
+        public GroundTilePermission GroundTile => ((EncounterArea4)Area).GroundTile;
 
         public int StaticIndex { get; }
         public int MagnetPullIndex { get; }
@@ -27,7 +27,7 @@ namespace PKHeX.Core
             StaticCount = stc;
         }
 
-        protected override void SetFormatSpecificData(PKM pk) => ((PK4)pk).EncounterType = TypeEncounter.GetIndex();
+        protected override void SetFormatSpecificData(PKM pk) => ((PK4)pk).GroundTile = GroundTile.GetIndex();
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {

@@ -149,9 +149,11 @@ namespace PKHeX.Core
             int pkOfs = GetOffsetPKMData(base_ofs, i);
             int otOfs = GetOffsetPKMOT(base_ofs, i);
             int nkOfs = GetOffsetPKMNickname(base_ofs, i);
-            Array.Copy(Pokemon[i].Data, 0, Data, pkOfs, Entry_Size);
-            Array.Copy(Pokemon[i].OT_Trash, 0, Data, otOfs, StringLength);
-            Array.Copy(Pokemon[i].Nickname_Trash, 0, Data, nkOfs, StringLength);
+
+            var pk = Pokemon[i];
+            Array.Copy(pk.Data, 0, Data, pkOfs, Entry_Size);
+            pk.RawOT.CopyTo(Data, otOfs);
+            pk.RawNickname.CopyTo(Data, nkOfs);
         }
     }
 }

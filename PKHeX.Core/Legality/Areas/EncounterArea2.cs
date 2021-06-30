@@ -16,6 +16,9 @@ namespace PKHeX.Core
         internal readonly EncounterTime Time;
         public readonly int Rate;
         public readonly IReadOnlyList<byte> Rates;
+        public readonly EncounterSlot2[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
         public static EncounterArea2[] GetAreas(byte[][] input, GameVersion game)
         {
@@ -86,7 +89,7 @@ namespace PKHeX.Core
             return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsSpecificLevelTime(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
+        private IEnumerable<EncounterSlot2> GetSlotsSpecificLevelTime(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
         {
             foreach (var slot in Slots)
             {
@@ -113,7 +116,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot2> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
             {

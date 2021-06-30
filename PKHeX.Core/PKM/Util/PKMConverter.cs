@@ -160,7 +160,8 @@ namespace PKHeX.Core
             if (pk.HeldItem > Legal.MaxItemID_6_AO)
                 return true;
 
-            int et = pk.EncounterType;
+            // Ground Tile property is replaced with Hyper Training PK6->PK7
+            var et = pk.GroundTile;
             if (et != 0)
             {
                 if (pk.CurrentLevel < 100) // can't be hyper trained
@@ -168,7 +169,7 @@ namespace PKHeX.Core
 
                 if (!pk.Gen4) // can't have encounter type
                     return true;
-                if (et > 24) // invalid gen4 EncounterType
+                if (et > GroundTileType.Max_Pt) // invalid gen4 EncounterType
                     return true;
             }
 

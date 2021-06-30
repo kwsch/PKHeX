@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static PKHeX.Core.EncounterType;
+using static PKHeX.Core.GroundTilePermission;
 
 namespace PKHeX.Core
 {
@@ -8,15 +8,15 @@ namespace PKHeX.Core
     /// Generation 4 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStatic4 : EncounterStatic, IEncounterTypeTile
+    public sealed record EncounterStatic4 : EncounterStatic, IGroundTypeTile
     {
         public override int Generation => 4;
 
         /// <summary> Indicates if the encounter is a Roamer (variable met location) </summary>
         public bool Roaming { get; init; }
 
-        /// <summary> <see cref="PK4.EncounterType"/> values permitted for the encounter. </summary>
-        public EncounterType TypeEncounter { get; init; } = None;
+        /// <summary> <see cref="PK4.GroundTile"/> values permitted for the encounter. </summary>
+        public GroundTilePermission GroundTile { get; init; } = None;
 
         public EncounterStatic4(GameVersion game) : base(game) { }
 
@@ -29,7 +29,7 @@ namespace PKHeX.Core
             if (pkm is not G4PKM pk4)
                 return true;
 
-            var locs = GetRoamLocations(Species, pk4.EncounterType);
+            var locs = GetRoamLocations(Species, pk4.GroundTile);
             return locs.Contains(pk4.Met_Location);
         }
 
@@ -95,17 +95,17 @@ namespace PKHeX.Core
         protected override void SetMetData(PKM pk, int level, DateTime today)
         {
             var pk4 = (PK4)pk;
-            var type = pk4.EncounterType = TypeEncounter.GetIndex();
+            var type = pk4.GroundTile = GroundTile.GetIndex();
             pk.Met_Location = Roaming ? GetRoamLocations(Species, type)[0] : Location;
             pk.Met_Level = level;
             pk.MetDate = today;
         }
 
-        private static int[] GetRoamLocations(int species, int type) => species switch
+        private static int[] GetRoamLocations(int species, GroundTileType type) => species switch
         {
-            481 or 488 or 144 or 145 or 146 => 1 << type == (int)TallGrass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
-            243 or 244 => 1 << type == (int)TallGrass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,
-            380 or 381 => 1 << type == (int)TallGrass ? Roaming_MetLocation_HGSS_Kanto_Grass : Roaming_MetLocation_HGSS_Kanto_Surf,
+            481 or 488 or 144 or 145 or 146 => type == GroundTileType.Grass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
+            243 or 244 => type == GroundTileType.Grass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,
+            380 or 381 => type == GroundTileType.Grass ? Roaming_MetLocation_HGSS_Kanto_Grass : Roaming_MetLocation_HGSS_Kanto_Surf,
             _ => throw new IndexOutOfRangeException(nameof(species)),
         };
 

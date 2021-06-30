@@ -297,7 +297,7 @@ namespace PKHeX.Core
 
             var format = pkm.Format;
             if (format is 4 or 5 or 6)
-                Gen4EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
+                Gen4GroundTile.Verify(this); // Gen 6->7 transfer deletes encounter type data
 
             if (format < 6)
                 return;

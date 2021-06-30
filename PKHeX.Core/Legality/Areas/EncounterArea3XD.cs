@@ -9,6 +9,10 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea3XD : EncounterArea
     {
+        public readonly EncounterSlot3PokeSpot[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+
         public EncounterArea3XD(int loc, int s0, int l0, int s1, int l1, int s2, int l2) : base(GameVersion.XD)
         {
             Location = loc;
@@ -26,11 +30,11 @@ namespace PKHeX.Core
             if (pkm.Format != 3) // Met Location and Met Level are changed on PK3->PK4
                 return GetSlotsFuzzy(chain);
             if (pkm.Met_Location != Location)
-                return Array.Empty<EncounterSlot>();
+                return Array.Empty<EncounterSlot3PokeSpot>();
             return GetSlotsMatching(chain, pkm.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        private IEnumerable<EncounterSlot3PokeSpot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
         {
             foreach (var slot in Slots)
             {
@@ -50,7 +54,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot3PokeSpot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
             {

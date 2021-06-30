@@ -28,8 +28,8 @@ namespace PKHeX.Core
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x4E); } }
-        public override byte[] OT_Trash { get => GetData(0x38, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x38); } }
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x4E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x4E)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0x38, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x38)); } }
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.

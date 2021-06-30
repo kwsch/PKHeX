@@ -10,6 +10,9 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea8 : EncounterArea
     {
+        public readonly EncounterSlot8[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
         /// <summary>
         /// Slots from this area can cross over to another area, resulting in a different met location.
         /// </summary>
@@ -234,9 +237,9 @@ namespace PKHeX.Core
             Slots = ReadSlots(areaData, areaData[1]);
         }
 
-        private EncounterSlot[] ReadSlots(byte[] areaData, byte slotCount)
+        private EncounterSlot8[] ReadSlots(byte[] areaData, byte slotCount)
         {
-            var slots = new EncounterSlot[slotCount];
+            var slots = new EncounterSlot8[slotCount];
 
             int ctr = 0;
             int ofs = 2;

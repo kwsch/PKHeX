@@ -157,7 +157,7 @@ namespace PKHeX.Core
 
         private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
         {
-            if (area.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
+            if (area.Any(loc => loc.HasSpecies(species)))
                 return true;
             if (statics.Any(enc => enc.Species == species && !enc.Gift))
                 return true;

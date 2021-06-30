@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
             var possibleAreas = GetAreasByGame(pkm, gameSource);
-            return possibleAreas.SelectMany(area => area.Slots).Where(z => chain.Any(v => v.Species == z.Species));
+            return possibleAreas.SelectMany(z => z.GetSpecies(chain));
         }
 
         private static IEnumerable<EncounterArea> GetAreasByGame(PKM pkm, GameVersion gameSource) => gameSource switch

@@ -31,11 +31,9 @@ namespace PKHeX.Core
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         // Trash Bytes
-        public abstract byte[] Nickname_Trash { get; set; }
-        public abstract byte[] OT_Trash { get; set; }
-        public virtual byte[] HT_Trash { get => Array.Empty<byte>(); set { } }
-
-        protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
+        public abstract Span<byte> Nickname_Trash { get; set; }
+        public abstract Span<byte> OT_Trash { get; set; }
+        public virtual Span<byte> HT_Trash { get => Span<byte>.Empty; set { } }
 
         protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, SIZE_STORED);
 
@@ -223,7 +221,6 @@ namespace PKHeX.Core
         public virtual int RelearnMove2 { get => 0; set { } }
         public virtual int RelearnMove3 { get => 0; set { } }
         public virtual int RelearnMove4 { get => 0; set { } }
-        public virtual int EncounterType { get => 0; set { } }
 
         // Exposed but not Present in all
         public abstract int CurrentHandler { get; set; }
@@ -293,7 +290,6 @@ namespace PKHeX.Core
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
 
-        protected internal bool PtHGSS => Pt || HGSS;
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;

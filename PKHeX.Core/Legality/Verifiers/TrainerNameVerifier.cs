@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -118,7 +118,7 @@ namespace PKHeX.Core
                 }
             }
 
-            VerifyG1OTWithinBounds(data, tr);
+            VerifyG1OTWithinBounds(data, tr.AsSpan());
 
             if (pkm.OT_Gender == 1)
             {
@@ -127,7 +127,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyG1OTWithinBounds(LegalityAnalysis data, string str)
+        private void VerifyG1OTWithinBounds(LegalityAnalysis data, ReadOnlySpan<char> str)
         {
             if (StringConverter12.GetIsG1English(str))
             {
@@ -152,7 +152,12 @@ namespace PKHeX.Core
 
         private static bool IsOTNameSuspicious(string name)
         {
-            return SuspiciousOTNames.Any(name.StartsWith);
+            foreach (var s in SuspiciousOTNames)
+            {
+                if (s.StartsWith(name, StringComparison.InvariantCultureIgnoreCase))
+                    return true;
+            }
+            return false;
         }
 
         public static bool IsOTIDSuspicious(int tid16, int sid16)
@@ -187,7 +192,13 @@ namespace PKHeX.Core
                 return (uint)(c - '0') <= 9;
             }
 
-            return str.Count(IsNumber);
+            int ctr = 0;
+            foreach (var c in str)
+            {
+                if (IsNumber(c))
+                    ++ctr;
+            }
+            return ctr;
         }
     }
 }

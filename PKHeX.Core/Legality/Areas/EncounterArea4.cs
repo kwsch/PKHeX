@@ -9,8 +9,11 @@ namespace PKHeX.Core
     /// </summary>
     public sealed record EncounterArea4 : EncounterArea
     {
-        public readonly EncounterType TypeEncounter;
         public readonly int Rate;
+        public readonly GroundTilePermission GroundTile;
+        public readonly EncounterSlot4[] Slots;
+
+        protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
         public static EncounterArea4[] GetAreas(byte[][] input, GameVersion game)
         {
@@ -25,7 +28,8 @@ namespace PKHeX.Core
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
             Rate = data[3];
-            TypeEncounter = (EncounterType) BitConverter.ToUInt16(data, 4);
+            // although GroundTilePermission flags are 32bit, none have values > 16bit.
+            GroundTile = (GroundTilePermission) BitConverter.ToUInt16(data, 4);
 
             Slots = ReadRegularSlots(data);
         }
@@ -60,11 +64,11 @@ namespace PKHeX.Core
             if (pkm.Format != 4) // Met Location and Met Level are changed on PK4->PK5
                 return GetSlotsFuzzy(chain);
             if (pkm.Met_Location != Location)
-                return Array.Empty<EncounterSlot>();
+                return Array.Empty<EncounterSlot4>();
             return GetSlotsMatching(chain, pkm.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        private IEnumerable<EncounterSlot4> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
         {
             foreach (var slot in Slots)
             {
@@ -84,7 +88,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot4> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
             {

@@ -321,10 +321,10 @@ namespace PKHeX.Core
             set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
 
-        public byte[] OT_Trash
-        {
-            get => GetData(Offsets.Trainer1 + 2, StringLength);
-            set { if (value.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); }
+        public Span<byte> OT_Trash
+        { 
+            get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength); 
+            set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
 
         public override int Gender

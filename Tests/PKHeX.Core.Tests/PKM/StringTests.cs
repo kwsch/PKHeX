@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -49,14 +49,22 @@ namespace PKHeX.Tests.PKM
             CheckStringGetSet(nameof(pkm.Nickname), name_nidoran, pkm.Nickname, byte_nidoran, pkm.Nickname_Trash);
         }
 
-        private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata, byte[] outdata)
+        private static void CheckStringGetSet(string check, string instr, string outstr, ReadOnlySpan<byte> indata, ReadOnlySpan<byte> outdata)
         {
             instr.Should().BeEquivalentTo(outstr);
 
             outdata = outdata[..indata.Length];
 
             indata.SequenceEqual(outdata).Should()
-                .BeTrue($"expected {check} to set properly, instead got {string.Join(", ", outdata.Select(z => $"{z:X2}"))}");
+                .BeTrue($"expected {check} to set properly, instead got {Hex(outdata)}");
+        }
+
+        private static string Hex(ReadOnlySpan<byte> outdata)
+        {
+            var sb = new System.Text.StringBuilder(outdata.Length);
+            foreach (var b in outdata)
+                sb.AppendFormat("{0:X2}, ", b);
+            return sb.ToString();
         }
 
         [Theory]

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
@@ -10,18 +9,25 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter12
     {
-        public static bool GetIsG1Japanese(string str) => AllCharsInDictionary(str, U2RBY_J);
-        public static bool GetIsG1English(string str) => AllCharsInDictionary(str, U2RBY_U);
-        public static bool GetIsG1Japanese(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_J);
-        public static bool GetIsG1English(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_U);
+        public static bool GetIsG1Japanese(ReadOnlySpan<char> str) => AllCharsInDictionary(str, U2RBY_J);
+        public static bool GetIsG1English(ReadOnlySpan<char> str) => AllCharsInDictionary(str, U2RBY_U);
+        public static bool GetIsG1Japanese(ReadOnlySpan<byte> raw) => AllCharsInDictionary(raw, RBY2U_J);
+        public static bool GetIsG1English(ReadOnlySpan<byte> raw) => AllCharsInDictionary(raw, RBY2U_U);
 
-        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
-
-        private static bool AllCharsInDictionary(IReadOnlyList<byte> data, int start, int length, IReadOnlyDictionary<byte, char> d)
+        private static bool AllCharsInDictionary(ReadOnlySpan<char> c, IReadOnlyDictionary<char, byte> d)
         {
-            for (int i = start; i < start + length; i++)
+            foreach (var x in c)
             {
-                var c = data[i];
+                if (!d.ContainsKey(x))
+                    return false;
+            }
+            return true;
+        }
+
+        private static bool AllCharsInDictionary(ReadOnlySpan<byte> data, IReadOnlyDictionary<byte, char> d)
+        {
+            foreach (var c in data)
+            {
                 if (c == 0)
                     break;
                 if (!d.ContainsKey(c))
@@ -54,7 +60,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Raw string bytes</param>
         /// <returns>Indication if the data is from a definitely-german string</returns>
-        public static bool IsG12German(IEnumerable<byte> data) => data.Any(z => z is >= 0xC0 and <= 0xC6);
+        public static bool IsG12German(ReadOnlySpan<byte> data)
+        {
+            foreach (var b in data)
+            {
+                if (b is >= 0xC0 and <= 0xC6)
+                    return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
@@ -71,14 +85,21 @@ namespace PKHeX.Core
         /// <param name="count"></param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetString1(byte[] data, int offset, int count, bool jp)
+        public static string GetString1(byte[] data, int offset, int count, bool jp) => GetString1(data.AsSpan(offset, count), jp);
+
+        /// <summary>
+        /// Converts Generation 1 encoded data into a string.
+        /// </summary>
+        /// <param name="data">Encoded data.</param>
+        /// <param name="jp">Data source is Japanese.</param>
+        /// <returns>Decoded string.</returns>
+        public static string GetString1(ReadOnlySpan<byte> data, bool jp)
         {
             var dict = jp ? RBY2U_J : RBY2U_U;
 
-            var s = new StringBuilder(count);
-            for (int i = 0; i < count; i++)
+            var s = new StringBuilder(data.Length);
+            foreach (var val in data)
             {
-                var val = data[offset + i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
                 if (c == G1Terminator) // Stop if Terminator
@@ -127,12 +148,12 @@ namespace PKHeX.Core
         /// <param name="key">Encoded character.</param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetG1Char(byte key, bool jp)
+        public static char GetG1Char(byte key, bool jp)
         {
             var dict = jp ? RBY2U_J : RBY2U_U;
             if (dict.TryGetValue(key, out var val))
-                return val.ToString();
-            return string.Empty;
+                return val;
+            return G1Terminator;
         }
 
         #region Gen 1/2 Character Tables

@@ -39,7 +39,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 7 && pkm.IsNicknamed) // can nickname afterwards
             {
                 if (pkm.VC)
-                    VerifyG1NicknameWithinBounds(data, nickname);
+                    VerifyG1NicknameWithinBounds(data, nickname.AsSpan());
                 else if (enc is MysteryGift {IsEgg: false})
                     data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
@@ -264,7 +264,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyG1NicknameWithinBounds(LegalityAnalysis data, string str)
+        private void VerifyG1NicknameWithinBounds(LegalityAnalysis data, ReadOnlySpan<char> str)
         {
             var pkm = data.pkm;
             if (StringConverter12.GetIsG1English(str))

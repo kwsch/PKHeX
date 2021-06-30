@@ -15,7 +15,16 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if any of the characters inside <see cref="str"/> are from the special Korean codepoint pages.
         /// </summary>
-        public static bool GetIsG2Korean(string str) => str.All(z => U2GSC_KOR.Any(x => x.ContainsKey(z)));
+        public static bool GetIsG2Korean(ReadOnlySpan<char> str)
+        {
+            var dict = U2GSC_KOR;
+            foreach (var c in str)
+            {
+                if (!dict.Any(d => d.ContainsKey(c)))
+                    return false;
+            }
+            return true;
+        }
 
         /// <summary>
         /// Converts Generation 2 Korean encoded data into a string.
