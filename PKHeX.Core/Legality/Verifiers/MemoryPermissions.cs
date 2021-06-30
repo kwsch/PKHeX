@@ -163,5 +163,47 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
+
+        public static bool GetCanDynamaxTrainer(int species, int gen, GameVersion version)
+        {
+            if (gen != 8)
+                return false;
+
+            return version switch
+            {
+                GameVersion.SW => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species),
+                GameVersion.SH => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSH(species),
+                _              => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species) || IsDynamaxSH(species)
+            };
+        }
+
+        // exclusive to version
+        private static bool IsDynamaxSW(int species) => species is (int) Machamp or (int) Coalossal or (int) Flapple;
+        private static bool IsDynamaxSH(int species) => species is (int) Gengar or (int) Lapras or (int) Appletun;
+
+        // common to SW & SH
+        private static readonly HashSet<int> DynamaxTrainer_SWSH = new()
+        {
+            (int)Venusaur,
+            (int)Blastoise,
+            (int)Charizard,
+            (int)Slowbro,
+            (int)Snorlax,
+            (int)Slowking,
+            (int)Garbodor,
+            (int)Rillaboom,
+            (int)Inteleon,
+            (int)Cinderace,
+            (int)Corviknight,
+            (int)Eldegoss,
+            (int)Drednaw,
+            (int)Centiskorch,
+            (int)Hatterene,
+            (int)Grimmsnarl,
+            (int)Alcremie,
+            (int)Copperajah,
+            (int)Duraludon,
+            (int)Urshifu,
+        };
     }
 }
