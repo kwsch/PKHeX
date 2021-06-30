@@ -45,7 +45,7 @@ namespace PKHeX.Core
 
                 // Dynamaxing
                 // {0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
-                case 71 when !GetCanBeCaptured(memory.Variable, 8, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
+                case 71 when !GetCanBeCaptured(memory.Variable, 8, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any) && memory.Variable is not (int)Species.Urshifu:
                 // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
                 case 72 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
