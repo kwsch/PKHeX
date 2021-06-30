@@ -25,6 +25,7 @@
         public static readonly MemoryVerifier Memory = new();
         public static readonly HistoryVerifier History = new();
         public static readonly ContestStatVerifier Contest = new();
+        public static readonly TrashByteVerifier Trash = new();
 
         public static readonly TrainerNameVerifier Trainer = new();
         public static readonly LevelVerifier Level = new();

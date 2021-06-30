@@ -143,5 +143,10 @@
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="IRibbonSetMark8"/>.
         /// </summary>
         RibbonMark,
+
+        /// <summary>
+        /// The CheckResult pertains to the <see cref="PKM.OT_Trash"/>.
+        /// </summary>
+        Trash,
     }
 }

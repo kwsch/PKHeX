@@ -302,6 +302,7 @@ namespace PKHeX.Core
             if (format < 6)
                 return;
 
+            Trash.Verify(this);
             History.Verify(this);
             if (format < 8)
                 ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
