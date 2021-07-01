@@ -12,6 +12,15 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return;
 
+            // Data in this format has immutable trash bytes.
+            // Flag anything that has nonzero values in them.
+            if (!HasFinalTerminator(pkm.Nickname_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} detected in reserved terminator."));
+            if (!HasFinalTerminator(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected in reserved terminator."));
+            if (!HasFinalTerminator(pkm.HT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.HT_Trash)} detected in reserved terminator."));
+
             if (pkm.IsEgg)
             {
                 if (HasTrash2(pkm.Nickname_Trash))
@@ -53,11 +62,13 @@ namespace PKHeX.Core
                 {
                     var position = FindTerminator2(pkm.Nickname_Trash);
                     position = FindLastTrash2(pkm.Nickname_Trash, position);
-                    var severity = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pkm.Language) < position ? Severity.Invalid : Severity.Fishy;
+                    var severity = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pkm.Language) < (position / 2) ? Severity.Invalid : Severity.Fishy;
                     data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", severity));
                 }
             }
         }
+
+        private static bool HasFinalTerminator(ReadOnlySpan<byte> buffer, byte terminator = 0) => buffer[^1] == terminator && buffer[^2] == terminator;
 
         private static int FindLastTrash2(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
         {

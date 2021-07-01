@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
