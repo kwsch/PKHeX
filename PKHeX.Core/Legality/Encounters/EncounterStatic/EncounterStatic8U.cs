@@ -60,10 +60,7 @@ namespace PKHeX.Core
             if (ot.Length + 1 >= name.Length)
                 return null;
 
-            var trash = pk.OT_Trash[(ot.Length *2 + 2)..];
-            var nameBytes = StringConverter.SetString7b(name, name.Length, 13);
-            var span = nameBytes.AsSpan(ot.Length * 2 + 2);
-            return trash.SequenceEqual(span);
+            return TrashByteVerifier.HasTrashUnderlayer(ot, name, pk.OT_Trash);
         }
 
         private static readonly Dictionary<int, string> ScientistName = new()
