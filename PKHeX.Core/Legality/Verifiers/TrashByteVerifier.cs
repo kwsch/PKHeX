@@ -50,8 +50,24 @@ namespace PKHeX.Core
                 if (HasTrash2(pkm.HT_Trash))
                     data.AddLine(Get($"{nameof(PKM.HT_Trash)} detected.", Severity.Fishy));
                 if (HasTrash2(pkm.Nickname_Trash))
-                    data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", Severity.Fishy));
+                {
+                    var position = FindTerminator2(pkm.Nickname_Trash);
+                    position = FindLastTrash2(pkm.Nickname_Trash, position);
+                    var severity = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pkm.Language) < position ? Severity.Invalid : Severity.Fishy;
+                    data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", severity));
+                }
             }
+        }
+
+        private static int FindLastTrash2(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
+        {
+            for (int i = buffer.Length - 2; i > start + 2; i -= 2)
+            {
+                if (buffer[i + 1] == terminator && buffer[i] == terminator)
+                    continue;
+                return i;
+            }
+            return start;
         }
 
         private static bool HasTrash2(ReadOnlySpan<byte> buffer)
