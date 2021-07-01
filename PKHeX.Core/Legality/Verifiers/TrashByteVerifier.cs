@@ -23,8 +23,16 @@ namespace PKHeX.Core
             }
             else
             {
-                if (HasTrash2(pkm.OT_Trash))
+                var enc = data.EncounterOriginal;
+                if (enc is EncounterStatic8U { ShouldHaveScientistTrash: true})
+                {
+                    if (EncounterStatic8U.HasScientistTrash(pkm) == false)
+                        data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} does not match expected trash."));
+                }
+                else if (HasTrash2(pkm.OT_Trash))
+                {
                     data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+                }
 
                 if (HasTrash2(pkm.HT_Trash))
                     data.AddLine(Get($"{nameof(PKM.HT_Trash)} detected.", Severity.Fishy));

@@ -1,4 +1,6 @@
-﻿using static PKHeX.Core.Encounters8Nest;
+﻿using System;
+using System.Collections.Generic;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
@@ -29,5 +31,52 @@ namespace PKHeX.Core
 
         // no downleveling, unlike all other raids
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo) => pkm.Met_Level == Level;
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            ApplyScientistTrash(pk);
+        }
+
+        public void ApplyScientistTrash(PKM pk)
+        {
+            if (!ShouldHaveScientistTrash)
+                return;
+            if (!ScientistName.TryGetValue(pk.Language, out var name))
+                return;
+            var ot = pk.OT_Name;
+            pk.OT_Name = name!;
+            pk.OT_Name = ot;
+        }
+
+        public bool ShouldHaveScientistTrash => !Legal.Legends.Contains(Species);
+
+        public static bool? HasScientistTrash(PKM pk)
+        {
+            if (!ScientistName.TryGetValue(pk.Language, out var name))
+                return false;
+
+            var ot = pk.OT_Name;
+            if (ot.Length + 1 >= name.Length)
+                return null;
+
+            var trash = pk.OT_Trash[(ot.Length *2 + 2)..];
+            var nameBytes = StringConverter.SetString7b(name, name.Length, 13);
+            var span = nameBytes.AsSpan(ot.Length * 2 + 2);
+            return trash.SequenceEqual(span);
+        }
+
+        private static readonly Dictionary<int, string> ScientistName = new()
+        {
+            {(int) LanguageID.Japanese, "けんきゅういん"},
+            {(int) LanguageID.English, "Scientist"},
+            {(int) LanguageID.French, "Scientifique"},
+            {(int) LanguageID.Italian, "Scienziata"},
+            {(int) LanguageID.German, "Forscherin"},
+            {(int) LanguageID.Spanish, "Científica"},
+            {(int) LanguageID.Korean, "연구원"},
+            {(int) LanguageID.ChineseS, "研究员"},
+            {(int) LanguageID.ChineseT, "研究員"},
+        };
     }
 }
