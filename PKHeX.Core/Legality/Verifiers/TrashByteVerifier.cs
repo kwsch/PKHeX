@@ -60,19 +60,53 @@ namespace PKHeX.Core
                     data.AddLine(Get($"{nameof(PKM.HT_Trash)} detected.", Severity.Fishy));
                 if (HasTrash2(pkm.Nickname_Trash))
                 {
-                    var position = FindTerminator2(pkm.Nickname_Trash);
-                    position = FindLastTrash2(pkm.Nickname_Trash, position);
-                    var severity = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pkm.Language) < (position / 2) ? Severity.Invalid : Severity.Fishy;
+                    var firstTrash = FindTerminator2(pkm.Nickname_Trash) + 2;
+                    var lastTrash = FindLastTrash2(pkm.Nickname_Trash, firstTrash);
+                    var expectedEnd = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID) pkm.Language);
+                    var lastTrashCharIndex = (lastTrash / 2);
+                    bool hasExtraTrash = expectedEnd < lastTrashCharIndex;
+                    var allowed = !hasExtraTrash || IsExtraTrashValid(pkm, enc, firstTrash);
+                    var severity = !allowed ? Severity.Invalid : Severity.Fishy;
                     data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", severity));
                 }
             }
+        }
+
+        private static bool IsExtraTrashValid(PKM pkm, IEncounterable enc, int firstTrash)
+        {
+            if (!AllowExtraTrash(pkm, enc))
+                return false;
+
+            // check all languages for original species
+            var trash = pkm.Nickname_Trash;
+            var species = enc.Species;
+            var generation = enc.Generation;
+            for (int language = 1; language <= (int) LanguageID.ChineseT; language++)
+            {
+                if (language == (int) LanguageID.Hacked)
+                    continue;
+
+                var name = SpeciesName.GetSpeciesNameGeneration(species, language, generation);
+                if (HasTrashUnderlayer(firstTrash - 4, name, trash))
+                    return true;
+            }
+            return false;
+        }
+
+        private static bool AllowExtraTrash(PKM pkm, IEncounterable enc)
+        {
+            if (enc.EggEncounter && pkm.WasTradedEgg)
+                return true;
+            if (enc is EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC && pkm.Met_Location == Encounters8Nest.SharedNest)
+                return true;
+            return false;
         }
 
         private static bool HasFinalTerminator(ReadOnlySpan<byte> buffer, byte terminator = 0) => buffer[^1] == terminator && buffer[^2] == terminator;
 
         private static int FindLastTrash2(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
         {
-            for (int i = buffer.Length - 2; i > start + 2; i -= 2)
+            for (int i = buffer.Length - 2; i > start; i -= 2)
             {
                 if (buffer[i + 1] == terminator && buffer[i] == terminator)
                     continue;
@@ -105,6 +139,14 @@ namespace PKHeX.Core
                     return i;
             }
             return -1;
+        }
+
+        public static bool HasTrashUnderlayer(int topLength, string under, Span<byte> full_trash)
+        {
+            var trash = full_trash[((topLength * 2) + 2)..];
+            var nameBytes = StringConverter.SetString7b(under, under.Length, full_trash.Length / 2);
+            var span = nameBytes.AsSpan((topLength * 2) + 2);
+            return trash.SequenceEqual(span);
         }
 
         public static bool HasTrashUnderlayer(string top, string under, Span<byte> full_trash)
