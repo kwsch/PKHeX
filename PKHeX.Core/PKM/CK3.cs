@@ -29,8 +29,9 @@ namespace PKHeX.Core
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x2E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x2E)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x18, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x18)); } }
+        private const int strlen = (10 * 2) + 2;
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x2E, strlen); set { if (value.Length <= strlen) value.CopyTo(Data.AsSpan(0x2E)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0x18, strlen); set { if (value.Length <= strlen) value.CopyTo(Data.AsSpan(0x18)); } }
 
         // Future Attributes
 

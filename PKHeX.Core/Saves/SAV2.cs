@@ -324,7 +324,7 @@ namespace PKHeX.Core
         public Span<byte> OT_Trash
         { 
             get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength); 
-            set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
+            set { if (value.Length <= StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
 
         public override int Gender

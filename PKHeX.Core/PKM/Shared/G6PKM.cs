@@ -11,9 +11,10 @@ namespace PKHeX.Core
         protected G6PKM(int size) : base(size) { }
 
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x40)); } }
-        public sealed override Span<byte> HT_Trash { get => Data.AsSpan(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x78)); } }
-        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xB0)); } }
+        private const int strlen = (12 * 2) + 2; // 26
+        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x40, strlen); set { if (value.Length <= strlen) value.CopyTo(Data.AsSpan(0x40)); } }
+        public sealed override Span<byte> HT_Trash { get => Data.AsSpan(0x78, strlen); set { if (value.Length <= strlen) value.CopyTo(Data.AsSpan(0x78)); } }
+        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0xB0, strlen); set { if (value.Length <= strlen) value.CopyTo(Data.AsSpan(0xB0)); } }
 
         protected sealed override ushort CalculateChecksum()
         {

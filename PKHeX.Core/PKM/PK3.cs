@@ -43,8 +43,10 @@ namespace PKHeX.Core
         private const string EggNameJapanese = "タマゴ";
 
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x08, 10); set { if (value.Length == 10) value.CopyTo(Data.AsSpan(0x08)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x14, 7); set { if (value.Length == 7) value.CopyTo(Data.AsSpan(0x14)); } }
+        private const int strlen_n = (10 * 1); // all mutable
+        private const int strlen_o = (7 * 1); // all mutable
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x08, strlen_n); set { if (value.Length <= strlen_n) value.CopyTo(Data.AsSpan(0x08)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0x14, strlen_o); set { if (value.Length <= strlen_o) value.CopyTo(Data.AsSpan(0x14)); } }
 
         // At top for System.Reflection execution order hack
 
