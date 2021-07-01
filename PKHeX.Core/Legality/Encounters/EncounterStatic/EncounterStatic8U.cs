@@ -49,7 +49,7 @@ namespace PKHeX.Core
             pk.OT_Name = ot;
         }
 
-        public bool ShouldHaveScientistTrash => !Legal.Legends.Contains(Species);
+        public bool ShouldHaveScientistTrash => !(Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species));
 
         public static bool? HasScientistTrash(PKM pk)
         {
