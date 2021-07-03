@@ -65,7 +65,7 @@ namespace PKHeX.Core
 
                 // Item
                 // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
-                case 5 when !CanBuyItem(gen, memory.Variable):
+                case 5 when !CanBuyItem(gen, memory.Variable, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
                 // {1} used {2} when {0} was in trouble. {4} that {3}.
                 case 15 when !CanUseItem(gen, memory.Variable, pkm.Species):
                 // {0} saw {1} using {2}. {4} that {3}.
