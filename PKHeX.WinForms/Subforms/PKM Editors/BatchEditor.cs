@@ -241,14 +241,23 @@ namespace PKHeX.WinForms
 
         private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
+            if (data.Count == 0)
+                return;
+
             var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
             if (filterMeta.Length != 0)
                 Filters = Filters.Except(filterMeta).ToArray();
+
+            var max = data[0].Entity.MaxSpeciesID;
 
             for (int i = 0; i < data.Count; i++)
             {
                 var entry = data[i];
                 var pk = data[i].Entity;
+
+                var spec = pk.Species;
+                if (spec <= 0 || spec > max)
+                    continue;
 
                 if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                     editor.AddSkipped();

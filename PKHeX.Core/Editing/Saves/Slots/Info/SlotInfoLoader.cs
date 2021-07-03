@@ -123,7 +123,7 @@ namespace PKHeX.Core
             {
                 for (int slot = 0; slot < sc; slot++, ctr++)
                 {
-                    var ident = new SlotInfoBox(box, slot);
+                    var ident = new SlotInfoBox(box + 1, slot + 1);
                     var result = new SlotCache(ident, bd[ctr], sav);
                     db.Add(result);
                 }
@@ -139,7 +139,7 @@ namespace PKHeX.Core
                 if (pk.Species == 0)
                     continue;
 
-                var ident = new SlotInfoParty(index);
+                var ident = new SlotInfoParty(index + 1);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }
