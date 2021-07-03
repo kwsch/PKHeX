@@ -389,6 +389,16 @@ namespace PKHeX.WinForms
                 new SAV_MysteryGiftDB(PKME_Tabs, C_SAV).Show();
         }
 
+        private static void ClosePopups()
+        {
+            var forms = Application.OpenForms.OfType<Form>()
+                .Where(z => z is not (Main or SplashScreen or SAV_FolderList))
+                .ToArray();
+
+            foreach (var f in forms)
+                f.Close();
+        }
+
         private void MainMenuSettings(object sender, EventArgs e)
         {
             var settings = Settings;
@@ -739,6 +749,8 @@ namespace PKHeX.WinForms
                 if (prompt != DialogResult.Yes)
                     return true;
             }
+
+            ClosePopups();
 
             PKME_Tabs.Focus(); // flush any pending changes
             StoreLegalSaveGameData(sav);
