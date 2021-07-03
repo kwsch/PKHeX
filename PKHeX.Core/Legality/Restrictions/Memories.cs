@@ -229,8 +229,13 @@ namespace PKHeX.Core
         {
             return format switch
             {
-                6 or 7 => Legal.HeldItem_AO.Distinct().Concat(KeyItemArgValues).Where(z => z < Legal.MaxItemID_6_AO),
-                8 => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct().Concat(KeyItemArgValues)
+                6 or 7 => Legal.HeldItem_AO.Distinct()
+                    .Concat(KeyItemArgValues)
+                    .Concat(Legal.TMHM_AO.Take(100).Select(z => (ushort)z))
+                    .Where(z => z < Legal.MaxItemID_6_AO),
+                8 => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct()
+                    .Concat(KeyItemArgValues)
+                    .Concat(Legal.TMHM_AO.Take(100).Select(z => (ushort)z))
                     .Where(z => z < Legal.MaxItemID_8_R2),
                 _ => System.Array.Empty<ushort>(),
             };
