@@ -11,7 +11,7 @@ namespace PKHeX.Core
         // PKM Info
         public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
             memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, balllist, gamelist, pokeblocks, ribbons;
+            groundtiletypes, balllist, gamelist, pokeblocks, ribbons;
 
         private readonly string[] g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
 
@@ -84,7 +84,7 @@ namespace PKHeX.Core
             characteristics = Get("character");
             specieslist = Get("species");
             wallpapernames = Get("wallpaper");
-            encountertypelist = Get("encountertype");
+            groundtiletypes = Get("groundtile");
             gamelist = Get("games");
 
             balllist = new string[Items_Ball.Length];

@@ -32,7 +32,7 @@ namespace PKHeX.Core
             Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
             Abilities = Source.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList();
 
-            G4EncounterTypes = Source.EncounterTypeDataSource;
+            G4GroundTiles = Source.GroundTileDataSource;
             Natures = Source.NatureDataSource;
         }
 
@@ -73,7 +73,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<ComboItem> Languages;
         public readonly IReadOnlyList<ComboItem> Abilities;
         public readonly IReadOnlyList<ComboItem> Natures;
-        public readonly IReadOnlyList<ComboItem> G4EncounterTypes;
+        public readonly IReadOnlyList<ComboItem> G4GroundTiles;
         public readonly IReadOnlyList<ComboItem> ConsoleRegions = GameDataSource.Regions;
 
         public IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)

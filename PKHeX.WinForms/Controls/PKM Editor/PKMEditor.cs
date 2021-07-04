@@ -59,7 +59,7 @@ namespace PKHeX.WinForms.Controls
             {
                 CB_Nature, CB_StatNature,
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
-                CB_EncounterType, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
+                CB_GroundTile, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
             };
             foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
                 cb.InitializeBinding();
@@ -798,7 +798,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.CurrentLevel >= minlvl && Entity.Met_Level == level && Entity.Met_Location == location)
             {
-                if (!encounter.HasGroundTile(Entity.Format) || WinFormsUtil.GetIndex(CB_EncounterType) == (int)encounter.GetSuggestedGroundTile())
+                if (!encounter.HasGroundTile(Entity.Format) || WinFormsUtil.GetIndex(CB_GroundTile) == (int)encounter.GetSuggestedGroundTile())
                     return false;
             }
             if (minlvl < level)
@@ -822,7 +822,7 @@ namespace PKHeX.WinForms.Controls
                 CB_MetLocation.SelectedValue = location;
 
                 if (encounter.HasGroundTile(Entity.Format))
-                    CB_EncounterType.SelectedValue = (int)encounter.GetSuggestedGroundTile();
+                    CB_GroundTile.SelectedValue = (int)encounter.GetSuggestedGroundTile();
 
                 if (Entity.Gen6 && Entity.WasEgg && ModifyPKM)
                     Entity.SetHatchMemory6();
@@ -1199,13 +1199,13 @@ namespace PKHeX.WinForms.Controls
                     Entity.Version = (int)version;
             }
 
-            // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
+            // Visibility logic for Gen 4 ground tile; only show for Gen 4 Pokemon.
             if (Entity is IGroundTile)
             {
                 bool g4 = Entity.Gen4;
-                CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && Entity.Format < 7;
+                CB_GroundTile.Visible = Label_GroundTile.Visible = g4 && Entity.Format < 7;
                 if (!g4)
-                    CB_EncounterType.SelectedValue = 0;
+                    CB_GroundTile.SelectedValue = 0;
             }
 
             if (!FieldsLoaded)
@@ -1826,7 +1826,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MetDate.Visible = gen >= 4;
             FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
-            FLP_EncounterType.Visible = gen is 4 or 5 or 6;
+            FLP_GroundTile.Visible = gen is 4 or 5 or 6;
             FLP_TimeOfDay.Visible = gen == 2;
 
             Contest.ToggleInterface(Entity, gen);
@@ -1951,7 +1951,7 @@ namespace PKHeX.WinForms.Controls
             SetCountrySubRegion(CB_Country, "countries");
             CB_3DSReg.DataSource = source.ConsoleRegions;
 
-            CB_EncounterType.DataSource = new BindingSource(source.G4EncounterTypes, null);
+            CB_GroundTile.DataSource = new BindingSource(source.G4GroundTiles, null);
             CB_Nature.DataSource = new BindingSource(source.Natures, null);
             CB_StatNature.DataSource = new BindingSource(source.Natures, null);
 

@@ -167,9 +167,9 @@ namespace PKHeX.Core
                 if (pk.CurrentLevel < 100) // can't be hyper trained
                     return false;
 
-                if (!pk.Gen4) // can't have encounter type
+                if (!pk.Gen4) // can't have GroundTile
                     return true;
-                if (et > GroundTileType.Max_Pt) // invalid gen4 EncounterType
+                if (et > GroundTileType.Max_Pt) // invalid gen4 GroundTile
                     return true;
             }
 

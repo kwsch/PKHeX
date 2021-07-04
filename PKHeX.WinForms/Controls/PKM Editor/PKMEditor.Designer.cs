@@ -159,9 +159,9 @@
             this.FLP_Fateful = new System.Windows.Forms.FlowLayoutPanel();
             this.PAN_Fateful = new System.Windows.Forms.Panel();
             this.CHK_Fateful = new System.Windows.Forms.CheckBox();
-            this.FLP_EncounterType = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_EncounterType = new System.Windows.Forms.Label();
-            this.CB_EncounterType = new System.Windows.Forms.ComboBox();
+            this.FLP_GroundTile = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_GroundTile = new System.Windows.Forms.Label();
+            this.CB_GroundTile = new System.Windows.Forms.ComboBox();
             this.FLP_TimeOfDay = new System.Windows.Forms.FlowLayoutPanel();
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
@@ -287,7 +287,7 @@
             this.FLP_MetLevel.SuspendLayout();
             this.FLP_MetDate.SuspendLayout();
             this.FLP_Fateful.SuspendLayout();
-            this.FLP_EncounterType.SuspendLayout();
+            this.FLP_GroundTile.SuspendLayout();
             this.FLP_TimeOfDay.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
             this.Tab_Attacks.SuspendLayout();
@@ -1603,7 +1603,7 @@
             this.FLP_Met.Controls.Add(this.FLP_MetLevel);
             this.FLP_Met.Controls.Add(this.FLP_MetDate);
             this.FLP_Met.Controls.Add(this.FLP_Fateful);
-            this.FLP_Met.Controls.Add(this.FLP_EncounterType);
+            this.FLP_Met.Controls.Add(this.FLP_GroundTile);
             this.FLP_Met.Controls.Add(this.FLP_TimeOfDay);
             this.FLP_Met.Location = new System.Drawing.Point(0, 24);
             this.FLP_Met.Name = "FLP_Met";
@@ -1869,37 +1869,37 @@
             this.CHK_Fateful.Text = "Fateful Encounter";
             this.CHK_Fateful.UseVisualStyleBackColor = true;
             // 
-            // FLP_EncounterType
+            // FLP_GroundTile
             // 
-            this.FLP_EncounterType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_EncounterType.Controls.Add(this.Label_EncounterType);
-            this.FLP_EncounterType.Controls.Add(this.CB_EncounterType);
-            this.FLP_EncounterType.Location = new System.Drawing.Point(0, 147);
-            this.FLP_EncounterType.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_EncounterType.Name = "FLP_EncounterType";
-            this.FLP_EncounterType.Size = new System.Drawing.Size(272, 21);
-            this.FLP_EncounterType.TabIndex = 6;
+            this.FLP_GroundTile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_GroundTile.Controls.Add(this.Label_GroundTile);
+            this.FLP_GroundTile.Controls.Add(this.CB_GroundTile);
+            this.FLP_GroundTile.Location = new System.Drawing.Point(0, 147);
+            this.FLP_GroundTile.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_GroundTile.Name = "FLP_GroundTile";
+            this.FLP_GroundTile.Size = new System.Drawing.Size(272, 21);
+            this.FLP_GroundTile.TabIndex = 6;
             // 
-            // Label_EncounterType
+            // Label_GroundTile
             // 
-            this.Label_EncounterType.Location = new System.Drawing.Point(0, 0);
-            this.Label_EncounterType.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_EncounterType.Name = "Label_EncounterType";
-            this.Label_EncounterType.Size = new System.Drawing.Size(110, 21);
-            this.Label_EncounterType.TabIndex = 5;
-            this.Label_EncounterType.Text = "Encounter:";
-            this.Label_EncounterType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_GroundTile.Location = new System.Drawing.Point(0, 0);
+            this.Label_GroundTile.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_GroundTile.Name = "Label_GroundTile";
+            this.Label_GroundTile.Size = new System.Drawing.Size(110, 21);
+            this.Label_GroundTile.TabIndex = 5;
+            this.Label_GroundTile.Text = "Encounter:";
+            this.Label_GroundTile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CB_EncounterType
+            // CB_GroundTile
             // 
-            this.CB_EncounterType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_EncounterType.DropDownWidth = 160;
-            this.CB_EncounterType.FormattingEnabled = true;
-            this.CB_EncounterType.Location = new System.Drawing.Point(110, 0);
-            this.CB_EncounterType.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_EncounterType.Name = "CB_EncounterType";
-            this.CB_EncounterType.Size = new System.Drawing.Size(126, 21);
-            this.CB_EncounterType.TabIndex = 7;
+            this.CB_GroundTile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_GroundTile.DropDownWidth = 160;
+            this.CB_GroundTile.FormattingEnabled = true;
+            this.CB_GroundTile.Location = new System.Drawing.Point(110, 0);
+            this.CB_GroundTile.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_GroundTile.Name = "CB_GroundTile";
+            this.CB_GroundTile.Size = new System.Drawing.Size(126, 21);
+            this.CB_GroundTile.TabIndex = 7;
             // 
             // FLP_TimeOfDay
             // 
@@ -2856,7 +2856,7 @@
             this.FLP_MetDate.ResumeLayout(false);
             this.FLP_Fateful.ResumeLayout(false);
             this.FLP_Fateful.PerformLayout();
-            this.FLP_EncounterType.ResumeLayout(false);
+            this.FLP_GroundTile.ResumeLayout(false);
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
             this.Tab_Attacks.ResumeLayout(false);
@@ -3007,9 +3007,9 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Fateful;
         private System.Windows.Forms.Panel PAN_Fateful;
         private System.Windows.Forms.CheckBox CHK_Fateful;
-        private System.Windows.Forms.FlowLayoutPanel FLP_EncounterType;
-        private System.Windows.Forms.Label Label_EncounterType;
-        private System.Windows.Forms.ComboBox CB_EncounterType;
+        private System.Windows.Forms.FlowLayoutPanel FLP_GroundTile;
+        private System.Windows.Forms.Label Label_GroundTile;
+        private System.Windows.Forms.ComboBox CB_GroundTile;
         private System.Windows.Forms.FlowLayoutPanel FLP_TimeOfDay;
         private System.Windows.Forms.Label L_MetTimeOfDay;
         private System.Windows.Forms.ComboBox CB_MetTimeOfDay;

@@ -15,8 +15,8 @@ namespace PKHeX.WinForms.Controls
             LoadMisc3(pk4);
             LoadMisc4(pk4);
 
-            CB_EncounterType.SelectedValue = pk4.Gen4 ? (int)pk4.GroundTile : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = Entity.Gen4;
+            CB_GroundTile.SelectedValue = pk4.Gen4 ? (int)pk4.GroundTile : 0;
+            CB_GroundTile.Visible = Label_GroundTile.Visible = Entity.Gen4;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;
@@ -40,7 +40,7 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk4);
             SaveMisc4(pk4);
 
-            pk4.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_EncounterType);
+            pk4.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
 
             // Minor properties
             pk4.ShinyLeaf = ShinyLeaf.GetValue();
