@@ -607,7 +607,7 @@ namespace PKHeX.Core
         public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
         {
             // Pre-check for header/footer signatures
-            byte[] data = memCard.SelectedSaveData;
+            byte[] data = memCard.ReadSaveGameData();
             if (data.Length == 0)
                 return null;
 

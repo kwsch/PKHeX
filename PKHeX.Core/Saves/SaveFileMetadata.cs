@@ -130,7 +130,7 @@ namespace PKHeX.Core
             var flags = ExportFlags.None;
             if (ext == ".dsv")
                 flags |= ExportFlags.IncludeFooter;
-            if (ext == ".gci" || SAV is IGCSaveFile {IsMemoryCardSave: false})
+            if (ext == ".gci" || SAV is IGCSaveFile {MemoryCard: null})
                 flags |= ExportFlags.IncludeHeader;
             return flags;
         }

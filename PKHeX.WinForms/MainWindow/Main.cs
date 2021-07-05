@@ -676,24 +676,24 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
+        private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
         {
-            if (MC.SaveGameCount == 1)
-                return MC.SelectedGameVersion;
+            if (memCard.SaveGameCount == 1)
+                return memCard.SelectedGameVersion;
 
             var games = new List<ComboItem>();
-            if (MC.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
-            if (MC.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
-            if (MC.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
+            if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
+            if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
+            if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
 
             var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
             dialog.ShowDialog();
             return dialog.Result;
         }
 
-        private static bool CheckGCMemoryCard(SAV3GCMemoryCard MC, string path)
+        private static bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
         {
-            var state = MC.GetMemoryCardState();
+            var state = memCard.GetMemoryCardState();
             switch (state)
             {
                 case GCMemoryCardState.NoPkmSaveGame:
@@ -708,18 +708,18 @@ namespace PKHeX.WinForms
 
                 case GCMemoryCardState.MultipleSaveGame:
                     {
-                        GameVersion Game = SelectMemoryCardSaveGame(MC);
-                        if (Game == GameVersion.Invalid) //Cancel
+                        GameVersion game = SelectMemoryCardSaveGame(memCard);
+                        if (game == GameVersion.Invalid) //Cancel
                             return false;
-                        MC.SelectSaveGame(Game);
+                        memCard.SelectSaveGame(game);
                         break;
                     }
-                case GCMemoryCardState.SaveGameCOLO: MC.SelectSaveGame(GameVersion.COLO); break;
-                case GCMemoryCardState.SaveGameXD: MC.SelectSaveGame(GameVersion.XD); break;
-                case GCMemoryCardState.SaveGameRSBOX: MC.SelectSaveGame(GameVersion.RSBOX); break;
+                case GCMemoryCardState.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
+                case GCMemoryCardState.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
+                case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
                 default:
-                    WinFormsUtil.Error(!SaveUtil.IsSizeValid(MC.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path);
+                    WinFormsUtil.Error(!SaveUtil.IsSizeValid(memCard.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path);
                     return false;
             }
             return true;
