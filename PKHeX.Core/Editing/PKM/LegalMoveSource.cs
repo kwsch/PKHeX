@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class LegalMoveSource
     {
-        public readonly IList<bool> IsMoveBoxOrdered = new bool[4];
+        public readonly bool[] IsMoveBoxOrdered = new bool[4];
         public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
         public bool CanLearn(int move) => AllowedMoves.Contains(move);
 
@@ -29,8 +29,7 @@ namespace PKHeX.Core
             // MoveDataAllowed = MoveDataAllowed.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToArray();
 
             // defer re-population until dropdown is opened; handled by dropdown event
-            for (int i = 0; i < IsMoveBoxOrdered.Count; i++)
-                IsMoveBoxOrdered[i] = false;
+            Array.Clear(IsMoveBoxOrdered, 0, IsMoveBoxOrdered.Length);
         }
 
         private int Compare(ComboItem i1, ComboItem i2)

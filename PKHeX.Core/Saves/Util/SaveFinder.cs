@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -160,9 +161,9 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static bool DetectSaveFile(out string path, out SaveFile? sav) => DetectSaveFile(out path, out sav, Environment.GetLogicalDrives());
+        public static bool DetectSaveFile(out string path, [NotNullWhen(true)] out SaveFile? sav) => DetectSaveFile(out path, out sav, Environment.GetLogicalDrives());
 
-        public static bool DetectSaveFile(out string path, out SaveFile? sav, IReadOnlyList<string> drives)
+        public static bool DetectSaveFile(out string path, [NotNullWhen(true)] out SaveFile? sav, IReadOnlyList<string> drives)
         {
             string errorMsg = string.Empty;
             var result = FindMostRecentSaveFile(drives, ref errorMsg);

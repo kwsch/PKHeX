@@ -636,9 +636,7 @@ namespace PKHeX.WinForms.Controls
             if (string.IsNullOrWhiteSpace(lbl.Text))
                 return;
 
-            int gender = PKX.GetGenderFromString(lbl.Text) ^ 1;
-            lbl.Text = gendersymbols[gender];
-            lbl.ForeColor = Draw.GetGenderColor(gender);
+            InvertGenderLabel(lbl);
         }
 
         private void ClickBall(object sender, EventArgs e)
@@ -834,9 +832,19 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
+        private void InvertGenderLabel(Label lbl)
+        {
+            int gender = (PKX.GetGenderFromString(lbl.Text) & 1) ^ 1;
+            UpdateGenderLabel(lbl, gender);
+        }
+
         private void UpdateGenderLabel(Label c, int gender)
         {
-            ReloadGender(c, gendersymbols);
+            var symbols = gendersymbols;
+            if ((uint) gender >= symbols.Count)
+                gender = 0;
+
+            c.Text = gendersymbols[gender];
             c.ForeColor = Draw.GetGenderColor(gender);
         }
 

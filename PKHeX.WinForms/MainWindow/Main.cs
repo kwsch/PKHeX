@@ -166,54 +166,72 @@ namespace PKHeX.WinForms
             }
             if (C_SAV.SAV is FakeSaveFile) // No SAV loaded from exe args
             {
-                #if !DEBUG
+                bool savLoaded = false;
                 try
-                #endif
                 {
-                    var startup = Settings.Startup;
-                    string path = string.Empty;
-                    SaveFile? sav = null;
-                    if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
-                    {
-                        if (!SaveFinder.DetectSaveFile(out path, out sav))
-                        {
-                            if (!string.IsNullOrWhiteSpace(path))
-                                WinFormsUtil.Error(path); // `path` contains the error message
-                        }
-                    }
-                    else if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
-                    {
-                        if (startup.RecentlyLoaded.Count != 0)
-                        {
-                            path = startup.RecentlyLoaded[0];
-                            if (File.Exists(path))
-                                sav = SaveUtil.GetVariantSAV(path);
-                        }
-                    }
-
-                    bool savLoaded = false;
-                    if (sav != null && path.Length != 0)
-                    {
-                        savLoaded = OpenSAV(sav, path);
-                    }
-                    if (!savLoaded)
-                        LoadBlankSaveFile(startup.DefaultSaveVersion);
+                    savLoaded = LoadAutoDetectedSAV();
                 }
-                #if !DEBUG
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
                 }
-                #endif
+                finally
+                {
+                    if (!savLoaded)
+                        LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
+                }
             }
 
-            if (!string.IsNullOrWhiteSpace(pkmArg) && File.Exists(pkmArg))
-            {
-                byte[] data = File.ReadAllBytes(pkmArg);
-                var pk = PKMConverter.GetPKMfromBytes(data);
-                if (pk != null)
-                    OpenPKM(pk);
-            }
+            LoadPKMFromPath(pkmArg);
+        }
+
+        private bool LoadAutoDetectedSAV()
+        {
+            var startup = Settings.Startup;
+            if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
+                return LoadMostRecentBackup();
+            if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
+                return LoadMostRecentlyLoaded(startup.RecentlyLoaded);
+
+            return false;
+        }
+
+        private bool LoadMostRecentlyLoaded(IReadOnlyList<string> paths)
+        {
+            if (paths.Count == 0)
+                return false;
+
+            string path = paths[0];
+            if (!File.Exists(path))
+                return false;
+
+            var sav = SaveUtil.GetVariantSAV(path);
+            if (sav is null)
+                return false;
+
+            return OpenSAV(sav, path);
+        }
+
+        private bool LoadMostRecentBackup()
+        {
+            if (SaveFinder.DetectSaveFile(out string path, out var sav))
+                return OpenSAV(sav, path);
+
+            if (path.Length != 0)
+                WinFormsUtil.Error(path); // `path` contains the error message
+            return false;
+        }
+
+        private void LoadPKMFromPath(string pkmArg)
+        {
+            if (string.IsNullOrWhiteSpace(pkmArg) || !File.Exists(pkmArg))
+                return;
+            byte[] data = File.ReadAllBytes(pkmArg);
+            var pk = PKMConverter.GetPKMfromBytes(data);
+            if (pk != null)
+                OpenPKM(pk);
         }
 
         private void LoadBlankSaveFile(GameVersion ver)
@@ -487,7 +505,7 @@ namespace PKHeX.WinForms
         {
             if (this.OpenWindowExists<SAV_FolderList>())
                 return;
-            var form = new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.Metadata.FilePath!), s.Metadata.FilePath!));
+            var form = new SAV_FolderList(s => OpenSAV(s.Clone(), s.Metadata.FilePath!));
             form.Show();
         }
 
@@ -503,8 +521,9 @@ namespace PKHeX.WinForms
             if (Set.Species < 0)
             { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-            if (Set.Nickname.Length > C_SAV.SAV.NickLength)
-                Set.Nickname = Set.Nickname[..C_SAV.SAV.NickLength];
+            var maxLength = C_SAV.SAV.NickLength;
+            if (Set.Nickname.Length > maxLength)
+                Set.Nickname = Set.Nickname[..maxLength];
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))
                 return;
@@ -577,11 +596,11 @@ namespace PKHeX.WinForms
 
             string ext = fi.Extension;
             #if DEBUG
-                OpenFile(input, path, ext);
+            OpenFile(input, path, ext);
             #else
-                try { OpenFile(input, path, ext); }
+            try { OpenFile(input, path, ext); }
 #pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
+            catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
 #pragma warning restore CA1031 // Do not catch general exception types
             #endif
         }
@@ -617,6 +636,8 @@ namespace PKHeX.WinForms
                     if (!CheckGCMemoryCard(gc, path))
                         return true;
                     var mcsav = SaveUtil.GetVariantSAV(gc);
+                    if (mcsav is null)
+                        return false;
                     return OpenSAV(mcsav, path);
             }
             return false;
@@ -707,13 +728,12 @@ namespace PKHeX.WinForms
                     return false;
 
                 case GCMemoryCardState.MultipleSaveGame:
-                    {
-                        GameVersion game = SelectMemoryCardSaveGame(memCard);
-                        if (game == GameVersion.Invalid) //Cancel
-                            return false;
-                        memCard.SelectSaveGame(game);
-                        break;
-                    }
+                    GameVersion game = SelectMemoryCardSaveGame(memCard);
+                    if (game == GameVersion.Invalid) //Cancel
+                        return false;
+                    memCard.SelectSaveGame(game);
+                    break;
+
                 case GCMemoryCardState.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
                 case GCMemoryCardState.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
                 case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
@@ -731,9 +751,9 @@ namespace PKHeX.WinForms
                 EReaderBerrySettings.LoadFrom(sav3);
         }
 
-        private bool OpenSAV(SaveFile? sav, string path)
+        private bool OpenSAV(SaveFile sav, string path)
         {
-            if (sav == null || sav.Version == GameVersion.Invalid)
+            if (sav.Version == GameVersion.Invalid)
             {
                 WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
                 return true;
