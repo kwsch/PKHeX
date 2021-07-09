@@ -8,6 +8,33 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 249, 033, 045 }, Index = 75 }, // Cufant
+            new(17,01,1) { Species = 109, Ability = A4, Moves = new[]{ 188, 372, 139, 108 }, Index = 75 }, // Koffing
+            new(17,01,1) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
+            new(17,01,1) { Species = 868, Ability = A4, Moves = new[]{ 033, 186, 577, 496 }, Index = 75 }, // Milcery
+            new(17,01,1) { Species = 004, Ability = A4, Moves = new[]{ 052, 225, 010, 108 }, Index = 75 }, // Charmander
+            new(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 523, 249, 023, 045 }, Index = 75 }, // Cufant
+            new(30,03,2) { Species = 109, Ability = A4, Moves = new[]{ 188, 372, 123, 108 }, Index = 75 }, // Koffing
+            new(30,03,2) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
+            new(30,03,2) { Species = 868, Ability = A4, Moves = new[]{ 577, 186, 263, 500 }, Index = 75 }, // Milcery
+            new(30,03,2) { Species = 005, Ability = A4, Moves = new[]{ 225, 512, 242, 053 }, Index = 75 }, // Charmeleon
+            new(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 484, 583, 070, 249 }, Index = 75, CanGigantamax = true }, // Copperajah
+            new(40,05,3) { Species = 109, Ability = A4, Moves = new[]{ 482, 372, 053, 085 }, Index = 75 }, // Koffing
+            new(40,05,3) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
+            new(40,05,3) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 213 }, Index = 75 }, // Milcery
+            new(40,05,3) { Species = 006, Ability = A4, Moves = new[]{ 337, 403, 280, 257 }, Index = 75, CanGigantamax = true }, // Charizard
+            new(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 484, 583, 070, 438 }, Index = 75, CanGigantamax = true }, // Copperajah
+            new(50,08,4) { Species = 109, Ability = A4, Moves = new[]{ 482, 399, 053, 085 }, Index = 75 }, // Koffing
+            new(50,08,4) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
+            new(50,08,4) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, Index = 75 }, // Milcery
+            new(50,08,4) { Species = 006, Ability = A4, Moves = new[]{ 337, 403, 411, 257 }, Index = 75, CanGigantamax = true }, // Charizard
+            new(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 484, 583, 089, 438 }, Index = 75, CanGigantamax = true, Shiny = Shiny.Always }, // Copperajah
+            new(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 484, 583, 089, 438 }, Index = 75, CanGigantamax = true }, // Copperajah
+            new(60,10,5) { Species = 109, Ability = A4, Moves = new[]{ 482, 399, 053, 087 }, Index = 75 }, // Koffing
+            new(60,10,5) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
+            new(60,10,5) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, Index = 75 }, // Milcery
+            new(60,10,5) { Species = 006, Ability = A4, Moves = new[]{ 406, 403, 411, 257 }, Index = 75, CanGigantamax = true }, // Charizard
+
             new(17,01,1) { Species = 852, Ability = A4, Moves = new[]{ 371, 249, 362, 364 }, Index = 73 }, // Clobbopus
             new(17,01,1) { Species = 223, Ability = A4, Moves = new[]{ 055, 062, 060, 129 }, Index = 73 }, // Remoraid
             new(17,01,1) { Species = 686, Ability = A4, Moves = new[]{ 371, 060, 035, 095 }, Index = 73 }, // Inkay
