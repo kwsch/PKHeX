@@ -19,16 +19,20 @@ namespace PKHeX.Core
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            base.ApplyDetails(sav, criteria, pk);
-            if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && (Weather & AreaWeather8.Fishing) == 0)
+            bool symbol = ((EncounterArea8)Area).PermitCrossover;
+            var c = symbol ? EncounterCriteria.Unrestricted : criteria;
+            if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
                 ((PK8)pk).RibbonMarkCurry = true;
+
+            base.ApplyDetails(sav, c, pk);
             var req = GetRequirement(pk);
             if (req != MustHave)
             {
                 pk.SetRandomEC();
                 return;
             }
-            Overworld8RNG.ApplyDetails(pk, criteria);
+            if (symbol)
+                Overworld8RNG.ApplyDetails(pk, c, c.Shiny);
         }
 
         public OverworldCorrelation8Requirement GetRequirement(PKM pk)
