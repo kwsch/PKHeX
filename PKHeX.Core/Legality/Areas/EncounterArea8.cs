@@ -285,6 +285,7 @@ namespace PKHeX.Core
         internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbol = new()
         {
             { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 182, All_IoA }, // Warm-Up Tunnel from Training Lowlands
             { 208, All_CT }, // Frostpoint Field from Giant's Bed
             { 216, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Tunnel to the Top from Path to the Peak
             { 224, All_CT }, // Roaring-Sea Caves from Three-Point Pass
