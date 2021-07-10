@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <inheritdoc cref="IComplexSet"/>
-    public class ComplexSet : IComplexSet
+    public sealed class ComplexSet : IComplexSet
     {
         public readonly string PropertyName;
         public readonly Func<string, bool> IsValueCompatible = _ => true;

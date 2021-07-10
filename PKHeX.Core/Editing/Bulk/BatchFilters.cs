@@ -8,8 +8,8 @@ namespace PKHeX.Core
         public static readonly List<IComplexFilter> FilterMods = new()
         {
             new ComplexFilter(PROP_LEGAL,
-                (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
-                (info, cmd) => info.Legality.Valid == cmd.Evaluator),
+                (pkm, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && (b == new LegalityAnalysis(pkm).Valid) == cmd.Evaluator,
+                (info, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && (b == info.Legality.Valid) == cmd.Evaluator),
 
             new ComplexFilter(PROP_TYPENAME,
                 (pkm, cmd) => (pkm.GetType().Name == cmd.PropertyValue) == cmd.Evaluator,
