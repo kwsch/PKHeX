@@ -92,6 +92,17 @@ namespace PKHeX.Core
                 if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
                     return EncounterMatchRating.Deferred;
 
+                if ((m.RibbonMarkCloudy && (Weather & AreaWeather8.Overcast) == 0) || (m.RibbonMarkRainy && (Weather & AreaWeather8.Raining) == 0)
+                    || (m.RibbonMarkStormy && (Weather & AreaWeather8.Thunderstorm) == 0) || (m.RibbonMarkSnowy && (Weather & AreaWeather8.Snowing) == 0)
+                    || (m.RibbonMarkBlizzard && (Weather & AreaWeather8.Snowstorm) == 0) || (m.RibbonMarkDry && (Weather & AreaWeather8.Intense_Sun) == 0)
+                    || (m.RibbonMarkSandstorm && (Weather & AreaWeather8.Sandstorm) == 0) || (m.RibbonMarkMisty && (Weather & AreaWeather8.Heavy_Fog) == 0))
+                {
+                    // Fishing encounters are checked later for area weather compatibility.
+                    if ((Weather & AreaWeather8.Fishing) == 0)
+                        return EncounterMatchRating.PartialMatch;
+                    return EncounterMatchRating.Deferred;
+                }
+
                 // Galar Mine hidden encounters can only be found via Curry.
                 if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry && (Weather & AreaWeather8.Fishing) == 0)
                     return EncounterMatchRating.PartialMatch;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.AreaWeather8;
 
 namespace PKHeX.Core
 {
@@ -220,6 +221,91 @@ namespace PKHeX.Core
             // Ballimere Lake
             // Lakeside Cave
             {230, new byte[] {232}},
+        };
+
+        /// <summary>
+        /// Location IDs matched with possible weather types. Unlisted locations may only have Normal weather.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherbyArea = new()
+        {
+            { 68, Intense_Sun }, // Route 6
+            { 88, Snowing }, // Route 8 (Steamdrift Way)
+            { 90, Snowing }, // Route 9
+            { 92, Snowing }, // Route 9 (Circhester Bay)
+            { 94, Overcast }, // Route 9 (Outer Spikemuth)
+            { 106, Snowstorm }, // Route 10
+            { 122, All }, // Rolling Fields
+            { 124, All }, // Dappled Grove
+            { 126, All }, // Watchtower Ruins
+            { 128, All }, // East Lake Axewell
+            { 130, All }, // West Lake Axewell
+            { 132, All }, // Axew's Eye
+            { 134, All }, // South Lake Miloch
+            { 136, All }, // Giant's Seat
+            { 138, All }, // North Lake Miloch
+            { 140, All }, // Motostoke Riverbank
+            { 142, All }, // Bridge Field
+            { 144, All }, // Stony Wilderness
+            { 146, All }, // Dusty Bowl
+            { 148, All }, // Giant's Mirror
+            { 150, All }, // Hammerlocke Hills
+            { 152, All }, // Giant's Cap
+            { 154, All }, // Lake of Outrage
+            { 164, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Fields of Honor
+            { 166, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Soothing Wetlands
+            { 168, All_IoA }, // Forest of Focus
+            { 170, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Challenge Beach
+            { 174, All_IoA }, // Challenge Road
+            { 178, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Loop Lagoon
+            { 180, All_IoA }, // Training Lowlands
+            { 184, Normal | Overcast | Raining | Sandstorm | Intense_Sun | Heavy_Fog }, // Potbottom Desert
+            { 186, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Workout Sea
+            { 188, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Stepping-Stone Sea
+            { 190, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Insular Sea
+            { 192, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Honeycalm Sea
+            { 194, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Honeycalm Island
+            { 204, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Slippery Slope
+            { 208, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Frostpoint Field
+            { 210, All_CT }, // Giant's Bed
+            { 212, All_CT }, // Old Cemetery
+            { 214, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Snowslide Slope
+            { 216, Overcast }, // Tunnel to the Top
+            { 218, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Path to the Peak
+            { 222, All_CT }, // Giant's Foot
+            { 224, Overcast }, // Roaring-Sea Caves
+            { 226, No_Sun_Sand }, // Frigid Sea
+            { 228, All_CT }, // Three-Point Pass
+            { 230, All_Ballimere }, // Ballimere Lake
+            { 232, Overcast }, // Lakeside Cave
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for standard symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbol = new()
+        {
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 182, All_IoA }, // Warm-Up Tunnel from Training Lowlands
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
+            { 216, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Tunnel to the Top from Path to the Peak
+            { 224, All_CT }, // Roaring-Sea Caves from Three-Point Pass
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for Sharpedo symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSharpedo = new()
+        {
+            { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations, for standard hidden grass encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
+        {
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
         };
 
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)

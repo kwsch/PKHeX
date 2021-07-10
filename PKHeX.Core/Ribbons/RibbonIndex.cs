@@ -110,5 +110,18 @@
     {
         public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
         public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
+
+        public static AreaWeather8 GetWeather8(this RibbonIndex x) => x switch
+        {
+            RibbonIndex.MarkCloudy => AreaWeather8.Overcast,
+            RibbonIndex.MarkRainy => AreaWeather8.Raining,
+            RibbonIndex.MarkStormy => AreaWeather8.Thunderstorm,
+            RibbonIndex.MarkDry => AreaWeather8.Intense_Sun,
+            RibbonIndex.MarkSnowy => AreaWeather8.Snowing,
+            RibbonIndex.MarkBlizzard => AreaWeather8.Snowstorm,
+            RibbonIndex.MarkSandstorm => AreaWeather8.Sandstorm,
+            RibbonIndex.MarkMisty => AreaWeather8.Heavy_Fog,
+            _ => AreaWeather8.None,
+        };
     }
 }
