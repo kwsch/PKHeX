@@ -49,9 +49,9 @@ namespace PKHeX.Core
             int gt = pk.PersonalInfo.Gender;
             switch (gt)
             {
-                case 255: return 2; // Genderless
-                case 254: return 1; // Female-Only
-                case 0: return 0; // Male-Only
+                case PersonalInfo.RatioMagicGenderless: return 2;
+                case PersonalInfo.RatioMagicFemale: return 1;
+                case PersonalInfo.RatioMagicMale: return 0;
             }
             if (!pk.IsGenderValid())
                 return PKX.GetGenderFromPIDAndRatio(pk.PID, gt);

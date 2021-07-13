@@ -570,11 +570,11 @@ namespace PKHeX.Core
         {
             int gender = Gender;
             int gv = PersonalInfo.Gender;
-            if (gv == 255)
+            if (gv == PersonalInfo.RatioMagicGenderless)
                 return gender == 2;
-            if (gv == 254)
+            if (gv == PersonalInfo.RatioMagicFemale)
                 return gender == 1;
-            if (gv == 0)
+            if (gv == PersonalInfo.RatioMagicMale)
                 return gender == 0;
 
             int gen = Generation;

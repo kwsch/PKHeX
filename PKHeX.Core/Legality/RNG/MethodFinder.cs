@@ -366,7 +366,7 @@ namespace PKHeX.Core
                 case 2: break; // can't cute charm a genderless pkm
                 case 0: // male
                     var gr = getRatio();
-                    if (254 <= gr) // no modification for PID
+                    if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
                         break;
                     var rate = 25*((gr / 25) + 1); // buffered
                     var nature = pid % 25;
@@ -378,7 +378,7 @@ namespace PKHeX.Core
                 case 1: // female
                     if (pid >= 25)
                         break; // nope, this isn't a valid nature
-                    if (254 <= getRatio()) // no modification for PID
+                    if (getRatio() >= PersonalInfo.RatioMagicFemale) // no modification for PID
                         break;
 
                     pidiv = PIDIV.CuteCharm;

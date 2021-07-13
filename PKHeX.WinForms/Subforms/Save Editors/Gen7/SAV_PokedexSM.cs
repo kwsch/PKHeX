@@ -205,8 +205,10 @@ namespace PKHeX.WinForms
 
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
-            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
-            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt is not (0 or 255); // Not Male-Only and Not Genderless
+            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = canBeMale; // Not Female-Only
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = canBeFemale; // Not Male-Only and Not Genderless
 
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.GetSeen(currentSpecies, i);
@@ -276,8 +278,10 @@ namespace PKHeX.WinForms
             }
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
-            CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = gt is not (0 or 255) && ModifierKeys != Keys.Control;
+            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+            CHK_P2.Checked = CHK_P4.Checked = canBeMale && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = canBeFemale && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
             {
@@ -286,7 +290,7 @@ namespace PKHeX.WinForms
             }
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
-                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
             }
         }
 
@@ -373,7 +377,7 @@ namespace PKHeX.WinForms
                 if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
                 {
                     if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
-                        (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
+                        (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true; // check one
                 }
 
                 return;
@@ -389,14 +393,14 @@ namespace PKHeX.WinForms
             {
                 // ensure at least one SEEN
                 if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
-                    (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+                    (gt != PersonalInfo.RatioMagicFemale ? CHK_P2 : CHK_P3).Checked = true;
             }
 
             // ensure at least one Displayed except for formes
             if (isForm)
                 return;
             if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
+                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
         }
 
         private void SetSeen(object sender, int gt, bool isForm)
@@ -410,7 +414,7 @@ namespace PKHeX.WinForms
                 if (isForm)
                     return;
                 if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                    (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                    (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
             }
             else
             {

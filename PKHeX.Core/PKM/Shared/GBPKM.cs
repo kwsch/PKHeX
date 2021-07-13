@@ -97,9 +97,9 @@ namespace PKHeX.Core
                 int gv = PersonalInfo.Gender;
                 return gv switch
                 {
-                    255 => 2,
-                    254 => 1,
-                    0 => 0,
+                    PersonalInfo.RatioMagicGenderless => 2,
+                    PersonalInfo.RatioMagicFemale => 1,
+                    PersonalInfo.RatioMagicMale => 0,
                     _ => IV_ATK > gv >> 4 ? 0 : 1
                 };
             }

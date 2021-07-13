@@ -242,7 +242,7 @@ namespace PKHeX.Core
             // meowstic special handling
             const int meow = 678;
             if (index == meow - 1 || (index >= SAV.MaxSpeciesID && FormBaseSpecies[index - SAV.MaxSpeciesID] == meow))
-                return index < SAV.MaxSpeciesID ? 0 : 254; // M : F
+                return index < SAV.MaxSpeciesID ? PersonalInfo.RatioMagicMale : PersonalInfo.RatioMagicFemale; // M : F
 
             if (index < SAV.MaxSpeciesID)
                 return SAV.Personal[index + 1].Gender;

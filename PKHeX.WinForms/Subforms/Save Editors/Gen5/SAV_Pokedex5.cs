@@ -223,8 +223,10 @@ namespace PKHeX.WinForms
             int index = LB_Species.SelectedIndex+1;
             int gt = SAV.Personal[index].Gender;
 
-            CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = gt is not (0 or 255) && ModifierKeys != Keys.Control;
+            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+            CHK_P2.Checked = CHK_P4.Checked = canBeMale && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = canBeFemale && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
             {
@@ -233,7 +235,7 @@ namespace PKHeX.WinForms
             }
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
-                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
             }
         }
 
@@ -262,7 +264,7 @@ namespace PKHeX.WinForms
                     {
                         // if seen ensure at least one Displayed
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                            (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
                     }
                     else
                     {
@@ -297,26 +299,28 @@ namespace PKHeX.WinForms
                         if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
                         {
                             if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
-                                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
+                                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true; // check one
                         }
                     }
                     if (mnuCaughtNone != sender)
                     {
                         if (mnuComplete == sender)
                         {
-                            CHK_P2.Checked = CHK_P4.Checked = gt != 254; // not female only
-                            CHK_P3.Checked = CHK_P5.Checked = gt is not (0 or 255); // not male only or genderless
+                            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+                            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+                            CHK_P2.Checked = CHK_P4.Checked = canBeMale;
+                            CHK_P3.Checked = CHK_P5.Checked = canBeFemale;
                         }
                         else
                         {
                             // ensure at least one SEEN
                             if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
-                                (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+                                (gt != PersonalInfo.RatioMagicFemale ? CHK_P2 : CHK_P3).Checked = true;
                         }
 
                         // ensure at least one Displayed
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                            (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
                     }
                 }
             }

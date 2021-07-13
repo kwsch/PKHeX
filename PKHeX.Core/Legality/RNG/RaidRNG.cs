@@ -112,15 +112,15 @@ namespace PKHeX.Core
 
             switch (gender_ratio)
             {
-                case 255 when pk.Gender != 2:
+                case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
                     if (pk.Gender != 2)
                         return false;
                     break;
-                case 254 when pk.Gender != 1:
+                case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
                     if (pk.Gender != 1)
                         return false;
                     break;
-                case 000:
+                case PersonalInfo.RatioMagicMale:
                     if (pk.Gender != 0)
                         return false;
                     break;
@@ -254,9 +254,9 @@ namespace PKHeX.Core
 
             pk.Gender = gender_ratio switch
             {
-                255 => 2,
-                254 => 1,
-                000 => 0,
+                PersonalInfo.RatioMagicGenderless => 2,
+                PersonalInfo.RatioMagicFemale => 1,
+                PersonalInfo.RatioMagicMale => 0,
                 _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0
             };
 

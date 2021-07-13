@@ -139,13 +139,13 @@ namespace PKHeX.WinForms
             var gr = pi.Gender;
             switch (gr)
             {
-                case 255: // Genderless
+                case PersonalInfo.RatioMagicGenderless:
                     first.Items.Add(GENDERLESS);
                     break;
-                case 0:
+                case PersonalInfo.RatioMagicMale:
                     first.Items.Add(MALE);
                     break;
-                case 254:
+                case PersonalInfo.RatioMagicFemale:
                     first.Items.Add(FEMALE);
                     break;
                 default:
