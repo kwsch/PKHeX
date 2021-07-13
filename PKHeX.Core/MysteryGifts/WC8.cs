@@ -346,7 +346,7 @@ namespace PKHeX.Core
             return 0x12C + (index * 0x1C);
         }
 
-        public bool IsHOMEGift => Location == Locations.HOME8 || GetOT(2) == "HOME";
+        public bool IsHOMEGift => CardID >= 9000;
 
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
