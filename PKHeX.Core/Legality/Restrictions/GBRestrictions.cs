@@ -369,14 +369,14 @@ namespace PKHeX.Core
             return MoveLevelUp.GetMovesLevelUp1(basespecies, 0, maxlevel, minlevel);
         }
 
-        internal static IEnumerable<GameVersion> GetGen2Versions(IEncounterable enc, bool korean)
+        internal static IEnumerable<GameVersion> GetGen2Versions(IEncounterTemplate enc, bool korean)
         {
             if (ParseSettings.AllowGen2Crystal(korean) && enc.Version is C or GSC)
                 yield return C;
             yield return GS;
         }
 
-        internal static IEnumerable<GameVersion> GetGen1Versions(IEncounterable enc)
+        internal static IEnumerable<GameVersion> GetGen1Versions(IEncounterTemplate enc)
         {
             if (enc.Species == (int)Eevee && enc.Version == Stadium)
             {

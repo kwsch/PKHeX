@@ -630,7 +630,7 @@ namespace PKHeX.WinForms
                 case IPokeGroup b: return OpenGroup(b);
                 case MysteryGift g: return OpenMysteryGift(g, path);
                 case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
-                case IEncounterable enc: return OpenPKM(enc.ConvertToPKM(C_SAV.SAV));
+                case IEncounterConvertible enc: return OpenPKM(enc.ConvertToPKM(C_SAV.SAV));
 
                 case SAV3GCMemoryCard gc:
                     if (!CheckGCMemoryCard(gc, path))

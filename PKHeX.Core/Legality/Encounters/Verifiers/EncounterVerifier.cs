@@ -18,7 +18,7 @@ namespace PKHeX.Core
             _ => VerifyEncounter,
         };
 
-        private static CheckResult VerifyEncounter(PKM pkm, IEncounterable enc) => enc switch
+        private static CheckResult VerifyEncounter(PKM pkm, IEncounterTemplate enc) => enc switch
         {
             EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
             EncounterTrade t => VerifyEncounterTrade(pkm, t),
@@ -28,7 +28,7 @@ namespace PKHeX.Core
             _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
         };
 
-        private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterable enc)
+        private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterTemplate enc)
         {
             if (enc.EggEncounter)
                 return VerifyEncounterEgg(pkm, enc.Generation);

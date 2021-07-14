@@ -46,7 +46,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsValidLanguageID(int currentLanguage, int maxLanguageID, PKM pkm, IEncounterable enc)
+        public static bool IsValidLanguageID(int currentLanguage, int maxLanguageID, PKM pkm, IEncounterTemplate enc)
         {
             if (currentLanguage == (int)LanguageID.UNUSED_6)
                 return false; // Language ID 6 is unused.

@@ -1,7 +1,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Contains information pertaining the floor tile the <see cref="IEncounterable"/> was obtained on in <see cref="GameVersion.Gen4"/>.
+    /// Contains information pertaining the floor tile the <see cref="IEncounterTemplate"/> was obtained on in <see cref="GameVersion.Gen4"/>.
     /// </summary>
     /// <remarks>
     /// <seealso cref="EncounterSlot4"/>
@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public interface IGroundTypeTile
     {
         /// <summary>
-        /// Tile Type the <see cref="IEncounterable"/> was obtained on.
+        /// Tile Type the <see cref="IEncounterTemplate"/> was obtained on.
         /// </summary>
         GroundTilePermission GroundTile { get; }
     }

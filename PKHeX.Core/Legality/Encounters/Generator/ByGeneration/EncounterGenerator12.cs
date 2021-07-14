@@ -150,7 +150,7 @@ namespace PKHeX.Core
             return p1 > p2 ? g1i : g2i;
         }
 
-        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable enc) => enc switch
+        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterTemplate enc) => enc switch
         {
             EncounterTrade1 t1 when t1.GetMatchRating(pkm) != Match => GBEncounterPriority.Least,
             EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,

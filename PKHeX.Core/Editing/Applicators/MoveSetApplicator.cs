@@ -62,7 +62,7 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk, IEncounterable? enc = null) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk), enc);
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk, IEncounterTemplate? enc = null) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk), enc);
 
         /// <summary>
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
@@ -70,7 +70,7 @@ namespace PKHeX.Core
         /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
         /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal, IEncounterable? enc = null)
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal, IEncounterTemplate? enc = null)
         {
             enc ??= legal.EncounterOriginal;
             var m = legal.GetSuggestedRelearnMovesFromEncounter(enc);

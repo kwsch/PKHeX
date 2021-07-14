@@ -179,7 +179,7 @@ namespace PKHeX.Core
             }
         }
 
-        public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
+        public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterTemplate encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);

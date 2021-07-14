@@ -129,7 +129,7 @@ namespace PKHeX.Core
             };
         }
 
-        private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities, int abilnum)
+        private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterTemplate enc, IReadOnlyList<int> abilities, int abilnum)
         {
             var pkm = data.pkm;
             int format = pkm.Format;
@@ -319,7 +319,7 @@ namespace PKHeX.Core
             return pkm.Ability == pcd.Gift.PK.Ability ? VALID : INVALID;
         }
 
-        private CheckResult VerifyAbility5(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities)
+        private CheckResult VerifyAbility5(LegalityAnalysis data, IEncounterTemplate enc, IReadOnlyList<int> abilities)
         {
             var pkm = data.pkm;
             switch (enc)
@@ -341,7 +341,7 @@ namespace PKHeX.Core
             return CheckMatch(data.pkm, abilities, 5, state);
         }
 
-        private CheckResult VerifyAbility6(LegalityAnalysis data, IEncounterable enc)
+        private CheckResult VerifyAbility6(LegalityAnalysis data, IEncounterTemplate enc)
         {
             var pkm = data.pkm;
             if (pkm.AbilityNumber != 4)
@@ -360,7 +360,7 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private CheckResult VerifyAbility7(LegalityAnalysis data, IEncounterable enc)
+        private CheckResult VerifyAbility7(LegalityAnalysis data, IEncounterTemplate enc)
         {
             var pkm = data.pkm;
             if (enc is EncounterSlot slot && pkm.AbilityNumber == 4)
@@ -470,7 +470,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static int GetEncounterFixedAbilityNumber(IEncounterable enc) => enc switch
+        private static int GetEncounterFixedAbilityNumber(IEncounterTemplate enc) => enc switch
         {
             EncounterStatic s => s.Ability,
             EncounterTrade t => t.Ability,

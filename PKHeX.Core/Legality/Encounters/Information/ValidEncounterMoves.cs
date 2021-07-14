@@ -17,7 +17,7 @@ namespace PKHeX.Core
         private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
         private static readonly IReadOnlyList<int>[] Empty = Enumerable.Repeat((IReadOnlyList<int>)new List<int>(), EmptyCount).ToArray();
 
-        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterable encounter)
+        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterTemplate encounter)
         {
             var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, types: MoveSourceType.Encounter, RemoveTransferHM: false);
 
@@ -30,7 +30,7 @@ namespace PKHeX.Core
             TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllTutors);
         }
 
-        private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)
+        private static void AddEdgeCaseMoves(List<int> moves, IEncounterTemplate encounter, PKM pkm)
         {
             if (pkm is IBattleVersion {BattleVersion: not 0})
                 return;

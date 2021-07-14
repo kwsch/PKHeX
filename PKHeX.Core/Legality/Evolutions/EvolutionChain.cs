@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         private static readonly List<EvoCriteria> NONE = new(0);
 
-        internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
+        internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate Encounter)
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter, pkm.Species, pkm.CurrentLevel);
             if (Encounter is EncounterInvalid || pkm.IsEgg || CompleteEvoChain.Count == 0)
@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return chain;
         }
 
-        private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterable enc, IReadOnlyList<EvoCriteria> CompleteEvoChain)
+        private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> CompleteEvoChain)
         {
             int maxgen = pkm is PK1 {Gen1_NotTradeback: false} ? 2 : pkm.Format;
             var GensEvoChains = GetChainBase(maxgen);
@@ -159,7 +159,7 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
+        private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterTemplate Encounter, int maxspec, int maxlevel)
         {
             var chain = GetValidPreEvolutions(pkm, minLevel: Encounter.LevelMin);
             if (Encounter.Species == maxspec)
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             return chain;
         }
 
-        private static void CheckLastEncounterRemoval(IEncounterable enc, IReadOnlyList<EvoCriteria> chain)
+        private static void CheckLastEncounterRemoval(IEncounterTemplate enc, IReadOnlyList<EvoCriteria> chain)
         {
             // Last entry from chain is removed, turn next entry into the encountered Pokémon
             var last = chain[^1];

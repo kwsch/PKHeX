@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Miscellaneous setup utility for legality checking <see cref="IEncounterable"/> data sources.
+    /// Miscellaneous setup utility for legality checking <see cref="IEncounterTemplate"/> data sources.
     /// </summary>
     internal static class EncounterUtil
     {

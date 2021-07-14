@@ -206,7 +206,7 @@ namespace PKHeX.Core
             return ParseMoves(pkm, source, info);
         }
 
-        private static IReadOnlyList<int> GetSpecialMoves(IEncounterable enc)
+        private static IReadOnlyList<int> GetSpecialMoves(IEncounterTemplate enc)
         {
             if (enc is IMoveset mg)
                 return mg.Moves;
@@ -382,7 +382,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterable enc)
+        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterTemplate enc)
         {
             int gen = enc.Generation;
             ParseEggMovesInherited(pkm, res, gen, learnInfo);
@@ -481,7 +481,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEggMovesRemaining(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterable enc)
+        private static void ParseEggMovesRemaining(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterTemplate enc)
         {
             // A pokemon could have normal egg moves and regular egg moves
             // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves

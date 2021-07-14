@@ -59,12 +59,12 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterable enc)
+        public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterTemplate enc)
         {
             return IsMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
         }
 
-        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable x) => mark switch
+        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterTemplate x) => mark switch
         {
             RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
             RibbonIndex.MarkFishing when !IsMarkAllowedFishing(x) => false,
@@ -72,7 +72,7 @@ namespace PKHeX.Core
             _ => true
         };
 
-        public static bool IsMarkAllowedAny(IEncounterable enc) => enc.Generation == 8 && enc switch
+        public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
         {
             // Gen 8
             WC8 or EncounterEgg or EncounterTrade or EncounterSlot8GO
@@ -83,7 +83,7 @@ namespace PKHeX.Core
             _ => true,
         };
 
-        public static bool IsMarkAllowedCurry(PKM pkm, IEncounterable enc)
+        public static bool IsMarkAllowedCurry(PKM pkm, IEncounterTemplate enc)
         {
             // Curry are only encounter slots, from the hidden table (not symbol). Slots taken from area's current weather(?).
             if (enc is not EncounterSlot8 s)
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             return (uint)(ball - 2) <= 2;
         }
 
-        public static bool IsMarkAllowedFishing(IEncounterable enc)
+        public static bool IsMarkAllowedFishing(IEncounterTemplate enc)
         {
             // Fishing are only encounter slots, from the hidden table (not symbol).
             if (enc is not EncounterSlot8 s)

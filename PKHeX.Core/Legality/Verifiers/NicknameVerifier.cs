@@ -182,7 +182,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsNicknameValid(PKM pkm, IEncounterable enc, string nickname)
+        private static bool IsNicknameValid(PKM pkm, IEncounterTemplate enc, string nickname)
         {
             int species = pkm.Species;
             int format = pkm.Format;

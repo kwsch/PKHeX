@@ -106,7 +106,7 @@ namespace PKHeX.Core
             return $"{enc.LongName} ({name})";
         }
 
-        public static string? GetEncounterLocation(this IEncounterable enc)
+        public static string? GetEncounterLocation(this IEncounterTemplate enc)
         {
             if (enc is not ILocation loc)
                 return null;

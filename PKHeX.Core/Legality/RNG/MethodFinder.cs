@@ -813,7 +813,7 @@ namespace PKHeX.Core
             _ => false
         };
 
-        public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
+        public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pkm)
         {
             switch (encounter)
             {
@@ -857,7 +857,7 @@ namespace PKHeX.Core
             return pkm.IV_DEF == 0 && pkm.IV_SPE == 0 && pkm.IV_SPA == 0 && pkm.IV_SPD == 0 && pkm.IV_ATK <= 7;
         }
 
-        public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
+        public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pkm)
         {
             switch (encounter)
             {
@@ -912,7 +912,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
+        private static bool IsCuteCharm4Valid(ISpeciesForm encounter, PKM pkm)
         {
             if (pkm.Species is (int)Species.Marill or (int)Species.Azumarill)
             {
