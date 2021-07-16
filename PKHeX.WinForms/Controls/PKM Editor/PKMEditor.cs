@@ -1497,8 +1497,8 @@ namespace PKHeX.WinForms.Controls
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     int gen = Entity.Generation;
-                    bool pre3DS = gen is >= 1 and < 6;
-                    if (pre3DS && TB_EC.Visible)
+                    bool pre3DS = gen is 3 or 4 or 5;
+                    if (pre3DS && Entity.Format >= 6)
                         TB_EC.Text = TB_PID.Text;
                 }
                 else
