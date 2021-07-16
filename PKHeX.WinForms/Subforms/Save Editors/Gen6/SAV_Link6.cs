@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
         private void LoadLinkData()
         {
             RTB_LinkSource.Text = LinkInfo.Origin;
-            CHK_LinkAvailable.Checked = LinkInfo.PL_enabled;
+            CHK_LinkAvailable.Checked = LinkInfo.Enabled;
 
             NUD_BP.Value = LinkInfo.BattlePoints;
             NUD_Pokemiles.Value = LinkInfo.Pokemiles;

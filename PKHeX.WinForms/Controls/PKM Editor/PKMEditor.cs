@@ -1695,6 +1695,9 @@ namespace PKHeX.WinForms.Controls
         {
             var s = (ComboBox) sender;
             var index = Array.IndexOf(Moves, s);
+
+            // Populating the combobox drop-down list is deferred until the dropdown is entered into at least once.
+            // Saves some lag delays when viewing a pkm.
             if (LegalMoveSource.IsMoveBoxOrdered[index])
                 return;
             SetMoveDataSource(s);
