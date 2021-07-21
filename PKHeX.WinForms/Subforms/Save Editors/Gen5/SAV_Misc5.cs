@@ -307,37 +307,9 @@ namespace PKHeX.WinForms
                 nudaE[(i << 1) + 1].Value = SAV.Data[ofsFM + 0xF8 + i];
             }
 
-            string[] PassPowerA = {
-                "(none)",
-                "-1 Encounter", "-2 Encounter", "-3 Encounter", "+1 Encounter", "+2 Encounter", "+3 Encounter",
-                "+1 Hatching", "+2 Hatching", "+3 Hatching", "S Hatching",
-                "+1 Befriending", "+2 Befriending", "+3 Befriending", "S Befriending",
-                "+1 Bargain", "+2 Bargain", "+3 Bargain", "S Bargain",
-                "+1 HP(20)", "+2 HP(50)", "+3 HP(200)", "+1 PP(5)", "+2 PP(10)", "+3 PP(ALL)",
-                "-1 Exp.", "-2 Exp.", "-3 Exp.", "+1 Exp.", "+2 Exp.", "+3 Exp.", "S Exp.",
-                "+1 PrizeMoney", "+2 PrizeMoney", "+3 PrizeMoney", "S PrizeMoney",
-                "+1 Capture", "+2 Capture", "+3 Capture", "S Capture",
-                "+1 Search", "+2 Search", "+3 Search", "S Search",
-                "+1 HiddenGrotto", "+2 HiddenGrotto", "+3 HiddenGrotto", "S HiddenGrotto",
-                "+1 Charm", "+2 Charm", "+3 Charm", "S Charm",
-                "(HP Full Recovery)", "(MAX Hatching)", "(MAX Bargain)", "(MAX Befriending)", "(MAX Exp.)", "(MAX PrizeMoney)", "(MAX Capture)", "(MAX Search)", "(MAX HiddenGrotto)", "(MAX Charm)"
-            };
-            int[] PassPowerC = {
-                48,
-                3, 4, 5, 0, 1, 2,
-                6, 7, 8, 33,
-                9, 10, 11, 35,
-                12, 13, 14, 34,
-                15, 16, 17, 18, 19, 20,
-                24, 25, 26, 21, 22, 23, 36,
-                27, 28, 29, 37,
-                30, 31, 32, 38,
-                49, 50, 51, 58,
-                52, 53, 54, 60,
-                55, 56, 57, 62,
-                39, 40, 41, 42, 43, 44, 45, 59, 61, 63
-            };
-            ComboItem[] PassPowerB = PassPowerA.Zip(PassPowerC, (f, s) => new ComboItem(f, s)).ToArray();
+            var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
+            var ppn = Enum.GetNames(typeof(PassPower5));
+            ComboItem[] PassPowerB = ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text).ToArray();
             cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
             for (int i = 0; i < cba.Length; i++)
             {

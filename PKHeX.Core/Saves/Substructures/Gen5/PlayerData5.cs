@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Combined save block; 0x100 for first, 0x100 for second.
+    /// </summary>
     public sealed class PlayerData5 : SaveBlock
     {
         public PlayerData5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
