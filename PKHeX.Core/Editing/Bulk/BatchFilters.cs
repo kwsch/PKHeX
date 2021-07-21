@@ -22,10 +22,10 @@ namespace PKHeX.Core
                 (obj, cmd) => obj is SlotCache s && s.Identify().Contains(cmd.PropertyValue) == cmd.Evaluator),
 
             new MetaFilter(nameof(SlotInfoBox.Box),
-                (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && int.TryParse(cmd.PropertyValue, out var box) && b.Box == box),
+                (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && int.TryParse(cmd.PropertyValue, out var box) && b.Box + 1 == box),
 
             new MetaFilter(nameof(ISlotInfo.Slot),
-                (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && s.Source.Slot == slot),
+                (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && s.Source.Slot + 1 == slot),
         };
     }
 }
