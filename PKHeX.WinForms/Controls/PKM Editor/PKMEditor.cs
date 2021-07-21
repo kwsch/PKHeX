@@ -256,9 +256,8 @@ namespace PKHeX.WinForms.Controls
 
         public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => LoadFieldsFromPKM(pk, focus, skipConversionCheck);
 
-        private void LoadFieldsFromPKM(PKM? pk, bool focus = true, bool skipConversionCheck = true)
+        private void LoadFieldsFromPKM(PKM pk, bool focus = true, bool skipConversionCheck = true)
         {
-            if (pk == null) { WinFormsUtil.Error(MsgPKMLoadNull); return; }
             if (focus)
                 Tab_Main.Focus();
 
