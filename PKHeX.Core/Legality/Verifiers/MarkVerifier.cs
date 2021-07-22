@@ -73,7 +73,7 @@ namespace PKHeX.Core
             _ => true
         };
 
-        private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterable enc)
+        private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterTemplate enc)
         {
             var permit = mark.GetWeather8();
 
