@@ -300,6 +300,7 @@ namespace PKHeX.Core
         internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSurfing = new()
         {
             { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
+            { 224, All_CT }, // Roaring-Sea Caves from Giant's Foot
         };
 
         /// <summary>

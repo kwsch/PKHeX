@@ -95,13 +95,9 @@ namespace PKHeX.Core
                     return EncounterMatchRating.Deferred;
 
                 // Check if it has a mark and the weather does not permit the mark.
+                // Tree/Fishing slots should be deferred here and are checked later.
                 if (!Weather.IsMarkCompatible(m))
-                {
-                    // Fishing encounters are checked later for area weather compatibility.
-                    if ((Weather & AreaWeather8.Fishing) == 0)
-                        return EncounterMatchRating.PartialMatch;
                     return EncounterMatchRating.Deferred;
-                }
 
                 // Galar Mine hidden encounters can only be found via Curry.
                 if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry && (Weather & AreaWeather8.Fishing) == 0)
