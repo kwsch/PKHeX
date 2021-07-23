@@ -98,33 +98,18 @@ namespace PKHeX.Core
 
             // Valid tree/fishing weathers should have returned with main area weather.
             weather = s.Weather;
-            if (weather.HasFlag(AreaWeather8.Shaking_Trees) || weather.HasFlag(AreaWeather8.Fishing))
+            if ((weather & (AreaWeather8.Shaking_Trees | AreaWeather8.Fishing)) != 0)
                 return false;
 
             // Check bleed conditions otherwise.
-            var type = s.SlotType;
-            if (type is SymbolMain or SymbolMain2 or SymbolMain3)
+            return s.SlotType switch
             {
-                if (EncounterArea8.WeatherBleedSymbol.TryGetValue(location, out weather) && weather.HasFlag(permit))
-                    return true;
-            }
-            if (type == Surfing)
-            {
-                if (EncounterArea8.WeatherBleedSymbolSurfing.TryGetValue(location, out weather) && weather.HasFlag(permit))
-                    return true;
-            }
-            if (type == Sharpedo)
-            {
-                if (EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out weather) && weather.HasFlag(permit))
-                    return true;
-            }
-            if (type is HiddenMain or HiddenMain2 or HiddenMain3)
-            {
-                if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(location, out weather) && weather.HasFlag(permit))
-                    return true;
-            }
-
-            return false;
+                SymbolMain or SymbolMain2 or SymbolMain3 => EncounterArea8.WeatherBleedSymbol        .TryGetValue(location, out weather) && weather.HasFlag(permit),
+                HiddenMain or HiddenMain2 or HiddenMain3 => EncounterArea8.WeatherBleedHiddenGrass   .TryGetValue(location, out weather) && weather.HasFlag(permit),
+                Surfing                                  => EncounterArea8.WeatherBleedSymbolSurfing .TryGetValue(location, out weather) && weather.HasFlag(permit),
+                Sharpedo                                 => EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out weather) && weather.HasFlag(permit),
+                _ => false
+            };
         }
 
         public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
