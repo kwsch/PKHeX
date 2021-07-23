@@ -8,6 +8,23 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 138, Ability = A4, Moves = new[]{ 055, 028, 205, 020 }, Index = 77 }, // Omanyte
+            new(17,01,1) { Species = 140, Ability = A4, Moves = new[]{ 453, 028, 263, 010 }, Index = 77 }, // Kabuto
+            new(17,01,1) { Species = 142, Ability = A4, Moves = new[]{ 246, 414, 044, 017 }, Index = 77 }, // Aerodactyl
+            new(30,03,2) { Species = 138, Ability = A4, Moves = new[]{ 055, 341, 246, 020 }, Index = 77 }, // Omanyte
+            new(30,03,2) { Species = 140, Ability = A4, Moves = new[]{ 453, 246, 263, 058 }, Index = 77 }, // Kabuto
+            new(30,03,2) { Species = 142, Ability = A4, Moves = new[]{ 157, 414, 242, 017 }, Index = 77 }, // Aerodactyl
+            new(40,05,3) { Species = 138, Ability = A4, Moves = new[]{ 362, 414, 246, 196 }, Index = 77 }, // Omanyte
+            new(40,05,3) { Species = 140, Ability = A4, Moves = new[]{ 362, 246, 263, 059 }, Index = 77 }, // Kabuto
+            new(40,05,3) { Species = 142, Ability = A4, Moves = new[]{ 157, 414, 422, 017 }, Index = 77 }, // Aerodactyl
+            new(50,08,4) { Species = 138, Ability = A4, Moves = new[]{ 057, 414, 246, 058 }, Index = 77 }, // Omanyte
+            new(50,08,4) { Species = 140, Ability = A4, Moves = new[]{ 710, 246, 141, 059 }, Index = 77 }, // Kabuto
+            new(50,08,4) { Species = 142, Ability = A4, Moves = new[]{ 444, 414, 422, 542 }, Index = 77 }, // Aerodactyl
+            new(60,10,5) { Species = 138, Ability = A4, Moves = new[]{ 056, 414, 246, 058 }, Index = 77, Shiny = Shiny.Always }, // Omanyte
+            new(60,10,5) { Species = 138, Ability = A4, Moves = new[]{ 056, 414, 246, 058 }, Index = 77 }, // Omanyte
+            new(60,10,5) { Species = 140, Ability = A4, Moves = new[]{ 710, 444, 141, 059 }, Index = 77 }, // Kabuto
+            new(60,10,5) { Species = 142, Ability = A4, Moves = new[]{ 444, 089, 422, 542 }, Index = 77 }, // Aerodactyl
+
             new(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 249, 033, 045 }, Index = 75 }, // Cufant
             new(17,01,1) { Species = 109, Ability = A4, Moves = new[]{ 188, 372, 139, 108 }, Index = 75 }, // Koffing
             new(17,01,1) { Species = 202, Ability = A4, Moves = new[]{ 243, 227, 068, 204 }, Index = 75 }, // Wobbuffet
