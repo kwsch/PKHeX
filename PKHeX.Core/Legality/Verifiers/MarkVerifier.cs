@@ -117,11 +117,6 @@ namespace PKHeX.Core
             {
                 if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(location, out weather) && weather.HasFlag(permit))
                     return true;
-
-                // Allow all tree and fishing encounters.
-                weather = s.Weather;
-                if (weather.HasFlag(AreaWeather8.Shaking_Trees) || weather.HasFlag(AreaWeather8.Fishing))
-                    return true;
             }
 
             return false;
