@@ -9,12 +9,14 @@ namespace PKHeX.Core
     public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
     {
         public readonly AreaWeather8 Weather;
+        public readonly AreaSlotType8 SlotType;
         public override string LongName => $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather) : base(area, species, form, min, max)
+        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather, AreaSlotType8 slottype) : base(area, species, form, min, max)
         {
             Weather = weather;
+            SlotType = slottype;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

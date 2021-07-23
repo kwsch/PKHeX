@@ -354,7 +354,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 662, Level = 20, Locations = new[] {164, 166}, Weather = Intense_Sun }, // Fletchinder in the Fields of Honor, in the Soothing Wetlands
             new EncounterStatic8S(SWSH) { Species = 064, Level = 20, Locations = new[] {164, 166}, Weather = Heavy_Fog }, // Kadabra in the Fields of Honor, in the Soothing Wetlands
             new EncounterStatic8S(SWSH) { Species = 025, Level = 15, Locations = new[] {164, 166}, Weather = Thunderstorm }, // Pikachu in the Fields of Honor, in the Soothing Wetlands
-            new(SWSH) { Species = 834, Level = 20, Location = 166, Weather = Normal | Overcast | Intense_Sun }, // Drednaw in the Soothing Wetlands
+            new(SWSH) { Species = 834, Level = 20, Location = 166, Weather = Normal | Overcast | Sandstorm | Intense_Sun }, // Drednaw in the Soothing Wetlands
             new(SWSH) { Species = 764, Level = 15, Location = 166, Weather = Normal | Intense_Sun | Heavy_Fog }, // Comfey in the Soothing Wetlands
             new(SWSH) { Species = 744, Level = 15, Location = 166 }, // Rockruff in the Soothing Wetlands
             new(SWSH) { Species = 195, Level = 20, Location = 166, Weather = Normal | Overcast | Raining | Intense_Sun | Heavy_Fog }, // Quagsire in the Soothing Wetlands

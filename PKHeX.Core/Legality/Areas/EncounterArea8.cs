@@ -284,11 +284,22 @@ namespace PKHeX.Core
         /// </summary>
         internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbol = new()
         {
+            { 166, All_IoA }, // Soothing Wetlands from Forest of Focus
             { 170, All_IoA }, // Challenge Beach from Forest of Focus
             { 182, All_IoA }, // Warm-Up Tunnel from Training Lowlands
             { 208, All_CT }, // Frostpoint Field from Giant's Bed
             { 216, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Tunnel to the Top from Path to the Peak
             { 224, All_CT }, // Roaring-Sea Caves from Three-Point Pass
+            { 232, All_Ballimere }, // Lakeside Cave from Ballimere Lake
+            { 230, All_CT }, // Ballimere Lake from Giant's Bed
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for surfing symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSurfing = new()
+        {
+            { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
         };
 
         /// <summary>
@@ -304,8 +315,10 @@ namespace PKHeX.Core
         /// </summary>
         internal static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
         {
+            { 166, All_IoA }, // Soothing Wetlands from Forest of Focus
             { 170, All_IoA }, // Challenge Beach from Forest of Focus
             { 208, All_CT }, // Frostpoint Field from Giant's Bed
+            { 230, All_CT }, // Ballimere Lake from Giant's Bed
         };
 
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
@@ -335,14 +348,15 @@ namespace PKHeX.Core
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
-                // ofs+5 reserved
-                ofs += 6;
+                var slottype = (AreaSlotType8) areaData[ofs + 5];
+                // ofs+6 reserved
+                ofs += 7;
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
                     var species = specForm & 0x7FF;
                     var form = specForm >> 11;
-                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags);
+                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slottype);
                 }
             } while (ctr != slots.Length);
 
@@ -381,4 +395,29 @@ namespace PKHeX.Core
 
         NotWeather = Shaking_Trees | Fishing,
     }
+
+    /// <summary>
+    /// Encounter Slot Types for <see cref="GameVersion.SWSH"/>
+    /// </summary>
+    public enum AreaSlotType8
+    {
+        SymbolMain,
+        SymbolMain2,
+        SymbolMain3,
+
+        HiddenMain, // Table with the tree/fishing slots
+        HiddenMain2,
+        HiddenMain3,
+
+        Surfing,
+        Surfing2,
+        Sky,
+        Sky2,
+        Ground,
+        Ground2,
+        Sharpedo,
+
+        OnlyFishing,
+        Inaccessible,
+    };
 }
