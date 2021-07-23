@@ -173,12 +173,13 @@ namespace PKHeX.Core
         {
             var res = new CheckMoveResult[4];
             var enc = info.EncounterMatch;
+            var level = pkm.HasOriginalMetLocation ? pkm.Met_Level : enc.LevelMin;
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(enc);
             var games = enc.Generation == 1 ? GBRestrictions.GetGen1Versions(enc) : GBRestrictions.GetGen2Versions(enc, pkm.Korean);
             foreach (var ver in games)
             {
-                var VerInitialMoves = MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.LevelMin, ver);
+                var VerInitialMoves = MoveLevelUp.GetEncounterMoves(enc.Species, 0, level, ver);
                 if (VerInitialMoves.Intersect(InitialMoves).Count() == VerInitialMoves.Length)
                     return res;
 
@@ -727,24 +728,24 @@ namespace PKHeX.Core
             }
         }
 
-        private static void FlagDuplicateMovesAfterIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int i, int move)
+        private static void FlagDuplicateMovesAfterIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int index, int move)
         {
-            for (int j = i + 1; j < 4; j++)
+            for (int i = index + 1; i < 4; i++)
             {
-                if (moves[j] != move)
+                if (moves[i] != move)
                     continue;
-                res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceDuplicate);
+                res[index] = new CheckMoveResult(res[index], Invalid, LMoveSourceDuplicate);
                 return;
             }
         }
 
-        private static void FlagEmptySlotsBeforeIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int i)
+        private static void FlagEmptySlotsBeforeIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int index)
         {
-            for (int k = i - 1; k >= 0; k--)
+            for (int i = index - 1; i >= 0; i--)
             {
-                if (moves[k] != 0)
+                if (moves[i] != 0)
                     return;
-                res[k] = new CheckMoveResult(res[k], Invalid, LMoveSourceEmpty);
+                res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceEmpty);
             }
         }
 

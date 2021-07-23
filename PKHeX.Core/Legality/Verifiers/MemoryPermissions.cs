@@ -96,6 +96,11 @@ namespace PKHeX.Core
         public static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
             var evos = EvolutionChain.GetValidPreEvolutions(pkm);
+            return GetCanLearnMachineMove(pkm, evos, move, generation, version);
+        }
+
+        public static bool GetCanLearnMachineMove(PKM pkm, IReadOnlyList<EvoCriteria> evos, int move, int generation, GameVersion version = GameVersion.Any)
+        {
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
         }
 
