@@ -40,28 +40,8 @@ namespace PKHeX.Core
                 return ParseMovesForSmeargle(pkm, currentMoves, info); // Smeargle can have any moves except a few
 
             // gather valid moves for encounter species
-            var restrict = new LevelUpRestriction(pkm, info);
-            info.EncounterMoves = new ValidEncounterMoves(pkm, restrict, info.EncounterMatch);
-
-            IReadOnlyList<int> defaultG1LevelMoves = Array.Empty<int>();
-            IReadOnlyList<int> defaultG2LevelMoves = Array.Empty<int>();
+            info.EncounterMoves = new ValidEncounterMoves(pkm, info.EncounterMatch, info.EvoChainsAllGens);
             var defaultTradeback = pkm.TradebackStatus;
-            bool gb = false;
-            int gen = info.EncounterMatch.Generation;
-            if (gen <= 2)
-            {
-                gb = true;
-                defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
-                if (pkm.InhabitedGeneration(2))
-                    defaultG2LevelMoves = info.EncounterMoves.LevelUpMoves[2];
-
-                // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
-                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, gen, info);
-
-                // The same for Generation 2; if move reminder from Stadium 2 is not allowed
-                if (!AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
-                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, gen, info);
-            }
 
             var res = info.Generation < 6
                 ? ParseMovesPre3DS(pkm, currentMoves, info)
@@ -70,13 +50,6 @@ namespace PKHeX.Core
             if (res.All(x => x.Valid))
                 return res;
 
-            // not valid
-            if (gb) // restore generation 1 and 2 moves
-            {
-                info.EncounterMoves.LevelUpMoves[1] = defaultG1LevelMoves;
-                if (pkm.InhabitedGeneration(2))
-                    info.EncounterMoves.LevelUpMoves[2] = defaultG2LevelMoves;
-            }
             pkm.TradebackStatus = defaultTradeback;
             return res;
         }
@@ -747,26 +720,6 @@ namespace PKHeX.Core
                     return;
                 res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceEmpty);
             }
-        }
-
-        private static void UpdateGen1LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation, LegalInfo info)
-        {
-            if (generation >= 3)
-                return;
-            var lvlG1 = info.EncounterMatch.LevelMin + 1;
-            if (lvlG1 == defaultLvlG1)
-                return;
-            EncounterMoves.LevelUpMoves[1] = MoveList.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, types: MoveSourceType.LevelUp).ToList();
-        }
-
-        private static void UpdateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
-        {
-            if (generation >= 3)
-                return;
-            var lvlG2 = info.EncounterMatch.LevelMin + 1;
-            if (lvlG2 == defaultLvlG2)
-                return;
-            EncounterMoves.LevelUpMoves[2] = MoveList.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, types: MoveSourceType.LevelUp).ToList();
         }
     }
 }

@@ -119,7 +119,7 @@ namespace PKHeX.Core
         {
             var result = new int[moves.Count];
             for (int i = 0; i < result.Length; i++)
-                result[i] = MoveLevelUp.GetIsLevelUp1(species, moves[i], 100, 0, 0).Level;
+                result[i] = MoveLevelUp.GetIsLevelUp1(species, 0, moves[i], 100, 0).Level;
             return result;
         }
 

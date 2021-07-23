@@ -35,10 +35,10 @@ namespace PKHeX.Core
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return GetValidMoves(pkm, version, evoChains, minLvLG1: 1, minLvLG2: 1, types: types, RemoveTransferHM: RemoveTransferHM);
+            return GetValidMoves(pkm, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, int minLvLG1 = 1, int minLvLG2 = 1, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
         {
             var r = new List<int> { 0 };
             if (types.HasFlagFast(MoveSourceType.RelearnMoves) && pkm.Format >= 6)
@@ -55,7 +55,7 @@ namespace PKHeX.Core
                 var chain = evoChains[generation];
                 if (chain.Count == 0)
                     continue;
-                r.AddRange(MoveList.GetValidMoves(pkm, version, chain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, types: types, RemoveTransferHM: RemoveTransferHM));
+                r.AddRange(MoveList.GetValidMoves(pkm, version, chain, generation, types: types, RemoveTransferHM: RemoveTransferHM));
             }
 
             return r.Distinct();
