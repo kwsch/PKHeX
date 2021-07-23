@@ -349,8 +349,7 @@ namespace PKHeX.Core
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
                 var slotType = (AreaSlotType8) areaData[ofs + 5];
-                // ofs+6 reserved
-                ofs += 7;
+                ofs += 6;
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
