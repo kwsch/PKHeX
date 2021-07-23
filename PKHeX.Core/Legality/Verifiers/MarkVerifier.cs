@@ -93,27 +93,29 @@ namespace PKHeX.Core
             // If it's not in the main table, it can only have Normal weather.
             if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var mainweather))
                 mainweather = AreaWeather8.Normal;
+            if (mainweather.HasFlag(permit))
+                return true;
 
-            // Check bleed conditions first.
+            // Check bleed conditions otherwise.
             var type = s.SlotType;
             if (type is SymbolMain or SymbolMain2 or SymbolMain3)
             {
-                if (EncounterArea8.WeatherBleedSymbol.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbol.TryGetValue(location, out var weather) && weather.HasFlag(permit))
                     return true;
             }
             if (type == Surfing)
             {
-                if (EncounterArea8.WeatherBleedSymbolSurfing.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbolSurfing.TryGetValue(location, out var weather) && weather.HasFlag(permit))
                     return true;
             }
             if (type == Sharpedo)
             {
-                if (EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit))
                     return true;
             }
             if (type is HiddenMain or HiddenMain2 or HiddenMain3)
             {
-                if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(location, out var weather) && weather.HasFlag(permit))
                     return true;
 
                 // Allow all tree and fishing encounters.
@@ -121,9 +123,6 @@ namespace PKHeX.Core
                 if (weather.HasFlag(AreaWeather8.Shaking_Trees) || weather.HasFlag(AreaWeather8.Fishing))
                     return true;
             }
-
-            if (mainweather.HasFlag(permit))
-                return true;
 
             return false;
         }
