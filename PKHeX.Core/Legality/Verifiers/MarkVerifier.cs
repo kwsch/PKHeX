@@ -81,44 +81,44 @@ namespace PKHeX.Core
             // Encounter slots check location weather, while static encounters check weather per encounter.
             return enc switch
             {
-                EncounterSlot8 => SlotWeatherPermitted(permit, enc),
+                EncounterSlot8 w => IsSlotWeatherPermitted(permit, w),
                 EncounterStatic8 s => s.Weather.HasFlag(permit),
                 _ => false,
             };
         }
 
-        private static bool SlotWeatherPermitted(AreaWeather8 permit, IEncounterTemplate enc)
+        private static bool IsSlotWeatherPermitted(AreaWeather8 permit, EncounterSlot8 s)
         {
-            if (enc is not EncounterSlot8 s)
-                return false;
-
+            var location = s.Location;
             // If it's not in the main table, it can only have Normal weather.
-            if (!EncounterArea8.WeatherbyArea.TryGetValue(s.Location, out var mainweather))
+            if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var mainweather))
                 mainweather = AreaWeather8.Normal;
 
             // Check bleed conditions first.
-            if (s.SlotType == SymbolMain || s.SlotType == SymbolMain2 || s.SlotType == SymbolMain3)
+            var type = s.SlotType;
+            if (type is SymbolMain or SymbolMain2 or SymbolMain3)
             {
-                if (EncounterArea8.WeatherBleedSymbol.TryGetValue(s.Location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbol.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
                     return true;
             }
-            if (s.SlotType == Surfing)
+            if (type == Surfing)
             {
-                if (EncounterArea8.WeatherBleedSymbolSurfing.TryGetValue(s.Location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbolSurfing.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
                     return true;
             }
-            if (s.SlotType == Sharpedo)
+            if (type == Sharpedo)
             {
-                if (EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(s.Location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
                     return true;
             }
-            if (s.SlotType == HiddenMain || s.SlotType == HiddenMain2 || s.SlotType == HiddenMain3)
+            if (type is HiddenMain or HiddenMain2 or HiddenMain3)
             {
-                if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(s.Location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
+                if (EncounterArea8.WeatherBleedHiddenGrass.TryGetValue(location, out var weather) && (weather.HasFlag(permit) || mainweather.HasFlag(permit)))
                     return true;
 
                 // Allow all tree and fishing encounters.
-                if (s.Weather.HasFlag(AreaWeather8.Shaking_Trees) || s.Weather.HasFlag(AreaWeather8.Fishing))
+                weather = s.Weather;
+                if (weather.HasFlag(AreaWeather8.Shaking_Trees) || weather.HasFlag(AreaWeather8.Fishing))
                     return true;
             }
 

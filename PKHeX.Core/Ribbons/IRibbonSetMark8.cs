@@ -54,6 +54,12 @@
 
     internal static partial class RibbonExtensions
     {
+        public static bool HasWeatherMark(this IRibbonSetMark8 m)
+        {
+            return m.RibbonMarkCloudy   || m.RibbonMarkRainy || m.RibbonMarkStormy    || m.RibbonMarkSnowy
+                || m.RibbonMarkBlizzard || m.RibbonMarkDry   || m.RibbonMarkSandstorm || m.RibbonMarkMisty;
+        }
+
         private static readonly string[] RibbonSetNamesMark8 =
         {
             nameof(IRibbonSetMark8.RibbonMarkLunchtime),

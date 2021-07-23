@@ -348,7 +348,7 @@ namespace PKHeX.Core
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
-                var slottype = (AreaSlotType8) areaData[ofs + 5];
+                var slotType = (AreaSlotType8) areaData[ofs + 5];
                 // ofs+6 reserved
                 ofs += 7;
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
@@ -356,7 +356,7 @@ namespace PKHeX.Core
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
                     var species = specForm & 0x7FF;
                     var form = specForm >> 11;
-                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slottype);
+                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slotType);
                 }
             } while (ctr != slots.Length);
 
@@ -367,9 +367,9 @@ namespace PKHeX.Core
     /// <summary>
     /// Encounter Conditions for <see cref="GameVersion.SWSH"/>
     /// </summary>
-    /// <remarks>Values above <see cref="All"/> are for Shaking/Fishing hidden encounters only.</remarks>
+    /// <remarks>Values above <see cref="AreaWeather8.All"/> are for Shaking/Fishing hidden encounters only.</remarks>
     [Flags]
-    public enum AreaWeather8
+    public enum AreaWeather8 : ushort
     {
         None,
         Normal = 1,
@@ -396,10 +396,26 @@ namespace PKHeX.Core
         NotWeather = Shaking_Trees | Fishing,
     }
 
+    public static class AreaWeather8Extensions
+    {
+        public static bool IsMarkCompatible(this AreaWeather8 weather, IRibbonSetMark8 m)
+        {
+            if (m.RibbonMarkCloudy) return (weather & Overcast) != 0;
+            if (m.RibbonMarkRainy) return (weather & Raining) != 0;
+            if (m.RibbonMarkStormy) return (weather & Thunderstorm) != 0;
+            if (m.RibbonMarkSnowy) return (weather & Snowing) != 0;
+            if (m.RibbonMarkBlizzard) return (weather & Snowstorm) != 0;
+            if (m.RibbonMarkDry) return (weather & Intense_Sun) != 0;
+            if (m.RibbonMarkSandstorm) return (weather & Sandstorm) != 0;
+            if (m.RibbonMarkMisty) return (weather & Heavy_Fog) != 0;
+            return true; // no mark / etc is fine; check later.
+        }
+    }
+
     /// <summary>
     /// Encounter Slot Types for <see cref="GameVersion.SWSH"/>
     /// </summary>
-    public enum AreaSlotType8
+    public enum AreaSlotType8 : byte
     {
         SymbolMain,
         SymbolMain2,
@@ -419,5 +435,5 @@ namespace PKHeX.Core
 
         OnlyFishing,
         Inaccessible,
-    };
+    }
 }
