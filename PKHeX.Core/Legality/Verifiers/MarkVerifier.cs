@@ -96,6 +96,11 @@ namespace PKHeX.Core
             if (weather.HasFlag(permit))
                 return true;
 
+            // Valid tree/fishing weathers should have returned with main area weather.
+            weather = s.Weather;
+            if (weather.HasFlag(AreaWeather8.Shaking_Trees) || weather.HasFlag(AreaWeather8.Fishing))
+                return false;
+
             // Check bleed conditions otherwise.
             var type = s.SlotType;
             if (type is SymbolMain or SymbolMain2 or SymbolMain3)
