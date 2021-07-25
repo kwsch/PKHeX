@@ -50,5 +50,7 @@ namespace PKHeX.Core
         public override PlayerData5 PlayerData => Blocks.PlayerData;
         public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
         public PWTBlock5 PWT => Blocks.PWT;
+        public override int Fused => 0x1FA00 + sizeof(uint);
+        public override int GTS => 0x20400;
     }
 }

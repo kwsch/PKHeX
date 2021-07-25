@@ -49,5 +49,7 @@ namespace PKHeX.Core
         public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
         public override PlayerData5 PlayerData => Blocks.PlayerData;
         public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
+        public override int Fused => int.MinValue;
+        public override int GTS => 0x20500;
     }
 }

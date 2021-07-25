@@ -66,8 +66,8 @@ namespace PKHeX.Core
         protected int CGearDataOffset;
         protected int EntreeForestOffset;
         private int AdventureInfo;
-        public int GTS { get; } = int.MinValue;
-        public int Fused { get; } = int.MinValue;
+        public abstract int GTS { get; }
+        public abstract int Fused { get; }
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
