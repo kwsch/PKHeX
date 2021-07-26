@@ -203,6 +203,8 @@ namespace PKHeX.Core
         public abstract BoxLayout5 BoxLayout { get; }
         public abstract PlayerData5 PlayerData { get; }
         public abstract BattleSubway5 BattleSubway { get; }
+        public abstract Entralink5 Entralink { get; }
+        public abstract Musical5 Musical { get; }
 
         public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);

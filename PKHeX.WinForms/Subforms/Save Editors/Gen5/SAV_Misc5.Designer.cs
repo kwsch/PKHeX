@@ -46,10 +46,16 @@ namespace PKHeX.WinForms
             this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
             this.B_AllFlyDest = new System.Windows.Forms.Button();
             this.TAB_Entralink = new System.Windows.Forms.TabPage();
-            this.L_FMParticipants = new System.Windows.Forms.Label();
-            this.L_FMCompleted = new System.Windows.Forms.Label();
-            this.L_FMParticipated = new System.Windows.Forms.Label();
+            this.PAN_MissionMeta = new System.Windows.Forms.Panel();
             this.L_FMHosted = new System.Windows.Forms.Label();
+            this.L_FMParticipants = new System.Windows.Forms.Label();
+            this.NUD_FMHosted = new System.Windows.Forms.NumericUpDown();
+            this.L_FMCompleted = new System.Windows.Forms.Label();
+            this.NUD_FMMostParticipants = new System.Windows.Forms.NumericUpDown();
+            this.NUD_FMParticipated = new System.Windows.Forms.NumericUpDown();
+            this.L_FMParticipated = new System.Windows.Forms.Label();
+            this.NUD_FMCompleted = new System.Windows.Forms.NumericUpDown();
+            this.NUD_FMTopScores = new System.Windows.Forms.NumericUpDown();
             this.L_FMTopScore = new System.Windows.Forms.Label();
             this.GB_EntreeLevel = new System.Windows.Forms.GroupBox();
             this.NUD_EntreeWhiteEXP = new System.Windows.Forms.NumericUpDown();
@@ -58,11 +64,6 @@ namespace PKHeX.WinForms
             this.NUD_EntreeWhiteLV = new System.Windows.Forms.NumericUpDown();
             this.L_EntreeBlack = new System.Windows.Forms.Label();
             this.L_EntreeWhite = new System.Windows.Forms.Label();
-            this.NUD_FMMostParticipants = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FMTopScores = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FMCompleted = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FMParticipated = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FMHosted = new System.Windows.Forms.NumericUpDown();
             this.GB_FunfestMissions = new System.Windows.Forms.GroupBox();
             this.CHK_FMNew = new System.Windows.Forms.CheckBox();
             this.L_FMLocked = new System.Windows.Forms.Label();
@@ -146,22 +147,24 @@ namespace PKHeX.WinForms
             this.L_SingleRecord = new System.Windows.Forms.Label();
             this.TipExpB = new System.Windows.Forms.ToolTip(this.components);
             this.TipExpW = new System.Windows.Forms.ToolTip(this.components);
+            this.B_UnlockAllMusicalProps = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
             this.GB_Roamer.SuspendLayout();
             this.GB_FlyDest.SuspendLayout();
             this.TAB_Entralink.SuspendLayout();
+            this.PAN_MissionMeta.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMHosted)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMMostParticipants)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMParticipated)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMCompleted)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMTopScores)).BeginInit();
             this.GB_EntreeLevel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeWhiteEXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeBlackEXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeBlackLV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeWhiteLV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMMostParticipants)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMTopScores)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMCompleted)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMParticipated)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMHosted)).BeginInit();
             this.GB_FunfestMissions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestScore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestTotal)).BeginInit();
@@ -235,6 +238,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.B_UnlockAllMusicalProps);
             this.TAB_Main.Controls.Add(this.GB_KeySystem);
             this.TAB_Main.Controls.Add(this.CHK_LibertyPass);
             this.TAB_Main.Controls.Add(this.GB_Roamer);
@@ -382,17 +386,8 @@ namespace PKHeX.WinForms
             // 
             // TAB_Entralink
             // 
-            this.TAB_Entralink.Controls.Add(this.L_FMParticipants);
-            this.TAB_Entralink.Controls.Add(this.L_FMCompleted);
-            this.TAB_Entralink.Controls.Add(this.L_FMParticipated);
-            this.TAB_Entralink.Controls.Add(this.L_FMHosted);
-            this.TAB_Entralink.Controls.Add(this.L_FMTopScore);
+            this.TAB_Entralink.Controls.Add(this.PAN_MissionMeta);
             this.TAB_Entralink.Controls.Add(this.GB_EntreeLevel);
-            this.TAB_Entralink.Controls.Add(this.NUD_FMMostParticipants);
-            this.TAB_Entralink.Controls.Add(this.NUD_FMTopScores);
-            this.TAB_Entralink.Controls.Add(this.NUD_FMCompleted);
-            this.TAB_Entralink.Controls.Add(this.NUD_FMParticipated);
-            this.TAB_Entralink.Controls.Add(this.NUD_FMHosted);
             this.TAB_Entralink.Controls.Add(this.GB_FunfestMissions);
             this.TAB_Entralink.Controls.Add(this.GB_PassPowers);
             this.TAB_Entralink.Location = new System.Drawing.Point(4, 22);
@@ -402,47 +397,149 @@ namespace PKHeX.WinForms
             this.TAB_Entralink.Text = "Entralink";
             this.TAB_Entralink.UseVisualStyleBackColor = true;
             // 
+            // PAN_MissionMeta
+            // 
+            this.PAN_MissionMeta.Controls.Add(this.L_FMHosted);
+            this.PAN_MissionMeta.Controls.Add(this.L_FMParticipants);
+            this.PAN_MissionMeta.Controls.Add(this.NUD_FMHosted);
+            this.PAN_MissionMeta.Controls.Add(this.L_FMCompleted);
+            this.PAN_MissionMeta.Controls.Add(this.NUD_FMMostParticipants);
+            this.PAN_MissionMeta.Controls.Add(this.NUD_FMParticipated);
+            this.PAN_MissionMeta.Controls.Add(this.L_FMParticipated);
+            this.PAN_MissionMeta.Controls.Add(this.NUD_FMCompleted);
+            this.PAN_MissionMeta.Controls.Add(this.NUD_FMTopScores);
+            this.PAN_MissionMeta.Controls.Add(this.L_FMTopScore);
+            this.PAN_MissionMeta.Location = new System.Drawing.Point(-1, 170);
+            this.PAN_MissionMeta.Name = "PAN_MissionMeta";
+            this.PAN_MissionMeta.Size = new System.Drawing.Size(149, 116);
+            this.PAN_MissionMeta.TabIndex = 13;
+            // 
+            // L_FMHosted
+            // 
+            this.L_FMHosted.Location = new System.Drawing.Point(4, 2);
+            this.L_FMHosted.Name = "L_FMHosted";
+            this.L_FMHosted.Size = new System.Drawing.Size(88, 25);
+            this.L_FMHosted.TabIndex = 3;
+            this.L_FMHosted.Text = "Hosted";
+            this.L_FMHosted.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // L_FMParticipants
             // 
-            this.L_FMParticipants.Location = new System.Drawing.Point(161, 259);
+            this.L_FMParticipants.Location = new System.Drawing.Point(-16, 89);
             this.L_FMParticipants.Name = "L_FMParticipants";
             this.L_FMParticipants.Size = new System.Drawing.Size(114, 25);
             this.L_FMParticipants.TabIndex = 11;
             this.L_FMParticipants.Text = "Most Participants";
             this.L_FMParticipants.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // NUD_FMHosted
+            // 
+            this.NUD_FMHosted.Location = new System.Drawing.Point(98, 5);
+            this.NUD_FMHosted.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_FMHosted.Name = "NUD_FMHosted";
+            this.NUD_FMHosted.Size = new System.Drawing.Size(49, 20);
+            this.NUD_FMHosted.TabIndex = 4;
+            this.NUD_FMHosted.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
             // L_FMCompleted
             // 
-            this.L_FMCompleted.Location = new System.Drawing.Point(4, 259);
+            this.L_FMCompleted.Location = new System.Drawing.Point(4, 44);
             this.L_FMCompleted.Name = "L_FMCompleted";
-            this.L_FMCompleted.Size = new System.Drawing.Size(84, 25);
+            this.L_FMCompleted.Size = new System.Drawing.Size(88, 25);
             this.L_FMCompleted.TabIndex = 9;
             this.L_FMCompleted.Text = "Completed";
             this.L_FMCompleted.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // NUD_FMMostParticipants
+            // 
+            this.NUD_FMMostParticipants.Location = new System.Drawing.Point(104, 92);
+            this.NUD_FMMostParticipants.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_FMMostParticipants.Name = "NUD_FMMostParticipants";
+            this.NUD_FMMostParticipants.Size = new System.Drawing.Size(43, 20);
+            this.NUD_FMMostParticipants.TabIndex = 12;
+            this.NUD_FMMostParticipants.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // NUD_FMParticipated
+            // 
+            this.NUD_FMParticipated.Location = new System.Drawing.Point(98, 26);
+            this.NUD_FMParticipated.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_FMParticipated.Name = "NUD_FMParticipated";
+            this.NUD_FMParticipated.Size = new System.Drawing.Size(49, 20);
+            this.NUD_FMParticipated.TabIndex = 6;
+            this.NUD_FMParticipated.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
             // L_FMParticipated
             // 
-            this.L_FMParticipated.Location = new System.Drawing.Point(4, 232);
+            this.L_FMParticipated.Location = new System.Drawing.Point(4, 23);
             this.L_FMParticipated.Name = "L_FMParticipated";
-            this.L_FMParticipated.Size = new System.Drawing.Size(84, 25);
+            this.L_FMParticipated.Size = new System.Drawing.Size(88, 25);
             this.L_FMParticipated.TabIndex = 5;
             this.L_FMParticipated.Text = "Participated";
             this.L_FMParticipated.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_FMHosted
+            // NUD_FMCompleted
             // 
-            this.L_FMHosted.Location = new System.Drawing.Point(4, 205);
-            this.L_FMHosted.Name = "L_FMHosted";
-            this.L_FMHosted.Size = new System.Drawing.Size(84, 25);
-            this.L_FMHosted.TabIndex = 3;
-            this.L_FMHosted.Text = "Hosted";
-            this.L_FMHosted.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NUD_FMCompleted.Location = new System.Drawing.Point(98, 47);
+            this.NUD_FMCompleted.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_FMCompleted.Name = "NUD_FMCompleted";
+            this.NUD_FMCompleted.Size = new System.Drawing.Size(49, 20);
+            this.NUD_FMCompleted.TabIndex = 10;
+            this.NUD_FMCompleted.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
+            // NUD_FMTopScores
+            // 
+            this.NUD_FMTopScores.Location = new System.Drawing.Point(98, 68);
+            this.NUD_FMTopScores.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_FMTopScores.Name = "NUD_FMTopScores";
+            this.NUD_FMTopScores.Size = new System.Drawing.Size(49, 20);
+            this.NUD_FMTopScores.TabIndex = 8;
+            this.NUD_FMTopScores.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
             // 
             // L_FMTopScore
             // 
-            this.L_FMTopScore.Location = new System.Drawing.Point(158, 232);
+            this.L_FMTopScore.Location = new System.Drawing.Point(4, 65);
             this.L_FMTopScore.Name = "L_FMTopScore";
-            this.L_FMTopScore.Size = new System.Drawing.Size(111, 25);
+            this.L_FMTopScore.Size = new System.Drawing.Size(88, 25);
             this.L_FMTopScore.TabIndex = 7;
             this.L_FMTopScore.Text = "Top Score";
             this.L_FMTopScore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -457,7 +554,7 @@ namespace PKHeX.WinForms
             this.GB_EntreeLevel.Controls.Add(this.L_EntreeWhite);
             this.GB_EntreeLevel.Location = new System.Drawing.Point(6, 7);
             this.GB_EntreeLevel.Name = "GB_EntreeLevel";
-            this.GB_EntreeLevel.Size = new System.Drawing.Size(137, 74);
+            this.GB_EntreeLevel.Size = new System.Drawing.Size(137, 64);
             this.GB_EntreeLevel.TabIndex = 0;
             this.GB_EntreeLevel.TabStop = false;
             this.GB_EntreeLevel.Text = "Entree Level";
@@ -465,7 +562,7 @@ namespace PKHeX.WinForms
             // NUD_EntreeWhiteEXP
             // 
             this.NUD_EntreeWhiteEXP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_EntreeWhiteEXP.Location = new System.Drawing.Point(94, 47);
+            this.NUD_EntreeWhiteEXP.Location = new System.Drawing.Point(91, 37);
             this.NUD_EntreeWhiteEXP.Maximum = new decimal(new int[] {
             49,
             0,
@@ -484,7 +581,7 @@ namespace PKHeX.WinForms
             // NUD_EntreeBlackEXP
             // 
             this.NUD_EntreeBlackEXP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_EntreeBlackEXP.Location = new System.Drawing.Point(94, 20);
+            this.NUD_EntreeBlackEXP.Location = new System.Drawing.Point(91, 15);
             this.NUD_EntreeBlackEXP.Maximum = new decimal(new int[] {
             49,
             0,
@@ -503,7 +600,7 @@ namespace PKHeX.WinForms
             // NUD_EntreeBlackLV
             // 
             this.NUD_EntreeBlackLV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_EntreeBlackLV.Location = new System.Drawing.Point(45, 20);
+            this.NUD_EntreeBlackLV.Location = new System.Drawing.Point(45, 15);
             this.NUD_EntreeBlackLV.Maximum = new decimal(new int[] {
             999,
             0,
@@ -522,7 +619,7 @@ namespace PKHeX.WinForms
             // NUD_EntreeWhiteLV
             // 
             this.NUD_EntreeWhiteLV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_EntreeWhiteLV.Location = new System.Drawing.Point(45, 47);
+            this.NUD_EntreeWhiteLV.Location = new System.Drawing.Point(45, 37);
             this.NUD_EntreeWhiteLV.Maximum = new decimal(new int[] {
             999,
             0,
@@ -541,7 +638,7 @@ namespace PKHeX.WinForms
             // L_EntreeBlack
             // 
             this.L_EntreeBlack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_EntreeBlack.Location = new System.Drawing.Point(6, 16);
+            this.L_EntreeBlack.Location = new System.Drawing.Point(6, 11);
             this.L_EntreeBlack.Name = "L_EntreeBlack";
             this.L_EntreeBlack.Size = new System.Drawing.Size(33, 25);
             this.L_EntreeBlack.TabIndex = 0;
@@ -551,97 +648,12 @@ namespace PKHeX.WinForms
             // L_EntreeWhite
             // 
             this.L_EntreeWhite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_EntreeWhite.Location = new System.Drawing.Point(5, 43);
+            this.L_EntreeWhite.Location = new System.Drawing.Point(5, 33);
             this.L_EntreeWhite.Name = "L_EntreeWhite";
             this.L_EntreeWhite.Size = new System.Drawing.Size(34, 25);
             this.L_EntreeWhite.TabIndex = 3;
             this.L_EntreeWhite.Text = "W";
             this.L_EntreeWhite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_FMMostParticipants
-            // 
-            this.NUD_FMMostParticipants.Location = new System.Drawing.Point(281, 262);
-            this.NUD_FMMostParticipants.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_FMMostParticipants.Name = "NUD_FMMostParticipants";
-            this.NUD_FMMostParticipants.Size = new System.Drawing.Size(43, 20);
-            this.NUD_FMMostParticipants.TabIndex = 12;
-            this.NUD_FMMostParticipants.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // NUD_FMTopScores
-            // 
-            this.NUD_FMTopScores.Location = new System.Drawing.Point(275, 235);
-            this.NUD_FMTopScores.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_FMTopScores.Name = "NUD_FMTopScores";
-            this.NUD_FMTopScores.Size = new System.Drawing.Size(49, 20);
-            this.NUD_FMTopScores.TabIndex = 8;
-            this.NUD_FMTopScores.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            // 
-            // NUD_FMCompleted
-            // 
-            this.NUD_FMCompleted.Location = new System.Drawing.Point(94, 262);
-            this.NUD_FMCompleted.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_FMCompleted.Name = "NUD_FMCompleted";
-            this.NUD_FMCompleted.Size = new System.Drawing.Size(49, 20);
-            this.NUD_FMCompleted.TabIndex = 10;
-            this.NUD_FMCompleted.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            // 
-            // NUD_FMParticipated
-            // 
-            this.NUD_FMParticipated.Location = new System.Drawing.Point(94, 235);
-            this.NUD_FMParticipated.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_FMParticipated.Name = "NUD_FMParticipated";
-            this.NUD_FMParticipated.Size = new System.Drawing.Size(49, 20);
-            this.NUD_FMParticipated.TabIndex = 6;
-            this.NUD_FMParticipated.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            // 
-            // NUD_FMHosted
-            // 
-            this.NUD_FMHosted.Location = new System.Drawing.Point(94, 208);
-            this.NUD_FMHosted.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_FMHosted.Name = "NUD_FMHosted";
-            this.NUD_FMHosted.Size = new System.Drawing.Size(49, 20);
-            this.NUD_FMHosted.TabIndex = 4;
-            this.NUD_FMHosted.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
             // 
             // GB_FunfestMissions
             // 
@@ -659,24 +671,25 @@ namespace PKHeX.WinForms
             this.GB_FunfestMissions.Controls.Add(this.LB_FunfestMissions);
             this.GB_FunfestMissions.Location = new System.Drawing.Point(149, 7);
             this.GB_FunfestMissions.Name = "GB_FunfestMissions";
-            this.GB_FunfestMissions.Size = new System.Drawing.Size(178, 222);
+            this.GB_FunfestMissions.Size = new System.Drawing.Size(178, 210);
             this.GB_FunfestMissions.TabIndex = 1;
             this.GB_FunfestMissions.TabStop = false;
             this.GB_FunfestMissions.Text = "Funfest Missions";
             // 
             // CHK_FMNew
             // 
-            this.CHK_FMNew.Location = new System.Drawing.Point(6, 192);
+            this.CHK_FMNew.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_FMNew.Location = new System.Drawing.Point(106, 190);
             this.CHK_FMNew.Name = "CHK_FMNew";
-            this.CHK_FMNew.Size = new System.Drawing.Size(66, 26);
+            this.CHK_FMNew.Size = new System.Drawing.Size(66, 16);
             this.CHK_FMNew.TabIndex = 6;
             this.CHK_FMNew.Text = "NEW";
             this.CHK_FMNew.UseVisualStyleBackColor = true;
-            this.CHK_FMNew.CheckedChanged += new System.EventHandler(this.CHK_FMNew_CheckedChanged);
+            this.CHK_FMNew.CheckedChanged += new System.EventHandler(this.ChangeFestaMissionValue);
             // 
             // L_FMLocked
             // 
-            this.L_FMLocked.Location = new System.Drawing.Point(6, 138);
+            this.L_FMLocked.Location = new System.Drawing.Point(6, 123);
             this.L_FMLocked.Name = "L_FMLocked";
             this.L_FMLocked.Size = new System.Drawing.Size(70, 25);
             this.L_FMLocked.TabIndex = 2;
@@ -686,9 +699,9 @@ namespace PKHeX.WinForms
             // L_FMBestScore
             // 
             this.L_FMBestScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_FMBestScore.Location = new System.Drawing.Point(65, 192);
+            this.L_FMBestScore.Location = new System.Drawing.Point(65, 171);
             this.L_FMBestScore.Name = "L_FMBestScore";
-            this.L_FMBestScore.Size = new System.Drawing.Size(52, 25);
+            this.L_FMBestScore.Size = new System.Drawing.Size(52, 15);
             this.L_FMBestScore.TabIndex = 7;
             this.L_FMBestScore.Text = "Score";
             this.L_FMBestScore.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -696,9 +709,9 @@ namespace PKHeX.WinForms
             // L_FMBestTotal
             // 
             this.L_FMBestTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_FMBestTotal.Location = new System.Drawing.Point(4, 165);
+            this.L_FMBestTotal.Location = new System.Drawing.Point(4, 150);
             this.L_FMBestTotal.Name = "L_FMBestTotal";
-            this.L_FMBestTotal.Size = new System.Drawing.Size(113, 25);
+            this.L_FMBestTotal.Size = new System.Drawing.Size(113, 15);
             this.L_FMBestTotal.TabIndex = 4;
             this.L_FMBestTotal.Text = "Best Records Total";
             this.L_FMBestTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -706,7 +719,7 @@ namespace PKHeX.WinForms
             // NUD_FMBestScore
             // 
             this.NUD_FMBestScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_FMBestScore.Location = new System.Drawing.Point(123, 195);
+            this.NUD_FMBestScore.Location = new System.Drawing.Point(123, 169);
             this.NUD_FMBestScore.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -715,12 +728,12 @@ namespace PKHeX.WinForms
             this.NUD_FMBestScore.Name = "NUD_FMBestScore";
             this.NUD_FMBestScore.Size = new System.Drawing.Size(49, 20);
             this.NUD_FMBestScore.TabIndex = 8;
-            this.NUD_FMBestScore.ValueChanged += new System.EventHandler(this.NUD_FMBestScore_ValueChanged);
+            this.NUD_FMBestScore.ValueChanged += new System.EventHandler(this.ChangeFestaMissionValue);
             // 
             // NUD_FMBestTotal
             // 
             this.NUD_FMBestTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_FMBestTotal.Location = new System.Drawing.Point(123, 168);
+            this.NUD_FMBestTotal.Location = new System.Drawing.Point(123, 148);
             this.NUD_FMBestTotal.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -729,7 +742,7 @@ namespace PKHeX.WinForms
             this.NUD_FMBestTotal.Name = "NUD_FMBestTotal";
             this.NUD_FMBestTotal.Size = new System.Drawing.Size(49, 20);
             this.NUD_FMBestTotal.TabIndex = 5;
-            this.NUD_FMBestTotal.ValueChanged += new System.EventHandler(this.NUD_FMBestTotal_ValueChanged);
+            this.NUD_FMBestTotal.ValueChanged += new System.EventHandler(this.ChangeFestaMissionValue);
             // 
             // CB_FMLevel
             // 
@@ -737,15 +750,15 @@ namespace PKHeX.WinForms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_FMLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FMLevel.FormattingEnabled = true;
-            this.CB_FMLevel.Location = new System.Drawing.Point(82, 140);
+            this.CB_FMLevel.Location = new System.Drawing.Point(82, 125);
             this.CB_FMLevel.Name = "CB_FMLevel";
             this.CB_FMLevel.Size = new System.Drawing.Size(90, 21);
             this.CB_FMLevel.TabIndex = 3;
-            this.CB_FMLevel.SelectedIndexChanged += new System.EventHandler(this.CB_FMLevel_SelectedIndexChanged);
+            this.CB_FMLevel.SelectedIndexChanged += new System.EventHandler(this.ChangeFestaMissionValue);
             // 
             // L_FMUnlocked
             // 
-            this.L_FMUnlocked.Location = new System.Drawing.Point(6, 138);
+            this.L_FMUnlocked.Location = new System.Drawing.Point(6, 123);
             this.L_FMUnlocked.Name = "L_FMUnlocked";
             this.L_FMUnlocked.Size = new System.Drawing.Size(70, 25);
             this.L_FMUnlocked.TabIndex = 2;
@@ -754,7 +767,7 @@ namespace PKHeX.WinForms
             // 
             // B_FunfestMissions
             // 
-            this.B_FunfestMissions.Location = new System.Drawing.Point(6, 20);
+            this.B_FunfestMissions.Location = new System.Drawing.Point(6, 15);
             this.B_FunfestMissions.Name = "B_FunfestMissions";
             this.B_FunfestMissions.Size = new System.Drawing.Size(144, 25);
             this.B_FunfestMissions.TabIndex = 0;
@@ -767,7 +780,7 @@ namespace PKHeX.WinForms
             this.LB_FunfestMissions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LB_FunfestMissions.FormattingEnabled = true;
-            this.LB_FunfestMissions.Location = new System.Drawing.Point(6, 51);
+            this.LB_FunfestMissions.Location = new System.Drawing.Point(6, 41);
             this.LB_FunfestMissions.Name = "LB_FunfestMissions";
             this.LB_FunfestMissions.Size = new System.Drawing.Size(166, 82);
             this.LB_FunfestMissions.TabIndex = 1;
@@ -778,9 +791,9 @@ namespace PKHeX.WinForms
             this.GB_PassPowers.Controls.Add(this.CB_PassPower3);
             this.GB_PassPowers.Controls.Add(this.CB_PassPower2);
             this.GB_PassPowers.Controls.Add(this.CB_PassPower1);
-            this.GB_PassPowers.Location = new System.Drawing.Point(6, 87);
+            this.GB_PassPowers.Location = new System.Drawing.Point(6, 74);
             this.GB_PassPowers.Name = "GB_PassPowers";
-            this.GB_PassPowers.Size = new System.Drawing.Size(137, 104);
+            this.GB_PassPowers.Size = new System.Drawing.Size(137, 93);
             this.GB_PassPowers.TabIndex = 2;
             this.GB_PassPowers.TabStop = false;
             this.GB_PassPowers.Text = "Pass Powers";
@@ -791,7 +804,7 @@ namespace PKHeX.WinForms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_PassPower3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_PassPower3.FormattingEnabled = true;
-            this.CB_PassPower3.Location = new System.Drawing.Point(6, 76);
+            this.CB_PassPower3.Location = new System.Drawing.Point(6, 65);
             this.CB_PassPower3.Name = "CB_PassPower3";
             this.CB_PassPower3.Size = new System.Drawing.Size(125, 21);
             this.CB_PassPower3.TabIndex = 2;
@@ -802,7 +815,7 @@ namespace PKHeX.WinForms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_PassPower2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_PassPower2.FormattingEnabled = true;
-            this.CB_PassPower2.Location = new System.Drawing.Point(6, 48);
+            this.CB_PassPower2.Location = new System.Drawing.Point(6, 41);
             this.CB_PassPower2.Name = "CB_PassPower2";
             this.CB_PassPower2.Size = new System.Drawing.Size(125, 21);
             this.CB_PassPower2.TabIndex = 1;
@@ -813,7 +826,7 @@ namespace PKHeX.WinForms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_PassPower1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_PassPower1.FormattingEnabled = true;
-            this.CB_PassPower1.Location = new System.Drawing.Point(6, 20);
+            this.CB_PassPower1.Location = new System.Drawing.Point(6, 17);
             this.CB_PassPower1.Name = "CB_PassPower1";
             this.CB_PassPower1.Size = new System.Drawing.Size(125, 21);
             this.CB_PassPower1.TabIndex = 0;
@@ -1674,6 +1687,16 @@ namespace PKHeX.WinForms
             this.L_SingleRecord.Text = "Record";
             this.L_SingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // B_UnlockAllMusicalProps
+            // 
+            this.B_UnlockAllMusicalProps.Location = new System.Drawing.Point(175, 243);
+            this.B_UnlockAllMusicalProps.Name = "B_UnlockAllMusicalProps";
+            this.B_UnlockAllMusicalProps.Size = new System.Drawing.Size(144, 42);
+            this.B_UnlockAllMusicalProps.TabIndex = 5;
+            this.B_UnlockAllMusicalProps.Text = "Unlock All Musical Props";
+            this.B_UnlockAllMusicalProps.UseVisualStyleBackColor = true;
+            this.B_UnlockAllMusicalProps.Click += new System.EventHandler(this.B_UnlockAllMusicalProps_Click);
+            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1694,16 +1717,17 @@ namespace PKHeX.WinForms
             this.GB_Roamer.ResumeLayout(false);
             this.GB_FlyDest.ResumeLayout(false);
             this.TAB_Entralink.ResumeLayout(false);
+            this.PAN_MissionMeta.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMHosted)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMMostParticipants)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMParticipated)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMCompleted)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMTopScores)).EndInit();
             this.GB_EntreeLevel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeWhiteEXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeBlackEXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeBlackLV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EntreeWhiteLV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMMostParticipants)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMTopScores)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMCompleted)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMParticipated)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FMHosted)).EndInit();
             this.GB_FunfestMissions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestScore)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FMBestTotal)).EndInit();
@@ -1861,5 +1885,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_SuperMulti;
         private System.Windows.Forms.CheckBox CHK_SuperDouble;
         private System.Windows.Forms.CheckBox CHK_SuperSingle;
+        private System.Windows.Forms.Panel PAN_MissionMeta;
+        private System.Windows.Forms.Button B_UnlockAllMusicalProps;
     }
 }

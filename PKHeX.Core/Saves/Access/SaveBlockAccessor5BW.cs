@@ -87,8 +87,10 @@ namespace PKHeX.Core
             Items = new MyItem5BW(sav, 0x18400);
             PlayerData = new PlayerData5(sav, 0x19400);
             Mystery = new MysteryBlock5(sav, 0x1C800);
+            Musical = new Musical5(sav, 0x1F700);
             Daycare = new Daycare5(sav, 0x20E00);
             Misc = new Misc5BW(sav, 0x21200);
+            Entralink = new Entralink5BW(sav, 0x21300);
             Zukan = new Zukan5(sav, 0x21600, 0x320);
             BattleSubway = new BattleSubway5(sav, 0x21D00);
         }
@@ -102,5 +104,7 @@ namespace PKHeX.Core
         public BoxLayout5 BoxLayout { get; }
         public PlayerData5 PlayerData { get; }
         public BattleSubway5 BattleSubway { get; }
+        public Entralink5 Entralink { get; }
+        public Musical5 Musical { get; }
     }
 }

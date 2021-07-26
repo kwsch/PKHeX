@@ -91,11 +91,14 @@ namespace PKHeX.Core
             Items = new MyItem5B2W2(sav, 0x18400);
             PlayerData = new PlayerData5(sav, 0x19400);
             Mystery = new MysteryBlock5(sav, 0x1C800);
+            Musical = new Musical5(sav, 0x1F700);
             Daycare = new Daycare5(sav, 0x20D00);
             Misc = new Misc5B2W2(sav, 0x21100);
+            Entralink = new Entralink5B2W2(sav, 0x21200);
             Zukan = new Zukan5(sav, 0x21400, 0x328); // forme flags size is + 8 from bw with new formes (therians)
             BattleSubway = new BattleSubway5(sav, 0x21B00);
             PWT = new PWTBlock5(sav, 0x23700);
+            Festa = new FestaBlock5(sav, 0x25900);
         }
 
         public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksB2W2;
@@ -108,5 +111,8 @@ namespace PKHeX.Core
         public PlayerData5 PlayerData { get; }
         public BattleSubway5 BattleSubway { get; }
         public PWTBlock5 PWT { get; }
+        public Entralink5 Entralink { get; }
+        public FestaBlock5 Festa { get; }
+        public Musical5 Musical { get; }
     }
 }

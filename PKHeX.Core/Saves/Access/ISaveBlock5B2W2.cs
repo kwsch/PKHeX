@@ -6,5 +6,6 @@
     public interface ISaveBlock5B2W2
     {
         PWTBlock5 PWT { get; }
+        FestaBlock5 Festa { get; }
     }
 }
