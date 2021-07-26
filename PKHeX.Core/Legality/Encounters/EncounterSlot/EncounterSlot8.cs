@@ -9,12 +9,14 @@ namespace PKHeX.Core
     public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
     {
         public readonly AreaWeather8 Weather;
+        public readonly AreaSlotType8 SlotType;
         public override string LongName => $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather) : base(area, species, form, min, max)
+        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
         {
             Weather = weather;
+            SlotType = slotType;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
@@ -90,6 +92,11 @@ namespace PKHeX.Core
                 if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)
                     return EncounterMatchRating.Deferred;
                 if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
+                    return EncounterMatchRating.Deferred;
+
+                // Check if it has a mark and the weather does not permit the mark.
+                // Tree/Fishing slots should be deferred here and are checked later.
+                if (!Weather.IsMarkCompatible(m))
                     return EncounterMatchRating.Deferred;
 
                 // Galar Mine hidden encounters can only be found via Curry.

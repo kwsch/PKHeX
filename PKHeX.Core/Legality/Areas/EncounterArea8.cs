@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.AreaWeather8;
+using static PKHeX.Core.AreaSlotType8;
 
 namespace PKHeX.Core
 {
@@ -222,6 +224,114 @@ namespace PKHeX.Core
             {230, new byte[] {232}},
         };
 
+        /// <summary>
+        /// Location IDs matched with possible weather types. Unlisted locations may only have Normal weather.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherbyArea = new()
+        {
+            { 68, Intense_Sun }, // Route 6
+            { 88, Snowing }, // Route 8 (Steamdrift Way)
+            { 90, Snowing }, // Route 9
+            { 92, Snowing }, // Route 9 (Circhester Bay)
+            { 94, Overcast }, // Route 9 (Outer Spikemuth)
+            { 106, Snowstorm }, // Route 10
+            { 122, All }, // Rolling Fields
+            { 124, All }, // Dappled Grove
+            { 126, All }, // Watchtower Ruins
+            { 128, All }, // East Lake Axewell
+            { 130, All }, // West Lake Axewell
+            { 132, All }, // Axew's Eye
+            { 134, All }, // South Lake Miloch
+            { 136, All }, // Giant's Seat
+            { 138, All }, // North Lake Miloch
+            { 140, All }, // Motostoke Riverbank
+            { 142, All }, // Bridge Field
+            { 144, All }, // Stony Wilderness
+            { 146, All }, // Dusty Bowl
+            { 148, All }, // Giant's Mirror
+            { 150, All }, // Hammerlocke Hills
+            { 152, All }, // Giant's Cap
+            { 154, All }, // Lake of Outrage
+            { 164, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Fields of Honor
+            { 166, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Soothing Wetlands
+            { 168, All_IoA }, // Forest of Focus
+            { 170, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Challenge Beach
+            { 174, All_IoA }, // Challenge Road
+            { 178, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Loop Lagoon
+            { 180, All_IoA }, // Training Lowlands
+            { 184, Normal | Overcast | Raining | Sandstorm | Intense_Sun | Heavy_Fog }, // Potbottom Desert
+            { 186, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Workout Sea
+            { 188, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Stepping-Stone Sea
+            { 190, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Insular Sea
+            { 192, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Honeycalm Sea
+            { 194, Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Honeycalm Island
+            { 204, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Slippery Slope
+            { 208, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Frostpoint Field
+            { 210, All_CT }, // Giant's Bed
+            { 212, All_CT }, // Old Cemetery
+            { 214, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Snowslide Slope
+            { 216, Overcast }, // Tunnel to the Top
+            { 218, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Path to the Peak
+            { 222, All_CT }, // Giant's Foot
+            { 224, Overcast }, // Roaring-Sea Caves
+            { 226, No_Sun_Sand }, // Frigid Sea
+            { 228, All_CT }, // Three-Point Pass
+            { 230, All_Ballimere }, // Ballimere Lake
+            { 232, Overcast }, // Lakeside Cave
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for standard symbol encounter slots.
+        /// </summary>
+        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbol = new()
+        {
+            { 166, All_IoA }, // Soothing Wetlands from Forest of Focus
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 182, All_IoA }, // Warm-Up Tunnel from Training Lowlands
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
+            { 216, Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Tunnel to the Top from Path to the Peak
+            { 224, All_CT }, // Roaring-Sea Caves from Three-Point Pass
+            { 232, All_Ballimere }, // Lakeside Cave from Ballimere Lake
+            { 230, All_CT }, // Ballimere Lake from Giant's Bed
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for surfing symbol encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSurfing = new()
+        {
+            { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
+            { 224, All_CT }, // Roaring-Sea Caves from Giant's Foot
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations for Sharpedo symbol encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSharpedo = new()
+        {
+            { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
+        };
+
+        /// <summary>
+        /// Weather types that may bleed into each location from adjacent locations, for standard hidden grass encounter slots.
+        /// </summary>
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
+        {
+            { 166, All_IoA }, // Soothing Wetlands from Forest of Focus
+            { 170, All_IoA }, // Challenge Beach from Forest of Focus
+            { 208, All_CT }, // Frostpoint Field from Giant's Bed
+            { 230, All_CT }, // Ballimere Lake from Giant's Bed
+        };
+
+        public static bool IsWeatherBleedPossible(AreaSlotType8 type, AreaWeather8 permit, int location) => type switch
+        {
+            SymbolMain or SymbolMain2 or SymbolMain3 => WeatherBleedSymbol        .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            HiddenMain or HiddenMain2 or HiddenMain3 => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            _ => false
+        };
+
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
         {
             var result = new EncounterArea8[input.Length];
@@ -249,14 +359,14 @@ namespace PKHeX.Core
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
-                // ofs+5 reserved
+                var slotType = (AreaSlotType8) areaData[ofs + 5];
                 ofs += 6;
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
                     var species = specForm & 0x7FF;
                     var form = specForm >> 11;
-                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags);
+                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slotType);
                 }
             } while (ctr != slots.Length);
 
@@ -267,9 +377,9 @@ namespace PKHeX.Core
     /// <summary>
     /// Encounter Conditions for <see cref="GameVersion.SWSH"/>
     /// </summary>
-    /// <remarks>Values above <see cref="All"/> are for Shaking/Fishing hidden encounters only.</remarks>
+    /// <remarks>Values above <see cref="AreaWeather8.All"/> are for Shaking/Fishing hidden encounters only.</remarks>
     [Flags]
-    public enum AreaWeather8
+    public enum AreaWeather8 : ushort
     {
         None,
         Normal = 1,
@@ -294,5 +404,46 @@ namespace PKHeX.Core
         Fishing = 1 << 10,
 
         NotWeather = Shaking_Trees | Fishing,
+    }
+
+    public static class AreaWeather8Extensions
+    {
+        public static bool IsMarkCompatible(this AreaWeather8 weather, IRibbonSetMark8 m)
+        {
+            if (m.RibbonMarkCloudy) return (weather & Overcast) != 0;
+            if (m.RibbonMarkRainy) return (weather & Raining) != 0;
+            if (m.RibbonMarkStormy) return (weather & Thunderstorm) != 0;
+            if (m.RibbonMarkSnowy) return (weather & Snowing) != 0;
+            if (m.RibbonMarkBlizzard) return (weather & Snowstorm) != 0;
+            if (m.RibbonMarkDry) return (weather & Intense_Sun) != 0;
+            if (m.RibbonMarkSandstorm) return (weather & Sandstorm) != 0;
+            if (m.RibbonMarkMisty) return (weather & Heavy_Fog) != 0;
+            return true; // no mark / etc is fine; check later.
+        }
+    }
+
+    /// <summary>
+    /// Encounter Slot Types for <see cref="GameVersion.SWSH"/>
+    /// </summary>
+    public enum AreaSlotType8 : byte
+    {
+        SymbolMain,
+        SymbolMain2,
+        SymbolMain3,
+
+        HiddenMain, // Table with the tree/fishing slots
+        HiddenMain2,
+        HiddenMain3,
+
+        Surfing,
+        Surfing2,
+        Sky,
+        Sky2,
+        Ground,
+        Ground2,
+        Sharpedo,
+
+        OnlyFishing,
+        Inaccessible,
     }
 }

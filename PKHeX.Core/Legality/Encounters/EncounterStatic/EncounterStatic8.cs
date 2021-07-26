@@ -95,7 +95,7 @@ namespace PKHeX.Core
                 };
             }
 
-            if (pkm is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing))
+            if (pkm is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing || m.HasWeatherMark()))
                 return EncounterMatchRating.Deferred;
 
             return EncounterMatchRating.Match;

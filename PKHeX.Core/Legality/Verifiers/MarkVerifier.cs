@@ -38,7 +38,7 @@ namespace PKHeX.Core
             bool hasOne = false;
             for (var mark = RibbonIndex.MarkLunchtime; mark <= RibbonIndex.MarkSlump; mark++)
             {
-                bool has = m.GetRibbon((int) mark);
+                bool has = m.GetRibbon((int)mark);
                 if (!has)
                     continue;
 
@@ -69,8 +69,39 @@ namespace PKHeX.Core
             RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
             RibbonIndex.MarkFishing when !IsMarkAllowedFishing(x) => false,
             RibbonIndex.MarkDestiny => false,
+            >= RibbonIndex.MarkCloudy and <= RibbonIndex.MarkMisty => IsWeatherPermitted(mark, x),
             _ => true
         };
+
+        private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterTemplate enc)
+        {
+            var permit = mark.GetWeather8();
+
+            // Encounter slots check location weather, while static encounters check weather per encounter.
+            return enc switch
+            {
+                EncounterSlot8 w => IsSlotWeatherPermitted(permit, w),
+                EncounterStatic8 s => s.Weather.HasFlag(permit),
+                _ => false,
+            };
+        }
+
+        private static bool IsSlotWeatherPermitted(AreaWeather8 permit, EncounterSlot8 s)
+        {
+            var location = s.Location;
+            // If it's not in the main table, it can only have Normal weather.
+            if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var weather))
+                weather = AreaWeather8.Normal;
+            if (weather.HasFlag(permit))
+                return true;
+
+            // Valid tree/fishing weathers should have returned with main area weather.
+            if ((s.Weather & (AreaWeather8.Shaking_Trees | AreaWeather8.Fishing)) != 0)
+                return false;
+
+            // Check bleed conditions otherwise.
+            return EncounterArea8.IsWeatherBleedPossible(s.SlotType, permit, location);
+        }
 
         public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
         {
