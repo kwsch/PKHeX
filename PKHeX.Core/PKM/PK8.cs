@@ -59,7 +59,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK8((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter.GetString7b(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
@@ -69,7 +69,7 @@ namespace PKHeX.Core
         public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x58, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x58)); } }
         public override Span<byte> HT_Trash { get => Data.AsSpan(0xA8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xA8)); } }
         public override Span<byte> OT_Trash { get => Data.AsSpan(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xF8)); } }
-        
+
         // Maximums
         public override int MaxIV => 31;
         public override int MaxEV => 252;

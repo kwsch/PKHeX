@@ -37,7 +37,7 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private string GetString(int Offset, int Count) => StringConverter3.GetString3(Data, Offset, Count, Japanese);
+        private string GetString(int offset, int count) => StringConverter3.GetString3(Data, offset, count, Japanese);
         private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese);
 
         private const string EggNameJapanese = "タマゴ";

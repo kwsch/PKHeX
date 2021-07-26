@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
     public sealed class PK5 : PKM,
-        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, 
+        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
         IContestStats, IContestStatsMutable, IGroundTile
     {
         private static readonly ushort[] Unused =
@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK5((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter.GetString5(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes

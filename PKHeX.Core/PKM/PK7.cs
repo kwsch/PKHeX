@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK7((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter.GetString7(Data, offset, count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
 
         // Structure

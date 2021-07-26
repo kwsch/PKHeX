@@ -31,7 +31,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK4((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter4.GetString4(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
 
         // Structure
