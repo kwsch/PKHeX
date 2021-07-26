@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.AreaWeather8;
+using static PKHeX.Core.AreaSlotType8;
 
 namespace PKHeX.Core
 {
@@ -297,7 +298,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Weather types that may bleed into each location from adjacent locations for surfing symbol encounter slots.
         /// </summary>
-        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSurfing = new()
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSurfing = new()
         {
             { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
             { 224, All_CT }, // Roaring-Sea Caves from Giant's Foot
@@ -306,7 +307,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Weather types that may bleed into each location from adjacent locations for Sharpedo symbol encounter slots.
         /// </summary>
-        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSharpedo = new()
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedSymbolSharpedo = new()
         {
             { 192, All_IoA }, // Honeycalm Sea from Training Lowlands
         };
@@ -314,12 +315,21 @@ namespace PKHeX.Core
         /// <summary>
         /// Weather types that may bleed into each location from adjacent locations, for standard hidden grass encounter slots.
         /// </summary>
-        internal static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
+        private static readonly Dictionary<int, AreaWeather8> WeatherBleedHiddenGrass = new()
         {
             { 166, All_IoA }, // Soothing Wetlands from Forest of Focus
             { 170, All_IoA }, // Challenge Beach from Forest of Focus
             { 208, All_CT }, // Frostpoint Field from Giant's Bed
             { 230, All_CT }, // Ballimere Lake from Giant's Bed
+        };
+
+        public static bool IsWeatherBleedPossible(AreaSlotType8 type, AreaWeather8 permit, int location) => type switch
+        {
+            SymbolMain or SymbolMain2 or SymbolMain3 => WeatherBleedSymbol        .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            HiddenMain or HiddenMain2 or HiddenMain3 => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            _ => false
         };
 
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)

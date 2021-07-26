@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.AreaSlotType8;
 
 namespace PKHeX.Core
 {
@@ -97,19 +96,11 @@ namespace PKHeX.Core
                 return true;
 
             // Valid tree/fishing weathers should have returned with main area weather.
-            weather = s.Weather;
-            if ((weather & (AreaWeather8.Shaking_Trees | AreaWeather8.Fishing)) != 0)
+            if ((s.Weather & (AreaWeather8.Shaking_Trees | AreaWeather8.Fishing)) != 0)
                 return false;
 
             // Check bleed conditions otherwise.
-            return s.SlotType switch
-            {
-                SymbolMain or SymbolMain2 or SymbolMain3 => EncounterArea8.WeatherBleedSymbol        .TryGetValue(location, out weather) && weather.HasFlag(permit),
-                HiddenMain or HiddenMain2 or HiddenMain3 => EncounterArea8.WeatherBleedHiddenGrass   .TryGetValue(location, out weather) && weather.HasFlag(permit),
-                Surfing                                  => EncounterArea8.WeatherBleedSymbolSurfing .TryGetValue(location, out weather) && weather.HasFlag(permit),
-                Sharpedo                                 => EncounterArea8.WeatherBleedSymbolSharpedo.TryGetValue(location, out weather) && weather.HasFlag(permit),
-                _ => false
-            };
+            return EncounterArea8.IsWeatherBleedPossible(s.SlotType, permit, location);
         }
 
         public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
