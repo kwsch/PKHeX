@@ -26,6 +26,9 @@ namespace PKHeX.Core
             if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
                 ((PK8)pk).RibbonMarkCurry = true;
 
+            if (Weather is AreaWeather8.Heavy_Fog)
+                pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+
             base.ApplyDetails(sav, c, pk);
             var req = GetRequirement(pk);
             if (req != MustHave)

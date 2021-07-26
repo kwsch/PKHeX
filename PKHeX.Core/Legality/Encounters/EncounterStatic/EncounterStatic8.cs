@@ -26,8 +26,8 @@ namespace PKHeX.Core
             var lvl = Level;
             if (met == lvl)
                 return true;
-            if (lvl < 60 && EncounterArea8.IsBoostedArea60(Location))
-                return met == 60;
+            if (lvl < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60(Location))
+                return met == EncounterArea8.BoostLevel;
             return false;
         }
 
@@ -35,12 +35,17 @@ namespace PKHeX.Core
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
+            if (pkm.Met_Level < EncounterArea8.BoostLevel && Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsWildArea8(Location))
+                return false;
             return base.IsMatchExact(pkm, evo);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
+            if (Weather is AreaWeather8.Heavy_Fog)
+                pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+
             var req = GetRequirement(pk);
             if (req != MustHave)
             {

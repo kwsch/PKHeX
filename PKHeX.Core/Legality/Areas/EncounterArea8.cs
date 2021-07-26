@@ -43,13 +43,13 @@ namespace PKHeX.Core
         {
             // wild area gets boosted up to level 60 post-game
             var met = pkm.Met_Level;
-            bool isBoosted = met == 60 && IsBoostedArea60(Location);
+            bool isBoosted = met == BoostLevel && IsBoostedArea60(Location);
             if (isBoosted)
                 return GetBoostedMatches(chain);
             return GetUnboostedMatches(chain, met);
         }
 
-        private IEnumerable<EncounterSlot> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int met)
+        private IEnumerable<EncounterSlot8> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int met)
         {
             foreach (var slot in Slots)
             {
@@ -64,13 +64,16 @@ namespace PKHeX.Core
                     if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
+                    if (slot.Weather is Heavy_Fog && IsWildArea8(Location))
+                        break;
+
                     yield return slot;
                     break;
                 }
             }
         }
 
-        private IEnumerable<EncounterSlot> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot8> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
             {
@@ -80,7 +83,7 @@ namespace PKHeX.Core
                         continue;
 
                     // Ignore max met level comparison; we already know it is permissible to boost to level 60.
-                    if (slot.LevelMin > 60)
+                    if (slot.LevelMin > BoostLevel)
                         break; // Can't downlevel, only boost to 60.
 
                     if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
@@ -91,6 +94,8 @@ namespace PKHeX.Core
                 }
             }
         }
+
+        public const int BoostLevel = 60;
 
         public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
         public static bool IsBoostedArea60(int location) => IsWildArea(location);
