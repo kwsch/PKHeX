@@ -144,7 +144,7 @@ namespace PKHeX.Core
             {
                 case Any:
                     var first = LearnBW.GetIsLevelUp(species, form, move, maxLevel);
-                    if (first.IsLevelUp && species != 646)  // Kyurem moves are same for both versions, but forme movepool not present.
+                    if (first.IsLevelUp && species != 646)  // Kyurem moves are same for both versions, but form movepool not present.
                         return first;
                     return LearnB2W2.GetIsLevelUp(species, form, move, maxLevel);
                 case B or W or BW:
@@ -406,7 +406,7 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                    if (species != 646) // Kyurem moves are same for both versions, but forme movepool not present.
+                    if (species != 646) // Kyurem moves are same for both versions, but form movepool not present.
                         LearnBW.AddMoves(moves, species, form, maxLevel);
                     return LearnB2W2.AddMoves(moves, species, form, maxLevel);
 

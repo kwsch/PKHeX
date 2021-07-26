@@ -261,11 +261,11 @@ namespace PKHeX.Core
         /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
         public bool HasForm(int form)
         {
-            if (form <= 0) // no forme requested
+            if (form <= 0) // no form requested
                 return false;
-            if (FormStatsIndex <= 0) // no formes present
+            if (FormStatsIndex <= 0) // no forms present
                 return false;
-            if (form >= FormCount) // beyond range of species' formes
+            if (form >= FormCount) // beyond range of species' forms
                 return false;
             return true;
         }
@@ -323,7 +323,7 @@ namespace PKHeX.Core
         public bool OnlyMale => Gender == RatioMagicMale;
 
         /// <summary>
-        /// Indicates if the entry has Formes or not.
+        /// Indicates if the entry has forms or not.
         ///  </summary>
         public bool HasForms => FormCount > 1;
 

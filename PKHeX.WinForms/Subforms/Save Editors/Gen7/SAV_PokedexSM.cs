@@ -132,7 +132,7 @@ namespace PKHeX.WinForms
                 return false;
             }
 
-            // sanity check formes -- SM does not have totem form dex bits
+            // sanity check forms -- SM does not have totem form dex bits
             int count = SAV.Personal[bspecies].FormCount;
             if (count < ds.Count)
                 ds.RemoveAt(count); // remove last
@@ -352,7 +352,7 @@ namespace PKHeX.WinForms
                 if (sender != mnuSeenAll)
                     SetCaught(sender, gt, lang, false);
 
-                // Set forme flags
+                // Set form flags
                 var entries = Dex.GetAllFormEntries(species).Where(z => z >= SAV.MaxSpeciesID).Distinct();
                 foreach (var f in entries)
                 {
@@ -396,7 +396,7 @@ namespace PKHeX.WinForms
                     (gt != PersonalInfo.RatioMagicFemale ? CHK_P2 : CHK_P3).Checked = true;
             }
 
-            // ensure at least one Displayed except for formes
+            // ensure at least one Displayed except for forms
             if (isForm)
                 return;
             if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
@@ -410,7 +410,7 @@ namespace PKHeX.WinForms
 
             if (mnuSeenNone != sender)
             {
-                // ensure at least one Displayed except for formes
+                // ensure at least one Displayed except for forms
                 if (isForm)
                     return;
                 if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))

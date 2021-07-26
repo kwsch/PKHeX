@@ -149,10 +149,10 @@ namespace PKHeX.Core
         /// <summary>
         /// Compares the Vivillon pattern against its country and region to determine if the pattern is able to be obtained legally.
         /// </summary>
-        /// <param name="form">Alternate Forme Pattern</param>
+        /// <param name="form">Alternate Form Pattern</param>
         /// <param name="country">Country ID</param>
         /// <param name="region">Console Region ID</param>
-        /// <returns></returns>
+        /// <returns>True if valid</returns>
         public static bool IsPatternValid(int form, byte country, byte region)
         {
             if (!VivillonCountryTable[form].Contains(country))

@@ -127,7 +127,7 @@ namespace PKHeX.Core
         public int CrownDexIndex { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }
 
         /// <summary>
-        /// Gets the Forme that any offspring will hatch with, assuming it is holding an Everstone.
+        /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.
         /// </summary>
         public int HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
 

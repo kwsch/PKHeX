@@ -50,9 +50,9 @@ namespace PKHeX.Core
             new(0x1DA00, 0x01e0, 0x1DBE2, 0x25F4C), // 38 Trainer Card Records
             new(0x1DC00, 0x00a8, 0x1DCAA, 0x25F4E), // 39 ???
             new(0x1DD00, 0x0460, 0x1E162, 0x25F50), // 40 Mail
-            new(0x1E200, 0x1400, 0x1F602, 0x25F52), // 41 ???
+            new(0x1E200, 0x1400, 0x1F602, 0x25F52), // 41 Overworld State
             new(0x1F700, 0x02a4, 0x1F9A6, 0x25F54), // 42 Musical
-            new(0x1FA00, 0x00e0, 0x1FAE2, 0x25F56), // 43 Fused Reshiram/Zekrom Storage
+            new(0x1FA00, 0x00e0, 0x1FAE2, 0x25F56), // 43 White Forest + Black City Data, Fused Reshiram/Zekrom Storage
             new(0x1FB00, 0x034c, 0x1FE4E, 0x25F58), // 44 IR
             new(0x1FF00, 0x04e0, 0x203E2, 0x25F5A), // 45 EventWork
             new(0x20400, 0x00f8, 0x204FA, 0x25F5C), // 46 GTS
@@ -95,7 +95,7 @@ namespace PKHeX.Core
             Daycare = new Daycare5(sav, 0x20D00);
             Misc = new Misc5B2W2(sav, 0x21100);
             Entralink = new Entralink5B2W2(sav, 0x21200);
-            Zukan = new Zukan5(sav, 0x21400, 0x328); // forme flags size is + 8 from bw with new formes (therians)
+            Zukan = new Zukan5(sav, 0x21400, 0x328); // form flags size is + 8 from bw with new forms (therians)
             BattleSubway = new BattleSubway5(sav, 0x21B00);
             PWT = new PWTBlock5(sav, 0x23700);
             Festa = new FestaBlock5(sav, 0x25900);
