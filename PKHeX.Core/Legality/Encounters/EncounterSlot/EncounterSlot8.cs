@@ -60,14 +60,18 @@ namespace PKHeX.Core
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
-            var flawless = GetFlawlessIVCount();
+            var flawless = GetFlawlessIVCount(pk.Met_Level);
             return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
         }
 
-        private int GetFlawlessIVCount()
+        private int GetFlawlessIVCount(int met)
         {
             const int none = 0;
             const int any023 = -1;
+
+            // Brilliant encounters are boosted to max level for the slot.
+            if (met < LevelMax)
+                return none;
 
             var area = (EncounterArea8) Area;
             if (area.PermitCrossover)
