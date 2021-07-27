@@ -50,7 +50,7 @@ namespace PKHeX.Core
 
         public virtual IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
-            int gen = f.Last() - 0x30;
+            int gen = f[^1] - 0x30;
             return 3 <= gen && gen <= Generation;
         }).ToArray();
 
@@ -273,13 +273,27 @@ namespace PKHeX.Core
         public virtual bool HasParty => Party > -1;
         public abstract int GetPartyOffset(int slot);
 
-        public bool IsPartyAllEggs(params int[] except)
+        public bool IsPartyAllEggs(int except = -1)
         {
             if (!HasParty)
                 return false;
 
-            var party = PartyData;
-            return party.Count == party.Where(t => t.Species != 0).Where((t, i) => t.IsEgg || except.Contains(i)).Count();
+            for (int i = 0; i < MaxPartyCount; i++)
+            {
+                if (i == except)
+                    continue;
+
+                if (IsPartySlotNotEggOrEmpty(i))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool IsPartySlotNotEggOrEmpty(int i)
+        {
+            var slot = GetPartySlotAtIndex(i);
+            return !slot.IsEgg && slot.Species != 0;
         }
 
         private const int MaxPartyCount = 6;
@@ -567,6 +581,10 @@ namespace PKHeX.Core
 
         #region Storage Health & Metadata
         protected int[] TeamSlots = Array.Empty<int>();
+
+        /// <summary>
+        /// Slot indexes that are protected from overwriting.
+        /// </summary>
         protected virtual IList<int>[] SlotPointers => new[] { TeamSlots };
         public virtual StorageSlotFlag GetSlotFlags(int index) => StorageSlotFlag.None;
         public StorageSlotFlag GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
@@ -595,16 +613,33 @@ namespace PKHeX.Core
 
         private bool IsRegionOverwriteProtected(int min, int max)
         {
-            return SlotPointers.SelectMany(z => z)
-                .Where(z => GetSlotFlags(z).IsOverwriteProtected())
-                .Any(slot => ArrayUtil.WithinRange(slot, min, max));
+            foreach (var arrays in SlotPointers)
+            {
+                foreach (int slotIndex in arrays)
+                {
+                    if (!GetSlotFlags(slotIndex).IsOverwriteProtected())
+                        continue;
+                    if (ArrayUtil.WithinRange(slotIndex, min, max))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public bool IsAnySlotLockedInBox(int BoxStart, int BoxEnd)
         {
-            return SlotPointers.SelectMany(z => z)
-                .Where(z => GetSlotFlags(z).HasFlagFast(StorageSlotFlag.Locked))
-                .Any(slot => ArrayUtil.WithinRange(slot, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount));
+            foreach (var arrays in SlotPointers)
+            {
+                foreach (int slotIndex in arrays)
+                {
+                    if (!GetSlotFlags(slotIndex).HasFlagFast(StorageSlotFlag.Locked))
+                        continue;
+                    if (ArrayUtil.WithinRange(slotIndex, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount))
+                        return true;
+                }
+            }
+            return false;
         }
         #endregion
 

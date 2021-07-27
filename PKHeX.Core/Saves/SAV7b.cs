@@ -107,11 +107,12 @@ namespace PKHeX.Core
         public override StorageSlotFlag GetSlotFlags(int index)
         {
             var val = StorageSlotFlag.None;
-            if (Blocks.Storage.PokeListInfo[6] == index)
+            var header = Blocks.Storage.PokeListInfo;
+            int position = Array.IndexOf(header, index, 0, 6);
+            if (position >= 0)
+                val = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
+            if (header[PokeListHeader.STARTER] == index)
                 val |= StorageSlotFlag.Starter;
-            int position = Array.IndexOf(Blocks.Storage.PokeListInfo, index);
-            if ((uint) position < 6)
-                val |= (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
             return val;
         }
 

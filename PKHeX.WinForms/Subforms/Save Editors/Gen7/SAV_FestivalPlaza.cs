@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -76,7 +75,7 @@ namespace PKHeX.WinForms
                     break;
             }
             CLB_Phrases.Items.Clear();
-            CLB_Phrases.Items.Add(res.Last(), SAV.Festa.GetFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
+            CLB_Phrases.Items.Add(res[^1], SAV.Festa.GetFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
             for (int i = 0; i < res.Length - 1; i++)
                 CLB_Phrases.Items.Add(res[i], SAV.Festa.GetFestaPhraseUnlocked(i));
 
@@ -85,7 +84,7 @@ namespace PKHeX.WinForms
 
             string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
             CLB_Reward.Items.Clear();
-            CLB_Reward.Items.Add(res2.Last(), (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
+            CLB_Reward.Items.Add(res2[^1], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
             for (int i = 0; i < res2.Length - 1; i++)
                 CLB_Reward.Items.Add(res2[i], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(i)]);
 
@@ -127,18 +126,24 @@ namespace PKHeX.WinForms
             CB_FacilityType.Items.Clear();
             for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) //Exchange is USUM only
             {
-                for (int j = 0; j < RES_FacilityLevelType[k].Length; j++)
+                var arr = RES_FacilityLevelType[k];
+                for (int j = 0; j < arr.Length; j++)
                 {
-                    if (RES_FacilityLevelType[k][j] != 4)
+                    var x = res6[k];
+                    var y = res7[k];
+                    var name = $"{x} {y[j]}";
+
+                    var count = arr[j];
+                    if (count == 4)
                     {
-                        for (int i = 0; i < RES_FacilityLevelType[k][j]; i++)
-                            CB_FacilityType.Items.Add($"{res6[k]} {res7[k][j]} {i + 1}");
+                        CB_FacilityType.Items.Add($"{name} 1");
+                        CB_FacilityType.Items.Add($"{name} 3");
+                        CB_FacilityType.Items.Add($"{name} 5");
                     }
                     else
                     {
-                        CB_FacilityType.Items.Add($"{res6[k]} {res7[k][j]} 1");
-                        CB_FacilityType.Items.Add($"{res6[k]} {res7[k][j]} 3");
-                        CB_FacilityType.Items.Add($"{res6[k]} {res7[k][j]} 5");
+                        for (int i = 0; i < count; i++)
+                            CB_FacilityType.Items.Add($"{name} {i + 1}");
                     }
                 }
             }
@@ -171,7 +176,12 @@ namespace PKHeX.WinForms
         private readonly byte[] RewardState = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
         private readonly int typeMAX;
         private readonly FestaFacility[] f = new FestaFacility[7];
-        private readonly string[] RES_Color = { "Red", "Blue", "Gold", "Black", "Purple", "Yellow", "Brown", "Green", "Orange", "NavyBlue", "Pink", "White" };
+        private readonly string[] RES_Color = Enum.GetNames(typeof(FestivalPlazaFacilityColor));
+
+        public enum FestivalPlazaFacilityColor : byte
+        {
+            Red, Blue, Gold, Black, Purple, Yellow, Brown, Green, Orange, NavyBlue, Pink, White
+        }
 
         private readonly byte[][] RES_FacilityColor = //facility appearance
         {

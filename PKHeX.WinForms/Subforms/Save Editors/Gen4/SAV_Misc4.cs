@@ -450,7 +450,7 @@ namespace PKHeX.WinForms
                 new[] { "Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi" },
             };
             BFN = new[] { "Tower", "Factory", "Hall", "Castle", "Arcade" };
-            if (SAV.DP) BFN = BFN.Take(1).ToArray();
+            if (SAV is SAV4DP) BFN = BFN.Take(1).ToArray();
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
@@ -623,7 +623,7 @@ namespace PKHeX.WinForms
             int addrVal = BFF[Facility][2] + (BFF[Facility][3] * BattleType) + (RBi << 3);
             int addrFlag = BFF[Facility][4];
             byte maskFlag = (byte)(1 << BattleType + (RBi << 2));
-            int TowerContinueCountOfs = SAV.DP ? 3 : 1;
+            int TowerContinueCountOfs = SAV is SAV4DP ? 3 : 1;
 
             if (SetSavToVal)
             {

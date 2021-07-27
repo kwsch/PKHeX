@@ -23,7 +23,5 @@
         /* 18 @ 0x4E200, len = 0x69780 */ GoParkEntities,
         /* 19 @ 0xB7A00, len = 0x000B0 */ GoGoParkNames,
         /* 20 @ 0xB7C00, len = 0x00940 */ _20, // Go Park Names
-
-        Record,
     }
 }

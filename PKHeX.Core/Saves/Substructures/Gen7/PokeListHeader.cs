@@ -21,7 +21,7 @@ namespace PKHeX.Core
         /// </summary>
         internal readonly int[] PokeListInfo;
 
-        private const int STARTER = 6;
+        public const int STARTER = 6;
         private const int COUNT = 7;
         private const int MAX_SLOTS = 1000;
         private const int SLOT_EMPTY = 1001;

@@ -9,6 +9,10 @@ namespace PKHeX.Core
         public const int RecordCount = 200;
         protected override IReadOnlyList<byte> RecordMax { get; }
 
+        // Structure:
+        //   uint[100];
+        // ushort[100];
+
         public RecordBlock6(SAV6XY sav, int offset) : base(sav)
         {
             Offset = offset;
