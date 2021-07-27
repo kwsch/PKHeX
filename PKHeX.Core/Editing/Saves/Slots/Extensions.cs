@@ -142,12 +142,19 @@ namespace PKHeX.Core
                 new(sav.Data, 0, sav.AllBlocks[07].Offset) {Type = StorageSlotType.GTS},
                 new(sav.Data, 0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
             };
-            if (sav is SAV7USUM)
+            if (sav is SAV7USUM uu)
             {
                 list.AddRange(new[]
                {
-                    new SlotInfoMisc(sav.Data, 1, sav.GetFusedSlotOffset(1)) {Type = StorageSlotType.Fused},
-                    new SlotInfoMisc(sav.Data, 2, sav.GetFusedSlotOffset(2)) {Type = StorageSlotType.Fused},
+                    new SlotInfoMisc(uu.Data, 1, uu.GetFusedSlotOffset(1)) {Type = StorageSlotType.Fused},
+                    new SlotInfoMisc(uu.Data, 2, uu.GetFusedSlotOffset(2)) {Type = StorageSlotType.Fused},
+                });
+                var ba = uu.BattleAgency;
+                list.AddRange(new[]
+                {
+                    new SlotInfoMisc(uu.Data, 0, ba.GetSlotOffset(0)) {Type = StorageSlotType.Misc},
+                    new SlotInfoMisc(uu.Data, 1, ba.GetSlotOffset(1)) {Type = StorageSlotType.Misc},
+                    new SlotInfoMisc(uu.Data, 2, ba.GetSlotOffset(2)) {Type = StorageSlotType.Misc},
                 });
             }
 

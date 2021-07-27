@@ -66,6 +66,7 @@ namespace PKHeX.Core
         public override FieldMenu7 FieldMenu => Blocks.FieldMenu;
         public override FashionBlock7 Fashion => Blocks.Fashion;
         public override HallOfFame7 Fame => Blocks.Fame;
+        public BattleAgency7 BattleAgency => Blocks.BattleAgency;
         #endregion
     }
 }
