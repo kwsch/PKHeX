@@ -706,8 +706,8 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 752, Level = 67, Locations = new[] {222, 230}, Weather = Raining }, // Araquanid at Ballimere Lake, Giant’s Foot
             new EncounterStatic8S(SWSH) { Species = 125, Level = 65, Locations = new[] {222, 230}, Weather = Thunderstorm }, // Electabuzz at the Giant’s Foot, Ballimere Lake
           //new(SWSH) { Species = 567, Level = 67, Location = -1 }, // Archeops
-            new(SW  ) { Species = 635, Level = 68, Location = 224, Weather = Overcast }, // Hydreigon in Roaring-Sea Caves
-            new(  SH) { Species = 248, Level = 68, Location = 224, Weather = Overcast }, // Tyranitar in Roaring-Sea Caves
+            new(SW  ) { Species = 635, Level = 68, Location = 224, Weather = No_Sun_Sand }, // Hydreigon in Roaring-Sea Caves, weather from Frigid Sea
+            new(  SH) { Species = 248, Level = 68, Location = 224, Weather = No_Sun_Sand }, // Tyranitar in Roaring-Sea Caves, weather from Frigid Sea
             new(SWSH) { Species = 448, Level = 67, Location = 224, Weather = Overcast }, // Lucario in Roaring-Sea Caves
             new(SWSH) { Species = 042, Level = 65, Location = 224, Weather = Overcast }, // Golbat in the Roaring-Sea Caves
             new(  SH) { Species = 141, Level = 68, Location = 224, Weather = Overcast }, // Kabutops in Roaring-Sea Caves
