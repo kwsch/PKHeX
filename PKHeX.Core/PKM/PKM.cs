@@ -365,15 +365,7 @@ namespace PKHeX.Core
 
         public string FileName => $"{FileNameWithoutExtension}.{Extension}";
 
-        public virtual string FileNameWithoutExtension
-        {
-            get
-            {
-                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
-                string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}";
-            }
-        }
+        public string FileNameWithoutExtension => EntityFileNamer.GetName(this);
 
         public int[] IVs
         {

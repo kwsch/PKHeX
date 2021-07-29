@@ -20,16 +20,6 @@ namespace PKHeX.Core
 
         public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
-        public sealed override string FileNameWithoutExtension
-        {
-            get
-            {
-                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
-                string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {Nickname} - {Checksums.CRC16_CCITT(Encrypt()):X4}";
-            }
-        }
-
         protected GBPKM(int size) : base(size) { }
         protected GBPKM(byte[] data) : base(data) { }
 
