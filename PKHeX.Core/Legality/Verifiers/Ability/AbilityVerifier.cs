@@ -40,9 +40,8 @@ namespace PKHeX.Core
             int format = pkm.Format;
             if (format >= 6)
             {
-                // Check AbilityNumber is a single set bit
                 var num = pkm.AbilityNumber;
-                if (!(num != 0 && (num & (num - 1)) == 0)) // not [!zero, and power of 2]
+                if (!IsValidAbilityBits(num))
                     return INVALID;
 
                 // Check AbilityNumber points to ability
@@ -89,6 +88,8 @@ namespace PKHeX.Core
 
             return VerifyAbility(data, abilities, abilIndex);
         }
+
+        public static bool IsValidAbilityBits(int num) => num is 1 or 2 or 4;
 
         private static bool GetWasDual(IReadOnlyList<EvoCriteria> evos, PersonalTable pt, ISpeciesForm pk)
         {

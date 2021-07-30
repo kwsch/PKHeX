@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
             // Capture / Inherit cases -- can be one of many balls
             var pkm = data.pkm;
-            if (pkm.Species == (int)Species.Shedinja && data.EncounterMatch.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
+            if (pkm.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
             {
                 // Only Gen3 origin Shedinja can copy the wild ball.
                 // Evolution chains will indicate if it could have existed as Shedinja in Gen3.

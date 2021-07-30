@@ -11,12 +11,6 @@ namespace PKHeX.Core
         private readonly GameVersion Version;
         private readonly string LocationName;
 
-        private EncounterSummary(IEncounterTemplate z, string type)
-        {
-            Version = z.Version;
-            LocationName = GetLocationName(z) + $"({type}) ";
-        }
-
         private EncounterSummary(IEncounterTemplate z)
         {
             Version = z.Version;
