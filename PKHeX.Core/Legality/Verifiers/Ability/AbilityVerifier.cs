@@ -337,7 +337,7 @@ namespace PKHeX.Core
             // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
             return enc switch
             {
-                EncounterSlot5 w when pkm.AbilityNumber == 4 != w.IsHiddenGrotto() => GetInvalid(w.IsHiddenGrotto() ? LAbilityMismatchGrotto : LAbilityHiddenFail),
+                EncounterSlot5 w when pkm.AbilityNumber == 4 != w.IsHiddenGrotto => GetInvalid(w.IsHiddenGrotto ? LAbilityMismatchGrotto : LAbilityHiddenFail),
                 EncounterEgg e when pkm.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
                 _ => CheckMatch(data.pkm, abilities, 5, pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch)
             };
@@ -352,8 +352,9 @@ namespace PKHeX.Core
             // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
             return enc switch
             {
-                EncounterSlot6XY slot when slot.Area.Type is SlotType.FriendSafari or SlotType.Horde => VALID,
-                EncounterSlot6AO slot when slot.Area.Type is SlotType.Horde => VALID,
+                EncounterSlot6XY {IsFriendSafari: true} => VALID,
+                EncounterSlot6XY {IsHorde: true} => VALID,
+                EncounterSlot6AO {IsHorde: true} => VALID,
                 EncounterSlot6AO {CanDexNav: true} => VALID,
                 EncounterSlot => GetInvalid(LAbilityMismatchHordeSafari),
 
@@ -370,7 +371,7 @@ namespace PKHeX.Core
 
             return enc switch
             {
-                EncounterSlot7 slot when slot.Area.Type != SlotType.SOS => GetInvalid(LAbilityMismatchSOS),
+                EncounterSlot7 {IsSOS: false} => GetInvalid(LAbilityMismatchSOS),
                 EncounterEgg egg when AbilityBreedLegality.BanHidden7.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
                 _ => VALID
             };

@@ -82,6 +82,9 @@
         /// <summary> Generation 6 Gift from Pokémon Link </summary>
         public const int LinkGift6 = 30011;
 
+        /// <summary> Generation 7 Poké Pelago </summary>
+        public const int Pelago7 = 30016;
+
         /// <summary> Generation 7 Transfer from GO to Pokémon LGP/E's GO Park </summary>
         public const int GO7 = 50;
 

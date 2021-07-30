@@ -26,7 +26,7 @@ namespace PKHeX.Core
             LevelMax = max;
         }
 
-        internal readonly EncounterArea Area;
+        protected readonly EncounterArea Area;
         public GameVersion Version => Area.Version;
         public int Location => Area.Location;
         public int EggLocation => 0;
@@ -74,11 +74,17 @@ namespace PKHeX.Core
         {
             get
             {
-                if (Area!.Type == SlotType.Any)
+                if (Area.Type == SlotType.Any)
                     return wild;
-                return $"{wild} {Area!.Type.ToString().Replace('_', ' ')}";
+                return $"{wild} {Area.Type.ToString().Replace('_', ' ')}";
             }
         }
+
+        /// <summary>
+        /// Returns a required ball if the wild encounter can only be caught in certain scenarios.
+        /// </summary>
+        /// <returns><see cref="Ball.None"/> if unrestricted, otherwise, a specific ball value.</returns>
+        public virtual Ball GetRequiredBallValue() => Ball.None;
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
@@ -101,7 +107,7 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
-            var ball = Area.Type.GetRequiredBallValueWild(Generation, Location);
+            var ball = GetRequiredBallValue();
             pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
             pk.Form = GetWildForm(pk, Form, sav);

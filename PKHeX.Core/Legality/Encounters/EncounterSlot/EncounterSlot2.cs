@@ -25,7 +25,7 @@ namespace PKHeX.Core
 
             var pk2 = (PK2)pk;
 
-            if ((Area.Type & (SlotType)0xF) == SlotType.Headbutt)
+            if (GetSlotType() == SlotType.Headbutt)
             {
                 while (!IsTreeAvailable(pk2.TID))
                     pk2.TID = Util.Rand.Next(ushort.MaxValue + 1);
@@ -71,5 +71,8 @@ namespace PKHeX.Core
                 /*special*/ _ => (permissions & (1 << (pivot + 12))) != 0,
             };
         }
+
+        // we have "Special" bitflag. Strip it out.
+        public SlotType GetSlotType() => Area.Type & (SlotType)0xF;
     }
 }

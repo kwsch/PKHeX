@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         public readonly AreaWeather8 Weather;
         public readonly AreaSlotType8 SlotType;
-        public override string LongName => $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
+        public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
         public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
@@ -86,10 +86,6 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            // Glimwood Tangle does not spawn Symbol encounters, only Hidden.
-            if (Location is 76 && ((EncounterArea8)Area).PermitCrossover)
-                return EncounterMatchRating.PartialMatch;
-
             bool isHidden = pkm.AbilityNumber == 4;
             if (isHidden && this.IsPartialMatchHidden(pkm.Species, Species))
                 return EncounterMatchRating.PartialMatch;
@@ -107,7 +103,7 @@ namespace PKHeX.Core
                     return EncounterMatchRating.Deferred;
 
                 // Galar Mine hidden encounters can only be found via Curry.
-                if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry && (Weather & AreaWeather8.Fishing) == 0)
+                if (Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry)
                     return EncounterMatchRating.PartialMatch;
             }
 

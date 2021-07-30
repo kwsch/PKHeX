@@ -115,17 +115,5 @@ namespace PKHeX.Core
 
             _ => false,
         };
-
-        public static Ball GetRequiredBallValueWild(this SlotType t, int generation, int location) => generation switch
-        {
-            3 when Locations.IsSafariZoneLocation3(location) => Ball.Safari,
-            4 when Locations.IsSafariZoneLocation4(location) => Ball.Safari,
-            4 when t == SlotType.BugContest => Ball.Sport,
-
-            // Poké Pelago
-            7 when location == 30016 => Ball.Poke,
-
-            _ => Ball.None,
-        };
     }
 }

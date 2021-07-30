@@ -51,13 +51,9 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSummary> GetSummaries(IEnumerable<IEncounterTemplate> items) => items.Select(GetSummary);
 
-        private static EncounterSummary GetSummary(IEncounterTemplate item)
+        private static EncounterSummary GetSummary(IEncounterTemplate item) => item switch
         {
-            return item switch
-            {
-                EncounterSlot s when s.Area.Type != 0 => new EncounterSummary(item, s.Area.Type.ToString()),
-                _ => new EncounterSummary(item)
-            };
-        }
+            _ => new EncounterSummary(item)
+        };
     }
 }

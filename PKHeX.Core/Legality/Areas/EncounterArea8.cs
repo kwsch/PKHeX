@@ -360,12 +360,15 @@ namespace PKHeX.Core
             int ofs = 2;
             do
             {
+                // Read area metadata
                 var flags = (AreaWeather8) BitConverter.ToUInt16(areaData, ofs);
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
                 var slotType = (AreaSlotType8) areaData[ofs + 5];
                 ofs += 6;
+
+                // Read slots
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
@@ -448,7 +451,7 @@ namespace PKHeX.Core
         Ground2,
         Sharpedo,
 
-        OnlyFishing,
+        OnlyFishing, // more restricted hidden table that ignores the weather slots like grass Tentacool.
         Inaccessible,
     }
 }

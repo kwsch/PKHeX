@@ -40,7 +40,7 @@
         /// <param name="slot">Slot Data</param>
         /// <param name="pkm">Ancillary pkm data for determining how to check level.</param>
         /// <returns>Slot number for this frame &amp; lead value.</returns>
-        public bool IsSlotCompatibile<T>(T slot, PKM pkm) where T : EncounterSlot, IMagnetStatic, INumberedSlot
+        public bool IsSlotCompatibile<T>(T slot, PKM pkm) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
         {
             bool usesLevel = !slot.FixedLevel;
             if (FrameType != FrameType.MethodH && (Lead & LeadRequired.UsesLevelCall) != 0 != usesLevel)
@@ -74,11 +74,11 @@
         /// </summary>
         /// <param name="slot">Slot Data</param>
         /// <returns>Slot number for this frame &amp; lead value.</returns>
-        private int GetSlot<T>(T slot) where T : EncounterSlot, IMagnetStatic, INumberedSlot
+        private int GetSlot<T>(T slot) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
         {
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
             return Lead != LeadRequired.StaticMagnet
-                ? SlotRange.GetSlot(slot.Area.Type, RandESV, FrameType)
+                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType)
                 : SlotRange.GetSlotStaticMagnet(slot, RandESV);
         }
 
@@ -88,5 +88,10 @@
         /// <param name="t"></param>
         /// <returns></returns>
         public int GetSlot(SlotType t) => SlotRange.GetSlot(t, RandESV, FrameType);
+    }
+
+    public interface ISlotRNGType
+    {
+        SlotType Type { get; }
     }
 }

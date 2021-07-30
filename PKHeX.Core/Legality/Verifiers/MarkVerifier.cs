@@ -118,11 +118,7 @@ namespace PKHeX.Core
         public static bool IsMarkAllowedCurry(PKM pkm, IEncounterTemplate enc)
         {
             // Curry are only encounter slots, from the hidden table (not symbol). Slots taken from area's current weather(?).
-            if (enc is not EncounterSlot8 s)
-                return false;
-
-            var area = (EncounterArea8)s.Area;
-            if (area.PermitCrossover)
+            if (enc is not EncounterSlot8 {SlotType: AreaSlotType8.HiddenMain} s)
                 return false;
 
             var weather = s.Weather;
@@ -141,12 +137,7 @@ namespace PKHeX.Core
             if (enc is not EncounterSlot8 s)
                 return false;
 
-            var area = (EncounterArea8)s.Area;
-            if (area.PermitCrossover)
-                return false;
-
-            var weather = s.Weather;
-            return (weather & AreaWeather8.Fishing) != 0;
+            return s.SlotType is AreaSlotType8.HiddenMain or AreaSlotType8.OnlyFishing;
         }
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)

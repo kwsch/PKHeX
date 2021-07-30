@@ -66,11 +66,12 @@ namespace PKHeX.Core
                     VerifyG5PID_IDCorrelation(data);
                     break;
 
-                case EncounterSlot5 w:
-                    if (w.Area.Type == SlotType.HiddenGrotto && pkm.IsShiny)
+                case EncounterSlot5 {IsHiddenGrotto: true}:
+                    if (pkm.IsShiny)
                         data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
-                    if (w.Area.Type != SlotType.HiddenGrotto)
-                        VerifyG5PID_IDCorrelation(data);
+                    break;
+                case EncounterSlot5:
+                    VerifyG5PID_IDCorrelation(data);
                     break;
 
                 case PCD d: // fixed PID

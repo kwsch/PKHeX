@@ -126,20 +126,20 @@ namespace PKHeX.Core
         }
 
 #pragma warning disable IDE0060, RCS1163 // Unused parameter.
-        public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+        public static bool GetIsEncounterable<T>(T slot, FrameType frameType, int rand, LeadRequired lead) where T : ISlotRNGType
 #pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
-            if (slot.Area.Type.IsSweetScentType())
+            if (slot.Type.IsSweetScentType())
                 return true;
             return true; // todo
             //return GetCanEncounter(slot, frameType, rand, lead);
         }
 
         // ReSharper disable once UnusedMember.Global
-        public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+        public static bool GetCanEncounter<T>(T slot, FrameType frameType, int rand, LeadRequired lead) where T : ISlotRNGType
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
-            var stype = slot.Area.Type;
+            var stype = slot.Type;
             if (stype == SlotType.Rock_Smash)
                 return proc < 60;
             if (frameType == FrameType.MethodH)
