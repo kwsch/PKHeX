@@ -292,8 +292,6 @@ namespace PKHeX.Core
             {
                 if (!IsSane(chain, enc))
                     continue;
-                if (enc.IsUnobtainable())
-                    continue;
                 if (needs.Count == 0)
                 {
                     yield return enc;
@@ -403,21 +401,6 @@ namespace PKHeX.Core
                 break;
             }
             return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterStatic enc)
-        {
-            if (enc is not EncounterStatic4 s)
-                return false;
-
-            return s.Species switch
-            {
-                (int)Species.Darkrai when s.Version != GameVersion.Pt => true, // DP Darkrai
-                (int)Species.Shaymin when s.Version != GameVersion.Pt => true, // DP Shaymin
-                (int)Species.Arceus => true, // Azure Flute Arceus
-                _ => false
-            };
         }
     }
 }
