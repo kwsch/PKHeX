@@ -373,8 +373,6 @@ namespace PKHeX.Core
             {
                 if (!IsSane(chain, slot))
                     continue;
-                if (slot.IsUnobtainable())
-                    continue;
 
                 if (needs.Count == 0)
                 {
@@ -404,20 +402,6 @@ namespace PKHeX.Core
                     return true;
                 break;
             }
-            return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterSlot slot)
-        {
-            switch (slot.Generation)
-            {
-                case 4:
-                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
-                        return true;
-                    break;
-            }
-
             return false;
         }
 
