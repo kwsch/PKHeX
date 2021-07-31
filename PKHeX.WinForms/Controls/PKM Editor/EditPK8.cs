@@ -33,7 +33,6 @@ namespace PKHeX.WinForms.Controls
             SaveMisc4(pk8);
             SaveMisc6(pk8);
             SaveMisc8(pk8);
-            CheckTransferPIDValid(pk8);
 
             // Toss in Party Stats
             SavePartyStats(pk8);

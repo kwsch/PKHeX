@@ -33,7 +33,6 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk6);
             SaveMisc4(pk6);
             SaveMisc6(pk6);
-            CheckTransferPIDValid(pk6);
 
             pk6.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
 

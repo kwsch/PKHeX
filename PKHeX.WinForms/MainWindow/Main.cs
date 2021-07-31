@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
             }
             else if (showChangelog)
             {
-                ShowAboutDialog(1);
+                ShowAboutDialog(AboutPage.Changelog);
             }
 
             if (BAKprompt && !Directory.Exists(BackupPath))
@@ -355,9 +355,9 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void MainMenuAbout(object sender, EventArgs e) => ShowAboutDialog(0);
+        private void MainMenuAbout(object sender, EventArgs e) => ShowAboutDialog(AboutPage.Shortcuts);
 
-        private static void ShowAboutDialog(int index = 0)
+        private static void ShowAboutDialog(AboutPage index)
         {
             using var form = new About(index);
             form.ShowDialog();
@@ -409,13 +409,12 @@ namespace PKHeX.WinForms
 
         private static void ClosePopups()
         {
-            var forms = Application.OpenForms.OfType<Form>()
-                .Where(z => z is not (Main or SplashScreen or SAV_FolderList))
-                .ToArray();
-
+            var forms = Application.OpenForms.OfType<Form>().Where(IsPopupFormType).ToArray();
             foreach (var f in forms)
                 f.Close();
         }
+
+        private static bool IsPopupFormType(Form z) => z is not (Main or SplashScreen or SAV_FolderList);
 
         private void MainMenuSettings(object sender, EventArgs e)
         {
@@ -687,7 +686,8 @@ namespace PKHeX.WinForms
 
         private bool OpenPCBoxBin(IEnumerable<byte[]> pkms)
         {
-            if (!C_SAV.OpenPCBoxBin(pkms.SelectMany(z => z).ToArray(), out string c))
+            var data = pkms.SelectMany(z => z).ToArray();
+            if (!C_SAV.OpenPCBoxBin(data, out string c))
             {
                 WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
                 return true;
@@ -702,14 +702,19 @@ namespace PKHeX.WinForms
             if (memCard.SaveGameCount == 1)
                 return memCard.SelectedGameVersion;
 
-            var games = new List<ComboItem>();
-            if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
-            if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
-            if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
-
+            var games = GetMemoryCardGameSelectionList(memCard);
             var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
             dialog.ShowDialog();
             return dialog.Result;
+        }
+
+        private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
+        {
+            var games = new List<ComboItem>();
+            if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int) GameVersion.COLO));
+            if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int) GameVersion.XD));
+            if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int) GameVersion.RSBOX));
+            return games;
         }
 
         private static bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
@@ -728,14 +733,14 @@ namespace PKHeX.WinForms
                     return false;
 
                 case GCMemoryCardState.MultipleSaveGame:
-                    GameVersion game = SelectMemoryCardSaveGame(memCard);
+                    var game = SelectMemoryCardSaveGame(memCard);
                     if (game == GameVersion.Invalid) //Cancel
                         return false;
                     memCard.SelectSaveGame(game);
                     break;
 
-                case GCMemoryCardState.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
-                case GCMemoryCardState.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
+                case GCMemoryCardState.SaveGameCOLO:  memCard.SelectSaveGame(GameVersion.COLO);  break;
+                case GCMemoryCardState.SaveGameXD:    memCard.SelectSaveGame(GameVersion.XD);    break;
                 case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
                 default:
@@ -803,7 +808,6 @@ namespace PKHeX.WinForms
 
         private void ResetSAVPKMEditors(SaveFile sav)
         {
-            bool WindowToggleRequired = C_SAV.SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
             C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(sav, PKME_Tabs));
 
             var pk = sav.LoadTemplate(TemplatePath);
@@ -826,7 +830,7 @@ namespace PKHeX.WinForms
             }
 
             // Initialize Overall Info
-            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = C_SAV.SAV!.HasBox;
+            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = C_SAV.SAV.HasBox;
 
             // Initialize Subviews
             bool WindowTranslationRequired = false;
@@ -836,11 +840,10 @@ namespace PKHeX.WinForms
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage);
 
             PKME_Tabs.PopulateFields(pk);
-            if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
-                PKME_Tabs.FlickerInterface();
+
+            sav.State.Edited = false;
             foreach (var p in Plugins)
                 p.NotifySaveLoaded();
-            sav.State.Edited = false;
         }
 
         private static string GetProgramTitle()

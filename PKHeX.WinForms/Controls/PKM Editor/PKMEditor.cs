@@ -21,14 +21,13 @@ namespace PKHeX.WinForms.Controls
             InitializeComponent();
 
             // Groupbox doesn't show Click event in Designer...
-            GB_OT.Click += (_, args) => ClickGT(GB_OT, args);
-            GB_nOT.Click += (_, args) => ClickGT(GB_nOT, args);
-            GB_CurrentMoves.Click += (_, args) => ClickMoves(GB_CurrentMoves, args);
-            GB_RelearnMoves.Click += (_, args) => ClickMoves(GB_RelearnMoves, args);
+            GB_OT.Click += ClickGT;
+            GB_nOT.Click += ClickGT;
+            GB_CurrentMoves.Click += ClickMoves;
+            GB_RelearnMoves.Click += ClickMoves;
 
-            TB_Nickname.Font = FontUtil.GetPKXFont();
-            TB_OT.Font = (Font)TB_Nickname.Font.Clone();
-            TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
+            var font = FontUtil.GetPKXFont();
+            TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = font;
 
             // Commonly reused Control arrays
             Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
@@ -36,21 +35,56 @@ namespace PKHeX.WinForms.Controls
             PPUps = new[] { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
             MovePP = new[] { TB_PP1, TB_PP2, TB_PP3, TB_PP4 };
             Markings = new[] { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
-            ValidationRequired = Moves.Concat(Relearn).Concat(new[]
-            {
-                CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
-                CB_MetLocation, CB_EggLocation, CB_Ball, // Met Tab
-                CB_StatNature,
-            }).ToArray();
+
+            // Legality Indicators
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
+
+            // Validation of incompletely entered data fields
+            bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox x && x.Items.Count is not 0;
+            ValidatedControls = new ValidationRequiredSet[]
+            {
+                new(Moves, _ => true, Criteria),
+                new(new[] {CB_Species}, _ => true, Criteria),
+                new(new[] {CB_HeldItem}, pk => pk.Format >= 2, Criteria),
+                new(new[] {CB_Ability, CB_Nature, CB_MetLocation, CB_Ball}, pk => pk.Format >= 3, Criteria),
+                new(new[] {CB_EggLocation}, pk => pk.Format >= 4, Criteria),
+                new(new [] {CB_Country, CB_SubRegion}, pk => pk is PK6 or PK7, Criteria),
+                new(Relearn, pk => pk.Format >= 6, Criteria),
+                new(new[] {CB_StatNature}, pk => pk.Format >= 8, Criteria),
+            };
 
             foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
                 c.KeyDown += WinFormsUtil.RemoveDropCB;
 
             Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
-            TID_Trainer.UpdatedID += (_, args) => Update_ID(TID_Trainer, args);
+            TID_Trainer.UpdatedID += Update_ID;
+
+            // Controls contained in a TabPage are not created until the tab page is shown
+            // Any data bindings in these controls are not activated until the tab page is shown.
+            FlickerInterface();
+        }
+
+        private class ValidationRequiredSet
+        {
+            private readonly Control[] Controls;
+            private readonly Func<PKM, bool> ShouldCheck;
+            private readonly Func<Control, bool> IsInvalidState;
+
+            public Control? IsNotValid(PKM pk)
+            {
+                if (!ShouldCheck(pk))
+                    return null;
+                return Array.Find(Controls, z => IsInvalidState(z));
+            }
+
+            public ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> state)
+            {
+                Controls = controls;
+                ShouldCheck = shouldCheck;
+                IsInvalidState = state;
+            }
         }
 
         public void InitializeBinding()
@@ -149,7 +183,8 @@ namespace PKHeX.WinForms.Controls
         public SaveFile RequestSaveFile => SaveFileRequested.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsLoaded && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
 
-        private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
+        private readonly ComboBox[] Moves, Relearn, PPUps;
+        private readonly ValidationRequiredSet[] ValidatedControls;
         private readonly MaskedTextBox[] MovePP;
         private readonly PictureBox[] Markings;
 
@@ -176,12 +211,20 @@ namespace PKHeX.WinForms.Controls
                 if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                     return true; // Override
 
-                var cb = Array.Find(ValidationRequired, c => c.BackColor == Draw.InvalidSelection && c.Items.Count != 0);
+                // If any controls are partially filled out, find the first one so we can indicate as such.
+                Control? cb = null;
+                foreach (var type in ValidatedControls)
+                {
+                    cb = type.IsNotValid(Entity);
+                    if (cb is not null)
+                        break;
+                }
+
                 if (cb != null)
                     tabMain.SelectedTab = WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
                 else if (!Stats.Valid)
                     tabMain.SelectedTab = Tab_Stats;
-                else if (WinFormsUtil.GetIndex(CB_Species) == 0)
+                else if (WinFormsUtil.GetIndex(CB_Species) == 0 && !HaX) // can't set an empty slot...
                     tabMain.SelectedTab = Tab_Main;
                 else
                     return true;
@@ -278,7 +321,7 @@ namespace PKHeX.WinForms.Controls
             Stats.UpdateIVs(this, EventArgs.Empty);
             UpdatePKRSInfected(this, EventArgs.Empty);
             UpdatePKRSCured(this, EventArgs.Empty);
-            UpdateNatureModification(CB_StatNature, 1);
+            UpdateNatureModification(CB_StatNature, Entity.StatNature);
 
             if (HaX) // Load original values from pk not pkm
             {
@@ -323,8 +366,10 @@ namespace PKHeX.WinForms.Controls
                     img = Resources.hint;
                 else
                     img = null;
-                movePB[i].Visible = true;
-                movePB[i].Image = img;
+
+                var pb = movePB[i];
+                pb.Visible = true;
+                pb.Image = img;
             }
 
             if (Entity.Format >= 6)
@@ -677,7 +722,7 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality();
         }
 
-        private void ClickGT(object sender, EventArgs e)
+        private void ClickGT(object? sender, EventArgs e)
         {
             if (!GB_nOT.Visible)
                 return;
@@ -686,7 +731,7 @@ namespace PKHeX.WinForms.Controls
                 Entity.CurrentHandler = 0;
             else if (TB_OTt2.Text.Length > 0)
                 Entity.CurrentHandler = 1;
-            UpadteHandlingTrainerBackground(Entity);
+            UpadteHandlingTrainerBackground(Entity.CurrentHandler);
 
             TB_Friendship.Text = Entity.CurrentFriendship.ToString();
         }
@@ -701,7 +746,7 @@ namespace PKHeX.WinForms.Controls
                 CB_StatNature.SelectedIndex = CB_Nature.SelectedIndex;
         }
 
-        private void ClickMoves(object sender, EventArgs e)
+        private void ClickMoves(object? sender, EventArgs e)
         {
             UpdateLegality(skipMoveRepop: true);
             if (sender == GB_CurrentMoves)
@@ -1259,10 +1304,13 @@ namespace PKHeX.WinForms.Controls
             if (CB_ExtraBytes.Items.Count == 0 || sender is not MaskedTextBox mtb)
                 return;
             // Changed Extra Byte's Value
-            if (Util.ToInt32(mtb.Text) > byte.MaxValue)
+            var value = Util.ToInt32(mtb.Text);
+            if (value > byte.MaxValue)
+            {
                 mtb.Text = "255";
+                return; // above statement triggers the event again.
+            }
 
-            int value = Util.ToInt32(mtb.Text);
             int offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
             Entity.Data[offset] = (byte)value;
         }
@@ -1272,13 +1320,13 @@ namespace PKHeX.WinForms.Controls
             if (CB_ExtraBytes.Items.Count == 0)
                 return;
             // Byte changed, need to refresh the Text box for the byte's value.
-            TB_ExtraByte.Text = Entity.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
+            var offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
+            TB_ExtraByte.Text = Entity.Data[offset].ToString();
         }
 
-        private void UpdateNatureModification(ComboBox cb, int type)
+        private void UpdateNatureModification(ComboBox cb, int nature)
         {
-            // 0 = Nature, 1 = Stat Nature
-            string text = Stats.UpdateNatureModification((type == 0) ? Entity.Nature : Entity.StatNature);
+            string text = Stats.UpdateNatureModification(nature);
             NatureTip.SetToolTip(cb, text);
         }
 
@@ -1532,7 +1580,7 @@ namespace PKHeX.WinForms.Controls
             Tip3.SetToolTip(TB_PID, tip);
         }
 
-        private void Update_ID(object sender, EventArgs e)
+        private void Update_ID(object? sender, EventArgs e)
         {
             if (!FieldsLoaded)
                 return;
@@ -1632,14 +1680,14 @@ namespace PKHeX.WinForms.Controls
                 if (Entity.Format <= 4)
                     UpdateRandomPID(sender, e);
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-                UpdateNatureModification(CB_Nature, 0);
+                UpdateNatureModification(CB_Nature, Entity.Nature);
                 Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }
             else if (sender == CB_StatNature)
             {
                 Entity.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
-                UpdateNatureModification(CB_StatNature, 1);
+                UpdateNatureModification(CB_StatNature, Entity.StatNature);
                 Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }
@@ -1654,13 +1702,23 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            ValidateComboBox((ComboBox)sender);
-            if (Moves.Contains(sender)) // Move
+            var cb = (ComboBox) sender;
+            ValidateComboBox(cb);
+            if (Moves.Contains(cb)) // Move
                 UpdatePP(sender, e);
 
-            // Legality
-            Entity.Moves = Moves.Select(WinFormsUtil.GetIndex).ToArray();
-            Entity.RelearnMoves = Relearn.Select(WinFormsUtil.GetIndex).ToArray();
+            // Legality -- set all moves back (why all?)
+            Entity.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            Entity.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            Entity.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            Entity.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            if (Entity.Format >= 6)
+            {
+                Entity.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
+                Entity.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
+                Entity.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
+                Entity.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
+            }
             UpdateLegality(skipMoveRepop: true);
         }
 
@@ -1672,7 +1730,7 @@ namespace PKHeX.WinForms.Controls
             var (text, value) = (ComboItem)((ComboBox)sender).Items[e.Index];
             var valid = LegalMoveSource.CanLearn(value) && !HaX;
 
-            var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+            var current = (e.State & DrawItemState.Selected) != 0;
             var brush = Draw.Brushes.GetBackground(valid, current);
             var textColor = Draw.GetText(current);
 
