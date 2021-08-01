@@ -831,15 +831,13 @@ namespace PKHeX.Core
                                                       _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
         };
 
-        private static bool IsCompatible3Mystery(PIDType val, PKM pkm, WC3 g)
+        private static bool IsCompatible3Mystery(PIDType val, PKM pkm, WC3 g) => val == g.Method || val switch
         {
-            if (val == g.Method)
-                return true;
-            if (val == CXDAnti && g.Shiny == Shiny.Never && g.Method == CXD)
-                return true;
             // forced shiny eggs, when hatched, can lose their detectable correlation.
-            return g.IsEgg && !pkm.IsEgg && val == None && (g.Method is BACD_R_S or BACD_U_S);
-        }
+            None    => (g.Method is BACD_R_S or BACD_U_S) && g.IsEgg && !pkm.IsEgg,
+            CXDAnti => g.Method == CXD && g.Shiny == Shiny.Never,
+            _       => false
+        };
 
         private static bool IsRoamerPIDIV(this PIDType val, PKM pkm)
         {
@@ -855,38 +853,30 @@ namespace PKHeX.Core
             return pkm.IV_DEF == 0 && pkm.IV_SPE == 0 && pkm.IV_SPA == 0 && pkm.IV_SPD == 0 && pkm.IV_ATK <= 7;
         }
 
-        public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pkm)
+        public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pkm) => encounter switch
         {
-            switch (encounter)
+            // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
+            EncounterStatic4Pokewalker when val is CuteCharm => GetCuteCharmMatch(pkm, pkm.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pkm),
+            EncounterStatic4Pokewalker => val == Pokewalker,
+
+            EncounterStatic4 {Species: (int)Species.Pichu} => val == Pokewalker,
+            EncounterStatic4 {Shiny: Shiny.Always} => val == ChainShiny,
+            EncounterStatic4 when val is CuteCharm => IsCuteCharm4Valid(encounter, pkm),
+            EncounterStatic4 => val == Method_1,
+
+            EncounterSlot4 w => val switch
             {
-                case EncounterStatic4Pokewalker:
-                    return val == Pokewalker || (val == CuteCharm && GetCuteCharmMatch(pkm, pkm.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pkm));
-                case EncounterStatic4 {Species: (int)Species.Pichu}:
-                    return val == Pokewalker;
-                case EncounterStatic4 {Shiny: Shiny.Always}:
-                        return val == ChainShiny;
-                case EncounterStatic4:
-                    if (val == CuteCharm && IsCuteCharm4Valid(encounter, pkm))
-                        return true;
-                    return val == Method_1;
-                case EncounterSlot4 sl:
-                    if (val == Method_1)
-                        return true;
-                    if (val == CuteCharm && IsCuteCharm4Valid(encounter, pkm))
-                        return true;
-                    if (val != ChainShiny)
-                        return false;
-                    // Chain shiny with poke radar is only possible in DPPt in grass, safari zone does not allow pokeradar
-                    // TypeEncounter Grass discard any cave or city
-                    return pkm.IsShiny && !pkm.HGSS && sl.GroundTile == GroundTilePermission.Grass && !Locations.IsSafariZoneLocation4(sl.Location);
-                case PGT: // manaphy
-                    return IsG4ManaphyPIDValid(val, pkm);
-                case PCD d when d.Gift.PK.PID != 1:
-                    return true; // already matches PCD's fixed PID requirement
-                default: // eggs
-                    return val == None;
-            }
-        }
+                // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
+                ChainShiny => pkm.IsShiny && !pkm.HGSS && (w.GroundTile & GroundTilePermission.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
+                CuteCharm => IsCuteCharm4Valid(encounter, pkm),
+                Method_1 => true,
+                _ => false
+            },
+
+            PGT => IsG4ManaphyPIDValid(val, pkm), // Manaphy is the only PGT in the database
+            PCD d when d.Gift.PK.PID != 1 => true, // Already matches PCD's fixed PID requirement
+            _ => val == None
+        };
 
         private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)
         {
