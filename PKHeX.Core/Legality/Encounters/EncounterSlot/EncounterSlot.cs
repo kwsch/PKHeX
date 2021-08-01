@@ -170,20 +170,22 @@ namespace PKHeX.Core
                 pk.MetDate = DateTime.Today;
         }
 
+        public bool IsRandomUnspecificForm => Form >= FormDynamic;
         private const int FormDynamic = FormVivillon;
         private const int FormVivillon = 30;
-        private const int FormRandom = 31;
+        protected const int FormRandom = 31;
 
         private static int GetWildForm(PKM pk, int form, ITrainerInfo sav)
         {
             if (form < FormDynamic) // specified form
+                return form;
+
+            if (form == FormRandom) // flagged as totally random
             {
                 if (pk.Species == (int)Minior)
-                    return Util.Rand.Next(7, 14);
-                return form;
-            }
-            if (form == FormRandom) // flagged as totally random
+                    return 7 + Util.Rand.Next(7);
                 return Util.Rand.Next(pk.PersonalInfo.FormCount);
+            }
 
             int species = pk.Species;
             if (species is >= (int)Scatterbug and <= (int)Vivillon)

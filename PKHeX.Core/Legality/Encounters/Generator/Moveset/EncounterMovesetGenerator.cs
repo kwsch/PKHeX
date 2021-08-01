@@ -402,7 +402,7 @@ namespace PKHeX.Core
                     return true;
                 if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Generation))
                     return true;
-                if (enc is EncounterSlot {Form: >= 30})
+                if (enc is EncounterSlot {IsRandomUnspecificForm: true})
                     return true;
                 if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && format > 7) // totems get form wiped
                     return true;
