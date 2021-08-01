@@ -259,12 +259,13 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
+            var format = pk.Format;
             var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
             foreach (var gift in gifts)
             {
                 if (gift is WC3 {NotDistributed: true})
                     continue;
-                if (!IsSane(chain, gift))
+                if (!IsSane(chain, gift, format))
                     continue;
                 if (needs.Count == 0)
                 {
@@ -287,10 +288,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
             foreach (var enc in encounters)
             {
-                if (!IsSane(chain, enc))
+                if (!IsSane(chain, enc, format))
                     continue;
                 if (needs.Count == 0)
                 {
@@ -338,10 +340,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
             foreach (var trade in trades)
             {
-                if (!IsSane(chain, trade))
+                if (!IsSane(chain, trade, format))
                     continue;
                 if (needs.Count == 0)
                 {
@@ -366,10 +369,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
             foreach (var slot in slots)
             {
-                if (!IsSane(chain, slot))
+                if (!IsSane(chain, slot, format))
                     continue;
 
                 if (needs.Count == 0)
@@ -388,7 +392,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc)
+        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc, int format)
         {
             foreach (var evo in chain)
             {
@@ -397,6 +401,10 @@ namespace PKHeX.Core
                 if (evo.Form == enc.Form)
                     return true;
                 if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Generation))
+                    return true;
+                if (enc is EncounterSlot {Form: >= 30})
+                    return true;
+                if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && format > 7) // totems get form wiped
                     return true;
                 break;
             }
