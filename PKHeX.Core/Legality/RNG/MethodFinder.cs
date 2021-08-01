@@ -813,34 +813,32 @@ namespace PKHeX.Core
             _ => false
         };
 
-        public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pkm)
+        public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pkm) => encounter switch
         {
-            switch (encounter)
-            {
-                case WC3 g:
-                    if (val == g.Method)
-                        return true;
-                    if (val == CXDAnti && g.Shiny == Shiny.Never && g.Method == CXD)
-                        return true;
-                    // forced shiny eggs, when hatched, can lose their detectable correlation.
-                    return g.IsEgg && !pkm.IsEgg && val == None && (g.Method is BACD_R_S or BACD_U_S);
-                case EncounterStaticShadow:
-                    return pkm.Version == (int)GameVersion.CXD && (val is CXD or CXDAnti);
-                case EncounterStatic3 s:
-                    return pkm.Version switch
-                    {
-                        (int)GameVersion.CXD => val is CXD or CXD_ColoStarter or CXDAnti,
-                        (int)GameVersion.E => val == Method_1, // no roamer glitch
-                        (int)GameVersion.FR or (int)GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == Method_1, // roamer glitch
-                        _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
-                    };
-                case EncounterSlot w:
-                    if (pkm.Version == 15)
-                        return val == PokeSpot;
-                    return (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val);
-                default:
-                    return val == None;
-            }
+            WC3 g                  => IsCompatible3Mystery(val, pkm, g),
+            EncounterStatic3 s     => IsCompatible3Static(val, pkm, s),
+            EncounterSlot3 w       => (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val),
+            EncounterStaticShadow  => val is CXD or CXDAnti,
+            EncounterSlot3PokeSpot => val == PokeSpot,
+                                 _ => val == None
+        };
+
+        private static bool IsCompatible3Static(PIDType val, PKM pkm, EncounterStatic3 s) => pkm.Version switch
+        {
+            (int)GameVersion.CXD                        => val is CXD or CXD_ColoStarter or CXDAnti,
+            (int)GameVersion.E                          => val == Method_1, // no roamer glitch
+            (int)GameVersion.FR or (int) GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == Method_1, // roamer glitch
+                                                      _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
+        };
+
+        private static bool IsCompatible3Mystery(PIDType val, PKM pkm, WC3 g)
+        {
+            if (val == g.Method)
+                return true;
+            if (val == CXDAnti && g.Shiny == Shiny.Never && g.Method == CXD)
+                return true;
+            // forced shiny eggs, when hatched, can lose their detectable correlation.
+            return g.IsEgg && !pkm.IsEgg && val == None && (g.Method is BACD_R_S or BACD_U_S);
         }
 
         private static bool IsRoamerPIDIV(this PIDType val, PKM pkm)
