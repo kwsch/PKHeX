@@ -178,8 +178,10 @@ namespace PKHeX.Core
             pk4.FatefulEncounter = true;
             pk4.Ball = (int)Core.Ball.Poke;
             pk4.Version = GameVersion.Gen4.Contains(trainer.Game) ? trainer.Game : (int)GameVersion.D;
-            pk4.Language = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
+            var lang = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
+            pk4.Language = lang;
             pk4.Egg_Location = 1; // Ranger (will be +3000 later)
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
         }
 
         private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
