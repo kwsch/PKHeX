@@ -102,8 +102,10 @@ namespace PKHeX.Core
                         return GetInvalid(LFormVivillonEventPre);
                     if (pkm is not IRegionOrigin tr)
                         break;
-                    if (!Vivillon3DS.IsPatternValid(form, (byte)tr.Country, (byte)tr.Region))
-                        data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
+                    if (!Vivillon3DS.IsPatternValid(form, tr.ConsoleRegion))
+                        return GetInvalid(LFormVivillonInvalid);
+                    if (!Vivillon3DS.IsPatternNative(form, (byte)tr.Country, (byte)tr.Region))
+                        data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
                 case Vivillon:
                     if (form > 17) // Fancy & Pokéball
@@ -114,8 +116,10 @@ namespace PKHeX.Core
                     }
                     if (pkm is not IRegionOrigin trv)
                         break;
-                    if (!Vivillon3DS.IsPatternValid(form, (byte)trv.Country, (byte)trv.Region))
-                        data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
+                    if (!Vivillon3DS.IsPatternValid(form, trv.ConsoleRegion))
+                        return GetInvalid(LFormVivillonInvalid);
+                    if (!Vivillon3DS.IsPatternNative(form, (byte)trv.Country, (byte)trv.Region))
+                        data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
 
                 case Floette when form == 5: // Floette Eternal Flower -- Never Released

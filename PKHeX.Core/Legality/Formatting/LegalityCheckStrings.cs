@@ -207,6 +207,7 @@ namespace PKHeX.Core
         public static string LFormVivillon { get; set; } = "Valid Vivillon pattern.";
         public static string LFormVivillonEventPre { get; set; } = "Event Vivillon pattern on pre-evolution.";
         public static string LFormVivillonInvalid { get; set; } = "Invalid Vivillon pattern.";
+        public static string LFormVivillonNonNative { get; set; } = "Non-native Vivillon pattern.";
 
         public static string LG1CatchRateChain { get; set; } = "Catch rate does not match any species from Pokémon evolution chain.";
         public static string LG1CatchRateEvo { get; set; } = "Catch rate match species without encounters. Expected a preevolution catch rate.";
