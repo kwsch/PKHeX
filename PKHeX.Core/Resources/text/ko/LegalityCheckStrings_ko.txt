@@ -147,6 +147,7 @@ LFormValid = 사용할 수 있는 폼입니다.
 LFormVivillon = 사용 가능한 비비용 패턴입니다.
 LFormVivillonEventPre = 진화 전에 이벤트 비비용 패턴이 설정되었습니다.
 LFormVivillonInvalid = 사용할 수 없는 비비용 패턴입니다.
+LFormVivillonNonNative = Non-native Vivillon pattern.
 LG1CatchRateChain = 포획률이 포켓몬 진화 체인의 아무 포켓몬과도 일치하지 않습니다.
 LG1CatchRateEvo = 포획률이 인카운터 없이 포켓몬 종류와 일치합니다. 진화 전에 포획한 포켓몬으로 예상됩니다.
 LG1CatchRateItem = 포획률이 2세대의 유효한 지닌 물건과 일치하지 않습니다.

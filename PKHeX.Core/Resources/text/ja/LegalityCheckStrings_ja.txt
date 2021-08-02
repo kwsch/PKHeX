@@ -147,6 +147,7 @@ LFormValid = Form is Valid.
 LFormVivillon = Valid Vivillon pattern.
 LFormVivillonEventPre = Event Vivillon pattern on pre-evolution.
 LFormVivillonInvalid = Invalid Vivillon pattern.
+LFormVivillonNonNative = Non-native Vivillon pattern.
 LG1CatchRateChain = Catch rate does not match any species from Pokémon evolution chain.
 LG1CatchRateEvo = Catch rate match species without encounters. Expected a preevolution catch rate.
 LG1CatchRateItem = Catch rate does not match a valid held item from Generation 2.

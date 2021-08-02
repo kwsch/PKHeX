@@ -147,6 +147,7 @@ LFormValid = 合法形态。
 LFormVivillon = 合法彩粉蝶花纹。
 LFormVivillonEventPre = 退化形态拥有配信彩粉蝶花纹。
 LFormVivillonInvalid = 不合法彩粉蝶花纹。
+LFormVivillonNonNative = Non-native Vivillon pattern.
 LG1CatchRateChain = 捕获率不能与该宝可梦进化链内种族一致。
 LG1CatchRateEvo = 捕获率与不计遇见方式的种族一致。应为进化前捕获率。
 LG1CatchRateItem = 捕获率与合法二代持有物一致。

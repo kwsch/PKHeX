@@ -147,6 +147,7 @@ LFormValid = La Forme est valide.
 LFormVivillon = Motif de Prismillon valide.
 LFormVivillonEventPre = Motif de Prismillon événementiel appliqué sur pré-évolution.
 LFormVivillonInvalid = Motif de Prismillon invalide.
+LFormVivillonNonNative = Non-native Vivillon pattern.
 LG1CatchRateChain = Le taux de capture ne correspond à aucune espèce de la chaîne d'évolution Pokémon.
 LG1CatchRateEvo = Le taux de capture correspond aux espèces sans rencontres. Un taux de capture d'une pré-évolution est attendu.
 LG1CatchRateItem = Le taux de capture ne correspond pas à l'objet détenu valide de la génération 2.

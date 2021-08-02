@@ -147,6 +147,7 @@ LFormValid = Forma es válida.
 LFormVivillon = Patrón de Vivillon válido.
 LFormVivillonEventPre = Patrón de Vivillon de evento en una pre evolución.
 LFormVivillonInvalid = Patrón de Vivillon inválido.
+LFormVivillonNonNative = Non-native Vivillon pattern.
 LG1CatchRateChain = El ratio de captura no coincide con ninguna especie de la cadena evolutiva del Pokémon.
 LG1CatchRateEvo = El ratio de captura coincide con la especie pero sin encuentros. Se espera un ratio de captura de una pre evolución.
 LG1CatchRateItem = El ratio de captura no coincide con un objeto equipado válido de la 2da Generación.
