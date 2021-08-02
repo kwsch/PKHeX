@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public sealed record EncounterSlot7 : EncounterSlot
     {
         public override int Generation => 7;
-        public bool IsSOS => Area.Type != SlotType.SOS;
+        public bool IsSOS => Area.Type == SlotType.SOS;
 
         public EncounterSlot7(EncounterArea7 area, int species, int form, int min, int max) : base(area, species, form, min, max)
         {
