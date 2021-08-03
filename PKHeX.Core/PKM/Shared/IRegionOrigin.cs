@@ -3,7 +3,7 @@
     public interface IRegionOrigin
     {
         /// <summary> Console hardware region. </summary>
-        /// <see cref="RegionID"/>
+        /// <see cref="Region3DSIndex"/>
         byte ConsoleRegion { get; set; }
         /// <summary> Console's configured Country via System Settings. </summary>
         byte Country { get; set; }

@@ -3,7 +3,7 @@
     /// <summary>
     /// 3DS Console Region Identifiers used for Generation 6 &amp; 7 Mystery Gifts
     /// </summary>
-    public enum RegionID : byte
+    public enum Region3DSIndex : byte
     {
         None = 0,
         Japan = 1,

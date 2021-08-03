@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static PKHeX.Core.Region3DSFlags;
 
 namespace PKHeX.Core
 {
@@ -37,40 +38,29 @@ namespace PKHeX.Core
         /// <summary>
         /// List of valid regions as bitflags indexed by Vivillon form.
         /// </summary>
-        private static readonly RegionFlags[] VivillonRegionTable =
+        private static readonly Region3DSFlags[] VivillonRegionTable =
         {
-            /* 0 Icy Snow    */ RegionFlags.Americas | RegionFlags.Europe,
-            /* 1 Polar       */ RegionFlags.Americas | RegionFlags.Europe | RegionFlags.China,
-            /* 2 Tundra      */ RegionFlags.Japan | RegionFlags.Europe,
-            /* 3 Continental */ RegionFlags.Americas | RegionFlags.Europe | RegionFlags.China | RegionFlags.Korea | RegionFlags.Taiwan,
-            /* 4 Garden      */ RegionFlags.Europe,
-            /* 5 Elegant     */ RegionFlags.Japan,
-            /* 6 Meadow      */ RegionFlags.Europe,
-            /* 7 Modern      */ RegionFlags.Americas,
-            /* 8 Marine      */ RegionFlags.Americas | RegionFlags.Europe,
-            /* 9 Archipelago */ RegionFlags.Americas | RegionFlags.Europe,
-            /*10 High Plains */ RegionFlags.Americas | RegionFlags.Europe | RegionFlags.China,
-            /*11 Sandstorm   */ RegionFlags.Americas | RegionFlags.Europe,
-            /*12 River       */ RegionFlags.Europe,
-            /*13 Monsoon     */ RegionFlags.Japan | RegionFlags.Europe | RegionFlags.China | RegionFlags.Taiwan,
-            /*14 Savanna     */ RegionFlags.Americas,
-            /*15 Sun         */ RegionFlags.Americas | RegionFlags.Europe,
-            /*16 Ocean       */ RegionFlags.Americas | RegionFlags.Europe,
-            /*17 Jungle      */ RegionFlags.Americas | RegionFlags.Europe,
+            /* 0 Icy Snow    */ Americas | Europe,
+            /* 1 Polar       */ Americas | Europe | China,
+            /* 2 Tundra      */ Japan    | Europe,
+            /* 3 Continental */ Americas | Europe | China | Korea | Taiwan,
+            /* 4 Garden      */            Europe,
+            /* 5 Elegant     */ Japan,
+            /* 6 Meadow      */            Europe,
+            /* 7 Modern      */ Americas,
+            /* 8 Marine      */ Americas | Europe,
+            /* 9 Archipelago */ Americas | Europe,
+            /*10 High Plains */ Americas | Europe | China,
+            /*11 Sandstorm   */ Americas | Europe,
+            /*12 River       */            Europe,
+            /*13 Monsoon     */ Japan    | Europe | China | Taiwan,
+            /*14 Savanna     */ Americas,
+            /*15 Sun         */ Americas | Europe,
+            /*16 Ocean       */ Americas | Europe,
+            /*17 Jungle      */ Americas | Europe,
         };
 
-        [Flags]
-        public enum RegionFlags : ushort
-        {
-            Japan = 1,
-            Americas = 1 << 1,
-            Europe = 1 << 2,
-            China = 1 << 4,
-            Korea = 1 << 5,
-            Taiwan = 1 << 6,
-        };
-
-        public static RegionFlags GetConsoleRegionFlag(int consoleRegion) => (RegionFlags)(1 << consoleRegion);
+        public static Region3DSFlags GetConsoleRegionFlag(int consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
 
         /// <summary>
         /// List of valid countries for each Vivillon form.
@@ -270,5 +260,21 @@ namespace PKHeX.Core
             var form = Array.FindIndex(VivillonCountryTable, z => z.Contains(country));
             return Math.Max(0, form);
         }
+    }
+
+    /// <summary>
+    /// Console Region Flags for the 3DS.
+    /// </summary>
+    /// <remarks>Not to be confused with <see cref="Region3DSIndex"/>.</remarks>
+    [Flags]
+    public enum Region3DSFlags : ushort
+    {
+        None,
+        Japan = 1,
+        Americas = 1 << 1,
+        Europe = 1 << 2,
+        China = 1 << 4,
+        Korea = 1 << 5,
+        Taiwan = 1 << 6,
     }
 }
