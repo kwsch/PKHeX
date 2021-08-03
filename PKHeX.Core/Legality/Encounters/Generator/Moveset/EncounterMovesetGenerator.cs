@@ -140,7 +140,10 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
             pk.Version = (int)version;
-            var et = EvolutionTree.GetEvolutionTree(pk.Format);
+            var format = pk.Format;
+            if (format is 2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
+                format = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
+            var et = EvolutionTree.GetEvolutionTree(format);
             var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, chain);
 
