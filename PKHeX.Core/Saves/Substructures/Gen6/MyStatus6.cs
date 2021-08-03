@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class MyStatus6 : SaveBlock
+    public class MyStatus6 : SaveBlock, IRegionOrigin
     {
         public MyStatus6(SaveFile sav, int offset) : base(sav) => Offset = offset;
 
@@ -57,16 +57,16 @@ namespace PKHeX.Core
             }
         }
 
-        public int SubRegion
+        public byte Region
         {
             get => Data[Offset + 0x26];
-            set => Data[Offset + 0x26] = (byte)value;
+            set => Data[Offset + 0x26] = value;
         }
 
-        public int Country
+        public byte Country
         {
             get => Data[Offset + 0x27];
-            set => Data[Offset + 0x27] = (byte)value;
+            set => Data[Offset + 0x27] = value;
         }
 
         public decimal Latitude // don't use the setters
@@ -81,10 +81,10 @@ namespace PKHeX.Core
             set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x2A);
         }
 
-        public int ConsoleRegion
+        public byte ConsoleRegion
         {
             get => Data[Offset + 0x2C];
-            set => Data[Offset + 0x2C] = (byte)value;
+            set => Data[Offset + 0x2C] = value;
         }
 
         public int Language

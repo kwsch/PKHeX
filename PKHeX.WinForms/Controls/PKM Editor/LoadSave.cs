@@ -321,9 +321,9 @@ namespace PKHeX.WinForms.Controls
 
         private void SaveGeolocation(IRegionOrigin pk)
         {
-            pk.Country = WinFormsUtil.GetIndex(CB_Country);
-            pk.Region = WinFormsUtil.GetIndex(CB_SubRegion);
-            pk.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            pk.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            pk.Region = (byte)WinFormsUtil.GetIndex(CB_SubRegion);
+            pk.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
         }
 
         private void LoadHandlingTrainer(PKM pk)

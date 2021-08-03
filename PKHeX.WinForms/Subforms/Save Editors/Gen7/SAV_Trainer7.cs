@@ -329,9 +329,9 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
-            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            SAV.Region = (byte)WinFormsUtil.GetIndex(CB_Region);
+            SAV.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            SAV.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
                 SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);

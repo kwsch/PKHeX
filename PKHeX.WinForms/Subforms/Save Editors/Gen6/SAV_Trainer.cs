@@ -204,9 +204,9 @@ namespace PKHeX.WinForms
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
-            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            SAV.Region = (byte)WinFormsUtil.GetIndex(CB_Region);
+            SAV.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            SAV.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
 
             SAV.OT = TB_OTName.Text;

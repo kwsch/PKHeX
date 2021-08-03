@@ -97,7 +97,7 @@ namespace PKHeX.Core
                     break;
                 case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
                     if (sav is IRegionOrigin o)
-                        pk.Form = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
+                        pk.Form = Vivillon3DS.GetPattern(o.Country, o.Region);
                     // else 0
                     break;
             }

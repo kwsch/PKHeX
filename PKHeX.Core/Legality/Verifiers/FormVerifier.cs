@@ -104,7 +104,7 @@ namespace PKHeX.Core
                         break;
                     if (!Vivillon3DS.IsPatternValid(form, tr.ConsoleRegion))
                         return GetInvalid(LFormVivillonInvalid);
-                    if (!Vivillon3DS.IsPatternNative(form, (byte)tr.Country, (byte)tr.Region))
+                    if (!Vivillon3DS.IsPatternNative(form, tr.Country, tr.Region))
                         data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
                 case Vivillon:
@@ -118,7 +118,7 @@ namespace PKHeX.Core
                         break;
                     if (!Vivillon3DS.IsPatternValid(form, trv.ConsoleRegion))
                         return GetInvalid(LFormVivillonInvalid);
-                    if (!Vivillon3DS.IsPatternNative(form, (byte)trv.Country, (byte)trv.Region))
+                    if (!Vivillon3DS.IsPatternNative(form, trv.Country, trv.Region))
                         data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
 

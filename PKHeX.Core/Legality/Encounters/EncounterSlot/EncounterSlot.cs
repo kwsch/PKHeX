@@ -191,7 +191,7 @@ namespace PKHeX.Core
             if (species is >= (int)Scatterbug and <= (int)Vivillon)
             {
                 if (sav is IRegionOrigin o)
-                    return Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
+                    return Vivillon3DS.GetPattern(o.Country, o.Region);
             }
             return 0;
         }
