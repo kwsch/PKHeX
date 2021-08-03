@@ -157,16 +157,16 @@ namespace PKHeX.WinForms
             // Save Region & Country Data
             if (pkm is IGeoTrack g)
             {
-                g.Geo1_Region = WinFormsUtil.GetIndex(CB_Region0);
-                g.Geo2_Region = WinFormsUtil.GetIndex(CB_Region1);
-                g.Geo3_Region = WinFormsUtil.GetIndex(CB_Region2);
-                g.Geo4_Region = WinFormsUtil.GetIndex(CB_Region3);
-                g.Geo5_Region = WinFormsUtil.GetIndex(CB_Region4);
-                g.Geo1_Country = WinFormsUtil.GetIndex(CB_Country0);
-                g.Geo2_Country = WinFormsUtil.GetIndex(CB_Country1);
-                g.Geo3_Country = WinFormsUtil.GetIndex(CB_Country2);
-                g.Geo4_Country = WinFormsUtil.GetIndex(CB_Country3);
-                g.Geo5_Country = WinFormsUtil.GetIndex(CB_Country4);
+                g.Geo1_Region  = (byte)WinFormsUtil.GetIndex(CB_Region0);
+                g.Geo2_Region  = (byte)WinFormsUtil.GetIndex(CB_Region1);
+                g.Geo3_Region  = (byte)WinFormsUtil.GetIndex(CB_Region2);
+                g.Geo4_Region  = (byte)WinFormsUtil.GetIndex(CB_Region3);
+                g.Geo5_Region  = (byte)WinFormsUtil.GetIndex(CB_Region4);
+                g.Geo1_Country = (byte)WinFormsUtil.GetIndex(CB_Country0);
+                g.Geo2_Country = (byte)WinFormsUtil.GetIndex(CB_Country1);
+                g.Geo3_Country = (byte)WinFormsUtil.GetIndex(CB_Country2);
+                g.Geo4_Country = (byte)WinFormsUtil.GetIndex(CB_Country3);
+                g.Geo5_Country = (byte)WinFormsUtil.GetIndex(CB_Country4);
             }
 
             // Save 0-255 stats

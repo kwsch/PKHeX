@@ -323,16 +323,16 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
-        public int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
-        public int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
-        public int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
-        public int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
-        public int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
-        public int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
-        public int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
-        public int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
-        public int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
+        public byte Geo1_Region  { get => Data[0x94]; set => Data[0x94] = value; }
+        public byte Geo1_Country { get => Data[0x95]; set => Data[0x95] = value; }
+        public byte Geo2_Region  { get => Data[0x96]; set => Data[0x96] = value; }
+        public byte Geo2_Country { get => Data[0x97]; set => Data[0x97] = value; }
+        public byte Geo3_Region  { get => Data[0x98]; set => Data[0x98] = value; }
+        public byte Geo3_Country { get => Data[0x99]; set => Data[0x99] = value; }
+        public byte Geo4_Region  { get => Data[0x9A]; set => Data[0x9A] = value; }
+        public byte Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = value; }
+        public byte Geo5_Region  { get => Data[0x9C]; set => Data[0x9C] = value; }
+        public byte Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = value; }
         // 0x9E Unused
         // 0x9F Unused
         // 0xA0 Unused
