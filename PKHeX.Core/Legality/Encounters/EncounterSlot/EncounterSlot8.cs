@@ -102,8 +102,8 @@ namespace PKHeX.Core
                 if (!Weather.IsMarkCompatible(m))
                     return EncounterMatchRating.Deferred;
 
-                // Galar Mine hidden encounters can only be found via Curry.
-                if (Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry)
+                // Galar Mine hidden encounters can only be found via Curry or Fishing.
+                if(Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !SlotType.CanEncounterViaFishing(Weather))
                     return EncounterMatchRating.PartialMatch;
             }
 

@@ -347,7 +347,7 @@ namespace PKHeX.Core
         public static bool IsWeatherBleedPossible(AreaSlotType8 type, AreaWeather8 permit, int location) => type switch
         {
             SymbolMain or SymbolMain2 or SymbolMain3 => WeatherBleedSymbol        .TryGetValue(location, out var weather) && weather.HasFlag(permit),
-            HiddenMain or HiddenMain2 or HiddenMain3 => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
+            HiddenMain or HiddenMain2                => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
             Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
             Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
             _ => false
@@ -455,9 +455,8 @@ namespace PKHeX.Core
         SymbolMain2,
         SymbolMain3,
 
-        HiddenMain, // Table with the tree/fishing slots
+        HiddenMain, // Both HiddenMain tables include the tree/fishing slots for the area.
         HiddenMain2,
-        HiddenMain3,
 
         Surfing,
         Surfing2,
@@ -467,13 +466,13 @@ namespace PKHeX.Core
         Ground2,
         Sharpedo,
 
-        OnlyFishing, // more restricted hidden table that ignores the weather slots like grass Tentacool.
-        Inaccessible,
+        OnlyFishing, // More restricted hidden table that ignores the weather slots like grass Tentacool.
+        Inaccessible, // Shouldn't show up since these tables are not dumped.
     }
 
     public static class AreaSlotType8Extensions
     {
-        public static bool CanCrossover(this AreaSlotType8 type) => type is SymbolMain or SymbolMain2 or SymbolMain3;
+        public static bool CanCrossover(this AreaSlotType8 type) => type is not HiddenMain or HiddenMain2 or OnlyFishing;
         public static bool CanEncounterViaFishing(this AreaSlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather is Fishing;
         public static bool CanEncounterViaCurry(this AreaSlotType8 type) => type is HiddenMain or HiddenMain2;
     }
