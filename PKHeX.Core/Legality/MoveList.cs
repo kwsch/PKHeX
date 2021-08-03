@@ -236,11 +236,11 @@ namespace PKHeX.Core
                 {
                     bool encounteredEvo = i == chain.Count - 1;
                     if (encounteredEvo) // minimum level, otherwise next learnable level
-                        minLvLG1 = pkm.HasOriginalMetLocation ? pkm.Met_Level : evo.MinLevel;
-                    else if (evo.RequiresLvlUp)
-                        minLvLG1 = evo.Level + 1;
+                        minLvLG1 = (pkm.HasOriginalMetLocation ? pkm.Met_Level : evo.MinLevel) + 1;
+                    else if (evo.RequiresLvlUp) // learns level up moves immediately after evolving
+                        minLvLG1 = evo.MinLevel;
                     else
-                        minLvLG1 = evo.Level;
+                        minLvLG1 = evo.MinLevel + 1;
 
                     if (!ParseSettings.AllowGen2MoveReminder(pkm))
                         minLvLG2 = minLvLG1;
