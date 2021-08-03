@@ -41,15 +41,16 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
+            var metLocation = pkm.Met_Location;
             // wild area gets boosted up to level 60 post-game
             var met = pkm.Met_Level;
             bool isBoosted = met == BoostLevel && IsBoostedArea60(Location);
             if (isBoosted)
-                return GetBoostedMatches(chain);
-            return GetUnboostedMatches(chain, met);
+                return GetBoostedMatches(chain, metLocation);
+            return GetUnboostedMatches(chain, met, metLocation);
         }
 
-        private IEnumerable<EncounterSlot8> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int met)
+        private IEnumerable<EncounterSlot8> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int metLevel, int metLocation)
         {
             foreach (var slot in Slots)
             {
@@ -58,7 +59,7 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (!slot.IsLevelWithinRange(met))
+                    if (!slot.IsLevelWithinRange(metLevel))
                         break;
 
                     if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
@@ -67,13 +68,16 @@ namespace PKHeX.Core
                     if (slot.Weather is Heavy_Fog && IsWildArea8(Location))
                         break;
 
+                    if (Location != metLocation && !CanCrossoverTo(Location, metLocation, slot.SlotType))
+                        break;
+
                     yield return slot;
                     break;
                 }
             }
         }
 
-        private IEnumerable<EncounterSlot8> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot8> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain, int metLocation)
         {
             foreach (var slot in Slots)
             {
@@ -89,10 +93,20 @@ namespace PKHeX.Core
                     if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
+                    if (Location != metLocation && !CanCrossoverTo(Location, metLocation, slot.SlotType))
+                        break;
+
                     yield return slot;
                     break;
                 }
             }
+        }
+
+        private static bool CanCrossoverTo(int fromLocation, int toLocation, AreaSlotType8 type)
+        {
+            if (!type.CanCrossover())
+                return false;
+            return true;
         }
 
         public const int BoostLevel = 60;
@@ -328,6 +342,8 @@ namespace PKHeX.Core
             { 230, All_CT }, // Ballimere Lake from Giant's Bed
         };
 
+        public static bool IsCrossoverBleedPossible(AreaSlotType8 type, int fromLocation, int toLocation) => true;
+
         public static bool IsWeatherBleedPossible(AreaSlotType8 type, AreaWeather8 permit, int location) => type switch
         {
             SymbolMain or SymbolMain2 or SymbolMain3 => WeatherBleedSymbol        .TryGetValue(location, out var weather) && weather.HasFlag(permit),
@@ -453,5 +469,12 @@ namespace PKHeX.Core
 
         OnlyFishing, // more restricted hidden table that ignores the weather slots like grass Tentacool.
         Inaccessible,
+    }
+
+    public static class AreaSlotType8Extensions
+    {
+        public static bool CanCrossover(this AreaSlotType8 type) => type is SymbolMain or SymbolMain2 or SymbolMain3;
+        public static bool CanEncounterViaFishing(this AreaSlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather is Fishing;
+        public static bool CanEncounterViaCurry(this AreaSlotType8 type) => type is HiddenMain or HiddenMain2;
     }
 }
