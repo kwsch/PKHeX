@@ -407,6 +407,8 @@ namespace PKHeX.Core
                     return true;
                 if (enc is EncounterSlot {IsRandomUnspecificForm: true})
                     return true;
+                if (enc is EncounterStatic {IsRandomUnspecificForm: true})
+                    return true;
                 if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && format > 7) // totems get form wiped
                     return true;
                 break;

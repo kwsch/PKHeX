@@ -42,16 +42,12 @@ namespace PKHeX.Core
 
         protected override bool IsMatchForm(PKM pkm, DexLevel evo)
         {
-            if (SkipFormCheck)
-                return true;
-
             if (IsTotem)
             {
                 var expectForm = pkm.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;
             }
-
-            return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
+            return base.IsMatchForm(pkm, evo);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

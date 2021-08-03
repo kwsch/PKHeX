@@ -36,13 +36,17 @@ namespace PKHeX.Core
         public int EggCycles { get; init; }
 
         public bool Fateful { get; init; }
-        public bool SkipFormCheck { get; init; }
         public bool EggEncounter => EggLocation > 0;
 
         private const string _name = "Static Encounter";
         public string Name => _name;
         public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
         public bool IsShiny => Shiny.IsShiny();
+
+        public bool IsRandomUnspecificForm => Form >= FormDynamic;
+        private const int FormDynamic = FormVivillon;
+        internal const int FormVivillon = 30;
+      //protected const int FormRandom = 31;
 
         protected EncounterStatic(GameVersion game) => Version = game;
 
@@ -246,7 +250,7 @@ namespace PKHeX.Core
 
         protected virtual bool IsMatchForm(PKM pkm, DexLevel evo)
         {
-            if (SkipFormCheck)
+            if (IsRandomUnspecificForm)
                 return true;
             return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
         }
