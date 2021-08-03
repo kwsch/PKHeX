@@ -314,9 +314,9 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadGeolocation(IRegionOrigin pk)
         {
-            CB_Country.SelectedValue = pk.Country;
-            CB_SubRegion.SelectedValue = pk.Region;
-            CB_3DSReg.SelectedValue = pk.ConsoleRegion;
+            CB_Country.SelectedValue = (int)pk.Country;
+            CB_SubRegion.SelectedValue = (int)pk.Region;
+            CB_3DSReg.SelectedValue = (int)pk.ConsoleRegion;
         }
 
         private void SaveGeolocation(IRegionOrigin pk)

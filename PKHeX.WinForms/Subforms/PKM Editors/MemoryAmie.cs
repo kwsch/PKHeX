@@ -45,16 +45,16 @@ namespace PKHeX.WinForms
             // Load the region/country values.
             if (pkm is IGeoTrack g)
             {
-                CB_Country0.SelectedValue = g.Geo1_Country;
-                CB_Country1.SelectedValue = g.Geo2_Country;
-                CB_Country2.SelectedValue = g.Geo3_Country;
-                CB_Country3.SelectedValue = g.Geo4_Country;
-                CB_Country4.SelectedValue = g.Geo5_Country;
-                CB_Region0.SelectedValue  = g.Geo1_Region;
-                CB_Region1.SelectedValue  = g.Geo2_Region;
-                CB_Region2.SelectedValue  = g.Geo3_Region;
-                CB_Region3.SelectedValue  = g.Geo4_Region;
-                CB_Region4.SelectedValue  = g.Geo5_Region;
+                CB_Country0.SelectedValue = (int)g.Geo1_Country;
+                CB_Country1.SelectedValue = (int)g.Geo2_Country;
+                CB_Country2.SelectedValue = (int)g.Geo3_Country;
+                CB_Country3.SelectedValue = (int)g.Geo4_Country;
+                CB_Country4.SelectedValue = (int)g.Geo5_Country;
+                CB_Region0.SelectedValue  = (int)g.Geo1_Region;
+                CB_Region1.SelectedValue  = (int)g.Geo2_Region;
+                CB_Region2.SelectedValue  = (int)g.Geo3_Region;
+                CB_Region3.SelectedValue  = (int)g.Geo4_Region;
+                CB_Region4.SelectedValue  = (int)g.Geo5_Region;
             }
 
             // Load the Fullness, and Enjoyment

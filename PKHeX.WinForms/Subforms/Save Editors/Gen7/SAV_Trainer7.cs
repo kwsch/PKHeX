@@ -106,9 +106,9 @@ namespace PKHeX.WinForms
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
 
-            CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.Region;
-            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+            CB_Country.SelectedValue = (int)SAV.Country;
+            CB_Region.SelectedValue = (int)SAV.Region;
+            CB_3DSReg.SelectedValue = (int)SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
             var timeA = SAV.GameTime.AlolaTime;
             if (timeA == 0)

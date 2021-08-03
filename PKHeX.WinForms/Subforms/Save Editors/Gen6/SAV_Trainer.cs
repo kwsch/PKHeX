@@ -121,9 +121,9 @@ namespace PKHeX.WinForms
             TB_Saying4.Text = status.Saying4;
             TB_Saying5.Text = status.Saying5;
 
-            CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.Region;
-            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+            CB_Country.SelectedValue = (int)SAV.Country;
+            CB_Region.SelectedValue = (int)SAV.Region;
+            CB_3DSReg.SelectedValue = (int)SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data

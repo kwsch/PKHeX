@@ -444,9 +444,9 @@ namespace PKHeX.WinForms.Controls
             CB_Language.SelectedValue = lang;
             if (tr is IRegionOrigin o)
             {
-                CB_3DSReg.SelectedValue = o.ConsoleRegion;
-                CB_Country.SelectedValue = o.Country;
-                CB_SubRegion.SelectedValue = o.Region;
+                CB_3DSReg.SelectedValue = (int)o.ConsoleRegion;
+                CB_Country.SelectedValue = (int)o.Country;
+                CB_SubRegion.SelectedValue = (int)o.Region;
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
