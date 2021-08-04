@@ -12,7 +12,6 @@
     <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
