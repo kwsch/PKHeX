@@ -31,7 +31,8 @@ namespace PKHeX.Core
         public int Location => Area.Location;
         public int EggLocation => 0;
 
-        public bool FixedLevel => LevelMin == LevelMax;
+        public bool IsFixedLevel => LevelMin == LevelMax;
+        public bool IsRandomLevel => LevelMin != LevelMax;
 
         private protected const string wild = "Wild Encounter";
         public string Name => wild;

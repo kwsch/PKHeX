@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Honey Tree in Sinnoh (Gen4)
     /// </summary>
-    public sealed class HoneyTree
+    public sealed class HoneyTreeValue
     {
         public const int Size = 8;
 
@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public int Group { get => Data[6]; set { Data[6] = (byte)value; SubTable = Math.Max(0, Group - 1); } }
         public int Shake { get => Data[7]; set => Data[7] = (byte)value; }
 
-        public HoneyTree(byte[] data)
+        public HoneyTreeValue(byte[] data)
         {
             Data = data;
         }

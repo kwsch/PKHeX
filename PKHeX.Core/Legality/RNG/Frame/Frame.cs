@@ -42,9 +42,12 @@
         /// <returns>Slot number for this frame &amp; lead value.</returns>
         public bool IsSlotCompatibile<T>(T slot, PKM pkm) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
         {
-            bool usesLevel = !slot.FixedLevel;
-            if (FrameType != FrameType.MethodH && (Lead & LeadRequired.UsesLevelCall) != 0 != usesLevel)
-                return false;
+            if (FrameType != FrameType.MethodH) // gen3 always does level rand
+            {
+                bool hasLevelCall = slot.IsRandomLevel;
+                if (Lead.NeedsLevelCall() != hasLevelCall)
+                    return false;
+            }
 
             // Level is before Nature, but usually isn't varied. Check ESV calc first.
             int s = GetSlot(slot);

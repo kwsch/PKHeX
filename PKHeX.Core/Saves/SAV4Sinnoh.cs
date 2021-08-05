@@ -116,14 +116,14 @@ namespace PKHeX.Core
         protected int OFS_HONEY;
         protected const int HONEY_SIZE = 8;
 
-        public HoneyTree GetHoneyTree(int index)
+        public HoneyTreeValue GetHoneyTree(int index)
         {
             if ((uint)index > 21)
                 throw new ArgumentException(nameof(index));
-            return new HoneyTree(General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE));
+            return new HoneyTreeValue(General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE));
         }
 
-        public void SetHoneyTree(HoneyTree tree, int index)
+        public void SetHoneyTree(HoneyTreeValue tree, int index)
         {
             if (index <= 21)
                 SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
