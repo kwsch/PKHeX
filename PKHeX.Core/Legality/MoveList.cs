@@ -246,7 +246,10 @@ namespace PKHeX.Core
                         minLvLG2 = minLvLG1;
                 }
 
-                var moves = GetEvoMoves(pkm, version, types, chain, generation, minLvLG1, minLvLG2, RemoveTransferHM, i, evo);
+                var maxLevel = evo.Level;
+                if (i != 0 && chain[i - 1].RequiresLvlUp) // evolution
+                    ++maxLevel; // allow lvlmoves from the level it evolved to the next species
+                var moves = GetMoves(pkm, evo.Species, evo.Form, maxLevel, minLvLG1, minLvLG2, version, types, RemoveTransferHM, generation);
                 r.AddRange(moves);
             }
 
@@ -260,14 +263,6 @@ namespace PKHeX.Core
             if (types.HasFlagFast(MoveSourceType.RelearnMoves) && generation >= 6)
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
-        }
-
-        private static IEnumerable<int> GetEvoMoves(PKM pkm, GameVersion Version, MoveSourceType types, IReadOnlyList<EvoCriteria> chain, int generation, int minLvLG1, int minLvLG2, bool RemoveTransferHM, int i, EvoCriteria evo)
-        {
-            var maxLevel = evo.Level;
-            if (i != 0 && chain[i - 1].RequiresLvlUp) // evolution
-                ++maxLevel; // allow lvlmoves from the level it evolved to the next species
-            return GetMoves(pkm, evo.Species, evo.Form, maxLevel, minLvLG1, minLvLG2, Version, types, RemoveTransferHM, generation);
         }
 
         private static IEnumerable<int> GetMoves(PKM pkm, int species, int form, int maxLevel, int minlvlG1, int minlvlG2, GameVersion Version, MoveSourceType types, bool RemoveTransferHM, int generation)

@@ -168,7 +168,15 @@ namespace PKHeX.Core
 
             var gens = GenerationTraversal.GetVisitedGenerationOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-            var result = moves.Except(canlearn).Where(z => z != 0).ToArray();
+            if (origin == 1)
+            {
+                foreach (var evo in chain)
+                {
+                    var enc = MoveLevelUp.GetEncounterMoves(evo.Species, 0, 1, (GameVersion)ver);
+                    canlearn = canlearn.Concat(enc);
+                }
+            }
+            var result = moves.Where(z => z != 0).Except(canlearn).ToArray();
 
             if (vcBump)
                 pk.Version = ver;
@@ -179,6 +187,8 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
         {
             IEnumerable<int> moves = MoveList.GetValidMoves(pk, chain, generation);
+            if (generation <= 2)
+                moves = moves.Concat(MoveList.GetValidMoves(pk, chain, generation, MoveSourceType.LevelUp));
             if (pk.Format >= 8)
             {
                 // Shared Egg Moves via daycare
