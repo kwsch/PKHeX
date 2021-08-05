@@ -112,10 +112,12 @@ namespace PKHeX.Drawing
 
         private static Image? GetSprite(SaveFile sav)
         {
-            string file = "tr_00";
-            if (sav is SAV6AO)
-                file = $"tr_{sav.MultiplayerSpriteID:00}";
-            return Resources.ResourceManager.GetObject(file) as Image;
+            if (sav is SAV6XY or SAV6AO)
+            {
+                string file = $"tr_{sav.MultiplayerSpriteID:00}";
+                return Resources.ResourceManager.GetObject(file) as Image ?? Resources.tr_00;
+            }
+            return null;
         }
 
         private static Image GetWallpaper(SaveFile sav, int box)

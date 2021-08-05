@@ -42,8 +42,8 @@ namespace PKHeX.WinForms
             cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
-            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible =
-            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
+            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = PB_Sprite.Visible = SAV is not SAV6AODemo;
+            CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
 
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
             if (SAV is not SAV6XY)
@@ -84,8 +84,9 @@ namespace PKHeX.WinForms
             var names = Enum.GetNames(typeof(TrainerSprite6));
             var values = (int[])Enum.GetValues(typeof(TrainerSprite6));
             var data = names.Zip(values, (a, b) => new ComboItem(a, b))
-                .Where(z => z.Value >= 2) // ignore Calem & Serena (no sprite)
                 .ToList();
+            if (SAV is not SAV6AO)
+                data.RemoveAll(z => z.Value > 36);
 
             CB_MultiplayerSprite.InitializeBinding();
             CB_MultiplayerSprite.DataSource = data;
