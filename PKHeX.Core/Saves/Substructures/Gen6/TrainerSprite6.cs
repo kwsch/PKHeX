@@ -3,8 +3,8 @@
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum TrainerSprite6
     {
-        Calem = 00,
-        Serena = 01,
+        Serena = 00,
+        Calem = 01,
         Sycamore = 02,
         Diantha = 03,
         Wikstrom = 04,
