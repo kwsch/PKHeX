@@ -170,9 +170,13 @@ namespace PKHeX.Core
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
             if (origin is (1 or 2)) // gb initial moves
             {
+                var max = origin == 1 ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
                 foreach (var evo in chain)
                 {
-                    var enc = MoveLevelUp.GetEncounterMoves(evo.Species, 0, 1, (GameVersion)ver);
+                    var species = evo.Species;
+                    if (species > max)
+                        continue;
+                    var enc = MoveLevelUp.GetEncounterMoves(species, 0, 1, (GameVersion)ver);
                     canlearn = canlearn.Concat(enc);
                 }
             }
