@@ -55,6 +55,8 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             if (Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
+            if (Form == FormVivillon && pk is PK7 pk7)
+                pk.Form = Vivillon3DS.GetPattern(pk7.Country, pk7.Region);
             pk.SetRandomEC();
         }
 
