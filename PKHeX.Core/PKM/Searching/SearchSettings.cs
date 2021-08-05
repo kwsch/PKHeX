@@ -96,7 +96,7 @@ namespace PKHeX.Core.Searching
         {
             foreach (var pk in list)
             {
-                if (IsSearchMatch(pk))
+                if (!IsSearchMatch(pk))
                     continue;
                 yield return pk;
             }
@@ -107,7 +107,7 @@ namespace PKHeX.Core.Searching
             foreach (var entry in list)
             {
                 var pk = entry.Entity;
-                if (IsSearchMatch(pk))
+                if (!IsSearchMatch(pk))
                     continue;
                 yield return entry;
             }
