@@ -935,7 +935,6 @@
             this.mnuDelete});
             this.mnu.Name = "mnu";
             this.mnu.Size = new System.Drawing.Size(108, 48);
-            this.mnu.Click += new System.EventHandler(this.ClickView);
             // 
             // mnuView
             // 
@@ -943,6 +942,7 @@
             this.mnuView.Name = "mnuView";
             this.mnuView.Size = new System.Drawing.Size(107, 22);
             this.mnuView.Text = "View";
+            this.mnuView.Click += new System.EventHandler(this.ClickView);
             // 
             // mnuDelete
             // 
