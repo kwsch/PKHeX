@@ -289,9 +289,8 @@ namespace PKHeX.WinForms
             if (!PKX.IsPKM(fi.Length))
                 return;
 
-            int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
             byte[] data = File.ReadAllBytes(source);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, SAV);
             if (pk == null)
                 return;
 

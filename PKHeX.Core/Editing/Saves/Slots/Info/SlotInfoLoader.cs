@@ -27,8 +27,7 @@ namespace PKHeX.Core
                 return;
 
             var data = File.ReadAllBytes(file);
-            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, dest);
             if (pk?.Species is not > 0)
                 return;
 
@@ -103,8 +102,7 @@ namespace PKHeX.Core
                 return;
 
             var data = File.ReadAllBytes(file);
-            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, dest);
             if (pk?.Species is not > 0)
                 return;
 

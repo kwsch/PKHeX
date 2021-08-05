@@ -266,8 +266,8 @@ namespace PKHeX.Core
             var gift = mg?.ConvertToPKM(sav);
             if (gift != null)
                 return gift;
-            int prefer = PKX.GetPKMFormatFromExtension(ext, sav.Generation);
-            return PKMConverter.GetPKMfromBytes(data, prefer: prefer);
+            _ = TryGetPKM(data, out var pk, ext, sav);
+            return pk;
         }
     }
 }
