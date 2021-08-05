@@ -747,7 +747,7 @@
             this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_IsEgg.ThreeState = true;
             this.CHK_IsEgg.UseVisualStyleBackColor = true;
-            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.ToggleESV);
+            this.CHK_IsEgg.CheckStateChanged += new System.EventHandler(this.ToggleESV);
             // 
             // L_ESV
             // 
