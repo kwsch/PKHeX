@@ -36,8 +36,8 @@ namespace PKHeX.Core
                 pk.SetRandomEC();
                 return;
             }
-            if (symbol)
-                Overworld8RNG.ApplyDetails(pk, c, c.Shiny);
+            // Don't bother honoring shiny state.
+            Overworld8RNG.ApplyDetails(pk, c, Shiny.Random);
         }
 
         public OverworldCorrelation8Requirement GetRequirement(PKM pk)

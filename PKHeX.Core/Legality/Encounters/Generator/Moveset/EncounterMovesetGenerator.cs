@@ -168,7 +168,7 @@ namespace PKHeX.Core
 
             var gens = GenerationTraversal.GetVisitedGenerationOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-            if (origin == 1)
+            if (origin is (1 or 2)) // gb initial moves
             {
                 foreach (var evo in chain)
                 {
