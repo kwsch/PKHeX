@@ -175,8 +175,8 @@ namespace PKHeX.Core
             208, 209, 210, 211, 212, 686, 687, 688,
         };
 
-        internal static readonly ushort[] HeldItem_XY = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
-        internal static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
+        internal static readonly ushort[] HeldItem_XY = ArrayUtil.ConcatAll(Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
+        internal static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
         #endregion
 
         #region TMHM
