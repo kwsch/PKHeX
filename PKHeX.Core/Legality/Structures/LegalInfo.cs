@@ -42,7 +42,7 @@ namespace PKHeX.Core
         private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
-        internal readonly List<CheckResult> Parse = new();
+        internal readonly List<CheckResult> Parse;
 
         public readonly CheckResult[] Relearn = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
@@ -74,9 +74,10 @@ namespace PKHeX.Core
         /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
         public bool FrameMatches { get; internal set; } = true;
 
-        public LegalInfo(PKM pk)
+        public LegalInfo(PKM pk, List<CheckResult> parse)
         {
             pkm = pk;
+            Parse = parse;
 
             // Store repeatedly accessed values
             Game = (GameVersion)pkm.Version;
