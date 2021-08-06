@@ -210,9 +210,9 @@ namespace PKHeX.Core
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);
         public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
-        public Mail GetMail(int i)
+        public Mail GetMail(int mailIndex)
         {
-            int ofs = GetMailOffset(i);
+            int ofs = GetMailOffset(mailIndex);
             var data = GetMailData(ofs);
             return new Mail5(data, ofs);
         }

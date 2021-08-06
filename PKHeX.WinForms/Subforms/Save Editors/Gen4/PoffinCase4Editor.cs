@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             Updating = false;
         }
 
-        private string GetPoffinText(int i) => $"{i + 1:000} - {Case.Poffins[i].Type.ToString().Replace('_', '-')}";
+        private string GetPoffinText(int index) => $"{index + 1:000} - {Case.Poffins[index].Type.ToString().Replace('_', '-')}";
 
         public void Save()
         {
@@ -38,24 +38,24 @@ namespace PKHeX.WinForms
             Case.Save();
         }
 
-        private void SaveIndex(int i)
+        private void SaveIndex(int index)
         {
             // do nothing, propertygrid handles everything
-            if (i < 0)
+            if (index < 0)
                 return;
             Updating = true;
-            LB_Poffins.Items[i] = GetPoffinText(i);
+            LB_Poffins.Items[index] = GetPoffinText(index);
             Updating = false;
         }
 
-        private void LoadIndex(int i)
+        private void LoadIndex(int index)
         {
-            if (i < 0)
+            if (index < 0)
             {
                 LB_Poffins.SelectedIndex = 0;
                 return;
             }
-            PG_Poffins.SelectedObject = Case.Poffins[i];
+            PG_Poffins.SelectedObject = Case.Poffins[index];
         }
 
         private void LB_Poffins_SelectedIndexChanged(object sender, EventArgs e)

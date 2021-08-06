@@ -555,9 +555,9 @@ namespace PKHeX.Core
         protected abstract int MailOffset { get; }
         public int GetMailOffset(int index) => (index * Mail3.SIZE) + MailOffset;
 
-        public Mail GetMail(int i)
+        public Mail GetMail(int mailIndex)
         {
-            var ofs = GetMailOffset(i);
+            var ofs = GetMailOffset(mailIndex);
             var data = Large.Slice(ofs, Mail3.SIZE);
             return new Mail3(data, ofs, Japanese);
         }

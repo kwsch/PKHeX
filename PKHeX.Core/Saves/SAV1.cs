@@ -175,11 +175,11 @@ namespace PKHeX.Core
             return outData;
         }
 
-        private int GetBoxRawDataOffset(int i)
+        private int GetBoxRawDataOffset(int box)
         {
-            if (i < BoxCount / 2)
-                return 0x4000 + (i * SIZE_STOREDBOX);
-            return 0x6000 + ((i - (BoxCount / 2)) * SIZE_STOREDBOX);
+            if (box < BoxCount / 2)
+                return 0x4000 + (box * SIZE_STOREDBOX);
+            return 0x6000 + ((box - (BoxCount / 2)) * SIZE_STOREDBOX);
         }
 
         // Configuration

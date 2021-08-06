@@ -224,10 +224,13 @@ namespace PKHeX.WinForms
             };
         }
 
-        private int GetColorCount(int i) =>
-                i >= 0 && i < RES_FacilityColor.Length - (SAV is SAV7USUM ? 0 : 1)
-                ? RES_FacilityColor[i].Length - 1
-                : 3;
+        private int GetColorCount(int type)
+        {
+            var colors = RES_FacilityColor;
+            if (type >= 0 && type < colors.Length - (SAV is SAV7USUM ? 0 : 1))
+                return colors[type].Length - 1;
+            return 3;
+        }
 
         private void LoadFacility()
         {

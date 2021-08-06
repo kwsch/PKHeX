@@ -228,12 +228,12 @@ namespace PKHeX.WinForms
                 mi.Invoke();
         }
 
-        private void SetProgressBar(int i)
+        private void SetProgressBar(int position)
         {
             if (PB_Show.InvokeRequired)
-                PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = i));
+                PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = position));
             else
-                PB_Show.Value = i;
+                PB_Show.Value = position;
         }
 
         // Mass Editing

@@ -15,19 +15,15 @@ namespace PKHeX.Core
             int eCount = data.Length/SIZE_ENTRY;
             Entries = new ShadowInfoEntryXD[eCount];
             for (int i = 0; i < eCount; i++)
-            {
-                var entry = GetEntry(data, i);
-                Entries[i] = entry;
-            }
+                Entries[i] = GetEntry(data, i);
         }
 
         public ShadowInfoTableXD() : this(new byte[SIZE_ENTRY * MaxCount]) { }
 
-        private static ShadowInfoEntryXD GetEntry(byte[] data, int i)
+        private static ShadowInfoEntryXD GetEntry(byte[] data, int index)
         {
-            var d = data.Slice(i * SIZE_ENTRY, SIZE_ENTRY);
-            var entry = new ShadowInfoEntryXD(d);
-            return entry;
+            var slice = data.Slice(index * SIZE_ENTRY, SIZE_ENTRY);
+            return new ShadowInfoEntryXD(slice);
         }
 
         public byte[] Write() => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();

@@ -95,11 +95,11 @@ namespace PKHeX.Core
         /// </summary>
         public static string GetSource(object parse, int generation, int index)
         {
-            static string GetLine<T>(T[] arr, Func<T, string> act, int i)
+            static string GetLine<T>(T[] arr, Func<T, string> act, int index)
             {
-                if (i >= arr.Length)
+                if ((uint)index >= arr.Length)
                     return LMoveSourceEmpty;
-                return act(arr[i]);
+                return act(arr[index]);
             }
 
             return generation switch

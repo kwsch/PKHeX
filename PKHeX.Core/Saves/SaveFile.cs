@@ -290,9 +290,9 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsPartySlotNotEggOrEmpty(int i)
+        private bool IsPartySlotNotEggOrEmpty(int index)
         {
-            var slot = GetPartySlotAtIndex(i);
+            var slot = GetPartySlotAtIndex(index);
             return !slot.IsEgg && slot.Species != 0;
         }
 

@@ -356,9 +356,9 @@ namespace PKHeX.WinForms
             cm.ResumeBinding();
         }
 
-        private static void ToggleRowVisibility(DataGridView dg, int column, string text, int i)
+        private static void ToggleRowVisibility(DataGridView dg, int column, string text, int rowIndex)
         {
-            var row = dg.Rows[i];
+            var row = dg.Rows[rowIndex];
             if (text.Length == 0 || column < 0)
             {
                 row.Visible = true;

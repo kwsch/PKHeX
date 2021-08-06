@@ -534,9 +534,9 @@ namespace PKHeX.Core
 
         public byte[] GetMailData(int ofs) => General.Slice(ofs, Mail4.SIZE);
 
-        public Mail4 GetMail(int i)
+        public Mail4 GetMail(int mailIndex)
         {
-            int ofs = GetMailOffset(i);
+            int ofs = GetMailOffset(mailIndex);
             return new Mail4(GetMailData(ofs), ofs);
         }
     }

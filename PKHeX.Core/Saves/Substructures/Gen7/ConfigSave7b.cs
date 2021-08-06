@@ -50,8 +50,8 @@ namespace PKHeX.Core
             set => ConfigValue = ((ConfigValue & ~0xF0) | SetLanguageID(value) << 4);
         }
 
-        private static int GetLanguageID(int i) => i >= (int) LanguageID.UNUSED_6 ? i + 1 : i; // sets langBank to LanguageID
-        private static int SetLanguageID(int i) => i > (int) LanguageID.UNUSED_6 ? i - 1 : i; // sets LanguageID to langBank
+        private static int GetLanguageID(int rawValue) => rawValue >= (int) LanguageID.UNUSED_6 ? rawValue + 1 : rawValue; // sets langBank to LanguageID
+        private static int SetLanguageID(int rawValue) => rawValue > (int) LanguageID.UNUSED_6 ? rawValue - 1 : rawValue; // sets LanguageID to langBank
 
         public enum BattleAnimationSetting
         {

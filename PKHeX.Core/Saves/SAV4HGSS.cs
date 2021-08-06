@@ -220,8 +220,8 @@ namespace PKHeX.Core
         }
 
         // Apricorn Pouch
-        public int GetApricornCount(int i) => General[0xE558 + i];
-        public void SetApricornCount(int i, int count) => General[0xE558 + i] = (byte)count;
+        public int GetApricornCount(int index) => General[0xE558 + index];
+        public void SetApricornCount(int index, int count) => General[0xE558 + index] = (byte)count;
 
         // Pokewalker
         public const int WalkerPair = 0xE5E0;

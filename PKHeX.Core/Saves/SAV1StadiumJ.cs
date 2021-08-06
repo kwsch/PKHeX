@@ -56,24 +56,24 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        protected override bool GetIsBoxChecksumValid(int i)
+        protected override bool GetIsBoxChecksumValid(int box)
         {
-            var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+            var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
             var actual = BigEndian.ToUInt16(Data, boxOfs + size);
             return chk == actual;
         }
 
-        protected override void SetBoxChecksum(int i)
+        protected override void SetBoxChecksum(int box)
         {
-            var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+            var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
             BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
         }
 
-        protected override void SetBoxMetadata(int i)
+        protected override void SetBoxMetadata(int box)
         {
             // Not implemented
         }
