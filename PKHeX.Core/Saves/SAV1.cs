@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -20,11 +19,11 @@ namespace PKHeX.Core
         public override PersonalTable Personal { get; }
         public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
 
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
             int gen = f[^1] - 0x30;
             return gen is 1 or 2;
-        }).ToArray();
+        });
 
         public SAV1(GameVersion version = GameVersion.RBY, bool japanese = false) : base(SaveUtil.SIZE_G1RAW)
         {

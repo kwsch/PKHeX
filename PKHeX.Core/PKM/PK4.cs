@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -384,7 +383,7 @@ namespace PKHeX.Core
                 pk5.Form = 0;
                 pk5.HeldItem = 0;
             }
-            else if(!Legal.HeldItems_BW.Contains((ushort)HeldItem))
+            else if (Array.IndexOf(Legal.HeldItems_BW, (ushort)HeldItem) == -1)
             {
                 pk5.HeldItem = 0; // if valid, it's already copied
             }
@@ -419,10 +418,10 @@ namespace PKHeX.Core
             // if has defog, remove whirlpool.
             bool hasDefog = HasMove((int) Move.Defog);
             var banned = hasDefog ? Legal.HM_HGSS : Legal.HM_DPPt;
-            if (banned.Contains(Move1)) Move1 = 0;
-            if (banned.Contains(Move2)) Move2 = 0;
-            if (banned.Contains(Move3)) Move3 = 0;
-            if (banned.Contains(Move4)) Move4 = 0;
+            if (Array.IndexOf(banned, Move1) != -1) Move1 = 0;
+            if (Array.IndexOf(banned, Move2) != -1) Move2 = 0;
+            if (Array.IndexOf(banned, Move3) != -1) Move3 = 0;
+            if (Array.IndexOf(banned, Move4) != -1) Move4 = 0;
             pk5.FixMoves();
 
             pk5.RefreshChecksum();

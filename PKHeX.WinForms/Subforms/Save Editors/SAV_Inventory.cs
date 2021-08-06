@@ -177,9 +177,9 @@ namespace PKHeX.WinForms
                 var dgv = GetGrid(pouch.Type);
 
                 // Sanity Screen
-                var invalid = pouch.Items.Where(item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index)).ToArray();
-                var outOfBounds = invalid.Where(item => item.Index >= itemlist.Length).ToArray();
-                var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
+                var invalid = Array.FindAll(pouch.Items, item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index));
+                var outOfBounds = Array.FindAll(invalid, item => item.Index >= itemlist.Length);
+                var incorrectPouch = Array.FindAll(invalid, item => item.Index < itemlist.Length);
 
                 if (outOfBounds.Length > 0)
                     WinFormsUtil.Error(MsgItemPouchUnknown, $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");

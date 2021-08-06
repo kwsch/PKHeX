@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 
 namespace PKHeX.Core
@@ -256,7 +255,7 @@ namespace PKHeX.Core
                 newHC -= BigEndian.ToInt32(D, 0);
                 newHC -= BigEndian.ToInt32(D, 4);
 
-                byte[] chk = data.Slice(data.Length - 20, 20);
+                var chk = data.AsSpan(data.Length - 20, 20);
 
                 bool header = newHC == oldHC;
                 bool body = chk.SequenceEqual(checksum);

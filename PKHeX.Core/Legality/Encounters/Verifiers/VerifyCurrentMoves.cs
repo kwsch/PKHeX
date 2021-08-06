@@ -85,7 +85,7 @@ namespace PKHeX.Core
 
             var Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
-                Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
+                Egg = Array.FindAll(Egg, m => m <= Legal.MaxMoveID_1);
 
             bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             var specialMoves = volt && notEvent ? new[] { (int)Move.VoltTackle } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
@@ -216,19 +216,21 @@ namespace PKHeX.Core
             var required = pkm is not PK1 pk1 ? 1 : GBRestrictions.GetRequiredMoveCount(pk1, source.CurrentMoves, info, source.Base);
 
             // Special considerations!
-            int reset = 0;
+            const int NoMinGeneration = 0;
+            int minGeneration = NoMinGeneration;
             if (pkm is IBattleVersion {BattleVersion: not 0} v)
             {
-                reset = ((GameVersion) v.BattleVersion).GetGeneration();
+                minGeneration = ((GameVersion) v.BattleVersion).GetGeneration();
                 source.ResetSources();
             }
 
             // Check empty moves and relearn moves before generation specific moves
             for (int m = 0; m < 4; m++)
             {
-                if (source.CurrentMoves[m] == 0)
+                var move = source.CurrentMoves[m];
+                if (move == 0)
                     res[m] = new CheckMoveResult(None, pkm.Format, m < required ? Fishy : Valid, LMoveSourceEmpty, CurrentMove);
-                else if (reset == 0 && info.EncounterMoves.Relearn.Contains(source.CurrentMoves[m]))
+                else if (minGeneration == NoMinGeneration && info.EncounterMoves.Relearn.Contains(move))
                     res[m] = new CheckMoveResult(Relearn, info.Generation, Valid, LMoveSourceRelearn, CurrentMove);
             }
 
@@ -240,16 +242,19 @@ namespace PKHeX.Core
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
             int[] generations = GenerationTraversal.GetVisitedGenerationOrder(pkm, info.EncounterOriginal.Generation);
             if (pkm.Format <= 2)
-                generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
-            if (reset != 0)
-                generations = generations.Where(z => z >= reset).ToArray();
+                generations = Array.FindAll(generations, z => z < info.EncounterMoves.LevelUpMoves.Length);
+            if (minGeneration != NoMinGeneration)
+                generations = Array.FindAll(generations, z => z >= minGeneration);
 
-            int lastgen = generations.Length == 0 ? 0 : generations[^1];
-            foreach (var gen in generations)
+            if (generations.Length != 0)
             {
-                ParseMovesByGeneration(pkm, res, gen, info, moveInfo, lastgen);
-                if (AllParsed())
-                    return res;
+                int lastgen = generations[^1];
+                foreach (var gen in generations)
+                {
+                    ParseMovesByGeneration(pkm, res, gen, info, moveInfo, lastgen);
+                    if (AllParsed())
+                        return res;
+                }
             }
 
             if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
@@ -459,7 +464,7 @@ namespace PKHeX.Core
         {
             // A pokemon could have normal egg moves and regular egg moves
             // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
-            var RegularEggMovesLearned = learnInfo.EggMovesLearned.Union(learnInfo.LevelUpEggMoves).ToList();
+            var RegularEggMovesLearned = learnInfo.EggMovesLearned.FindAll(learnInfo.LevelUpEggMoves.Contains);
             if (RegularEggMovesLearned.Count != 0 && learnInfo.EventEggMoves.Count != 0)
             {
                 // Moves that are egg moves or event egg moves but not both

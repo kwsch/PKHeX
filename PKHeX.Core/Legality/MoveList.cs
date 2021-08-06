@@ -60,7 +60,7 @@ namespace PKHeX.Core
             {
                 case GSC or GS:
                     // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
-                    static int[] getRBYCompatibleMoves(int format, int[] moves) => format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
+                    static int[] getRBYCompatibleMoves(int format, int[] moves) => format == 1 ? Array.FindAll(moves, m => m <= MaxMoveID_1) : moves;
                     if (pkm.InhabitedGeneration(2))
                         return getRBYCompatibleMoves(pkm.Format, LevelUpGS[species].GetMoves(lvl));
                     break;

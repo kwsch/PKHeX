@@ -48,11 +48,11 @@ namespace PKHeX.Core
 
         public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
 
-        public virtual IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public virtual IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
             int gen = f[^1] - 0x30;
             return 3 <= gen && gen <= Generation;
-        }).ToArray();
+        });
 
         // General SAV Properties
         public byte[] Write(ExportFlags flags = ExportFlags.None)

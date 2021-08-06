@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -13,11 +12,11 @@ namespace PKHeX.Core
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
             int gen = f[^1] - 0x30;
             return gen <= 8;
-        }).ToArray();
+        });
 
         protected SAV8(byte[] data) : base(data) { }
         protected SAV8() { }

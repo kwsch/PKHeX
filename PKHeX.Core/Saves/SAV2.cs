@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -20,13 +19,13 @@ namespace PKHeX.Core
         public override PersonalTable Personal { get; }
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GSC;
 
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
             int gen = f[^1] - 0x30;
             if (Korean)
                 return gen == 2;
             return gen is 1 or 2;
-        }).ToArray();
+        });
 
         public SAV2(GameVersion version = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)
         {
@@ -670,9 +669,15 @@ namespace PKHeX.Core
         private ushort GetResetKey()
         {
             var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
-            var ot = Data.Skip(Offsets.Trainer1 + 2).TakeWhile((z, i) => i < 5 && z != 0x50);
-            var tr = ot.Sum(z => z);
-            return (ushort)(val + tr);
+            var ot = Data.AsSpan(Offsets.Trainer1 + 2, 5);
+            var sum = 0;
+            foreach (var b in ot)
+            {
+                if (b == StringConverter12.G1TerminatorCode)
+                    break;
+                sum += b;
+            }
+            return (ushort)(val + sum);
         }
 
         /// <summary>

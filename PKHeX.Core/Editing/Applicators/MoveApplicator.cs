@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -39,8 +38,8 @@ namespace PKHeX.Core
         /// <param name="maxPP">Option to maximize PP Ups</param>
         public static void SetMoves(this PKM pk, int[] moves, bool maxPP = false)
         {
-            if (moves.Any(z => z > pk.MaxMoveID))
-                moves = moves.Where(z => z <= pk.MaxMoveID).ToArray();
+            if (Array.FindIndex(moves, z => z > pk.MaxMoveID) != -1)
+                moves = Array.FindAll(moves, z => z <= pk.MaxMoveID);
             if (moves.Length != 4)
                 Array.Resize(ref moves, 4);
 
