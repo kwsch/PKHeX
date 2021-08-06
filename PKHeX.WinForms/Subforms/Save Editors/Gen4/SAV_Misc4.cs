@@ -515,9 +515,7 @@ namespace PKHeX.WinForms
             // Fill List
             CB_Species.InitializeBinding();
 
-            var speciesList = GameInfo.SpeciesDataSource.ToList();
-            speciesList.RemoveAt(0);
-            speciesList.RemoveAll(z => z.Value > SAV.MaxSpeciesID);
+            var speciesList = GameInfo.FilteredSources.Species.Skip(1).ToList();
             CB_Species.DataSource = new BindingSource(speciesList, null);
 
             editing = false;

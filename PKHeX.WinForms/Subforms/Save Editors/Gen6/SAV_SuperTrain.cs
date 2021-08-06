@@ -43,10 +43,10 @@ namespace PKHeX.WinForms
             dataGridView1.Columns.Clear();
             {
                 CB_Species.InitializeBinding();
-                CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+                CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
 
                 CB_S2.InitializeBinding();
-                CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+                CB_S2.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
             }
             listBox1.SelectedIndex = 0;
             FillTrainingBags();

@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
 
             Dex = SAV.Blocks.Zukan;
 

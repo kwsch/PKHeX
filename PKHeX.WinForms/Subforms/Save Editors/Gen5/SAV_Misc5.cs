@@ -464,8 +464,9 @@ namespace PKHeX.WinForms
             CB_Move.InitializeBinding();
             CB_Areas.InitializeBinding();
 
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-            CB_Move.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
+            var filtered = GameInfo.FilteredSources;
+            CB_Species.DataSource = new BindingSource(filtered.Species, null);
+            CB_Move.DataSource = new BindingSource(filtered.Moves, null);
             CB_Areas.DataSource = new BindingSource(areas, null);
 
             CB_Areas.SelectedIndex = 0;
