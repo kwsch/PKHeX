@@ -174,8 +174,8 @@ namespace PKHeX.Core
             Data[ofs + 0x1E0] = hasEgg ? (byte)1 : (byte)0;
         }
 
-        public override string JPEGTitle => HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
-        public override byte[] GetJPEGData() => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
+        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
+        public override byte[] GetJPEGData() => !HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
