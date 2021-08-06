@@ -113,6 +113,7 @@ namespace PKHeX.Core
 
         public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
         public static bool IsBoostedArea60(int location) => IsWildArea(location);
+        public static bool IsBoostedArea60Fog(int location) => IsWildArea8(location); // IoA doesn't have fog restriction by badges, and all Crown stuff is above 60.
 
         public static bool IsWildArea8(int location)      => location is >= 122 and <= 154; // Rolling Fields -> Lake of Outrage
         public static bool IsWildArea8Armor(int location) => location is >= 164 and <= 194; // Fields of Honor -> Honeycalm Island
