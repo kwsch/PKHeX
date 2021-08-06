@@ -186,7 +186,6 @@ namespace PKHeX.Core
         #endregion
     }
 
-#if DEBUG
     public static class PIDTypeExtensions
     {
         public static RNGType GetRNGType(this PIDType type) => type switch
@@ -207,5 +206,4 @@ namespace PKHeX.Core
             _ => false
         };
     }
-#endif
 }

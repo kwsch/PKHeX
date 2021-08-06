@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -317,7 +316,7 @@ namespace PKHeX.Core
                     throw new ArgumentException($"Expected 1-6, got {value.Count}");
 #if DEBUG
                 if (value[0].Species == 0)
-                    Debug.WriteLine($"Empty first slot, received {value.Count}.");
+                    System.Diagnostics.Debug.WriteLine($"Empty first slot, received {value.Count}.");
 #endif
                 int ctr = 0;
                 foreach (var exist in value.Where(pk => pk.Species != 0))
