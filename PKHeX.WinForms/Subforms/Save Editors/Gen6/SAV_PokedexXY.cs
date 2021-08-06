@@ -331,8 +331,6 @@ namespace PKHeX.WinForms
             }
 
             SetEntry();
-            if (mnuComplete == sender) // Turn off Italian Petlil
-                Zukan.SetLanguageFlag((int)Species.Petilil - 1, (int)LanguageID.Italian - 1, false);
             GetEntry();
         }
 

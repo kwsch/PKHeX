@@ -314,8 +314,6 @@ namespace PKHeX.WinForms
                 ClearAll(sender);
 
             SetEntry();
-            // Turn off zh2 Petilil
-            Dex.SetLanguageFlag((int)Species.Petilil - 1, 8, false);
             GetEntry();
             allModifying = false;
             LB_Forms.Enabled = LB_Forms.Visible = true;
