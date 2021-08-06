@@ -88,6 +88,11 @@ namespace PKHeX.Core
         /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
         public static string[] GetItemsList(string language) => GetStringList("items", language);
 
+        /// <summary>
+        /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Spanish.
+        /// </summary>
+        /// <param name="fileName">Base file name</param>
+        /// <remarks>Ignores Korean Language.</remarks>
         public static string[][] GetLanguageStrings7(string fileName)
         {
             return new[]
@@ -103,6 +108,10 @@ namespace PKHeX.Core
             };
         }
 
+        /// <summary>
+        /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Korean.
+        /// </summary>
+        /// <param name="fileName">Base file name</param>
         public static string[][] GetLanguageStrings8(string fileName)
         {
             return new[]
@@ -119,6 +128,11 @@ namespace PKHeX.Core
             };
         }
 
+        /// <summary>
+        /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Chinese.
+        /// </summary>
+        /// <param name="fileName">Base file name</param>
+        /// <param name="zh2">String to use for the second Chinese localization.</param>
         public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh")
         {
             return new[]
@@ -181,7 +195,9 @@ namespace PKHeX.Core
             return raw;
         }
 
-        public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList($"{type}_{fileName}_{lang2char}");
+        public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList(GetFullResourceName(fileName, lang2char, type));
+
+        private static string GetFullResourceName(string fileName, string lang2char, string type) => $"{type}_{fileName}_{lang2char}";
 
         public static byte[] GetBinaryResource(string name)
         {

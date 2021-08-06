@@ -224,11 +224,11 @@ namespace PKHeX.WinForms
             return false;
         }
 
-        private void LoadPKMFromPath(string pkmArg)
+        private void LoadPKMFromPath(string path)
         {
-            if (string.IsNullOrWhiteSpace(pkmArg) || !File.Exists(pkmArg))
+            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
                 return;
-            byte[] data = File.ReadAllBytes(pkmArg);
+            byte[] data = File.ReadAllBytes(path);
             var pk = PKMConverter.GetPKMfromBytes(data);
             if (pk != null)
                 OpenPKM(pk);

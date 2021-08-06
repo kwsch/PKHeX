@@ -178,7 +178,7 @@ namespace PKHeX.Core
                 return LoadTemplateInternal(sav);
 
             var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
-            if (pk == null)
+            if (pk?.Species is not > 0)
                 return LoadTemplateInternal(sav);
 
             return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplateInternal(sav);
