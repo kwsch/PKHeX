@@ -84,13 +84,15 @@ namespace PKHeX.Core
 
             if (gen == 6 && !Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
             {
-                if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory intensity checks for gen8
+                var encGen = info.EncounterMatch.Generation;
+                if (encGen == 6 || (encGen == 7 && memory.MemoryID != 0)) // todo: memory intensity checks for gen8
                   return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
             }
 
             if (gen == 6 && memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
             {
-                if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory feeling checks for gen8
+                var encGen = info.EncounterMatch.Generation;
+                if (encGen == 6 || (encGen == 7 && memory.MemoryID != 0)) // todo: memory feeling checks for gen8
                     return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
             }
 
@@ -191,7 +193,7 @@ namespace PKHeX.Core
                     break;
 
                 // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
-                case 4 when pkm.Gen6:
+                case 4 when Info.Generation == 6: // gen8 applies this memory erroneously
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadOTEgg, L_XOT)));
                     return;
 

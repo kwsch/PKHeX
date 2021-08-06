@@ -15,16 +15,16 @@ namespace PKHeX.Core
             int originalGeneration = data.Info.Generation;
             int currentLanguage = pkm.Language;
             int maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
-
-            if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm, data.EncounterMatch))
+            var enc = data.EncounterMatch;
+            if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm, enc))
             {
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={(LanguageID)maxLanguageID}", (LanguageID)currentLanguage)));
                 return;
             }
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-            if (pkm.Format == 4 && pkm.Gen4 && !IsValidG4Korean(currentLanguage)
-                && !(data.EncounterMatch is EncounterTrade4 {Species: (int)Species.Pikachu or (int)Species.Magikarp}) // ger magikarp / eng pikachu
+            if (pkm.Format == 4 && enc.Generation == 4 && !IsValidG4Korean(currentLanguage)
+                && enc is not EncounterTrade4PID {Species: (int)Species.Pikachu or (int)Species.Magikarp} // ger magikarp / eng pikachu
             )
             {
                 bool kor = currentLanguage == (int)LanguageID.Korean;
