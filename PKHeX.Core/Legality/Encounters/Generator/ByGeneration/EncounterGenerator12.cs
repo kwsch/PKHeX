@@ -17,8 +17,7 @@ namespace PKHeX.Core
         {
             foreach (var z in GenerateFilteredEncounters12(pkm))
             {
-                info.Generation = z.Generation;
-                info.Game = z.Version;
+                info.StoreMetadata(z.Version, z.Generation);
                 yield return z;
             }
         }
