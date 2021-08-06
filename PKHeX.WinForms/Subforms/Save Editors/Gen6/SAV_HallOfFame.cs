@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
             CB_Form.SelectedIndex = (int)form;
             SetGenderLabel((int)gender);
             UpdateNickname(sender, e);
-            bpkx.Image = SpriteUtil.GetSprite(species, (int)form, (int)gender, 0, item, false, shiny == 1);
+            bpkx.Image = SpriteUtil.GetSprite(species, (int)form, (int)gender, 0, item, false, shiny == 1, 6);
             editing = true;
         }
 
@@ -286,7 +286,7 @@ namespace PKHeX.WinForms
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked, 6);
             DisplayEntry(this, EventArgs.Empty); // refresh text view
         }
 
@@ -345,7 +345,7 @@ namespace PKHeX.WinForms
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked, 6);
 
             Write_Entry(this, EventArgs.Empty);
         }
