@@ -8,6 +8,37 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 582, Ability = A4, Moves = new[]{ 419, 106, 263, 310 }, Index = 79 }, // Vanillite
+            new(17,01,1) { Species = 118, Ability = A4, Moves = new[]{ 030, 039, 352, 064 }, Index = 79 }, // Goldeen
+            new(17,01,1) { Species = 127, Ability = A4, Moves = new[]{ 458, 693, 157, 069 }, Index = 79 }, // Pinsir
+            new(17,01,1) { Species = 214, Ability = A4, Moves = new[]{ 280, 031, 089, 332 }, Index = 79 }, // Heracross
+            new(17,01,1) { Species = 290, Ability = A4, Moves = new[]{ 189, 206, 028, 010 }, Index = 79 }, // Nincada
+            new(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 403, 084, 310, 104 }, Index = 79, Form = 4 }, // Rotom-4
+            new(30,03,2) { Species = 582, Ability = A4, Moves = new[]{ 419, 430, 263, 310 }, Index = 79 }, // Vanillite
+            new(30,03,2) { Species = 118, Ability = A4, Moves = new[]{ 030, 398, 352, 064 }, Index = 79 }, // Goldeen
+            new(30,03,2) { Species = 127, Ability = A4, Moves = new[]{ 458, 675, 157, 069 }, Index = 79 }, // Pinsir
+            new(30,03,2) { Species = 214, Ability = A4, Moves = new[]{ 280, 030, 089, 332 }, Index = 79 }, // Heracross
+            new(30,03,2) { Species = 291, Ability = A4, Moves = new[]{ 232, 210, 403, 010 }, Index = 79 }, // Ninjask
+            new(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 403, 351, 310, 104 }, Index = 79, Form = 4 }, // Rotom-4
+            new(40,05,3) { Species = 583, Ability = A4, Moves = new[]{ 419, 430, 304, 310 }, Index = 79 }, // Vanillish
+            new(40,05,3) { Species = 119, Ability = A4, Moves = new[]{ 030, 224, 352, 529 }, Index = 79 }, // Seaking
+            new(40,05,3) { Species = 127, Ability = A4, Moves = new[]{ 404, 675, 157, 280 }, Index = 79 }, // Pinsir
+            new(40,05,3) { Species = 214, Ability = A4, Moves = new[]{ 280, 042, 089, 157 }, Index = 79 }, // Heracross
+            new(40,05,3) { Species = 291, Ability = A4, Moves = new[]{ 232, 210, 403, 104 }, Index = 79 }, // Ninjask
+            new(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 403, 085, 310, 399 }, Index = 79, Form = 4 }, // Rotom-4
+            new(50,08,4) { Species = 584, Ability = A4, Moves = new[]{ 573, 430, 304, 058 }, Index = 79 }, // Vanilluxe
+            new(50,08,4) { Species = 119, Ability = A4, Moves = new[]{ 030, 224, 503, 529 }, Index = 79 }, // Seaking
+            new(50,08,4) { Species = 127, Ability = A4, Moves = new[]{ 404, 675, 157, 276 }, Index = 79 }, // Pinsir
+            new(50,08,4) { Species = 214, Ability = A4, Moves = new[]{ 280, 331, 089, 157 }, Index = 79 }, // Heracross
+            new(50,08,4) { Species = 291, Ability = A4, Moves = new[]{ 232, 210, 403, 163 }, Index = 79 }, // Ninjask
+            new(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 403, 085, 506, 399 }, Index = 79, Form = 4 }, // Rotom-4
+            new(60,10,5) { Species = 584, Ability = A4, Moves = new[]{ 573, 430, 304, 059 }, Index = 79, Shiny = Shiny.Always }, // Vanilluxe
+            new(60,10,5) { Species = 119, Ability = A4, Moves = new[]{ 032, 224, 503, 529 }, Index = 79 }, // Seaking
+            new(60,10,5) { Species = 127, Ability = A4, Moves = new[]{ 404, 675, 317, 276 }, Index = 79 }, // Pinsir
+            new(60,10,5) { Species = 214, Ability = A4, Moves = new[]{ 370, 331, 089, 157 }, Index = 79 }, // Heracross
+            new(60,10,5) { Species = 291, Ability = A4, Moves = new[]{ 232, 404, 403, 163 }, Index = 79 }, // Ninjask
+            new(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 403, 085, 247, 399 }, Index = 79, Form = 4 }, // Rotom-4
+
             new(17,01,1) { Species = 138, Ability = A4, Moves = new[]{ 055, 028, 205, 020 }, Index = 77 }, // Omanyte
             new(17,01,1) { Species = 140, Ability = A4, Moves = new[]{ 453, 028, 263, 010 }, Index = 77 }, // Kabuto
             new(17,01,1) { Species = 142, Ability = A4, Moves = new[]{ 246, 414, 044, 017 }, Index = 77 }, // Aerodactyl
