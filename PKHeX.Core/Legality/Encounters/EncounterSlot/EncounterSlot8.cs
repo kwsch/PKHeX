@@ -27,7 +27,7 @@ namespace PKHeX.Core
                 ((PK8)pk).RibbonMarkCurry = true;
 
             base.ApplyDetails(sav, c, pk);
-            if (Weather is AreaWeather8.Heavy_Fog)
+            if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60(Location))
                 pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
 
             var req = GetRequirement(pk);
