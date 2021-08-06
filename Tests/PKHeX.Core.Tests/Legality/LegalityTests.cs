@@ -37,6 +37,15 @@ namespace PKHeX.Tests.Legality
             VerifyAll(folder, "Illegal", false);
         }
 
+        [Fact]
+        public void TestPrivateFiles()
+        {
+            var folder = TestUtil.GetRepoPath();
+            folder = Path.Combine(folder, "Legality");
+            ParseSettings.AllowGBCartEra = true;
+            VerifyAll(folder, "Private", true);
+        }
+
         // ReSharper disable once UnusedParameter.Local
         private static void VerifyAll(string folder, string name, bool isValid)
         {
