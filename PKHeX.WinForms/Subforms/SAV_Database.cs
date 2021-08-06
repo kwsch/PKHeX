@@ -369,6 +369,12 @@ namespace PKHeX.WinForms
                     result.RemoveAll(z => !(z.Entity is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Entity.Species, z.Entity.Form)).IsPresentInGame));
             }
 
+            var sort = Main.Settings.EntityDb.InitialSortMode;
+            if (sort is DatabaseSortMode.SlotIdentity)
+                result.Sort();
+            else if (sort is DatabaseSortMode.SpeciesForm)
+                result.Sort((first, second) => first.CompareToSpeciesForm(second));
+
             // Finalize the Database
             return result;
         }
