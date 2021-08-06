@@ -91,8 +91,6 @@ namespace PKHeX.Core
             lines.Add(string.Empty);
             LegalityFormatting.AddEncounterInfo(l, lines);
 
-            LegalityFormatting.AddInvalidMatchesIfAny(l, info, lines);
-
             return lines;
         }
     }

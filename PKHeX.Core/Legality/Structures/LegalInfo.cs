@@ -88,13 +88,5 @@ namespace PKHeX.Core
             Game = game;
             Generation = gen;
         }
-
-        /// <summary>List of all near-matches that were rejected for a given reason.</summary>
-        public List<EncounterRejected>? InvalidMatches;
-
-        internal void Reject(CheckResult c)
-        {
-            (InvalidMatches ??= new List<EncounterRejected>()).Add(new EncounterRejected(EncounterMatch, c));
-        }
     }
 }

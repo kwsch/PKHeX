@@ -112,23 +112,5 @@ namespace PKHeX.Core
                 return null;
             return loc.GetEncounterLocation(enc.Generation, (int)enc.Version);
         }
-
-        public static void AddInvalidMatchesIfAny(LegalityAnalysis la, LegalInfo info, List<string> lines)
-        {
-            if (la.Valid)
-                return;
-
-            var matches = info.InvalidMatches;
-            if (matches is null)
-                return;
-
-            lines.Add("Other match(es):");
-            foreach (var m in matches)
-            {
-                var enc = m.Encounter;
-                var desc = $"{enc.LongName}: {m.Reason}";
-                lines.Add(desc);
-            }
-        }
     }
 }

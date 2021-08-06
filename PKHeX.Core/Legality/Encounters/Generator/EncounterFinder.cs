@@ -41,10 +41,7 @@ namespace PKHeX.Core
                 // Check for basic compatibility.
                 var e = EncounterValidator(pkm, enc);
                 if (!e.Valid && encounter.PeekIsNext())
-                {
-                    info.Reject(e);
                     continue;
-                }
 
                 // Looks like we might have a good enough match. Check if this is really a good match.
                 info.EncounterMatch = enc;
