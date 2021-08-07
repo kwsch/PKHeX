@@ -327,7 +327,6 @@ namespace PKHeX.WinForms.Controls
             {
                 MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : pk.CurrentLevel).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
-                MT_Form.Text = Math.Max(0, pk.Form).ToString();
                 if (pk.PartyStatsPresent) // stats present
                     Stats.LoadPartyStats(pk);
             }
@@ -1057,10 +1056,6 @@ namespace PKHeX.WinForms.Controls
             RefreshFormArguments();
             if (ChangingFields)
                 return;
-            ChangingFields = true;
-            MT_Form.Text = Math.Max(0, CB_Form.SelectedIndex).ToString();
-            ChangingFields = false;
-
             UpdateSprite();
         }
 
@@ -1072,18 +1067,6 @@ namespace PKHeX.WinForms.Controls
             if (FieldsLoaded)
                 FA_Form.SaveArgument(f);
             FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
-        }
-
-        private void UpdateHaXForm(object sender, EventArgs e)
-        {
-            if (ChangingFields)
-                return;
-            ChangingFields = true;
-            int form = Entity.Form = Util.ToInt32(MT_Form.Text);
-            CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
-            ChangingFields = false;
-
-            UpdateSprite();
         }
 
         private void UpdatePP(object sender, EventArgs e)
@@ -1936,7 +1919,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Common HaX Interface
-            MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
+            MT_Level.Enabled = MT_Level.Visible = HaX;
             TB_Level.Visible = !HaX;
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
