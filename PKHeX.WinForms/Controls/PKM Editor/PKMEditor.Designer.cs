@@ -798,16 +798,16 @@
             this.CB_Form.Location = new System.Drawing.Point(0, 0);
             this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Form.Name = "CB_Form";
-            this.CB_Form.Size = new System.Drawing.Size(98, 21);
+            this.CB_Form.Size = new System.Drawing.Size(123, 21);
             this.CB_Form.TabIndex = 12;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
             // FA_Form
             // 
-            this.FA_Form.Location = new System.Drawing.Point(98, 0);
+            this.FA_Form.Location = new System.Drawing.Point(123, 0);
             this.FA_Form.Margin = new System.Windows.Forms.Padding(0);
             this.FA_Form.Name = "FA_Form";
-            this.FA_Form.Size = new System.Drawing.Size(109, 21);
+            this.FA_Form.Size = new System.Drawing.Size(75, 21);
             this.FA_Form.TabIndex = 19;
             this.FA_Form.ValueChanged += new System.EventHandler(this.UpdateFormArgument);
             // 
@@ -2376,7 +2376,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(307, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;

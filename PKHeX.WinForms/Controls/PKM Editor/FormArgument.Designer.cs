@@ -76,7 +76,7 @@
             this.CB_FormArg.Location = new System.Drawing.Point(44, 0);
             this.CB_FormArg.Margin = new System.Windows.Forms.Padding(0);
             this.CB_FormArg.Name = "CB_FormArg";
-            this.CB_FormArg.Size = new System.Drawing.Size(90, 21);
+            this.CB_FormArg.Size = new System.Drawing.Size(75, 21);
             this.CB_FormArg.TabIndex = 1;
             this.CB_FormArg.Visible = false;
             this.CB_FormArg.SelectedIndexChanged += new System.EventHandler(this.CB_FormArg_SelectedIndexChanged);

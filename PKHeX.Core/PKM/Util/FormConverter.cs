@@ -379,15 +379,15 @@ namespace PKHeX.Core
                     forms[RainbowSwirl],
                 },
                 Morpeko => new[] {
-                    types[0], // Normal
+                    forms[FullBellyMode],
                     forms[HangryMode],
                 },
                 Eiscue => new[] {
-                    types[0], // Normal
+                    forms[IceFace],
                     forms[NoiceFace],
                 },
                 Zacian or Zamazenta => new[] {
-                    types[0], // Normal
+                    forms[Hero],
                     forms[Crowned],
                 },
                 Eternatus => new[] {
@@ -689,9 +689,12 @@ namespace PKHeX.Core
         private const int CaramelSwirl = 1079;
         private const int RainbowSwirl = 1080;
 
+        private const int IceFace = 1091;
         private const int NoiceFace = 1081;
         private const int HangryMode = 1082;
+        private const int FullBellyMode = 1092;
 
+        private const int Hero = 1093;
         private const int Crowned = 1083;
         private const int Eternamax = 1084;
 
