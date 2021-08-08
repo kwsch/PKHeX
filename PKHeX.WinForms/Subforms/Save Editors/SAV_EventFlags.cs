@@ -139,7 +139,8 @@ namespace PKHeX.WinForms
 
                 lbl.Click += (sender, e) => mtb.Value = 0;
                 bool updating = false;
-                mtb.ValueChanged += (o, args) =>
+                mtb.ValueChanged += ChangeConstValue;
+                void ChangeConstValue(object sender, EventArgs e)
                 {
                     if (updating)
                         return;
@@ -154,16 +155,18 @@ namespace PKHeX.WinForms
                     if (CB_Stats.SelectedIndex == entry.Index)
                         MT_Stat.Text = ((int)mtb.Value).ToString();
                     updating = false;
-                };
+                }
                 cb.SelectedValueChanged += (o, args) =>
                 {
                     if (editing || updating)
                         return;
                     var value = WinFormsUtil.GetIndex(cb);
-                    mtb.Value = value is NamedEventConst.CustomMagicValue ? 0 : value;
+                    mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
                 };
 
                 mtb.Value = values[entry.Index];
+                if (mtb.Value == 0)
+                    ChangeConstValue(this, EventArgs.Empty);
 
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
