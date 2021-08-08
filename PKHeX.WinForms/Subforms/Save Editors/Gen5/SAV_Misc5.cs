@@ -559,7 +559,7 @@ namespace PKHeX.WinForms
 
         private void B_RandForest_Click(object sender, EventArgs e)
         {
-            var source = (SAV is SAV5B2W2 ? Encounters5.DreamWorld_BW : Encounters5.DreamWorld_B2W2).Concat(Encounters5.DreamWorld_Common).ToList();
+            var source = (SAV is SAV5BW ? Encounters5.DreamWorld_BW : Encounters5.DreamWorld_B2W2).Concat(Encounters5.DreamWorld_Common).ToList();
             var rnd = Util.Rand;
             foreach (var s in AllSlots)
             {
