@@ -63,13 +63,14 @@ namespace PKHeX.Core
             if (pkm.Format >= 6)
                 VerifyFullness(data, pkm);
 
-            if (data.EncounterMatch is WC8 { IsHOMEGift: true } w)
+            var enc = data.EncounterMatch;
+            if (enc is WC8 { IsHOMEGift: true } w)
             {
                 var date = new DateTime(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
                 if (!EncountersHOME.IsValidDateWC8(w.CardID, date))
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
-            else if (data.EncounterMatch is IOverworldCorrelation8 z)
+            else if (enc is IOverworldCorrelation8 z)
             {
                 var match = z.IsOverworldCorrelationCorrect(pkm);
                 var req = z.GetRequirement(pkm);
@@ -246,7 +247,7 @@ namespace PKHeX.Core
             if (pkm.OT_Friendship > HatchCycles)
                 data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
-            if (pkm.Format >= 6 && enc is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
+            if (pkm.Format >= 6 && enc is EncounterEgg && !MovesMatchRelearn(pkm))
             {
                 var moves = string.Join(", ", ParseSettings.GetMoveNames(pkm.Moves));
                 var msg = string.Format(LMoveFExpect_0, moves);
@@ -260,6 +261,19 @@ namespace PKHeX.Core
                 if (pk8.StatNature != pk8.Nature)
                     data.AddLine(GetInvalid(LEggNature, Egg));
             }
+        }
+
+        private static bool MovesMatchRelearn(PKM pkm)
+        {
+            if (pkm.Move1 != pkm.RelearnMove1)
+                return false;
+            if (pkm.Move2 != pkm.RelearnMove2)
+                return false;
+            if (pkm.Move3 != pkm.RelearnMove3)
+                return false;
+            if (pkm.Move4 != pkm.RelearnMove4)
+                return false;
+            return true;
         }
 
         private static void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
@@ -394,7 +408,7 @@ namespace PKHeX.Core
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
             if (!IsCloseEnough(pb7.WeightAbsolute, pb7.CalcWeightAbsolute))
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
-            if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
+            if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
         }
 
@@ -405,7 +419,12 @@ namespace PKHeX.Core
             return Math.Abs(ia - ib) <= 7;
         }
 
-        private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.Form == 8) || (pb7.Species == (int)Species.Eevee && pb7.Form == 1);
+        private static bool IsStarterLGPE(ISpeciesForm pk) => pk.Species switch
+        {
+            (int)Species.Pikachu when pk.Form == 8 => true,
+            (int)Species.Eevee   when pk.Form == 1 => true,
+            _ => false,
+        };
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
         {
@@ -454,7 +473,7 @@ namespace PKHeX.Core
             }
 
             PersonalInfo? pi = null;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
             {
                 if (!pk8.GetMoveRecordFlag(i))
                     continue;
@@ -472,7 +491,7 @@ namespace PKHeX.Core
                         continue;
                 }
 
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
             }
 
             // weight/height scalars can be legally 0 (1:65536) so don't bother checking
@@ -481,7 +500,7 @@ namespace PKHeX.Core
         private static bool CanLearnTR(int species, int form, int tr)
         {
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-            return pi.TMHM[tr + 100];
+            return pi.TMHM[tr + PersonalInfoSWSH.CountTM];
         }
     }
 }

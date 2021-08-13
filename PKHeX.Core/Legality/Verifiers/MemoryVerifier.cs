@@ -54,7 +54,7 @@ namespace PKHeX.Core
                 // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
                 // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
                 case 80 or 81 when !CanKnowMove(pkm, memory, gen, info):
-                    return Get(string.Format(LMemoryArgBadMove, memory.Handler), gen == 8 ? Severity.Fishy : Severity.Invalid);
+                    return Get(string.Format(LMemoryArgBadMove, memory.Handler), Severity.Invalid);
 
                 // Species
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.

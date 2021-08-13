@@ -163,7 +163,7 @@ namespace PKHeX.Core
             var valid = t.GetValidity();
             if (valid == GeoValid.CountryAfterPreviousEmpty)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoBadOrder));
-            if (valid == GeoValid.RegionWithoutCountry)
+            else if (valid == GeoValid.RegionWithoutCountry)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoRegion));
             if (t.Geo1_Country != 0 && pkm.IsUntraded) // traded
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoCountryHT));

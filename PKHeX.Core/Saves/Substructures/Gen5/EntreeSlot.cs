@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 <see cref="EntreeForest"/> slot
     /// </summary>
-    public sealed class EntreeSlot
+    public sealed class EntreeSlot : ISpeciesForm
     {
         /// <summary>
         /// <see cref="PKM.Species"/> index

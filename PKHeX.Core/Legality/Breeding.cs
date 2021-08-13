@@ -126,8 +126,8 @@ namespace PKHeX.Core
         public static bool CanHatchAsEgg(int species, int form, GameVersion game)
         {
             // Sanity check form for origin
-            var gameInfo = GameData.GetPersonal(game);
-            var entry = gameInfo.GetFormEntry(species, form);
+            var pt = GameData.GetPersonal(game);
+            var entry = pt.GetFormEntry(species, form);
             return form < entry.FormCount || (species == (int)Rotom && form <= 5);
         }
 
