@@ -48,7 +48,7 @@ namespace PKHeX.Core
                 case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
                 // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
                 case 72 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
-                    return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
+                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // Move
                 // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
@@ -61,7 +61,7 @@ namespace PKHeX.Core
                 // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
                 // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
                 case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
-                    return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
+                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // Item
                 // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
@@ -297,10 +297,10 @@ namespace PKHeX.Core
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
                 case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation(GameVersion.Gen6, mem.HT_TextVar):
-                    data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
+                    data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XHT)));
                     return;
                 case 6 when memoryGen == 8 && mem.HT_TextVar != 0:
-                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
+                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XHT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
