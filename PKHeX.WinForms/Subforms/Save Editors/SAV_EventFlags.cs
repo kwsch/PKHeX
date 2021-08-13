@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
                 lbl.Click += (sender, e) => mtb.Value = 0;
                 bool updating = false;
                 mtb.ValueChanged += ChangeConstValue;
-                void ChangeConstValue(object sender, EventArgs e)
+                void ChangeConstValue(object? sender, EventArgs e)
                 {
                     if (updating)
                         return;
@@ -253,7 +253,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
+            var promptCopy = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?");
+            if (promptCopy == DialogResult.Yes)
                 WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, diff.WorkDiff));
         }
 

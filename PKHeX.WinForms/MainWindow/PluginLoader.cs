@@ -22,7 +22,15 @@ namespace PKHeX.WinForms
         {
             foreach (var t in pluginTypes)
             {
-                var activate = (T?) Activator.CreateInstance(t);
+                T? activate;
+                try { activate = (T?)Activator.CreateInstance(t); }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{t.Name}]: {t.FullName}", ex.Message);
+                    continue;
+                }
                 if (activate != null)
                     yield return activate;
             }

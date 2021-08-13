@@ -174,11 +174,6 @@ namespace PKHeX.Drawing
             Resources.party1, Resources.party2, Resources.party3, Resources.party4, Resources.party5, Resources.party6,
         };
 
-        public static void GetSpriteGlow(PKM pk, byte[] bgr, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
-        {
-            GetSpriteGlow(pk, bgr[0], bgr[1], bgr[2], out pixels, out baseSprite, forceHollow);
-        }
-
         public static void GetSpriteGlow(PKM pk, byte blue, byte green, byte red, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
         {
             bool egg = pk.IsEgg;

@@ -190,12 +190,12 @@ namespace PKHeX.WinForms
         private bool LoadAutoDetectedSAV()
         {
             var startup = Settings.Startup;
-            if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
-                return LoadMostRecentBackup();
-            if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
-                return LoadMostRecentlyLoaded(startup.RecentlyLoaded);
-
-            return false;
+            return startup.AutoLoadSaveOnStartup switch
+            {
+                AutoLoadSetting.RecentBackup => LoadMostRecentBackup(),
+                AutoLoadSetting.LastLoaded => LoadMostRecentlyLoaded(startup.RecentlyLoaded),
+                _ => false
+            };
         }
 
         private bool LoadMostRecentlyLoaded(IReadOnlyList<string> paths)
