@@ -67,6 +67,11 @@ namespace PKHeX.Drawing
                 return Spriter.None;
 
             var img = GetBaseImage(gift);
+            if (gift is IGigantamax {CanGigantamax: true})
+            {
+                var gm = Resources.dyna;
+                return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+            }
             if (gift.GiftUsed)
                 img = ImageUtil.ChangeOpacity(img, 0.3);
             return img;
