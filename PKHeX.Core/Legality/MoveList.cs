@@ -208,23 +208,8 @@ namespace PKHeX.Core
             var r = new List<int> { 0 };
             int species = pkm.Species;
 
-            if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
-            {
-                // These don't evolve, so don't bother iterating for all entries in the evolution chain (should always be count==1).
-                int formCount;
-
-                // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
-                if (pkm.Format == 3 && species == (int)Species.Deoxys)
-                    formCount = 4;
-                else
-                    formCount = pkm.PersonalInfo.FormCount;
-
-                for (int form = 0; form < formCount; form++)
-                    r.AddRange(GetMoves(pkm, species, form, chain[0].Level, 0, 0, version, types, RemoveTransferHM, generation));
-                if (types.HasFlagFast(MoveSourceType.RelearnMoves))
-                    r.AddRange(pkm.RelearnMoves);
-                return r.Distinct();
-            }
+            if (FormChangeMovesRetain.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
+                return GetValidMovesAllForms(pkm, chain, version, generation, types, RemoveTransferHM, species, r);
 
             // Generation 1 & 2 do not always have move relearning capability, so the bottom bound for learnable indexes needs to be determined.
             var minLvLG1 = 0;
@@ -261,6 +246,24 @@ namespace PKHeX.Core
             if (types.HasFlagFast(MoveSourceType.SpecialTutor))
                 MoveTutor.AddSpecialTutorMoves(r, pkm, generation, species);
             if (types.HasFlagFast(MoveSourceType.RelearnMoves) && generation >= 6)
+                r.AddRange(pkm.RelearnMoves);
+            return r.Distinct();
+        }
+
+        internal static IEnumerable<int> GetValidMovesAllForms(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion version, int generation, MoveSourceType types, bool RemoveTransferHM, int species, List<int> r)
+        {
+            // These don't evolve, so don't bother iterating for all entries in the evolution chain (should always be count==1).
+            int formCount;
+
+            // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
+            if (pkm.Format == 3 && species == (int) Species.Deoxys)
+                formCount = 4;
+            else
+                formCount = pkm.PersonalInfo.FormCount;
+
+            for (int form = 0; form < formCount; form++)
+                r.AddRange(GetMoves(pkm, species, form, chain[0].Level, 0, 0, version, types, RemoveTransferHM, generation));
+            if (types.HasFlagFast(MoveSourceType.RelearnMoves))
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
         }

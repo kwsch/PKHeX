@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using PKHeX.Core;
 using PKHeX.Drawing.Properties;
@@ -77,7 +78,16 @@ namespace PKHeX.Drawing
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
                 return Resources.b_490_e;
             if (gift.IsPokémon)
-                return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+            {
+                var gender = Math.Max(0, gift.Gender);
+                var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+                if (gift is IGigantamax {CanGigantamax: true})
+                {
+                    var gm = Resources.dyna;
+                    return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+                }
+                return img;
+            }
             if (gift.IsItem)
             {
                 int item = gift.ItemID;
@@ -207,6 +217,28 @@ namespace PKHeX.Drawing
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
         public static Image? Sprite(this SaveFile sav) => GetSprite(sav);
         public static Image Sprite(this PKM pk, bool isBoxBGRed = false) => GetSprite(pk, isBoxBGRed);
+
+        public static Image Sprite(this IEncounterTemplate enc)
+        {
+            if (enc is MysteryGift g)
+                return g.Sprite();
+            var gender = GetDisplayGender(enc);
+            var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
+            if (enc is IGigantamax {CanGigantamax: true})
+            {
+                var gm = Resources.dyna;
+                return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+            }
+            return img;
+        }
+
+        public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
+        {
+            EncounterSlotGO g => (int)g.Gender & 1,
+            EncounterStatic s => Math.Max(0, s.Gender),
+            EncounterTrade t => Math.Max(0, t.Gender),
+            _ => 0,
+        };
 
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
