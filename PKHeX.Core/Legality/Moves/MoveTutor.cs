@@ -312,10 +312,10 @@ namespace PKHeX.Core
                     r.AddRange(ZygardeMoves);
                     break;
                 case (int)Species.Necrozma when pkm.Form == 1: // Sun
-                    r.Add(713);
+                    r.Add((int)Move.SunsteelStrike);
                     break;
                 case (int)Species.Necrozma when pkm.Form == 2: // Moon
-                    r.Add(714);
+                    r.Add((int)Move.MoongeistBeam);
                     break;
             }
         }
