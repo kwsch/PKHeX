@@ -13,6 +13,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class MemoryPermissions
     {
+        public static bool IsMoveKnowMemory(int memory) => memory is 16 or 48 or 80 or 81;
+
         public static bool CanWinRotoLoto(int generation, int item)
         {
             return true; // todo
@@ -116,11 +118,13 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
+            if (GetCanKnowMove(pkm, move, gen, info.EvoChainsAllGens))
                 return true;
 
             var enc = info.EncounterMatch;
             if (enc is IMoveset ms && ms.Moves.Contains(move))
+                return true;
+            if (enc is IRelearn r && r.Relearn.Contains(move))
                 return true;
 
             if (battleOnly)
