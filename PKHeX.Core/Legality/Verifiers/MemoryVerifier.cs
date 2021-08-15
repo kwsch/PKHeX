@@ -37,6 +37,8 @@ namespace PKHeX.Core
                 case 21 when gen != 6 || !GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, (int)Move.Fly, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
+                // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
+                // The Move Deleter that {0} met through {1} made it forget {2}. {4} that {3}.
                 case 16 or 48 when !CanKnowMove(pkm, memory, gen, info, memory.MemoryID == 16):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 

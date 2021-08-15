@@ -13,6 +13,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class MemoryPermissions
     {
+        public static bool IsMoveKnowMemory(int memory) => memory is 16 or 48 or 80 or 81;
+
         public static bool CanWinRotoLoto(int generation, int item)
         {
             return true; // todo
@@ -101,7 +103,20 @@ namespace PKHeX.Core
 
         public static bool GetCanLearnMachineMove(PKM pkm, IReadOnlyList<EvoCriteria> evos, int move, int generation, GameVersion version = GameVersion.Any)
         {
+            if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.AllMachines))
+                return true;
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
+        }
+
+        private static bool IsOtherFormMove(PKM pkm, IReadOnlyList<EvoCriteria> evos, int move, int generation, GameVersion version, MoveSourceType types)
+        {
+            if (!Legal.FormChangeMoves.TryGetValue(pkm.Species, out var criteria))
+                return false;
+            if (!criteria(generation, pkm.Form))
+                return false;
+            var list = new List<int>(8);
+            MoveList.GetValidMovesAllForms(pkm, evos, version, generation, types, false, pkm.Species, list);
+            return list.Contains(move);
         }
 
         public static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info, bool battleOnly = false)
@@ -116,11 +131,13 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
+            if (GetCanKnowMove(pkm, move, gen, info.EvoChainsAllGens))
                 return true;
 
             var enc = info.EncounterMatch;
             if (enc is IMoveset ms && ms.Moves.Contains(move))
+                return true;
+            if (enc is IRelearn r && r.Relearn.Contains(move))
                 return true;
 
             if (battleOnly)
@@ -139,6 +156,8 @@ namespace PKHeX.Core
 
         public static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
+            if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.Reminder))
+                return true;
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
@@ -156,6 +175,9 @@ namespace PKHeX.Core
             {
                 var moves = MoveList.GetValidMoves(pkm, version, evos[i], i, types: MoveSourceType.All);
                 if (moves.Contains(move))
+                    return true;
+
+                if (IsOtherFormMove(pkm, evos[i], move, i, GameVersion.Any, types: MoveSourceType.All))
                     return true;
             }
             return false;
