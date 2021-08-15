@@ -45,21 +45,19 @@ namespace PKHeX.Core
 
         protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)
         {
-            var rating = EncounterMatchRating.Match;
             if (Ability != -1) // Any
             {
                 // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
-                if (pkm.AbilityNumber == 4)
+                var num = pkm.AbilityNumber;
+                if (num == 4)
                 {
                     if (Ability is not 4 && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pkm.Species))
                         return EncounterMatchRating.DeferredErrors;
-                    rating = EncounterMatchRating.Deferred;
                 }
-                if (pkm.AbilityNumber != Ability) // Fixed regular ability
+                else if (num != Ability) // Fixed regular ability
                 {
                     if (Ability is 1 or 2 && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
                         return EncounterMatchRating.DeferredErrors;
-                    rating = EncounterMatchRating.Deferred;
                 }
             }
 
@@ -68,7 +66,7 @@ namespace PKHeX.Core
             if (pkm is IMemoryHT h && MemoryPermissions.IsMoveKnowMemory(h.HT_Memory) && !Moves.Contains(h.HT_TextVar))
                 return EncounterMatchRating.DeferredSecondary;
 
-            return rating;
+            return base.IsMatchDeferred(pkm);
         }
 
         protected override bool IsMatchPartial(PKM pkm)
