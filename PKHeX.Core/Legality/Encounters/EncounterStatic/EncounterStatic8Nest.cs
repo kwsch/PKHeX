@@ -43,27 +43,32 @@ namespace PKHeX.Core
             return base.IsMatchExact(pkm, evo);
         }
 
-        protected sealed override bool IsMatchDeferred(PKM pkm)
+        protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)
         {
+            var rating = EncounterMatchRating.Match;
             if (Ability != -1) // Any
             {
-                bool CanBeHidden() => ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(Species, Form)).HasHiddenAbility;
-
                 // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
-                if (Ability == 0 && pkm.AbilityNumber == 4)
-                    return !CanBeHidden(); // 0/1
-                if (Ability == 1 && pkm.AbilityNumber != 1)
-                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 0
-                if (Ability == 2 && pkm.AbilityNumber != 2)
-                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 1
+                if (pkm.AbilityNumber == 4)
+                {
+                    if (Ability is not 4 && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pkm.Species))
+                        return EncounterMatchRating.DeferredErrors;
+                    rating = EncounterMatchRating.Deferred;
+                }
+                if (pkm.AbilityNumber != Ability) // Fixed regular ability
+                {
+                    if (Ability is 1 or 2 && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
+                        return EncounterMatchRating.DeferredErrors;
+                    rating = EncounterMatchRating.Deferred;
+                }
             }
 
             if (pkm is IMemoryOT m && MemoryPermissions.IsMoveKnowMemory(m.OT_Memory) && !Moves.Contains(m.OT_TextVar))
-                return true;
+                return EncounterMatchRating.DeferredSecondary;
             if (pkm is IMemoryHT h && MemoryPermissions.IsMoveKnowMemory(h.HT_Memory) && !Moves.Contains(h.HT_TextVar))
-                return true;
+                return EncounterMatchRating.DeferredSecondary;
 
-            return base.IsMatchDeferred(pkm);
+            return rating;
         }
 
         protected override bool IsMatchPartial(PKM pkm)

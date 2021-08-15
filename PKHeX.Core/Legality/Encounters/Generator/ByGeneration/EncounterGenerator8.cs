@@ -38,8 +38,8 @@ namespace PKHeX.Core
                 if (ctr == 0) yield break;
             }
 
-            IEncounterable? deferred = null;
-            IEncounterable? partial = null;
+            IEncounterable? cache = null;
+            EncounterMatchRating rating = None;
 
             // Trades
             if (pkm.Met_Location == Locations.LinkTrade6NPC)
@@ -47,23 +47,19 @@ namespace PKHeX.Core
                 foreach (var z in GetValidEncounterTrades(pkm, chain))
                 {
                     var match = z.GetMatchRating(pkm);
-                    switch (match)
+                    if (match == Match)
                     {
-                        case Match: yield return z; ++ctr; break;
-                        case Deferred: deferred ??= z; break;
-                        case PartialMatch: partial ??= z; break;
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
                     }
                 }
 
-                if (ctr != 0)
-                {
-                    if (deferred != null)
-                        yield return deferred;
-
-                    if (partial != null)
-                        yield return partial;
-                }
-
+                if (cache != null)
+                    yield return cache;
                 yield break;
             }
 
@@ -71,30 +67,33 @@ namespace PKHeX.Core
             foreach (var z in GetValidStaticEncounter(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
-                switch (match)
+                if (match == Match)
                 {
-                    case Match: yield return z; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
+                    yield return z;
+                }
+                else if (match < rating)
+                {
+                    cache = z;
+                    rating = match;
                 }
             }
 
             foreach (var z in GetValidWildEncounters(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
-                switch (match)
+                if (match == Match)
                 {
-                    case Match: yield return z; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
+                    yield return z;
+                }
+                else if (match < rating)
+                {
+                    cache = z;
+                    rating = match;
                 }
             }
 
-            if (deferred != null)
-                yield return deferred;
-
-            if (partial != null)
-                yield return partial;
+            if (cache != null)
+                yield return cache;
         }
     }
 }

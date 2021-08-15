@@ -86,7 +86,7 @@ namespace PKHeX.Core
             var req = GetRequirement(pkm);
             bool correlation = IsOverworldCorrelationCorrect(pkm);
             if ((req == MustHave) != correlation)
-                return EncounterMatchRating.Deferred;
+                return EncounterMatchRating.DeferredErrors;
 
             // Only encounter slots can have these marks; defer for collisions.
             if (pkm.Species == (int) Core.Species.Shedinja)
@@ -94,14 +94,14 @@ namespace PKHeX.Core
                 // Loses Mark on evolution to Shedinja, but not affixed ribbon value.
                 return pkm switch
                 {
-                    IRibbonSetMark8 {RibbonMarkCurry: true} => EncounterMatchRating.Deferred,
+                    IRibbonSetMark8 {RibbonMarkCurry: true} => EncounterMatchRating.DeferredErrors,
                     PK8 {AffixedRibbon: (int) RibbonIndex.MarkCurry} => EncounterMatchRating.Deferred,
                     _ => EncounterMatchRating.Match
                 };
             }
 
             if (pkm is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing || m.HasWeatherMark()))
-                return EncounterMatchRating.Deferred;
+                return EncounterMatchRating.DeferredErrors;
 
             return EncounterMatchRating.Match;
         }

@@ -173,11 +173,15 @@ namespace PKHeX.Core
                 return false;
             for (int i = 1; i <= generation; i++)
             {
-                var moves = MoveList.GetValidMoves(pkm, version, evos[i], i, types: MoveSourceType.All);
+                var chain = evos[i];
+                if (chain.Count == 0)
+                    continue;
+
+                var moves = MoveList.GetValidMoves(pkm, version, chain, i, types: MoveSourceType.All);
                 if (moves.Contains(move))
                     return true;
 
-                if (IsOtherFormMove(pkm, evos[i], move, i, GameVersion.Any, types: MoveSourceType.All))
+                if (IsOtherFormMove(pkm, chain, move, i, GameVersion.Any, types: MoveSourceType.All))
                     return true;
             }
             return false;

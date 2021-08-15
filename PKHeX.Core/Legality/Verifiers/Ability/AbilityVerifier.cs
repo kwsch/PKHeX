@@ -447,7 +447,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static bool CanAbilityCapsule(int format, IReadOnlyList<int> abilities)
+        public static bool CanAbilityCapsule(int format, IReadOnlyList<int> abilities)
         {
             if (format < 6) // Ability Capsule does not exist
                 return false;

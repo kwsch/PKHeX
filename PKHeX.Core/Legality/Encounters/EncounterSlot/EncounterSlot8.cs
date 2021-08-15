@@ -93,25 +93,25 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetMark8 m)
             {
                 if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)
-                    return EncounterMatchRating.Deferred;
+                    return EncounterMatchRating.DeferredErrors;
                 if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
-                    return EncounterMatchRating.Deferred;
+                    return EncounterMatchRating.DeferredErrors;
 
                 // Check if it has a mark and the weather does not permit the mark.
                 // Tree/Fishing slots should be deferred here and are checked later.
                 if (!Weather.IsMarkCompatible(m))
-                    return EncounterMatchRating.Deferred;
+                    return EncounterMatchRating.DeferredErrors;
 
                 // Galar Mine hidden encounters can only be found via Curry or Fishing.
                 if(Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !SlotType.CanEncounterViaFishing(Weather))
-                    return EncounterMatchRating.PartialMatch;
+                    return EncounterMatchRating.DeferredErrors;
             }
 
             var req = GetRequirement(pkm);
             return req switch
             {
-                MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
-                MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
+                MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.DeferredErrors,
+                MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.DeferredErrors,
                 _ => EncounterMatchRating.Match,
             };
         }

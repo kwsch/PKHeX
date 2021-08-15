@@ -289,15 +289,13 @@ namespace PKHeX.Core
         {
             if (IsMatchPartial(pkm))
                 return EncounterMatchRating.PartialMatch;
-            if (IsMatchDeferred(pkm))
-                return EncounterMatchRating.Deferred;
-            return EncounterMatchRating.Match;
+            return IsMatchDeferred(pkm);
         }
 
         /// <summary>
         /// Checks if the provided <see cref="pkm"/> might not be the best match, or even a bad match due to minor reasons.
         /// </summary>
-        protected virtual bool IsMatchDeferred(PKM pkm) => false;
+        protected virtual EncounterMatchRating IsMatchDeferred(PKM pkm) => EncounterMatchRating.Match;
 
         /// <summary>
         /// Checks if the provided <see cref="pkm"/> is not an exact match due to minor reasons.
