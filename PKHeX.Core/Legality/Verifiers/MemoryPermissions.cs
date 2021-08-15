@@ -13,7 +13,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class MemoryPermissions
     {
-        public static bool IsMoveKnowMemory(int memory) => memory is 16 or 48 or 80 or 81;
+        public static bool IsMemoryOfKnownMove(int memory) => memory is 48 or 80 or 81;
 
         public static bool CanWinRotoLoto(int generation, int item)
         {

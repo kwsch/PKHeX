@@ -64,17 +64,13 @@ namespace PKHeX.Core
             }
 
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
-            var moveClash = new List<IEncounterable>(1);
-            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            var encs = GetValidStaticEncounter(pkm, chain);
+            foreach (var z in encs)
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == Match)
                 {
                     yield return z;
-                }
-                else if (match == DeferredSecondary)
-                {
-                    moveClash.Add(z);
                 }
                 else if (match < rating)
                 {
@@ -95,17 +91,6 @@ namespace PKHeX.Core
                     cache = z;
                     rating = match;
                 }
-            }
-
-            if (moveClash.Count != 0)
-            {
-                if (cache != null && rating < DeferredSecondary)
-                    yield return cache;
-
-                foreach (var e in moveClash)
-                    yield return e;
-
-                yield break;
             }
 
             if (cache != null)

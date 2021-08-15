@@ -8,9 +8,6 @@ namespace PKHeX.Core
         /// <summary> Matches most data, might have a better match later. </summary>
         Deferred,
 
-        /// <summary> Matches most data, might have a better match later. Less preferred than <see cref="Deferred"/> due to potentially small errors in secondary data. </summary>
-        DeferredSecondary,
-
         /// <summary> Matches most data, might have a better match later. Less preferred than <see cref="Deferred"/> due to small errors in secondary data. </summary>
         DeferredErrors,
 
