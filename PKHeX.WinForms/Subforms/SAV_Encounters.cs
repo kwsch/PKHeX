@@ -378,7 +378,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < end; i++)
             {
                 var enc = Results[i + begin];
-                boxes[i].Image = GetImage(enc);
+                boxes[i].Image = enc.Sprite();
             }
 
             // Clear empty slots
@@ -393,21 +393,6 @@ namespace PKHeX.WinForms
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
                 boxes[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
-
-        private static Image GetImage(IEncounterTemplate enc)
-        {
-            var gender = GetDisplayGender(enc);
-            return SpriteUtil.GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
-        }
-
-        public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
-        {
-            EncounterSlotGO g => (int) g.Gender & 1,
-            EncounterStatic s => Math.Max(0, s.Gender),
-            EncounterTrade t => Math.Max(0, t.Gender),
-            MysteryGift f => Math.Max(0, f.Gender),
-            _ => 0,
-        };
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();
 

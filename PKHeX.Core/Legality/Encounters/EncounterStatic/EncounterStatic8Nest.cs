@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
@@ -56,6 +57,11 @@ namespace PKHeX.Core
                 if (Ability == 2 && pkm.AbilityNumber != 2)
                     return pkm.AbilityNumber != 4 || !CanBeHidden(); // 1
             }
+
+            if (pkm is IMemoryOT m && MemoryPermissions.IsMoveKnowMemory(m.OT_Memory) && !Moves.Contains(m.OT_TextVar))
+                return true;
+            if (pkm is IMemoryHT h && MemoryPermissions.IsMoveKnowMemory(h.HT_Memory) && !Moves.Contains(h.HT_TextVar))
+                return true;
 
             return base.IsMatchDeferred(pkm);
         }
