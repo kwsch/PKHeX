@@ -418,9 +418,13 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            int offset = LB_DataEntry.SelectedIndex * 0x1B4;
-            var nicktrash = data.Slice(offset + 0x18, 24);
-            SAV.SetString(TB_Nickname.Text, 12).CopyTo(nicktrash, 0);
+            int offset = (LB_DataEntry.SelectedIndex * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value) - 1) * 0x48);
+            var nicktrash = data.AsSpan(offset + 0x18, 24);
+            var text = TB_Nickname.Text;
+            ReadOnlySpan<byte> minTrash = SAV.SetString(text, Math.Min(text.Length, nicktrash.Length));
+            if (minTrash.Length > nicktrash.Length)
+                minTrash.Slice(0, nicktrash.Length);
+            minTrash.CopyTo(nicktrash);
             var d = new TrashEditor(tb, nicktrash, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
