@@ -68,6 +68,7 @@ namespace PKHeX.Core
         private int AdventureInfo;
         public abstract int GTS { get; }
         public abstract int Fused { get; }
+        public int PGL => AllBlocks[35].Offset + 8; // Dream World Upload
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
