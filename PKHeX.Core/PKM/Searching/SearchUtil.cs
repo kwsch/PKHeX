@@ -13,7 +13,7 @@ namespace PKHeX.Core.Searching
             switch (formatOperand)
             {
                 case SearchComparison.GreaterThanEquals when pk.Format < format:
-                case SearchComparison.Equals when pk.Format == format:
+                case SearchComparison.Equals when pk.Format != format:
                 case SearchComparison.LessThanEquals when pk.Format > format:
                     return false;
             }
