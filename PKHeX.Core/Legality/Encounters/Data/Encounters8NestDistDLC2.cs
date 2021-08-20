@@ -8,6 +8,24 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 092, Ability = A4, Moves = new[]{ 122, 605, 474, 009 }, Index = 81 }, // Gastly
+            new(17,01,1) { Species = 607, Ability = A4, Moves = new[]{ 052, 506, 123, 109 }, Index = 81 }, // Litwick
+            new(17,01,1) { Species = 425, Ability = A4, Moves = new[]{ 310, 016, 107, 506 }, Index = 81 }, // Drifloon
+            new(30,03,2) { Species = 093, Ability = A4, Moves = new[]{ 325, 605, 474, 009 }, Index = 81 }, // Haunter
+            new(30,03,2) { Species = 607, Ability = A4, Moves = new[]{ 083, 506, 123, 261 }, Index = 81 }, // Litwick
+            new(30,03,2) { Species = 426, Ability = A4, Moves = new[]{ 668, 016, 261, 506 }, Index = 81 }, // Drifblim
+            new(40,05,3) { Species = 094, Ability = A4, Moves = new[]{ 325, 605, 474, 087 }, Index = 81 }, // Gengar
+            new(40,05,3) { Species = 607, Ability = A4, Moves = new[]{ 517, 247, 123, 094 }, Index = 81 }, // Litwick
+            new(40,05,3) { Species = 426, Ability = A4, Moves = new[]{ 668, 086, 261, 506 }, Index = 81 }, // Drifblim
+            new(50,08,4) { Species = 094, Ability = A4, Moves = new[]{ 247, 605, 482, 087 }, Index = 81 }, // Gengar
+            new(50,08,4) { Species = 609, Ability = A4, Moves = new[]{ 315, 247, 123, 094 }, Index = 81 }, // Chandelure
+            new(50,08,4) { Species = 426, Ability = A4, Moves = new[]{ 668, 086, 261, 247 }, Index = 81 }, // Drifblim
+            new(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 605, 482, 261 }, Index = 81, CanGigantamax = true }, // Gengar
+            new(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 605, 482, 261 }, Index = 81 }, // Gengar
+            new(60,10,5) { Species = 609, Ability = A4, Moves = new[]{ 315, 247, 399, 094 }, Index = 81, Shiny = Shiny.Always }, // Chandelure
+            new(60,10,5) { Species = 609, Ability = A4, Moves = new[]{ 315, 247, 399, 094 }, Index = 81 }, // Chandelure
+            new(60,10,5) { Species = 426, Ability = A4, Moves = new[]{ 668, 371, 261, 247 }, Index = 81 }, // Drifblim
+
             new(17,01,1) { Species = 582, Ability = A4, Moves = new[]{ 419, 106, 263, 310 }, Index = 79 }, // Vanillite
             new(17,01,1) { Species = 118, Ability = A4, Moves = new[]{ 030, 039, 352, 064 }, Index = 79 }, // Goldeen
             new(17,01,1) { Species = 127, Ability = A4, Moves = new[]{ 458, 693, 157, 069 }, Index = 79 }, // Pinsir
