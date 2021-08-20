@@ -78,12 +78,12 @@
 0x3DD	发现变隐龙 (119号道路，忍者男孩右边)
 0x3DE	发现变隐龙 (119号道路，忍者男孩左边)
 
-0x3CE	Overworld Hidden (Voltorb 1 in New Mauville)
-0x3CF	Overworld Hidden (Voltorb 2 in New Mauville)
-0x3D0	Overworld Hidden (Voltorb 3 in New Mauville)
+0x3CE	隐藏地区 (霹雳电球 1 在新紫堇)
+0x3CF	隐藏地区 (霹雳电球 2 在新紫堇)
+0x3D0	隐藏地区 (霹雳电球 3 在新紫堇)
 
-0x3D1	Overworld Hidden (Electrode 1 in Aqua Hideout)
-0x3D2	Overworld Hidden (Electrode 2 in Aqua Hideout)
+0x3D1	隐藏地区 (顽皮雷蛋 1 在海洋队本部)
+0x3D2	隐藏地区 (顽皮雷蛋 2 在海洋队本部)
 
 0x1B1	凯那市教授招式 (虚张声势)
 0x1B2	紫堇市教授招式 (滚动)
