@@ -380,7 +380,7 @@ namespace PKHeX.Core
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouchGB(InventoryType.Items, legalItems, 99, Offsets.Items, 20),
-                    new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Offsets.PCItems, 50)
+                    new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Offsets.PCItems, 50),
                 };
                 return pouch.LoadAll(Data);
             }

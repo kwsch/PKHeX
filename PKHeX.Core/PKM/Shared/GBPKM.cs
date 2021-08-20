@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     PersonalInfo.RatioMagicGenderless => 2,
                     PersonalInfo.RatioMagicFemale => 1,
                     PersonalInfo.RatioMagicMale => 0,
-                    _ => IV_ATK > gv >> 4 ? 0 : 1
+                    _ => IV_ATK > gv >> 4 ? 0 : 1,
                 };
             }
             set { }

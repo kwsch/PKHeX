@@ -85,7 +85,7 @@ namespace PKHeX.Core
             {
                 <= 4 => GetSpeciesName1234(species, language, generation),
                 7 when language == (int) LanguageID.ChineseS => GetSpeciesName7ZH(species, language),
-                _ => GetSpeciesName(species, language)
+                _ => GetSpeciesName(species, language),
             };
         }
 
@@ -250,7 +250,7 @@ namespace PKHeX.Core
             {
                 "Farfetch'd" => (int)Species.Farfetchd,
                 "Sirfetch'd" => (int)Species.Sirfetchd,
-                _ => -1
+                _ => -1,
             };
         }
     }

@@ -57,7 +57,7 @@ namespace PKHeX.Core
                 {
                     SlotType.BugContest => BCC_SlotRates,
                     SlotType.Grass => RatesGrass,
-                    _ => RatesSurf
+                    _ => RatesSurf,
                 };
                 Slots = ReadSlots(data, count, 4);
             }

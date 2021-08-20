@@ -17,7 +17,7 @@ namespace PKHeX.Core
                 items[i] = new InventoryItem
                 {
                     Index = BigEndian.ToUInt16(data, Offset + (i * 4)),
-                    Count = BigEndian.ToUInt16(data, Offset + (i * 4) + 2)
+                    Count = BigEndian.ToUInt16(data, Offset + (i * 4) + 2),
                 };
             }
             Items = items;

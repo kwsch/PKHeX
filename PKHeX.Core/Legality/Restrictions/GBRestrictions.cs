@@ -68,7 +68,7 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly HashSet<int> Types_Gen1 = new()
         {
-            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
+            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26,
         };
 
         /// <summary>

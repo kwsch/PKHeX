@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
             var ti = new ToolStripMenuItem
             {
                 ShortcutKeys = Keys.Control | Keys.Alt | Keys.D,
-                Visible = false
+                Visible = false,
             };
             ti.Click += (s, e) => UpdateAll();
             return ti;

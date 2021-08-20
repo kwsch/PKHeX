@@ -89,7 +89,7 @@ namespace PKHeX.Core
                 Fateful = fateful,
                 Location = Locations.Transfer2,
                 Level = metLevel,
-                FlawlessIVCount = fateful ? 5 : 3
+                FlawlessIVCount = fateful ? 5 : 3,
             };
         }
     }

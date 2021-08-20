@@ -36,7 +36,7 @@ namespace PKHeX.Core
                 <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
                 <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders),
                 <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms),
-                _ => GetFormsGen8(species, types, forms, genders)
+                _ => GetFormsGen8(species, types, forms, genders),
             };
         }
 
@@ -62,7 +62,7 @@ namespace PKHeX.Core
                 Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd
                 or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
 
-                _ => GetFormsAlolan(generation, types, forms, species)
+                _ => GetFormsAlolan(generation, types, forms, species),
             };
         }
 
@@ -73,7 +73,7 @@ namespace PKHeX.Core
                 Pichu when generation == 4 => GetFormsPichu(types, forms),
                 Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
                 Unown => GetFormsUnown(generation),
-                _ => EMPTY
+                _ => EMPTY,
             };
         }
 
@@ -102,7 +102,7 @@ namespace PKHeX.Core
                     forms[903], // Defense
                     forms[904], // Speed
                 },
-                _ => EMPTY
+                _ => EMPTY,
             };
         }
 
@@ -436,7 +436,7 @@ namespace PKHeX.Core
                 or Exeggutor
                 or Marowak => new[] {
                     types[000],
-                    forms[810] // Alolan
+                    forms[810], // Alolan
                 },
                 _ => EMPTY,
             };
@@ -523,7 +523,7 @@ namespace PKHeX.Core
                     types[13],
                     types[14],
                     types[15],
-                    types[16] // No Fairy Type
+                    types[16], // No Fairy Type
                 },
                 5 => new[] {
                     types[00], // Normal
@@ -542,7 +542,7 @@ namespace PKHeX.Core
                     types[13],
                     types[14],
                     types[15],
-                    types[16] // No Fairy type
+                    types[16], // No Fairy type
                 },
                 _ => new[] {
                     types[00], // Normal
@@ -620,7 +620,7 @@ namespace PKHeX.Core
                     "U", "V", "W", "X", "Y",
                     "Z",
                     "!", "?",
-                }
+                },
             };
         }
 
@@ -740,7 +740,7 @@ namespace PKHeX.Core
         public static string[] GetFormArgumentStrings(int species) => species switch
         {
             (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
-            _ => EMPTY
+            _ => EMPTY,
         };
     }
 }

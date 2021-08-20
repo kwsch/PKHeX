@@ -225,7 +225,7 @@ namespace PKHeX.Core
                     // Cap at absolute maximum
                     <= 2 when count > byte.MaxValue => byte.MaxValue,
                     >= 3 when count > ushort.MaxValue => ushort.MaxValue,
-                    _ => count
+                    _ => count,
                 };
                 return true;
             }

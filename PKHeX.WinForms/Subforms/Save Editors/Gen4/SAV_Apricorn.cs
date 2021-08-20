@@ -39,7 +39,7 @@ namespace PKHeX.WinForms
                 DisplayIndex = 0,
                 Width = 135,
                 FlatStyle = FlatStyle.Flat,
-                ValueType = typeof(int)
+                ValueType = typeof(int),
             };
             {
                 for (var i = 0; i <= 99; i++)

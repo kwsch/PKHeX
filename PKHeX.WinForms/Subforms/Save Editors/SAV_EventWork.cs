@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
                         Text = f.Name,
                         Name = flagLabelTag + f.RawIndex.ToString("0000"),
                         Margin = Padding.Empty,
-                        AutoSize = true
+                        AutoSize = true,
                     };
                     var chk = new CheckBox
                     {
@@ -79,7 +79,7 @@ namespace PKHeX.WinForms
                         CheckAlign = ContentAlignment.MiddleLeft,
                         Margin = Padding.Empty,
                         Checked = f.Flag,
-                        AutoSize = true
+                        AutoSize = true,
                     };
                     lbl.Click += (sender, e) => chk.Checked ^= true;
                     chk.CheckedChanged += (s, e) => f.Flag = chk.Checked;
@@ -90,7 +90,7 @@ namespace PKHeX.WinForms
                 var tab = new TabPage
                 {
                     Name = $"Tab_F{g.Type}",
-                    Text = g.Type.ToString()
+                    Text = g.Type.ToString(),
                 };
                 tab.Controls.Add(tlp);
                 TC_Flag.Controls.Add(tab);
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
                         Text = f.Name,
                         Name = constLabelTag + f.RawIndex.ToString("0000"),
                         Margin = Padding.Empty,
-                        AutoSize = true
+                        AutoSize = true,
                     };
                     var nud = new NumericUpDown
                     {
@@ -130,7 +130,7 @@ namespace PKHeX.WinForms
                         Name = constCBTag + f.RawIndex.ToString("0000"),
                         DropDownStyle = ComboBoxStyle.DropDownList,
                         BindingContext = BindingContext,
-                        DropDownWidth = Width + 100
+                        DropDownWidth = Width + 100,
                     };
                     cb.InitializeBinding();
                     cb.DataSource = new BindingSource(f.Options.Select(z => new ComboItem(z.Text, z.Value)).ToList(), null);
@@ -181,7 +181,7 @@ namespace PKHeX.WinForms
                 var tab = new TabPage
                 {
                     Name = $"Tab_W{g.Type}",
-                    Text = g.Type.ToString()
+                    Text = g.Type.ToString(),
                 };
                 tab.Controls.Add(tlp);
                 TC_Work.Controls.Add(tab);
@@ -263,7 +263,7 @@ namespace PKHeX.WinForms
             C => "c",
             R or S or RS => "rs",
             FR or LG or FRLG => "frlg",
-            _ => throw new IndexOutOfRangeException(nameof(game))
+            _ => throw new IndexOutOfRangeException(nameof(game)),
         };
 
         private void DiffSaves()

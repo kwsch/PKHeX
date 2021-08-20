@@ -103,14 +103,14 @@
             3 => LinkTrade3NPC,
             4 => LinkTrade4NPC,
             5 => LinkTrade5NPC,
-            _ => LinkTrade6NPC
+            _ => LinkTrade6NPC,
         };
 
         public static int TradedEggLocation(int generation) => generation switch
         {
             4 => LinkTrade4,
             5 => LinkTrade5,
-            _ => LinkTrade6
+            _ => LinkTrade6,
         };
 
         public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;

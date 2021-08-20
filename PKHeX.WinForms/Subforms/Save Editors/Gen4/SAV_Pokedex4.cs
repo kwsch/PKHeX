@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6 }; // JPN,ENG,FRA,GER,ITA,SPA
             SAV = (SAV4)(Origin = sav).Clone();
 
             editing = true;

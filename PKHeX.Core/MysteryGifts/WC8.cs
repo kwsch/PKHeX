@@ -169,7 +169,7 @@ namespace PKHeX.Core
             2 => Shiny.AlwaysStar,
             3 => Shiny.AlwaysSquare,
             4 => Shiny.FixedValue,
-            _ => throw new ArgumentException()
+            _ => throw new ArgumentException(),
         };
 
         public int MetLevel { get => Data[CardStart + 0x249]; set => Data[CardStart + 0x249] = (byte)value; }
@@ -511,7 +511,7 @@ namespace PKHeX.Core
                 2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
                 3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
                 4 => PID, // Fixed, Force Value
-                _ => throw new ArgumentException()
+                _ => throw new ArgumentException(),
             };
 
             static uint GetAntishiny(ITrainerID tr)

@@ -57,7 +57,7 @@ namespace PKHeX.Core
         {
             Shiny.Never => !pkm.IsShiny,
             Shiny.Always => pkm.IsShiny,
-            _ => true
+            _ => true,
         };
 
         protected override PKM GetBlank(ITrainerInfo tr) => Language switch

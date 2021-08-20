@@ -29,7 +29,7 @@ namespace PKHeX.Core
             3 => t.HT_SPE ^= true,
             4 => t.HT_SPA ^= true,
             5 => t.HT_SPD ^= true,
-            _ => false
+            _ => false,
         };
 
         public static bool IsHyperTrainedAll(this IHyperTrain t) => t.HyperTrainFlags == 0x3F;
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             3 => t.HT_SPE,
             4 => t.HT_SPA,
             5 => t.HT_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
 
         /// <summary>

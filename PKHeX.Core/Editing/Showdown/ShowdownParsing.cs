@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 return species switch
                 {
                     (int)Minior => MiniorFormName,
-                    _ => form
+                    _ => form,
                 };
             }
 
@@ -79,7 +79,7 @@ namespace PKHeX.Core
 
                 _ => Legal.Totem_USUM.Contains(species) && form == "Large"
                     ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
-                    : form.Replace(' ', '-')
+                    : form.Replace(' ', '-'),
             };
         }
 

@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
         public static readonly byte[] ValidTileTypes =
         {
-            (byte)None, (byte)Sand, (byte)Grass, (byte)Rock, (byte)Cave, (byte)Water, (byte)Building, (byte)Marsh, (byte)Max_DP, (byte)Distortion, (byte)Max_Pt
+            (byte)None, (byte)Sand, (byte)Grass, (byte)Rock, (byte)Cave, (byte)Water, (byte)Building, (byte)Marsh, (byte)Max_DP, (byte)Distortion, (byte)Max_Pt,
         };
     }
 }

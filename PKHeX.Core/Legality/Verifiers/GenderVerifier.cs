@@ -81,7 +81,7 @@ namespace PKHeX.Core
             // Evolved from Azurill after transferring to keep gender
             (int) Species.Marill or (int) Species.Azumarill when pkm.Format >= 6 => pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F,
 
-            _ => false
+            _ => false,
         };
     }
 }

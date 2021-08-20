@@ -114,7 +114,7 @@ namespace PKHeX.Core
                 (int)Species.Shaymin => GetDexFormValues(Data[FormOffset2 + 4], 1, 2),
                 (int)Species.Giratina => GetDexFormValues(Data[FormOffset2 + 5], 1, 2),
                 (int)Species.Pichu when HGSS => GetDexFormValues(Data[FormOffset2 + 6], 2, 3),
-                _ => Array.Empty<int>()
+                _ => Array.Empty<int>(),
             };
         }
 

@@ -24,7 +24,7 @@ namespace PKHeX.Core
             {
                 SAV4 s => s.General,
                 SAV3 s3 => s3.Large,
-                _ => sav.Data
+                _ => sav.Data,
             };
         }
 

@@ -55,14 +55,14 @@ namespace PKHeX.Core
         private static bool IsUsedKeyItemUnspecific(int generation, int item) => generation switch
         {
             6 => Memories.KeyItemUsableObserve6.Contains((ushort)item),
-            _ => false
+            _ => false,
         };
 
         private static bool IsUsedKeyItemSpecific(int generation, int item, int species) => generation switch
         {
             6 => Memories.KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort) item),
             8 => Memories.KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort) item),
-            _ => false
+            _ => false,
         };
 
         public static bool CanBuyItem(int generation, int item, GameVersion version = GameVersion.Any)
@@ -199,16 +199,16 @@ namespace PKHeX.Core
 
                 GameVersion.AS => GetCanBeCaptured(species, SlotsA, StaticA),
                 GameVersion.OR => GetCanBeCaptured(species, SlotsO, StaticO),
-                _ => false
+                _ => false,
             },
             8 => version switch
             {
                 GameVersion.Any => GetCanBeCaptured(species, SlotsSW.Concat(SlotsSH), StaticSW.Concat(StaticSH)),
                 GameVersion.SW => GetCanBeCaptured(species, SlotsSW, StaticSW),
                 GameVersion.SH => GetCanBeCaptured(species, SlotsSH, StaticSH),
-                _ => false
+                _ => false,
             },
-            _ => false
+            _ => false,
         };
 
         private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
@@ -229,7 +229,7 @@ namespace PKHeX.Core
             {
                 GameVersion.SW => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species),
                 GameVersion.SH => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSH(species),
-                _              => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species) || IsDynamaxSH(species)
+                _              => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species) || IsDynamaxSH(species),
             };
         }
 

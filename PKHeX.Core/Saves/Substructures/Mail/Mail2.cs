@@ -59,7 +59,7 @@ namespace PKHeX.Core
             0 => true,
             0x9E => false,
             >= 0xB5 and <= 0xBD => false,
-            _ => null
+            _ => null,
         };
 
         public override void SetBlank() => (new byte[0x2F]).CopyTo(Data, 0);

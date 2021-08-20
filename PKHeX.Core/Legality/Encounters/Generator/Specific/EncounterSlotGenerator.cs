@@ -150,7 +150,7 @@ namespace PKHeX.Core
             GO => GetEncounterTableGO(pkm),
             SW => SlotsSW,
             SH => SlotsSH,
-            _ => Array.Empty<EncounterArea>()
+            _ => Array.Empty<EncounterArea>(),
         };
 
         private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)

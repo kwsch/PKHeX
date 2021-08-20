@@ -351,7 +351,7 @@ namespace PKHeX.Core
             HiddenMain or HiddenMain2                => WeatherBleedHiddenGrass   .TryGetValue(location, out var weather) && weather.HasFlag(permit),
             Surfing                                  => WeatherBleedSymbolSurfing .TryGetValue(location, out var weather) && weather.HasFlag(permit),
             Sharpedo                                 => WeatherBleedSymbolSharpedo.TryGetValue(location, out var weather) && weather.HasFlag(permit),
-            _ => false
+            _ => false,
         };
 
         public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)

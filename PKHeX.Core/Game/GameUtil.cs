@@ -93,7 +93,7 @@ namespace PKHeX.Core
             6 => AS,
             7 => UM,
             8 => SH,
-            _ => Invalid
+            _ => Invalid,
         };
 
         /// <summary>

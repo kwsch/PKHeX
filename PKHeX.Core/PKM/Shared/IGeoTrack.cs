@@ -123,6 +123,6 @@
     {
         Valid,
         CountryAfterPreviousEmpty,
-        RegionWithoutCountry
+        RegionWithoutCountry,
     }
 }

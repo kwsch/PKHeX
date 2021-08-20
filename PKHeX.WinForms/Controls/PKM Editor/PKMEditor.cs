@@ -1519,7 +1519,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     Keys.Shift => Shiny.AlwaysSquare,
                     Keys.Control => Shiny.AlwaysStar,
-                    _ => Shiny.Random
+                    _ => Shiny.Random,
                 };
                 if (changePID)
                 {

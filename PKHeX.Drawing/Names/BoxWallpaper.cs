@@ -30,7 +30,7 @@ namespace PKHeX.Drawing
             6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
             7 when !GG.Contains(version) => "xy",
             8 => "swsh",
-            _ => string.Empty
+            _ => string.Empty,
         };
 
         public static bool IsWallpaperRed(GameVersion version, int wallpaperID)
@@ -54,7 +54,7 @@ namespace PKHeX.Drawing
                         12 => true, // Checks
                         13 => true, // PokéCenter
                         22 => true, // Special
-                        _ => false
+                        _ => false,
                     };
                 case 5:
                     return wallpaperID switch
@@ -65,7 +65,7 @@ namespace PKHeX.Drawing
                         22 => B2W2.Contains(version), // Reshiram
                         21 => BW.Contains(version), // Zoroark
                         23 => BW.Contains(version), // Musical
-                        _ => false
+                        _ => false,
                     };
                 case 6 or 7:
                     return wallpaperID switch
@@ -73,7 +73,7 @@ namespace PKHeX.Drawing
                         5 => true, // Volcano
                         12 => true, // PokéCenter
                         20 => true, // Special5 Flare/Magma
-                        _ => false
+                        _ => false,
                     };
                 case 8:
                     return wallpaperID switch

@@ -40,7 +40,7 @@ namespace PKHeX.Core
             6 => MGDB_G6,
             7 => pkm.LGPE ? MGDB_G7GG : MGDB_G7,
             8 => MGDB_G8,
-            _ => Array.Empty<MysteryGift>()
+            _ => Array.Empty<MysteryGift>(),
         };
 
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, IReadOnlyList<DexLevel> chain)

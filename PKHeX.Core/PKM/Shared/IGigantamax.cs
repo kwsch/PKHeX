@@ -80,7 +80,7 @@ namespace PKHeX.Core
             (int)Species.Copperajah,
             (int)Species.Kingler,
             (int)Species.Centiskorch,
-            (int)Species.Urshifu
+            (int)Species.Urshifu,
         };
     }
 }

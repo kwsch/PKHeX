@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 {
                     nameof(IRibbonSetCommon6.RibbonCountMemoryContest) => 40,
                     nameof(IRibbonSetCommon6.RibbonCountMemoryBattle) => 8,
-                    _ => 4
+                    _ => 4,
                 };
             }
         }

@@ -89,7 +89,7 @@ namespace PKHeX.Core
         {
             // TMs are clamped to 1, let TRs be whatever
             InventoryType.TMHMs => item is >= 1130 and <= 1229 ? requestVal : 1,
-            _ => requestVal
+            _ => requestVal,
         };
     }
 }

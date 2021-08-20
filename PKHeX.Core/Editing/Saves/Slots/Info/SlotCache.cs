@@ -44,7 +44,7 @@ namespace PKHeX.Core
             SlotInfoFile file => $"File: {file.Path}",
             SlotInfoMisc misc => $"{misc.Type}-{misc.Slot}: {Entity.FileName}",
             SlotInfoParty party => $"Party: {party.Slot}: {Entity.FileName}",
-            _ => throw new ArgumentOutOfRangeException(nameof(Source))
+            _ => throw new ArgumentOutOfRangeException(nameof(Source)),
         };
 
         private string GetFileName()

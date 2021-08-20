@@ -39,7 +39,7 @@
         public static Nature GetNature(int value) => value switch
         {
             < 0 or >= (int)Nature.Random => Nature.Random,
-            _ => (Nature)value
+            _ => (Nature)value,
         };
 
         public static bool IsFixed(this Nature value) => value is >= 0 and < Nature.Random;

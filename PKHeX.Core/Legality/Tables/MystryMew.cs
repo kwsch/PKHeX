@@ -30,7 +30,7 @@ namespace PKHeX.Core
             0xE6CC, 0xE90A, 0xE95D, 0xE991, 0xEBB2,
 
             0xEE7F, 0xEE9F, 0xEFC8, 0xF0E4, 0xFE4E,
-            0xFE9D
+            0xFE9D,
         };
 
         private const int FramesPerMew = 5;

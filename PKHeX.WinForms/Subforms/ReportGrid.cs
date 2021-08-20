@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
 
         private void GetContextMenu()
         {
-            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
+            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide };
             mnuHide.Click += (sender, e) =>
             {
                 int c = dgData.SelectedCells.Count;
@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < c; i++)
                     dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
             };
-            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore, };
+            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore };
             mnuRestore.Click += (sender, e) =>
             {
                 int c = dgData.ColumnCount;
@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
             using var savecsv = new SaveFileDialog
             {
                 Filter = "Spreadsheet|*.csv",
-                FileName = "Box Data Dump.csv"
+                FileName = "Box Data Dump.csv",
             };
             if (savecsv.ShowDialog() == DialogResult.OK)
                 await Export_CSV(savecsv.FileName).ConfigureAwait(false);

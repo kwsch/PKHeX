@@ -38,7 +38,7 @@ namespace PKHeX.Core
             AzureFlute = 10,
             PokétchApp = 11,
             Ribbon = 12,
-            PokéWalkerArea = 14
+            PokéWalkerArea = 14,
         }
 
         public override string CardTitle { get => "Raw Gift (PGT)"; set { } }

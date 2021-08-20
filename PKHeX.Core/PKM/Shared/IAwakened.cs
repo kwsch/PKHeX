@@ -88,7 +88,7 @@ namespace PKHeX.Core
             3 => pk.AV_SPE = value,
             4 => pk.AV_SPA = value,
             5 => pk.AV_SPD = value,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace PKHeX.Core
             3 => pk.AV_SPE,
             4 => pk.AV_SPA,
             5 => pk.AV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
 
         /// <summary>

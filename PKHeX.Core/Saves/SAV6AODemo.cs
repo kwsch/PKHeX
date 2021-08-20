@@ -40,7 +40,7 @@ namespace PKHeX.Core
         {
             (int) GameVersion.AS => GameVersion.AS,
             (int) GameVersion.OR => GameVersion.OR,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }

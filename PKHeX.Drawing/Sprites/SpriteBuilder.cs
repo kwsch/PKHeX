@@ -63,7 +63,7 @@ namespace PKHeX.Drawing
             GameVersion.FR => 1, // Attack
             GameVersion.LG => 2, // Defense
             GameVersion.E => 3, // Speed
-            _ => 0
+            _ => 0,
         };
 
         public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)

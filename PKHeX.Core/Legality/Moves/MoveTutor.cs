@@ -20,7 +20,7 @@ namespace PKHeX.Core
                 6 => GetIsTutor6(pkm, species, form, specialTutors, move),
                 7 => GetIsTutor7(pkm, species, form, specialTutors, move),
                 8 => GetIsTutor8(pkm, species, form, specialTutors, move),
-                _ => NONE
+                _ => NONE,
             };
         }
 

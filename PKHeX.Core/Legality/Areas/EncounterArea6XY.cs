@@ -64,7 +64,7 @@ namespace PKHeX.Core
                 618, 619, 621, 623, 624, 627, 629, 636, 651, 654,
                 657, 660, 662, 662, 668, 673, 674, 677, 682, 684,
                 686, 689, 694, 701, 702, 702, 705, 707, 708, 710,
-                712, 714
+                712, 714,
             };
 
             var slots = new EncounterSlot6XY[species.Length + SpeciesFormSlots];

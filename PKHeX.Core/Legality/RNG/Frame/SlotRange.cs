@@ -29,7 +29,7 @@ namespace PKHeX.Core
             FrameType.MethodH => HSlot(type, rand),
             FrameType.MethodJ => JSlot(type, rand),
             FrameType.MethodK => KSlot(type, rand),
-            _ => Invalid
+            _ => Invalid,
         };
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace PKHeX.Core
                 Super_Rod  => CalcSlot(ESV, H_SuperRod),
                 Rock_Smash => CalcSlot(ESV, H_Surf),
                 Surf       => CalcSlot(ESV, H_Surf),
-                _          => CalcSlot(ESV, H_Regular)
+                _          => CalcSlot(ESV, H_Regular),
             };
         }
 
@@ -64,7 +64,7 @@ namespace PKHeX.Core
                 Old_Rod or Good_Rod or Super_Rod => CalcSlot(ESV, K_SuperRod),
                 BugContest                       => CalcSlot(ESV, K_BCC),
                 Headbutt or (Headbutt | Special) => CalcSlot(ESV, K_Headbutt),
-                _ => CalcSlot(ESV, H_Regular)
+                _ => CalcSlot(ESV, H_Regular),
             };
         }
 
@@ -79,7 +79,7 @@ namespace PKHeX.Core
                 Old_Rod or Rock_Smash or Surf => CalcSlot(ESV, H_Surf),
                 Good_Rod or Super_Rod         => CalcSlot(ESV, J_SuperRod),
                 HoneyTree                     => 0,
-                _                             => CalcSlot(ESV, H_Regular)
+                _                             => CalcSlot(ESV, H_Regular),
             };
         }
 
@@ -157,17 +157,17 @@ namespace PKHeX.Core
             {
                 < 25 => true,
                 < 50 => lead == LeadRequired.None,
-                _ => false
+                _ => false,
             },
             Good_Rod => proc switch
             {
                 < 50 => true,
                 < 75 => lead == LeadRequired.None,
-                _ => false
+                _ => false,
             },
             Super_Rod => proc < 75 || lead == LeadRequired.None,
 
-            _ => false
+            _ => false,
         };
 
         /// <summary>

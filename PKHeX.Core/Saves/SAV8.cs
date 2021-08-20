@@ -63,7 +63,7 @@ namespace PKHeX.Core
         {
             (int)GameVersion.SW => GameVersion.SW,
             (int)GameVersion.SH => GameVersion.SH,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
@@ -124,7 +124,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Furfrou => 5u, // Furfrou
                 (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
+                _ => 0u,
             };
         }
 

@@ -544,7 +544,7 @@ namespace PKHeX.Core
                 6 => gen is >= 3 and <= 6,
                 7 => gen is >= 3 and <= 7 || VC,
                 8 => gen is >= 3 and <= 8 || VC,
-                _ => false
+                _ => false,
             };
         }
 
@@ -643,7 +643,7 @@ namespace PKHeX.Core
             <=  90 => 0,
             <= 120 => 1,
             <= 150 => 2,
-            _      => 3
+            _      => 3,
         };
 
         /// <summary>
@@ -821,7 +821,7 @@ namespace PKHeX.Core
             {
                 Shiny.AlwaysSquare => 0,
                 Shiny.AlwaysStar => 1,
-                _ => Util.Rand.Next(8)
+                _ => Util.Rand.Next(8),
             };
 
             SID = (int)xor ^ bits;
@@ -1002,7 +1002,7 @@ namespace PKHeX.Core
             1 => Move2 = value,
             2 => Move3 = value,
             3 => Move4 = value,
-            _ => throw new IndexOutOfRangeException(nameof(index))
+            _ => throw new IndexOutOfRangeException(nameof(index)),
         };
 
         /// <summary>
@@ -1044,7 +1044,7 @@ namespace PKHeX.Core
             3 => EV_SPE,
             4 => EV_SPA,
             5 => EV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
 
         /// <summary>
@@ -1059,7 +1059,7 @@ namespace PKHeX.Core
             3 => IV_SPE,
             4 => IV_SPA,
             5 => IV_SPD,
-            _ => throw new ArgumentOutOfRangeException(nameof(index))
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
         };
     }
 }

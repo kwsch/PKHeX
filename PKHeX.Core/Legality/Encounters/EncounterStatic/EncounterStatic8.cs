@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 {
                     IRibbonSetMark8 {RibbonMarkCurry: true} => EncounterMatchRating.DeferredErrors,
                     PK8 {AffixedRibbon: (int) RibbonIndex.MarkCurry} => EncounterMatchRating.Deferred,
-                    _ => EncounterMatchRating.Match
+                    _ => EncounterMatchRating.Match,
                 };
             }
 

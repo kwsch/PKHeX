@@ -14,7 +14,7 @@
         private static readonly string[] RibbonSetNamesCommon7 =
         {
             nameof(IRibbonSetCommon7.RibbonChampionAlola), nameof(IRibbonSetCommon7.RibbonBattleRoyale),
-            nameof(IRibbonSetCommon7.RibbonBattleTreeGreat), nameof(IRibbonSetCommon7.RibbonBattleTreeMaster)
+            nameof(IRibbonSetCommon7.RibbonBattleTreeGreat), nameof(IRibbonSetCommon7.RibbonBattleTreeMaster),
         };
 
         internal static bool[] RibbonBits(this IRibbonSetCommon7 set)

@@ -63,7 +63,7 @@ namespace PKHeX.Core
             var levelup = new int[info.EvoChainsAllGens.Length][];
             levelup[pkm.Format] = new[] {166};
             info.EncounterMoves = new ValidEncounterMoves(levelup);
-            var source = new MoveParseSource { CurrentMoves = currentMoves, };
+            var source = new MoveParseSource { CurrentMoves = currentMoves };
             return ParseMoves(pkm, source, info);
         }
 

@@ -43,7 +43,7 @@ namespace PKHeX.Core
             Zukan8Type.Galar => Galar.Data,
             Zukan8Type.Armor => Rigel1.Data,
             Zukan8Type.Crown => Rigel2.Data,
-            _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null),
         };
 
         private static bool GetFlag(byte[] data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset + (bitIndex >> 3), bitIndex);
@@ -831,7 +831,7 @@ namespace PKHeX.Core
             Zukan8Type.Galar => "O0",
             Zukan8Type.Armor => "R1",
             Zukan8Type.Crown => "R2",
-            _ => throw new ArgumentOutOfRangeException(nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
     }
 }

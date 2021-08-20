@@ -88,7 +88,7 @@ namespace PKHeX.Core
         {
             (int) GameVersion.AS => GameVersion.AS,
             (int) GameVersion.OR => GameVersion.OR,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);

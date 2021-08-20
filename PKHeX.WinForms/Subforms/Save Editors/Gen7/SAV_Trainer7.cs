@@ -254,7 +254,7 @@ namespace PKHeX.WinForms
                 75,332,334,
                 331,333,335,336,
             };
-            string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)", };
+            string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)" };
             CLB_FlyDest.Items.Clear();
             for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
             {
@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
                 181,
                 409,297,32,296,
             };
-            string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)", };
+            string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)" };
             CLB_MapUnmask.Items.Clear();
             for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
             {

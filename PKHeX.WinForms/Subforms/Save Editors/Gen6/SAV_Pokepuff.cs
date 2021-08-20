@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             }
             DataGridViewComboBoxColumn dgvPuff = new()
             {
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
             };
             {
                 foreach (string t in pfa)

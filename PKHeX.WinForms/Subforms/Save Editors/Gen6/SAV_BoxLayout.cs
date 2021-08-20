@@ -98,7 +98,7 @@ namespace PKHeX.WinForms
                     Maximum = 255,
                     Width = CB_Unlocked.Width - 5,
                     Hexadecimal = true,
-                    Value = flags[i]
+                    Value = flags[i],
                 };
                 FLP_Flags.Controls.Add(flagArr[i]);
             }

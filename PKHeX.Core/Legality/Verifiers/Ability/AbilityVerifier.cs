@@ -126,7 +126,7 @@ namespace PKHeX.Core
                 6 => VerifyAbility6(data, enc),
                 7 => VerifyAbility7(data, enc),
               >=8 => VALID,
-                _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch, enc)
+                _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch, enc),
             };
         }
 
@@ -340,7 +340,7 @@ namespace PKHeX.Core
             {
                 EncounterSlot5 w when pkm.AbilityNumber == 4 != w.IsHiddenGrotto => GetInvalid(w.IsHiddenGrotto ? LAbilityMismatchGrotto : LAbilityHiddenFail),
                 EncounterEgg e when pkm.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
-                _ => CheckMatch(data.pkm, abilities, 5, pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc)
+                _ => CheckMatch(data.pkm, abilities, 5, pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc),
             };
         }
 
@@ -360,7 +360,7 @@ namespace PKHeX.Core
                 EncounterSlot => GetInvalid(LAbilityMismatchHordeSafari),
 
                 EncounterEgg egg when AbilityBreedLegality.BanHidden6.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
-                _ => VALID
+                _ => VALID,
             };
         }
 
@@ -374,7 +374,7 @@ namespace PKHeX.Core
             {
                 EncounterSlot7 {IsSOS: false} => GetInvalid(LAbilityMismatchSOS),
                 EncounterEgg egg when AbilityBreedLegality.BanHidden7.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
-                _ => VALID
+                _ => VALID,
             };
         }
 
@@ -471,7 +471,7 @@ namespace PKHeX.Core
                 (int)Species.Tornadus => true, // Form-0 is a/a/h
                 (int)Species.Thundurus => true, // Form-0 is a/a/h
                 (int)Species.Landorus => true, // Form-0 is a/a/h
-                _ => false
+                _ => false,
             };
         }
 
@@ -479,7 +479,7 @@ namespace PKHeX.Core
         {
             EncounterStatic s => s.Ability,
             EncounterTrade t => t.Ability,
-            _ => -1
+            _ => -1,
         };
     }
 }

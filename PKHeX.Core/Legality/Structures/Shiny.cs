@@ -44,7 +44,7 @@
             Shiny.Never => !pkm.IsShiny,
             Shiny.AlwaysSquare => pkm.ShinyXor == 0,
             Shiny.AlwaysStar => pkm.ShinyXor == 1,
-            _ => true
+            _ => true,
         };
 
         public static bool IsShiny(this Shiny s) => s switch
@@ -52,7 +52,7 @@
             Shiny.Always => true,
             Shiny.AlwaysSquare => true,
             Shiny.AlwaysStar => true,
-            _ => false
+            _ => false,
         };
     }
 }

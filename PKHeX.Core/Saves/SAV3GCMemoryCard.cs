@@ -162,7 +162,7 @@ namespace PKHeX.Core
             DirectoryBad = 1 << 1,
             DirectoryBackupBad = 1 << 2,
             BlockAllocBad,
-            BlockAllocBackupBad
+            BlockAllocBackupBad,
         }
 
         private bool IsCorruptedMemoryCard()

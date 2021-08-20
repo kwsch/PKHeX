@@ -51,7 +51,7 @@ namespace PKHeX.Drawing
                 2 => n + "super",
                 3 => n + "hyper",
                 4 => n + "master",
-                _ => n
+                _ => n,
             };
         }
 

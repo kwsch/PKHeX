@@ -39,7 +39,7 @@ namespace PKHeX.Core
             WB7.SizeFull when ext == ".wb7full" => new WB7(data),
             WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
             WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
-            _ => null
+            _ => null,
         };
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),
             // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
             WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
-            _ => null
+            _ => null,
         };
 
         public string Extension => GetType().Name.ToLowerInvariant();

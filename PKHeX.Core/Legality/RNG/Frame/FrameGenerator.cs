@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 0 => max ? 255 : ratio, // male
                 1 => max ? ratio - 1 : 0, // female
                 _ => max ? 255 : 0,
-            }
+            },
         };
     }
 }

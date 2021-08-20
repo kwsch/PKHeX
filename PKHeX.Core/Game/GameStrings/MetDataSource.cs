@@ -231,7 +231,7 @@ namespace PKHeX.Core
         {
             <= CXD when currentGen == 4 => MetGen4Transfer ??= CreateGen4Transfer(),
             < X when currentGen >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
-            _ => Array.Empty<ComboItem>()
+            _ => Array.Empty<ComboItem>(),
         };
     }
 }

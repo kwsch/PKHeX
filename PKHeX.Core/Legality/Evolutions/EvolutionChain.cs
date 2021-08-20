@@ -140,7 +140,7 @@ namespace PKHeX.Core
         {
             <  3 => currentGeneration >= 3,
             <= 4 => currentGeneration != originalGeneration,
-            _    => false
+            _    => false,
         };
 
         private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> allChains)

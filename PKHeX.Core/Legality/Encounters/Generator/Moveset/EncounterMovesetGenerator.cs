@@ -211,7 +211,7 @@ namespace PKHeX.Core
                 {
                     3 => moves.Concat(Legal.LevelUpE [(int)Species.Ninjask].GetMoves(100, 20)),
                     4 => moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20)),
-                    _ => moves
+                    _ => moves,
                 };
             }
             return moves;
@@ -226,7 +226,7 @@ namespace PKHeX.Core
                 EncounterOrder.Static => GetStatic(pk, needs, chain, version),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
                 EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
         }
 

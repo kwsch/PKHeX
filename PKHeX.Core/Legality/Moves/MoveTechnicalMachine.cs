@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return generation switch
             {
                 8 => GetIsRecord8(pkm, species, move, form, ver, allowBit),
-                _ => Legal.NONE
+                _ => Legal.NONE,
             };
         }
 

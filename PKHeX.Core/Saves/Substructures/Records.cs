@@ -28,7 +28,7 @@ namespace PKHeX.Core
         {
             < LargeRecordCount => baseOfs + (recordID * sizeof(int)),
             < Count => baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
-            _ => -1
+            _ => -1,
         };
 
         private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
@@ -149,7 +149,7 @@ namespace PKHeX.Core
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
             5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 4, 4, 4, 5, 5, 4, 5, 5
+            5, 5, 4, 4, 4, 5, 5, 4, 5, 5,
         };
 
         public static readonly IReadOnlyList<byte> MaxType_SWSH = new byte[]

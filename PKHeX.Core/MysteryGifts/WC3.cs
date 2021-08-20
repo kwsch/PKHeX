@@ -178,7 +178,7 @@ namespace PKHeX.Core
         {
             PIDType.BACD_R => seed & 0x0000FFFF, // u16
             PIDType.BACD_R_S => seed & 0x000000FF, // u8
-            _ => seed
+            _ => seed,
         };
 
         private LanguageID GetSafeLanguage(LanguageID hatchLang)
@@ -207,7 +207,7 @@ namespace PKHeX.Core
                 GameVersion.FRLG => GameVersion.FR + Util.Rand.Next(2), // or LG
                 GameVersion.RS or GameVersion.RSE => GameVersion.S + Util.Rand.Next(2), // or R
                 GameVersion.COLO or GameVersion.XD => GameVersion.CXD,
-                _ => throw new Exception($"Unknown GameVersion: {version}")
+                _ => throw new Exception($"Unknown GameVersion: {version}"),
             };
         }
 

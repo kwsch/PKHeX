@@ -37,7 +37,7 @@ namespace PKHeX.Core
         {
             <= (int) Species.Mew => species - 1,
             (int) Species.Meltan or (int) Species.Melmetal => species - 657, // 151, 152
-            _ => -1
+            _ => -1,
         };
 
         public static int GetIndexSpecies(int index)

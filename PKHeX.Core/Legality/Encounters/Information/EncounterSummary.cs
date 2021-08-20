@@ -47,7 +47,7 @@ namespace PKHeX.Core
 
         private static EncounterSummary GetSummary(IEncounterTemplate item) => item switch
         {
-            _ => new EncounterSummary(item)
+            _ => new EncounterSummary(item),
         };
     }
 }

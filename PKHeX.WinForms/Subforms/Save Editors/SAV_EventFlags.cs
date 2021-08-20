@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
                     CheckAlign = ContentAlignment.MiddleLeft,
                     Margin = Padding.Empty,
                     Checked = values[index],
-                    AutoSize = true
+                    AutoSize = true,
                 };
                 lbl.Click += (sender, e) => chk.Checked ^= true;
                 chk.CheckedChanged += (o, args) =>
@@ -132,7 +132,7 @@ namespace PKHeX.WinForms
                     Width = 150,
                     DropDownStyle = ComboBoxStyle.DropDownList,
                     BindingContext = BindingContext,
-                    DropDownWidth = Width + 100
+                    DropDownWidth = Width + 100,
                 };
                 cb.InitializeBinding();
                 cb.DataSource = map;

@@ -82,7 +82,7 @@ namespace PKHeX.WinForms
             DateTime dt = SAV.Festa.FestaDate ?? new DateTime(2000, 1, 1);
             CAL_FestaStartDate.Value = CAL_FestaStartTime.Value = dt;
 
-            string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
+            string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank" };
             CLB_Reward.Items.Clear();
             CLB_Reward.Items.Add(res2[^1], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
             for (int i = 0; i < res2.Length - 1; i++)
@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
                 "Breeder" + gendersymbols[0],
                 "Breeder" + gendersymbols[1],
                 "Youngster",
-                "Lass"
+                "Lass",
             };
             CB_FacilityNPC.Items.Clear();
             CB_FacilityNPC.Items.AddRange(res5);
@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
                 new[]{"Thump","Clink","Stomp"},
                 new[]{"Kanto","Johto","Hoenn","Sinnoh","Unova","Kalos","Pokémon"},
                 new[]{"Red","Yellow","Green","Blue","Orange","NavyBlue","Purple","Pink"},
-                new[]{"Switcheroo"}
+                new[]{"Switcheroo"},
             };
 
             CB_FacilityType.Items.Clear();
@@ -180,7 +180,7 @@ namespace PKHeX.WinForms
 
         public enum FestivalPlazaFacilityColor : byte
         {
-            Red, Blue, Gold, Black, Purple, Yellow, Brown, Green, Orange, NavyBlue, Pink, White
+            Red, Blue, Gold, Black, Purple, Yellow, Brown, Green, Orange, NavyBlue, Pink, White,
         }
 
         private readonly byte[][] RES_FacilityColor = //facility appearance
@@ -204,7 +204,7 @@ namespace PKHeX.WinForms
             new byte[]{5,5,5},
             new byte[]{4,4,4,4,4,4,4},
             new byte[]{4,4,4,4,4,4,4,4},
-            new byte[]{3}
+            new byte[]{3},
         };
 
         private int TypeIndexToType(int typeIndex)
@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
                 < 0x50 => 4,
                 < 0x65 => 5,
                 < 0x7D => 6,
-                _ => 7
+                _ => 7,
             };
         }
 

@@ -49,7 +49,7 @@ namespace PKHeX.Core
             (int)Darmanitan => form & 2,
             (int)Zygarde when format > 6 => 3,
             (int)Minior => form + 7,
-            _ => 0
+            _ => 0,
         };
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace PKHeX.Core
             (int)Kyurem when form != 0 && format >= 5 => true,
             (int)Necrozma when form != 0 && format >= 7 => true,
             (int)Calyrex when form != 0 && format >= 8 => true,
-            _ => false
+            _ => false,
         };
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
@@ -254,7 +254,7 @@ namespace PKHeX.Core
             Scatterbug => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
             Spewpa => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
 
-            _ => false
+            _ => false,
         };
 
         /// <summary>

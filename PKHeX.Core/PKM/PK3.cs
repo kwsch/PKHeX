@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x2A, 0x2B
+            0x2A, 0x2B,
         };
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;

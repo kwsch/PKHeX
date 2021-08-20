@@ -25,7 +25,7 @@ namespace PKHeX.Core
             EncounterSlot w => VerifyEncounterWild(w),
             EncounterStatic s => VerifyEncounterStatic(pkm, s),
             MysteryGift g => VerifyEncounterEvent(pkm, g),
-            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
         };
 
         private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterTemplate enc)
@@ -39,7 +39,7 @@ namespace PKHeX.Core
                 EncounterSlot2 s2 => VerifyWildEncounterGen2(pkm, s2),
                 EncounterStatic s => VerifyEncounterStatic(pkm, s),
                 EncounterTrade t => VerifyEncounterTrade(pkm, t),
-                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
             };
         }
 
@@ -82,7 +82,7 @@ namespace PKHeX.Core
             6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
             7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
             8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
-            _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
+            _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter),
         };
 
         private static CheckResult VerifyUnhatchedEgg3(PKM pkm)

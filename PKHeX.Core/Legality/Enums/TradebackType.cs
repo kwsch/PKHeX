@@ -24,6 +24,6 @@
         /// <summary>
         /// Information can only exist if has visited both Gen1 and Gen2.
         /// </summary>
-        WasTradeback
+        WasTradeback,
     }
 }

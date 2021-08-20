@@ -21,7 +21,7 @@ namespace PKHeX.WinForms.Controls
             SlotTouchType.Set => SpriteUtil.Spriter.Set,
             SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
             SlotTouchType.Swap => SpriteUtil.Spriter.Set,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
         {
             Keys.Shift => DropModifier.Clone,
             Keys.Alt => DropModifier.Overwrite,
-            _ => DropModifier.None
+            _ => DropModifier.None,
         };
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace PKHeX.WinForms.Controls
             {
                 SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal),
                 SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal),
-                _ => p.Sprite(s, -1, -1, flagIllegal)
+                _ => p.Sprite(s, -1, -1, flagIllegal),
             };
 
             pb.BackColor = Color.Transparent;

@@ -523,7 +523,7 @@ namespace PKHeX.Core
             {
                 GameVersion.DP => (ofs + 0x4BEC),
                 GameVersion.Pt => (ofs + 0x4E80),
-                _ => (ofs + 0x3FA8)
+                _ => (ofs + 0x3FA8),
             };
         }
 

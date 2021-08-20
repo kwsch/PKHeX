@@ -161,7 +161,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Furfrou => 5u, // Furfrou
                 (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
+                _ => 0u,
             };
         }
 

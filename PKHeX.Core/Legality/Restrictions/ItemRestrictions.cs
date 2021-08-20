@@ -45,7 +45,7 @@ namespace PKHeX.Core
             6 => ReleasedHeldItems_6,
             7 => ReleasedHeldItems_7,
             8 => ReleasedHeldItems_8,
-            _ => Array.Empty<bool>()
+            _ => Array.Empty<bool>(),
         };
     }
 }

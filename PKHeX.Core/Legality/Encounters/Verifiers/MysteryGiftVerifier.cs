@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             return generation switch
             {
-                _ => false
+                _ => false,
             };
         }
 
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         {
             return generation switch
             {
-                _ => false
+                _ => false,
             };
         }
     }

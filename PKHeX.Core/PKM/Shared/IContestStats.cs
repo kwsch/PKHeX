@@ -29,7 +29,7 @@
             stats.CNT_Cute,
             stats.CNT_Smart,
             stats.CNT_Tough,
-            stats.CNT_Sheen
+            stats.CNT_Sheen,
         };
 
         /// <summary>

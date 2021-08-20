@@ -194,7 +194,7 @@ namespace PKHeX.WinForms
             {
                 AutoLoadSetting.RecentBackup => LoadMostRecentBackup(),
                 AutoLoadSetting.LastLoaded => LoadMostRecentlyLoaded(startup.RecentlyLoaded),
-                _ => false
+                _ => false,
             };
         }
 

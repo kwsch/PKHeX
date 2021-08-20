@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             pkm = pk;
             MemStrings = new MemoryStrings(GameInfo.Strings, pkm.Format);
             PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
-            PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
+            PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4 };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             TextArgs = new TextMarkup(arguments);
@@ -334,7 +334,7 @@ namespace PKHeX.WinForms
 
         private void ClickResetLocation(object sender, EventArgs e)
         {
-            Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
+            Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4 };
             int index = Array.IndexOf(senderarr, sender);
             PrevCountries[index].SelectedValue = 0;
 
@@ -387,7 +387,7 @@ namespace PKHeX.WinForms
                 MemoryArgType.Species => Species,
                 MemoryArgType.Move => Move,
                 MemoryArgType.Item => Item,
-                _ => string.Empty
+                _ => string.Empty,
             };
         }
     }

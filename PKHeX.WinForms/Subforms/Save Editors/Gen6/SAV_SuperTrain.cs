@@ -67,7 +67,7 @@ namespace PKHeX.WinForms
             }
             DataGridViewComboBoxColumn dgvBag = new()
             {
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
             };
             {
                 foreach (string t in trba)

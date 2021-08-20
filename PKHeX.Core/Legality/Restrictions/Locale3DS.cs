@@ -22,7 +22,7 @@ namespace PKHeX.Core
             4 => country is 144 or 160, // China
             5 => country is 136, // Korea
             6 => country is 144 or 128, // Taiwan
-            _ => false
+            _ => false,
         };
 
         /// <summary>

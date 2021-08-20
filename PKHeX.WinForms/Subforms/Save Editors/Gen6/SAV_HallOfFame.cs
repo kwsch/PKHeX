@@ -386,7 +386,7 @@ namespace PKHeX.WinForms
             {
                 0 => gendersymbols[0], // M
                 1 => gendersymbols[1], // F
-                _ => gendersymbols[2] // -
+                _ => gendersymbols[2], // -
             };
 
             Write_Entry(this, EventArgs.Empty);

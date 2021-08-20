@@ -156,7 +156,7 @@ namespace PKHeX.Core
             EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
             EncounterStatic => GBEncounterPriority.StaticEncounter,
             EncounterSlot => GBEncounterPriority.WildEncounter,
-            _ => GBEncounterPriority.EggEncounter
+            _ => GBEncounterPriority.EggEncounter,
         };
 
         /// <summary>

@@ -131,7 +131,7 @@ namespace PKHeX.Core
         {
             (int)GameVersion.GP => GameVersion.GP,
             (int)GameVersion.GE => GameVersion.GE,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         // Player Information

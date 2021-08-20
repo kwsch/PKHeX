@@ -19,7 +19,7 @@ namespace PKHeX.Core
                 items[i] = new InventoryItem
                 {
                     Index = BitConverter.ToUInt16(data, Offset + (i* 4)),
-                    Count = BitConverter.ToUInt16(data, Offset + (i* 4) + 2) ^ (ushort) SecurityKey
+                    Count = BitConverter.ToUInt16(data, Offset + (i* 4) + 2) ^ (ushort) SecurityKey,
                 };
             }
             Items = items;

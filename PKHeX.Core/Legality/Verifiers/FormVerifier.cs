@@ -252,28 +252,28 @@ namespace PKHeX.Core
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Runerigus when enc.Species == (int)Runerigus => arg switch
                 {
                     not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Runerigus => arg switch // From Yamask-1
                 {
                     < 49 => GetInvalid(LFormArgumentLow),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Alcremie when enc.Species == (int)Alcremie => arg switch
                 {
                     not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Alcremie => arg switch // From Milcery
                 {
                     > (uint) AlcremieDecoration.Ribbon => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 _ => VerifyFormArgumentNone(pkm, f),
             };

@@ -43,7 +43,7 @@ namespace PKHeX.Core
                 6 => GetIsLevelUp6(species, form, move, maxLevel, version),
                 7 => GetIsLevelUp7(species, form, move,           version), // move reminder can give any move 1-100
                 8 => GetIsLevelUp8(species, form, move, maxLevel, version),
-                _ => LearnNONE
+                _ => LearnNONE,
             };
         }
 
@@ -234,7 +234,7 @@ namespace PKHeX.Core
             1 => FR,
             2 => LG,
             3 => E,
-            _ => Invalid
+            _ => Invalid,
         };
 
         private static Learnset? GetDeoxysLearn3(int form, GameVersion ver = Any)
@@ -267,7 +267,7 @@ namespace PKHeX.Core
                 6 => GetMovesLevelUp6(species, form, maxLevel, version),
                 7 => GetMovesLevelUp7(species, form, maxLevel, MoveReminder, version),
                 8 => GetMovesLevelUp8(species, form, maxLevel, version),
-                _ => Array.Empty<int>()
+                _ => Array.Empty<int>(),
             };
         }
 

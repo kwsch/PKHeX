@@ -139,7 +139,7 @@ namespace PKHeX.Core
         {
             (int) GameVersion.X => GameVersion.X,
             (int) GameVersion.Y => GameVersion.Y,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }

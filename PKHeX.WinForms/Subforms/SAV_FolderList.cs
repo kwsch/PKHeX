@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
         {
             var locs = new List<INamedFolderPath>
             {
-                new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
+                new CustomFolderPath(Main.BackupPath, "PKHeX Backups"),
             };
             locs.AddRange(GetUserPaths());
             locs.AddRange(GetConsolePaths(drives));

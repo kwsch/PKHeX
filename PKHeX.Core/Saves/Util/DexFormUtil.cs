@@ -79,7 +79,7 @@ namespace PKHeX.Core
             0x02E5, 0x0004, 0x02E7, 0x0002, 0x02E8, 0x0002, 0x02E9, 0x0003,
             0x02EA, 0x0002, 0x02F0, 0x0002, 0x02F2, 0x0002, 0x02F6, 0x0002,
             0x0305, 0x0012, 0x0306, 0x000E, 0x0309, 0x0002, 0x030A, 0x0004,
-            0x0310, 0x0002, 0x0320, 0x0004, 0x0321, 0x0002
+            0x0310, 0x0002, 0x0320, 0x0004, 0x0321, 0x0002,
         };
 
         private static readonly ushort[] formtable_GG = // u16 species, u16 formcount
@@ -141,7 +141,7 @@ namespace PKHeX.Core
                 648 => 066, // 2 Meloetta
                 555 => 068, // 2 Darmanitan
                 550 => 070, // 2 Basculin
-                _ => -1
+                _ => -1,
             };
         }
 
@@ -156,7 +156,7 @@ namespace PKHeX.Core
                 642 => 077, // 2 Thundurus
                 641 => 079, // 2 Tornadus
                 645 => 081, // 2 Landorus
-                _ => GetDexFormIndexBW(species, formCount)
+                _ => GetDexFormIndexBW(species, formCount),
             };
         }
 
@@ -202,7 +202,7 @@ namespace PKHeX.Core
                 445 => 183, // 2 Garchomp
                 448 => 185, // 2 Lucario
                 460 => 187, // 2 Abomasnow
-                _ => GetDexFormIndexB2W2(species, formCount)
+                _ => GetDexFormIndexB2W2(species, formCount),
             };
         }
 
@@ -237,7 +237,7 @@ namespace PKHeX.Core
                 493 => 238, // 18 Arceus
                 649 => 256, // 5 Genesect
                 676 => 261, // 10 Furfrou
-                _ => GetDexFormIndexXY(species, formCount)
+                _ => GetDexFormIndexXY(species, formCount),
             };
         }
     }

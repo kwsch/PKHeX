@@ -39,7 +39,7 @@
             {
                 PK1 pk1 => new PokeList1(pk1).Write(),
                 PK2 pk2 => new PokeList2(pk2).Write(),
-                _ => gb.Data
+                _ => gb.Data,
             };
             var checksum = Checksums.CRC16_CCITT(raw);
             return $"{gb.Species:000}{form}{star} - {gb.Nickname} - {checksum:X4}";

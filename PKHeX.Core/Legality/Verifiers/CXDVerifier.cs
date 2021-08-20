@@ -32,7 +32,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Eevee => LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID),
                 (int)Species.Espeon or (int)Species.Umbreon => pidiv.Type == PIDType.CXD_ColoStarter,
-                _ => true
+                _ => true,
             };
             if (!valid)
                 data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));

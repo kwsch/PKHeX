@@ -56,7 +56,7 @@ namespace PKHeX.WinForms
             // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
             // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door
             0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
-            0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818 // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
+            0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818, // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
         };
 
         private uint[] valKS = null!;
@@ -73,13 +73,13 @@ namespace PKHeX.WinForms
                         "Nuvema Town", "Accumula Town", "Striaton City", "Nacrene City",
                         "Castelia City", "Nimbasa City", "Driftveil City", "Mistralton City",
                         "Icirrus City", "Opelucid City", "Victory Road", "Pokemon League",
-                        "Lacunosa Town", "Undella Town", "Black City/White Forest", "(Unity Tower)"
+                        "Lacunosa Town", "Undella Town", "Black City/White Forest", "(Unity Tower)",
                     };
                     FlyDestC = new[] {
                         0, 1, 2, 3,
                         4, 5, 6, 7,
                         8, 9, 15, 11,
-                        10, 13, 12, 14
+                        10, 13, 12, 14,
                     };
                     break;
                 case GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2:
@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
                         "Icirrus City", "Opelucid City",
                         "Lacunosa Town", "Undella Town", "Black City/White Forest",
                         "Lentimas Town", "Humilau City", "Victory Road", "Pokemon League",
-                        "Pokestar Studios", "Join Avenue", "PWT", "(Unity Tower)"
+                        "Pokestar Studios", "Join Avenue", "PWT", "(Unity Tower)",
                     };
                     FlyDestC = new[] {
                         24, 27, 25,
@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
                         16, 17,
                         18, 21, 20,
                         28, 26, 66, 19,
-                        5, 6, 7, 22
+                        5, 6, 7, 22,
                     };
                     break;
 
@@ -153,7 +153,7 @@ namespace PKHeX.WinForms
                 {
                     "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
                     "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
-                    "Unlock IcebergChamber"
+                    "Unlock IcebergChamber",
                 };
                 uint KSID = BitConverter.ToUInt32(SAV.Data, ofsKS + 0x34);
                 valKS = new uint[keyKS.Length];

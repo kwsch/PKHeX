@@ -168,7 +168,7 @@ namespace PKHeX.WinForms
             {
                 Filter = GoFilter,
                 FilterIndex = 0,
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
 
             // Export
@@ -213,7 +213,7 @@ namespace PKHeX.WinForms
                 FileName = data.FileName,
                 Filter = GoFilter,
                 FilterIndex = 0,
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
 
             if (sfd.ShowDialog() != DialogResult.OK)

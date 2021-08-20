@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
             {
                 SAV4DP => HoneyTreeValue.TableDP,
                 SAV4Pt => HoneyTreeValue.TablePt,
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
 
             // Get Munchlax tree for this savegame in screen

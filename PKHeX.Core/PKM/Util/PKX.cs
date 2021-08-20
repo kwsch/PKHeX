@@ -195,7 +195,7 @@ namespace PKHeX.Core
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (pid & 0xFF) < gr ? 1 : 0
+            _ => (pid & 0xFF) < gr ? 1 : 0,
         };
 
         internal const string ExtensionPB7 = "pb7";

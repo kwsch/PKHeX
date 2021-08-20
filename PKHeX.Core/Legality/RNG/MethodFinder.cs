@@ -810,7 +810,7 @@ namespace PKHeX.Core
             0 => esv < 50 , // [0,50)
             1 => esv - 50 < 35, // [50,85)
             2 => esv >= 85, // [85,100)
-            _ => false
+            _ => false,
         };
 
         public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pkm) => encounter switch
@@ -820,7 +820,7 @@ namespace PKHeX.Core
             EncounterSlot3 w       => (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val),
             EncounterStaticShadow  => val is CXD or CXDAnti,
             EncounterSlot3PokeSpot => val == PokeSpot,
-                                 _ => val == None
+                                 _ => val == None,
         };
 
         private static bool IsCompatible3Static(PIDType val, PKM pkm, EncounterStatic3 s) => pkm.Version switch
@@ -836,7 +836,7 @@ namespace PKHeX.Core
             // forced shiny eggs, when hatched, can lose their detectable correlation.
             None    => (g.Method is BACD_R_S or BACD_U_S) && g.IsEgg && !pkm.IsEgg,
             CXDAnti => g.Method == CXD && g.Shiny == Shiny.Never,
-            _       => false
+            _       => false,
         };
 
         private static bool IsRoamerPIDIV(this PIDType val, PKM pkm)
@@ -870,12 +870,12 @@ namespace PKHeX.Core
                 ChainShiny => pkm.IsShiny && !pkm.HGSS && (w.GroundTile & GroundTilePermission.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
                 CuteCharm => IsCuteCharm4Valid(encounter, pkm),
                 Method_1 => true,
-                _ => false
+                _ => false,
             },
 
             PGT => IsG4ManaphyPIDValid(val, pkm), // Manaphy is the only PGT in the database
             PCD d when d.Gift.PK.PID != 1 => true, // Already matches PCD's fixed PID requirement
-            _ => val == None
+            _ => val == None,
         };
 
         private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)

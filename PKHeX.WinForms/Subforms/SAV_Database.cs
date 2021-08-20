@@ -498,7 +498,7 @@ namespace PKHeX.WinForms
                 settings.SearchClones = ModifierKeys switch
                 {
                     Keys.Control => CloneDetectionMethod.HashPID,
-                    _ => CloneDetectionMethod.HashDetails
+                    _ => CloneDetectionMethod.HashDetails,
                 };
             }
 

@@ -51,7 +51,7 @@ namespace PKHeX.Core
             SCTypeCode.Single => sizeof(float),
             SCTypeCode.Double => sizeof(double),
 
-            _ => throw new ArgumentException(type.ToString(), nameof(type))
+            _ => throw new ArgumentException(type.ToString(), nameof(type)),
         };
 
         public static Type GetType(this SCTypeCode type) => type switch
@@ -69,7 +69,7 @@ namespace PKHeX.Core
             SCTypeCode.Single => typeof(float),
             SCTypeCode.Double => typeof(double),
 
-            _ => throw new ArgumentException(type.ToString(), nameof(type))
+            _ => throw new ArgumentException(type.ToString(), nameof(type)),
         };
 
         public static object GetValue(this SCTypeCode type, byte[] data)

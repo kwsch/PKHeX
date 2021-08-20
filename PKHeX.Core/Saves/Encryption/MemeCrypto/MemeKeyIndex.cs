@@ -19,6 +19,6 @@ namespace PKHeX.Core
         Unknown10 = 10,
         Unknown11 = 11,
         Unknown12 = 12,
-        Unknown13 = 13
+        Unknown13 = 13,
     }
 }

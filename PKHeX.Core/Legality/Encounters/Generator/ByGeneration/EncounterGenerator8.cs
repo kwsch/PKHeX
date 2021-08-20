@@ -17,7 +17,7 @@ namespace PKHeX.Core
             return pkm.Version switch
             {
                 (int)GameVersion.GO => EncounterGenerator7.GetEncountersGO(pkm, chain),
-                _ => GetEncountersMainline(pkm, chain)
+                _ => GetEncountersMainline(pkm, chain),
             };
         }
 

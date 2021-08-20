@@ -53,14 +53,14 @@ namespace PKHeX.Core
             SAV6AO xy => GetExtraSlots6AO(xy),
             SAV7 sav7 => GetExtraSlots7(sav7, all),
             SAV8SWSH ss => GetExtraSlots8(ss),
-            _ => None
+            _ => None,
         };
 
         private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
         {
             return new()
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare } // egg
+                new SlotInfoMisc(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare }, // egg
             };
         }
 
@@ -70,7 +70,7 @@ namespace PKHeX.Core
                 return None;
             return new List<SlotInfoMisc>
             {
-                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare}
+                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare},
             };
         }
 
@@ -141,7 +141,7 @@ namespace PKHeX.Core
             var list = new List<SlotInfoMisc>
             {
                 new(sav.Data, 0, sav.AllBlocks[07].Offset) {Type = StorageSlotType.GTS},
-                new(sav.Data, 0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
+                new(sav.Data, 0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused},
             };
             if (sav is SAV7USUM uu)
             {

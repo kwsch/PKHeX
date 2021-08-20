@@ -173,7 +173,7 @@ namespace PKHeX.Core
 
                 8 => ParsePK8,
 
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
         }
 

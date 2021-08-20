@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -374,7 +374,7 @@ namespace PKHeX.Core
             {
                 OT_Friendship = 70,
                 // Apply new met date
-                MetDate = moment
+                MetDate = moment,
             };
 
             // Arceus Type Changing -- Plate forcibly removed.

@@ -63,7 +63,7 @@ namespace PKHeX.Core
             MemoryArgType.Item => Items,
             MemoryArgType.Move => Moves,
             MemoryArgType.SpecificLocation => SpecificLocations,
-            _ => None
+            _ => None,
         };
     }
 }
