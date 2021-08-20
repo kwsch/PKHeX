@@ -98,7 +98,7 @@ namespace PKHeX.Core
                     break;
 
                 case Scatterbug or Spewpa:
-                    if (form > 17) // Fancy & Pokéball
+                    if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
                     if (pkm is not IRegionOrigin tr)
                         break;
@@ -108,7 +108,7 @@ namespace PKHeX.Core
                         data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
                 case Vivillon:
-                    if (form > 17) // Fancy & Pokéball
+                    if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
                     {
                         if (enc is not MysteryGift)
                             return GetInvalid(LFormVivillonInvalid);

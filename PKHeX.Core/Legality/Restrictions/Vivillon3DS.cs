@@ -204,11 +204,15 @@ namespace PKHeX.Core
                 new FormSubregionTable(17, new byte[] {12})),
         };
 
+        public const int MaxWildFormID = 17; // 0-17 valid form indexes
+
         /// <summary>
         /// Compares the Vivillon pattern against its console region to determine if the pattern is legal.
         /// </summary>
         public static bool IsPatternValid(int form, int consoleRegion)
         {
+            if ((uint)form > MaxWildFormID)
+                return false;
             var permit = GetConsoleRegionFlag(consoleRegion);
             return VivillonRegionTable[form].HasFlag(permit);
         }
@@ -222,11 +226,13 @@ namespace PKHeX.Core
         /// <returns>True if valid</returns>
         public static bool IsPatternNative(int form, byte country, byte region)
         {
+            if ((uint)form > MaxWildFormID)
+                return false;
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
 
             var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
-            if (ct == default(CountryTable)) // empty = one form for country
+            if (ct == null) // empty = one form for country
                 return true; // No subregion table, already checked if Country can have this form
 
             if (ct.BaseForm == form)
@@ -243,7 +249,7 @@ namespace PKHeX.Core
         public static int GetPattern(byte country, byte region)
         {
             var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
-            if (ct == default(CountryTable)) // empty = no forms referenced
+            if (ct == null) // empty = no forms referenced
                 return GetPattern(country);
 
             foreach (var sub in ct.SubRegionForms)

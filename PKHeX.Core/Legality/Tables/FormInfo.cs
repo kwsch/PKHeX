@@ -251,8 +251,8 @@ namespace PKHeX.Core
             Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
             Mothim => form < 3, // Burmy base form is kept
 
-            Scatterbug => form < 18, // Vivillon Pre-evolutions
-            Spewpa => form < 18, // Vivillon Pre-evolutions
+            Scatterbug => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
+            Spewpa => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
 
             _ => false
         };
