@@ -147,22 +147,23 @@ namespace PKHeX.Core
         private void VerifyMiscG1CatchRate(LegalityAnalysis data, PK1 pk1)
         {
             var catch_rate = pk1.Catch_Rate;
-            var result = pk1.TradebackStatus == TradebackType.Gen1_NotTradeback
-                ? GetWasNotTradeback()
-                : GetWasTradeback();
+            var tradeback = GBRestrictions.IsTimeCapsuleTransferred(pk1, data.Info.Moves, data.EncounterMatch);
+            var result = tradeback == TimeCapsuleEvaluation.NotTransferred
+                ? GetWasNotTradeback(tradeback)
+                : GetWasTradeback(tradeback);
             data.AddLine(result);
 
-            CheckResult GetWasTradeback()
+            CheckResult GetWasTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
             {
                 if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
                     return GetValid(LG1CatchRateMatchTradeback);
-                if (pk1.TradebackStatus == TradebackType.WasTradeback)
+                if (timeCapsuleEvalution == TimeCapsuleEvaluation.BadCatchRate)
                     return GetInvalid(LG1CatchRateItem);
 
-                return GetWasNotTradeback();
+                return GetWasNotTradeback(timeCapsuleEvalution);
             }
 
-            CheckResult GetWasNotTradeback()
+            CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
             {
                 var e = data.EncounterMatch;
                 if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
@@ -175,7 +176,7 @@ namespace PKHeX.Core
                         return GetInvalid(LG1CatchRateEvo);
                 }
                 if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, catch_rate))
-                    return GetInvalid(pk1.Gen1_NotTradeback ? LG1CatchRateChain : LG1CatchRateNone);
+                    return GetInvalid(timeCapsuleEvalution == TimeCapsuleEvaluation.Transferred12 ? LG1CatchRateChain : LG1CatchRateNone);
                 return GetValid(LG1CatchRateMatchPrevious);
             }
         }

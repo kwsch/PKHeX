@@ -65,7 +65,7 @@ namespace PKHeX.Core
 
         private static bool GetCanBeEgg(PKM pkm)
         {
-            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg2(pkm);
+            bool canBeEgg = !(pkm.Format == 1 && !ParseSettings.AllowGen1Tradeback) && GetCanBeEgg2(pkm);
             if (!canBeEgg)
                 return false;
 

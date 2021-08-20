@@ -91,8 +91,6 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            if (TradebackStatus == TradebackType.WasTradeback)
-                return;
             if (IsCatchRateHeldItem(Catch_Rate))
                 return;
             if (value == (int)Core.Species.Pikachu && Catch_Rate == 0xA3) // Light Ball (starter)

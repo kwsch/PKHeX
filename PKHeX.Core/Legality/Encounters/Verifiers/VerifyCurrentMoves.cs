@@ -41,7 +41,6 @@ namespace PKHeX.Core
 
             // gather valid moves for encounter species
             info.EncounterMoves = new ValidEncounterMoves(pkm, info.EncounterMatch, info.EvoChainsAllGens);
-            var defaultTradeback = pkm.TradebackStatus;
 
             var res = info.Generation < 6
                 ? ParseMovesPre3DS(pkm, currentMoves, info)
@@ -50,7 +49,6 @@ namespace PKHeX.Core
             if (res.All(x => x.Valid))
                 return res;
 
-            pkm.TradebackStatus = defaultTradeback;
             return res;
         }
 
@@ -163,6 +161,21 @@ namespace PKHeX.Core
                     Base = VerInitialMoves,
                 };
                 res = ParseMoves(pkm, source, info);
+
+                // Must have a minimum count of moves, depending on the tradeback state.
+                if (pkm is PK1 pk1)
+                {
+                    int count = GBRestrictions.GetRequiredMoveCount(pk1, source.CurrentMoves, info, source.Base);
+                    if (count == 1)
+                        return res;
+
+                    for (int m = 0; m < count; m++)
+                    {
+                        var move = source.CurrentMoves[m];
+                        if (move == 0)
+                            res[m] = new CheckMoveResult(None, pkm.Format, Invalid, LMoveSourceEmpty, CurrentMove);
+                    }
+                }
                 if (res.All(r => r.Valid))
                     return res;
                 InitialMoves = VerInitialMoves;
@@ -213,7 +226,6 @@ namespace PKHeX.Core
         {
             var res = new CheckMoveResult[4];
             bool AllParsed() => res.All(z => z != null);
-            var required = pkm is not PK1 pk1 ? 1 : GBRestrictions.GetRequiredMoveCount(pk1, source.CurrentMoves, info, source.Base);
 
             // Special considerations!
             const int NoMinGeneration = 0;
@@ -229,7 +241,7 @@ namespace PKHeX.Core
             {
                 var move = source.CurrentMoves[m];
                 if (move == 0)
-                    res[m] = new CheckMoveResult(None, pkm.Format, m < required ? Fishy : Valid, LMoveSourceEmpty, CurrentMove);
+                    res[m] = new CheckMoveResult(None, pkm.Format, Valid, LMoveSourceEmpty, CurrentMove);
                 else if (minGeneration == NoMinGeneration && info.EncounterMoves.Relearn.Contains(move))
                     res[m] = new CheckMoveResult(Relearn, info.Generation, Valid, LMoveSourceRelearn, CurrentMove);
             }
@@ -336,9 +348,6 @@ namespace PKHeX.Core
                     if (learnInfo.Gen2PreevoMoves.Count != 0)
                         learnInfo.MixedGen12NonTradeback = true;
                 }
-
-                if (pkm.TradebackStatus == TradebackType.Any && info.Generation != gen)
-                    pkm.TradebackStatus = TradebackType.WasTradeback;
             }
         }
 
@@ -354,7 +363,7 @@ namespace PKHeX.Core
                     res[m] = new CheckMoveResult(res[m], Invalid, LG1TradebackPreEvoMove, CurrentMove);
             }
 
-            if (gen == 1 && pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            if (gen == 1 && pkm.Format == 1 && !AllowGen1Tradeback)
             {
                 ParseRedYellowIncompatibleMoves(pkm, res, currentMoves);
                 ParseEvolutionsIncompatibleMoves(pkm, res, currentMoves, info.EncounterMoves.TMHMMoves[1]);
@@ -402,9 +411,6 @@ namespace PKHeX.Core
                 if (gen == 2 && learnInfo.Gen1Moves.Contains(m))
                     learnInfo.Gen1Moves.Remove(m);
             }
-
-            if (gen <= 2 && learnInfo.Gen1Moves.Count == 0)
-                pkm.TradebackStatus = TradebackType.Any;
         }
 
         private static void ParseEggMoves(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo)
@@ -436,8 +442,6 @@ namespace PKHeX.Core
                     }
 
                     learnInfo.EggMovesLearned.Add(m);
-                    if (pkm.TradebackStatus == TradebackType.Any && pkm.Generation == 1)
-                        pkm.TradebackStatus = TradebackType.WasTradeback;
                 }
                 if (!learnInfo.Source.EggEventSource.Contains(move))
                     continue;
@@ -454,8 +458,6 @@ namespace PKHeX.Core
                         res[m] = new CheckMoveResult(SpecialEgg, gen, Valid, LMoveSourceEggEvent, CurrentMove);
                     }
                 }
-                if (pkm.TradebackStatus == TradebackType.Any && pkm.Generation == 1)
-                    pkm.TradebackStatus = TradebackType.WasTradeback;
                 learnInfo.EventEggMoves.Add(m);
             }
         }

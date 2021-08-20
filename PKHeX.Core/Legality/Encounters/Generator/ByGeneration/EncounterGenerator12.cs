@@ -88,9 +88,9 @@ namespace PKHeX.Core
             var visited = GBRestrictions.GetTradebackStatusInitial(pkm);
             switch (visited)
             {
-                case TradebackType.Gen1_NotTradeback:
+                case PotentialGBOrigin.Gen1Only:
                     return GenerateRawEncounters12(pkm, GameVersion.RBY);
-                case TradebackType.Gen2_NotTradeback:
+                case PotentialGBOrigin.Gen2Only:
                     return GenerateRawEncounters12(pkm, GameVersion.GSC);
                 default:
                     if (pkm.Korean)

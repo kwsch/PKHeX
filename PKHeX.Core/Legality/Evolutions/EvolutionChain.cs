@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> fullChain)
         {
-            int maxgen = pkm is PK1 {Gen1_NotTradeback: false} ? 2 : pkm.Format;
+            int maxgen = ParseSettings.AllowGen1Tradeback && pkm is PK1 ? 2 : pkm.Format;
             var GensEvoChains = GetChainBase(maxgen);
 
             var queue = new Queue<EvoCriteria>(fullChain);
@@ -48,7 +48,7 @@ namespace PKHeX.Core
 
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
-            int mingen = pkGen >= 3 ? pkGen : pkm.Gen2_NotTradeback ? 2 : 1;
+            int mingen = pkGen >= 3 ? pkGen : GBRestrictions.GetTradebackStatusInitial(pkm) == PotentialGBOrigin.Gen2Only ? 2 : 1;
             bool noxfrDecremented = true;
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {

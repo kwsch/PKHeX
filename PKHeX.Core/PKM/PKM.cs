@@ -485,11 +485,6 @@ namespace PKHeX.Core
             }
         }
 
-        // Legality Extensions
-        public TradebackType TradebackStatus { get; set; } = TradebackType.Any;
-        public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
-        public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
-
         // Misc Egg Facts
         public bool WasEgg => IsEgg || Egg_Location != 0;
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
@@ -523,11 +518,11 @@ namespace PKHeX.Core
                 return false;
 
             // Trade generation 1 -> 2
-            if (format == 2 && generation == 1 && !Gen2_NotTradeback)
+            if (format == 2 && generation == 1 && !Korean)
                 return true;
 
             // Trade generation 2 -> 1
-            if (format == 1 && generation == 2 && !Gen1_NotTradeback)
+            if (format == 1 && generation == 2 && ParseSettings.AllowGen1Tradeback)
                 return true;
 
             if (format < generation)

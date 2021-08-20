@@ -91,9 +91,6 @@ namespace PKHeX.Core
             PersonalInfo = pi;
             SlotOrigin = source;
 
-            if (pkm.Format <= 2) // prior to storing GameVersion
-                pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
-
             Info = new LegalInfo(pkm, Parse);
 #if SUPPRESS
             try
@@ -179,9 +176,6 @@ namespace PKHeX.Core
 
         private void ParsePK1()
         {
-            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
-                pkm.TradebackStatus = TradebackType.WasTradeback; // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
-
             Nickname.Verify(this);
             Level.Verify(this);
             Level.VerifyG1(this);
