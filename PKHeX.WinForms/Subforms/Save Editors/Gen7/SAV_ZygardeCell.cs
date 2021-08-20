@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
         private const int cellscollected = 169;
         private const int celloffset = 0xC6;
         private int CellCount => SAV is SAV7USUM ? 100 : 95;
-        private readonly string[] states = {"None", "Available", "Received"};
+        private static readonly string[] states = {"None", "Available", "Received"};
 
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
 
         #region locations -- lazy
 
-        private readonly string[] locationsSM =
+        private static readonly string[] locationsSM =
         {
             "Verdant Cave - Trial Site",
             "Ruins of Conflict - Outside",
@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
             "Aether Foundation 1F - Main Building",
         };
 
-        private readonly string[] locationsUSUM =
+        private static readonly string[] locationsUSUM =
         {
             "Hau'oli City (Shopping) - Salon (Outside)",
             "Hau'oli City (Shopping) - Malasada Shop (Outside)",

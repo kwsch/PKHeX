@@ -248,7 +248,7 @@ namespace PKHeX.Core
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
         }
 
-        private void VerifyNicknameTrade(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyNicknameTrade(LegalityAnalysis data, EncounterTrade t)
         {
             switch (data.Info.Generation)
             {

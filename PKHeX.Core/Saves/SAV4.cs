@@ -326,12 +326,7 @@ namespace PKHeX.Core
 
         public override MysteryGiftAlbum GiftAlbum
         {
-            get
-            {
-                var album = new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
-                album.Flags[2047] = false;
-                return album;
-            }
+            get => new(MysteryGiftCards, MysteryGiftReceivedFlags) {Flags = {[2047] = false}};
             set
             {
                 bool available = IsMysteryGiftAvailable(value.Gifts);

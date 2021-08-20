@@ -336,9 +336,7 @@ namespace PKHeX.Core
                     if ((s >> 16 & 1) == 0)
                         continue; // only swap if 1
 
-                    var temp = natures[i];
-                    natures[i] = natures[j];
-                    natures[j] = temp;
+                    (natures[i], natures[j]) = (natures[j], natures[i]);
                 }
             }
 

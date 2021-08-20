@@ -7,39 +7,30 @@ namespace PKHeX.Core
     {
         private static readonly OPowerFlagSet[] Mapping =
         {
-            new(5, Hatching),
-            new(5, Bargain),
-            new(5, Prize_Money),
-            new(5, Exp_Point),
-            new(5, Capture),
+            // Skip unused byte
+            new(5, Hatching) {Offset = 1},
+            new(5, Bargain) {Offset = 6},
+            new(5, Prize_Money) {Offset = 11},
+            new(5, Exp_Point) {Offset = 16},
+            new(5, Capture) {Offset = 21},
 
-            new(3, Encounter),
-            new(3, Stealth),
-            new(3, HP_Restoring),
-            new(3, PP_Restoring),
+            new(3, Encounter) {Offset = 26},
+            new(3, Stealth) {Offset = 29},
+            new(3, HP_Restoring) {Offset = 32},
+            new(3, PP_Restoring) {Offset = 35},
 
-            new(1, Full_Recovery),
+            new(1, Full_Recovery) {Offset = 38},
 
-            new(5, Befriending),
+            new(5, Befriending) {Offset = 39},
 
-            new(3, Attack),
-            new(3, Defense),
-            new(3, Sp_Attack),
-            new(3, Sp_Defense),
-            new(3, Speed),
-            new(3, Critical),
-            new(3, Accuracy),
+            new(3, Attack) {Offset = 44},
+            new(3, Defense) {Offset = 47},
+            new(3, Sp_Attack) {Offset = 50},
+            new(3, Sp_Defense) {Offset = 53},
+            new(3, Speed) {Offset = 56},
+            new(3, Critical) {Offset = 59},
+            new(3, Accuracy) {Offset = 62},
         };
-
-        static OPower6()
-        {
-            int index = 1; // Skip unused byte
-            foreach (var m in Mapping)
-            {
-                m.Offset = index;
-                index += m.Count;
-            }
-        }
 
         public OPower6(SaveFile sav, int offset) : base(sav) => Offset = offset;
 

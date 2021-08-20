@@ -29,7 +29,7 @@ namespace PKHeX.WinForms.Controls
                 if (!records.TryGetValue(i, out var name))
                     name = $"{i:D3}";
 
-                CB_Stats.Items.Add(name!);
+                CB_Stats.Items.Add(name);
             }
             CB_Stats.SelectedIndex = records.First().Key;
         }

@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
 
         /// <summary>
-        /// Checks if the requested <see cref="move"/> is in the valid learnable list of moves.
+        /// Checks if the requested <see cref="move"/> is legally able to be learned.
         /// </summary>
         /// <param name="move">Move to check if can be learned</param>
         /// <returns>True if can learn the move</returns>
