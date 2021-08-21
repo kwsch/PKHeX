@@ -234,5 +234,8 @@ namespace PKHeX.Core
         public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
 
         public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
+
+        public override uint SwarmSeed { get => BitConverter.ToUInt32(General, 0x68A8); set => BitConverter.GetBytes(value).CopyTo(General, 0x68A8); }
+        public override uint SwarmMaxCountModulo => 20;
     }
 }

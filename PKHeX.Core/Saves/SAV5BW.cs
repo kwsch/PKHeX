@@ -51,6 +51,7 @@ namespace PKHeX.Core
         public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
         public override Entralink5 Entralink => Blocks.Entralink;
         public override Musical5 Musical => Blocks.Musical;
+        public override Encount5 Encount => Blocks.Encount;
         public override int Fused => int.MinValue;
         public override int GTS => 0x20500;
     }

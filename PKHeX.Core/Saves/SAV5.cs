@@ -206,6 +206,7 @@ namespace PKHeX.Core
         public abstract BattleSubway5 BattleSubway { get; }
         public abstract Entralink5 Entralink { get; }
         public abstract Musical5 Musical { get; }
+        public abstract Encount5 Encount { get; }
 
         public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);

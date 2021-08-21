@@ -117,6 +117,12 @@ namespace PKHeX.Core
             set => SetData(Large, value.ToBytes(), 0x26A0);
         }
 
+        public Swarm3 Swarm
+        {
+            get => Large.Slice(0x2AFC, Swarm3.SIZE).ToClass<Swarm3>();
+            set => SetData(Large, value.ToBytesClass(), 0x2AFC);
+        }
+
         protected override int MailOffset => 0x2B4C;
 
         protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, 2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail

@@ -96,6 +96,7 @@ namespace PKHeX.Core
             Misc = new Misc5B2W2(sav, 0x21100);
             Entralink = new Entralink5B2W2(sav, 0x21200);
             Zukan = new Zukan5(sav, 0x21400, 0x328); // form flags size is + 8 from bw with new forms (therians)
+            Encount = new Encount5B2W2(sav, 0x21900);
             BattleSubway = new BattleSubway5(sav, 0x21B00);
             PWT = new PWTBlock5(sav, 0x23700);
             Festa = new FestaBlock5(sav, 0x25900);
@@ -114,5 +115,6 @@ namespace PKHeX.Core
         public Entralink5 Entralink { get; }
         public FestaBlock5 Festa { get; }
         public Musical5 Musical { get; }
+        public Encount5 Encount { get; }
     }
 }

@@ -534,5 +534,19 @@ namespace PKHeX.Core
             int ofs = GetMailOffset(mailIndex);
             return new Mail4(GetMailData(ofs), ofs);
         }
+
+        public abstract uint SwarmSeed { get; set; }
+        public abstract uint SwarmMaxCountModulo { get; }
+
+        public uint SwarmIndex
+        {
+            get => SwarmSeed % SwarmMaxCountModulo;
+            set
+            {
+                value %= SwarmMaxCountModulo;
+                while (SwarmIndex != value)
+                    ++SwarmSeed;
+            }
+        }
     }
 }

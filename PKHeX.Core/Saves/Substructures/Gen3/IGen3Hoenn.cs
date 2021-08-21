@@ -9,6 +9,7 @@
         RTC3 ClockElapsed { get; set; }
         PokeBlock3Case PokeBlocks { get; set; }
         DecorationInventory3 Decorations { get; set; }
+        Swarm3 Swarm { get; set; }
         bool HasReceivedWishmkrJirachi { get; set; }
     }
 }

@@ -92,6 +92,7 @@ namespace PKHeX.Core
             Misc = new Misc5BW(sav, 0x21200);
             Entralink = new Entralink5BW(sav, 0x21300);
             Zukan = new Zukan5(sav, 0x21600, 0x320);
+            Encount = new Encount5BW(sav, 0x21B00);
             BattleSubway = new BattleSubway5(sav, 0x21D00);
         }
 
@@ -106,5 +107,6 @@ namespace PKHeX.Core
         public BattleSubway5 BattleSubway { get; }
         public Entralink5 Entralink { get; }
         public Musical5 Musical { get; }
+        public Encount5 Encount { get; }
     }
 }

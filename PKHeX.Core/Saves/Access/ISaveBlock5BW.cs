@@ -15,5 +15,6 @@
         BattleSubway5 BattleSubway { get; }
         Entralink5 Entralink { get; }
         Musical5 Musical { get; }
+        Encount5 Encount { get; }
     }
 }
