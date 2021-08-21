@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -121,6 +122,18 @@ namespace PKHeX.Core
         {
             get => Large.Slice(0x2AFC, Swarm3.SIZE).ToClass<Swarm3>();
             set => SetData(Large, value.ToBytesClass(), 0x2AFC);
+        }
+
+        public IReadOnlyList<Swarm3> DefaultSwarms => Swarm3Details.Swarms_RS;
+
+        public int SwarmIndex
+        {
+            get => Array.FindIndex(Swarm3Details.Swarms_RS, z => z.MapNum == Swarm.MapNum);
+            set
+            {
+                var arr = DefaultSwarms;
+                Swarm = (uint)value >= arr.Count ? new Swarm3() : arr[value];
+            }
         }
 
         protected override int MailOffset => 0x2B4C;

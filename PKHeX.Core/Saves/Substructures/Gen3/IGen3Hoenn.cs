@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Properties common to RS &amp; Emerald save files.
@@ -11,5 +13,8 @@
         DecorationInventory3 Decorations { get; set; }
         Swarm3 Swarm { get; set; }
         bool HasReceivedWishmkrJirachi { get; set; }
+
+        IReadOnlyList<Swarm3> DefaultSwarms { get; }
+        int SwarmIndex { get; set; }
     }
 }
