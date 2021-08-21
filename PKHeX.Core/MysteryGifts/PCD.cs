@@ -35,7 +35,7 @@ namespace PKHeX.Core
         public override byte[] Write()
         {
             // Ensure PGT content is encrypted
-            var clone = (PCD)Clone();
+            var clone = new PCD((byte[])Data.Clone());
             if (clone.Gift.VerifyPKEncryption())
                 clone.Gift = clone.Gift;
             return clone.Data;

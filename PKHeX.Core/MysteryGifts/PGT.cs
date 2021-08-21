@@ -70,7 +70,7 @@ namespace PKHeX.Core
         public override byte[] Write()
         {
             // Ensure PGT content is encrypted
-            var clone = (PGT)Clone();
+            var clone = new PGT((byte[])Data.Clone());
             clone.VerifyPKEncryption();
             return clone.Data;
         }
