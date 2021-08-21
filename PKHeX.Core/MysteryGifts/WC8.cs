@@ -444,7 +444,7 @@ namespace PKHeX.Core
             if (pk.Species == (int)Core.Species.Meowstic)
                 pk.Form = pk.Gender;
 
-            pk.MetDate = DateTime.Now;
+            pk.MetDate = IsHOMEGift && EncountersHOME.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateTime.Now;
 
             var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
