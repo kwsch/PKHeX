@@ -58,7 +58,7 @@ namespace PKHeX.Core
         {
             int max = GetFlagCount(type);
             if ((uint)index > max)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             var start = GetFlagStart(type);
             return start + index;
         }
@@ -67,7 +67,7 @@ namespace PKHeX.Core
         {
             int max = GetWorkCount(type);
             if ((uint)index > max)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             var start = GetWorkStart(type);
             return start + index;
         }
@@ -107,7 +107,7 @@ namespace PKHeX.Core
             if (subIndex < EventFlagCount)
                 return EventVarType.Event;
 
-            throw new ArgumentException(nameof(index));
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         public EventVarType GetWorkType(int index, out int subIndex)
@@ -128,7 +128,7 @@ namespace PKHeX.Core
             if (subIndex < EventWorkCount)
                 return EventVarType.Event;
 
-            throw new ArgumentException(nameof(index));
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         private static int GetFlagStart(EventVarType type) => type switch
@@ -137,7 +137,7 @@ namespace PKHeX.Core
             EventVarType.System => SystemFlagStart,
             EventVarType.Vanish => VanishFlagStart,
             EventVarType.Event => EventFlagStart,
-            _ => throw new ArgumentException(nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
         private static int GetWorkStart(EventVarType type) => type switch
@@ -146,7 +146,7 @@ namespace PKHeX.Core
             EventVarType.System => SystemWorkStart,
             EventVarType.Scene => SceneWorkStart,
             EventVarType.Event => EventWorkStart,
-            _ => throw new ArgumentException(nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
         private static int GetFlagCount(EventVarType type) => type switch
@@ -155,7 +155,7 @@ namespace PKHeX.Core
             EventVarType.System => SystemFlagCount,
             EventVarType.Vanish => VanishFlagCount,
             EventVarType.Event => EventFlagCount,
-            _ => throw new ArgumentException(nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
         private static int GetWorkCount(EventVarType type) => type switch
@@ -164,7 +164,7 @@ namespace PKHeX.Core
             EventVarType.System => SystemWorkCount,
             EventVarType.Scene => SceneWorkCount,
             EventVarType.Event => EventWorkCount,
-            _ => throw new ArgumentException(nameof(type)),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
     }
 }

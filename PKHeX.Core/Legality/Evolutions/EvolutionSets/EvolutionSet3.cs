@@ -38,7 +38,7 @@ namespace PKHeX.Core
                     return new EvolutionMethod(method + 1, species, argument: arg, level: arg);
 
                 default:
-                    throw new ArgumentException(nameof(method));
+                    throw new ArgumentOutOfRangeException(nameof(method));
             }
         }
 

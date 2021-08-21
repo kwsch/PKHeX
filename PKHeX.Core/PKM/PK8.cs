@@ -475,7 +475,7 @@ namespace PKHeX.Core
         public bool GetMoveRecordFlag(int index)
         {
             if ((uint) index > 112) // 14 bytes, 8 bits
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             int ofs = index >> 3;
             return FlagUtil.GetFlag(Data, 0x127 + ofs, index & 7);
         }
@@ -483,7 +483,7 @@ namespace PKHeX.Core
         public void SetMoveRecordFlag(int index, bool value)
         {
             if ((uint)index > 112) // 14 bytes, 8 bits
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             int ofs = index >> 3;
             FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
         }

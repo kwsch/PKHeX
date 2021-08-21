@@ -213,7 +213,7 @@ namespace PKHeX.Core
         public bool GetSeenRegion(Zukan8Index entry, int form, int region)
         {
             if ((uint)region >= SeenRegionCount)
-                throw new ArgumentException(nameof(region));
+                throw new ArgumentOutOfRangeException(nameof(region));
             if ((uint)form > 63)
                 return false;
 
@@ -235,7 +235,7 @@ namespace PKHeX.Core
         public void SetSeenRegion(Zukan8Index entry, int form, int region, bool value = true)
         {
             if ((uint) region >= SeenRegionCount)
-                throw new ArgumentException(nameof(region));
+                throw new ArgumentOutOfRangeException(nameof(region));
             if ((uint) form > 63)
                 return;
 

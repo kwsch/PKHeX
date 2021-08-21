@@ -169,7 +169,7 @@ namespace PKHeX.Core
             2 => Shiny.AlwaysStar,
             3 => Shiny.AlwaysSquare,
             4 => Shiny.FixedValue,
-            _ => throw new ArgumentException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(PIDType)),
         };
 
         public int MetLevel { get => Data[CardStart + 0x249]; set => Data[CardStart + 0x249] = (byte)value; }
@@ -499,7 +499,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private uint GetPID(ITrainerID tr, byte type)
@@ -511,7 +511,7 @@ namespace PKHeX.Core
                 2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
                 3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
                 4 => PID, // Fixed, Force Value
-                _ => throw new ArgumentException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(type)),
             };
 
             static uint GetAntishiny(ITrainerID tr)

@@ -209,7 +209,7 @@ namespace PKHeX.Core
 
                 Value |= (uint)(val << (BitsPerForm * i));
                 if (i >= readCt)
-                    throw new ArgumentException("Array count should be less than bitfield count", nameof(Forms));
+                    throw new ArgumentOutOfRangeException(nameof(readCt), "Array count should be less than bitfield count");
             }
             return Value;
         }

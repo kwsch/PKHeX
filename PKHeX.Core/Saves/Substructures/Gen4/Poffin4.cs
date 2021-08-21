@@ -52,14 +52,14 @@ namespace PKHeX.Core
         public void SetStat(int stat, byte value)
         {
             if ((uint) stat > 5)
-                throw new ArgumentException(nameof(stat));
+                throw new ArgumentOutOfRangeException(nameof(stat));
             Data[1 + stat] = value;
         }
 
         public byte GetStat(int stat)
         {
             if ((uint)stat > 5)
-                throw new ArgumentException(nameof(stat));
+                throw new ArgumentOutOfRangeException(nameof(stat));
             return Data[1 + stat];
         }
 

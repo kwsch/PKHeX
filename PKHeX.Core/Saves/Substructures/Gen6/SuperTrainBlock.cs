@@ -35,7 +35,7 @@ namespace PKHeX.Core
         public bool GetIsRegimenUnlocked(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             return SAV.GetFlag(Offset, index);
         }
 
@@ -47,7 +47,7 @@ namespace PKHeX.Core
         public void SetIsRegimenUnlocked(int index, bool value)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             SAV.SetFlag(Offset, index, value);
         }
 
@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public bool GetIsDistributionUnlocked(int index)
         {
             if ((uint)index >= MAX_DIST)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             return SAV.GetFlag(Offset + 6, index);
         }
 
@@ -71,7 +71,7 @@ namespace PKHeX.Core
         public void SetIsDistributionUnlocked(int index, bool value)
         {
             if ((uint)index >= MAX_DIST)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             SAV.SetFlag(Offset + 6, index, value);
         }
 
@@ -91,7 +91,7 @@ namespace PKHeX.Core
         public float GetTime1(int index)
         {
             if ((uint) index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return BitConverter.ToSingle(Data, Offset + 0x08 + (4 * index));
         }
@@ -104,7 +104,7 @@ namespace PKHeX.Core
         public void SetTime1(int index, float value = 0)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08 + (4 * index));
         }
@@ -116,7 +116,7 @@ namespace PKHeX.Core
         public float GetTime2(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return BitConverter.ToSingle(Data, Offset + 0xC8 + (4 * index));
         }
@@ -129,7 +129,7 @@ namespace PKHeX.Core
         public void SetTime2(int index, float value = 0)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC8 + (4 * index));
         }
@@ -142,7 +142,7 @@ namespace PKHeX.Core
         public SuperTrainingSpeciesRecord GetHolder1(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return new SuperTrainingSpeciesRecord(Data, Offset + 0x188 + (4 * index));
         }
@@ -155,7 +155,7 @@ namespace PKHeX.Core
         public SuperTrainingSpeciesRecord GetHolder2(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return new SuperTrainingSpeciesRecord(Data, Offset + 0x248 + (4 * index));
         }
@@ -167,7 +167,7 @@ namespace PKHeX.Core
         public byte GetBag(int index)
         {
             if ((uint)index >= MAX_BAG)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             return Data[Offset + 0x308 + index];
         }
 
@@ -179,7 +179,7 @@ namespace PKHeX.Core
         public void SetBag(int index, byte value)
         {
             if ((uint)index >= MAX_BAG)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             Data[Offset + 0x308 + index] = value;
         }
 
@@ -219,7 +219,7 @@ namespace PKHeX.Core
         public void RemoveBag(int index)
         {
             if ((uint)index >= MAX_BAG)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             for (int i = index; i < MAX_BAG - 1; i++)
             {
                 var next = GetBag(i + 1);
@@ -241,7 +241,7 @@ namespace PKHeX.Core
         public void ClearRecord1(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             SetTime1(index, 0f);
             GetHolder1(index).Clear();
@@ -254,7 +254,7 @@ namespace PKHeX.Core
         public void ClearRecord2(int index)
         {
             if ((uint)index >= MAX)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             SetTime2(index, 0f);
             GetHolder2(index).Clear();

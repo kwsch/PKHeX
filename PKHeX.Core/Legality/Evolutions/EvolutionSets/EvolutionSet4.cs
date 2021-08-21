@@ -15,7 +15,7 @@ namespace PKHeX.Core
             int species = BitConverter.ToUInt16(data, offset + 4);
 
             if (method == 0)
-                throw new ArgumentException(nameof(data));
+                throw new ArgumentOutOfRangeException(nameof(method));
 
             // To have the same structure as gen 6
             // Gen 4 Method 6 is Gen 6 Method 7, G4 7 = G6 8, and so on

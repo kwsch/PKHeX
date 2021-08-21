@@ -89,7 +89,7 @@ namespace PKHeX.Core
             set
             {
                 if ((ushort)value > 1000 && value != SLOT_EMPTY)
-                    throw new ArgumentException(nameof(value));
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 PokeListInfo[STARTER] = (ushort)value;
             }
         }
@@ -118,7 +118,7 @@ namespace PKHeX.Core
         public int GetPartyOffset(int slot)
         {
             if ((uint)slot >= 6)
-                throw new ArgumentException(nameof(slot) + " expected to be < 6.");
+                throw new ArgumentOutOfRangeException(nameof(slot) + " expected to be < 6.");
             int position = PokeListInfo[slot];
             return SAV.GetBoxSlotOffset(position);
         }

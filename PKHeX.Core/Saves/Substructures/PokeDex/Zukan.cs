@@ -60,7 +60,7 @@ namespace PKHeX.Core
         {
             PokeDexLanguageFlags = langflag;
             if (langflag > dex)
-                throw new ArgumentException(nameof(langflag));
+                throw new ArgumentOutOfRangeException(nameof(langflag));
         }
 
         protected abstract int OFS_SEEN { get; }

@@ -306,7 +306,7 @@ namespace PKHeX.Core
         public sealed override bool GetEventFlag(int flagNumber)
         {
             if (flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;
             return GetFlag(start + (flagNumber >> 3), flagNumber & 7);
@@ -315,7 +315,7 @@ namespace PKHeX.Core
         public sealed override void SetEventFlag(int flagNumber, bool value)
         {
             if (flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;
             SetFlag(start + (flagNumber >> 3), flagNumber & 7, value);

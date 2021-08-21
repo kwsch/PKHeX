@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
             {
                 4 => PopulateViewGiftsG4().ToArray(),
                 5 or 6 or 7 => PopulateViewGiftsG567().ToArray(),
-                _ => throw new ArgumentException("Game not supported."),
+                _ => throw new ArgumentOutOfRangeException(nameof(SAV.Generation), "Game not supported."),
             };
             foreach (var pb in pba)
             {

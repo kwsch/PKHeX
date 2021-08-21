@@ -49,13 +49,13 @@ namespace PKHeX.Core
         public int PouchBall { get; private set; } = -1;
         public int PouchPC { get; private set; } = -1;
 
-        private void LoadOffsetsInternational(GameVersion Version)
+        private void LoadOffsetsInternational(GameVersion version)
         {
             RTCFlags = 0x0C60;
 
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
-            switch (Version)
+            switch (version)
             {
                 case GameVersion.GS:
                     TimePlayed = 0x2053;
@@ -107,11 +107,11 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    throw new ArgumentException(nameof(Version));
+                    throw new ArgumentException(nameof(version));
             }
         }
 
-        private void LoadOffsetsJapanese(GameVersion Version)
+        private void LoadOffsetsJapanese(GameVersion version)
         {
             DaylightSavings = 0x2029;
             TimePlayed = 0x2034;
@@ -119,7 +119,7 @@ namespace PKHeX.Core
             CurrentBox = 0x2D10;
             OtherCurrentBox = 0x2842;
 
-            switch (Version)
+            switch (version)
             {
                 case GameVersion.GS:
                     RTCFlags = 0x1000;
@@ -169,7 +169,7 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    throw new ArgumentException(nameof(Version));
+                    throw new ArgumentException(nameof(version));
             }
         }
 

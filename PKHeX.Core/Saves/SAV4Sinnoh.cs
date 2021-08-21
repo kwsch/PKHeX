@@ -77,14 +77,14 @@ namespace PKHeX.Core
         public bool GetPoketchAppUnlocked(PoketchApp index)
         {
             if (index > PoketchApp.Alarm_Clock)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             return General[PoketchStart + 3 + (int) index] != 0;
         }
 
         public void SetPoketchAppUnlocked(PoketchApp index, bool value = true)
         {
             if (index > PoketchApp.Alarm_Clock)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             var b = value ? 1 : 0;
             General[PoketchStart + 3 + (int)index] = (byte)b;
         }
@@ -119,7 +119,7 @@ namespace PKHeX.Core
         public HoneyTreeValue GetHoneyTree(int index)
         {
             if ((uint)index > 21)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
             return new HoneyTreeValue(General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE));
         }
 

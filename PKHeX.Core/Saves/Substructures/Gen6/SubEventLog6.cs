@@ -24,9 +24,9 @@ namespace PKHeX.Core
         private int GetBadgeVictorySpeciesOffset(uint badge, uint slot)
         {
             if (badge >= 8)
-                throw new ArgumentException(nameof(badge));
+                throw new ArgumentOutOfRangeException(nameof(badge));
             if (slot >= 6)
-                throw new ArgumentException(nameof(slot));
+                throw new ArgumentOutOfRangeException(nameof(slot));
 
             return Offset + BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
         }

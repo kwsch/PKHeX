@@ -83,7 +83,7 @@ namespace PKHeX.Core
                 case 1: pk.Move2_PP = pk.GetMovePP(pk.Move2, pk.Move2_PPUps); return;
                 case 2: pk.Move3_PP = pk.GetMovePP(pk.Move3, pk.Move3_PPUps); return;
                 case 3: pk.Move4_PP = pk.GetMovePP(pk.Move4, pk.Move4_PPUps); return;
-                default: throw new ArgumentException(nameof(index));
+                default: throw new ArgumentOutOfRangeException(nameof(index));
             }
         }
     }

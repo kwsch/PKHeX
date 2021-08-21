@@ -169,7 +169,7 @@ namespace PKHeX.Core
         public virtual bool GetEventFlag(int flagNumber)
         {
             if ((uint)flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
             return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
 
@@ -182,7 +182,7 @@ namespace PKHeX.Core
         public virtual void SetEventFlag(int flagNumber, bool value)
         {
             if ((uint)flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
             SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
 
@@ -313,7 +313,7 @@ namespace PKHeX.Core
             set
             {
                 if (value.Count is 0 or > MaxPartyCount)
-                    throw new ArgumentException($"Expected 1-6, got {value.Count}");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Expected 1-6, got {value.Count}");
 #if DEBUG
                 if (value[0].Species == 0)
                     System.Diagnostics.Debug.WriteLine($"Empty first slot, received {value.Count}.");
