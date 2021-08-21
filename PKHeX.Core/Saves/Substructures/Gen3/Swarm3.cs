@@ -13,12 +13,13 @@ namespace PKHeX.Core
         public byte MapNum { get; set; }
         public byte MapGroup { get; set; }
         public byte Level { get; set; }
-        // 3byte align
+        public byte Unused1 { get; set; }
+        public ushort Unused2 { get; set; }
         public ushort Move1 { get; set; }
         public ushort Move2 { get; set; }
         public ushort Move3 { get; set; }
         public ushort Move4 { get; set; }
-        public byte Zero { get; set; }
+        public byte Unused3 { get; set; }
         public byte EncounterProbability { get; set; }
         public ushort DaysLeft { get; set; }
 
