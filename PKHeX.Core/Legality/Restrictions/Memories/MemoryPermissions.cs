@@ -17,30 +17,26 @@ namespace PKHeX.Core
 
         public static bool CanWinRotoLoto(int generation, int item)
         {
-            return true; // todo
+            var context = Memories.GetContext(generation);
+            return context.CanWinRotoLoto(item);
         }
 
         public static bool CanHoldItem(int generation, int item)
         {
-            return true; // todo
+            var context = Memories.GetContext(generation);
+            return context.CanHoldItem(item);
         }
 
         public static bool CanPlantBerry(int generation, int item)
         {
-            return true; // todo
+            var context = Memories.GetContext(generation);
+            return context.CanPlantBerry(item);
         }
 
         public static bool CanUseItemGeneric(int generation, int item)
         {
-            if (generation == 6)
-            {
-                // Key Item usage while in party on another species.
-                if (Memories.KeyItemUsableObserve6.Contains((ushort) item))
-                    return true;
-                if (Memories.KeyItemMemoryArgsGen6.Values.Any(z => z.Contains((ushort) item)))
-                    return true;
-            }
-            return true; // todo
+            var context = Memories.GetContext(generation);
+            return context.CanUseItemGeneric(item);
         }
 
         public static bool CanUseItem(int generation, int item, int species)
@@ -52,47 +48,22 @@ namespace PKHeX.Core
             return true; // todo
         }
 
-        private static bool IsUsedKeyItemUnspecific(int generation, int item) => generation switch
+        private static bool IsUsedKeyItemUnspecific(int generation, int item)
         {
-            6 => Memories.KeyItemUsableObserve6.Contains((ushort)item),
-            _ => false,
-        };
+            var context = Memories.GetContext(generation);
+            return context.IsUsedKeyItemUnspecific(item);
+        }
 
-        private static bool IsUsedKeyItemSpecific(int generation, int item, int species) => generation switch
+        private static bool IsUsedKeyItemSpecific(int generation, int item, int species)
         {
-            6 => Memories.KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort) item),
-            8 => Memories.KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort) item),
-            _ => false,
-        };
+            var context = Memories.GetContext(generation);
+            return context.IsUsedKeyItemSpecific(item, species);
+        }
 
         public static bool CanBuyItem(int generation, int item, GameVersion version = GameVersion.Any)
         {
-            return generation switch
-            {
-                6 => CanBuyItem6(item, version),
-                8 => CanBuyItem8(item, version),
-                _ => true, // todo
-            };
-        }
-
-        private static bool CanBuyItem6(int item, GameVersion version)
-        {
-            if (version is GameVersion.Any)
-                return PurchaseableItemAO.Contains((ushort) item) || PurchaseableItemXY.Contains((ushort) item);
-            if (version is GameVersion.X or GameVersion.Y)
-                return PurchaseableItemXY.Contains((ushort)item);
-            if (version is GameVersion.AS or GameVersion.OR)
-                return PurchaseableItemAO.Contains((ushort)item);
-            return false;
-        }
-
-        private static bool CanBuyItem8(int item, GameVersion version)
-        {
-            if (item is 1085) // Bob's Food Tin
-                return version is GameVersion.SW or GameVersion.Any;
-            if (item is 1086) // Bach's Food Tin
-                return version is GameVersion.SH or GameVersion.Any;
-            return PurchaseableItemSWSH.Contains((ushort) item);
+            var context = Memories.GetContext(generation);
+            return context.CanBuyItem(item, version);
         }
 
         public static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
@@ -260,50 +231,6 @@ namespace PKHeX.Core
             (int)Copperajah,
             (int)Duraludon,
             (int)Urshifu,
-        };
-
-        private static readonly HashSet<ushort> PurchaseableItemXY = new()
-        {
-            002, 003, 004, 006, 007, 008, 009, 010, 011, 012,
-            013, 014, 015, 017, 018, 019, 020, 021, 022, 023,
-            024, 025, 026, 027, 028, 034, 035, 036, 037, 045,
-            046, 047, 048, 049, 052, 055, 056, 057, 058, 059,
-            060, 061, 062, 076, 077, 078, 079, 082, 084, 085,
-            254, 255, 314, 315, 316, 317, 318, 319, 320, 334,
-            338, 341, 342, 343, 345, 347, 352, 355, 360, 364,
-            365, 377, 379, 395, 402, 403, 405, 411, 618,
-        };
-
-        private static readonly HashSet<ushort> PurchaseableItemAO = new()
-        {
-            002, 003, 004, 006, 007, 008, 009, 010, 011, 013,
-            014, 015, 017, 018, 019, 020, 021, 022, 023, 024,
-            025, 026, 027, 028, 034, 035, 036, 037, 045, 046,
-            047, 048, 049, 052, 055, 056, 057, 058, 059, 060,
-            061, 062, 063, 064, 076, 077, 078, 079, 254, 255,
-            314, 315, 316, 317, 318, 319, 320, 328, 336, 341,
-            342, 343, 344, 347, 352, 360, 365, 367, 369, 374,
-            379, 384, 395, 398, 400, 403, 405, 409, 577, 692,
-            694,
-        };
-
-        internal static readonly HashSet<ushort> PurchaseableItemSWSH = new(Legal.TR_SWSH)
-        {
-            0002, 0003, 0004, 0006, 0007, 0008, 0009, 0010, 0011, 0013,
-            0014, 0015, 0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024,
-            0025, 0026, 0027, 0028, 0033, 0034, 0035, 0036, 0037, 0042,
-            0045, 0046, 0047, 0048, 0049, 0050, 0051, 0052, 0055, 0056,
-            0057, 0058, 0059, 0060, 0061, 0062, 0063, 0076, 0077, 0079,
-            0089, 0149, 0150, 0151, 0155, 0214, 0215, 0219, 0220, 0254,
-            0255, 0269, 0270, 0271, 0275, 0280, 0287, 0289, 0290, 0291,
-            0292, 0293, 0294, 0297, 0314, 0315, 0316, 0317, 0318, 0319,
-            0320, 0321, 0325, 0326, 0541, 0542, 0545, 0546, 0547, 0639,
-            0640, 0645, 0646, 0647, 0648, 0649, 0795, 0846, 0879, 1084,
-            1087, 1088, 1089, 1090, 1091, 1094, 1095, 1097, 1098, 1099,
-            1118, 1119, 1121, 1122, 1231, 1232, 1233, 1234, 1235, 1236,
-            1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246,
-            1247, 1248, 1249, 1250, 1251, 1252, 1256, 1257, 1258, 1259,
-            1260, 1261, 1262, 1263,
         };
     }
 }

@@ -21,7 +21,7 @@
             ht.HT_Memory = 4; // Link trade to [VAR: General Location]
             ht.HT_TextVar = bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             ht.HT_Intensity = 1;
-            ht.HT_Feeling = Memories.GetRandomFeeling(4, bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
+            ht.HT_Feeling = MemoryContext6.GetRandomFeeling6(4, bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
         }
 
         /// <summary>

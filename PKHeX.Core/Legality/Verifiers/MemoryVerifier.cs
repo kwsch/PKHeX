@@ -18,27 +18,29 @@ namespace PKHeX.Core
             VerifyHTMemory(data);
         }
 
-        private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info)
+        private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info, MemoryContext context)
         {
             var memory = MemoryVariableSet.Read((ITrainerMemories)pkm, handler);
 
             // Actionable HM moves
-            int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], memory.MemoryID);
+            int matchingMoveMemory = Array.IndexOf(MemoryContext6.MoveSpecificMemories[0], memory.MemoryID);
             if (matchingMoveMemory != -1)
             {
-                // Gen8 has no HMs, so this memory can never exist.
-                if (gen != 6 || (pkm.Species != (int)Species.Smeargle && !GetCanLearnMachineMove(pkm, info.EvoChainsAllGens[gen], Memories.MoveSpecificMemories[1][matchingMoveMemory], 6)))
+                if (gen != 6) // Gen8 has no HMs, so this memory can never exist.
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+
+                if (pkm.Species != (int)Species.Smeargle)
+                {
+                    if (!GetCanLearnMachineMove(pkm, info.EvoChainsAllGens[gen], MemoryContext6.MoveSpecificMemories[1][matchingMoveMemory], 6))
+                        return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+                }
             }
 
-            if (gen == 8 && Memories.MemoryGeneral.Contains(memory.MemoryID) && Memories.IsInvalidGenLoc8Other(memory.MemoryID, memory.Variable))
+            if (context.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pkm))
                 return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
             switch (memory.MemoryID)
             {
-                case 1 or 2 or 3 when gen == 8 && Memories.IsInvalidGenLoc8(memory.MemoryID, pkm.Met_Location, pkm.Egg_Location, memory.Variable):
-                    return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
-
                 case 19 when pkm.Species is (int)Species.Urshifu   && memory.Variable is not 34: // tall building is the only location for evolving Urshifu
                 case 19 when pkm.Species is (int)Species.Runerigus && memory.Variable is not 72: // vast field is the only location for evolving Runerigus
                     return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
@@ -94,19 +96,19 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadItem, memory.Handler));
             }
 
-            if (gen == 6 && !Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
+            return VerifyCommonMemoryEtc(memory, context);
+        }
+
+        private CheckResult VerifyCommonMemoryEtc(MemoryVariableSet memory, MemoryContext context)
+        {
+            if (!context.CanHaveIntensity(memory.MemoryID, memory.Intensity))
             {
-                var encGen = info.EncounterMatch.Generation;
-                if (encGen == 6 || (encGen == 7 && memory.MemoryID != 0)) // todo: memory intensity checks for gen8
-                  return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
+                var min = context.GetMinimumIntensity(memory.MemoryID);
+                return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, min));
             }
 
-            if (gen == 6 && memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
-            {
-                var encGen = info.EncounterMatch.Generation;
-                if (encGen == 6 || (encGen == 7 && memory.MemoryID != 0)) // todo: memory feeling checks for gen8
-                    return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
-            }
+            if (!context.CanHaveFeeling(memory.MemoryID, memory.Feeling))
+                return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
@@ -182,14 +184,9 @@ namespace PKHeX.Core
             }
 
             // Bounds checking
-            switch (memoryGen)
-            {
-                case 6 when pkm.XY && (memory > Memories.MAX_MEMORY_ID_XY || Memories.Memory_NotXY.Contains(memory)):
-                case 6 when pkm.AO && (memory > Memories.MAX_MEMORY_ID_AO || Memories.Memory_NotAO.Contains(memory)):
-                case 8 when pkm.SWSH && (memory > Memories.MAX_MEMORY_ID_SWSH || Memories.Memory_NotSWSH.Contains(memory)):
-                    data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XOT)));
-                    break;
-            }
+            var context = Memories.GetContext(memoryGen);
+            if (!context.CanObtainMemoryOT((GameVersion)pkm.Version, memory))
+                data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XOT)));
 
             // Verify memory if specific to OT
             switch (memory)
@@ -211,11 +208,8 @@ namespace PKHeX.Core
                     return;
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation((GameVersion)pkm.Version, mem.OT_TextVar):
+                case 6 when !context.HasPokeCenter((GameVersion)pkm.Version, mem.OT_TextVar):
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
-                    return;
-                case 6 when memoryGen == 8 && mem.OT_TextVar != 0:
-                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
@@ -227,7 +221,7 @@ namespace PKHeX.Core
                     return;
             }
 
-            data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info));
+            data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info, context));
         }
 
         private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory)
@@ -281,13 +275,9 @@ namespace PKHeX.Core
             var memoryGen = pkm.Format >= 8 ? 8 : 6;
 
             // Bounds checking
-            switch (memoryGen)
-            {
-                case 6 when memory > Memories.MAX_MEMORY_ID_AO:
-                case 8 when memory > Memories.MAX_MEMORY_ID_SWSH || Memories.Memory_NotSWSH.Contains(memory):
-                    data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XHT)));
-                    break;
-            }
+            var context = Memories.GetContext(memoryGen);
+            if (!context.CanObtainMemoryHT((GameVersion)pkm.Version, memory))
+                data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XHT)));
 
             // Verify memory if specific to HT
             switch (memory)
@@ -309,11 +299,8 @@ namespace PKHeX.Core
                     return;
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation(GameVersion.Gen6, mem.HT_TextVar):
+                case 6 when !context.HasPokeCenter(GameVersion.Any, mem.HT_TextVar):
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XHT)));
-                    return;
-                case 6 when memoryGen == 8 && mem.HT_TextVar != 0:
-                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XHT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
@@ -325,7 +312,7 @@ namespace PKHeX.Core
                     return;
             }
 
-            var commonResult = VerifyCommonMemory(pkm, 1, memoryGen, Info);
+            var commonResult = VerifyCommonMemory(pkm, 1, memoryGen, Info, context);
             data.AddLine(commonResult);
         }
 

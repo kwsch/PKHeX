@@ -28,7 +28,7 @@
             if (pk is IMemoryOT o)
             {
                 o.OT_Memory = 2;
-                o.OT_Feeling = Memories.GetRandomFeeling(2);
+                o.OT_Feeling = MemoryContext6.GetRandomFeeling6(2);
                 o.OT_Intensity = 1;
                 o.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
             }
@@ -45,7 +45,7 @@
             // for lack of better randomization :)
             pk.OT_Memory = 63;
             pk.OT_Intensity = 6;
-            pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory);
+            pk.OT_Feeling = MemoryContext6.GetRandomFeeling6(pk.OT_Memory);
         }
     }
 }

@@ -365,14 +365,14 @@ namespace PKHeX.Core
                     pk.OT_Memory = 3;
                     pk.OT_TextVar = 9;
                     pk.OT_Intensity = 1;
-                    pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory, 10); // 0-9
+                    pk.OT_Feeling = MemoryContext6.GetRandomFeeling6(pk.OT_Memory, 10); // 0-9
                 }
                 else
                 {
                     pk.HT_Memory = 3;
                     pk.HT_TextVar = 9;
                     pk.HT_Intensity = 1;
-                    pk.HT_Feeling = Memories.GetRandomFeeling(pk.HT_Memory, 10); // 0-9
+                    pk.HT_Feeling = MemoryContext6.GetRandomFeeling6(pk.HT_Memory, 10); // 0-9
                     pk.HT_Friendship = pk.OT_Friendship;
                 }
             }
