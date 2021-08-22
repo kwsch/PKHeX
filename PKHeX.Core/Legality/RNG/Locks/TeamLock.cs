@@ -6,8 +6,6 @@ namespace PKHeX.Core
         public readonly string Comment;
         public readonly NPCLock[] Locks;
 
-        internal TeamLock Clone() => new(Species, Comment, (NPCLock[])Locks.Clone());
-
         public TeamLock(int species, NPCLock[] locks)
         {
             Species = species;
@@ -20,6 +18,13 @@ namespace PKHeX.Core
             Species = species;
             Locks = locks;
             Comment = comment;
+        }
+
+        public override string ToString()
+        {
+            if (Comment.Length == 0)
+                return $"{(Species)Species} [{Locks.Length}]";
+            return $"{(Species)Species} [{Locks.Length}] - {Comment}";
         }
     }
 }
