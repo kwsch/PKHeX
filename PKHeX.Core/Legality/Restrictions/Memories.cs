@@ -152,19 +152,33 @@ namespace PKHeX.Core
 
         #region Tables for Gen8
 
-        public static bool IsInvalidGenLoc8(int memory, int loc, byte arg)
+        public static bool IsInvalidGenLoc8(int memory, int loc, int egg, int variable)
         {
-            if (!IsGeneralLocationMemoryMet(memory))
-                return false;
-            if (arg > 255)
+            if (variable > 255)
                 return true;
-            if (loc > 255)
+            var arg = (byte)variable;
+            if (loc > 255) // gift
+                return memory != 3 || !PossibleGeneralLocations.Contains(arg);
+            if (memory == 2 && egg == 0)
                 return true;
+            if (loc is Encounters8Nest.SharedNest)
+                return !PossibleGeneralLocations.Contains(arg) || arg is 79; // dangerous place - all locations are Y-Comm locked
             if (SingleGenLocAreas.TryGetValue((byte)loc, out var val))
                 return arg != val;
             if (MultiGenLocAreas.TryGetValue((byte)loc, out var arr))
                 return !arr.Contains(arg);
             return false;
+        }
+
+        public static bool IsInvalidGenLoc8Other(int memory, int variable)
+        {
+            if (variable > byte.MaxValue)
+                return true;
+            var arg = (byte)variable;
+            return memory switch
+            {
+                _ => !PossibleGeneralLocations.Contains(arg),
+            };
         }
 
         // {met, values allowed}
@@ -330,10 +344,22 @@ namespace PKHeX.Core
             {244, 40}, // Max Lair, cave
             {246, 28}, // Crown Tundra Station, train station
         };
+
+        private static readonly HashSet<byte> PossibleGeneralLocations = new()
+        {
+            01, 02, 03, 04, 06, 08, 09,
+            11, 12, 16,
+            20, 22, 24, 28, 29,
+            30, 31, 33, 34, 35, 37, 38,
+            40, 41, 44, 47, 48, 49,
+            50, 51, 53,
+            65,
+            71, 72, 73, 74, 75, 76, 77, 78, 79,
+        };
         #endregion
 
         private static bool IsGeneralLocationMemoryMet(int memory) => memory is (1 or 2 or 3);
-        private static readonly HashSet<int> MemoryGeneral = new() { 1, 2, 3, 4, 19, 24, 31, 32, 33, 35, 36, 37, 38, 39, 42, 52, 59, 70, 86 };
+        internal static readonly HashSet<int> MemoryGeneral = new() { 1, 2, 3, 4, 19, 24, 31, 32, 33, 35, 36, 37, 38, 39, 42, 52, 59, 70, 86 };
         private static readonly HashSet<int> MemorySpecific = new() { 6 };
         private static readonly HashSet<int> MemoryMove = new() { 12, 16, 48, 49, 80, 81, 89 };
         private static readonly HashSet<int> MemoryItem = new() { 5, 15, 26, 34, 40, 51, 84, 88 };

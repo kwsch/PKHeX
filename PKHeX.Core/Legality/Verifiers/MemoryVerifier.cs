@@ -31,9 +31,16 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
+            if (gen == 8 && Memories.MemoryGeneral.Contains(memory.MemoryID) && Memories.IsInvalidGenLoc8Other(memory.MemoryID, memory.Variable))
+                return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
+
             switch (memory.MemoryID)
             {
-                case 1 or 2 or 3 when gen == 8 && Memories.IsInvalidGenLoc8(memory.MemoryID, pkm.Met_Location, (byte)memory.Variable):
+                case 1 or 2 or 3 when gen == 8 && Memories.IsInvalidGenLoc8(memory.MemoryID, pkm.Met_Location, pkm.Egg_Location, memory.Variable):
+                    return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
+
+                case 19 when pkm.Species is (int)Species.Urshifu   && memory.Variable is not 34: // tall building is the only location for evolving Urshifu
+                case 19 when pkm.Species is (int)Species.Runerigus && memory.Variable is not 72: // vast field is the only location for evolving Runerigus
                     return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
