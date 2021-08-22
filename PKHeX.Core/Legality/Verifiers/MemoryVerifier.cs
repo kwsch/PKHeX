@@ -33,6 +33,9 @@ namespace PKHeX.Core
 
             switch (memory.MemoryID)
             {
+                case 1 or 2 or 3 when gen == 8 && Memories.IsInvalidGenLoc8(memory.MemoryID, pkm.Met_Location, (byte)memory.Variable):
+                    return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
+
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
                 case 21 when gen != 6 || !GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, (int)Move.Fly, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
@@ -134,6 +137,7 @@ namespace PKHeX.Core
             var mem = (ITrainerMemories)pkm;
             var Info = data.Info;
 
+            // If the encounter has a memory from the OT that could never have it replaced, ensure it was not modified.
             switch (data.EncounterMatch)
             {
                 case WC6 {IsEgg: false} g when g.OTGender != 3:
@@ -146,7 +150,7 @@ namespace PKHeX.Core
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
 
-                case IMemoryOT t when t is not MysteryGift: // Ignore Mystery Gift cases (covered above)
+                case IMemoryOT t and not MysteryGift: // Ignore Mystery Gift cases (covered above)
                     VerifyOTMemoryIs(data, t.OT_Memory, t.OT_Intensity, t.OT_TextVar, t.OT_Feeling);
                     return;
             }
