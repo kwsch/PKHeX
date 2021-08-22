@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.Encounters3Shadow;
+﻿using System;
+using static PKHeX.Core.Encounters3Shadow;
 
 namespace PKHeX.Core
 {
@@ -7,6 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class Encounters3Teams
     {
+        public static readonly TeamLock[] First = Array.Empty<TeamLock>();
+
         // Colo
         public static readonly TeamLock[] ColoMakuhita = { CMakuhita };
         public static readonly TeamLock[] Gligar = { CGligar };

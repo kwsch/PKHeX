@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -20,7 +18,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Initial Shadow Gauge value.
         /// </summary>
-        public int Gauge { get; init; }
+        public byte ID { get; }
+
+        /// <summary>
+        /// Initial Shadow Gauge value.
+        /// </summary>
+        public short Gauge { get; }
 
         /// <summary>
         /// Originates from the EReader scans (Japanese Only)
@@ -29,17 +32,12 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<int> EReaderEmpty = new[] {0,0,0,0,0,0};
 
-        public EncounterStaticShadow(GameVersion game, TeamLock[] locks) : base(game) => Locks = locks;
-        public EncounterStaticShadow(GameVersion game) : this(game, Array.Empty<TeamLock>()) { }
-
-        private static readonly int[] MirorBXDLocations =
+        public EncounterStaticShadow(GameVersion game, byte id, short gauge, TeamLock[] locks) : base(game)
         {
-            059, // Realgam Tower
-            090, // Rock
-            091, // Oasis
-            092, // Cave
-            113, // Pyrite Town
-        };
+            ID = id;
+            Gauge = gauge;
+            Locks = locks;
+        }
 
         protected override bool IsMatchLocation(PKM pkm)
         {
@@ -47,14 +45,12 @@ namespace PKHeX.Core
                 return true; // transfer location verified later
 
             var met = pkm.Met_Location;
-            if (Version == GameVersion.XD)
-            {
-                if (met == Location)
-                    return true;
-                return MirorBXDLocations.Contains(met);
-            }
+            if (met == Location)
+                return true;
 
-            return met == Location;
+            // XD can re-battle with Miror B
+            // Realgam Tower, Rock, Oasis, Cave, Pyrite Town
+            return Version == GameVersion.XD && met is (59 or 90 or 91 or 92 or 113);
         }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
