@@ -21,7 +21,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedByVersion(int v)
         {
-            if (v < (int)GameVersion.X || v > (int)GameVersion.OR)
+            if (v is < (int)GameVersion.X or > (int)GameVersion.OR)
                 return false;
             if (RestrictVersion == 0)
                 return true; // no data

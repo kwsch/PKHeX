@@ -101,19 +101,7 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        internal static bool IsFishingRodType(this SlotType t)
-        {
-            t &= (SlotType)0xF;
-            return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
-        }
-
-        internal static bool IsSweetScentType(this SlotType t) => t switch
-        {
-            SlotType.Grass => true,
-            SlotType.Surf => true,
-            SlotType.BugContest => true,
-
-            _ => false,
-        };
+        internal static bool IsFishingRodType(this SlotType t) => (t & (SlotType)0xF) is SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod;
+        internal static bool IsSweetScentType(this SlotType t) => (t & (SlotType)0xF) is SlotType.Grass   or SlotType.Surf     or SlotType.BugContest;
     }
 }

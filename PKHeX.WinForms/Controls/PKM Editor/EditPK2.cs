@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK2()
         {
-            if (Entity is not GBPKM pk2 || Entity is not ICaughtData2 c2)
+            if (Entity is not (GBPKM pk2 and ICaughtData2 c2))
                 throw new FormatException(nameof(Entity));
 
             if (Entity is SK2 sk2)
@@ -53,7 +53,7 @@ namespace PKHeX.WinForms.Controls
 
         private GBPKM PreparePK2()
         {
-            if (Entity is not GBPKM pk2 || Entity is not ICaughtData2 c2)
+            if (Entity is not (GBPKM pk2 and ICaughtData2 c2))
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk2);

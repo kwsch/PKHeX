@@ -390,7 +390,7 @@ namespace PKHeX.Core
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                     const int strongest = 30;
-                    if (pkm is IMemoryOT {OT_Memory: strongest} || pkm is IMemoryHT {HT_Memory: strongest})
+                    if (pkm is IMemoryOT {OT_Memory: strongest} or IMemoryHT {HT_Memory: strongest})
                     {
                         if (enc.Generation == 8 || !IsAllowedBattleFrontier(pkm.Species) || pkm is IRibbonSetCommon6 {RibbonBattlerSkillful: false})
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));

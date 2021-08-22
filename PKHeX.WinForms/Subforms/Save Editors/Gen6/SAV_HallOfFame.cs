@@ -304,7 +304,7 @@ namespace PKHeX.WinForms
             {
                 // Fetch Current Species and set it as Nickname Text
                 int species = WinFormsUtil.GetIndex(CB_Species);
-                if (species == 0 || species > (int)Species.Volcanion)
+                if (species is 0 or > (int)Species.Volcanion)
                 {
                     TB_Nickname.Text = string.Empty;
                 }

@@ -29,7 +29,7 @@ namespace PKHeX.Core
             // Surf Pikachu via Stadium
             if (move != 57 || ParseSettings.AllowGBCartEra)
                 return NONE;
-            if (pkm.Format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu))
+            if (pkm.Format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu)
                 return GameVersion.Stadium;
             return NONE;
         }
@@ -187,7 +187,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor1(List<int> moves, int species, int format)
         {
-            if (ParseSettings.AllowGBCartEra && format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu)) // Surf Pikachu via Stadium
+            if (ParseSettings.AllowGBCartEra && format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu) // Surf Pikachu via Stadium
                 moves.Add(57);
         }
 
