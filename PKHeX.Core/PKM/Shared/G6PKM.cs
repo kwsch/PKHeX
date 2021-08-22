@@ -110,7 +110,7 @@ namespace PKHeX.Core
 
         protected abstract bool TradeOT(ITrainerInfo tr);
         protected abstract void TradeHT(ITrainerInfo tr);
-        
+
         // Maximums
         public sealed override int MaxIV => 31;
         public sealed override int MaxEV => 252;
