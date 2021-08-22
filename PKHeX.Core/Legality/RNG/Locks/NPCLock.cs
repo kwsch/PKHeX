@@ -5,14 +5,15 @@ namespace PKHeX.Core
     /// </summary>
     public readonly struct NPCLock
     {
-        public readonly short Species;
-        public readonly byte Nature;
-        public readonly byte Gender;
-        public readonly byte Ratio;
-        public readonly bool Shadow;
-        public readonly bool Seen;
+        private readonly int Species;
+        private readonly byte Nature;
+        private readonly byte Gender;
+        private readonly byte Ratio;
+        private readonly byte State;
 
         public int FramesConsumed => Seen ? 5 : 7;
+        public bool Seen => State > 1;
+        public bool Shadow => State != 0;
 
         // Not-Shadow
         public NPCLock(short s, byte n, byte g, byte r)
@@ -21,8 +22,7 @@ namespace PKHeX.Core
             Nature = n;
             Gender = g;
             Ratio = r;
-            Shadow = false;
-            Seen = false;
+            State = 0;
         }
 
         // Shadow
@@ -32,13 +32,12 @@ namespace PKHeX.Core
             Nature = 0;
             Gender = 0;
             Ratio = 0;
-            Shadow = true;
-            Seen = seen;
+            State = seen ? (byte)2 : (byte)1;
         }
 
         public bool MatchesLock(uint PID)
         {
-            if (Shadow)
+            if (Shadow && Nature == 0) // Non-locked shadow
                 return true;
             if (Gender != 2 && Gender != ((PID & 0xFF) < Ratio ? 1 : 0))
                 return false;
@@ -57,7 +56,7 @@ namespace PKHeX.Core
         {
             var sb = new System.Text.StringBuilder(64);
             sb.Append((Species)Species);
-            if (Shadow)
+            if (State != 0)
                 sb.Append(" (Shadow)");
             if (Seen)
                 sb.Append(" [Seen]");

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Runtime.InteropServices;
+using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
@@ -16,6 +17,13 @@ namespace PKHeX.Tests.General
         public void MarshalClass()
         {
             new Swarm3().ToBytesClass().Length.Should().Be(Swarm3.SIZE);
+        }
+
+        [Fact]
+        public void MarshalSize()
+        {
+            Marshal.SizeOf(typeof(NPCLock)).Should().Be(8);
+            Marshal.SizeOf(typeof(PIDIV)).Should().Be(8);
         }
     }
 }

@@ -46,8 +46,12 @@ namespace PKHeX.Core
             {
                 if (z is EncounterSlot3PokeSpot w)
                 {
-                    var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault();
-                    info.PIDIV = seeds ?? info.PIDIV;
+                    var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber);
+                    foreach (var s in seeds)
+                    {
+                        info.PIDIV = s;
+                        break;
+                    }
                 }
                 else if (z is EncounterStaticShadow s)
                 {
