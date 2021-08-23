@@ -214,12 +214,12 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDC); }
         public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDE); }
 
-        public int AV_HP {  get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
-        public int AV_ATK { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
-        public int AV_DEF { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
-        public int AV_SPE { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
-        public int AV_SPA { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
-        public int AV_SPD { get => Data[CardStart + 0xEB]; set => Data[CardStart + 0xEB] = (byte)value; }
+        public int AV_HP {  get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
+        public int AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
+        public int AV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
+        public int AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
+        public int AV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
+        public int AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
 
         // Meta Accessible Properties
         public override int[] IVs
