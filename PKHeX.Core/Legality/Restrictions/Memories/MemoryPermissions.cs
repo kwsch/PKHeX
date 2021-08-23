@@ -111,6 +111,14 @@ namespace PKHeX.Core
             if (enc is IRelearn r && r.Relearn.Contains(move))
                 return true;
 
+            // Relearns can be wiped via Battle Version. Check for eggs too.
+            if (IsSpecialEncounterMoveEggDeleted(pkm, enc))
+            {
+                var em = MoveEgg.GetEggMoves(enc.Generation, enc.Species, enc.Form, enc.Version);
+                if (em.Contains(move))
+                    return true;
+            }
+
             if (battleOnly)
             {
                 // Some moves can only be known in battle; outside of battle they aren't obtainable as a memory parameter.
@@ -123,6 +131,13 @@ namespace PKHeX.Core
             }
 
             return false;
+        }
+
+        private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterable enc)
+        {
+            if (pkm is IBattleVersion { BattleVersion: not 0 }) // can hide Relearn moves (Gen6+ Eggs, or DexNav)
+                return enc is EncounterEgg { Generation: >= 6 } or EncounterSlot6AO { CanDexNav: true };
+            return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
         }
 
         public static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
