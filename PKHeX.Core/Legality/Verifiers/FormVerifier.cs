@@ -57,6 +57,10 @@ namespace PKHeX.Core
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
+                case Pikachu when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GE}:
+                case Eevee when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GP}:
+                    return GetInvalid(LFormBattle);
+
                 case Pikachu when Info.Generation >= 7: // Cap
                     bool validCap = form == (enc is EncounterInvalid or EncounterEgg ? 0 : enc.Form);
                     if (!validCap)
