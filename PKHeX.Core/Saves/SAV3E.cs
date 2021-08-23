@@ -179,13 +179,7 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt32(Large, GetDaycareSlotOffset(0, 2)).ToString("X8");  // after the 2 slots, before the step counter
         public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes(Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
 
-        private const int ExternalEventFlags = 0x31C7;
-
-        public bool HasReceivedWishmkrJirachi
-        {
-            get => GetFlag(ExternalEventFlags + 2, 0);
-            set => SetFlag(ExternalEventFlags + 2, 0, value);
-        }
+        protected override int ExternalEventData => 0x31B3;
 
         #region eBerry
         private const int OFFSET_EBERRY = 0x31F8;

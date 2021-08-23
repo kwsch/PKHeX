@@ -12,7 +12,6 @@ namespace PKHeX.Core
         PokeBlock3Case PokeBlocks { get; set; }
         DecorationInventory3 Decorations { get; set; }
         Swarm3 Swarm { get; set; }
-        bool HasReceivedWishmkrJirachi { get; set; }
 
         IReadOnlyList<Swarm3> DefaultSwarms { get; }
         int SwarmIndex { get; set; }
