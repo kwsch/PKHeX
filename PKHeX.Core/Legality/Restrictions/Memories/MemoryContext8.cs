@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 return false;
 
             if (memory is 1 or 2 or 3) // Encounter only
-                return IsInvalidGenLoc8(memory, pk.Met_Location, pk.Egg_Location, variable, enc);
+                return IsInvalidGenLoc8(memory, pk.Met_Location, pk.Egg_Location, variable, pk, enc);
             return IsInvalidGenLoc8Other(memory, variable);
         }
 
@@ -67,16 +67,16 @@ namespace PKHeX.Core
             return PurchaseableItemSWSH.Contains((ushort)item);
         }
 
-        private static bool IsInvalidGenLoc8(int memory, int loc, int egg, int variable, IEncounterTemplate enc)
+        private static bool IsInvalidGenLoc8(int memory, int loc, int egg, int variable, PKM pk, IEncounterTemplate enc)
         {
             if (variable > 255)
                 return true;
 
             switch (memory)
             {
-                case 1 when enc.EggEncounter:
+                case 1 when enc.EggEncounter || IsCurryEncounter(pk, enc):
                 case 2 when !enc.EggEncounter:
-                case 3 when enc is not (EncounterTrade or EncounterStatic {Gift: true} or WC8 {IsHOMEGift: false}):
+                case 3 when (enc is not (EncounterTrade or EncounterStatic {Gift: true} or WC8 {IsHOMEGift: false}) && !IsCurryEncounter(pk, enc)):
                     return true;
             }
 
@@ -92,6 +92,13 @@ namespace PKHeX.Core
             if (MultiGenLocAreas.TryGetValue((byte)loc, out var arr))
                 return !arr.Contains(arg);
             return false;
+        }
+
+        private static bool IsCurryEncounter(PKM pk, IEncounterTemplate enc)
+        {
+            if (enc is not EncounterSlot8)
+                return false;
+            return pk is IRibbonSetMark8 { RibbonMarkCurry: true } || pk.Species == (int)Species.Shedinja;
         }
 
         private static bool IsInvalidGenLoc8Other(int memory, int variable)

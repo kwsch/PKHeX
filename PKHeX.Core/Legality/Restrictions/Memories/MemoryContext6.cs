@@ -32,7 +32,7 @@ namespace PKHeX.Core
             if (KeyItemMemoryArgsGen6.Values.Any(z => z.Contains((ushort)item)))
                 return true;
 
-            return false;
+            return true; // todo
         }
 
         public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Distinct()
