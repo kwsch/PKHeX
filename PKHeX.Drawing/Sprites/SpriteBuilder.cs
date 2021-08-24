@@ -7,6 +7,8 @@ namespace PKHeX.Drawing
     public abstract class SpriteBuilder : ISpriteBuilder<Image>
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
+        public static bool EncounterColorBackground { get; set; } = true;
+        public static bool EncounterShowFixedBall { get; set; } = true;
 
         /// <summary> Width of the generated Sprite image. </summary>
         public abstract int Width { get; }

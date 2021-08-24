@@ -68,6 +68,11 @@ namespace PKHeX.Drawing
                 return Spriter.None;
 
             var img = GetBaseImage(gift);
+            if (SpriteBuilder.EncounterColorBackground)
+            {
+                var color = Color.FromArgb(gift.GetType().Name.GetHashCode() * 0x43FD43FD);
+                img = ImageUtil.ChangeTransparentTo(img, color);
+            }
             if (gift.GiftUsed)
                 img = ImageUtil.ChangeOpacity(img, 0.3);
             return img;
@@ -81,6 +86,11 @@ namespace PKHeX.Drawing
             {
                 var gender = Math.Max(0, gift.Gender);
                 var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+                if (SpriteBuilder.EncounterShowFixedBall && gift is IFixedBall { FixedBall: not Ball.None } b)
+                {
+                    var ballSprite = GetBallSprite((int)b.FixedBall);
+                    img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
+                }
                 if (gift is IGigantamax {CanGigantamax: true})
                 {
                     var gm = Resources.dyna;
@@ -224,6 +234,16 @@ namespace PKHeX.Drawing
                 return g.Sprite();
             var gender = GetDisplayGender(enc);
             var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
+            if (SpriteBuilder.EncounterColorBackground)
+            {
+                var color = Color.FromArgb(enc.GetType().Name.GetHashCode() * 0x43FD43FD);
+                img = ImageUtil.ChangeTransparentTo(img, color);
+            }
+            if (SpriteBuilder.EncounterShowFixedBall && enc is IFixedBall {FixedBall: not Ball.None} b)
+            {
+                var ballSprite = GetBallSprite((int)b.FixedBall);
+                img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
+            }
             if (enc is IGigantamax {CanGigantamax: true})
             {
                 var gm = Resources.dyna;

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation
+    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation, IFixedBall
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -145,6 +145,8 @@ namespace PKHeX.Core
         public abstract int Ball { get; set; }
         public virtual bool EggEncounter => IsEgg;
         public abstract int EggLocation { get; set; }
+
+        public Ball FixedBall => (Ball)Ball;
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);

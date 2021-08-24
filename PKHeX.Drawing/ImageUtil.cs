@@ -50,6 +50,19 @@ namespace PKHeX.Drawing
             return bmp;
         }
 
+        public static Bitmap ChangeTransparentTo(Image img, Color c)
+        {
+            var bmp = (Bitmap)img.Clone();
+            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+
+            Marshal.Copy(ptr, data, 0, data.Length);
+            SetAllTransparencyTo(data, c);
+            Marshal.Copy(data, 0, ptr, data.Length);
+            bmp.UnlockBits(bmpData);
+
+            return bmp;
+        }
+
         public static Bitmap ToGrayscale(Image img)
         {
             var bmp = (Bitmap)img.Clone();
@@ -115,6 +128,22 @@ namespace PKHeX.Drawing
         {
             for (int i = 0; i < data.Length; i += 4)
                 data[i + 3] = (byte)(data[i + 3] * trans);
+        }
+
+        public static void SetAllTransparencyTo(byte[] data, Color c)
+        {
+            byte R = c.R;
+            byte G = c.G;
+            byte B = c.B;
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                if (data[i + 3] != 0)
+                    continue;
+                data[i + 0] = B;
+                data[i + 1] = G;
+                data[i + 2] = R;
+                data[i + 3] = 0x3F;
+            }
         }
 
         public static void ChangeAllColorTo(byte[] data, Color c)
