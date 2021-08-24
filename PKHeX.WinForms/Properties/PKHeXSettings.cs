@@ -322,11 +322,20 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Show an Egg Sprite As Held Item rather than hiding the PKM")]
         public bool ShowEggSpriteAsHeldItem { get; set; } = true;
 
+        [LocalizedDescription("Show a background to differentiate an Encounter Template's type")]
+        public bool ShowEncounterColor { get; set; } = true;
+
+        [LocalizedDescription("Show a background to differentiate the recognized Encounter Template type for PKM slots")]
+        public bool ShowEncounterColorPKM { get; set; }
+
         [LocalizedDescription("Don't show the Legality popup if Legal!")]
         public bool IgnoreLegalPopup { get; set; }
 
         [LocalizedDescription("Flag Illegal Slots in Save File")]
         public bool FlagIllegal { get; set; } = true;
+
+        [LocalizedDescription("Show the required ball for an Encounter Template")]
+        public bool ShowEncounterBall { get; set; } = true;
     }
 
     [Serializable]

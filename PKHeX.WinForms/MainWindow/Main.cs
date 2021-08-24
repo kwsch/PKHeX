@@ -453,6 +453,9 @@ namespace PKHeX.WinForms
             C_SAV.FlagIllegal = settings.Display.FlagIllegal;
             C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
             SpriteBuilder.ShowEggSpriteAsItem = settings.Display.ShowEggSpriteAsHeldItem;
+            SpriteBuilder.ShowEncounterColor = settings.Display.ShowEncounterColor;
+            SpriteBuilder.ShowEncounterBall = settings.Display.ShowEncounterBall;
+            SpriteBuilder.ShowEncounterColorPKM = settings.Display.ShowEncounterColorPKM;
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
             PKMConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;

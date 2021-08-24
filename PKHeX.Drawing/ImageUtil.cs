@@ -50,13 +50,13 @@ namespace PKHeX.Drawing
             return bmp;
         }
 
-        public static Bitmap ChangeTransparentTo(Image img, Color c)
+        public static Bitmap ChangeTransparentTo(Image img, Color c, byte trans)
         {
             var bmp = (Bitmap)img.Clone();
             GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
             Marshal.Copy(ptr, data, 0, data.Length);
-            SetAllTransparencyTo(data, c);
+            SetAllTransparencyTo(data, c, trans);
             Marshal.Copy(data, 0, ptr, data.Length);
             bmp.UnlockBits(bmpData);
 
@@ -130,7 +130,7 @@ namespace PKHeX.Drawing
                 data[i + 3] = (byte)(data[i + 3] * trans);
         }
 
-        public static void SetAllTransparencyTo(byte[] data, Color c)
+        public static void SetAllTransparencyTo(byte[] data, Color c, byte trans)
         {
             byte R = c.R;
             byte G = c.G;
@@ -142,7 +142,7 @@ namespace PKHeX.Drawing
                 data[i + 0] = B;
                 data[i + 1] = G;
                 data[i + 2] = R;
-                data[i + 3] = 0x3F;
+                data[i + 3] = trans;
             }
         }
 
