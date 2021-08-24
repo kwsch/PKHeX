@@ -1,42 +1,4 @@
-﻿
-
-Es erinnert sich daran,
-Es erinnert sich daran,
-Es erinnert sich daran,
-Es erinnert sich daran,
-Es erinnert sich klar und deutlich daran,
-Es erinnert sich ergriffen daran zurück,
-Es erinnert sich sehr gern daran,
-
-wie glücklich es war
-wie viel Spaß es hatte
-wie sehr es sich gefreut hat
-wie es gegrinst hat
-wie überwältigt es war
-wie unbeschreiblich seine Gefühle waren
-wie gut gelaunt es war
-dass es feuchte Augen bekommen hat
-wie sehr es sich amüsiert hat
-wie nervös es war
-wie wohl es sich gefühlt hat
-wie unruhig es war
-wie sehr es das genossen hat
-wie leid es ihm getan hat
-wie herzzerreißend das war
-wie nostalgisch es geworden ist
-was für Schwierigkeiten es hatte
-wie anstrengend das war
-wie es im Unreinen mit sich war
-wie stolz es war
-wie schlecht gelaunt es war
-wie wütend es war
-wie eifersüchtig es war
-wie müde es war
-
-irgendein Item
-irgendeine Attacke
-Pokémon
-{0} scheint schöne Erinnerungen zu haben, kann sich aber gerade nicht entsinnen.
+﻿{0} scheint schöne Erinnerungen zu haben, kann sich aber gerade nicht entsinnen.
 {0} ist {1} {2} begegnet. Die gemeinsame Reise begann mit einem gezielten Pokéball-Wurf. {4} {3}.
 {0} hat {1} zum ersten Mal gesehen, als es {2} aus seinem Ei geschlüpft ist. {4} {3}.
 {0} ist {1} {2} begegnet. {4} {3}.

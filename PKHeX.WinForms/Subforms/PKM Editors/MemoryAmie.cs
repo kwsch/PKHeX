@@ -227,11 +227,10 @@ namespace PKHeX.WinForms
             }
 
             // Feeling Chooser
-            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
-            {
-                CB_CTFeel.Items.Add(q);
+            foreach (var q in strings.GetMemoryFeelings(pkm.Generation))
                 CB_OTFeel.Items.Add(q);
-            }
+            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
+                CB_CTFeel.Items.Add(q);
         }
 
         private void UpdateMemoryDisplay(object sender)
@@ -266,14 +265,14 @@ namespace PKHeX.WinForms
             if (mem == 0)
             {
                 string nn = pkm.Nickname;
-                result = string.Format(GameInfo.Strings.memories[38], nn);
+                result = string.Format(GameInfo.Strings.memories[0], nn);
                 enabled = false;
             }
             else
             {
                 string nn = pkm.Nickname;
                 string a = arg.Text;
-                result = string.Format(GameInfo.Strings.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = string.Format(GameInfo.Strings.memories[mem], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 

@@ -1,42 +1,4 @@
-﻿
-
-Il Pokémon ricorda ancora
-Il Pokémon ricorda ancora
-Il Pokémon ricorda ancora
-Il Pokémon ricorda ancora
-Il Pokémon ricorda molto bene
-Il Pokémon ricorda distintamente
-Il Pokémon ricorderà per sempre
-
-la sua felicità
-quanto sia stato divertente
-la sua gioia
-le sue risate
-la sua emozione
-quella sensazione indescrivibile
-quanto è stato piacevole
-la sua commozione
-la sua allegria
-quanto era nervoso
-quella bella sensazione
-che non riusciva a star fermo
-il suo entusiasmo
-il suo dispiacere
-la sua tristezza
-quella sensazione di malinconia
-la sua preoccupazione
-la sensazione di sfinimento
-il suo dilemma
-quanto questo lo abbia reso orgoglioso
-la tensione di quei momenti
-quanto questo lo abbia fatto arrabbiare
-quanto questo lo abbia reso geloso
-quanto sonno gli era venuto
-
-certo strumento
-una certa mossa
-Pokémon
-{0} ha dei bei ricordi, ma adesso non è possibile richiamarli...
+﻿{0} ha dei bei ricordi, ma adesso non è possibile richiamarli...
 {0} ha incontrato {1} {2}. Ha lanciato una Poké Ball per catturarlo e da quel momento hanno iniziato a viaggiare insieme. {4} {3}
 {0} ha incontrato {1} per la prima volta quando il Pokémon è nato da un Uovo {2}. {4} {3}
 {0} ha incontrato {1} {2}. {4} {3}

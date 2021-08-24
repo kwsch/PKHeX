@@ -46,15 +46,14 @@ namespace PKHeX.Core
 
         private List<ComboItem> GetMemories()
         {
-            const int offset = 38;
-            var mems = s.memories.AsSpan(offset);
+            var mems = s.memories.AsSpan(0);
             var list = new List<ComboItem> {new(mems[0], 0)}; // none at top
             Util.AddCBWithOffset(list, mems[1..], 1); // sorted the rest
             return list;
         }
 
-        public ReadOnlySpan<string> GetMemoryQualities() => s.memories.AsSpan(2, 7);
-        public ReadOnlySpan<string> GetMemoryFeelings(int format) => format >= 8 ? s.memories.AsSpan(9, 25) : s.memories.AsSpan(10, 24); // empty line for 0 in gen8+
+        public ReadOnlySpan<string> GetMemoryQualities() => s.intensity;
+        public ReadOnlySpan<string> GetMemoryFeelings(int memoryGen) => memoryGen >= 8 ? s.feeling.AsSpan(0, 25) : s.feeling.AsSpan(1, 24); // empty line for 0 in gen8+
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType type) => type switch
         {

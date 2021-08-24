@@ -1,42 +1,4 @@
-﻿
-
-The Pokémon remembers
-The Pokémon remembers
-The Pokémon remembers
-The Pokémon remembers
-The Pokémon clearly remembers
-The Pokémon definitely remembers
-The Pokémon fondly remembers
-
-it was happy
-it had fun
-it was glad
-it grinned
-it got overwhelmed by emotion
-its feelings were indescribable
-it felt good
-it got teary eyed
-it got lighthearted
-it got nervous
-it felt comfortable
-it was restless
-it got a bit carried away
-it felt sorry
-it got emotional
-it felt nostalgic
-it had some difficulty
-it felt exhausted
-it couldn’t be true to its feelings
-it felt proud
-they ended up in a foul mood
-it got angry
-it got jealous
-it got sleepy
-
-a certain item
-a certain move
-a Pokémon
-{0} seems to have a fond memory, but it doesn’t seem to be able to remember the details...
+﻿{0} seems to have a fond memory, but it doesn’t seem to be able to remember the details...
 {0} met {1} {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
 {0} hatched from an Egg and saw {1} for the first time {2}. {4} that {3}.
 {0} met {1} {2}. {4} that {3}.

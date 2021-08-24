@@ -10,7 +10,8 @@ namespace PKHeX.Core
     {
         // PKM Info
         public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
-            memories, genloc, trainingbags, trainingstage, characteristics,
+            memories, genloc, feeling, intensity,
+            trainingbags, trainingstage, characteristics,
             groundtiletypes, balllist, gamelist, pokeblocks, ribbons;
 
         private readonly string[] g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
@@ -94,6 +95,8 @@ namespace PKHeX.Core
             pokeblocks = Get("pokeblock");
             forms = Get("forms");
             memories = Get("memories");
+            feeling = Get("feeling");
+            intensity = Get("intensity");
             genloc = Get("genloc");
             trainingbags = Get("trainingbag");
             trainingstage = Get("supertraining");

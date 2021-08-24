@@ -1,42 +1,4 @@
-﻿
-
-se souvient vaguement que
-se souvient vaguement que
-se souvient vaguement que
-se souvient vaguement que
-se souvient clairement que
-se souvient très bien que
-n’oubliera jamais que
-
-ça lui a fait plaisir
-c’était amusant
-ça l’a rendu heureux
-ça l’a fait sourire
-ça l’a ému
-c’était une drôle de sensation
-c’était agréable
-ça lui a mis les larmes aux yeux
-ça lui a donné du baume au cœur
-ça l’a rendu nerveux
-c’était apaisant
-ça chatouillait
-ça ne lui a laissé aucun regret
-ça lui a laissé un goût amer
-ça lui a fait beaucoup de peine
-ça l’a rendu nostalgique
-c’était difficile
-c’était épuisant
-ça n’était pas facile à accepter
-ça l’a rendu fier
-ça l’a mis de mauvaise humeur
-ça l’a rendu furieux
-ça l’a rendu jaloux
-ça lui a donné sommeil
-
-certain objet
-une capacité
-Pokémon
-{0} se rappelle un bon souvenir, mais les détails lui semblent flous...
+﻿{0} se rappelle un bon souvenir, mais les détails lui semblent flous...
 {0} a rencontré {1} {2}. Il a accepté d’entrer dans sa Poké Ball, et c’est ainsi que leur amitié a commencé. {4} {3}.
 {0} a brisé la coquille de son Œuf {2} et a fait la rencontre {1}. {4} {3}.
 {0} a rencontré {1} {2}. {4} {3}.
