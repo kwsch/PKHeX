@@ -69,10 +69,7 @@ namespace PKHeX.Drawing
 
             var img = GetBaseImage(gift);
             if (SpriteBuilder.ShowEncounterColor)
-            {
-                var color = Color.FromArgb(gift.GetType().Name.GetHashCode() * 0x43FD43FD);
-                img = ImageUtil.ChangeTransparentTo(img, color, 0x3F);
-            }
+                img = ApplyStripe(gift, img);
             if (gift.GiftUsed)
                 img = ImageUtil.ChangeOpacity(img, 0.3);
             return img;
@@ -163,11 +160,7 @@ namespace PKHeX.Drawing
                 else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
                 if (SpriteBuilder.ShowEncounterColorPKM)
-                {
-                    var enc = la.EncounterOriginal;
-                    var color = Color.FromArgb(enc.GetType().Name.GetHashCode() * 0x43FD43FD);
-                    sprite = ImageUtil.ChangeTransparentTo(sprite, color, 0x1F);
-                }
+                    sprite = ApplyStripe(la.EncounterOriginal, sprite);
             }
             if (inBox) // in box
             {
@@ -185,6 +178,14 @@ namespace PKHeX.Drawing
             }
 
             return sprite;
+        }
+
+        private static Image ApplyStripe(IEncounterTemplate enc, Image img)
+        {
+            var index = (enc.GetType().Name.GetHashCode() * 0x43FD43FD);
+            var color = Color.FromArgb(index);
+            const int stripeHeight = 4; // from bottom
+            return ImageUtil.ChangeTransparentTo(img, color, 0x7F, img.Width * 4 * (img.Height - stripeHeight));
         }
 
         private const int MaxSlotCount = 30; // slots in a box
@@ -240,11 +241,6 @@ namespace PKHeX.Drawing
                 return g.Sprite();
             var gender = GetDisplayGender(enc);
             var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
-            if (SpriteBuilder.ShowEncounterColor)
-            {
-                var color = Color.FromArgb(enc.GetType().Name.GetHashCode() * 0x43FD43FD);
-                img = ImageUtil.ChangeTransparentTo(img, color, 0x3F);
-            }
             if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
             {
                 var ballSprite = GetBallSprite((int)b.FixedBall);
@@ -253,8 +249,10 @@ namespace PKHeX.Drawing
             if (enc is IGigantamax {CanGigantamax: true})
             {
                 var gm = Resources.dyna;
-                return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+                img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
             }
+            if (SpriteBuilder.ShowEncounterColor)
+                img = ApplyStripe(enc, img);
             return img;
         }
 
