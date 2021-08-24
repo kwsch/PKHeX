@@ -277,7 +277,14 @@ namespace PKHeX.Core
         public int GetLanguage(int redeemLanguage)
         {
             var languageOffset = GetLanguageIndex(redeemLanguage);
-            return Data[0x1D8 + languageOffset];
+            var value = Data[0x1D8 + languageOffset];
+            if (value != 0) // Fixed receiving language
+                return value;
+
+            // Use redeeming language (clamped to legal values for our sake)
+            if (redeemLanguage is < (int)LanguageID.Japanese or (int)LanguageID.UNUSED_6 or > (int)LanguageID.ChineseT)
+                return (int)LanguageID.English; // fallback
+            return redeemLanguage;
         }
 
         public string GetNickname(int language) => StringConverter.GetString7b(Data, GetNicknameOffset(language), 0x1A);
