@@ -74,9 +74,9 @@ namespace PKHeX.Core
 
             switch (memory)
             {
-                case 1 when enc.EggEncounter || IsCurryEncounter(pk, enc):
+                case 1 when !IsWildEncounter(pk, enc):
                 case 2 when !enc.EggEncounter:
-                case 3 when (enc is not (EncounterTrade or EncounterStatic {Gift: true} or WC8 {IsHOMEGift: false}) && !IsCurryEncounter(pk, enc)):
+                case 3 when !IsWildEncounterMeet(pk, enc):
                     return true;
             }
 
@@ -92,6 +92,26 @@ namespace PKHeX.Core
             if (MultiGenLocAreas.TryGetValue((byte)loc, out var arr))
                 return !arr.Contains(arg);
             return false;
+        }
+
+        private static bool IsWildEncounterMeet(PKM pk, IEncounterTemplate enc)
+        {
+            if (enc is EncounterTrade or EncounterStatic { Gift: true } or WC8 { IsHOMEGift: false })
+                return true;
+            if (IsCurryEncounter(pk, enc))
+                return true;
+            return false;
+        }
+
+        private static bool IsWildEncounter(PKM pk, IEncounterTemplate enc)
+        {
+            if (enc is not EncounterSlot or EncounterStatic { Gift: false })
+                return false;
+            if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
+                return false;
+            if (pk.Species == (int)Species.Shedinja && pk is PK8 { AffixedRibbon: (int)RibbonIndex.MarkCurry })
+                return false;
+            return true;
         }
 
         private static bool IsCurryEncounter(PKM pk, IEncounterTemplate enc)
