@@ -19,7 +19,13 @@ namespace PKHeX.Core
         public static MemoryArgType GetMemoryArgType(int memory, int format)
         {
             if (MemoryGeneral.Contains(memory)) return MemoryArgType.GeneralLocation;
-            if (MemorySpecific.Contains(memory) && format == 6) return MemoryArgType.SpecificLocation;
+            if (MemorySpecific.Contains(memory))
+            {
+                if (format == 6)
+                    return MemoryArgType.SpecificLocation;
+                return MemoryArgType.GeneralLocation;
+            }
+
             if (MemoryItem.Contains(memory)) return MemoryArgType.Item;
             if (MemoryMove.Contains(memory)) return MemoryArgType.Move;
             if (MemorySpecies.Contains(memory)) return MemoryArgType.Species;

@@ -16,14 +16,6 @@ namespace PKHeX.Core
             69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
         };
 
-        /// <summary>
-        /// Galar locations with a Pokémon Center
-        /// </summary>
-        private static readonly int[] LocationsWithPokeCenter_SWSH =
-        {
-            14, 20, 34, 44, 56, 70, 78, 96, 102, 110,
-        };
-
         private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen8 = new()
         {
             {(int) Species.Rotom, new ushort[] {1278}}, // Rotom Catalog

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -7,18 +6,6 @@ namespace PKHeX.Core
     public sealed partial class MemoryContext8 : MemoryContext
     {
         private const int MAX_MEMORY_ID_SWSH = 89;
-
-        private static ICollection<int> GetPokeCenterLocations(GameVersion game)
-        {
-            return GameVersion.SWSH.Contains(game) ? LocationsWithPokeCenter_SWSH : Array.Empty<int>();
-        }
-
-        public static bool GetHasPokeCenterLocation(GameVersion game, int loc)
-        {
-            if (game == GameVersion.Any)
-                return GetHasPokeCenterLocation(GameVersion.SW, loc);
-            return GetPokeCenterLocations(game).Contains(loc);
-        }
 
         public override IEnumerable<ushort> GetKeyItemParams() => (KeyItemMemoryArgsGen8.Values).SelectMany(z => z).Distinct();
 
@@ -42,7 +29,7 @@ namespace PKHeX.Core
         public override bool CanObtainMemoryHT(GameVersion pkmVersion, int memory) => CanObtainMemorySWSH(memory);
 
         public override bool CanObtainMemory(int memory) => CanObtainMemorySWSH(memory);
-        public override bool HasPokeCenter(GameVersion version, int location) => GetHasPokeCenterLocation(version, location);
+        public override bool HasPokeCenter(GameVersion version, int location) => location == 9; // in a Pokémon Center
 
         public override bool IsInvalidGeneralLocationMemoryValue(int memory, int variable, IEncounterTemplate enc, PKM pk)
         {
@@ -105,7 +92,7 @@ namespace PKHeX.Core
 
         private static bool IsWildEncounter(PKM pk, IEncounterTemplate enc)
         {
-            if (enc is not EncounterSlot or EncounterStatic { Gift: false })
+            if (enc is not (EncounterSlot or EncounterStatic { Gift: false }))
                 return false;
             if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
                 return false;
