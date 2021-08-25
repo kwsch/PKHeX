@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
         public SpriteBackgroundType ShowEncounterColor { get; set; } = SpriteBackgroundType.FullBackground;
 
         [LocalizedDescription("Show a background to differentiate the recognized Encounter Template type for PKM slots")]
-        public SpriteBackgroundType ShowEncounterColorPKM { get; set; } = SpriteBackgroundType.BottomStripe;
+        public SpriteBackgroundType ShowEncounterColorPKM { get; set; }
 
         [LocalizedDescription("Opacity for the Encounter Type background layer.")]
         public byte ShowEncounterOpacityBackground { get; set; } = 0x3F; // kinda low
