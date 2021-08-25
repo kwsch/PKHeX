@@ -68,8 +68,8 @@ namespace PKHeX.Drawing
                 return Spriter.None;
 
             var img = GetBaseImage(gift);
-            if (SpriteBuilder.ShowEncounterColor)
-                img = ApplyStripe(gift, img);
+            if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
+                img = ApplyEncounterColor(gift, img, SpriteBuilder.ShowEncounterColor);
             if (gift.GiftUsed)
                 img = ImageUtil.ChangeOpacity(img, 0.3);
             return img;
@@ -159,8 +159,8 @@ namespace PKHeX.Drawing
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
-                if (SpriteBuilder.ShowEncounterColorPKM)
-                    sprite = ApplyStripe(la.EncounterOriginal, sprite);
+                if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
+                    sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
             }
             if (inBox) // in box
             {
@@ -180,12 +180,21 @@ namespace PKHeX.Drawing
             return sprite;
         }
 
-        private static Image ApplyStripe(IEncounterTemplate enc, Image img)
+        private static Image ApplyEncounterColor(IEncounterTemplate enc, Image img, SpriteBackgroundType type)
         {
             var index = (enc.GetType().Name.GetHashCode() * 0x43FD43FD);
             var color = Color.FromArgb(index);
-            const int stripeHeight = 4; // from bottom
-            return ImageUtil.ChangeTransparentTo(img, color, 0x7F, img.Width * 4 * (img.Height - stripeHeight));
+            if (type == SpriteBackgroundType.BottomStripe)
+            {
+                int stripeHeight = SpriteBuilder.ShowEncounterThicknessStripe; // from bottom
+                byte opacity = SpriteBuilder.ShowEncounterOpacityStripe;
+                return ImageUtil.ChangeTransparentTo(img, color, opacity, img.Width * 4 * (img.Height - stripeHeight));
+            }
+            else // full background
+            {
+                byte opacity = SpriteBuilder.ShowEncounterOpacityBackground;
+                return ImageUtil.ChangeTransparentTo(img, color, opacity);
+            }
         }
 
         private const int MaxSlotCount = 30; // slots in a box
@@ -251,8 +260,8 @@ namespace PKHeX.Drawing
                 var gm = Resources.dyna;
                 img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
             }
-            if (SpriteBuilder.ShowEncounterColor)
-                img = ApplyStripe(enc, img);
+            if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
+                img = ApplyEncounterColor(enc, img, SpriteBuilder.ShowEncounterColor);
             return img;
         }
 

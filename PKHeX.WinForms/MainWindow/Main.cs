@@ -444,7 +444,7 @@ namespace PKHeX.WinForms
             Draw.LoadBrushes();
             PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
-            SpriteName.AllowShinySprite = settings.Display.ShinySprites;
+            SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
             SaveFile.SetUpdateDex = settings.SlotWrite.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
             SaveFile.SetUpdatePKM = settings.SlotWrite.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
             C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
@@ -452,14 +452,12 @@ namespace PKHeX.WinForms
             CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
             C_SAV.FlagIllegal = settings.Display.FlagIllegal;
             C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
-            SpriteBuilder.ShowEggSpriteAsItem = settings.Display.ShowEggSpriteAsHeldItem;
-            SpriteBuilder.ShowEncounterColor = settings.Display.ShowEncounterColor;
-            SpriteBuilder.ShowEncounterBall = settings.Display.ShowEncounterBall;
-            SpriteBuilder.ShowEncounterColorPKM = settings.Display.ShowEncounterColorPKM;
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
             PKMConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
             WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
+
+            SpriteBuilder.LoadSettings(settings.Sprite);
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)
