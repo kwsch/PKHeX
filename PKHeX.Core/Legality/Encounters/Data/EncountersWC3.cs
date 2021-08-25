@@ -41,7 +41,7 @@ namespace PKHeX.Core
                     new() { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new[] { 092, 164, 188, 227 }, Fateful = true }, // Shuckle @ Pyrite Town
                     new() { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Moves = new[] { 201, 349, 044, 200 }, Fateful = true }, // Larvitar @ Pyrite Town
                     new() { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Moves = new[] { 045, 086, 098, 270 }, Shiny = Shiny.Never }, // Plusle @ Ingame Trade
-                    new() { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Moves = new[] { 105, 126, 241, 129 }, Shiny = Shiny.Never }, // Ho-oh @ Mt. Battle
+                    new() { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Moves = new[] { 105, 126, 241, 129 }, Shiny = Shiny.Never, Fateful = id is LanguageID.Japanese }, // Ho-oh @ Mt. Battle
                 };
             }
         }
