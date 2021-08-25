@@ -76,10 +76,12 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static bool CanHaveFeeling6(int memory, int feeling)
+        public static bool CanHaveFeeling6(int memory, int feeling, int argument)
         {
             if (memory >= MemoryFeelings.Length)
                 return false;
+            if (memory == 4 && argument == 0) // Bank "came through Link Trade" @ "somewhere" is rand(0,10); doesn't use the bit-table to pick a feeling.
+                return (uint)feeling < 10;
             return (MemoryFeelings[memory] & (1 << feeling)) != 0;
         }
 
@@ -110,7 +112,7 @@ namespace PKHeX.Core
         }
 
         public override bool CanHaveIntensity(int memory, int intensity) => CanHaveIntensity6(memory, intensity);
-        public override bool CanHaveFeeling(int memory, int feeling) => CanHaveFeeling6(memory, feeling);
+        public override bool CanHaveFeeling(int memory, int feeling, int argument) => CanHaveFeeling6(memory, feeling, argument);
         public override int GetMinimumIntensity(int memory) => GetMinimumIntensity6(memory);
     }
 }

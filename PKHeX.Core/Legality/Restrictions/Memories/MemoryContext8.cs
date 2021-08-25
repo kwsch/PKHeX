@@ -120,7 +120,7 @@ namespace PKHeX.Core
         }
 
         public override bool CanHaveIntensity(int memory, int intensity) => true; // todo
-        public override bool CanHaveFeeling(int memory, int feeling) => true; // todo
+        public override bool CanHaveFeeling(int memory, int feeling, int argument) => true; // todo
         public override int GetMinimumIntensity(int memory) => 3; // todo
     }
 }

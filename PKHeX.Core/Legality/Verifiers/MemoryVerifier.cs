@@ -107,7 +107,7 @@ namespace PKHeX.Core
                 return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, min));
             }
 
-            if (!context.CanHaveFeeling(memory.MemoryID, memory.Feeling))
+            if (!context.CanHaveFeeling(memory.MemoryID, memory.Feeling, memory.Variable))
                 return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));

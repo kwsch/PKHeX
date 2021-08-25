@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public abstract bool IsInvalidGeneralLocationMemoryValue(int memory, int variable, IEncounterTemplate enc, PKM pk);
 
         public abstract bool CanHaveIntensity(int memory, int intensity);
-        public abstract bool CanHaveFeeling(int memory, int feeling);
+        public abstract bool CanHaveFeeling(int memory, int feeling, int argument);
         public abstract int GetMinimumIntensity(int memory);
     }
 }
