@@ -237,9 +237,10 @@ namespace PKHeX.WinForms
         {
             if (sender == CB_CTMemory)
             {
+                int memoryGen = pkm.Generation;
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.Generation);
-                var argvals = MemStrings.GetArgumentStrings(memIndex);
+                var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
+                var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
                 LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Generation);
@@ -247,9 +248,10 @@ namespace PKHeX.WinForms
             }
             else
             {
+                int memoryGen = pkm.Format;
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.Format);
-                var argvals = MemStrings.GetArgumentStrings(memIndex);
+                var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
+                var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
                 CB_OTVar.InitializeBinding();
                 CB_OTVar.DataSource = new BindingSource(argvals, null);
                 LOTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Format);

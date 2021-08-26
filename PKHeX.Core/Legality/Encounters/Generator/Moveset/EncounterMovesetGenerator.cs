@@ -139,6 +139,8 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
+            if (pk.Species == 0) // can enter this method after failing to set a species ID that cannot exist in the format
+                return Array.Empty<IEncounterable>();
             pk.Version = (int)version;
             var format = pk.Format;
             if (format is 2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)

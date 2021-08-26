@@ -183,7 +183,7 @@ namespace PKHeX.Core
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
 
-        private int PartySlot { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // or not; only really used while in party?
+        public int PartySlot { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // or not; only really used while in party?
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xD8); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public int Purification { get => BigEndian.ToInt32(Data, 0xDC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xDC); }
         public uint EXP_Shadow { get => BigEndian.ToUInt32(Data, 0xC0); set => BigEndian.GetBytes(value).CopyTo(Data, 0xC0); }

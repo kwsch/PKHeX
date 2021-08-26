@@ -20,7 +20,8 @@ namespace PKHeX.Core
             memories = new Lazy<List<ComboItem>>(GetMemories);
             none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
             species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist));
-            item = new Lazy<List<ComboItem>>(() => GetItems(format));
+            item6 = new Lazy<List<ComboItem>>(() => GetItems(6));
+            item8 = new Lazy<List<ComboItem>>(() => GetItems(8));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
             moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist));
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
@@ -34,12 +35,13 @@ namespace PKHeX.Core
         }
 
         private readonly Lazy<List<ComboItem>> memories;
-        private readonly Lazy<List<ComboItem>> none, species, item, genloc, moves, specific;
+        private readonly Lazy<List<ComboItem>> none, species, item6, item8, genloc, moves, specific;
 
         public List<ComboItem> Memory => memories.Value;
         public List<ComboItem> None => none.Value;
         public List<ComboItem> Moves => moves.Value;
-        public List<ComboItem> Items => item.Value;
+        public List<ComboItem> Items6 => item6.Value;
+        public List<ComboItem> Items8 => item8.Value;
         public List<ComboItem> GeneralLocations => genloc.Value;
         public List<ComboItem> SpecificLocations => specific.Value;
         public List<ComboItem> Species => species.Value;
@@ -55,11 +57,11 @@ namespace PKHeX.Core
         public ReadOnlySpan<string> GetMemoryQualities() => s.intensity;
         public ReadOnlySpan<string> GetMemoryFeelings(int memoryGen) => memoryGen >= 8 ? s.feeling.AsSpan(0, 25) : s.feeling.AsSpan(1, 24); // empty line for 0 in gen8+
 
-        public List<ComboItem> GetArgumentStrings(MemoryArgType type) => type switch
+        public List<ComboItem> GetArgumentStrings(MemoryArgType type, int memoryGen) => type switch
         {
             MemoryArgType.Species => Species,
             MemoryArgType.GeneralLocation => GeneralLocations,
-            MemoryArgType.Item => Items,
+            MemoryArgType.Item => memoryGen == 6 ? Items6 : Items8,
             MemoryArgType.Move => Moves,
             MemoryArgType.SpecificLocation => SpecificLocations,
             _ => None,
