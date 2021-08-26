@@ -14,6 +14,8 @@ namespace PKHeX.Core
         public const int Size = 0x140;
         public override int Generation => 7;
 
+        public override GameVersion Version { get => GameVersion.GG; set { } }
+
         public WR7() : this(new byte[Size]) { }
         public WR7(byte[] data) : base(data) { }
 

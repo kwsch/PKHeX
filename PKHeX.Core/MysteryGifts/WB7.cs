@@ -18,6 +18,8 @@ namespace PKHeX.Core
         public WB7() : this(new byte[SizeFull]) { }
         public WB7(byte[] data) : base(data) { }
 
+        public override GameVersion Version { get => GameVersion.GG; set { } }
+
         public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
 
         public bool CanBeReceivedByVersion(int v)
