@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct()
             .Concat(GetKeyItemParams())
             .Concat(Legal.TMHM_AO.Take(100).Select(z => (ushort)z))
-            .Where(z => z < Legal.MaxItemID_8_R2);
+            .Where(z => z <= Legal.MaxItemID_8_R2);
 
         public override bool CanUseItemGeneric(int item) => true; // todo
 

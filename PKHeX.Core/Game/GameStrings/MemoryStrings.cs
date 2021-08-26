@@ -14,7 +14,7 @@ namespace PKHeX.Core
     {
         private readonly GameStrings s;
 
-        public MemoryStrings(GameStrings strings, int format)
+        public MemoryStrings(GameStrings strings)
         {
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
@@ -27,9 +27,9 @@ namespace PKHeX.Core
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
         }
 
-        private List<ComboItem> GetItems(int format)
+        private List<ComboItem> GetItems(int memoryGen)
         {
-            var permit = Memories.GetMemoryItemParams(format);
+            var permit = Memories.GetMemoryItemParams(memoryGen);
             var asInt = permit.Select(z => (int) z).ToArray();
             return Util.GetCBList(s.itemlist, asInt);
         }

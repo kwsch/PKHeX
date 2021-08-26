@@ -38,7 +38,7 @@ namespace PKHeX.Core
         public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Distinct()
             .Concat(GetKeyItemParams())
             .Concat(Legal.TMHM_AO.Take(100).Select(z => (ushort)z))
-            .Where(z => z < Legal.MaxItemID_6_AO);
+            .Where(z => z <= Legal.MaxItemID_6_AO);
 
         public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserve6.Contains((ushort)item);
         public override bool IsUsedKeyItemSpecific(int item, int species) => KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort)item);

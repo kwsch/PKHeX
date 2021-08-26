@@ -16,12 +16,12 @@ namespace PKHeX.Core
         private static readonly HashSet<int> MemoryItem = new() { 5, 15, 26, 34, 40, 51, 84, 88 };
         private static readonly HashSet<int> MemorySpecies = new() { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60, 70, 71, 72, 75, 82, 83, 87 };
 
-        public static MemoryArgType GetMemoryArgType(int memory, int format)
+        public static MemoryArgType GetMemoryArgType(int memory, int memoryGen)
         {
             if (MemoryGeneral.Contains(memory)) return MemoryArgType.GeneralLocation;
             if (MemorySpecific.Contains(memory))
             {
-                if (format == 6)
+                if (memoryGen <= 7)
                     return MemoryArgType.SpecificLocation;
                 return MemoryArgType.GeneralLocation;
             }
@@ -33,12 +33,12 @@ namespace PKHeX.Core
             return MemoryArgType.None;
         }
 
-        public static MemoryContext GetContext(int format) => format switch
+        public static MemoryContext GetContext(int memoryGen) => memoryGen switch
         {
-            6 or 7 => Memory6,
+            <=7 => Memory6,
             _ => Memory8,
         };
 
-        public static IEnumerable<ushort> GetMemoryItemParams(int format) => GetContext(format).GetMemoryItemParams();
+        public static IEnumerable<ushort> GetMemoryItemParams(int memoryGen) => GetContext(memoryGen).GetMemoryItemParams();
     }
 }
