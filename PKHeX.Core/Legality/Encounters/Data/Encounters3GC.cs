@@ -122,22 +122,22 @@ namespace PKHeX.Core
             new(GameVersion.XD, 01, 03000, First)     { Fateful = true, Species = 216, Level = 11, Moves = new[] {216,287,122,232}, Location = 143, Gift = true }, // Teddiursa: Cipher Peon Naps @ Pokémon HQ Lab -- treat as Gift as it can only be captured in a Poké Ball
             new(GameVersion.XD, 02, 02000, Vulpix)    { Fateful = true, Species = 037, Level = 18, Moves = new[] {257,204,052,091}, Location = 109 }, // Vulpix: Cipher Peon Mesin @ ONBS Building
             new(GameVersion.XD, 03, 01500, Spheal)    { Fateful = true, Species = 363, Level = 17, Moves = new[] {062,204,055,189}, Location = 011 }, // Spheal: Cipher Peon Blusix @ Cipher Lab
-            new(GameVersion.XD, 03, 01500, Spheal)    { Fateful = true, Species = 363, Level = 17, Moves = new[] {062,204,055,189}, Location = 096 }, // Spheal: Cipher Peon Blusix  @ Phenac City
+            new(GameVersion.XD, 03, 01500, Spheal)    { Fateful = true, Species = 363, Level = 17, Moves = new[] {062,204,055,189}, Location = 100 }, // Spheal: Cipher Peon Blusix  @ Phenac City
             new(GameVersion.XD, 04, 01500, First)     { Fateful = true, Species = 343, Level = 17, Moves = new[] {317,287,189,060}, Location = 011 }, // Baltoy: Cipher Peon Browsix @ Cipher Lab
             new(GameVersion.XD, 04, 01500, First)     { Fateful = true, Species = 343, Level = 17, Moves = new[] {317,287,189,060}, Location = 096 }, // Baltoy: Cipher Peon Browsix  @ Phenac City
             new(GameVersion.XD, 05, 01500, First)     { Fateful = true, Species = 179, Level = 17, Moves = new[] {034,215,084,086}, Location = 011 }, // Mareep: Cipher Peon Yellosix @ Cipher Lab
             new(GameVersion.XD, 05, 01500, First)     { Fateful = true, Species = 179, Level = 17, Moves = new[] {034,215,084,086}, Location = 096 }, // Mareep: Cipher Peon Yellosix @ Phenac City
             new(GameVersion.XD, 06, 01500, Gulpin)    { Fateful = true, Species = 316, Level = 17, Moves = new[] {351,047,124,092}, Location = 011 }, // Gulpin: Cipher Peon Purpsix @ Cipher Lab
-            new(GameVersion.XD, 06, 01500, Gulpin)    { Fateful = true, Species = 316, Level = 17, Moves = new[] {351,047,124,092}, Location = 096 }, // Gulpin: Cipher Peon Purpsix @ Phenac City
+            new(GameVersion.XD, 06, 01500, Gulpin)    { Fateful = true, Species = 316, Level = 17, Moves = new[] {351,047,124,092}, Location = 100 }, // Gulpin: Cipher Peon Purpsix @ Phenac City
             new(GameVersion.XD, 07, 01500, Seedot)    { Fateful = true, Species = 273, Level = 17, Moves = new[] {202,287,331,290}, Location = 011 }, // Seedot: Cipher Peon Greesix @ Cipher Lab
-            new(GameVersion.XD, 07, 01500, Seedot)    { Fateful = true, Species = 273, Level = 17, Moves = new[] {202,287,331,290}, Location = 096 }, // Seedot: Cipher Peon Greesix @ Phenac City
+            new(GameVersion.XD, 07, 01500, Seedot)    { Fateful = true, Species = 273, Level = 17, Moves = new[] {202,287,331,290}, Location = 100 }, // Seedot: Cipher Peon Greesix @ Phenac City
             new(GameVersion.XD, 08, 01500, Spinarak)  { Fateful = true, Species = 167, Level = 14, Moves = new[] {091,287,324,101}, Location = 010 }, // Spinarak: Cipher Peon Nexir @ Cipher Lab
             new(GameVersion.XD, 09, 01500, Numel)     { Fateful = true, Species = 322, Level = 14, Moves = new[] {036,204,091,052}, Location = 009 }, // Numel: Cipher Peon Solox @ Cipher Lab
             new(GameVersion.XD, 10, 01700, First)     { Fateful = true, Species = 318, Level = 15, Moves = new[] {352,287,184,044}, Location = 008 }, // Carvanha: Cipher Peon Cabol @ Cipher Lab
             new(GameVersion.XD, 11, 03000, Roselia)   { Fateful = true, Species = 315, Level = 22, Moves = new[] {345,186,320,073}, Location = 094 }, // Roselia: Cipher Peon Fasin @ Phenac City
             new(GameVersion.XD, 12, 02500, Delcatty)  { Fateful = true, Species = 301, Level = 18, Moves = new[] {290,186,213,351}, Location = 008 }, // Delcatty: Cipher Admin Lovrina @ Cipher Lab
             new(GameVersion.XD, 13, 04000, Nosepass)  { Fateful = true, Species = 299, Level = 26, Moves = new[] {085,270,086,157}, Location = 090 }, // Nosepass: Wanderer Miror B. @ Poké Spots
-            new(GameVersion.XD, 14, 01500, First)     { Fateful = true, Species = 228, Level = 17, Moves = new[] {185,204,052,046}, Location = 096 }, // Houndour: Cipher Peon Resix  @ Phenac City
+            new(GameVersion.XD, 14, 01500, First)     { Fateful = true, Species = 228, Level = 17, Moves = new[] {185,204,052,046}, Location = 100 }, // Houndour: Cipher Peon Resix  @ Phenac City
             new(GameVersion.XD, 14, 01500, First)     { Fateful = true, Species = 228, Level = 17, Moves = new[] {185,204,052,046}, Location = 011 }, // Houndour: Cipher Peon Resix @ Cipher Lab
             new(GameVersion.XD, 15, 02000, Makuhita)  { Fateful = true, Species = 296, Level = 18, Moves = new[] {280,287,292,317}, Location = 109 }, // Makuhita: Cipher Peon Torkin @ ONBS Building
             new(GameVersion.XD, 16, 02200, Duskull)   { Fateful = true, Species = 355, Level = 19, Moves = new[] {247,270,310,109}, Location = 110 }, // Duskull: Cipher Peon Lobar @ ONBS Building
