@@ -39,6 +39,9 @@ namespace PKHeX.Core
             if (context.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pkm))
                 return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
+            if (context.IsInvalidMiscMemory(memory.MemoryID, memory.Variable))
+                return GetInvalid(string.Format(LMemoryArgBadID, memory.Handler));
+
             switch (memory.MemoryID)
             {
                 case 19 when pkm.Species is (int)Species.Urshifu   && memory.Variable is not 34: // tall building is the only location for evolving Urshifu

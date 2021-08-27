@@ -41,6 +41,16 @@ namespace PKHeX.Core
             return IsInvalidGenLoc8Other(memory, variable);
         }
 
+        public override bool IsInvalidMiscMemory(int memory, int variable)
+        {
+            return memory switch
+            {
+                // {0} was excited when {1} won prizes like {2} through Loto-ID.
+                51 when variable is not (1 or 33 or 50 or 51 or 53) => true, // item IDs
+                _ => false,
+            };
+        }
+
         private static bool CanObtainMemorySWSH(int memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
         public override bool CanWinRotoLoto(int item) => true;
@@ -115,6 +125,12 @@ namespace PKHeX.Core
             var arg = (byte)variable;
             return memory switch
             {
+                // reading a sign
+                42 when variable is not (1 or 12 or 33 or 35 or 37 or 44 or 47 or 53 or 71 or 72 or 76 or 77) => true,
+
+                // sitting on a bench
+                70 when variable is not (12 or 28 or 33 or 35 or 37 or 38 or 44 or 53 or 77) => true,
+
                 _ => !PossibleGeneralLocations8.Contains(arg),
             };
         }

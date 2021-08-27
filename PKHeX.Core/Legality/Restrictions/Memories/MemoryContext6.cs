@@ -61,6 +61,11 @@ namespace PKHeX.Core
             return false; // todo
         }
 
+        public override bool IsInvalidMiscMemory(int memory, int variable)
+        {
+            return false; // todo
+        }
+
         private static bool CanObtainMemoryAO(int memory) => memory <= MAX_MEMORY_ID_AO && !Memory_NotAO.Contains(memory);
         private static bool CanObtainMemoryXY(int memory) => memory <= MAX_MEMORY_ID_XY && !Memory_NotXY.Contains(memory);
         public override bool CanObtainMemoryHT(GameVersion pkmVersion, int memory) => CanObtainMemory(memory);
