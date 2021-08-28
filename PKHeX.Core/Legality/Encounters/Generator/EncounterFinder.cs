@@ -122,7 +122,7 @@ namespace PKHeX.Core
                 if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pkm.HasMove(h.HT_TextVar))
                 {
                     var mem = MemoryVariableSet.Read(m, 1);
-                    if (!MemoryPermissions.CanKnowMove(pkm, mem, info.EncounterMatch.Generation, info))
+                    if (!MemoryPermissions.CanKnowMove(pkm, mem, pkm.Format, info))
                         return false;
                 }
             }
