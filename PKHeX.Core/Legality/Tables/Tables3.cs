@@ -106,7 +106,7 @@ namespace PKHeX.Core
             259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
         };
 
-        internal static readonly HashSet<int> HM_3 = new() { 15, 19, 57, 70, 148, 249, 127, 291};
+        internal static readonly int[] HM_3 = {15, 19, 57, 70, 148, 249, 127, 291};
 
         internal static readonly int[] Tutor_3Mew =
         {

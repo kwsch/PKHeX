@@ -167,6 +167,10 @@ namespace PKHeX.Core
                 if (tmIndex != -1 && tm[tmIndex])
                     possible[i] |= 1 << (int)FatherTM;
 
+                var hmIndex = Array.IndexOf(Legal.TMHM_GSC, move, 50);
+                if (hmIndex != -1 && tm[hmIndex + 50])
+                    possible[i] |= 1 << (int)FatherTM;
+
                 if (version is GameVersion.C)
                 {
                     var tutorIndex = Array.IndexOf(Legal.Tutors_GSC, move);

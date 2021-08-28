@@ -319,7 +319,8 @@ namespace PKHeX.Core
             int[] newMoves = pk4.Moves;
             for (int i = 0; i < 4; i++)
             {
-                if (Legal.HM_3.Contains(newMoves[i]))
+                var move = newMoves[i];
+                if (Array.IndexOf(Legal.HM_3, move) != -1)
                     newMoves[i] = 0;
             }
 

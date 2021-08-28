@@ -169,6 +169,10 @@ namespace PKHeX.Core
                 var entry = table[i];
                 entry.AddTMHM(machine[i]);
                 entry.AddTypeTutors(tutors[i]);
+
+                // Copy to other tables
+                RS.Table[i].TMHM = FR.Table[i].TMHM = LG.Table[i].TMHM = entry.TMHM;
+                RS.Table[i].TypeTutors = FR.Table[i].TypeTutors = LG.Table[i].TypeTutors = entry.TypeTutors;
             }
         }
 
