@@ -25,6 +25,8 @@ namespace PKHeX.Core
             X, Y, OR, AS,
             SN, MN, US, UM,
             SW, SH,
+
+            GS,
         };
 
         /// <summary>
