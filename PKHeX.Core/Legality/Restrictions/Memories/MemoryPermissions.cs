@@ -220,8 +220,8 @@ namespace PKHeX.Core
         }
 
         // exclusive to version
-        private static bool IsDynamaxSW(int species) => species is (int) Machamp or (int) Coalossal or (int) Flapple;
-        private static bool IsDynamaxSH(int species) => species is (int) Gengar or (int) Lapras or (int) Appletun;
+        private static bool IsDynamaxSW(int species) => species is (int)Machamp or (int)Gigalith or (int)Conkeldurr or (int)Coalossal or (int)Flapple;
+        private static bool IsDynamaxSH(int species) => species is (int)Gengar or (int)Lapras or (int)Dusknoir or (int)Froslass or (int)Appletun;
 
         // common to SW & SH
         private static readonly HashSet<int> DynamaxTrainer_SWSH = new()
@@ -230,12 +230,19 @@ namespace PKHeX.Core
             (int)Blastoise,
             (int)Charizard,
             (int)Slowbro,
+            (int)Gyarados,
             (int)Snorlax,
             (int)Slowking,
+            (int)Torkoal,
+            (int)Vespiquen,
+            (int)Regigigas,
             (int)Garbodor,
+            (int)Haxorus,
+            (int)Tsareena,
             (int)Rillaboom,
             (int)Inteleon,
             (int)Cinderace,
+            (int)Greedent,
             (int)Corviknight,
             (int)Eldegoss,
             (int)Drednaw,
