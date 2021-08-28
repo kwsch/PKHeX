@@ -150,7 +150,7 @@ namespace PKHeX.Core
             // Sun/Moon lack Ultra's Kantonian evolution methods.
             BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
             BanEvo((int)Species.Marowak, 0, pkm => pkm.IsUntraded && pkm.SM);
-            BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
+            BanEvo((int)Species.Exeggutor, 0, pkm => pkm.IsUntraded && pkm.SM);
         }
 
         private void FixEvoTreeSS()
