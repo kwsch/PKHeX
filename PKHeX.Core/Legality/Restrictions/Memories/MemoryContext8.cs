@@ -135,8 +135,43 @@ namespace PKHeX.Core
             };
         }
 
-        public override bool CanHaveIntensity(int memory, int intensity) => true; // todo
-        public override bool CanHaveFeeling(int memory, int feeling, int argument) => true; // todo
-        public override int GetMinimumIntensity(int memory) => 3; // todo
+        public static bool CanHaveFeeling8(int memory, int feeling, int argument)
+        {
+            if (memory >= MemoryFeelings.Length)
+                return false;
+            if (feeling <= 0)
+                return false; // Different from Gen6; this +1 is to match them treating 0 as empty
+            return (MemoryFeelings[memory] & (1 << --feeling)) != 0;
+        }
+
+        public static bool CanHaveIntensity8(int memory, int intensity)
+        {
+            if (memory >= MemoryFeelings.Length)
+                return false;
+            return MemoryMinIntensity[memory] <= intensity;
+        }
+
+        public static int GetRandomFeeling8(int memory, int max = 24)
+        {
+            var bits = MemoryFeelings[memory];
+            var rnd = Util.Rand;
+            while (true)
+            {
+                int feel = rnd.Next(max);
+                if ((bits & (1 << feel)) != 0)
+                    return feel + 1; // Different from Gen6; this +1 is to match them treating 0 as empty
+            }
+        }
+
+        public static int GetMinimumIntensity8(int memory)
+        {
+            if (memory >= MemoryMinIntensity.Length)
+                return -1;
+            return MemoryMinIntensity[memory];
+        }
+
+        public override bool CanHaveIntensity(int memory, int intensity) => CanHaveIntensity8(memory, intensity);
+        public override bool CanHaveFeeling(int memory, int feeling, int argument) => CanHaveFeeling8(memory, feeling, argument);
+        public override int GetMinimumIntensity(int memory) => GetMinimumIntensity8(memory);
     }
 }

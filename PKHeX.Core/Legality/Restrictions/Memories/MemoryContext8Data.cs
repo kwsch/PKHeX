@@ -244,5 +244,53 @@ namespace PKHeX.Core
             65,
             71, 72, 73, 74, 75, 76, 77, 78, 79,
         };
+
+        private static readonly byte[] MemoryMinIntensity =
+        {
+            0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
+            3, 3, 3, 3, 3, 3, 3, 4, 5, 5,
+            5, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            3, 3, 1, 3, 2, 2, 4, 3, 4, 4,
+            4, 4, 2, 4, 2, 4, 3, 3, 4, 2,
+            3, 3, 3, 3, 3, 2, 3, 4, 4, 2, // same as Gen6
+            2, 3, 3, 3, 3, 4, 5, 3, 3, 3,
+            3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+        };
+
+        // [0,99]+1 >= CHANCE -> abort
+        // this silly +1 causes:
+        // 100% memories to fail 1% of the time
+        // 1% memories to fail 100% of the time (!!!)
+        // swsh v1.3 sub_71013B0C40
+        private static readonly byte[] MemoryRandChance =
+        {
+            000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
+            005, 005, 005, 005, 010, 020, 010, 001, 050, 030,
+            005, 005, 020, 005, 005, 005, 001, 050, 100, 050,
+            050, 002, 002, 005, 005, 005, 005, 005, 005, 002,
+            020, 020, 005, 010, 001, 001, 050, 030, 020, 020,
+            010, 010, 001, 010, 001, 050, 030, 030, 030, 002,
+            050, 020, 020, 020, 020, 010, 010, 050, 020, 005, // same as Gen6
+            005, 010, 010, 020, 020, 010, 100, 010, 005, 010,
+            010, 010, 010, 010, 010, 010, 010, 001, 001, 001,
+        };
+
+        /// <summary>
+        /// 24bits of flags allowing certain feelings for a given memory index.
+        /// </summary>
+        /// <remarks>Beware, there was an off-by-one error in the game that made Feeling 0 unobtainable, and thus the Happy feeling bit (rightmost) is omitted.</remarks>
+        private static readonly uint[] MemoryFeelings =
+        {
+            0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
+            0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,
+            0x081A7B, 0x404030, 0x0FFFFF, 0x9A08BC, 0x089A7B, 0x0032AA, 0x80FF7A, 0x0FFFFF, 0x0805FD, 0x098278,
+            0x0B3FFF, 0x8BBFFA, 0x8BBFFE, 0x81A97C, 0x8BB97C, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0x8BBF7F, 0xAC3ABE,
+            0xBFFFFF, 0x8B837C, 0x848AFA, 0x88FFFE, 0x8B0B7C, 0xB76AB2, 0x8B1FFF, 0xBE7AB8, 0xB77EB8, 0x8C9FFD,
+            0xBF9BFF, 0xF408B0, 0xBCFE7A, 0x8F3F72, 0x90DB7A, 0xBCEBFF, 0xBC5838, 0x9C3FFE, 0x9CFFFF, 0x96D83A,
+            0xB770B0, 0x881F7A, 0x839F7A, 0x839F7A, 0x839F7A, 0x53897F, 0x41BB6F, 0x0C35FF, 0x8BBF7F, 0x8BBF7F, // same as Gen6
+            0x90CC7E, 0x2FBF7F, 0x2FBF7F, 0xB797FF, 0x3FB7FF, 0xBFFFFF, 0xCC8BFF, 0xF69F7F, 0x37FDFF, 0x2B277F,
+            0x8FFBFA, 0x8CDFFA, 0xFCE9EF, 0x8F6F7B, 0x826AB0, 0x866AB0, 0x8C69FE, 0x776AB0, 0x8CFB7A, 0x0CFEBA,
+        };
     }
 }
