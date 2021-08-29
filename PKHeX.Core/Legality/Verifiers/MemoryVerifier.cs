@@ -286,8 +286,8 @@ namespace PKHeX.Core
             switch (memory)
             {
                 // No Memory
-                case 0: // SWSH trades don't set HT memories immediately, which is hilarious.
-                    data.AddLine(Get(LMemoryMissingHT, memoryGen == 8 ? Severity.Fishy : Severity.Invalid));
+                case 0: // SWSH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
+                    data.AddLine(Get(LMemoryMissingHT, memoryGen == 8 ? ParseSettings.Gen8MemoryMissingHT : Severity.Invalid));
                     VerifyHTMemoryNone(data, mem);
                     return;
 

@@ -199,8 +199,8 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
         public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
 
-        [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Location Memory text variable is present.")]
-        public Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
+        [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Memory is missing for the Handling Trainer.")]
+        public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
 
         [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
         public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
