@@ -6,14 +6,40 @@ namespace PKHeX.Core
     {
         private static readonly int[] Memory_NotSWSH =
         {
-            // There's probably more. Send a pull request!
+            10, // {0} got treats from {1}. {4} that {3}.
             20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
+            21, // {0} saw {2} carrying {1} on its back. {4} that {3}.
+            23, // When {1} challenged the Battle Maison, {0} got really nervous. {4} that {3}.
             24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
+            26, // {0} saw {1} using {2}. {4} that {3}.
+            31, // {0} searched for hidden items with {1} using the Dowsing Machine {2}. {4} that {3}.
+            34, // {0} planted {2} with {1} and imagined a big harvest. {4} that {3}.
             35, // {0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
             36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
             37, // {0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
             38, // {0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
+            41, // {0} headed for Victory Road with {1}. {4} that {3}.
+            44, // {0} encountered {2} with {1} using the Poké Radar. {4} that {3}.
+            45, // When {2} jumped out, {0} was surprised and ran away with {1}. {4} that {3}.
+            46, // {0} got a high score at the Battle Institute where it challenged others with {1}. {4} that {3}.
+            47, // {0} was stared at by the Judge when it met him with {1}. {4} that {3}.
+            50, // {0} was taken to the Pokémon Day Care by {1} and left with {2}. {4} that {3}.
+            52, // {0} was there when {1} used a repellent {2}. {4} that {3}.
+            54, // {0} took an elevator with {1}. {4} that {3}.
+            57, // {0} went to a nice restaurant with {1} and ate until it got completely full. {4} that {3}.
+            58, // {0} was taken to a nice lady by {1} and pampered. {4} that {3}.
+            59, // {0} checked a bin with {1} {2}. {4} that {3}.
+            61, // {0} went to a tall tower with {1} and looked down on the world. {4} that {3}.
+            62, // {0} saw itself in a mirror inside a mirror cave that it explored with {1}. {4} that {3}.
+            64, // {0} went to a factory with {1} and saw a lot of machines that looked very complicated. {4} that {3}.
+            65, // {0} was there when {1} created a Secret Base. {4} that {3}.
+            66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
+            67, // {0} participated in a contest with {1} and won the title. {4} that {3}.
+            68, // {0} soared through the sky with {1} and went to many different places. {4} that {3}.
             69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
+            87, // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
+            88, // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
+            89, // When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.
         };
 
         private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen8 = new()
