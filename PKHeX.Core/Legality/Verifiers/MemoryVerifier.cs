@@ -80,6 +80,14 @@ namespace PKHeX.Core
                 case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
+                // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
+                case 60 when gen == 8 && !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
+
+                // {0} had a very hard training session with {1}. {4} that {3}.
+                case 53 when gen == 8 && pkm is IHyperTrain t && !t.IsHyperTrained():
+                    return GetInvalid(string.Format(LMemoryArgBadID, memory.Handler));
+
                 // Item
                 // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
                 case 5 when !CanBuyItem(gen, memory.Variable, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):

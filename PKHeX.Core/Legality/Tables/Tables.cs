@@ -104,6 +104,8 @@ namespace PKHeX.Core
             (int)ClangorousSoulblaze,
         };
 
+        public static bool IsDynamaxMove(int move) => move is >= (int)MaxFlare and <= (int)MaxSteelspike;
+
         /// <summary>
         /// Moves that can not be obtained by using Sketch with Smeargle in any game.
         /// </summary>

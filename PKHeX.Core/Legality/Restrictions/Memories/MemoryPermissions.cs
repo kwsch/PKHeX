@@ -128,6 +128,18 @@ namespace PKHeX.Core
                     case (int)BehemothBash when pkm.Species == (int)Zamazenta:
                         return true;
                 }
+                if (gen == 8 && Legal.IsDynamaxMove(move))
+                    return true;
+                if (pkm.Species == (int)Ditto)
+                {
+                    if (move == (int)Struggle)
+                        return false;
+                    return gen switch
+                    {
+                        8 => move <= Legal.MaxMoveID_8_R2 && !Legal.DummiedMoves_SWSH.Contains(move),
+                        _ => move <= Legal.MaxMoveID_6_AO,
+                    };
+                }
             }
 
             return false;
