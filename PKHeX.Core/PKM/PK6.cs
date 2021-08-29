@@ -443,7 +443,7 @@ namespace PKHeX.Core
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)
-                this.SetTradeMemory(false);
+                this.SetTradeMemoryHT6(false);
         }
 
         // Maximums
@@ -475,7 +475,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            pk7.SetTradeMemory(bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT6(true); // oh no, memories on gen7 pkm
             PKMConverter.SetFirstCountryRegion(pk7);
 
             // Bank-accurate data zeroing

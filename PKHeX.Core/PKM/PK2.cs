@@ -207,7 +207,7 @@ namespace PKHeX.Core
             pk7.OT_Gender = OT_Gender; // Crystal
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
-            pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pkm
 
             // Dizzy Punch cannot be transferred
             {

@@ -550,7 +550,7 @@ namespace PKHeX.Core
             if (gen < 6)
                 OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
             if (gen != 8) // must be transferred via HOME, and must have memories
-                TradeMemory();
+                this.SetTradeMemoryHT8(); // not faking HOME tracker.
         }
 
         private bool TradeOT(ITrainerInfo tr)
@@ -573,11 +573,7 @@ namespace PKHeX.Core
             CurrentHandler = 1;
             HT_Gender = tr.Gender;
             HT_Language = tr.Language;
-        }
-
-        // Misc Updates
-        public static void TradeMemory()
-        {
+            this.SetTradeMemoryHT8();
         }
 
         // Maximums

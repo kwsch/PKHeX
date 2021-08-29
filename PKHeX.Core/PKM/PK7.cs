@@ -462,7 +462,7 @@ namespace PKHeX.Core
 
             if (Generation < 7) // must be transferred via bank, and must have memories
             {
-                this.SetTradeMemory(true);
+                this.SetTradeMemoryHT6(true); // oh no, memories on gen7 pkm
                 // georegions cleared on 6->7, no need to set
             }
         }

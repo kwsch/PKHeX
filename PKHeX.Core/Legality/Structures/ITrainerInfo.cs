@@ -48,7 +48,11 @@ namespace PKHeX.Core
             {
                 pk6.Geo1_Country = o.Country;
                 pk6.Geo1_Region = o.Region;
-                pk6.SetTradeMemoryHT(true);
+                pk6.SetTradeMemoryHT6(true);
+            }
+            else if (pk is PK8 pk8)
+            {
+                pk8.SetTradeMemoryHT8();
             }
         }
 
