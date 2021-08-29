@@ -34,7 +34,7 @@ namespace PKHeX.Core
             new(185, 20, GSC) { Location = 020 }, // Sudowoodo @ Route 36
             new(236, 10, GSC) { Location = 035 }, // Tyrogue @ Mt. Mortar
 
-            new(130, 30, GSC) { Location = 038, Shiny = Shiny.Always, }, // Gyarados @ Lake of Rage
+            new(130, 30, GSC) { Location = 038, Shiny = Shiny.Always, Gender = 0, IVs = new []{0, 14, 10, 10, 10, 10} }, // Gyarados @ Lake of Rage (forcing shiny IVs result in always Male)
             new(074, 21, GSC) { Location = 036 }, // Geodude @ Rocket Hideout (Mahogany Town)
             new(109, 21, GSC) { Location = 036 }, // Koffing @ Rocket Hideout (Mahogany Town)
             new(100, 23, GSC) { Location = 036 }, // Voltorb @ Rocket Hideout (Mahogany Town)
