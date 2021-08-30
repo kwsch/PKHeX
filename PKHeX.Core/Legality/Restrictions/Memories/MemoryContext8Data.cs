@@ -7,6 +7,7 @@ namespace PKHeX.Core
         private static readonly int[] Memory_NotSWSH =
         {
             10, // {0} got treats from {1}. {4} that {3}.
+            17, // {0} battled at {1}’s side and beat {2}. {4} that {3}.
             20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
             21, // {0} saw {2} carrying {1} on its back. {4} that {3}.
             23, // When {1} challenged the Battle Maison, {0} got really nervous. {4} that {3}.
