@@ -8,6 +8,28 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 001 }, Index = 83 }, // Cinccino
+            new(17,01,1) { Species = 333, Ability = A4, Moves = new[]{ 574, 064, 257, 031 }, Index = 83 }, // Swablu
+            new(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 437, 104, 310, 084 }, Index = 83, Form = 5 }, // Rotom-5
+            new(17,01,1) { Species = 767, Ability = A4, Moves = new[]{ 522, 057, 111, 028 }, Index = 83 }, // Wimpod
+            new(30,03,2) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 583 }, Index = 83 }, // Cinccino
+            new(30,03,2) { Species = 333, Ability = A4, Moves = new[]{ 583, 225, 257, 058 }, Index = 83 }, // Swablu
+            new(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 437, 399, 310, 084 }, Index = 83, Form = 5 }, // Rotom-5
+            new(30,03,2) { Species = 767, Ability = A4, Moves = new[]{ 522, 057, 111, 028 }, Index = 83 }, // Wimpod
+            new(40,05,3) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 441 }, Index = 83 }, // Cinccino
+            new(40,05,3) { Species = 334, Ability = A4, Moves = new[]{ 583, 784, 083, 058 }, Index = 83 }, // Altaria
+            new(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 437, 399, 506, 351 }, Index = 83, Form = 5 }, // Rotom-5
+            new(40,05,3) { Species = 767, Ability = A4, Moves = new[]{ 522, 057, 372, 028 }, Index = 83 }, // Wimpod
+            new(50,08,4) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 086 }, Index = 83 }, // Cinccino
+            new(50,08,4) { Species = 334, Ability = A4, Moves = new[]{ 585, 784, 083, 058 }, Index = 83 }, // Altaria
+            new(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 437, 399, 247, 085 }, Index = 83, Form = 5 }, // Rotom-5
+            new(50,08,4) { Species = 767, Ability = A4, Moves = new[]{ 522, 057, 372, 341 }, Index = 83 }, // Wimpod
+            new(60,10,5) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 813 }, Index = 83, Shiny = Shiny.Always }, // Cinccino
+            new(60,10,5) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 813 }, Index = 83 }, // Cinccino
+            new(60,10,5) { Species = 334, Ability = A4, Moves = new[]{ 585, 784, 542, 058 }, Index = 83 }, // Altaria
+            new(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 437, 399, 261, 085 }, Index = 83, Form = 5 }, // Rotom-5
+            new(60,10,5) { Species = 767, Ability = A4, Moves = new[]{ 806, 057, 372, 341 }, Index = 83 }, // Wimpod
+
             new(17,01,1) { Species = 092, Ability = A4, Moves = new[]{ 122, 605, 474, 009 }, Index = 81 }, // Gastly
             new(17,01,1) { Species = 607, Ability = A4, Moves = new[]{ 052, 506, 123, 109 }, Index = 81 }, // Litwick
             new(17,01,1) { Species = 425, Ability = A4, Moves = new[]{ 310, 016, 107, 506 }, Index = 81 }, // Drifloon
