@@ -64,5 +64,5 @@
 0792	Captured Lugia
 0830	Received Odd Egg
 0832	Received GS Ball
-1872	Captured Snorlax
+1904	Captured Snorlax
 1873	Captured Red Gyarados
