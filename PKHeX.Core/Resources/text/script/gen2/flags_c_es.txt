@@ -64,5 +64,5 @@
 0792	Lugia Capturado
 0830	Recibido el Huevo Raro
 0832	Recibida la GS Ball
-1872	Snorlax Capturado
+1904	Snorlax Capturado
 1873	Gyarados Rojo Capturado
