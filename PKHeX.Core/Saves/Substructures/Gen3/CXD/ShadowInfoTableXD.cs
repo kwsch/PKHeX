@@ -6,24 +6,27 @@ namespace PKHeX.Core
     {
         private readonly ShadowInfoEntryXD[] Entries;
         private readonly int MaxLength;
-        private const int SIZE_ENTRY = ShadowInfoEntryXD.SIZE_ENTRY;
+        private readonly int SIZE_ENTRY;
         private const int MaxCount = 128;
 
-        public ShadowInfoTableXD(byte[] data)
+        public ShadowInfoTableXD(byte[] data, bool jp)
         {
+            SIZE_ENTRY = GetEntrySize(jp);
             MaxLength = data.Length;
             int eCount = data.Length/SIZE_ENTRY;
             Entries = new ShadowInfoEntryXD[eCount];
             for (int i = 0; i < eCount; i++)
-                Entries[i] = GetEntry(data, i);
+                Entries[i] = GetEntry(data, i, jp);
         }
 
-        public ShadowInfoTableXD() : this(new byte[SIZE_ENTRY * MaxCount]) { }
+        private static int GetEntrySize(bool jp) => jp ? ShadowInfoEntry3J.SIZE_ENTRY : ShadowInfoEntry3U.SIZE_ENTRY;
 
-        private static ShadowInfoEntryXD GetEntry(byte[] data, int index)
+        public ShadowInfoTableXD(bool jp) : this(new byte[GetEntrySize(jp) * MaxCount], jp) { }
+
+        private ShadowInfoEntryXD GetEntry(byte[] data, int index, bool jp)
         {
             var slice = data.Slice(index * SIZE_ENTRY, SIZE_ENTRY);
-            return new ShadowInfoEntryXD(slice);
+            return jp ? new ShadowInfoEntry3J(slice) : new ShadowInfoEntry3U(slice);
         }
 
         public byte[] Write() => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();

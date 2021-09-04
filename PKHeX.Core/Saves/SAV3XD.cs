@@ -33,7 +33,7 @@ namespace PKHeX.Core
         {
             // create fake objects
             StrategyMemo = new StrategyMemo();
-            ShadowInfo = new ShadowInfoTableXD();
+            ShadowInfo = new ShadowInfoTableXD(false);
             Initialize();
             ClearBoxes();
         }
@@ -92,8 +92,9 @@ namespace PKHeX.Core
             Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
+            bool jp = subLength[7] == 0x1E00;
             memo = new StrategyMemo(Data, Memo, xd: true);
-            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
+            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]), jp);
         }
 
         private void Initialize()
