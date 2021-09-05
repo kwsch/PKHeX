@@ -173,14 +173,14 @@ namespace PKHeX.Core
         {
             if ((uint)index >= MaxTitleFlag)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            return FlagUtil.GetFlag(Data, Offset + TitleFlagStart + index << 3, index);
+            return FlagUtil.GetFlag(Data, Offset + TitleFlagStart + (index >> 3), index);
         }
 
         public void SetTitleFlag(int index, bool value = true)
         {
             if ((uint)index >= MaxTitleFlag)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            FlagUtil.SetFlag(Data, Offset + TitleFlagStart + index << 3, index, value);
+            FlagUtil.SetFlag(Data, Offset + TitleFlagStart + (index >> 3), index, value);
         }
 
         public void UnlockAllTitleFlags()
