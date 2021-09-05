@@ -14,6 +14,8 @@ namespace PKHeX.Core
 
             // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
             // trainer flags (???) = 0x22F6 - end?
+
+            // Title flags @ 0x2498 - 0x24AB (160 flags): unlocked Master Trainer Titles (last 4 unused)
         }
 
         // Overall Layout
@@ -43,6 +45,11 @@ namespace PKHeX.Core
         private const int SystemFlagStart = ZoneFlagStart + ZoneFlagCount;
         private const int VanishFlagStart = SystemFlagStart + SystemFlagCount;
         private const int EventFlagStart = VanishFlagStart + VanishFlagCount;
+
+        // Work/Flag ends at 0x11A8 (relative to block start). Other data undocumented unless noted below.
+
+        private const int TitleFlagStart = 0x1298; // 0x1298
+        public const int MaxTitleFlag = 156; // Trainer, [1..153], Grand, Battle
 
         public int MaxFlag => FlagCount;
         public int MaxWork => WorkCount;
@@ -75,18 +82,13 @@ namespace PKHeX.Core
         public bool GetFlag(int index)
         {
             var offset = Offset + FlagStart + (index >> 3);
-            var current = Data[offset];
-            return (current & (1 << (index & 7))) != 0;
+            return FlagUtil.GetFlag(Data, offset, index);
         }
 
         public void SetFlag(int index, bool value = true)
         {
             var offset = Offset + FlagStart + (index >> 3);
-            var bit = 1 << (index & 7);
-            if (value)
-                Data[offset] |= (byte)bit;
-            else
-                Data[offset] &= (byte)~bit;
+            FlagUtil.SetFlag(Data, offset, index, value);
         }
 
         public EventVarType GetFlagType(int index, out int subIndex)
@@ -166,5 +168,25 @@ namespace PKHeX.Core
             EventVarType.Event => EventWorkCount,
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
+
+        public bool GetTitleFlag(int index)
+        {
+            if ((uint)index >= MaxTitleFlag)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return FlagUtil.GetFlag(Data, Offset + TitleFlagStart + index << 3, index);
+        }
+
+        public void SetTitleFlag(int index, bool value = true)
+        {
+            if ((uint)index >= MaxTitleFlag)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            FlagUtil.SetFlag(Data, Offset + TitleFlagStart + index << 3, index, value);
+        }
+
+        public void UnlockAllTitleFlags()
+        {
+            for (int i = 0; i < MaxTitleFlag; i++)
+                SetTitleFlag(i);
+        }
     }
 }

@@ -283,5 +283,11 @@ namespace PKHeX.WinForms
             UpdateGoSummary((int)NUD_GoIndex.Value);
             System.Media.SystemSounds.Asterisk.Play();
         }
+
+        private void B_AllTrainerTitles_Click(object sender, EventArgs e)
+        {
+            SAV.Blocks.EventWork.UnlockAllTitleFlags();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }
