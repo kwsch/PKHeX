@@ -159,5 +159,10 @@ namespace PKHeX.Core
             379, 384, 395, 398, 400, 403, 405, 409, 577, 692,
             694,
         };
+
+        private static readonly ushort[] LottoPrizeXYAO =
+        {
+            0001, 0033, 0050, 0051, 0053,
+        };
     }
 }

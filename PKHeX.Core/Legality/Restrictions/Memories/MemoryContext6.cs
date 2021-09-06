@@ -70,6 +70,8 @@ namespace PKHeX.Core
         private static bool CanObtainMemoryXY(int memory) => memory <= MAX_MEMORY_ID_XY && !Memory_NotXY.Contains(memory);
         public override bool CanObtainMemoryHT(GameVersion pkmVersion, int memory) => CanObtainMemory(memory);
 
+        public override bool CanWinLottoID(int item) => LottoPrizeXYAO.Contains((ushort)item);
+
         public override bool CanBuyItem(int item, GameVersion version)
         {
             if (version is GameVersion.Any)

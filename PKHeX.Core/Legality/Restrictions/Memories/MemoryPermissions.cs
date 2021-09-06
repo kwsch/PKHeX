@@ -15,10 +15,10 @@ namespace PKHeX.Core
     {
         public static bool IsMemoryOfKnownMove(int memory) => memory is 48 or 80 or 81;
 
-        public static bool CanWinRotoLoto(int generation, int item)
+        public static bool CanWinLottoID(int generation, int item)
         {
             var context = Memories.GetContext(generation);
-            return context.CanWinRotoLoto(item);
+            return context.CanWinLottoID(item);
         }
 
         public static bool CanHoldItem(int generation, int item)
@@ -265,6 +265,97 @@ namespace PKHeX.Core
             (int)Copperajah,
             (int)Duraludon,
             (int)Urshifu,
+        };
+
+        public static bool GetCanFishSpecies(int species, int gen, GameVersion version) => gen switch
+        {
+            6 => version switch
+            {
+                GameVersion.Any => FishingSpecies_XY.Contains(species) || FishingSpecies_AO.Contains(species)
+                                || IsFishingSpeciesX(species) || IsFishingSpeciesY(species),
+
+                GameVersion.X => FishingSpecies_XY.Contains(species) || IsFishingSpeciesX(species),
+                GameVersion.Y => FishingSpecies_XY.Contains(species) || IsFishingSpeciesY(species),
+
+                GameVersion.OR or GameVersion.AS => FishingSpecies_AO.Contains(species),
+                _ => false,
+            },
+            8 => version switch
+            {
+                GameVersion.Any or GameVersion.SW or GameVersion.SH => FishingSpecies_SWSH.Contains(species),
+                _ => false,
+            },
+            _ => false,
+        };
+
+        private static readonly HashSet<int> FishingSpecies_SWSH = new()
+        {
+            (int)Shellder, (int)Cloyster,
+            (int)Krabby,
+            (int)Goldeen,
+            (int)Magikarp, (int)Gyarados,
+            (int)Lapras,
+            (int)Dratini,
+            (int)Chinchou, (int)Lanturn,
+            (int)Qwilfish,
+            (int)Remoraid, (int)Octillery,
+            (int)Carvanha, (int)Sharpedo,
+            (int)Wailmer, (int)Wailord,
+            (int)Barboach, (int)Whiscash,
+            (int)Corphish,
+            (int)Lileep,
+            (int)Feebas,
+            (int)Mantyke, (int)Mantine,
+            (int)Basculin,
+            (int)Wishiwashi,
+            (int)Mareanie,
+            (int)Pyukumuku,
+            (int)Dhelmise,
+            (int)Chewtle, (int)Drednaw,
+            (int)Arrokuda, (int)Barraskewda,
+        };
+
+        private static readonly HashSet<int> FishingSpecies_AO = new()
+        {
+            (int)Tentacool,
+            (int)Horsea, (int)Seadra,
+            (int)Goldeen, (int)Seaking,
+            (int)Staryu,
+            (int)Magikarp, (int)Gyarados,
+            (int)Corsola,
+            (int)Remoraid, (int)Octillery,
+            (int)Carvanha, (int)Sharpedo,
+            (int)Wailmer,
+            (int)Barboach, (int)Whiscash,
+            (int)Corphish, (int)Crawdaunt,
+            (int)Feebas,
+            (int)Luvdisc,
+        };
+
+        // exclusive to version
+        private static bool IsFishingSpeciesX(int species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
+        private static bool IsFishingSpeciesY(int species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
+
+        // common to X & Y
+        private static readonly HashSet<int> FishingSpecies_XY = new()
+        {
+            (int)Poliwag, (int)Poliwhirl, (int)Poliwrath, (int)Politoed,
+            (int)Horsea, (int)Seadra,
+            (int)Goldeen, (int)Seaking,
+            (int)Magikarp, (int)Gyarados,
+            (int)Dratini, (int)Dragonair,
+            (int)Chinchou, (int)Lanturn,
+            (int)Qwilfish,
+            (int)Corsola,
+            (int)Remoraid, (int)Octillery,
+            (int)Carvanha, (int)Sharpedo,
+            (int)Barboach, (int)Whiscash,
+            (int)Corphish, (int)Crawdaunt,
+            (int)Clamperl,
+            (int)Relicanth,
+            (int)Luvdisc,
+            (int)Basculin,
+            (int)Alomomola,
         };
     }
 }
