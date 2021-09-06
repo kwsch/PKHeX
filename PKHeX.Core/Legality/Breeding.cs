@@ -110,13 +110,22 @@ namespace PKHeX.Core
 
             if (FormInfo.IsTotemForm(species, form, generation))
                 return false;
-            if (species == (int)Pichu)
-                return false; // can't get Spiky Ear Pichu eggs
-            if (species is (int)Sinistea or (int)Polteageist)
-                return false; // can't get Antique eggs
 
-            return true;
+            return IsBreedableForm(species, form);
         }
+
+        /// <summary>
+        /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(int,int,int)"/>
+        /// </summary>
+        /// <returns>True if can be bred.</returns>
+        private static bool IsBreedableForm(int species, int form) => species switch
+        {
+            (int)Pikachu or (int)Eevee => false, // can't get these forms as egg
+            (int)Pichu => false, // can't get Spiky Ear Pichu eggs
+            (int)Floette when form == 5 => false, // can't get Eternal Flower from egg
+            (int)Sinistea or (int)Polteageist => false, // can't get Antique eggs
+            _ => true,
+        };
 
         /// <summary>
         /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="game"/>.
@@ -130,6 +139,8 @@ namespace PKHeX.Core
             // Sanity check form for origin
             var pt = GameData.GetPersonal(game);
             var entry = pt.GetFormEntry(species, form);
+            if (entry is PersonalInfoSWSH { IsPresentInGame: false })
+                return false;
             return form < entry.FormCount || (species == (int)Rotom && form <= 5);
         }
 
