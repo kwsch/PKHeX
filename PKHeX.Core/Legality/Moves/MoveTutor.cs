@@ -27,7 +27,7 @@ namespace PKHeX.Core
         private static GameVersion GetIsTutor1(PKM pkm, int species, int move)
         {
             // Surf Pikachu via Stadium
-            if (move != 57 || ParseSettings.AllowGBCartEra)
+            if (move != (int)Move.Surf || ParseSettings.AllowGBCartEra)
                 return NONE;
             if (pkm.Format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu)
                 return GameVersion.Stadium;

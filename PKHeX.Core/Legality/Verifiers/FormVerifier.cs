@@ -140,7 +140,7 @@ namespace PKHeX.Core
                     }
 
                 // Form doesn't exist in SM; cannot originate from that game.
-                case Lillipup when enc.Generation == 7 && form == 1 && pkm.SM:
+                case Rockruff when enc.Generation == 7 && form == 1 && pkm.SM:
                 case Lycanroc when enc.Generation == 7 && form == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
