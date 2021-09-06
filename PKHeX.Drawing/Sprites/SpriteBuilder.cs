@@ -73,13 +73,22 @@ namespace PKHeX.Drawing
             _ => 0,
         };
 
+        private static int GetArceusForm4(int form) => form switch
+        {
+            > 9 => form - 1, // Realign to Gen5+ type indexes
+            9 => 999, // Curse, make it show as unrecognized form since we don't have a sprite.
+            _ => form,
+        };
+
         public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
             if (species == 0)
                 return None;
 
-            if (generation == 3 && species == (int)Species.Deoxys) // Deoxys, special consideration for Gen3 save files
+            if (generation == 3 && species == (int)Species.Deoxys) // Depends on Gen3 save file version
                 form = GetDeoxysForm(Game);
+            else if (generation == 4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
+                form = GetArceusForm4(form);
 
             var baseImage = GetBaseImage(species, form, gender, formarg, isShiny, generation);
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed, isAltShiny);
