@@ -291,7 +291,7 @@ namespace PKHeX.Core
                     yield return gift;
                     continue;
                 }
-                var em = gift.Moves;
+                var em = gift.Moves.Concat(gift.Relearn);
                 if (!needs.Except(em).Any())
                     yield return gift;
             }
@@ -373,6 +373,8 @@ namespace PKHeX.Core
                 IEnumerable<int> em = trade.Moves;
                 if (trade.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
+                else if (trade is IRelearn { Relearn: { Count: not 0 } } r)
+                    em = em.Concat(r.Relearn);
                 if (!needs.Except(em).Any())
                     yield return trade;
             }
