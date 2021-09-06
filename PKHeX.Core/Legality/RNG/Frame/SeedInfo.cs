@@ -30,13 +30,12 @@ namespace PKHeX.Core
         /// <returns>Seed information data, which needs to be unrolled once for the nature call.</returns>
         public static IEnumerable<SeedInfo> GetSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
         {
-            bool charm3 = false;
-
             var seed = pidiv.OriginSeed;
             yield return new SeedInfo(seed);
 
             var s1 = seed;
             var s2 = RNG.LCRNG.Prev(s1);
+            bool charm3 = false;
             while (true)
             {
                 var a = s2 >> 16;
@@ -59,6 +58,21 @@ namespace PKHeX.Core
 
                 yield return new SeedInfo(s1, charm3);
             }
+        }
+
+        /// <summary>
+        /// Yields an enumerable list of seeds until another valid PID breaks the chain.
+        /// </summary>
+        /// <param name="pk">Entity data created from the ambiguous cute charm seeds.</param>
+        /// <returns>Seed information data, which needs to be unrolled once for the nature call.</returns>
+        public static IEnumerable<SeedInfo> GetSeedsUntilNature4Cute(PKM pk)
+        {
+            // We cannot rely on a PID-IV origin seed. Since IVs are 2^30, they are not strong enough to assume a single seed was the source.
+            // We must reverse the IVs to find all seeds that could generate this.
+            // ESV,Proc,Nature,IV1,IV2; these do not do the nature loop for Method J/K so each seed originates a single seed frame.
+            var seeds = MethodFinder.GetCuteCharmSeeds(pk);
+            foreach (var seed in seeds)
+                yield return new SeedInfo(seed);
         }
 
         /// <summary>

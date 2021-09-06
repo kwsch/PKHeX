@@ -430,6 +430,17 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
+        public static IEnumerable<uint> GetCuteCharmSeeds(PKM pk)
+        {
+            var IVs = new uint[6];
+            for (int i = 0; i < 6; i++)
+                IVs[i] = (uint)pk.GetIV(i);
+            var bot = GetIVChunk(IVs, 0);
+            var top = GetIVChunk(IVs, 3);
+
+            return GetSeedsFromIVs(RNG.LCRNG, top, bot);
+        }
+
         private static bool GetBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
         {
             var bot = GetIVChunk(IVs, 0);

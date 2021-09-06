@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -14,21 +15,31 @@ namespace PKHeX.Core
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
             if (pk.Version == (int)GameVersion.CXD)
-                return Enumerable.Empty<Frame>();
+                return Array.Empty<Frame>();
 
             var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
-
-            // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            var seeds = pk.Species == (int)Species.Unown && pk.FRLG // reversed await case
-                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.Form)
-                : SeedInfo.GetSeedsUntilNature(pidiv, info);
-
+            var seeds = GetSeeds(pidiv, info, pk);
             var frames = pidiv.Type == PIDType.CuteCharm
-                ? FilterCuteCharm(seeds, pidiv, info)
-                : FilterNatureSync(seeds, pidiv, info);
+                ? FilterCuteCharm(seeds, info)
+                : FilterNatureSync(seeds, info);
 
+            return GetRefinedSeeds(frames, info, pidiv);
+        }
+
+        // gather possible nature determination seeds until a same-nature PID breaks the unrolling
+        private static IEnumerable<SeedInfo> GetSeeds(PIDIV pidiv, FrameGenerator info, PKM pk)
+        {
+            if (pk.Species == (int)Species.Unown && pk.FRLG) // Gen3 FRLG Unown: reversed await case
+                return SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.Form);
+            if (pidiv.Type == PIDType.CuteCharm && info.FrameType != FrameType.MethodH) // Gen4: ambiguous seed due to gender-buffered PID
+                return SeedInfo.GetSeedsUntilNature4Cute(pk);
+            return SeedInfo.GetSeedsUntilNature(pidiv, info);
+        }
+
+        private static IEnumerable<Frame> GetRefinedSeeds(IEnumerable<Frame> frames, FrameGenerator info, PIDIV pidiv)
+        {
             var refined = RefineFrames(frames, info);
-            if (pk.Gen4 && pidiv.Type == PIDType.CuteCharm) // only permit cute charm successful frames
+            if (pidiv.Type == PIDType.CuteCharm && info.FrameType != FrameType.MethodH) // only permit cute charm successful frames
                 return refined.Where(z => (z.Lead & ~LeadRequired.UsesLevelCall) == LeadRequired.CuteCharm);
             return refined;
         }
@@ -252,10 +263,9 @@ namespace PKHeX.Core
         /// Filters the input <see cref="SeedInfo"/> according to a Nature Lock frame generation pattern.
         /// </summary>
         /// <param name="seeds">Seed Information for the frame</param>
-        /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Nature Lock frame generation pattern</returns>
-        private static IEnumerable<Frame> FilterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
+        private static IEnumerable<Frame> FilterNatureSync(IEnumerable<SeedInfo> seeds, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
@@ -363,10 +373,9 @@ namespace PKHeX.Core
         /// Filters the input <see cref="SeedInfo"/> according to a Cute Charm frame generation pattern.
         /// </summary>
         /// <param name="seeds">Seed Information for the frame</param>
-        /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Cute Charm frame generation pattern</returns>
-        private static IEnumerable<Frame> FilterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
+        private static IEnumerable<Frame> FilterCuteCharm(IEnumerable<SeedInfo> seeds, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
