@@ -10,6 +10,7 @@ namespace PKHeX.Core
     {
         public sealed override int Generation => 5;
         public bool Roaming { get; init; }
+        public bool IsWildCorrelationPID => !Roaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle;
 
         public EncounterStatic5(GameVersion game) : base(game) { }
 

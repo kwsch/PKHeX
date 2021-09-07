@@ -162,7 +162,9 @@ namespace PKHeX.Core
         public int Nature { get => (sbyte)Data[CardStart + 0x246]; set => Data[CardStart + 0x246] = (byte)value; }
         public override int AbilityType { get => Data[CardStart + 0x247]; set => Data[CardStart + 0x247] = (byte)value; }
 
-        public Shiny PIDType => Data[CardStart + 0x248] switch
+        private byte PIDTypeValue => Data[CardStart + 0x248];
+
+        public Shiny PIDType => PIDTypeValue switch
         {
             0 => Shiny.Never,
             1 => Shiny.Random,
@@ -525,8 +527,7 @@ namespace PKHeX.Core
 
         private void SetPID(PKM pk)
         {
-            var val = Data[CardStart + 0x248];
-            pk.PID = GetPID(pk, val);
+            pk.PID = GetPID(pk, PIDTypeValue);
         }
 
         private void SetIVs(PKM pk)
@@ -648,7 +649,7 @@ namespace PKHeX.Core
             // PID Types 0 and 1 do not use the fixed PID value.
             // Values 2,3 are specific shiny states, and 4 is fixed value.
             // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
-            var type = Data[CardStart + 0x248];
+            var type = PIDTypeValue;
             if (type <= 1)
                 return true;
             return pkm.PID == GetPID(pkm, type);

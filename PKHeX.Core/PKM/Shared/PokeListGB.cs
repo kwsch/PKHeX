@@ -67,11 +67,14 @@ namespace PKHeX.Core
             int size_pkm = GetEntrySize() * capacity;
             int size_str = 2 * GetStringLength(jp) * capacity;
 
+            // first byte: count (0)
             var result = new byte[1 + size_intro + size_pkm + size_str];
 
+            // species present in slot: none
             for (int i = 1; i <= size_intro; i++)
                 result[i] = SLOT_NONE;
 
+            // fill string buffers with terminators
             for (int i = 1 + size_intro + size_pkm; i < result.Length; i++)
                 result[i] = StringConverter12.G1TerminatorCode; // terminator
 

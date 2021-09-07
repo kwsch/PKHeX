@@ -37,12 +37,11 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
+                    // Underground Raids are originally anti-shiny on encounter.
+                    // When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
                     if (s is EncounterStatic8U {Shiny: Shiny.Random})
                     {
-						// Underground Raids are originally anti-shiny on encounter.
-						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
-                        var xor = pkm.ShinyXor;
-                        if (xor is <= 15 and not 1)
+                        if (pkm.ShinyXor is <= 15 and not 1)
                             data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
                         break;
                     }
@@ -61,9 +60,8 @@ namespace PKHeX.Core
 
                     // Forced PID or generated without an encounter
                     // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
-                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random || s5.Species == (int)Species.Crustle))
-                        break;
-                    VerifyG5PID_IDCorrelation(data);
+                    if (s is EncounterStatic5 { IsWildCorrelationPID: true })
+                        VerifyG5PID_IDCorrelation(data);
                     break;
 
                 case EncounterSlot5 {IsHiddenGrotto: true}:
@@ -75,7 +73,7 @@ namespace PKHeX.Core
                     break;
 
                 case PCD d: // fixed PID
-                    if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
+                    if (d.IsFixedPID() && pkm.EncryptionConstant != d.Gift.PK.PID)
                         data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
 
@@ -120,7 +118,7 @@ namespace PKHeX.Core
 
             if (pkm.EncryptionConstant == 0)
             {
-                if (Info.EncounterMatch is WC8 {PID: 0, EncryptionConstant: 0})
+                if (Info.EncounterMatch is WC8 {IsHOMEGift: true})
                     return; // HOME Gifts
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
             }
