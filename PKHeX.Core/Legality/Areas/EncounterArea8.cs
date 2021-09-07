@@ -62,7 +62,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(metLevel))
                         break;
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && slot.Species is not (int)Species.Rotom)
                         break;
 
                     if (slot.Weather is Heavy_Fog && IsWildArea8(Location))
@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     if (slot.LevelMin > BoostLevel)
                         break; // Can't downlevel, only boost to 60.
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && slot.Species is not (int)Species.Rotom)
                         break;
 
                     if (Location != metLocation && !CanCrossoverTo(Location, metLocation, slot.SlotType))

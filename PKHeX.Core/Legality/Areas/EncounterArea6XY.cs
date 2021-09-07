@@ -113,8 +113,9 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm && !FormInfo.WildChangeFormAfter.Contains(slot.Species))
+                    if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm && slot.Species is not ((int)Species.Burmy or (int)Species.Furfrou))
                     {
+                        // Only slot that can be form-mismatched via Pressure is Flabébé
                         if (slot.Species != (int)Species.Flabébé)
                             break;
 
