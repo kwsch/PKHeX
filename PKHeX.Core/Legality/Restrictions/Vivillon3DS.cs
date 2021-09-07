@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using static PKHeX.Core.Region3DSFlags;
 
 namespace PKHeX.Core
 {
@@ -9,13 +8,15 @@ namespace PKHeX.Core
     /// </summary>
     public static class Vivillon3DS
     {
+        public const int MaxWildFormID = 17; // 0-17 valid form indexes
+
         private sealed class CountryTable
         {
             public readonly byte BaseForm;
             public readonly byte CountryID;
             public readonly FormSubregionTable[] SubRegionForms;
 
-            internal CountryTable(byte country, byte form, params FormSubregionTable[] subs)
+            public CountryTable(byte country, byte form, params FormSubregionTable[] subs)
             {
                 BaseForm = form;
                 CountryID = country;
@@ -40,27 +41,27 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly Region3DSFlags[] VivillonRegionTable =
         {
-            /* 0 Icy Snow    */ Americas | Europe,
-            /* 1 Polar       */ Americas | Europe | China,
-            /* 2 Tundra      */ Japan    | Europe,
-            /* 3 Continental */ Americas | Europe | China | Korea | Taiwan,
-            /* 4 Garden      */            Europe,
-            /* 5 Elegant     */ Japan,
-            /* 6 Meadow      */            Europe,
-            /* 7 Modern      */ Americas,
-            /* 8 Marine      */ Americas | Europe,
-            /* 9 Archipelago */ Americas | Europe,
-            /*10 High Plains */ Americas | Europe | China,
-            /*11 Sandstorm   */ Americas | Europe,
-            /*12 River       */            Europe,
-            /*13 Monsoon     */ Japan    | Europe | China | Taiwan,
-            /*14 Savanna     */ Americas,
-            /*15 Sun         */ Americas | Europe,
-            /*16 Ocean       */ Americas | Europe,
-            /*17 Jungle      */ Americas | Europe,
+            /* 0 Icy Snow    */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /* 1 Polar       */ Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China,
+            /* 2 Tundra      */ Region3DSFlags.Japan    | Region3DSFlags.Europe,
+            /* 3 Continental */ Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China | Region3DSFlags.Korea | Region3DSFlags.Taiwan,
+            /* 4 Garden      */                           Region3DSFlags.Europe,
+            /* 5 Elegant     */ Region3DSFlags.Japan,
+            /* 6 Meadow      */                           Region3DSFlags.Europe,
+            /* 7 Modern      */ Region3DSFlags.Americas,
+            /* 8 Marine      */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /* 9 Archipelago */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /*10 High Plains */ Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China,
+            /*11 Sandstorm   */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /*12 River       */                           Region3DSFlags.Europe,
+            /*13 Monsoon     */ Region3DSFlags.Japan    | Region3DSFlags.Europe | Region3DSFlags.China | Region3DSFlags.Taiwan,
+            /*14 Savanna     */ Region3DSFlags.Americas,
+            /*15 Sun         */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /*16 Ocean       */ Region3DSFlags.Americas | Region3DSFlags.Europe,
+            /*17 Jungle      */ Region3DSFlags.Americas | Region3DSFlags.Europe,
         };
 
-        public static Region3DSFlags GetConsoleRegionFlag(int consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
+        private static Region3DSFlags GetConsoleRegionFlag(int consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
 
         /// <summary>
         /// List of valid countries for each Vivillon form.
@@ -204,8 +205,6 @@ namespace PKHeX.Core
                 new FormSubregionTable(17, new byte[] {12})),
         };
 
-        public const int MaxWildFormID = 17; // 0-17 valid form indexes
-
         /// <summary>
         /// Compares the Vivillon pattern against its console region to determine if the pattern is legal.
         /// </summary>
@@ -266,21 +265,21 @@ namespace PKHeX.Core
             var form = Array.FindIndex(VivillonCountryTable, z => z.Contains(country));
             return Math.Max(0, form);
         }
-    }
 
-    /// <summary>
-    /// Console Region Flags for the 3DS.
-    /// </summary>
-    /// <remarks>Not to be confused with <see cref="Region3DSIndex"/>.</remarks>
-    [Flags]
-    public enum Region3DSFlags : ushort
-    {
-        None,
-        Japan = 1,
-        Americas = 1 << 1,
-        Europe = 1 << 2,
-        China = 1 << 4,
-        Korea = 1 << 5,
-        Taiwan = 1 << 6,
+        /// <summary>
+        /// Console Region Flags for the 3DS.
+        /// </summary>
+        /// <remarks>Not to be confused with <see cref="Region3DSIndex"/>.</remarks>
+        [Flags]
+        private enum Region3DSFlags : ushort
+        {
+            None,
+            Japan = 1,
+            Americas = 1 << 1,
+            Europe = 1 << 2,
+            China = 1 << 4,
+            Korea = 1 << 5,
+            Taiwan = 1 << 6,
+        }
     }
 }
