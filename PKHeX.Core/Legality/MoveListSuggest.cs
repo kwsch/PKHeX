@@ -145,12 +145,15 @@ namespace PKHeX.Core
 
         private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
         {
-            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
-            // If we're not a split-breed or are already legal, return.
             var result = enc.GetEggRelearnMoves(parse, pkm);
             int generation = enc.Generation;
+            if (generation <= 5) // gen2 does not have splitbreed, <=5 do not have relearn moves and shouldn't even be here.
+                return result;
+
+            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
+            // If we're not a split-breed or are already legal, return.
             var split = Breeding.GetSplitBreedGeneration(generation);
-            if (!split.Contains(enc.Species) || enc.Generation <= 2)
+            if (!split.Contains(enc.Species))
                 return result;
 
             var tmp = pkm.Clone();
@@ -164,7 +167,7 @@ namespace PKHeX.Core
             if (incense is null || incense.Species == enc.Species)
                 return result;
 
-            return incense.GetSuggestedRelearnEgg(parse, tmp);
+            return incense.GetEggRelearnMoves(parse, pkm);
         }
 
         private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
