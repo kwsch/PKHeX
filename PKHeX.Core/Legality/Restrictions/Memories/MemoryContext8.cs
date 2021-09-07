@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
         private static bool CanObtainMemorySWSH(int memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
-        public override bool CanWinLottoID(int item) => LottoPrizeSWSH.Contains((ushort)item);
+        public override bool CanWinLotoID(int item) => LottoPrizeSWSH.Contains((ushort)item);
 
         public override bool CanBuyItem(int item, GameVersion version)
         {

@@ -15,10 +15,10 @@ namespace PKHeX.Core
     {
         public static bool IsMemoryOfKnownMove(int memory) => memory is 48 or 80 or 81;
 
-        public static bool CanWinLottoID(int generation, int item)
+        public static bool CanWinLotoID(int generation, int item)
         {
             var context = Memories.GetContext(generation);
-            return context.CanWinLottoID(item);
+            return context.CanWinLotoID(item);
         }
 
         public static bool CanHoldItem(int generation, int item)

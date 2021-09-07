@@ -106,7 +106,7 @@ namespace PKHeX.Core
                 // {1} had {0} hold items like {2} to help it along. {4} that {3}.
                 case 40 when !CanHoldItem(gen, memory.Variable):
                 // {0} was excited when {1} won prizes like {2} through Loto-ID. {4} that {3}.
-                case 51 when !CanWinLottoID(gen, memory.Variable):
+                case 51 when !CanWinLotoID(gen, memory.Variable):
                 // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
                 // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
                 case 84 or 88 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable) || pkm.IsEgg:
