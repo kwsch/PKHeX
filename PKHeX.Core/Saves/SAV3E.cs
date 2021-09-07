@@ -211,6 +211,13 @@ namespace PKHeX.Core
         }
 
         protected override int SeenOffset3 => 0x3B24;
+
+        private const int Walda = 0x3D70;
+        public ushort WaldaBackgroundColor { get => BitConverter.ToUInt16(Large, Walda + 0); set => BitConverter.GetBytes(value).CopyTo(Large, Walda + 0); }
+        public ushort WaldaForegroundColor { get => BitConverter.ToUInt16(Large, Walda + 2); set => BitConverter.GetBytes(value).CopyTo(Large, Walda + 2); }
+        public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
+        public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
+        public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }
         #endregion
 
         private const uint EXTRADATA_SENTINEL = 0x0000B39D;
