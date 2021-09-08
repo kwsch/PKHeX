@@ -880,8 +880,7 @@ namespace PKHeX.Core
                 // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
                 ChainShiny => pkm.IsShiny && !pkm.HGSS && (w.GroundTile & GroundTilePermission.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
                 CuteCharm => IsCuteCharm4Valid(encounter, pkm),
-                Method_1 => true,
-                _ => false,
+                _ => val == Method_1,
             },
 
             PGT => IsG4ManaphyPIDValid(val, pkm), // Manaphy is the only PGT in the database

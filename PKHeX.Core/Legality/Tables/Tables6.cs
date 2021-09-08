@@ -215,10 +215,14 @@ namespace PKHeX.Core
 
         internal static readonly int[] TypeTutor6 =
         {
-            520, 519, 518, // Pledge
-            338, 307, 308, // Elemental Beam
-            434, // Draco Meteor
-            620, // Dragon Ascent
+            (int)Move.GrassPledge,
+            (int)Move.FirePledge,
+            (int)Move.WaterPledge,
+            (int)Move.BlastBurn,
+            (int)Move.HydroCannon,
+            (int)Move.FrenzyPlant,
+            (int)Move.DracoMeteor,
+            (int)Move.DragonAscent,
         };
 
         internal static readonly int[][] Tutors_AO =
@@ -230,8 +234,6 @@ namespace PKHeX.Core
         };
 
         #endregion
-
-        internal static readonly int[] EggLocations6 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_XY = new()
         {

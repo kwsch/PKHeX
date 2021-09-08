@@ -51,7 +51,7 @@ namespace PKHeX.Core
             015, 019, 057, 070, 148, 250, 127
         };
 
-        internal static readonly int[] Tutors_GSC = {53, 85, 58}; // Flamethrower, Thunderbolt & Ice Beam
+        internal static readonly int[] Tutors_GSC = { (int)Move.Flamethrower, (int)Move.Thunderbolt, (int)Move.IceBeam };
 
         internal static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
 

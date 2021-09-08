@@ -13,11 +13,6 @@ namespace PKHeX.WinForms.Controls
         public SlotViewInfo<TImageSource>? Source { get; set; }
         public SlotViewInfo<TImageSource>? Destination { get; set; }
 
-        public SlotChangeInfo()
-        {
-            Reset();
-        }
-
         public void Reset()
         {
             LeftMouseIsDown = DragDropInProgress = false;

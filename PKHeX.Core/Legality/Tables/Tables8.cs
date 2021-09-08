@@ -263,8 +263,6 @@ namespace PKHeX.Core
             {(int)Species.Cursola, 1},
         };
 
-        internal static readonly int[] EggLocations8 = {Locations.Daycare5, Locations.LinkTrade6};
-
         internal static readonly HashSet<int> ValidMet_SWSH = new()
         {
                            006, 008,
@@ -696,10 +694,14 @@ namespace PKHeX.Core
 
         internal static readonly int[] TypeTutor8 =
         {
-            520, 519, 518, // Pledge
-            338, 307, 308, // Elemental Beam
-            434, // Draco Meteor
-            796, // Steel Beam
+            (int)Move.GrassPledge,
+            (int)Move.FirePledge,
+            (int)Move.WaterPledge,
+            (int)Move.BlastBurn,
+            (int)Move.HydroCannon,
+            (int)Move.FrenzyPlant,
+            (int)Move.DracoMeteor,
+            (int)Move.SteelBeam,
         };
     }
 }

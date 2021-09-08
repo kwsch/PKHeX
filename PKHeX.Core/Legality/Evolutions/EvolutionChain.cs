@@ -89,7 +89,7 @@ namespace PKHeX.Core
                 }
 
                 // Alolan form evolutions, remove from gens 1-6 chains
-                if (EvolveToAlolanForms.Contains(mostEvolved.Species))
+                if (HasAlolanForm(mostEvolved.Species))
                 {
                     if (g < 7 && pkm.Format >= 7 && mostEvolved.Form > 0)
                     {

@@ -23,11 +23,11 @@ namespace PKHeX.Core
             // Some species have battle only forms as well as out-of-battle forms (other than base form).
             switch (species)
             {
-                case (int)Slowbro when form == 2 && format >= 8: // Only mark Ultra Necrozma as Battle Only
-                case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
+                case (int)Slowbro when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
+                case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian non-Zen
                 case (int)Zygarde when form < 4: // Zygarde Complete
                 case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
-                case (int)Necrozma when form < 3: // this one is OK, Galarian non-Zen
+                case (int)Necrozma when form < 3: // Only mark Ultra Necrozma as Battle Only
                     return false;
                 case (int)Minior: return form < 7; // Minior Shields-Down
 
@@ -94,22 +94,17 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Species that can be captured normally in the wild and can change between their forms.
+        /// Species that can change between their forms, regardless of origin.
         /// </summary>
-        public static readonly HashSet<int> WildChangeFormAfter = new()
+        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
+        private static readonly HashSet<int> FormChange = new()
         {
+            // Sometimes considered for wild encounters
             412, // Burmy
             479, // Rotom
             676, // Furfrou
             741, // Oricorio
-        };
 
-        /// <summary>
-        /// Species that can change between their forms, regardless of origin.
-        /// </summary>
-        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-        private static readonly HashSet<int> FormChange = new(WildChangeFormAfter)
-        {
             386, // Deoxys
             487, // Giratina
             492, // Shaymin
