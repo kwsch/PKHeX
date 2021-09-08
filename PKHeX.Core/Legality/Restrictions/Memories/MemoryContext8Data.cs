@@ -137,6 +137,10 @@ namespace PKHeX.Core
             // town of Freezington
             // someone’s house, snowcapped town
             {206, new byte[] {04, 37}},
+
+            // at the Crown Shrine
+            // on a snow-swept road, in a mystical place
+            {220, new byte[] {53, 65}},
         };
 
         // {met, value allowed}
@@ -223,7 +227,6 @@ namespace PKHeX.Core
             {214, 53}, // Snowslide Slope, snow-swept road
             {216, 40}, // Tunnel to the Top, cave
             {218, 53}, // the Path to the Peak, snow-swept road
-            {220, 65}, // Crown Shrine, mystical place
             {222, 44}, // Giant’s Foot, tranquil road
             {224, 40}, // Roaring-Sea Caves, cave
             {226, 49}, // Frigid Sea, seaside road
