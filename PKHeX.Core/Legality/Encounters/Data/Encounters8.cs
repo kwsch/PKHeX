@@ -557,7 +557,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 065, Level = 50, Location = 190, Weather = Heavy_Fog }, // Alakazam in the Insular Sea
             new EncounterStatic8S(SWSH) { Species = 764, Level = 50, Locations = new[] {190, 194}, Weather = Heavy_Fog }, // Comfey in the Insular Sea, Honeycalm Sea
             new(SWSH) { Species = 230, Level = 60, Location = 192, Weather = Thunderstorm }, // Kingdra in the Honeycalm Sea
-            new(SWSH) { Species = 117, Level = 45, Location = 192, Weather = Normal | Overcast | Raining | Intense_Sun | Heavy_Fog }, // Seadra in the Honeycalm Sea
+            new(SWSH) { Species = 117, Level = 45, Location = 192, Weather = Normal | Overcast | Stormy | Intense_Sun | Heavy_Fog }, // Seadra in the Honeycalm Sea
             new(SWSH) { Species = 549, Level = 45, Location = 194, Weather = Normal | Intense_Sun }, // Lilligant on Honeycalm Island
             new(SWSH) { Species = 415, Level = 40, Location = 194, Weather = Overcast | Stormy }, // Combee on Honeycalm Island
             #endregion
