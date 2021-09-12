@@ -74,14 +74,20 @@ namespace PKHeX.Core
                     return Get(string.Format(LMemoryArgBadMove, memory.Handler), Severity.Invalid);
 
                 // Species
+                // With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
+                case 7 when !GetCanFishSpecies(memory.Variable, gen, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
+                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
+
+                // {0} saw {1} paying attention to {2}. {4} that {3}.
+                // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
+                // {0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
+                case 9 or 60 or 75 when gen == 8 && !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
+
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
                 // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
                 // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
                 case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
-                    return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
-
-                // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
-                case 60 when gen == 8 && !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // {0} had a very hard training session with {1}. {4} that {3}.
@@ -100,7 +106,7 @@ namespace PKHeX.Core
                 // {1} had {0} hold items like {2} to help it along. {4} that {3}.
                 case 40 when !CanHoldItem(gen, memory.Variable):
                 // {0} was excited when {1} won prizes like {2} through Loto-ID. {4} that {3}.
-                case 51 when !CanWinRotoLoto(gen, memory.Variable):
+                case 51 when !CanWinLotoID(gen, memory.Variable):
                 // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
                 // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
                 case 84 or 88 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable) || pkm.IsEgg:

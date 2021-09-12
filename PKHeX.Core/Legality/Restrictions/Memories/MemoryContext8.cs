@@ -45,15 +45,15 @@ namespace PKHeX.Core
         {
             return memory switch
             {
-                // {0} was excited when {1} won prizes like {2} through Loto-ID.
-                51 when variable is not (1 or 33 or 50 or 51 or 53) => true, // item IDs
+                // {0} encountered {2} when it was with {1}. {4} that {3}.
+                29 when variable is not (888 or 889 or 898) => true, // Zacian, Zamazenta, Calyrex
                 _ => false,
             };
         }
 
         private static bool CanObtainMemorySWSH(int memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
-        public override bool CanWinRotoLoto(int item) => true;
+        public override bool CanWinLotoID(int item) => LotoPrizeSWSH.Contains((ushort)item);
 
         public override bool CanBuyItem(int item, GameVersion version)
         {
@@ -125,14 +125,20 @@ namespace PKHeX.Core
             var arg = (byte)variable;
             return memory switch
             {
+                // {0} became {1}’s friend when it came through Link Trade {2}. {4} that {3}.
+                4 when !PossibleGeneralLocations8.Contains(arg) || arg is 79 => true, // dangerous place - all locations are Y-Comm locked
+
+                // {0} rode a bike with {1} {2}. {4} that {3}.
+                32 when arg is not (1 or 8 or 12 or 22 or 33 or 35 or 37 or 40 or 41 or 44 or 47 or 48 or 49 or 50 or 51 or 53 or 65 or 71 or 72 or 75 or 76 or 77 or 78) => true,
+
                 // {0} saw {1} secretly picking up something {2}. {4} that {3}.
-                39 when variable is not (4 or 8 or 12 or 22 or 33 or 35 or 37 or 40 or 41 or 44 or 47 or 48 or 49 or 50 or 51 or 53 or 65 or 71 or 72 or 75 or 76 or 77) => true,
+                39 when arg is not (8 or 12 or 22 or 33 or 35 or 37 or 40 or 41 or 44 or 47 or 48 or 49 or 50 or 51 or 53 or 65 or 71 or 72 or 75 or 76 or 77) => true,
 
                 // {0} checked the sign with {1} {2}. {4} that {3}.
-                42 when variable is not (1 or 12 or 22 or 33 or 35 or 37 or 44 or 47 or 53 or 71 or 72 or 76 or 77) => true,
+                42 when arg is not (1 or 12 or 22 or 33 or 35 or 37 or 44 or 47 or 53 or 71 or 72 or 76 or 77) => true,
 
                 // {0} sat with {1} on a bench {2}. {4} that {3}.
-                70 when variable is not (12 or 22 or 28 or 33 or 35 or 37 or 38 or 44 or 53 or 77) => true,
+                70 when arg is not (12 or 22 or 28 or 33 or 35 or 37 or 38 or 44 or 53 or 77) => true,
 
                 _ => !PossibleGeneralLocations8.Contains(arg),
             };

@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public abstract bool IsUsedKeyItemUnspecific(int item);
         public abstract bool IsUsedKeyItemSpecific(int item, int species);
         public abstract bool CanBuyItem(int item, GameVersion version);
-        public virtual bool CanWinRotoLoto(int item) => false;
+        public abstract bool CanWinLotoID(int item);
         public virtual bool CanPlantBerry(int item) => false;
         public abstract bool CanHoldItem(int item);
 
