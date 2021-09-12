@@ -160,7 +160,7 @@ namespace PKHeX.Core
             694,
         };
 
-        private static readonly ushort[] LottoPrizeXYAO =
+        private static readonly ushort[] LotoPrizeXYAO =
         {
             0001, 0033, 0050, 0051, 0053,
         };

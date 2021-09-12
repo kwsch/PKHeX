@@ -70,7 +70,7 @@ namespace PKHeX.Core
             1260, 1261, 1262, 1263,
         };
 
-        private static readonly ushort[] LottoPrizeSWSH =
+        private static readonly ushort[] LotoPrizeSWSH =
         {
             0001, 0033, 0050, 0051, 0053,
         };
