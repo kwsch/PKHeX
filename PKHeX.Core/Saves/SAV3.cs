@@ -97,7 +97,7 @@ namespace PKHeX.Core
             int end = start + SIZE_MAIN;
             int bitTrack = 0;
             sector0 = 0;
-            for (int ofs = 0; ofs < end; ofs += SIZE_SECTOR)
+            for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
                 var id = BitConverter.ToInt16(data, ofs + 0xFF4);
                 bitTrack |= (1 << id);
