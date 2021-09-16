@@ -296,8 +296,11 @@ namespace PKHeX.WinForms
 
             var info = new SlotInfoFile(source);
             var entry = new SlotCache(info, pk);
-            if (BatchEditing.IsFilterMatchMeta(metaFilters, entry))
-                editor.Process(pk, pkFilters, instructions);
+            if (!BatchEditing.IsFilterMatchMeta(metaFilters, entry))
+            {
+                editor.AddSkipped();
+                return;
+            }
 
             if (editor.Process(pk, pkFilters, instructions))
                 File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);
