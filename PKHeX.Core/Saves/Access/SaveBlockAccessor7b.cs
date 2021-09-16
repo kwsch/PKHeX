@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Information for Accessing individual blocks within a <see cref="SAV7b"/>.
     /// </summary>
-    public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>
+    public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISaveBlock7b
     {
         private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)
 
@@ -50,16 +50,16 @@ namespace PKHeX.Core
             Captured = new CaptureRecords(sav, GetBlockOffset(BelugaBlockIndex.CaptureRecord));
         }
 
-        public readonly MyItem Items;
-        public readonly Misc7b Misc;
-        public readonly Zukan7b Zukan;
-        public readonly MyStatus7b Status;
-        public readonly PlayTime7b Played;
-        public readonly ConfigSave7b Config;
-        public readonly EventWork7b EventWork;
-        public readonly PokeListHeader Storage;
-        public readonly WB7Records GiftRecords;
-        public readonly CaptureRecords Captured;
+        public MyItem Items { get; }
+        public Misc7b Misc { get; }
+        public Zukan7b Zukan { get; }
+        public MyStatus7b Status { get; }
+        public PlayTime7b Played { get; }
+        public ConfigSave7b Config { get; }
+        public EventWork7b EventWork { get; }
+        public PokeListHeader Storage { get; }
+        public WB7Records GiftRecords { get; }
+        public CaptureRecords Captured { get; }
         public BlockInfo GetBlock(BelugaBlockIndex index) => BlockInfo[(int)index];
         public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
     }

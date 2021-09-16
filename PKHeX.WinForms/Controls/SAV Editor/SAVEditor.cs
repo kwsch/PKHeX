@@ -590,6 +590,7 @@ namespace PKHeX.WinForms.Controls
             SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s, s.Blocks),
             SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s, s.Blocks),
             SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s, s.Blocks),
+            SAV7b s => new SAV_Accessor<SaveBlockAccessor7b>(s, s.Blocks),
             SAV8SWSH s => new SAV_BlockDump8(s),
             _ => GetPropertyForm(sav),
         };

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SAV_BEEF, IGameSync
+    public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
@@ -51,6 +51,16 @@ namespace PKHeX.Core
         }
 
         // Save Block accessors
+        public MyItem Items => Blocks.Items;
+        public Misc7b Misc => Blocks.Misc;
+        public Zukan7b Zukan => Blocks.Zukan;
+        public MyStatus7b Status => Blocks.Status;
+        public PlayTime7b Played => Blocks.Played;
+        public ConfigSave7b Config => Blocks.Config;
+        public EventWork7b EventWork => Blocks.EventWork;
+        public PokeListHeader Storage => Blocks.Storage;
+        public WB7Records GiftRecords => Blocks.GiftRecords;
+        public CaptureRecords Captured => Blocks.Captured;
 
         public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
