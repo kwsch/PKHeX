@@ -52,6 +52,7 @@ namespace PKHeX.Core
             SAV6XY xy => GetExtraSlots6XY(xy),
             SAV6AO xy => GetExtraSlots6AO(xy),
             SAV7 sav7 => GetExtraSlots7(sav7, all),
+            SAV7b lgpe => GetExtraSlots7b(lgpe),
             SAV8SWSH ss => GetExtraSlots8(ss),
             _ => None,
         };
@@ -165,6 +166,14 @@ namespace PKHeX.Core
             for (int i = 0; i < ResortSave7.ResortCount; i++)
                 list.Add(new SlotInfoMisc(sav.Data, i, sav.ResortSave.GetResortSlotOffset(i)) { Type = StorageSlotType.Resort });
             return list;
+        }
+
+        private static List<SlotInfoMisc> GetExtraSlots7b(SAV7b sav)
+        {
+            return new()
+            {
+                new SlotInfoMisc(sav.Data, 0, sav.Blocks.GetBlockOffset(BelugaBlockIndex.Daycare) + 8, true) {Type = StorageSlotType.Daycare},
+            };
         }
 
         private static List<SlotInfoMisc> GetExtraSlots8(ISaveBlock8Main sav)
