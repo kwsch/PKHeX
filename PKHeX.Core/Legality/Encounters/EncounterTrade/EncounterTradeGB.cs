@@ -1,5 +1,6 @@
 ﻿namespace PKHeX.Core
 {
+    /// <inheritdoc cref="EncounterTrade"/>
     public abstract record EncounterTradeGB : EncounterTrade
     {
         protected EncounterTradeGB(int species, int level, GameVersion game) : base(game)

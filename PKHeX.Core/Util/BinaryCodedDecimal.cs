@@ -46,12 +46,8 @@ namespace PKHeX.Core
 
         public static void WriteBytesBE(Span<byte> data, int value)
         {
-            for (int i = 0; i < data.Length; i++)
-            {
-                int p = value % 100;
-                value /= 100;
-                data[^(1+i)] = (byte) (p / 10 << 4 | p % 10);
-            }
+            for (int i = data.Length - 1; i >= 0; i--, value /= 100)
+                data[i] = (byte)((((value / 10) % 10) << 4) | (value % 10));
         }
 
         /// <inheritdoc cref="ToInt32BE(byte[],int,int)"/>
@@ -85,12 +81,8 @@ namespace PKHeX.Core
         /// </summary>
         public static void WriteBytesLE(Span<byte> data, int value)
         {
-            for (int i = 0; i < data.Length; i++)
-            {
-                int p = value % 100;
-                value /= 100;
-                data[i] = (byte) (p / 10 << 4 | p % 10);
-            }
+            for (int i = 0; i < data.Length; i++, value /= 100)
+                data[i] = (byte)((((value / 10) % 10) << 4) | (value % 10));
         }
     }
 }

@@ -1,5 +1,9 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 Trade Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterTradeGB"/>
     public abstract record EncounterTrade4 : EncounterTrade
     {
         public sealed override int Generation => 4;
@@ -11,6 +15,10 @@
         }
     }
 
+    /// <summary>
+    /// Generation 4 Trade Encounter with a fixed PID value.
+    /// </summary>
+    /// <inheritdoc cref="EncounterTrade4"/>
     public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats
     {
         /// <summary>
@@ -99,6 +107,10 @@
         }
     }
 
+    /// <summary>
+    /// Generation 4 Trade Encounter with a fixed PID value, met location, and version.
+    /// </summary>
+    /// <inheritdoc cref="EncounterTradeGB"/>
     public sealed record EncounterTrade4RanchGift : EncounterTrade4
     {
         /// <summary>
@@ -133,6 +145,10 @@
         }
     }
 
+    /// <summary>
+    /// Generation 4 Trade Encounter with a fixed location and version, as well as special details.
+    /// </summary>
+    /// <inheritdoc cref="EncounterTrade4"/>
     public sealed record EncounterTrade4RanchSpecial : EncounterTrade4
     {
         public override int Location => 3000;

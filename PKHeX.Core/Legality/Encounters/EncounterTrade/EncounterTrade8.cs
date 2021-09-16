@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Trade Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterTrade"/>
     public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public override int Generation => 8;
