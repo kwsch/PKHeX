@@ -218,9 +218,9 @@ namespace PKHeX.Core
             (int)Move.GrassPledge,
             (int)Move.FirePledge,
             (int)Move.WaterPledge,
+            (int)Move.FrenzyPlant,
             (int)Move.BlastBurn,
             (int)Move.HydroCannon,
-            (int)Move.FrenzyPlant,
             (int)Move.DracoMeteor,
             (int)Move.DragonAscent,
         };
