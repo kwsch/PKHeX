@@ -43,6 +43,8 @@ namespace PKHeX.Core
         public int EventConst { get; }
         public int Daycare { get; }
 
+        public int BlueCardPoints { get; private set; } = -1;
+
         public int PouchTMHM { get; private set; } = -1;
         public int PouchItem { get; private set; } = -1;
         public int PouchKey { get; private set; } = -1;
@@ -88,6 +90,7 @@ namespace PKHeX.Core
                     JohtoBadges = 0x23E5;
                     CurrentBoxIndex = 0x2700;
                     BoxNames = 0x2703;
+                    BlueCardPoints = 0x27D9;
                     Party = 0x2865;
                     PokedexCaught = 0x2A27;
                     PokedexSeen = 0x2A47;
@@ -151,6 +154,7 @@ namespace PKHeX.Core
                     JohtoBadges = 0x23C7;
                     CurrentBoxIndex = 0x26E2;
                     BoxNames = 0x26E5;
+                    BlueCardPoints = 0x278E;
                     Party = 0x281A;
                     PokedexCaught = 0x29AA;
                     PokedexSeen = 0x29CA;

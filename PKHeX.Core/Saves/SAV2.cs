@@ -322,7 +322,7 @@ namespace PKHeX.Core
 
         public Span<byte> OT_Trash
         { 
-            get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength); 
+            get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
             set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
 
@@ -451,6 +451,24 @@ namespace PKHeX.Core
             {
                 value = (ushort)Math.Min(value, MaxCoins);
                 BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Money + 7);
+            }
+        }
+
+        public byte BlueCardPoints
+        {
+            get
+            {
+                int ofs = Offsets.BlueCardPoints;
+                if (ofs == -1)
+                    return 0;
+                return Data[ofs];
+            }
+            set
+            {
+                int ofs = Offsets.BlueCardPoints;
+                if (ofs == -1)
+                    return;
+                Data[ofs] = value;
             }
         }
 
