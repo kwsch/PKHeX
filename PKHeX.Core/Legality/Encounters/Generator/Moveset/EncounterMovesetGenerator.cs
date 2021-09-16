@@ -261,7 +261,7 @@ namespace PKHeX.Core
                 IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
                 if (egg.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
-                else if (Legal.LightBall.Contains(egg.Species) && needs.Contains((int)Move.VoltTackle))
+                else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && (egg.Generation > 3 || version is GameVersion.E))
                     em = em.Concat(new[] { (int)Move.VoltTackle });
 
                 if (!needs.Except(em).Any())

@@ -8,11 +8,6 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         /// <summary>
-        /// Species that trigger Light Ball yielding Volt Tackle
-        /// </summary>
-        public static readonly HashSet<int> LightBall = new() {(int) Pikachu, (int) Raichu, (int) Pichu};
-
-        /// <summary>
         /// Species that can change between their forms and get access to form-specific moves.
         /// </summary>
         public static readonly HashSet<int> FormChangeMovesRetain = new()

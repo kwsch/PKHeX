@@ -67,26 +67,23 @@ namespace PKHeX.Core
 
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, IReadOnlyList<int> currentMoves, LegalInfo info, EncounterEgg e)
         {
-            var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
-            bool notEvent = EventEggMoves.Count == 0;
             // Level up moves could not be inherited if Ditto is parent,
             // that means genderless species and male only species (except Nidoran-M and Volbeat; they breed with Nidoran-F and Illumise) could not have level up moves as an egg
             var pi = pkm.PersonalInfo;
-            var AllowLevelUp = notEvent && !pi.Genderless && !(pi.OnlyMale && Breeding.MixedGenderBreeding.Contains(e.Species));
+            var AllowLevelUp = !pi.Genderless && !(pi.OnlyMale && Breeding.MixedGenderBreeding.Contains(e.Species));
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
             var LevelUp = MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, BaseLevel);
 
-            var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
+            var TradebackPreevo = pkm.Format == 2 && e.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
-                ? MoveList.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
+                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Array.FindAll(Egg, m => m <= Legal.MaxMoveID_1);
 
-            bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
-            var specialMoves = volt && notEvent ? new[] { (int)Move.VoltTackle } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
+            var specialMoves = e.CanHaveVoltTackle ? new[] { (int)Move.VoltTackle } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
             {
@@ -96,7 +93,6 @@ namespace PKHeX.Core
 
                 EggLevelUpSource = LevelUp,
                 EggMoveSource = Egg,
-                EggEventSource = EventEggMoves,
             };
             return ParseMoves(pkm, source, info);
         }

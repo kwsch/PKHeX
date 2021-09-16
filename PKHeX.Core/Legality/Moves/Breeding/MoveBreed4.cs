@@ -32,7 +32,7 @@ namespace PKHeX.Core
             var egg = (version is HG or SS ? Legal.EggMovesHGSS : Legal.EggMovesDPPt)[species].Moves;
 
             var value = new BreedInfo<EggSource34>(count, learnset, moves, level);
-            if (moves[count - 1] is (int)Move.VoltTackle)
+            if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
                 value.Actual[--count] = VoltTackle;
 
             if (count == 0)

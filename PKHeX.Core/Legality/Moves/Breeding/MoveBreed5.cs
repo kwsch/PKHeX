@@ -31,7 +31,7 @@ namespace PKHeX.Core
             var egg = Legal.EggMovesBW[species].Moves;
 
             var value = new BreedInfo<EggSource5>(count, learnset, moves, level);
-            if (moves[count - 1] is (int)Move.VoltTackle)
+            if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
                 value.Actual[--count] = VoltTackle;
 
             if (count == 0)

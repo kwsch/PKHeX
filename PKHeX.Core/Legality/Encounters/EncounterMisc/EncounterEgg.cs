@@ -20,6 +20,8 @@ namespace PKHeX.Core
         public GameVersion Version { get; }
         public bool IsShiny => false;
 
+        public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
+
         public EncounterEgg(int species, int form, int level, int gen, GameVersion game)
         {
             Species = species;
