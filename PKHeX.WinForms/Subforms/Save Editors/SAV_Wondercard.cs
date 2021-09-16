@@ -46,6 +46,9 @@ namespace PKHeX.WinForms
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
 
+            if (mga.Gifts[0] is WR7) // giftused is not a valid prop
+                B_UnusedAll.Visible = B_UsedAll.Visible = L_QR.Visible = false;
+
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
 
