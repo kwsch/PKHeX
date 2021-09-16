@@ -46,7 +46,7 @@ namespace PKHeX.Core
             return memory switch
             {
                 // {0} encountered {2} when it was with {1}. {4} that {3}.
-                29 when variable is not (888 or 889 or 898) => true, // Zacian, Zamazenta, Calyrex
+                29 when variable is not (888 or 889 or 890 or 898) => true, // Zacian, Zamazenta, Eternatus, Calyrex
                 _ => false,
             };
         }
