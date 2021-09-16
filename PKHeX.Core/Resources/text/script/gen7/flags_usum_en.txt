@@ -65,6 +65,7 @@
 4445	Battle Style Learned: Passionate 
 4446	Battle Style Learned: Idol 
 4453	Battle Style Learned: Nihilist
+4073	Received Ride Pager
 4074	Unlocked Tauros Charge
 4075	Unlocked Stoutland Search
 4076	Unlocked Machamp Shove

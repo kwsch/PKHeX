@@ -6,6 +6,7 @@
 1216	Recibido Cosmog de Regalo
 0499	Recibido Código Cero de Regalo
 0160	Moone [0] / Sunne Portal [1]
+3113	Received Ride Pager
 3114	Desbloqueado Carga Tauros
 3115	Desbloqueado Olfateo Stoutland
 3116	Desbloqueado Empuje Machamp

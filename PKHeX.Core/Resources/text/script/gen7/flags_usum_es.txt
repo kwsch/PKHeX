@@ -65,6 +65,7 @@
 4445	Estilo de Batalla Aprendido: Impetuoso 
 4446	Estilo de Batalla Aprendido: Tirabuzón 
 4453	Estilo de Batalla Aprendido: Arrogante
+4073	Received Ride Pager
 4074	Desbloqueado Carga Tauros
 4075	Desbloqueado Olfateo Stoutland
 4076	Desbloqueado Empuje Machamp
