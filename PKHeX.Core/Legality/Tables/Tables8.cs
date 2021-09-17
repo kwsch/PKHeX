@@ -364,18 +364,18 @@ namespace PKHeX.Core
             313, // Iron Plate
             // 644, // Pixie Plate
 
-            // 1279, // ★And458 (Jangmo-o)
-            // 1280, // ★And15 (Larvitar)
-            // 1281, // ★And337 (Corviknight)
-            // 1282, // ★And603 (Eiscue)
-            // 1283, // ★And390 (Stonjourner)
-            // 1284, // ★Sgr6879 (Copperajah)
-            // 1285, // ★Sgr6859 (Centiskorch)
-            // 1286, // ★Sgr6913 (Flapple/Appletun)
-            // 1287, // ★Sgr7348 (Sandaconda)
+            1279, // ★And458 (Jangmo-o)
+            1280, // ★And15 (Larvitar)
+            1281, // ★And337 (Corviknight)
+            1282, // ★And603 (Eiscue)
+            1283, // ★And390 (Stonjourner)
+            1284, // ★Sgr6879 (Copperajah)
+            1285, // ★Sgr6859 (Centiskorch)
+            1286, // ★Sgr6913 (Flapple/Appletun)
+            1287, // ★Sgr7348 (Sandaconda)
             1288, // ★Sgr7121 (Duraludon)
-            1289, // ★Sgr6746
-            1290, // ★Sgr7194
+            1289, // ★Sgr6746 (Pikachu)
+            1290, // ★Sgr7194 (Eevee)
             1291, // ★Sgr7337
             1292, // ★Sgr7343
             1293, // ★Sgr6812
