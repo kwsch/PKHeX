@@ -8,6 +8,19 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 337, Ability = A4, Moves = new[]{ 585, 033, 093, 088 }, Index = 85 }, // Lunatone
+            new(17,01,1) { Species = 338, Ability = A4, Moves = new[]{ 394, 033, 093, 088 }, Index = 85 }, // Solrock
+            new(30,03,2) { Species = 337, Ability = A4, Moves = new[]{ 585, 129, 094, 088 }, Index = 85 }, // Lunatone
+            new(30,03,2) { Species = 338, Ability = A4, Moves = new[]{ 394, 129, 094, 088 }, Index = 85 }, // Solrock
+            new(40,05,3) { Species = 337, Ability = A4, Moves = new[]{ 585, 129, 094, 157 }, Index = 85 }, // Lunatone
+            new(40,05,3) { Species = 338, Ability = A4, Moves = new[]{ 394, 129, 094, 157 }, Index = 85 }, // Solrock
+            new(50,08,4) { Species = 337, Ability = A4, Moves = new[]{ 585, 058, 094, 157 }, Index = 85 }, // Lunatone
+            new(50,08,4) { Species = 338, Ability = A4, Moves = new[]{ 394, 076, 094, 157 }, Index = 85 }, // Solrock
+            new(60,10,5) { Species = 337, Ability = A4, Moves = new[]{ 585, 058, 094, 444 }, Index = 85, Shiny = Shiny.Always }, // Lunatone
+            new(60,10,5) { Species = 337, Ability = A4, Moves = new[]{ 585, 058, 094, 444 }, Index = 85 }, // Lunatone
+            new(60,10,5) { Species = 338, Ability = A4, Moves = new[]{ 394, 076, 094, 444 }, Index = 85, Shiny = Shiny.Always }, // Solrock
+            new(60,10,5) { Species = 338, Ability = A4, Moves = new[]{ 394, 076, 094, 444 }, Index = 85 }, // Solrock
+
             new(17,01,1) { Species = 573, Ability = A4, Moves = new[]{ 350, 541, 331, 001 }, Index = 83 }, // Cinccino
             new(17,01,1) { Species = 333, Ability = A4, Moves = new[]{ 574, 064, 257, 031 }, Index = 83 }, // Swablu
             new(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 437, 104, 310, 084 }, Index = 83, Form = 5 }, // Rotom-5
