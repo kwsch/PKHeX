@@ -58,6 +58,8 @@ namespace PKHeX.Core
             PogoType.ResearchP => 15,
             PogoType.GBL => 20,
             PogoType.GBLM => 20,
+            PogoType.GBLZero => 20,
+            PogoType.GBLDay => 20,
             PogoType.Shadow => 8,
             _ => 1,
         };
