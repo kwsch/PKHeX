@@ -1278,7 +1278,7 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
-                CB_GameOrigin.Focus(); // hacky validation forcing
+                ValidateChildren(); // hacky validation forcing
             }
         }
 
