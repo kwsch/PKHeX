@@ -100,7 +100,7 @@ namespace PKHeX.Core
         {
             int min = Type.GetMinIV();
             if (min == 0)
-                return false;
+                return true;
             return GetIVsAboveMinimum(pkm, min);
         }
 
@@ -108,7 +108,7 @@ namespace PKHeX.Core
         {
             int max = Type.GetMaxIV();
             if (max == 15)
-                return false;
+                return true;
             return GetIVsBelowMaximum(pkm, max);
         }
 
