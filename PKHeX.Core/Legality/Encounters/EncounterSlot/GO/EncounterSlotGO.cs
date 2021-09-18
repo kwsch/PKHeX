@@ -93,13 +93,23 @@ namespace PKHeX.Core
                 pk.MetDate = GetRandomValidDate();
             if (Gender != Gender.Random)
                 pk.Gender = (int)Gender;
-            pk.SetRandomIVsGO(Type.GetMinIV());
+            pk.SetRandomIVsGO(Type.GetMinIV(), Type.GetMaxIV());
         }
 
         public bool GetIVsAboveMinimum(PKM pkm)
         {
             int min = Type.GetMinIV();
+            if (min == 0)
+                return false;
             return GetIVsAboveMinimum(pkm, min);
+        }
+
+        public bool GetIVsBelowMaximum(PKM pkm)
+        {
+            int max = Type.GetMaxIV();
+            if (max == 15)
+                return false;
+            return GetIVsBelowMaximum(pkm, max);
         }
 
         private static bool GetIVsAboveMinimum(PKM pkm, int min)
@@ -111,9 +121,20 @@ namespace PKHeX.Core
             return pkm.IV_HP >> 1 >= min; // HP
         }
 
+        private static bool GetIVsBelowMaximum(PKM pkm, int max)
+        {
+            if (pkm.IV_ATK >> 1 > max) // ATK
+                return false;
+            if (pkm.IV_DEF >> 1 > max) // DEF
+                return false;
+            return pkm.IV_HP >> 1 <= max; // HP
+        }
+
         public bool GetIVsValid(PKM pkm)
         {
             if (!GetIVsAboveMinimum(pkm))
+                return false;
+            if (!GetIVsBelowMaximum(pkm))
                 return false;
 
             // HP * 2 | 1 -> HP

@@ -895,13 +895,13 @@ namespace PKHeX.Core
             return IVs = ivs;
         }
 
-        public int[] SetRandomIVsGO(int minIV = 0)
+        public int[] SetRandomIVsGO(int minIV = 0, int maxIV = 15)
         {
             int[] ivs = new int[6];
             var rnd = Util.Rand;
-            ivs[0] = (rnd.Next(minIV, 16) << 1) | 1; // hp
-            ivs[1] = ivs[4] = (rnd.Next(minIV, 16) << 1) | 1; // attack
-            ivs[2] = ivs[5] = (rnd.Next(minIV, 16) << 1) | 1; // defense
+            ivs[0] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // hp
+            ivs[1] = ivs[4] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // attack
+            ivs[2] = ivs[5] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // defense
             ivs[3] = rnd.Next(MaxIV + 1); // speed
             return IVs = ivs;
         }
