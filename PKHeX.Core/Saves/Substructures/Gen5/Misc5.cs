@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public ushort PokeTransferMinigameScore
         {
             get => BitConverter.ToUInt16(Data, Offset + TransferMinigameScoreOffset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, TransferMinigameScoreOffset);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + TransferMinigameScoreOffset);
         }
 
         protected abstract int BadgeVictoryOffset { get; }
