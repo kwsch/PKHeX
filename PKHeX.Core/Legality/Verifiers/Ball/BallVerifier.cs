@@ -356,6 +356,8 @@ namespace PKHeX.Core
             // Foreign Captures
             if (species is >= (int)Species.Treecko and <= (int)Species.Swampert) // Dynamax Adventures
                 return true;
+            if (species is >= (int)Species.Rowlet and <= (int)Species.Primarina) // Distribution Raids
+                return true;
 
             return false;
         }
