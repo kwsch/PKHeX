@@ -7,8 +7,9 @@ http://projectpokemon.org/pkhex/
  - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.
  - - Changed: Gen1 Tradeback handling reworked for less overhead.
  - - Fixed more met locations for XD shadow encounters. Thanks @LegoFigure11!
- - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes. Thanks @theSlayer!
+ - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes. Thanks @pp-theSlayer!
  - - Fixed: Gen2-4 eggs are now permitted to know HM moves while still an egg. Thanks Atrius!
+ - - Fixed: Gen3 Event gifts are now more thoroughly checked for nicknames. Thanks @FeralFalcon!
  - - Fixed: Gen3 Granbull & Vibrava/Flygon are now correctly handled for their ability bit values.
  - - Fixed: Gen2 GS eggs in PK2 format are now allowed to have egg moves. Thanks Psyduck!
  - - Fixed: Gen2 Red Gyarados fixed IVs & gender are now required to match the encounter.
