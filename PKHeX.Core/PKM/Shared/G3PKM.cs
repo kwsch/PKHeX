@@ -41,6 +41,8 @@
 
         public sealed override void RefreshAbility(int n)
         {
+            if (Species is (int)Core.Species.Granbull or (int)Core.Species.Vibrava or (int)Core.Species.Flygon)
+                return;
             AbilityBit = n == 1 && ((PersonalInfoG3)PersonalInfo).HasSecondAbility;
         }
 
