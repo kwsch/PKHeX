@@ -8,6 +8,22 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 722, Ability = A4, Moves = new[]{ 064, 075, 389, 129 }, Index = 87 }, // Rowlet
+            new(17,01,1) { Species = 725, Ability = A4, Moves = new[]{ 052, 006, 044, 421 }, Index = 87 }, // Litten
+            new(17,01,1) { Species = 728, Ability = A4, Moves = new[]{ 574, 001, 453, 196 }, Index = 87 }, // Popplio
+            new(30,03,2) { Species = 722, Ability = A4, Moves = new[]{ 064, 348, 389, 129 }, Index = 87 }, // Rowlet
+            new(30,03,2) { Species = 725, Ability = A4, Moves = new[]{ 053, 006, 044, 421 }, Index = 87 }, // Litten
+            new(30,03,2) { Species = 728, Ability = A4, Moves = new[]{ 574, 061, 453, 196 }, Index = 87 }, // Popplio
+            new(40,05,3) { Species = 722, Ability = A4, Moves = new[]{ 413, 348, 389, 129 }, Index = 87 }, // Rowlet
+            new(40,05,3) { Species = 725, Ability = A4, Moves = new[]{ 394, 006, 044, 421 }, Index = 87 }, // Litten
+            new(40,05,3) { Species = 728, Ability = A4, Moves = new[]{ 585, 056, 453, 196 }, Index = 87 }, // Popplio
+            new(50,08,4) { Species = 722, Ability = A4, Moves = new[]{ 413, 348, 389, 412 }, Index = 87 }, // Rowlet
+            new(50,08,4) { Species = 725, Ability = A4, Moves = new[]{ 394, 006, 279, 421 }, Index = 87 }, // Litten
+            new(50,08,4) { Species = 728, Ability = A4, Moves = new[]{ 585, 056, 453, 059 }, Index = 87 }, // Popplio
+            new(60,10,5) { Species = 722, Ability = A4, Moves = new[]{ 413, 348, 421, 412 }, Index = 87 }, // Rowlet
+            new(60,10,5) { Species = 725, Ability = A4, Moves = new[]{ 394, 006, 279, 242 }, Index = 87 }, // Litten
+            new(60,10,5) { Species = 728, Ability = A4, Moves = new[]{ 585, 056, 453, 058 }, Index = 87 }, // Popplio
+
             new(17,01,1) { Species = 337, Ability = A4, Moves = new[]{ 585, 033, 093, 088 }, Index = 85 }, // Lunatone
             new(17,01,1) { Species = 338, Ability = A4, Moves = new[]{ 394, 033, 093, 088 }, Index = 85 }, // Solrock
             new(30,03,2) { Species = 337, Ability = A4, Moves = new[]{ 585, 129, 094, 088 }, Index = 85 }, // Lunatone
