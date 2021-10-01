@@ -71,8 +71,7 @@ namespace PKHeX.Core
         /// </summary>
         public static int GetTimeStamp(int year, int month, int day) => (year << 16) | (month << 8) | day;
 
-        private static readonly TimeZoneInfo Kiribati = TimeZoneInfo.FindSystemTimeZoneById("KI");
-        private static DateTime GetMaxDateTime() => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, Kiribati);
+        private static DateTime GetMaxDateTime() => DateTime.UtcNow.AddHours(12); // UTC+12 for Kiribati, no daylight savings
 
         /// <summary>
         /// Gets a random date within the availability range.
