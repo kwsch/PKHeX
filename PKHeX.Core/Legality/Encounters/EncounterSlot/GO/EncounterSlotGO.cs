@@ -60,7 +60,7 @@ namespace PKHeX.Core
         public bool IsWithinStartEnd(int stamp)
         {
             if (End == 0)
-                return Start <= stamp && GetDate(stamp) <= DateTime.UtcNow;
+                return Start <= stamp && GetDate(stamp) <= GetMaxDateTime();
             if (Start == 0)
                 return stamp <= End;
             return Start <= stamp && stamp <= End;
@@ -71,13 +71,16 @@ namespace PKHeX.Core
         /// </summary>
         public static int GetTimeStamp(int year, int month, int day) => (year << 16) | (month << 8) | day;
 
+        private static readonly TimeZoneInfo Kiribati = TimeZoneInfo.FindSystemTimeZoneById("KI");
+        private static DateTime GetMaxDateTime() => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, Kiribati);
+
         /// <summary>
         /// Gets a random date within the availability range.
         /// </summary>
         public DateTime GetRandomValidDate()
         {
             if (Start == 0)
-                return End == 0 ? DateTime.UtcNow : GetDate(End);
+                return End == 0 ? GetMaxDateTime() : GetDate(End);
 
             var start = GetDate(Start);
             if (End == 0)
