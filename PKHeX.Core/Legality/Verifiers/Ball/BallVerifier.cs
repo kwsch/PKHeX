@@ -256,8 +256,6 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (species is >= 722 and <= 730) // G7 Starters
-                return VerifyBallEquals(data, (int)Poke);
             if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
