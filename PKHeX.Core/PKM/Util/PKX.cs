@@ -129,7 +129,7 @@ namespace PKHeX.Core
             uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
-            bool singleGender = gt is 0 or 254 or 255; // single gender, skip gender check
+            bool singleGender = PersonalInfo.IsSingleGender(gt); // single gender, skip gender check
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.Rand32(rnd);
@@ -192,11 +192,13 @@ namespace PKHeX.Core
 
         public static int GetGenderFromPIDAndRatio(uint pid, int gr) => gr switch
         {
-            255 => 2,
-            254 => 1,
-            0 => 0,
-            _ => (pid & 0xFF) < gr ? 1 : 0
+            PersonalInfo.RatioMagicGenderless => 2,
+            PersonalInfo.RatioMagicFemale => 1,
+            PersonalInfo.RatioMagicMale => 0,
+            _ => (pid & 0xFF) < gr ? 1 : 0,
         };
+
+        internal const string ExtensionPB7 = "pb7";
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -218,7 +220,7 @@ namespace PKHeX.Core
             if (maxGeneration >= 4)
                 result.Add("bk4"); // battle revolution
             if (maxGeneration >= 7)
-                result.Add("pb7"); // let's go
+                result.Add(ExtensionPB7); // let's go
 
             return result.ToArray();
         }

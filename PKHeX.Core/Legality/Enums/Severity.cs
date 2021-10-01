@@ -44,7 +44,7 @@ namespace PKHeX.Core
             Severity.Invalid => L_SInvalid,
             Severity.Fishy => L_SFishy,
             Severity.Valid => L_SValid,
-            _ => L_SNotImplemented
+            _ => L_SNotImplemented,
         };
     }
 }

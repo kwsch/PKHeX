@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
 
         private void GetContextMenu()
         {
-            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
+            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide };
             mnuHide.Click += (sender, e) =>
             {
                 int c = dgData.SelectedCells.Count;
@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < c; i++)
                     dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
             };
-            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore, };
+            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore };
             mnuRestore.Click += (sender, e) =>
             {
                 int c = dgData.ColumnCount;
@@ -54,27 +54,28 @@ namespace PKHeX.WinForms
         public void PopulateData(IList<SlotCache> Data)
         {
             SuspendLayout();
-            BoxBar.Step = 1;
             var PL = new PokemonList<EntitySummaryImage>();
             var strings = GameInfo.Strings;
             foreach (var entry in Data)
             {
                 var pkm = entry.Entity;
+                if ((uint)(pkm.Species - 1) >= pkm.MaxSpeciesID)
+                {
+                    continue;
+                }
                 pkm.Stat_Level = pkm.CurrentLevel; // recalc Level
                 PL.Add(new EntitySummaryImage(pkm, strings, entry.Identify()));
-                BoxBar.PerformStep();
             }
 
             dgData.DataSource = PL;
             dgData.AutoGenerateColumns = true;
-            BoxBar.Maximum = Data.Count + dgData.Columns.Count;
             for (int i = 0; i < dgData.Columns.Count; i++)
             {
-                BoxBar.PerformStep();
-                if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
-                dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
+                var col = dgData.Columns[i];
+                if (col is DataGridViewImageColumn)
+                    continue; // Don't add sorting for Sprites
+                col.SortMode = DataGridViewColumnSortMode.Automatic;
             }
-            BoxBar.Visible = false;
 
             // Trigger Resizing
             dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -92,7 +93,7 @@ namespace PKHeX.WinForms
 
         private void Data_Sorted(object sender, EventArgs e)
         {
-            int height = SpriteUtil.GetSprite(1, 0, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = SpriteUtil.Spriter.Height + 1; // max height of a row, +1px
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
@@ -104,7 +105,7 @@ namespace PKHeX.WinForms
             using var savecsv = new SaveFileDialog
             {
                 Filter = "Spreadsheet|*.csv",
-                FileName = "Box Data Dump.csv"
+                FileName = "Box Data Dump.csv",
             };
             if (savecsv.ShowDialog() == DialogResult.OK)
                 await Export_CSV(savecsv.FileName).ConfigureAwait(false);

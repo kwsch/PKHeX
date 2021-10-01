@@ -38,7 +38,7 @@ namespace PKHeX.Core
             bool hasOne = false;
             for (var mark = RibbonIndex.MarkLunchtime; mark <= RibbonIndex.MarkSlump; mark++)
             {
-                bool has = m.GetRibbon((int) mark);
+                bool has = m.GetRibbon((int)mark);
                 if (!has)
                     continue;
 
@@ -59,20 +59,52 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterable enc)
+        public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterTemplate enc)
         {
             return IsMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
         }
 
-        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable x) => mark switch
+        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterTemplate x) => mark switch
         {
             RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
             RibbonIndex.MarkFishing when !IsMarkAllowedFishing(x) => false,
+            RibbonIndex.MarkMisty when pk.Met_Level < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.Met_Location) => false,
             RibbonIndex.MarkDestiny => false,
-            _ => true
+            >= RibbonIndex.MarkCloudy and <= RibbonIndex.MarkMisty => IsWeatherPermitted(mark, x),
+            _ => true,
         };
 
-        public static bool IsMarkAllowedAny(IEncounterable enc) => enc.Generation == 8 && enc switch
+        private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterTemplate enc)
+        {
+            var permit = mark.GetWeather8();
+
+            // Encounter slots check location weather, while static encounters check weather per encounter.
+            return enc switch
+            {
+                EncounterSlot8 w => IsSlotWeatherPermitted(permit, w),
+                EncounterStatic8 s => s.Weather.HasFlag(permit),
+                _ => false,
+            };
+        }
+
+        private static bool IsSlotWeatherPermitted(AreaWeather8 permit, EncounterSlot8 s)
+        {
+            var location = s.Location;
+            // If it's not in the main table, it can only have Normal weather.
+            if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var weather))
+                weather = AreaWeather8.Normal;
+            if (weather.HasFlag(permit))
+                return true;
+
+            // Valid tree/fishing weathers should have returned with main area weather.
+            if ((s.Weather & (AreaWeather8.Shaking_Trees | AreaWeather8.Fishing)) != 0)
+                return false;
+
+            // Check bleed conditions otherwise.
+            return EncounterArea8.IsWeatherBleedPossible(s.SlotType, permit, location);
+        }
+
+        public static bool IsMarkAllowedAny(IEncounterTemplate enc) => enc.Generation == 8 && enc switch
         {
             // Gen 8
             WC8 or EncounterEgg or EncounterTrade or EncounterSlot8GO
@@ -83,14 +115,10 @@ namespace PKHeX.Core
             _ => true,
         };
 
-        public static bool IsMarkAllowedCurry(PKM pkm, IEncounterable enc)
+        public static bool IsMarkAllowedCurry(PKM pkm, IEncounterTemplate enc)
         {
             // Curry are only encounter slots, from the hidden table (not symbol). Slots taken from area's current weather(?).
-            if (enc is not EncounterSlot8 s)
-                return false;
-
-            var area = (EncounterArea8)s.Area;
-            if (area.PermitCrossover)
+            if (enc is not EncounterSlot8 s || !s.SlotType.CanEncounterViaCurry())
                 return false;
 
             var weather = s.Weather;
@@ -103,18 +131,13 @@ namespace PKHeX.Core
             return (uint)(ball - 2) <= 2;
         }
 
-        public static bool IsMarkAllowedFishing(IEncounterable enc)
+        public static bool IsMarkAllowedFishing(IEncounterTemplate enc)
         {
             // Fishing are only encounter slots, from the hidden table (not symbol).
             if (enc is not EncounterSlot8 s)
                 return false;
 
-            var area = (EncounterArea8)s.Area;
-            if (area.PermitCrossover)
-                return false;
-
-            var weather = s.Weather;
-            return (weather & AreaWeather8.Fishing) != 0;
+            return s.SlotType.CanEncounterViaFishing(s.Weather);
         }
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)

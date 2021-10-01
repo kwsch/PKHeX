@@ -8,9 +8,10 @@
         public int Gender { get; set; } = 0;
         public int Language { get; set; } = (int)LanguageID.English;
 
-        public int ConsoleRegion { get; set; } = 1; // North America
-        public int Region { get; set; } = 7; // California
-        public int Country { get; set; } = 49; // USA
+        // IRegionOrigin for generation 6/7
+        public byte ConsoleRegion { get; set; } = 1; // North America
+        public byte Region { get; set; } = 7; // California
+        public byte Country { get; set; } = 49; // USA
 
         public int Game { get; }
         public int Generation { get; set; } = PKX.Generation;

@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public int GetTreeStreak(int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException(nameof(battletype));
+                throw new ArgumentOutOfRangeException(nameof(battletype));
 
             var offset = GetStreakOffset(battletype, super, max);
             return BitConverter.ToUInt16(Data, Offset + offset);
@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public void SetTreeStreak(int value, int battletype, bool super, bool max)
         {
             if (battletype > 3)
-                throw new ArgumentException(nameof(battletype));
+                throw new ArgumentOutOfRangeException(nameof(battletype));
 
             if (value > ushort.MaxValue)
                 value = ushort.MaxValue;
@@ -45,7 +45,7 @@ namespace PKHeX.Core
         public BattleTreeTrainer GetTrainer(in int index)
         {
             if ((uint)index >= ScoutCount)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             var id = BitConverter.ToInt16(Data, Offset + 0x24 + (index * 2));
             var p1 = BitConverter.ToInt16(Data, Offset + 0x88 + (index * 2));
@@ -62,7 +62,7 @@ namespace PKHeX.Core
         public void SetTrainer(BattleTreeTrainer tr, in int index)
         {
             if ((uint)index >= ScoutCount)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             BitConverter.GetBytes(tr.ID).CopyTo(Data, Offset + 0x24 + (index * 2));
             BitConverter.GetBytes(tr.Poke1.ID).CopyTo(Data, Offset + 0x88 + (index * 2));

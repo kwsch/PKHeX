@@ -148,5 +148,9 @@ namespace PKHeX.Core
         public override int X2 { get => BitConverter.ToUInt16(General, 0x25FA); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x25FA); }
         public override int Y2 { get => BitConverter.ToUInt16(General, 0x25FE); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x25FE); }
         public override int Z { get => BitConverter.ToUInt16(General, 0x2602); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2602); }
+
+        public override uint SafariSeed { get => BitConverter.ToUInt32(General, 0x72D0); set => BitConverter.GetBytes(value).CopyTo(General, 0x72D0); }
+        public override uint SwarmSeed { get => BitConverter.ToUInt32(General, 0x72D4); set => BitConverter.GetBytes(value).CopyTo(General, 0x72D4); }
+        public override uint SwarmMaxCountModulo => 28;
     }
 }

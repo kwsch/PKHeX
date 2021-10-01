@@ -254,7 +254,7 @@ namespace PKHeX.Core
             MemeKeyIndex.Unknown11 => DER_B,
             MemeKeyIndex.Unknown12 => DER_C,
             MemeKeyIndex.Unknown13 => DER_D,
-            _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(key), key, null),
         };
 
         private static readonly byte[] rgbIV = new byte[0x10];

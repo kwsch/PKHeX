@@ -18,7 +18,9 @@ namespace PKHeX.Core
             new(SW  ) { Species = 842, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,-1,31,-1,31,-1}, DynamaxLevel = 5, Moves = new[] {787,412,406,076}, CanGigantamax = true }, // ★Sgr6913 Gigantamax Appletun
             new(  SH) { Species = 841, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,31,-1,31,-1,-1}, DynamaxLevel = 5, Moves = new[] {788,491,412,406}, CanGigantamax = true }, // ★Sgr6913 Gigantamax Flapple
             new(SWSH) { Species = 844, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {523,776,489,157}, CanGigantamax = true }, // ★Sgr7348 Gigantamax Sandaconda
-          //new(SWSH) { Species = 884, Level = 40, Ability = A2, Location = 126, IVs = new[] {31,-1,-1,31,31,-1}, DynamaxLevel = 5, Moves = new[] {796,063,784,319}, CanGigantamax = true }, // ★Sgr7121 Gigantamax Duraludon
+            new(SWSH) { Species = 884, Level = 40, Ability = A2, Location = 126, IVs = new[] {31,-1,-1,31,31,-1}, DynamaxLevel = 5, Moves = new[] {796,063,784,319}, CanGigantamax = true }, // ★Sgr7121 Gigantamax Duraludon
+          //new(SWSH) { Species = 025, Level = 25, Ability = A2, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {606,273,104,085}, CanGigantamax = true }, // ★Sgr6746 Gigantamax Pikachu
+          //new(SWSH) { Species = 133, Level = 25, Ability = A2, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {606,273,038,129}, CanGigantamax = true }, // ★Sgr7194 Gigantamax Eevee
         };
         #endregion
     }

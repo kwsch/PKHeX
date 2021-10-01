@@ -34,7 +34,7 @@ namespace PKHeX.Core
                 {
                     <= 0 => ValidAny,
                     not 1 => ValidUSA,
-                    _ => InvalidUSA
+                    _ => InvalidUSA,
                 };
             }
             if (EReaderBerriesNames_JP.Contains(name))
@@ -43,7 +43,7 @@ namespace PKHeX.Core
                 {
                     <= 0 => ValidAny,
                     1 => ValidJPN,
-                    _ => InvalidJPN
+                    _ => InvalidJPN,
                 };
             }
             return NoMatch;
@@ -76,7 +76,7 @@ namespace PKHeX.Core
             "ヤゴ", // YAGO
             "トウガ", // TOUGA
             "ニニク", // NINIKU
-            "トポ" // TOPO
+            "トポ", // TOPO
         };
 
         public static void LoadFrom(SAV3 sav3)

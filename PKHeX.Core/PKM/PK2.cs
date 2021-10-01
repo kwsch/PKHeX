@@ -103,7 +103,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new(Japanese) {TradebackStatus = TradebackType.WasTradeback};
+            PK1 pk1 = new(Japanese);
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             pk7.OT_Gender = OT_Gender; // Crystal
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
-            pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pkm
 
             // Dizzy Punch cannot be transferred
             {

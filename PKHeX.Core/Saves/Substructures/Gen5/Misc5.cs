@@ -18,14 +18,21 @@ namespace PKHeX.Core
             set => Data[Offset + 0x4] = (byte)value;
         }
 
+        public ushort PokeTransferMinigameScore
+        {
+            get => BitConverter.ToUInt16(Data, Offset + TransferMinigameScoreOffset);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + TransferMinigameScoreOffset);
+        }
+
         protected abstract int BadgeVictoryOffset { get; }
+        protected abstract int TransferMinigameScoreOffset { get; }
 
         private int GetBadgeVictorySpeciesOffset(uint badge, uint slot)
         {
             if (badge >= 8)
-                throw new ArgumentException(nameof(badge));
+                throw new ArgumentOutOfRangeException(nameof(badge));
             if (slot >= 6)
-                throw new ArgumentException(nameof(slot));
+                throw new ArgumentOutOfRangeException(nameof(slot));
 
             return Offset + BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
         }
@@ -46,12 +53,14 @@ namespace PKHeX.Core
     public sealed class Misc5BW : Misc5
     {
         public Misc5BW(SAV5BW sav, int offset) : base(sav, offset) { }
+        protected override int TransferMinigameScoreOffset => 0x14;
         protected override int BadgeVictoryOffset => 0x58; // thru 0xB7
     }
 
     public sealed class Misc5B2W2 : Misc5
     {
         public Misc5B2W2(SAV5B2W2 sav, int offset) : base(sav, offset) { }
+        protected override int TransferMinigameScoreOffset => 0x18;
         protected override int BadgeVictoryOffset => 0x5C; // thru 0xBB
     }
 }

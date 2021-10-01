@@ -1,12 +1,10 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class ShadowInfoEntryXD
+    public abstract class ShadowInfoEntryXD
     {
         public readonly byte[] Data;
-        internal const int SIZE_ENTRY = 72;
 
-        public ShadowInfoEntryXD() => Data = new byte[SIZE_ENTRY];
-        public ShadowInfoEntryXD(byte[] data) => Data = data;
+        protected ShadowInfoEntryXD(byte[] data) => Data = data;
 
         public bool IsSnagged => Data[0] >> 6 != 0;
         public bool IsPurified { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } }
@@ -25,8 +23,32 @@
         public uint EXP { get => BigEndian.ToUInt32(Data, 0x04) >> 12; set => BigEndian.GetBytes((BigEndian.ToUInt32(Data, 0x04) & 0xFFF) | (value << 12)).CopyTo(Data, 0x04); }
         public bool IsEmpty => Species == 0;
 
-        public int Index { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
+        public abstract byte Index { get; set; }
 
         public override string ToString() => $"{(Species) Species} 0x{PID:X8} {Purification}";
+    }
+
+    public sealed class ShadowInfoEntry3J : ShadowInfoEntryXD
+    {
+        internal const int SIZE_ENTRY = 60; // -12 from U
+
+        public ShadowInfoEntry3J() : base(new byte[SIZE_ENTRY]) { }
+        public ShadowInfoEntry3J(byte[] data) : base(data) { }
+
+        public override byte Index { get => Data[0x35]; set => Data[0x35] = value; }
+
+        public override string ToString() => $"{(Species)Species} 0x{PID:X8} {Purification}";
+    }
+
+    public sealed class ShadowInfoEntry3U : ShadowInfoEntryXD
+    {
+        internal const int SIZE_ENTRY = 72; // -12 from U
+
+        public ShadowInfoEntry3U() : base(new byte[SIZE_ENTRY]) { }
+        public ShadowInfoEntry3U(byte[] data) : base(data) { }
+
+        public override byte Index { get => Data[0x3F]; set => Data[0x3F] = value; }
+
+        public override string ToString() => $"{(Species)Species} 0x{PID:X8} {Purification}";
     }
 }

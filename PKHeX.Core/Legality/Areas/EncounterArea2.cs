@@ -35,7 +35,7 @@ namespace PKHeX.Core
             var type = (Type = (SlotType)data[2]) & (SlotType)0xF;
             var rate = data[3];
 
-            if (type > SlotType.Surf) // Not Grass/Surf
+            if (type is > SlotType.Surf and not SlotType.BugContest) // Not Grass/Surf
             {
                 const int size = 5;
                 int count = (data.Length - 4) / size;
@@ -57,7 +57,7 @@ namespace PKHeX.Core
                 {
                     SlotType.BugContest => BCC_SlotRates,
                     SlotType.Grass => RatesGrass,
-                    _ => RatesSurf
+                    _ => RatesSurf,
                 };
                 Slots = ReadSlots(data, count, 4);
             }

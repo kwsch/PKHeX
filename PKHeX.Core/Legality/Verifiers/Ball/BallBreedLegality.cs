@@ -889,7 +889,7 @@ namespace PKHeX.Core
             (int)Flabébé + (3 << 11), // Flabébé-Blue
         };
 
-        internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new() { (int)Beldum, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini, };
+        internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new() { (int)Beldum, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini };
 
         private static readonly HashSet<int> Inherit_ApricornMale7 = new()
         {

@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
 
             var prefix = StringInstruction.Prefixes;
             string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + StringInstruction.SplitInstruction;
-            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
+            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
                 s = Environment.NewLine + s;
 
             RTB_Instructions.AppendText(s);
@@ -228,12 +228,12 @@ namespace PKHeX.WinForms
                 mi.Invoke();
         }
 
-        private void SetProgressBar(int i)
+        private void SetProgressBar(int position)
         {
             if (PB_Show.InvokeRequired)
-                PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = i));
+                PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = position));
             else
-                PB_Show.Value = i;
+                PB_Show.Value = position;
         }
 
         // Mass Editing
@@ -241,14 +241,23 @@ namespace PKHeX.WinForms
 
         private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
+            if (data.Count == 0)
+                return;
+
             var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
             if (filterMeta.Length != 0)
                 Filters = Filters.Except(filterMeta).ToArray();
+
+            var max = data[0].Entity.MaxSpeciesID;
 
             for (int i = 0; i < data.Count; i++)
             {
                 var entry = data[i];
                 var pk = data[i].Entity;
+
+                var spec = pk.Species;
+                if (spec <= 0 || spec > max)
+                    continue;
 
                 if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                     editor.AddSkipped();
@@ -280,16 +289,18 @@ namespace PKHeX.WinForms
             if (!PKX.IsPKM(fi.Length))
                 return;
 
-            int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
             byte[] data = File.ReadAllBytes(source);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, SAV);
             if (pk == null)
                 return;
 
             var info = new SlotInfoFile(source);
             var entry = new SlotCache(info, pk);
-            if (BatchEditing.IsFilterMatchMeta(metaFilters, entry))
-                editor.Process(pk, pkFilters, instructions);
+            if (!BatchEditing.IsFilterMatchMeta(metaFilters, entry))
+            {
+                editor.AddSkipped();
+                return;
+            }
 
             if (editor.Process(pk, pkFilters, instructions))
                 File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);

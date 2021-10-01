@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -36,34 +35,11 @@ namespace PKHeX.Core
             var info = l.Info;
             var pkm = l.pkm;
 
-            AddMoves(info.Moves, lines);
+            LegalityFormatting.AddMoves(info.Moves, lines, pkm.Format, false);
             if (pkm.Format >= 6)
-                AddRelearn(info.Relearn, lines);
-
-            // Build result string...
-            var outputLines = l.Results.Where(chk => !chk.Valid);
-            lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
+                LegalityFormatting.AddRelearn(info.Relearn, lines, false);
+            LegalityFormatting.AddSecondaryChecksInvalid(l.Results, lines);
             return lines;
-        }
-
-        private static void AddMoves(CheckMoveResult[] moves, List<string> lines)
-        {
-            for (int i = 0; i < moves.Length; i++)
-            {
-                var move = moves[i];
-                if (!move.Valid)
-                    lines.Add(move.Format(L_F0_M_1_2, i + 1));
-            }
-        }
-
-        private static void AddRelearn(CheckResult[] relearn, List<string> lines)
-        {
-            for (int i = 0; i < relearn.Length; i++)
-            {
-                var move = relearn[i];
-                if (!move.Valid)
-                    lines.Add(move.Format(L_F0_RM_1_2, i + 1));
-            }
         }
 
         private static IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
@@ -77,21 +53,19 @@ namespace PKHeX.Core
             int initialCount = lines.Count;
 
             var format = pkm.Format;
-            LegalityFormatting.AddValidMoves(info, lines, format);
+            LegalityFormatting.AddMoves(info.Moves, lines, format, true);
 
             if (format >= 6)
-                LegalityFormatting.AddValidMovesRelearn(info, lines);
+                LegalityFormatting.AddRelearn(info.Relearn, lines, true);
 
             if (lines.Count != initialCount) // move info added, break for next section
                 lines.Add(string.Empty);
 
-            LegalityFormatting.AddValidSecondaryChecks(l.Results, lines);
+            LegalityFormatting.AddSecondaryChecksValid(l.Results, lines);
 
             lines.Add(separator);
             lines.Add(string.Empty);
             LegalityFormatting.AddEncounterInfo(l, lines);
-
-            LegalityFormatting.AddInvalidMatchesIfAny(l, info, lines);
 
             return lines;
         }

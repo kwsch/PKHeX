@@ -32,7 +32,7 @@ namespace PKHeX.Core
             Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
             Abilities = Source.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList();
 
-            G4EncounterTypes = Source.EncounterTypeDataSource;
+            G4GroundTiles = Source.GroundTileDataSource;
             Natures = Source.NatureDataSource;
         }
 
@@ -46,7 +46,7 @@ namespace PKHeX.Core
             {
                 SAV7b => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
                     .Where(s => s.Value is <= (int)Core.Species.Mew or (int)Core.Species.Meltan or (int)Core.Species.Melmetal),
-                _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID)
+                _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID),
             };
         }
 
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             return sav switch
             {
                 SAV7b => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
-                _ => legal.Where(m => m.Value <= sav.MaxMoveID)
+                _ => legal.Where(m => m.Value <= sav.MaxMoveID),
             };
         }
 
@@ -73,7 +73,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<ComboItem> Languages;
         public readonly IReadOnlyList<ComboItem> Abilities;
         public readonly IReadOnlyList<ComboItem> Natures;
-        public readonly IReadOnlyList<ComboItem> G4EncounterTypes;
+        public readonly IReadOnlyList<ComboItem> G4GroundTiles;
         public readonly IReadOnlyList<ComboItem> ConsoleRegions = GameDataSource.Regions;
 
         public IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)

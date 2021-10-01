@@ -116,8 +116,8 @@ namespace PKHeX.Core
             Util.GetBytesFromHexString(seed).CopyTo(Data, DaycareOffset + 0x1E8);
         }
 
-        public override string JPEGTitle => HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
-        public override byte[] GetJPEGData() => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
+        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
+        public override byte[] GetJPEGData() => !HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
         public void UnlockAllFriendSafariSlots()
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         {
             (int) GameVersion.X => GameVersion.X,
             (int) GameVersion.Y => GameVersion.Y,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
@@ -165,5 +165,11 @@ namespace PKHeX.Core
         public override int Vivillon { get => Blocks.Misc.Vivillon; set => Blocks.Misc.Vivillon = value; }
         public override int Badges { get => Blocks.Misc.Badges; set => Blocks.Misc.Badges = value; }
         public override int BP { get => Blocks.Misc.BP; set => Blocks.Misc.BP = value; }
+
+        public override int MultiplayerSpriteID
+        {
+            get => Blocks.Status.MultiplayerSpriteID_1;
+            set => Blocks.Status.MultiplayerSpriteID_1 = Blocks.Status.MultiplayerSpriteID_2 = value;
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -160,31 +160,31 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> AlolanOriginForms = new()
         {
-            019, // Rattata
-            020, // Raticate
-            027, // Sandshrew
-            028, // Sandslash
-            037, // Vulpix
-            038, // Ninetales
-            050, // Diglett
-            051, // Dugtrio
-            052, // Meowth
-            053, // Persian
-            074, // Geodude
-            075, // Graveler
-            076, // Golem
-            088, // Grimer
-            089, // Muk
+            (int)Rattata,
+            (int)Raticate,
+            (int)Sandshrew,
+            (int)Sandslash,
+            (int)Vulpix,
+            (int)Ninetales,
+            (int)Diglett,
+            (int)Dugtrio,
+            (int)Meowth,
+            (int)Persian,
+            (int)Geodude,
+            (int)Graveler,
+            (int)Golem,
+            (int)Grimer,
+            (int)Muk,
         };
 
         internal static readonly HashSet<int> AlolanVariantEvolutions12 = new()
         {
-            026, // Raichu
-            103, // Exeggutor
-            105, // Marowak
+            (int)Raichu,
+            (int)Exeggutor,
+            (int)Marowak,
         };
 
-        internal static readonly HashSet<int> EvolveToAlolanForms = new(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
+        public static bool HasAlolanForm(int species) => AlolanOriginForms.Contains(species) || AlolanVariantEvolutions12.Contains(species);
 
         public static readonly HashSet<int> PastGenAlolanNatives = new()
         {
@@ -244,36 +244,34 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> Totem_Alolan = new()
         {
-            020, // Raticate (Normal, Alolan, Totem)
-            105, // Marowak (Normal, Alolan, Totem)
-            778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
+            (int)Raticate, // (Normal, Alolan, Totem)
+            (int)Marowak, // (Normal, Alolan, Totem)
+            (int)Mimikyu, // (Normal, Busted, Totem, Totem_Busted)
         };
 
         internal static readonly HashSet<int> Totem_NoTransfer = new()
         {
-            105, // Marowak
-            752, // Araquanid
-            777, // Togedemaru
-            743, // Ribombee
+            (int)Marowak,
+            (int)Araquanid,
+            (int)Togedemaru,
+            (int)Ribombee,
         };
 
         internal static readonly HashSet<int> Totem_USUM = new()
         {
-            020, // Raticate
-            735, // Gumshoos
-            //746, // Wishiwashi
-            758, // Salazzle
-            754, // Lurantis
-            738, // Vikavolt
-            778, // Mimikyu
-            784, // Kommo-o
-            105, // Marowak
-            752, // Araquanid
-            777, // Togedemaru
-            743, // Ribombee
+            (int)Raticate,
+            (int)Gumshoos,
+          //(int)Wishiwashi,
+            (int)Salazzle,
+            (int)Lurantis,
+            (int)Vikavolt,
+            (int)Mimikyu,
+            (int)Kommoo,
+            (int)Marowak,
+            (int)Araquanid,
+            (int)Togedemaru,
+            (int)Ribombee,
         };
-
-        internal static readonly int[] EggLocations7 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_SM = new()
         {
@@ -282,7 +280,7 @@ namespace PKHeX.Core
             100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
             150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
 
-            30016 // Poké Pelago
+            Locations.Pelago7, // 30016
         };
 
         internal static readonly HashSet<int> ValidMet_USUM = new(ValidMet_SM)

@@ -79,7 +79,7 @@ namespace PKHeX.Core
 
         public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
         public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
-        public F6Skin Skin     { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
+        public F6Skin Skin   { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
         public F6HairColor HairColor { get => (F6HairColor)GetBits(data0,  8, 3); set => data0 = SetBits(data0,  8, 3, (uint)value); }
         public F6Hat Hat     { get => (F6Hat)GetBits(data0, 11, 5); set => data0 = SetBits(data0, 11, 5, (uint)value); }
         public F6HairStyleFront Front    { get => (F6HairStyleFront)GetBits(data0, 16, 3); set => data0 = SetBits(data0, 16, 3, (uint)value); }
@@ -95,8 +95,8 @@ namespace PKHeX.Core
         public F6Shoes Shoes  { get => (F6Shoes)GetBits(data1, 14, 5); set => data1 = SetBits(data1, 14, 5, (uint)value); }
         public F6Bag Bag      { get => (F6Bag)GetBits(data1, 19, 4); set => data1 = SetBits(data1, 19, 4, (uint)value); }
         public F6Accessory AHat { get => (F6Accessory)GetBits(data1, 23, 4); set => data1 = SetBits(data1, 23, 4, (uint)value); }
-        public uint Unknown1 { get => GetBits(data1, 27, 2); set => data1 = SetBits(data1, 27, 2, value); }
-        public uint Unused1  { get => GetBits(data1, 29, 3); set => data1 = SetBits(data1, 29, 3, value); }
+        public uint Unknown1  { get => GetBits(data1, 27, 2); set => data1 = SetBits(data1, 27, 2, value); }
+        public uint Unused1   { get => GetBits(data1, 29, 3); set => data1 = SetBits(data1, 29, 3, value); }
 
         public bool Contacts      { get => GetBits(data2,  0, 1) == 1; set => data2 = SetBits(data2,  0, 1, value ? 1u : 0); }
         public uint FacialHair    { get => GetBits(data2,  1, 3);      set => data2 = SetBits(data2,  1, 3, value); }
@@ -106,8 +106,8 @@ namespace PKHeX.Core
         public uint PaintRight    { get => GetBits(data2, 14, 4);      set => data2 = SetBits(data2, 14, 4, value); }
         public uint PaintLeftC    { get => GetBits(data2, 18, 3);      set => data2 = SetBits(data2, 18, 3, value); }
         public uint PaintRightC   { get => GetBits(data2, 21, 3);      set => data2 = SetBits(data2, 21, 3, value); }
-        public uint Cheek         { get => GetBits(data2, 24, 2);      set => data2 = SetBits(data2, 24, 2, value); }
-        public uint CheekColor    { get => GetBits(data2, 26, 3);      set => data2 = SetBits(data2, 26, 3, value); }
+        public bool Freckles      { get => GetBits(data2, 24, 2) == 1; set => data2 = SetBits(data2, 24, 2, value ? 1u : 0); }
+        public uint ColorFreckles { get => GetBits(data2, 26, 3);      set => data2 = SetBits(data2, 26, 3, value); }
         public uint Unused2       { get => GetBits(data2, 29, 3);      set => data2 = SetBits(data2, 29, 3, value); }
 
         public enum F6Top
@@ -279,9 +279,9 @@ namespace PKHeX.Core
 
         public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
         public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
-        public F6Skin Skin     { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
+        public F6Skin Skin   { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
         public F6HairColor HairColor{ get => (F6HairColor)GetBits(data0,  8, 3); set => data0 = SetBits(data0,  8, 3, (uint)value); }
-        public F6Hat Hat      { get => (F6Hat)GetBits(data0, 11, 6); set => data0 = SetBits(data0, 11, 6, (uint)value); }
+        public F6Hat Hat     { get => (F6Hat)GetBits(data0, 11, 6); set => data0 = SetBits(data0, 11, 6, (uint)value); }
         public F6HairStyleFront Front { get => (F6HairStyleFront)GetBits(data0, 17, 3); set => data0 = SetBits(data0, 17, 3, (uint)value); }
         public F6HairStyle Hair { get => (F6HairStyle)GetBits(data0, 20, 4); set => data0 = SetBits(data0, 20, 4, (uint)value); }
         public uint Face     { get => GetBits(data0, 24, 3); set => data0 = SetBits(data0, 24, 3, value); }
@@ -300,20 +300,20 @@ namespace PKHeX.Core
         public F6Bag Bag          { get => (F6Bag)GetBits(data2,  0, 5); set => data2 = SetBits(data2,  0, 5, (uint)value); }
         public F6Accessory AHat   { get => (F6Accessory)GetBits(data2,  5, 5); set => data2 = SetBits(data2,  5, 5, (uint)value); }
         public bool Contacts      { get => GetBits(data2, 10, 1) == 1; set => data2 = SetBits(data2, 10, 1, value ? 1u : 0); }
-        public uint Mascara       { get => GetBits(data2, 11, 2);      set => data2 = SetBits(data2, 11, 2, value); }
-        public uint EyeShadow     { get => GetBits(data2, 13, 2);      set => data2 = SetBits(data2, 13, 2, value); }
-        public uint Cheek         { get => GetBits(data2, 15, 2);      set => data2 = SetBits(data2, 15, 2, value); }
-        public uint Lips          { get => GetBits(data2, 17, 2);      set => data2 = SetBits(data2, 17, 2, value); }
+        public uint MascaraType   { get => GetBits(data2, 11, 2); set => data2 = SetBits(data2, 11, 2, value); }
+        public bool Eyeliner      { get => GetBits(data2, 13, 2) == 1; set => data2 = SetBits(data2, 13, 2, value ? 1u : 0); }
+        public bool Cheek         { get => GetBits(data2, 15, 2) == 1; set => data2 = SetBits(data2, 15, 2, value ? 1u : 0); }
+        public bool Lips          { get => GetBits(data2, 17, 2) == 1; set => data2 = SetBits(data2, 17, 2, value ? 1u : 0); }
         public F6ContactLens ColorContacts { get => (F6ContactLens)GetBits(data2, 19, 3); set => data2 = SetBits(data2, 19, 3, (uint)value); }
-        public uint ColorMascara  { get => GetBits(data2, 22, 3);      set => data2 = SetBits(data2, 22, 3, value); }
-        public uint ColorEyeshadow{ get => GetBits(data2, 25, 3);      set => data2 = SetBits(data2, 25, 3, value); }
+        public bool Mascara       { get => GetBits(data2, 22, 3) == 1; set => data2 = SetBits(data2, 22, 3, value ? 1u : 0); }
+        public uint ColorEyeliner { get => GetBits(data2, 25, 3);      set => data2 = SetBits(data2, 25, 3, value); }
         public uint ColorCheek    { get => GetBits(data2, 28, 3);      set => data2 = SetBits(data2, 28, 3, value); }
         public uint Unused2       { get => GetBits(data2, 31, 1);      set => data2 = SetBits(data2, 31, 1, value); }
 
-        public uint ColorLips     { get => GetBits(data0, 0, 2); set => data0 = SetBits(data0, 0, 2, value); }
-        public uint Freckles      { get => GetBits(data0, 2, 3); set => data0 = SetBits(data0, 2, 3, value); }
-        public uint ColorFreckles { get => GetBits(data0, 5, 3); set => data0 = SetBits(data0, 5, 3, value); }
-        public uint Unused3       { get => GetBits(data2, 8, 24); set => data2 = SetBits(data3, 8, 24, value); }
+        public uint ColorLips     { get => GetBits(data3, 0, 2); set => data3 = SetBits(data3, 0, 2, value); }
+        public uint ColorFreckles { get => GetBits(data3, 2, 3); set => data3 = SetBits(data3, 2, 3, value); }
+        public bool Freckles      { get => GetBits(data3, 5, 3) == 1; set => data3 = SetBits(data3, 5, 3, value ? 1u : 0); }
+        public uint Unused3       { get => GetBits(data3, 8, 24); set => data3 = SetBits(data3, 8, 24, value); }
 
         public enum F6Top
         {
@@ -352,7 +352,7 @@ namespace PKHeX.Core
             Poké_Ball_Baby_Doll_Tee_Aqua,
             Poké_Ball_Baby_Doll_Tee_Purple,
             Poké_Ball_Baby_Doll_Tee_Yellow,
-            Poké_Ball_Baby_Doll_Tee_Green
+            Poké_Ball_Baby_Doll_Tee_Green,
         }
 
         public enum F6Socks

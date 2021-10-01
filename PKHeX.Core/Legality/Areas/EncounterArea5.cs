@@ -60,7 +60,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(slot.Species))
+                    if (slot.Form != evo.Form) // no wild forms can change
                         break;
 
                     yield return slot;

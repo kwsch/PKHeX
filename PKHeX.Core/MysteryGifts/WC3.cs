@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// This is fabricated data built to emulate the future generation Mystery Gift objects.
     /// Data here is not stored in any save file and cannot be naturally exported.
     /// </remarks>
-    public sealed class WC3 : MysteryGift, IRibbonSetEvent3
+    public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     {
         public override MysteryGift Clone() => (WC3)MemberwiseClone();
 
@@ -46,6 +46,8 @@ namespace PKHeX.Core
         public bool RibbonChampionBattle { get; set; }
         public bool RibbonChampionRegional { get; set; }
         public bool RibbonChampionNational { get; set; }
+
+        public string? Nickname { get; set; }
 
         // Description
         public override string CardTitle { get; set; } = "Generation 3 Event";
@@ -109,7 +111,7 @@ namespace PKHeX.Core
                 if (IsEgg)
                     pk.IsEgg = true; // lang should be set to japanese already
             }
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
+            pk.Nickname = Nickname ?? SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
             var pi = pk.PersonalInfo;
             pk.OT_Friendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
@@ -178,7 +180,7 @@ namespace PKHeX.Core
         {
             PIDType.BACD_R => seed & 0x0000FFFF, // u16
             PIDType.BACD_R_S => seed & 0x000000FF, // u8
-            _ => seed
+            _ => seed,
         };
 
         private LanguageID GetSafeLanguage(LanguageID hatchLang)
@@ -207,7 +209,7 @@ namespace PKHeX.Core
                 GameVersion.FRLG => GameVersion.FR + Util.Rand.Next(2), // or LG
                 GameVersion.RS or GameVersion.RSE => GameVersion.S + Util.Rand.Next(2), // or R
                 GameVersion.COLO or GameVersion.XD => GameVersion.CXD,
-                _ => throw new Exception($"Unknown GameVersion: {version}")
+                _ => throw new Exception($"Unknown GameVersion: {version}"),
             };
         }
 
@@ -271,12 +273,18 @@ namespace PKHeX.Core
 
         private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
         {
-            if (ck3 && ot.Length == 10)
+            if (ck3) // match original if still ck3, otherwise must be truncated 7char
                 return wc == ot;
             return ot.Length == 7 && wc.StartsWith(ot);
         }
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
         protected override bool IsMatchPartial(PKM pkm) => false;
+
+        public string GetNickname(int language) => Nickname ?? string.Empty;
+        public bool GetIsNicknamed(int language) => Nickname != null;
+        public bool CanBeAnyLanguage() => false;
+        public bool CanHaveLanguage(int language) => Language == language;
+        public bool CanHandleOT(int language) => IsEgg;
     }
 }

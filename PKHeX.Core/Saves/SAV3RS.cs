@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -117,19 +118,31 @@ namespace PKHeX.Core
             set => SetData(Large, value.ToBytes(), 0x26A0);
         }
 
+        public Swarm3 Swarm
+        {
+            get => Large.Slice(0x2AFC, Swarm3.SIZE).ToClass<Swarm3>();
+            set => SetData(Large, value.ToBytesClass(), 0x2AFC);
+        }
+
+        public IReadOnlyList<Swarm3> DefaultSwarms => Swarm3Details.Swarms_RS;
+
+        public int SwarmIndex
+        {
+            get => Array.FindIndex(Swarm3Details.Swarms_RS, z => z.MapNum == Swarm.MapNum);
+            set
+            {
+                var arr = DefaultSwarms;
+                Swarm = (uint)value >= arr.Count ? new Swarm3() : arr[value];
+            }
+        }
+
         protected override int MailOffset => 0x2B4C;
 
         protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, 2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail
         public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt16(Large, GetDaycareEXPOffset(2)).ToString("X4");
         public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes((ushort)Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
 
-        private const int ExternalEventFlags = 0x312F;
-
-        public bool HasReceivedWishmkrJirachi
-        {
-            get => GetFlag(ExternalEventFlags + 2, 0);
-            set => SetFlag(ExternalEventFlags + 2, 0, value);
-        }
+        protected override int ExternalEventData => 0x311B;
 
         #region eBerry
         private const int OFFSET_EBERRY = 0x3160;

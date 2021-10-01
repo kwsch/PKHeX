@@ -523,7 +523,7 @@ namespace PKHeX.WinForms.Controls
             {
                 SAV1 s => (Form) new SAV_EventReset1(s),
                 SAV7b s => new SAV_EventWork(s),
-                _ => new SAV_EventFlags(SAV)
+                _ => new SAV_EventFlags(SAV),
             };
             form.ShowDialog();
         }
@@ -542,7 +542,7 @@ namespace PKHeX.WinForms.Controls
             SAV7 s7 => new SAV_Trainer7(s7),
             SAV7b b7 => new SAV_Trainer7GG(b7),
             SAV8SWSH swsh => new SAV_Trainer8(swsh),
-            _ => new SAV_SimpleTrainer(sav)
+            _ => new SAV_SimpleTrainer(sav),
         };
 
         private void B_OpenRaids_Click(object sender, EventArgs e)
@@ -590,6 +590,7 @@ namespace PKHeX.WinForms.Controls
             SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s, s.Blocks),
             SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s, s.Blocks),
             SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s, s.Blocks),
+            SAV7b s => new SAV_Accessor<SaveBlockAccessor7b>(s, s.Blocks),
             SAV8SWSH s => new SAV_BlockDump8(s),
             _ => GetPropertyForm(sav),
         };
@@ -602,7 +603,7 @@ namespace PKHeX.WinForms.Controls
                 StartPosition = FormStartPosition.CenterParent,
                 MinimumSize = new Size(350, 380),
                 MinimizeBox = false,
-                MaximizeBox = false
+                MaximizeBox = false,
             };
             var pg = new PropertyGrid {SelectedObject = sav, Dock = DockStyle.Fill};
             form.Controls.Add(pg);
@@ -633,7 +634,7 @@ namespace PKHeX.WinForms.Controls
                 SAV7 s7 => new SAV_PokedexSM(s7),
                 SAV7b b7 => new SAV_PokedexGG(b7),
                 SAV8SWSH swsh => new SAV_PokedexSWSH(swsh),
-                _ => (Form?)null
+                _ => (Form?)null,
             };
             form?.ShowDialog();
         }
@@ -1207,7 +1208,7 @@ namespace PKHeX.WinForms.Controls
             {
                 DialogResult.Yes => PKMImportSetting.Update,
                 DialogResult.No => PKMImportSetting.Skip,
-                _ => PKMImportSetting.UseDefault
+                _ => PKMImportSetting.UseDefault,
             };
         }
     }

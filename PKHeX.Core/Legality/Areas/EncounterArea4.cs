@@ -77,8 +77,12 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(slot.Species) && slot.Species != (int)Species.Unown)
-                        break;
+                    if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
+                    {
+                        // Unown forms are random, not specific form IDs
+                        if (!slot.IsRandomUnspecificForm)
+                            break;
+                    }
                     if (!slot.IsLevelWithinRange(lvl))
                         break;
 
@@ -88,6 +92,7 @@ namespace PKHeX.Core
             }
         }
 
+        // original met level cannot be inferred
         private IEnumerable<EncounterSlot4> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
@@ -97,8 +102,12 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(slot.Species) && slot.Species != (int)Species.Unown)
-                        break;
+                    if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
+                    {
+                        // Unown forms are random, not specific form IDs
+                        if (!slot.IsRandomUnspecificForm)
+                            break;
+                    }
                     if (slot.LevelMin > evo.Level)
                         break;
 

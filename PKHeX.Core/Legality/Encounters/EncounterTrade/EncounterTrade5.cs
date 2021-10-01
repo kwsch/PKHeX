@@ -1,5 +1,9 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 Trade Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterTrade"/>
     public sealed record EncounterTrade5 : EncounterTrade
     {
         public override int Generation => 5;

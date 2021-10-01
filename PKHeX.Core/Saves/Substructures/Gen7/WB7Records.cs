@@ -14,7 +14,7 @@ namespace PKHeX.Core
         private int GetRecordOffset(int index)
         {
             if (index >= RecordMax)
-                throw new ArgumentException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index));
 
             return Offset + (index * WR7.Size);
         }
@@ -22,7 +22,7 @@ namespace PKHeX.Core
         private int GetFlagOffset(int flag)
         {
             if (flag >= FlagCountMax)
-                throw new ArgumentException(nameof(flag));
+                throw new ArgumentOutOfRangeException(nameof(flag));
             return FlagStart + (flag / 8);
         }
 

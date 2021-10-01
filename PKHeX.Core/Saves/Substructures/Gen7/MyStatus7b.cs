@@ -61,6 +61,13 @@ namespace PKHeX.Core
             set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
         }
 
+        // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).
+        public byte TrainerClassIndex
+        {
+            get => Data[Offset + 0x076];
+            set => Data[Offset + 0x076] = value;
+        }
+
         public byte StarterGender
         {
             get => Data[Offset + 0x0B9];

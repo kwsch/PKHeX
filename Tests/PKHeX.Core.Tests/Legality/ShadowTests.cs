@@ -126,7 +126,7 @@ namespace PKHeX.Tests.Legality.Shadow
                     new uint[] {0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076},
                     new uint[] {0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C},
                 },
-                Encounters3Teams.Delcatty
+                Encounters3Teams.Delcatty,
             };
             yield return new object[]
             {
@@ -143,7 +143,7 @@ namespace PKHeX.Tests.Legality.Shadow
                     new uint[] {0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A},
                     new uint[] {0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325},
                 },
-                Encounters3Teams.Butterfree
+                Encounters3Teams.Butterfree,
             };
         }
 

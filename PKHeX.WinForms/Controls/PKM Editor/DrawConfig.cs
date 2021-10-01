@@ -75,7 +75,7 @@ namespace PKHeX.WinForms
         {
             0 => Male,
             1 => Female,
-            _ => TextColor
+            _ => TextColor,
         };
 
         public bool GetMarkingColor(int markval, out Color c)

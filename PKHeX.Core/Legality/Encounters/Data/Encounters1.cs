@@ -73,8 +73,8 @@ namespace PKHeX.Core
 
             new(150, 70, RBY), // Mewtwo
 
-            new(133, 25, RB), // Eevee
-            new(133, 25, YW), // Eevee (Different initial moves)
+            new(133, 25, RB) {Moves = new [] {(int)Move.Tackle, (int)Move.SandAttack}}, // Eevee
+            new(133, 25, YW) {Moves = new [] {(int)Move.TailWhip, (int)Move.SandAttack, (int)Move.Growl, (int)Move.QuickAttack}}, // Eevee (Different initial moves)
 
             new(100, 40, RBY), // Voltorb (Power Plant)
             new(101, 43, RBY), // Electrode (Power Plant)

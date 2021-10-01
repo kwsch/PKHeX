@@ -18,17 +18,17 @@ namespace PKHeX.Core
             _ => VerifyEncounter,
         };
 
-        private static CheckResult VerifyEncounter(PKM pkm, IEncounterable enc) => enc switch
+        private static CheckResult VerifyEncounter(PKM pkm, IEncounterTemplate enc) => enc switch
         {
             EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
             EncounterTrade t => VerifyEncounterTrade(pkm, t),
             EncounterSlot w => VerifyEncounterWild(w),
             EncounterStatic s => VerifyEncounterStatic(pkm, s),
             MysteryGift g => VerifyEncounterEvent(pkm, g),
-            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
         };
 
-        private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterable enc)
+        private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterTemplate enc)
         {
             if (enc.EggEncounter)
                 return VerifyEncounterEgg(pkm, enc.Generation);
@@ -39,14 +39,14 @@ namespace PKHeX.Core
                 EncounterSlot2 s2 => VerifyWildEncounterGen2(pkm, s2),
                 EncounterStatic s => VerifyEncounterStatic(pkm, s),
                 EncounterTrade t => VerifyEncounterTrade(pkm, t),
-                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
             };
         }
 
         // Gen2 Wild Encounters
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot2 encounter)
         {
-            switch (encounter.Area.Type & (SlotType)0xF)
+            switch (encounter.GetSlotType())
             {
                 case SlotType.Headbutt:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
@@ -82,7 +82,7 @@ namespace PKHeX.Core
             6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
             7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
             8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
-            _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
+            _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter),
         };
 
         private static CheckResult VerifyUnhatchedEgg3(PKM pkm)
@@ -227,15 +227,6 @@ namespace PKHeX.Core
         // Other
         private static CheckResult VerifyEncounterWild(EncounterSlot slot)
         {
-            // Check for Unreleased Encounters / Collisions
-            switch (slot.Generation)
-            {
-                case 4:
-                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // surfing in Johto Route 45
-                        return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
-                    break;
-            }
-
             var summary = slot.GetConditionString(out bool valid);
             return new CheckResult(valid ? Severity.Valid : Severity.Invalid, summary, CheckIdentifier.Encounter);
         }
@@ -259,15 +250,6 @@ namespace PKHeX.Core
 
                     break;
                 case 4:
-                    switch (pkm.Species)
-                    {
-                        case (int)Species.Darkrai when s.Location == 079 && !pkm.Pt: // DP Darkrai
-                            return new CheckResult(Severity.Invalid, LEncUnreleasedPtDarkrai, CheckIdentifier.Encounter);
-                        case (int)Species.Shaymin when s.Location == 063 && !pkm.Pt:// DP Shaymin
-                            return new CheckResult(Severity.Invalid, LEncUnreleasedPtShaymin, CheckIdentifier.Encounter);
-                        case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
-                            return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
-                    }
                     if (pkm.Met_Location == 193 && s is EncounterStatic4 {Roaming: true}) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;

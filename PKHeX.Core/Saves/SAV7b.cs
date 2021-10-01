@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SAV_BEEF, IGameSync
+    public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[^1] == '7').ToArray();
+        public override IReadOnlyList<string> PKMExtensions => new[] {PKX.ExtensionPB7};
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();
@@ -52,6 +51,16 @@ namespace PKHeX.Core
         }
 
         // Save Block accessors
+        public MyItem Items => Blocks.Items;
+        public Misc7b Misc => Blocks.Misc;
+        public Zukan7b Zukan => Blocks.Zukan;
+        public MyStatus7b Status => Blocks.Status;
+        public PlayTime7b Played => Blocks.Played;
+        public ConfigSave7b Config => Blocks.Config;
+        public EventWork7b EventWork => Blocks.EventWork;
+        public PokeListHeader Storage => Blocks.Storage;
+        public WB7Records GiftRecords => Blocks.GiftRecords;
+        public CaptureRecords Captured => Blocks.Captured;
 
         public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
@@ -107,11 +116,12 @@ namespace PKHeX.Core
         public override StorageSlotFlag GetSlotFlags(int index)
         {
             var val = StorageSlotFlag.None;
-            if (Blocks.Storage.PokeListInfo[6] == index)
+            var header = Blocks.Storage.PokeListInfo;
+            int position = Array.IndexOf(header, index, 0, 6);
+            if (position >= 0)
+                val = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
+            if (header[PokeListHeader.STARTER] == index)
                 val |= StorageSlotFlag.Starter;
-            int position = Array.IndexOf(Blocks.Storage.PokeListInfo, index);
-            if ((uint) position < 6)
-                val |= (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
             return val;
         }
 
@@ -131,7 +141,7 @@ namespace PKHeX.Core
         {
             (int)GameVersion.GP => GameVersion.GP,
             (int)GameVersion.GE => GameVersion.GE,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         // Player Information

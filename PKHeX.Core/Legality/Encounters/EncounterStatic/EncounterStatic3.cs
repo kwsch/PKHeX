@@ -69,7 +69,7 @@ namespace PKHeX.Core
             // Route 1-25 encounter is possible either in grass or on water
             101,102,103,104,105,106,107,108,109,110,
             111,112,113,114,115,116,117,118,119,120,
-            121,122,123,124,125
+            121,122,123,124,125,
         };
 
         private static readonly int[] Roaming_MetLocation_RSE =

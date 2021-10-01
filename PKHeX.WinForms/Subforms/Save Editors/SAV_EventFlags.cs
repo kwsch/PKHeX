@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
                     CheckAlign = ContentAlignment.MiddleLeft,
                     Margin = Padding.Empty,
                     Checked = values[index],
-                    AutoSize = true
+                    AutoSize = true,
                 };
                 lbl.Click += (sender, e) => chk.Checked ^= true;
                 chk.CheckedChanged += (o, args) =>
@@ -132,14 +132,15 @@ namespace PKHeX.WinForms
                     Width = 150,
                     DropDownStyle = ComboBoxStyle.DropDownList,
                     BindingContext = BindingContext,
-                    DropDownWidth = Width + 100
+                    DropDownWidth = Width + 100,
                 };
                 cb.InitializeBinding();
                 cb.DataSource = map;
 
                 lbl.Click += (sender, e) => mtb.Value = 0;
                 bool updating = false;
-                mtb.ValueChanged += (o, args) =>
+                mtb.ValueChanged += ChangeConstValue;
+                void ChangeConstValue(object? sender, EventArgs e)
                 {
                     if (updating)
                         return;
@@ -154,16 +155,18 @@ namespace PKHeX.WinForms
                     if (CB_Stats.SelectedIndex == entry.Index)
                         MT_Stat.Text = ((int)mtb.Value).ToString();
                     updating = false;
-                };
+                }
                 cb.SelectedValueChanged += (o, args) =>
                 {
                     if (editing || updating)
                         return;
                     var value = WinFormsUtil.GetIndex(cb);
-                    mtb.Value = value is NamedEventConst.CustomMagicValue ? 0 : value;
+                    mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
                 };
 
                 mtb.Value = values[entry.Index];
+                if (mtb.Value == 0)
+                    ChangeConstValue(this, EventArgs.Empty);
 
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
@@ -250,7 +253,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
+            var promptCopy = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?");
+            if (promptCopy == DialogResult.Yes)
                 WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, diff.WorkDiff));
         }
 

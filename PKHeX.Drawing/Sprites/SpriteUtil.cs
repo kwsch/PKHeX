@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using PKHeX.Core;
 using PKHeX.Drawing.Properties;
@@ -50,7 +51,7 @@ namespace PKHeX.Drawing
                 2 => n + "super",
                 3 => n + "hyper",
                 4 => n + "master",
-                _ => n
+                _ => n,
             };
         }
 
@@ -67,6 +68,8 @@ namespace PKHeX.Drawing
                 return Spriter.None;
 
             var img = GetBaseImage(gift);
+            if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
+                img = ApplyEncounterColor(gift, img, SpriteBuilder.ShowEncounterColor);
             if (gift.GiftUsed)
                 img = ImageUtil.ChangeOpacity(img, 0.3);
             return img;
@@ -77,7 +80,21 @@ namespace PKHeX.Drawing
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
                 return Resources.b_490_e;
             if (gift.IsPokémon)
-                return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+            {
+                var gender = Math.Max(0, gift.Gender);
+                var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+                if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
+                {
+                    var ballSprite = GetBallSprite((int)b.FixedBall);
+                    img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
+                }
+                if (gift is IGigantamax {CanGigantamax: true})
+                {
+                    var gm = Resources.dyna;
+                    return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+                }
+                return img;
+            }
             if (gift.IsItem)
             {
                 int item = gift.ItemID;
@@ -112,10 +129,12 @@ namespace PKHeX.Drawing
 
         private static Image? GetSprite(SaveFile sav)
         {
-            string file = "tr_00";
-            if (sav is SAV6AO)
-                file = $"tr_{sav.MultiplayerSpriteID:00}";
-            return Resources.ResourceManager.GetObject(file) as Image;
+            if (sav is SAV6XY or SAV6AO)
+            {
+                string file = $"tr_{sav.MultiplayerSpriteID:00}";
+                return Resources.ResourceManager.GetObject(file) as Image ?? Resources.tr_00;
+            }
+            return null;
         }
 
         private static Image GetWallpaper(SaveFile sav, int box)
@@ -140,6 +159,8 @@ namespace PKHeX.Drawing
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
+                if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
+                    sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
             }
             if (inBox) // in box
             {
@@ -159,6 +180,23 @@ namespace PKHeX.Drawing
             return sprite;
         }
 
+        private static Image ApplyEncounterColor(IEncounterTemplate enc, Image img, SpriteBackgroundType type)
+        {
+            var index = (enc.GetType().Name.GetHashCode() * 0x43FD43FD);
+            var color = Color.FromArgb(index);
+            if (type == SpriteBackgroundType.BottomStripe)
+            {
+                int stripeHeight = SpriteBuilder.ShowEncounterThicknessStripe; // from bottom
+                byte opacity = SpriteBuilder.ShowEncounterOpacityStripe;
+                return ImageUtil.ChangeTransparentTo(img, color, opacity, img.Width * 4 * (img.Height - stripeHeight));
+            }
+            else // full background
+            {
+                byte opacity = SpriteBuilder.ShowEncounterOpacityBackground;
+                return ImageUtil.ChangeTransparentTo(img, color, opacity);
+            }
+        }
+
         private const int MaxSlotCount = 30; // slots in a box
         private static int SpriteWidth => Spriter.Width;
         private static int SpriteHeight => Spriter.Height;
@@ -171,11 +209,6 @@ namespace PKHeX.Drawing
         {
             Resources.party1, Resources.party2, Resources.party3, Resources.party4, Resources.party5, Resources.party6,
         };
-
-        public static void GetSpriteGlow(PKM pk, byte[] bgr, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
-        {
-            GetSpriteGlow(pk, bgr[0], bgr[1], bgr[2], out pixels, out baseSprite, forceHollow);
-        }
 
         public static void GetSpriteGlow(PKM pk, byte blue, byte green, byte red, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
         {
@@ -210,6 +243,35 @@ namespace PKHeX.Drawing
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
         public static Image? Sprite(this SaveFile sav) => GetSprite(sav);
         public static Image Sprite(this PKM pk, bool isBoxBGRed = false) => GetSprite(pk, isBoxBGRed);
+
+        public static Image Sprite(this IEncounterTemplate enc)
+        {
+            if (enc is MysteryGift g)
+                return g.Sprite();
+            var gender = GetDisplayGender(enc);
+            var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
+            if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
+            {
+                var ballSprite = GetBallSprite((int)b.FixedBall);
+                img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
+            }
+            if (enc is IGigantamax {CanGigantamax: true})
+            {
+                var gm = Resources.dyna;
+                img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+            }
+            if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
+                img = ApplyEncounterColor(enc, img, SpriteBuilder.ShowEncounterColor);
+            return img;
+        }
+
+        public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
+        {
+            EncounterSlotGO g => (int)g.Gender & 1,
+            EncounterStatic s => Math.Max(0, s.Gender),
+            EncounterTrade t => Math.Max(0, t.Gender),
+            _ => 0,
+        };
 
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);

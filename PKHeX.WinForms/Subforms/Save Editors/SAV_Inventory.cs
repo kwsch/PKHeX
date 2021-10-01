@@ -130,7 +130,7 @@ namespace PKHeX.WinForms
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
                 DisplayIndex = c,
                 Width = 135,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
         }
 
@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
                 HeaderText = name,
                 DisplayIndex = c,
                 Width = 40,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
         }
 
@@ -166,7 +166,7 @@ namespace PKHeX.WinForms
                 HeaderText = name,
                 DisplayIndex = c,
                 Width = 40,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
         }
 
@@ -177,9 +177,9 @@ namespace PKHeX.WinForms
                 var dgv = GetGrid(pouch.Type);
 
                 // Sanity Screen
-                var invalid = pouch.Items.Where(item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index)).ToArray();
-                var outOfBounds = invalid.Where(item => item.Index >= itemlist.Length).ToArray();
-                var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
+                var invalid = Array.FindAll(pouch.Items, item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index));
+                var outOfBounds = Array.FindAll(invalid, item => item.Index >= itemlist.Length);
+                var incorrectPouch = Array.FindAll(invalid, item => item.Index < itemlist.Length);
 
                 if (outOfBounds.Length > 0)
                     WinFormsUtil.Error(MsgItemPouchUnknown, $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
@@ -250,7 +250,7 @@ namespace PKHeX.WinForms
             var pouch = Pouches[index];
             NUD_Count.Maximum = GetMax(SAV, pouch, Main.HaX);
 
-            bool disable = pouch.Type == InventoryType.PCItems || pouch.Type == InventoryType.FreeSpace;
+            bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace;
             NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = !disable;
             if (disable && !Main.HaX)
             {
@@ -275,7 +275,7 @@ namespace PKHeX.WinForms
                 // Cap at absolute maximum
                 <= 2 => byte.MaxValue,
                 >= 7 => pouch.MaxCount,
-                _ => ushort.MaxValue
+                _ => ushort.MaxValue,
             };
         }
 

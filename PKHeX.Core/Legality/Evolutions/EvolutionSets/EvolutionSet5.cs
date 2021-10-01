@@ -15,7 +15,7 @@ namespace PKHeX.Core
             int species = BitConverter.ToUInt16(data, offset + 4);
 
             if (method == 0)
-                throw new ArgumentException(nameof(data));
+                throw new ArgumentOutOfRangeException(nameof(method));
 
             var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
             return new EvolutionMethod(method, species, argument: arg, level: lvl);

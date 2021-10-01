@@ -16,7 +16,7 @@ namespace PKHeX.Core
             6 => WildPokeballs6,
             7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
             8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
-            _ => Array.Empty<int>()
+            _ => Array.Empty<int>(),
         };
 
         private static readonly int[] WildPokeBalls1 = { 4 };

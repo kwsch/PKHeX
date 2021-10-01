@@ -277,7 +277,7 @@ namespace PKHeX.Core
             {0xFC, '6'},
             {0xFD, '7'},
             {0xFE, '8'},
-            {0xFF, '9'}
+            {0xFF, '9'},
         };
 
         private static readonly Dictionary<byte, char> RBY2U_J = new()
@@ -450,7 +450,7 @@ namespace PKHeX.Core
             {0xFC, '6'},
             {0xFD, '7'},
             {0xFE, '8'},
-            {0xFF, '9'}
+            {0xFF, '9'},
         };
 
         internal static readonly Dictionary<char, byte> U2RBY_U = new()
@@ -572,7 +572,7 @@ namespace PKHeX.Core
             {'6', 0xFC},
             {'7', 0xFD},
             {'8', 0xFE},
-            {'9', 0xFF}
+            {'9', 0xFF},
         };
 
         private static readonly Dictionary<char, byte> U2RBY_J = new()
@@ -749,7 +749,7 @@ namespace PKHeX.Core
             {'6', 0xFC},
             {'7', 0xFD},
             {'8', 0xFE},
-            {'9', 0xFF}
+            {'9', 0xFF},
         };
 
         #endregion

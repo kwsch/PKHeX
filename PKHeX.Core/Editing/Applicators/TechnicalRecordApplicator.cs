@@ -37,14 +37,15 @@ namespace PKHeX.Core
         {
             if (pk is not PK8 pk8)
                 return;
-            var permit = pk8.PersonalInfo.TMHM;
+            var permit = pk8.PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
+            var moveIDs = Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
             foreach (var m in moves)
             {
-                var index = Array.IndexOf(Legal.TMHM_SWSH, m, 100);
-                if (index < 100)
+                var index = moveIDs.IndexOf(m);
+                if (index == -1)
                     continue;
                 if (permit[index])
-                    pk8.SetMoveRecordFlag(index - 100, true);
+                    pk8.SetMoveRecordFlag(index, true);
             }
         }
 
@@ -56,11 +57,11 @@ namespace PKHeX.Core
         {
             if (pk is not PK8 pk8)
                 return;
-            var permit = pk8.PersonalInfo.TMHM;
-            for (int i = 100; i < permit.Length; i++)
+            var permit = pk8.PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM); // tm[100], tr[100]
+            for (int i = 0; i < permit.Length; i++)
             {
                 if (permit[i])
-                    pk8.SetMoveRecordFlag(i - 100, true);
+                    pk8.SetMoveRecordFlag(i, true);
             }
         }
     }

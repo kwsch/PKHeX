@@ -132,9 +132,9 @@
             // bpkx
             // 
             this.bpkx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.bpkx.Location = new System.Drawing.Point(15, 109);
+            this.bpkx.Location = new System.Drawing.Point(15, 85);
             this.bpkx.Name = "bpkx";
-            this.bpkx.Size = new System.Drawing.Size(44, 32);
+            this.bpkx.Size = new System.Drawing.Size(70, 58);
             this.bpkx.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.bpkx.TabIndex = 31;
             this.bpkx.TabStop = false;

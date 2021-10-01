@@ -198,7 +198,7 @@ namespace PKHeX.Core
                 1 => 0,
                 2 => (byte) srcItem,
                 3 => GetItemOld3((ushort) srcItem),
-                _ => srcItem
+                _ => srcItem,
             };
         }
 

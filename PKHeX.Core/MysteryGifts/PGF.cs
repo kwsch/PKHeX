@@ -52,7 +52,7 @@ namespace PKHeX.Core
         public string Nickname
         {
             get => StringConverter.GetString5(Data, 0x1E, 11 * 2);
-            set => StringConverter.SetString5(value, 11, 11, (char)0xFFFF).CopyTo(Data, 0x1E);
+            set => StringConverter.SetString5(value, 11, 11, '\uFFFF').CopyTo(Data, 0x1E);
         }
 
         public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
@@ -78,7 +78,7 @@ namespace PKHeX.Core
         public override string OT_Name
         {
             get => StringConverter.GetString5(Data, 0x4A, 8 * 2);
-            set => StringConverter.SetString5(value, 8, 8, (char)0xFFFF).CopyTo(Data, 0x4A);
+            set => StringConverter.SetString5(value, 8, 8, '\uFFFF').CopyTo(Data, 0x4A);
         }
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
@@ -88,7 +88,7 @@ namespace PKHeX.Core
         public override string CardTitle
         {
             get => StringConverter.GetString5(Data, 0x60, 37 * 2);
-            set => StringConverter.SetString5(value + '\uFFFF', 37, 37, 0).CopyTo(Data, 0x60);
+            set => StringConverter.SetString5(value, 37, 37, 0).CopyTo(Data, 0x60);
         }
 
         // Card Attributes
@@ -285,7 +285,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private void SetPID(PKM pk, int av)

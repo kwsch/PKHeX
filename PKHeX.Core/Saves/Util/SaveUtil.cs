@@ -443,7 +443,7 @@ namespace PKHeX.Core
             {
                 SIZE_G6XY => XY,
                 SIZE_G6ORAS => ORAS,
-                _ => ORASDEMO  // least likely
+                _ => ORASDEMO, // least likely
             };
         }
 
@@ -607,7 +607,7 @@ namespace PKHeX.Core
         public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
         {
             // Pre-check for header/footer signatures
-            byte[] data = memCard.SelectedSaveData;
+            byte[] data = memCard.ReadSaveGameData();
             if (data.Length == 0)
                 return null;
 
@@ -728,7 +728,7 @@ namespace PKHeX.Core
 
             SW or SH or SWSH => new SAV8SWSH(),
 
-            _ => throw new ArgumentException(nameof(game)),
+            _ => throw new ArgumentOutOfRangeException(nameof(game)),
         };
 
         /// <summary>
@@ -789,17 +789,17 @@ namespace PKHeX.Core
         public static bool IsSizeValid(int size) => Sizes.Contains(size) || Handlers.Any(z => z.IsRecognized(size));
 
         /// <summary>
-        /// Force loads the provided <see cref="sav"/> to the requested <see cref="ver"/>.
+        /// Force loads the provided <see cref="sav"/> to the requested <see cref="version"/>.
         /// </summary>
         /// <param name="sav">SaveFile data to force</param>
-        /// <param name="ver">Version to retrieve for</param>
+        /// <param name="version"> Version to retrieve for</param>
         /// <returns>New <see cref="SaveFile"/> object.</returns>
-        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver) => ver switch // Reset save file info
+        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion version) => version switch // Reset save file info
         {
             R or S or RS => new SAV3RS(sav.State.BAK),
             E => new SAV3E(sav.State.BAK),
             FR or LG or FRLG => new SAV3FRLG(sav.State.BAK),
-            _ => throw new ArgumentException(nameof(ver))
+            _ => throw new ArgumentOutOfRangeException(nameof(version)),
         };
     }
 }

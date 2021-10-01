@@ -1,7 +1,81 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/05/21 - New Update:
+21/10/01 - New Update:
+ - Legality:
+ - - Added: Gen8 memory checks for unobtainable values. Thanks @Lusamine, @skadiv!
+ - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.
+ - - Changed: Gen1 Tradeback handling reworked for less overhead.
+ - - Fixed more met locations for XD shadow encounters. Thanks @LegoFigure11!
+ - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes. Thanks @pp-theSlayer!
+ - - Fixed: Gen2-4 eggs are now permitted to know HM moves while still an egg. Thanks Atrius!
+ - - Fixed: Gen3 Event gifts are now more thoroughly checked for nicknames. Thanks @FeralFalcon!
+ - - Fixed: Gen3 Granbull & Vibrava/Flygon are now correctly handled for their ability bit values.
+ - - Fixed: Gen2 GS eggs in PK2 format are now allowed to have egg moves. Thanks Psyduck!
+ - - Fixed: Gen2 Red Gyarados fixed IVs & gender are now required to match the encounter.
+ - - Fixed: Egg move source indication now shows the correct message in the legality printout.
+ - - Fixed: Volt Tackle is now flagged correctly for non-Pichu eggs :)
+ - Added: Can now specify how the PKM Database is sorted when it loads.
+ - Added: Gen3-5 swarm data can now be edited in the block editor. Thanks @Bl4ckSh4rk, @SpiredMoth, @sora10pls!
+ - Added: Gen3 Walda Wallpaper values can now be edited in the block editor.
+ - Changed: PKM Editor form selection is now slightly wider.
+ - Changed: Encounter Database now shows single Pokéball types if the encounter can only have one type.
+ - Fixed: Gen3 save files that have only been saved once now load more often (empty backup detection fixed).
+ - Fixed: Gen3 XD purification values are now read correctly on Japanese save files.
+ - Fixed: Gen3 Colosseum Fateful encounter flag is now read correctly.
+ - Fixed: Gen5 BW entree forest randomizing now prevents B2W2-only templates from being loaded. Thanks @SunakazeKun!
+ - Fixed: Event Const editor loads consts with a current value of zero correctly if it has a defined name. Thanks @CanoeHope!
+ - Fixed: Batch Editor no longer processes saved pkm files twice.
+ - Fixed: PKM Database searching a specific format now filters correctly.
+ - Updated: Chinese translation updated. Thanks @liketolike!
+
+21/08/06 - New Update: (134592) [3969754]
+ - Legality:
+ - - Added: Gen8 Sociability legality checks. Thanks @Lusamine!
+ - - Added: Gen8 crossover weather checks have been added. Thanks @Lusamine & @Skadiv!
+ - - Added: Gen6/8 Memory checks have been improved a little. Thanks @sora10pls & @Lusamine!
+ - - Added: Gen6/7 Vivillon are now flagged if the form cannot be found in the trainer's 3DS Console Region. Thanks @Lusamine!
+ - - Changed: Wordfilter checking speeds improved drastically by caching created regexes.
+ - - Changed: Gen8 Master Rank ribbons now permitted again for legends due to Season 10 rules.
+ - - Changed: Inaccessible wild encounters and raid dens have been removed from the encounter database.
+ - - Fixed: Gen8 brilliant aura boosts are only permitted if the met level is the maximum allowed for that encounter.
+ - - Fixed: Gen8 Fog encounters are now required to be at least level 60 due to weather not being available until postgame. Thanks @Lusamine!
+ - - Fixed: Gen4 Pokéwalker encounters are now allowed to be recognized with CuteCharm if the TID/SID is appropriate.
+ - - Fixed: Gen4 Bug Catching Contest slots are now loaded completely. Thanks jazpersona!
+ - - Fixed: Gen2 Dark Cave swarm slots (Dunsparce) are now loaded correctly. Thanks Purrmewtations!
+ - - Fixed: Gen1 Yellow encounters now compare the correct catch rate values when not yet transferred.
+ - - Fixed: Gift egg encounters are now checked for their egg locations correctly across all generations. Thanks @sora10pls!
+ - - Fixed: Variable form encounter templates like Unown and Vivillon are now handled correctly.
+ - Added: Gen8 Sociability for individual Pokémon can now be edited in the Memories sub-editor.
+ - Added: Gen7 Battle Agency participant data can now be viewed as a misc slot.
+ - Added: Gen5 GTS and Fused stored data can now be viewed as a misc slot.
+ - Added: Gen4 Pokéwalker stored data can now be viewed as a misc slot. Thanks @Atrius97!
+ - Added: Batch Editor can now be extended via plugins by adding custom code for filters / modifications.
+ - Added: Batch Editor filters can now be used in the Encounter Database (similar to the PKM Database advanced search).
+ - Added: PKM File Naming format has been extracted, and can now be replaced by a plugin to name files differently.
+ - Added: Program settings added for the Encounter Database, to try to make viewed templates match the currently loaded data.
+ - Added: Program settings added for the PKM Database, to prevent loading of backups and extra locations to the database.
+ - Added: Program settings added to allow converting backwards and across incompatible generations.
+ - Fixed: Turkish operating system languages no longer fail to launch the program.
+ - Fixed: Hovering over slots no longer errors on Linux platforms.
+ - Fixed: Deleting slots in the PKM Database is now handled correctly.
+ - Fixed: Gen8 encounter slot templates now load legally when viewed, using the Overworld RNG correlation. Thanks @Atrius97!
+ - Fixed: Gen6 female trainer appearance customization for lip color and freckles now save correctly. Thanks @sora10pls!
+ - Fixed: Gen6 trainer sprite is now shown for XY again, and the PGL photo can be saved correctly again.
+ - Fixed: Gen6 Super Training flags for PKM data is now localized correctly.
+ - Fixed: Gen5 C-Gear Skin images now import correctly. Thanks @Snaid1!
+ - Fixed: Gen5 Dream World slots now have the correct gender restrictions. Thanks @Lusamine!
+ - Fixed: Gen4->5 transfer names with halfwidth characters and symbols are now correct.
+ - Fixed: Gen4 HGSS frontier data is now accessed correctly via the Misc Editor.
+ - Fixed: Gen4 Pokédex seen flags are now set correctly when writing new data to the save file.
+ - Fixed: Gen3 XD - Setting tons of non-XD encounter species will no longer cause an error with the Memo being full.
+ - Changed: "Encounter Type" value saved by Gen4 encounters has been renamed to "Ground Tile" to match its actual function.
+ - Changed: Most popup windows like the Encounter Database are now closed when a new save file is loaded, rather than remain open.
+ - Changed: Gendered species (like Jellicent) now show their genders in the Encounter Database.
+ - Changed: Cyber Gadget quirk workaround for completing the Pokédex in Gen6/7 is no longer necessary (defunct service), and has been removed.
+ - Changed: Updated Chinese/Spanish/German translations. Thanks @easyworld, @ajtudela, @M1atias, @Korados, @JDox!
+
+21/05/21 - New Update: (166981) [3835162]
  - Fixed: Gen1-5 Money/Coin editing, no longer sets it to 0.
  - Fixed: Showdown set imports sometimes failing (Gender, Nickname)
  - Fixed: Country/Region display in the PKM Editor and Box Report now display correctly.

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -13,11 +12,11 @@ namespace PKHeX.Core
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
-            int gen = f.Last() - 0x30;
+            int gen = f[^1] - 0x30;
             return gen <= 8;
-        }).ToArray();
+        });
 
         protected SAV8(byte[] data) : base(data) { }
         protected SAV8() { }
@@ -64,7 +63,7 @@ namespace PKHeX.Core
         {
             (int)GameVersion.SW => GameVersion.SW,
             (int)GameVersion.SH => GameVersion.SH,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
@@ -125,7 +124,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Furfrou => 5u, // Furfrou
                 (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
+                _ => 0u,
             };
         }
 

@@ -33,7 +33,7 @@ namespace PKHeX.Core
         {
             -1 => 254,
             0 => 255,
-            _ => (a >> 1)
+            _ => (a >> 1),
         };
 
         private static int[] GetBlankIVTemplate() => new[] {-1, -1, -1, -1, -1, -1};
@@ -98,7 +98,7 @@ namespace PKHeX.Core
             {
                 254 => (int)rng.NextInt(3),
                 255 => (int)rng.NextInt(2),
-                _ => ability_param
+                _ => ability_param,
             };
             abil <<= 1; // 1/2/4
 
@@ -112,15 +112,15 @@ namespace PKHeX.Core
 
             switch (gender_ratio)
             {
-                case 255 when pk.Gender != 2:
+                case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
                     if (pk.Gender != 2)
                         return false;
                     break;
-                case 254 when pk.Gender != 1:
+                case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
                     if (pk.Gender != 1)
                         return false;
                     break;
-                case 000:
+                case PersonalInfo.RatioMagicMale:
                     if (pk.Gender != 0)
                         return false;
                     break;
@@ -248,16 +248,16 @@ namespace PKHeX.Core
             {
                 254 => (int)rng.NextInt(3),
                 255 => (int)rng.NextInt(2),
-                _ => ability_param
+                _ => ability_param,
             };
             pk.RefreshAbility(abil);
 
             pk.Gender = gender_ratio switch
             {
-                255 => 2,
-                254 => 1,
-                000 => 0,
-                _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0
+                PersonalInfo.RatioMagicGenderless => 2,
+                PersonalInfo.RatioMagicFemale => 1,
+                PersonalInfo.RatioMagicMale => 0,
+                _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0,
             };
 
             int nature;

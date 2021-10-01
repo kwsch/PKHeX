@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 return species switch
                 {
                     (int)Minior => MiniorFormName,
-                    _ => form
+                    _ => form,
                 };
             }
 
@@ -79,7 +79,7 @@ namespace PKHeX.Core
 
                 _ => Legal.Totem_USUM.Contains(species) && form == "Large"
                     ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
-                    : form.Replace(' ', '-')
+                    : form.Replace(' ', '-'),
             };
         }
 
@@ -107,7 +107,7 @@ namespace PKHeX.Core
                 (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
                 (int)Greninja   when ability == 210         => "Ash", // Battle Bond
                 (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
-                (int)Urshifu or (int)Pikachu => form.Replace('-', ' '), // Strike and Cosplay
+                (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
                 _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem") ? "Large" : form,
             };

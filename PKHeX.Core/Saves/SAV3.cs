@@ -97,7 +97,7 @@ namespace PKHeX.Core
             int end = start + SIZE_MAIN;
             int bitTrack = 0;
             sector0 = 0;
-            for (int ofs = 0; ofs < end; ofs += SIZE_SECTOR)
+            for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
                 var id = BitConverter.ToInt16(data, ofs + 0xFF4);
                 bitTrack |= (1 << id);
@@ -306,7 +306,7 @@ namespace PKHeX.Core
         public sealed override bool GetEventFlag(int flagNumber)
         {
             if (flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;
             return GetFlag(start + (flagNumber >> 3), flagNumber & 7);
@@ -315,7 +315,7 @@ namespace PKHeX.Core
         public sealed override void SetEventFlag(int flagNumber, bool value)
         {
             if (flagNumber >= EventFlagMax)
-                throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
 
             var start = EventFlag;
             SetFlag(start + (flagNumber >> 3), flagNumber & 7, value);
@@ -555,9 +555,9 @@ namespace PKHeX.Core
         protected abstract int MailOffset { get; }
         public int GetMailOffset(int index) => (index * Mail3.SIZE) + MailOffset;
 
-        public Mail GetMail(int i)
+        public Mail GetMail(int mailIndex)
         {
-            var ofs = GetMailOffset(i);
+            var ofs = GetMailOffset(mailIndex);
             var data = Large.Slice(ofs, Mail3.SIZE);
             return new Mail3(data, ofs, Japanese);
         }
@@ -594,5 +594,95 @@ namespace PKHeX.Core
             SetData(Large, s3.Large, 0);
             SetData(Storage, s3.Storage, 0);
         }
+
+        #region External Connections
+        protected abstract int ExternalEventData { get; }
+        protected int ExternalEventFlags => ExternalEventData + 0x14;
+
+        public uint ColosseumRaw1
+        {
+            get => BitConverter.ToUInt32(Large, ExternalEventData + 7);
+            set => SetData(Large, BitConverter.GetBytes(value), ExternalEventData + 7);
+        }
+
+        public uint ColosseumRaw2
+        {
+            get => BitConverter.ToUInt32(Large, ExternalEventData + 11);
+            set => SetData(Large, BitConverter.GetBytes(value), ExternalEventData + 11);
+        }
+
+        /// <summary>
+        /// PokéCoupons stored by Pokémon Colosseum and XD from Mt. Battle runs. Earned PokéCoupons are also added to <see cref="ColosseumCouponsTotal"/>.
+        /// </summary>
+        /// <remarks>Colosseum/XD caps this at 9,999,999, but will read up to 16,777,215.</remarks>
+        public uint ColosseumCoupons
+        {
+            get => ColosseumRaw1 >> 8;
+            set => ColosseumRaw1 = (value << 8) | (ColosseumRaw1 & 0xFF);
+        }
+
+        /// <summary> Master Ball from JP Colosseum Bonus Disc; for reaching 30,000 <see cref="ColosseumCouponsTotal"/> </summary>
+        public bool ColosseumPokeCouponTitleGold
+        {
+            get => (ColosseumRaw2 & (1 << 0)) != 0;
+            set => ColosseumRaw2 = (ColosseumRaw2 & (1 << 0)) | ((value ? 1u : 0) << 0);
+        }
+
+        /// <summary> Light Ball Pikachu from JP Colosseum Bonus Disc; for reaching 5000 <see cref="ColosseumCouponsTotal"/> </summary>
+        public bool ColosseumPokeCouponTitleSilver
+        {
+            get => (ColosseumRaw2 & (1 << 1)) != 0;
+            set => ColosseumRaw2 = (ColosseumRaw2 & (1 << 1)) | ((value ? 1u : 0) << 1);
+        }
+
+        /// <summary> PP Max from JP Colosseum Bonus Disc; for reaching 2500 <see cref="ColosseumCouponsTotal"/> </summary>
+        public bool ColosseumPokeCouponTitleBronze
+        {
+            get => (ColosseumRaw2 & (1 << 2)) != 0;
+            set => ColosseumRaw2 = (ColosseumRaw2 & (1 << 2)) | ((value ? 1u : 0) << 2);
+        }
+
+        /// <summary> Received Celebi Gift from JP Colosseum Bonus Disc </summary>
+        public bool ColosseumReceivedAgeto
+        {
+            get => (ColosseumRaw2 & (1 << 3)) != 0;
+            set => ColosseumRaw2 = (ColosseumRaw2 & (1 << 3)) | ((value ? 1u : 0) << 3);
+        }
+
+        /// <summary>
+        /// Used by the JP Colosseum bonus disc. Determines PokéCoupon rank to distribute rewards. Unread in International games.
+        /// </summary>
+        /// <remarks>
+        /// Colosseum/XD caps this at 9,999,999.
+        /// </remarks>
+        public uint ColosseumCouponsTotal
+        {
+            get => ColosseumRaw2 >> 8;
+            set => ColosseumRaw2 = (value << 8) | (ColosseumRaw2 & 0xFF);
+        }
+
+        /// <summary> Indicates if this save has connected to RSBOX and triggered the free False Swipe Swablu Egg giveaway. </summary>
+        public bool HasUsedRSBOX
+        {
+            get => GetFlag(ExternalEventFlags + 0, 0);
+            set => SetFlag(ExternalEventFlags + 0, 0, value);
+        }
+
+        /// <summary>
+        /// 1 for ExtremeSpeed Zigzagoon (at 100 deposited), 2 for Pay Day Skitty (at 500 deposited), 3 for Surf Pichu (at 1499 deposited)
+        /// </summary>
+        public int RSBoxDepositEggsUnlocked
+        {
+            get => (Large[ExternalEventFlags] >> 1) & 3;
+            set => Large[ExternalEventFlags] = (byte)((Large[ExternalEventFlags] & ~(3 << 1)) | ((value & 3) << 1));
+        }
+
+        /// <summary> Received Jirachi Gift from Colosseum Bonus Disc </summary>
+        public bool HasReceivedWishmkrJirachi
+        {
+            get => GetFlag(ExternalEventFlags + 2, 0);
+            set => SetFlag(ExternalEventFlags + 2, 0, value);
+        }
+        #endregion
     }
 }

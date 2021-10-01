@@ -142,7 +142,7 @@ namespace PKHeX.Core
         {
             // Routes 30-32,34-35,40-45 and 47 can be encountered in water
             // Won't go to routes 40,41,47,48
-            178, 179, 180, 182, 183, 190, 191, 192, 193
+            178, 179, 180, 182, 183, 190, 191, 192, 193,
         };
 
         private static readonly int[] Roaming_MetLocation_HGSS_Kanto_Grass =

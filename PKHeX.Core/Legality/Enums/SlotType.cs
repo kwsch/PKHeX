@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Wild Encounter data <see cref="EncounterSlot"/> Type
     /// </summary>
     /// <remarks>
-    /// Different from <see cref="GroundTilePermission"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
+    /// Different from <see cref="GroundTilePermission"/>, this corresponds to the method that the <see cref="IEncounterTemplate"/> may be encountered.</remarks>
     [Flags]
 #pragma warning disable RCS1191 // Declare enum value as combination of names.
     public enum SlotType : byte
@@ -101,31 +101,7 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        internal static bool IsFishingRodType(this SlotType t)
-        {
-            t &= (SlotType)0xF;
-            return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
-        }
-
-        internal static bool IsSweetScentType(this SlotType t) => t switch
-        {
-            SlotType.Grass => true,
-            SlotType.Surf => true,
-            SlotType.BugContest => true,
-
-            _ => false,
-        };
-
-        public static Ball GetRequiredBallValueWild(this SlotType t, int generation, int location) => generation switch
-        {
-            3 when Locations.IsSafariZoneLocation3(location) => Ball.Safari,
-            4 when Locations.IsSafariZoneLocation4(location) => Ball.Safari,
-            4 when t == SlotType.BugContest => Ball.Sport,
-
-            // Poké Pelago
-            7 when location == 30016 => Ball.Poke,
-
-            _ => Ball.None,
-        };
+        internal static bool IsFishingRodType(this SlotType t) => (t & (SlotType)0xF) is SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod;
+        internal static bool IsSweetScentType(this SlotType t) => (t & (SlotType)0xF) is SlotType.Grass   or SlotType.Surf     or SlotType.BugContest;
     }
 }

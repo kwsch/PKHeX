@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 
 namespace PKHeX.Core
@@ -14,8 +13,7 @@ namespace PKHeX.Core
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
-        public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard? MC;
+        public SAV3GCMemoryCard? MemoryCard { get; }
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -34,7 +32,7 @@ namespace PKHeX.Core
         private readonly StrategyMemo StrategyMemo;
         public const int MaxShadowID = 0x80; // 128
         private int Memo;
-        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard memCard) : this(data, memCard.Data) => MemoryCard = memCard;
         public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
@@ -102,11 +100,11 @@ namespace PKHeX.Core
             var newFile = GetInnerData();
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave)
+            if (MemoryCard is null)
                 return newFile;
 
-            MC!.SelectedSaveData = newFile;
-            return MC.Data;
+            MemoryCard.WriteSaveGameData(newFile);
+            return MemoryCard.Data;
         }
 
         private byte[] GetInnerData()
@@ -119,7 +117,7 @@ namespace PKHeX.Core
             byte[] newSAV = EncryptColosseum(Data, digest);
 
             // Put save slot back in original save data
-            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[]) State.BAK.Clone();
+            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) State.BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
             return newFile;
         }
@@ -128,7 +126,7 @@ namespace PKHeX.Core
         protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC!) : new SAV3Colosseum(data);
+            var sav = MemoryCard is not null ? new SAV3Colosseum(data, MemoryCard) : new SAV3Colosseum(data);
             return sav;
         }
 
@@ -257,7 +255,7 @@ namespace PKHeX.Core
                 newHC -= BigEndian.ToInt32(D, 0);
                 newHC -= BigEndian.ToInt32(D, 4);
 
-                byte[] chk = data.Slice(data.Length - 20, 20);
+                var chk = data.AsSpan(data.Length - 20, 20);
 
                 bool header = newHC == oldHC;
                 bool body = chk.SequenceEqual(checksum);

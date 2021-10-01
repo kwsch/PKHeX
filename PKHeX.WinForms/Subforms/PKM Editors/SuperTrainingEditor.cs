@@ -23,6 +23,7 @@ namespace PKHeX.WinForms
             TLP_DistSuperTrain.Scroll += WinFormsUtil.PanelScroll;
             PopulateRegimens("SuperTrain", TLP_SuperTrain, reglist);
             PopulateRegimens("DistSuperTrain", TLP_DistSuperTrain, distlist);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
 

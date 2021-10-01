@@ -37,9 +37,10 @@ namespace PKHeX.WinForms.Controls
         {
             if (sender is not PictureBox pb)
                 return;
-            if (pb.Image == null)
-                return;
-            Hover.Start(pb, LastSlot);
+            bool dataPresent = pb.Image is not null;
+            if (dataPresent)
+                Hover.Start(pb, LastSlot);
+            pb.Cursor = dataPresent ? Cursors.Hand : Cursors.Default;
         }
 
         public void MouseLeave(object? sender, EventArgs e)
@@ -118,9 +119,6 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            var src = GetSlotInfo(pb);
-            if (!src.CanWriteTo())
-                return;
             bool encrypt = Control.ModifierKeys == Keys.Control;
             HandleMovePKM(pb, encrypt);
         }
@@ -131,7 +129,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             PictureBox pb = (PictureBox)sender;
             var info = GetSlotInfo(pb);
-            if (!info.CanWriteTo())
+            if (!info.CanWriteTo() || Drag.Info.Source?.CanWriteTo() == false)
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;

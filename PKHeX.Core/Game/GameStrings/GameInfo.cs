@@ -32,7 +32,7 @@ namespace PKHeX.Core
         }
 
         public static GameDataSource Sources { get; private set; } = new(_strings);
-        public static FilteredGameDataSource FilteredSources { get; set; } = new(FakeSaveFile.Default, Sources, false);
+        public static FilteredGameDataSource FilteredSources { get; set; } = new(FakeSaveFile.Default, Sources);
 
         public static string GetVersionName(GameVersion version)
         {
@@ -49,7 +49,7 @@ namespace PKHeX.Core
         public static IReadOnlyList<ComboItem> AbilityDataSource => Sources.AbilityDataSource;
         public static IReadOnlyList<ComboItem> VersionDataSource => Sources.VersionDataSource;
         public static IReadOnlyList<ComboItem> MoveDataSource => Sources.HaXMoveDataSource;
-        public static IReadOnlyList<ComboItem> EncounterTypeDataSource => Sources.EncounterTypeDataSource;
+        public static IReadOnlyList<ComboItem> GroundTileDataSource => Sources.GroundTileDataSource;
         public static IReadOnlyList<ComboItem> Regions => GameDataSource.Regions;
 
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen) => GameDataSource.LanguageDataSource(gen);

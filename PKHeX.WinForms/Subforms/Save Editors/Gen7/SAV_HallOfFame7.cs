@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -22,7 +21,7 @@ namespace PKHeX.WinForms
             };
 
             var block = SAV.Fame;
-            var specList = GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList();
+            var specList = GameInfo.FilteredSources.Species;
             for (int i = 0; i < entries.Length; i++)
             {
                 var cb = entries[i];

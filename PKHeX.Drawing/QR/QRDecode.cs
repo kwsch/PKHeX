@@ -102,7 +102,7 @@ namespace PKHeX.Drawing
             QRDecodeResult.BadType => MessageStrings.MsgQRUrlFailType,
             QRDecodeResult.BadConnection => MessageStrings.MsgQRUrlFailConnection,
             QRDecodeResult.BadConversion => MessageStrings.MsgQRUrlFailConvert,
-            _ => throw new ArgumentOutOfRangeException(nameof(result), result, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(result), result, null),
         };
     }
 }

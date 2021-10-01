@@ -20,7 +20,7 @@
         {
             nameof(IRibbonSetEvent4.RibbonClassic), nameof(IRibbonSetEvent4.RibbonWishing), nameof(IRibbonSetEvent4.RibbonPremier),
             nameof(IRibbonSetEvent4.RibbonEvent), nameof(IRibbonSetEvent4.RibbonBirthday), nameof(IRibbonSetEvent4.RibbonSpecial),
-            nameof(IRibbonSetEvent4.RibbonWorld), nameof(IRibbonSetEvent4.RibbonChampionWorld), nameof(IRibbonSetEvent4.RibbonSouvenir)
+            nameof(IRibbonSetEvent4.RibbonWorld), nameof(IRibbonSetEvent4.RibbonChampionWorld), nameof(IRibbonSetEvent4.RibbonSouvenir),
         };
 
         internal static bool[] RibbonBits(this IRibbonSetEvent4 set)

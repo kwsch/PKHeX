@@ -44,7 +44,7 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            int rate = pkm is PK1 {Gen1_NotTradeback: true} pk1 ? pk1.Catch_Rate : -1;
+            int rate = pkm is PK1 pk1 ? pk1.Catch_Rate : -1;
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
@@ -60,7 +60,7 @@ namespace PKHeX.Core
                     if (rate != -1)
                     {
                         var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
-                        if (expect != rate)
+                        if (expect != rate && !GBRestrictions.IsTradebackCatchRate(rate))
                             break;
                     }
                     yield return slot;

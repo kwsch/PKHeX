@@ -12,6 +12,8 @@ namespace PKHeX.Core
         {
         }
 
+        public bool IsHiddenGrotto => Area.Type == SlotType.HiddenGrotto;
+
         protected override HiddenAbilityPermission IsHiddenAbilitySlot() => Area.Type == SlotType.HiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
     }
 }

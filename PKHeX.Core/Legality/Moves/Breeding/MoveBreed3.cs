@@ -31,7 +31,7 @@ namespace PKHeX.Core
             var egg = Legal.EggMovesRS[species].Moves;
 
             var value = new BreedInfo<EggSource34>(count, learnset, moves, level);
-            if (version == GameVersion.E && moves[count - 1] is (int)Move.VoltTackle)
+            if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle && version == GameVersion.E)
                 value.Actual[--count] = VoltTackle;
 
             if (count == 0)
@@ -145,7 +145,7 @@ namespace PKHeX.Core
             var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
             var tm = info.TMHM;
             var tmlist = Legal.TM_3.AsSpan(0, 50);
-
+            var hmlist = Legal.HM_3.AsSpan();
             var moves = value.Moves;
             for (int i = 0; i < count; i++)
             {
@@ -162,6 +162,10 @@ namespace PKHeX.Core
 
                 var tmIndex = tmlist.IndexOf(move);
                 if (tmIndex != -1 && tm[tmIndex])
+                    possible[i] |= 1 << (int)FatherTM;
+
+                var hmIndex = hmlist.IndexOf(move);
+                if (hmIndex != -1 && tm[hmIndex + 50])
                     possible[i] |= 1 << (int)FatherTM;
             }
         }

@@ -162,7 +162,7 @@ namespace PKHeX.Core
             DirectoryBad = 1 << 1,
             DirectoryBackupBad = 1 << 2,
             BlockAllocBad,
-            BlockAllocBackupBad
+            BlockAllocBackupBad,
         }
 
         private bool IsCorruptedMemoryCard()
@@ -304,7 +304,6 @@ namespace PKHeX.Core
         }
 
         public string GCISaveName => GCISaveGameName();
-        public byte[] SelectedSaveData { get => ReadSaveGameData(); set => WriteSaveGameData(value); }
         public readonly byte[] Data;
 
         private string GCISaveGameName()
@@ -317,7 +316,7 @@ namespace PKHeX.Core
             return $"{Makercode}-{GameCode}-{Util.TrimFromZero(FileName)}.gci";
         }
 
-        private byte[] ReadSaveGameData()
+        public byte[] ReadSaveGameData()
         {
             if (EntrySelected < 0)
                 return Array.Empty<byte>(); // No entry selected
@@ -332,7 +331,7 @@ namespace PKHeX.Core
             return SaveData;
         }
 
-        private void WriteSaveGameData(byte[] SaveData)
+        public void WriteSaveGameData(byte[] SaveData)
         {
             if (EntrySelected < 0) // Can't write anywhere
                 return;

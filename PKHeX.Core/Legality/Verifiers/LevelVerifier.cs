@@ -95,7 +95,7 @@ namespace PKHeX.Core
                 return;
 
             var pkm = data.pkm;
-            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && !ParseSettings.IsFromActiveTrainer(pkm)) || GBRestrictions.IsTradedKadabraG1(pkm);
+            var mustevolve = pkm.Format != 1 || !ParseSettings.IsFromActiveTrainer(pkm);
             if (!mustevolve)
                 return;
 

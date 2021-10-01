@@ -51,7 +51,7 @@ namespace PKHeX.Core
             SCTypeCode.Single => sizeof(float),
             SCTypeCode.Double => sizeof(double),
 
-            _ => throw new ArgumentException(type.ToString(), nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
         };
 
         public static Type GetType(this SCTypeCode type) => type switch
@@ -69,7 +69,7 @@ namespace PKHeX.Core
             SCTypeCode.Single => typeof(float),
             SCTypeCode.Double => typeof(double),
 
-            _ => throw new ArgumentException(type.ToString(), nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
         };
 
         public static object GetValue(this SCTypeCode type, byte[] data)
@@ -88,7 +88,7 @@ namespace PKHeX.Core
                 case SCTypeCode.Single: return BitConverter.ToSingle(data, 0);
                 case SCTypeCode.Double: return BitConverter.ToDouble(data, 0);
                 default:
-                    throw new ArgumentException(type.ToString(), nameof(type));
+                    throw new ArgumentOutOfRangeException(nameof(type), type.ToString());
             }
         }
 
@@ -109,7 +109,8 @@ namespace PKHeX.Core
                 case SCTypeCode.Single: BitConverter.GetBytes((float)value).CopyTo(data, 0); break;
                 case SCTypeCode.Double: BitConverter.GetBytes((double)value).CopyTo(data, 0); break;
 
-                default: throw new ArgumentException(type.ToString(), nameof(type));
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type.ToString());
             }
         }
     }

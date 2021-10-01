@@ -22,7 +22,16 @@ namespace PKHeX.WinForms
         {
             foreach (var t in pluginTypes)
             {
-                var activate = (T?) Activator.CreateInstance(t);
+                T? activate;
+                try { activate = (T?)Activator.CreateInstance(t); }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{t.Name}]: {t.FullName}");
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    continue;
+                }
                 if (activate != null)
                     yield return activate;
             }
@@ -59,8 +68,17 @@ namespace PKHeX.WinForms
             catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
-                return Enumerable.Empty<Type>();
+                System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}");
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                if (ex is ReflectionTypeLoadException rtle)
+                {
+                    foreach (var le in rtle.LoaderExceptions)
+                    {
+                        if (le is not null)
+                            System.Diagnostics.Debug.WriteLine(le.Message);
+                    }
+                }
+                return Array.Empty<Type>();
             }
         }
 

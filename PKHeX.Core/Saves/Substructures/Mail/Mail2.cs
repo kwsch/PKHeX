@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace PKHeX.Core
 {
     public sealed class Mail2 : Mail
@@ -22,8 +20,10 @@ namespace PKHeX.Core
         {
             if (US)
             {
-                StringConverter12.SetString1(line2, 0x10, false, 0x10, 0x50).CopyTo(Data, 0x11);
-                StringConverter12.SetString1(line1, 0x10, false, 0x10, Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? (byte)0x50 : (byte)0x7F).CopyTo(Data, 0);
+                StringConverter12.SetString1(line2, 0x10, false, 0x10, StringConverter12.G1TerminatorCode).CopyTo(Data, 0x11);
+                bool hasLine2 = Data[0x11] != StringConverter12.G1TerminatorCode;
+                byte padChar = !hasLine2 ? StringConverter12.G1TerminatorCode : (byte)0x7F; // space
+                StringConverter12.SetString1(line1, 0x10, false, 0x10, padChar).CopyTo(Data, 0);
                 Data[0x10] = 0x4E;
             }
         }
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             0 => true,
             0x9E => false,
             >= 0xB5 and <= 0xBD => false,
-            _ => null
+            _ => null,
         };
 
         public override void SetBlank() => (new byte[0x2F]).CopyTo(Data, 0);

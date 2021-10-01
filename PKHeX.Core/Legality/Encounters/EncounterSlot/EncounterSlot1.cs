@@ -26,7 +26,7 @@
                 {
                     (int) Core.Species.Kadabra => 96,
                     (int) Core.Species.Dragonair => 27,
-                    _ => PersonalTable.RB[Species].CatchRate
+                    _ => PersonalTable.RB[Species].CatchRate,
                 };
             }
             else

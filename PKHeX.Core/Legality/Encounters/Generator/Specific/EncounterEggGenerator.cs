@@ -59,7 +59,7 @@ namespace PKHeX.Core
         {
             <= GameVersion.OR => (GameVersion) ((int) ver ^ 2), // gen6
             <= GameVersion.MN => ver + 2, // gen7
-            _ => ver - 2
+            _ => ver - 2,
         };
 
         private static bool HasOtherGamePair(GameVersion ver)

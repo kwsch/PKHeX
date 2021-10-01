@@ -61,7 +61,7 @@ namespace PKHeX.Core
         internal TeamLockResult(TeamLock teamSpec, uint originSeed, int tsv)
         {
             Locks = new Stack<NPCLock>((Specifications = teamSpec).Locks);
-            Team = new Stack<SeedFrame>();
+            Team = new Stack<SeedFrame>(Locks.Count);
             Cache = new FrameCache(RNG.XDRNG.Reverse(originSeed, 2), RNG.XDRNG.Prev);
             TSV = tsv;
 
@@ -107,7 +107,7 @@ namespace PKHeX.Core
             if (prior?.Shadow != false)
                 return GetSingleLock(ctr, current);
 
-            return GetAllLocks(ctr, current, prior);
+            return GetAllLocks(ctr, current, (NPCLock)prior);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace PKHeX.Core
         {
             uint pid = Cache[ctr + 1] << 16 | Cache[ctr];
             if (current.MatchesLock(pid))
-                yield return new SeedFrame(pid, ctr + (current.Seen ? 5 : 7));
+                yield return new SeedFrame(pid, ctr + current.FramesConsumed);
             else
                 yield break;
 
@@ -156,7 +156,7 @@ namespace PKHeX.Core
                     yield break; // Since we can't skip this interrupt, we're done.
                 }
                 // Yield the final rerolled pid instead of the bad anti-shiny (metadata/validation).
-                yield return new SeedFrame(pid, start + (current.Seen ? 5 : 7));
+                yield return new SeedFrame(pid, start + current.FramesConsumed);
                 start += 2;
             }
         }
@@ -217,7 +217,7 @@ namespace PKHeX.Core
                 }
                 uint pid = Cache[ctr + 1] << 16 | Cache[ctr];
                 if (current.MatchesLock(pid))
-                    yield return new SeedFrame(pid, ctr + (current.Seen ? 5 : 7));
+                    yield return new SeedFrame(pid, ctr + current.FramesConsumed);
 
                 ctr += 2;
             }

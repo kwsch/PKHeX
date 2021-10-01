@@ -18,10 +18,11 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (ISaveBlock6Main)(Origin = sav).Clone();
+            var filtered = GameInfo.FilteredSources;
             foreach (var cb in TAB_Items.Controls.OfType<ComboBox>())
             {
                 cb.InitializeBinding();
-                cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= sav.MaxItemID).ToArray(), null);
+                cb.DataSource = new BindingSource(filtered.Items, null);
             }
             LinkInfo = SAV.Link.GetLinkInfo();
             LoadLinkData();
@@ -68,7 +69,7 @@ namespace PKHeX.WinForms
         private void LoadLinkData()
         {
             RTB_LinkSource.Text = LinkInfo.Origin;
-            CHK_LinkAvailable.Checked = LinkInfo.PL_enabled;
+            CHK_LinkAvailable.Checked = LinkInfo.Enabled;
 
             NUD_BP.Value = LinkInfo.BattlePoints;
             NUD_Pokemiles.Value = LinkInfo.Pokemiles;

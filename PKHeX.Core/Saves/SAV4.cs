@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public abstract class SAV4 : SaveFile
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Extension => ".sav";
+        public sealed override string Extension => ".sav";
 
         // Blocks & Offsets
         private readonly int GeneralBlockPosition; // Small Block
@@ -22,17 +22,14 @@ namespace PKHeX.Core
         // SaveData is chunked into two pieces.
         protected readonly byte[] Storage;
         public readonly byte[] General;
-        protected override byte[] BoxBuffer => Storage;
-        protected override byte[] PartyBuffer => General;
+        protected sealed override byte[] BoxBuffer => Storage;
+        protected sealed override byte[] PartyBuffer => General;
 
         protected abstract int StorageStart { get; }
         public abstract Zukan4 Dex { get; }
 
-        /// <inheritdoc />
-        public override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
-
-        /// <inheritdoc />
-        public override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
+        public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
+        public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
 
         protected SAV4(int gSize, int sSize)
         {
@@ -53,7 +50,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        protected override SaveFile CloneInternal()
+        protected sealed override SaveFile CloneInternal()
         {
             var sav = CloneInternal4();
             SetData(sav.General, General, 0);
@@ -63,7 +60,7 @@ namespace PKHeX.Core
 
         protected abstract SAV4 CloneInternal4();
 
-        public override void CopyChangesFrom(SaveFile sav)
+        public sealed override void CopyChangesFrom(SaveFile sav)
         {
             SetData(sav.Data, 0);
             var s4 = (SAV4)sav;
@@ -71,31 +68,28 @@ namespace PKHeX.Core
             SetData(Storage, s4.Storage, 0);
         }
 
-        protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-        protected override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
-        public override PKM BlankPKM => new PK4();
-        public override Type PKMType => typeof(PK4);
+        protected sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
+        public sealed override PKM BlankPKM => new PK4();
+        public sealed override Type PKMType => typeof(PK4);
 
-        public override int BoxCount => 18;
-        public override int MaxEV => 255;
-        public override int Generation => 4;
-        protected override int EventFlagMax => 0xB60; // 2912
-        protected override int EventConstMax => (EventFlag - EventConst) >> 1;
-        protected override int GiftCountMax => 11;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
-        public override int MaxMoney => 999999;
-        public override int MaxCoins => 50_000;
+        public sealed override int BoxCount => 18;
+        public sealed override int MaxEV => 255;
+        public sealed override int Generation => 4;
+        protected sealed override int EventFlagMax => 0xB60; // 2912
+        protected sealed override int EventConstMax => (EventFlag - EventConst) >> 1;
+        protected sealed override int GiftCountMax => 11;
+        public sealed override int OTLength => 7;
+        public sealed override int NickLength => 10;
+        public sealed override int MaxMoney => 999999;
+        public sealed override int MaxCoins => 50_000;
 
-        public override int MaxMoveID => Legal.MaxMoveID_4;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+        public sealed override int MaxMoveID => Legal.MaxMoveID_4;
+        public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_4;
         // MaxItemID
-        public override int MaxAbilityID => Legal.MaxAbilityID_4;
-        public override int MaxBallID => Legal.MaxBallID_4;
-        public override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
-
-        public bool HGSS => Version == GameVersion.HGSS;
-        public bool DP => Version == GameVersion.DP;
+        public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public sealed override int MaxBallID => Legal.MaxBallID_4;
+        public sealed override int MaxGameID => Legal.MaxGameID_4; // Colo/XD
 
         // Checksums
         protected abstract int FooterSize { get; }
@@ -103,7 +97,7 @@ namespace PKHeX.Core
         private static ushort GetBlockChecksumSaved(byte[] data) => BitConverter.ToUInt16(data, data.Length - 2);
         private bool GetBlockChecksumValid(byte[] data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
-        protected override void SetChecksums()
+        protected sealed override void SetChecksums()
         {
             BitConverter.GetBytes(CalcBlockChecksum(General)).CopyTo(General, General.Length - 2);
             BitConverter.GetBytes(CalcBlockChecksum(Storage)).CopyTo(Storage, Storage.Length - 2);
@@ -113,7 +107,7 @@ namespace PKHeX.Core
             Storage.CopyTo(Data, (StorageBlockPosition * PartitionSize) + StorageStart);
         }
 
-        public override bool ChecksumsValid
+        public sealed override bool ChecksumsValid
         {
             get
             {
@@ -126,7 +120,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string ChecksumInfo
+        public sealed override string ChecksumInfo
         {
             get
             {
@@ -150,7 +144,7 @@ namespace PKHeX.Core
         protected int AdventureInfo = int.MinValue;
         protected int Seal = int.MinValue;
         protected int Trainer1;
-        public int GTS { get; } = int.MinValue;
+        public int GTS { get; protected set; } = int.MinValue;
 
         // Storage
         public override int PartyCount
@@ -159,7 +153,7 @@ namespace PKHeX.Core
             protected set => General[Party - 4] = (byte)value;
         }
 
-        public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
+        public sealed override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
         // Trainer Info
         public override string OT
@@ -245,10 +239,10 @@ namespace PKHeX.Core
         public override uint SecondsToStart { get => BitConverter.ToUInt32(General, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(General, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x3C); }
 
-        protected override PKM GetPKM(byte[] data) => new PK4(data);
-        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
+        protected sealed override PKM GetPKM(byte[] data) => new PK4(data);
+        protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-        protected override void SetPKM(PKM pkm, bool isParty = false)
+        protected sealed override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk4 = (PK4)pkm;
             // Apply to this Save File
@@ -332,12 +326,7 @@ namespace PKHeX.Core
 
         public override MysteryGiftAlbum GiftAlbum
         {
-            get
-            {
-                var album = new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
-                album.Flags[2047] = false;
-                return album;
-            }
+            get => new(MysteryGiftCards, MysteryGiftReceivedFlags) {Flags = {[2047] = false}};
             set
             {
                 bool available = IsMysteryGiftAvailable(value.Gifts);
@@ -365,7 +354,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool[] MysteryGiftReceivedFlags
+        protected sealed override bool[] MysteryGiftReceivedFlags
         {
             get
             {
@@ -390,7 +379,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override DataMysteryGift[] MysteryGiftCards
+        protected sealed override DataMysteryGift[] MysteryGiftCards
         {
             get
             {
@@ -420,9 +409,9 @@ namespace PKHeX.Core
             }
         }
 
-        protected override void SetDex(PKM pkm) => Dex.SetDex(pkm);
-        public override bool GetCaught(int species) => Dex.GetCaught(species);
-        public override bool GetSeen(int species) => Dex.GetSeen(species);
+        protected sealed override void SetDex(PKM pkm) => Dex.SetDex(pkm);
+        public sealed override bool GetCaught(int species) => Dex.GetCaught(species);
+        public sealed override bool GetSeen(int species) => Dex.GetSeen(species);
 
         public int DexUpgraded
         {
@@ -477,9 +466,9 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetString4(data, offset, length);
+        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter4.GetString4(data, offset, length);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
@@ -487,7 +476,7 @@ namespace PKHeX.Core
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public override ushort[] GetEventConsts()
+        public sealed override ushort[] GetEventConsts()
         {
             if (EventConstMax <= 0)
                 return Array.Empty<ushort>();
@@ -499,7 +488,7 @@ namespace PKHeX.Core
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public override void SetEventConsts(ushort[] value)
+        public sealed override void SetEventConsts(ushort[] value)
         {
             if (EventConstMax <= 0)
                 return;
@@ -534,16 +523,30 @@ namespace PKHeX.Core
             {
                 GameVersion.DP => (ofs + 0x4BEC),
                 GameVersion.Pt => (ofs + 0x4E80),
-                _ => (ofs + 0x3FA8)
+                _ => (ofs + 0x3FA8),
             };
         }
 
         public byte[] GetMailData(int ofs) => General.Slice(ofs, Mail4.SIZE);
 
-        public Mail4 GetMail(int i)
+        public Mail4 GetMail(int mailIndex)
         {
-            int ofs = GetMailOffset(i);
+            int ofs = GetMailOffset(mailIndex);
             return new Mail4(GetMailData(ofs), ofs);
+        }
+
+        public abstract uint SwarmSeed { get; set; }
+        public abstract uint SwarmMaxCountModulo { get; }
+
+        public uint SwarmIndex
+        {
+            get => SwarmSeed % SwarmMaxCountModulo;
+            set
+            {
+                value %= SwarmMaxCountModulo;
+                while (SwarmIndex != value)
+                    ++SwarmSeed;
+            }
         }
     }
 }

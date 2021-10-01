@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return generation switch
             {
                 8 => GetIsRecord8(pkm, species, move, form, ver, allowBit),
-                _ => Legal.NONE
+                _ => Legal.NONE,
             };
         }
 
@@ -233,7 +233,7 @@ namespace PKHeX.Core
         {
             if (GameVersion.SWSH.Contains(ver))
             {
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
                 {
                     if (Legal.TMHM_SWSH[i] != move)
                         continue;
@@ -250,11 +250,13 @@ namespace PKHeX.Core
         {
             if (GameVersion.SWSH.Contains(ver))
             {
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
                 {
-                    if (Legal.TMHM_SWSH[i + 100] != move)
+                    var index = i + PersonalInfoSWSH.CountTM;
+                    if (Legal.TMHM_SWSH[index] != move)
                         continue;
-                    if (!PersonalTable.SWSH.GetFormEntry(species, form).TMHM[i + 100])
+                    var pi = PersonalTable.SWSH.GetFormEntry(species, form);
+                    if (!pi.TMHM[index])
                         break;
                     if (allowBit)
                         return GameVersion.SWSH;
@@ -451,7 +453,7 @@ namespace PKHeX.Core
                 return;
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
             {
                 if (!tmhm[i])
                     continue;
@@ -464,9 +466,10 @@ namespace PKHeX.Core
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
             var pk8 = (PK8)pkm;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
             {
-                if (!tmhm[i + 100])
+                var index = i + PersonalInfoSWSH.CountTM;
+                if (!tmhm[index])
                     continue;
                 if (!pk8.GetMoveRecordFlag(i))
                 {
@@ -481,7 +484,7 @@ namespace PKHeX.Core
                         continue;
                     }
                 }
-                r.Add(Legal.TMHM_SWSH[i + 100]);
+                r.Add(Legal.TMHM_SWSH[index]);
             }
         }
 
@@ -489,11 +492,12 @@ namespace PKHeX.Core
         {
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
             {
-                if (!tmhm[i + 100])
+                var index = i + PersonalInfoSWSH.CountTM;
+                if (!tmhm[index])
                     continue;
-                yield return Legal.TMHM_SWSH[i + 100];
+                yield return Legal.TMHM_SWSH[index];
             }
         }
     }

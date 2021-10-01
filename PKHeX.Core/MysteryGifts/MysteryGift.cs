@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation
+    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation, IFixedBall
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -39,7 +39,7 @@ namespace PKHeX.Core
             WB7.SizeFull when ext == ".wb7full" => new WB7(data),
             WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
             WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
-            _ => null
+            _ => null,
         };
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),
             // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
             WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
-            _ => null
+            _ => null,
         };
 
         public string Extension => GetType().Name.ToLowerInvariant();
@@ -145,6 +145,8 @@ namespace PKHeX.Core
         public abstract int Ball { get; set; }
         public virtual bool EggEncounter => IsEgg;
         public abstract int EggLocation { get; set; }
+
+        public Ball FixedBall => (Ball)Ball;
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);

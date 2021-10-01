@@ -14,9 +14,9 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             pkm = pk;
-            MemStrings = new MemoryStrings(GameInfo.Strings, pkm.Format);
+            MemStrings = new MemoryStrings(GameInfo.Strings);
             PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
-            PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
+            PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4 };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
 
             TextArgs = new TextMarkup(arguments);
@@ -45,16 +45,16 @@ namespace PKHeX.WinForms
             // Load the region/country values.
             if (pkm is IGeoTrack g)
             {
-                CB_Country0.SelectedValue = g.Geo1_Country;
-                CB_Country1.SelectedValue = g.Geo2_Country;
-                CB_Country2.SelectedValue = g.Geo3_Country;
-                CB_Country3.SelectedValue = g.Geo4_Country;
-                CB_Country4.SelectedValue = g.Geo5_Country;
-                CB_Region0.SelectedValue  = g.Geo1_Region;
-                CB_Region1.SelectedValue  = g.Geo2_Region;
-                CB_Region2.SelectedValue  = g.Geo3_Region;
-                CB_Region3.SelectedValue  = g.Geo4_Region;
-                CB_Region4.SelectedValue  = g.Geo5_Region;
+                CB_Country0.SelectedValue = (int)g.Geo1_Country;
+                CB_Country1.SelectedValue = (int)g.Geo2_Country;
+                CB_Country2.SelectedValue = (int)g.Geo3_Country;
+                CB_Country3.SelectedValue = (int)g.Geo4_Country;
+                CB_Country4.SelectedValue = (int)g.Geo5_Country;
+                CB_Region0.SelectedValue  = (int)g.Geo1_Region;
+                CB_Region1.SelectedValue  = (int)g.Geo2_Region;
+                CB_Region2.SelectedValue  = (int)g.Geo3_Region;
+                CB_Region3.SelectedValue  = (int)g.Geo4_Region;
+                CB_Region4.SelectedValue  = (int)g.Geo5_Region;
             }
 
             // Load the Fullness, and Enjoyment
@@ -157,16 +157,16 @@ namespace PKHeX.WinForms
             // Save Region & Country Data
             if (pkm is IGeoTrack g)
             {
-                g.Geo1_Region = WinFormsUtil.GetIndex(CB_Region0);
-                g.Geo2_Region = WinFormsUtil.GetIndex(CB_Region1);
-                g.Geo3_Region = WinFormsUtil.GetIndex(CB_Region2);
-                g.Geo4_Region = WinFormsUtil.GetIndex(CB_Region3);
-                g.Geo5_Region = WinFormsUtil.GetIndex(CB_Region4);
-                g.Geo1_Country = WinFormsUtil.GetIndex(CB_Country0);
-                g.Geo2_Country = WinFormsUtil.GetIndex(CB_Country1);
-                g.Geo3_Country = WinFormsUtil.GetIndex(CB_Country2);
-                g.Geo4_Country = WinFormsUtil.GetIndex(CB_Country3);
-                g.Geo5_Country = WinFormsUtil.GetIndex(CB_Country4);
+                g.Geo1_Region  = (byte)WinFormsUtil.GetIndex(CB_Region0);
+                g.Geo2_Region  = (byte)WinFormsUtil.GetIndex(CB_Region1);
+                g.Geo3_Region  = (byte)WinFormsUtil.GetIndex(CB_Region2);
+                g.Geo4_Region  = (byte)WinFormsUtil.GetIndex(CB_Region3);
+                g.Geo5_Region  = (byte)WinFormsUtil.GetIndex(CB_Region4);
+                g.Geo1_Country = (byte)WinFormsUtil.GetIndex(CB_Country0);
+                g.Geo2_Country = (byte)WinFormsUtil.GetIndex(CB_Country1);
+                g.Geo3_Country = (byte)WinFormsUtil.GetIndex(CB_Country2);
+                g.Geo4_Country = (byte)WinFormsUtil.GetIndex(CB_Country3);
+                g.Geo5_Country = (byte)WinFormsUtil.GetIndex(CB_Country4);
             }
 
             // Save 0-255 stats
@@ -227,34 +227,38 @@ namespace PKHeX.WinForms
             }
 
             // Feeling Chooser
-            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
-            {
-                CB_CTFeel.Items.Add(q);
+            foreach (var q in strings.GetMemoryFeelings(pkm.Generation))
                 CB_OTFeel.Items.Add(q);
-            }
+            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
+                CB_CTFeel.Items.Add(q);
         }
 
         private void UpdateMemoryDisplay(object sender)
         {
-            if (sender == CB_CTMemory)
+            if (sender == CB_OTMemory)
             {
+                int memoryGen = pkm.Generation;
+                if (memoryGen < 0)
+                    memoryGen = pkm.Format;
+
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.Generation);
-                var argvals = MemStrings.GetArgumentStrings(memIndex);
-                CB_CTVar.InitializeBinding();
-                CB_CTVar.DataSource = new BindingSource(argvals, null);
-                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Generation);
-                LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
+                var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
+                var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
+                CB_OTVar.InitializeBinding();
+                CB_OTVar.DataSource = new BindingSource(argvals, null);
+                LOTV.Text = TextArgs.GetMemoryCategory(memIndex, memoryGen);
+                LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
             else
             {
+                int memoryGen = pkm.Format;
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.Format);
-                var argvals = MemStrings.GetArgumentStrings(memIndex);
-                CB_OTVar.InitializeBinding();
-                CB_OTVar.DataSource = new BindingSource(argvals, null);
-                LOTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Format);
-                LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
+                var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
+                var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
+                CB_CTVar.InitializeBinding();
+                CB_CTVar.DataSource = new BindingSource(argvals, null);
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, memoryGen);
+                LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
         }
 
@@ -266,14 +270,14 @@ namespace PKHeX.WinForms
             if (mem == 0)
             {
                 string nn = pkm.Nickname;
-                result = string.Format(GameInfo.Strings.memories[38], nn);
+                result = string.Format(GameInfo.Strings.memories[0], nn);
                 enabled = false;
             }
             else
             {
                 string nn = pkm.Nickname;
                 string a = arg.Text;
-                result = string.Format(GameInfo.Strings.memories[mem + 38], nn, tr, a, f.Text, q.Text);
+                result = string.Format(GameInfo.Strings.memories[mem], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
 
@@ -334,7 +338,7 @@ namespace PKHeX.WinForms
 
         private void ClickResetLocation(object sender, EventArgs e)
         {
-            Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4, };
+            Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4 };
             int index = Array.IndexOf(senderarr, sender);
             PrevCountries[index].SelectedValue = 0;
 
@@ -380,14 +384,14 @@ namespace PKHeX.WinForms
                 if (!string.IsNullOrWhiteSpace(args[9])) Location = args[9] + ":";
             }
 
-            public string GetMemoryCategory(MemoryArgType type, int format) => type switch
+            public string GetMemoryCategory(MemoryArgType type, int memoryGen) => type switch
             {
                 MemoryArgType.GeneralLocation => Area,
-                MemoryArgType.SpecificLocation when format == 6 => Location,
+                MemoryArgType.SpecificLocation when memoryGen <= 7 => Location,
                 MemoryArgType.Species => Species,
                 MemoryArgType.Move => Move,
                 MemoryArgType.Item => Item,
-                _ => string.Empty
+                _ => string.Empty,
             };
         }
     }

@@ -42,12 +42,12 @@
             // L_Thanks
             // 
             this.L_Thanks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Thanks.AutoSize = true;
             this.L_Thanks.Location = new System.Drawing.Point(265, 4);
             this.L_Thanks.Name = "L_Thanks";
-            this.L_Thanks.Size = new System.Drawing.Size(147, 13);
+            this.L_Thanks.Size = new System.Drawing.Size(225, 13);
             this.L_Thanks.TabIndex = 2;
             this.L_Thanks.Text = "Thanks to all the researchers!";
+            this.L_Thanks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TC_About
             // 
@@ -122,7 +122,6 @@
             this.Tab_Shortcuts.ResumeLayout(false);
             this.Tab_Changelog.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

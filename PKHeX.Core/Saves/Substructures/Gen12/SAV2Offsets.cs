@@ -43,19 +43,21 @@ namespace PKHeX.Core
         public int EventConst { get; }
         public int Daycare { get; }
 
+        public int BlueCardPoints { get; private set; } = -1;
+
         public int PouchTMHM { get; private set; } = -1;
         public int PouchItem { get; private set; } = -1;
         public int PouchKey { get; private set; } = -1;
         public int PouchBall { get; private set; } = -1;
         public int PouchPC { get; private set; } = -1;
 
-        private void LoadOffsetsInternational(GameVersion Version)
+        private void LoadOffsetsInternational(GameVersion version)
         {
             RTCFlags = 0x0C60;
 
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
-            switch (Version)
+            switch (version)
             {
                 case GameVersion.GS:
                     TimePlayed = 0x2053;
@@ -88,6 +90,7 @@ namespace PKHeX.Core
                     JohtoBadges = 0x23E5;
                     CurrentBoxIndex = 0x2700;
                     BoxNames = 0x2703;
+                    BlueCardPoints = 0x27D9;
                     Party = 0x2865;
                     PokedexCaught = 0x2A27;
                     PokedexSeen = 0x2A47;
@@ -107,11 +110,11 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    throw new ArgumentException(nameof(Version));
+                    throw new ArgumentException(nameof(version));
             }
         }
 
-        private void LoadOffsetsJapanese(GameVersion Version)
+        private void LoadOffsetsJapanese(GameVersion version)
         {
             DaylightSavings = 0x2029;
             TimePlayed = 0x2034;
@@ -119,7 +122,7 @@ namespace PKHeX.Core
             CurrentBox = 0x2D10;
             OtherCurrentBox = 0x2842;
 
-            switch (Version)
+            switch (version)
             {
                 case GameVersion.GS:
                     RTCFlags = 0x1000;
@@ -151,6 +154,7 @@ namespace PKHeX.Core
                     JohtoBadges = 0x23C7;
                     CurrentBoxIndex = 0x26E2;
                     BoxNames = 0x26E5;
+                    BlueCardPoints = 0x278E;
                     Party = 0x281A;
                     PokedexCaught = 0x29AA;
                     PokedexSeen = 0x29CA;
@@ -169,7 +173,7 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    throw new ArgumentException(nameof(Version));
+                    throw new ArgumentException(nameof(version));
             }
         }
 

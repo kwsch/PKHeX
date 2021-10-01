@@ -18,9 +18,9 @@ namespace PKHeX.WinForms
 
             Table = SAV switch
             {
-                SAV4DP => HoneyTree.TableDP,
-                SAV4Pt => HoneyTree.TablePt,
-                _ => throw new Exception()
+                SAV4DP => HoneyTreeValue.TableDP,
+                SAV4Pt => HoneyTreeValue.TablePt,
+                _ => throw new Exception(),
             };
 
             // Get Munchlax tree for this savegame in screen
@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
         private readonly int[][] Table;
         private int entry;
         private bool loading;
-        private HoneyTree? Tree;
+        private HoneyTreeValue? Tree;
 
         private int TreeSpecies => Table[(int)NUD_Group.Value][(int)NUD_Slot.Value];
         private void B_Catchable_Click(object sender, EventArgs e) => NUD_Time.Value = 1080;

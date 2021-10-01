@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
             {
                 ShowContinue = allowContinue,
                 Message = friendlyMessage,
-                Error = ex
+                Error = ex,
             };
             var dialogResult = dialog.ShowDialog();
             if (dialogResult == DialogResult.Abort)

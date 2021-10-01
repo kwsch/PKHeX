@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -16,7 +15,7 @@ namespace PKHeX.WinForms
             Reader = new Roamer3((SAV3)sav);
 
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
 
             LoadData();
         }

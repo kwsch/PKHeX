@@ -75,7 +75,7 @@ namespace PKHeX.Core
             switch ((EvolutionType)Method)
             {
                 case UseItem or UseItemWormhole:
-                case Crit3 or HPDownBy49 or SpinType:
+                case CriticalHitsInBattle or HitPointsLostInBattle or Spin:
                 case TowerOfDarkness or TowerOfWaters:
                     return true;
                 case UseItemMale:
@@ -83,7 +83,7 @@ namespace PKHeX.Core
                 case UseItemFemale:
                     return pkm.Gender == 1;
 
-                case Trade or TradeHeldItem or TradeSpecies:
+                case Trade or TradeHeldItem or TradeShelmetKarrablast:
                     return !pkm.IsUntraded || skipChecks;
 
                 // Special Level Up Cases -- return false if invalid

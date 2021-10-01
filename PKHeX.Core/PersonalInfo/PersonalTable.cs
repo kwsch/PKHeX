@@ -154,7 +154,7 @@ namespace PKHeX.Core
         {
             // Load Gen2 Gender Ratios into Gen1
             PersonalInfo[] rb = RB.Table, y = Y.Table, gs = GS.Table;
-            for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
+            for (int i = Legal.MaxSpeciesID_1; i >= 0; i--)
                 rb[i].Gender = y[i].Gender = gs[i].Gender;
         }
 
@@ -164,10 +164,15 @@ namespace PKHeX.Core
             var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
             var table = E.Table;
-            for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
+            for (int i = Legal.MaxSpeciesID_3; i >= 0; i--)
             {
-                table[i].AddTMHM(machine[i]);
-                table[i].AddTypeTutors(tutors[i]);
+                var entry = table[i];
+                entry.AddTMHM(machine[i]);
+                entry.AddTypeTutors(tutors[i]);
+
+                // Copy to other tables
+                RS.Table[i].TMHM = FR.Table[i].TMHM = LG.Table[i].TMHM = entry.TMHM;
+                RS.Table[i].TypeTutors = FR.Table[i].TypeTutors = LG.Table[i].TypeTutors = entry.TypeTutors;
             }
         }
 

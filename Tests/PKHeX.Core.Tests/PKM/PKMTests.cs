@@ -14,7 +14,7 @@ namespace PKHeX.Tests.PKM
             {
                 Met_Day = 0,
                 Met_Month = 0,
-                Met_Year = 0
+                Met_Year = 0,
             };
 
             pk.MetDate.HasValue.Should().BeFalse();
@@ -27,7 +27,7 @@ namespace PKHeX.Tests.PKM
             {
                 Met_Day = 10,
                 Met_Month = 8,
-                Met_Year = 16
+                Met_Year = 16,
             };
 
             pk.MetDate.GetValueOrDefault().Should().Be(new DateTime(2016, 8, 10).Date);
@@ -40,7 +40,7 @@ namespace PKHeX.Tests.PKM
             {
                 Met_Day = 1,
                 Met_Month = 1,
-                Met_Year = 0
+                Met_Year = 0,
             };
 
             pk.MetDate.GetValueOrDefault().Date.Year.Should().Be(2000);
@@ -53,7 +53,7 @@ namespace PKHeX.Tests.PKM
             {
                 Met_Day = 12,
                 Met_Month = 12,
-                Met_Year = 12
+                Met_Year = 12,
             };
 
             pk.Met_Day.Should().Be(12);
@@ -74,7 +74,7 @@ namespace PKHeX.Tests.PKM
             {
                 Met_Day = 12,
                 Met_Month = 12,
-                Met_Year = 12
+                Met_Year = 12,
             };
 
             pk.Met_Day.Should().Be(12);
@@ -98,7 +98,7 @@ namespace PKHeX.Tests.PKM
             {
                 Egg_Day = 0,
                 Egg_Month = 0,
-                Egg_Year = 0
+                Egg_Year = 0,
             };
 
             pk.EggMetDate.HasValue.Should().BeFalse();
@@ -111,7 +111,7 @@ namespace PKHeX.Tests.PKM
             {
                 Egg_Day = 10,
                 Egg_Month = 8,
-                Egg_Year = 16
+                Egg_Year = 16,
             };
 
             pk.EggMetDate.GetValueOrDefault().Should().Be(new DateTime(2016, 8, 10).Date);
@@ -124,7 +124,7 @@ namespace PKHeX.Tests.PKM
             {
                 Egg_Day = 1,
                 Egg_Month = 1,
-                Egg_Year = 0
+                Egg_Year = 0,
             };
 
             pk.EggMetDate.GetValueOrDefault().Date.Year.Should().Be(2000);
@@ -137,7 +137,7 @@ namespace PKHeX.Tests.PKM
             {
                 Egg_Day = 12,
                 Egg_Month = 12,
-                Egg_Year = 12
+                Egg_Year = 12,
             };
 
             pk.Egg_Day.Should().Be(12);
@@ -158,7 +158,7 @@ namespace PKHeX.Tests.PKM
             {
                 Egg_Day = 12,
                 Egg_Month = 12,
-                Egg_Year = 12
+                Egg_Year = 12,
             };
 
             pk.Egg_Day.Should().Be(12);

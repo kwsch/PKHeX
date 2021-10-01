@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
         {
             using var ofd = new OpenFileDialog
             {
-                Filter = CGearBackground.Filter + "|PokeStock C-Gear Skin|*.psk"
+                Filter = CGearBackground.Filter + "|PokeStock C-Gear Skin|*.psk",
             };
 
             if (ofd.ShowDialog() != DialogResult.OK)

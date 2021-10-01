@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedByVersion(int v)
         {
-            if (v < (int)GameVersion.SN || v > (int)GameVersion.UM)
+            if (v is < (int)GameVersion.SN or > (int)GameVersion.UM)
                 return false;
             if (RestrictVersion == 0)
                 return true; // no data
@@ -445,7 +445,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private void SetPID(PKM pk)

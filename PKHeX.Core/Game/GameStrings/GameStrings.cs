@@ -10,8 +10,9 @@ namespace PKHeX.Core
     {
         // PKM Info
         public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
-            memories, genloc, trainingbags, trainingstage, characteristics,
-            encountertypelist, balllist, gamelist, pokeblocks, ribbons;
+            memories, genloc, feeling, intensity,
+            trainingbags, trainingstage, characteristics,
+            groundtiletypes, balllist, gamelist, pokeblocks, ribbons;
 
         private readonly string[] g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
 
@@ -48,7 +49,7 @@ namespace PKHeX.Core
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
             013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
-            851
+            851,
         };
 
         public GameStrings(string l)
@@ -84,7 +85,7 @@ namespace PKHeX.Core
             characteristics = Get("character");
             specieslist = Get("species");
             wallpapernames = Get("wallpaper");
-            encountertypelist = Get("encountertype");
+            groundtiletypes = Get("groundtile");
             gamelist = Get("games");
 
             balllist = new string[Items_Ball.Length];
@@ -94,6 +95,8 @@ namespace PKHeX.Core
             pokeblocks = Get("pokeblock");
             forms = Get("forms");
             memories = Get("memories");
+            feeling = Get("feeling");
+            intensity = Get("intensity");
             genloc = Get("genloc");
             trainingbags = Get("trainingbag");
             trainingstage = Get("supertraining");
@@ -390,7 +393,7 @@ namespace PKHeX.Core
             2 => g2items,
             3 => GetItemStrings3(game),
             4 => g4items, // mail names changed 4->5
-            _ => itemlist
+            _ => itemlist,
         };
 
         private string[] GetItemStrings3(GameVersion game)
@@ -485,7 +488,7 @@ namespace PKHeX.Core
             6 => GetLocationNames6(bankID),
             7 => GameVersion.Gen7b.Contains(version) ? GetLocationNames7GG(bankID) : GetLocationNames7(bankID),
             8 => GetLocationNames8(bankID),
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         private IReadOnlyList<string> GetLocationNames4(int bankID) => bankID switch
@@ -493,7 +496,7 @@ namespace PKHeX.Core
             0 => metHGSS_00000,
             2 => metHGSS_02000,
             3 => metHGSS_03000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         public IReadOnlyList<string> GetLocationNames5(int bankID) => bankID switch
@@ -502,7 +505,7 @@ namespace PKHeX.Core
             3 => metBW2_30000,
             4 => metBW2_40000,
             6 => metBW2_60000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         public IReadOnlyList<string> GetLocationNames6(int bankID) => bankID switch
@@ -511,7 +514,7 @@ namespace PKHeX.Core
             3 => metXY_30000,
             4 => metXY_40000,
             6 => metXY_60000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         public IReadOnlyList<string> GetLocationNames7(int bankID) => bankID switch
@@ -520,7 +523,7 @@ namespace PKHeX.Core
             3 => metSM_30000,
             4 => metSM_40000,
             6 => metSM_60000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         public IReadOnlyList<string> GetLocationNames7GG(int bankID) => bankID switch
@@ -529,7 +532,7 @@ namespace PKHeX.Core
             3 => metGG_30000,
             4 => metGG_40000,
             6 => metGG_60000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
 
         public IReadOnlyList<string> GetLocationNames8(int bankID) => bankID switch
@@ -538,7 +541,7 @@ namespace PKHeX.Core
             3 => metSWSH_30000,
             4 => metSWSH_40000,
             6 => metSWSH_60000,
-            _ => Array.Empty<string>()
+            _ => Array.Empty<string>(),
         };
     }
 }

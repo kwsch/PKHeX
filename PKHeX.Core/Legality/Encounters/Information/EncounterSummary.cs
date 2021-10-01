@@ -11,12 +11,6 @@ namespace PKHeX.Core
         private readonly GameVersion Version;
         private readonly string LocationName;
 
-        private EncounterSummary(IEncounterTemplate z, string type)
-        {
-            Version = z.Version;
-            LocationName = GetLocationName(z) + $"({type}) ";
-        }
-
         private EncounterSummary(IEncounterTemplate z)
         {
             Version = z.Version;
@@ -51,13 +45,9 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSummary> GetSummaries(IEnumerable<IEncounterTemplate> items) => items.Select(GetSummary);
 
-        private static EncounterSummary GetSummary(IEncounterTemplate item)
+        private static EncounterSummary GetSummary(IEncounterTemplate item) => item switch
         {
-            return item switch
-            {
-                EncounterSlot s when s.Area.Type != 0 => new EncounterSummary(item, s.Area.Type.ToString()),
-                _ => new EncounterSummary(item)
-            };
-        }
+            _ => new EncounterSummary(item),
+        };
     }
 }

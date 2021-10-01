@@ -60,7 +60,7 @@ namespace PKHeX.Core
         {
             PokeDexLanguageFlags = langflag;
             if (langflag > dex)
-                throw new ArgumentException(nameof(langflag));
+                throw new ArgumentOutOfRangeException(nameof(langflag));
         }
 
         protected abstract int OFS_SEEN { get; }
@@ -92,11 +92,11 @@ namespace PKHeX.Core
             return false;
         }
 
-        public bool GetSeen(int species, int i) => GetFlag(OFS_SEEN + (i * BitSeenSize), species - 1);
-        public void SetSeen(int species, int i, bool value) => SetFlag(OFS_SEEN + (i * BitSeenSize), species - 1, value);
+        public bool GetSeen(int species, int bitRegion) => GetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1);
+        public void SetSeen(int species, int bitRegion, bool value) => SetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1, value);
 
-        public bool GetDisplayed(int bit, int i) => GetFlag(OFS_SEEN + ((i + 4) * BitSeenSize), bit);
-        public void SetDisplayed(int bit, int i, bool value) => SetFlag(OFS_SEEN + ((i + 4) * BitSeenSize), bit, value);
+        public bool GetDisplayed(int bit, int bitRegion) => GetFlag(OFS_SEEN + ((bitRegion + 4) * BitSeenSize), bit);
+        public void SetDisplayed(int bit, int bitRegion, bool value) => SetFlag(OFS_SEEN + ((bitRegion + 4) * BitSeenSize), bit, value);
 
         public bool GetLanguageFlag(int bit, int lang) => GetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang);
         public void SetLanguageFlag(int bit, int lang, bool value) => SetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang, value);

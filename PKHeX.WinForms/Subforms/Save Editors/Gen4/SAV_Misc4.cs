@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
                     ofsUGFlagCount = 0x3A60;
                     L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
-                    BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 }, };
+                    BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 } };
                     break;
                 case GameVersion.Pt:
                     ofsFlag = 0xFEC;
@@ -115,13 +115,13 @@ namespace PKHeX.WinForms
             {
                 case SAV4Sinnoh:
                     metLocationList = GameInfo.GetLocationList(GameVersion.Pt, 4, false);
-                    FlyDestD = new[] { 1, 2, 6, 8, 3, 9, 10, 4, 12, 11, 5, 7, 14, 13, 54, 15, 81, 82, 83, 55, };
-                    FlyDestC = new[] { 0, 1, 7, 9, 2, 10, 11, 3, 13, 12, 4, 8, 15, 14, 16, 68, 17, 5, 6, 67, };
+                    FlyDestD = new[] { 1, 2, 6, 8, 3, 9, 10, 4, 12, 11, 5, 7, 14, 13, 54, 15, 81, 82, 83, 55 };
+                    FlyDestC = new[] { 0, 1, 7, 9, 2, 10, 11, 3, 13, 12, 4, 8, 15, 14, 16, 68, 17, 5, 6, 67 };
                     break;
                 case SAV4HGSS:
                     metLocationList = GameInfo.GetLocationList(GameVersion.HG, 4, false);
-                    FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225, };
-                    FlyDestC = new[] { 11, 12, 13, 14, 16, 18, 17, 15, 19, 20, 21, 30, 27, 22, 33, 9, 0, 1, 2, 3, 5, 4, 6, 10, 7, 8, 35, };
+                    FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225 };
+                    FlyDestC = new[] { 11, 12, 13, 14, 16, 18, 17, 15, 19, 20, 21, 30, 27, 22, 33, 9, 0, 1, 2, 3, 5, 4, 6, 10, 7, 8, 35 };
                     break;
                 default: return;
             }
@@ -450,7 +450,7 @@ namespace PKHeX.WinForms
                 new[] { "Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi" },
             };
             BFN = new[] { "Tower", "Factory", "Hall", "Castle", "Arcade" };
-            if (SAV.DP) BFN = BFN.Take(1).ToArray();
+            if (SAV is SAV4DP) BFN = BFN.Take(1).ToArray();
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
@@ -467,8 +467,8 @@ namespace PKHeX.WinForms
                 HallNUDA = new[] {
                         NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
                         NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
-                        NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
-                    };
+                        NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17,
+                };
                 string[] TypeName = GameInfo.Strings.types;
                 int[] typenameIndex = { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
                 for (int i = 0; i < HallNUDA.Length; i++)
@@ -515,9 +515,7 @@ namespace PKHeX.WinForms
             // Fill List
             CB_Species.InitializeBinding();
 
-            var speciesList = GameInfo.SpeciesDataSource.ToList();
-            speciesList.RemoveAt(0);
-            speciesList.RemoveAll(z => z.Value > SAV.MaxSpeciesID);
+            var speciesList = GameInfo.FilteredSources.Species.Skip(1).ToList();
             CB_Species.DataSource = new BindingSource(speciesList, null);
 
             editing = false;
@@ -623,7 +621,7 @@ namespace PKHeX.WinForms
             int addrVal = BFF[Facility][2] + (BFF[Facility][3] * BattleType) + (RBi << 3);
             int addrFlag = BFF[Facility][4];
             byte maskFlag = (byte)(1 << BattleType + (RBi << 2));
-            int TowerContinueCountOfs = SAV.DP ? 3 : 1;
+            int TowerContinueCountOfs = SAV is SAV4DP ? 3 : 1;
 
             if (SetSavToVal)
             {

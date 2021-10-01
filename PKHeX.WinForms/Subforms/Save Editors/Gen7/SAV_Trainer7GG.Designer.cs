@@ -57,6 +57,7 @@
             this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.B_AllTrainerTitles = new System.Windows.Forms.Button();
             this.TB_RivalName = new System.Windows.Forms.TextBox();
             this.L_RivalName = new System.Windows.Forms.Label();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
@@ -326,6 +327,7 @@
             //
             // Tab_Overview
             //
+            this.Tab_Overview.Controls.Add(this.B_AllTrainerTitles);
             this.Tab_Overview.Controls.Add(this.TB_RivalName);
             this.Tab_Overview.Controls.Add(this.L_RivalName);
             this.Tab_Overview.Controls.Add(this.trainerID1);
@@ -346,6 +348,16 @@
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            //
+            // B_AllTrainerTitles
+            //
+            this.B_AllTrainerTitles.Location = new System.Drawing.Point(249, 218);
+            this.B_AllTrainerTitles.Name = "B_AllTrainerTitles";
+            this.B_AllTrainerTitles.Size = new System.Drawing.Size(131, 63);
+            this.B_AllTrainerTitles.TabIndex = 69;
+            this.B_AllTrainerTitles.Text = "Unlock all Trainer Titles";
+            this.B_AllTrainerTitles.UseVisualStyleBackColor = true;
+            this.B_AllTrainerTitles.Click += new System.EventHandler(this.B_AllTrainerTitles_Click);
             //
             // TB_RivalName
             //
@@ -589,5 +601,6 @@
         private System.Windows.Forms.Button B_ImportGoFiles;
         private System.Windows.Forms.Button B_DeleteAll;
         private System.Windows.Forms.Button B_DeleteGo;
+        private System.Windows.Forms.Button B_AllTrainerTitles;
     }
 }

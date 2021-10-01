@@ -31,6 +31,12 @@ namespace PKHeX.Core
         GBL,
         /// <summary> GO Battle League Reward (Mythical), requires Lv. 20 and IV = 10 </summary>
         GBLM,
+        /// <summary> GO Battle League Reward, requires Lv. 20 and IV = 0 </summary>
+        /// <remarks> On GO Battle Day (September 18, 2021), IV floor and ceiling were both temporarily set to 0 for non-Legendary encounters. This was fixed at 14:43 UTC (September 17, 2021). </remarks>
+        GBLZero,
+        /// <summary> GO Battle League Reward, requires Lv. 20 and IV = 0 </summary>
+        /// <remarks> On GO Battle Day (September 18, 2021), IV floor was set to 0 after a mishap that also set the IV ceiling to 0. </remarks>
+        GBLDay,
 
         /// <summary> Purified, requires Lv. 8 and IV = 1 (Premier Ball only) </summary>
         Shadow = 30,
@@ -52,6 +58,8 @@ namespace PKHeX.Core
             PogoType.ResearchP => 15,
             PogoType.GBL => 20,
             PogoType.GBLM => 20,
+            PogoType.GBLZero => 20,
+            PogoType.GBLDay => 20,
             PogoType.Shadow => 8,
             _ => 1,
         };
@@ -68,7 +76,20 @@ namespace PKHeX.Core
             PogoType.ResearchM => 10,
             PogoType.ResearchP => 10,
             PogoType.GBLM => 10,
+            PogoType.GBLZero => 0,
+            PogoType.GBLDay => 0,
             _ => 1,
+        };
+
+        /// <summary>
+        /// Gets the minimum IVs (relative to GO's 0-15) the <see cref="encounterType"/> must have.
+        /// </summary>
+        /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+        /// <returns>Required minimum IV (0-15)</returns>
+        public static int GetMaxIV(this PogoType encounterType) => encounterType switch
+        {
+            PogoType.GBLZero => 0,
+            _ => 15,
         };
 
         /// <summary>

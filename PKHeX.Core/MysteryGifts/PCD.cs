@@ -35,7 +35,7 @@ namespace PKHeX.Core
         public override byte[] Write()
         {
             // Ensure PGT content is encrypted
-            var clone = (PCD)Clone();
+            var clone = new PCD((byte[])Data.Clone());
             if (clone.Gift.VerifyPKEncryption())
                 clone.Gift = clone.Gift;
             return clone.Data;
@@ -167,7 +167,7 @@ namespace PKHeX.Core
             if (wc.Species == (int)Core.Species.Milotic && pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
-            if (wc.PID == 1)
+            if (IsRandomPID())
             {
                 // Random PID, never shiny
                 // PID=0 was never used (pure random).
@@ -205,5 +205,8 @@ namespace PKHeX.Core
         public bool RibbonWorld { get => Gift.RibbonWorld; set => Gift.RibbonWorld = value; }
         public bool RibbonChampionWorld { get => Gift.RibbonChampionWorld; set => Gift.RibbonChampionWorld = value; }
         public bool RibbonSouvenir { get => Gift.RibbonSouvenir; set => Gift.RibbonSouvenir = value; }
+
+        public bool IsFixedPID() => Gift.PK.PID != 1;
+        public bool IsRandomPID() => Gift.PK.PID == 1; // nothing used 0 (full random), always anti-shiny
     }
 }

@@ -37,13 +37,13 @@ namespace PKHeX.WinForms
 
         private void LoadRecords()
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
                 CLB_Flags.SetItemChecked(i, pkm.GetMoveRecordFlag(i));
         }
 
         private void Save()
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
                 pkm.SetMoveRecordFlag(i, CLB_Flags.GetItemChecked(i));
         }
 

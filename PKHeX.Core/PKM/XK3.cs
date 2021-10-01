@@ -11,7 +11,7 @@ namespace PKHeX.Core
             0x0A, 0x0B, 0x0C, 0x0D, 0x1E, 0x1F,
             0x2A, 0x2B,
             0x7A, 0x7B,
-            0x7E, 0x7F
+            0x7E, 0x7F,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
         public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
 
-        private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter3.GetBEString3(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes

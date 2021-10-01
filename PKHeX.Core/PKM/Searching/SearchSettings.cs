@@ -96,7 +96,7 @@ namespace PKHeX.Core.Searching
         {
             foreach (var pk in list)
             {
-                if (IsSearchMatch(pk))
+                if (!IsSearchMatch(pk))
                     continue;
                 yield return pk;
             }
@@ -107,7 +107,7 @@ namespace PKHeX.Core.Searching
             foreach (var entry in list)
             {
                 var pk = entry.Entity;
-                if (IsSearchMatch(pk))
+                if (!IsSearchMatch(pk))
                     continue;
                 yield return entry;
             }
@@ -193,7 +193,7 @@ namespace PKHeX.Core.Searching
                 1 or 2 => new[]
                 {
                     GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW,
-                    GameVersion.GD, GameVersion.SV, GameVersion.C
+                    GameVersion.GD, GameVersion.SV, GameVersion.C,
                 },
 
                 _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),

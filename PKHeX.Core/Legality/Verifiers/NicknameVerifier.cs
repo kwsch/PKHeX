@@ -182,7 +182,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsNicknameValid(PKM pkm, IEncounterable enc, string nickname)
+        private static bool IsNicknameValid(PKM pkm, IEncounterTemplate enc, string nickname)
         {
             int species = pkm.Species;
             int format = pkm.Format;
@@ -248,7 +248,7 @@ namespace PKHeX.Core
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
         }
 
-        private void VerifyNicknameTrade(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyNicknameTrade(LegalityAnalysis data, EncounterTrade t)
         {
             switch (data.Info.Generation)
             {

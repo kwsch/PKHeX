@@ -340,7 +340,7 @@ namespace PKHeX.WinForms.Controls
             > 510 => EVsInvalid, // Background turns Red
             510 => EVsMaxed, // Maximum EVs
             508 => EVsFishy, // Fishy EVs
-            _ => defaultColor
+            _ => defaultColor,
         };
 
         public void UpdateStats()

@@ -112,13 +112,13 @@ namespace PKHeX.Core
                 {
                     PokeCrypto.SIZE_3CSTORED => new CK3(data),
                     PokeCrypto.SIZE_3XSTORED => new XK3(data),
-                    _ => new PK3(data)
+                    _ => new PK3(data),
                 },
                 4 => BitConverter.ToUInt16(data, 0x04) == 0 ? new PK4(data) : new BK4(data),
                 5 => new PK5(data),
                 6 => CheckPKMFormat7(new PK6(data), prefer),
                 8 => new PK8(data),
-                _ => null
+                _ => null,
             };
         }
 
@@ -167,9 +167,9 @@ namespace PKHeX.Core
                 if (pk.CurrentLevel < 100) // can't be hyper trained
                     return false;
 
-                if (!pk.Gen4) // can't have encounter type
+                if (!pk.Gen4) // can't have GroundTile
                     return true;
-                if (et > GroundTileType.Max_Pt) // invalid gen4 EncounterType
+                if (et > GroundTileType.Max_Pt) // invalid gen4 GroundTile
                     return true;
             }
 
@@ -432,7 +432,7 @@ namespace PKHeX.Core
         {
             1 when ver == GameVersion.BU => new PK1(true),
             7 when GameVersion.Gen7b.Contains(ver) => new PB7(),
-            _ => GetBlank(gen)
+            _ => GetBlank(gen),
         };
 
         public static PKM GetBlank(int gen, int ver) => GetBlank(gen, (GameVersion) ver);

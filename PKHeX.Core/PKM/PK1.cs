@@ -91,8 +91,6 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            if (TradebackStatus == TradebackType.WasTradeback)
-                return;
             if (IsCatchRateHeldItem(Catch_Rate))
                 return;
             if (value == (int)Core.Species.Pikachu && Catch_Rate == 0xA3) // Light Ball (starter)
@@ -219,7 +217,7 @@ namespace PKHeX.Core
                 pk7.Nickname = StringConverter12Transporter.GetString(RawNickname, Japanese);
             }
 
-            pk7.SetTradeMemoryHT(bank:true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT6(bank:true); // oh no, memories on gen7 pkm
 
             pk7.RefreshChecksum();
             return pk7;

@@ -35,14 +35,14 @@ namespace PKHeX.Core
         public int GetPokebeanCount(int bean_id)
         {
             if ((uint)bean_id > 14)
-                throw new ArgumentException("Invalid bean id!");
+                throw new ArgumentOutOfRangeException(nameof(bean_id));
             return Data[Offset + 0x564C + bean_id];
         }
 
         public void SetPokebeanCount(int bean_id, int count)
         {
             if ((uint)bean_id > 14)
-                throw new ArgumentException("Invalid bean id!");
+                throw new ArgumentOutOfRangeException(nameof(bean_id));
             if (count < 0)
                 count = 0;
             if (count > 255)

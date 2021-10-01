@@ -17,12 +17,14 @@
 
             int ctr = 0;
             const int maxAttempts = 50_000;
+            var rnd = Util.Rand;
             do
             {
-                var seed = Util.Rand32();
+                var seed = Util.Rand32(rnd);
                 if (TryApplyFromSeed(pk, criteria, shiny, flawless, seed))
                     return;
             } while (++ctr != maxAttempts);
+            TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, Util.Rand32(rnd));
         }
 
         private static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)

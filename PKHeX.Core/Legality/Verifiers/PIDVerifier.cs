@@ -37,12 +37,11 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
+                    // Underground Raids are originally anti-shiny on encounter.
+                    // When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
                     if (s is EncounterStatic8U {Shiny: Shiny.Random})
                     {
-						// Underground Raids are originally anti-shiny on encounter.
-						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
-                        var xor = pkm.ShinyXor;
-                        if (xor is <= 15 and not 1)
+                        if (pkm.ShinyXor is <= 15 and not 1)
                             data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
                         break;
                     }
@@ -61,20 +60,20 @@ namespace PKHeX.Core
 
                     // Forced PID or generated without an encounter
                     // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
-                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random || s5.Species == (int)Species.Crustle))
-                        break;
-                    VerifyG5PID_IDCorrelation(data);
-                    break;
-
-                case EncounterSlot5 w:
-                    if (w.Area.Type == SlotType.HiddenGrotto && pkm.IsShiny)
-                        data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
-                    if (w.Area.Type != SlotType.HiddenGrotto)
+                    if (s is EncounterStatic5 { IsWildCorrelationPID: true })
                         VerifyG5PID_IDCorrelation(data);
                     break;
 
+                case EncounterSlot5 {IsHiddenGrotto: true}:
+                    if (pkm.IsShiny)
+                        data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
+                    break;
+                case EncounterSlot5:
+                    VerifyG5PID_IDCorrelation(data);
+                    break;
+
                 case PCD d: // fixed PID
-                    if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
+                    if (d.IsFixedPID() && pkm.EncryptionConstant != d.Gift.PK.PID)
                         data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
 
@@ -119,7 +118,7 @@ namespace PKHeX.Core
 
             if (pkm.EncryptionConstant == 0)
             {
-                if (Info.EncounterMatch is WC8 {PID: 0, EncryptionConstant: 0})
+                if (Info.EncounterMatch is WC8 {IsHOMEGift: true})
                     return; // HOME Gifts
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
             }
@@ -147,6 +146,56 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Returns the expected <see cref="PKM.PID"/> for a Gen3-5 transfer to Gen6.
+        /// </summary>
+        /// <param name="pk">Entity to check</param>
+        /// <param name="pid">PID result</param>
+        /// <returns>True if the <see cref="pid"/> is appropriate to use.</returns>
+        public static bool GetTransferPID(PKM pk, out uint pid)
+        {
+            var ver = pk.Version;
+            if (ver is 0 or >= (int) GameVersion.X) // Gen6+ ignored
+            {
+                pid = 0;
+                return false;
+            }
+
+            var _ = GetExpectedTransferPID(pk, out pid);
+            return true;
+        }
+
+        /// <summary>
+        /// Returns the expected <see cref="PKM.EncryptionConstant"/> for a Gen3-5 transfer to Gen6.
+        /// </summary>
+        /// <param name="pk">Entity to check</param>
+        /// <param name="ec">Encryption constant result</param>
+        /// <returns>True if the <see cref="ec"/> is appropriate to use.</returns>
+        public static bool GetTransferEC(PKM pk, out uint ec)
+        {
+            var ver = pk.Version;
+            if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
+            {
+                ec = 0;
+                return false;
+            }
+
+            uint pid = pk.PID;
+            uint LID = pid & 0xFFFF;
+            uint HID = pid >> 16;
+            uint XOR = (uint)(pk.TID ^ LID ^ pk.SID ^ HID);
+
+            // Ensure we don't have a shiny.
+            if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
+                ec = pid ^ 0x80000000; // Keep as shiny, so we have to mod the EC
+            else if ((XOR ^ 0x8000) >> 3 == 1 && pid != pk.EncryptionConstant)
+                ec = pid ^ 0x80000000; // Already anti-shiny, ensure the anti-shiny relationship is present.
+            else
+                ec = pid; // Ensure the copy correlation is present.
+
+            return true;
+        }
+
         private static void VerifyTransferEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -155,14 +204,21 @@ namespace PKHeX.Core
             // If the PID is nonshiny->shiny, the top bit is flipped.
 
             // Check to see if the PID and EC are properly configured.
-            var ec = pkm.EncryptionConstant; // should be original PID
-            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(ec & 0xFFFF) ^ (int)(ec >> 16)) & ~0x7) == 8;
-            bool valid = pkm.PID == (xorPID ? (ec ^ 0x80000000) : ec);
+            var bitFlipProc = GetExpectedTransferPID(pkm, out var expect);
+            bool valid = pkm.PID == expect;
             if (valid)
                 return;
 
-            var msg = xorPID ? LTransferPIDECBitFlip : LTransferPIDECEquals;
+            var msg = bitFlipProc ? LTransferPIDECBitFlip : LTransferPIDECEquals;
             data.AddLine(GetInvalid(msg, CheckIdentifier.EC));
+        }
+
+        private static bool GetExpectedTransferPID(PKM pkm, out uint expect)
+        {
+            var ec = pkm.EncryptionConstant; // should be original PID
+            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int) (ec & 0xFFFF) ^ (int) (ec >> 16)) & ~0x7) == 8;
+            expect = (xorPID ? (ec ^ 0x80000000) : ec);
+            return xorPID;
         }
     }
 }

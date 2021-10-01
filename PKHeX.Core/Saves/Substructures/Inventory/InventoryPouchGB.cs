@@ -22,7 +22,7 @@ namespace PKHeX.Core
                         items[slot++] = new InventoryItem
                         {
                             Index = LegalItems[i],
-                            Count = data[Offset + i]
+                            Count = data[Offset + i],
                         };
                     }
                 }
@@ -31,7 +31,7 @@ namespace PKHeX.Core
                     items[slot++] = new InventoryItem
                     {
                         Index = 0,
-                        Count = 0
+                        Count = 0,
                     };
                 }
             }
@@ -47,7 +47,7 @@ namespace PKHeX.Core
                         InventoryType.KeyItems =>
                             new InventoryItem {Index = data[Offset + i + 1], Count = 1},
                         _ =>
-                            new InventoryItem {Index = data[Offset + (i * 2) + 1], Count = data[Offset + (i * 2) + 2]}
+                            new InventoryItem {Index = data[Offset + (i * 2) + 1], Count = data[Offset + (i * 2) + 2]},
                     };
                 }
                 for (int i = numStored; i < items.Length; i++)
@@ -55,7 +55,7 @@ namespace PKHeX.Core
                     items[i] = new InventoryItem
                     {
                         Index = 0,
-                        Count = 0
+                        Count = 0,
                     };
                 }
             }

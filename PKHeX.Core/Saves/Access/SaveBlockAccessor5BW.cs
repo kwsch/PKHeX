@@ -49,31 +49,31 @@ namespace PKHeX.Core
             new(0x1D900, 0x005C, 0x1D95E, 0x23F4A), // 37 Adventure Info
             new(0x1DA00, 0x01E0, 0x1DBE2, 0x23F4C), // 38 Trainer Card Records
             new(0x1DC00, 0x00A8, 0x1DCAA, 0x23F4E), // 39 ???
-            new(0x1DD00, 0x0460, 0x1E162, 0x23F50), // 40 ???
-            new(0x1E200, 0x1400, 0x1F602, 0x23F52), // 41 ???
-            new(0x1F700, 0x02A4, 0x1F9A6, 0x23F54), // 42 Contains flags and references for downloaded data (Musical)
-            new(0x1FA00, 0x02DC, 0x1FCDE, 0x23F56), // 43 ???
-            new(0x1FD00, 0x034C, 0x2004E, 0x23F58), // 44 ???
-            new(0x20100, 0x03EC, 0x204EE, 0x23F5A), // 45 ???
-            new(0x20500, 0x00F8, 0x205FA, 0x23F5C), // 46 ???
-            new(0x20600, 0x02FC, 0x208FE, 0x23F5E), // 47 Tournament Block
-            new(0x20900, 0x0094, 0x20996, 0x23F60), // 48 ???
-            new(0x20A00, 0x035C, 0x20D5E, 0x23F62), // 49 Battle Box Block
-            new(0x20E00, 0x01CC, 0x20FCE, 0x23F64), // 50 Daycare Block
-            new(0x21000, 0x0168, 0x2116A, 0x23F66), // 51 Strength Boulder Status Block
+            new(0x1DD00, 0x0460, 0x1E162, 0x23F50), // 40 Mail
+            new(0x1E200, 0x1400, 0x1F602, 0x23F52), // 41 Overworld State
+            new(0x1F700, 0x02A4, 0x1F9A6, 0x23F54), // 42 Musical
+            new(0x1FA00, 0x02DC, 0x1FCDE, 0x23F56), // 43 White Forest + Black City Data
+            new(0x1FD00, 0x034C, 0x2004E, 0x23F58), // 44 IR
+            new(0x20100, 0x03EC, 0x204EE, 0x23F5A), // 45 EventWork
+            new(0x20500, 0x00F8, 0x205FA, 0x23F5C), // 46 GTS
+            new(0x20600, 0x02FC, 0x208FE, 0x23F5E), // 47 Regulation Tournament
+            new(0x20900, 0x0094, 0x20996, 0x23F60), // 48 Gimmick
+            new(0x20A00, 0x035C, 0x20D5E, 0x23F62), // 49 Battle Box
+            new(0x20E00, 0x01CC, 0x20FCE, 0x23F64), // 50 Daycare
+            new(0x21000, 0x0168, 0x2116A, 0x23F66), // 51 Strength Boulder Status
             new(0x21200, 0x00EC, 0x212EE, 0x23F68), // 52 Badge Flags, Money, Trainer Sayings
             new(0x21300, 0x01B0, 0x214B2, 0x23F6A), // 53 Entralink (Level & Powers etc)
             new(0x21500, 0x001C, 0x2151E, 0x23F6C), // 54 ???
             new(0x21600, 0x04D4, 0x21AD6, 0x23F6E), // 55 Pokedex
-            new(0x21B00, 0x0034, 0x21B36, 0x23F70), // 56 Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
-            new(0x21C00, 0x003C, 0x21C3E, 0x23F72), // 57 ???
-            new(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // 58 Battle Subway
-            new(0x21F00, 0x0B90, 0x22A92, 0x23F76), // 59 ???
+            new(0x21B00, 0x0034, 0x21B36, 0x23F70), // 56 Encount Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
+            new(0x21C00, 0x003C, 0x21C3E, 0x23F72), // 57 Battle Subway Play Info
+            new(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // 58 Battle Subway Score Info
+            new(0x21F00, 0x0B90, 0x22A92, 0x23F76), // 59 Battle Subway WiFi Info
             new(0x22B00, 0x009C, 0x22B9E, 0x23F78), // 60 Online Records
             new(0x22C00, 0x0850, 0x23452, 0x23F7A), // 61 Entralink Forest pokémon data
             new(0x23500, 0x0028, 0x2352A, 0x23F7C), // 62 ???
-            new(0x23600, 0x0284, 0x23886, 0x23F7E), // 63 ???
-            new(0x23900, 0x0010, 0x23912, 0x23F80), // 64 ???
+            new(0x23600, 0x0284, 0x23886, 0x23F7E), // 63 Answered Questions
+            new(0x23900, 0x0010, 0x23912, 0x23F80), // 64 Unity Tower
             new(0x23A00, 0x005C, 0x23A5E, 0x23F82), // 65 ???
             new(0x23B00, 0x016C, 0x23C6E, 0x23F84), // 66 ???
             new(0x23D00, 0x0040, 0x23D42, 0x23F86), // 67 ???
@@ -87,9 +87,12 @@ namespace PKHeX.Core
             Items = new MyItem5BW(sav, 0x18400);
             PlayerData = new PlayerData5(sav, 0x19400);
             Mystery = new MysteryBlock5(sav, 0x1C800);
+            Musical = new Musical5(sav, 0x1F700);
             Daycare = new Daycare5(sav, 0x20E00);
             Misc = new Misc5BW(sav, 0x21200);
+            Entralink = new Entralink5BW(sav, 0x21300);
             Zukan = new Zukan5(sav, 0x21600, 0x320);
+            Encount = new Encount5BW(sav, 0x21B00);
             BattleSubway = new BattleSubway5(sav, 0x21D00);
         }
 
@@ -102,5 +105,8 @@ namespace PKHeX.Core
         public BoxLayout5 BoxLayout { get; }
         public PlayerData5 PlayerData { get; }
         public BattleSubway5 BattleSubway { get; }
+        public Entralink5 Entralink { get; }
+        public Musical5 Musical { get; }
+        public Encount5 Encount { get; }
     }
 }

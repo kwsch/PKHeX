@@ -18,7 +18,7 @@ namespace PKHeX.Core
             {
                   (int)GameVersion.GO => GetEncountersGO(pkm, chain),
                 > (int)GameVersion.GO => GetEncountersGG(pkm, chain),
-                _ => GetEncountersMainline(pkm, chain)
+                _ => GetEncountersMainline(pkm, chain),
             };
         }
 

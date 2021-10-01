@@ -7,6 +7,13 @@ namespace PKHeX.Drawing
     public abstract class SpriteBuilder : ISpriteBuilder<Image>
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
+        public static bool ShowEncounterBall { get; set; } = true;
+        public static SpriteBackgroundType ShowEncounterColor { get; set; } = SpriteBackgroundType.FullBackground;
+        public static SpriteBackgroundType ShowEncounterColorPKM { get; set; }
+
+        public static byte ShowEncounterOpacityStripe { get; set; }
+        public static byte ShowEncounterOpacityBackground { get; set; }
+        public static int ShowEncounterThicknessStripe { get; set; }
 
         /// <summary> Width of the generated Sprite image. </summary>
         public abstract int Width { get; }
@@ -63,7 +70,14 @@ namespace PKHeX.Drawing
             GameVersion.FR => 1, // Attack
             GameVersion.LG => 2, // Defense
             GameVersion.E => 3, // Speed
-            _ => 0
+            _ => 0,
+        };
+
+        private static int GetArceusForm4(int form) => form switch
+        {
+            > 9 => form - 1, // Realign to Gen5+ type indexes
+            9 => 999, // Curse, make it show as unrecognized form since we don't have a sprite.
+            _ => form,
         };
 
         public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
@@ -71,8 +85,10 @@ namespace PKHeX.Drawing
             if (species == 0)
                 return None;
 
-            if (generation == 3 && species == (int)Species.Deoxys) // Deoxys, special consideration for Gen3 save files
+            if (generation == 3 && species == (int)Species.Deoxys) // Depends on Gen3 save file version
                 form = GetDeoxysForm(Game);
+            else if (generation == 4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
+                form = GetArceusForm4(form);
 
             var baseImage = GetBaseImage(species, form, gender, formarg, isShiny, generation);
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed, isAltShiny);
@@ -173,6 +189,37 @@ namespace PKHeX.Drawing
             var egg = GetEggSprite(species);
             return ImageUtil.LayerImage(baseImage, egg, EggItemShiftX, EggItemShiftY); // similar to held item, since they can't have any
         }
+
+        public static void LoadSettings(ISpriteSettings sprite)
+        {
+            ShowEggSpriteAsItem = sprite.ShowEggSpriteAsHeldItem;
+            ShowEncounterBall = sprite.ShowEncounterBall;
+
+            ShowEncounterColor = sprite.ShowEncounterColor;
+            ShowEncounterColorPKM = sprite.ShowEncounterColorPKM;
+            ShowEncounterThicknessStripe = sprite.ShowEncounterThicknessStripe;
+            ShowEncounterOpacityBackground = sprite.ShowEncounterOpacityBackground;
+            ShowEncounterOpacityStripe = sprite.ShowEncounterOpacityStripe;
+        }
+    }
+
+    public enum SpriteBackgroundType
+    {
+        None,
+        BottomStripe,
+        FullBackground,
+    }
+
+    public interface ISpriteSettings
+    {
+        bool ShowEggSpriteAsHeldItem { get; set; }
+        bool ShowEncounterBall { get; set; }
+
+        SpriteBackgroundType ShowEncounterColor { get; set; }
+        SpriteBackgroundType ShowEncounterColorPKM { get; set; }
+        int ShowEncounterThicknessStripe { get; set; }
+        byte ShowEncounterOpacityBackground { get; set; }
+        byte ShowEncounterOpacityStripe { get; set; }
     }
 
     /// <summary>

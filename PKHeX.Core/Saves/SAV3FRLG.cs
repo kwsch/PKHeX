@@ -137,6 +137,8 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt16(Large, GetDaycareEXPOffset(2)).ToString("X4"); // after the 2nd slot EXP, before the step counter
         public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes((ushort)Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
 
+        protected override int ExternalEventData => 0x30A7;
+
         #region eBerry
         private const int OFFSET_EBERRY = 0x30EC;
         private const int SIZE_EBERRY = 0x134;

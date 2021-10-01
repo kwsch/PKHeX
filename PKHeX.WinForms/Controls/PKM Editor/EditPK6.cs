@@ -16,8 +16,8 @@ namespace PKHeX.WinForms.Controls
             LoadMisc4(pk6);
             LoadMisc6(pk6);
 
-            CB_EncounterType.SelectedValue = pk6.Gen4 ? (int)pk6.GroundTile : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pk6.Gen4;
+            CB_GroundTile.SelectedValue = pk6.Gen4 ? (int)pk6.GroundTile : 0;
+            CB_GroundTile.Visible = Label_GroundTile.Visible = pk6.Gen4;
 
             LoadPartyStats(pk6);
             UpdateStats();
@@ -33,9 +33,8 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk6);
             SaveMisc4(pk6);
             SaveMisc6(pk6);
-            CheckTransferPIDValid(pk6);
 
-            pk6.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_EncounterType);
+            pk6.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
 
             // Toss in Party Stats
             SavePartyStats(pk6);

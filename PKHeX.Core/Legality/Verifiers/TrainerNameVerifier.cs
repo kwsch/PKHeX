@@ -82,7 +82,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsEdgeCaseLength(PKM pkm, IEncounterable e, string ot)
+        public static bool IsEdgeCaseLength(PKM pkm, IEncounterTemplate e, string ot)
         {
             if (e.EggEncounter)
             {

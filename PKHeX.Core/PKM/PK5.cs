@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
     public sealed class PK5 : PKM,
-        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, 
+        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
         IContestStats, IContestStatsMutable, IGroundTile
     {
         private static readonly ushort[] Unused =
@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK5((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter.GetString5(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
@@ -188,7 +188,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 22); set => SetString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 20); set => SetString(value, 10).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -231,7 +231,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 0x16); set => SetString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -448,7 +448,7 @@ namespace PKHeX.Core
                 HT_Gender = PKMConverter.OT_Gender,
                 HT_Intensity = 1,
                 HT_Memory = 4,
-                HT_Feeling = Memories.GetRandomFeeling(4),
+                HT_Feeling = MemoryContext6.GetRandomFeeling6(4),
             };
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.

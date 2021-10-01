@@ -20,12 +20,12 @@ namespace PKHeX.Core
         RegionBase = LangKorean,
         LangRestrict = LangJapanese | LangEnglish | LangFrench | LangItalian | LangGerman | LangSpanish | LangKorean,
 
-        RegJP = RegionBase << RegionID.Japan,
-        RegNA = RegionBase << RegionID.NorthAmerica,
-        RegEU = RegionBase << RegionID.Europe,
-        RegZH = RegionBase << RegionID.China,
-        RegKO = RegionBase << RegionID.Korea,
-        RegTW = RegionBase << RegionID.Taiwan,
+        RegJP = RegionBase << Region3DSIndex.Japan,
+        RegNA = RegionBase << Region3DSIndex.NorthAmerica,
+        RegEU = RegionBase << Region3DSIndex.Europe,
+        RegZH = RegionBase << Region3DSIndex.China,
+        RegKO = RegionBase << Region3DSIndex.Korea,
+        RegTW = RegionBase << Region3DSIndex.Taiwan,
 
         RegionRestrict = RegJP | RegNA | RegEU | RegZH | RegKO | RegTW,
 
@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
         public static int GetSuggestedRegion(this MysteryGiftRestriction value)
         {
-            for (int i = (int)RegionID.Japan; i <= (int)RegionID.Taiwan; i++)
+            for (int i = (int)Region3DSIndex.Japan; i <= (int)Region3DSIndex.Taiwan; i++)
             {
                 if (value.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
                     return i;

@@ -13,7 +13,7 @@ namespace PKHeX.Core.Searching
             switch (formatOperand)
             {
                 case SearchComparison.GreaterThanEquals when pk.Format < format:
-                case SearchComparison.Equals when pk.Format == format:
+                case SearchComparison.Equals when pk.Format != format:
                 case SearchComparison.LessThanEquals when pk.Format > format:
                     return false;
             }
@@ -23,7 +23,7 @@ namespace PKHeX.Core.Searching
             {
                 <= 2 => pk.Format <= 2, // 1-2
                 <= 6 => pk.Format >= 3, // 3-6
-                _ => true
+                _ => true,
             };
         }
 
@@ -44,7 +44,7 @@ namespace PKHeX.Core.Searching
                 SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
                 SearchComparison.Equals =>            pk.Stat_Level == level,
                 SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
-                _ => true
+                _ => true,
             };
         }
 
@@ -54,7 +54,7 @@ namespace PKHeX.Core.Searching
             2 => pk.EVTotal is (not 0) and < 128, // Some (127-1)
             3 => pk.EVTotal is >= 128 and < 508, // Half (128-507)
             4 => pk.EVTotal >= 508, // Full (508+)
-            _ => true
+            _ => true,
         };
 
         public static bool SatisfiesFilterIVs(PKM pk, int option) => option switch
@@ -65,7 +65,7 @@ namespace PKHeX.Core.Searching
             4 => pk.IVTotal is > 150 and <  180, // 151-179
             5 => pk.IVTotal >= 180, // 180+
             6 => pk.IVTotal == 186, // == 186
-            _ => true
+            _ => true,
         };
 
         public static bool SatisfiesFilterMoves(PKM pk, IEnumerable<int> requiredMoves)
@@ -93,14 +93,14 @@ namespace PKHeX.Core.Searching
         {
             1 => $"{pk.Species:000}{((PK1) pk).DV16:X4}",
             2 => $"{pk.Species:000}{((PK2) pk).DV16:X4}",
-            _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.Form:00}"
+            _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.Form:00}",
         };
 
         public static string HashByPID(PKM pk) => pk.Format switch
         {
             1 => $"{((PK1) pk).DV16:X4}",
             2 => $"{((PK2) pk).DV16:X4}",
-            _ => $"{pk.PID:X8}"
+            _ => $"{pk.PID:X8}",
         };
 
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, CloneDetectionMethod type = CloneDetectionMethod.HashDetails)

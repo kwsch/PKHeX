@@ -34,7 +34,6 @@ namespace PKHeX.Core
         // ignores Poke/Great/Ultra
         private static readonly ushort[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
         private static readonly byte[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
-        private static readonly byte[] Gen4EncounterTypes = { 0, 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
 
         public GameDataSource(GameStrings s)
         {
@@ -43,7 +42,7 @@ namespace PKHeX.Core
             SpeciesDataSource = Util.GetCBList(s.specieslist);
             NatureDataSource = Util.GetCBList(s.natures);
             AbilityDataSource = Util.GetCBList(s.abilitylist);
-            EncounterTypeDataSource = Util.GetUnsortedCBList(s.encountertypelist, Gen4EncounterTypes);
+            GroundTileDataSource = Util.GetUnsortedCBList(s.groundtiletypes, GroundTileTypeExtensions.ValidTileTypes);
 
             var moves = Util.GetCBList(s.movelist);
             HaXMoveDataSource = moves;
@@ -74,7 +73,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<ComboItem> VersionDataSource;
         public readonly IReadOnlyList<ComboItem> LegalMoveDataSource;
         public readonly IReadOnlyList<ComboItem> HaXMoveDataSource;
-        public readonly IReadOnlyList<ComboItem> EncounterTypeDataSource;
+        public readonly IReadOnlyList<ComboItem> GroundTileDataSource;
 
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {

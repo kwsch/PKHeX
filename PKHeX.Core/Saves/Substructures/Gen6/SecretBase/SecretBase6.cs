@@ -62,7 +62,7 @@ namespace PKHeX.Core
                 1 or 2 => 0,
                 > MaxLocationID => MaxLocationID,
                 < MinLocationID => -1,
-                _ => value
+                _ => value,
             };
         }
 

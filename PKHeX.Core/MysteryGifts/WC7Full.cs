@@ -46,7 +46,7 @@ namespace PKHeX.Core
             {
                 RestrictVersion = data[ofs],
                 RestrictLanguage = data[ofs + 0x1FF],
-                RawDate = WC7.SetDate((uint) date.Year, (uint) date.Month, (uint) date.Day)
+                RawDate = WC7.SetDate((uint) date.Year, (uint) date.Month, (uint) date.Day),
             };
         }
 

@@ -168,7 +168,7 @@ namespace PKHeX.WinForms
             {
                 Filter = GoFilter,
                 FilterIndex = 0,
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
 
             // Export
@@ -213,7 +213,7 @@ namespace PKHeX.WinForms
                 FileName = data.FileName,
                 Filter = GoFilter,
                 FilterIndex = 0,
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
 
             if (sfd.ShowDialog() != DialogResult.OK)
@@ -281,6 +281,12 @@ namespace PKHeX.WinForms
             index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
             Park[index] = new GP1();
             UpdateGoSummary((int)NUD_GoIndex.Value);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void B_AllTrainerTitles_Click(object sender, EventArgs e)
+        {
+            SAV.Blocks.EventWork.UnlockAllTitleFlags();
             System.Media.SystemSounds.Asterisk.Play();
         }
     }

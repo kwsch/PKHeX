@@ -48,7 +48,7 @@ namespace PKHeX.Core
                 Ability = ability,
                 Location = 075,
                 Shiny = Shiny.Never,
-                Moves = new[] { move }
+                Moves = new[] { move },
             };
         }
 

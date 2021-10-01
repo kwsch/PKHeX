@@ -30,14 +30,13 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk7);
             SaveMisc4(pk7);
             SaveMisc6(pk7);
-            CheckTransferPIDValid(pk7);
 
             // Toss in Party Stats
             SavePartyStats(pk7);
 
             // Unneeded Party Stats (Status, Flags, Unused)
-            pk7.Data[0xE8] = pk7.Data[0xE9] = pk7.Data[0xEA] = pk7.Data[0xEB] =
-                pk7.Data[0xED] = pk7.Data[0xEE] = pk7.Data[0xEF] =
+            pk7.Status_Condition = pk7.DirtType = pk7.DirtLocation =
+                pk7.Data[0xEF] =
                 pk7.Data[0xFE] = pk7.Data[0xFF] = pk7.Data[0x100] =
                 pk7.Data[0x101] = pk7.Data[0x102] = pk7.Data[0x103] = 0;
 

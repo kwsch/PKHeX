@@ -13,11 +13,10 @@ namespace PKHeX.Core
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
-        public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard? MC;
+        public SAV3GCMemoryCard? MemoryCard { get; }
         public readonly bool Japanese = false; // todo?
 
-        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard memCard) : this(data, memCard.Data) => MemoryCard = memCard;
         public SAV3RSBox(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
@@ -74,11 +73,11 @@ namespace PKHeX.Core
             var newFile = GetInnerData();
 
             // Return the gci if Memory Card is not being exported
-            if (!IsMemoryCardSave)
+            if (MemoryCard is null)
                 return newFile;
 
-            MC!.SelectedSaveData = newFile;
-            return MC.Data;
+            MemoryCard.WriteSaveGameData(newFile);
+            return MemoryCard.Data;
         }
 
         private byte[] GetInnerData()
@@ -97,7 +96,7 @@ namespace PKHeX.Core
         protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC!) : new SAV3RSBox(data);
+            var sav = MemoryCard is not null ? new SAV3RSBox(data, MemoryCard) : new SAV3RSBox(data);
             return sav;
         }
 

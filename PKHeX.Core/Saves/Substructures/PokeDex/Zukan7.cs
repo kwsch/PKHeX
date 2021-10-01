@@ -202,7 +202,7 @@ namespace PKHeX.Core
             for (int i = 1; i <= max; i++)
                 names.Add($"{i:000} - {speciesNames[i]}");
 
-            // Add Formes
+            // Add forms
             int ctr = max + 1;
             for (int species = 1; species <= max; species++)
             {
@@ -218,7 +218,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets a list of Species IDs that a given dex-forme index corresponds to.
+        /// Gets a list of Species IDs that a given dex-form index corresponds to.
         /// </summary>
         /// <returns></returns>
         private List<int> GetFormIndexBaseSpeciesList()
@@ -242,7 +242,7 @@ namespace PKHeX.Core
             // meowstic special handling
             const int meow = 678;
             if (index == meow - 1 || (index >= SAV.MaxSpeciesID && FormBaseSpecies[index - SAV.MaxSpeciesID] == meow))
-                return index < SAV.MaxSpeciesID ? 0 : 254; // M : F
+                return index < SAV.MaxSpeciesID ? PersonalInfo.RatioMagicMale : PersonalInfo.RatioMagicFemale; // M : F
 
             if (index < SAV.MaxSpeciesID)
                 return SAV.Personal[index + 1].Gender;

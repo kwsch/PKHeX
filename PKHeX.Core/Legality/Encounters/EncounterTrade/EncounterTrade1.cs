@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>
     /// Generation 1 specific value used in detecting unmodified/un-traded Generation 1 Trade Encounter data.
-    /// Species & Minimum level (legal) possible to acquire at.
+    /// Species &amp; Minimum level (legal) possible to acquire at.
     /// </remarks>
     public sealed record EncounterTrade1 : EncounterTradeGB
     {

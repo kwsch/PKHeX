@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
             // Capture / Inherit cases -- can be one of many balls
             var pkm = data.pkm;
-            if (pkm.Species == (int)Species.Shedinja && data.EncounterMatch.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
+            if (pkm.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
             {
                 // Only Gen3 origin Shedinja can copy the wild ball.
                 // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
@@ -58,7 +58,7 @@ namespace PKHeX.Core
                 EncounterSlot w => VerifyBallWild(data, w),
                 EncounterEgg => VerifyBallEgg(data),
                 EncounterInvalid => VerifyBallEquals(data, pkm.Ball), // ignore ball, pass whatever
-                _ => VerifyBallEquals(data, (int)Poke)
+                _ => VerifyBallEquals(data, (int)Poke),
             };
         }
 
@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
-            var req = w.Area.Type.GetRequiredBallValueWild(w.Generation, w.Location);
+            var req = w.GetRequiredBallValue();
             if (req != None)
                 return VerifyBallEquals(data, (int) req);
 
@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 (int)Poke => GetValid(LBallEnc), // Poké Ball
                 (int)Master => GetInvalid(LBallEggMaster), // Master Ball
                 (int)Cherish => GetInvalid(LBallEggCherish), // Cherish Ball
-                _ => VerifyBallInherited(data)
+                _ => VerifyBallInherited(data),
             };
         }
 
@@ -105,7 +105,7 @@ namespace PKHeX.Core
             6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
             7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
             8 => VerifyBallEggGen8(data),
-            _ => NONE
+            _ => NONE,
         };
 
         private CheckResult VerifyBallEggGen6(LegalityAnalysis data)
@@ -256,8 +256,6 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (species is >= 722 and <= 730) // G7 Starters
-                return VerifyBallEquals(data, (int)Poke);
             if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
@@ -357,6 +355,8 @@ namespace PKHeX.Core
 
             // Foreign Captures
             if (species is >= (int)Species.Treecko and <= (int)Species.Swampert) // Dynamax Adventures
+                return true;
+            if (species is >= (int)Species.Rowlet and <= (int)Species.Primarina) // Distribution Raids
                 return true;
 
             return false;

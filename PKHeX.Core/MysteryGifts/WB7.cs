@@ -18,6 +18,8 @@ namespace PKHeX.Core
         public WB7() : this(new byte[SizeFull]) { }
         public WB7(byte[] data) : base(data) { }
 
+        public override GameVersion Version { get => GameVersion.GG; set { } }
+
         public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
 
         public bool CanBeReceivedByVersion(int v)
@@ -214,12 +216,12 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDC); }
         public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDE); }
 
-        public int AV_HP {  get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
-        public int AV_ATK { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
-        public int AV_DEF { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
-        public int AV_SPE { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
-        public int AV_SPA { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
-        public int AV_SPD { get => Data[CardStart + 0xEB]; set => Data[CardStart + 0xEB] = (byte)value; }
+        public int AV_HP {  get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
+        public int AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
+        public int AV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
+        public int AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
+        public int AV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
+        public int AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
 
         // Meta Accessible Properties
         public override int[] IVs
@@ -277,7 +279,14 @@ namespace PKHeX.Core
         public int GetLanguage(int redeemLanguage)
         {
             var languageOffset = GetLanguageIndex(redeemLanguage);
-            return Data[0x1D8 + languageOffset];
+            var value = Data[0x1D8 + languageOffset];
+            if (value != 0) // Fixed receiving language
+                return value;
+
+            // Use redeeming language (clamped to legal values for our sake)
+            if (redeemLanguage is < (int)LanguageID.Japanese or (int)LanguageID.UNUSED_6 or > (int)LanguageID.ChineseT)
+                return (int)LanguageID.English; // fallback
+            return redeemLanguage;
         }
 
         public string GetNickname(int language) => StringConverter.GetString7b(Data, GetNicknameOffset(language), 0x1A);
@@ -415,7 +424,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private void SetPID(PKM pk)

@@ -223,23 +223,23 @@ namespace PKHeX.Core
 
         internal static readonly int[] Tutor_StarterPikachu =
         {
-            729, // Zippy Zap
-            730, // Splishy Splash
-            731, // Floaty Fall
-            // 732, // Pika Papow -- Joycon Shake
+            (int)Move.ZippyZap,
+            (int)Move.SplishySplash,
+            (int)Move.FloatyFall,
+          //(int)Move.PikaPapow, // Joycon Shake
         };
 
         internal static readonly int[] Tutor_StarterEevee =
         {
-            733, // Bouncy Bubble
-            734, // Buzzy Buzz
-            735, // Sizzly Slide
-            736, // Glitzy Glow
-            737, // Baddy Bad
-            738, // Sappy Seed
-            739, // Freezy Frost
-            740, // Sparkly Swirl
-            // 741, // Veevee Volley -- Joycon Shake
+            (int)Move.BouncyBubble,
+            (int)Move.BuzzyBuzz,
+            (int)Move.SizzlySlide,
+            (int)Move.GlitzyGlow,
+            (int)Move.BaddyBad,
+            (int)Move.SappySeed,
+            (int)Move.FreezyFrost,
+            (int)Move.SparklySwirl,
+          //(int)Move.VeeveeVolley, // Joycon Shake
         };
 
         internal static readonly HashSet<short> AllowedMovesGG = new()

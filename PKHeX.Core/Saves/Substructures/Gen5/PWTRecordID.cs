@@ -30,6 +30,6 @@
         Rental,
         RentalMaster,
         Mix,
-        MixMaster
+        MixMaster,
     }
 }

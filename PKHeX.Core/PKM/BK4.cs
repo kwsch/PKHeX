@@ -12,7 +12,7 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -46,7 +46,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new BK4((byte[])Data.Clone());
 
-        public string GetString(int Offset, int Count) => StringConverter4.GetBEString4(Data, Offset, Count);
+        public string GetString(int offset, int count) => StringConverter4.GetBEString4(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
 
         // Structure
@@ -189,7 +189,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 24); set => SetString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 20); set => SetString(value, 10).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -232,7 +232,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 16); set => SetString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }

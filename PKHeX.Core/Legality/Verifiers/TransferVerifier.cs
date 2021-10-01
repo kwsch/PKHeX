@@ -60,7 +60,7 @@ namespace PKHeX.Core
             0 => (0x01FFFF03 & (1 << nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
             4 => (0x001FFFC0 & (1 << nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
             5 => (0x01FFFCFF & (1 << nature)) != 0, // Slow -- Can't be Impish or Lax
-            _ => true
+            _ => true,
         };
 
         private static void VerifyVCShinyXorIfShiny(LegalityAnalysis data)
@@ -179,7 +179,7 @@ namespace PKHeX.Core
             }
         }
 
-        public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
+        public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterTemplate encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);
@@ -190,7 +190,7 @@ namespace PKHeX.Core
             if (encounter is EncounterStatic2Odd {Version: GameVersion.C, EggLocation: 256}) // Dizzy Punch Gifts
                 FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
-            bool checkShiny = pkm.VC2 || (pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1);
+            bool checkShiny = pkm.VC2 || (pkm.VC1 && GBRestrictions.IsTimeCapsuleTransferred(pkm, Moves, encounter).WasTimeCapsuleTransferred());
             if (!checkShiny)
                 yield break;
 

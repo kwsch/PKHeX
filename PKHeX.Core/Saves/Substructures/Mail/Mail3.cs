@@ -56,7 +56,7 @@ namespace PKHeX.Core
         {
             0 => true,
             >= 0x79 and <= 0x84 => false,
-            _ => null
+            _ => null,
         };
 
         public override void SetBlank() => (new Mail3()).Data.CopyTo(Data, 0);

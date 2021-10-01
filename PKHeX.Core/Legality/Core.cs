@@ -10,9 +10,9 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpY = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
 
         // Gen 2
-        internal static readonly EggMoves[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
+        internal static readonly EggMoves2[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
         internal static readonly Learnset[] LevelUpGS = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
-        internal static readonly EggMoves[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
+        internal static readonly EggMoves2[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
         internal static readonly Learnset[] LevelUpC = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
 
         // Gen 3
@@ -69,7 +69,7 @@ namespace PKHeX.Core
             6 => MovePP_XY,
             7 => MovePP_SM,
             8 => MovePP_SWSH,
-            _ => Array.Empty<byte>()
+            _ => Array.Empty<byte>(),
         };
 
         internal static int GetMaxSpeciesOrigin(PKM pkm)
@@ -91,7 +91,7 @@ namespace PKHeX.Core
             6 => MaxSpeciesID_6,
             7 => MaxSpeciesID_7b,
             8 => MaxSpeciesID_8,
-            _ => -1
+            _ => -1,
         };
 
         internal static int GetDebutGeneration(int species) => species switch
@@ -104,7 +104,7 @@ namespace PKHeX.Core
             <= MaxSpeciesID_6 => 6,
             <= MaxSpeciesID_7b => 7,
             <= MaxSpeciesID_8 => 8,
-            _ => -1
+            _ => -1,
         };
 
         internal static int GetMaxLanguageID(int generation) => generation switch
@@ -117,7 +117,7 @@ namespace PKHeX.Core
             6 => (int) LanguageID.Korean,
             7 => (int) LanguageID.ChineseT,
             8 => (int) LanguageID.ChineseT,
-            _ => -1
+            _ => -1,
         };
 
         internal const GameVersion NONE = GameVersion.Invalid;
@@ -132,14 +132,14 @@ namespace PKHeX.Core
         {
             LanguageID.ChineseS or LanguageID.ChineseT => 6,
             LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
-            _ => generation >= 6 ? 12 : 7
+            _ => generation >= 6 ? 12 : 7,
         };
 
         public static int GetMaxLengthNickname(int generation, LanguageID language) => language switch
         {
             LanguageID.ChineseS or LanguageID.ChineseT => 6,
             LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
-            _ => generation >= 6 ? 12 : 10
+            _ => generation >= 6 ? 12 : 10,
         };
 
         public static bool GetIsFixedIVSequenceValidSkipRand(IReadOnlyList<int> IVs, PKM pkm, int max = 31)

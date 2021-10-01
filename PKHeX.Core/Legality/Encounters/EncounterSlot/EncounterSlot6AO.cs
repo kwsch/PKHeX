@@ -8,6 +8,7 @@ namespace PKHeX.Core
     {
         public override int Generation => 6;
         public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
+        public bool IsHorde => Area.Type == SlotType.Horde;
 
         public bool Pressure { get; init; }
         public bool DexNav { get; init; }

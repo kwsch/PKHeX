@@ -66,8 +66,9 @@ namespace PKHeX.Core
         protected int CGearDataOffset;
         protected int EntreeForestOffset;
         private int AdventureInfo;
-        public int GTS { get; } = int.MinValue;
-        public int Fused { get; } = int.MinValue;
+        public abstract int GTS { get; }
+        public abstract int Fused { get; }
+        public int PGL => AllBlocks[35].Offset + 8; // Dream World Upload
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
@@ -203,14 +204,17 @@ namespace PKHeX.Core
         public abstract BoxLayout5 BoxLayout { get; }
         public abstract PlayerData5 PlayerData { get; }
         public abstract BattleSubway5 BattleSubway { get; }
+        public abstract Entralink5 Entralink { get; }
+        public abstract Musical5 Musical { get; }
+        public abstract Encount5 Encount { get; }
 
         public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);
         public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
-        public Mail GetMail(int i)
+        public Mail GetMail(int mailIndex)
         {
-            int ofs = GetMailOffset(i);
+            int ofs = GetMailOffset(mailIndex);
             var data = GetMailData(ofs);
             return new Mail5(data, ofs);
         }

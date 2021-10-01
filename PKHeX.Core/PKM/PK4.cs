@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -9,7 +8,7 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
+            0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -31,7 +30,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK4((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter4.GetString4(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter4.GetString4(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter4.SetString4(value, maxLength);
 
         // Structure
@@ -168,7 +167,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 22); set => SetString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 20); set => SetString(value, 10).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -211,7 +210,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 16); set => SetString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -375,7 +374,7 @@ namespace PKHeX.Core
             {
                 OT_Friendship = 70,
                 // Apply new met date
-                MetDate = moment
+                MetDate = moment,
             };
 
             // Arceus Type Changing -- Plate forcibly removed.
@@ -384,7 +383,7 @@ namespace PKHeX.Core
                 pk5.Form = 0;
                 pk5.HeldItem = 0;
             }
-            else if(!Legal.HeldItems_BW.Contains((ushort)HeldItem))
+            else if (Array.IndexOf(Legal.HeldItems_BW, (ushort)HeldItem) == -1)
             {
                 pk5.HeldItem = 0; // if valid, it's already copied
             }
@@ -419,10 +418,10 @@ namespace PKHeX.Core
             // if has defog, remove whirlpool.
             bool hasDefog = HasMove((int) Move.Defog);
             var banned = hasDefog ? Legal.HM_HGSS : Legal.HM_DPPt;
-            if (banned.Contains(Move1)) Move1 = 0;
-            if (banned.Contains(Move2)) Move2 = 0;
-            if (banned.Contains(Move3)) Move3 = 0;
-            if (banned.Contains(Move4)) Move4 = 0;
+            if (Array.IndexOf(banned, Move1) != -1) Move1 = 0;
+            if (Array.IndexOf(banned, Move2) != -1) Move2 = 0;
+            if (Array.IndexOf(banned, Move3) != -1) Move3 = 0;
+            if (Array.IndexOf(banned, Move4) != -1) Move4 = 0;
             pk5.FixMoves();
 
             pk5.RefreshChecksum();

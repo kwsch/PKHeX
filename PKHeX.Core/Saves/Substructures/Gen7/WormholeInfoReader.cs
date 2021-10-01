@@ -138,7 +138,7 @@ namespace PKHeX.Core
                 257 => WormholeSlotsGreen[slot],
                 258 => WormholeSlotsYellow[slot],
                 259 => WormholeSlotsBlue[slot],
-                _ => -1
+                _ => -1,
             };
         }
     }

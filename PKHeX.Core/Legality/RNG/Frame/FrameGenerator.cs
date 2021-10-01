@@ -35,16 +35,16 @@ namespace PKHeX.Core
         /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
         public FrameGenerator(PKM pk)
         {
-            var ver = (GameVersion)pk.Version;
-            switch (ver)
+            var version = (GameVersion)pk.Version;
+            switch (version)
             {
                 // Method H
                 case R or S or E or FR or LG:
                     DPPt = false;
                     FrameType = FrameType.MethodH;
-                    Safari3 = pk.Ball == 5 && ver is not (FR or LG);
+                    Safari3 = pk.Ball == 5 && version is not (FR or LG);
 
-                    if (ver != E)
+                    if (version != E)
                         return;
 
                     AllowLeads = true;
@@ -75,7 +75,7 @@ namespace PKHeX.Core
                     FrameType = FrameType.MethodK;
                     return;
                 default:
-                    throw new ArgumentException(nameof(ver));
+                    throw new ArgumentOutOfRangeException(nameof(version));
             }
         }
 
@@ -88,13 +88,15 @@ namespace PKHeX.Core
         /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
         private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
         {
-            0 or >254 => max ? 255 : 0,
+            PersonalInfo.RatioMagicMale => max ? 255 : 0,
+            PersonalInfo.RatioMagicFemale => max ? 255 : 0,
+            PersonalInfo.RatioMagicGenderless => max ? 255 : 0,
             _ => gender switch
             {
                 0 => max ? 255 : ratio, // male
                 1 => max ? ratio - 1 : 0, // female
                 _ => max ? 255 : 0,
-            }
+            },
         };
     }
 }

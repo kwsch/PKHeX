@@ -27,8 +27,7 @@ namespace PKHeX.Core
                 return;
 
             var data = File.ReadAllBytes(file);
-            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, dest);
             if (pk?.Species is not > 0)
                 return;
 
@@ -103,8 +102,7 @@ namespace PKHeX.Core
                 return;
 
             var data = File.ReadAllBytes(file);
-            var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
-            var pk = PKMConverter.GetPKMfromBytes(data, prefer);
+            _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, dest);
             if (pk?.Species is not > 0)
                 return;
 
@@ -139,7 +137,7 @@ namespace PKHeX.Core
                 if (pk.Species == 0)
                     continue;
 
-                var ident = new SlotInfoParty(index);
+                var ident = new SlotInfoParty(index + 1);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }

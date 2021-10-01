@@ -17,8 +17,8 @@ namespace PKHeX.Core
         /// <returns>True if able to be held, false if not</returns>
         public static bool IsHeldItemAllowed(PKM pk)
         {
-            if (pk is PB7)
-                return pk.HeldItem == 0;
+            if (pk is PB7 pb7) // no held items in game
+                return pb7.HeldItem == 0;
             return IsHeldItemAllowed(pk.HeldItem, pk.Format);
         }
 
@@ -45,7 +45,7 @@ namespace PKHeX.Core
             6 => ReleasedHeldItems_6,
             7 => ReleasedHeldItems_7,
             8 => ReleasedHeldItems_8,
-            _ => Array.Empty<bool>()
+            _ => Array.Empty<bool>(),
         };
     }
 }

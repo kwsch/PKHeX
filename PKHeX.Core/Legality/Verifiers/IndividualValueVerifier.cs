@@ -88,11 +88,13 @@ namespace PKHeX.Core
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)
         {
-            var pkm = data.pkm;
-            if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
-                VerifyIVsFlawless(data, 3);
-            else if (w.Area.Type == SlotType.FriendSafari)
-                VerifyIVsFlawless(data, 2);
+            if (w is EncounterSlot6XY xy)
+            {
+                if (PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
+                    VerifyIVsFlawless(data, 3);
+                if (xy.IsFriendSafari)
+                    VerifyIVsFlawless(data, 2);
+            }
         }
 
         private void VerifyIVsFlawless(LegalityAnalysis data, int count)

@@ -12,7 +12,9 @@ namespace PKHeX.Core
             0x61, 0x62, 0x63, 0x64,
             0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xDA, 0xDB,
             0xE4, 0xE5, 0xE6, 0xE7, 0xCE,
-            // 0xFC onwards unused?
+            0xFB, // not fateful -- what is it?
+            0xD7, // index within party
+            // 0xFC onwards unused? no, it's some pointers and values used by the game?
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -25,7 +27,7 @@ namespace PKHeX.Core
         public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
         public override PKM Clone() => new CK3((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter3.GetBEString3(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
@@ -172,6 +174,7 @@ namespace PKHeX.Core
         public override bool Unused2                { get => ((Data[0xC9] >> 1) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~2) | (value ? 2 : 0)); }
         public override bool Unused3                { get => ((Data[0xC9] >> 2) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~4) | (value ? 4 : 0)); }
         public override bool Unused4                { get => ((Data[0xC9] >> 3) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~8) | (value ? 8 : 0)); }
+        public override bool FatefulEncounter       { get => ((Data[0xC9] >> 4) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] &~16) | (value ?16 : 0)); }
 
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = value ? (byte)1 : (byte)0; }
@@ -180,18 +183,11 @@ namespace PKHeX.Core
 
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
+
+        public int PartySlot { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // or not; only really used while in party?
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xD8); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public int Purification { get => BigEndian.ToInt32(Data, 0xDC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xDC); }
         public uint EXP_Shadow { get => BigEndian.ToUInt32(Data, 0xC0); set => BigEndian.GetBytes(value).CopyTo(Data, 0xC0); }
-        // public bool Obedient { get => Data[0xF8] == 1; set => Data[0xF8] = (byte)(value ? 1 : 0); }
-
-        private int EncounterInfo { get => Data[0xFB]; set => Data[0xFB] = (byte)value; }
-
-        public override bool FatefulEncounter
-        {
-            get => (EncounterInfo & 1) == 1;
-            set => EncounterInfo = (byte)((EncounterInfo & ~(1 << 0)) | (value ? 1 << 0 : 0));
-        }
 
         public const int Purified = -100;
         public bool IsShadow => ShadowID != 0 && Purification != Purified;

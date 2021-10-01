@@ -21,7 +21,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedByVersion(int v)
         {
-            if (v < (int)GameVersion.X || v > (int)GameVersion.OR)
+            if (v is < (int)GameVersion.X or > (int)GameVersion.OR)
                 return false;
             if (RestrictVersion == 0)
                 return true; // no data
@@ -365,14 +365,14 @@ namespace PKHeX.Core
                     pk.OT_Memory = 3;
                     pk.OT_TextVar = 9;
                     pk.OT_Intensity = 1;
-                    pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory, 10); // 0-9
+                    pk.OT_Feeling = MemoryContext6.GetRandomFeeling6(pk.OT_Memory, 10); // 0-9
                 }
                 else
                 {
                     pk.HT_Memory = 3;
                     pk.HT_TextVar = 9;
                     pk.HT_Intensity = 1;
-                    pk.HT_Feeling = Memories.GetRandomFeeling(pk.HT_Memory, 10); // 0-9
+                    pk.HT_Feeling = MemoryContext6.GetRandomFeeling6(pk.HT_Memory, 10); // 0-9
                     pk.HT_Friendship = pk.OT_Friendship;
                 }
             }
@@ -413,7 +413,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private void SetPID(PKM pk)

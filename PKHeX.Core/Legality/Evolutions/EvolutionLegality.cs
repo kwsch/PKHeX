@@ -97,7 +97,7 @@ namespace PKHeX.Core
             3 => FutureEvolutionsGen3,
             4 => FutureEvolutionsGen4,
             5 => FutureEvolutionsGen5,
-            _ => Array.Empty<int>()
+            _ => Array.Empty<int>(),
         };
     }
 }

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Trade Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterTrade"/>
     public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public override int Generation => 8;
@@ -17,15 +21,15 @@ namespace PKHeX.Core
         public int OT_Feeling { get; set; }
         public int OT_Intensity { get; set; }
 
-        public EncounterTrade8(GameVersion game, int species, int level, int m, int a, int f, int i) : base(game)
+        public EncounterTrade8(GameVersion game, int species, int level, int memory, int arg, int feel, int intensity) : base(game)
         {
             Species = species;
             Level = level;
 
-            OT_Memory = m;
-            OT_TextVar = a;
-            OT_Feeling = f;
-            OT_Intensity = i;
+            OT_Memory = memory;
+            OT_TextVar = arg;
+            OT_Feeling = feel;
+            OT_Intensity = intensity;
         }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)

@@ -41,10 +41,7 @@ namespace PKHeX.Core
                 // Check for basic compatibility.
                 var e = EncounterValidator(pkm, enc);
                 if (!e.Valid && encounter.PeekIsNext())
-                {
-                    info.Reject(e);
                     continue;
-                }
 
                 // Looks like we might have a good enough match. Check if this is really a good match.
                 info.EncounterMatch = enc;
@@ -106,9 +103,29 @@ namespace PKHeX.Core
             if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;
 
+            if (info.Parse.Any(z => !z.Valid) && iterator.PeekIsNext())
+                return false;
+
             var evo = EvolutionVerifier.VerifyEvolution(pkm, info);
             if (!evo.Valid && iterator.PeekIsNext())
                 return false;
+
+            // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
+            if (pkm is ITrainerMemories m)
+            {
+                if (m is IMemoryOT o && MemoryPermissions.IsMemoryOfKnownMove(o.OT_Memory))
+                {
+                    var mem = MemoryVariableSet.Read(m, 0);
+                    if (!MemoryPermissions.CanKnowMove(pkm, mem, info.EncounterMatch.Generation, info))
+                        return false;
+                }
+                if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pkm.HasMove(h.HT_TextVar))
+                {
+                    var mem = MemoryVariableSet.Read(m, 1);
+                    if (!MemoryPermissions.CanKnowMove(pkm, mem, pkm.Format, info))
+                        return false;
+                }
+            }
 
             info.Parse.Add(evo);
             return true;

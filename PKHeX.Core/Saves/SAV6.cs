@@ -60,9 +60,9 @@ namespace PKHeX.Core
         public override int Gender { get => Status.Gender; set => Status.Gender = value; }
         public override int Language { get => Status.Language; set => Status.Language = value; }
         public override string OT { get => Status.OT; set => Status.OT = value; }
-        public int Region { get => Status.SubRegion; set => Status.SubRegion = value; }
-        public int Country { get => Status.Country; set => Status.Country = value; }
-        public int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
+        public byte Region { get => Status.Region; set => Status.Region = value; }
+        public byte Country { get => Status.Country; set => Status.Country = value; }
+        public byte ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
         public int GameSyncIDSize => MyStatus6.GameSyncIDSize; // 64 bits
         public string GameSyncID { get => Status.GameSyncID; set => Status.GameSyncID = value; }
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
@@ -161,7 +161,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Furfrou => 5u, // Furfrou
                 (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
+                _ => 0u,
             };
         }
 

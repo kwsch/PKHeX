@@ -23,11 +23,11 @@ namespace PKHeX.Core
             // Some species have battle only forms as well as out-of-battle forms (other than base form).
             switch (species)
             {
-                case (int)Slowbro when form == 2 && format >= 8: // Only mark Ultra Necrozma as Battle Only
-                case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
+                case (int)Slowbro when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
+                case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian non-Zen
                 case (int)Zygarde when form < 4: // Zygarde Complete
                 case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
-                case (int)Necrozma when form < 3: // this one is OK, Galarian non-Zen
+                case (int)Necrozma when form < 3: // Only mark Ultra Necrozma as Battle Only
                     return false;
                 case (int)Minior: return form < 7; // Minior Shields-Down
 
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             (int)Darmanitan => form & 2,
             (int)Zygarde when format > 6 => 3,
             (int)Minior => form + 7,
-            _ => 0
+            _ => 0,
         };
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace PKHeX.Core
             (int)Kyurem when form != 0 && format >= 5 => true,
             (int)Necrozma when form != 0 && format >= 7 => true,
             (int)Calyrex when form != 0 && format >= 8 => true,
-            _ => false
+            _ => false,
         };
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
@@ -94,22 +94,17 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Species that can be captured normally in the wild and can change between their forms.
+        /// Species that can change between their forms, regardless of origin.
         /// </summary>
-        public static readonly HashSet<int> WildChangeFormAfter = new()
+        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
+        private static readonly HashSet<int> FormChange = new()
         {
+            // Sometimes considered for wild encounters
             412, // Burmy
             479, // Rotom
             676, // Furfrou
             741, // Oricorio
-        };
 
-        /// <summary>
-        /// Species that can change between their forms, regardless of origin.
-        /// </summary>
-        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-        private static readonly HashSet<int> FormChange = new(WildChangeFormAfter)
-        {
             386, // Deoxys
             487, // Giratina
             492, // Shaymin
@@ -251,10 +246,10 @@ namespace PKHeX.Core
             Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
             Mothim => form < 3, // Burmy base form is kept
 
-            Scatterbug => form < 18, // Vivillon Pre-evolutions
-            Spewpa => form < 18, // Vivillon Pre-evolutions
+            Scatterbug => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
+            Spewpa => form <= Vivillon3DS.MaxWildFormID, // Vivillon Pre-evolutions
 
-            _ => false
+            _ => false,
         };
 
         /// <summary>
@@ -263,7 +258,7 @@ namespace PKHeX.Core
         /// <param name="pi">Game specific personal info</param>
         /// <param name="species"><see cref="Species"/> ID</param>
         /// <param name="format"><see cref="PKM.Form"/> ID</param>
-        /// <returns>True if has formes that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
+        /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
         public static bool HasFormSelection(PersonalInfo pi, int species, int format)
         {
             if (format <= 3 && species != (int)Unown)
@@ -282,7 +277,7 @@ namespace PKHeX.Core
         private static readonly HashSet<int> HasFormValuesNotIndicatedByPersonal = new()
         {
             (int)Unown,
-            (int)Mothim, // (Burmy forme carried over, not cleared)
+            (int)Mothim, // (Burmy form is not cleared on evolution)
             (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
         };
     }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x2A, 0x2B
+            0x2A, 0x2B,
         };
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private string GetString(int Offset, int Count) => StringConverter3.GetString3(Data, Offset, Count, Japanese);
+        private string GetString(int offset, int count) => StringConverter3.GetString3(Data, offset, count, Japanese);
         private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese);
 
         private const string EggNameJapanese = "タマゴ";
@@ -321,7 +321,8 @@ namespace PKHeX.Core
             int[] newMoves = pk4.Moves;
             for (int i = 0; i < 4; i++)
             {
-                if (Legal.HM_3.Contains(newMoves[i]))
+                var move = newMoves[i];
+                if (Array.IndexOf(Legal.HM_3, move) != -1)
                     newMoves[i] = 0;
             }
 

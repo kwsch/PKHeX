@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6 }; // JPN,ENG,FRA,GER,ITA,SPA
             SAV = (SAV4)(Origin = sav).Clone();
 
             editing = true;
@@ -26,7 +26,8 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
+            var filtered = GameInfo.FilteredSources;
+            CB_Species.DataSource = new BindingSource(filtered.Species.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
@@ -139,13 +140,13 @@ namespace PKHeX.WinForms
             var gr = pi.Gender;
             switch (gr)
             {
-                case 255: // Genderless
+                case PersonalInfo.RatioMagicGenderless:
                     first.Items.Add(GENDERLESS);
                     break;
-                case 0:
+                case PersonalInfo.RatioMagicMale:
                     first.Items.Add(MALE);
                     break;
-                case 254:
+                case PersonalInfo.RatioMagicFemale:
                     first.Items.Add(FEMALE);
                     break;
                 default:

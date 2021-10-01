@@ -11,10 +11,10 @@ namespace PKHeX.Core
         private readonly PKM pkm;
 
         /// <summary>The generation of games the <see cref="PKM"/> originated from.</summary>
-        public int Generation { get; internal set; }
+        public int Generation { get; private set; }
 
         /// <summary>The Game the <see cref="PKM"/> originated from.</summary>
-        public GameVersion Game { get; internal set; }
+        public GameVersion Game { get; private set; }
 
         /// <summary>The matched Encounter details for the <see cref="PKM"/>. </summary>
         public IEncounterable EncounterMatch
@@ -42,7 +42,7 @@ namespace PKHeX.Core
         private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
-        internal readonly List<CheckResult> Parse = new();
+        internal readonly List<CheckResult> Parse;
 
         public readonly CheckResult[] Relearn = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
@@ -74,21 +74,19 @@ namespace PKHeX.Core
         /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
         public bool FrameMatches { get; internal set; } = true;
 
-        public LegalInfo(PKM pk)
+        public LegalInfo(PKM pk, List<CheckResult> parse)
         {
             pkm = pk;
-
-            // Store repeatedly accessed values
-            Game = (GameVersion)pkm.Version;
-            Generation = pkm.Generation;
+            Parse = parse;
+            StoreMetadata((GameVersion)pk.Version, pkm.Generation);
         }
 
-        /// <summary>List of all near-matches that were rejected for a given reason.</summary>
-        public List<EncounterRejected>? InvalidMatches;
-
-        internal void Reject(CheckResult c)
+        internal void StoreMetadata(GameVersion game, int gen)
         {
-            (InvalidMatches ??= new List<EncounterRejected>()).Add(new EncounterRejected(EncounterMatch, c));
+            // We can call this method at the start for any Gen3+ encounter iteration.
+            // We need to call this for each Gen1/2 encounter as Version is not stored for those origins.
+            Game = game;
+            Generation = gen;
         }
     }
 }

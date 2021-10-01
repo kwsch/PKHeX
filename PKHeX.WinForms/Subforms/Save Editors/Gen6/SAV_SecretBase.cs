@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static PKHeX.Core.MessageStrings;
@@ -48,17 +47,18 @@ namespace PKHeX.WinForms
             CB_Ability.InitializeBinding();
             CB_Form.InitializeBinding();
 
-            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
-            CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value < SAV.MaxItemID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-            CB_Nature.DataSource = new BindingSource(GameInfo.NatureDataSource, null);
+            var filtered = GameInfo.FilteredSources;
+            CB_Ball.DataSource = new BindingSource(filtered.Balls, null);
+            CB_HeldItem.DataSource = new BindingSource(filtered.Items, null);
+            CB_Species.DataSource = new BindingSource(filtered.Species, null);
+            CB_Nature.DataSource = new BindingSource(filtered.Natures, null);
 
             CB_Move1.InitializeBinding();
             CB_Move2.InitializeBinding();
             CB_Move3.InitializeBinding();
             CB_Move4.InitializeBinding();
 
-            var moves = GameInfo.MoveDataSource;
+            var moves = filtered.Moves;
             CB_Move1.DataSource = new BindingSource(moves, null);
             CB_Move2.DataSource = new BindingSource(moves, null);
             CB_Move3.DataSource = new BindingSource(moves, null);

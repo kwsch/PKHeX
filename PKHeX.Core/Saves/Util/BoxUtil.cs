@@ -180,7 +180,7 @@ namespace PKHeX.Core
 
             foreach (var pkm in result)
             {
-                if (pkm != null)
+                if (pkm?.Species is > 0)
                     yield return pkm;
             }
         }

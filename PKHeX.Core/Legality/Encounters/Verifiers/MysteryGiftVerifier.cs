@@ -16,7 +16,7 @@ namespace PKHeX.Core
             return s;
         }
 
-        private static string RestrictionSetName(int i) => $"mgrestrict{i}.pkl";
+        private static string RestrictionSetName(int generation) => $"mgrestrict{generation}.pkl";
 
         private static Dictionary<int, MysteryGiftRestriction> GetRestriction(int generation)
         {
@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             return generation switch
             {
-                _ => false
+                _ => false,
             };
         }
 
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         {
             return generation switch
             {
-                _ => false
+                _ => false,
             };
         }
     }

@@ -43,7 +43,7 @@ namespace PKHeX.WinForms
                 DisplayIndex = 0,
                 Width = 135,
                 ReadOnly = true,
-                DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter}
+                DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
             };
             var dgvCount = new DataGridViewComboBoxColumn
             {
@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
                 FlatStyle = FlatStyle.Flat,
                 ValueType = typeof(int),
                 DisplayIndex = 1,
-                Width = 45
+                Width = 45,
             };
             for (var i = 0; i < 256; i++)
                 dgvCount.Items.Add(i);

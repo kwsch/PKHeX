@@ -43,7 +43,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(162, 22);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(143, 22);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // NUD_FormArg
@@ -68,6 +68,7 @@
             // 
             // CB_FormArg
             // 
+            this.CB_FormArg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CB_FormArg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FormArg.FormattingEnabled = true;
             this.CB_FormArg.Items.AddRange(new object[] {
@@ -75,7 +76,7 @@
             this.CB_FormArg.Location = new System.Drawing.Point(44, 0);
             this.CB_FormArg.Margin = new System.Windows.Forms.Padding(0);
             this.CB_FormArg.Name = "CB_FormArg";
-            this.CB_FormArg.Size = new System.Drawing.Size(66, 21);
+            this.CB_FormArg.Size = new System.Drawing.Size(75, 21);
             this.CB_FormArg.TabIndex = 1;
             this.CB_FormArg.Visible = false;
             this.CB_FormArg.SelectedIndexChanged += new System.EventHandler(this.CB_FormArg_SelectedIndexChanged);
@@ -85,7 +86,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "FormArgument";
-            this.Size = new System.Drawing.Size(162, 22);
+            this.Size = new System.Drawing.Size(143, 22);
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FormArg)).EndInit();
             this.ResumeLayout(false);

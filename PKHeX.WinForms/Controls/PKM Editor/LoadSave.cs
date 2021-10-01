@@ -20,10 +20,13 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadSpeciesLevelEXP(PKM pk)
         {
-            // Do first
-            pk.Stat_Level = Experience.GetLevel(pk.EXP, pk.PersonalInfo.EXPGrowth);
-            if (pk.Stat_Level == 100 && !HaX)
-                pk.EXP = Experience.GetEXP(pk.Stat_Level, pk.PersonalInfo.EXPGrowth);
+            if (!HaX)
+            {
+                // Sanity check level and EXP
+                var current = pk.CurrentLevel;
+                if (current == 100) // clamp back to max EXP
+                    pk.CurrentLevel = 100;
+            }
 
             CB_Species.SelectedValue = pk.Species;
             TB_Level.Text = pk.Stat_Level.ToString();
@@ -34,11 +37,12 @@ namespace PKHeX.WinForms.Controls
         {
             pk.Species = WinFormsUtil.GetIndex(CB_Species);
             pk.EXP = Util.ToUInt32(TB_EXP.Text);
+            pk.Stat_Level = Util.ToInt32(TB_Level.Text);
         }
 
         private void LoadOT(PKM pk)
         {
-            GB_OT.BackgroundImage = null;
+            GB_OT.BackgroundImage = null; // clear the Current Handler indicator just in case we switched formats.
             TB_OT.Text = pk.OT_Name;
             Label_OTGender.Text = gendersymbols[pk.OT_Gender];
             Label_OTGender.ForeColor = Draw.GetGenderColor(pk.OT_Gender);
@@ -52,11 +56,10 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadPKRS(PKM pk)
         {
-            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = pk.PKRS_Strain != 0;
-            Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk.PKRS_Days != 0;
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk.PKRS_Infected;
             CB_PKRSStrain.SelectedIndex = pk.PKRS_Strain;
-            CHK_Cured.Checked = pk.PKRS_Strain > 0 && pk.PKRS_Days == 0;
-            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk.PKRS_Days); // to strip out bad hacked 'rus
+            CHK_Cured.Checked = pk.PKRS_Cured;
+            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk.PKRS_Days); // clamp to valid day values for the current strain
         }
 
         private void SavePKRS(PKM pk)
@@ -67,7 +70,7 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
         private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
-        private void LoadAVs(IAwakened a) => Stats.LoadAVs(a);
+        private void LoadAVs(IAwakened pk) => Stats.LoadAVs(pk);
 
         private void LoadMoves(PKM pk)
         {
@@ -101,20 +104,20 @@ namespace PKHeX.WinForms.Controls
             pk.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
         }
 
-        private void LoadShadow3(IShadowPKM ck3)
+        private void LoadShadow3(IShadowPKM pk)
         {
-            NUD_ShadowID.Value = ck3.ShadowID;
-            FLP_Purification.Visible = ck3.ShadowID > 0;
-            if (ck3.ShadowID > 0)
+            NUD_ShadowID.Value = pk.ShadowID;
+            FLP_Purification.Visible = pk.ShadowID > 0;
+            if (pk.ShadowID > 0)
             {
-                int value = ck3.Purification;
+                int value = pk.Purification;
                 if (value < NUD_Purification.Minimum)
                     value = (int)NUD_Purification.Minimum;
 
                 NUD_Purification.Value = value;
-                CHK_Shadow.Checked = ck3.IsShadow;
+                CHK_Shadow.Checked = pk.IsShadow;
 
-                NUD_ShadowID.Value = Math.Max(ck3.ShadowID, 0);
+                NUD_ShadowID.Value = Math.Max(pk.ShadowID, 0);
             }
             else
             {
@@ -124,11 +127,11 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private void SaveShadow3(IShadowPKM ck3)
+        private void SaveShadow3(IShadowPKM pk)
         {
-            ck3.ShadowID = (int)NUD_ShadowID.Value;
-            if (ck3.ShadowID > 0)
-                ck3.Purification = (int)NUD_Purification.Value;
+            pk.ShadowID = (int)NUD_ShadowID.Value;
+            if (pk.ShadowID > 0)
+                pk.Purification = (int)NUD_Purification.Value;
         }
 
         private void LoadRelearnMoves(PKM pk)
@@ -139,12 +142,12 @@ namespace PKHeX.WinForms.Controls
             CB_RelearnMove4.SelectedValue = pk.RelearnMove4;
         }
 
-        private void SaveRelearnMoves(PKM pk7)
+        private void SaveRelearnMoves(PKM pk)
         {
-            pk7.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
-            pk7.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
-            pk7.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
-            pk7.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
+            pk.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
+            pk.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
+            pk.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
+            pk.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
         }
 
         private void LoadMisc1(PKM pk)
@@ -176,8 +179,8 @@ namespace PKHeX.WinForms.Controls
 
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && Entity.Format > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && Entity.Format > 1;
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked;
         }
 
         private void SaveMisc2(PKM pk)
@@ -185,7 +188,7 @@ namespace PKHeX.WinForms.Controls
             SavePKRS(pk);
             pk.IsEgg = CHK_IsEgg.Checked;
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
-            pk.Form = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
+            pk.Form = CB_Form.Enabled ? CB_Form.SelectedIndex & 0x1F : 0;
             if (Entity is IFormArgument f)
                 FA_Form.SaveArgument(f);
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
@@ -210,7 +213,9 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.LoadIDValues(pk);
 
             // Load Extrabyte Value
-            TB_ExtraByte.Text = pk.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
+            var offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
+            var value = pk.Data[offset];
+            TB_ExtraByte.Text = value.ToString();
         }
 
         private void SaveMisc3(PKM pk)
@@ -274,12 +279,16 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc6(PKM pk)
         {
             TB_EC.Text = $"{pk.EncryptionConstant:X8}";
-            int abil = pk.AbilityNumber < 6 ? pk.AbilityNumber >> 1 : 0;
-            if (CB_Ability.Items.Count <= abil)
-                abil = CB_Ability.Items.Count - 1;
-            CB_Ability.SelectedIndex = abil; // with some simple error handling
             DEV_Ability.SelectedValue = pk.Ability;
-            TB_AbilityNumber.Text = pk.AbilityNumber.ToString();
+
+            // with some simple error handling
+            var bitNumber = pk.AbilityNumber;
+            int abilityIndex = AbilityVerifier.IsValidAbilityBits(bitNumber) ? bitNumber >> 1 : 0;
+            if (abilityIndex >= CB_Ability.Items.Count) // sanity check ability count being possible
+                abilityIndex = CB_Ability.Items.Count - 1; // last possible index, if out of range
+
+            CB_Ability.SelectedIndex = abilityIndex;
+            TB_AbilityNumber.Text = bitNumber.ToString();
 
             LoadRelearnMoves(pk);
             LoadHandlingTrainer(pk);
@@ -291,6 +300,9 @@ namespace PKHeX.WinForms.Controls
         private void SaveMisc6(PKM pk)
         {
             pk.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
+            if (PIDVerifier.GetTransferEC(pk, out var ec))
+                pk.EncryptionConstant = ec;
+
             pk.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);
 
             SaveRelearnMoves(pk);
@@ -302,40 +314,43 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadGeolocation(IRegionOrigin pk)
         {
-            CB_Country.SelectedValue = pk.Country;
-            CB_SubRegion.SelectedValue = pk.Region;
-            CB_3DSReg.SelectedValue = pk.ConsoleRegion;
+            CB_Country.SelectedValue = (int)pk.Country;
+            CB_SubRegion.SelectedValue = (int)pk.Region;
+            CB_3DSReg.SelectedValue = (int)pk.ConsoleRegion;
         }
 
         private void SaveGeolocation(IRegionOrigin pk)
         {
-            pk.Country = WinFormsUtil.GetIndex(CB_Country);
-            pk.Region = WinFormsUtil.GetIndex(CB_SubRegion);
-            pk.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            pk.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            pk.Region = (byte)WinFormsUtil.GetIndex(CB_SubRegion);
+            pk.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
         }
 
         private void LoadHandlingTrainer(PKM pk)
         {
-            TB_OTt2.Text = pk.HT_Name;
+            var handler = pk.HT_Name;
             int gender = pk.HT_Gender & 1;
+
+            TB_OTt2.Text = handler;
             // Set CT Gender to None if no CT, else set to gender symbol.
-            Label_CTGender.Text = string.IsNullOrEmpty(pk.HT_Name) ? string.Empty : gendersymbols[gender];
+            Label_CTGender.Text = string.IsNullOrEmpty(handler) ? string.Empty : gendersymbols[gender];
             Label_CTGender.ForeColor = Draw.GetGenderColor(gender);
 
             // Indicate who is currently in possession of the PKM
-            UpadteHandlingTrainerBackground(pk);
+            UpadteHandlingTrainerBackground(pk.CurrentHandler);
         }
 
-        private void UpadteHandlingTrainerBackground(PKM pk)
+        private void UpadteHandlingTrainerBackground(int handler)
         {
-            if (pk.CurrentHandler == 0) // OT
+            var activeColor = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
+            if (handler == 0) // OT
             {
-                GB_OT.BackgroundImage = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
+                GB_OT.BackgroundImage = activeColor;
                 GB_nOT.BackgroundImage = null;
             }
             else // Handling Trainer
             {
-                GB_nOT.BackgroundImage = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
+                GB_nOT.BackgroundImage = activeColor;
                 GB_OT.BackgroundImage = null;
             }
         }
@@ -344,37 +359,6 @@ namespace PKHeX.WinForms.Controls
         {
             pk.HT_Name = TB_OTt2.Text;
             pk.HT_Gender = PKX.GetGenderFromString(Label_CTGender.Text) & 1;
-        }
-
-        // Misc
-        private static void CheckTransferPIDValid(PKM pk)
-        {
-            var ver = pk.Version;
-            if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
-                return;
-
-            uint EC = pk.EncryptionConstant;
-            uint PID = pk.PID;
-            uint LID = PID & 0xFFFF;
-            uint HID = PID >> 16;
-            uint XOR = (uint)(pk.TID ^ LID ^ pk.SID ^ HID);
-
-            // Ensure we don't have a shiny.
-            if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
-            {
-                // Keep as shiny, so we have to mod the EC
-                pk.EncryptionConstant = PID ^ 0x80000000;
-            }
-            else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
-            {
-                // Already anti-shiny, ensure the anti-shiny relationship is present.
-                pk.EncryptionConstant = PID ^ 0x80000000;
-            }
-            else
-            {
-                // Ensure the copy correlation is present.
-                pk.EncryptionConstant = PID;
-            }
         }
 
         private void LoadAbility4(PKM pk)

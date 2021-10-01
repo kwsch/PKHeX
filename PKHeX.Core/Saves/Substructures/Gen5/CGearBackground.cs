@@ -182,10 +182,10 @@ namespace PKHeX.Core
 
         private static int GetRGB555_32(int val)
         {
-            var R = (val >> 0 >> 3) & 0x1F;
-            var G = (val >> 8 >> 3) & 0x1F;
-            var B = (val >> 16 >> 3) & 0x1F;
-            return 0xFF << 24 | R << 16 | G << 8 | B;
+            var R = (val >> 00) & 0xFF;
+            var G = (val >> 08) & 0xFF;
+            var B = (val >> 16) & 0xFF;
+            return 0xFF << 24 | B << 16 | G << 8 | R;
         }
 
         private static int GetRGB555_16(ushort val)
@@ -305,9 +305,9 @@ namespace PKHeX.Core
             }
 
             // No tile found, add to list
+            tilelist.Add(t);
             tm.TileChoices[tileIndex] = tilelist.Count - 1;
             tm.Rotations[tileIndex] = 0;
-            tilelist.Add(t);
         }
 
         private CGearBackground(int[] Palette, Tile[] tilelist, TileMap tm)

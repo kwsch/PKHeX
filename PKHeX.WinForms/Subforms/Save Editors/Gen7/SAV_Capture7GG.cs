@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
 
             // Fill List
             var list = GetLegalSpecies().ToArray();
-            var species = GameInfo.SpeciesDataSource.Where(z => list.Contains(z.Value)).ToList();
+            var species = GameInfo.FilteredSources.Species.Where(z => list.Contains(z.Value)).ToList();
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(species, null);
             foreach (var (text, value) in species.OrderBy(z => z.Value))

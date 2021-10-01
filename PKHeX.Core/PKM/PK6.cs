@@ -10,7 +10,7 @@ namespace PKHeX.Core
         private static readonly ushort[] Unused =
         {
             0x36, 0x37, // Unused Ribbons
-            0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
+            0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK6((byte[])Data.Clone());
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
+        private string GetString(int offset, int count) => StringConverter.GetString6(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);
 
         // Structure
@@ -295,16 +295,16 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public int Geo1_Region { get => Data[0x94]; set => Data[0x94] = (byte)value; }
-        public int Geo1_Country { get => Data[0x95]; set => Data[0x95] = (byte)value; }
-        public int Geo2_Region { get => Data[0x96]; set => Data[0x96] = (byte)value; }
-        public int Geo2_Country { get => Data[0x97]; set => Data[0x97] = (byte)value; }
-        public int Geo3_Region { get => Data[0x98]; set => Data[0x98] = (byte)value; }
-        public int Geo3_Country { get => Data[0x99]; set => Data[0x99] = (byte)value; }
-        public int Geo4_Region { get => Data[0x9A]; set => Data[0x9A] = (byte)value; }
-        public int Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = (byte)value; }
-        public int Geo5_Region { get => Data[0x9C]; set => Data[0x9C] = (byte)value; }
-        public int Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = (byte)value; }
+        public byte Geo1_Region  { get => Data[0x94]; set => Data[0x94] = value; }
+        public byte Geo1_Country { get => Data[0x95]; set => Data[0x95] = value; }
+        public byte Geo2_Region  { get => Data[0x96]; set => Data[0x96] = value; }
+        public byte Geo2_Country { get => Data[0x97]; set => Data[0x97] = value; }
+        public byte Geo3_Region  { get => Data[0x98]; set => Data[0x98] = value; }
+        public byte Geo3_Country { get => Data[0x99]; set => Data[0x99] = value; }
+        public byte Geo4_Region  { get => Data[0x9A]; set => Data[0x9A] = value; }
+        public byte Geo4_Country { get => Data[0x9B]; set => Data[0x9B] = value; }
+        public byte Geo5_Region  { get => Data[0x9C]; set => Data[0x9C] = value; }
+        public byte Geo5_Country { get => Data[0x9D]; set => Data[0x9D] = value; }
         // 0x9E Unused
         // 0x9F Unused
         // 0xA0 Unused
@@ -345,9 +345,9 @@ namespace PKHeX.Core
         public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
         public GroundTileType GroundTile { get => (GroundTileType)Data[0xDE]; set => Data[0xDE] = (byte)value; }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public int ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
+        public byte Country { get => Data[0xE0]; set => Data[0xE0] = value; }
+        public byte Region { get => Data[0xE1]; set => Data[0xE1] = value; }
+        public byte ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = value; }
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
@@ -391,12 +391,12 @@ namespace PKHeX.Core
             if (IsEgg) // No memories if is egg.
             {
                 Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
-                Geo1_Region = Geo2_Region = Geo3_Region = Geo4_Region = Geo5_Region =
+                Geo1_Region = Geo2_Region = Geo3_Region = Geo4_Region = Geo5_Region = 0;
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
                 /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
-                HT_Name = string.Empty.PadRight(11, '\0');
+                HT_Trash.Clear();
                 return;
             }
 
@@ -443,7 +443,7 @@ namespace PKHeX.Core
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)
-                this.SetTradeMemory(false);
+                this.SetTradeMemoryHT6(false);
         }
 
         // Maximums
@@ -475,7 +475,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            pk7.SetTradeMemory(bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT6(true); // oh no, memories on gen7 pkm
             PKMConverter.SetFirstCountryRegion(pk7);
 
             // Bank-accurate data zeroing

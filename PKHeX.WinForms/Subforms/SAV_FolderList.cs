@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
         {
             var locs = new List<INamedFolderPath>
             {
-                new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
+                new CustomFolderPath(Main.BackupPath, "PKHeX Backups"),
             };
             locs.AddRange(GetUserPaths());
             locs.AddRange(GetConsolePaths(drives));
@@ -356,9 +356,9 @@ namespace PKHeX.WinForms
             cm.ResumeBinding();
         }
 
-        private static void ToggleRowVisibility(DataGridView dg, int column, string text, int i)
+        private static void ToggleRowVisibility(DataGridView dg, int column, string text, int rowIndex)
         {
-            var row = dg.Rows[i];
+            var row = dg.Rows[rowIndex];
             if (text.Length == 0 || column < 0)
             {
                 row.Visible = true;

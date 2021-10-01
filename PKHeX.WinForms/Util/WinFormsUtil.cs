@@ -271,7 +271,7 @@ namespace PKHeX.WinForms
                          "|Save Files (*.sav)|main" + ExtraSaveExtensions +
                          "|Decrypted PKM File (*.pkm)|" + supported +
                          "|Binary File|*.bin" +
-                         "|Backup File|*.bak"
+                         "|Backup File|*.bak",
             };
 
             // Detect main
@@ -312,7 +312,7 @@ namespace PKHeX.WinForms
             {
                 Filter = genericFilter,
                 DefaultExt = pkx,
-                FileName = Util.CleanFileName(pk.FileName)
+                FileName = Util.CleanFileName(pk.FileName),
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
@@ -353,7 +353,7 @@ namespace PKHeX.WinForms
                 Filter = sav.Metadata.Filter,
                 FileName = sav.Metadata.FileName,
                 FilterIndex = 1000, // default to last, All Files
-                RestoreDirectory = true
+                RestoreDirectory = true,
             };
             if (Directory.Exists(sav.Metadata.FileFolder))
                 sfd.InitialDirectory = sav.Metadata.FileFolder;
@@ -411,7 +411,7 @@ namespace PKHeX.WinForms
             using var sfd = new SaveFileDialog
             {
                 Filter = GetMysterGiftFilter(gift.Generation, origin),
-                FileName = Util.CleanFileName(gift.FileName)
+                FileName = Util.CleanFileName(gift.FileName),
             };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
@@ -436,6 +436,7 @@ namespace PKHeX.WinForms
             7 => GameVersion.GG.Contains(origin)
                 ? "Beluga Gift Record|*.wr7" + all
                 : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
+            8 => "Gen8 Mystery Gift|*.wc8" + all,
             _ => string.Empty,
         };
 

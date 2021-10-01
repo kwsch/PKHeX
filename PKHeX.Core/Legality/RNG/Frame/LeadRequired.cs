@@ -46,7 +46,8 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        internal static bool IsLevelOrSlotModified(this LeadRequired Lead) => Lead.RemoveFlags() > LeadRequired.Synchronize;
-        internal static LeadRequired RemoveFlags(this LeadRequired Lead) => Lead & ~LeadRequired.AllFlags;
+        internal static bool IsLevelOrSlotModified(this LeadRequired lead) => lead.RemoveFlags() > LeadRequired.Synchronize;
+        internal static LeadRequired RemoveFlags(this LeadRequired lead) => lead & ~LeadRequired.AllFlags;
+        internal static bool NeedsLevelCall(this LeadRequired lead) => (lead & LeadRequired.UsesLevelCall) != 0;
     }
 }

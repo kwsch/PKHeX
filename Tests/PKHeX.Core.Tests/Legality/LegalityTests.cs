@@ -27,21 +27,38 @@ namespace PKHeX.Tests.Legality
             WordFilter.IsFiltered(badword, out _).Should().BeTrue("the word should have been identified as a bad word");
         }
 
-        [Fact]
-        public void TestFilesPassOrFailLegalityChecks()
+        [Theory]
+        [InlineData("Legal", true)]
+        [InlineData("Illegal", false)]
+        public void TestPublicFiles(string name, bool isValid)
         {
             var folder = TestUtil.GetRepoPath();
             folder = Path.Combine(folder, "Legality");
-            ParseSettings.AllowGBCartEra = true;
-            VerifyAll(folder, "Legal", true);
-            VerifyAll(folder, "Illegal", false);
+            VerifyAll(folder, name, isValid);
+        }
+
+        [Theory]
+        [InlineData("Legal", true)]
+        [InlineData("Illegal", false)]
+        [InlineData("PassingHacks", true)] // mad hacks, stuff to be flagged in the future
+        [InlineData("FalseFlags", false)] // legal quirks, to be fixed in the future
+        public void TestPrivateFiles(string name, bool isValid)
+        {
+            var folder = TestUtil.GetRepoPath();
+            folder = Path.Combine(folder, "Legality", "Private");
+            VerifyAll(folder, name, isValid, false);
         }
 
         // ReSharper disable once UnusedParameter.Local
-        private static void VerifyAll(string folder, string name, bool isValid)
+        private static void VerifyAll(string folder, string name, bool isValid, bool checkDir = true)
         {
             var path = Path.Combine(folder, name);
-            Directory.Exists(path).Should().BeTrue($"the specified test directory at '{path}' should exist");
+            bool exists = Directory.Exists(path);
+            if (checkDir)
+                exists.Should().BeTrue($"the specified test directory at '{path}' should exist");
+            else if (!exists)
+                return;
+
             var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
             var ctr = 0;
             foreach (var file in files)

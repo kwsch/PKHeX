@@ -39,11 +39,11 @@ namespace PKHeX.WinForms
                 TB_MCRN,TB_MCRS,TB_MBRN,TB_MBRS,
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
-            cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
+            cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8 };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
-            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible =
-            PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
+            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = PB_Sprite.Visible = SAV is not SAV6AODemo;
+            CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
 
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
             if (SAV is not SAV6XY)
@@ -84,8 +84,9 @@ namespace PKHeX.WinForms
             var names = Enum.GetNames(typeof(TrainerSprite6));
             var values = (int[])Enum.GetValues(typeof(TrainerSprite6));
             var data = names.Zip(values, (a, b) => new ComboItem(a, b))
-                .Where(z => z.Value >= 2) // ignore Calem & Serena (no sprite)
                 .ToList();
+            if (SAV is not SAV6AO)
+                data.RemoveAll(z => z.Value > 36);
 
             CB_MultiplayerSprite.InitializeBinding();
             CB_MultiplayerSprite.DataSource = data;
@@ -121,9 +122,9 @@ namespace PKHeX.WinForms
             TB_Saying4.Text = status.Saying4;
             TB_Saying5.Text = status.Saying5;
 
-            CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.Region;
-            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+            CB_Country.SelectedValue = (int)SAV.Country;
+            CB_Region.SelectedValue = (int)SAV.Region;
+            CB_3DSReg.SelectedValue = (int)SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data
@@ -204,9 +205,9 @@ namespace PKHeX.WinForms
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
-            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            SAV.Region = (byte)WinFormsUtil.GetIndex(CB_Region);
+            SAV.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            SAV.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
 
             SAV.OT = TB_OTName.Text;

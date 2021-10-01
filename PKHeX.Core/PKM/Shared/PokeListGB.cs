@@ -67,20 +67,23 @@ namespace PKHeX.Core
             int size_pkm = GetEntrySize() * capacity;
             int size_str = 2 * GetStringLength(jp) * capacity;
 
+            // first byte: count (0)
             var result = new byte[1 + size_intro + size_pkm + size_str];
 
+            // species present in slot: none
             for (int i = 1; i <= size_intro; i++)
                 result[i] = SLOT_NONE;
 
+            // fill string buffers with terminators
             for (int i = 1 + size_intro + size_pkm; i < result.Length; i++)
                 result[i] = StringConverter12.G1TerminatorCode; // terminator
 
             return result;
         }
 
-        private int GetOffsetPKMData(int base_ofs, int i) => base_ofs + (Entry_Size * i);
-        private int GetOffsetPKMOT(int base_ofs, int i) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * i);
-        private int GetOffsetPKMNickname(int base_ofs, int i) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * i);
+        private int GetOffsetPKMData(int base_ofs, int index) => base_ofs + (Entry_Size * index);
+        private int GetOffsetPKMOT(int base_ofs, int index) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * index);
+        private int GetOffsetPKMNickname(int base_ofs, int index) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * index);
 
         private static int GetStringLength(bool jp) => jp ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
         protected bool IsFormatParty => IsCapacityPartyFormat((PokeListType)Capacity);
@@ -131,26 +134,26 @@ namespace PKHeX.Core
             return Data;
         }
 
-        private T GetEntry(int base_ofs, int i)
+        private T GetEntry(int base_ofs, int index)
         {
-            int pkOfs = GetOffsetPKMData(base_ofs, i);
-            int otOfs = GetOffsetPKMOT(base_ofs, i);
-            int nkOfs = GetOffsetPKMNickname(base_ofs, i);
+            int pkOfs = GetOffsetPKMData(base_ofs, index);
+            int otOfs = GetOffsetPKMOT(base_ofs, index);
+            int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
             var dat = Data.Slice(pkOfs, Entry_Size);
             var otname = Data.Slice(otOfs, StringLength);
             var nick = Data.Slice(nkOfs, StringLength);
 
-            return GetEntry(dat, otname, nick, Data[1 + i] == 0xFD);
+            return GetEntry(dat, otname, nick, Data[1 + index] == 0xFD);
         }
 
-        private void SetEntry(int base_ofs, int i)
+        private void SetEntry(int base_ofs, int index)
         {
-            int pkOfs = GetOffsetPKMData(base_ofs, i);
-            int otOfs = GetOffsetPKMOT(base_ofs, i);
-            int nkOfs = GetOffsetPKMNickname(base_ofs, i);
+            int pkOfs = GetOffsetPKMData(base_ofs, index);
+            int otOfs = GetOffsetPKMOT(base_ofs, index);
+            int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
-            var pk = Pokemon[i];
+            var pk = Pokemon[index];
             Array.Copy(pk.Data, 0, Data, pkOfs, Entry_Size);
             pk.RawOT.CopyTo(Data, otOfs);
             pk.RawNickname.CopyTo(Data, nkOfs);

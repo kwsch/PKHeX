@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.GroundTileType;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Ground Tile Type the <see cref="PKM"/> was encountered from.
@@ -6,6 +8,8 @@
     /// <remarks>
     /// Used in Generation 4 games, this value is set depending on what type of overworld tile the player is standing on when the <see cref="PKM"/> is obtained.
     /// </remarks>
+#pragma warning disable RCS1234 // Duplicate enum value.
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum GroundTileType : byte
     {
         None     = 00, // No animation for the tile
@@ -39,9 +43,16 @@
         Distortion         = 23,
         Max_Pt             = 24, // Unspecific, catch-all for Pt undefined tiles.
     }
+#pragma warning restore CA1027 // Mark enums with FlagsAttribute
+#pragma warning restore RCS1234 // Duplicate enum value.
 
     public static class GroundTileTypeExtensions
     {
         public static bool IsObtainable(this GroundTileType type) => ((0b_1_10000000_00010110_10110111 >> (int) type) & 1) == 1;
+
+        public static readonly byte[] ValidTileTypes =
+        {
+            (byte)None, (byte)Sand, (byte)Grass, (byte)Rock, (byte)Cave, (byte)Water, (byte)Building, (byte)Marsh, (byte)Max_DP, (byte)Distortion, (byte)Max_Pt,
+        };
     }
 }

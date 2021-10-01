@@ -352,7 +352,14 @@ namespace PKHeX.Core
             if (pk.Version == 15)
                 return PIDType.CXD;
             if (pk.Gen3 && pk.Species == (int)Species.Unown)
-                return PIDType.Method_1_Unown + Util.Rand.Next(3);
+            {
+                return Util.Rand.Next(3) switch
+                {
+                    1 => PIDType.Method_2_Unown,
+                    2 => PIDType.Method_4_Unown,
+                    _ => PIDType.Method_1_Unown,
+                };
+            }
 
             return PIDType.Method_1;
         }

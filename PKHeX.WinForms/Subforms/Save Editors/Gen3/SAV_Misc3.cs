@@ -360,7 +360,7 @@ namespace PKHeX.WinForms
             };
             BFN = new[]
             {
-                "Tower","Dome","Palace","Arena","Factory","Pike","Pyramid"
+                "Tower","Dome","Palace","Arena","Factory","Pike","Pyramid",
             };
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };

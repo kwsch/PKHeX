@@ -1,8 +1,9 @@
 ﻿using System;
 using FluentAssertions;
+using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Core.Tests.Legality
+namespace PKHeX.Tests.Legality
 {
     public class RaidTests
     {

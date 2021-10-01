@@ -68,7 +68,7 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly HashSet<int> Types_Gen1 = new()
         {
-            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
+            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26,
         };
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace PKHeX.Core
         {
             var result = new int[moves.Count];
             for (int i = 0; i < result.Length; i++)
-                result[i] = MoveLevelUp.GetIsLevelUp1(species, moves[i], 100, 0, 0).Level;
+                result[i] = MoveLevelUp.GetIsLevelUp1(species, 0, moves[i], 100, 0).Level;
             return result;
         }
 
@@ -209,8 +209,12 @@ namespace PKHeX.Core
 
         internal static int GetRequiredMoveCount(PK1 pk, IReadOnlyList<int> moves, LegalInfo info, IReadOnlyList<int> initialmoves)
         {
-            if (!pk.Gen1_NotTradeback) // No Move Deleter in Gen 1
+            var capsuleState = IsTimeCapsuleTransferred(pk, info.Moves, info.EncounterMatch);
+            if (capsuleState != TimeCapsuleEvaluation.NotTransferred) // No Move Deleter in Gen 1
                 return 1; // Move Deleter exits, slots from 2 onwards can always be empty
+
+            if (info.EncounterMatch is IMoveset ms && ms.Moves.Count is not 0)
+                return ms.Moves.Count;
 
             int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves);
             if (required >= 4)
@@ -369,14 +373,14 @@ namespace PKHeX.Core
             return MoveLevelUp.GetMovesLevelUp1(basespecies, 0, maxlevel, minlevel);
         }
 
-        internal static IEnumerable<GameVersion> GetGen2Versions(IEncounterable enc, bool korean)
+        internal static IEnumerable<GameVersion> GetGen2Versions(IEncounterTemplate enc, bool korean)
         {
             if (ParseSettings.AllowGen2Crystal(korean) && enc.Version is C or GSC)
                 yield return C;
             yield return GS;
         }
 
-        internal static IEnumerable<GameVersion> GetGen1Versions(IEncounterable enc)
+        internal static IEnumerable<GameVersion> GetGen1Versions(IEncounterTemplate enc)
         {
             if (enc.Species == (int)Eevee && enc.Version == Stadium)
             {
@@ -450,71 +454,112 @@ namespace PKHeX.Core
         /// Gets the Tradeback status depending on various values.
         /// </summary>
         /// <param name="pkm">Pokémon to guess the tradeback status from.</param>
-        internal static TradebackType GetTradebackStatusInitial(PKM pkm)
+        internal static PotentialGBOrigin GetTradebackStatusInitial(PKM pkm)
         {
             if (pkm is PK1 pk1)
                 return GetTradebackStatusRBY(pk1);
 
             if (pkm.Format == 2 || pkm.VC2) // Check for impossible tradeback scenarios
-                return !pkm.CanInhabitGen1() ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
+                return !pkm.CanInhabitGen1() ? PotentialGBOrigin.Gen2Only : PotentialGBOrigin.Either;
 
             // VC2 is released, we can assume it will be TradebackType.Any.
             // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
             // Met Date cannot be used definitively as the player can change their system clock.
-            return TradebackType.Any;
+            return PotentialGBOrigin.Either;
         }
 
         /// <summary>
         /// Gets the Tradeback status depending on the <see cref="PK1.Catch_Rate"/>
         /// </summary>
         /// <param name="pkm">Pokémon to guess the tradeback status from.</param>
-        private static TradebackType GetTradebackStatusRBY(PK1 pkm)
+        private static PotentialGBOrigin GetTradebackStatusRBY(PK1 pkm)
         {
             if (!ParseSettings.AllowGen1Tradeback)
-                return TradebackType.Gen1_NotTradeback;
+                return PotentialGBOrigin.Gen1Only;
 
             // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
             var catch_rate = pkm.Catch_Rate;
             if (catch_rate == 0)
-                return TradebackType.WasTradeback;
+                return PotentialGBOrigin.Either;
 
             bool matchAny = GetCatchRateMatchesPreEvolution(pkm, catch_rate);
 
             if (!matchAny)
-                return TradebackType.WasTradeback;
+                return PotentialGBOrigin.Either;
 
             if (HeldItems_GSC.Contains((ushort)catch_rate))
-                return TradebackType.Any;
+                return PotentialGBOrigin.Either;
 
-            return TradebackType.Gen1_NotTradeback;
+            return PotentialGBOrigin.Gen1Only;
         }
 
-        internal static bool IsTradedKadabraG1(PKM pkm)
+        public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pkm, IList<CheckMoveResult> moves, IEncounterTemplate enc)
         {
-            if (pkm is not PK1 {Species: (int)Kadabra} pk1)
-                return false;
-            if (pk1.TradebackStatus == TradebackType.WasTradeback)
-                return true;
-            if (ParseSettings.ActiveTrainer.Game == (int)Any)
-                return false;
-            var IsYellow = ParseSettings.ActiveTrainer.Game == (int)YW;
-            if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
-            {
-                // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
-                // Yellow Kadabra catch rate in Red/Blue game, must be Alakazam
-                var table = IsYellow ? PersonalTable.RB : PersonalTable.Y;
-                if (pk1.Catch_Rate == table[(int)Kadabra].CatchRate)
-                    return true;
-            }
-            if (IsYellow)
-                return false;
-            // Yellow only moves in Red/Blue game, must be Alakazam
-            if (pk1.HasMove((int)Move.Kinesis)) // Kinesis, yellow only move
-                return true;
-            if (pk1.CurrentLevel < 20 && pk1.HasMove((int)Move.Disable)) // Obtaining Disable below level 20 implies a yellow only move
-                return true;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (moves.Any(z => z != null && z.Generation != enc.Generation && z.Generation <= 2))
+                return enc.Generation == 2 ? TimeCapsuleEvaluation.Transferred21 : TimeCapsuleEvaluation.Transferred12;
 
-            return false;
+            if (pkm is not GBPKM gb)
+            {
+                return enc.Generation switch
+                {
+                    2 when pkm.VC2 => TimeCapsuleEvaluation.Transferred21,
+                    1 when pkm.VC1 => TimeCapsuleEvaluation.Transferred12,
+                    _ => TimeCapsuleEvaluation.NotTransferred,
+                };
+            }
+
+            if (gb is ICaughtData2 pk2)
+            {
+                if (enc.Generation == 1)
+                    return TimeCapsuleEvaluation.Transferred12;
+                if (pk2.CaughtData != 0)
+                    return TimeCapsuleEvaluation.NotTransferred;
+                if (enc.Version == C)
+                    return TimeCapsuleEvaluation.Transferred21;
+                return TimeCapsuleEvaluation.Indeterminate;
+            }
+
+            if (gb is PK1 pk1)
+            {
+                if (IsCatchRateMatchEncounter(enc, pk1))
+                    return IsTradebackCatchRate(pk1.Catch_Rate) ? TimeCapsuleEvaluation.Indeterminate : TimeCapsuleEvaluation.NotTransferred;
+                return IsTradebackCatchRate(pk1.Catch_Rate) ? TimeCapsuleEvaluation.Transferred12 : TimeCapsuleEvaluation.BadCatchRate;
+            }
+            return TimeCapsuleEvaluation.Indeterminate;
         }
+
+        private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
+        {
+            EncounterStatic1 s when s.GetMatchRating(pk1) != EncounterMatchRating.PartialMatch => true,
+            EncounterTrade1 => true,
+            _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
+        };
+
+        public static bool IsTradebackCatchRate(int rate)
+        {
+            return HeldItems_GSC.Contains((ushort)rate);
+        }
+    }
+
+    public enum PotentialGBOrigin
+    {
+        Either,
+        Gen1Only,
+        Gen2Only,
+    }
+
+    public enum TimeCapsuleEvaluation
+    {
+        Indeterminate,
+        Transferred21,
+        Transferred12,
+        NotTransferred,
+        BadCatchRate,
+    }
+
+    public static class TimeCapsuleEvlautationExtensions
+    {
+        public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not TimeCapsuleEvaluation.Indeterminate or TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate;
     }
 }

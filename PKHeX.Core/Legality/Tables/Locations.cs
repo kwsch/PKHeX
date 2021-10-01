@@ -82,6 +82,9 @@
         /// <summary> Generation 6 Gift from Pokémon Link </summary>
         public const int LinkGift6 = 30011;
 
+        /// <summary> Generation 7 Poké Pelago </summary>
+        public const int Pelago7 = 30016;
+
         /// <summary> Generation 7 Transfer from GO to Pokémon LGP/E's GO Park </summary>
         public const int GO7 = 50;
 
@@ -100,14 +103,14 @@
             3 => LinkTrade3NPC,
             4 => LinkTrade4NPC,
             5 => LinkTrade5NPC,
-            _ => LinkTrade6NPC
+            _ => LinkTrade6NPC,
         };
 
         public static int TradedEggLocation(int generation) => generation switch
         {
             4 => LinkTrade4,
             5 => LinkTrade5,
-            _ => LinkTrade6
+            _ => LinkTrade6,
         };
 
         public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;

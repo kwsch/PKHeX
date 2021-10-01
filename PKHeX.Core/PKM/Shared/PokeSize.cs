@@ -32,7 +32,7 @@
             PokeSize.AV => Util.Rand.Next(0xA0) + 0x30,
             PokeSize.L  => Util.Rand.Next(0x20) + 0xD0,
             PokeSize.XL => Util.Rand.Next(0x10) + 0xF0,
-            _ => GetRandomScalar()
+            _ => GetRandomScalar(),
         };
 
         /// <summary>

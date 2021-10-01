@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         static EvolutionTree()
         {
-            // Throw in banned evolution data!
+            // Add in banned evolution data!
             Evolves7.FixEvoTreeSM();
             Evolves8.FixEvoTreeSS();
         }
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             5 => Evolves5,
             6 => Evolves6,
             7 => Evolves7,
-            _ => Evolves8
+            _ => Evolves8,
         };
 
         public static EvolutionTree GetEvolutionTree(PKM pkm, int generation) => generation switch
@@ -55,7 +55,7 @@ namespace PKHeX.Core
             5 => Evolves5,
             6 => Evolves6,
             7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-            _ => Evolves8
+            _ => Evolves8,
         };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
@@ -142,7 +142,7 @@ namespace PKHeX.Core
             Gen6 => EvolutionSet6.GetArray(data),
             Gen7 => EvolutionSet7.GetArray(data),
             Gen8 => EvolutionSet7.GetArray(data),
-            _ => throw new Exception()
+            _ => throw new ArgumentOutOfRangeException(),
         };
 
         private void FixEvoTreeSM()
@@ -150,7 +150,7 @@ namespace PKHeX.Core
             // Sun/Moon lack Ultra's Kantonian evolution methods.
             BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
             BanEvo((int)Species.Marowak, 0, pkm => pkm.IsUntraded && pkm.SM);
-            BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
+            BanEvo((int)Species.Exeggutor, 0, pkm => pkm.IsUntraded && pkm.SM);
         }
 
         private void FixEvoTreeSS()

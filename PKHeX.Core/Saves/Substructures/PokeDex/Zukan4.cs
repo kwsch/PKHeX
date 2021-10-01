@@ -114,7 +114,7 @@ namespace PKHeX.Core
                 (int)Species.Shaymin => GetDexFormValues(Data[FormOffset2 + 4], 1, 2),
                 (int)Species.Giratina => GetDexFormValues(Data[FormOffset2 + 5], 1, 2),
                 (int)Species.Pichu when HGSS => GetDexFormValues(Data[FormOffset2 + 6], 2, 3),
-                _ => Array.Empty<int>()
+                _ => Array.Empty<int>(),
             };
         }
 
@@ -209,7 +209,7 @@ namespace PKHeX.Core
 
                 Value |= (uint)(val << (BitsPerForm * i));
                 if (i >= readCt)
-                    throw new ArgumentException("Array count should be less than bitfield count", nameof(Forms));
+                    throw new ArgumentOutOfRangeException(nameof(readCt), "Array count should be less than bitfield count");
             }
             return Value;
         }

@@ -13,7 +13,7 @@ namespace PKHeX.Core
         internal static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
         private static readonly CheckResult DummyNone = new(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
 
-        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc, CheckResult[] result)
+        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterTemplate enc, CheckResult[] result)
         {
             if (ShouldNotHaveRelearnMoves(enc, pkm))
                 return VerifyRelearnNone(pkm, result);
@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 IRelearn s when s.Relearn.Count != 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn, result),
                 EncounterEgg e => VerifyEggMoveset(e, result, pkm.RelearnMoves),
                 EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result),
-                _ => VerifyRelearnNone(pkm, result)
+                _ => VerifyRelearnNone(pkm, result),
             };
         }
 

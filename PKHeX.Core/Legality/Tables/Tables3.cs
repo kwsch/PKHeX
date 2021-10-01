@@ -106,7 +106,7 @@ namespace PKHeX.Core
             259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
         };
 
-        internal static readonly HashSet<int> HM_3 = new() { 15, 19, 57, 70, 148, 249, 127, 291};
+        internal static readonly int[] HM_3 = {15, 19, 57, 70, 148, 249, 127, 291};
 
         internal static readonly int[] Tutor_3Mew =
         {
@@ -125,15 +125,18 @@ namespace PKHeX.Core
             203, 189, 008, 207, 214, 129, 111, 009, 007, 210
         };
 
-        internal static readonly int[] Tutor_FRLG =
-        {
-            005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
-            138, 086, 153, 157, 164
-        };
+        // subset of Emerald Tutors
+      //internal static readonly int[] Tutor_FRLG =
+      //{
+      //    005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
+      //    138, 086, 153, 157, 164
+      //};
 
         internal static readonly int[] SpecialTutors_FRLG =
         {
-            307, 308, 338
+            (int)Move.BlastBurn,
+            (int)Move.HydroCannon,
+            (int)Move.FrenzyPlant,
         };
 
         internal static readonly int[] SpecialTutors_Compatibility_FRLG = { 6, 9, 3 };

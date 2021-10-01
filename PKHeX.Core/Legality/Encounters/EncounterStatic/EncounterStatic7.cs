@@ -42,16 +42,12 @@ namespace PKHeX.Core
 
         protected override bool IsMatchForm(PKM pkm, DexLevel evo)
         {
-            if (SkipFormCheck)
-                return true;
-
             if (IsTotem)
             {
                 var expectForm = pkm.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;
             }
-
-            return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
+            return base.IsMatchForm(pkm, evo);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
@@ -59,6 +55,8 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             if (Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
+            if (Form == FormVivillon && pk is PK7 pk7)
+                pk.Form = Vivillon3DS.GetPattern(pk7.Country, pk7.Region);
             pk.SetRandomEC();
         }
 
@@ -91,7 +89,7 @@ namespace PKHeX.Core
                 Fateful = fateful,
                 Location = Locations.Transfer2,
                 Level = metLevel,
-                FlawlessIVCount = fateful ? 5 : 3
+                FlawlessIVCount = fateful ? 5 : 3,
             };
         }
     }

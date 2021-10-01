@@ -167,7 +167,7 @@ namespace PKHeX.Core
             ':',  'Ä',  'Ö',  'Ü', 'ä',  'ö',  'ü',                                                      // F
 
             // Make the total length 256 so that any byte access is always within the array
-            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator,
         };
 
         private static readonly char[] G3_JP =
@@ -190,7 +190,7 @@ namespace PKHeX.Core
             ':',  'Ä',  'Ö',  'Ü',  'ä',  'ö', 'ü',                                                      // F
 
             // Make the total length 256 so that any byte access is always within the array
-            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator,
         };
     }
 }

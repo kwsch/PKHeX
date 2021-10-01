@@ -29,7 +29,7 @@ namespace PKHeX.Core
                     new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
                     new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
                     new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry)
+                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry),
                 };
                 return pouch.LoadAll(Data);
             }

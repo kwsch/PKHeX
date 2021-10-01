@@ -17,20 +17,20 @@ namespace PKHeX.Core
         private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
         private static readonly IReadOnlyList<int>[] Empty = Enumerable.Repeat((IReadOnlyList<int>)new List<int>(), EmptyCount).ToArray();
 
-        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterable encounter)
+        public ValidEncounterMoves(PKM pkm, IEncounterTemplate encounter, IReadOnlyList<EvoCriteria>[] chains)
         {
-            var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, types: MoveSourceType.Encounter, RemoveTransferHM: false);
+            var level = MoveList.GetValidMovesAllGens(pkm, chains, types: MoveSourceType.Encounter, RemoveTransferHM: false);
 
             int gen = encounter.Generation;
             if ((uint)gen < level.Length && level[gen] is List<int> x)
                 AddEdgeCaseMoves(x, encounter, pkm);
 
             LevelUpMoves = level;
-            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllMachines);
-            TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllTutors);
+            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, chains, types: MoveSourceType.AllMachines);
+            TutorMoves = MoveList.GetValidMovesAllGens(pkm, chains, types: MoveSourceType.AllTutors);
         }
 
-        private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)
+        private static void AddEdgeCaseMoves(List<int> moves, IEncounterTemplate encounter, PKM pkm)
         {
             if (pkm is IBattleVersion {BattleVersion: not 0})
                 return;
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic8N r when r.IsDownLeveled(pkm): // Downleveled Raid can happen for shared raids and self-hosted raids.
-                    moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, -1, -1, r.LevelMax, r.Form, GameVersion.SW, false, 8));
+                    moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, r.Form, r.LevelMax, 0, 0, GameVersion.SW, false, 8));
                     break;
                 case EncounterSlot8GO g:
                     moves.AddRange(MoveLevelUp.GetEncounterMoves(g.Species, g.Form, pkm.Met_Level, g.OriginGroup));
@@ -52,19 +52,5 @@ namespace PKHeX.Core
         }
 
         public ValidEncounterMoves() : this(Empty) { }
-    }
-
-    public sealed class LevelUpRestriction
-    {
-        public readonly IReadOnlyList<EvoCriteria>[] EvolutionChains;
-        public readonly int MinimumLevelGen1;
-        public readonly int MinimumLevelGen2;
-
-        public LevelUpRestriction(PKM pkm, LegalInfo info)
-        {
-            MinimumLevelGen1 = info.Generation <= 2 ? info.EncounterMatch.LevelMin + 1 : 0;
-            MinimumLevelGen2 = ParseSettings.AllowGen2MoveReminder(pkm) ? 1 : info.EncounterMatch.LevelMin + 1;
-            EvolutionChains = info.EvoChainsAllGens;
-        }
     }
 }

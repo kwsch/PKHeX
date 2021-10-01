@@ -24,7 +24,7 @@ namespace PKHeX.WinForms
             {
                 new[] { NUD_Message00, NUD_Message01, NUD_Message02, NUD_Message03 },
                 new[] { NUD_Message10, NUD_Message11, NUD_Message12, NUD_Message13 },
-                new[] { NUD_Message20, NUD_Message21, NUD_Message22, NUD_Message23 }
+                new[] { NUD_Message20, NUD_Message21, NUD_Message22, NUD_Message23 },
             };
             PKMLabels = new[] { L_PKM1, L_PKM2, L_PKM3, L_PKM4, L_PKM5, L_PKM6 };
             PKMHeldItems = new[] { L_HeldItem1, L_HeldItem2, L_HeldItem3, L_HeldItem4, L_HeldItem5, L_HeldItem6 };

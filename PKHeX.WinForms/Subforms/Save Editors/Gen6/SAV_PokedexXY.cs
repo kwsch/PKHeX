@@ -17,8 +17,8 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6XY)(Origin = sav).Clone();
             Zukan = SAV.Zukan;
-            CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
-            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
+            CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9 };
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7 };
 
             editing = true;
             // Clear Listbox and ComboBox
@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
@@ -231,8 +231,10 @@ namespace PKHeX.WinForms
             int index = LB_Species.SelectedIndex+1;
             int gt = SAV.Personal[index].Gender;
 
-            CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = gt is not (0 or 255) && ModifierKeys != Keys.Control;
+            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+            CHK_P2.Checked = CHK_P4.Checked = canBeMale && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = canBeFemale && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
             {
@@ -241,7 +243,7 @@ namespace PKHeX.WinForms
             }
             else if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
             {
-                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
             }
         }
 
@@ -270,7 +272,7 @@ namespace PKHeX.WinForms
                     {
                         // if seen ensure at least one Displayed
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                            (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
                     }
                     else
                     {
@@ -302,33 +304,33 @@ namespace PKHeX.WinForms
                         if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
                         {
                             if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
-                                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
+                                (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true; // check one
                         }
                     }
                     if (mnuCaughtNone != sender)
                     {
                         if (mnuComplete == sender)
                         {
-                            CHK_P2.Checked = CHK_P4.Checked = gt != 254; // not female only
-                            CHK_P3.Checked = CHK_P5.Checked = gt is not (0 or 255); // not male only or genderless
+                            bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
+                            bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
+                            CHK_P2.Checked = CHK_P4.Checked = canBeMale;
+                            CHK_P3.Checked = CHK_P5.Checked = canBeFemale;
                         }
                         else
                         {
                             // ensure at least one SEEN
                             if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
-                                (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+                                (gt != PersonalInfo.RatioMagicFemale ? CHK_P2 : CHK_P3).Checked = true;
                         }
 
                         // ensure at least one Displayed
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                            (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
                     }
                 }
             }
 
             SetEntry();
-            if (mnuComplete == sender) // Turn off Italian Petlil
-                Zukan.SetLanguageFlag((int)Species.Petilil - 1, (int)LanguageID.Italian - 1, false);
             GetEntry();
         }
 

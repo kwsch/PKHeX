@@ -42,19 +42,22 @@ namespace PKHeX.Core
             return base.IsMatchExact(pkm, evo);
         }
 
-        protected sealed override bool IsMatchDeferred(PKM pkm)
+        protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)
         {
             if (Ability != -1) // Any
             {
-                bool CanBeHidden() => ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(Species, Form)).HasHiddenAbility;
-
                 // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
-                if (Ability == 0 && pkm.AbilityNumber == 4)
-                    return !CanBeHidden(); // 0/1
-                if (Ability == 1 && pkm.AbilityNumber != 1)
-                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 0
-                if (Ability == 2 && pkm.AbilityNumber != 2)
-                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 1
+                var num = pkm.AbilityNumber;
+                if (num == 4)
+                {
+                    if (Ability is not 4 && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pkm.Species))
+                        return EncounterMatchRating.DeferredErrors;
+                }
+                else if (num != Ability) // Fixed regular ability
+                {
+                    if (Ability is 1 or 2 && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
+                        return EncounterMatchRating.DeferredErrors;
+                }
             }
 
             return base.IsMatchDeferred(pkm);

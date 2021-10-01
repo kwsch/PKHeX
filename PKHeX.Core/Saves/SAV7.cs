@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -14,11 +13,11 @@ namespace PKHeX.Core
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
         {
-            int gen = f.Last() - 0x30;
+            int gen = f[^1] - 0x30;
             return gen <= 7 && f[1] != 'b'; // ignore PB7
-        }).ToArray();
+        });
 
         protected SAV7(byte[] data, int biOffset) : base(data, biOffset)
         {
@@ -109,7 +108,7 @@ namespace PKHeX.Core
             (int)GameVersion.MN => GameVersion.MN,
             (int)GameVersion.US => GameVersion.US,
             (int)GameVersion.UM => GameVersion.UM,
-            _ => GameVersion.Invalid
+            _ => GameVersion.Invalid,
         };
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
@@ -128,9 +127,9 @@ namespace PKHeX.Core
         public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
         public int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
         public string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
-        public int Region { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
-        public int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
-        public int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
+        public byte Region { get => MyStatus.Region; set => MyStatus.Region = value; }
+        public byte Country { get => MyStatus.Country; set => MyStatus.Country = value; }
+        public byte ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
@@ -209,7 +208,7 @@ namespace PKHeX.Core
             {
                 (int)Species.Furfrou => 5u, // Furfrou
                 (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
+                _ => 0u,
             };
         }
 

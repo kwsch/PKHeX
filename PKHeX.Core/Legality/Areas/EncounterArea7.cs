@@ -60,9 +60,9 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(slot.Species))
+                    if (slot.Form != evo.Form && slot.Species is not ((int)Species.Furfrou or (int)Species.Oricorio))
                     {
-                        if (slot.Species != (int)Species.Minior) // Random Color, edge case
+                        if (!slot.IsRandomUnspecificForm) // Minior, etc
                             break;
                     }
 

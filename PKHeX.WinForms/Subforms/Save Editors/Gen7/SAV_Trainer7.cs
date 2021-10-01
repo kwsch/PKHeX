@@ -106,9 +106,9 @@ namespace PKHeX.WinForms
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
 
-            CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.Region;
-            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+            CB_Country.SelectedValue = (int)SAV.Country;
+            CB_Region.SelectedValue = (int)SAV.Region;
+            CB_3DSReg.SelectedValue = (int)SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
             var timeA = SAV.GameTime.AlolaTime;
             if (timeA == 0)
@@ -254,7 +254,7 @@ namespace PKHeX.WinForms
                 75,332,334,
                 331,333,335,336,
             };
-            string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)", };
+            string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)" };
             CLB_FlyDest.Items.Clear();
             for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
             {
@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
                 181,
                 409,297,32,296,
             };
-            string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)", };
+            string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)" };
             CLB_MapUnmask.Items.Clear();
             for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
             {
@@ -329,9 +329,9 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
-            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            SAV.Region = (byte)WinFormsUtil.GetIndex(CB_Region);
+            SAV.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
+            SAV.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
                 SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);

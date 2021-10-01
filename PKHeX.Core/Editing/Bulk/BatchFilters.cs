@@ -8,8 +8,8 @@ namespace PKHeX.Core
         public static readonly List<IComplexFilter> FilterMods = new()
         {
             new ComplexFilter(PROP_LEGAL,
-                (pkm, cmd) => new LegalityAnalysis(pkm).Valid == cmd.Evaluator,
-                (info, cmd) => info.Legality.Valid == cmd.Evaluator),
+                (pkm, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && (b == new LegalityAnalysis(pkm).Valid) == cmd.Evaluator,
+                (info, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && (b == info.Legality.Valid) == cmd.Evaluator),
 
             new ComplexFilter(PROP_TYPENAME,
                 (pkm, cmd) => (pkm.GetType().Name == cmd.PropertyValue) == cmd.Evaluator,
@@ -22,10 +22,10 @@ namespace PKHeX.Core
                 (obj, cmd) => obj is SlotCache s && s.Identify().Contains(cmd.PropertyValue) == cmd.Evaluator),
 
             new MetaFilter(nameof(SlotInfoBox.Box),
-                (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && (b.Box.ToString() == cmd.PropertyValue) == cmd.Evaluator),
+                (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && int.TryParse(cmd.PropertyValue, out var box) && b.Box + 1 == box),
 
             new MetaFilter(nameof(ISlotInfo.Slot),
-                (obj, cmd) => obj is SlotCache s && (s.Source.Slot.ToString() == cmd.PropertyValue) == cmd.Evaluator),
+                (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && s.Source.Slot + 1 == slot),
         };
     }
 }

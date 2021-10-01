@@ -9,26 +9,35 @@ namespace PKHeX.Core
     public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
     {
         public readonly AreaWeather8 Weather;
-        public override string LongName => $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
+        public readonly AreaSlotType8 SlotType;
+        public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather) : base(area, species, form, min, max)
+        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
         {
             Weather = weather;
+            SlotType = slotType;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            base.ApplyDetails(sav, criteria, pk);
-            if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && (Weather & AreaWeather8.Fishing) == 0)
+            bool symbol = ((EncounterArea8)Area).PermitCrossover;
+            var c = symbol ? EncounterCriteria.Unrestricted : criteria;
+            if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
                 ((PK8)pk).RibbonMarkCurry = true;
+
+            base.ApplyDetails(sav, c, pk);
+            if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
+                pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+
             var req = GetRequirement(pk);
             if (req != MustHave)
             {
                 pk.SetRandomEC();
                 return;
             }
-            Overworld8RNG.ApplyDetails(pk, criteria);
+            // Don't bother honoring shiny state.
+            Overworld8RNG.ApplyDetails(pk, c, Shiny.Random);
         }
 
         public OverworldCorrelation8Requirement GetRequirement(PKM pk)
@@ -54,14 +63,18 @@ namespace PKHeX.Core
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
-            var flawless = GetFlawlessIVCount();
+            var flawless = GetFlawlessIVCount(pk.Met_Level);
             return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
         }
 
-        private int GetFlawlessIVCount()
+        private int GetFlawlessIVCount(int met)
         {
             const int none = 0;
             const int any023 = -1;
+
+            // Brilliant encounters are boosted to max level for the slot.
+            if (met < LevelMax)
+                return none;
 
             var area = (EncounterArea8) Area;
             if (area.PermitCrossover)
@@ -73,10 +86,6 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            // Glimwood Tangle does not spawn Symbol encounters, only Hidden.
-            if (Location is 76 && ((EncounterArea8)Area).PermitCrossover)
-                return EncounterMatchRating.PartialMatch;
-
             bool isHidden = pkm.AbilityNumber == 4;
             if (isHidden && this.IsPartialMatchHidden(pkm.Species, Species))
                 return EncounterMatchRating.PartialMatch;
@@ -84,20 +93,25 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetMark8 m)
             {
                 if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)
-                    return EncounterMatchRating.Deferred;
+                    return EncounterMatchRating.DeferredErrors;
                 if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
-                    return EncounterMatchRating.Deferred;
+                    return EncounterMatchRating.DeferredErrors;
 
-                // Galar Mine hidden encounters can only be found via Curry.
-                if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry && (Weather & AreaWeather8.Fishing) == 0)
-                    return EncounterMatchRating.PartialMatch;
+                // Check if it has a mark and the weather does not permit the mark.
+                // Tree/Fishing slots should be deferred here and are checked later.
+                if (!Weather.IsMarkCompatible(m))
+                    return EncounterMatchRating.DeferredErrors;
+
+                // Galar Mine hidden encounters can only be found via Curry or Fishing.
+                if(Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !SlotType.CanEncounterViaFishing(Weather))
+                    return EncounterMatchRating.DeferredErrors;
             }
 
             var req = GetRequirement(pkm);
             return req switch
             {
-                MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
-                MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
+                MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.DeferredErrors,
+                MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.DeferredErrors,
                 _ => EncounterMatchRating.Match,
             };
         }

@@ -22,7 +22,7 @@ namespace PKHeX.Core
         public static string GetLegalityReport(LegalityAnalysis la) => Formatter.GetReport(la);
         public static string GetVerboseLegalityReport(LegalityAnalysis la) => Formatter.GetReportVerbose(la);
 
-        public static void AddValidSecondaryChecks(IEnumerable<CheckResult> results, List<string> lines)
+        public static void AddSecondaryChecksValid(IEnumerable<CheckResult> results, List<string> lines)
         {
             var outputLines = results
                 .Where(chk => chk.Valid && chk.Comment != L_AValid)
@@ -31,25 +31,32 @@ namespace PKHeX.Core
             lines.AddRange(outputLines);
         }
 
-        public static void AddValidMovesRelearn(LegalInfo info, List<string> lines)
+        public static void AddSecondaryChecksInvalid(IReadOnlyList<CheckResult> results, List<string> lines)
         {
-            var moves = info.Relearn;
-            for (int i = 0; i < moves.Length; i++)
+            foreach (var chk in results)
             {
-                var move = moves[i];
-                if (!move.Valid)
+                if (chk.Valid)
                     continue;
-                lines.Add(move.Format(L_F0_RM_1_2, i + 1));
+                lines.Add(chk.Format(L_F0_1));
             }
         }
 
-        public static void AddValidMoves(LegalInfo info, List<string> lines, in int currentFormat)
+        public static void AddRelearn(CheckResult[] relearn, List<string> lines, bool state)
         {
-            var moves = info.Moves;
+            for (int i = 0; i < relearn.Length; i++)
+            {
+                var move = relearn[i];
+                if (move.Valid == state)
+                    lines.Add(move.Format(L_F0_RM_1_2, i + 1));
+            }
+        }
+
+        public static void AddMoves(CheckMoveResult[] moves, List<string> lines, in int currentFormat, bool state)
+        {
             for (int i = 0; i < moves.Length; i++)
             {
                 var move = moves[i];
-                if (!move.Valid)
+                if (move.Valid != state)
                     continue;
                 var msg = move.Format(L_F0_M_1_2, i + 1);
                 var gen = move.Generation;
@@ -106,29 +113,11 @@ namespace PKHeX.Core
             return $"{enc.LongName} ({name})";
         }
 
-        public static string? GetEncounterLocation(this IEncounterable enc)
+        public static string? GetEncounterLocation(this IEncounterTemplate enc)
         {
             if (enc is not ILocation loc)
                 return null;
             return loc.GetEncounterLocation(enc.Generation, (int)enc.Version);
-        }
-
-        public static void AddInvalidMatchesIfAny(LegalityAnalysis la, LegalInfo info, List<string> lines)
-        {
-            if (la.Valid)
-                return;
-
-            var matches = info.InvalidMatches;
-            if (matches is null)
-                return;
-
-            lines.Add("Other match(es):");
-            foreach (var m in matches)
-            {
-                var enc = m.Encounter;
-                var desc = $"{enc.LongName}: {m.Reason}";
-                lines.Add(desc);
-            }
         }
     }
 }

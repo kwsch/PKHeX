@@ -34,9 +34,7 @@ namespace PKHeX.Core
             for (int i = start; i < end; i++)
             {
                 int index = i + rnd.Next(end - i);
-                T t = items[index];
-                items[index] = items[i];
-                items[i] = t;
+                (items[index], items[i]) = (items[i], items[index]);
             }
         }
     }

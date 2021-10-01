@@ -14,34 +14,36 @@ namespace PKHeX.Core
     {
         internal static readonly WC3[] Encounter_Event3_Special =
         {
-            new() { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "アゲト", CardTitle = "Agate Celebi", Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
-            new() { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
-
-            new() { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "AGATE", CardTitle = "Agate Celebi", Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
-            new() { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
-
             new() { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.BACD_R, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)LanguageID.English },
         };
 
         private static IEnumerable<WC3> GetIngameCXDData()
         {
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
+            string[] p = {string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
+            string[] c = {string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };
             string[] h = {string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL"};
             string[] d = {string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN"};
-            string[] m = {string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG﻿", string.Empty, "ERNESTO"}; // truncated on ck3->pk3 transfer
+            string[] m = {string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG", string.Empty, "ERNESTO"}; // truncated on ck3->pk3 transfer
+            string[] z = {string.Empty, "コンセント", "ZAPRONG", "ZAPRONG", "ZAPRONG", "ZAPRONG", string.Empty, "ZAPRONG"};
 
             return langs.SelectMany(l => GetIngame((int)l));
             IEnumerable<WC3> GetIngame(int l)
             {
                 var id = (LanguageID) l;
+                var nd = id != LanguageID.Japanese;
                 return new WC3[]
                 {
-                    new() { Species = 239, Level = 20, Language = l, Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = h[l], Version = GameVersion.XD,   CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new[] { 008, 007, 009, 238 }, Fateful = true }, // Elekid @ Snagem Hideout
+                    // Colosseum
+                    new() { Species = 025, Level = 10, Language = l, Location = 255, TID = 31121, SID =  0, OT_Gender = 0, OT_Name = p[l], Version = GameVersion.R,    CardTitle = $"Colosseum Pikachu ({id})",Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Colosseum Pikachu bonus gift
+                    new() { Species = 251, Level = 10, Language = l, Location = 255, TID = 31121, SID =  0, OT_Gender = 1, OT_Name = c[l], Version = GameVersion.R,    CardTitle = $"Agate Celebi ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Ageto Celebi bonus gift
+                    new() { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 045, 086, 098, 270 } }, // Plusle @ Ingame Trade
+                    new() { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new[] { 105, 126, 241, 129 } }, // Ho-oh @ Mt. Battle
+                    // XD
+                    new() { Species = 239, Level = 20, Language = l, Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = h[l], Version = GameVersion.XD,   CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new[] { 008, 007, 009, 238 }, Fateful = true, Nickname = z[l] }, // Elekid @ Snagem Hideout
                     new() { Species = 307, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Moves = new[] { 223, 093, 247, 197 }, Fateful = true }, // Meditite @ Pyrite Town
                     new() { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new[] { 092, 164, 188, 227 }, Fateful = true }, // Shuckle @ Pyrite Town
                     new() { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Moves = new[] { 201, 349, 044, 200 }, Fateful = true }, // Larvitar @ Pyrite Town
-                    new() { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Moves = new[] { 045, 086, 098, 270 }, Shiny = Shiny.Never }, // Plusle @ Ingame Trade
-                    new() { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Moves = new[] { 105, 126, 241, 129 }, Shiny = Shiny.Never }, // Ho-oh @ Mt. Battle
                 };
             }
         }

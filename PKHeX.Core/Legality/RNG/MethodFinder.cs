@@ -359,14 +359,14 @@ namespace PKHeX.Core
             if (pid > 0xFF)
                 return GetNonMatch(out pidiv);
 
-            GetCuteCharmGenderSpecies(pk, pid, out int genderValue, out int species);
+            (int species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
             int getRatio() => PersonalTable.HGSS[species].Gender;
             switch (genderValue)
             {
                 case 2: break; // can't cute charm a genderless pkm
                 case 0: // male
                     var gr = getRatio();
-                    if (254 <= gr) // no modification for PID
+                    if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
                         break;
                     var rate = 25*((gr / 25) + 1); // buffered
                     var nature = pid % 25;
@@ -378,7 +378,7 @@ namespace PKHeX.Core
                 case 1: // female
                     if (pid >= 25)
                         break; // nope, this isn't a valid nature
-                    if (254 <= getRatio()) // no modification for PID
+                    if (getRatio() >= PersonalInfo.RatioMagicFemale) // no modification for PID
                         break;
 
                     pidiv = PIDIV.CuteCharm;
@@ -428,6 +428,17 @@ namespace PKHeX.Core
                 return true;
             }
             return GetNonMatch(out pidiv);
+        }
+
+        public static IEnumerable<uint> GetCuteCharmSeeds(PKM pk)
+        {
+            var IVs = new uint[6];
+            for (int i = 0; i < 6; i++)
+                IVs[i] = (uint)pk.GetIV(i);
+            var bot = GetIVChunk(IVs, 0);
+            var top = GetIVChunk(IVs, 3);
+
+            return GetSeedsFromIVs(RNG.LCRNG, top, bot);
         }
 
         private static bool GetBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
@@ -810,38 +821,34 @@ namespace PKHeX.Core
             0 => esv < 50 , // [0,50)
             1 => esv - 50 < 35, // [50,85)
             2 => esv >= 85, // [85,100)
-            _ => false
+            _ => false,
         };
 
-        public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
+        public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pkm) => encounter switch
         {
-            switch (encounter)
-            {
-                case WC3 g:
-                    if (val == g.Method)
-                        return true;
-                    if (val == CXDAnti && g.Shiny == Shiny.Never && g.Method == CXD)
-                        return true;
-                    // forced shiny eggs, when hatched, can lose their detectable correlation.
-                    return g.IsEgg && !pkm.IsEgg && val == None && (g.Method is BACD_R_S or BACD_U_S);
-                case EncounterStaticShadow:
-                    return pkm.Version == (int)GameVersion.CXD && (val is CXD or CXDAnti);
-                case EncounterStatic3 s:
-                    return pkm.Version switch
-                    {
-                        (int)GameVersion.CXD => val is CXD or CXD_ColoStarter or CXDAnti,
-                        (int)GameVersion.E => val == Method_1, // no roamer glitch
-                        (int)GameVersion.FR or (int)GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == Method_1, // roamer glitch
-                        _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
-                    };
-                case EncounterSlot w:
-                    if (pkm.Version == 15)
-                        return val == PokeSpot;
-                    return (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val);
-                default:
-                    return val == None;
-            }
-        }
+            WC3 g                  => IsCompatible3Mystery(val, pkm, g),
+            EncounterStatic3 s     => IsCompatible3Static(val, pkm, s),
+            EncounterSlot3 w       => (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val),
+            EncounterStaticShadow  => val is CXD or CXDAnti,
+            EncounterSlot3PokeSpot => val == PokeSpot,
+                                 _ => val == None,
+        };
+
+        private static bool IsCompatible3Static(PIDType val, PKM pkm, EncounterStatic3 s) => pkm.Version switch
+        {
+            (int)GameVersion.CXD                        => val is CXD or CXD_ColoStarter or CXDAnti,
+            (int)GameVersion.E                          => val == Method_1, // no roamer glitch
+            (int)GameVersion.FR or (int) GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == Method_1, // roamer glitch
+                                                      _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
+        };
+
+        private static bool IsCompatible3Mystery(PIDType val, PKM pkm, WC3 g) => val == g.Method || val switch
+        {
+            // forced shiny eggs, when hatched, can lose their detectable correlation.
+            None    => (g.Method is BACD_R_S or BACD_U_S) && g.IsEgg && !pkm.IsEgg,
+            CXDAnti => g.Method == CXD && g.Shiny == Shiny.Never,
+            _       => false,
+        };
 
         private static bool IsRoamerPIDIV(this PIDType val, PKM pkm)
         {
@@ -857,38 +864,29 @@ namespace PKHeX.Core
             return pkm.IV_DEF == 0 && pkm.IV_SPE == 0 && pkm.IV_SPA == 0 && pkm.IV_SPD == 0 && pkm.IV_ATK <= 7;
         }
 
-        public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
+        public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pkm) => encounter switch
         {
-            switch (encounter)
+            // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
+            EncounterStatic4Pokewalker when val is CuteCharm => GetCuteCharmMatch(pkm, pkm.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pkm),
+            EncounterStatic4Pokewalker => val == Pokewalker,
+
+            EncounterStatic4 {Species: (int)Species.Pichu} => val == Pokewalker,
+            EncounterStatic4 {Shiny: Shiny.Always} => val == ChainShiny,
+            EncounterStatic4 when val is CuteCharm => IsCuteCharm4Valid(encounter, pkm),
+            EncounterStatic4 => val == Method_1,
+
+            EncounterSlot4 w => val switch
             {
-                case EncounterStatic4Pokewalker:
-                    return val == Pokewalker || (val == CuteCharm && GetCuteCharmMatch(pkm, pkm.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pkm));
-                case EncounterStatic4 {Species: (int)Species.Pichu}:
-                    return val == Pokewalker;
-                case EncounterStatic4 {Shiny: Shiny.Always}:
-                        return val == ChainShiny;
-                case EncounterStatic4:
-                    if (val == CuteCharm && IsCuteCharm4Valid(encounter, pkm))
-                        return true;
-                    return val == Method_1;
-                case EncounterSlot4 sl:
-                    if (val == Method_1)
-                        return true;
-                    if (val == CuteCharm && IsCuteCharm4Valid(encounter, pkm))
-                        return true;
-                    if (val != ChainShiny)
-                        return false;
-                    // Chain shiny with poke radar is only possible in DPPt in grass, safari zone does not allow pokeradar
-                    // TypeEncounter Grass discard any cave or city
-                    return pkm.IsShiny && !pkm.HGSS && sl.GroundTile == GroundTilePermission.Grass && !Locations.IsSafariZoneLocation4(sl.Location);
-                case PGT: // manaphy
-                    return IsG4ManaphyPIDValid(val, pkm);
-                case PCD d when d.Gift.PK.PID != 1:
-                    return true; // already matches PCD's fixed PID requirement
-                default: // eggs
-                    return val == None;
-            }
-        }
+                // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
+                ChainShiny => pkm.IsShiny && !pkm.HGSS && (w.GroundTile & GroundTilePermission.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
+                CuteCharm => IsCuteCharm4Valid(encounter, pkm),
+                _ => val == Method_1,
+            },
+
+            PGT => IsG4ManaphyPIDValid(val, pkm), // Manaphy is the only PGT in the database
+            PCD d when d.Gift.PK.PID != 1 => true, // Already matches PCD's fixed PID requirement
+            _ => val == None,
+        };
 
         private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)
         {
@@ -912,7 +910,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
+        private static bool IsCuteCharm4Valid(ISpeciesForm encounter, PKM pkm)
         {
             if (pkm.Species is (int)Species.Marill or (int)Species.Azumarill)
             {
@@ -925,41 +923,32 @@ namespace PKHeX.Core
 
         private static bool IsCuteCharmAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;
 
-        private static void GetCuteCharmGenderSpecies(PKM pk, uint pid, out int genderValue, out int species)
+        /// <summary>
+        /// There are some edge cases when the gender ratio changes across evolutions.
+        /// </summary>
+        private static (int Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, int currentSpecies) => currentSpecies switch
         {
-            // There are some edge cases when the gender ratio changes across evolutions.
-            species = pk.Species;
-            if (species == (int)Species.Ninjask)
-            {
-                species = (int)Species.Nincada; // Nincada evo chain travels from M/F -> Genderless Shedinja
-                genderValue = PKX.GetGenderFromPID(species, pid);
-                return;
-            }
+            // Nincada evo chain travels from M/F -> Genderless Shedinja
+            (int)Species.Shedinja  => ((int)Species.Nincada, PKX.GetGenderFromPID(currentSpecies, pid)),
 
-            switch (species)
-            {
-                // These evolved species cannot be encountered with cute charm.
-                // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
-                // We can assume the re-mapped species's [gender ratio] is what was encountered.
+            // These evolved species cannot be encountered with cute charm.
+            // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
+            // We can assume the re-mapped species's [gender ratio] is what was encountered.
+            (int)Species.Wormadam  => ((int)Species.Burmy,   1),
+            (int)Species.Mothim    => ((int)Species.Burmy,   0),
+            (int)Species.Vespiquen => ((int)Species.Combee,  1),
+            (int)Species.Gallade   => ((int)Species.Kirlia,  0),
+            (int)Species.Froslass  => ((int)Species.Snorunt, 1),
+            // Azurill & Marill/Azumarill collision
+            // Changed gender ratio (25% M -> 50% M) needs special treatment.
+            // Double check the encounter species with IsCuteCharm4Valid afterwards.
+            (int)Species.Marill or (int)Species.Azumarill when IsCuteCharmAzurillMale(pid) => ((int)Species.Azurill, 0),
 
-                case (int)Species.Wormadam or (int)Species.Mothim: species = (int)Species.Burmy; break;
-                case (int)Species.Vespiquen: species = (int)Species.Combee; break;
-                case (int)Species.Gallade: species = (int)Species.Kirlia; break;
-                case (int)Species.Froslass: species = (int)Species.Snorunt; break;
+            // Future evolutions
+            (int)Species.Sylveon   => ((int)Species.Eevee, pk.Gender),
 
-                // Changed gender ratio (25% M -> 50% M) needs special treatment.
-                // Double check the encounter species with IsCuteCharm4Valid afterwards.
-                case (int)Species.Marill or (int)Species.Azumarill: // Azurill & Marill/Azumarill collision
-                    if (IsCuteCharmAzurillMale(pid))
-                    {
-                        species = (int)Species.Azurill;
-                        genderValue = 0;
-                        return;
-                    }
-                    break;
-            }
-            genderValue = pk.Gender;
-        }
+            _ => (currentSpecies, pk.Gender),
+        };
 
         private static readonly PIDType[] MethodH = { Method_1, Method_2, Method_3, Method_4 };
         private static readonly PIDType[] MethodH14 = { Method_1, Method_4 };

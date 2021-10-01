@@ -209,7 +209,10 @@ namespace PKHeX.Core
 
         internal static readonly int[] SpecialTutors_4 =
         {
-            307, 308, 338, 434
+            (int)Move.BlastBurn,
+            (int)Move.HydroCannon,
+            (int)Move.FrenzyPlant,
+            (int)Move.DracoMeteor,
         };
 
         internal static readonly int[][] SpecialTutors_Compatibility_4 =
@@ -255,11 +258,6 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> GiftEggLocation4 = new()
         {
             2009, 2010, 2011, 2013, 2014
-        };
-
-        internal static readonly HashSet<int> EggLocations4 = new()
-        {
-            2000, 2002, 2009, 2010, 2011, 2013, 2014
         };
 
         internal static int GetTransfer45MetLocation(PKM pkm)

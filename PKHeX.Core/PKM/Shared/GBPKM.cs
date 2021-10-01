@@ -20,16 +20,6 @@ namespace PKHeX.Core
 
         public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
-        public sealed override string FileNameWithoutExtension
-        {
-            get
-            {
-                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
-                string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {Nickname} - {Checksums.CRC16_CCITT(Encrypt()):X4}";
-            }
-        }
-
         protected GBPKM(int size) : base(size) { }
         protected GBPKM(byte[] data) : base(data) { }
 
@@ -97,10 +87,10 @@ namespace PKHeX.Core
                 int gv = PersonalInfo.Gender;
                 return gv switch
                 {
-                    255 => 2,
-                    254 => 1,
-                    0 => 0,
-                    _ => IV_ATK > gv >> 4 ? 0 : 1
+                    PersonalInfo.RatioMagicGenderless => 2,
+                    PersonalInfo.RatioMagicFemale => 1,
+                    PersonalInfo.RatioMagicMale => 0,
+                    _ => IV_ATK > gv >> 4 ? 0 : 1,
                 };
             }
             set { }

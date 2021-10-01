@@ -36,7 +36,7 @@ namespace PKHeX.Core
             EReaderBerryMatch.NoData => GetInvalid(LItemUnreleased),
             EReaderBerryMatch.InvalidUSA => GetInvalid(LEReaderAmerica),
             EReaderBerryMatch.InvalidJPN => GetInvalid(LEReaderJapan),
-            _ => null
+            _ => null,
         };
     }
 }

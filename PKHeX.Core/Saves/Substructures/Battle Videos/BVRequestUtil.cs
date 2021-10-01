@@ -90,7 +90,7 @@ namespace PKHeX.Core
             '1' => 'X',
             'I' => 'Y',
             'O' => 'Z',
-            _ => c
+            _ => c,
         };
 
         private static char MapFromChar(char c) => c switch
@@ -99,7 +99,7 @@ namespace PKHeX.Core
             'X' => '1',
             'Y' => 'I',
             'Z' => 'O',
-            _ => c
+            _ => c,
         };
     }
 }

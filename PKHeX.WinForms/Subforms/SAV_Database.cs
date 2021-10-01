@@ -157,8 +157,8 @@ namespace PKHeX.WinForms
             else if (entry.Source is SlotInfoBox b && entry.SAV == SAV)
             {
                 // Data from Box: Delete from save file
-                int box = b.Box-1;
-                int slot = b.Slot-1;
+                int box = b.Box;
+                int slot = b.Slot;
                 var change = new SlotInfoBox(box, slot);
                 var pkSAV = change.Read(SAV);
 
@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
 
         private bool GetShiftedIndex(ref int index)
         {
-            if (index >= RES_MAX)
+            if ((uint)index >= RES_MAX)
                 return false;
             index += SCR_Box.Value * RES_MIN;
             return index < Results.Count;
@@ -369,6 +369,12 @@ namespace PKHeX.WinForms
                     result.RemoveAll(z => !(z.Entity is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Entity.Species, z.Entity.Form)).IsPresentInGame));
             }
 
+            var sort = Main.Settings.EntityDb.InitialSortMode;
+            if (sort is DatabaseSortMode.SlotIdentity)
+                result.Sort();
+            else if (sort is DatabaseSortMode.SpeciesForm)
+                result.Sort((first, second) => first.CompareToSpeciesForm(second));
+
             // Finalize the Database
             return result;
         }
@@ -492,7 +498,7 @@ namespace PKHeX.WinForms
                 settings.SearchClones = ModifierKeys switch
                 {
                     Keys.Control => CloneDetectionMethod.HashPID,
-                    _ => CloneDetectionMethod.HashDetails
+                    _ => CloneDetectionMethod.HashDetails,
                 };
             }
 

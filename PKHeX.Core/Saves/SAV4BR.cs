@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -299,12 +298,19 @@ namespace PKHeX.Core
                 }
             }
 
+            // Restore original checksums
             for (int i = 0; i < storedChecksums.Length; i++)
             {
                 BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + (i * 4));
             }
 
-            return checksums.SequenceEqual(storedChecksums);
+            // Check if they match
+            for (int i = 0; i < storedChecksums.Length; i++)
+            {
+                if (storedChecksums[i] != checksums[i])
+                    return false;
+            }
+            return true;
         }
 
         private static void SetChecksum(byte[] input, int offset, int len, int checksum_offset)

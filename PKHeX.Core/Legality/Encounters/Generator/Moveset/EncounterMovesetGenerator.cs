@@ -139,8 +139,13 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
+            if (pk.Species == 0) // can enter this method after failing to set a species ID that cannot exist in the format
+                return Array.Empty<IEncounterable>();
             pk.Version = (int)version;
-            var et = EvolutionTree.GetEvolutionTree(pk.Format);
+            var format = pk.Format;
+            if (format is 2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
+                format = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
+            var et = EvolutionTree.GetEvolutionTree(format);
             var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, chain);
 
@@ -165,7 +170,19 @@ namespace PKHeX.Core
 
             var gens = GenerationTraversal.GetVisitedGenerationOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-            var result = moves.Except(canlearn).Where(z => z != 0).ToArray();
+            if (origin is (1 or 2)) // gb initial moves
+            {
+                var max = origin == 1 ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
+                foreach (var evo in chain)
+                {
+                    var species = evo.Species;
+                    if (species > max)
+                        continue;
+                    var enc = MoveLevelUp.GetEncounterMoves(species, 0, 1, (GameVersion)ver);
+                    canlearn = canlearn.Concat(enc);
+                }
+            }
+            var result = moves.Where(z => z != 0).Except(canlearn).ToArray();
 
             if (vcBump)
                 pk.Version = ver;
@@ -176,6 +193,8 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
         {
             IEnumerable<int> moves = MoveList.GetValidMoves(pk, chain, generation);
+            if (generation <= 2)
+                moves = moves.Concat(MoveList.GetValidMoves(pk, chain, generation, MoveSourceType.LevelUp));
             if (pk.Format >= 8)
             {
                 // Shared Egg Moves via daycare
@@ -194,7 +213,7 @@ namespace PKHeX.Core
                 {
                     3 => moves.Concat(Legal.LevelUpE [(int)Species.Ninjask].GetMoves(100, 20)),
                     4 => moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20)),
-                    _ => moves
+                    _ => moves,
                 };
             }
             return moves;
@@ -209,7 +228,7 @@ namespace PKHeX.Core
                 EncounterOrder.Static => GetStatic(pk, needs, chain, version),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
                 EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
             };
         }
 
@@ -242,7 +261,7 @@ namespace PKHeX.Core
                 IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
                 if (egg.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
-                else if (Legal.LightBall.Contains(egg.Species) && needs.Contains((int)Move.VoltTackle))
+                else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && (egg.Generation > 3 || version is GameVersion.E))
                     em = em.Concat(new[] { (int)Move.VoltTackle });
 
                 if (!needs.Except(em).Any())
@@ -259,19 +278,20 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
+            var format = pk.Format;
             var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
             foreach (var gift in gifts)
             {
                 if (gift is WC3 {NotDistributed: true})
                     continue;
-                if (!IsSane(chain, gift))
+                if (!IsSane(chain, gift, format))
                     continue;
                 if (needs.Count == 0)
                 {
                     yield return gift;
                     continue;
                 }
-                var em = gift.Moves;
+                var em = gift.Moves.Concat(gift.Relearn);
                 if (!needs.Except(em).Any())
                     yield return gift;
             }
@@ -287,12 +307,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
             foreach (var enc in encounters)
             {
-                if (!IsSane(chain, enc))
-                    continue;
-                if (enc.IsUnobtainable())
+                if (!IsSane(chain, enc, format))
                     continue;
                 if (needs.Count == 0)
                 {
@@ -340,10 +359,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
             foreach (var trade in trades)
             {
-                if (!IsSane(chain, trade))
+                if (!IsSane(chain, trade, format))
                     continue;
                 if (needs.Count == 0)
                 {
@@ -353,6 +373,8 @@ namespace PKHeX.Core
                 IEnumerable<int> em = trade.Moves;
                 if (trade.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
+                else if (trade is IRelearn { Relearn: { Count: not 0 } } r)
+                    em = em.Concat(r.Relearn);
                 if (!needs.Except(em).Any())
                     yield return trade;
             }
@@ -368,12 +390,11 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
+            var format = pk.Format;
             var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
             foreach (var slot in slots)
             {
-                if (!IsSane(chain, slot))
-                    continue;
-                if (slot.IsUnobtainable())
+                if (!IsSane(chain, slot, format))
                     continue;
 
                 if (needs.Count == 0)
@@ -392,7 +413,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc)
+        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc, int format)
         {
             foreach (var evo in chain)
             {
@@ -402,38 +423,13 @@ namespace PKHeX.Core
                     return true;
                 if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Generation))
                     return true;
+                if (enc is EncounterSlot {IsRandomUnspecificForm: true} or EncounterStatic {IsRandomUnspecificForm: true})
+                    return true;
+                if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && format > 7) // totems get form wiped
+                    return true;
                 break;
             }
             return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterSlot slot)
-        {
-            switch (slot.Generation)
-            {
-                case 4:
-                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
-                        return true;
-                    break;
-            }
-
-            return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterStatic enc)
-        {
-            if (enc is not EncounterStatic4 s)
-                return false;
-
-            return s.Species switch
-            {
-                (int)Species.Darkrai when s.Version != GameVersion.Pt => true, // DP Darkrai
-                (int)Species.Shaymin when s.Version != GameVersion.Pt => true, // DP Shaymin
-                (int)Species.Arceus => true, // Azure Flute Arceus
-                _ => false
-            };
         }
     }
 }

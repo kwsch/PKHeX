@@ -72,14 +72,14 @@ namespace PKHeX.Core
             return text[(8 + 3 + 4 + 1)..];
         }
 
-        private string GetBlockHint(SCBlock z, int i)
+        private string GetBlockHint(SCBlock z, int index)
         {
             var blockName = GetBlockName(z, out _);
             var isBool = z.Type.IsBoolean();
             var type = (isBool ? "Bool" : z.Type.ToString());
             if (blockName != null)
                 return $"*{type} {blockName}";
-            var result = $"{z.Key:X8} - {i:0000} {type}";
+            var result = $"{z.Key:X8} - {index:0000} {type}";
             if (z.Type is SCTypeCode.Object or SCTypeCode.Array)
                 result += $" 0x{z.Data.Length:X3}";
             else if (!isBool)

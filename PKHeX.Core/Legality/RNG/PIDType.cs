@@ -186,7 +186,6 @@ namespace PKHeX.Core
         #endregion
     }
 
-#if DEBUG
     public static class PIDTypeExtensions
     {
         public static RNGType GetRNGType(this PIDType type) => type switch
@@ -204,8 +203,7 @@ namespace PKHeX.Core
             BACD_R or BACD_R_A or BACD_R_S => true,
             BACD_U or BACD_U_A or BACD_U_S => true,
             Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown => true,
-            _ => false
+            _ => false,
         };
     }
-#endif
 }

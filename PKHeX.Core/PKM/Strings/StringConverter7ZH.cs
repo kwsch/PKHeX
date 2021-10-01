@@ -27,7 +27,7 @@ namespace PKHeX.Core
         private static Dictionary<char, char> GetRemapper(bool simplified)
         {
             const string raw = Gen7_ZHRaw;
-            var result = new Dictionary<char, char>(788);
+            var result = new Dictionary<char, char>(788); // raw.Length
             for (int i = 0; i < raw.Length; i++)
             {
                 var isCHS = GetisG7CHSChar(i);

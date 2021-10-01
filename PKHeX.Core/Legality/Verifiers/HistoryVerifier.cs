@@ -163,7 +163,7 @@ namespace PKHeX.Core
             var valid = t.GetValidity();
             if (valid == GeoValid.CountryAfterPreviousEmpty)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoBadOrder));
-            if (valid == GeoValid.RegionWithoutCountry)
+            else if (valid == GeoValid.RegionWithoutCountry)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoRegion));
             if (t.Geo1_Country != 0 && pkm.IsUntraded) // traded
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoCountryHT));
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
         private static bool IsInvalidContestAffection(IAffection pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
-        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int generation)
+        public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pkm, int generation)
         {
             // Handlers introduced in Generation 6. OT Handling was always the case for Generation 3-5 data.
             if (generation < 6)
@@ -186,7 +186,7 @@ namespace PKHeX.Core
                 WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
                 WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
                 WC8 {IsHOMEGift: true} => false,
-                _ => true
+                _ => true,
             };
         }
 

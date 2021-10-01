@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace PKHeX.Core
 {
-    internal static class StructConverter
+    public static class StructConverter
     {
         public static T ToStructure<T>(this byte[] bytes) where T : struct
         {

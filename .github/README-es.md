@@ -14,38 +14,38 @@ Soporta los siguientes archivos:
 * Pasar de una generación a la siguiente, convirtiendo los archivos en el proceso.
 
 Los datos son visualizados en una forma que permite modificarlos y guardarlos.
-La interfaz gráfica puede ser traducida con archivos de texto externos para dar soporte a múltiples lenghiajes.
+La interfaz gráfica puede ser traducida con archivos de texto externos para dar soporte a múltiples lenguajes.
 
 Pokémon Showdown asigna un código QR que puede ser importado/exportado para ayudar al compartir.
 
 PKHeX espera archivos de guardado que no estén cifrados con las claves específicas de la consola. Use un gestor de archivos de guardado para importar y exportar información de la consola ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), o SaveDataFiler).
 
-**No apoyamos ni toleramos las trampas a expensas de otros. No uses un Pokémon modificados significativamente en batalla o en intercambios con quienes no estén al tanto de que estás usando Pokémon modificados.**
+**No apoyamos ni toleramos las trampas a expensas de otros. No uses un Pokémon modificado significativamente en batalla o en intercambios con quienes no estén al tanto de que estás usando un Pokémon modificado.**
 
 ## Capturas de Pantalla
 
-![Pantalla principal](https://i.imgur.com/A0Mmy0F.png)
+![Pantalla principal](https://i.imgur.com/3DOgNKc.png)
 
 ## Building
 
-PKHeX es una aplicación de Windows Forms que requiere [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), con soporte ecperimental para [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0).
+PKHeX es una aplicación de Windows Forms que requiere [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), con soporte experimental para [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0).
 
-El archivo ejecutable puede ser buildeado con cualquier compilador que soporte C# 8.
+El archivo ejecutable puede ser construido con cualquier compilador que soporte C# 8.
 
 ### Configuraciones del Build
 
-Para hacer el build puedes usar las configuraciones de Debug o de Release. No hay que preocuparse por código específico de ninguna plataforma!
+Para hacer el build puedes usar las configuraciones de Debug o de Release. ¡No hay que preocuparse por código específico de ninguna plataforma!
 
 ## Dependencias
 
 La generación de códigos QR de PKHeX es la de [QRCoder](https://github.com/codebude/QRCoder), licenciado bajo [la licencia MIT](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
 
-La colección sprite de Pokémons shiny de PKHeX fue tomada de [pokesprite](https://github.com/msikma/pokesprite), licenciado bajo [la licencia MIT](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+La colección de sprites de Pokémons Shiny de PKHeX fue tomada de [pokesprite](https://github.com/msikma/pokesprite), licenciado bajo [la licencia MIT](https://github.com/msikma/pokesprite/blob/master/LICENSE).
 
 ### IDE
 
-PKHeX se puede abrir con un IDEs como [Visual Studio](https://visualstudio.microsoft.com/downloads/), abriendo los archivos .sln o .csproj.
+PKHeX se puede abrir con un IDE como [Visual Studio](https://visualstudio.microsoft.com/downloads/), abriendo los archivos .sln o .csproj.
 
 ### GNU/Linux
 
-GNU/Linux no es el sistema operativo principal de los desarrolladores de este proyecto, así que probablemente haya errores o bugs; de los cuales algunos pueden provenir de código no específico de GNU/Linux de Mono/Wine, con lo cual puede haber otros usuarios que no puedan reproducir ese error.
+GNU/Linux no es el sistema operativo principal de los desarrolladores de este proyecto, así que probablemente haya errores o bugs; de los cuales algunos pueden provenir de código no específico de GNU/Linux desde Mono o de Wine, con lo cual puede haber otros usuarios que no puedan reproducir ese error.

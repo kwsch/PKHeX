@@ -17,8 +17,7 @@ namespace PKHeX.Core
         {
             foreach (var z in GenerateFilteredEncounters12(pkm))
             {
-                info.Generation = z.Generation;
-                info.Game = z.Version;
+                info.StoreMetadata(z.Version, z.Generation);
                 yield return z;
             }
         }
@@ -89,9 +88,9 @@ namespace PKHeX.Core
             var visited = GBRestrictions.GetTradebackStatusInitial(pkm);
             switch (visited)
             {
-                case TradebackType.Gen1_NotTradeback:
+                case PotentialGBOrigin.Gen1Only:
                     return GenerateRawEncounters12(pkm, GameVersion.RBY);
-                case TradebackType.Gen2_NotTradeback:
+                case PotentialGBOrigin.Gen2Only:
                     return GenerateRawEncounters12(pkm, GameVersion.GSC);
                 default:
                     if (pkm.Korean)
@@ -150,14 +149,14 @@ namespace PKHeX.Core
             return p1 > p2 ? g1i : g2i;
         }
 
-        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable enc) => enc switch
+        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterTemplate enc) => enc switch
         {
             EncounterTrade1 t1 when t1.GetMatchRating(pkm) != Match => GBEncounterPriority.Least,
             EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
             EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
             EncounterStatic => GBEncounterPriority.StaticEncounter,
             EncounterSlot => GBEncounterPriority.WildEncounter,
-            _ => GBEncounterPriority.EggEncounter
+            _ => GBEncounterPriority.EggEncounter,
         };
 
         /// <summary>

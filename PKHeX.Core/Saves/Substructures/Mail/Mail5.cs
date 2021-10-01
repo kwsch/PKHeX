@@ -50,7 +50,7 @@ namespace PKHeX.Core
         {
             0xFF => true,
             <= 11 => false,
-            _ => null
+            _ => null,
         };
 
         public override void SetBlank() => SetBlank(null, null);

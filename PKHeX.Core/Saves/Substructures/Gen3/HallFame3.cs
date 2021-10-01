@@ -19,8 +19,8 @@ namespace PKHeX.Core
             Offset = offset;
         }
 
-        private int GetMemberOffset(int i) => Offset + (i * HallFame3PKM.SIZE);
-        private HallFame3PKM GetMember(int i) => new(Parent, GetMemberOffset(i), Japanese);
+        private int GetMemberOffset(int index) => Offset + (index * HallFame3PKM.SIZE);
+        private HallFame3PKM GetMember(int index) => new(Parent, GetMemberOffset(index), Japanese);
 
         public HallFame3PKM[] Team
         {

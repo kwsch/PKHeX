@@ -116,7 +116,7 @@ namespace PKHeX.Core
             0 => EntreeForestArea.Center,
             1 => EntreeForestArea.Left,
             2 => EntreeForestArea.Right,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new ArgumentOutOfRangeException(),
         };
     }
 }

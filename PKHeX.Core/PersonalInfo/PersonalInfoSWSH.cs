@@ -9,14 +9,16 @@ namespace PKHeX.Core
     public sealed class PersonalInfoSWSH : PersonalInfo
     {
         public const int SIZE = 0xB0;
+        public const int CountTM = 100;
+        public const int CountTR = 100;
 
         public PersonalInfoSWSH(byte[] data) : base(data)
         {
             TMHM = new bool[200];
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < CountTR; i++)
             {
-                TMHM[i]       = FlagUtil.GetFlag(Data, 0x28 + (i >> 3), i);
-                TMHM[i + 100] = FlagUtil.GetFlag(Data, 0x3C + (i >> 3), i);
+                TMHM[i]           = FlagUtil.GetFlag(Data, 0x28 + (i >> 3), i);
+                TMHM[i + CountTM] = FlagUtil.GetFlag(Data, 0x3C + (i >> 3), i);
             }
 
             // 0x38-0x3B type tutors, but only 8 bits are valid flags.
@@ -37,10 +39,10 @@ namespace PKHeX.Core
 
         public override byte[] Write()
         {
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < CountTR; i++)
             {
                 FlagUtil.SetFlag(Data, 0x28 + (i >> 3), i, TMHM[i]);
-                FlagUtil.SetFlag(Data, 0x3C + (i >> 3), i, TMHM[i + 100]);
+                FlagUtil.SetFlag(Data, 0x3C + (i >> 3), i, TMHM[i + CountTM]);
             }
             for (int i = 0; i < TypeTutors.Length; i++)
                 FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
@@ -127,7 +129,7 @@ namespace PKHeX.Core
         public int CrownDexIndex { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }
 
         /// <summary>
-        /// Gets the Forme that any offspring will hatch with, assuming it is holding an Everstone.
+        /// Gets the Form that any offspring will hatch with, assuming it is holding an Everstone.
         /// </summary>
         public int HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
 

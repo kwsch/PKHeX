@@ -24,7 +24,7 @@ namespace PKHeX.Core
             RNGType.LCRNG => RNG.LCRNG,
             RNGType.XDRNG => RNG.XDRNG,
             RNGType.ARNG => RNG.ARNG,
-            _ => throw new ArgumentException(nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
     }
 }

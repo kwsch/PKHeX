@@ -76,14 +76,14 @@ namespace PKHeX.Core
         {
             0 => (1 + GetDaycare1StructOffset(slot)),
             1 => (1 + GetDaycare2StructOffset(slot)),
-            _ => throw new IndexOutOfRangeException(nameof(daycare))
+            _ => throw new IndexOutOfRangeException(nameof(daycare)),
         };
 
         public static int GetDaycareMetadataOffset(int daycare) => daycare switch
         {
             0 => META_1,
             1 => META_2,
-            _ => throw new IndexOutOfRangeException(nameof(daycare))
+            _ => throw new IndexOutOfRangeException(nameof(daycare)),
         };
 
         public ulong GetDaycareSeed(int daycare) => BitConverter.ToUInt64(Data, GetDaycareMetadataOffset(daycare) + 6);

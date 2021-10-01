@@ -27,7 +27,7 @@ namespace PKHeX.Core
         public static Severity NicknamedMysteryGift { get; private set; } = Severity.Fishy;
         public static Severity RNGFrameNotFound { get; private set; } = Severity.Fishy;
         public static Severity Gen7TransferStarPID { get; private set; } = Severity.Fishy;
-        public static Severity Gen8MemoryLocationTextVariable { get; private set; } = Severity.Fishy;
+        public static Severity Gen8MemoryMissingHT { get; private set; } = Severity.Fishy;
         public static Severity Gen8TransferTrackerNotPresent { get; private set; } = Severity.Fishy;
         public static Severity NicknamedAnotherSpecies { get; private set; } = Severity.Fishy;
 
@@ -89,8 +89,8 @@ namespace PKHeX.Core
             NicknamedMysteryGift = settings.NicknamedMysteryGift;
             RNGFrameNotFound = settings.RNGFrameNotFound;
             Gen7TransferStarPID = settings.Gen7TransferStarPID;
-            Gen8MemoryLocationTextVariable = settings.Gen8MemoryLocationTextVariable;
             Gen8TransferTrackerNotPresent = settings.Gen8TransferTrackerNotPresent;
+            Gen8MemoryMissingHT = settings.Gen8MemoryMissingHT;
             NicknamedAnotherSpecies = settings.NicknamedAnotherSpecies;
         }
     }
@@ -104,7 +104,7 @@ namespace PKHeX.Core
         Severity NicknamedMysteryGift { get; }
         Severity RNGFrameNotFound { get; }
         Severity Gen7TransferStarPID { get; }
-        Severity Gen8MemoryLocationTextVariable { get; }
+        Severity Gen8MemoryMissingHT { get; }
         Severity Gen8TransferTrackerNotPresent { get; }
         Severity NicknamedAnotherSpecies { get; }
     }

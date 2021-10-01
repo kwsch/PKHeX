@@ -20,6 +20,8 @@ namespace PKHeX.Core
         public GameVersion Version { get; }
         public bool IsShiny => false;
 
+        public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
+
         public EncounterEgg(int species, int form, int level, int gen, GameVersion game)
         {
             Species = species;
@@ -97,7 +99,7 @@ namespace PKHeX.Core
                     break;
                 case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
                     if (sav is IRegionOrigin o)
-                        pk.Form = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
+                        pk.Form = Vivillon3DS.GetPattern(o.Country, o.Region);
                     // else 0
                     break;
             }

@@ -20,16 +20,16 @@ namespace PKHeX.Core
                 6 => GetIsTutor6(pkm, species, form, specialTutors, move),
                 7 => GetIsTutor7(pkm, species, form, specialTutors, move),
                 8 => GetIsTutor8(pkm, species, form, specialTutors, move),
-                _ => NONE
+                _ => NONE,
             };
         }
 
         private static GameVersion GetIsTutor1(PKM pkm, int species, int move)
         {
             // Surf Pikachu via Stadium
-            if (move != 57 || ParseSettings.AllowGBCartEra)
+            if (move != (int)Move.Surf || ParseSettings.AllowGBCartEra)
                 return NONE;
-            if (pkm.Format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu))
+            if (pkm.Format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu)
                 return GameVersion.Stadium;
             return NONE;
         }
@@ -187,7 +187,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor1(List<int> moves, int species, int format)
         {
-            if (ParseSettings.AllowGBCartEra && format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu)) // Surf Pikachu via Stadium
+            if (ParseSettings.AllowGBCartEra && format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu) // Surf Pikachu via Stadium
                 moves.Add(57);
         }
 
@@ -312,10 +312,10 @@ namespace PKHeX.Core
                     r.AddRange(ZygardeMoves);
                     break;
                 case (int)Species.Necrozma when pkm.Form == 1: // Sun
-                    r.Add(713);
+                    r.Add((int)Move.SunsteelStrike);
                     break;
                 case (int)Species.Necrozma when pkm.Form == 2: // Moon
-                    r.Add(714);
+                    r.Add((int)Move.MoongeistBeam);
                     break;
             }
         }

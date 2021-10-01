@@ -102,9 +102,7 @@ namespace PKHeX.Core
             int j = 0 + data.Length - 1;
             while (i < j)
             {
-                var temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
+                (data[i], data[j]) = (data[j], data[i]);
                 i++;
                 j--;
             }
@@ -119,13 +117,8 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < data.Length; i += 4)
             {
-                byte tmp = data[0 + i];
-                data[0 + i] = data[3 + i];
-                data[3 + i] = tmp;
-
-                byte tmp1 = data[1 + i];
-                data[1 + i] = data[2 + i];
-                data[2 + i] = tmp1;
+                (data[0 + i], data[3 + i]) = (data[3 + i], data[0 + i]);
+                (data[1 + i], data[2 + i]) = (data[2 + i], data[1 + i]);
             }
         }
     }

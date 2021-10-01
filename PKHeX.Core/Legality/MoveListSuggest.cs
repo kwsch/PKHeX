@@ -35,10 +35,10 @@ namespace PKHeX.Core
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return GetValidMoves(pkm, version, evoChains, minLvLG1: 1, minLvLG2: 1, types: types, RemoveTransferHM: RemoveTransferHM);
+            return GetValidMoves(pkm, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, int minLvLG1 = 1, int minLvLG2 = 1, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
         {
             var r = new List<int> { 0 };
             if (types.HasFlagFast(MoveSourceType.RelearnMoves) && pkm.Format >= 6)
@@ -55,7 +55,7 @@ namespace PKHeX.Core
                 var chain = evoChains[generation];
                 if (chain.Count == 0)
                     continue;
-                r.AddRange(MoveList.GetValidMoves(pkm, version, chain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, types: types, RemoveTransferHM: RemoveTransferHM));
+                r.AddRange(MoveList.GetValidMoves(pkm, version, chain, generation, types: types, RemoveTransferHM: RemoveTransferHM));
             }
 
             return r.Distinct();
@@ -145,12 +145,15 @@ namespace PKHeX.Core
 
         private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
         {
-            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
-            // If we're not a split-breed or are already legal, return.
             var result = enc.GetEggRelearnMoves(parse, pkm);
             int generation = enc.Generation;
+            if (generation <= 5) // gen2 does not have splitbreed, <=5 do not have relearn moves and shouldn't even be here.
+                return result;
+
+            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
+            // If we're not a split-breed or are already legal, return.
             var split = Breeding.GetSplitBreedGeneration(generation);
-            if (!split.Contains(enc.Species) || enc.Generation <= 2)
+            if (!split.Contains(enc.Species))
                 return result;
 
             var tmp = pkm.Clone();
@@ -164,7 +167,7 @@ namespace PKHeX.Core
             if (incense is null || incense.Species == enc.Species)
                 return result;
 
-            return incense.GetSuggestedRelearnEgg(parse, tmp);
+            return incense.GetEggRelearnMoves(parse, pkm);
         }
 
         private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)

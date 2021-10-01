@@ -162,14 +162,16 @@ namespace PKHeX.Core
         public int Nature { get => (sbyte)Data[CardStart + 0x246]; set => Data[CardStart + 0x246] = (byte)value; }
         public override int AbilityType { get => Data[CardStart + 0x247]; set => Data[CardStart + 0x247] = (byte)value; }
 
-        public Shiny PIDType => Data[CardStart + 0x248] switch
+        private byte PIDTypeValue => Data[CardStart + 0x248];
+
+        public Shiny PIDType => PIDTypeValue switch
         {
             0 => Shiny.Never,
             1 => Shiny.Random,
             2 => Shiny.AlwaysStar,
             3 => Shiny.AlwaysSquare,
             4 => Shiny.FixedValue,
-            _ => throw new ArgumentException()
+            _ => throw new ArgumentOutOfRangeException(nameof(PIDType)),
         };
 
         public int MetLevel { get => Data[CardStart + 0x249]; set => Data[CardStart + 0x249] = (byte)value; }
@@ -346,7 +348,7 @@ namespace PKHeX.Core
             return 0x12C + (index * 0x1C);
         }
 
-        public bool IsHOMEGift => Location == Locations.HOME8 || GetOT(2) == "HOME";
+        public bool IsHOMEGift => CardID >= 9000;
 
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
@@ -444,7 +446,7 @@ namespace PKHeX.Core
             if (pk.Species == (int)Core.Species.Meowstic)
                 pk.Form = pk.Gender;
 
-            pk.MetDate = DateTime.Now;
+            pk.MetDate = IsHOMEGift && EncountersHOME.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateTime.Now;
 
             var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
@@ -499,7 +501,7 @@ namespace PKHeX.Core
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
-            _ => throw new ArgumentException(nameof(AbilityType)),
+            _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
         private uint GetPID(ITrainerID tr, byte type)
@@ -511,7 +513,7 @@ namespace PKHeX.Core
                 2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
                 3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
                 4 => PID, // Fixed, Force Value
-                _ => throw new ArgumentException()
+                _ => throw new ArgumentOutOfRangeException(nameof(type)),
             };
 
             static uint GetAntishiny(ITrainerID tr)
@@ -525,8 +527,7 @@ namespace PKHeX.Core
 
         private void SetPID(PKM pk)
         {
-            var val = Data[CardStart + 0x248];
-            pk.PID = GetPID(pk, val);
+            pk.PID = GetPID(pk, PIDTypeValue);
         }
 
         private void SetIVs(PKM pk)
@@ -648,7 +649,7 @@ namespace PKHeX.Core
             // PID Types 0 and 1 do not use the fixed PID value.
             // Values 2,3 are specific shiny states, and 4 is fixed value.
             // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
-            var type = Data[CardStart + 0x248];
+            var type = PIDTypeValue;
             if (type <= 1)
                 return true;
             return pkm.PID == GetPID(pkm, type);

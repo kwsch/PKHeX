@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <remarks>We store this rather than re-fetching, as some games that use the same <see cref="PKM"/> format have different values.</remarks>
         internal readonly PersonalInfo PersonalInfo;
 
-        private readonly List<CheckResult> Parse = new();
+        private readonly List<CheckResult> Parse = new(8);
 
         /// <summary>
         /// Parse result list allowing view of the legality parse.
@@ -91,10 +91,7 @@ namespace PKHeX.Core
             PersonalInfo = pi;
             SlotOrigin = source;
 
-            if (pkm.Format <= 2) // prior to storing GameVersion
-                pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
-
-            Info = new LegalInfo(pkm);
+            Info = new LegalInfo(pkm, Parse);
 #if SUPPRESS
             try
 #endif
@@ -104,17 +101,11 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
                 GetParseMethod()();
 
-                if (Parse.Count == 0) // shouldn't ever happen as at least one is yielded above.
-                {
-                    AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
-                    return;
-                }
-
                 Valid = Parse.All(chk => chk.Valid)
                     && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
-                if (!Valid && pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
+                if (!Valid && IsPotentiallyMysteryGift(Info, pkm))
                     AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
                 Parsed = true;
             }
@@ -143,6 +134,21 @@ namespace PKHeX.Core
 #endif
         }
 
+        private static bool IsPotentiallyMysteryGift(LegalInfo info, PKM pk)
+        {
+            if (info.EncounterOriginal is not EncounterInvalid enc)
+                return false;
+            if (enc.Generation <= 3)
+                return true;
+            if (!pk.FatefulEncounter)
+                return false;
+            if (enc.Generation < 6)
+                return true;
+            if (info.Relearn.Any(chk => !chk.Valid))
+                return true;
+            return false;
+        }
+
         private Action GetParseMethod()
         {
             if (pkm.Format <= 2) // prior to storing GameVersion
@@ -164,16 +170,12 @@ namespace PKHeX.Core
 
                 8 => ParsePK8,
 
-                _ => throw new Exception()
+                _ => throw new Exception(),
             };
         }
 
         private void ParsePK1()
         {
-            UpdateInfo();
-            if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
-                pkm.TradebackStatus = TradebackType.WasTradeback; // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
-
             Nickname.Verify(this);
             Level.Verify(this);
             Level.VerifyG1(this);
@@ -185,7 +187,6 @@ namespace PKHeX.Core
 
         private void ParsePK3()
         {
-            UpdateInfo();
             UpdateChecks();
             if (pkm.Format > 3)
                 Transfer.VerifyTransferLegalityG3(this);
@@ -202,7 +203,6 @@ namespace PKHeX.Core
 
         private void ParsePK4()
         {
-            UpdateInfo();
             UpdateChecks();
             if (pkm.Format > 4)
                 Transfer.VerifyTransferLegalityG4(this);
@@ -212,7 +212,6 @@ namespace PKHeX.Core
 
         private void ParsePK5()
         {
-            UpdateInfo();
             UpdateChecks();
             NHarmonia.Verify(this);
             if (pkm.Format >= 8)
@@ -221,7 +220,6 @@ namespace PKHeX.Core
 
         private void ParsePK6()
         {
-            UpdateInfo();
             UpdateChecks();
             if (pkm.Format >= 8)
                 Transfer.VerifyTransferLegalityG8(this);
@@ -229,7 +227,6 @@ namespace PKHeX.Core
 
         private void ParsePK7()
         {
-            UpdateInfo();
             if (pkm.VC)
                 UpdateVCTransferInfo();
             UpdateChecks();
@@ -239,7 +236,6 @@ namespace PKHeX.Core
 
         private void ParsePK8()
         {
-            UpdateInfo();
             UpdateChecks();
             Transfer.VerifyTransferLegalityG8(this);
         }
@@ -272,11 +268,6 @@ namespace PKHeX.Core
             Transfer.VerifyTransferLegalityG12(this);
         }
 
-        private void UpdateInfo()
-        {
-            Parse.AddRange(Info.Parse);
-        }
-
         private void UpdateChecks()
         {
             PIDEC.Verify(this);
@@ -296,16 +287,16 @@ namespace PKHeX.Core
             Contest.Verify(this);
 
             var format = pkm.Format;
-            if (format is 4 or 5 or 6)
-                Gen4GroundTile.Verify(this); // Gen 6->7 transfer deletes encounter type data
+            if (format is 4 or 5 or 6) // Gen 6->7 transfer removes this property.
+                Gen4GroundTile.Verify(this);
 
             if (format < 6)
                 return;
 
             Trash.Verify(this);
             History.Verify(this);
-            if (format < 8)
-                ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
+            if (format < 8) // Gen 7->8 transfer removes these properties.
+                ConsoleRegion.Verify(this);
 
             if (pkm is ITrainerMemories)
                 Memory.Verify(this);

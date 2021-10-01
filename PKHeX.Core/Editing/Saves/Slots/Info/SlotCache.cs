@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains slot data and metadata indicating where the <see cref="PKM"/> originated from.
     /// </summary>
-    public class SlotCache
+    public class SlotCache : IComparable<SlotCache>
     {
         /// <summary>
         /// Information regarding how the <see cref="Entity"/> was obtained.
@@ -44,7 +44,7 @@ namespace PKHeX.Core
             SlotInfoFile file => $"File: {file.Path}",
             SlotInfoMisc misc => $"{misc.Type}-{misc.Slot}: {Entity.FileName}",
             SlotInfoParty party => $"Party: {party.Slot}: {Entity.FileName}",
-            _ => throw new ArgumentOutOfRangeException(nameof(Source))
+            _ => throw new ArgumentOutOfRangeException(nameof(Source)),
         };
 
         private string GetFileName()
@@ -59,6 +59,41 @@ namespace PKHeX.Core
         {
             var e = Entity;
             return e.Species != 0 && e.ChecksumValid && (e.Sanity == 0 || e is BK4);
+        }
+
+        public int CompareTo(SlotCache? other)
+        {
+            if (other is null)
+                return -1;
+            return string.CompareOrdinal(Identify(), other.Identify());
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+                return true;
+            return obj is SlotCache c && c.Identify() == Identify();
+        }
+
+        public override int GetHashCode() => Identify().GetHashCode();
+        public static bool operator ==(SlotCache left, SlotCache right) => left.Equals(right);
+        public static bool operator !=(SlotCache left, SlotCache right) => !(left == right);
+        public static bool operator <(SlotCache left, SlotCache right) => left.CompareTo(right) < 0;
+        public static bool operator <=(SlotCache left, SlotCache right) => left.CompareTo(right) <= 0;
+        public static bool operator >(SlotCache left, SlotCache right) => left.CompareTo(right) > 0;
+        public static bool operator >=(SlotCache left, SlotCache right) => left.CompareTo(right) >= 0;
+
+        public int CompareToSpeciesForm(SlotCache other)
+        {
+            var s1 = Entity;
+            var s2 = other.Entity;
+            var c1 = s1.Species.CompareTo(s2.Species);
+            if (c1 != 0)
+                return c1;
+            var c2 = s1.Form.CompareTo(s2.Form);
+            if (c2 != 0)
+                return c2;
+            return CompareTo(other);
         }
     }
 }

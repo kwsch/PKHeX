@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <inheritdoc cref="IComplexFilter"/>
-    public class MetaFilter : IComplexFilterMeta
+    public sealed class MetaFilter : IComplexFilterMeta
     {
         private readonly string Property;
         private readonly Func<object, StringInstruction, bool> FilterPKM;

@@ -66,6 +66,8 @@ namespace PKHeX.Core
                 return true;
             if (!GetIVsAboveMinimum(pk))
                 return true;
+            if (!GetIVsBelowMaximum(pk))
+                return true;
 
             // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
             if (PersonalTable.SWSH.GetFormEntry(Species, Form).BaseFriendship != pk.OT_Friendship)

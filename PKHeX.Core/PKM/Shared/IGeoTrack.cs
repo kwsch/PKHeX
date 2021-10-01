@@ -5,16 +5,16 @@
     /// </summary>
     public interface IGeoTrack : IRegionOrigin
     {
-        int Geo1_Region { get; set; }
-        int Geo2_Region { get; set; }
-        int Geo3_Region { get; set; }
-        int Geo4_Region { get; set; }
-        int Geo5_Region { get; set; }
-        int Geo1_Country { get; set; }
-        int Geo2_Country { get; set; }
-        int Geo3_Country { get; set; }
-        int Geo4_Country { get; set; }
-        int Geo5_Country { get; set; }
+        byte Geo1_Region { get; set; }
+        byte Geo2_Region { get; set; }
+        byte Geo3_Region { get; set; }
+        byte Geo4_Region { get; set; }
+        byte Geo5_Region { get; set; }
+        byte Geo1_Country { get; set; }
+        byte Geo2_Country { get; set; }
+        byte Geo3_Country { get; set; }
+        byte Geo4_Country { get; set; }
+        byte Geo5_Country { get; set; }
     }
 
     public static partial class Extensions
@@ -25,12 +25,8 @@
             g.Geo1_Region = g.Geo2_Region = g.Geo3_Region = g.Geo4_Region = g.Geo5_Region = 0;
         }
 
-        public static void TradeGeoLocation(this IGeoTrack g, int GeoCountry, int GeoRegion)
+        public static void TradeGeoLocation(this IGeoTrack g, byte GeoCountry, byte GeoRegion)
         {
-            // abort if the values are invalid
-            if (GeoCountry < 0 || GeoRegion < 0)
-                return;
-
             // Trickle existing values up one slot
             g.Geo5_Country = g.Geo4_Country;
             g.Geo5_Region = g.Geo4_Region;
@@ -127,6 +123,6 @@
     {
         Valid,
         CountryAfterPreviousEmpty,
-        RegionWithoutCountry
+        RegionWithoutCountry,
     }
 }

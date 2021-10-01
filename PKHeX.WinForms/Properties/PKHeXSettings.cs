@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
@@ -22,6 +23,7 @@ namespace PKHeX.WinForms
 
         // UI Tweaks
         public DisplaySettings Display { get; set; } = new();
+        public SpriteSettings Sprite { get; set; } = new();
         public SoundSettings Sounds { get; set; } = new();
         public HoverSettings Hover { get; set; } = new();
 
@@ -197,8 +199,8 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
         public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
 
-        [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Location Memory text variable is present.")]
-        public Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
+        [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Memory is missing for the Handling Trainer.")]
+        public Severity Gen8MemoryMissingHT { get; set; } = Severity.Fishy;
 
         [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
         public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
@@ -229,8 +231,18 @@ namespace PKHeX.WinForms
         [LocalizedDescription("When loading content for the PKM Database, search subfolders within OtherBackupPaths.")]
         public bool SearchExtraSavesDeep { get; set; } = true;
 
+        [LocalizedDescription("When loading content for the PKM database, the list will be ordered by this option.")]
+        public DatabaseSortMode InitialSortMode { get; set; }
+
         [LocalizedDescription("Hides unavailable Species if the currently loaded save file cannot import them.")]
         public bool FilterUnavailableSpecies { get; set; } = true;
+    }
+
+    public enum DatabaseSortMode
+    {
+        None,
+        SpeciesForm,
+        SlotIdentity,
     }
 
     [Serializable]
@@ -306,17 +318,39 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Show Unicode gender symbol characters, or ASCII when disabled.")]
         public bool Unicode { get; set; } = true;
 
-        [LocalizedDescription("Show fanmade shiny sprites when the PKM is shiny.")]
-        public bool ShinySprites { get; set; } = true;
-
-        [LocalizedDescription("Show an Egg Sprite As Held Item rather than hiding the PKM")]
-        public bool ShowEggSpriteAsHeldItem { get; set; } = true;
-
         [LocalizedDescription("Don't show the Legality popup if Legal!")]
         public bool IgnoreLegalPopup { get; set; }
 
         [LocalizedDescription("Flag Illegal Slots in Save File")]
         public bool FlagIllegal { get; set; } = true;
+    }
+
+    [Serializable]
+    public sealed class SpriteSettings : ISpriteSettings
+    {
+        [LocalizedDescription("Show fan-made shiny sprites when the PKM is shiny.")]
+        public bool ShinySprites { get; set; } = true;
+
+        [LocalizedDescription("Show an Egg Sprite As Held Item rather than hiding the PKM")]
+        public bool ShowEggSpriteAsHeldItem { get; set; } = true;
+
+        [LocalizedDescription("Show the required ball for an Encounter Template")]
+        public bool ShowEncounterBall { get; set; } = true;
+
+        [LocalizedDescription("Show a background to differentiate an Encounter Template's type")]
+        public SpriteBackgroundType ShowEncounterColor { get; set; } = SpriteBackgroundType.FullBackground;
+
+        [LocalizedDescription("Show a background to differentiate the recognized Encounter Template type for PKM slots")]
+        public SpriteBackgroundType ShowEncounterColorPKM { get; set; }
+
+        [LocalizedDescription("Opacity for the Encounter Type background layer.")]
+        public byte ShowEncounterOpacityBackground { get; set; } = 0x3F; // kinda low
+
+        [LocalizedDescription("Opacity for the Encounter Type stripe layer.")]
+        public byte ShowEncounterOpacityStripe { get; set; } = 0x5F; // 0xFF opaque
+
+        [LocalizedDescription("Amount of pixels thick to show when displaying the encounter type color stripe.")]
+        public int ShowEncounterThicknessStripe { get; set; } = 4; // pixels
     }
 
     [Serializable]

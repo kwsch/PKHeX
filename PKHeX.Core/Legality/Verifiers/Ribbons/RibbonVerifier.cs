@@ -38,7 +38,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterable enc)
+        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterTemplate enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
@@ -54,7 +54,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static bool GetIncorrectRibbonsEgg(PKM pkm, IEncounterable enc)
+        private static bool GetIncorrectRibbonsEgg(PKM pkm, IEncounterTemplate enc)
         {
             var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), RibbonInfo.PropertyPrefix);
             if (enc is IRibbonSetEvent3 event3)
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterable enc)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterTemplate enc)
         {
             return GetInvalidRibbons(pkm, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterTemplate enc)
         {
             // is a part of Event4, but O3 doesn't have the others
             if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
@@ -225,7 +225,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterTemplate enc)
         {
             foreach (var p in GetInvalidRibbons6Memory(pkm, s6, gen, enc))
                 yield return p;
@@ -272,7 +272,7 @@ namespace PKHeX.Core
             yield return result;
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterTemplate enc)
         {
             int contest = 0;
             int battle = 0;
@@ -354,8 +354,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8,
-            IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
             {
@@ -371,7 +370,7 @@ namespace PKHeX.Core
                 const int memChampion = 27;
                 {
                     bool hasChampMemory = (pkm.Format == 8 && pkm is IMemoryHT {HT_Memory: memChampion}) ||
-                                          (pkm.Gen8 && pkm is IMemoryOT {OT_Memory: memChampion});
+                                          (enc.Generation == 8 && pkm is IMemoryOT {OT_Memory: memChampion});
                     if (hasChampMemory && !s8.RibbonChampionGalar)
                         yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
                 }
@@ -391,16 +390,16 @@ namespace PKHeX.Core
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                     const int strongest = 30;
-                    if (pkm is IMemoryOT {OT_Memory: strongest} || pkm is IMemoryHT {HT_Memory: strongest})
+                    if (pkm is IMemoryOT {OT_Memory: strongest} or IMemoryHT {HT_Memory: strongest})
                     {
-                        if (pkm.Gen8 || !IsAllowedBattleFrontier(pkm.Species) || pkm is IRibbonSetCommon6 {RibbonBattlerSkillful: false})
+                        if (enc.Generation == 8 || !IsAllowedBattleFrontier(pkm.Species) || pkm is IRibbonSetCommon6 {RibbonBattlerSkillful: false})
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                     }
                 }
             }
         }
 
-        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterable enc)
+        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterTemplate enc)
         {
             if (!pkm.SWSH && pkm is IBattleVersion {BattleVersion: 0})
                 return false;
@@ -418,7 +417,7 @@ namespace PKHeX.Core
 
                 if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
                 {
-                    if (pkm.MetDate >= new DateTime(2021, 5, 1))
+                    if (pkm.MetDate >= new DateTime(2021, 11, 1))
                         return false;
                 }
             }
@@ -426,7 +425,7 @@ namespace PKHeX.Core
             return pi.IsPresentInGame;
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterTemplate enc)
         {
             if (pkm is not IRibbonSetEvent3 set1)
                 yield break;
@@ -454,7 +453,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, IEncounterable enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, IEncounterTemplate enc)
         {
             if (pkm is not IRibbonSetEvent4 set2)
                 yield break;
@@ -505,7 +504,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool CanHaveRibbonWinning(PKM pkm, IEncounterable enc, int gen)
+        private static bool CanHaveRibbonWinning(PKM pkm, IEncounterTemplate enc, int gen)
         {
             if (gen != 3)
                 return false;

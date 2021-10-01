@@ -57,6 +57,10 @@ namespace PKHeX.Core
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
+                case Pikachu when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GE}:
+                case Eevee when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GP}:
+                    return GetInvalid(LFormBattle);
+
                 case Pikachu when Info.Generation >= 7: // Cap
                     bool validCap = form == (enc is EncounterInvalid or EncounterEgg ? 0 : enc.Form);
                     if (!validCap)
@@ -98,15 +102,17 @@ namespace PKHeX.Core
                     break;
 
                 case Scatterbug or Spewpa:
-                    if (form > 17) // Fancy & Pokéball
+                    if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
                     if (pkm is not IRegionOrigin tr)
                         break;
-                    if (!Vivillon3DS.IsPatternValid(form, (byte)tr.Country, (byte)tr.Region))
-                        data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
+                    if (!Vivillon3DS.IsPatternValid(form, tr.ConsoleRegion))
+                        return GetInvalid(LFormVivillonInvalid);
+                    if (!Vivillon3DS.IsPatternNative(form, tr.Country, tr.Region))
+                        data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
                 case Vivillon:
-                    if (form > 17) // Fancy & Pokéball
+                    if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
                     {
                         if (enc is not MysteryGift)
                             return GetInvalid(LFormVivillonInvalid);
@@ -114,8 +120,10 @@ namespace PKHeX.Core
                     }
                     if (pkm is not IRegionOrigin trv)
                         break;
-                    if (!Vivillon3DS.IsPatternValid(form, (byte)trv.Country, (byte)trv.Region))
-                        data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
+                    if (!Vivillon3DS.IsPatternValid(form, trv.ConsoleRegion))
+                        return GetInvalid(LFormVivillonInvalid);
+                    if (!Vivillon3DS.IsPatternNative(form, trv.Country, trv.Region))
+                        data.AddLine(Get(LFormVivillonNonNative, Severity.Fishy));
                     break;
 
                 case Floette when form == 5: // Floette Eternal Flower -- Never Released
@@ -132,7 +140,7 @@ namespace PKHeX.Core
                     }
 
                 // Form doesn't exist in SM; cannot originate from that game.
-                case Lillipup when enc.Generation == 7 && form == 1 && pkm.SM:
+                case Rockruff when enc.Generation == 7 && form == 1 && pkm.SM:
                 case Lycanroc when enc.Generation == 7 && form == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
@@ -248,28 +256,28 @@ namespace PKHeX.Core
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Runerigus when enc.Species == (int)Runerigus => arg switch
                 {
                     not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Runerigus => arg switch // From Yamask-1
                 {
                     < 49 => GetInvalid(LFormArgumentLow),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Alcremie when enc.Species == (int)Alcremie => arg switch
                 {
                     not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 Alcremie => arg switch // From Milcery
                 {
                     > (uint) AlcremieDecoration.Ribbon => GetInvalid(LFormArgumentHigh),
-                    _ => GetValid(LFormArgumentValid)
+                    _ => GetValid(LFormArgumentValid),
                 },
                 _ => VerifyFormArgumentNone(pkm, f),
             };

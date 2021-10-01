@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
             {
                 4 => PopulateViewGiftsG4().ToArray(),
                 5 or 6 or 7 => PopulateViewGiftsG567().ToArray(),
-                _ => throw new ArgumentException("Game not supported."),
+                _ => throw new ArgumentOutOfRangeException(nameof(SAV.Generation), "Game not supported."),
             };
             foreach (var pb in pba)
             {
@@ -45,6 +45,9 @@ namespace PKHeX.WinForms
 
             if (LB_Received.Items.Count > 0)
                 LB_Received.SelectedIndex = 0;
+
+            if (mga.Gifts[0] is WR7) // giftused is not a valid prop
+                B_UnusedAll.Visible = B_UsedAll.Visible = L_QR.Visible = false;
 
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
