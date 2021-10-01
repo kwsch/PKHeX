@@ -1,7 +1,34 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/08/06 - New Update:
+21/10/01 - New Update:
+ - Legality:
+ - - Added: Gen8 memory checks for unobtainable values. Thanks @Lusamine, @skadiv!
+ - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.
+ - - Changed: Gen1 Tradeback handling reworked for less overhead.
+ - - Fixed more met locations for XD shadow encounters. Thanks @LegoFigure11!
+ - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes. Thanks @theSlayer!
+ - - Fixed: Gen2-4 eggs are now permitted to know HM moves while still an egg. Thanks Atrius!
+ - - Fixed: Gen3 Granbull & Vibrava/Flygon are now correctly handled for their ability bit values.
+ - - Fixed: Gen2 GS eggs in PK2 format are now allowed to have egg moves. Thanks Psyduck!
+ - - Fixed: Gen2 Red Gyarados fixed IVs & gender are now required to match the encounter.
+ - - Fixed: Egg move source indication now shows the correct message in the legality printout.
+ - - Fixed: Volt Tackle is now flagged correctly for non-Pichu eggs :)
+ - Added: Can now specify how the PKM Database is sorted when it loads.
+ - Added: Gen3-5 swarm data can now be edited in the block editor. Thanks @Bl4ckSh4rk, @SpiredMoth, @sora10pls!
+ - Added: Gen3 Walda Wallpaper values can now be edited in the block editor.
+ - Changed: PKM Editor form selection is now slightly wider.
+ - Changed: Encounter Database now shows single Pokéball types if the encounter can only have one type.
+ - Fixed: Gen3 save files that have only been saved once now load more often (empty backup detection fixed).
+ - Fixed: Gen3 XD purification values are now read correctly on Japanese save files.
+ - Fixed: Gen3 Colosseum Fateful encounter flag is now read correctly.
+ - Fixed: Gen5 BW entree forest randomizing now prevents B2W2-only templates from being loaded. Thanks @SunakazeKun!
+ - Fixed: Event Const editor loads consts with a current value of zero correctly if it has a defined name. Thanks @CanoeHope!
+ - Fixed: Batch Editor no longer processes saved pkm files twice.
+ - Fixed: PKM Database searching a specific format now filters correctly.
+ - Updated: Chinese translation updated. Thanks @liketolike!
+
+21/08/06 - New Update: (134592) [3969754]
  - Legality:
  - - Added: Gen8 Sociability legality checks. Thanks @Lusamine!
  - - Added: Gen8 crossover weather checks have been added. Thanks @Lusamine & @Skadiv!
