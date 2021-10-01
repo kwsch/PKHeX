@@ -1,4 +1,4 @@
-﻿﻿v0225	road016_2_pm0143_kabigon (16号道路卡比兽)
+﻿v0225	road016_2_pm0143_kabigon (16号道路卡比兽)
 v0277	road012_pm0143_kabigon (12号道路卡比兽)
 v0441	r010r0101_pm0145_thunder (闪电鸟)
 v0500	r020d0105_2_pm0144_freezer (急冻鸟)
