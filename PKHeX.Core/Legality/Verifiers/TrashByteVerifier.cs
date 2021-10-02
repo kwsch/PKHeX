@@ -119,26 +119,24 @@ namespace PKHeX.Core
 
         private static bool IsExtraTrashValid(PKM pkm, ReadOnlySpan<byte> trash, IEncounterTemplate enc, int firstTrash)
         {
-            if (!AllowExtraTrash(pkm, enc))
-                return false;
-
-            return IsExtraTrashValid(trash, enc, firstTrash);
-        }
-
-        private static bool IsExtraTrashValid(ReadOnlySpan<byte> trash, IEncounterTemplate enc, int firstTrash)
-        {
-            // check all languages for original species
-            var species = enc.Species;
-            var generation = enc.Generation;
-            return HasUnderlayerAnySpecies(trash, firstTrash, species, generation);
-        }
-
-        private static bool AllowExtraTrash(PKM pkm, IEncounterTemplate enc)
-        {
+            // Traded eggs inherit the language of the hatching OT, so the encounter species could be from any language.
             if (enc.EggEncounter && pkm.WasTradedEgg)
-                return true;
+                return HasUnderlayerAnySpecies(trash, firstTrash, enc.Species, enc.Generation);
+
+            // Shared raids use the language ID of the host, so the encounter species could be from any language.
             if (enc is EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC && pkm.Met_Location == Encounters8Nest.SharedNest)
-                return true;
+                return HasUnderlayerAnySpecies(trash, firstTrash, enc.Species, enc.Generation);
+
+            // Force nicknamed events apply the species name of the redeeming language, then slap on the forced Nickname.
+            if (enc is WC8 w && w.GetIsNicknamed(pkm.Language))
+            {
+                if (!pkm.IsNicknamed)
+                    return false;
+                var nick = SpeciesName.GetSpeciesNameGeneration(enc.Species, pkm.Language, enc.Generation);
+                if (nick != pkm.Nickname) // shouldn't be flagged
+                    return false;
+                return HasUnderlayerAnySpecies(trash, firstTrash, enc.Species, enc.Generation);
+            }
             return false;
         }
     }
