@@ -446,7 +446,7 @@ namespace PKHeX.Core
                 HT_Gender = PKMConverter.OT_Gender,
                 HT_Intensity = 1,
                 HT_Memory = 4,
-                HT_Feeling = MemoryContext6.GetRandomFeeling6(4),
+                HT_Feeling = MemoryContext6.GetRandomFeeling6(4, 10),
             };
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
