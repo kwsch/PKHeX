@@ -59,7 +59,7 @@ namespace PKHeX.Core
             if (ot.Length + 1 >= name.Length)
                 return null;
 
-            return TrashBytes.HasUnderlayer(pk.OT_Trash, name, ot);
+            return TrashBytes16.HasUnderlayer(pk.OT_Trash, name, ot);
         }
 
         private static readonly Dictionary<int, string> ScientistName = new()

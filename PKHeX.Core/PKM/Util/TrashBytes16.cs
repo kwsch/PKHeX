@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public static class TrashBytes
+    /// <summary>
+    /// 16-bit character trash byte utility logic.
+    /// </summary>
+    public static class TrashBytes16
     {
         public static bool HasUnderlayerAnySpecies(ReadOnlySpan<byte> full_trash, int firstTrash, int species, int generation)
         {
@@ -20,23 +23,18 @@ namespace PKHeX.Core
 
         public static bool HasUnderlayer(ReadOnlySpan<byte> full_trash, string under, int topLength)
         {
-            var trash = full_trash[((topLength * 2) + 2)..];
+            var start = (topLength * 2) + 2;
+            var trash = full_trash[start..];
             var nameBytes = StringConverter.SetString7b(under, under.Length, full_trash.Length / 2);
-            var span = nameBytes.AsSpan((topLength * 2) + 2);
+            var span = nameBytes.AsSpan(start);
             return trash.SequenceEqual(span);
         }
 
-        public static bool HasUnderlayer(ReadOnlySpan<byte> full_trash, string under, string top)
-        {
-            var trash = full_trash[((top.Length * 2) + 2)..];
-            var nameBytes = StringConverter.SetString7b(under, under.Length, full_trash.Length / 2);
-            var span = nameBytes.AsSpan((top.Length * 2) + 2);
-            return trash.SequenceEqual(span);
-        }
+        public static bool HasUnderlayer(ReadOnlySpan<byte> full_trash, string under, string top) => HasUnderlayer(full_trash, under, top.Length);
 
         public static bool HasFinalTerminator(ReadOnlySpan<byte> buffer, byte terminator = 0) => buffer[^1] == terminator && buffer[^2] == terminator;
 
-        public static int FindLastTrash2(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
+        public static int FindLastTrash(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
         {
             for (int i = buffer.Length - 2; i > start; i -= 2)
             {
@@ -47,7 +45,7 @@ namespace PKHeX.Core
             return start;
         }
 
-        public static int FindFirstTrash2(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
+        public static int FindFirstTrash(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
         {
             for (int i = buffer.Length - 2; i > start; i -= 2)
             {
@@ -57,27 +55,17 @@ namespace PKHeX.Core
             return 0;
         }
 
-        public static bool HasTrash2(ReadOnlySpan<byte> buffer)
+        public static bool HasTrash(ReadOnlySpan<byte> buffer)
         {
-            var terminator = FindTerminator2(buffer);
+            var terminator = FindTerminator(buffer);
             return terminator == -1 || !buffer[(terminator + 2)..].IsRangeEmpty();
         }
 
-        public static int FindTerminator2(ReadOnlySpan<byte> buffer, byte terminator = 0)
+        public static int FindTerminator(ReadOnlySpan<byte> buffer, byte terminator = 0)
         {
             for (int i = 0; i < buffer.Length; i += 2)
             {
                 if (buffer[i + 1] == terminator && buffer[i] == terminator)
-                    return i;
-            }
-            return -1;
-        }
-
-        public static int FindTerminator1(ReadOnlySpan<byte> buffer, byte terminator = 0)
-        {
-            for (int i = 0; i < buffer.Length; i += 2)
-            {
-                if (buffer[i] == terminator)
                     return i;
             }
             return -1;
