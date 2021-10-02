@@ -313,7 +313,7 @@ namespace PKHeX.Core
             var format = pkm.Format;
             if (format >= 6)
             {
-                if (CanAbilityCapsule(format, abilities))
+                if (!CanAbilityCapsule(format, abilities))
                 {
                     // Gen3-5 transfer with same ability -> 1st ability that matches
                     if (pkm.AbilityNumber == 1)
