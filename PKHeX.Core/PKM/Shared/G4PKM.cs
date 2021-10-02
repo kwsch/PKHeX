@@ -44,8 +44,8 @@ namespace PKHeX.Core
         }
 
         // Trash Bytes
-        private const int strlen_n = (10 * 2) + 2;
-        private const int strlen_o = (7 * 2) + 2;
+        private const int strlen_n = (10 * 2) + 2; // 22
+        private const int strlen_o = (7 * 2) + 2; // 16
         public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, strlen_n); set { if (value.Length <= strlen_n) value.CopyTo(Data.AsSpan(0x48)); } }
         public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0x68, strlen_o); set { if (value.Length <= strlen_o) value.CopyTo(Data.AsSpan(0x68)); } }
 
