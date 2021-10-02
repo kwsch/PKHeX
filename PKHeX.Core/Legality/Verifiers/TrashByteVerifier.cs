@@ -46,16 +46,24 @@ namespace PKHeX.Core
             if (!HasTrash(trash))
                 return;
 
-            // Nicknames can set trash up to the max for the language.
+            // As of generation 8, cannot nickname something from another language.
+            // Nicknames can have trash up to the max for the language.
             var firstTrash = FindTerminator(trash) + 2;
             var lastTrash = FindLastTrash(trash, firstTrash);
             var expectedEnd = Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pkm.Language);
             var lastTrashCharIndex = (lastTrash / 2);
-            bool hasExtraTrash = expectedEnd < lastTrashCharIndex;
 
-            // Some scenarios can set trash beyond.
-            var allowed = !hasExtraTrash || IsExtraTrashValid(pkm, trash, enc, firstTrash);
-            var severity = !allowed ? Severity.Invalid : Severity.Fishy;
+            var severity = Severity.Fishy;
+            if (lastTrashCharIndex > expectedEnd)
+            {
+                // Some scenarios can set trash beyond, where the encounter is from someone else.
+                // Find the uppermost trash beginnings that is within the mutable region.
+                var extraTrash = FindNextTrashBackwards(trash, (expectedEnd * 2) + 2);
+                if (IsExtraTrashValid(pkm, trash, enc, extraTrash))
+                    severity = extraTrash / 2 == expectedEnd + 1 ? Severity.Valid : Severity.Fishy; // multiple nicknames
+                else
+                    severity = Severity.Invalid;
+            }
             data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", severity));
         }
 

@@ -45,6 +45,16 @@ namespace PKHeX.Core
             return start;
         }
 
+        public static int FindNextTrashBackwards(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
+        {
+            for (int i = start; i > 0; i -= 2)
+            {
+                if (buffer[i + 1] == terminator && buffer[i] == terminator)
+                    return i + 2;
+            }
+            return 0;
+        }
+
         public static int FindFirstTrash(ReadOnlySpan<byte> buffer, int start, byte terminator = 0)
         {
             for (int i = buffer.Length - 2; i > start; i -= 2)
