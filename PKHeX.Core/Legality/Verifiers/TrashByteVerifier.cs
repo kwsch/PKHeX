@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.TrashBytes16;
 
 namespace PKHeX.Core
@@ -22,6 +24,12 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterOriginal;
+            if (IsTrashCleared(enc.Generation, pkm.Format))
+            {
+                VerifyTransferTrash(data, pkm);
+                return;
+            }
+
             VerifyTrashNickname(data, pkm, enc);
             VerifyTrashOT(data, pkm, enc);
             VerifyTrashHT(data, pkm);
@@ -38,6 +46,79 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
             if (!HasFinalTerminator(pkm.HT_Trash))
                 data.AddLine(GetInvalid($"{nameof(PKM.HT_Trash)} detected at reserved terminator offset."));
+        }
+
+        private void VerifyTransferTrash(LegalityAnalysis data, PKM pkm)
+        {
+            var trashFormat = GetTransferFormat(data.Info.Generation, pkm.Format);
+            switch (trashFormat)
+            {
+                case TransferTrashFormat.None:         VerifyTransferTrashNone        (data, pkm); break;
+                case TransferTrashFormat.PalPark4:     VerifyTransferTrashPalPark4    (data, pkm); break;
+                case TransferTrashFormat.Transporter5: VerifyTransferTrashTransporter5(data, pkm); break;
+                case TransferTrashFormat.Bank6:        VerifyTransferTrashBank6       (data, pkm); break;
+                case TransferTrashFormat.Virtual7:     VerifyTransferTrashVirtual7    (data, pkm); break;
+                case TransferTrashFormat.Home8:        VerifyTransferTrashHome8       (data, pkm); break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            VerifyTrashHT(data, pkm);
+        }
+
+        private void VerifyTransferTrashPalPark4(LegalityAnalysis data, PKM pkm)
+        {
+            if (!HasTrash(pkm.Nickname_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} missing."));
+            if (!HasTrash(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+        }
+
+        private void VerifyTransferTrashTransporter5(LegalityAnalysis data, PKM pkm)
+        {
+            if (HasTrash(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+            VerifyTrashNickname(data, pkm, data.EncounterMatch);
+        }
+        private void VerifyTransferTrashBank6(LegalityAnalysis data, PKM pkm)
+        {
+            if (HasTrash(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+
+            var evos = data.Info.EvoChainsAllGens[5];
+            if (!HasUnderlayerAnyEvo(pkm, evos, 6))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} under-layer missing."));
+        }
+
+        private void VerifyTransferTrashVirtual7(LegalityAnalysis data, PKM pkm)
+        {
+            if (HasTrash(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+
+            var evos = data.Info.EvoChainsAllGens[1].Concat(data.Info.EvoChainsAllGens[2]);
+            if (!HasUnderlayerAnyEvo(pkm, evos, 7))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} under-layer missing."));
+        }
+
+        private static bool HasUnderlayerAnyEvo(PKM pkm, IEnumerable<EvoCriteria> evos, int generation)
+        {
+            var trash = pkm.Nickname_Trash;
+            var firstTrash = FindTerminator(trash) + 2;
+            foreach (var evo in evos)
+            {
+                if (HasUnderlayerAnySpecies(trash, firstTrash, evo.Species, generation))
+                    return true;
+            }
+            return false;
+        }
+
+        private void VerifyTransferTrashHome8(LegalityAnalysis data, PKM pkm) => VerifyTransferTrashNone(data, pkm);
+
+        private void VerifyTransferTrashNone(LegalityAnalysis data, PKM pkm)
+        {
+            if (HasTrash(pkm.Nickname_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} detected."));
+            if (HasTrash(pkm.OT_Trash))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
         }
 
         private void VerifyTrashNickname(LegalityAnalysis data, PKM pkm, IEncounterTemplate enc)
@@ -92,8 +173,34 @@ namespace PKHeX.Core
             // Traded eggs can have trash from the original OT name.
             if (enc.EggEncounter && pkm.WasTradedEgg)
                 data.AddLine(Get($"{nameof(PKM.OT_Trash)} detected.", Severity.Fishy));
+            else if (enc is WC7 { TID: 18075, OT_Name: { Length: > 0 } }) // Ash Pikachu sets trainer name then overwrites it
+                VerifyTrashAnyChar(data, pkm, enc, trash);
             else
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+        }
+
+        private void VerifyTrashAnyChar(LegalityAnalysis data, ILangNick pkm, IGeneration enc, ReadOnlySpan<byte> trash)
+        {
+            var firstTrash = FindTerminator(trash) + 2;
+            var lastTrash = FindLastTrash(trash, firstTrash);
+            var expectedEnd = Legal.GetMaxLengthOT(enc.Generation, (LanguageID)pkm.Language);
+            if (lastTrash > expectedEnd * 2)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+                return;
+            }
+
+            // Ensure there are no other trash breaks in the trash region.
+            var nextTrash = FindNextTrashBackwards(trash, lastTrash);
+            if (nextTrash != firstTrash)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+                return;
+            }
+
+            // keyboard check?
+
+            data.AddLine(GetValid($"Valid underlying {nameof(PKM.OT_Trash)} detected."));
         }
 
         /// <summary>
@@ -137,7 +244,36 @@ namespace PKHeX.Core
                     return false;
                 return HasUnderlayerAnySpecies(trash, firstTrash, enc.Species, enc.Generation);
             }
+
             return false;
+        }
+
+        private static TransferTrashFormat GetTransferFormat(int origin, int format) => format switch
+        {
+            4 or 5 when origin == 3 => TransferTrashFormat.PalPark4,
+            5 when origin < 5 => TransferTrashFormat.Transporter5,
+            6 or 7 when origin is (3 or 4 or 5) => TransferTrashFormat.Bank6,
+            7 when origin < 3 => TransferTrashFormat.Virtual7,
+            8 => TransferTrashFormat.Home8,
+            _ => TransferTrashFormat.None,
+        };
+
+        public static bool IsTrashCleared(int origin, int format) => origin != format && origin switch
+        {
+            (1 or 2) when format is (1 or 2) => false,
+            4 when format is 5 => false,
+            6 when format is 7 => false,
+            _ => true,
+        };
+
+        private enum TransferTrashFormat
+        {
+            None,
+            PalPark4,
+            Transporter5,
+            Bank6,
+            Virtual7,
+            Home8,
         }
     }
 }
