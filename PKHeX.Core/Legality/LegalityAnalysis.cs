@@ -290,10 +290,10 @@ namespace PKHeX.Core
             if (format is 4 or 5 or 6) // Gen 6->7 transfer removes this property.
                 Gen4GroundTile.Verify(this);
 
+            Trash.Verify(this);
             if (format < 6)
                 return;
 
-            Trash.Verify(this);
             History.Verify(this);
             if (format < 8) // Gen 7->8 transfer removes these properties.
                 ConsoleRegion.Verify(this);

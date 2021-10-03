@@ -13,8 +13,17 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             // Don't bother with previous generation formats yet.
-            if (pkm.Format < 6)
+            var format = pkm.Format;
+            if (format < 6)
+            {
+                if (format < 3) // GB era
+                    VerifyTrashVC(data, pkm);
+                else if (format == 3)
+                    VerifyTrashGBA(data, pkm);
+                else
+                    VerifyTrashDS(data, pkm);
                 return;
+            }
 
             VerifyFinalTerminator(data, pkm);
             if (pkm.IsEgg)
@@ -33,6 +42,137 @@ namespace PKHeX.Core
             VerifyTrashNickname(data, pkm, enc);
             VerifyTrashOT(data, pkm, enc);
             VerifyTrashHT(data, pkm);
+        }
+
+        private void VerifyTrashDS(LegalityAnalysis data, PKM pkm)
+        {
+            var enc = data.EncounterOriginal;
+            if (IsTrashCleared(enc.Generation, pkm.Format))
+            {
+                VerifyTransferTrash(data, pkm);
+                return;
+            }
+
+            if (enc is PCD { IsEgg: false } pcd)
+            {
+                // Can't nickname these, so they must retain the original trash.
+                var original = pcd.Gift.PK;
+                VerifyTrashPCD_Nickname(data, pkm, original);
+                VerifyTrashPCD_OT(data, pkm, original);
+                return;
+            }
+
+            var trashNick = pkm.Nickname_Trash;
+            if (!HasFinalTerminator(trashNick) && FindTerminator(trashNick, 0xFF) != trashNick.Length)
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} detected at reserved terminator offset."));
+
+            var trashOT = pkm.OT_Trash;
+            if (!HasFinalTerminator(pkm.OT_Trash) && FindTerminator(trashOT, 0xFF) != trashOT.Length)
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
+        }
+
+        private void VerifyTrashPCD_Nickname(LegalityAnalysis data, PKM pkm, PKM original)
+        {
+            var finalRaw = pkm.Nickname_Trash;
+            var firstTerminator = FindTerminator(finalRaw, 0xFF);
+            if (firstTerminator == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (firstTerminator + 2 == finalRaw.Length)
+            {
+                // No trash bytes for Nickname
+                data.AddLine(GetValid($"{nameof(PKM.Nickname_Trash)} is full."));
+                return;
+            }
+
+            var originalRaw = original.Nickname_Trash;
+            bool hasOriginalTrash = HasUnderlayer(finalRaw, originalRaw, firstTerminator + 2);
+            if (!hasOriginalTrash)
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} does not match the original trash bytes."));
+        }
+
+        private void VerifyTrashPCD_OT(LegalityAnalysis data, PKM pkm, PKM original)
+        {
+            var finalRaw = pkm.OT_Trash;
+            var firstTerminator = FindTerminator(finalRaw, 0xFF);
+            if (firstTerminator == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (firstTerminator + 2 == finalRaw.Length)
+            {
+                // No trash bytes for Nickname
+                data.AddLine(GetValid($"{nameof(PKM.OT_Trash)} is full."));
+                return;
+            }
+
+            var originalRaw = original.OT_Trash;
+            bool hasOriginalTrash = HasUnderlayer(finalRaw, originalRaw, firstTerminator + 2);
+            if (!hasOriginalTrash)
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} does not match the original trash bytes."));
+        }
+
+        private void VerifyTrashGBA(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm is CK3 or XK3)
+                return; // don't bother
+
+            // PK3 strings can potentially not have a terminator in the span.
+            // If a terminator is present, scan all following bytes.
+            // Nicknamed Pokémon are all FF. Since RAM is heavily reused, trash can exist for anything (?)
+            var ntrash = pkm.Nickname_Trash;
+            var nterm = ntrash.IndexOf(StringConverter3.TerminatorByte);
+            if (nterm != -1 && nterm != (ntrash.Length-1))
+            {
+                var slice = ntrash[(nterm+1)..];
+                bool allTrashFF = !pkm.IsEgg && pkm.IsNicknamed && data.Info.EncounterMatch is not EncounterTrade { HasNickname: true };
+                if (allTrashFF)
+                {
+                    foreach (var x in slice)
+                    {
+                        if (x == StringConverter3.TerminatorByte)
+                            continue;
+                        data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} detected at reserved terminator offset."));
+                        break;
+                    }
+                }
+                else
+                {
+                    foreach (var x in slice)
+                    {
+                        if (x == 0)
+                            continue;
+                        data.AddLine(Get($"{nameof(PKM.Nickname_Trash)} detected.", Severity.Fishy));
+                        break;
+                    }
+                }
+            }
+
+            // Check if all bytes after first terminator are terminators.
+            var otrash = pkm.OT_Trash;
+            var oterm = otrash.IndexOf(StringConverter3.TerminatorByte);
+            if (oterm != -1 && oterm != (otrash.Length - 1))
+            {
+                var slice = otrash[(oterm+1)..];
+                foreach (var x in slice)
+                {
+                    if (x == StringConverter3.TerminatorByte)
+                        continue;
+                    data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
+                    break;
+                }
+            }
+        }
+
+        private void VerifyTrashVC(LegalityAnalysis data, PKM pkm)
+        {
+            if (!HasFinalTerminator(pkm.OT_Trash, StringConverter12.G1TerminatorCode))
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
         }
 
         /// <summary>
@@ -67,10 +207,36 @@ namespace PKHeX.Core
 
         private void VerifyTransferTrashPalPark4(LegalityAnalysis data, PKM pkm)
         {
-            if (!HasTrash(pkm.Nickname_Trash))
-                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} missing."));
-            if (!HasTrash(pkm.OT_Trash))
-                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
+            var finalRaw = pkm.Nickname_Trash;
+            var firstTerminator = FindTerminator(finalRaw, 0xFF);
+            if (firstTerminator == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (firstTerminator + 2 == finalRaw.Length)
+            {
+                // No trash bytes for Nickname
+                data.AddLine(GetValid($"{nameof(PKM.Nickname_Trash)} is full."));
+                return;
+            }
+
+            // Future: Check Pal Park Trash Bytes
+
+            finalRaw = pkm.OT_Trash;
+            firstTerminator = FindTerminator(finalRaw, 0xFF);
+            if (firstTerminator == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (firstTerminator + 2 == finalRaw.Length)
+            {
+                // No trash bytes for Nickname
+                data.AddLine(GetValid($"{nameof(PKM.Nickname_Trash)} is full."));
+            }
         }
 
         private void VerifyTransferTrashTransporter5(LegalityAnalysis data, PKM pkm)
@@ -79,11 +245,13 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
             VerifyTrashNickname(data, pkm, data.EncounterMatch);
         }
+
         private void VerifyTransferTrashBank6(LegalityAnalysis data, PKM pkm)
         {
             if (HasTrash(pkm.OT_Trash))
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
 
+            // Transferring 5->6 sets the localized current species name before copying over the current Nickname string, regardless of it being nicknamed.
             var evos = data.Info.EvoChainsAllGens[5];
             if (!HasUnderlayerAnyEvo(pkm, evos, 6))
                 data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} under-layer missing."));
@@ -94,6 +262,7 @@ namespace PKHeX.Core
             if (HasTrash(pkm.OT_Trash))
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected."));
 
+            // Transferring VC->7 sets the localized current species name before copying over the current Nickname string, regardless of it being nicknamed.
             var evos = data.Info.EvoChainsAllGens[1].Concat(data.Info.EvoChainsAllGens[2]);
             if (!HasUnderlayerAnyEvo(pkm, evos, 7))
                 data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} under-layer missing."));
@@ -214,7 +383,7 @@ namespace PKHeX.Core
                 // Eggs have the species name underneath the current egg name.
                 var over = pkm.Nickname;
                 var under = SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, data.Info.Generation);
-                if (!HasUnderlayer(pkm.Nickname_Trash, under, over))
+                if (!HasUnderlayerSpecies(pkm.Nickname_Trash, under, over))
                     data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} does not match expected trash."));
             }
 
