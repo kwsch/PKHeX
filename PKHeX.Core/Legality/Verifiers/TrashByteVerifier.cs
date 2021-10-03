@@ -63,12 +63,42 @@ namespace PKHeX.Core
             }
 
             var trashNick = pkm.Nickname_Trash;
-            if (!HasFinalTerminator(trashNick) && FindTerminator(trashNick, 0xFF) != trashNick.Length)
-                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} detected at reserved terminator offset."));
+            var trashNickIndex = FindTerminator(trashNick, 0xFF);
+            if (trashNickIndex == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (!HasFinalTerminator(trashNick) && trashNickIndex + 2 != trashNick.Length)
+            {
+                // Allow nicknamed content to insert terminators and keyboard characters inside the mutable region.
+                var littleEndian = pkm is not BK4;
+                for (int i = trashNickIndex + 2; i < trashNick.Length; i+=2)
+                {
+                    var character = littleEndian
+                        ? (trashNick[i] | (trashNick[i + 1] << 8))
+                        : (trashNick[i + 1] | (trashNick[i] << 8));
+                    if (character is 0)
+                    {
+                        data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} has empty trash between terminators."));
+                        return;
+                    }
+                }
+            }
 
             var trashOT = pkm.OT_Trash;
-            if (!HasFinalTerminator(pkm.OT_Trash) && FindTerminator(trashOT, 0xFF) != trashOT.Length)
+            var trashOTIndex = FindTerminator(trashOT, 0xFF);
+            if (trashOTIndex == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (!HasFinalTerminator(trashOT) && trashOTIndex + 2 != trashOT.Length)
+            {
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
+            }
         }
 
         private void VerifyTrashPCD_Nickname(LegalityAnalysis data, PKM pkm, PKM original)
