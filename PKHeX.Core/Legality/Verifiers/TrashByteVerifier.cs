@@ -95,6 +95,21 @@ namespace PKHeX.Core
                 return;
             }
 
+            {
+                var littleEndian = pkm is not BK4;
+                for (int i = trashOTIndex + 2; i < trashOT.Length; i+=2)
+                {
+                    var character = littleEndian
+                        ? (trashOT[i] | (trashOT[i + 1] << 8))
+                        : (trashOT[i + 1] | (trashOT[i] << 8));
+                    if (character is not 0)
+                    {
+                        data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} has nonzero trash after terminator."));
+                        return;
+                    }
+                }
+            }
+
             if (!HasFinalTerminator(trashOT) && trashOTIndex + 2 != trashOT.Length)
             {
                 data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
