@@ -62,6 +62,19 @@ namespace PKHeX.Core
                 return;
             }
 
+            if (enc is EncounterEgg { Generation: 4 } egg)
+            {
+                VerifyTrashNDS_EggNickname4(data, pkm, egg);
+                VerifyTrashNDS_OT(data, pkm);
+                return;
+            }
+
+            VerifyTrashNDS_Nickname(data, pkm);
+            VerifyTrashNDS_OT(data, pkm);
+        }
+
+        private void VerifyTrashNDS_EggNickname4(LegalityAnalysis data, PKM pkm, IEncounterTemplate egg)
+        {
             var trashNick = pkm.Nickname_Trash;
             var trashNickIndex = FindTerminator(trashNick, 0xFF);
             if (trashNickIndex == -1)
@@ -70,23 +83,112 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (!HasFinalTerminator(trashNick) && trashNickIndex + 2 != trashNick.Length)
+            if (HasFinalTerminator(trashNick) || trashNickIndex + 2 == trashNick.Length)
+                return;
+
+            if (!IsValidGen4EggTrash(pkm, egg, trashNickIndex, trashNick))
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} should match egg trash details."));
+        }
+
+        private bool IsValidGen4EggTrash(ILangNick pkm, IVersion egg, int start, ReadOnlySpan<byte> trash)
+        {
+            var first = start;
+            var hatchLanguage = pkm.Language;
+            var maxTrashStart = (hatchLanguage is (int)LanguageID.Japanese or (int)LanguageID.Korean ? 10 : 20) + 2;
+            var version = egg.Version;
+
+            var isLittleEndian = pkm is not BK4;
+            for (int i = start + 2; i < trash.Length; i += 2)
             {
-                // Allow nicknamed content to insert terminators and keyboard characters inside the mutable region.
-                var littleEndian = pkm is not BK4;
-                for (int i = trashNickIndex + 2; i < trashNick.Length; i+=2)
-                {
-                    var character = littleEndian
-                        ? (trashNick[i] | (trashNick[i + 1] << 8))
-                        : (trashNick[i + 1] | (trashNick[i] << 8));
-                    if (character is 0)
-                    {
-                        data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} has empty trash between terminators."));
-                        return;
-                    }
-                }
+                if (i > maxTrashStart)
+                    break;
+                if (trash[i + 1] == 0xFF && trash[i] == 0xFF)
+                    continue;
+
+                var language = GetIsMatchUnderlayer(trash, i, hatchLanguage, version);
+                if (language == LanguageID.Hacked)
+                    continue;
+
+                if (IsTrashOrTerminator4(trash, first, i, isLittleEndian, hatchLanguage))
+                    return true;
             }
 
+            return true;
+        }
+
+        private static LanguageID GetIsMatchUnderlayer(ReadOnlySpan<byte> trash, int trashStart, int hatchLanguage, GameVersion version)
+        {
+            var startLanguage = hatchLanguage == (int)LanguageID.Korean ? LanguageID.Korean : LanguageID.Japanese;
+            for (var lang = startLanguage; lang <= LanguageID.Korean; lang++)
+            {
+                var eggTrash = GetEggTrash(lang, version);
+                if (HasUnderlayer(trash, eggTrash, trashStart))
+                    return lang;
+            }
+            return LanguageID.Hacked;
+        }
+
+        private static ReadOnlySpan<byte> GetEggTrash(LanguageID lang, GameVersion version)
+        {
+            return Array.Empty<byte>(); // todo
+        }
+
+        private static bool IsTrashOrTerminator4(ReadOnlySpan<byte> trash, int first, int last, bool isLittleEndian, int language)
+        {
+            for (int index = first + 2; index < last - 2; index += 2)
+            {
+                if (trash[index + 1] == 0xFF && trash[index] == 0xFF)
+                    continue;
+                if (!IsValidKeyChar4(trash, isLittleEndian, index, language))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsValidKeyChar4(ReadOnlySpan<byte> trash, bool isLittleEndian, int index, int language)
+        {
+            var character = isLittleEndian
+                ? (trash[index] | (trash[index + 1] << 8))
+                : (trash[index + 1] | (trash[index] << 8));
+            return IsValidKeyChar4(character, language);
+        }
+
+        private static bool IsValidKeyChar4(int character, int language)
+        {
+            return character is not 0;
+        }
+
+        private void VerifyTrashNDS_Nickname(LegalityAnalysis data, PKM pkm)
+        {
+            var trashNick = pkm.Nickname_Trash;
+            var trashNickIndex = FindTerminator(trashNick, 0xFF);
+            if (trashNickIndex == -1)
+            {
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} is missing a terminator."));
+                return;
+            }
+
+            if (HasFinalTerminator(trashNick) || trashNickIndex + 2 == trashNick.Length)
+                return;
+
+            // Allow nicknamed content to insert terminators and keyboard characters inside the mutable region.
+            var littleEndian = pkm is not BK4;
+            for (int i = trashNickIndex + 2; i < trashNick.Length; i += 2)
+            {
+                var character = littleEndian
+                    ? (trashNick[i] | (trashNick[i + 1] << 8))
+                    : (trashNick[i + 1] | (trashNick[i] << 8));
+
+                if (character is not 0)
+                    continue;
+                data.AddLine(GetInvalid($"{nameof(PKM.Nickname_Trash)} has empty trash between terminators."));
+                return;
+            }
+        }
+
+        private void VerifyTrashNDS_OT(LegalityAnalysis data, PKM pkm)
+        {
             var trashOT = pkm.OT_Trash;
             var trashOTIndex = FindTerminator(trashOT, 0xFF);
             if (trashOTIndex == -1)
@@ -95,24 +197,16 @@ namespace PKHeX.Core
                 return;
             }
 
+            var littleEndian = pkm is not BK4;
+            for (int i = trashOTIndex + 2; i < trashOT.Length; i += 2)
             {
-                var littleEndian = pkm is not BK4;
-                for (int i = trashOTIndex + 2; i < trashOT.Length; i+=2)
-                {
-                    var character = littleEndian
-                        ? (trashOT[i] | (trashOT[i + 1] << 8))
-                        : (trashOT[i + 1] | (trashOT[i] << 8));
-                    if (character is not 0)
-                    {
-                        data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} has nonzero trash after terminator."));
-                        return;
-                    }
-                }
-            }
-
-            if (!HasFinalTerminator(trashOT) && trashOTIndex + 2 != trashOT.Length)
-            {
-                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} detected at reserved terminator offset."));
+                var character = littleEndian
+                    ? (trashOT[i] | (trashOT[i + 1] << 8))
+                    : (trashOT[i + 1] | (trashOT[i] << 8));
+                if (character is 0)
+                    continue;
+                data.AddLine(GetInvalid($"{nameof(PKM.OT_Trash)} has nonzero trash after terminator."));
+                return;
             }
         }
 
