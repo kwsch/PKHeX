@@ -545,6 +545,8 @@ namespace PKHeX.Core
             if (pkm is IContestStats s && s.IsContestBelow(this))
                 return false;
 
+            if (CardID is 1122 or 1133 && !CanBeReceivedByVersion(pkm.Version))
+                return false; // Each version pair has a separate card -- since we aren't using deferral/partial match logic to reorder, just return false.
             if (CardID == 2046) // Greninja WC has variant PID and can arrive @ 36 or 37
                 return pkm.SM; // not USUM
 
