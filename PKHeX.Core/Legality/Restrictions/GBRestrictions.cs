@@ -209,14 +209,15 @@ namespace PKHeX.Core
 
         internal static int GetRequiredMoveCount(PK1 pk, IReadOnlyList<int> moves, LegalInfo info, IReadOnlyList<int> initialmoves)
         {
-            var capsuleState = IsTimeCapsuleTransferred(pk, info.Moves, info.EncounterMatch);
+            var enc = info.EncounterMatch;
+            var capsuleState = IsTimeCapsuleTransferred(pk, info.Moves, enc);
             if (capsuleState != TimeCapsuleEvaluation.NotTransferred) // No Move Deleter in Gen 1
                 return 1; // Move Deleter exits, slots from 2 onwards can always be empty
 
-            if (info.EncounterMatch is IMoveset ms && ms.Moves.Count is not 0)
-                return ms.Moves.Count;
+            if (enc is IMoveset {Moves: {Count: 4}})
+                return 4;
 
-            int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves);
+            int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves, enc.Species);
             if (required >= 4)
                 return 4;
 
@@ -231,39 +232,29 @@ namespace PKHeX.Core
             return Math.Min(4, required);
         }
 
-        private static int GetRequiredMoveCount(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
+        private static int GetRequiredMoveCount(PK1 pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves, int originalSpecies)
         {
             if (SpecialMinMoveSlots.Contains(pk.Species))
                 return GetRequiredMoveCountSpecial(pk, moves, learn);
 
             // A pokemon is captured with initial moves and can't forget any until have all 4 slots used
             // If it has learn a move before having 4 it will be in one of the free slots
-            int required = GetRequiredMoveSlotsRegular(pk, moves, learn, initialmoves);
+            int required = GetRequiredMoveSlotsRegular(pk, moves, learn, initialmoves, originalSpecies);
             return required != 0 ? required : GetRequiredMoveCountDecrement(pk, moves, learn, initialmoves);
         }
 
-        private static int GetRequiredMoveSlotsRegular(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
+        private static int GetRequiredMoveSlotsRegular(PK1 pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves, int originalSpecies)
         {
-            int species = pk.Species;
-            int catch_rate = ((PK1)pk).Catch_Rate;
-            // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
-            // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
-            if ((species is (int)Metapod or (int)Butterfree) && catch_rate is 120)
-            {
-                // Captured as Metapod without Caterpie moves
-                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1CaterpieMoves.Contains(lm));
-                // There is no valid Butterfree encounter in generation 1 games
-            }
-            if ((species is (int)Kakuna or (int)Beedrill) && (catch_rate is 45 or 120))
-            {
-                if (species == (int)Beedrill && catch_rate == 45) // Captured as Beedril without Weedle and Kakuna moves
-                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
+            if (originalSpecies == pk.Species)
+                return 0; // Can skip over all learned moves that we can reasonably care about
 
-                // Captured as Kakuna without Weedle moves
-                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
-            }
-
-            return IsMoveCountRequired3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
+            return originalSpecies switch
+            {
+                (int)Caterpie => initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && (lm != (int)Move.Harden   || moves.Contains((int)Move.Harden))),
+                (int)Metapod => initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && (lm != (int)Move.Confusion || moves.Contains((int)Move.Confusion))),
+                (int)Mankey => initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && (lm != (int)Move.Rage       || moves.Contains((int)Move.Rage))),
+                _ => IsMoveCountRequired3(pk.Species, pk.CurrentLevel, moves) ? 3 : 0,
+            };
         }
 
         private static bool IsMoveCountRequired3(int species, int level, IReadOnlyList<int> moves) => species switch
@@ -300,10 +291,15 @@ namespace PKHeX.Core
                         usedslots--;
                     break;
                 case (int)Cubone or (int)Marowak: // Cubone & Marowak
-                    if (!moves.Contains(39)) // Initial Yellow Tail Whip
-                        usedslots--;
-                    if (!moves.Contains(125)) // Initial Yellow Bone Club
-                        usedslots--;
+                    if (!moves.Contains((int)Move.TailWhip) && !moves.Contains((int)Move.Headbutt)) // Initial Red
+                        usedslots-=2;
+                    else
+                    {
+                        if (!moves.Contains(39)) // Initial Yellow Tail Whip
+                            usedslots--;
+                        if (!moves.Contains(125)) // Initial Yellow Bone Club
+                            usedslots--;
+                    }
                     if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
                         usedslots--;
                     break;
@@ -347,7 +343,7 @@ namespace PKHeX.Core
             }
 
             // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
-            return mandatory.Count + moves.Where(m => m != 0).Count(m => !mandatory.Contains(m) && learn[1].Contains(m));
+            return mandatory.Distinct().Count(z => z != 0) + moves.Where(m => m != 0).Count(m => !mandatory.Contains(m) && learn[1].Contains(m));
         }
 
         private static List<int> GetRequiredMoveCountLevel(PKM pk)
