@@ -79,6 +79,16 @@ namespace PKHeX.Core
 
         private static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
 
+        private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, int rate)
+        {
+            for (int species = baseSpecies; species <= finalSpecies; species++)
+            {
+                if (rate == PersonalTable.RB[species].CatchRate || rate == PersonalTable.Y[species].CatchRate)
+                    return true;
+            }
+            return false;
+        }
+
         private void SetSpeciesValues(int value)
         {
             var updated = SpeciesConverter.SetG1Species(value);
@@ -91,18 +101,17 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            if (IsCatchRateHeldItem(Catch_Rate))
+            int rate = Catch_Rate;
+            if (rate is 0 || IsCatchRateHeldItem(rate))
                 return;
-            if (value == (int)Core.Species.Pikachu && Catch_Rate == 0xA3) // Light Ball (starter)
+            if (value == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
                 return;
 
-            int Rate = Catch_Rate;
             int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
-            for (int z = baseSpecies; z <= value; z++)
-            {
-                if (Rate == PersonalTable.RB[z].CatchRate || Rate == PersonalTable.Y[z].CatchRate)
-                    return;
-            }
+            if (IsCatchRatePreEvolutionRate(baseSpecies, value, rate))
+                return;
+
+            // Matches nothing possible; just reset to current Species' rate.
             Catch_Rate = PersonalTable.RB[value].CatchRate;
         }
 
