@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
 
-            if (Settings.Startup.LoadPlugins)
+            if (Settings.Startup.PluginLoadMethod != PluginLoadSetting.DontLoad)
                 FormLoadPlugins();
 
             if (HaX)

@@ -42,13 +42,20 @@ namespace PKHeX.WinForms
             #if UNSAFEDLL
             var assemblies = dllFileNames.Select(Assembly.UnsafeLoadFrom);
             #else
-            var assemblies = dllFileNames.Select(Assembly.LoadFrom);
+            var assemblies = dllFileNames.Select(GetPluginLoadMethod(Main.Settings.Startup.PluginLoadMethod));
             #endif
             #if MERGED
             assemblies = assemblies.Concat(new[] { Assembly.GetExecutingAssembly() }); // load merged too
             #endif
             return assemblies;
         }
+
+        private static Func<string, Assembly> GetPluginLoadMethod(PluginLoadSetting pls) => pls switch
+        {
+            PluginLoadSetting.LoadFrom => Assembly.LoadFrom,
+            PluginLoadSetting.LoadFile => Assembly.LoadFile,
+            _ => throw new NotImplementedException($"PluginLoadSetting: {pls} method not defined."),
+        };
 
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
