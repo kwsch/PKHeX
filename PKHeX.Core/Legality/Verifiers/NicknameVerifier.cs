@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.LanguageID;
 
@@ -84,6 +85,15 @@ namespace PKHeX.Core
 
                 if (n.CanHandleOT(pkm.Language))
                     return;
+
+                if (n is WC3 && pkm.Format != 3)
+                {
+                    // Gen3 gifts transferred to Generation 4 from another language can set the nickname flag.
+                    var evos = data.Info.EvoChainsAllGens[3];
+                    bool matchAny = evos.Any(evo => !SpeciesName.IsNicknamedAnyLanguage(evo.Species, nickname, 3));
+                    if (matchAny)
+                        return;
+                }
 
                 if (pkm.IsNicknamed)
                     data.AddLine(Get(LEncGiftNicknamed, Severity.Invalid));
