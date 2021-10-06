@@ -8,12 +8,12 @@ namespace PKHeX.WinForms
 {
     public static class PluginLoader
     {
-        public static IEnumerable<T> LoadPlugins<T>(string pluginPath) where T : class
+        public static IEnumerable<T> LoadPlugins<T>(string pluginPath, PluginLoadSetting loadSetting) where T : class
         {
             var dllFileNames = !Directory.Exists(pluginPath)
                 ? Enumerable.Empty<string>()
                 : Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
-            var assemblies = GetAssemblies(dllFileNames);
+            var assemblies = GetAssemblies(dllFileNames, loadSetting);
             var pluginTypes = GetPluginsOfType<T>(assemblies);
             return LoadPlugins<T>(pluginTypes);
         }
@@ -37,18 +37,21 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames)
+        private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames, PluginLoadSetting loadSetting)
         {
-            #if UNSAFEDLL
-            var assemblies = dllFileNames.Select(Assembly.UnsafeLoadFrom);
-            #else
-            var assemblies = dllFileNames.Select(Assembly.LoadFrom);
-            #endif
-            #if MERGED
-            assemblies = assemblies.Concat(new[] { Assembly.GetExecutingAssembly() }); // load merged too
-            #endif
+            var assemblies = dllFileNames.Select(GetPluginLoadMethod(loadSetting));
+            if (loadSetting is PluginLoadSetting.LoadFromMerged or PluginLoadSetting.LoadFileMerged or PluginLoadSetting.UnsafeMerged)
+                assemblies = assemblies.Concat(new[] { Assembly.GetExecutingAssembly() }); // load merged too
             return assemblies;
         }
+
+        private static Func<string, Assembly> GetPluginLoadMethod(PluginLoadSetting pls) => pls switch
+        {
+            PluginLoadSetting.LoadFrom or PluginLoadSetting.LoadFromMerged => Assembly.LoadFrom,
+            PluginLoadSetting.LoadFile or PluginLoadSetting.LoadFileMerged => Assembly.LoadFile,
+            PluginLoadSetting.UnsafeLoadFrom or PluginLoadSetting.UnsafeMerged => Assembly.UnsafeLoadFrom,
+            _ => throw new NotImplementedException($"PluginLoadSetting: {pls} method not defined."),
+        };
 
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {

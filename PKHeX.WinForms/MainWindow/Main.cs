@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
 
-            if (Settings.Startup.LoadPlugins)
+            if (Settings.Startup.PluginLoadMethod != PluginLoadSetting.DontLoad)
                 FormLoadPlugins();
 
             if (HaX)
@@ -318,7 +318,7 @@ namespace PKHeX.WinForms
             #endif
             try
             {
-                Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
+                Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath, Settings.Startup.PluginLoadMethod));
             }
             catch (InvalidCastException c)
             {

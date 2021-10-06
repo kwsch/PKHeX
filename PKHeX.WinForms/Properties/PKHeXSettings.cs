@@ -126,8 +126,8 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Show the changelog when a new version of the program is run for the first time.")]
         public bool ShowChangelogOnUpdate { get; set; } = true;
 
-        [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists.")]
-        public bool LoadPlugins { get; set; } = true;
+        [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists. Try LoadFile to mitigate intermittent load failures.")]
+        public PluginLoadSetting PluginLoadMethod { get; set; } = PluginLoadSetting.LoadFrom;
 
         public List<string> RecentlyLoaded = new(MaxRecentCount);
 
@@ -169,6 +169,17 @@ namespace PKHeX.WinForms
                 recent.RemoveAt(recent.Count - 1);
             recent.Insert(0, path);
         }
+    }
+
+    public enum PluginLoadSetting
+    {
+        DontLoad,
+        LoadFrom,
+        LoadFile,
+        UnsafeLoadFrom,
+        LoadFromMerged,
+        LoadFileMerged,
+        UnsafeMerged,
     }
 
     public enum AutoLoadSetting
