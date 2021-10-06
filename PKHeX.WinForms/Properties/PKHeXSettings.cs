@@ -175,7 +175,11 @@ namespace PKHeX.WinForms
     {
         DontLoad,
         LoadFrom,
-        LoadFile
+        LoadFile,
+        UnsafeLoadFrom,
+        LoadFromMerged,
+        LoadFileMerged,
+        UnsafeMerged,
     }
 
     public enum AutoLoadSetting

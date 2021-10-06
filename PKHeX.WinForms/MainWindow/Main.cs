@@ -318,7 +318,7 @@ namespace PKHeX.WinForms
             #endif
             try
             {
-                Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
+                Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath, Settings.Startup.PluginLoadMethod));
             }
             catch (InvalidCastException c)
             {
