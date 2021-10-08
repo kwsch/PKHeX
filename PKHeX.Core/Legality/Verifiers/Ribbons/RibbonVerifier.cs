@@ -417,7 +417,7 @@ namespace PKHeX.Core
 
                 if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
                 {
-                    if (pkm.MetDate >= new DateTime(2021, 11, 1))
+                    if (pkm.MetDate >= new DateTime(2022, 2, 1))
                         return false;
                 }
             }
