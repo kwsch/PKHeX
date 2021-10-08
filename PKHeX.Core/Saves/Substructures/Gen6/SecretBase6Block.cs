@@ -34,7 +34,7 @@ namespace PKHeX.Core
         {
             var bytes = BitConverter.GetBytes(25u | (1 << 16)); // count: 25, new flag.
             for (int i = 0; i < Count_Goods_Used; i++)
-                bytes.CopyTo(Data, GetGoodOffset(i));
+                bytes.CopyTo(Data, Offset + GetGoodOffset(i));
         }
 
         public ushort SecretBaseSelfLocation
