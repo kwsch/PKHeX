@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+﻿using System.Linq;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -81,28 +82,46 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LLevelMetBelow));
             }
 
-            // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
-            // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
-            if (pkm.Format <= 2 && enc is not EncounterTrade && enc.Species == pkm.Species && GBRestrictions.Trade_Evolution1.Contains(enc.Species))
-                VerifyG1TradeEvo(data);
+            if (IsTradeEvolutionRequired(data, enc))
+            {
+                // Pokemon has been traded illegally between games without evolving.
+                // Trade evolution species IDs for Gen1 are sequential dex numbers.
+                var species = enc.Species;
+                var evolved = ParseSettings.SpeciesStrings[species + 1];
+                var unevolved = ParseSettings.SpeciesStrings[species];
+                data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
+            }
         }
 
-        private void VerifyG1TradeEvo(LegalityAnalysis data)
+        /// <summary>
+        /// Checks if a Gen1 trade evolution must have occurred.
+        /// </summary>
+        private static bool IsTradeEvolutionRequired(LegalityAnalysis data, IEncounterTemplate enc)
         {
+            // There is no way to prevent a Gen1 trade evolution, as held items (Everstone) did not exist.
+            // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
+            var pkm = data.pkm;
+            var species = pkm.Species;
+
+            // This check is only applicable if it's a trade evolution that has not been evolved.
+            if (!GBRestrictions.Trade_Evolution1.Contains(enc.Species) || enc.Species != species)
+                return false;
+
             // Context check is only applicable to gen1/2; transferring to Gen2 is a trade.
             // Stadium 2 can transfer across game/generation boundaries without initiating a trade.
+            // Ignore this check if the environment's loaded trainer is not from Gen1/2 or is from GB Era.
             if (ParseSettings.ActiveTrainer.Generation >= 3 || ParseSettings.AllowGBCartEra)
-                return;
+                return false;
 
-            var pkm = data.pkm;
-            var mustevolve = pkm.Format != 1 || !ParseSettings.IsFromActiveTrainer(pkm);
-            if (!mustevolve)
-                return;
-
-            // Pokemon have been traded but it is not evolved, trade evolutions are sequential dex numbers
-            var evolved = ParseSettings.SpeciesStrings[pkm.Species + 1];
-            var unevolved = ParseSettings.SpeciesStrings[pkm.Species];
-            data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
+            // Gen2 stuff can be traded between Gen2 games holding an Everstone, assuming it hasn't been transferred to Gen1 for special moves.
+            if (enc.Generation == 2)
+                return data.Info.Moves.All(z => z.Generation == 2);
+            // Gen1 stuff can only be un-evolved if it was never traded from the OT.
+            if (data.Info.Moves.Any(z => z.Generation != 1))
+                return true; // traded to Gen2 for special moves
+            if (pkm.Format != 1)
+                return true; // traded to Gen2 (current state)
+            return !ParseSettings.IsFromActiveTrainer(pkm); // not with OT
         }
     }
 }
