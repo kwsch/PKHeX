@@ -99,8 +99,8 @@ namespace PKHeX.Core
                     }
                 }
 
-                GensEvoChains[g] = GetEvolutionChain(pkm, enc, mostEvolved.Species, lvl);
-                if (GensEvoChains[g].Count == 0)
+                var genChain = GensEvoChains[g] = GetEvolutionChain(pkm, enc, mostEvolved.Species, lvl);
+                if (genChain.Count == 0)
                     continue;
 
                 if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
@@ -115,22 +115,26 @@ namespace PKHeX.Core
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
                     // chain level for Charmander is 35, is below met level.
                     int minlvl = GetMinLevelGeneration(pkm, g);
-                    GensEvoChains[g].RemoveAll(e => e.Level < minlvl);
+                    genChain.RemoveAll(e => e.Level < minlvl);
                 }
                 else if (g == 1)
                 {
+                    var g1 = GensEvoChains[1];
                     // Remove Gen2 post-evolutions (Scizor, Blissey...)
-                    if (GensEvoChains[1][0].Species > MaxSpeciesID_1)
-                        GensEvoChains[1].RemoveAt(0);
+                    if (g1[0].Species > MaxSpeciesID_1)
+                        g1.RemoveAt(0);
 
                     // Remove Gen2 pre-evolutions (Pichu, Cleffa...)
-                    int lastIndex = GensEvoChains[1].Count - 1;
-                    if (lastIndex >= 0 && GensEvoChains[1][lastIndex].Species > MaxSpeciesID_1)
-                        GensEvoChains[1].RemoveAt(lastIndex);
+                    int lastIndex = g1.Count - 1;
+                    if (lastIndex >= 0 && g1[lastIndex].Species > MaxSpeciesID_1)
+                        g1.RemoveAt(lastIndex);
 
                     // Remove Gen7 pre-evolutions and chain break scenarios
                     if (pkm.VC1)
                         TrimVC1Transfer(pkm, GensEvoChains);
+                    // Update min level for the encounter to prevent certain level up moves.
+                    if (g1.Count != 0)
+                        g1[^1].MinLevel = enc.LevelMin;
                 }
             }
             return GensEvoChains;
