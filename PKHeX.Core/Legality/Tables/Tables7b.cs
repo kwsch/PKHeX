@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] Met_GG_3 =
         {
-            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017
+            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
         };
 
         internal static readonly int[] Met_GG_4 =
@@ -44,7 +44,7 @@ namespace PKHeX.Core
             40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077,
         };
 
-        internal static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+        internal static readonly int[] Met_GG_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_Catching_GG =
-            {
+        {
             001, 002, 003, 004, 012, 164, 166, 168,
             861, 862, 863, 864, 865, 866,
         };
@@ -268,7 +268,7 @@ namespace PKHeX.Core
             406, 417, 420, 430, 438, 446, 453, 483, 492, 499,
             503, 504, 525, 529, 583, 585, 603, 605, 606, 607,
             729, 730, 731, 733, 734, 735, 736, 737, 738, 739,
-            740, 742
+            740, 742,
         };
 
         #endregion

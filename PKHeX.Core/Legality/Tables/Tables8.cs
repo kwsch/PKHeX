@@ -12,9 +12,9 @@ namespace PKHeX.Core
 
         // Orion (No DLC)
         internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
-        internal const int MaxMoveID_8_O0 = 796; // Steel Beam (jet fuel)
+        internal const int MaxMoveID_8_O0 = 796; // Steel Beam
         internal const int MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
-        internal const int MaxAbilityID_8_O0 = 258;
+        internal const int MaxAbilityID_8_O0 = 258; // Hunger Switch
 
         // Rigel 1 (DLC 1: Isle of Armor)
         internal const int MaxSpeciesID_8_R1 = 893; // Zarude
@@ -26,10 +26,10 @@ namespace PKHeX.Core
         internal const int MaxSpeciesID_8_R2 = 898; // Calyrex
         internal const int MaxMoveID_8_R2 = 826; // Eerie Spell
         internal const int MaxItemID_8_R2 = 1607; // Reins of Unity
-        internal const int MaxAbilityID_8_R2 = 267; // As One
+        internal const int MaxAbilityID_8_R2 = 267; // As One (Glastrier)
 
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
-        internal const int MaxGameID_8 = 45;
+        internal const int MaxGameID_8 = 45; // Shield
 
         #region Met Locations
         internal static readonly int[] Met_SWSH_0 =
@@ -65,7 +65,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] Met_SWSH_3 =
         {
-            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018
+            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
         };
 
         internal static readonly int[] Met_SWSH_4 =
@@ -81,7 +81,7 @@ namespace PKHeX.Core
             40081, 40082, 40083, 40084, 40085, 40086,
         };
 
-        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
         #endregion
 
         internal static readonly ushort[] Pouch_Regular_SWSH =
@@ -119,7 +119,7 @@ namespace PKHeX.Core
             1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1581, 1582, 1588,
 
             // DLC 2
-            1592, 1604, 1606
+            1592, 1604, 1606,
         };
 
         internal static readonly ushort[] Pouch_Ball_SWSH =
@@ -132,7 +132,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Battle_SWSH =
         {
-            055, 056, 057, 058, 059, 060, 061, 062, 063, 1580
+            055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
         };
 
         internal static readonly ushort[] Pouch_Items_SWSH = ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH);

@@ -34,7 +34,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] Met_SM_3 =
         {
-            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017
+            30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
         };
 
         internal static readonly int[] Met_SM_4 =
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             40080, 40081, 40082, 40083, 40084, 40085, 40086, 40087, 40088,
         };
 
-        internal static readonly int[] Met_SM_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, };
+        internal static readonly int[] Met_SM_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace PKHeX.Core
             020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
             380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
 
-            477, 502, 432, 710, 707, 675, 673
+            477, 502, 432, 710, 707, 675, 673,
         };
 
         internal static readonly ushort[] Pouch_Regular_SM = // 00
@@ -84,7 +84,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Ball_SM = { // 08
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 492, 493, 494, 495, 496, 497, 498, 576,
-            851
+            851,
         };
 
         internal static readonly ushort[] Pouch_Battle_SM = { // 16
@@ -106,7 +106,7 @@ namespace PKHeX.Core
         });
 
         public static readonly ushort[] Pouch_Roto_USUM = {
-            949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
+            949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959,
         };
 
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
@@ -134,15 +134,15 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
-            776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
+            776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836,
         };
 
         internal static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, new ushort[] { // Bead
-            927, 928, 929, 930, 931, 932
+            927, 928, 929, 930, 931, 932,
         });
 
         internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, new ushort[] { // Piece
-            921, 922, 923, 924, 925, 926
+            921, 922, 923, 924, 925, 926,
         });
 
         public static readonly Dictionary<int, int> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
@@ -230,7 +230,7 @@ namespace PKHeX.Core
             418, 419, // Floatzel
             194, 195, // Quagsire
 
-            100, 101 // Voltorb & Electrode
+            100, 101, // Voltorb & Electrode
         };
 
         internal static readonly int[] ZygardeMoves =
