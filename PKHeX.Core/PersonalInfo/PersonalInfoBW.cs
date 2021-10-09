@@ -13,14 +13,14 @@ namespace PKHeX.Core
         public PersonalInfoBW(byte[] data) : base(data)
         {
             // Unpack TMHM & Tutors
-            TMHM = GetBits(Data, 0x28, 0x10);
-            TypeTutors = GetBits(Data, 0x38, 0x4);
+            TMHM = GetBits(Data.AsSpan(0x28, 0x10));
+            TypeTutors = GetBits(Data.AsSpan(0x38, 0x4));
         }
 
         public override byte[] Write()
         {
-            SetBits(TMHM).CopyTo(Data, 0x28);
-            SetBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(TMHM, Data.AsSpan(0x28));
+            SetBits(TypeTutors, Data.AsSpan(0x38));
             return Data;
         }
 

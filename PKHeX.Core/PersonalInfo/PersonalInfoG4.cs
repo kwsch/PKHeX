@@ -12,13 +12,13 @@ namespace PKHeX.Core
         public PersonalInfoG4(byte[] data) : base(data)
         {
             // Unpack TMHM & Tutors
-            TMHM = GetBits(Data, 0x1C, 0x0D);
-            TypeTutors = Array.Empty<bool>(); // not stored in personal
+            TMHM = GetBits(Data.AsSpan(0x1C, 0x0D));
+          //TypeTutors = Array.Empty<bool>(); // not stored in personal -- default value
         }
 
         public override byte[] Write()
         {
-            SetBits(TMHM).CopyTo(Data, 0x1C);
+            SetBits(TMHM, Data.AsSpan(0x1C));
             return Data;
         }
 

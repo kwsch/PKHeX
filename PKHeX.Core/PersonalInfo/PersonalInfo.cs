@@ -208,39 +208,31 @@ namespace PKHeX.Core
         /// </summary>
         public bool[][] SpecialTutors = Array.Empty<bool[]>();
 
-        protected static bool[] GetBits(byte[] data, int start = 0, int length = -1)
+        protected static bool[] GetBits(ReadOnlySpan<byte> data)
         {
-            if (length < 0)
-                length = data.Length;
-            bool[] result = new bool[length << 3];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = (data[start + (i >> 3)] >> (i & 7) & 0x1) == 1;
+            bool[] result = new bool[data.Length << 3];
+            for (int i = result.Length - 1; i >= 0; i--)
+                result[i] = (data[i >> 3] >> (i & 7) & 0x1) == 1;
             return result;
         }
 
-        protected static byte[] SetBits(bool[] bits)
+        protected static void SetBits(bool[] bits, Span<byte> data)
         {
-            byte[] data = new byte[bits.Length>>3];
-            for (int i = 0; i < bits.Length; i++)
+            for (int i = bits.Length - 1; i >= 0; i--)
                 data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
-            return data;
         }
 
         /// <summary>
         /// Injects supplementary TM/HM compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
         /// <param name="data">Data to read from</param>
-        /// <param name="start">Starting offset to read at</param>
-        /// <param name="length">Amount of bytes to decompose into bits</param>
-        internal void AddTMHM(byte[] data, int start = 0, int length = -1) => TMHM = GetBits(data, start, length);
+        internal void AddTMHM(ReadOnlySpan<byte> data) => TMHM = GetBits(data);
 
         /// <summary>
         /// Injects supplementary Type Tutor compatibility which is not present in the generation specific <see cref="PersonalInfo"/> format.
         /// </summary>
         /// <param name="data">Data to read from</param>
-        /// <param name="start">Starting offset to read at</param>
-        /// <param name="length">Amount of bytes to decompose into bits</param>
-        internal void AddTypeTutors(byte[] data, int start = 0, int length = -1) => TypeTutors = GetBits(data, start, length);
+        internal void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = GetBits(data);
 
         /// <summary>
         /// Gets the <see cref="PersonalTable"/> <see cref="PKM.Form"/> entry index for the input criteria, with fallback for the original species entry.

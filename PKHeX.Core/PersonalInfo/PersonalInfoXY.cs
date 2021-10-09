@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the X &amp; Y games.
@@ -10,15 +12,15 @@
         public PersonalInfoXY(byte[] data) : base(data)
         {
             // Unpack TMHM & Tutors
-            TMHM = GetBits(Data, 0x28, 0x10);
-            TypeTutors = GetBits(Data, 0x38, 0x4);
+            TMHM = GetBits(Data.AsSpan(0x28, 0x10));
+            TypeTutors = GetBits(Data.AsSpan(0x38, 0x4));
             // 0x3C-0x40 unknown
         }
 
         public override byte[] Write()
         {
-            SetBits(TMHM).CopyTo(Data, 0x28);
-            SetBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(TMHM, Data.AsSpan(0x28));
+            SetBits(TypeTutors, Data.AsSpan(0x38));
             return Data;
         }
     }

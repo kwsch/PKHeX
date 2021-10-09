@@ -12,12 +12,12 @@ namespace PKHeX.Core
 
         public PersonalInfoG2(byte[] data) : base(data)
         {
-            TMHM = GetBits(Data, 0x18, 0x8);
+            TMHM = GetBits(Data.AsSpan(0x18, 0x8));
         }
 
         public override byte[] Write()
         {
-            SetBits(TMHM).CopyTo(Data, 0x18);
+            SetBits(TMHM, Data.AsSpan(0x18));
             return Data;
         }
 
