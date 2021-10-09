@@ -13,9 +13,6 @@ namespace PKHeX.Core
         /// <summary>The generation of games the <see cref="PKM"/> originated from.</summary>
         public int Generation { get; private set; }
 
-        /// <summary>The Game the <see cref="PKM"/> originated from.</summary>
-        public GameVersion Game { get; private set; }
-
         /// <summary>The matched Encounter details for the <see cref="PKM"/>. </summary>
         public IEncounterable EncounterMatch
         {
@@ -78,14 +75,13 @@ namespace PKHeX.Core
         {
             pkm = pk;
             Parse = parse;
-            StoreMetadata((GameVersion)pk.Version, pkm.Generation);
+            StoreMetadata(pkm.Generation);
         }
 
-        internal void StoreMetadata(GameVersion game, int gen)
+        internal void StoreMetadata(int gen)
         {
             // We can call this method at the start for any Gen3+ encounter iteration.
             // We need to call this for each Gen1/2 encounter as Version is not stored for those origins.
-            Game = game;
             Generation = gen;
         }
     }

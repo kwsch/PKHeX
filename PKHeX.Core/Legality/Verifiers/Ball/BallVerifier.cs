@@ -73,7 +73,7 @@ namespace PKHeX.Core
         {
             if (s.Location == 75 && s.Generation == 5) // Entree Forest (Dream World)
                 return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
-            return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, data.Info.Game));
+            return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, s.Version));
         }
 
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
@@ -82,7 +82,7 @@ namespace PKHeX.Core
             if (req != None)
                 return VerifyBallEquals(data, (int) req);
 
-            return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, data.Info.Game));
+            return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, w.Version));
         }
 
         private CheckResult VerifyBallEgg(LegalityAnalysis data)
