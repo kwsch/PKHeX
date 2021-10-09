@@ -1,27 +1,6 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Source the Move was learned from
-    /// </summary>
-    public enum MoveSource
-    {
-        Unknown,
-        None,
-        Relearn,
-        Initial,
-        LevelUp,
-        TMHM,
-        Tutor,
-        EggMove,
-        InheritLevelUp,
-        Special,
-        SpecialEgg,
-        ShedinjaEvo,
-        Sketch,
-        Shared,
-    }
-
-    /// <summary>
     /// Move specific <see cref="CheckResult"/> to contain in which Generation it was learned &amp; source.
     /// </summary>
     public sealed class CheckMoveResult : CheckResult
@@ -52,28 +31,19 @@
         /// <remarks>Invalid moves that can't be validated should be here, hence the inclusion.</remarks>
         public bool ShouldBeInRelearnMoves() => Source != MoveSource.None && (!Valid || IsRelearn);
 
-        internal CheckMoveResult(MoveSource m, int g, CheckIdentifier i)
-            : base(i)
+        internal CheckMoveResult(MoveSource m, int g, CheckIdentifier i) : base(i)
         {
             Source = m;
             Generation = g;
         }
 
-        internal CheckMoveResult(MoveSource m, int g, Severity s, string c, CheckIdentifier i)
-            : base(s, c, i)
+        internal CheckMoveResult(MoveSource m, int g, Severity s, string c, CheckIdentifier i) : base(s, c, i)
         {
             Source = m;
             Generation = g;
         }
 
-        internal CheckMoveResult(CheckMoveResult Org, Severity s, string c, CheckIdentifier i)
-            : this(Org.Source, Org.Generation, s, c, i)
-        {
-        }
-
-        internal CheckMoveResult(CheckMoveResult Org, Severity s, string c)
-            : this(Org.Source, Org.Generation, s, c, Org.Identifier)
-        {
-        }
+        internal CheckMoveResult(CheckMoveResult original, Severity s, string c, CheckIdentifier i) : this(original.Source, original.Generation, s, c, i) { }
+        internal CheckMoveResult(CheckMoveResult original, Severity s, string c) : this(original.Source, original.Generation, s, c, original.Identifier) { }
     }
 }
