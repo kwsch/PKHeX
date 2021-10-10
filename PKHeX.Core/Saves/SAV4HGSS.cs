@@ -157,14 +157,14 @@ namespace PKHeX.Core
 
         public override string Rival
         {
-            get => GetString(0x22D4, OTLength);
+            get => GetString(0x22D4, OTLength * 2);
             set => SetString(value, OTLength).CopyTo(Data, 0x22D4);
         }
 
         public override Span<byte> Rival_Trash
         {
-            get => Data.AsSpan(0x22D4, OTLength);
-            set { if (value.Length == OTLength) value.CopyTo(Data.AsSpan(0x22D4)); }
+            get => Data.AsSpan(0x22D4, OTLength * 2);
+            set { if (value.Length == OTLength * 2) value.CopyTo(Data.AsSpan(0x22D4)); }
         }
 
         public override int X2 { get => BitConverter.ToUInt16(General, 0x236E); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x236E); }

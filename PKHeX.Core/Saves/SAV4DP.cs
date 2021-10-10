@@ -148,14 +148,14 @@ namespace PKHeX.Core
 
         public override string Rival
         {
-            get => GetString(0x25A8, OTLength);
+            get => GetString(0x25A8, OTLength * 2);
             set => SetString(value, OTLength).CopyTo(Data, 0x25A8);
         }
 
         public override Span<byte> Rival_Trash
         {
-            get => Data.AsSpan(0x25A8, OTLength);
-            set { if (value.Length == OTLength) value.CopyTo(Data.AsSpan(0x25A8)); }
+            get => Data.AsSpan(0x25A8, OTLength * 2);
+            set { if (value.Length == OTLength * 2) value.CopyTo(Data.AsSpan(0x25A8)); }
         }
 
         public override int X2 { get => BitConverter.ToUInt16(General, 0x25FA); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x25FA); }

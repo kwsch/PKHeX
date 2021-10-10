@@ -60,14 +60,14 @@ namespace PKHeX.Core
 
         public string Rival
         {
-            get => GetString(0x23BA4, OTLength);
+            get => GetString(0x23BA4, OTLength * 2);
             set => SetString(value, OTLength).CopyTo(Data, 0x23BA4);
         }
 
         public Span<byte> Rival_Trash
         {
-            get => Data.AsSpan(0x23BA4, OTLength);
-            set { if (value.Length == OTLength) value.CopyTo(Data.AsSpan(0x23BA4)); }
+            get => Data.AsSpan(0x23BA4, OTLength * 2);
+            set { if (value.Length == OTLength * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
         }
     }
 }
