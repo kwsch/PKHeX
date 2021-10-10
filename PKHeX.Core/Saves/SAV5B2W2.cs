@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -56,5 +57,17 @@ namespace PKHeX.Core
         public PWTBlock5 PWT => Blocks.PWT;
         public override int Fused => 0x1FA00 + sizeof(uint);
         public override int GTS => 0x20400;
+
+        public string Rival
+        {
+            get => GetString(0x23BA4, OTLength);
+            set => SetString(value, OTLength).CopyTo(Data, 0x23BA4);
+        }
+
+        public Span<byte> Rival_Trash
+        {
+            get => Data.AsSpan(0x23BA4, OTLength);
+            set { if (value.Length == OTLength) value.CopyTo(Data.AsSpan(0x23BA4)); }
+        }
     }
 }

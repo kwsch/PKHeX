@@ -23,6 +23,7 @@ namespace PKHeX.Core
 
         public int Options { get; }
         public int Trainer1 { get; }
+        public int Rival { get; private set; }
 
         public int DaylightSavings { get; private set; } = -1;
         public int TimePlayed { get; private set; } = -1;
@@ -55,6 +56,7 @@ namespace PKHeX.Core
         {
             RTCFlags = 0x0C60;
 
+            Rival = 0x2021;
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
             switch (version)
@@ -116,6 +118,7 @@ namespace PKHeX.Core
 
         private void LoadOffsetsJapanese(GameVersion version)
         {
+            Rival = 0x2017;
             DaylightSavings = 0x2029;
             TimePlayed = 0x2034;
             Palette = 0x204C;
@@ -184,6 +187,7 @@ namespace PKHeX.Core
             RTCFlags = 0x1060;
 
             // No Crystal Version
+            Rival = 0x2021;
             DaylightSavings = 0x2042;
             OtherCurrentBox = 0x284C;
 

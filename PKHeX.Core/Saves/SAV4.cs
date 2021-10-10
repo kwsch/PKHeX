@@ -232,6 +232,9 @@ namespace PKHeX.Core
         public abstract int X { get; set; }
         public abstract int Y { get; set; }
 
+        public abstract string Rival { get; set; }
+        public abstract Span<byte> Rival_Trash { get; set; }
+
         public abstract int X2 { get; set; }
         public abstract int Y2 { get; set; }
         public abstract int Z { get; set; }

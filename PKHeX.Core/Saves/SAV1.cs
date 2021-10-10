@@ -255,6 +255,14 @@ namespace PKHeX.Core
 
         public override int SID { get => 0; set { } }
 
+        public string Rival
+        {
+            get => GetString(Offsets.Rival, OTLength);
+            set => SetString(value, OTLength).CopyTo(Data, Offsets.Rival);
+        }
+
+        public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
+
         public bool Yellow => Starter == 0x54; // Pikachu
         public int Starter => Data[Offsets.Starter];
 

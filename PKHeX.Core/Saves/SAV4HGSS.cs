@@ -154,6 +154,19 @@ namespace PKHeX.Core
         public override int M { get => BitConverter.ToUInt16(General, 0x1234); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x1234); }
         public override int X { get => BitConverter.ToUInt16(General, 0x123C); set => BitConverter.GetBytes((ushort)(X2 = value)).CopyTo(General, 0x123C); }
         public override int Y { get => BitConverter.ToUInt16(General, 0x1240); set => BitConverter.GetBytes((ushort)(Y2 = value)).CopyTo(General, 0x1240); }
+
+        public override string Rival
+        {
+            get => GetString(0x22D4, OTLength);
+            set => SetString(value, OTLength).CopyTo(Data, 0x22D4);
+        }
+
+        public override Span<byte> Rival_Trash
+        {
+            get => Data.AsSpan(0x22D4, OTLength);
+            set { if (value.Length == OTLength) value.CopyTo(Data.AsSpan(0x22D4)); }
+        }
+
         public override int X2 { get => BitConverter.ToUInt16(General, 0x236E); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x236E); }
         public override int Y2 { get => BitConverter.ToUInt16(General, 0x2372); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2372); }
         public override int Z { get => BitConverter.ToUInt16(General, 0x2376); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2376); }

@@ -11,6 +11,7 @@
             DexSeen = 0x25B6,
             Items = 0x25C9,
             Money = 0x25F3,
+            Rival = 0x25F6,
             Options = 0x2601,
             Badges = 0x2602,
             TID = 0x2605,
@@ -36,6 +37,7 @@
             DexSeen = 0x25B1,
             Items = 0x25C4,
             Money = 0x25EE,
+            Rival = 0x25F1,
             Options = 0x25F7,
             Badges = 0x25F8,
             TID = 0x25FB,
@@ -60,6 +62,7 @@
         public int DexSeen { get; private init; }
         public int Items { get; private init; }
         public int Money { get; private init; }
+        public int Rival { get; private init; }
         public int Options { get; private init; }
         public int Badges { get; private init; }
         public int TID { get; private init; }

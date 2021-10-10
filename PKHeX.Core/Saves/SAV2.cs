@@ -326,6 +326,18 @@ namespace PKHeX.Core
             set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
 
+        public string Rival
+        {
+            get => GetString(Offsets.Rival, (Korean ? 2 : 1) * OTLength);
+            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Rival);
+        }
+
+        public Span<byte> Rival_Trash
+        {
+            get => Data.AsSpan(Offsets.Rival, StringLength);
+            set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); }
+        }
+
         public override int Gender
         {
             get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
