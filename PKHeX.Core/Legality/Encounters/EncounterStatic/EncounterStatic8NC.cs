@@ -27,6 +27,8 @@ namespace PKHeX.Core
                 return false;
             if (lvl is < 20 or > 55)
                 return false;
+            if (pkm.Met_Location == Watchtower && pkm.IsShiny)
+                return false; // host cannot downlevel and be shiny
             return lvl % 5 == 0;
         }
     }
