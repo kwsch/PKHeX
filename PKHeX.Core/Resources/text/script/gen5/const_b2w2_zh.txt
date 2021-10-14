@@ -1,3 +1,21 @@
 0048	御三家	0:藤藤蛇,1:暖暖猪,2:水水獭
 0077	连入	6:完成教程
 0268	拉帝亚斯/拉帝欧斯	5:可对战,6:消失
+0291	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
+0294	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
+0295	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
+0296	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
+0297	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
+0298	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
+0299	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
+0300	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
+0301	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
+0302	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
+0303	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
+0304	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
+0305	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
+0306	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
+0307	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
+0308	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
+0392	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
+0396	Shadow Traid (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
