@@ -116,3 +116,157 @@
 0041	Squirtle ball at Oak's disappeared
 0042	Charmander ball at Oak's disappeared
 2121	Tanoby Key puzzle solved/Wild Unown in Tanoby Chambers
+0424	Found Secret Key
+1190	Found Lava Cookie in S.S. Anne port
+0626	Chose Dome Fossil (Omanyte in Pokémon Zoo)
+0627	Chose Helix Fossil (Kabuto in Pokémon Zoo)
+2192	Can Fly to Pallet Town
+2193	Can Fly to Viridian City
+2194	Can Fly to Pewter City
+2195	Can Fly to Cerulean City
+2196	Can Fly to Lavender Town
+2197	Can Fly to Vermilion City
+2198	Can Fly to Celadon City
+2199	Can Fly to Fuchsia City
+2200	Can Fly to Cinnabar Island
+2201	Can Fly to Indigo Plateau
+2202	Can Fly to Saffron City
+2203	Can Fly to One Island
+2204	Can Fly to Two Island
+2205	Can Fly to Three Island
+2206	Can Fly to Four Island
+2207	Can Fly to Five Island
+2209	Can Fly to Six Island
+2208	Can Fly to Seven Island
+2210	Can Fly to Route 4 (Pokémon Center)
+2211	Can Fly to Route 10 (Pokémon Center)
+1381	Had Youngster Ben 1st Rematch
+1778	Had Youngster Ben 2nd Rematch
+1779	Had Youngster Ben 3rd Rematch
+1780	Had Youngster Chad 1st Rematch
+1786	Had Youngster Chad 2nd Rematch
+1789	Had Youngster Chad 3rd Rematch
+1781	Had Lass Reli 1st Rematch
+1782	Had Lass Reli 2nd Rematch
+1383	Had Youngster Timmy 1st Rematch
+1784	Had Youngster Timmy 2nd Rematch
+1785	Had Youngster Timmy 3rd Rematch
+1787	Had Lass Janice 1st Rematch
+1788	Had Lass Janice 2nd Rematch
+1790	Had Hiker Franklin Rematch
+1813	Had Twins Eli and Anne Rematch
+1874	Had PokéManiac Mark 1st Rematch
+1924	Had PokéManiac Mark 2nd Rematch
+1901	Had Picnicker Kelsey 1st Rematch
+1902	Had Picnicker Kelsey 2nd Rematch
+1903	Had Picnicker Kelsey 3rd Rematch
+1904	Had Camper Ricky 1st Rematch
+1905	Had Camper Ricky 2nd Rematch
+1906	Had Camper Ricky 3rd Rematch
+1907	Had Camper Jeff 1st Rematch
+1908	Had Camper Jeff 2nd Rematch
+1909	Had Camper Jeff 3rd Rematch
+1910	Had Picnicker Isabelle 1st Rematch
+1911	Had Picnicker Isabelle 2nd Rematch
+1912	Had Picnicker Isabelle 3rd Rematch
+1913	Had Youngster Yasu 1st Rematch
+1914	Had Youngster Yasu 2nd Rematch
+1915	Had Engineer Bernie Rematch
+1916	Had Gamer Darian Rematch
+1917	Had Camper Chris 1st Rematch
+1918	Had Camper Chris 2nd Rematch
+1919	Had Camper Chris 3rd Rematch
+1920	Had Picnicker Alicia 1st Rematch
+1921	Had Picnicker Alicia 2nd Rematch
+1922	Had Picnicker Alicia 3rd Rematch
+1923	Had Hiker Jeremy Rematch
+1925	Had PokéManiac Herman 1st Rematch
+1926	Had PokéManiac Herman 2nd Rematch
+1927	Had Hiker Trent Rematch
+1928	Had Lass Megan 1st Rematch
+1929	Had Lass Megan 2nd Rematch
+1930	Had Super Nerd Glenn Rematch
+1931	Had Gamer Rich Rematch
+1932	Had Biker Jaren Rematch
+1933	Had Fisherman Elliot Rematch
+1934	Had Rocker Luca Rematch
+1935	Had Beauty Sheila Rematch
+1936	Had Bird Keeper Robert 1st Rematch
+1937	Had Bird Keeper Robert 2nd Rematch
+1938	Had Picnicker Susie 1st Rematch
+1939	Had Picnicker Susie 2nd Rematch
+1940	Had Picnicker Susie 3rd Rematch
+1941	Had Biker Lukas Rematch
+1942	Had Bird Keeper Benny 1st Rematch
+1943	Had Bird Keeper Benny 2nd Rematch
+1944	Had Bird Keeper Marlon 1st Rematch
+1945	Had Bird Keeper Marlon 2nd Rematch
+1946	Had Beauty Grace Rematch
+1947	Had Bird Keeper Chester 1st Rematch
+1948	Had Bird Keeper Chester 2nd Rematch
+1949	Had Picnicker Becky 1st Rematch
+1950	Had Picnicker Becky 2nd Rematch
+1951	Had Picnicker Becky 3rd Rematch
+1952	Had Crush Kin Ron and Mya 1st Rematch
+1953	Had Crush Kin Ron and Mya 2nd Rematch
+1954	Had Crush Kin Ron and Mya 3rd Rematch
+1955	Had Biker Ruben Rematch
+1956	Had Cue Ball Camron Rematch
+1957	Had Biker Jaxon Rematch
+1958	Had Cue Ball Isaiah Rematch
+1959	Had Cue Ball Corey Rematch
+1960	Had Bird Keeper Jacob 1st Rematch
+1961	Had Bird Keeper Jacob 2nd Rematch
+1962	Had Swimmer Alice Rematch
+1963	Had Swimmer Darrin Rematch
+1964	Had Picnicker Missy 1st Rematch
+1965	Had Picnicker Missy 2nd Rematch
+1966	Had Fisherman Wade Rematch
+1967	Had Swimmer Jack Rematch
+1968	Had Sis and Bro Lil and Ian 1st Rematch
+1969	Had Sis and Bro Lil and Ian 2nd Rematch
+1970	Had Swimmer Finn Rematch
+1971	Had Crush Girl Sharon 1st Rematch
+1972	Had Crush Girl Sharon 2nd Rematch
+1973	Had Crush Girl Tanya 1st Rematch
+1974	Had Crush Girl Tanya 2nd Rematch
+1975	Had Black Belt Shea 1st Rematch
+1976	Had Black Belt Shea 2nd Rematch
+1977	Had Black Belt Hugh 1st Rematch
+1978	Had Black Belt Hugh 2nd Rematch
+1979	Had Crush Kin Mik and Kia 1st Rematch
+1980	Had Crush Kin Mik and Kia 2nd Rematch
+1981	Had Tuber Amira Rematch
+1982	Had Twins Joy and Meg Rematch
+1983	Had Painter Rayna Rematch
+1984	Had Youngster Destin Rematch
+1985	Had Pokémon Breeder Alize Rematch
+1986	Had Young Couple Gia and Jes 1st Rematch
+1987	Had Young Couple Gia and Jes 2nd Rematch
+1988	Had Bird Keeper Milo Rematch
+1989	Had Bird Keeper Chaz Rematch
+1990	Had Bird Keeper Harold Rematch
+1991	Had Swimmer Nicole Rematch
+1992	Had Psychic Jaclyn Rematch
+1993	Had Swimmer Samir Rematch
+1994	Had Hiker Earl Rematch
+1995	Had Ruin Maniac Larry Rematch
+1996	Had PokéManiac Hector Rematch
+1997	Had Psychic Dario Rematch
+1998	Had Psychic Rodette Rematch
+1999	Had Juggler Mason Rematch
+2000	Had Pokémon Ranger Nicolas Rematch
+2001	Had Pokémon Ranger Madeline Rematch
+2002	Had Crush Girl Cyndy Rematch
+2003	Had Tamer Evan Rematch
+2004	Had Pokémon Ranger Jackson Rematch
+2005	Had Pokémon Ranger Katelyn Rematch
+2006	Had Cooltrainer Leroy Rematch
+2007	Had Cooltrainer Michelle Rematch
+2008	Had Cool Couple Lex and Nya Rematch
+2009	Had Bug Catcher Colton 1st Rematch
+2010	Had Bug Catcher Colton 2nd Rematch
+2011	Had Bug Catcher Colton 3rd Rematch
+2012	Had Swimmer Matthew Rematch
+2013	Had Swimmer Tony Rematch
+2014	Had Swimmer Melissa Rematch
