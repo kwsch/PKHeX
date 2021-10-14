@@ -10,3 +10,4 @@
 0069	Flauta Azur	0:No Activado,4387:Activado
 0062	Spiritomb	0:Desaparecido,32:Aparecido
 0138	Torre Sagrada	0:No Activado,1:Activado
+0224	Catching Show Best Score
