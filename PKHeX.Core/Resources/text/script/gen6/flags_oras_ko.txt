@@ -67,3 +67,482 @@
 0388	슈퍼로테이션배틀 해금됨
 0389	슈퍼멀티배틀 해금됨
 2738	Foreign DexNav Encounters Unlocked
+0301	Defeated Primal Groudon/Kyogre (Story Event)
+2720	Entered Hall of Fame
+0361	Rematched Elite Four
+3023	Can Give Red Orb and Blue Orb
+0148	Met old hot-springs visitor
+0147	Received Wynaut Egg Gift
+0187	Received Togepi Egg Gift
+0119	Received Castform Gift
+0249	Received Beldum Gift
+0264	Received Camerupt Gift
+0265	Received Sharpedo Gift
+0298	Received Diancite
+0308	Received Prison Bottle
+0310	Received Johto Starter
+0349	Received Sinnoh Starter
+0311	Received Unova Starter
+0166	Traded for Makuhita in Rustboro City
+0167	Traded for Skitty in Fortree City
+0168	Traded for Corsola in Pacifidlog Town
+0692	Defeated Winstrate Family
+0806	Steven Disappeared from Route 120 Bridge
+0808	Breeder (Cosplay Pikachu Changer) Disappeared
+0699	Steven and Lati@s Disappeared from Route 118
+0789	Root Fossil Disappeared from Route 111
+0790	Claw Fossil Disappeared from Route 111
+0927	Voltorb 1 Disappeared from New Mauville
+0928	Voltorb 2 Disappeared from New Mauville
+0929	Voltorb 3 Disappeared from New Mauville
+0930	Voltorb 4 Disappeared from New Mauville
+1044	(OR) Electrode 1 Disappeared from Team Magma Hideout
+1045	(OR) Electrode 2 Disappeared from Team Magma Hideout
+1042	(AS) Electrode 1 Disappeared from Team Aqua Hideout
+1043	(AS) Electrode 2 Disappeared from Team Aqua Hideout
+0697	Invisible Kecleon Disappeared (Blocking Fortree Gym)
+0702	Invisible Kecleon Disappeared (Route 120, Bridge)
+0504	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
+0506	Invisible Kecleon Disappeared (Route 120, Stairs)
+0508	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
+0510	Invisible Kecleon Disappeared (Lavaridge Town)
+0512	Invisible Kecleon Disappeared (Mossdeep Space Center)
+0302	Spiritomb Defeated
+0303	Spiritomb Captured
+0500	Sealed Chamber Puzzle Braille Text Disappeared
+3007	Sealed Chamber Puzzle Completed
+3008	Regi Caves Unlocked
+0501	Desert Ruins Puzzle Braille Text Disappeared
+3004	Desert Ruins Puzzle Completed
+0502	Island Cave Puzzle Braille Text Disappeared
+3005	Island Cave Puzzle Completed
+0503	Ancient Tomb Puzzle Braille Text Disappeared
+3006	Ancient Tomb Puzzle Completed
+1034	Cave of Origin B5F Pathway Cleared
+2746	Unlocked Lanette's PC
+3009	Organize Boxes at top of PC menu
+2758	Visited Littleroot Town
+2833	Can Fly to Littleroot Town
+2759	Visited Oldale Town
+2834	Can Fly to Oldale Town
+2760	Visited Dewford Town
+2835	Can Fly to Dewford Town
+2761	Visited Lavaridge Town
+2836	Can Fly to Lavaridge Town
+2762	Visited Fallarbor Town
+2837	Can Fly to Fallabor Town
+2763	Visited Vendanturf Town
+2838	Can Fly to Verdanturf Town
+2764	Visited Pacifidlog Town
+2839	Can Fly to Pacifidlog Town
+2765	Visited Petalburg City
+2840	Can Fly to Petalburg City
+2766	Visited Slateport City
+2841	Can Fly to Slateport City
+2767	Visited Mauville City
+2842	Can Fly to Mauville City
+2768	Visited Rustboro City
+2843	Can Fly to Rustboro City
+2769	Visited Fortree City
+2844	Can Fly to Fortree City
+2770	Visited Lilycove City
+2845	Can Fly to Lilycove City
+2771	Visited Mossdeep City
+2846	Can Fly to Mossdeep City
+2772	Visited Sootopolis City
+2847	Can Fly to Sootopolis City
+2773	Visited Ever Grande City
+2848	Can Fly to Ever Grande City
+2774	Visited Route 101
+2849	Can Fly to Route 101
+2775	Visited Route 102
+2850	Can Fly to Route 102
+2776	Visited Route 103
+2851	Can Fly to Route 103
+2777	Visited Route 104
+2852	Can Fly to Route 104
+2778	Visited Route 105
+2853	Can Fly to Route 105
+2779	Visited Route 106
+2854	Can Fly to Route 106
+2780	Visited Route 107
+2855	Can Fly to Route 107
+2781	Visited Route 108
+2856	Can Fly to Route 108
+2782	Visited Route 109
+2857	Can Fly to Route 109
+2783	Visited Route 110
+2858	Can Fly to Route 110
+2784	Visited Route 111
+2859	Can Fly to Route 111
+2785	Visited Route 112
+2860	Can Fly to Route 112
+2786	Visited Route 113
+2861	Can Fly to Route 113
+2787	Visited Route 114
+2862	Can Fly to Route 114
+2788	Visited Route 115
+2863	Can Fly to Route 115
+2789	Visited Route 116
+2864	Can Fly to Route 116
+2790	Visited Route 117
+2865	Can Fly to Route 117
+2791	Visited Route 118
+2866	Can Fly to Route 118
+2792	Visited Route 119
+2867	Can Fly to Route 119
+2793	Visited Route 120
+2868	Can Fly to Route 120
+2794	Visited Route 121
+2869	Can Fly to Route 121
+2795	Visited Route 122
+2870	Can Fly to Route 122
+2796	Visited Route 123
+2871	Can Fly to Route 123
+2797	Visited Route 124
+2872	Can Fly to Route 124
+2798	Visited Route 125
+2873	Can Fly to Route 125
+2799	Visited Route 126
+2874	Can Fly to Route 126
+2800	Visited Route 127
+2875	Can Fly to Route 127
+2801	Visited Route 128
+2876	Can Fly to Route 128
+2802	Visited Route 129
+2877	Can Fly to Route 129
+2803	Visited Route 130
+2878	Can Fly to Route 130
+2804	Visited Route 131
+2879	Can Fly to Route 131
+2805	Visited Route 132
+2880	Can Fly to Route 132
+2806	Visited Route 133
+2881	Can Fly to Route 133
+2807	Visited Route 134
+2882	Can Fly to Route 134
+2808	Visited Meteor Falls
+2883	Can Fly to Meteor Falls
+2809	Visited Rusturf Tunnel
+2884	Can Fly to Rusturf Tunnel
+2812	Visited Granite Cave
+2885	Can Fly to Granite Cave
+2813	Visited Petalburg Woods
+2886	Can Fly to Petalburg Woods
+2814	Visited Mt. Chimney
+2887	Can Fly to Mt. Chimney
+2815	Visited Jagged Pass
+2888	Can Fly to Jagged Pass
+2816	Visited Fiery Path
+2889	Can Fly to Fiery Path
+2817	Visited Mt. Pyre
+2890	Can Fly to Mt. Pyre
+2819	Visited Seafloor Cavern
+2820	Visited Cave of Origin
+2821	Visited Victory Road
+2891	Can Fly to Victory Road
+2822	Visited Shoal Cave
+2892	Can Fly to Shoal Cave
+2823	Visited New Mauville
+2893	Can Fly to New Mauville
+2824	Visited Sea Mauville
+2894	Can Fly to Sea Mauville
+2831	Visited Sky Pillar
+2895	Can Fly to Sky Pillar
+2984	Sky Pillar on the Map
+2897	Visited Pokémon League
+2901	Can Fly to Pokémon League
+2898	Visited Safari Zone
+2902	Can Fly to Safari Zone
+2899	Visited Southern Island
+2903	Discovered Southern Island (Story Event)
+2985	Southern Island on the Map
+2900	Visited Battle Resort
+3019	Can Fly to Battle Resort
+2986	Battle Resort on the Map
+2976	Visited Secret Islet
+2977	Visited Secret Shore
+2978	Visited Secret Meadow
+2979	Can Fly to Secret Islet
+2987	Discovered Secret Islet
+2980	Can Fly to Secret Shore
+2988	Discovered Secret Shore
+2981	Can Fly to Secret Meadow
+2989	Discovered Secret Meadow
+2982	(OR) Visited Team Magma Hideout
+2983	(AS) Visited Team Aqua Hideout
+2905	Extremely Harsh Sunlight in Eastern Hoenn
+2906	Heavy Rain in Eastern Hoenn
+3063	Had Village Sub Combo (Today)
+3064	Had Magnemite Croquette (Today)
+3065	Had Mauville Ramen Bowl (Today)
+3077	Current Battle Resort BGM: Victory Road
+3078	Current Battle Resort BGM: Secret Super Training
+3079	Current Battle Resort BGM: Hurry Along
+3080	Current Battle Resort BGM: Vs. Wally
+0443	Found Big Nugget in Trick House Prize Room
+1167	Found Flame Plate Underwater (Route 107)
+1168	Found Heart Scale (1) Underwater (Route 124)
+1170	Found Pearl Underwater (Route 124)
+1169	Found Heart Scale (2) Underwater (Route 124)
+1175	Found Sky Plate Underwater (Route 124)
+1171	Found Big Pearl Underwater (Route 124)
+1172	Found Calcium Underwater (Route 124)
+1173	Found Carbos Underwater (Route 124)
+1177	Found Ultra Ball Underwater (Route 126)
+1176	Found Heart Scale Underwater (Route 126)
+1184	Found Mind Plate Underwater (Route 126)
+1178	Found Big Pearl Underwater (Route 126)
+1179	Found Blue Shard Underwater (Route 126)
+1180	Found Pearl Underwater (Route 126)
+1183	Found Yellow Shard Underwater (Route 126)
+1181	Found Stardust Underwater (Route 126)
+1182	Found Iron Underwater (Route 126)
+1188	Found Heart Scale Underwater (Route 127)
+1191	Found Dread Plate Underwater (Route 127)
+1190	Found Spooky Plate Underwater (Route 127)
+1185	Found HP Up Underwater (Route 127)
+1186	Found Star Piece Underwater (Route 127)
+1189	Found Insect Plate Underwater (Route 127)
+1194	Found Stone Plate Underwater (Route 128)
+1195	Found Draco Plate Underwater (Route 128)
+1196	Found Pixie Plate Underwater (Route 128)
+1197	Found Adamant Orb Underwater (Route 128)
+1192	Found Protein Underwater (Route 128)
+1193	Found Pearl Underwater (Route 128)
+1202	Found Lustrous Orb Underwater (Route 129)
+1199	Found Splash Plate Underwater (Route 129)
+1200	Found Zap Plate Underwater (Route 129)
+1201	Found Toxic Plate Underwater (Route 129)
+1206	Found Fist Plate Underwater (Route 130)
+1205	Found Icicle Plate Underwater (Route 130)
+1207	Found Earth Plate Underwater (Route 130)
+1204	Found Meadow Plate Underwater (Route 130)
+1208	Found Griseous Orb Underwater (Route 130)
+1935	Had Calvin 1st Rematch
+1936	Had Calvin 2nd Rematch
+1937	Had Calvin 3rd Rematch
+1938	Had Calvin 4th Rematch
+2391	Had Miguel 1st Rematch
+2392	Had Miguel 2nd Rematch
+2393	Had Miguel 3rd Rematch
+2394	Had Miguel 4th Rematch
+1795	Had Amy and Liv 1st Rematch
+2108	Had Amy and Liv 2nd Rematch
+2336	Had Amy and Liv 3rd Rematch
+2337	Had Amy and Liv 4th Rematch
+1939	Had Haley 1st Rematch
+1940	Had Haley 2nd Rematch
+1941	Had Haley 3rd Rematch
+1942	Had Haley 4th Rematch
+2395	Had Cindy 1st Rematch
+2396	Had Cindy 2nd Rematch
+2397	Had Cindy 3rd Rematch
+2299	Had Cindy 4th Rematch
+2398	Had Winston 1st Rematch
+2399	Had Winston 2nd Rematch
+2400	Had Winston 3rd Rematch
+2300	Had Winston 4th Rematch
+2217	Had James 1st Rematch
+2218	Had James 2nd Rematch
+2219	Had James 3rd Rematch
+2220	Had James 4th Rematch
+2465	Had Graeme 1st Rematch
+2466	Had Graeme 2nd Rematch
+2467	Had Graeme 3rd Rematch
+2468	Had Graeme 4th Rematch
+2109	Had Elliot 1st Rematch
+2110	Had Elliot 2nd Rematch
+2111	Had Elliot 3rd Rematch
+2112	Had Elliot 4th Rematch
+2251	Had Tony 1st Rematch
+2252	Had Tony 2nd Rematch
+2253	Had Tony 3rd Rematch
+2254	Had Tony 4th Rematch
+2550	Had Neville 1st Rematch
+2551	Had Neville 2nd Rematch
+2552	Had Neville 3rd Rematch
+2553	Had Neville 4th Rematch
+2522	Had Scall and Ion 1st Rematch (Illegal)
+2523	Had Scall and Ion 2nd Rematch
+2524	Had Scall and Ion 3rd Rematch
+2525	Had Scall and Ion 4th Rematch
+2205	Had Lois and Hal 1st Rematch
+2206	Had Lois and Hal 2nd Rematch
+2207	Had Lois and Hal 3rd Rematch
+2208	Had Lois and Hal 4th Rematch
+2559	Had Portia 1st Rematch
+2560	Had Portia 2nd Rematch
+2561	Had Portia 3rd Rematch
+2562	Had Portia 4th Rematch
+2338	Had Ricky 1st Rematch
+2339	Had Ricky 2nd Rematch
+2340	Had Ricky 3rd Rematch
+2341	Had Ricky 4th Rematch
+2113	Had Lola 1st Rematch
+2114	Had Lola 2nd Rematch
+2115	Had Lola 3rd Rematch
+2116	Had Lola 4th Rematch
+2125	Had Edwin 1st Rematch
+2126	Had Edwin 2nd Rematch
+2127	Had Edwin 3rd Rematch
+2128	Had Edwin 4th Rematch
+2401	Had Isabel 1st Rematch
+2402	Had Isabel 2nd Rematch
+2403	Had Isabel 3rd Rematch
+2404	Had Isabel 4th Rematch
+2117	Had Benjamin 1st Rematch
+2118	Had Benjamin 2nd Rematch
+2119	Had Benjamin 3rd Rematch
+2120	Had Benjamin 4th Rematch
+2342	Had Dusty 1st Rematch
+2343	Had Dusty 2nd Rematch
+2344	Had Dusty 3rd Rematch
+2345	Had Dusty 4th Rematch
+2129	Had Wilton 1st Rematch
+2130	Had Wilton 2nd Rematch
+2131	Had Wilton 3rd Rematch
+2132	Had Wilton 4th Rematch
+2133	Had Brooke 1st Rematch
+2134	Had Brooke 2nd Rematch
+2135	Had Brooke 3rd Rematch
+2136	Had Brooke 4th Rematch
+2137	Had Trent 1st Rematch
+2138	Had Trent 2nd Rematch
+2139	Had Trent 3rd Rematch
+2140	Had Trent 4th Rematch
+2209	Had Ethan 1st Rematch
+2210	Had Ethan 2nd Rematch
+2211	Had Ethan 3rd Rematch
+2212	Had Ethan 4th Rematch
+2197	Had Shelby 1st Rematch
+2198	Had Shelby 2nd Rematch
+2199	Had Shelby 3rd Rematch
+2200	Had Shelby 4th Rematch
+2213	Had Diana 1st Rematch
+2214	Had Diana 2nd Rematch
+2215	Had Diana 3rd Rematch
+2216	Had Diana 4th Rematch
+2359	Had Madeline 1st Rematch
+2360	Had Madeline 2nd Rematch
+2361	Had Madeline 3rd Rematch
+2362	Had Madeline 4th Rematch
+2654	Had Lao 1st Rematch
+2655	Had Lao 2nd Rematch
+2656	Had Lao 3rd Rematch
+2657	Had Lao 4th Rematch
+2145	Had Bernie 1st Rematch
+2146	Had Bernie 2nd Rematch
+2147	Had Bernie 3rd Rematch
+2148	Had Bernie 4th Rematch
+2141	Had Steve 1st Rematch
+2142	Had Steve 2nd Rematch
+2143	Had Steve 3rd Rematch
+2144	Had Steve 4th Rematch
+2221	Had Nicolas Rematch
+2375	Had John and Jay Rematch
+2149	Had Cyndy 1st Rematch
+2150	Had Cyndy 2nd Rematch
+2151	Had Cyndy 3rd Rematch
+2152	Had Cyndy 4th Rematch
+2346	Had Timothy 1st Rematch
+2347	Had Timothy 2nd Rematch
+2348	Had Timothy 3rd Rematch
+2349	Had Timothy 4th Rematch
+1943	Had Nob 1st Rematch
+1944	Had Nob 2nd Rematch
+1945	Had Nob 3rd Rematch
+1983	Had Nob 4th Rematch
+2153	Had Jerry 1st Rematch
+2154	Had Jerry 2nd Rematch
+2155	Had Jerry 3rd Rematch
+2156	Had Jerry 4th Rematch
+2157	Had Karen 1st Rematch
+2158	Had Karen 2nd Rematch
+2159	Had Karen 3rd Rematch
+2160	Had Karen 4th Rematch
+2234	Had Dylan 1st Rematch
+2235	Had Dylan 2nd Rematch
+2236	Had Dylan 3rd Rematch
+2237	Had Dylan 4th Rematch
+2263	Had Isaac 1st Rematch
+2264	Had Isaac 2nd Rematch
+2265	Had Isaac 3rd Rematch
+2266	Had Isaac 4th Rematch
+2259	Had Lydia 1st Rematch
+2260	Had Lydia 2nd Rematch
+2261	Had Lydia 3rd Rematch
+2262	Had Lydia 4th Rematch
+2363	Had Anna and Meg 1st Rematch
+2364	Had Anna and Meg 2nd Rematch
+2365	Had Anna and Meg 3rd Rematch
+2366	Had Anna and Meg 4th Rematch
+2161	Had Rose 1st Rematch
+2162	Had Rose 2nd Rematch
+2163	Had Rose 3rd Rematch
+2164	Had Rose 4th Rematch
+2165	Had Dalton 1st Rematch
+2166	Had Dalton 2nd Rematch
+2167	Had Dalton 3rd Rematch
+2168	Had Dalton 4th Rematch
+2473	Had Jael and Kael 1st Rematch
+2474	Had Jael and Kael 2nd Rematch
+2475	Had Jael and Kael 3rd Rematch
+2476	Had Jael and Kael 4th Rematch
+2169	Had Jackson 1st Rematch
+2170	Had Jackson 2nd Rematch
+2171	Had Jackson 3rd Rematch
+2172	Had Jackson 4th Rematch
+2173	Had Catherine 1st Rematch
+2174	Had Catherine 2nd Rematch
+2175	Had Catherine 3rd Rematch
+2176	Had Catherine 4th Rematch
+2177	Had Robert 1st Rematch
+2178	Had Robert 2nd Rematch
+2179	Had Robert 3rd Rematch
+2181	Had Brandon 1st Rematch
+2182	Had Brandon 2nd Rematch
+2183	Had Brandon 3rd Rematch
+2534	Had Gomez 1st Rematch
+2535	Had Gomez 2nd Rematch
+2536	Had Gomez 3rd Rematch
+2542	Had Sharlene 1st Rematch
+2543	Had Sharlene 2nd Rematch
+2544	Had Sharlene 3rd Rematch
+2184	Had Walter 1st Rematch
+2350	Had Walter 2nd Rematch
+2351	Had Walter 3rd Rematch
+2367	Had Jessica 1st Rematch
+2368	Had Jessica 2nd Rematch
+2369	Had Jessica 3rd Rematch
+2510	Had Momo 1st Rematch
+2511	Had Momo 2nd Rematch
+2512	Had Momo 3rd Rematch
+2201	Had Valerie 1st Rematch
+2202	Had Valerie 2nd Rematch
+2203	Had Valerie 3rd Rematch
+2185	Had Cameron 1st Rematch
+2186	Had Cameron 2nd Rematch
+2187	Had Cameron 3rd Rematch
+2286	Had Rita and Sam 1st Rematch
+2287	Had Rita and Sam 2nd Rematch
+2288	Had Rita and Sam 3rd Rematch
+2247	Had Jenny 1st Rematch
+2248	Had Jenny 2nd Rematch
+2486	Had Kylan 1st Rematch
+2487	Had Kylan 2nd Rematch
+2499	Had Arzu 1st Rematch
+2500	Had Arzu 2nd Rematch
+2193	Had Ernest 1st Rematch
+2194	Had Ernest 2nd Rematch
+2224	Had Isaiah 1st Rematch
+2225	Had Isaiah 2nd Rematch
+2226	Had Isaiah 3rd Rematch
+2571	Had Jude and Rory Rematch
+1914	Had Gabby and Ty 1st Rematch
+1915	Had Gabby and Ty 2nd Rematch
+1916	Had Gabby and Ty 3rd Rematch
+1917	Had Gabby and Ty 4th Rematch
+2322	Had Gabby and Ty 5th Rematch
+2684	Had Wally 1st Rematch
+2686	Had Wally 2nd Rematch
