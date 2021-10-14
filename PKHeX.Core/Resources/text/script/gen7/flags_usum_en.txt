@@ -73,3 +73,46 @@
 4078	Unlocked Lapras Paddle
 4079	Unlocked Sharpedo Jet
 4080	Unlocked Charizard Glide
+0168	Traded for Hawlucha on Route 2
+0169	Traded for Noibat on Route 5
+0170	Traded for Barboach on Royal Avenue
+0171	Traded for Arbok on Route 8
+0172	Traded for Phantump in Tapu Village
+0173	Traded for Shellos in Seafolk Village
+0174	Traded for Tauros on Poni Gauntlet
+1592	(UM) Defeated Route 15 Sandygast
+0607	Defeated Route 14 Frillish
+0547	Defeated Bewear in Hau'oli City
+4564	Trainers' School is Haunted (Seven Mysteries Event)
+0211	Lusamine's Mansion is NOT Team Rocket's Castle
+1730	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
+1731	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
+1732	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
+0185	Had First Title Defense Battle
+0186	Encountered Hapu (Title Defense)
+3395	Defeated Hapu (Title Defense)
+0187	Encountered Gladion (Title Defense)
+3453	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+3454	Defeated Gladion (Title Defense;Litten is Player Starter)
+3455	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	Encountered Ryuki (Title Defense)
+3445	Defeated Ryuki (Title Defense)
+0189	Encountered Lusamine (Title Defense)
+3680	Defeated Lusamine (Title Defense)
+0190	Encountered Hau (Title Defense)
+3392	Defeated Hau (Title Defense;Rowlet is Player Starter)
+3393	Defeated Hau (Title Defense;Litten is Player Starter)
+3394	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	Encountered Sophocles (Title Defense)
+3441	Defeated Sophocles (Title Defense)
+0192	Encountered Guzma (Title Defense)
+3683	Defeated Guzma (Title Defense)
+0193	Encountered Kukui (Title Defense)
+3513	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+3514	Defeated Kukui (Title Defense;Litten is Player Starter)
+3515	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	Encountered Plumeria (Title Defense)
+3437	Defeated Plumeria (Title Defense)
+0195	Encountered Tristan (Title Defense)
+3516	Defeated Tristan (Title Defense)
+1698	Aether Paradise Mohn Event Inactive
