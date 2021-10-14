@@ -51,7 +51,7 @@ namespace PKHeX.Core
         private void Initialize(GameVersion versionOverride)
         {
             // see if RBY can be differentiated
-            if (Starter != 0 && versionOverride is not GameVersion.RB or GameVersion.YW)
+            if (Starter != 0 && versionOverride is not (GameVersion.RB or GameVersion.YW))
                 Version = Yellow ? GameVersion.YW : GameVersion.RB;
 
             Box = Data.Length;

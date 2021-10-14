@@ -473,7 +473,7 @@ namespace PKHeX.Core
 
     public static class AreaSlotType8Extensions
     {
-        public static bool CanCrossover(this AreaSlotType8 type) => type is not HiddenMain or HiddenMain2 or OnlyFishing;
+        public static bool CanCrossover(this AreaSlotType8 type) => type is not (HiddenMain or HiddenMain2 or OnlyFishing);
         public static bool CanEncounterViaFishing(this AreaSlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather.HasFlag(Fishing);
         public static bool CanEncounterViaCurry(this AreaSlotType8 type) => type is HiddenMain or HiddenMain2;
     }

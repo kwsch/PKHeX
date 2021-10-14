@@ -42,7 +42,7 @@
             // Unhatched:
             if (eggloc != EggLocation)
                 return false;
-            if (pkm.Met_Location is not 0 or Locations.LinkTrade6)
+            if (pkm.Met_Location is not (0 or Locations.LinkTrade6))
                 return false;
             return true;
         }

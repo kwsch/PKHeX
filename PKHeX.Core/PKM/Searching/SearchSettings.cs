@@ -163,7 +163,7 @@ namespace PKHeX.Core.Searching
         private bool SearchComplex(PKM pk)
         {
             if (SearchEgg != null && !FilterResultEgg(pk)) return false;
-            if (Level is not null or 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, (int) Level)) return false;
+            if (Level is not (null or 0) && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, (int) Level)) return false;
             if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal) return false;
             if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters)) return false;
 

@@ -54,7 +54,7 @@ namespace PKHeX.Core
             // Unhatched:
             if (eggloc != EggLocation)
                 return false;
-            if (pk4.Met_Location is not 0 or Locations.LinkTrade4)
+            if (pk4.Met_Location is not (0 or Locations.LinkTrade4))
                 return false;
             return true;
         }

@@ -518,7 +518,7 @@ namespace PKHeX.Core
             if (enc.LevelMin <= 50)
                 return true;
 
-            return enc is not EncounterStaticShadow or WC3;
+            return enc is not (EncounterStaticShadow or WC3);
         }
 
         private static bool CanHaveRibbonVictory(PKM pkm, int gen)

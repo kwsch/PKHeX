@@ -556,6 +556,6 @@ namespace PKHeX.Core
 
     public static class TimeCapsuleEvlautationExtensions
     {
-        public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not TimeCapsuleEvaluation.Indeterminate or TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate;
+        public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not (TimeCapsuleEvaluation.Indeterminate or TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate);
     }
 }
