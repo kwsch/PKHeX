@@ -20,3 +20,9 @@
 0107	Estatua de Ruinas de Pico Roca	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0062	Spiritomb	0:Desaparecido,32:Aparecido
 0138	Torre Sagrada	0:No Activado,1:Activado
+0089	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0088	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0096	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0095	Zapdos Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0094	Moltres Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0224	Catching Show Best Score
