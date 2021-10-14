@@ -21,3 +21,5 @@
 0x404C	Pokelot RND (Low)
 
 0x404F	Barboach Size Record
+0068	Trick House	0:On Puzzle 1,1:On Puzzle 2,2:On Puzzle 3,3:On Puzzle 4,4:On Puzzle 5,5:On Puzzle 6,6:On Puzzle 7,7:On Puzzle 8,8:All Puzzles Completed
+0167	Trick House Scroll	0:Normal (Trick Master hiding),1:Can Enter,4:Read Note Affixed (Trick Master left),5:Just finished a Puzzle
