@@ -5,6 +5,9 @@ v0500	r020d0105_2_pm0144_freezer (프리져)
 v0513	r023d0102_pm0146_fire (파이어)
 v0603	t004d0103_pm0150_mewtwo (뮤츠)
 
+v1113	Hitmonchan at Fighting Dojo
+v1114	Hitmonlee at Fighting Dojo
+
 e0000	FE_EV0905_BTL_RED
 e0107	FE_WAZA_OMOIDASHI
 e0108	FE_FIELD_TRADE_FIRST_01 (알로라 꼬렛 첫 교환)
@@ -18,6 +21,9 @@ e0116	FE_MASTER_RED_BATTLE_TALKED
 e0191	FE_FIELD_TRADE_FIRST_08 (알로라 꼬마돌 첫 교환)
 e0192	FE_CAPTURE_KABIGON_ROAD012 (12번도로 잠만보 잡음)
 e0193	FE_CAPTURE_KABIGON_ROAD016 (16번도로 잠만보 잡음)
+
+e0029	Karate Master Defeated
+e0030	Received Hitmonlee/Hitmonchan
 
 s0000	FSYS_GAME_CLEAR (메인 스토리 완료함)
 s0012	FSYS_GYM_CLEAR_ROCK (체육관 관장 웅 이김)
@@ -76,3 +82,10 @@ s0058	FSYS_ARRIVE_TOWN008 (연분홍시티 방문함)
 s0059	FSYS_ARRIVE_TOWN009 (홍련섬 방문함)
 s0060	FSYS_ARRIVE_TOWN010 (석영고원 방문함)
 s0061	FSYS_ARRIVE_TOWN011 (노랑시티 방문함)
+
+s0270	Helix Fossil claimed at Mt. Moon
+s0271	Dome Fossil claimed at Mt. Moon
+s0298	Dome Fossil/Omanyte in Fuchsia City
+s0299	Helix Fossil/Kabuto in Fuchsia City
+s0357	Hitmonchan chosen at Fighting Dojo
+s0358	Hitmonlee chosen at Fighting Dojo
