@@ -25,3 +25,11 @@
 0x404C	Pokelot RND (Bajo)
 
 0x404F	Récord de tamaño de Lotad
+
+0068	Trick House	0:On Puzzle 1,1:On Puzzle 2,2:On Puzzle 3,3:On Puzzle 4,4:On Puzzle 5,5:On Puzzle 6,6:On Puzzle 7,7:On Puzzle 8,8:All Puzzles Completed
+0167	Trick House Scroll	0:Normal (Trick Master hiding),1:Can Enter,4:Read Note Affixed (Trick Master left),5:Just finished a Puzzle
+0094	Rayquaza Event	0:Not Activated,1:Groudon and Kyogre in Sootopolis,2:Saw Groudon and Kyogre Scene,3:Wallace at Sky Pillar,4:Wallace left Sky Pillar,5:Awakened,6:Defeated Juan
+0202	Rayquaza Cutscene	0:Not Awakened,1:Appeared in Sootopolis City,3:Occurred
+0203	Mirage Tower	0:Can Appear,2:Collapsed,3:Accessed Route 111 after Collapsed
+0211	Prof. Birch Quest	0:Pre-Champion,1:Will Get National Dex in Littleroot Town (Post-Champion),2:Got National Dex,3:Can choose Johto starter (If Hoenn Dex Completed),5:Asked to choose Johto starter,6:Chose Johto starter
+0213	TV Roamer Chosen	0:Latias (Latios in Southern Island),1:Latios (Latias in Southern Island)
