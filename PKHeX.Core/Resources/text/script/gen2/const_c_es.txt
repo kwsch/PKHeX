@@ -1,2 +1,77 @@
+4	Power Plant	0:Normal,1:Guard will get a phone call (Story event)
+5	Cerulean Gym	0:Normal,1:Rocket Grunt appeared (Story event)
+6	Route 25	0:Normal,1:Misty on a date (Story event)
+8	League Reception Gate	0:Not shown 8 Johto Badges,1:Shown 8 Johto Badges
+13	Will's Room	0:Reset,1:Recently accessed
+14	Koga's Room	0:Reset,1:Recently accessed
+15	Bruno's Room	0:Reset,1:Recently accessed
+16	Karen's Room	0:Reset,1:Recently accessed
+17	Lance's Room	0:Reset,1:Recently accessed,2:Defeated Lance,3:DJ Mary and Oak Appeared
+18	Hall of Fame Room	0:Lance will register your team,1:Recently accessed
+19	Route 27 Man	0:Will say you entered Kanto,1:Said you entered Kanto
+20	New Bark Town Lady	0:Before Starter (Blocks Route 29 access),1:After Starter (Allows Route 29 access)
+21	Elm Lab Event	0:Start of game,1:Asked to choose Starter (Can't leave Lab),2:Normal,3:Officer Appeared (Asks for Rival's name),5:Aide will give Potion,6:Aide will give 5 Poké Balls
+22	Mom	0:Start of game,1:Gave and explained PokéGear
+23	Dude (Route 29)	0:Normal,1:Will ask to show Capture Tutorial
+24	Rival (Cherrygrove City)	0:Disappeared,1:Will battle you
+25	Mr. Pokémon's House	0:Not Entered,1:Entered (Met Mr. Pokémon and Oak)
+26	Route 32 Story Event	0:Dude blocks further access,1:Allowed further access (Accepted Egg from Aide),2:Encountered SlowpokeTail seller
+28	Suicune (Route 36)	0:Disappeared,1:Active
+30	Azalea Town Event	0:Normal,1:Rival will battle you,2:Kurt will give GS Ball outside of house (GS Ball event)
+31	Lass Bridget	0:Normal,1:Will inform you made Whitney cry
+34	Rival (Olivine City)	0:Not Encountered,1:Encountered
+37	Tin Tower Gate Sage	0:Disallows Passage,1:Allows Passage
+38	Wise Trio (Tin Tower Gate)	0:Disallows Tin Tower Passage:1:Allows Tin Tower Passage
+39	Ecruteak PokéCenter	0:Not Entered,1:Entered (Met Bill)
+40	Ecruteak Gym	0:Old Man pushes you out,1:Accessible
+41	RageCandyBar Man	0:Blocks Route 44 access,1:Disappeared (Can access Route 44)
+42	Suicune (Route 42)	0:Disappeared,1:Active
+43	Suicune (Cianwood City)	0:Disappeared,1:Active
+44	Battle Tower 1F	0:Not Accessed,1:Accessed
+45	Battle Tower Battle Room	0:Not Accessed,1:Accessed
+46	Battle Tower Elevator	0:Not Accessed,1:Accessed
+47	Battle Tower Hallway	0:Not Accessed,1:Accessed
+49	Route 43 Gate	0:Rocket Grunts appeared (Payment required),1:Paid Rocket Grunts/Grunts disappeared
+50	Rival (Mt. Moon)	0:Will battle you,1:Disappeared
+51	Rival (Sprout Tower)	0:Not Encountered,1:Encountered
 52	Suicune (Torre de Hojalata)	0:Batalla,1:Atrapado/Derrotado
+53	Burned Tower Story Event	0:Not Entered,1:Met Eusine,2:Defeated Rival
 54	Bestias legendarias (Torre quemada)	0:No se han despertado,1:Despertar/Huida
+55	Radio Tower 5F Story Event	0:Will battle imposter Director,1:Defeated disguised Rocket Executive,2:Defeated main Rocket Executive in studio room
+58	Upper-left Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
+59	Upper-right Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
+60	Lower-left Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
+61	Lower-right Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
+63	Mahogany Souvenir Shop	0:Normal,1:Lance appeared (Story event)
+65	Hideout B2F Story Event	0:Not Accessed,1:Lance healed your party/Will battle Rocket Executive,2:Lance wants you to battle Electrode (Can't leave transmitter room),3:Transmitter deactivated
+66	Hideout B3F Story Event	0:Not Accessed,1:Lance explained passwords,2:Encountered Rival,3:Defeated Rocket Executive
+67	Rival (Underground)	0:Will battle you,1:Disappeared
+69	Rival (Victory Road)	0:Will battle you,1:Disappeared
+70	Clair (Dragon's Den)	0:Disappeared,1:Will give you TM24 right outside Shrine
+71	Dragon's Den Shrine	0:Not Entered,1:Entered and took quiz
+74	S.S. Aqua Event	0:Normal,2:Gentleman will bump into you (Story event)
+75	S.S. Aqua B1F Sailor	0:Blocks further access,1:Allows further access
+128	Schoolboy Jack	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+130	Sailor Huey	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
+131	Cooltrainer Gaven	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+132	Cooltrainer Beth	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+133	Bird Keeper Jose	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+134	Cooltrainer Reena	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+135	Youngster Joey	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+136	Bug Catcher Wade	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+137	Fisher Ralph	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+138	Picnicker Liz	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+139	Hiker Anthony	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+140	Camper Todd	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+141	Picnicker Gina	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+143	Bug Catcher Arnie	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+144	Schoolboy Alan	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+145	Lass Dana	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+146	Schoolboy Chad	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
+148	Fisher Tully	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
+149	PokéManiac Brent	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
+150	Picnicker Tiffany	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
+151	Bird Keeper Vance	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+152	Fisher Wilton	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+154	Hiker Parry	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+155	Picnicker Erin	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
