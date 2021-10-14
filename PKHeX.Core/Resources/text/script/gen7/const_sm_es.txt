@@ -3,3 +3,4 @@
 433	Tapu Lele	01:Luchable,02:Derrotado,03:Capturado
 434	Tapu Bulu	01:Luchable,02:Derrotado,03:Capturado
 404	Tapu Fini	03:Luchable,04:Derrotado,05:Capturado
+418	Solgaleo/Lunala Interaction	0:Travels to Ultra Space (Before Encounter),2:Travels to Ultra Space (Entered Ultra Space),3:Travels to Ultra Space (Found Guzma),4:Initiates Battle (Defeated Lusamine)
