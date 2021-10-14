@@ -26,7 +26,6 @@
 1008	Encontrada Barrita Plus en la Vieja Mansión
 1233	Encontrada Tabla Oscura en la Vieja Mansión
 1234	Encontrada MT90 en la Vieja Mansión
-2736	Rotom desaparecido en la TV de la Vieja Mansión
 2401	Running Shoes disabled
 0251	Received Happiny Egg Gift
 0305	Received Eevee
