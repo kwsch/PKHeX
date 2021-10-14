@@ -10,3 +10,4 @@
 0069	Azure Flute	0:Not Activated,4387:Activated
 0062	Spiritomb	0:Disappeared,32:Appeared
 0138	Hallowed Tower	0:Not Activated,1:Activated
+0224	Catching Show Best Score
