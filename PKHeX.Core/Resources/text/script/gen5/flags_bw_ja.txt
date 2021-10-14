@@ -10,3 +10,23 @@
 0653	ヤグルマのもり (思索の原に行ける)
 2403	Has Running Shoes
 0115	Trading Functionality Enabled (Pokecenter)
+2400	Defeated Ghetsis (First game clear)
+0145	Received Cover/Plume Fossil from Backpacker
+0148	Traded for Petilil/Cottonee
+0280	Traded for Basculin
+0315	Received Larvesta Egg Gift
+0352	Battled Youngster Kyle
+0355	Battled Lass Dana
+0339	Purchased Magikarp
+0347	Traded for Emolga
+0360	Traded for Rotom
+0663	Darmanitan (middle-left) disappeared from Desert Resort
+0664	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	Darmanitan (top-left) disappeared from Desert Resort
+0666	Darmanitan (middle-right) disappeared from Desert Resort
+0667	Darmanitan (top-right) disappeared from Desert Resort
+0729	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	Rode Royal Unova (Today)
+2762	Received a Fossil from Twist Mountain Worker (Today)
