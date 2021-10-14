@@ -26,7 +26,6 @@
 1008	Found Old Gateau in Old Chateau
 1233	Found Dread Plate in Old Chateau
 1234	Found TM90 in Old Chateau
-2736	Rotom disappeared in Old Chateau TV
 2401	Running Shoes disabled
 0251	Received Happiny Egg Gift
 0305	Received Eevee
