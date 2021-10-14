@@ -1,3 +1,4 @@
+0026	Starter Chosen
 0027	Starter is Cyndaquil
 0028	Starter is Totodile
 0029	Starter is Chikorita
@@ -66,3 +67,77 @@
 0832	ＧＳボール 受け取り済み
 1904	Captured Snorlax
 1873	Captured Red Gyarados
+0068	Beat Elite Four/Elm can give S.S. Ticket
+1890	Red disappeared on Mt. Silver
+0069	Received Shuckle from Mania
+0070	Shuckle Returned/Allowed Ownership
+0080	Received Spearow from Randy
+0081	Mail can be delivered on Route 31
+0082	Received HP Up from Randy
+0083	Randy Mail Delivered/Received TM50
+0084	Togepi Hatched
+0085	Showed Togepi to Elm
+0086	Received Everstone from Elm
+0046	Unown appeared in Ruins of Alph
+0098	Met Frieda
+0099	Received Poison Barb from Frieda
+0100	Met Tuscany
+0101	Received Pink Bow from Tuscany
+0102	Met Arthur
+0103	Received Hard Stone from Arthur
+0104	Met Sunny
+0105	Received Magnet from Sunny
+0106	Met Wesley
+0107	Received Black Belt from Wesley
+0108	Met Santos
+0109	Received Spell Tag from Santos
+0110	Met to Monica
+0111	Received Sharp Beak from Monica
+0189	Received Dratini
+0193	Quiz answered wrong (Gift Dratini won't have Extremespeed)
+0205	Restored power to Kanto/Magnet Train useable
+0256	Gina gave Leaf Stone present
+0257	Alan gave Fire Stone present
+0258	Dana gave Thunderstone present
+0259	Tully gave Water Stone present
+0260	Tiffany gave Pink Bow present
+0613	Received Protein from Sailor Huey 3rd Rematch
+0614	Received HP Up from Youngster Joey 4th Rematch
+0615	Received Carbos from Bird Keeper Vance 2nd Rematch
+0616	Received Iron from Hiker Parry 3rd Rematch
+0617	Received Calcium from Picnicker Erin 2nd Rematch
+0823	Protein from Huey 3rd Rematch Pending
+0824	HP Up from Joey 4th Rematch Pending
+0825	Carbos from Vance 2nd Rematch Pending
+0826	Iron from Parry 2nd Rematch Pending
+0827	Calcium from Erin 2nd Rematch Pending
+0607	Asked Schoolboy Jack for Number once
+0609	Asked Pokéfan Beverly for Number once
+0611	Asked Sailor Huey for Number once
+0619	Asked Cooltrainer Gaven for Number once
+0621	Asked Cooltrainer Beth for Number once
+0623	Asked Bird Keeper Jose for Number once
+0625	Asked Cooltrainer Reena for Number once
+0627	Asked Youngster Joey for Number once
+0629	Asked Bug Catcher Wade for Number once
+0631	Asked Fisher Ralph for Number once
+0633	Asked Picnicker Liz for Number once
+0635	Asked Hiker Anthony for Number once
+0637	Asked Camper Todd for Number once
+0639	Asked Picnicker Gina for Number once
+0641	Asked Juggler Irwin for Number once
+0643	Asked Bug Catcher Arnie for Number once
+0645	Asked Schoolboy Alan for Number once
+0649	Asked Lass Dana for Number once
+0651	Asked Schoolboy Chad for Number once
+0653	Asked Pokéfan Derek for Number once
+0655	Asked Fisher Tully for Number once
+0657	Asked PokéManiac Brent for Number once
+0659	Asked Picnicker Tiffany for Number once
+0661	Asked Bird Keeper Vance for Number once
+0663	Asked Fisher Wilton for Number once
+0665	Asked Blackbelt Kenji for Number once
+0667	Asked Hiker Parry for Number once
+0669	Asked Picnicker Erin for Number once
+0828	Buena offered Phone Number once
+0670	Buena offered Phone Number (2nd time)
