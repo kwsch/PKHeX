@@ -17,3 +17,25 @@
 0897	Cresselia Disappeared
 0106	Trading Functionality Enabled (PokeCenter)
 2403	Has Running Shoes
+2400	Entered Hall of Fame
+0250	Purchased Magikarp
+0256	Traded for Gigalith on Route 7
+0259	Traded for Rotom on Route 15
+0289	Received N's Zorua
+0394	Received Eevee Gift
+0405	Traded for Tangrowth in Humilau City
+0412	Traded for Petilil/Cottonee on Route 4
+0426	Received Deerling Gift
+0431	Traded for Ambipom in Accumula Town
+0432	Traded for Alakazam in Accumula Town
+0433	Battled Lass Diana 1st Time (Can Trade for Alakazam)
+0434	Battled Lass Diana 2nd Time
+0437	Received Happiny Egg Gift
+0445	Chose Cover/Plume Fossil from Lenora
+0946	Shiny Haxorus in Nature Preserve disappeared
+0996	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
+2744	Rode Royal Unova (Today)
+2747	Received a Fossil from Twist Mountain Worker (Today)
+2774	Weekly Mandibuzz/Braviary on Route 4 disappeared
+2775	Weekly Jellicent in Undella Bay disappeared
+2442	N's Pokémon in the Wild
