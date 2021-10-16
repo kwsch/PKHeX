@@ -392,7 +392,7 @@ namespace PKHeX.Core
                 if (!charmProc)
                     continue;
 
-                yield return info.GetFrame(prev, LeadRequired.CuteCharm);
+                yield return info.GetFrame(RNG.LCRNG.Prev(prev), LeadRequired.CuteCharm);
             }
         }
     }
