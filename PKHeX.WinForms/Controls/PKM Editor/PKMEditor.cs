@@ -1580,6 +1580,7 @@ namespace PKHeX.WinForms.Controls
                 Entity.PID = Util.GetHexValue(TB_PID.Text);
                 CB_Nature.SelectedValue = Entity.Nature;
                 UpdateGenderLabel(Label_Gender, Entity.Gender);
+                UpdateNatureModification(CB_Nature, Entity.Nature);
                 FieldsLoaded = true;
             }
         }
