@@ -11,7 +11,7 @@
         public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
         {
             if (shiny == Shiny.FixedValue)
-                shiny = criteria.Shiny == Shiny.Random ? Shiny.Never : Shiny.Always;
+                shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : Shiny.Always;
             if (flawless == -1)
                 flawless = 0;
 
