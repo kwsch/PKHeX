@@ -309,7 +309,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            var errata = sav.IsPKMCompatible(pk);
+            var errata = sav.EvaluateCompatibility(pk);
             if (errata.Count > 0)
             {
                 string concat = string.Join(Environment.NewLine, errata);

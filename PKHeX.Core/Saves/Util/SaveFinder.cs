@@ -75,33 +75,29 @@ namespace PKHeX.Core
         /// Finds a compatible save file that was most recently saved (by file write time).
         /// </summary>
         /// <param name="drives">List of drives on the host machine.</param>
-        /// <param name="error">If this function does not return a save file, this parameter will be set to the error message.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Reference to a valid save file, if any.</returns>
-        public static SaveFile? FindMostRecentSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
+        public static SaveFile? FindMostRecentSaveFile(IReadOnlyList<string> drives, params string[] extra)
+            => FindMostRecentSaveFile(drives, (IEnumerable<string>)extra);
+
+        /// <summary>
+        /// Finds a compatible save file that was most recently saved (by file write time).
+        /// </summary>
+        /// <param name="drives">List of drives on the host machine.</param>
+        /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <returns>Reference to a valid save file, if any.</returns>
+        public static SaveFile? FindMostRecentSaveFile(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
             var foldersToCheck = GetFoldersToCheck(drives, extra);
             var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
             if (!result)
-            {
-                error = string.Join(Environment.NewLine, possiblePaths); // `possiblePaths` contains the error message
-                return null;
-            }
+                throw new Exception(string.Join(Environment.NewLine, possiblePaths)); // `possiblePaths` contains the error message
 
             // return newest save file path that is valid
             var byMostRecent = possiblePaths.OrderByDescending(File.GetLastWriteTimeUtc);
             var saves = byMostRecent.Select(SaveUtil.GetVariantSAV);
             return saves.FirstOrDefault(z => z?.ChecksumsValid == true);
         }
-
-        /// <summary>
-        /// Gets all detectable save files ordered by most recently saved (by file write time).
-        /// </summary>
-        /// <param name="drives">List of drives on the host machine.</param>
-        /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
-        /// <param name="extra">Paths to check in addition to the default paths</param>
-        /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(IReadOnlyList<string> drives, bool detect, params string[] extra) => GetSaveFiles(drives, detect, (IEnumerable<string>)extra);
 
         /// <summary>
         /// Gets all detectable save files ordered by most recently saved (by file write time).
@@ -161,20 +157,25 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static bool DetectSaveFile(out string path, [NotNullWhen(true)] out SaveFile? sav) => DetectSaveFile(out path, out sav, Environment.GetLogicalDrives());
+        /// <inheritdoc cref="FindMostRecentSaveFile(IReadOnlyList{string},string[])"/>
+        public static SaveFile? FindMostRecentSaveFile() => FindMostRecentSaveFile(Environment.GetLogicalDrives(), CustomBackupPaths);
 
-        public static bool DetectSaveFile(out string path, [NotNullWhen(true)] out SaveFile? sav, IReadOnlyList<string> drives)
+        /// <inheritdoc cref="GetSaveFiles"/>
+        public static IEnumerable<SaveFile> DetectSaveFiles() => GetSaveFiles(Environment.GetLogicalDrives(), true, CustomBackupPaths);
+
+        /// <inheritdoc cref="TryDetectSaveFile(out PKHeX.Core.SaveFile?)"/>
+        public static bool TryDetectSaveFile([NotNullWhen(true)] out SaveFile? sav) => TryDetectSaveFile(Environment.GetLogicalDrives(), out sav);
+
+        public static bool TryDetectSaveFile(IReadOnlyList<string> drives, [NotNullWhen(true)] out SaveFile? sav)
         {
-            string errorMsg = string.Empty;
-            var result = FindMostRecentSaveFile(drives, ref errorMsg);
+            var result = FindMostRecentSaveFile(drives, CustomBackupPaths);
             if (result == null)
             {
-                path = errorMsg;
                 sav = null;
                 return false;
             }
 
-            path = result.Metadata.FilePath!;
+            var path = result.Metadata.FilePath!;
             sav = result;
             return File.Exists(path);
         }

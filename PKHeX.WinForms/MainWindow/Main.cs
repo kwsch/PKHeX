@@ -35,10 +35,13 @@ namespace PKHeX.WinForms
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             #endif
             FormInitializeSecond();
-
-            FormLoadCustomBackupPaths();
-            FormLoadInitialFiles(args);
             FormLoadCheckForUpdates();
+
+            var startup = new StartupArguments();
+            startup.ReadArguments(args);
+            startup.ReadSettings(Settings.Startup);
+            startup.ReadTemplateIfNoEntity(TemplatePath);
+            FormLoadInitialFiles(startup);
 
             if (Settings.Startup.PluginLoadMethod != PluginLoadSetting.DontLoad)
                 FormLoadPlugins();
@@ -106,7 +109,7 @@ namespace PKHeX.WinForms
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
-        private static void FormLoadInitialSettings(string[] args, out bool showChangelog, out bool BAKprompt)
+        private static void FormLoadInitialSettings(IEnumerable<string> args, out bool showChangelog, out bool BAKprompt)
         {
             showChangelog = false;
             BAKprompt = false;
@@ -118,10 +121,6 @@ namespace PKHeX.WinForms
             HaX |= Settings.Startup.ForceHaXOnLaunch;
 
             WinFormsUtil.AddSaveFileExtensions(Settings.Backup.OtherSaveFileExtensions);
-        }
-
-        private static void FormLoadCustomBackupPaths()
-        {
             SaveFinder.CustomBackupPaths.Clear();
             SaveFinder.CustomBackupPaths.AddRange(Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
         }
@@ -150,88 +149,17 @@ namespace PKHeX.WinForms
             C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
         }
 
-        private void FormLoadInitialFiles(string[] args)
+        private void FormLoadInitialFiles(StartupArguments args)
         {
-            string pkmArg = string.Empty;
-            foreach (string arg in args.Skip(1)) // skip .exe
-            {
-                var fi = new FileInfo(arg);
-                if (!fi.Exists)
-                    continue;
+            var sav = args.SAV!;
+            var path = sav.Metadata.FilePath ?? string.Empty;
+            OpenSAV(sav, path);
 
-                if (PKX.IsPKM(fi.Length))
-                    pkmArg = arg;
-                else
-                    OpenFromPath(arg);
-            }
-            if (C_SAV.SAV is FakeSaveFile) // No SAV loaded from exe args
-            {
-                bool savLoaded = false;
-                try
-                {
-                    savLoaded = LoadAutoDetectedSAV();
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
-                {
-                    ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
-                }
-                finally
-                {
-                    if (!savLoaded)
-                        LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
-                }
-            }
+            var pkm = args.Entity!;
+            OpenPKM(pkm);
 
-            LoadPKMFromPath(pkmArg);
-        }
-
-        private bool LoadAutoDetectedSAV()
-        {
-            var startup = Settings.Startup;
-            return startup.AutoLoadSaveOnStartup switch
-            {
-                AutoLoadSetting.RecentBackup => LoadMostRecentBackup(),
-                AutoLoadSetting.LastLoaded => LoadMostRecentlyLoaded(startup.RecentlyLoaded),
-                _ => false,
-            };
-        }
-
-        private bool LoadMostRecentlyLoaded(IReadOnlyList<string> paths)
-        {
-            if (paths.Count == 0)
-                return false;
-
-            string path = paths[0];
-            if (!File.Exists(path))
-                return false;
-
-            var sav = SaveUtil.GetVariantSAV(path);
-            if (sav is null)
-                return false;
-
-            return OpenSAV(sav, path);
-        }
-
-        private bool LoadMostRecentBackup()
-        {
-            if (SaveFinder.DetectSaveFile(out string path, out var sav))
-                return OpenSAV(sav, path);
-
-            if (path.Length != 0)
-                WinFormsUtil.Error(path); // `path` contains the error message
-            return false;
-        }
-
-        private void LoadPKMFromPath(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
-                return;
-            byte[] data = File.ReadAllBytes(path);
-            var pk = PKMConverter.GetPKMfromBytes(data);
-            if (pk != null)
-                OpenPKM(pk);
+            if (args.Error is { } ex)
+                ErrorWindow.ShowErrorDialog(MsgFileLoadFailAuto, ex, true);
         }
 
         private void LoadBlankSaveFile(GameVersion ver)
@@ -1246,15 +1174,21 @@ namespace PKHeX.WinForms
 
         private void ClickSaveFileName(object sender, EventArgs e)
         {
-            if (!SaveFinder.DetectSaveFile(out string path, out var sav))
+            try
             {
-                if (!string.IsNullOrWhiteSpace(path))
-                    WinFormsUtil.Error(path); // `path` contains the error message
-                return;
-            }
+                if (!SaveFinder.TryDetectSaveFile(out var sav))
+                    return;
 
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
-                LoadFile(sav, path); // load save
+                var path = sav.Metadata.FilePath!;
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
+                    LoadFile(sav, path); // load save
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                WinFormsUtil.Error(ex.Message); // `path` contains the error message
+            }
         }
 
         private static void PromptBackup()
