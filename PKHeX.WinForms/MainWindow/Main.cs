@@ -347,7 +347,6 @@ namespace PKHeX.WinForms
         private void MainMenuSettings(object sender, EventArgs e)
         {
             var settings = Settings;
-            var ver = Settings.Startup.DefaultSaveVersion; // check if it changes
             using var form = new SettingsEditor(settings);
             form.ShowDialog();
 
@@ -356,7 +355,7 @@ namespace PKHeX.WinForms
             // Update final settings
             ReloadProgramSettings(Settings);
 
-            if (ver != Settings.Startup.DefaultSaveVersion) // changed by user
+            if (form.BlankChanged) // changed by user
             {
                 LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
                 return;
