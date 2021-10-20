@@ -122,7 +122,7 @@ namespace PKHeX.Core
 
             if (pkm.OT_Gender == 1)
             {
-                if ((pkm.Format == 2 && pkm.Met_Location == 0) || (pkm.Format > 2 && pkm.VC1) || data is {EncounterOriginal: {Generation:1} or EncounterStatic2E {IsGift:true}})
+                if (pkm is ICaughtData2 {CaughtData:0} || (pkm.Format > 2 && pkm.VC1) || data is {EncounterOriginal: {Generation:1} or EncounterStatic2E {IsGift:true}})
                     data.AddLine(GetInvalid(LG1OTGender));
             }
         }

@@ -44,8 +44,8 @@ namespace PKHeX.Core
                 {
                     case 0 when pkm.Met_Location != 0:
                         return false;
-                    case 1 when pkm.Met_Location == 0:
-                        return false;
+                    case 1: // 0 = second floor of every Pokémon Center, valid
+                        return true;
                     default:
                         if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
                             return false;

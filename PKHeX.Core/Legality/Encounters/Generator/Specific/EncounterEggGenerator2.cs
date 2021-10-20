@@ -53,7 +53,9 @@ namespace PKHeX.Core
             // Check if the met data is present or could have been erased.
             if (pkm.Format > 2)
                 return true; // doesn't have original met location
-            if (pkm.Met_Location != 0)
+            if (pkm.IsEgg)
+                return true; // doesn't have location yet
+            if (pkm.Met_Level == 1) // Met location of 0 is valid -- second floor of every Pokémon Center 
                 return true; // has original met location
             if (species < Legal.MaxSpeciesID_1)
                 return true; // can trade RBY to wipe location
