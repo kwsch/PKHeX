@@ -108,7 +108,7 @@ namespace PKHeX.WinForms
     }
 
     [Serializable]
-    public sealed class StartupSettings
+    public sealed class StartupSettings : IStartupSettings
     {
         [Browsable(false)]
         [LocalizedDescription("Last version that the program was run with.")]
@@ -129,7 +129,8 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Loads plugins from the plugins folder, assuming the folder exists. Try LoadFile to mitigate intermittent load failures.")]
         public PluginLoadSetting PluginLoadMethod { get; set; } = PluginLoadSetting.LoadFrom;
 
-        public List<string> RecentlyLoaded = new(MaxRecentCount);
+        [Browsable(false)]
+        public List<string> RecentlyLoaded { get; set; } = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.
         private GameVersion _defaultSaveVersion = GameVersion.SW;
@@ -180,13 +181,6 @@ namespace PKHeX.WinForms
         LoadFromMerged,
         LoadFileMerged,
         UnsafeMerged,
-    }
-
-    public enum AutoLoadSetting
-    {
-        Disabled,
-        RecentBackup,
-        LastLoaded,
     }
 
     [Serializable]

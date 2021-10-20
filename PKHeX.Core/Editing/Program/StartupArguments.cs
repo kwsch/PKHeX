@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic object that assembles parameters used for starting up an editing environment.
+    /// </summary>
     public sealed class StartupArguments
     {
         public PKM? Entity { get; private set; }
@@ -16,7 +18,9 @@ namespace PKHeX.WinForms
         // ReSharper disable once CollectionNeverQueried.Global
         public readonly List<object> Extra = new();
 
-        // step 1
+        /// <summary>
+        /// Step 1: Reads in command line arguments.
+        /// </summary>
         public void ReadArguments(IEnumerable<string> args)
         {
             foreach (string path in args)
@@ -31,8 +35,10 @@ namespace PKHeX.WinForms
             }
         }
 
-        // step 2
-        public void ReadSettings(StartupSettings startup)
+        /// <summary>
+        /// Step 2: Reads settings config.
+        /// </summary>
+        public void ReadSettings(IStartupSettings startup)
         {
             if (SAV is not null)
                 return;
@@ -61,7 +67,7 @@ namespace PKHeX.WinForms
             Entity = pk;
         }
 
-        private static SaveFile? ReadSettingsDefinedPKM(StartupSettings startup, PKM pkm)
+        private static SaveFile? ReadSettingsDefinedPKM(IStartupSettings startup, PKM pkm)
         {
             var opt = startup.AutoLoadSaveOnStartup;
             if (opt is AutoLoadSetting.LastLoaded)
@@ -71,7 +77,7 @@ namespace PKHeX.WinForms
             return null;
         }
 
-        private static SaveFile? ReadSettingsAnyPKM(StartupSettings startup) => startup.AutoLoadSaveOnStartup switch
+        private static SaveFile? ReadSettingsAnyPKM(IStartupSettings startup) => startup.AutoLoadSaveOnStartup switch
         {
             AutoLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles().FirstOrDefault(),
             AutoLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(),
