@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
 
             // Move translated files from the debug exe loc to their project location
             var files = Directory.GetFiles(Application.StartupPath);
-            var dir = GetResourcePath().Replace("PKHeX.Core", "PKHeX.WinForms");
+            var dir = GetResourcePath("PKHeX.WinForms", "Resources", "text");
             foreach (var f in files)
             {
                 var fn = Path.GetFileName(f);
@@ -109,12 +109,12 @@ namespace PKHeX.WinForms
             nameof(SettingsEditor),
         };
 
-        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false);
-        private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings));
+        private static void DumpStringsMessage() => DumpStrings(typeof(MessageStrings), false, "PKHeX.Core", "Resources", "text", "program");
+        private static void DumpStringsLegality() => DumpStrings(typeof(LegalityCheckStrings), true, "PKHeX.Core", "Resources", "legality", "checks");
 
-        private static void DumpStrings(Type t, bool sorted = true)
+        private static void DumpStrings(Type t, bool sorted, params string[] rel)
         {
-            var dir = GetResourcePath();
+            var dir = GetResourcePath(rel);
             var langs = new[] {DefaultLanguage}.Concat(Languages);
             foreach (var lang in langs)
             {
@@ -135,21 +135,17 @@ namespace PKHeX.WinForms
 
         private static string GetFileLocationInText(string fileType, string dir, string lang)
         {
-            var path = Path.Combine(dir, lang);
-            if (!Directory.Exists(path))
-                path = Path.Combine(dir, "other");
-
             var fn = $"{fileType}_{lang}.txt";
-            return Path.Combine(path, fn);
+            return Path.Combine(dir, fn);
         }
 
-        private static string GetResourcePath()
+        private static string GetResourcePath(params string[] subdir)
         {
             var path = Application.StartupPath;
             const string projname = "PKHeX\\";
             var pos = path.LastIndexOf(projname, StringComparison.Ordinal);
             var str = path[..(pos + projname.Length)];
-            var coreFolder = Path.Combine(str, "PKHeX.Core", "Resources", "text");
+            var coreFolder = Path.Combine(str, Path.Combine(subdir));
 
             return coreFolder;
         }
