@@ -35,8 +35,6 @@
             this.Menu_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ExportSAV = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ExportMAIN = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ExportBAK = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Showdown = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,11 +62,11 @@
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.dragTip = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
+            this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
-            this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
-            this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -112,7 +110,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(180, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.MainMenuOpen);
             // 
@@ -122,40 +120,19 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(180, 22);
             this.Menu_Save.Text = "&Save PKM...";
             this.Menu_Save.Click += new System.EventHandler(this.MainMenuSave);
             // 
             // Menu_ExportSAV
             // 
-            this.Menu_ExportSAV.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_ExportMAIN,
-            this.Menu_ExportBAK});
-            this.Menu_ExportSAV.Enabled = false;
             this.Menu_ExportSAV.Image = global::PKHeX.WinForms.Properties.Resources.saveSAV;
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(139, 22);
+            this.Menu_ExportSAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.Menu_ExportSAV.ShowShortcutKeys = false;
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(180, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
-            // 
-            // Menu_ExportMAIN
-            // 
-            this.Menu_ExportMAIN.Image = global::PKHeX.WinForms.Properties.Resources.main;
-            this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
-            this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.Menu_ExportMAIN.ShowShortcutKeys = false;
-            this.Menu_ExportMAIN.Size = new System.Drawing.Size(142, 22);
-            this.Menu_ExportMAIN.Text = "&Export main";
-            this.Menu_ExportMAIN.Click += new System.EventHandler(this.ClickExportSAV);
-            // 
-            // Menu_ExportBAK
-            // 
-            this.Menu_ExportBAK.Image = global::PKHeX.WinForms.Properties.Resources.bak;
-            this.Menu_ExportBAK.Name = "Menu_ExportBAK";
-            this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.Menu_ExportBAK.ShowShortcutKeys = false;
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(142, 22);
-            this.Menu_ExportBAK.Text = "Export &Backup";
-            this.Menu_ExportBAK.Click += new System.EventHandler(this.ClickExportSAVBAK);
+            this.Menu_ExportSAV.Click += new System.EventHandler(this.ClickExportSAV);
             // 
             // Menu_Exit
             // 
@@ -163,7 +140,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(180, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.MainMenuExit);
             // 
@@ -174,7 +151,7 @@
             this.Menu_Data,
             this.Menu_Folder});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(46, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_Showdown
@@ -195,7 +172,7 @@
             this.Menu_ShowdownImportPKM.Name = "Menu_ShowdownImportPKM";
             this.Menu_ShowdownImportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
-            this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(241, 22);
+            this.Menu_ShowdownImportPKM.Size = new System.Drawing.Size(243, 22);
             this.Menu_ShowdownImportPKM.Text = "Import Set from Clipboard";
             this.Menu_ShowdownImportPKM.Click += new System.EventHandler(this.ClickShowdownImportPKM);
             // 
@@ -206,7 +183,7 @@
             this.Menu_ShowdownExportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownExportPKM.ShowShortcutKeys = false;
-            this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(241, 22);
+            this.Menu_ShowdownExportPKM.Size = new System.Drawing.Size(243, 22);
             this.Menu_ShowdownExportPKM.Text = "Export Set to Clipboard";
             this.Menu_ShowdownExportPKM.Click += new System.EventHandler(this.ClickShowdownExportPKM);
             // 
@@ -214,7 +191,7 @@
             // 
             this.Menu_ShowdownExportParty.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
-            this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(241, 22);
+            this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(243, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
             this.Menu_ShowdownExportParty.Click += new System.EventHandler(this.ClickShowdownExportParty);
             // 
@@ -222,7 +199,7 @@
             // 
             this.Menu_ShowdownExportCurrentBox.Image = global::PKHeX.WinForms.Properties.Resources.export;
             this.Menu_ShowdownExportCurrentBox.Name = "Menu_ShowdownExportCurrentBox";
-            this.Menu_ShowdownExportCurrentBox.Size = new System.Drawing.Size(241, 22);
+            this.Menu_ShowdownExportCurrentBox.Size = new System.Drawing.Size(243, 22);
             this.Menu_ShowdownExportCurrentBox.Text = "Export Current Box to Clipboard";
             this.Menu_ShowdownExportCurrentBox.Click += new System.EventHandler(this.ClickShowdownExportCurrentBox);
             // 
@@ -428,6 +405,40 @@
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
             // 
+            // PKME_Tabs
+            // 
+            this.PKME_Tabs.ChangingFields = false;
+            this.PKME_Tabs.Data = null;
+            this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PKME_Tabs.HaX = false;
+            this.PKME_Tabs.IsInitialized = false;
+            this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
+            this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
+            this.PKME_Tabs.Name = "PKME_Tabs";
+            this.PKME_Tabs.Size = new System.Drawing.Size(310, 356);
+            this.PKME_Tabs.TabIndex = 103;
+            this.PKME_Tabs.Unicode = true;
+            this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
+            this.PKME_Tabs.UpdatePreviewSprite += new System.EventHandler(this.PKME_Tabs_UpdatePreviewSprite);
+            this.PKME_Tabs.RequestShowdownImport += new System.EventHandler(this.PKME_Tabs_RequestShowdownImport);
+            this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
+            this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
+            // 
+            // C_SAV
+            // 
+            this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.C_SAV.FlagIllegal = false;
+            this.C_SAV.Location = new System.Drawing.Point(0, 0);
+            this.C_SAV.Margin = new System.Windows.Forms.Padding(5);
+            this.C_SAV.Menu_Redo = null;
+            this.C_SAV.Menu_Undo = null;
+            this.C_SAV.Name = "C_SAV";
+            this.C_SAV.Size = new System.Drawing.Size(449, 356);
+            this.C_SAV.TabIndex = 104;
+            this.C_SAV.ViewIndex = -1;
+            this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
+            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -473,37 +484,6 @@
             this.PB_Legal.TabIndex = 108;
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
-            // 
-            // PKME_Tabs
-            // 
-            this.PKME_Tabs.ChangingFields = false;
-            this.PKME_Tabs.Data = null;
-            this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PKME_Tabs.HaX = false;
-            this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
-            this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
-            this.PKME_Tabs.Name = "PKME_Tabs";
-            this.PKME_Tabs.Size = new System.Drawing.Size(310, 356);
-            this.PKME_Tabs.TabIndex = 103;
-            this.PKME_Tabs.Unicode = true;
-            this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
-            this.PKME_Tabs.UpdatePreviewSprite += new System.EventHandler(this.PKME_Tabs_UpdatePreviewSprite);
-            this.PKME_Tabs.RequestShowdownImport += new System.EventHandler(this.PKME_Tabs_RequestShowdownImport);
-            this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
-            this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
-            // 
-            // C_SAV
-            // 
-            this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.C_SAV.FlagIllegal = false;
-            this.C_SAV.Location = new System.Drawing.Point(0, 0);
-            this.C_SAV.Margin = new System.Windows.Forms.Padding(5);
-            this.C_SAV.Name = "C_SAV";
-            this.C_SAV.Size = new System.Drawing.Size(449, 356);
-            this.C_SAV.TabIndex = 104;
-            this.C_SAV.ViewIndex = -1;
-            this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
-            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
             // 
             // Main
             // 
@@ -567,8 +547,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Database;
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBox;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ExportBAK;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ExportMAIN;
         private System.Windows.Forms.ToolStripMenuItem Menu_BatchEditor;
         private System.Windows.Forms.ToolStripMenuItem Menu_MGDatabase;
         private System.Windows.Forms.ToolStripMenuItem Menu_Undo;

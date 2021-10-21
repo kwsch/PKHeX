@@ -1101,7 +1101,7 @@ namespace PKHeX.WinForms.Controls
         {
             // Generational Interface
             ToggleSecrets(sav, HideSecretDetails);
-            B_VerifyCHK.Enabled = SAV.State.Exportable;
+            B_VerifyCHK.Visible = Menu_ExportBAK.Visible = SAV.State.Exportable;
 
             if (sav is SAV4BR br)
             {
@@ -1211,5 +1211,7 @@ namespace PKHeX.WinForms.Controls
                 _ => PKMImportSetting.UseDefault,
             };
         }
+
+        private void Menu_ExportBAK_Click(object sender, EventArgs e) => ExportBackup();
     }
 }

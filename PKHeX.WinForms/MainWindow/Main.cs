@@ -1156,11 +1156,6 @@ namespace PKHeX.WinForms
         #endregion
 
         #region //// SAVE FILE FUNCTIONS ////
-        private void ClickExportSAVBAK(object sender, EventArgs e)
-        {
-            if (C_SAV.ExportBackup() && !Directory.Exists(BackupPath))
-                PromptBackup();
-        }
 
         private void ClickExportSAV(object sender, EventArgs e)
         {
