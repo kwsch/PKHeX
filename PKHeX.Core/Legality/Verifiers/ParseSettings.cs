@@ -75,10 +75,13 @@ namespace PKHeX.Core
         public static bool InitFromSaveFileData(SaveFile sav)
         {
             ActiveTrainer = sav;
-            if (sav.Generation >= 3)
-                return AllowGBCartEra = false;
-            bool vc = !sav.State.Exportable || (sav.Metadata.FileName?.EndsWith("dat") ?? false); // default to true for non-exportable
-            return AllowGBCartEra = !vc; // physical cart selected
+            return AllowGBCartEra = sav switch
+            {
+                SAV1 { IsVirtualConsole: true } => false,
+                SAV2 { IsVirtualConsole: true } => false,
+                { Generation: 1 or 2 } => true,
+                _ => false,
+            };
         }
 
         public static void InitFromSettings(IParseSettings settings)
