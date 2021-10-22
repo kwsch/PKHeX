@@ -22,7 +22,7 @@ namespace PKHeX.Core
             try
             {
                 var fi = new FileInfo(path);
-                if (IsFileTooBig(fi.Length) || IsFileTooSmall(fi.Length))
+                if (!fi.Exists || IsFileTooBig(fi.Length) || IsFileTooSmall(fi.Length))
                     return null;
 
                 var data = File.ReadAllBytes(path);

@@ -53,6 +53,11 @@
             this.DayCare_HasEgg = new System.Windows.Forms.CheckBox();
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
+            this.FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_VerifyCHK = new System.Windows.Forms.Button();
+            this.Menu_ExportBAK = new System.Windows.Forms.Button();
+            this.B_SaveBoxBin = new System.Windows.Forms.Button();
+            this.B_JPEG = new System.Windows.Forms.Button();
             this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
             this.FLP_SAVtools = new System.Windows.Forms.FlowLayoutPanel();
@@ -93,11 +98,8 @@
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
             this.L_Secure1 = new System.Windows.Forms.Label();
             this.TB_Secure1 = new System.Windows.Forms.TextBox();
-            this.B_JPEG = new System.Windows.Forms.Button();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
-            this.B_SaveBoxBin = new System.Windows.Forms.Button();
-            this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -106,6 +108,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).BeginInit();
             this.Tab_SAV.SuspendLayout();
+            this.FLP_SAVToolsMisc.SuspendLayout();
             this.GB_SAVtools.SuspendLayout();
             this.FLP_SAVtools.SuspendLayout();
             this.SuspendLayout();
@@ -335,6 +338,7 @@
             // 
             // Tab_SAV
             // 
+            this.Tab_SAV.Controls.Add(this.FLP_SAVToolsMisc);
             this.Tab_SAV.Controls.Add(this.CB_SaveSlot);
             this.Tab_SAV.Controls.Add(this.GB_SAVtools);
             this.Tab_SAV.Controls.Add(this.L_SaveSlot);
@@ -342,17 +346,65 @@
             this.Tab_SAV.Controls.Add(this.TB_Secure2);
             this.Tab_SAV.Controls.Add(this.L_Secure1);
             this.Tab_SAV.Controls.Add(this.TB_Secure1);
-            this.Tab_SAV.Controls.Add(this.B_JPEG);
             this.Tab_SAV.Controls.Add(this.L_GameSync);
             this.Tab_SAV.Controls.Add(this.TB_GameSync);
-            this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
-            this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
             this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
             this.Tab_SAV.Name = "Tab_SAV";
             this.Tab_SAV.Size = new System.Drawing.Size(441, 337);
             this.Tab_SAV.TabIndex = 3;
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
+            // 
+            // FLP_SAVToolsMisc
+            // 
+            this.FLP_SAVToolsMisc.Controls.Add(this.B_SaveBoxBin);
+            this.FLP_SAVToolsMisc.Controls.Add(this.B_VerifyCHK);
+            this.FLP_SAVToolsMisc.Controls.Add(this.Menu_ExportBAK);
+            this.FLP_SAVToolsMisc.Controls.Add(this.B_JPEG);
+            this.FLP_SAVToolsMisc.Location = new System.Drawing.Point(3, 5);
+            this.FLP_SAVToolsMisc.Name = "FLP_SAVToolsMisc";
+            this.FLP_SAVToolsMisc.Size = new System.Drawing.Size(432, 52);
+            this.FLP_SAVToolsMisc.TabIndex = 104;
+            // 
+            // B_VerifyCHK
+            // 
+            this.B_VerifyCHK.Location = new System.Drawing.Point(96, 3);
+            this.B_VerifyCHK.Name = "B_VerifyCHK";
+            this.B_VerifyCHK.Size = new System.Drawing.Size(87, 45);
+            this.B_VerifyCHK.TabIndex = 2;
+            this.B_VerifyCHK.Text = "Verify Checksums";
+            this.B_VerifyCHK.UseVisualStyleBackColor = true;
+            this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
+            // 
+            // Menu_ExportBAK
+            // 
+            this.Menu_ExportBAK.Location = new System.Drawing.Point(189, 3);
+            this.Menu_ExportBAK.Name = "Menu_ExportBAK";
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(87, 45);
+            this.Menu_ExportBAK.TabIndex = 103;
+            this.Menu_ExportBAK.Text = "Export Backup";
+            this.Menu_ExportBAK.UseVisualStyleBackColor = true;
+            this.Menu_ExportBAK.Click += new System.EventHandler(this.Menu_ExportBAK_Click);
+            // 
+            // B_SaveBoxBin
+            // 
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(3, 3);
+            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
+            this.B_SaveBoxBin.Size = new System.Drawing.Size(87, 45);
+            this.B_SaveBoxBin.TabIndex = 8;
+            this.B_SaveBoxBin.Text = "Save Box Data++";
+            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
+            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
+            // 
+            // B_JPEG
+            // 
+            this.B_JPEG.Location = new System.Drawing.Point(282, 3);
+            this.B_JPEG.Name = "B_JPEG";
+            this.B_JPEG.Size = new System.Drawing.Size(87, 45);
+            this.B_JPEG.TabIndex = 12;
+            this.B_JPEG.Text = "Save PGL .JPEG";
+            this.B_JPEG.UseVisualStyleBackColor = true;
+            this.B_JPEG.Click += new System.EventHandler(this.B_JPEG_Click);
             // 
             // CB_SaveSlot
             // 
@@ -791,16 +843,6 @@
             this.TB_Secure1.Text = "0000000000000000";
             this.TB_Secure1.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
-            // B_JPEG
-            // 
-            this.B_JPEG.Location = new System.Drawing.Point(198, 20);
-            this.B_JPEG.Name = "B_JPEG";
-            this.B_JPEG.Size = new System.Drawing.Size(75, 45);
-            this.B_JPEG.TabIndex = 12;
-            this.B_JPEG.Text = "Save PGL .JPEG";
-            this.B_JPEG.UseVisualStyleBackColor = true;
-            this.B_JPEG.Click += new System.EventHandler(this.B_JPEG_Click);
-            // 
             // L_GameSync
             // 
             this.L_GameSync.Location = new System.Drawing.Point(33, 69);
@@ -822,27 +864,6 @@
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
-            // B_SaveBoxBin
-            // 
-            this.B_SaveBoxBin.Location = new System.Drawing.Point(116, 20);
-            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
-            this.B_SaveBoxBin.Size = new System.Drawing.Size(75, 45);
-            this.B_SaveBoxBin.TabIndex = 8;
-            this.B_SaveBoxBin.Text = "Save Box Data++";
-            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
-            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
-            // 
-            // B_VerifyCHK
-            // 
-            this.B_VerifyCHK.Enabled = false;
-            this.B_VerifyCHK.Location = new System.Drawing.Point(32, 20);
-            this.B_VerifyCHK.Name = "B_VerifyCHK";
-            this.B_VerifyCHK.Size = new System.Drawing.Size(75, 45);
-            this.B_VerifyCHK.TabIndex = 2;
-            this.B_VerifyCHK.Text = "Verify Checksums";
-            this.B_VerifyCHK.UseVisualStyleBackColor = true;
-            this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
-            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -861,6 +882,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dcpkx1)).EndInit();
             this.Tab_SAV.ResumeLayout(false);
             this.Tab_SAV.PerformLayout();
+            this.FLP_SAVToolsMisc.ResumeLayout(false);
             this.GB_SAVtools.ResumeLayout(false);
             this.FLP_SAVtools.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -935,5 +957,7 @@
         private System.Windows.Forms.Button B_RaidArmor;
         private System.Windows.Forms.Button B_OtherSlots;
         private System.Windows.Forms.Button B_RaidCrown;
+        private System.Windows.Forms.Button Menu_ExportBAK;
+        private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
     }
 }

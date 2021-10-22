@@ -275,12 +275,20 @@ namespace PKHeX.WinForms
             };
 
             // Detect main
-            var msg = string.Empty;
             SaveFile? sav = null;
             if (DetectSaveFileOnFileOpen)
-                sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
-            if (sav == null && !string.IsNullOrWhiteSpace(msg))
-                Error(msg);
+            {
+                try
+                {
+                    sav = SaveFinder.FindMostRecentSaveFile();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    Error(ex.Message);
+                }
+            }
 
             if (sav != null)
                 ofd.FileName = sav.Metadata.FileName;

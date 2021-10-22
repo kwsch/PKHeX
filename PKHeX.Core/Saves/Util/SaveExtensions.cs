@@ -14,50 +14,66 @@ namespace PKHeX.Core
     public static class SaveExtensions
     {
         /// <summary>
+        /// Evaluates a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
+        /// </summary>
+        /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
+        /// <param name="pk"><see cref="PKM"/> that is being tested for compatibility.</param>
+        public static IReadOnlyList<string> EvaluateCompatibility(this SaveFile sav, PKM pk)
+        {
+            return sav.GetSaveFileErrata(pk, GameInfo.Strings);
+        }
+
+        /// <summary>
         /// Checks a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
         /// </summary>
         /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
-        /// <param name="pkm"><see cref="PKM"/> that is being tested for compatibility.</param>
-        public static IReadOnlyList<string> IsPKMCompatible(this SaveFile sav, PKM pkm)
+        /// <param name="pk"><see cref="PKM"/> that is being tested for compatibility.</param>
+        public static bool IsCompatiblePKM(this SaveFile sav, PKM pk)
         {
-            return sav.GetSaveFileErrata(pkm, GameInfo.Strings);
+            if (sav.PKMType != pk.GetType())
+                return false;
+
+            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+                return false;
+
+            return true;
         }
 
-        private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pkm, IBasicStrings strings)
+        private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings)
         {
             var errata = new List<string>();
-            ushort held = (ushort)pkm.HeldItem;
+            ushort held = (ushort)pk.HeldItem;
             if (sav.Generation > 1 && held != 0)
             {
                 string? msg = null;
                 if (held > sav.MaxItemID)
                     msg = MsgIndexItemGame;
-                else if (!pkm.CanHoldItem(sav.HeldItems))
+                else if (!pk.CanHoldItem(sav.HeldItems))
                     msg = MsgIndexItemHeld;
                 if (msg != null)
                 {
-                    var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion)pkm.Version);
+                    var itemstr = GameInfo.Strings.GetItemStrings(pk.Format, (GameVersion)pk.Version);
                     errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
                 }
             }
 
-            if (pkm.Species > strings.Species.Count)
-                errata.Add($"{MsgIndexSpeciesRange} {pkm.Species}");
-            else if (sav.MaxSpeciesID < pkm.Species)
-                errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pkm.Species]}");
+            if (pk.Species > strings.Species.Count)
+                errata.Add($"{MsgIndexSpeciesRange} {pk.Species}");
+            else if (sav.MaxSpeciesID < pk.Species)
+                errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pk.Species]}");
 
-            if (!sav.Personal[pkm.Species].IsFormWithinRange(pkm.Form) && !FormInfo.IsValidOutOfBoundsForm(pkm.Species, pkm.Form, pkm.Generation))
-                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pkm.Species].FormCount - 1), pkm.Form));
+            if (!sav.Personal[pk.Species].IsFormWithinRange(pk.Form) && !FormInfo.IsValidOutOfBoundsForm(pk.Species, pk.Form, pk.Generation))
+                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
 
-            if (pkm.Moves.Any(m => m > strings.Move.Count))
-                errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");
-            else if (pkm.Moves.Any(m => m > sav.MaxMoveID))
-                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pkm.Moves.Where(m => m > sav.MaxMoveID).Select(m => strings.Move[m]))}");
+            if (pk.Moves.Any(m => m > strings.Move.Count))
+                errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pk.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");
+            else if (pk.Moves.Any(m => m > sav.MaxMoveID))
+                errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pk.Moves.Where(m => m > sav.MaxMoveID).Select(m => strings.Move[m]))}");
 
-            if (pkm.Ability > strings.Ability.Count)
-                errata.Add($"{MsgIndexAbilityRange} {pkm.Ability}");
-            else if (pkm.Ability > sav.MaxAbilityID)
-                errata.Add($"{MsgIndexAbilityGame} {strings.Ability[pkm.Ability]}");
+            if (pk.Ability > strings.Ability.Count)
+                errata.Add($"{MsgIndexAbilityRange} {pk.Ability}");
+            else if (pk.Ability > sav.MaxAbilityID)
+                errata.Add($"{MsgIndexAbilityGame} {strings.Ability[pk.Ability]}");
 
             return errata;
         }
@@ -127,7 +143,7 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                var compat = sav.IsPKMCompatible(pk);
+                var compat = sav.EvaluateCompatibility(pk);
                 if (compat.Count > 0)
                     continue;
 

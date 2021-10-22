@@ -56,7 +56,7 @@ namespace PKHeX.WinForms.Controls
             if (!CheckDest(info, sav, pk))
                 return;
 
-            var errata = sav.IsPKMCompatible(pk);
+            var errata = sav.EvaluateCompatibility(pk);
             if (errata.Count > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
                 return;
 

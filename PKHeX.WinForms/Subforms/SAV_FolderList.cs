@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
                 .Where(File.Exists).Select(SaveUtil.GetVariantSAV).Where(z => z is not null);
             recent.AddRange(loaded!);
             Recent = PopulateData(dgDataRecent, recent);
-            var backup = SaveFinder.GetSaveFiles(drives, false, Main.BackupPath);
+            var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath});
             Backup = PopulateData(dgDataBackup, backup);
 
             CB_FilterColumn.Items.Add(MsgAny);
