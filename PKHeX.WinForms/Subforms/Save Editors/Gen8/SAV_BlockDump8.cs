@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
 
             // Get an external source of names if available.
             var extra = GetExtraKeyNames();
-            Metadata = new SCBlockMetadata(SAV.Blocks, extra);
+            Metadata = new SCBlockMetadata(SAV.Blocks, extra, Main.Settings.Advanced.HideEvent8Contains.Split(','));
 
             CB_Key.InitializeBinding();
             CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();

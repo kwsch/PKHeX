@@ -79,9 +79,14 @@ namespace PKHeX.WinForms
                 return;
             }
 
+            var hide = Main.Settings.Advanced.HideEventTypeBelow;
+            labels = labels.OrderByDescending(z => z.Type).ToList();
             for (int i = 0; i < labels.Count; i++)
             {
-                var (name, index) = labels[i];
+                var (name, index, type) = labels[i];
+                if (type < hide)
+                    break;
+
                 var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
                 var chk = new CheckBox
                 {
@@ -113,9 +118,13 @@ namespace PKHeX.WinForms
                 return;
             }
 
+            var hide = Main.Settings.Advanced.HideEventTypeBelow;
+            labels = labels.OrderByDescending(z => z.Type).ToList();
             for (var i = 0; i < labels.Count; i++)
             {
                 var entry = labels[i];
+                if (entry.Type < hide)
+                    break;
                 var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
                 var mtb = new NumericUpDown
                 {

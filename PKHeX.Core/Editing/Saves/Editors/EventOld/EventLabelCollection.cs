@@ -23,7 +23,7 @@ namespace PKHeX.Core
             foreach (var s in strings)
             {
                 var split = s.Split('\t');
-                if (split.Length != 2)
+                if (split.Length != 3)
                     continue;
 
                 var index = TryParseHexDec(split[0]);
@@ -33,9 +33,10 @@ namespace PKHeX.Core
                 if (processed.Contains(index))
                     throw new ArgumentException("Already have an entry for this!", nameof(index));
 
-                var desc = split[1];
+                var type = GetEventType(split[1]);
+                var desc = split[2];
 
-                var item = new NamedEventValue(desc, index);
+                var item = new NamedEventValue(desc, index, type);
                 result.Add(item);
                 processed.Add(index);
             }
@@ -53,7 +54,7 @@ namespace PKHeX.Core
             foreach (var s in strings)
             {
                 var split = s.Split('\t');
-                if (split.Length is not (2 or 3))
+                if (split.Length is not (3 or 4))
                     continue;
 
                 var index = TryParseHexDecConst(split[0]);
@@ -63,9 +64,10 @@ namespace PKHeX.Core
                 if (processed.Contains(index))
                     throw new ArgumentException("Already have an entry for this!", nameof(index));
 
-                var desc = split[1];
-                var predefined = split.Length is 2 ? Empty : GetPredefinedArray(split[2]);
-                var item = new NamedEventWork(desc, index, predefined);
+                var type = GetEventType(split[1]);
+                var desc = split[2];
+                var predefined = split.Length is 3 ? Empty : GetPredefinedArray(split[3]);
+                var item = new NamedEventWork(desc, index, type, predefined);
                 result.Add(item);
                 processed.Add(index);
             }
@@ -102,15 +104,51 @@ namespace PKHeX.Core
             c = c[4..];
             return Convert.ToInt16(c, 16);
         }
+
+        private static NamedEventType GetEventType(string s) => s.Length == 0 ? 0 : GetEventType(s[0]);
+
+        private static NamedEventType GetEventType(char c) => c switch
+        {
+            'h' => NamedEventType.HiddenItem,
+            'm' => NamedEventType.Misc,
+            'f' => NamedEventType.FlyToggle,
+            't' => NamedEventType.TrainerToggle,
+            's' => NamedEventType.StoryProgress,
+
+            'a' => NamedEventType.Achievement,
+            '+' => NamedEventType.Statistic,
+            '*' => NamedEventType.UsefulFeature,
+            'e' => NamedEventType.EncounterEvent,
+            'g' => NamedEventType.GiftAvailable,
+            'r' => NamedEventType.Rebattle,
+            _ => NamedEventType.None,
+        };
     }
 
-    public record NamedEventValue(string Name, int Index);
+    public enum NamedEventType
+    {
+        None,
+        HiddenItem,
+        TrainerToggle,
+        StoryProgress,
+        FlyToggle,
+        Misc,
+        Statistic,
+
+        Achievement,
+        UsefulFeature,
+        EncounterEvent,
+        GiftAvailable,
+        Rebattle = 100,
+    }
+
+    public record NamedEventValue(string Name, int Index, NamedEventType Type);
 
     public sealed record NamedEventWork : NamedEventValue
     {
         public readonly IReadOnlyList<NamedEventConst> PredefinedValues;
 
-        public NamedEventWork(string Name, int Index, IReadOnlyList<NamedEventConst> values) : base(Name, Index)
+        public NamedEventWork(string Name, int Index, NamedEventType Type, IReadOnlyList<NamedEventConst> values) : base(Name, Index, Type)
         {
             PredefinedValues = values;
         }

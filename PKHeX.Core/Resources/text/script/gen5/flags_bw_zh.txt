@@ -1,12 +1,32 @@
-﻿0669	等离子队 (联盟宝可梦中心) 已消失
-0661	莱希拉姆/捷克罗姆(N的城堡) 已消失
-0766	莱希拉姆/捷克罗姆(龙螺旋之塔) 已消失
-0801	酋雷姆 已消失
-0810	火神蛾 已消失
-0649	勾帕路翁 已消失
-0650	代拉基翁 已消失
-0651	毕力吉翁 已消失
-0652	障碍 (冠军之路) 已清除
-0653	障碍 (矢车森林) 已清除
-2403	得到跑步鞋
-0115	开启交换功能 (宝可梦中心)
+0669	s	等离子队 (联盟宝可梦中心) 已消失
+0661	r	莱希拉姆/捷克罗姆(N的城堡) 已消失
+0766	r	莱希拉姆/捷克罗姆(龙螺旋之塔) 已消失
+0801	r	酋雷姆 已消失
+0810	r	火神蛾 已消失
+0649	r	勾帕路翁 已消失
+0650	r	代拉基翁 已消失
+0651	r	毕力吉翁 已消失
+0652	s	障碍 (冠军之路) 已清除
+0653	s	障碍 (矢车森林) 已清除
+2403	*	得到跑步鞋
+0115	*	开启交换功能 (宝可梦中心)
+2400	s	Defeated Ghetsis (First game clear)
+0145	s	Received Cover/Plume Fossil from Backpacker
+0148	g	Traded for Petilil/Cottonee
+0280	g	Traded for Basculin
+0315	g	Received Larvesta Egg Gift
+0352	t	Battled Youngster Kyle
+0355	t	Battled Lass Dana
+0339	g	Purchased Magikarp
+0347	g	Traded for Emolga
+0360	g	Traded for Rotom
+0663	g	Darmanitan (middle-left) disappeared from Desert Resort
+0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	g	Darmanitan (top-left) disappeared from Desert Resort
+0666	g	Darmanitan (middle-right) disappeared from Desert Resort
+0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	s	Rode Royal Unova (Today)
+2762	s	Received a Fossil from Twist Mountain Worker (Today)

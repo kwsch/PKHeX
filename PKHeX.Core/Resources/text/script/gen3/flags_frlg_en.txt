@@ -1,118 +1,272 @@
-0x237	Received HM01 Cut
-0x238	Received HM02 Fly
-0x239	Received HM03 Surf
-0x23A	Received HM04 Strength
-0x23B	Received HM05 Flash
-0x2EF	Received HM06 Rock Smash
+0x237	s	Received HM01 Cut
+0x238	s	Received HM02 Fly
+0x239	s	Received HM03 Surf
+0x23A	s	Received HM04 Strength
+0x23B	s	Received HM05 Flash
+0x2EF	s	Received HM06 Rock Smash
 
-0x820	Received Boulder Badge
-0x821	Received Cascade Badge
-0x822	Received Thunder Badge
-0x823	Received Rainbow Badge
-0x824	Received Soul Badge
-0x825	Received Marsh Badge
-0x826	Received Volcano Badge
-0x827	Received Earth Badge
+0x820	*	Received Boulder Badge
+0x821	*	Received Cascade Badge
+0x822	*	Received Thunder Badge
+0x823	*	Received Rainbow Badge
+0x824	*	Received Soul Badge
+0x825	*	Received Marsh Badge
+0x826	*	Received Volcano Badge
+0x827	*	Received Earth Badge
 
-0x24B	Traded in Underground Tunnel
-0x24D	Traded in Vermilion City
-0x248	Traded on Route 2
-0x257	Traded on Route 18
-0x274	Traded in Cinnabar Lab
+0x24B	g	Traded in Underground Tunnel
+0x24D	g	Traded in Vermilion City
+0x248	g	Traded on Route 2
+0x257	g	Traded on Route 18
+0x274	g	Traded in Cinnabar Lab
 
-0x249	Purchased Magikarp
-0x232	Received Helix Fossil/Dome Fossil
-0x057	Received Eevee
-0x246	Received Lapras
-0x278	Received Hitmonchan/Hitmonlee
-0x2DA	Received Togepi Egg
+0x249	g	Purchased Magikarp
+0x232	g	Received Helix Fossil/Dome Fossil
+0x057	g	Received Eevee
+0x246	g	Received Lapras
+0x278	g	Received Hitmonchan/Hitmonlee
+0x2DA	g	Received Togepi Egg
 
-0x2A7	Received Aurora Ticket from Mystery Gift
-0x2A8	Received Mystic Ticket from Mystery Gift
+0x2A7	e	Received Aurora Ticket from Mystery Gift
+0x2A8	e	Received Mystic Ticket from Mystery Gift
 
-0x2F0	Shown Mystic Ticket
-0x2F1	Shown Aurora Ticket
+0x2F0	e	Shown Mystic Ticket
+0x2F1	e	Shown Aurora Ticket
 
-0x84A	Can Travel to Navel Rock
-0x84B	Can Travel to Birth Island
+0x84A	e	Can Travel to Navel Rock
+0x84B	e	Can Travel to Birth Island
 
-0x2BE	Captured/Defeated Articuno
-0x2BF	Captured/Defeated Zapdos
-0x2BD	Captured/Defeated Moltres
-0x2F2	Captured Lugia
-0x2F5	Defeated Lugia
-0x2F3	Captured Ho-Oh
-0x2F6	Defeated Ho-Oh
-0x2E4	Captured Deoxys
-0x2F7	Defeated Deoxys
-0x085	Defeated Voltorb (1)
-0x086	Defeated Voltorb (2)
-0x2D0	Defeated Electrode (1)
-0x2D2	Defeated Electrode (2)
+0x2BE	r	Captured/Defeated Articuno
+0x2BF	r	Captured/Defeated Zapdos
+0x2BD	r	Captured/Defeated Moltres
+0x2F2	r	Captured Lugia
+0x2F5	r	Defeated Lugia
+0x2F3	r	Captured Ho-Oh
+0x2F6	r	Defeated Ho-Oh
+0x2E4	r	Captured Deoxys
+0x2F7	r	Defeated Deoxys
+0x085	r	Defeated Voltorb (1)
+0x086	r	Defeated Voltorb (2)
+0x2D0	r	Defeated Electrode (1)
+0x2D2	r	Defeated Electrode (2)
 
-0x060	Overworld Hidden (Hitmonlee ball)
-0x061	Overworld Hidden (Hitmonchan ball)
-0x02F	Overworld Hidden (Dome Fossil)
-0x030	Overworld Hidden (Helix Fossil)
-0x082	Overworld Hidden (Articuno)
-0x05D	Overworld Hidden (Zapdos)
-0x052	Overworld Hidden (Moltres)
-0x081	Overworld Hidden (Mewtwo)
-0x09B	Overworld Hidden (Lugia)
-0x09C	Overworld Hidden (Ho-Oh)
-0x09A	Overworld Hidden (Deoxys)
-0x054	Overworld Hidden (Snorlax, Route 12)
-0x080	Overworld Hidden (Snorlax, Route 16)
+0x060	r	Overworld Hidden (Hitmonlee ball)
+0x061	r	Overworld Hidden (Hitmonchan ball)
+0x02F	r	Overworld Hidden (Dome Fossil)
+0x030	r	Overworld Hidden (Helix Fossil)
+0x082	r	Overworld Hidden (Articuno)
+0x05D	r	Overworld Hidden (Zapdos)
+0x052	r	Overworld Hidden (Moltres)
+0x081	r	Overworld Hidden (Mewtwo)
+0x09B	r	Overworld Hidden (Lugia)
+0x09C	r	Overworld Hidden (Ho-Oh)
+0x09A	r	Overworld Hidden (Deoxys)
+0x054	r	Overworld Hidden (Snorlax, Route 12)
+0x080	r	Overworld Hidden (Snorlax, Route 16)
 
-0x2C0	Used Move Tutor in Victory Road (Double-Edge)
-0x2C1	Used Move Tutor in Silph Co. (Thunder Wave)
-0x2C2	Used Move Tutor in Rock Tunnel (Rock Slide)
-0x2C3	Used Move Tutor in Mt. Ember (Explosion)
-0x2C4	Used Move Tutor on Route 4 (Mega Punch)
-0x2C5	Used Move Tutor on Route 4 (Mega Kick)
-0x2C6	Used Move Tutor in Viridian City (Dream Eater)
-0x2C7	Used Move Tutor in Celadon Department Store (Soft-Boiled)
-0x2C8	Used Move Tutor in Fuchsia City (Substitute)
-0x2C9	Used Move Tutor on Seven Island (Swords Dance)
-0x2CA	Used Move Tutor in Pewter City (Seismic Toss)
-0x2CB	Used Move Tutor in Celadon City (Counter)
-0x2CC	Used Move Tutor on Cinnabar Island (Metronome)
-0x2CD	Used Move Tutor in Saffron City (Mimic)
-0x2CE	Used Move Tutor on Four Island (Body Slam)
-0x2DE	Used Move Tutor at Cape Brink (Frenzy Plant)
-0x2DF	Used Move Tutor at Cape Brink (Blast Burn)
-0x2E0	Used Move Tutor at Cape Brink (Hydro Cannon)
-0x2E1	Cape Brink Move Tutor taught all 3 Moves
+0x2C0	*	Used Move Tutor in Victory Road (Double-Edge)
+0x2C1	*	Used Move Tutor in Silph Co. (Thunder Wave)
+0x2C2	*	Used Move Tutor in Rock Tunnel (Rock Slide)
+0x2C3	*	Used Move Tutor in Mt. Ember (Explosion)
+0x2C4	*	Used Move Tutor on Route 4 (Mega Punch)
+0x2C5	*	Used Move Tutor on Route 4 (Mega Kick)
+0x2C6	*	Used Move Tutor in Viridian City (Dream Eater)
+0x2C7	*	Used Move Tutor in Celadon Department Store (Soft-Boiled)
+0x2C8	*	Used Move Tutor in Fuchsia City (Substitute)
+0x2C9	*	Used Move Tutor on Seven Island (Swords Dance)
+0x2CA	*	Used Move Tutor in Pewter City (Seismic Toss)
+0x2CB	*	Used Move Tutor in Celadon City (Counter)
+0x2CC	*	Used Move Tutor on Cinnabar Island (Metronome)
+0x2CD	*	Used Move Tutor in Saffron City (Mimic)
+0x2CE	*	Used Move Tutor on Four Island (Body Slam)
+0x2DE	*	Used Move Tutor at Cape Brink (Frenzy Plant)
+0x2DF	*	Used Move Tutor at Cape Brink (Blast Burn)
+0x2E0	*	Used Move Tutor at Cape Brink (Hydro Cannon)
+0x2E1	*	Cape Brink Move Tutor taught all 3 Moves
 
-0x829	Received Pokedex
-0x82F	Received Running Shoes
-0x834	Unlocked Bill's PC
-0x839	Enabled Mystery Gift
-0x840	Received National Pokedex
-0x2A1	Restored Connectivity to Kanto
-0x844	Restored Connectivity to Hoenn
-0x845	Received Tri-Pass
-0x846	Received Rainbow Pass
-0x29B	Received Fame Checker
-0x241	Received Bike Voucher
-0x2A5	Received Lift Key
-0x2A6	Received Tea
-0x23C	Rescued Mr. Fuji
-0x23D	Received Poke Flute
-0x82C	Entered Hall of Fame
-0x2DD	Received Ruby
-0x2E3	Dotted Hole Door Opened
-0x2D8	Sapphire Stolen
-0x2D6	Rocket Warehouse Door Opened
-0x2DC	Received Sapphire
-0x2FA	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
-0x252	Received Itemfinder (Oak's Aide, Route 11)
-0x256	Received Exp. Share (Oak's Aide, Route 15)
-0x2FD	Received Amulet Coin (Oak's Aide, Route 16)
-0x25E	Received Old Amber
-0x236	Lemonade Donated to Tectonix
-0x2D9	Set Heracross Length Record
-0040	Bulbasaur ball at Oak's disappeared
-0041	Squirtle ball at Oak's disappeared
-0042	Charmander ball at Oak's disappeared
-2121	Tanoby Key puzzle solved/Wild Unown in Tanoby Chambers
+0x829	s	Received Pokedex
+0x82F	s	Received Running Shoes
+0x834	s	Unlocked Bill's PC
+0x839	s	Enabled Mystery Gift
+0x840	s	Received National Pokedex
+0x2A1	s	Restored Connectivity to Kanto
+0x844	s	Restored Connectivity to Hoenn
+0x845	s	Received Tri-Pass
+0x846	s	Received Rainbow Pass
+0x29B	s	Received Fame Checker
+0x241	s	Received Bike Voucher
+0x2A5	s	Received Lift Key
+0x2A6	s	Received Tea
+0x23C	s	Rescued Mr. Fuji
+0x23D	s	Received Poke Flute
+0x82C	s	Entered Hall of Fame
+0x2DD	s	Received Ruby
+0x2E3	s	Dotted Hole Door Opened
+0x2D8	s	Sapphire Stolen
+0x2D6	s	Rocket Warehouse Door Opened
+0x2DC	s	Received Sapphire
+0x2FA	s	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
+0x252	s	Received Itemfinder (Oak's Aide, Route 11)
+0x256	s	Received Exp. Share (Oak's Aide, Route 15)
+0x2FD	s	Received Amulet Coin (Oak's Aide, Route 16)
+0x25E	s	Received Old Amber
+0x236	s	Lemonade Donated to Tectonix
+0x2D9	s	Set Heracross Length Record
+0040	s	Bulbasaur ball at Oak's disappeared
+0041	s	Squirtle ball at Oak's disappeared
+0042	s	Charmander ball at Oak's disappeared
+2121	s	Tanoby Key puzzle solved/Wild Unown in Tanoby Chambers
+0424	s	Found Secret Key
+1190	s	Found Lava Cookie in S.S. Anne port
+0626	s	Chose Dome Fossil (Omanyte in Pokémon Zoo)
+0627	s	Chose Helix Fossil (Kabuto in Pokémon Zoo)
+2192	f	Can Fly to Pallet Town
+2193	f	Can Fly to Viridian City
+2194	f	Can Fly to Pewter City
+2195	f	Can Fly to Cerulean City
+2196	f	Can Fly to Lavender Town
+2197	f	Can Fly to Vermilion City
+2198	f	Can Fly to Celadon City
+2199	f	Can Fly to Fuchsia City
+2200	f	Can Fly to Cinnabar Island
+2201	f	Can Fly to Indigo Plateau
+2202	f	Can Fly to Saffron City
+2203	f	Can Fly to One Island
+2204	f	Can Fly to Two Island
+2205	f	Can Fly to Three Island
+2206	f	Can Fly to Four Island
+2207	f	Can Fly to Five Island
+2209	f	Can Fly to Six Island
+2208	f	Can Fly to Seven Island
+2210	f	Can Fly to Route 4 (Pokémon Center)
+2211	f	Can Fly to Route 10 (Pokémon Center)
+1381	t	Had Youngster Ben 1st Rematch
+1778	t	Had Youngster Ben 2nd Rematch
+1779	t	Had Youngster Ben 3rd Rematch
+1780	t	Had Youngster Chad 1st Rematch
+1786	t	Had Youngster Chad 2nd Rematch
+1789	t	Had Youngster Chad 3rd Rematch
+1781	t	Had Lass Reli 1st Rematch
+1782	t	Had Lass Reli 2nd Rematch
+1383	t	Had Youngster Timmy 1st Rematch
+1784	t	Had Youngster Timmy 2nd Rematch
+1785	t	Had Youngster Timmy 3rd Rematch
+1787	t	Had Lass Janice 1st Rematch
+1788	t	Had Lass Janice 2nd Rematch
+1790	t	Had Hiker Franklin Rematch
+1813	t	Had Twins Eli and Anne Rematch
+1874	t	Had PokéManiac Mark 1st Rematch
+1924	t	Had PokéManiac Mark 2nd Rematch
+1901	t	Had Picnicker Kelsey 1st Rematch
+1902	t	Had Picnicker Kelsey 2nd Rematch
+1903	t	Had Picnicker Kelsey 3rd Rematch
+1904	t	Had Camper Ricky 1st Rematch
+1905	t	Had Camper Ricky 2nd Rematch
+1906	t	Had Camper Ricky 3rd Rematch
+1907	t	Had Camper Jeff 1st Rematch
+1908	t	Had Camper Jeff 2nd Rematch
+1909	t	Had Camper Jeff 3rd Rematch
+1910	t	Had Picnicker Isabelle 1st Rematch
+1911	t	Had Picnicker Isabelle 2nd Rematch
+1912	t	Had Picnicker Isabelle 3rd Rematch
+1913	t	Had Youngster Yasu 1st Rematch
+1914	t	Had Youngster Yasu 2nd Rematch
+1915	t	Had Engineer Bernie Rematch
+1916	t	Had Gamer Darian Rematch
+1917	t	Had Camper Chris 1st Rematch
+1918	t	Had Camper Chris 2nd Rematch
+1919	t	Had Camper Chris 3rd Rematch
+1920	t	Had Picnicker Alicia 1st Rematch
+1921	t	Had Picnicker Alicia 2nd Rematch
+1922	t	Had Picnicker Alicia 3rd Rematch
+1923	t	Had Hiker Jeremy Rematch
+1925	t	Had PokéManiac Herman 1st Rematch
+1926	t	Had PokéManiac Herman 2nd Rematch
+1927	t	Had Hiker Trent Rematch
+1928	t	Had Lass Megan 1st Rematch
+1929	t	Had Lass Megan 2nd Rematch
+1930	t	Had Super Nerd Glenn Rematch
+1931	t	Had Gamer Rich Rematch
+1932	t	Had Biker Jaren Rematch
+1933	t	Had Fisherman Elliot Rematch
+1934	t	Had Rocker Luca Rematch
+1935	t	Had Beauty Sheila Rematch
+1936	t	Had Bird Keeper Robert 1st Rematch
+1937	t	Had Bird Keeper Robert 2nd Rematch
+1938	t	Had Picnicker Susie 1st Rematch
+1939	t	Had Picnicker Susie 2nd Rematch
+1940	t	Had Picnicker Susie 3rd Rematch
+1941	t	Had Biker Lukas Rematch
+1942	t	Had Bird Keeper Benny 1st Rematch
+1943	t	Had Bird Keeper Benny 2nd Rematch
+1944	t	Had Bird Keeper Marlon 1st Rematch
+1945	t	Had Bird Keeper Marlon 2nd Rematch
+1946	t	Had Beauty Grace Rematch
+1947	t	Had Bird Keeper Chester 1st Rematch
+1948	t	Had Bird Keeper Chester 2nd Rematch
+1949	t	Had Picnicker Becky 1st Rematch
+1950	t	Had Picnicker Becky 2nd Rematch
+1951	t	Had Picnicker Becky 3rd Rematch
+1952	t	Had Crush Kin Ron and Mya 1st Rematch
+1953	t	Had Crush Kin Ron and Mya 2nd Rematch
+1954	t	Had Crush Kin Ron and Mya 3rd Rematch
+1955	t	Had Biker Ruben Rematch
+1956	t	Had Cue Ball Camron Rematch
+1957	t	Had Biker Jaxon Rematch
+1958	t	Had Cue Ball Isaiah Rematch
+1959	t	Had Cue Ball Corey Rematch
+1960	t	Had Bird Keeper Jacob 1st Rematch
+1961	t	Had Bird Keeper Jacob 2nd Rematch
+1962	t	Had Swimmer Alice Rematch
+1963	t	Had Swimmer Darrin Rematch
+1964	t	Had Picnicker Missy 1st Rematch
+1965	t	Had Picnicker Missy 2nd Rematch
+1966	t	Had Fisherman Wade Rematch
+1967	t	Had Swimmer Jack Rematch
+1968	t	Had Sis and Bro Lil and Ian 1st Rematch
+1969	t	Had Sis and Bro Lil and Ian 2nd Rematch
+1970	t	Had Swimmer Finn Rematch
+1971	t	Had Crush Girl Sharon 1st Rematch
+1972	t	Had Crush Girl Sharon 2nd Rematch
+1973	t	Had Crush Girl Tanya 1st Rematch
+1974	t	Had Crush Girl Tanya 2nd Rematch
+1975	t	Had Black Belt Shea 1st Rematch
+1976	t	Had Black Belt Shea 2nd Rematch
+1977	t	Had Black Belt Hugh 1st Rematch
+1978	t	Had Black Belt Hugh 2nd Rematch
+1979	t	Had Crush Kin Mik and Kia 1st Rematch
+1980	t	Had Crush Kin Mik and Kia 2nd Rematch
+1981	t	Had Tuber Amira Rematch
+1982	t	Had Twins Joy and Meg Rematch
+1983	t	Had Painter Rayna Rematch
+1984	t	Had Youngster Destin Rematch
+1985	t	Had Pokémon Breeder Alize Rematch
+1986	t	Had Young Couple Gia and Jes 1st Rematch
+1987	t	Had Young Couple Gia and Jes 2nd Rematch
+1988	t	Had Bird Keeper Milo Rematch
+1989	t	Had Bird Keeper Chaz Rematch
+1990	t	Had Bird Keeper Harold Rematch
+1991	t	Had Swimmer Nicole Rematch
+1992	t	Had Psychic Jaclyn Rematch
+1993	t	Had Swimmer Samir Rematch
+1994	t	Had Hiker Earl Rematch
+1995	t	Had Ruin Maniac Larry Rematch
+1996	t	Had PokéManiac Hector Rematch
+1997	t	Had Psychic Dario Rematch
+1998	t	Had Psychic Rodette Rematch
+1999	t	Had Juggler Mason Rematch
+2000	t	Had Pokémon Ranger Nicolas Rematch
+2001	t	Had Pokémon Ranger Madeline Rematch
+2002	t	Had Crush Girl Cyndy Rematch
+2003	t	Had Tamer Evan Rematch
+2004	t	Had Pokémon Ranger Jackson Rematch
+2005	t	Had Pokémon Ranger Katelyn Rematch
+2006	t	Had Cooltrainer Leroy Rematch
+2007	t	Had Cooltrainer Michelle Rematch
+2008	t	Had Cool Couple Lex and Nya Rematch
+2009	t	Had Bug Catcher Colton 1st Rematch
+2010	t	Had Bug Catcher Colton 2nd Rematch
+2011	t	Had Bug Catcher Colton 3rd Rematch
+2012	t	Had Swimmer Matthew Rematch
+2013	t	Had Swimmer Tony Rematch
+2014	t	Had Swimmer Melissa Rematch

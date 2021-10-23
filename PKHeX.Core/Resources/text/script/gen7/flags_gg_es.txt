@@ -5,6 +5,9 @@ v0500	r020d0105_2_pm0144_freezer (Articuno)
 v0513	r023d0102_pm0146_fire (Moltres)
 v0603	t004d0103_pm0150_mewtwo (Mewtwo)
 
+v1113	Hitmonchan at Fighting Dojo
+v1114	Hitmonlee at Fighting Dojo
+
 e0000	FE_EV0905_BTL_RED
 e0107	FE_WAZA_OMOIDASHI
 e0108	FE_FIELD_TRADE_FIRST_01 (Primer intercambio de Rattata Alola)
@@ -18,6 +21,9 @@ e0116	FE_MASTER_RED_BATTLE_TALKED
 e0191	FE_FIELD_TRADE_FIRST_08 (Primer intercambio de Geodude Alola)
 e0192	FE_CAPTURE_KABIGON_ROAD012 (Capturado Snorlax de la Ruta 12)
 e0193	FE_CAPTURE_KABIGON_ROAD016 (Capturado Snorlax de la Ruta 16)
+
+e0029	Karate Master Defeated
+e0030	Received Hitmonlee/Hitmonchan
 
 s0000	FSYS_GAME_CLEAR (Completada Historia Principal)
 s0012	FSYS_GYM_CLEAR_ROCK (Derrotado Líder de Gimnasio Brock)
@@ -76,3 +82,10 @@ s0058	FSYS_ARRIVE_TOWN008 (Visitada Ciudad Fucsia)
 s0059	FSYS_ARRIVE_TOWN009 (Visitada Isla Canela)
 s0060	FSYS_ARRIVE_TOWN010 (Visitada Meseta Añil)
 s0061	FSYS_ARRIVE_TOWN011 (Visitada Ciudad Azafrán)
+
+s0270	Helix Fossil claimed at Mt. Moon
+s0271	Dome Fossil claimed at Mt. Moon
+s0298	Dome Fossil/Omanyte in Fuchsia City
+s0299	Helix Fossil/Kabuto in Fuchsia City
+s0357	Hitmonchan chosen at Fighting Dojo
+s0358	Hitmonlee chosen at Fighting Dojo
