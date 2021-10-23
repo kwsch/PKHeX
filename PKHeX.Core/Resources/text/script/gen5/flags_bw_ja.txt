@@ -1,32 +1,32 @@
-﻿0669	プラズマ団: ポケモンリーグのポケモンセンター (戦闘済み)
-0661	レシラム / ゼクロム: Nのしろ (戦闘済み)
-0766	レシラム / ゼクロム: リュウランセンのとう (戦闘済み)
-0801	キュレム (戦闘済み)
-0810	ウルガモス (戦闘済み)
-0649	コバルオン (戦闘済み)
-0650	テラキオン (戦闘済み)
-0651	ビリジオン (戦闘済み)
-0652	チャンピオンロード (試練の室に行ける)
-0653	ヤグルマのもり (思索の原に行ける)
-2403	Has Running Shoes
-0115	Trading Functionality Enabled (Pokecenter)
-2400	Defeated Ghetsis (First game clear)
-0145	Received Cover/Plume Fossil from Backpacker
-0148	Traded for Petilil/Cottonee
-0280	Traded for Basculin
-0315	Received Larvesta Egg Gift
-0352	Battled Youngster Kyle
-0355	Battled Lass Dana
-0339	Purchased Magikarp
-0347	Traded for Emolga
-0360	Traded for Rotom
-0663	Darmanitan (middle-left) disappeared from Desert Resort
-0664	Darmanitan (bottom-left) disappeared from Desert Resort
-0665	Darmanitan (top-left) disappeared from Desert Resort
-0666	Darmanitan (middle-right) disappeared from Desert Resort
-0667	Darmanitan (top-right) disappeared from Desert Resort
-0729	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
-0730	Girl disappeared from GAME FREAK building 1F (Zorua event)
-0731	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
-2754	Rode Royal Unova (Today)
-2762	Received a Fossil from Twist Mountain Worker (Today)
+0669	s	プラズマ団: ポケモンリーグのポケモンセンター (戦闘済み)
+0661	r	レシラム / ゼクロム: Nのしろ (戦闘済み)
+0766	r	レシラム / ゼクロム: リュウランセンのとう (戦闘済み)
+0801	r	キュレム (戦闘済み)
+0810	r	ウルガモス (戦闘済み)
+0649	r	コバルオン (戦闘済み)
+0650	r	テラキオン (戦闘済み)
+0651	r	ビリジオン (戦闘済み)
+0652	s	チャンピオンロード (試練の室に行ける)
+0653	s	ヤグルマのもり (思索の原に行ける)
+2403	*	Has Running Shoes
+0115	*	Trading Functionality Enabled (Pokecenter)
+2400	s	Defeated Ghetsis (First game clear)
+0145	s	Received Cover/Plume Fossil from Backpacker
+0148	g	Traded for Petilil/Cottonee
+0280	g	Traded for Basculin
+0315	g	Received Larvesta Egg Gift
+0352	t	Battled Youngster Kyle
+0355	t	Battled Lass Dana
+0339	g	Purchased Magikarp
+0347	g	Traded for Emolga
+0360	g	Traded for Rotom
+0663	g	Darmanitan (middle-left) disappeared from Desert Resort
+0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	g	Darmanitan (top-left) disappeared from Desert Resort
+0666	g	Darmanitan (middle-right) disappeared from Desert Resort
+0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	s	Rode Royal Unova (Today)
+2762	s	Received a Fossil from Twist Mountain Worker (Today)

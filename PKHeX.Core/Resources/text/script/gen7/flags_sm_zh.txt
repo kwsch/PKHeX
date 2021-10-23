@@ -1,52 +1,52 @@
-3100	成为阿罗拉冠军/可以领取玛机雅娜
-3487	已领取 礼物玛机雅娜
-0443	已领取 礼物伊布蛋
-0493	已领取 礼物多边兽
-0504	已领取 礼物化石翼龙
-1216	已领取 礼物科斯莫古
-0499	已领取 礼物属性:空
-0160	月轮 [0] / 日轮究极之洞 [1]
-3113	Received Ride Pager
-3114	已解锁 肯泰羅衝撞
-3115	已解锁 長毛狗搜尋
-3116	已解锁 怪力猛推
-3117	已解锁 重泥挽馬飛奔
-3118	已解锁 拉普拉斯游泳
-3119	已解锁 巨牙鯊噴射
-3120	已解锁 噴火龍飛行
-0168	Traded for Machop on Route 2
-0169	Traded for Bounsweet on Route 5
-0170	Traded for Poliwhirl in Konikoni City
-0171	Traded for Happiny in Malie City
-0172	Traded for Graveler in Tapu Village
-0173	Traded for Steene in Seafolk Village
-0174	Traded for Talonflame on Poni Gauntlet
-0789	Lillie Disappeared from Altar
-0791	Solgaleo/Lunala Disappeared from Altar
-0185	Had First Title Defense Battle
-0186	Encountered Hapu (Title Defense)
-2435	Defeated Hapu (Title Defense)
-0187	Encountered Gladion (Title Defense)
-2493	Defeated Gladion (Title Defense;Rowlet is Player Starter)
-2494	Defeated Gladion (Title Defense;Litten is Player Starter)
-2495	Defeated Gladion (Title Defense;Popplio is Player Starter)
-0188	Encountered Ryuki (Title Defense)
-2485	Defeated Ryuki (Title Defense)
-0189	Encountered Faba (Title Defense)
-2436	Defeated Faba (Title Defense)
-0190	Encountered Hau (Title Defense)
-2432	Defeated Hau (Title Defense;Rowlet is Player Starter)
-2433	Defeated Hau (Title Defense;Litten is Player Starter)
-2434	Defeated Hau (Title Defense;Popplio is Player Starter)
-0191	Encountered Sophocles (Title Defense)
-2481	Defeated Sophocles (Title Defense)
-0192	Encountered Molayne (Title Defense)
-2557	Defeated Molayne (Title Defense)
-0193	Encountered Kukui (Title Defense)
-2553	Defeated Kukui (Title Defense;Rowlet is Player Starter)
-2554	Defeated Kukui (Title Defense;Litten is Player Starter)
-2555	Defeated Kukui (Title Defense;Popplio is Player Starter)
-0194	Encountered Plumeria (Title Defense)
-2477	Defeated Plumeria (Title Defense)
-0195	Encountered Youngster Tristan (Title Defense)
-2556	Defeated Youngster Tristan (Title Defense)
+3100	*	成为阿罗拉冠军/可以领取玛机雅娜
+3487	g	已领取 礼物玛机雅娜
+0443	g	已领取 礼物伊布蛋
+0493	g	已领取 礼物多边兽
+0504	g	已领取 礼物化石翼龙
+1216	g	已领取 礼物科斯莫古
+0499	g	已领取 礼物属性:空
+0160	*	月轮 [0] / 日轮究极之洞 [1]
+3113	s	Received Ride Pager
+3114	s	已解锁 肯泰羅衝撞
+3115	s	已解锁 長毛狗搜尋
+3116	s	已解锁 怪力猛推
+3117	s	已解锁 重泥挽馬飛奔
+3118	s	已解锁 拉普拉斯游泳
+3119	s	已解锁 巨牙鯊噴射
+3120	s	已解锁 噴火龍飛行
+0168	g	Traded for Machop on Route 2
+0169	g	Traded for Bounsweet on Route 5
+0170	g	Traded for Poliwhirl in Konikoni City
+0171	g	Traded for Happiny in Malie City
+0172	g	Traded for Graveler in Tapu Village
+0173	g	Traded for Steene in Seafolk Village
+0174	g	Traded for Talonflame on Poni Gauntlet
+0789	s	Lillie Disappeared from Altar
+0791	s	Solgaleo/Lunala Disappeared from Altar
+0185	s	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+2435	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+2493	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+2494	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+2495	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+2485	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Faba (Title Defense)
+2436	t	Defeated Faba (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+2432	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+2433	t	Defeated Hau (Title Defense;Litten is Player Starter)
+2434	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+2481	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Molayne (Title Defense)
+2557	t	Defeated Molayne (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+2553	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+2554	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+2555	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+2477	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Youngster Tristan (Title Defense)
+2556	t	Defeated Youngster Tristan (Title Defense)

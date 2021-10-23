@@ -228,6 +228,9 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
         public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
+
+        [LocalizedDescription("Hide event variables below this event type value. Removes event values from the GUI that the user doesn't care to view.")]
+        public NamedEventType HideEventTypeBelow { get; set; }
     }
 
     [Serializable]
