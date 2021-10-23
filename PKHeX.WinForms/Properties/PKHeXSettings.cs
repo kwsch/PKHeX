@@ -231,6 +231,9 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Hide event variables below this event type value. Removes event values from the GUI that the user doesn't care to view.")]
         public NamedEventType HideEventTypeBelow { get; set; }
+
+        [LocalizedDescription("Hide event variable names for that contain any of the comma-separated substrings below. Removes event values from the GUI that the user doesn't care to view.")]
+        public string HideEvent8Contains { get; set; } = string.Empty;
     }
 
     [Serializable]
