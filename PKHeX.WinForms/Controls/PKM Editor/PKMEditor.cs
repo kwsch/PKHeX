@@ -1426,6 +1426,9 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
+            if (Entity.Format == 3 && CHK_IsEgg.Checked)
+                Entity.OT_Name = TB_OT.Text; // going to be remapped
+
             Entity.IsEgg = CHK_IsEgg.Checked;
             if (CHK_IsEgg.Checked)
             {
@@ -1444,6 +1447,11 @@ namespace PKHeX.WinForms.Controls
                     bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
                     var loc = isTraded ? Locations.TradedEggLocation(sav.Generation) : 0;
                     CB_MetLocation.SelectedValue = loc;
+                }
+                else if (Entity.Format == 3)
+                {
+                    CB_Language.SelectedValue = Entity.Language; // JPN
+                    TB_OT.Text = Entity.OT_Name;
                 }
 
                 if (!CHK_Nicknamed.Checked)
