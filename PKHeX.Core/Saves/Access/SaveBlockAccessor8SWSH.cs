@@ -131,10 +131,95 @@ namespace PKHeX.Core
         private const uint KNormalEncountRigel1 = 0x0E615A8C; // normal_encount_rigel1
         private const uint KNormalEncountRigel2 = 0x11615F45; // normal_encount_rigel2
 
+        // Static Encounter event flags (bool)
+        public const uint KCapturedGalarianArticuno = 0x4CAB7DA6; // EF_R2_FURIIZAA_GET
+        public const uint KCapturedGalarianZapdos = 0x284CBECF; // EF_R2_SANDAA_GET
+        public const uint KCapturedGalarianMoltres = 0xF1E493AA; // EF_R2_FAIYAA_GET
+        public const uint KCapturedRegirock = 0xEE3F84E6; // FE_CAPTURE_REGIROCK
+        public const uint KCapturedRegice = 0xDAB3DD3A; // FE_CAPTURE_REGIICE
+        public const uint KCapturedRegisteel = 0xEE1FD86E; // FE_CAPTURE_REGISTEEL
+        public const uint KCapturedSpiritomb = 0x11C12005; // FE_CAPTURE_MIKARUGE
+        public const uint KCapturedRegigigas = 0xC4308A93; // FE_CAPTURE_REGIGIGASU
+        public const uint KCapturedCobalion = 0xBB305227; // z_wr0312_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+        public const uint KCapturedTerrakion = 0x750C83A4; // z_wr0322_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+        public const uint KCapturedVirizion = 0x1A27DF2C; // z_wr0304_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+        public const uint KCapturedKeldeo = 0xA097DE31; // z_wr0321_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+        public const uint KCapturedRegieleki = 0x4F4AEC32; // FE_CAPTURE_REDEN
+        public const uint KCapturedRegidrago = 0x4F30F174; // FE_CAPTURE_REDRA
+
+        // Max Lair event flags (bool)
+        public const uint KCapturedArticuno = 0xF75E52CF;
+        public const uint KCapturedZapdos = 0xF75E5635;
+        public const uint KCapturedMoltres = 0xF75E511C;
+        public const uint KCapturedMewtwo = 0xF75E4DB6;
+        public const uint KCapturedRaikou = 0xF75E4C03;
+        public const uint KCapturedEntei = 0xF75E4A50;
+        public const uint KCapturedSuicune = 0xF75E4F69;
+        public const uint KCapturedLugia = 0xF75E621A;
+        public const uint KCapturedHoOh = 0xF75E63CD;
+        public const uint KCapturedLatias = 0xF760948B;
+        public const uint KCapturedLatios = 0xF76092D8;
+        public const uint KCapturedKyogre = 0xF760963E;
+        public const uint KCapturedGroudon = 0xF76097F1;
+        public const uint KCapturedRayquaza = 0xF7609B57;
+        public const uint KCapturedUxie = 0xF76099A4;
+        public const uint KCapturedMesprit = 0xF7609D0A;
+        public const uint KCapturedAzelf = 0xF7609EBD;
+        public const uint KCapturedDialga = 0xF76086F3;
+        public const uint KCapturedPalkia = 0xF7608540;
+        public const uint KCapturedHeatran = 0xF7582323;
+        public const uint KCapturedGiratina = 0xF7582170;
+        public const uint KCapturedCresselia = 0xF75824D6;
+        public const uint KCapturedTornadus = 0xF7582689;
+        public const uint KCapturedThundurus = 0xF758283C;
+        public const uint KCapturedReshiram = 0xF7582BA2;
+        public const uint KCapturedZekrom = 0xF7582D55;
+        public const uint KCapturedLandorus = 0xF75829EF;
+        public const uint KCapturedKyurem = 0xF7582F08;
+        public const uint KCapturedXerneas = 0xF75830BB;
+        public const uint KCapturedYveltal = 0xF75B3AF9;
+        public const uint KCapturedZygarde = 0xF75B3946;
+        public const uint KCapturedTapuKoko = 0xF75B3793;
+        public const uint KCapturedTapuLele = 0xF75B35E0;
+        public const uint KCapturedTapuBulu = 0xF75B41C5;
+        public const uint KCapturedTapuFini = 0xF75B4012;
+        public const uint KCapturedSolgaleo = 0xF75B3E5F;
+        public const uint KCapturedLunala = 0xF75B3CAC;
+        public const uint KCapturedNihilego = 0xF75B46DE;
+        public const uint KCapturedBuzzwole = 0xF769AAC6;
+        public const uint KCapturedPheromosa = 0xF769AC79;
+        public const uint KCapturedXurkitree = 0xF769A760;
+        public const uint KCapturedCelesteela = 0xF769B192;
+        public const uint KCapturedKartana = 0xF769A913;
+        public const uint KCapturedGuzzlord = 0xF769B345;
+        public const uint KCapturedNecrozma = 0xF75B4891;
+        public const uint KCapturedStakataka = 0xF769B85E;
+        public const uint KCapturedBlacephalon = 0xF769AFDF;
+
+        // Gift event flags (bool)
+        public const uint KReceivedGiftBulbasaur = 0x4F240749;
+        public const uint KReceivedGiftCharmander = 0x178159E5;
+        public const uint KReceivedGiftSquirtle = 0x08F829F8;
+        public const uint KReceivedGiftPikachu = 0x9D95E9CA;
+        public const uint KReceivedGiftEevee = 0x855235FF;
+        public const uint KReceivedGiftTypeNull = 0x2AB6CECC;
+        public const uint KReceivedGiftCosmog = 0x52F6F77F;
+        public const uint KReceivedGiftPoipole = 0x4B3C9063;
+        public const uint KReceivedGiftToxel = 0xC41B40F7;
+
+        // General purpose event flags (bool)
+        public const uint KSecretBoxUnlocked = 0x32A339E9; // FSYS_SECRET_BOX
+        public const uint KUnlockedYComm = 0xDE0EEF6F; // FSYS_LIVE_COMM_OPEN
+        public const uint KUnlockedJudge = 0xD0E267EB; // FSYS_JUDGE_OPEN
+        public const uint KUnlockedWaterModeBike = 0x7526A53C; // FSYS_FLAG_NAMINORI_OPEN
+        public const uint KUnlockedUBsInMaxLair = 0xB99A1E28; // FSYS_CHIKA_UB_OPEN
+        public const uint KPlayRecordsPikachu = 0x1C74460E; // FSYS_PLAY_LETSGO_PIKACHU
+        public const uint KPlayRecordsEevee = 0xC804E4AF; // FSYS_PLAY_LETSGO_EEVEE
+        public const uint KPlayRecordsQuest = 0xBF24DDAE; // FSYS_PLAY_POKEMON_QUEST
+
         // Values
         public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
         public const uint KBoxesUnlocked = 0x71825204; // U32
-        public const uint KSecretBoxUnlocked = 0x32A339E9; // bool
         public const uint KGameLanguage = 0x0BFDEBA1; // U32 Game Language
         public const uint KRepel = 0x9ec079da; // U16 Repel Steps remaining
         public const uint KRotoRally = 0x38548020; // U32 Roto Rally Score (99,999 cap)
