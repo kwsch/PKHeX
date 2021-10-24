@@ -260,6 +260,8 @@ namespace PKHeX.Core
         public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
         public const uint KDiggingPaWattStreak = 0x68BBA8B1; // U32 Most Watts dug up by the Digging Pa
         public const uint KAlolanDiglettFound = 0x4AEA5A7E; // U32 Amount of Alolan Diglett found on Isle of Armor
+        public const uint KSoniaCTQuestProgress = 0xCB135C68; // U32 Swords of Justice Quest progress. Values are from 0-7; 7=completed
+        public const uint KBikeBoostChargeSteps = 0x57F29628; // U32 64=Boost Charged
 
         public const uint KSparringStreakNormal = 0xDB5E16CB; // U32 Best Normal-Type Restricted Sparring Streak
         public const uint KSparringNormalPartySlot1Species = 0x7BF09DD3; // U16 Species ID of 1st PKM used in party
