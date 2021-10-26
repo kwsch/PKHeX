@@ -98,7 +98,7 @@ namespace PKHeX.WinForms
                 dgData.Rows[i].Height = height;
         }
 
-        private async void PromptSaveCSV(object sender, FormClosingEventArgs e)
+        private void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
                 return;
@@ -108,7 +108,12 @@ namespace PKHeX.WinForms
                 FileName = "Box Data Dump.csv",
             };
             if (savecsv.ShowDialog() == DialogResult.OK)
-                await Export_CSV(savecsv.FileName).ConfigureAwait(false);
+            {
+                Hide();
+                var path = savecsv.FileName;
+                var t = Task.Run(() => Export_CSV(path));
+                t.Wait(); // don't start disposing until the saving is complete
+            }
         }
 
         private async Task Export_CSV(string path)
