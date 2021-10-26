@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -228,6 +229,9 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Hide event variable names for that contain any of the comma-separated substrings below. Removes event values from the GUI that the user doesn't care to view.")]
         public string HideEvent8Contains { get; set; } = string.Empty;
+
+        [Browsable(false)]
+        public string[] GetExclusionList8() => HideEvent8Contains.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(z => z.Trim()).ToArray();
     }
 
     [Serializable]

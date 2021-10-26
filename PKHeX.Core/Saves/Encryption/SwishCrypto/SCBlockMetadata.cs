@@ -25,7 +25,8 @@ namespace PKHeX.Core
             BlockList = aType.GetAllPropertiesOfType<SaveBlock>(accessor);
             ValueList = aType.GetAllConstantsOfType<uint>();
             AddExtraKeyNames(ValueList, extraKeyNames);
-            ValueList = ValueList.Where(z => !exclusions.Any(z.Value.Contains)).ToDictionary(z => z.Key, z => z.Value);
+            if (exclusions.Length > 0)
+                ValueList = ValueList.Where(z => !exclusions.Any(z.Value.Contains)).ToDictionary(z => z.Key, z => z.Value);
             Accessor = accessor;
         }
 
