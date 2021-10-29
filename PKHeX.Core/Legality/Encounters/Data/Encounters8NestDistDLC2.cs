@@ -8,6 +8,33 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 570, Ability = A4, Moves = new[]{ 468, 247, 010, 043 }, Index = 89 }, // Zorua
+            new(17,01,1) { Species = 302, Ability = A4, Moves = new[]{ 252, 010, 425, 555 }, Index = 89 }, // Sableye
+            new(17,01,1) { Species = 355, Ability = A4, Moves = new[]{ 310, 425, 043, 506 }, Index = 89 }, // Duskull
+            new(17,01,1) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 043, 681 }, Index = 89 }, // Rookidee
+            new(17,01,1) { Species = 827, Ability = A4, Moves = new[]{ 555, 098, 251, 468 }, Index = 89 }, // Nickit
+            new(30,03,2) { Species = 571, Ability = A4, Moves = new[]{ 400, 247, 279, 304 }, Index = 89 }, // Zoroark
+            new(30,03,2) { Species = 302, Ability = A4, Moves = new[]{ 252, 094, 425, 555 }, Index = 89 }, // Sableye
+            new(30,03,2) { Species = 355, Ability = A4, Moves = new[]{ 310, 425, 371, 506 }, Index = 89 }, // Duskull
+            new(30,03,2) { Species = 822, Ability = A4, Moves = new[]{ 403, 263, 279, 681 }, Index = 89 }, // Corvisquire
+            new(30,03,2) { Species = 828, Ability = A4, Moves = new[]{ 555, 098, 251, 583 }, Index = 89 }, // Thievul
+            new(40,05,3) { Species = 571, Ability = A4, Moves = new[]{ 400, 247, 411, 304 }, Index = 89 }, // Zoroark
+            new(40,05,3) { Species = 302, Ability = A4, Moves = new[]{ 252, 261, 247, 555 }, Index = 89 }, // Sableye
+            new(40,05,3) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 371, 157 }, Index = 89 }, // Dusknoir
+            new(40,05,3) { Species = 823, Ability = A4, Moves = new[]{ 403, 442, 034, 681 }, Index = 89 }, // Corviknight
+            new(40,05,3) { Species = 828, Ability = A4, Moves = new[]{ 555, 098, 094, 583 }, Index = 89 }, // Thievul
+            new(50,08,4) { Species = 571, Ability = A4, Moves = new[]{ 539, 247, 411, 304 }, Index = 89 }, // Zoroark
+            new(50,08,4) { Species = 302, Ability = A4, Moves = new[]{ 605, 261, 247, 555 }, Index = 89 }, // Sableye
+            new(50,08,4) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 280, 157 }, Index = 89 }, // Dusknoir
+            new(50,08,4) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 034, 681 }, Index = 89 }, // Corviknight
+            new(50,08,4) { Species = 828, Ability = A4, Moves = new[]{ 555, 341, 094, 583 }, Index = 89 }, // Thievul
+            new(60,10,5) { Species = 571, Ability = A4, Moves = new[]{ 539, 247, 411, 492 }, Index = 89, Shiny = Shiny.Always }, // Zoroark
+            new(60,10,5) { Species = 571, Ability = A4, Moves = new[]{ 539, 247, 411, 492 }, Index = 89 }, // Zoroark
+            new(60,10,5) { Species = 302, Ability = A4, Moves = new[]{ 605, 261, 247, 492 }, Index = 89 }, // Sableye
+            new(60,10,5) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 280, 089 }, Index = 89 }, // Dusknoir
+            new(60,10,5) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 776, 372 }, Index = 89 }, // Corviknight
+            new(60,10,5) { Species = 828, Ability = A4, Moves = new[]{ 555, 492, 094, 583 }, Index = 89 }, // Thievul
+
             new(17,01,1) { Species = 722, Ability = A4, Moves = new[]{ 064, 075, 389, 129 }, Index = 87 }, // Rowlet
             new(17,01,1) { Species = 725, Ability = A4, Moves = new[]{ 052, 006, 044, 421 }, Index = 87 }, // Litten
             new(17,01,1) { Species = 728, Ability = A4, Moves = new[]{ 574, 001, 453, 196 }, Index = 87 }, // Popplio
