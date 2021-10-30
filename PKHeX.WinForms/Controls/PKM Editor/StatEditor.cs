@@ -274,8 +274,11 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             // Change IVs to match the new Hidden Power
+            var ivs = Entity.IVs;
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
-            int[] newIVs = HiddenPower.SetIVs(hpower, Entity.IVs, Entity.Format);
+            if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
+                ivs = ivs.Select(_ => Entity.MaxIV).ToArray();
+            int[] newIVs = HiddenPower.SetIVs(hpower, ivs, Entity.Format);
             LoadIVs(newIVs);
         }
 

@@ -31,6 +31,7 @@ namespace PKHeX.WinForms
         // GUI Specific
         public DrawConfig Draw { get; set; } = new();
         public AdvancedSettings Advanced { get; set; } = new();
+        public EntityEditorSettings EntityEditor { get; set; } = new();
         public EntityDatabaseSettings EntityDb { get; set; } = new();
         public EncounterDatabaseSettings EncounterDb { get; set; } = new();
         public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
@@ -258,6 +259,13 @@ namespace PKHeX.WinForms
         None,
         SpeciesForm,
         SlotIdentity,
+    }
+
+    [Serializable]
+    public class EntityEditorSettings
+    {
+        [LocalizedDescription("When changing the Hidden Power type, automatically maximize the IVs to ensure the highest Base Power result. Otherwise, keep the IVs as close as possible to the original.")]
+        public bool HiddenPowerOnChangeMaxPower { get; set; } = true;
     }
 
     [Serializable]
