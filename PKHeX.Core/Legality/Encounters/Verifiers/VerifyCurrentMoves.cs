@@ -165,11 +165,20 @@ namespace PKHeX.Core
                     if (count == 1)
                         return res;
 
-                    for (int m = 0; m < count; m++)
+                    // Reverse for loop and break instead of 0..count continue -- early-breaks for the vast majority of cases.
+                    // We already flag for empty interstitial moveslots.
+                    for (int m = count - 1; m >= 0; m--)
                     {
                         var move = source.CurrentMoves[m];
-                        if (move == 0)
-                            res[m] = new CheckMoveResult(None, pkm.Format, Invalid, LMoveSourceEmpty, CurrentMove);
+                        if (move != 0)
+                            break;
+
+                        // There are ways to skip level up moves by leveling up more than once.
+                        // https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_(Generation_I)#Level-up_learnset_skipping
+                        // Evolution canceling also leads to incorrect assumptions in the above used method, so just indicate them as fishy in that case.
+                        // Not leveled up? Not possible to be missing the move slot.
+                        var severity = enc.LevelMin == pkm.CurrentLevel ? Invalid : Fishy;
+                        res[m] = new CheckMoveResult(None, pkm.Format, severity, LMoveSourceEmpty, CurrentMove);
                     }
                 }
                 if (res.All(r => r.Valid))
