@@ -135,7 +135,7 @@ namespace PKHeX.WinForms
             C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 
             // ToolTips for Drag&Drop
-            dragTip.SetToolTip(dragout, "PKM QuickSave");
+            toolTip.SetToolTip(dragout, "PKM QuickSave");
 
             // Box to Tabs D&D
             dragout.AllowDrop = true;
@@ -1050,7 +1050,9 @@ namespace PKHeX.WinForms
             }
 
             PB_Legal.Visible = true;
-            PB_Legal.Image = SpriteUtil.GetLegalIndicator(sender as bool? != false);
+            bool isValid = sender as bool? != false;
+            PB_Legal.Image = SpriteUtil.GetLegalIndicator(isValid);
+            toolTip.SetToolTip(PB_Legal, isValid ? "Valid" : "Invalid: Click for more info");
         }
 
         private void PKME_Tabs_RequestShowdownExport(object sender, EventArgs e) => ClickShowdownExportPKM(sender, e);
