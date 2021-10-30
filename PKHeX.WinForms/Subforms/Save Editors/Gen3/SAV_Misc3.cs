@@ -399,7 +399,7 @@ namespace PKHeX.WinForms
 
                 var flagIndex = 0x860 + 0x64 + (i * 2);
                 SAV.SetEventFlag(flagIndex, silver);
-                SAV.SetEventFlag(flagIndex, gold);
+                SAV.SetEventFlag(flagIndex + 1, gold);
             }
             SAV.SetEventFlag(0x860 + 0x72, CHK_ActivatePass.Checked);
         }
