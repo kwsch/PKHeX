@@ -584,7 +584,8 @@ namespace PKHeX.WinForms
         private bool OpenGroup(IPokeGroup b)
         {
             bool result = C_SAV.OpenGroup(b, out string c);
-            WinFormsUtil.Alert(c);
+            if (!string.IsNullOrWhiteSpace(c))
+                WinFormsUtil.Alert(c);
             Debug.WriteLine(c);
             return result;
         }
