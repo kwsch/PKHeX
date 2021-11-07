@@ -63,6 +63,19 @@ namespace PKHeX.Drawing
             return bmp;
         }
 
+        public static Bitmap WritePixels(Image img, Color c, int start, int end)
+        {
+            var bmp = (Bitmap)img.Clone();
+            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+
+            Marshal.Copy(ptr, data, 0, data.Length);
+            ChangeAllTo(data, c, start, end);
+            Marshal.Copy(data, 0, ptr, data.Length);
+            bmp.UnlockBits(bmpData);
+
+            return bmp;
+        }
+
         public static Bitmap ToGrayscale(Image img)
         {
             var bmp = (Bitmap)img.Clone();
@@ -143,6 +156,21 @@ namespace PKHeX.Drawing
                 data[i + 1] = G;
                 data[i + 2] = R;
                 data[i + 3] = trans;
+            }
+        }
+
+        public static void ChangeAllTo(byte[] data, Color c, int start, int end)
+        {
+            byte R = c.R;
+            byte G = c.G;
+            byte B = c.B;
+            byte A = c.A;
+            for (int i = start; i < end; i += 4)
+            {
+                data[i + 3] = A;
+                data[i + 2] = R;
+                data[i + 1] = G;
+                data[i + 0] = B;
             }
         }
 

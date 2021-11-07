@@ -10,6 +10,7 @@ namespace PKHeX.Drawing
         public static bool ShowEncounterBall { get; set; } = true;
         public static SpriteBackgroundType ShowEncounterColor { get; set; } = SpriteBackgroundType.FullBackground;
         public static SpriteBackgroundType ShowEncounterColorPKM { get; set; }
+        public static bool ShowExperiencePercent { get; set; }
 
         public static byte ShowEncounterOpacityStripe { get; set; }
         public static byte ShowEncounterOpacityBackground { get; set; }
@@ -200,6 +201,7 @@ namespace PKHeX.Drawing
             ShowEncounterThicknessStripe = sprite.ShowEncounterThicknessStripe;
             ShowEncounterOpacityBackground = sprite.ShowEncounterOpacityBackground;
             ShowEncounterOpacityStripe = sprite.ShowEncounterOpacityStripe;
+            ShowExperiencePercent = sprite.ShowExperiencePercent;
         }
     }
 
@@ -220,6 +222,7 @@ namespace PKHeX.Drawing
         int ShowEncounterThicknessStripe { get; set; }
         byte ShowEncounterOpacityBackground { get; set; }
         byte ShowEncounterOpacityStripe { get; set; }
+        bool ShowExperiencePercent { get; set; }
     }
 
     /// <summary>

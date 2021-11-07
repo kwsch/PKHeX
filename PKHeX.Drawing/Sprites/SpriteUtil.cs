@@ -177,6 +177,9 @@ namespace PKHeX.Drawing
                     sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
             }
 
+            if (SpriteBuilder.ShowExperiencePercent)
+                sprite = ApplyExperience(pk, sprite);
+
             return sprite;
         }
 
@@ -195,6 +198,20 @@ namespace PKHeX.Drawing
                 byte opacity = SpriteBuilder.ShowEncounterOpacityBackground;
                 return ImageUtil.ChangeTransparentTo(img, color, opacity);
             }
+        }
+
+        private static Image ApplyExperience(PKM pk, Image img)
+        {
+            const int bpp = 4;
+            int start = bpp * SpriteWidth * (SpriteHeight - 1);
+            var level = pk.CurrentLevel;
+            if (level == 100)
+                return ImageUtil.WritePixels(img, Color.Lime, start, start + (SpriteWidth * bpp));
+
+            var pct = Experience.GetEXPToLevelUpPercentage(level, pk.EXP, pk.PersonalInfo.EXPGrowth);
+            if (pct is 0)
+                return ImageUtil.WritePixels(img, Color.Yellow, start, start + (SpriteWidth * bpp));
+            return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
         }
 
         private const int MaxSlotCount = 30; // slots in a box

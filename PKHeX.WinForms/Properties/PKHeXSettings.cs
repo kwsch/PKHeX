@@ -372,6 +372,9 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Opacity for the Encounter Type stripe layer.")]
         public byte ShowEncounterOpacityStripe { get; set; } = 0x5F; // 0xFF opaque
 
+        [LocalizedDescription("Show a thin stripe to indicate the percent of level-up progress")]
+        public bool ShowExperiencePercent { get; set; }
+
         [LocalizedDescription("Amount of pixels thick to show when displaying the encounter type color stripe.")]
         public int ShowEncounterThicknessStripe { get; set; } = 4; // pixels
     }
