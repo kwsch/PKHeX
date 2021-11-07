@@ -27,11 +27,18 @@ namespace PKHeX.Core
             {
                 var other = FileUtil.GetSupportedFile(path, SAV);
                 if (other is SaveFile s)
+                {
+                    s.Metadata.SetExtraInfo(path);
                     SAV = s;
+                }
                 else if (other is PKM pkm)
+                {
                     Entity = pkm;
+                }
                 else if (other is not null)
+                {
                     Extra.Add(other);
+                }
             }
         }
 

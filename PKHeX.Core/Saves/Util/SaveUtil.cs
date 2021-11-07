@@ -545,7 +545,10 @@ namespace PKHeX.Core
                 if (sav == null)
                     continue;
 
-                sav.Metadata.SetExtraInfo(split.Header, split.Footer);
+                var meta = sav.Metadata;
+                meta.SetExtraInfo(split.Header, split.Footer);
+                if (path is not null)
+                    meta.SetExtraInfo(path);
                 return sav;
             }
 #endif
