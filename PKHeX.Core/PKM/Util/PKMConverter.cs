@@ -231,6 +231,11 @@ namespace PKHeX.Core
             if (!AllowIncompatibleConversion || pkm != null)
                 return pkm;
 
+            if (pk is PK8 && destType == typeof(PB8))
+                return new PB8(pk.Data);
+            if (pk is PB8 && destType == typeof(PK8))
+                return new PK8(pk.Data);
+
             // Try Incompatible Conversion
             pkm = GetBlank(destType);
             pk.TransferPropertiesWithReflection(pkm);
