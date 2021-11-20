@@ -518,6 +518,10 @@ namespace PKHeX.Core
             if (pb8.Favorite)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
+            var affix = pb8.AffixedRibbon;
+            if (affix != -1) // None
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+
             var social = pb8.Sociability;
             if (social != 0)
                 data.AddLine(GetInvalid(LMemorySocialZero, Encounter));

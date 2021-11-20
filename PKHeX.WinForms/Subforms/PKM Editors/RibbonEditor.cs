@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
             PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
 
-            if (pk is PK8 pk8)
+            if (pk is G8PKM pk8)
             {
                 var names = Enum.GetNames(typeof(RibbonIndex));
                 var values = (RibbonIndex[])Enum.GetValues(typeof(RibbonIndex));

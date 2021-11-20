@@ -28,7 +28,12 @@ namespace PKHeX.Core
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
         public override PersonalInfo PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
 
-        public PB8() => Egg_Location = Met_Location = Locations.Default8bNone;
+        public PB8()
+        {
+            Egg_Location = Met_Location = Locations.Default8bNone;
+            AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+        }
+
         public PB8(byte[] data) : base(data) { }
         public override PKM Clone() => new PB8((byte[])Data.Clone());
 
