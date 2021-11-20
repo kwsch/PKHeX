@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = 다음 떠올리기 기술이 예상됩니다: {0} ({1})
 LMoveRelearnFMiss_0 = 떠올리기 기술이 없습니다: {0}
 LMoveRelearnInvalid = 떠올리기 기술이 예상과 다릅니다.
 LMoveRelearnNone = 슬롯에 떠올리기 기술이 없어야 할 것으로 예상됩니다.
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = 기본 기술입니다.
 LMoveSourceDuplicate = 중복되는 기술입니다.
 LMoveSourceEgg = 자력기입니다.

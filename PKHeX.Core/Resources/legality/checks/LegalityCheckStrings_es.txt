@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = Se esperaban los siguientes movimientos recordables: {0}
 LMoveRelearnFMiss_0 = Faltan movimientos recordables: {0}
 LMoveRelearnInvalid = No es un Movimiento Recordable.
 LMoveRelearnNone = No se esperaba un Movimiento Recordable en esta casilla.
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = Movimiento por Defecto.
 LMoveSourceDuplicate = Movimiento duplicado.
 LMoveSourceEgg = Movimiento Huevo.

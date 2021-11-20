@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = Expected the following Relearn Moves: {0} ({1})
 LMoveRelearnFMiss_0 = Relearn Moves missing: {0}
 LMoveRelearnInvalid = Not an expected Relearnable move.
 LMoveRelearnNone = Expected no Relearn Move in slot.
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = Default move.
 LMoveSourceDuplicate = Duplicate Move.
 LMoveSourceEgg = Egg Move.
