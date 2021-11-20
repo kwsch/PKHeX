@@ -59,11 +59,8 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form && slot.Species is not ((int)Species.Furfrou or (int)Species.Oricorio))
-                    {
-                        if (!slot.IsRandomUnspecificForm) // Minior, etc
-                            break;
-                    }
+                    if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
+                        break;
 
                     yield return slot;
                     break;
