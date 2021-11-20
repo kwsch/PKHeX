@@ -54,6 +54,7 @@ namespace PKHeX.Core
             SAV7 sav7 => GetExtraSlots7(sav7, all),
             SAV7b lgpe => GetExtraSlots7b(lgpe),
             SAV8SWSH ss => GetExtraSlots8(ss),
+            SAV8BS bs => GetExtraSlots8b(bs),
             _ => None,
         };
 
@@ -200,6 +201,21 @@ namespace PKHeX.Core
             }
 
             return list;
+        }
+
+        private static List<SlotInfoMisc> GetExtraSlots8b(SAV8BS sav)
+        {
+            return new()
+            {
+                new SlotInfoMisc(sav.Data, 0, 0x96080, true) { Type = StorageSlotType.Daycare },
+                new SlotInfoMisc(sav.Data, 1, 0x96080 + PokeCrypto.SIZE_8PARTY, true) { Type = StorageSlotType.Daycare },
+
+                new SlotInfoMisc(sav.Data, 0, 0x9A8E8 + (0 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 1, 0x9A8E8 + (1 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 2, 0x9A8E8 + (2 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 3, 0x9A8E8 + (3 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 4, 0x9A8E8 + (4 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+            };
         }
     }
 }

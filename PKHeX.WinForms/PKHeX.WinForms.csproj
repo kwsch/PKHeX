@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net46;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>PKHeX</PackageId>
     <Company>Project Pokémon</Company>
@@ -12,7 +12,7 @@
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
     <AssemblyName>PKHeX</AssemblyName>
-    <Version>21.10.01</Version>
+    <Version>21.11.19</Version>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>

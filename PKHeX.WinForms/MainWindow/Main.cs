@@ -740,23 +740,20 @@ namespace PKHeX.WinForms
             C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(sav, PKME_Tabs));
 
             var pk = sav.LoadTemplate(TemplatePath);
-            var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
-            if (isBlank)
-                EntityTemplates.TemplateFields(pk, sav);
-            bool init = PKME_Tabs.IsInitialized;
             PKME_Tabs.CurrentPKM = pk;
+
+            bool init = PKME_Tabs.IsInitialized;
             if (!init)
             {
                 PKME_Tabs.InitializeBinding();
-                PKME_Tabs.IsInitialized = true;
-                PKME_Tabs.SetPKMFormatMode(sav.Generation, pk);
-                PKME_Tabs.ChangeLanguage(sav, pk); // populates fields
+                PKME_Tabs.SetPKMFormatMode(pk);
+                PKME_Tabs.ChangeLanguage(sav, pk);
             }
             else
             {
-                PKME_Tabs.SetPKMFormatMode(sav.Generation, pk);
-                PKME_Tabs.PopulateFields(pk);
+                PKME_Tabs.SetPKMFormatMode(pk);
             }
+            PKME_Tabs.PopulateFields(pk);
 
             // Initialize Overall Info
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = C_SAV.SAV.HasBox;
@@ -900,6 +897,7 @@ namespace PKHeX.WinForms
                 var pk = PKME_Tabs.CurrentPKM.Clone();
 
                 PKME_Tabs.ChangeLanguage(sav, pk);
+                PKME_Tabs.PopulateFields(pk); // put data back in form
                 Text = GetProgramTitle(sav);
             }
         }

@@ -183,6 +183,12 @@ namespace PKHeX.Core
         /// <remarks>Formulaic based on PID &amp; EC values from a 32bit-seed.</remarks>
         Overworld8,
 
+        /// <summary>
+        /// Generation 8b Roaming Pokemon PID
+        /// </summary>
+        /// <remarks>Formulaic based on EC value = 32bit-seed.</remarks>
+        Roaming8b,
+
         #endregion
     }
 

@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
             switch (pkm)
             {
-                case PK7 {ResortEventStatus: >= 20}:
+                case PK7 {ResortEventStatus: >= ResortEventState.MAX}:
                     data.AddLine(GetInvalid(LTransferBad));
                     break;
                 case PB7 pb7:
@@ -57,6 +57,9 @@ namespace PKHeX.Core
                     break;
                 case PK8 pk8:
                     VerifySWSHStats(data, pk8);
+                    break;
+                case PB8 pb8:
+                    VerifyBDSPStats(data, pb8);
                     break;
             }
 
@@ -84,6 +87,23 @@ namespace PKHeX.Core
                 {
                     OverworldCorrelation8Requirement.MustHave => match,
                     OverworldCorrelation8Requirement.MustNotHave => !match,
+                    _ => true,
+                };
+
+                if (!valid)
+                    data.AddLine(GetInvalid(LPIDTypeMismatch));
+            }
+            else if (enc is IStaticCorrelation8b s8b)
+            {
+                var match = s8b.IsStaticCorrelationCorrect(pkm);
+                var req = s8b.GetRequirement(pkm);
+                if (match)
+                    data.Info.PIDIV = new PIDIV(PIDType.Roaming8b, pkm.EncryptionConstant);
+
+                bool valid = req switch
+                {
+                    StaticCorrelation8bRequirement.MustHave => match,
+                    StaticCorrelation8bRequirement.MustNotHave => !match,
                     _ => true,
                 };
 
@@ -255,7 +275,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(msg, Egg));
             }
 
-            if (pkm is PK8 pk8)
+            if (pkm is G8PKM pk8)
             {
                 if (pk8.HasAnyMoveRecordFlag())
                     data.AddLine(GetInvalid(LEggRelearnFlags, Egg));
@@ -309,7 +329,8 @@ namespace PKHeX.Core
             {
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
-                case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
+                case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version):
+                case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version):
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && pkm.Language != wc6.RestrictLanguage:
@@ -443,13 +464,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMemorySocialTooHigh_0, byte.MaxValue), Encounter));
             }
 
-            var sn = pk8.StatNature;
-            if (sn != pk8.Nature)
-            {
-                // Only allow Serious nature (12); disallow all other neutral natures.
-                if (sn != 12 && (sn > 24 || sn % 6 == 0))
-                    data.AddLine(GetInvalid(LStatNatureInvalid));
-            }
+            VerifyStatNature(data, pk8);
 
             var bv = pk8.BattleVersion;
             if (bv != 0)
@@ -495,7 +510,44 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
             }
 
-            // weight/height scalars can be legally 0 (1:65536) so don't bother checking
+            // weight/height scalars can be legally 0 so don't bother checking
+        }
+
+        private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
+        {
+            if (pb8.Favorite)
+                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
+
+            var social = pb8.Sociability;
+            if (social != 0)
+                data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+
+            VerifyStatNature(data, pb8);
+
+            var bv = pb8.BattleVersion;
+            if (bv != 0)
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+
+            if (pb8.CanGigantamax)
+                GetInvalid(LStatGigantamaxInvalid);
+
+            if (pb8.DynamaxLevel != 0)
+                data.AddLine(GetInvalid(LStatDynamaxInvalid));
+
+            if (pb8.HasAnyMoveRecordFlag() && !pb8.IsEgg) // already checked for eggs
+                data.AddLine(GetInvalid(LEggRelearnFlags));
+
+            // weight/height scalars can be legally 0 so don't bother checking
+        }
+
+        private void VerifyStatNature(LegalityAnalysis data, PKM pk)
+        {
+            var sn = pk.StatNature;
+            if (sn == pk.Nature)
+                return;
+            // Only allow Serious nature (12); disallow all other neutral natures.
+            if (sn != 12 && (sn > 24 || sn % 6 == 0))
+                data.AddLine(GetInvalid(LStatNatureInvalid));
         }
 
         private static bool CanLearnTR(int species, int form, int tr)

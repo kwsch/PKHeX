@@ -50,14 +50,15 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
         {
-            return GetSuggestedEncounterEggLocationEgg(pkm.Generation, traded);
+            return GetSuggestedEncounterEggLocationEgg(pkm.Generation, (GameVersion)pkm.Version, traded);
         }
 
-        public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false) => generation switch
+        public static int GetSuggestedEncounterEggLocationEgg(int generation, GameVersion version, bool traded = false) => generation switch
         {
             1 or 2 or 3 => 0,
             4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
             5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
+            8 when BDSP.Contains(version)=> traded ? Locations.LinkTrade6NPC : Locations.Daycare8b,
             _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
         };
 
@@ -100,6 +101,7 @@ namespace PKHeX.Core
             GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
 
             SW or SH => Locations.HatchLocation8,
+            BD or SP => Locations.HatchLocation8b,
             _ => -1,
         };
 

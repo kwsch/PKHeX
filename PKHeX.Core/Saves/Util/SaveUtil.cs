@@ -14,6 +14,9 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
+        public const int SIZE_G8BDSP = 0xE9828;
+        public const int SIZE_G8BDSP_1 = 0xEDC20;
+
         public const int SIZE_G8SWSH = 0x1716B3; // 1.0
         public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
         public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
@@ -93,6 +96,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
         {
+            SIZE_G8BDSP,
             // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
@@ -153,6 +157,8 @@ namespace PKHeX.Core
                 return StadiumJ;
 
             if ((ver = GetIsG8SAV(data)) != Invalid)
+                return ver;
+            if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
                 return ver;
 
             return Invalid;
@@ -489,6 +495,14 @@ namespace PKHeX.Core
             return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
         }
 
+        private static GameVersion GetIsG8SAV_BDSP(byte[] data)
+        {
+            if (data.Length is not SIZE_G8BDSP && data.Length is not SIZE_G8BDSP_1)
+                return Invalid;
+
+            return BDSP;
+        }
+
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
         private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
@@ -586,6 +600,7 @@ namespace PKHeX.Core
                 GG => new SAV7b(data),
 
                 SWSH => new SAV8SWSH(data),
+                BDSP => new SAV8BS(data),
 
                 // Side Games
                 COLO => new SAV3Colosseum(data),
@@ -730,6 +745,7 @@ namespace PKHeX.Core
             GP or GE or GG or GO => new SAV7b(),
 
             SW or SH or SWSH => new SAV8SWSH(),
+            BD or SP or BDSP => new SAV8BS(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(game)),
         };

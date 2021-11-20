@@ -109,7 +109,7 @@ namespace PKHeX.Core
         public byte CNT_Smart  { get => Data[0x27]; set => Data[0x27] = value; }
         public byte CNT_Tough  { get => Data[0x28]; set => Data[0x28] = value; }
         public byte CNT_Sheen  { get => Data[0x29]; set => Data[0x29] = value; }
-        public byte ResortEventStatus { get => Data[0x2A]; set => Data[0x2A] = value; }
+        public ResortEventState ResortEventStatus { get => (ResortEventState)Data[0x2A]; set => Data[0x2A] = (byte)value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
@@ -655,5 +655,30 @@ namespace PKHeX.Core
 
             return pk8; // Done!
         }
+    }
+
+    public enum ResortEventState : byte
+    {
+        NONE = 0,
+        SEIKAKU = 1,
+        CARE = 2,
+        LIKE_RESORT = 3,
+        LIKE_BATTLE = 4,
+        LIKE_ADV = 5,
+        GOOD_FRIEND = 6,
+        GIM = 7,
+        HOTSPA = 8,
+        WILD = 9,
+        WILD_LOVE = 10,
+        WILD_LIVE = 11,
+        POKEMAME_GET1 = 12,
+        POKEMAME_GET2 = 13,
+        POKEMAME_GET3 = 14,
+        KINOMI_HELP = 15,
+        PLAY_STATE = 16,
+        HOTSPA_STATE = 17,
+        HOTSPA_DIZZY = 18,
+        HOTSPA_EGG_HATCHING = 19,
+        MAX = 20,
     }
 }

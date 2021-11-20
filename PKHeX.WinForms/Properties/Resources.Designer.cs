@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Resources.NeutralResourcesLanguage("en")]
 namespace PKHeX.WinForms.Properties {
     using System;
     
@@ -215,15 +214,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///20/04/14 - New Update:
+        ///21/10/01 - New Update:
         /// - Legality:
-        /// - - Added: Latest raid news data.
-        /// - - Fixed: HOME gifts now recognized.
-        /// - - Fixed: Antishiny Colosseum/XD spreads are recognized better for various gifts.
-        /// - - Fixed: Some unavailable evolution cases are now recognized correctly.
-        /// - - Fixed: Silvally Pixie Plate is now recognized correctly.
-        /// - - Fixed: Gen8 Raid downleveling thresholds are now recognized correctly.
-        /// - - Fixed: Gen8 Link trade eggs are no [rest of string was truncated]&quot;;.
+        /// - - Added: Gen8 memory checks for unobtainable values. Thanks @Lusamine, @skadiv!
+        /// - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.
+        /// - - Changed: Gen1 Tradeback handling reworked for less overhead.
+        /// - - Fixed more met locations for XD shadow encounters. Thanks @LegoFigure11!
+        /// - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -424,6 +421,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap gen_bs {
+            get {
+                object obj = ResourceManager.GetObject("gen_bs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap gen_gg {
             get {
                 object obj = ResourceManager.GetObject("gen_gg", resourceCulture);
@@ -522,26 +529,25 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to About=About
+        ///   Looks up a localized string similar to About=Über
         ///BatchEditor=Batch Editor
-        ///ErrorWindow=Error
-        ///KChart=KChart
+        ///ErrorWindow=Fehler
+        ///KChart=KTabelle
         ///Main=PKHeX
-        ///MemoryAmie=Memory / Amie Editor
-        ///RibbonEditor=Ribbon Editor
-        ///SAV_Apricorn=Apricorn Editor
-        ///SAV_BerryField=Berry Field Viewer
-        ///SAV_BlockDump8=Savedata Block Dump
+        ///MemoryAmie=Erinnerung / Ami Editor
+        ///RibbonEditor=Band Editor
+        ///SAV_Apricorn=Aprikoko Editor
+        ///SAV_BerryField=Beerenfeld Ansicht
+        ///SAV_BlockDump8=Spielstand Block Dump
         ///SAV_BoxLayout=Box Layout Editor
-        ///SAV_BoxList=Storage Viewer
+        ///SAV_BoxList=PC Ansicht
+        ///SAV_Capture7GG=Fang Statistik Editor
         ///SAV_CGearSkin=C-Gear Skin
-        ///SAV_Database=Database
-        ///SAV_Encounters=Database
+        ///SAV_Database=Datenbank
+        ///SAV_Encounters=Datenbank
         ///SAV_EventFlags=Event Flag Editor
         ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Flag Editor
-        ///SAV_FolderList=Folder List
-        ///SA [rest of string was truncated]&quot;;.
+        ///SAV_EventWork=Event Fl [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_de {
             get {
@@ -562,14 +568,13 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=Savedata Block Dump
         ///SAV_BoxLayout=Box Layout Editor
         ///SAV_BoxList=Storage Viewer
+        ///SAV_Capture7GG=Capture Record Editor
         ///SAV_CGearSkin=C-Gear Skin
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_EventFlags=Event Flag Editor
         ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Flag Editor
-        ///SAV_FolderList=Folder List
-        ///SA [rest of string was truncated]&quot;;.
+        ///SAV_EventWork=Event Flag  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_en {
             get {
@@ -590,11 +595,11 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=Respaldo de bloques
         ///SAV_BoxLayout=Editor de fondos de Cajas
         ///SAV_BoxList=Visor de Almacenamiento
+        ///SAV_Capture7GG=Capture Record Editor
         ///SAV_CGearSkin=Editor de la apariencia C-Gear
         ///SAV_Database=Base de Datos
         ///SAV_Encounters=Base de Datos
-        ///SAV_EventFlags=Editor de marca de eventos
-        ///SAV_Event [rest of string was truncated]&quot;;.
+        ///SAV_EventFlags [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_es {
             get {
@@ -604,7 +609,7 @@ namespace PKHeX.WinForms.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to About=À propos
-        ///BatchEditor=Batch Editor
+        ///BatchEditor=Éditeur Batch
         ///ErrorWindow=Erreur
         ///KChart=KChart
         ///Main=PKHeX
@@ -612,16 +617,15 @@ namespace PKHeX.WinForms.Properties {
         ///RibbonEditor=Rubans
         ///SAV_Apricorn=Noigrumes
         ///SAV_BerryField=Champs de Baies
-        ///SAV_BlockDump8=Savedata Block Dump
+        ///SAV_BlockDump8=Sauvegarde des blocs de données
         ///SAV_BoxLayout=Fonds de Boîtes
-        ///SAV_BoxList=Storage Viewer
+        ///SAV_BoxList=Visualiseur de stockage
+        ///SAV_Capture7GG=Capture Éditeur d&apos;enregistrement
         ///SAV_CGearSkin=Fonds C-Gear
         ///SAV_Database=Base de Données
-        ///SAV_Encounters=Database
+        ///SAV_Encounters=Base de données
         ///SAV_EventFlags=Événements dans le Jeu
-        ///SAV_EventReset1=Réinitialisateur d&apos;événements
-        ///SAV_EventWork=Event Flag Editor
-        ///SAV_FolderList=L [rest of string was truncated]&quot;;.
+        ///SAV_EventReset1=Ré [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_fr {
             get {
@@ -642,14 +646,13 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=Savedata Block Dump
         ///SAV_BoxLayout=Box Layout Editor
         ///SAV_BoxList=Storage Viewer
+        ///SAV_Capture7GG=Capture Record Editor
         ///SAV_CGearSkin=C-Gear Skin
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_EventFlags=Event Flag Editor
         ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Flag Editor
-        ///SAV_FolderList=Folder List
-        ///SA [rest of string was truncated]&quot;;.
+        ///SAV_EventWork=Event Flag  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_it {
             get {
@@ -670,6 +673,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=Savedata Block Dump
         ///SAV_BoxLayout=ボックスレイアウト
         ///SAV_BoxList=ボックスリスト
+        ///SAV_Capture7GG=Capture Record Editor
         ///SAV_CGearSkin=Cギア スキン
         ///SAV_Database=データベース
         ///SAV_Encounters=Database
@@ -679,8 +683,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_FolderList=フォルダリスト
         ///SAV_GameSelect=ゲームバーション
         ///SAV_HallOfFame=殿堂入りデータ
-        ///SAV_HallOfFame7=殿堂入りデータ参照
-        ///SAV_HoneyTree=あまいかおりのする [rest of string was truncated]&quot;;.
+        ///SAV_HallOfFa [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ja {
             get {
@@ -701,6 +704,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=세이브 데이터 블록 덤프
         ///SAV_BoxLayout=박스 레이아웃 편집 도구
         ///SAV_BoxList=소지 공간 뷰어
+        ///SAV_Capture7GG=Capture Record Editor
         ///SAV_CGearSkin=C기어 스킨
         ///SAV_Database=데이터베이스
         ///SAV_Encounters=데이터베이스
@@ -709,9 +713,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventWork=이벤트 플래그 편집 도구
         ///SAV_FolderList=폴더 목록
         ///SAV_GameSelect=게임 선택
-        ///SAV_HallOfFame=전당등록 편집 도구
-        ///SAV_HallOfFame7=전당등록 편집 도구
-        ///SAV_ [rest of string was truncated]&quot;;.
+        ///SAV_HallOfFame=전당등록 편 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ko {
             get {
@@ -732,6 +734,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=存档转储
         ///SAV_BoxLayout=盒子外观
         ///SAV_BoxList=寄放系统
+        ///SAV_Capture7GG=捕获记录编辑
         ///SAV_CGearSkin=C装置皮肤
         ///SAV_Database=数据库
         ///SAV_Encounters=数据库
@@ -745,8 +748,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_HoneyTree=甜甜蜜树编辑
         ///SAV_Inventory=物品栏
         ///SAV_Link6=宝可梦连接工具
-        ///SAV_MailBox=邮箱编辑
-        ///SAV_Misc3=训练家数据编辑 [rest of string was truncated]&quot;;.
+        ///SAV_MailBox= [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_zh {
             get {

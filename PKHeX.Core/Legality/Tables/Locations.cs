@@ -11,6 +11,7 @@
 
         public const int Daycare4 = 2000;
         public const int Daycare5 = 60002;
+        public const int Daycare8b = 60010;
 
         public const int LinkTrade2NPC = 126;
         public const int LinkTrade3NPC = 254;
@@ -55,6 +56,9 @@
         /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
         public const int HatchLocation8 = 40;
 
+        /// <summary> Solaceon Town in <see cref="GameVersion.BDSP"/> </summary>
+        public const int HatchLocation8b = 446;
+
         /// <summary> Generation 1 -> Generation 7 Transfer Location (Kanto) </summary>
         public const int Transfer1 = 30013;
 
@@ -96,6 +100,11 @@
 
         public const int BugCatchingContest4 = 207;
 
+        /// <summary>
+        /// -1
+        /// </summary>
+        public const int Default8bNone = -1;
+
         public static int TradedEggLocationNPC(int generation) => generation switch
         {
             1 => LinkTrade2NPC,
@@ -106,10 +115,11 @@
             _ => LinkTrade6NPC,
         };
 
-        public static int TradedEggLocation(int generation) => generation switch
+        public static int TradedEggLocation(int generation, GameVersion ver) => generation switch
         {
             4 => LinkTrade4,
             5 => LinkTrade5,
+            8 when GameVersion.BDSP.Contains(ver) => LinkTrade6NPC,
             _ => LinkTrade6,
         };
 
@@ -134,5 +144,14 @@
 
         public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
         public static bool IsEggLocationBred6(int loc) => loc is Daycare5 or LinkTrade6;
+        public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
+
+        public static bool IsNoneLocation(GameVersion ver, int location) => GetNoneLocation(ver) == (short)location;
+
+        public static int GetNoneLocation(GameVersion ver) => ver switch
+        {
+            GameVersion.BD or GameVersion.SP => Default8bNone,
+            _ => 0,
+        };
     }
 }

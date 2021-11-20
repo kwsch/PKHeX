@@ -238,21 +238,18 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc4(PKM pk)
         {
             CAL_MetDate.Value = pk.MetDate ?? new DateTime(2000, 1, 1);
-            if (pk.Egg_Location == 0)
+            if (Locations.IsNoneLocation((GameVersion)pk.Version, pk.Egg_Location))
             {
                 CHK_AsEgg.Checked = GB_EggConditions.Enabled = false;
-
-                CB_EggLocation.SelectedValue = 0;
                 CAL_EggDate.Value = new DateTime(2000, 01, 01);
             }
             else
             {
                 // Was obtained initially as an egg.
                 CHK_AsEgg.Checked = GB_EggConditions.Enabled = true;
-
-                CB_EggLocation.SelectedValue = pk.Egg_Location;
                 CAL_EggDate.Value = pk.EggMetDate ?? new DateTime(2000, 1, 1);
             }
+            CB_EggLocation.SelectedValue = pk.Egg_Location;
         }
 
         private void SaveMisc4(PKM pk)
@@ -261,7 +258,7 @@ namespace PKHeX.WinForms.Controls
 
             // Default Dates
             DateTime? egg_date = null;
-            int egg_location = 0;
+            int egg_location = Locations.GetNoneLocation((GameVersion)pk.Version);
             if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
             {
                 egg_date = CAL_EggDate.Value;
@@ -270,7 +267,7 @@ namespace PKHeX.WinForms.Controls
             // Egg Met Data
             pk.EggMetDate = egg_date;
             pk.Egg_Location = egg_location;
-            if (pk.IsEgg && pk.Met_Location == 0) // If still an egg, it has no hatch location/date. Zero it!
+            if (pk.IsEgg && Locations.IsNoneLocation((GameVersion)pk.Version, pk.Met_Location)) // If still an egg, it has no hatch location/date. Zero it!
                 pk.MetDate = null;
 
             pk.Ability = WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
@@ -393,6 +390,25 @@ namespace PKHeX.WinForms.Controls
         }
 
         private void SaveMisc8(PK8 pk8)
+        {
+            pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+            pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
+            pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
+            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+        }
+
+        private void LoadMisc8(PB8 pk8)
+        {
+            CB_StatNature.SelectedValue = pk8.StatNature;
+            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
+            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
+            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
+        }
+
+        private void SaveMisc8(PB8 pk8)
         {
             pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
             pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);

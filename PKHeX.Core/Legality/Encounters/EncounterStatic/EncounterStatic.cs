@@ -132,7 +132,7 @@ namespace PKHeX.Core
             if (Generation >= 4)
             {
                 bool traded = (int)Version == tr.Game;
-                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Generation, traded);
+                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Generation, Version, traded);
                 pk.EggMetDate = today;
             }
             pk.Egg_Location = EggLocation;

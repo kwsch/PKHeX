@@ -199,6 +199,7 @@ namespace PKHeX.Core
         };
 
         internal const string ExtensionPB7 = "pb7";
+        internal const string ExtensionPB8 = "pb8";
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -221,6 +222,8 @@ namespace PKHeX.Core
                 result.Add("bk4"); // battle revolution
             if (maxGeneration >= 7)
                 result.Add(ExtensionPB7); // let's go
+            if (maxGeneration >= 8)
+                result.Add(ExtensionPB8); // Brilliant Diamond & Shining Pearl
 
             return result.ToArray();
         }

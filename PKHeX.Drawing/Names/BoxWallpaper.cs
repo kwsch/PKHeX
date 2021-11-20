@@ -29,6 +29,7 @@ namespace PKHeX.Drawing
             5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
             6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
             7 when !GG.Contains(version) => "xy",
+            8 when BDSP.Contains(version) => "bdsp",
             8 => "swsh",
             _ => string.Empty,
         };
@@ -73,6 +74,16 @@ namespace PKHeX.Drawing
                         5 => true, // Volcano
                         12 => true, // PokéCenter
                         20 => true, // Special5 Flare/Magma
+                        _ => false,
+                    };
+                case 8 when BDSP.Contains(version):
+                    return wallpaperID switch
+                    {
+                        6 => true, // Volcano
+                        15 => true, // Checks
+                        21 => true, // Trio
+                        29 => true, // Nostalgic (Platinum)
+                        30 => true, // Legend (Platinum)
                         _ => false,
                     };
                 case 8:

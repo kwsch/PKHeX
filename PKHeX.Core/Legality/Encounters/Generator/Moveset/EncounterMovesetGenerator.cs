@@ -145,7 +145,7 @@ namespace PKHeX.Core
             var format = pk.Format;
             if (format is 2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
                 format = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
-            var et = EvolutionTree.GetEvolutionTree(format);
+            var et = EvolutionTree.GetEvolutionTree(pk, format);
             var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, chain);
 
@@ -406,6 +406,8 @@ namespace PKHeX.Core
                 if (slot is IMoveset m && !needs.Except(m.Moves).Any())
                     yield return slot;
                 else if (needs.Count == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
+                    yield return slot;
+                else if (needs.Count == 1 && slot is EncounterSlot8b {IsUnderground: true} ug && ug.CanBeUndergroundMove(needs[0]))
                     yield return slot;
                 else if (slot.Generation <= 2 && !needs.Except(MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)).Any())
                     yield return slot;

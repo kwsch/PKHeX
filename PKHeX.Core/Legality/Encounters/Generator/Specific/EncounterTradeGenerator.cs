@@ -95,6 +95,7 @@ namespace PKHeX.Core
             US or UM => Encounters7.TradeGift_USUM,
             GP or GE => Encounters7b.TradeGift_GG,
             SW or SH => Encounters8.TradeGift_SWSH,
+            BD or SP => Encounters8b.TradeGift_BDSP,
             _ => Array.Empty<EncounterTrade>(),
         };
     }

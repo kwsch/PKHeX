@@ -354,6 +354,7 @@ namespace PKHeX.Core
         public static string LMoveSourceSharedF { get; set; } = "Shared Non-Relearn Move in Generation {0}.";
 
         public static string LMoveRelearnDexNav { get; set; } = "Not an expected DexNav move.";
+        public static string LMoveRelearnUnderground { get; set; } = "Not an expected Underground egg move.";
         public static string LMoveRelearnEgg { get; set; } = "Base Egg move.";
         public static string LMoveRelearnEggMissing { get; set; } = "Base Egg move missing.";
         public static string LMoveRelearnFExpect_0 { get; set; } = "Expected the following Relearn Moves: {0} ({1}";

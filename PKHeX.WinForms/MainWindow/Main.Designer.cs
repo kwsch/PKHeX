@@ -411,7 +411,6 @@
             this.PKME_Tabs.Data = null;
             this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PKME_Tabs.HaX = false;
-            this.PKME_Tabs.IsInitialized = false;
             this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
             this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
             this.PKME_Tabs.Name = "PKME_Tabs";

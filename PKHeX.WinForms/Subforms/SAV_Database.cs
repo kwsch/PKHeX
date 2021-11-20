@@ -365,8 +365,12 @@ namespace PKHeX.WinForms
 
             if (Main.Settings.EntityDb.FilterUnavailableSpecies)
             {
+                static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8;//|| ((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
                 if (SAV is SAV8SWSH)
-                    result.RemoveAll(z => !(z.Entity is PK8 || ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(z.Entity.Species, z.Entity.Form)).IsPresentInGame));
+                    result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
+                else if (SAV is SAV8BS)
+                    result.RemoveAll(z => !IsPresentInGameBDSP(z.Entity));
             }
 
             var sort = Main.Settings.EntityDb.InitialSortMode;

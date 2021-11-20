@@ -13,6 +13,7 @@ using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
+using static PKHeX.Core.Encounters8b;
 using static PKHeX.Core.EncountersGO;
 
 using static PKHeX.Core.GameVersion;
@@ -43,7 +44,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
-            if (pkm.Egg_Location != 0 || pkm.IsEgg)
+            if (!Locations.IsNoneLocation(gameSource, pkm.Egg_Location) || pkm.IsEgg)
                 yield break;
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
@@ -150,6 +151,8 @@ namespace PKHeX.Core
             GO => GetEncounterTableGO(pkm),
             SW => SlotsSW,
             SH => SlotsSH,
+            BD => SlotsBD,
+            SP => SlotsSP,
             _ => Array.Empty<EncounterArea>(),
         };
 

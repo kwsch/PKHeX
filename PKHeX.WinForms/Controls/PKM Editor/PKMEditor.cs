@@ -14,7 +14,7 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed partial class PKMEditor : UserControl, IMainEditor
     {
-        public bool IsInitialized { get; set; }
+        public bool IsInitialized { get; private set; }
 
         public PKMEditor()
         {
@@ -49,7 +49,7 @@ namespace PKHeX.WinForms.Controls
                 new(new[] {CB_HeldItem}, pk => pk.Format >= 2, Criteria),
                 new(new[] {CB_Ability, CB_Nature, CB_MetLocation, CB_Ball}, pk => pk.Format >= 3, Criteria),
                 new(new[] {CB_EggLocation}, pk => pk.Format >= 4, Criteria),
-                new(new [] {CB_Country, CB_SubRegion}, pk => pk is PK6 or PK7, Criteria),
+                new(new[] {CB_Country, CB_SubRegion}, pk => pk is PK6 or PK7, Criteria),
                 new(Relearn, pk => pk.Format >= 6, Criteria),
                 new(new[] {CB_StatNature}, pk => pk.Format >= 8, Criteria),
             };
@@ -97,6 +97,8 @@ namespace PKHeX.WinForms.Controls
             };
             foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
                 cb.InitializeBinding();
+
+            IsInitialized = true;
         }
 
         private void UpdateStats()
@@ -234,57 +236,27 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public void SetPKMFormatMode(int Format, PKM pk)
+        public void SetPKMFormatMode(PKM pk)
         {
             // Load Extra Byte List
             SetPKMFormatExtraBytes(pk);
-
-            switch (Format)
-            {
-                case 1:
-                    GetFieldsfromPKM = PopulateFieldsPK1;
-                    GetPKMfromFields = PreparePK1;
-                    break;
-                case 2:
-                    GetFieldsfromPKM = PopulateFieldsPK2;
-                    GetPKMfromFields = PreparePK2;
-                    break;
-                case 3:
-                    GetFieldsfromPKM = PopulateFieldsPK3;
-                    GetPKMfromFields = PreparePK3;
-                    break;
-                case 4:
-                    GetFieldsfromPKM = PopulateFieldsPK4;
-                    GetPKMfromFields = PreparePK4;
-                    break;
-                case 5:
-                    GetFieldsfromPKM = PopulateFieldsPK5;
-                    GetPKMfromFields = PreparePK5;
-                    break;
-                case 6:
-                    GetFieldsfromPKM = PopulateFieldsPK6;
-                    GetPKMfromFields = PreparePK6;
-                    break;
-                case 7:
-                    switch (pk)
-                    {
-                        case PK7:
-                            GetFieldsfromPKM = PopulateFieldsPK7;
-                            GetPKMfromFields = PreparePK7;
-                            break;
-
-                        case PB7:
-                            GetFieldsfromPKM = PopulateFieldsPB7;
-                            GetPKMfromFields = PreparePB7;
-                            break;
-                    }
-                    break;
-                case 8:
-                    GetFieldsfromPKM = PopulateFieldsPK8;
-                    GetPKMfromFields = PreparePK8;
-                    break;
-            }
+            (GetFieldsfromPKM, GetPKMfromFields) = GetLoadSet(pk);
         }
+
+        private (Action, Func<PKM>) GetLoadSet(PKM pk) => pk.Format switch
+        {
+            1 => (PopulateFieldsPK1, PreparePK1),
+            2 => (PopulateFieldsPK2, PreparePK2),
+            3 => (PopulateFieldsPK3, PreparePK3),
+            4 => (PopulateFieldsPK4, PreparePK4),
+            5 => (PopulateFieldsPK5, PreparePK5),
+            6 => (PopulateFieldsPK6, PreparePK6),
+            7 when pk is PK7 => (PopulateFieldsPK7, PreparePK7),
+            7 when pk is PB7 => (PopulateFieldsPB7, PreparePB7),
+            8 when pk is PK8 => (PopulateFieldsPK8, PreparePK8),
+            8 when pk is PB8 => (PopulateFieldsPB8, PreparePB8),
+            _ => throw new FormatException($"Unrecognized Type: {pk.GetType()}"),
+        };
 
         private void SetPKMFormatExtraBytes(PKM pk)
         {
@@ -361,7 +333,7 @@ namespace PKHeX.WinForms.Controls
                 Bitmap? img;
                 if (invalid)
                     img = Resources.warn;
-                else if (Entity.Format >= 8 && Legal.DummiedMoves_SWSH.Contains(moves[i]))
+                else if (Entity.Format >= 8 && Legal.GetDummiedMovesHashSet(Entity).Contains(moves[i]))
                     img = Resources.hint;
                 else
                     img = null;
@@ -578,8 +550,10 @@ namespace PKHeX.WinForms.Controls
                 return Properties.Resources.gen_6;
             if (pkm.Gen7)
                 return Properties.Resources.gen_7;
-            if (pkm.Gen8)
+            if (pkm.SWSH)
                 return Properties.Resources.gen_8;
+            if (pkm.BDSP)
+                return Properties.Resources.gen_bs;
 
             return null;
         }
@@ -1445,7 +1419,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     var sav = SaveFileRequested.Invoke(this, e);
                     bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation) : 0;
+                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, (GameVersion)sav.Version) : 0;
                     CB_MetLocation.SelectedValue = loc;
                 }
                 else if (Entity.Format == 3)
@@ -1995,7 +1969,6 @@ namespace PKHeX.WinForms.Controls
 
             InitializeLanguage(sav);
             CenterSubEditors();
-            PopulateFields(pk); // put data back in form
         }
 
         public void FlickerInterface()

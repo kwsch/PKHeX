@@ -23,6 +23,7 @@ namespace PKHeX.Core
         private static readonly EvolutionTree Evolves7 = new(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
         private static readonly EvolutionTree Evolves7b = new(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
         private static readonly EvolutionTree Evolves8 = new(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        internal static readonly EvolutionTree Evolves8b = new(Unpack("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
 
         private static byte[] Get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static byte[][] Unpack(string resource) => BinLinker.Unpack(Get(resource), resource);
@@ -32,6 +33,7 @@ namespace PKHeX.Core
             // Add in banned evolution data!
             Evolves7.FixEvoTreeSM();
             Evolves8.FixEvoTreeSS();
+            Evolves8b.FixEvoTreeBS();
         }
 
         public static EvolutionTree GetEvolutionTree(int generation) => generation switch
@@ -55,7 +57,7 @@ namespace PKHeX.Core
             5 => Evolves5,
             6 => Evolves6,
             7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-            _ => Evolves8,
+            _ => pkm.Version is (int)BD or (int)SP ? Evolves8b : Evolves8,
         };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
@@ -170,6 +172,12 @@ namespace PKHeX.Core
 
             foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
                 BanEvo(s, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
+        }
+
+        private void FixEvoTreeBS()
+        {
+            // Eevee is programmed to evolve into Glaceon via Ice Stone or level up at the Ice Rock, but Ice Stone is unreleased.
+            BanEvo((int)Species.Glaceon, 0, pkm => pkm.CurrentLevel == pkm.Met_Level);
         }
 
         private void BanEvo(int species, int form, Func<PKM, bool> func)

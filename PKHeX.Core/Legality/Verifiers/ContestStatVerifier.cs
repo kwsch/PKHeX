@@ -26,6 +26,7 @@
             4 => true,
             5 => s.CNT_Sheen == 0 && pkm.Format >= 6, // ORAS Contests
             6 => s.CNT_Sheen == 0 && (!pkm.IsUntraded || pkm.AO),
+            8 => pkm.BDSP, // BDSP Contests
             _ => false,
         };
     }

@@ -104,6 +104,9 @@
         MarkThorny,
         MarkVigor,
         MarkSlump,
+
+        TwinklingStar,
+        Pioneer,
     }
 
     public static class RibbonIndexExtensions

@@ -80,6 +80,7 @@ namespace PKHeX.Core
             var list = s.gamelist;
             var games = new byte[]
             {
+                48, 49, // 8 bdsp
                 44, 45, // 8 swsh
                 42, 43, // 7 gg
                 30, 31, // 7 sm

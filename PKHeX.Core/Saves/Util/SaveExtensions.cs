@@ -170,11 +170,16 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.
+        /// Gets a blank file for the save file. Adapts it to the save file.
         /// </summary>
         /// <param name="sav">Save File to fetch a template for</param>
         /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
-        private static PKM LoadTemplateInternal(this SaveFile sav) => sav.BlankPKM;
+        private static PKM LoadTemplateInternal(this SaveFile sav)
+        {
+            var pk = sav.BlankPKM;
+            EntityTemplates.TemplateFields(pk, sav);
+            return pk;
+        }
 
         /// <summary>
         /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.

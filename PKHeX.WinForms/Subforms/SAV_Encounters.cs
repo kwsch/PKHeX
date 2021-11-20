@@ -231,9 +231,14 @@ namespace PKHeX.WinForms
 
             if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
             {
-                results = SAV is SAV8SWSH
-                    ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
-                    : results.Where(z => z.Generation <= 7);
+                static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || ((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                results = SAV switch
+                {
+                    SAV8SWSH => results.Where(IsPresentInGameSWSH),
+                    SAV8BS => results.Where(IsPresentInGameBDSP),
+                    _ => results.Where(z => z.Generation <= 7),
+                };
             }
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))

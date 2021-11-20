@@ -150,6 +150,7 @@ namespace PKHeX.Drawing
             Image itemimg = generation switch
             {
                 <= 4 when item is >=  328 and <=  419 => ItemTM, // gen2/3/4 TM
+                   8 when item is >=  328 and <=  427 => ItemTM, // BDSP TMs
                 >= 8 when item is >= 1130 and <= 1229 => ItemTR, // Gen8 TR
                 _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
             };

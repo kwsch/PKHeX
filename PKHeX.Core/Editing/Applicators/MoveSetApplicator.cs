@@ -94,6 +94,20 @@ namespace PKHeX.Core
                 }
             }
 
+            if (enc is EncounterSlot8b { IsUnderground: true } ug)
+            {
+                var moves = legal.Info.Moves;
+                for (int i = 0; i < moves.Length; i++)
+                {
+                    if (!moves[i].ShouldBeInRelearnMoves())
+                        continue;
+
+                    var move = legal.pkm.GetMove(i);
+                    if (ug.CanBeUndergroundMove(move))
+                        return new[] { move, 0, 0, 0 };
+                }
+            }
+
             var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
             if (encounter is IRelearn {Relearn: {Count: > 0} r})
                 return r;

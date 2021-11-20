@@ -13,6 +13,8 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
                 return false;
+            if (pkm.BDSP)
+                return false;
             return CanHaveDynamaxLevel(pkm.Species);
         }
 

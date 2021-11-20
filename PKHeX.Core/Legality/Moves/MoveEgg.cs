@@ -34,7 +34,8 @@ namespace PKHeX.Core
 
             7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
             7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
-            8 => GetFormEggMoves(species, form, EggMovesSWSH),
+            8 when version is SW or SH => GetFormEggMoves(species, form, EggMovesSWSH),
+            8 when version is BD or SP => GetFormEggMoves(species, form, EggMovesBDSP),
             _ => Array.Empty<int>(),
         };
 
@@ -59,6 +60,7 @@ namespace PKHeX.Core
                 SN or MN when species <= MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
                 US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
                 SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
+                BD or SP => getMoves(LevelUpBDSP, PersonalTable.BDSP),
                 _ => Array.Empty<int>(),
             };
 
@@ -77,11 +79,22 @@ namespace PKHeX.Core
         {
             if (gen < 8 || pkm.IsEgg)
                 return Array.Empty<int>();
-            var table = PersonalTable.SWSH;
-            var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
-            return GetEggMoves(8, baseSpecies, baseForm, SW);
+            if (pkm.BDSP)
+            {
+                var table = PersonalTable.BDSP;
+                var entry = (PersonalInfoBDSP)table.GetFormEntry(pkm.Species, pkm.Form);
+                var baseSpecies = entry.HatchSpecies;
+                var baseForm = entry.HatchFormIndex;
+                return GetEggMoves(8, baseSpecies, baseForm, BD);
+            }
+            else
+            {
+                var table = PersonalTable.SWSH;
+                var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
+                var baseSpecies = entry.HatchSpecies;
+                var baseForm = entry.HatchFormIndexEverstone;
+                return GetEggMoves(8, baseSpecies, baseForm, SW);
+            }
         }
     }
 }

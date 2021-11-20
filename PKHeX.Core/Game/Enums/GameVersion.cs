@@ -202,6 +202,19 @@
         /// Pokémon Shield (NX)
         /// </summary>
         SH = 45,
+
+        // HOME = 46,
+        // PLA = 47,
+
+        /// <summary>
+        /// Pokémon Brilliant Diamond (NX)
+        /// </summary>
+        BD = 48,
+
+        /// <summary>
+        /// Pokémon Shining Pearl (NX)
+        /// </summary>
+        SP = 49,
         #endregion
 
         // The following values are not actually stored values in pkm data,
@@ -380,6 +393,14 @@
         SWSH,
 
         /// <summary>
+        /// Pokémon Brilliant Diamond &amp; Shining Pearl
+        /// </summary>
+        /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+        /// <see cref="BD"/>
+        /// <see cref="SP"/>
+        BDSP,
+
+        /// <summary>
         /// Generation 1 Games
         /// </summary>
         /// <see cref="RBY"/>
@@ -437,6 +458,7 @@
         /// Generation 8 Games
         /// </summary>
         /// <see cref="SWSH"/>
+        /// <see cref="BDSP"/>
         Gen8,
 
         /// <summary>

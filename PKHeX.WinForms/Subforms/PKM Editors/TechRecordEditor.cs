@@ -7,11 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class TechRecordEditor : Form
     {
-        private readonly PK8 pkm;
+        private readonly G8PKM pkm;
 
         public TechRecordEditor(PKM pk)
         {
-            pkm = (PK8)pk;
+            pkm = (G8PKM)pk;
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
