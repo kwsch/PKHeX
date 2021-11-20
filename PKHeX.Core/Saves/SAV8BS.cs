@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-#nullable disable
-
 namespace PKHeX.Core
 {
-    public class SAV8BS : SaveFile, ISaveFileRevision
+    public class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
     {
         // Save Data Attributes
         protected internal override string ShortSummary => $"{OT} ({Version})";
@@ -28,7 +26,11 @@ namespace PKHeX.Core
             MyStatus = new MyStatus8b(this, 0x79BB4); // size: 0x50
             Played = new PlayTime8b(this, 0x79C04); // size: 0x04
             Contest = new Contest8b(this, 0x79C08); // size: 0x720
-            Zukan = new Zukan8b(this, 0x7A328);
+            Zukan = new Zukan8b(this, 0x7A328); // size: 0x30B8
+            // 0x7D3E0 - Trainer Battle Data (bool,bool)[707]
+            // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
+            // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
+            Records = new Record8b(this, 0x8F3DC);
 
             Initialize();
         }
@@ -143,6 +145,7 @@ namespace PKHeX.Core
         public Contest8b Contest { get; }
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
+        public Record8b Records { get; }
         #endregion
 
         public override GameVersion Version => Game switch
@@ -218,7 +221,13 @@ namespace PKHeX.Core
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
 
             pkm.RefreshChecksum();
-          //AddCountAcquired(pkm);
+            AddCountAcquired(pkm);
+        }
+
+        private void AddCountAcquired(PKM pkm)
+        {
+            // There aren't many records, and they only track Capture/Fish/Hatch/Defeat.
+            Records.AddRecord(pkm.WasEgg ? 004 : 002); // egg, capture
         }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
@@ -233,5 +242,23 @@ namespace PKHeX.Core
 
         public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
+
+        public enum TopMenuItemType
+        {
+            Zukan = 0,
+            Pokemon = 1,
+            Bag = 2,
+            Card = 3,
+            Map = 4,
+            Seal = 5,
+            Setting = 6,
+            Gift = 7,
+        }
+
+        public int RecordCount => Record8b.RecordCount;
+        public int GetRecord(int recordID) => Records.GetRecord(recordID);
+        public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
+        public int GetRecordMax(int recordID) => Record8b.RecordMaxValue;
+        public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
     }
 }

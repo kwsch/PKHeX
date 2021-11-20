@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public abstract class RecordBlock : SaveBlock
+    public abstract class RecordBlock : SaveBlock, IRecordStatStorage
     {
         protected abstract IReadOnlyList<byte> RecordMax { get; }
         public abstract int GetRecord(int recordID);

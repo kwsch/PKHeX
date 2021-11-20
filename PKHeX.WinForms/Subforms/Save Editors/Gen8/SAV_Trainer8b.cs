@@ -32,6 +32,8 @@ namespace PKHeX.WinForms
             GetComboBoxes();
             GetTextBoxes();
 
+            TrainerStats.LoadRecords(SAV, Records.RecordList_8b);
+
             Loading = false;
         }
 
@@ -47,7 +49,7 @@ namespace PKHeX.WinForms
             CB_Game.SelectedIndex = Math.Max(0, Math.Min(1, SAV.Game - (int)GameVersion.BD));
             CB_Gender.SelectedIndex = SAV.Gender;
 
-            GB_Stats.Visible = false;
+            L_BP.Visible = NUD_BP.Visible = false;
 
             // Display Data
             TB_OTName.Text = SAV.OT;
