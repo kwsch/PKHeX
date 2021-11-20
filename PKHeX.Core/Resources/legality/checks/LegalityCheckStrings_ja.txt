@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = 次の技のいずれかを遺伝技に設定してく�
 LMoveRelearnFMiss_0 = 通常では覚えられません: {0}
 LMoveRelearnInvalid = Not an expected Relearnable Move.
 LMoveRelearnNone = 遺伝技が設定されていません
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = Default move.
 LMoveSourceDuplicate = Duplicate Move.
 LMoveSourceEgg = Egg Move.

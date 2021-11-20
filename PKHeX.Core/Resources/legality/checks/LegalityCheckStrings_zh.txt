@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = 应为以下可回忆招式: {0} ({1})
 LMoveRelearnFMiss_0 = 缺失可回忆招式: {0}
 LMoveRelearnInvalid = 非正确回忆招式。
 LMoveRelearnNone = 应该没有回忆招式。
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = 默认招式。
 LMoveSourceDuplicate = 重复招式。
 LMoveSourceEgg = 遗传招式。

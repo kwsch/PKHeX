@@ -283,6 +283,7 @@ LMoveRelearnFExpect_0 = Capacités réapprises suivantes prévuess : {0} ({1})
 LMoveRelearnFMiss_0 = Capacités réapprises manquantess : {0}
 LMoveRelearnInvalid = Ce n'est pas un mouvement enregistrable.
 LMoveRelearnNone = Pas de capacité réapprise prévue.
+LMoveRelearnUnderground = Not an expected Underground egg move.
 LMoveSourceDefault = Mouvement par défaut.
 LMoveSourceDuplicate = Capacité dupliquée.
 LMoveSourceEgg = Capacité d'Œuf.
