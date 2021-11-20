@@ -543,6 +543,7 @@ namespace PKHeX.WinForms.Controls
             SAV7 s7 => new SAV_Trainer7(s7),
             SAV7b b7 => new SAV_Trainer7GG(b7),
             SAV8SWSH swsh => new SAV_Trainer8(swsh),
+            SAV8BS bs => new SAV_Trainer8b(bs),
             _ => new SAV_SimpleTrainer(sav),
         };
 
