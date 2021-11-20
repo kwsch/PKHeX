@@ -26,7 +26,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            var result = GetIncorrectRibbons(pkm, enc);
+            var result = GetIncorrectRibbons(pkm, data.Info.EvoChainsAllGens, enc);
             if (result.Count != 0)
             {
                 var msg = string.Join(Environment.NewLine, result);
@@ -38,11 +38,11 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterTemplate enc)
+        private static List<string> GetIncorrectRibbons(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
-            var ribs = GetRibbonResults(pkm, enc);
+            var ribs = GetRibbonResults(pkm, evos, enc);
             foreach (var bad in ribs)
                 (bad.Invalid ? invalidRibbons : missingRibbons).Add(bad.Name);
 
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterTemplate enc)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
         {
-            return GetInvalidRibbons(pkm, enc)
+            return GetInvalidRibbons(pkm, evos, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterTemplate enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
         {
             // is a part of Event4, but O3 doesn't have the others
             if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
@@ -130,9 +130,14 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon4 s4)
             {
                 bool inhabited4 = gen is 3 or 4;
-                var iterate = GetInvalidRibbons4Any(pkm, s4, gen);
+                var iterate = GetInvalidRibbons4Any(pkm, evos, s4, gen);
                 if (!inhabited4)
-                    iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
+                {
+                    if (pkm.BDSP) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
+                        iterate = iterate.Concat(GetInvalidRibbonsNoneSkipIndex(s4.RibbonBitsOnly(), s4.RibbonNamesOnly(), 1));
+                    else
+                        iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
+                }
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -200,11 +205,11 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, IRibbonSetCommon4 s4, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
-            if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, gen))
+            if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, evos, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
             bool gen34 = gen is 3 or 4;
@@ -356,7 +361,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc)
         {
-            if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
+            if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame || pkm.BDSP)
             {
                 if (s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
@@ -396,6 +401,18 @@ namespace PKHeX.Core
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                     }
                 }
+            }
+
+            // can be expanded upon if SWSH gets updated with the new ribbon when HOME has BDSP support
+            if (!pkm.BDSP && s8.RibbonTwinklingStar)
+            {
+                yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
+            }
+
+            // new ribbon likely from Legends: Arceus; inaccessible until then
+            if (s8.RibbonPioneer)
+            {
+                yield return new RibbonResult(nameof(s8.RibbonPioneer));
             }
         }
 
@@ -480,6 +497,15 @@ namespace PKHeX.Core
             }
         }
 
+        private static IEnumerable<RibbonResult> GetInvalidRibbonsNoneSkipIndex(IReadOnlyList<bool> bits, IReadOnlyList<string> names, int skipIndex)
+        {
+            for (int i = 0; i < bits.Count; i++)
+            {
+                if (bits[i] && i != skipIndex)
+                    yield return new RibbonResult(names[i]);
+            }
+        }
+
         private static bool IsAllowedInContest4(int species) => species != 201 && species != 132; // Disallow Unown and Ditto
 
         private static bool IsAllowedBattleFrontier(int species) => !Legal.BattleFrontierBanlist.Contains(species);
@@ -491,14 +517,26 @@ namespace PKHeX.Core
             return IsAllowedBattleFrontier(species);
         }
 
-        private static bool CanHaveFootprintRibbon(PKM pkm, int gen)
+        private static bool CanHaveFootprintRibbon(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, int gen)
         {
             if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
                 return true;
             // Gen5: Can't obtain
+            if (pkm.Format < 6)
+                return false;
+
             // Gen6/7: Increase level by 30 from original level
-            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level >= 30))
+            if (gen != 8 && !pkm.GG && (pkm.CurrentLevel - pkm.Met_Level >= 30))
                 return true;
+
+            // Gen8-BDSP: Variable by species Footprint
+            if (pkm.BDSP)
+            {
+                if (evos[8].Any(z => z.Species <= Legal.MaxSpeciesID_4 && !HasFootprintBDSP[z.Species]))
+                    return true; // no footprint
+                if (pkm.CurrentLevel - pkm.Met_Level >= 30)
+                    return true; // traveled well
+            }
 
             // Gen8: Can't obtain
             return false;
@@ -525,5 +563,60 @@ namespace PKHeX.Core
         {
             return gen == 3 && IsAllowedBattleFrontier(pkm.Species);
         }
+
+        // Footprint type is not Type 5, requiring 30 levels.
+        private static readonly bool[] HasFootprintBDSP =
+        {
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true, false,  true,  true, false,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true, false, false,  true, false,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true, false, false,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+            false, false,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true, false,  true,  true,
+            false,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true, false,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true, false,  true,  true, false, false,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+             true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true, false,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true, false,  true, false,  true,
+             true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+            false,  true,  true,  true,  true,  true,  true,  true,  true, false,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true, false, false,  true,
+             true,  true,  true, false, false, false, false, false,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true, false,  true, false, false,  true, false, false, false,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true, false, false,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+             true,  true, false,  true,  true,  true,  true,  true,  true,  true,
+             true,  true,  true,  true, false,  true, false,  true,  true,  true,
+             true,  true,  true,  true,  true,  true, false,  true,  true,  true,
+             true,  true,  true,  true,
+        };
     }
 }

@@ -11107,4 +11107,103 @@
   <data name="b_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Big Pokemon Sprites\b_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="box_wp01bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp01bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp02bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp03bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp04bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp05bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp06bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp07bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp08bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp09bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp10bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp11bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp12bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp13bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp14bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp15bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp16bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp17bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp18bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp19bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp20bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp20bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp21bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp21bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp22bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp22bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp23bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp23bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp24bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp24bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp25bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp25bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp26bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp26bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp27bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp27bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp28bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp28bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp29bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp29bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp30bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp30bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp31bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp31bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp32bdsp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\bdsp\box_wp32bdsp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ribbontwinklingstar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbontwinklingstar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

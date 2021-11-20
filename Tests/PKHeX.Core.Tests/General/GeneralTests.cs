@@ -14,6 +14,13 @@ namespace PKHeX.Tests.General
         }
 
         [Fact]
+        public void BDSP_Hypothesis()
+        {
+            GameVersion.BD.Should().BeEquivalentTo(48);
+            GameVersion.SP.Should().BeEquivalentTo(49);
+        }
+
+        [Fact]
         public void StringsLoad() => GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
         [Fact]

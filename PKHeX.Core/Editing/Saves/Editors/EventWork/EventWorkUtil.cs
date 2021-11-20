@@ -70,18 +70,39 @@ namespace PKHeX.Core
         /// <summary>
         /// Compares a <see cref="before"/> and <see cref="after"/> <see cref="IEventWork{T}"/> object of the same type to find <see cref="EventFlag"/> changes.
         /// </summary>
-        /// <typeparam name="T">Type of value used by <see cref="EventWork{T}"/></typeparam>
         /// <param name="before">Data before the event was triggered</param>
         /// <param name="after">Data after the event was triggered</param>
         /// <param name="on">List of flags that were turned on</param>
         /// <param name="off">List of flags that were turned off</param>
-        public static void DiffSavesFlag<T>(IEventWork<T> before, IEventWork<T> after, List<int> on, List<int> off)
+        public static void DiffSavesFlag(IEventFlag before, IEventFlag after, List<int> on, List<int> off)
         {
-            int max = before.MaxFlag;
+            int max = before.CountFlag;
             for (int i = 0; i < max; i++)
             {
                 var b = before.GetFlag(i);
                 var a = after.GetFlag(i);
+                if (b == a)
+                    continue;
+
+                var arr = a ? on : off;
+                arr.Add(i);
+            }
+        }
+
+        /// <summary>
+        /// Compares a <see cref="before"/> and <see cref="after"/> <see cref="IEventWork{T}"/> object of the same type to find <see cref="EventFlag"/> changes.
+        /// </summary>
+        /// <param name="before">Data before the event was triggered</param>
+        /// <param name="after">Data after the event was triggered</param>
+        /// <param name="on">List of flags that were turned on</param>
+        /// <param name="off">List of flags that were turned off</param>
+        public static void DiffSavesSystem(ISystemFlag before, ISystemFlag after, List<int> on, List<int> off)
+        {
+            int max = before.CountSystem;
+            for (int i = 0; i < max; i++)
+            {
+                var b = before.GetSystemFlag(i);
+                var a = after.GetSystemFlag(i);
                 if (b == a)
                     continue;
 
@@ -100,7 +121,7 @@ namespace PKHeX.Core
         /// <param name="changes">Summary of the <see cref="EventWork{T}"/> value change</param>
         public static void DiffSavesWork<T>(IEventWork<T> before, IEventWork<T> after, List<int> changed, List<string> changes)
         {
-            int max = before.MaxWork;
+            int max = before.CountWork;
             for (int i = 0; i < max; i++)
             {
                 var b = before.GetWork(i);

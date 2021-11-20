@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core
 {
-    public sealed class EventWork7b : SaveBlock, IEventWork<int>
+    public sealed class EventWork7b : SaveBlock, IEventVar<int>
     {
         public EventWork7b(SAV7b sav, int offset) : base(sav)
         {
@@ -51,8 +51,8 @@ namespace PKHeX.Core
         private const int TitleFlagStart = 0x1298; // 0x1298
         public const int MaxTitleFlag = 156; // Trainer, [1..153], Grand, Battle
 
-        public int MaxFlag => FlagCount;
-        public int MaxWork => WorkCount;
+        public int CountFlag => FlagCount;
+        public int CountWork => WorkCount;
 
         public int GetWork(int index) => BitConverter.ToInt32(Data, Offset + (index * WorkSize));
         public void SetWork(int index, int value) => BitConverter.GetBytes(value).CopyTo(Data, Offset + (index * WorkSize));

@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public static class MoveLevelUp
     {
         private static readonly LearnLookup
+            LearnBDSP = new(PersonalTable.BDSP, LevelUpBDSP, BDSP),
             LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH, SWSH),
             LearnSM   = new(PersonalTable.SM,   LevelUpSM,   SM),
             LearnUSUM = new(PersonalTable.USUM, LevelUpUSUM, USUM),
@@ -213,6 +214,11 @@ namespace PKHeX.Core
                     if (species > MaxSpeciesID_8)
                         return LearnNONE;
                     return LearnSWSH.GetIsLevelUp(species, form, move, maxLevel);
+
+                case BD or SP or BDSP:
+                    if (species > MaxSpeciesID_8b)
+                        return LearnNONE;
+                    return LearnBDSP.GetIsLevelUp(species, form, move, maxLevel);
             }
             return LearnNONE;
         }
@@ -471,6 +477,11 @@ namespace PKHeX.Core
                     if (species > MaxSpeciesID_8)
                         return moves;
                     return LearnSWSH.AddMoves(moves, species, form, maxLevel);
+
+                case BD or SP or BDSP:
+                    if (species > MaxSpeciesID_8b)
+                        return moves;
+                    return LearnBDSP.AddMoves(moves, species, form, maxLevel);
             }
             return moves;
         }

@@ -983,5 +983,34 @@ namespace PKHeX.Core
             (int)Voltorb, // Voltorb
             (int)Flabébé + (3 << 11), // Flabébé-Blue
         };
+
+        /// <summary>
+        /// All egg species that can inherit a Safar Ball when bred in BD/SP.
+        /// </summary>
+        internal static readonly HashSet<int> InheritSafari_BDSP = new()
+        {
+            (int)Ekans,
+            (int)Azurill,
+            (int)Barboach,
+            (int)Bidoof,
+            (int)Budew,
+            (int)Carnivine,
+            (int)Carvanha,
+            (int)Croagunk,
+            (int)Exeggcute,
+            (int)Gulpin,
+            (int)Hoothoot,
+            (int)Kangaskhan,
+            (int)Magikarp,
+            (int)Marill,
+            (int)Paras,
+            (int)Psyduck,
+            (int)Roselia,
+            (int)Shroomish,
+            (int)Skorupi,
+            (int)Starly,
+            (int)Wooper,
+            (int)Yanma,
+        };
     }
 }

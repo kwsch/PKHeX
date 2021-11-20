@@ -39,7 +39,7 @@ namespace PKHeX.Core
             5 => MGDB_G5,
             6 => MGDB_G6,
             7 => pkm.LGPE ? MGDB_G7GG : MGDB_G7,
-            8 => MGDB_G8,
+            8 => pkm.BDSP ? MGDB_G8B : MGDB_G8,
             _ => Array.Empty<MysteryGift>(),
         };
 

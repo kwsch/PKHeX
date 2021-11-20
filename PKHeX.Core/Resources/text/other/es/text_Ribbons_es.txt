@@ -149,3 +149,5 @@ RibbonMarkHumble	Emblema Sencillez
 RibbonMarkThorny	Emblema Altanería
 RibbonMarkVigor	Emblema Vigor
 RibbonMarkSlump	Emblema Extenuación
+RibbonTwinklingStar	Cinta Estrella Rutilante
+RibbonPioneer	Pioneer

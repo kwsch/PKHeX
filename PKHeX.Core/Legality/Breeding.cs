@@ -24,7 +24,7 @@ namespace PKHeX.Core
             B, W, B2, W2,
             X, Y, OR, AS,
             SN, MN, US, UM,
-            SW, SH,
+            SW, SH, BD, SP,
 
             GS,
         };

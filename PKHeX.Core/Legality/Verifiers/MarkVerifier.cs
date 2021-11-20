@@ -186,7 +186,7 @@ namespace PKHeX.Core
             var clone = pk8.Clone();
             clone.Species = (int) Species.Nincada;
             ((IRibbonIndex) clone).SetRibbon(affix);
-            var parse = RibbonVerifier.GetRibbonResults(clone, enc);
+            var parse = RibbonVerifier.GetRibbonResults(clone, data.Info.EvoChainsAllGens, enc);
             var expect = $"Ribbon{(RibbonIndex) affix}";
             var name = RibbonStrings.GetName(expect);
             bool invalid = parse.FirstOrDefault(z => z.Name == name)?.Invalid == true;

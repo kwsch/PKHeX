@@ -11,7 +11,7 @@ namespace PKHeX.WinForms
     public sealed partial class SAV_EventWork : Form
     {
         private readonly SAV7b Origin;
-        private readonly IEventWork<int> SAV;
+        private readonly IEventVar<int> SAV;
         private readonly SplitEventEditor<int> Editor;
 
         public SAV_EventWork(SAV7b sav)
@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
             DragDrop += Main_DragDrop;
 
             CB_Stats.Items.Clear();
-            for (int i = 0; i < SAV.MaxWork; i++)
+            for (int i = 0; i < SAV.CountWork; i++)
                 CB_Stats.Items.Add(i.ToString());
 
             var work = GetStringList(sav.Version, "const");
@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
                 L_Stats.Visible = CB_Stats.Visible = NUD_Stat.Visible = false;
                 TC_Features.TabPages.Remove(GB_Constants);
             }
-            NUD_Flag.Maximum = SAV.MaxFlag - 1;
+            NUD_Flag.Maximum = SAV.CountFlag - 1;
             NUD_Flag.Text = "0";
             c_CustomFlag.Checked = SAV.GetFlag(0);
 
@@ -248,6 +248,7 @@ namespace PKHeX.WinForms
 
         private static string GetGameFilePrefix(GameVersion game) => game switch
         {
+            BD or SP or BDSP => "bdsp",
             SW or SH or SWSH => "swsh",
             GP or GE or GG => "gg",
             X or Y => "xy",

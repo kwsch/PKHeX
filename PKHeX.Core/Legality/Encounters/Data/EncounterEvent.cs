@@ -30,6 +30,9 @@ namespace PKHeX.Core
         /// <summary>Event Database for Generation 8</summary>
         public static IReadOnlyList<WC8> MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
+        /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
+        public static IReadOnlyList<WB8> MGDB_G8B { get; private set; } = Array.Empty<WB8>();
+
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Count != 0;
 
@@ -41,6 +44,7 @@ namespace PKHeX.Core
 
         private static WB7[] GetWB7DB(byte[] bin) => Get(bin, WB7.SizeFull, d => new WB7(d));
         private static WC8[] GetWC8DB(byte[] bin) => Get(bin, WC8.Size, d => new WC8(d));
+        private static WB8[] GetWB8DB(byte[] bin) => Get(bin, WB8.Size, d => new WB8(d));
 
         private static T[] Get<T>(byte[] bin, int size, Func<byte[], T> ctor)
         {
@@ -63,6 +67,7 @@ namespace PKHeX.Core
             ICollection<WC7> g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
             ICollection<WB7> b7 = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
             ICollection<WC8> g8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
+            ICollection<WB8> b8 = GetWB8DB(Util.GetBinaryResource("wb8.pkl"));
 
             foreach (var gift in paths.Where(Directory.Exists).SelectMany(MysteryUtil.GetGiftsFromFolder))
             {
@@ -81,6 +86,7 @@ namespace PKHeX.Core
                     case WC7 wc7: AddOrExpand(ref g7, wc7); continue;
                     case WB7 wb7: AddOrExpand(ref b7, wb7); continue;
                     case WC8 wc8: AddOrExpand(ref g8, wc8); continue;
+                    case WB8 wb8: AddOrExpand(ref b8, wb8); continue;
                 }
             }
 
@@ -102,6 +108,7 @@ namespace PKHeX.Core
             MGDB_G7 = SetArray(g7);
             MGDB_G7GG = SetArray(b7);
             MGDB_G8 = SetArray(g8);
+            MGDB_G8B = SetArray(b8);
         }
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
@@ -114,6 +121,7 @@ namespace PKHeX.Core
                 MGDB_G7,
                 MGDB_G7GG,
                 MGDB_G8,
+                MGDB_G8B,
             }.SelectMany(z => z);
             regular = regular.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0);
             var result = MGDB_G3.Concat(regular);

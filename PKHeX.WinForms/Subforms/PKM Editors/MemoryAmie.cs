@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
                 M_CT_Affection.Text = a.HT_Affection.ToString();
             }
 
-            if (pkm is PK8 pk8)
+            if (pkm is G8PKM pk8)
                 MT_Sociability.Text = Math.Min(byte.MaxValue, pk8.Sociability).ToString();
 
             if (pkm is ITrainerMemories m)
@@ -195,7 +195,7 @@ namespace PKHeX.WinForms
                 m.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
             }
 
-            if (pkm is PK8 pk8)
+            if (pkm is G8PKM pk8)
                 pk8.Sociability = (byte)Util.ToInt32(MT_Sociability.Text);
         }
 

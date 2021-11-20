@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.ParseSettings;
 
@@ -22,7 +21,8 @@ namespace PKHeX.Core
             {
                 IRelearn s when s.Relearn.Count != 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn, result),
                 EncounterEgg e => VerifyEggMoveset(e, result, pkm.RelearnMoves),
-                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result, z),
+                EncounterSlot8b {IsUnderground:true} u => VerifyRelearnUnderground(pkm, result, u),
                 _ => VerifyRelearnNone(pkm, result),
             };
         }
@@ -45,14 +45,26 @@ namespace PKHeX.Core
             }
         }
 
-        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, CheckResult[] result)
+        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, CheckResult[] result, EncounterSlot6AO slot)
         {
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            var baseSpec = EvoBase.GetBaseSpecies(pkm);
-            var firstRelearn = pkm.RelearnMove1;
-            var eggMoves = MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR);
-            result[0] = Array.IndexOf(eggMoves, firstRelearn) == -1 // not found
+            result[0] = !slot.CanBeDexNavMove(pkm.RelearnMove1) // not found
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
+                : DummyValid;
+
+            // All other relearn moves must be empty.
+            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
+            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
+            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
+
+            return result;
+        }
+
+        private static CheckResult[] VerifyRelearnUnderground(PKM pkm, CheckResult[] result, EncounterSlot8b slot)
+        {
+            // Underground Pokémon can have 1 random egg move as a relearn move.
+            result[0] = !slot.CanBeUndergroundMove(pkm.RelearnMove1) // not found
+                ? new CheckResult(Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove)
                 : DummyValid;
 
             // All other relearn moves must be empty.

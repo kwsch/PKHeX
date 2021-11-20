@@ -117,9 +117,17 @@ namespace PKHeX.Core
                 4 => BitConverter.ToUInt16(data, 0x04) == 0 ? new PK4(data) : new BK4(data),
                 5 => new PK5(data),
                 6 => CheckPKMFormat7(new PK6(data), prefer),
-                8 => new PK8(data),
+                8 => CheckPKMFormat8(data),
                 _ => null,
             };
+        }
+
+        private static PKM CheckPKMFormat8(byte[] data)
+        {
+            var ver = data[0xDE];
+            if (GameVersion.BDSP.Contains(ver))
+                return new PB8(data);
+            return new PK8(data);
         }
 
         /// <summary>
@@ -432,6 +440,7 @@ namespace PKHeX.Core
         {
             1 when ver == GameVersion.BU => new PK1(true),
             7 when GameVersion.Gen7b.Contains(ver) => new PB7(),
+            8 when GameVersion.BDSP.Contains(ver) => new PB8(),
             _ => GetBlank(gen),
         };
 

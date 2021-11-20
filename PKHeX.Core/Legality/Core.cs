@@ -50,6 +50,8 @@ namespace PKHeX.Core
         // Gen 8
         internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
         internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
+        internal static readonly EggMoves7[] EggMovesBDSP = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
+        internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
 
         public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format)
         {
@@ -70,6 +72,13 @@ namespace PKHeX.Core
             7 => MovePP_SM,
             8 => MovePP_SWSH,
             _ => Array.Empty<byte>(),
+        };
+
+        public static ICollection<int> GetDummiedMovesHashSet(PKM pkm) => pkm switch
+        {
+            PK8 => DummiedMoves_SWSH,
+            PB8 => DummiedMoves_BDSP,
+            _ => Array.Empty<int>(),
         };
 
         internal static int GetMaxSpeciesOrigin(PKM pkm)

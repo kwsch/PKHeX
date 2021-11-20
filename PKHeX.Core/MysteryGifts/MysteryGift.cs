@@ -16,7 +16,7 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
         public static bool IsMysteryGift(long len) => Sizes.Contains((int)len);
 
-        private static readonly HashSet<int> Sizes = new() { WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
+        private static readonly HashSet<int> Sizes = new() { WB8.Size, WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -35,6 +35,7 @@ namespace PKHeX.Core
             WB7.Size when ext == ".wb7" => new WB7(data),
             WR7.Size when ext == ".wr7" => new WR7(data),
             WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
+            WB8.Size when ext is ".wb8" => new WB8(data),
 
             WB7.SizeFull when ext == ".wb7full" => new WB7(data),
             WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
@@ -54,6 +55,7 @@ namespace PKHeX.Core
             PGF.Size => new PGF(data),
             WR7.Size => new WR7(data),
             WC8.Size => new WC8(data),
+            WB8.Size => new WB8(data),
 
             // WC6/WC7: Check year
             WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),

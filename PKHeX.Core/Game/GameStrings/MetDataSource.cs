@@ -18,6 +18,7 @@ namespace PKHeX.Core
         private readonly List<ComboItem> MetGen7;
         private readonly List<ComboItem> MetGen7GG;
         private readonly List<ComboItem> MetGen8;
+        private readonly List<ComboItem> MetGen8b;
 
         private IReadOnlyList<ComboItem>? MetGen4Transfer;
         private IReadOnlyList<ComboItem>? MetGen5Transfer;
@@ -33,6 +34,7 @@ namespace PKHeX.Core
             MetGen7 = CreateGen7(s);
             MetGen7GG = CreateGen7GG(s);
             MetGen8 = CreateGen8(s);
+            MetGen8b = CreateGen8b(s);
         }
 
         private static List<ComboItem> CreateGen2(GameStrings s)
@@ -129,7 +131,7 @@ namespace PKHeX.Core
         private static List<ComboItem> CreateGen7GG(GameStrings s)
         {
             var locations = Util.GetCBList(s.metGG_00000, 0);
-            Util.AddCBWithOffset(locations, s.metGG_60000, 60001, 60002);
+            Util.AddCBWithOffset(locations, s.metGG_60000, 60001, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metGG_30000, 30001, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metGG_00000, 00000, Legal.Met_GG_0);
             Util.AddCBWithOffset(locations, s.metGG_30000, 30001, Legal.Met_GG_3);
@@ -141,12 +143,25 @@ namespace PKHeX.Core
         private static List<ComboItem> CreateGen8(GameStrings s)
         {
             var locations = Util.GetCBList(s.metSWSH_00000, 0);
-            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60001, 60002);
+            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60001, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metSWSH_30000, 30001, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
             Util.AddCBWithOffset(locations, s.metSWSH_30000, 30001, Legal.Met_SWSH_3);
             Util.AddCBWithOffset(locations, s.metSWSH_40000, 40001, Legal.Met_SWSH_4);
             Util.AddCBWithOffset(locations, s.metSWSH_60000, 60001, Legal.Met_SWSH_6);
+            return locations;
+        }
+
+        private static List<ComboItem> CreateGen8b(GameStrings s)
+        {
+            // Manually add invalid (-1) location from SWSH as ID 65535
+            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], 0xFFFF) };
+            Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Legal.Met_BS_0);
+            Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Legal.Met_BS_3);
+            Util.AddCBWithOffset(locations, s.metBDSP_40000, 40000, Legal.Met_BS_4);
+            Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Legal.Met_BS_6);
             return locations;
         }
 
@@ -185,6 +200,7 @@ namespace PKHeX.Core
                    or GD or SV or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
                 GP or GE or GO => Partition2(MetGen7GG, z => z <= 54), // Pokémon League
                 SW or SH => Partition2(MetGen8, z => z < 400),
+                BD or SP => Partition2(MetGen8b, z => z < 628),
                 _ => GetLocationListModified(version, currentGen),
             };
 

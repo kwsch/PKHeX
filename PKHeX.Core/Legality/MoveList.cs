@@ -141,6 +141,14 @@ namespace PKHeX.Core
                         return LevelUpSWSH[index].GetMoves(lvl);
                     }
                     break;
+
+                case BD or SP or BDSP:
+                    if (pkm.InhabitedGeneration(8))
+                    {
+                        int index = PersonalTable.SWSH.GetFormIndex(species, form);
+                        return LevelUpBDSP[index].GetMoves(lvl);
+                    }
+                    break;
             }
             return Array.Empty<int>();
         }
@@ -165,9 +173,18 @@ namespace PKHeX.Core
         internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria> evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
-            if (!pkm.IsUntraded)
+            if (!pkm.IsUntraded && !IsLandlockedFormat(pkm))
                 version = Any;
             return GetValidMoves(pkm, version, evoChain, generation, types: types, RemoveTransferHM: RemoveTransferHM);
+        }
+
+        private static bool IsLandlockedFormat(PKM pkm)
+        {
+            if (pkm.BDSP)
+                return true;
+            if (pkm.LGPE)
+                return pkm.Format == 7;
+            return false;
         }
 
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = Any)

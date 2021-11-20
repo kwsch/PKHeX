@@ -81,6 +81,7 @@ namespace PKHeX.Core
             5 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm),
             6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
             7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
+            8 when GameVersion.BDSP.Contains((GameVersion)pkm.Version) => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pkm),
             8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
             _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter),
         };
@@ -199,6 +200,15 @@ namespace PKHeX.Core
             return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
         }
 
+        private static CheckResult VerifyEncounterEgg8BDSP(PKM pkm)
+        {
+            if (pkm.BDSP)
+                return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_BDSP);
+
+            // no other games
+            return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        }
+
         private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, ICollection<int> MetLocations)
         {
             if (pkm.Met_Level != eggLevel)
@@ -208,7 +218,7 @@ namespace PKHeX.Core
                 : new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
         }
 
-        private static CheckResult VerifyUnhatchedEgg(PKM pkm, int tradeLoc)
+        private static CheckResult VerifyUnhatchedEgg(PKM pkm, int tradeLoc, short noneLoc = 0)
         {
             var eggLevel = pkm.Format < 5 ? 0 : 1;
             if (pkm.Met_Level != eggLevel)
@@ -219,7 +229,7 @@ namespace PKHeX.Core
             var met = pkm.Met_Location;
             if (met == tradeLoc)
                 return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
-            return met == 0
+            return (short)met == noneLoc
                 ? new CheckResult(Severity.Valid, LEggUnhatched, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
         }

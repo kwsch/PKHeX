@@ -252,7 +252,7 @@ namespace PKHeX.Core
                 return InventoryPouch7b.GetSuggestedCount(Type, item, requestVal);
             if (sav is SAV8SWSH)
                 return InventoryPouch8.GetSuggestedCount(Type, item, requestVal);
-            if (ItemConverter.IsItemHM((ushort)item, sav.Generation))
+            if (sav is not SAV8BS && ItemConverter.IsItemHM((ushort)item, sav.Generation))
                 return 1;
             return Math.Min(MaxCount, requestVal);
         }

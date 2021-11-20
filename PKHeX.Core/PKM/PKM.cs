@@ -289,12 +289,13 @@ namespace PKHeX.Core
         public bool VC2 => Version is >= (int)GD and <= (int)C;
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
+        public bool BDSP => Version is (int)BD or (int)SP;
 
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;
         public bool GG => LGPE || GO_LGPE;
-        public bool Gen8 => Version is >= 44 and <= 45 || GO_HOME;
+        public bool Gen8 => Version is >= 44 and <= 49 || GO_HOME;
         public bool Gen7 => Version is >= 30 and <= 33 || GG;
         public bool Gen6 => Version is >= 24 and <= 29;
         public bool Gen5 => Version is >= 20 and <= 23;
@@ -486,10 +487,10 @@ namespace PKHeX.Core
         }
 
         // Misc Egg Facts
-        public bool WasEgg => IsEgg || Egg_Location != 0;
+        public bool WasEgg => IsEgg || !Locations.IsNoneLocation((GameVersion)Version, Egg_Location);
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
-        private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation);
+        private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, (GameVersion)Version);
 
         public virtual bool IsUntraded => false;
         public bool IsNative => Generation == Format;

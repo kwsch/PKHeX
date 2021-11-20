@@ -24,6 +24,7 @@ namespace PKHeX.Core
         public readonly string[] metSM_00000, metSM_30000, metSM_40000, metSM_60000;
         public readonly string[] metGG_00000, metGG_30000, metGG_40000, metGG_60000;
         public readonly string[] metSWSH_00000, metSWSH_30000, metSWSH_40000, metSWSH_60000;
+        public readonly string[] metBDSP_00000, metBDSP_30000, metBDSP_40000, metBDSP_60000;
 
         // Misc
         public readonly string[] wallpapernames, puffs, walkercourses;
@@ -135,6 +136,11 @@ namespace PKHeX.Core
             metSWSH_30000 = Get("swsh_30000");
             metSWSH_40000 = Get("swsh_40000");
             metSWSH_60000 = Get("swsh_60000");
+
+            metBDSP_00000 = Get("bdsp_00000");
+            metBDSP_30000 = Get("bdsp_30000");
+            metBDSP_40000 = Get("bdsp_40000");
+            metBDSP_60000 = Get("bdsp_60000");
 
             Sanitize();
 
@@ -253,6 +259,7 @@ namespace PKHeX.Core
             SanitizeMetG6XY();
             SanitizeMetG7SM();
             SanitizeMetG8SWSH();
+            SanitizeMetG8BDSP();
 
             if (lang is "es" or "it")
             {
@@ -386,6 +393,50 @@ namespace PKHeX.Core
             // metSWSH_30000[17] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
         }
 
+        private void SanitizeMetG8BDSP()
+        {
+            metBDSP_30000[1] += $" ({NPC})";      // Anything from an NPC
+            metBDSP_30000[2] += $" ({EggName})";  // Egg From Link Trade
+
+            Deduplicate(metBDSP_00000);
+            Deduplicate(metBDSP_30000);
+            Deduplicate(metBDSP_40000);
+            Deduplicate(metBDSP_60000);
+        }
+
+        private static void Deduplicate(string[] arr)
+        {
+            var counts = new Dictionary<string, int>();
+
+            foreach (var s in arr)
+            {
+                counts.TryGetValue(s, out var value);
+                counts[s] = value + 1;
+            }
+
+#if !DEBUG
+            var maxCounts = new Dictionary<string, int>(counts);
+#endif
+            for (var i = arr.Length - 1; i >= 0; i--)
+            {
+#if DEBUG
+                arr[i] += $" ({i:00000})";
+#else
+                var s = arr[i];
+                var count = counts[s]--;
+                if (count == 1)
+                    continue;
+                var format = maxCounts[s] switch
+                {
+                    >= 100 => " ({0:000})",
+                    >=  10 => " ({0:00})",
+                         _ => " ({0})",
+                };
+                arr[i] += string.Format(format, count);
+#endif
+            }
+        }
+
         public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any) => generation switch
         {
             0 => Array.Empty<string>(),
@@ -393,8 +444,28 @@ namespace PKHeX.Core
             2 => g2items,
             3 => GetItemStrings3(game),
             4 => g4items, // mail names changed 4->5
+            8 when game is GameVersion.BD or GameVersion.SP or GameVersion.BDSP => GetItemStrings8b(),
             _ => itemlist,
         };
+
+        private string[] GetItemStrings8b()
+        {
+            // Item Indexes 
+            var clone = (string[])itemlist.Clone();
+            var tm = clone[419][..2];
+            for (int i = 420; i <= 427; i++)
+                clone[i] = $"{tm}{i - 420 + 93}";
+
+            clone[618] += "(-)"; // TM93
+            clone[619] += "(-)"; // TM94
+            clone[620] += "(-)"; // TM95
+            clone[690] += "(-)"; // TM96
+            clone[691] += "(-)"; // TM97
+            clone[692] += "(-)"; // TM98
+            clone[693] += "(-)"; // TM99
+            clone[694] += "(-)"; // TM100
+            return clone;
+        }
 
         private string[] GetItemStrings3(GameVersion game)
         {
@@ -487,7 +558,7 @@ namespace PKHeX.Core
             5 => GetLocationNames5(bankID),
             6 => GetLocationNames6(bankID),
             7 => GameVersion.Gen7b.Contains(version) ? GetLocationNames7GG(bankID) : GetLocationNames7(bankID),
-            8 => GetLocationNames8(bankID),
+            8 => GameVersion.BDSP.Contains(version) ? GetLocationNames8b(bankID) : GetLocationNames8(bankID),
             _ => Array.Empty<string>(),
         };
 
@@ -541,6 +612,15 @@ namespace PKHeX.Core
             3 => metSWSH_30000,
             4 => metSWSH_40000,
             6 => metSWSH_60000,
+            _ => Array.Empty<string>(),
+        };
+
+        public IReadOnlyList<string> GetLocationNames8b(int bankID) => bankID switch
+        {
+            0 => metBDSP_00000,
+            3 => metBDSP_30000,
+            4 => metBDSP_40000,
+            6 => metBDSP_60000,
             _ => Array.Empty<string>(),
         };
     }

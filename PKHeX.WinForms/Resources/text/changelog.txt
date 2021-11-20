@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/10/01 - New Update:
+21/11/19 - New Update
+ - Introducing Brilliant Diamond & Shining Pearl Support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!
+ - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for BDSP parsing.
+ - - Bag editing, Pokédex, and Event Flags, Trainer Info editing is provided. More editable values can be found in the Block Data editor.
+ - - Things to note: no transferring SWSH/HOME<->BDSP, roamer PIDIV correlation, no memories. Future commits may tighten legality checks.
+ - Legality:
+ - - Gen1: Lessened severity of missing moveslots to Fishy, if the Pokémon has been sufficiently leveled up (can skip by leveling up multiple times).
+ - - Gen2: Crystal eggs hatched inside the 2nd floor of the Pokécenter are now correctly recognized. Thanks Freezing Dart!
+ - - Gen4: Cute Charm frame proc yielding now emits the correct seed, and identifies the correct encounter slot value. Thanks @valthisse !
+ - Added: More event flag data labels. Thanks @FeralFalcon! Event data can now be filtered via settings if you only want to see rebattle, etc.
+ - Added: Rival name changing for all games that didn't yet have it. Thanks @FeralFalcon!
+ - Changed: .NET 6 support added for WinForms builds. .NET Framework 4.6 build is still the main build option.
+ - Changed: Starting up the program with command line arguments (or opening via an associated file) will more intelligently source a parter sav/pkm.
+ - Changed: Exporting a backup save file has been moved to the SAV tab, and the Export main has been merged in with the parent Export SAV item.
+ - Changed: Gen1/2 mainline save files now indicate if they are VC era or GB era in the program title.
+ - Changed: Gen2 modifying Hidden Power type now maximizes IVs for that type.
+ - Changed: Gen3 egg flag being set from the GUI now adapts the language as well to match the Gen3 quirk.
+ - Fixed: Box Report exporting to CSV no longer causes errors if a large amount of data is being written. Thanks GLBBx303!
+ - Fixed: Gen6 Secret Base giving all decorations now correctly gives all. Was overwriting Pokepuffs :(
+
+21/10/01 - New Update: (129061) [4098815]
  - Legality:
  - - Added: Gen8 memory checks for unobtainable values. Thanks @Lusamine, @skadiv!
  - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.

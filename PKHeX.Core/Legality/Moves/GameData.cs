@@ -43,6 +43,7 @@ namespace PKHeX.Core
             GO or GP or GE or GG => Legal.LevelUpGG,
 
             SW or SH or SWSH => Legal.LevelUpSWSH,
+            BD or SP or BDSP => Legal.LevelUpBDSP,
 
             Gen1 => Legal.LevelUpY,
             Gen2 => Legal.LevelUpC,
@@ -86,6 +87,7 @@ namespace PKHeX.Core
             GO or GP or GE or GG => PersonalTable.GG,
 
             SW or SH or SWSH => PersonalTable.SWSH,
+            BD or SP or BDSP => PersonalTable.BDSP,
 
             Gen1 => PersonalTable.Y,
             Gen2 => PersonalTable.C,

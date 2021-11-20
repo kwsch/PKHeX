@@ -11,9 +11,9 @@ namespace PKHeX.Core
     {
         public readonly IList<EventVarGroup> Work;
         public readonly IList<EventVarGroup> Flag;
-        public readonly IEventWork<T> Block;
+        public readonly IEventVar<T> Block;
 
-        public SplitEventEditor(IEventWork<T> block, IEnumerable<string> work, IEnumerable<string> flag)
+        public SplitEventEditor(IEventVar<T> block, IEnumerable<string> work, IEnumerable<string> flag)
         {
             Block = block;
             // load lines

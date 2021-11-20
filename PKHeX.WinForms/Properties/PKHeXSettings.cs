@@ -135,7 +135,7 @@ namespace PKHeX.WinForms
         public List<string> RecentlyLoaded { get; set; } = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.
-        private GameVersion _defaultSaveVersion = GameVersion.SW;
+        private GameVersion _defaultSaveVersion = GameVersion.BD;
         private string _language = GameLanguage.DefaultLanguage;
 
         [Browsable(false)]

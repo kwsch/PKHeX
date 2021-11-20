@@ -90,7 +90,7 @@ namespace PKHeX.Core
                 // If none match, then it is not a valid OT friendship.
                 var fs = pkm.OT_Friendship;
                 var enc = data.Info.EncounterMatch;
-                if (GetBaseFriendship(origin, enc.Species, enc.Form) != fs)
+                if (GetBaseFriendship(enc, origin) != fs)
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
         }
@@ -185,10 +185,18 @@ namespace PKHeX.Core
                 WC6 wc6 when wc6.OT_Name.Length > 0 => false,
                 WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
                 WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
+                WB8 wb8 when wb8.GetHasOT(pkm.Language) => false,
                 WC8 {IsHOMEGift: true} => false,
                 _ => true,
             };
         }
+
+        private static int GetBaseFriendship(IEncounterTemplate enc, int generation) => enc switch
+        {
+            IFixedOTFriendship f => f.OT_Friendship,
+            { Version: GameVersion.BD or GameVersion.SP } => PersonalTable.SWSH.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
+            _ => GetBaseFriendship(generation, enc.Species, enc.Form),
+        };
 
         private static int GetBaseFriendship(int generation, int species, int form) => generation switch
         {

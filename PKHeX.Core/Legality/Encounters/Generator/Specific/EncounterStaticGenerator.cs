@@ -13,6 +13,7 @@ using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
+using static PKHeX.Core.Encounters8b;
 
 using static PKHeX.Core.GameVersion;
 
@@ -172,6 +173,8 @@ namespace PKHeX.Core
 
             SW => StaticSW,
             SH => StaticSH,
+            BD => StaticBD,
+            SP => StaticSP,
             _ => Array.Empty<EncounterStatic>(),
         };
 

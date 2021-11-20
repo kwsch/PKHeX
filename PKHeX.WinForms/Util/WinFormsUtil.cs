@@ -444,7 +444,9 @@ namespace PKHeX.WinForms
             7 => GameVersion.GG.Contains(origin)
                 ? "Beluga Gift Record|*.wr7" + all
                 : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
-            8 => "Gen8 Mystery Gift|*.wc8" + all,
+            8 => GameVersion.BDSP.Contains(origin)
+                ? "BD/SP Gift|*.wb8" + all
+                : "Gen8 Mystery Gift|*.wc8" + all,
             _ => string.Empty,
         };
 

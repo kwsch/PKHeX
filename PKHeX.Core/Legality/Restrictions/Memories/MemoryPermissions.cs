@@ -136,7 +136,7 @@ namespace PKHeX.Core
                         return false;
                     return gen switch
                     {
-                        8 => move <= Legal.MaxMoveID_8_R2 && !Legal.DummiedMoves_SWSH.Contains(move),
+                        8 => move <= Legal.MaxMoveID_8_R2 && !Legal.GetDummiedMovesHashSet(pkm).Contains(move),
                         _ => move <= Legal.MaxMoveID_6_AO,
                     };
                 }
@@ -148,7 +148,7 @@ namespace PKHeX.Core
         private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterable enc)
         {
             if (pkm is IBattleVersion { BattleVersion: not 0 }) // can hide Relearn moves (Gen6+ Eggs, or DexNav)
-                return enc is EncounterEgg { Generation: >= 6 } or EncounterSlot6AO { CanDexNav: true };
+                return enc is EncounterEgg { Generation: >= 6 } or EncounterSlot6AO { CanDexNav: true } or EncounterSlot8b { IsUnderground: true };
             return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
         }
 

@@ -149,3 +149,5 @@ RibbonMarkHumble	Emblema Ingenuità
 RibbonMarkThorny	Emblema Artificio
 RibbonMarkVigor	Emblema Vitalità
 RibbonMarkSlump	Emblema Sottotono
+RibbonTwinklingStar	Fiocco Stella Brillante
+RibbonPioneer	Pioneer

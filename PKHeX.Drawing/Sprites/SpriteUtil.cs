@@ -157,7 +157,7 @@ namespace PKHeX.Drawing
                 var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
-                else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))
+                else if (pk.Format >= 8 && pk.Moves.Any(Legal.GetDummiedMovesHashSet(pk).Contains))
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
                 if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
                     sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);

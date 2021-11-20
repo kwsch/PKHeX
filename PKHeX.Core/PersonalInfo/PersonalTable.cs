@@ -13,6 +13,11 @@ namespace PKHeX.Core
     public class PersonalTable
     {
         /// <summary>
+        /// Personal Table used in <see cref="GameVersion.BDSP"/>.
+        /// </summary>
+        public static readonly PersonalTable BDSP = GetTable("bdsp", GameVersion.BDSP);
+
+        /// <summary>
         /// Personal Table used in <see cref="GameVersion.SWSH"/>.
         /// </summary>
         public static readonly PersonalTable SWSH = GetTable("swsh", GameVersion.SWSH);
@@ -124,7 +129,8 @@ namespace PKHeX.Core
             GameVersion.ORAS => z => new PersonalInfoORAS(z),
             GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
             GameVersion.GG => z => new PersonalInfoGG(z),
-            _ => z => new PersonalInfoSWSH(z),
+            GameVersion.SWSH => z => new PersonalInfoSWSH(z),
+            _ => z => new PersonalInfoBDSP(z),
         };
 
         private static int GetEntrySize(GameVersion format) => format switch
@@ -139,6 +145,7 @@ namespace PKHeX.Core
             GameVersion.ORAS => PersonalInfoORAS.SIZE,
             GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
             GameVersion.SWSH => PersonalInfoSWSH.SIZE,
+            GameVersion.BDSP => PersonalInfoBDSP.SIZE,
             _ => -1,
         };
 

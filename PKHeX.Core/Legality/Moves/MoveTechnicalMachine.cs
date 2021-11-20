@@ -243,6 +243,18 @@ namespace PKHeX.Core
                 }
             }
 
+            if (GameVersion.BDSP.Contains(ver))
+            {
+                for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
+                {
+                    if (Legal.TMHM_BDSP[i] != move)
+                        continue;
+                    if (PersonalTable.BDSP.GetFormEntry(species, form).TMHM[i])
+                        return GameVersion.BDSP;
+                    break;
+                }
+            }
+
             return Legal.NONE;
         }
 
@@ -260,7 +272,7 @@ namespace PKHeX.Core
                         break;
                     if (allowBit)
                         return GameVersion.SWSH;
-                    if (((PK8)pkm).GetMoveRecordFlag(i))
+                    if (((G8PKM)pkm).GetMoveRecordFlag(i))
                         return GameVersion.SWSH;
                     if (i == 12 && species == (int)Species.Calyrex && form == 0) // TR12
                         return GameVersion.SWSH; // Agility Calyrex without TR glitch.
@@ -409,6 +421,9 @@ namespace PKHeX.Core
                 case GameVersion.Any:
                 case GameVersion.SW or GameVersion.SH or GameVersion.SWSH:
                     AddMachineSWSH(r, species, form);
+                    break;
+                case GameVersion.BD or GameVersion.SP or GameVersion.BDSP:
+                    AddMachineBDSP(r, species, form);
                     return;
             }
         }
@@ -461,11 +476,20 @@ namespace PKHeX.Core
             }
         }
 
+        private static void AddMachineBDSP(List<int> r, int species, int form)
+        {
+            if (species > Legal.MaxSpeciesID_8b)
+                return;
+            var pi = PersonalTable.BDSP.GetFormEntry(species, form);
+            r.AddRange(Legal.TMHM_BDSP.Where((_, m) => pi.TMHM[m]));
+        }
+
         public static void AddRecordSWSH(List<int> r, int species, int form, PKM pkm)
         {
+            if (pkm is not PK8 pk8)
+                return;
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
-            var pk8 = (PK8)pkm;
             for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
             {
                 var index = i + PersonalInfoSWSH.CountTM;

@@ -11,7 +11,7 @@ namespace PKHeX.Tests.Legality
         [InlineData(nameof(Species.Bulbasaur),  "Razor Leaf", "Vine Whip")]
         [InlineData(nameof(Species.Charizard), "Fly")]
         [InlineData(nameof(Species.Mew), "Pound")]
-        [InlineData(nameof(Species.Smeargle), "Hyperspace Fury")]
+        [InlineData(nameof(Species.Smeargle), "Frenzy Plant")]
         public static void VerifyCanLearn(string species, params string[] moves)
         {
             var encs = EncounterLearn.GetLearn(species, moves);

@@ -183,4 +183,113 @@ namespace PKHeX.Core
             }
         }
     }
+
+    public sealed class EventWorkDiff8b : EventBlockDiff
+    {
+        public readonly List<int> WorkChanged = new();
+        private SaveFile? S1;
+        public readonly List<int> SetSystem = new();
+        public readonly List<int> ClearedSystem = new();
+
+        public EventWorkDiff8b(string f1, string f2)
+        {
+            if (!SanityCheckFiles(f1, f2))
+                return;
+            var s1 = SaveUtil.GetVariantSAV(f1);
+            var s2 = SaveUtil.GetVariantSAV(f2);
+            if (s1 == null || s2 == null || s1.GetType() != s2.GetType())
+            {
+                Message = MsgSaveDifferentTypes;
+                return;
+            }
+            Diff(s1, s2);
+        }
+
+        public EventWorkDiff8b(SaveFile s1, SaveFile s2) => Diff(s1, s2);
+
+        protected override void Diff(SaveFile s1, SaveFile s2)
+        {
+            if (!SanityCheckSaveInfo(s1, s2))
+                return;
+
+            EventWorkUtil.DiffSavesFlag(((SAV8BS)s1).Work, ((SAV8BS)s2).Work, SetFlags, ClearedFlags);
+            EventWorkUtil.DiffSavesSystem(((SAV8BS)s1).Work, ((SAV8BS)s2).Work, SetSystem, ClearedSystem);
+            EventWorkUtil.DiffSavesWork(((SAV8BS)s1).Work, ((SAV8BS)s2).Work, WorkChanged, WorkDiff);
+            S1 = s1;
+        }
+
+        public IReadOnlyList<string> Summarize()
+        {
+            if (S1 == null)
+                return Array.Empty<string>();
+
+            var fOn = SetFlags.Select(z => new FlagSummary(z).ToString());
+            var fOff = ClearedFlags.Select(z => new FlagSummary(z).ToString());
+
+            var sOn = SetSystem.Select(z => new FlagSummary(z).ToString());
+            var sOff = ClearedSystem.Select(z => new FlagSummary(z).ToString());
+
+            var wt = WorkChanged.Select((z, i) => new WorkSummary(z, WorkDiff[i]).ToString());
+
+            var list = new List<string> { "Flags: ON", "=========" };
+            list.AddRange(fOn);
+            if (SetFlags.Count == 0)
+                list.Add("None.");
+
+            list.Add("");
+            list.Add("Flags: OFF");
+            list.Add("==========");
+            list.AddRange(fOff);
+            if (ClearedFlags.Count == 0)
+                list.Add("None.");
+
+            list.Add("System: ON");
+            list.Add("=========");
+            list.AddRange(sOn);
+            if (SetFlags.Count == 0)
+                list.Add("None.");
+
+            list.Add("");
+            list.Add("System: OFF");
+            list.Add("==========");
+            list.AddRange(sOff);
+            if (ClearedSystem.Count == 0)
+                list.Add("None.");
+
+            list.Add("");
+            list.Add("Work:");
+            list.Add("=====");
+            if (WorkChanged.Count == 0)
+                list.Add("None.");
+            list.AddRange(wt);
+
+            return list;
+        }
+
+        private readonly struct FlagSummary
+        {
+            private int Raw { get; }
+
+            public override string ToString() => $"{Raw:0000}\t{false}";
+
+            public FlagSummary(int rawIndex)
+            {
+                Raw = rawIndex;
+            }
+        }
+
+        private readonly struct WorkSummary
+        {
+            private int Raw { get; }
+            private string Text { get; }
+
+            public override string ToString() => $"{Raw:000}\t{Text}";
+
+            public WorkSummary(int rawIndex, string text)
+            {
+                Raw = rawIndex;
+                Text = text;
+            }
+        }
+    }
 }
