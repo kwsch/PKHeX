@@ -16,6 +16,19 @@
 114	*	FE_HIDEN_07_GET
 115	*	FE_HIDEN_08_GET
 
+1246	*	FE_STAYLE_001 Unlocked Fashion: Everyday
+1247	*	FE_STAYLE_002 Unlocked Fashion: Contest
+1248	*	FE_STAYLE_003 Unlocked Fashion: Platinum
+1249	*	FE_STAYLE_004 Unlocked Fashion: Overalls
+1250	*	FE_STAYLE_005 Unlocked Fashion: Eevee
+1251	*	FE_STAYLE_006 Unlocked Fashion: Gengar
+1252	*	FE_STAYLE_007 Unlocked Fashion: Cyber
+1253	*	FE_STAYLE_008 Unlocked Fashion: Summer
+1254	*	FE_STAYLE_009 Unlocked Fashion: Winter
+1255	*	FE_STAYLE_010 Unlocked Fashion: Spring
+1256	*	FE_STAYLE_011 Unlocked Fashion: Casual
+1257	*	FE_STAYLE_012 Unlocked Fashion: Leather
+
 1283	r	FE_D10R0202POKE_01
 1284	r	FE_D10R0202POKE_02
 1285	r	FE_D10R0202POKE_03
