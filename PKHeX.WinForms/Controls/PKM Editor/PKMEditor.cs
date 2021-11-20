@@ -1419,7 +1419,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     var sav = SaveFileRequested.Invoke(this, e);
                     bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, (GameVersion)sav.Version) : 0;
+                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, sav.Version) : 0;
                     CB_MetLocation.SelectedValue = loc;
                 }
                 else if (Entity.Format == 3)

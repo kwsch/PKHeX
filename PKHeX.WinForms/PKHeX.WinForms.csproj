@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net46;net5.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>PKHeX</PackageId>
     <Company>Project Pokémon</Company>

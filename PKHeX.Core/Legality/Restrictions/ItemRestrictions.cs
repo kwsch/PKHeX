@@ -27,6 +27,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="item">Held Item ID</param>
         /// <param name="generation">Generation Number</param>
+        /// <param name="pk">Entity context to check</param>
         /// <returns>True if able to be held, false if not</returns>
         public static bool IsHeldItemAllowed(int item, int generation, PKM pk)
         {
