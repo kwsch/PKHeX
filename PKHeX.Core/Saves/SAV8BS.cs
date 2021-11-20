@@ -198,7 +198,11 @@ namespace PKHeX.Core
             set => SetString(value, OTLength).CopyTo(Data, 0x55F4);
         }
 
-        // zoneID
+        public short ZoneID // map
+        {
+            get => BitConverter.ToInt16(Data, 0x5634);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x5634);
+        }
 
         public float TimeScale
         {
