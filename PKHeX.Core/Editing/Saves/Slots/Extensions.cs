@@ -207,9 +207,6 @@ namespace PKHeX.Core
         {
             return new()
             {
-                new SlotInfoMisc(sav.Data, 0, 0x96080, true) { Type = StorageSlotType.Daycare },
-                new SlotInfoMisc(sav.Data, 1, 0x96080 + PokeCrypto.SIZE_8PARTY, true) { Type = StorageSlotType.Daycare },
-
                 new SlotInfoMisc(sav.Data, 0, 0x9A8E8 + (0 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
                 new SlotInfoMisc(sav.Data, 1, 0x9A8E8 + (1 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
                 new SlotInfoMisc(sav.Data, 2, 0x9A8E8 + (2 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },

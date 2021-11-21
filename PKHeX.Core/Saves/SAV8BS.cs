@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
     {
         // Save Data Attributes
-        protected internal override string ShortSummary => $"{OT} ({Version})";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
         public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -30,8 +30,11 @@ namespace PKHeX.Core
             // 0x7D3E0 - Trainer Battle Data (bool,bool)[707]
             // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
             // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
-            Records = new Record8b(this, 0x8F3DC);
+            Records = new Record8b(this, 0x8F3DC); // size: 0x78
+            // 0x8F454 - ENC_SV_DATA
 
+            Daycare = new Daycare8b(this, 0x96080); // 0x2C0
+            // 0x96340 - _DENDOU_SAVEDATA
             Initialize();
         }
 
@@ -43,6 +46,7 @@ namespace PKHeX.Core
             Party = PartyInfo.Offset;
             PokeDex = Zukan.PokeDex;
             BoxLayout.LoadBattleTeams();
+            DaycareOffset = Daycare.Offset;
         }
 
         public override bool HasEvents => true;
@@ -146,6 +150,7 @@ namespace PKHeX.Core
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
         public Record8b Records { get; }
+        public Daycare8b Daycare { get; }
         #endregion
 
         public override GameVersion Version => Game switch
@@ -260,5 +265,24 @@ namespace PKHeX.Core
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
         public int GetRecordMax(int recordID) => Record8b.RecordMaxValue;
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
+
+        #region Daycare
+        public override int DaycareSeedSize => 16; // 8byte
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetParentSlotOffset(slot);
+        public override uint? GetDaycareEXP(int loc, int slot) => (uint)Daycare.EggStepCount;
+        public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetDaycareSlotOccupied(slot);
+        public override bool? IsDaycareHasEgg(int loc) => Daycare.IsEggAvailable;
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => Daycare.EggStepCount = (int)EXP;
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
+
+        public override string GetDaycareRNGSeed(int loc)
+        {
+            var data = BitConverter.GetBytes(Daycare.DaycareSeed);
+            Array.Reverse(data);
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = BitConverter.ToUInt64(Util.GetBytesFromHexString(seed), 0);
+        #endregion
     }
 }
