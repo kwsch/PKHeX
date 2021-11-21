@@ -4,8 +4,6 @@ namespace PKHeX.Core
 {
     public static class UgItemUtil
     {
-        private const int DiggerDrill = 399;
-
         public static UgItemType GetType(int ugItemID)
         {
             if ((uint)ugItemID >= Items.Count)
@@ -18,7 +16,7 @@ namespace PKHeX.Core
             UgItemType.Sphere => UndergroundItemList8b.ItemMaxCount,
             UgItemType.Statue => UndergroundItemList8b.StatueMaxCount,
             UgItemType.Pedestal => UndergroundItemList8b.StatueMaxCount,
-            _ => ugItemID == DiggerDrill ? 1 : UndergroundItemList8b.ItemMaxCount,
+            _ => UndergroundItemList8b.ItemMaxCount,
         };
 
         private record UgItemDef(int UgItemID, int ItemID, int SphereID, int PedestalID, int StatueID)
