@@ -251,12 +251,22 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
-            if (!pi.IsPresentInGame)
-                return;
-            moves.AddRange(TypeTutor8.Where((_, i) => pi.TypeTutors[i]));
-            if (specialTutors)
-                moves.AddRange(GetTutors(pi, Tutors_SWSH_1));
+            if (pkm.BDSP)
+            {
+                var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
+                if (!pi.IsPresentInGame)
+                    return;
+                moves.AddRange(TypeTutor8b.Where((_, i) => pi.TypeTutors[i]));
+            }
+            else // SWSH
+            {
+                var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
+                if (!pi.IsPresentInGame)
+                    return;
+                moves.AddRange(TypeTutor8.Where((_, i) => pi.TypeTutors[i]));
+                if (specialTutors)
+                    moves.AddRange(GetTutors(pi, Tutors_SWSH_1));
+            }
         }
 
         private static IEnumerable<int> GetTutors(PersonalInfo pi, params int[][] tutors)

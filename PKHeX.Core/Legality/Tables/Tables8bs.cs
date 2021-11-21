@@ -208,6 +208,14 @@ namespace PKHeX.Core
                       015, 019, 057, 070, 432, 249, 127, 431,
         };
 
+        internal static readonly int[] TypeTutor8b =
+        {
+            (int)Move.FrenzyPlant,
+            (int)Move.BlastBurn,
+            (int)Move.HydroCannon,
+            (int)Move.DracoMeteor,
+        };
+
         /// <summary>
         /// Moves that are kill
         /// </summary>
