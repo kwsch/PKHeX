@@ -69,22 +69,13 @@ namespace PKHeX.WinForms
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-            //if (SAV.Played.LastSavedDate.HasValue)
-            //{
-            //    CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
-            //    CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
-            //}
-            //else
-            //{
-                L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
-            //}
+            CAL_LastSavedDate.Value = SAV.System.LocalTimestampLatest;
+            CAL_LastSavedTime.Value = SAV.System.LocalTimestampLatest;
 
-            L_Started.Visible = CAL_AdventureStartDate.Visible = CAL_AdventureStartTime.Visible = false;
+            CAL_AdventureStartDate.Value = SAV.System.LocalTimestampStart;
+            CAL_AdventureStartTime.Value = SAV.System.LocalTimestampStart;
+
             L_Fame.Visible = CAL_HoFDate.Visible = CAL_HoFTime.Visible = false;
-            // DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
-            // CAL_AdventureStartDate.Value = date;
-            // CAL_AdventureStartTime.Value = time;
-            // 
             // DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             // CAL_HoFDate.Value = date;
             // CAL_HoFTime.Value = time;
@@ -132,9 +123,9 @@ namespace PKHeX.WinForms
 
             //SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
             //SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
-            //
-            //if (SAV.Played.LastSavedDate.HasValue)
-            //    SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+
+            SAV.System.LocalTimestampStart = ReviseTimestamp(SAV.System.LocalTimestampStart, CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.System.LocalTimestampLatest = ReviseTimestamp(SAV.System.LocalTimestampLatest, CAL_LastSavedDate.Value, CAL_LastSavedTime.Value);
 
             SAV.Work.SetSystemFlag(124, CHK_Badge1.Checked);
             SAV.Work.SetSystemFlag(125, CHK_Badge2.Checked);
@@ -144,6 +135,12 @@ namespace PKHeX.WinForms
             SAV.Work.SetSystemFlag(129, CHK_Badge6.Checked);
             SAV.Work.SetSystemFlag(130, CHK_Badge7.Checked);
             SAV.Work.SetSystemFlag(131, CHK_Badge8.Checked);
+        }
+
+        private static DateTime ReviseTimestamp(DateTime original, DateTime date, DateTime time)
+        {
+            var revised = date.Date + time.TimeOfDay;
+            return revised.AddTicks(original.Ticks % TimeSpan.TicksPerSecond); // keep the ticks consistent
         }
 
         private void ClickOT(object sender, MouseEventArgs e)
