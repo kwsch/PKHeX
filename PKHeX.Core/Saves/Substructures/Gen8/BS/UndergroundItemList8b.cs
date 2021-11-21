@@ -18,32 +18,14 @@ namespace PKHeX.Core
                 result[i] = new UndergroundItem8b(Data, Offset, i);
             return result;
         }
-    }
 
-    public class UndergroundItem8b
-    {
-        private const int SIZE = 0xC;
-        public readonly int Index; // not serialized
-
-        public int Count { get; set; }
-        public bool HideNewFlag { get; set; }
-        public bool IsFavoriteFlag { get; set; }
-
-        public UndergroundItem8b(byte[] data, int baseOffset, int index)
+        public void WriteItems(IReadOnlyList<UndergroundItem8b> items)
         {
-            Index = index;
-            var offset = baseOffset + (SIZE * index);
-            Count = BitConverter.ToInt32(data, offset + 0);
-            HideNewFlag = BitConverter.ToUInt32(data, offset + 4) == 1;
-            IsFavoriteFlag = BitConverter.ToUInt32(data, offset + 8) == 1;
-        }
-
-        public void Write(byte[] data, int baseOffset)
-        {
-            var offset = baseOffset + (SIZE * Index);
-            BitConverter.GetBytes(Count).CopyTo(data, offset + 0);
-            BitConverter.GetBytes(HideNewFlag ? 1u : 0u).CopyTo(data, offset + 4);
-            BitConverter.GetBytes(IsFavoriteFlag ? 1u : 0u).CopyTo(data, offset + 8);
+            if (items.Count != ItemSaveSize)
+                throw new ArgumentOutOfRangeException(nameof(items.Count));
+            foreach (var item in items)
+                item.Write(Data, Offset);
+            SAV.State.Edited = true;
         }
     }
 }

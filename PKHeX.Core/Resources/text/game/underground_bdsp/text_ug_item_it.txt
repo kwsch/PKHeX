@@ -1,0 +1,940 @@
+
+Bilia rossa S
+Bilia blu S
+Bilia verde S
+Bilia prisma S
+Bilia tersa S
+Bilia rossa L
+Bilia blu L
+Bilia verde L
+Bilia prisma L
+Bilia tersa L
+Revitalizzante
+Revitalizz. Max
+Coccio Rosso
+Coccio Blu
+Coccio Giallo
+Coccio Verde
+Pietrasolare
+Pietralunare
+Pietrafocaia
+Pietratuono
+Pietraidrica
+Pietrafoglia
+Pietraovale
+Pietrastante
+Roccianima
+Pezzo Stella
+Squama Cuore
+Radifossile
+Fossilunghia
+Helixfossile
+Domofossile
+Ambra antica
+Fossilscudo
+Fossilcranio
+Osso Raro
+Creta Luce
+Ferropalla
+Rocciafredda
+Roccialiscia
+Rocciacalda
+Rocciaumida
+Frammento insolito S
+Frammento insolito L
+Pietradura
+Lastrarogo
+Lastraidro
+Lastrasaetta
+Lastraprato
+Lastragelo
+Lastrapugno
+Lastrafiele
+Lastrageo
+Lastracielo
+Lastramente
+Lastrabaco
+Lastrapietra
+Lastratetra
+Lastradrakon
+Lastratimore
+Lastraferro
+Lastraspiritello
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Base quadrata XS
+Base quadrata S
+Base quadrata M
+Base quadrata L
+Base rotonda XS
+Base rotonda M
+Base rotonda L
+Base immobile XS
+Base immobile S
+Base immobile M
+Base immobile L
+Base trasparente XS
+Base trasparente S
+Base trasparente M
+Base trasparente L
+Base aurora L
+Base aurora XL
+Base notte fonda L
+Base notte fonda XL
+Base diamante L
+Base diamante XL
+Base perla L
+Base perla XL
+Base destrogira XS
+Base destrogira M
+Base destrogira L
+Base sinistrogira XS
+Base sinistrogira M
+Base sinistrogira L
+Trivella
+MT01
+MT02
+MT03
+MT04
+MT05
+MT06
+MT07
+MT08
+MT09
+MT10
+MT11
+MT12
+MT13
+MT14
+MT15
+MT16
+MT17
+MT18
+MT19
+MT20
+MT21
+MT22
+MT23
+MT24
+MT25
+MT26
+MT27
+MT28
+MT29
+MT30
+MT31
+MT32
+MT33
+MT34
+MT35
+MT36
+MT37
+MT38
+MT39
+MT40
+MT41
+MT42
+MT43
+MT44
+MT45
+MT46
+MT47
+MT48
+MT49
+MT50
+MT51
+MT52
+MT53
+MT54
+MT55
+MT56
+MT57
+MT58
+MT59
+MT60
+MT61
+MT62
+MT63
+MT64
+MT65
+MT66
+MT67
+MT68
+MT69
+MT70
+MT71
+MT72
+MT73
+MT74
+MT75
+MT76
+MT77
+MT78
+MT79
+MT80
+MT81
+MT82
+MT83
+MT84
+MT85
+MT86
+MT87
+MT88
+MT89
+MT90
+MT91
+MT92
+Statua di Bulbasaur
+Statua di Ivysaur
+Statua di Venusaur
+Statua di Charmander
+Statua di Charmeleon
+Statua di Charizard
+Statua di Squirtle
+Statua di Wartortle
+Statua di Blastoise
+Statua di Pikachu
+Statua di Nidoqueen
+Statua di Nidoking
+Statua di Clefairy
+Statua di Vulpix
+Statua di Jigglypuff
+Statua di Oddish
+Statua di Meowth
+Statua di Psyduck
+Statua di Arcanine
+Statua di Poliwrath
+Statua di Alakazam
+Statua di Machamp
+Statua di Tentacruel
+Statua di Geodude
+Statua di Rapidash
+Statua di Slowpoke
+Statua di Farfetch’d
+Statua di Gengar
+Statua di Cubone
+Statua di Lickitung
+Statua di Weezing
+Statua di Chansey
+Statua di Kangaskhan
+Statua di Seaking
+Statua di Mr. Mime
+Statua di Tauros
+Statua di Magikarp
+Statua di Gyarados
+Statua di Lapras
+Statua di Ditto
+Statua di Eevee
+Statua di Vaporeon
+Statua di Jolteon
+Statua di Flareon
+Statua di Porygon
+Statua di Omastar
+Statua di Snorlax
+Statua di Dragonite
+Statua di Chikorita
+Statua di Bayleef
+Statua di Meganium
+Statua di Cyndaquil
+Statua di Quilava
+Statua di Typhlosion
+Statua di Totodile
+Statua di Croconaw
+Statua di Feraligatr
+Statua di Furret
+Statua di Noctowl
+Statua di Crobat
+Statua di Togepi
+Statua di Ampharos
+Statua di Bellossom
+Statua di Marill
+Statua di Sudowoodo
+Statua di Aipom
+Statua di Sunkern
+Statua di Quagsire
+Statua di Espeon
+Statua di Umbreon
+Statua di Murkrow
+Statua di Unown
+Statua di Wobbuffet
+Statua di Girafarig
+Statua di Dunsparce
+Statua di Steelix
+Statua di Snubbull
+Statua di Scizor
+Statua di Heracross
+Statua di Magcargo
+Statua di Octillery
+Statua di Mantine
+Statua di Smeargle
+Statua di Miltank
+Statua di Tyranitar
+Statua di Treecko
+Statua di Grovyle
+Statua di Sceptile
+Statua di Torchic
+Statua di Combusken
+Statua di Blaziken
+Statua di Mudkip
+Statua di Marshtomp
+Statua di Swampert
+Statua di Beautifly
+Statua di Dustox
+Statua di Ludicolo
+Statua di Pelipper
+Statua di Gardevoir
+Statua di Shroomish
+Statua di Slaking
+Statua di Ninjask
+Statua di Exploud
+Statua di Skitty
+Statua di Sableye
+Statua di Mawile
+Statua di Aggron
+Statua di Medicham
+Statua di Manectric
+Statua di Plusle
+Statua di Minun
+Statua di Volbeat
+Statua di Illumise
+Statua di Roselia
+Statua di Sharpedo
+Statua di Wailmer
+Statua di Camerupt
+Statua di Torkoal
+Statua di Spinda
+Statua di Flygon
+Statua di Cacturne
+Statua di Altaria
+Statua di Zangoose
+Statua di Seviper
+Statua di Lunatone
+Statua di Solrock
+Statua di Whiscash
+Statua di Claydol
+Statua di Cradily
+Statua di Milotic
+Statua di Castform
+Statua di Kecleon
+Statua di Tropius
+Statua di Chimecho
+Statua di Absol
+Statua di Spheal
+Statua di Clamperl
+Statua di Relicanth
+Statua di Luvdisc
+Statua di Salamence
+Statua di Metagross
+Statua di Turtwig
+Statua di Grotle
+Statua di Torterra
+Statua di Chimchar
+Statua di Monferno
+Statua di Infernape
+Statua di Piplup
+Statua di Prinplup
+Statua di Empoleon
+Statua di Staraptor
+Statua di Bibarel
+Statua di Kricketot
+Statua di Luxray
+Statua di Budew
+Statua di Roserade
+Statua di Cranidos
+Statua di Bastiodon
+Statua di Burmy
+Statua di Wormadam
+Statua di Mothim
+Statua di Vespiquen
+Statua di Pachirisu
+Statua di Floatzel
+Statua di Cherubi
+Statua di Gastrodon
+Statua di Ambipom
+Statua di Drifloon
+Statua di Buneary
+Statua di Mismagius
+Statua di Honchkrow
+Statua di Purugly
+Statua di Skuntank
+Statua di Bronzong
+Statua di Happiny
+Statua di Chatot
+Statua di Spiritomb
+Statua di Garchomp
+Statua di Lucario
+Statua di Hippowdon
+Statua di Drapion
+Statua di Croagunk
+Statua di Carnivine
+Statua di Lumineon
+Statua di Abomasnow
+Statua di Weavile
+Statua di Magnezone
+Statua di Rhyperior
+Statua di Tangrowth
+Statua di Electivire
+Statua di Magmortar
+Statua di Togekiss
+Statua di Yanmega
+Statua di Leafeon
+Statua di Glaceon
+Statua di Gliscor
+Statua di Mamoswine
+Statua di Porygon-Z
+Statua di Gallade
+Statua di Probopass
+Statua di Dusknoir
+Statua di Froslass
+Statua di Rotom
+Statua di Rotom
+Statua di Rotom
+Statua di Rotom
+Statua di Rotom
+Statua di Rotom
+Statua di Articuno
+Statua di Zapdos
+Statua di Moltres
+Statua di Mewtwo
+Statua di Raikou
+Statua di Entei
+Statua di Suicune
+Statua di Lugia
+Statua di Ho-Oh
+Statua di Regirock
+Statua di Regice
+Statua di Registeel
+Statua di Latias
+Statua di Latios
+Statua di Kyogre
+Statua di Groudon
+Statua di Rayquaza
+Statua di Bulbasaur 
+Statua di Ivysaur 
+Statua di Venusaur 
+Statua di Charmander 
+Statua di Charmeleon 
+Statua di Charizard 
+Statua di Squirtle 
+Statua di Wartortle 
+Statua di Blastoise 
+Statua di Pikachu 
+Statua di Nidoqueen 
+Statua di Nidoking 
+Statua di Clefairy 
+Statua di Vulpix 
+Statua di Jigglypuff 
+Statua di Oddish 
+Statua di Meowth 
+Statua di Psyduck 
+Statua di Arcanine 
+Statua di Poliwrath 
+Statua di Alakazam 
+Statua di Machamp 
+Statua di Tentacruel 
+Statua di Geodude 
+Statua di Rapidash 
+Statua di Slowpoke 
+Statua di Farfetch’d 
+Statua di Gengar 
+Statua di Cubone 
+Statua di Lickitung 
+Statua di Weezing 
+Statua di Chansey 
+Statua di Kangaskhan 
+Statua di Seaking 
+Statua di Mr. Mime 
+Statua di Tauros 
+Statua di Magikarp 
+Statua di Gyarados 
+Statua di Lapras 
+Statua di Ditto 
+Statua di Eevee 
+Statua di Vaporeon 
+Statua di Jolteon 
+Statua di Flareon 
+Statua di Porygon 
+Statua di Omastar 
+Statua di Snorlax 
+Statua di Dragonite 
+Statua di Chikorita 
+Statua di Bayleef 
+Statua di Meganium 
+Statua di Cyndaquil 
+Statua di Quilava 
+Statua di Typhlosion 
+Statua di Totodile 
+Statua di Croconaw 
+Statua di Feraligatr 
+Statua di Furret 
+Statua di Noctowl 
+Statua di Crobat 
+Statua di Togepi 
+Statua di Ampharos 
+Statua di Bellossom 
+Statua di Marill 
+Statua di Sudowoodo 
+Statua di Aipom 
+Statua di Sunkern 
+Statua di Quagsire 
+Statua di Espeon 
+Statua di Umbreon 
+Statua di Murkrow 
+Statua di Unown 
+Statua di Wobbuffet 
+Statua di Girafarig 
+Statua di Dunsparce 
+Statua di Steelix 
+Statua di Snubbull 
+Statua di Scizor 
+Statua di Heracross 
+Statua di Magcargo 
+Statua di Octillery 
+Statua di Mantine 
+Statua di Smeargle 
+Statua di Miltank 
+Statua di Tyranitar 
+Statua di Treecko 
+Statua di Grovyle 
+Statua di Sceptile 
+Statua di Torchic 
+Statua di Combusken 
+Statua di Blaziken 
+Statua di Mudkip 
+Statua di Marshtomp 
+Statua di Swampert 
+Statua di Beautifly 
+Statua di Dustox 
+Statua di Ludicolo 
+Statua di Pelipper 
+Statua di Gardevoir 
+Statua di Shroomish 
+Statua di Slaking 
+Statua di Ninjask 
+Statua di Exploud 
+Statua di Skitty 
+Statua di Sableye 
+Statua di Mawile 
+Statua di Aggron 
+Statua di Medicham 
+Statua di Manectric 
+Statua di Plusle 
+Statua di Minun 
+Statua di Volbeat 
+Statua di Illumise 
+Statua di Roselia 
+Statua di Sharpedo 
+Statua di Wailmer 
+Statua di Camerupt 
+Statua di Torkoal 
+Statua di Spinda 
+Statua di Flygon 
+Statua di Cacturne 
+Statua di Altaria 
+Statua di Zangoose 
+Statua di Seviper 
+Statua di Lunatone 
+Statua di Solrock 
+Statua di Whiscash 
+Statua di Claydol 
+Statua di Cradily 
+Statua di Milotic 
+Statua di Castform 
+Statua di Kecleon 
+Statua di Tropius 
+Statua di Chimecho 
+Statua di Absol 
+Statua di Spheal 
+Statua di Clamperl 
+Statua di Relicanth 
+Statua di Luvdisc 
+Statua di Salamence 
+Statua di Metagross 
+Statua di Turtwig 
+Statua di Grotle 
+Statua di Torterra 
+Statua di Chimchar 
+Statua di Monferno 
+Statua di Infernape 
+Statua di Piplup 
+Statua di Prinplup 
+Statua di Empoleon 
+Statua di Staraptor 
+Statua di Bibarel 
+Statua di Kricketot 
+Statua di Luxray 
+Statua di Budew 
+Statua di Roserade 
+Statua di Cranidos 
+Statua di Bastiodon 
+Statua di Burmy 
+Statua di Wormadam 
+Statua di Mothim 
+Statua di Vespiquen 
+Statua di Pachirisu 
+Statua di Floatzel 
+Statua di Cherubi 
+Statua di Gastrodon 
+Statua di Ambipom 
+Statua di Drifloon 
+Statua di Buneary 
+Statua di Mismagius 
+Statua di Honchkrow 
+Statua di Purugly 
+Statua di Skuntank 
+Statua di Bronzong 
+Statua di Happiny 
+Statua di Chatot 
+Statua di Spiritomb 
+Statua di Garchomp 
+Statua di Lucario 
+Statua di Hippowdon 
+Statua di Drapion 
+Statua di Croagunk 
+Statua di Carnivine 
+Statua di Lumineon 
+Statua di Abomasnow 
+Statua di Weavile 
+Statua di Magnezone 
+Statua di Rhyperior 
+Statua di Tangrowth 
+Statua di Electivire 
+Statua di Magmortar 
+Statua di Togekiss 
+Statua di Yanmega 
+Statua di Leafeon 
+Statua di Glaceon 
+Statua di Gliscor 
+Statua di Mamoswine 
+Statua di Porygon-Z 
+Statua di Gallade 
+Statua di Probopass 
+Statua di Dusknoir 
+Statua di Froslass 
+Statua di Rotom 
+Statua di Rotom 
+Statua di Rotom 
+Statua di Rotom 
+Statua di Rotom 
+Statua di Rotom 
+MT93
+MT94
+MT95
+MT96
+MT97
+MT98
+MT99
+MT100
+Base quadrata XL
+Base rotonda XL
+Base immobile XL
+Base trasparente XL
+Base destrogira XL
+Base sinistrogira XL
+Giratina Origin Statue

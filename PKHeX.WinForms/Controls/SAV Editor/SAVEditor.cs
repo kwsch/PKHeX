@@ -1082,7 +1082,8 @@ namespace PKHeX.WinForms.Controls
             B_OpenMiscEditor.Visible = sav is SAV3 or SAV4 or SAV5;
             B_Roamer.Visible = sav is SAV3;
 
-            B_OpenHoneyTreeEditor.Visible = B_OpenUGSEditor.Visible = sav is SAV4Sinnoh;
+            B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;
+            B_OpenUGSEditor.Visible = sav is SAV4Sinnoh or SAV8BS;
             B_OpenApricorn.Visible = sav is SAV4HGSS;
             B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
             B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
@@ -1178,10 +1179,15 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
         {
-            if (SAV is not SAV4Sinnoh s)
+            Form form;
+            if (SAV is SAV4Sinnoh s)
+                form = new SAV_Underground(s);
+            else if (SAV is SAV8BS bs)
+                form = new SAV_Underground8b(bs);
+            else
                 return;
-            using var form = new SAV_Underground(s);
             form.ShowDialog();
+            form.Dispose();
         }
 
         private void B_FestivalPlaza_Click(object sender, EventArgs e)
