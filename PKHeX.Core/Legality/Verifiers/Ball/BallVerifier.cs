@@ -257,7 +257,7 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
         {
             int species = data.EncounterMatch.Species;
-            if (species is (int)Species.Phione)
+            if (BallBreedLegality.BanInheritedBall_BDSP.Contains(species))
                 return VerifyBallEquals(data, (int)Poke);
 
             if (data.pkm.Ball == (int)Safari)

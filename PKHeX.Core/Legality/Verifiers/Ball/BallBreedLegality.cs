@@ -985,7 +985,7 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// All egg species that can inherit a Safar Ball when bred in BD/SP.
+        /// All egg species that can inherit a Safari Ball when bred in BD/SP.
         /// </summary>
         internal static readonly HashSet<int> InheritSafari_BDSP = new()
         {
@@ -1011,6 +1011,18 @@ namespace PKHeX.Core
             (int)Starly,
             (int)Wooper,
             (int)Yanma,
+        };
+
+        internal static readonly HashSet<int> BanInheritedBall_BDSP = new()
+        {
+            // Gen1 Fossils
+            (int)Aerodactyl, (int)Omanyte, (int)Kabuto,
+            // Gen3 Fossils
+            (int)Lileep, (int)Anorith,
+            // Gen4 Fossils
+            (int)Cranidos, (int)Shieldon,
+
+            (int)Phione,
         };
     }
 }
