@@ -373,7 +373,7 @@ namespace PKHeX.Core
         /// <param name="dest">Game the egg is currently present on</param>
         public static void SetEggMetData(this PKM pk, GameVersion origin, GameVersion dest)
         {
-            bool traded = origin == dest;
+            bool traded = origin != dest;
             var today = pk.MetDate = DateTime.Today;
             pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
             pk.EggMetDate = today;

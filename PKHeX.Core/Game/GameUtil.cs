@@ -200,7 +200,7 @@ namespace PKHeX.Core
 
                 SWSH => g2 is SW or SH,
                 BDSP => g2 is BD or SP,
-                Gen8 => SWSH.Contains(g2) || BD.Contains(g2),
+                Gen8 => SWSH.Contains(g2) || BDSP.Contains(g2),
                 _ => false,
             };
         }
