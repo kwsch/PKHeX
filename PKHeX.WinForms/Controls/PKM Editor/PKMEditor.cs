@@ -1214,7 +1214,7 @@ namespace PKHeX.WinForms.Controls
                 bool g4 = Entity.Gen4;
                 CB_GroundTile.Visible = Label_GroundTile.Visible = g4 && Entity.Format < 7;
                 if (!g4)
-                    CB_GroundTile.SelectedValue = 0;
+                    CB_GroundTile.SelectedValue = (int)GroundTileType.None;
             }
 
             if (!FieldsLoaded)
@@ -1470,13 +1470,15 @@ namespace PKHeX.WinForms.Controls
                     return;
 
                 CAL_EggDate.Value = DateTime.Now;
-                CB_EggLocation.SelectedIndex = 1;
+
+                bool isTradedEgg = Entity.IsEgg && Entity.Version != (int)RequestSaveFile.Version;
+                CB_EggLocation.SelectedValue = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Entity, isTradedEgg);
                 return;
             }
             // Remove egg met data
             CHK_IsEgg.Checked = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
-            CB_EggLocation.SelectedValue = 0;
+            CB_EggLocation.SelectedValue = Locations.GetNoneLocation((GameVersion)Entity.Version);
 
             UpdateLegality();
         }
