@@ -1,7 +1,31 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/11/19 - New Update
+21/11/21 - New Update:
+ - Legality:
+ - - Fixed: TM learn permissions now reference the correct move IDs.
+ - - Fixed: Elemental Beam type tutors now permitted for PB8 formats.
+ - - Fixed: Revised roamer met location list to match dumped roam locations.
+ - - Fixed: Feebas and Burmy encounter matching now behaves as intended.
+ - - Fixed: Ball legality for bred Fossil species restricted to only Poké Balls.
+ - - Added: Affixed Ribbon value is now checked for PB8 format.
+ - - Added: Minimum hatch counter values are now checked for all formats.
+ - Added: Clicking the Hatch Counter label now toggles min/max suggested values, similar to clicking the Friendship label shortcut.
+ - Added: BDSP saves now indicate the (computer local time) saved time from the save file. Backups are now saved with this detail.
+ - Added: BDSP Underground player inventory editor. Statues, goods, items, etc.
+ - Added: BDSP Specialized Trainer Info editor is now used for BD/SP instead of the old generic form.
+ - Added: BDSP Fashion unlock flags are now in the Event Flag editor.
+ - Added: BDSP PB8<->PK8 Incompatible conversion path is now available if opted in via program settings.
+ - Added: BDSP Daycare details including the RNG seed are now shown, similar to prior games.
+ - Fixed: BDSP poffin ingredient berries are now able to be edited via the player Inventory Editor.
+ - Fixed: BDSP inventory editor now deletes item slots that have been deleted via the GUI editor.
+ - Fixed: BDSP Blank PB8 files (encounter templates) are created with AffixedRibbon=-1, along with the met locations.
+ - Fixed: BDSP Batch editor now works for the PB8 format.
+ - Fixed: BDSP encounter database now yields Shining Pearl egg encounters.
+ - Fixed: Toggling egg state in the PKM Editor GUI now sets the correct met location values.
+ - Changed: Editing the HT_Friendship value for eggs in the Memories editor is now possible if it is a HT-handled egg, rather than being greyed out.
+
+21/11/19 - New Update: (41229) [4140044]
  - Introducing Brilliant Diamond & Shining Pearl Support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!
  - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for BDSP parsing.
  - - Bag editing, Pokédex, and Event Flags, Trainer Info editing is provided. More editable values can be found in the Block Data editor.
