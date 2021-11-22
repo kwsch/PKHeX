@@ -41,10 +41,12 @@ namespace PKHeX.Core
         {
             if (IsEgg)
             {
-                // Eggs do not have any modifications done if they are traded
                 // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-                // if ((tr.OT != OT_Name) || (tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender))
-                //     SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
+                if ((tr.OT != OT_Name) || (tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender))
+                    SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
+
+                // Unfortunately, BDSP doesn't return if it's an egg, and can update the HT details & handler.
+                // Continue to the rest of the method.
                 // return;
             }
 

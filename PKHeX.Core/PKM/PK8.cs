@@ -48,7 +48,7 @@ namespace PKHeX.Core
             if (!TradeOT(tr))
                 TradeHT(tr);
         }
-        
+
         public int DynamaxType { get => BitConverter.ToUInt16(Data, 0x156); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x156); }
 
         public void FixMemories()

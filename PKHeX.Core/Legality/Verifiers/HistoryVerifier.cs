@@ -31,7 +31,8 @@ namespace PKHeX.Core
 
             if (!pkm.IsUntraded)
             {
-                if (pkm.IsEgg) // Can't have HT details even as a Link Trade egg
+                // Can't have HT details even as a Link Trade egg, except in some games.
+                if (pkm.IsEgg && !EggStateLegality.IsValidHTEgg(pkm))
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryArgBadHT));
                 return;
             }
