@@ -960,6 +960,7 @@
             this.Label_HatchCounter.TabIndex = 61;
             this.Label_HatchCounter.Text = "Hatch Counter:";
             this.Label_HatchCounter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_HatchCounter.Click += new System.EventHandler(this.ClickFriendship);
             // 
             // FLP_FriendshipRight
             // 

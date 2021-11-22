@@ -177,10 +177,17 @@ namespace PKHeX.WinForms.Controls
             if (pk is IFormArgument f)
                 FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Format);
 
-            TB_Friendship.Text = pk.CurrentFriendship.ToString();
+            ReloadToFriendshipTextBox(pk);
 
             Label_HatchCounter.Visible = CHK_IsEgg.Checked;
             Label_Friendship.Visible = !CHK_IsEgg.Checked;
+        }
+
+        private void ReloadToFriendshipTextBox(PKM pk)
+        {
+            // Show OT friendship always if it is an egg.
+            var fs = (pk.IsEgg ? pk.OT_Friendship : pk.CurrentFriendship);
+            TB_Friendship.Text = fs.ToString();
         }
 
         private void SaveMisc2(PKM pk)
@@ -191,7 +198,17 @@ namespace PKHeX.WinForms.Controls
             pk.Form = CB_Form.Enabled ? CB_Form.SelectedIndex & 0x1F : 0;
             if (Entity is IFormArgument f)
                 FA_Form.SaveArgument(f);
-            pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
+
+            var friendship = Util.ToInt32(TB_Friendship.Text);
+            UpdateFromFriendshipTextBox(pk, friendship);
+        }
+
+        private static void UpdateFromFriendshipTextBox(PKM pk, int friendship)
+        {
+            if (pk.IsEgg)
+                pk.OT_Friendship = friendship;
+            else
+                pk.CurrentFriendship = friendship;
         }
 
         private void LoadMisc3(PKM pk)

@@ -101,7 +101,7 @@ namespace PKHeX.WinForms
             GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled =
             BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled =
             L_Sociability.Enabled = MT_Sociability.Enabled =
-            L_Fullness.Enabled = L_Enjoyment.Enabled = !pkm.IsEgg;
+            L_Fullness.Enabled = L_Enjoyment.Enabled = !(pkm.IsEgg && pkm.IsUntraded && pkm.HT_Friendship == 0);
 
             if (!pkm.IsEgg)
             {

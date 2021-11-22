@@ -572,10 +572,10 @@ namespace PKHeX.WinForms.Controls
         // Prompted Updates of PKM //
         private void ClickFriendship(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control) // clear
-                TB_Friendship.Text = "0";
+            if (ModifierKeys == Keys.Control ^ CHK_IsEgg.Checked) // clear
+                TB_Friendship.Text = CHK_IsEgg.Checked ? EggStateLegality.GetMinimumEggHatchCycles(Entity).ToString() : "0";
             else
-                TB_Friendship.Text = TB_Friendship.Text == "255" ? Entity.PersonalInfo.BaseFriendship.ToString() : "255";
+                TB_Friendship.Text = CHK_IsEgg.Checked ? EggStateLegality.GetMaximumEggHatchCycles(Entity).ToString() : TB_Friendship.Text == "255" ? Entity.PersonalInfo.BaseFriendship.ToString() : "255";
         }
 
         private void ClickLevel(object sender, EventArgs e)
@@ -706,7 +706,7 @@ namespace PKHeX.WinForms.Controls
                 Entity.CurrentHandler = 1;
             UpadteHandlingTrainerBackground(Entity.CurrentHandler);
 
-            TB_Friendship.Text = Entity.CurrentFriendship.ToString();
+            ReloadToFriendshipTextBox(Entity);
         }
 
         private void ClickNature(object sender, EventArgs e)
@@ -972,7 +972,7 @@ namespace PKHeX.WinForms.Controls
                 tb.Text = "255";
             if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
             {
-                Entity.CurrentFriendship = val;
+                UpdateFromFriendshipTextBox(Entity, val);
                 UpdateStats();
             }
         }
@@ -1383,7 +1383,7 @@ namespace PKHeX.WinForms.Controls
             {
                 ClickGT(GB_OT, EventArgs.Empty); // Switch CT over to OT.
                 Label_CTGender.Text = string.Empty;
-                TB_Friendship.Text = Entity.CurrentFriendship.ToString();
+                ReloadToFriendshipTextBox(Entity);
             }
             else if (string.IsNullOrWhiteSpace(Label_CTGender.Text))
             {
@@ -1766,10 +1766,10 @@ namespace PKHeX.WinForms.Controls
             Entity.HT_Name = TB_OTt2.Text;
             Entity.OT_Name = TB_OT.Text;
             Entity.IsEgg = CHK_IsEgg.Checked;
-            Entity.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
+            UpdateFromFriendshipTextBox(Entity, Util.ToInt32(TB_Friendship.Text));
             using var form = new MemoryAmie(Entity);
             form.ShowDialog();
-            TB_Friendship.Text = Entity.CurrentFriendship.ToString();
+            ReloadToFriendshipTextBox(Entity);
         }
 
         private void B_Records_Click(object sender, EventArgs e)

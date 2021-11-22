@@ -97,7 +97,7 @@ namespace PKHeX.Core
         {
             if (HT_Name != tr.OT)
             {
-                HT_Friendship = 50;
+                HT_Friendship = PersonalInfo.BaseFriendship;
                 HT_Name = tr.OT;
             }
             CurrentHandler = 1;
