@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -37,6 +38,9 @@ namespace PKHeX.Core
 
         public override void SetPouch(byte[] data)
         {
+            HashSet<ushort> processed = new();
+
+            // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
             foreach (var item in Items)
             {
                 var index = (ushort)item.Index;
@@ -52,6 +56,18 @@ namespace PKHeX.Core
 
                 var ofs = GetItemOffset(index, Offset);
                 WriteItem(item, data, ofs);
+
+                if (!processed.Contains(index)) // we will allow duplicate item definitions, but they'll overwrite instead of sum/separate.
+                    processed.Add(index);
+            }
+
+            // For all the items that were not present in the pouch, clear the data for them.
+            foreach (var index in LegalItems)
+            {
+                if (processed.Contains(index))
+                    continue;
+                var ofs = GetItemOffset(index, Offset);
+                WriteItem(new InventoryItem(), data, ofs);
             }
         }
 
