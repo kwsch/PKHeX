@@ -44,7 +44,7 @@ namespace PKHeX.Core
             // _RANDOM_GROUP
             // KinomiGrowSaveData -- berry trees
             // PoffinSaveData -- poffins
-            // BTLTOWER_SAVEWORK -- BP counts and battle tower stats
+            BattleTower = new BattleTowerWork8b(this, 0x95BF4); // size: 0x1B8
             System = new SystemData8b(this, 0x95DAC);
             Poketch = new Poketch8b(this, 0); // todo
             Daycare = new Daycare8b(this, 0x96080); // 0x2C0
@@ -189,6 +189,7 @@ namespace PKHeX.Core
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
         public Record8b Records { get; }
+        public BattleTowerWork8b BattleTower { get; }
         public SystemData8b System { get; }
         public Poketch8b Poketch { get; }
         public Daycare8b Daycare { get; }
@@ -259,12 +260,6 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x5638);
         }
 
-        public uint BP
-        {
-            get => BitConverter.ToUInt32(Data, 0x95C00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x95C00);
-        }
-
         protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk = (PB8)pkm;
@@ -310,7 +305,7 @@ namespace PKHeX.Core
         public int RecordCount => Record8b.RecordCount;
         public int GetRecord(int recordID) => Records.GetRecord(recordID);
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
-        public int GetRecordMax(int recordID) => Record8b.RecordMaxValue;
+        public int GetRecordMax(int recordID) => recordID == 0 ? int.MaxValue : Record8b.RecordMaxValue;
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
 
         #region Daycare
