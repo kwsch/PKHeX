@@ -572,10 +572,13 @@ namespace PKHeX.WinForms.Controls
         // Prompted Updates of PKM //
         private void ClickFriendship(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control ^ CHK_IsEgg.Checked) // clear
-                TB_Friendship.Text = CHK_IsEgg.Checked ? EggStateLegality.GetMinimumEggHatchCycles(Entity).ToString() : "0";
-            else
-                TB_Friendship.Text = CHK_IsEgg.Checked ? EggStateLegality.GetMaximumEggHatchCycles(Entity).ToString() : TB_Friendship.Text == "255" ? Entity.PersonalInfo.BaseFriendship.ToString() : "255";
+            var pk = Entity;
+            bool worst = ModifierKeys == Keys.Control ^ pk.IsEgg;
+            var current = int.Parse(TB_Friendship.Text);
+            var value = worst
+                ? pk.IsEgg ? EggStateLegality.GetMinimumEggHatchCycles(pk) : 0
+                : pk.IsEgg ? EggStateLegality.GetMaximumEggHatchCycles(pk) : current == 255 ? pk.PersonalInfo.BaseFriendship : 255;
+            TB_Friendship.Text = value.ToString();
         }
 
         private void ClickLevel(object sender, EventArgs e)
@@ -1406,7 +1409,7 @@ namespace PKHeX.WinForms.Controls
             Entity.IsEgg = CHK_IsEgg.Checked;
             if (CHK_IsEgg.Checked)
             {
-                TB_Friendship.Text = "1";
+                TB_Friendship.Text = EggStateLegality.GetMinimumEggHatchCycles(Entity).ToString();
 
                 // If we are an egg, it won't have a met location.
                 CHK_AsEgg.Checked = true;
