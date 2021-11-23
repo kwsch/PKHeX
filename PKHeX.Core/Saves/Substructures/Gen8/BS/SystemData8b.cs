@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Details about the Poketch corner app.
+    /// Details about the Console and specific timestamps.
     /// </summary>
     /// <remarks>size: ???</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]

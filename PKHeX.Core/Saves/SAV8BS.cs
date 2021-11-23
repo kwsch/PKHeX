@@ -42,8 +42,8 @@ namespace PKHeX.Core
             // SaveBallDecoData
             // SaveSealData[]
             // _RANDOM_GROUP
-            // KinomiGrowSaveData -- berry trees
-            // PoffinSaveData -- poffins
+            BerryTrees = new BerryTreeGrowSave8b(this, 0x94DA8); // size: 0x808
+            Poffins = new PoffinSaveData8b(this, 0x955B0); // size: 0x644
             BattleTower = new BattleTowerWork8b(this, 0x95BF4); // size: 0x1B8
             System = new SystemData8b(this, 0x95DAC);
             Poketch = new Poketch8b(this, 0); // todo
@@ -189,6 +189,8 @@ namespace PKHeX.Core
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
         public Record8b Records { get; }
+        public BerryTreeGrowSave8b BerryTrees { get; }
+        public PoffinSaveData8b Poffins { get; }
         public BattleTowerWork8b BattleTower { get; }
         public SystemData8b System { get; }
         public Poketch8b Poketch { get; }
