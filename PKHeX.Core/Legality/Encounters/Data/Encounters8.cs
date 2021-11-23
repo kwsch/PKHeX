@@ -605,6 +605,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 778, Level = 62, Locations = new[] {204, 208, 210, 212}, Weather = Heavy_Fog }, // Mimikyu on Slippery Slope, Frostpoint Field, Giant’s Bed, Old Cemetery
             new EncounterStatic8S(SWSH) { Species = 126, Level = 62, Locations = new[] {204, 210}, Weather = Intense_Sun }, // Magmar on Slippery Slope, Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 861, Level = 65, Locations = new[] {204, 210}, Weather = Heavy_Fog }, // Grimmsnarl on Slippery Slope, Giant’s Bed
+            new EncounterStatic8S(SWSH) { Species = 709, Level = 63, Locations = new[] {204, 212}, Weather = Overcast }, // Trevenant on Slippery Slope, Old Cemetery
             new(SWSH) { Species = 124, Level = 62, Location = 208, Weather = Snowing | Heavy_Fog }, // Jynx in Frostpoint Field
             new(SWSH) { Species = 460, Level = 65, Location = 208, Weather = Normal | Overcast | Intense_Sun | Snowing }, // Abomasnow in Frostpoint Field
             new(SWSH) { Species = 698, Level = 60, Location = 208, Weather = Normal | Icy }, // Amaura in Frostpoint Field
@@ -660,7 +661,6 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 531, Level = 62, Locations = new[] {210, 222, 230}, Weather = All_CT }, // Audino in the Giant’s Bed, Giant’s Foot
             new EncounterStatic8S(SWSH) { Species = 130, Level = 67, Locations = new[] {210, 230}, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy }, // Gyarados in the Giant’s Bed, Ballimere Lake
             new EncounterStatic8S(SWSH) { Species = 350, Level = 67, Locations = new[] {210, 230}, Weather = Heavy_Fog }, // Milotic in the Giant’s Bed, Ballimere Lake
-            new(SWSH) { Species = 709, Level = 63, Location = 212, Weather = Overcast }, // Trevenant in the Old Cemetery
             new(  SH) { Species = 078, Level = 67, Location = 212, Form = 01, Weather = Heavy_Fog }, // Rapidash-1 in the Old Cemetery
             new(SWSH) { Species = 872, Level = 62, Location = 214, Weather = Normal | Overcast }, // Snom on Snowslide Slope
             new(SWSH) { Species = 698, Level = 62, Location = 214, Weather = Normal | Overcast | Stormy | Heavy_Fog }, // Amaura on Snowslide Slope
