@@ -19,13 +19,16 @@ namespace PKHeX.Core
         public int GetRecord(int recordID)
         {
             var value = BitConverter.ToInt32(Data, GetRecordOffset(recordID));
-            return Math.Min(RecordMaxValue, value);
+            if (recordID != 0)
+                value = Math.Min(RecordMaxValue, value);
+            return value;
         }
 
         public void SetRecord(int recordID, int value)
         {
-            var toWrite = Math.Min(RecordMaxValue, value);
-            BitConverter.GetBytes(toWrite).CopyTo(Data, GetRecordOffset(recordID));
+            if (recordID != 0)
+                value = Math.Min(RecordMaxValue, value);
+            BitConverter.GetBytes(value).CopyTo(Data, GetRecordOffset(recordID));
         }
 
         public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);
