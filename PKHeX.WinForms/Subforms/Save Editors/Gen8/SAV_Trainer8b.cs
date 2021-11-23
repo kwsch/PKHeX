@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
             CB_Game.SelectedIndex = Math.Max(0, Math.Min(1, SAV.Game - (int)GameVersion.BD));
             CB_Gender.SelectedIndex = SAV.Gender;
 
-            L_BP.Visible = NUD_BP.Visible = false;
+            NUD_BP.Value = SAV.BP;
 
             // Display Data
             TB_OTName.Text = SAV.OT;
@@ -104,6 +104,7 @@ namespace PKHeX.WinForms
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             SAV.OT = TB_OTName.Text;
             SAV.Rival = TB_Rival.Text;
+            SAV.BP = (uint) NUD_BP.Value;
 
             // Copy Position
             if (GB_Map.Enabled && MapUpdated)
