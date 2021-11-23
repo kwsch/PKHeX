@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public const int POKETCH_PEDOMETER_MAX = 99999;
         public const int POKETCH_CALENDER_MONTH_MAX = 12;
 
-        public Poketch8b(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public Poketch8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
         public enum PoketchApp8b
         {

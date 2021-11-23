@@ -20,7 +20,7 @@ namespace PKHeX.Core
         // s64[6] reserved
         private const int SIZE_GMTIME = 12;
 
-        public SystemData8b(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public SystemData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
         public uint CountStart   { get => BitConverter.ToUInt32(Data, Offset + 0 + (0 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0 + (0 * SIZE_GMTIME)); }
         public long TicksStart   { get => BitConverter. ToInt64(Data, Offset + 4 + (0 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4 + (0 * SIZE_GMTIME)); }

@@ -10,7 +10,7 @@ namespace PKHeX.Core
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public sealed class Daycare8b : SaveBlock
     {
-        public Daycare8b(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public Daycare8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
         // BLOCK STRUCTURE
         // PB8[2] Parents;
