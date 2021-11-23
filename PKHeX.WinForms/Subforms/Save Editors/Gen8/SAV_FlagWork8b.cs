@@ -302,7 +302,7 @@ namespace PKHeX.WinForms
         private void B_ApplySystemFlag_Click(object sender, EventArgs e)
         {
             var index = (int)NUD_System.Value;
-            SAV.Work.SetSystemFlag(index, CHK_CustomFlag.Checked);
+            SAV.Work.SetSystemFlag(index, CHK_CustomSystem.Checked);
             Origin.State.Edited = true;
 
             editing = true;
