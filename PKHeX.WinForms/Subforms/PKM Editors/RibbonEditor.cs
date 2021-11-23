@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : rib.RibbonCount);
 
-            if (pkm is PK8 pk8)
+            if (pkm is G8PKM pk8)
                 pk8.AffixedRibbon = (sbyte)WinFormsUtil.GetIndex(CB_Affixed);
         }
 
@@ -186,7 +186,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys == Keys.Shift)
             {
                 RibbonApplicator.RemoveAllValidRibbons(pkm);
-                if (pkm is PK8 pk8)
+                if (pkm is G8PKM pk8)
                     pk8.AffixedRibbon = -1;
                 Close();
                 return;
