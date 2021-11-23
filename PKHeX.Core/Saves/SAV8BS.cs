@@ -259,6 +259,12 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x5638);
         }
 
+        public uint BP
+        {
+            get => BitConverter.ToUInt32(Data, 0x95C00);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x95C00);
+        }
+
         protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk = (PB8)pkm;
