@@ -33,7 +33,7 @@ namespace PKHeX.Core
             Contest = new Contest8b(this, 0x79C08); // size: 0x720
 
             Zukan = new Zukan8b(this, 0x7A328); // size: 0x30B8
-            // 0x7D3E0 - Trainer Battle Data (bool,bool)[707]
+            BattleTrainer = new BattleTrainerStatus8b(this, 0x7D3E0); // size: 0x1618
             // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
             // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
             Records = new Record8b(this, 0x8F3DC); // size: 0x78
@@ -53,8 +53,8 @@ namespace PKHeX.Core
             // BoukenNote
             // TV_DATA
             // UgSaveData
-            // GMS_DATA
-            // PLAYER_NETWORK_DATA
+            // 0x9D03C - GMS_DATA // size: 0x31304
+            // 0xCE340 - PLAYER_NETWORK_DATA
             // UnionSaveData
             // CON_PHOTO_LANG_DATA -- contest photo language data
             // ZUKAN_PERSONAL_RND_DATA
@@ -188,6 +188,7 @@ namespace PKHeX.Core
         public Contest8b Contest { get; }
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
+        public BattleTrainerStatus8b BattleTrainer { get; }
         public Record8b Records { get; }
         public BerryTreeGrowSave8b BerryTrees { get; }
         public PoffinSaveData8b Poffins { get; }
