@@ -1541,7 +1541,6 @@
             // 
             this.CB_EggLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_EggLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_EggLocation.DropDownWidth = 150;
             this.CB_EggLocation.FormattingEnabled = true;
             this.CB_EggLocation.Location = new System.Drawing.Point(71, 19);
             this.CB_EggLocation.Name = "CB_EggLocation";
@@ -1687,7 +1686,6 @@
             this.CB_MetLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_MetLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_MetLocation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_MetLocation.DropDownWidth = 200;
             this.CB_MetLocation.FormattingEnabled = true;
             this.CB_MetLocation.Location = new System.Drawing.Point(98, 0);
             this.CB_MetLocation.Margin = new System.Windows.Forms.Padding(0);

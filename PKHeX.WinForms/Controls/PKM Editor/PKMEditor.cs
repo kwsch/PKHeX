@@ -1242,9 +1242,15 @@ namespace PKHeX.WinForms.Controls
         {
             var metList = GameInfo.GetLocationList(version, format, egg: false);
             CB_MetLocation.DataSource = new BindingSource(metList, null);
+            CB_MetLocation.DropDownWidth = GetWidth(metList, CB_MetLocation.Font);
 
             var eggList = GameInfo.GetLocationList(version, format, egg: true);
             CB_EggLocation.DataSource = new BindingSource(eggList, null);
+            CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
+
+            int GetWidth(IEnumerable<ComboItem> items, Font f) =>
+                items.Max(z => TextRenderer.MeasureText(z.Text, f).Width) +
+                SystemInformation.VerticalScrollBarWidth;
 
             if (FieldsLoaded)
             {
