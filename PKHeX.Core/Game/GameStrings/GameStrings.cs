@@ -398,13 +398,13 @@ namespace PKHeX.Core
             metBDSP_30000[1] += $" ({NPC})";      // Anything from an NPC
             metBDSP_30000[2] += $" ({EggName})";  // Egg From Link Trade
 
-            Deduplicate(metBDSP_00000);
-            Deduplicate(metBDSP_30000);
-            Deduplicate(metBDSP_40000);
-            Deduplicate(metBDSP_60000);
+            Deduplicate(metBDSP_00000, 00000);
+            Deduplicate(metBDSP_30000, 30000);
+            Deduplicate(metBDSP_40000, 40000);
+            Deduplicate(metBDSP_60000, 60000);
         }
 
-        private static void Deduplicate(string[] arr)
+        private static void Deduplicate(string[] arr, int group)
         {
             var counts = new Dictionary<string, int>();
 
@@ -420,7 +420,7 @@ namespace PKHeX.Core
             for (var i = arr.Length - 1; i >= 0; i--)
             {
 #if DEBUG
-                arr[i] += $" ({i:00000})";
+                arr[i] += $" ({group + i:00000})";
 #else
                 var s = arr[i];
                 var count = counts[s]--;
