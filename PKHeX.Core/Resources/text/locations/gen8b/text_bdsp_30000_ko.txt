@@ -19,4 +19,5 @@ Pokémon GO
 Pokémon HOME
 관동지방
 가라르지방
+
 신오지방

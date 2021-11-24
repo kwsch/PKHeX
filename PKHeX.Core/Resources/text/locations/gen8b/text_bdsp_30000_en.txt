@@ -19,4 +19,5 @@ the Johto region
 Pokémon HOME
 the Kanto region
 the Galar region
+
 the Sinnoh region
