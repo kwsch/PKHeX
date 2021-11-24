@@ -207,11 +207,15 @@ namespace PKHeX.Core
         {
             return new()
             {
-                new SlotInfoMisc(sav.Data, 0, 0x9A8E8 + (0 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 1, 0x9A8E8 + (1 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 2, 0x9A8E8 + (2 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 3, 0x9A8E8 + (3 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 4, 0x9A8E8 + (4 * PokeCrypto.SIZE_8PARTY), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 0, sav.UgSaveData.GetSlotOffset(0), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 1, sav.UgSaveData.GetSlotOffset(1), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 2, sav.UgSaveData.GetSlotOffset(2), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 3, sav.UgSaveData.GetSlotOffset(3), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 4, sav.UgSaveData.GetSlotOffset(4), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 5, sav.UgSaveData.GetSlotOffset(5), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 6, sav.UgSaveData.GetSlotOffset(6), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
+                new SlotInfoMisc(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
             };
         }
     }

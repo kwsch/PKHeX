@@ -52,7 +52,7 @@ namespace PKHeX.Core
             // BadgeSaveData
             // BoukenNote
             // TV_DATA
-            // UgSaveData
+            UgSaveData = new UgSaveData8b(this, 0x9A89C); // size: 0x27A0
             // 0x9D03C - GMS_DATA // size: 0x31304
             // 0xCE340 - PLAYER_NETWORK_DATA
             // UnionSaveData
@@ -196,6 +196,7 @@ namespace PKHeX.Core
         public SystemData8b System { get; }
         public Poketch8b Poketch { get; }
         public Daycare8b Daycare { get; }
+        public UgSaveData8b UgSaveData { get; }
         #endregion
 
         public override GameVersion Version => Game switch
