@@ -1248,7 +1248,7 @@ namespace PKHeX.WinForms.Controls
             CB_EggLocation.DataSource = new BindingSource(eggList, null);
             CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
 
-            int GetWidth(IEnumerable<ComboItem> items, Font f) =>
+            static int GetWidth(IEnumerable<ComboItem> items, Font f) =>
                 items.Max(z => TextRenderer.MeasureText(z.Text, f).Width) +
                 SystemInformation.VerticalScrollBarWidth;
 
@@ -1256,8 +1256,12 @@ namespace PKHeX.WinForms.Controls
             {
                 SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
                 int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(Entity);
+                int eggLoc = CHK_AsEgg.Checked
+                    ? EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(format, version)
+                    : Locations.GetNoneLocation(version);
+
                 CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
-                CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
+                CB_EggLocation.SelectedValue = eggLoc;
             }
             else
             {
