@@ -323,13 +323,13 @@ Galactic HQ
 Galactic HQ
 Lake Verity
 Lake Verity
-Lake Verity
+Lake Verity (Verity Cavern)
 Lake Valor
 Lake Valor
-Lake Valor
+Lake Valor (Valor Cavern)
 Lake Acuity
 Lake Acuity
-Lake Acuity
+Lake Acuity (Acuity Cavern)
 Newmoon Island
 Newmoon Island
 Battle Park
@@ -494,18 +494,18 @@ Mystery Zone
 Mystery Zone
 Eterna City
 Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
+Ramanas Park (Discovery Room)
+Ramanas Park (Kanto Room)
+Ramanas Park (Johto Room)
+Ramanas Park (Soul Room)
+Ramanas Park (Tectonic Room)
+Ramanas Park (Oceanic Room)
+Ramanas Park (Stratospheric Room)
+Ramanas Park (Rainbow Room)
+Ramanas Park (Squall Room)
+Ramanas Park (Genome Room)
+Ramanas Park (Pure Space)
+Ramanas Park (Strange Space)
 Grand Underground
 Grand Underground
 Grand Underground
@@ -541,118 +541,118 @@ Grand Underground
 Grand Underground
 Grand Underground
 Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Ramanas Park
-Grand Underground
-Grand Underground
-Grand Underground
-Grand Underground
-Ramanas Park
+Grand Underground (Spacious Cave)
+Grand Underground (Grassland Cave)
+Grand Underground (Riverbank Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Grassland Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Volcanic Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Volcanic Cave)
+Grand Underground (Dazzling Cave)
+Grand Underground (Sandsear Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Grassland Cave)
+Grand Underground (Riverbank Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Grassland Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Riverbank Cave)
+Grand Underground (Icy Cave)
+Grand Underground (Dazzling Cave)
+Grand Underground (Dazzling Cave)
+Grand Underground (Icy Cave)
+Grand Underground (Icy Cave)
+Grand Underground (Icy Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Whiteout Cave)
+Grand Underground (Whiteout Cave)
+Grand Underground (Whiteout Cave)
+Grand Underground (Whiteout Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Sandsear Cave)
+Grand Underground (Volcanic Cave)
+Grand Underground (Dazzling Cave)
+Grand Underground (Volcanic Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Fountainspring Cave)
+Grand Underground (Grassland Cave)
+Grand Underground (Spacious Cave)
+Grand Underground (Swampy Cave)
+Grand Underground (Rocky Cave)
+Grand Underground (Sandsear Cave)
+Grand Underground (Volcanic Cave)
+Grand Underground (Still-Water Cavern)
+Grand Underground (Big Bluff Cavern)
+Grand Underground (Sunlit Cavern)
+Grand Underground (Stargleam Cavern)
+Grand Underground (Glacial Cavern)
+Grand Underground (Bogsunk Cavern)
+Grand Underground (Typhlo Cavern)
+Grand Underground (Hall of Origin)
+Ramanas Park (Distortion Room)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Ramanas Park (Distortion Room)
 Ramanas Park
 Jubilife City
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
-Ramanas Park
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Grand Underground (Secret Base)
+Ramanas Park (Discovery Room)
+Ramanas Park (Kanto Room)
+Ramanas Park (Johto Room)
+Ramanas Park (Soul Room)
+Ramanas Park (Tectonic Room)
+Ramanas Park (Oceanic Room)
+Ramanas Park (Stratospheric Room)
+Ramanas Park (Rainbow Room)
+Ramanas Park (Squall Room)
+Ramanas Park (Genome Room)

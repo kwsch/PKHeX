@@ -323,13 +323,13 @@ Galaktik-Zentrale
 Galaktik-Zentrale
 See der Wahrheit
 See der Wahrheit
-See der Wahrheit
+See der Wahrheit (Wahrheitsgrotte)
 See der Kühnheit
 See der Kühnheit
-See der Kühnheit
+See der Kühnheit (Kühnheitsgrotte)
 See der Stärke
 See der Stärke
-See der Stärke
+See der Stärke (Stärkegrotte)
 Neumondinsel
 Neumondinsel
 Duellpark
@@ -494,18 +494,18 @@ Mysteriöser Ort
 Mysteriöser Ort
 Ewigenau
 Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
+Hamanasu-Park (Weisungskammer)
+Hamanasu-Park (Kanto-Kammer)
+Hamanasu-Park (Johto-Kammer)
+Hamanasu-Park (Gefühlskammer)
+Hamanasu-Park (Kontinentkammer)
+Hamanasu-Park (Meereskammer)
+Hamanasu-Park (Himmelskammer)
+Hamanasu-Park (Regenbogenkammer)
+Hamanasu-Park (Sturmkammer)
+Hamanasu-Park (Genkammer)
+Hamanasu-Park (Makelloser Ort)
+Hamanasu-Park (Rätselhafter Ort)
 Untergrundhöhlen
 Untergrundhöhlen
 Untergrundhöhlen
@@ -541,118 +541,118 @@ Untergrundhöhlen
 Untergrundhöhlen
 Untergrundhöhlen
 Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Hamanasu-Park
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Untergrundhöhlen
-Hamanasu-Park
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Wiesengrotte)
+Untergrundhöhlen (Flussufergrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Wiesengrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Magmagrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Magmagrotte)
+Untergrundhöhlen (Glitzergrotte)
+Untergrundhöhlen (Glühsandgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Wiesengrotte)
+Untergrundhöhlen (Flussufergrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Wiesengrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Flussufergrotte)
+Untergrundhöhlen (Eiszapfengrotte)
+Untergrundhöhlen (Glitzergrotte)
+Untergrundhöhlen (Glitzergrotte)
+Untergrundhöhlen (Eiszapfengrotte)
+Untergrundhöhlen (Eiszapfengrotte)
+Untergrundhöhlen (Eiszapfengrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Schneesturmgrotte)
+Untergrundhöhlen (Schneesturmgrotte)
+Untergrundhöhlen (Schneesturmgrotte)
+Untergrundhöhlen (Schneesturmgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Glühsandgrotte)
+Untergrundhöhlen (Magmagrotte)
+Untergrundhöhlen (Glitzergrotte)
+Untergrundhöhlen (Magmagrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Wasserlaufgrotte)
+Untergrundhöhlen (Wiesengrotte)
+Untergrundhöhlen (Großgrotte)
+Untergrundhöhlen (Moorgrotte)
+Untergrundhöhlen (Felsengrotte)
+Untergrundhöhlen (Glühsandgrotte)
+Untergrundhöhlen (Magmagrotte)
+Untergrundhöhlen (Spiegelseegrotte)
+Untergrundhöhlen (Klippengrotte)
+Untergrundhöhlen (Lichtstrahlgrotte)
+Untergrundhöhlen (Funkelsterngrotte)
+Untergrundhöhlen (Gletschergrotte)
+Untergrundhöhlen (Sickersumpfgrotte)
+Untergrundhöhlen (Tornupto-Grotte)
+Untergrundhöhlen (Halle des Beginns)
+Hamanasu-Park (Zerrkammer)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Hamanasu-Park (Zerrkammer)
 Hamanasu-Park
 Jubelstadt
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
-Hamanasu-Park
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Untergrundhöhlen (Geheimbasis)
+Hamanasu-Park (Weisungskammer)
+Hamanasu-Park (Kanto-Kammer)
+Hamanasu-Park (Johto-Kammer)
+Hamanasu-Park (Gefühlskammer)
+Hamanasu-Park (Kontinentkammer)
+Hamanasu-Park (Meereskammer)
+Hamanasu-Park (Himmelskammer)
+Hamanasu-Park (Regenbogenkammer)
+Hamanasu-Park (Sturmkammer)
+Hamanasu-Park (Genkammer)

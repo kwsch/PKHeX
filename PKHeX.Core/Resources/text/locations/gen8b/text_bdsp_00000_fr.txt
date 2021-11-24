@@ -323,13 +323,13 @@ QG Team Galaxie
 QG Team Galaxie
 Lac Vérité
 Lac Vérité
-Lac Vérité
+Lac Vérité (Caverne Vérité)
 Lac Courage
 Lac Courage
-Lac Courage
+Lac Courage (Caverne Courage)
 Lac Savoir
 Lac Savoir
-Lac Savoir
+Lac Savoir (Caverne Savoir)
 Île Nouvellune
 Île Nouvellune
 Parc des Combats
@@ -494,18 +494,18 @@ Endroit mystérieux
 Endroit mystérieux
 Vestigion
 Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
+Parc Rosa Rugosa (Salle des Guides)
+Parc Rosa Rugosa (Salle de Kanto)
+Parc Rosa Rugosa (Salle de Johto)
+Parc Rosa Rugosa (Salle du Cœur)
+Parc Rosa Rugosa (Salle des Continents)
+Parc Rosa Rugosa (Salle des Océans)
+Parc Rosa Rugosa (Salle des Cieux)
+Parc Rosa Rugosa (Salle de l’Arc-en-ciel)
+Parc Rosa Rugosa (Salle de la Tempête)
+Parc Rosa Rugosa (Salle de la Génétique)
+Parc Rosa Rugosa (Espace Pur)
+Parc Rosa Rugosa (Espace Mystérieux)
 Grands Souterrains
 Grands Souterrains
 Grands Souterrains
@@ -541,118 +541,118 @@ Grands Souterrains
 Grands Souterrains
 Grands Souterrains
 Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Parc Rosa Rugosa
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Grands Souterrains
-Parc Rosa Rugosa
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte de la Prairie)
+Grands Souterrains (Grotte de la Rivière)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte de la Prairie)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte du Magma)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte du Magma)
+Grands Souterrains (Grotte Éblouissante)
+Grands Souterrains (Grotte des Sables Ardents)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte de la Prairie)
+Grands Souterrains (Grotte de la Rivière)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte de la Prairie)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte de la Rivière)
+Grands Souterrains (Grotte des Stalactites)
+Grands Souterrains (Grotte Éblouissante)
+Grands Souterrains (Grotte Éblouissante)
+Grands Souterrains (Grotte des Stalactites)
+Grands Souterrains (Grotte des Stalactites)
+Grands Souterrains (Grotte des Stalactites)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte du Blizzard)
+Grands Souterrains (Grotte du Blizzard)
+Grands Souterrains (Grotte du Blizzard)
+Grands Souterrains (Grotte du Blizzard)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte des Sables Ardents)
+Grands Souterrains (Grotte du Magma)
+Grands Souterrains (Grotte Éblouissante)
+Grands Souterrains (Grotte du Magma)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte des Eaux Souterraines)
+Grands Souterrains (Grotte de la Prairie)
+Grands Souterrains (Grotte Spacieuse)
+Grands Souterrains (Grotte du Marécage)
+Grands Souterrains (Grotte des Rochers)
+Grands Souterrains (Grotte des Sables Ardents)
+Grands Souterrains (Grotte du Magma)
+Grands Souterrains (Caverne du Miroir d’Eau)
+Grands Souterrains (Caverne du Piton)
+Grands Souterrains (Caverne Ensoleillée)
+Grands Souterrains (Caverne de la Nuit Étoilée)
+Grands Souterrains (Caverne du Glacier)
+Grands Souterrains (Caverne du Marais Sans Fond)
+Grands Souterrains (Caverne Typhlosion)
+Grands Souterrains (Salle Originelle)
+Parc Rosa Rugosa (Salle de la Distorsion)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Parc Rosa Rugosa (Salle de la Distorsion)
 Parc Rosa Rugosa
 Féli-Cité
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
-Parc Rosa Rugosa
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Grands Souterrains (Base Secrète)
+Parc Rosa Rugosa (Salle des Guides)
+Parc Rosa Rugosa (Salle de Kanto)
+Parc Rosa Rugosa (Salle de Johto)
+Parc Rosa Rugosa (Salle du Cœur)
+Parc Rosa Rugosa (Salle des Continents)
+Parc Rosa Rugosa (Salle des Océans)
+Parc Rosa Rugosa (Salle des Cieux)
+Parc Rosa Rugosa (Salle de l’Arc-en-ciel)
+Parc Rosa Rugosa (Salle de la Tempête)
+Parc Rosa Rugosa (Salle de la Génétique)

@@ -313,23 +313,23 @@ Antico Château
 Antico Château
 Antico Château
 Antico Château
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
-Covo Team Galassia
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
+Covo Team Galassia (Covo del Team Galassia)
 Lago Verità
 Lago Verità
-Lago Verità
+Lago Verità (Grotta Verità)
 Lago Valore
 Lago Valore
-Lago Valore
+Lago Valore (Grotta Valore)
 Lago Arguzia
 Lago Arguzia
-Lago Arguzia
+Lago Arguzia (Grotta Arguzia)
 Isola Lunanuova
 Isola Lunanuova
 Giardino Lotta
@@ -344,12 +344,12 @@ Torre Lotta
 Torre Lotta
 Torre Lotta
 Zona misteriosa
-Riva Lago Verità
+Riva Lago Verità (Riva del Lago Verità)
+Riva Lago Valore (Riva del Lago Valore)
 Riva Lago Valore
 Riva Lago Valore
 Riva Lago Valore
-Riva Lago Valore
-Riva Lago Arguzia
+Riva Lago Arguzia (Riva del Lago Arguzia)
 Sentiero Fonte
 Zona misteriosa
 Percorso 201
@@ -494,18 +494,18 @@ Zona misteriosa
 Zona misteriosa
 Evopoli
 Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
+Parco Rosa Rugosa (Stanza degli esordi)
+Parco Rosa Rugosa (Stanza di Kanto)
+Parco Rosa Rugosa (Stanza di Johto)
+Parco Rosa Rugosa (Stanza del cuore)
+Parco Rosa Rugosa (Stanza delle terre)
+Parco Rosa Rugosa (Stanza dei mari)
+Parco Rosa Rugosa (Stanza dei cieli)
+Parco Rosa Rugosa (Stanza arcobaleno)
+Parco Rosa Rugosa (Stanza dei venti)
+Parco Rosa Rugosa (Stanza del gene)
+Parco Rosa Rugosa (Spazio terso)
+Parco Rosa Rugosa (Spazio arcano)
 Grandi Sotterranei
 Grandi Sotterranei
 Grandi Sotterranei
@@ -541,118 +541,118 @@ Grandi Sotterranei
 Grandi Sotterranei
 Grandi Sotterranei
 Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Parco Rosa Rugosa
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Grandi Sotterranei
-Parco Rosa Rugosa
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro della prateria)
+Grandi Sotterranei (Antro della riva)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro della prateria)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro della lava)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro della lava)
+Grandi Sotterranei (Antro dei bagliori)
+Grandi Sotterranei (Antro delle sabbie ardenti)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro della prateria)
+Grandi Sotterranei (Antro della riva)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro della prateria)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro della riva)
+Grandi Sotterranei (Antro delle stalattiti)
+Grandi Sotterranei (Antro dei bagliori)
+Grandi Sotterranei (Antro dei bagliori)
+Grandi Sotterranei (Antro delle stalattiti)
+Grandi Sotterranei (Antro delle stalattiti)
+Grandi Sotterranei (Antro delle stalattiti)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro della tormenta)
+Grandi Sotterranei (Antro della tormenta)
+Grandi Sotterranei (Antro della tormenta)
+Grandi Sotterranei (Antro della tormenta)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro delle sabbie ardenti)
+Grandi Sotterranei (Antro della lava)
+Grandi Sotterranei (Antro dei bagliori)
+Grandi Sotterranei (Antro della lava)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro delle falde acquifere)
+Grandi Sotterranei (Antro della prateria)
+Grandi Sotterranei (Antro spazioso)
+Grandi Sotterranei (Antro dell’acquitrino)
+Grandi Sotterranei (Antro delle rocce)
+Grandi Sotterranei (Antro delle sabbie ardenti)
+Grandi Sotterranei (Antro della lava)
+Grandi Sotterranei (Caverna del lago)
+Grandi Sotterranei (Caverna della rupe)
+Grandi Sotterranei (Caverna del sole)
+Grandi Sotterranei (Caverna delle stelle)
+Grandi Sotterranei (Caverna del ghiacciaio)
+Grandi Sotterranei (Caverna della palude)
+Grandi Sotterranei (Caverna Typhlosion)
+Grandi Sotterranei (Spazio Origine)
+Parco Rosa Rugosa (Stanza distorta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Parco Rosa Rugosa (Stanza distorta)
 Parco Rosa Rugosa
 Giubilopoli
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
-Parco Rosa Rugosa
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Grandi Sotterranei (Base Segreta)
+Parco Rosa Rugosa (Stanza degli esordi)
+Parco Rosa Rugosa (Stanza di Kanto)
+Parco Rosa Rugosa (Stanza di Johto)
+Parco Rosa Rugosa (Stanza del cuore)
+Parco Rosa Rugosa (Stanza delle terre)
+Parco Rosa Rugosa (Stanza dei mari)
+Parco Rosa Rugosa (Stanza dei cieli)
+Parco Rosa Rugosa (Stanza arcobaleno)
+Parco Rosa Rugosa (Stanza dei venti)
+Parco Rosa Rugosa (Stanza del gene)

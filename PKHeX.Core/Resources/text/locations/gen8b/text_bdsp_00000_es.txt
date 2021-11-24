@@ -292,9 +292,9 @@ Templo Puntaneva
 Templo Puntaneva
 Cueva Extravío
 Cueva Extravío
-Mina Ruinamaníaco
-Mina Ruinamaníaco
-Túnel Ruinamaníaco
+Mina Ruinamaníaco (Mina del Ruinamaníaco)
+Mina Ruinamaníaco (Mina del Ruinamaníaco)
+Túnel Ruinamaníaco (Túnel del Ruinamaníaco)
 Jardín Trofeo
 Isla Hierro
 Isla Hierro
@@ -323,13 +323,13 @@ Base Galaxia
 Base Galaxia
 Lago Veraz
 Lago Veraz
-Lago Veraz
+Lago Veraz (Caverna Veraz)
 Lago Valor
 Lago Valor
-Lago Valor
+Lago Valor (Caverna Valor)
 Lago Agudeza
 Lago Agudeza
-Lago Agudeza
+Lago Agudeza (Caverna Agudeza)
 Isla Lunanueva
 Isla Lunanueva
 Parque Batalla
@@ -494,18 +494,18 @@ Lugar misterioso
 Lugar misterioso
 Ciudad Vetusta
 Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
+Parque Hansa (Sala del Inicio)
+Parque Hansa (Sala de Kanto)
+Parque Hansa (Sala de Johto)
+Parque Hansa (Sala de la Empatía)
+Parque Hansa (Sala de la Tierra)
+Parque Hansa (Sala del Mar)
+Parque Hansa (Sala del Cielo)
+Parque Hansa (Sala del Arcoíris)
+Parque Hansa (Sala de la Tormenta)
+Parque Hansa (Sala de la Genética)
+Parque Hansa (Espacio Puro)
+Parque Hansa (Espacio Arcano)
 Grutas del Subsuelo
 Grutas del Subsuelo
 Grutas del Subsuelo
@@ -541,118 +541,118 @@ Grutas del Subsuelo
 Grutas del Subsuelo
 Grutas del Subsuelo
 Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Parque Hansa
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Grutas del Subsuelo
-Parque Hansa
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pradera)
+Grutas del Subsuelo (Cueva Ribera)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Pradera)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Magma)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Magma)
+Grutas del Subsuelo (Cueva Centelleo)
+Grutas del Subsuelo (Cueva Caldarena)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pradera)
+Grutas del Subsuelo (Cueva Ribera)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pradera)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Ribera)
+Grutas del Subsuelo (Cueva Carámbano)
+Grutas del Subsuelo (Cueva Centelleo)
+Grutas del Subsuelo (Cueva Centelleo)
+Grutas del Subsuelo (Cueva Carámbano)
+Grutas del Subsuelo (Cueva Carámbano)
+Grutas del Subsuelo (Cueva Carámbano)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Ventisca)
+Grutas del Subsuelo (Cueva Ventisca)
+Grutas del Subsuelo (Cueva Ventisca)
+Grutas del Subsuelo (Cueva Ventisca)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Caldarena)
+Grutas del Subsuelo (Cueva Magma)
+Grutas del Subsuelo (Cueva Centelleo)
+Grutas del Subsuelo (Cueva Magma)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Fluvial)
+Grutas del Subsuelo (Cueva Pradera)
+Grutas del Subsuelo (Cueva Espaciosa)
+Grutas del Subsuelo (Cueva Pantanosa)
+Grutas del Subsuelo (Cueva Rocosa)
+Grutas del Subsuelo (Cueva Caldarena)
+Grutas del Subsuelo (Cueva Magma)
+Grutas del Subsuelo (Caverna Reflelago)
+Grutas del Subsuelo (Caverna Peñasco)
+Grutas del Subsuelo (Caverna Solana)
+Grutas del Subsuelo (Caverna Claroestela)
+Grutas del Subsuelo (Caverna Glaciar)
+Grutas del Subsuelo (Caverna Insondable)
+Grutas del Subsuelo (Caverna Typhlosion)
+Grutas del Subsuelo (Sala del Origen)
+Parque Hansa (Sala de la Distorsión)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Parque Hansa (Sala de la Distorsión)
 Parque Hansa
 Ciudad Jubileo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
-Parque Hansa
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Grutas del Subsuelo (Base Secreta)
+Parque Hansa (Sala del Inicio)
+Parque Hansa (Sala de Kanto)
+Parque Hansa (Sala de Johto)
+Parque Hansa (Sala de la Empatía)
+Parque Hansa (Sala de la Tierra)
+Parque Hansa (Sala del Mar)
+Parque Hansa (Sala del Cielo)
+Parque Hansa (Sala del Arcoíris)
+Parque Hansa (Sala de la Tormenta)
+Parque Hansa (Sala de la Genética)
