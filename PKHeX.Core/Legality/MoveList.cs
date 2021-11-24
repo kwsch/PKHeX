@@ -173,18 +173,9 @@ namespace PKHeX.Core
         internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria> evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
-            if (!pkm.IsUntraded && !IsLandlockedFormat(pkm))
+            if (!pkm.IsMovesetRestricted(generation))
                 version = Any;
             return GetValidMoves(pkm, version, evoChain, generation, types: types, RemoveTransferHM: RemoveTransferHM);
-        }
-
-        private static bool IsLandlockedFormat(PKM pkm)
-        {
-            if (pkm.BDSP)
-                return true;
-            if (pkm.LGPE)
-                return pkm.Format == 7;
-            return false;
         }
 
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = Any)

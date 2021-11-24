@@ -135,7 +135,37 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm, int species) => pkm.InhabitedGeneration(5, species);
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
-        internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (gen == 7 && pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE) || pkm.IsUntraded;
+
+        /// <summary>
+        /// Indicates if the moveset is restricted to only the original version.
+        /// </summary>
+        /// <param name="pkm">Entity to check</param>
+        /// <returns></returns>
+        internal static bool IsMovesetRestricted(this PKM pkm)
+        {
+            if (pkm.IsUntraded)
+                return true;
+            if (pkm.BDSP)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates if the moveset is restricted to only the original version.
+        /// </summary>
+        /// <param name="pkm">Entity to check</param>
+        /// <param name="gen">Generation the move check is for</param>
+        /// <returns></returns>
+        internal static bool IsMovesetRestricted(this PKM pkm, int gen)
+        {
+            if (pkm.IsMovesetRestricted())
+                return true;
+            return gen switch
+            {
+                7 when pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE => true,
+                _ => false,
+            };
+        }
 
         public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
         {
