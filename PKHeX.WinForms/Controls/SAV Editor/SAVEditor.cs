@@ -1084,6 +1084,7 @@ namespace PKHeX.WinForms.Controls
 
             B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;
             B_OpenUGSEditor.Visible = sav is SAV4Sinnoh or SAV8BS;
+            B_OpenSealStickers.Visible = sav is SAV8BS;
             B_OpenApricorn.Visible = sav is SAV4HGSS;
             B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
             B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
@@ -1188,6 +1189,14 @@ namespace PKHeX.WinForms.Controls
                 return;
             form.ShowDialog();
             form.Dispose();
+        }
+
+        private void B_OpenSealStickers_Click(object sender, EventArgs e)
+        {
+            if (SAV is not SAV8BS bs)
+                return;
+            using var form = new SAV_SealStickers8b(bs);
+            form.ShowDialog();
         }
 
         private void B_FestivalPlaza_Click(object sender, EventArgs e)

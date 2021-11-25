@@ -54,9 +54,9 @@
             this.L_ReadOnlyOther = new System.Windows.Forms.Label();
             this.Tab_SAV = new System.Windows.Forms.TabPage();
             this.FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
             this.Menu_ExportBAK = new System.Windows.Forms.Button();
-            this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
             this.GB_SAVtools = new System.Windows.Forms.GroupBox();
@@ -93,6 +93,7 @@
             this.B_RaidCrown = new System.Windows.Forms.Button();
             this.B_Blocks = new System.Windows.Forms.Button();
             this.B_OtherSlots = new System.Windows.Forms.Button();
+            this.B_OpenSealStickers = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -366,6 +367,16 @@
             this.FLP_SAVToolsMisc.Size = new System.Drawing.Size(432, 52);
             this.FLP_SAVToolsMisc.TabIndex = 104;
             // 
+            // B_SaveBoxBin
+            // 
+            this.B_SaveBoxBin.Location = new System.Drawing.Point(3, 3);
+            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
+            this.B_SaveBoxBin.Size = new System.Drawing.Size(87, 45);
+            this.B_SaveBoxBin.TabIndex = 8;
+            this.B_SaveBoxBin.Text = "Save Box Data++";
+            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
+            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
+            // 
             // B_VerifyCHK
             // 
             this.B_VerifyCHK.Location = new System.Drawing.Point(96, 3);
@@ -385,16 +396,6 @@
             this.Menu_ExportBAK.Text = "Export Backup";
             this.Menu_ExportBAK.UseVisualStyleBackColor = true;
             this.Menu_ExportBAK.Click += new System.EventHandler(this.Menu_ExportBAK_Click);
-            // 
-            // B_SaveBoxBin
-            // 
-            this.B_SaveBoxBin.Location = new System.Drawing.Point(3, 3);
-            this.B_SaveBoxBin.Name = "B_SaveBoxBin";
-            this.B_SaveBoxBin.Size = new System.Drawing.Size(87, 45);
-            this.B_SaveBoxBin.TabIndex = 8;
-            this.B_SaveBoxBin.Text = "Save Box Data++";
-            this.B_SaveBoxBin.UseVisualStyleBackColor = true;
-            this.B_SaveBoxBin.Click += new System.EventHandler(this.B_SaveBoxBin_Click);
             // 
             // B_JPEG
             // 
@@ -463,6 +464,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_RaidCrown);
             this.FLP_SAVtools.Controls.Add(this.B_Blocks);
             this.FLP_SAVtools.Controls.Add(this.B_OtherSlots);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenSealStickers);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -792,6 +794,16 @@
             this.B_OtherSlots.UseVisualStyleBackColor = true;
             this.B_OtherSlots.Click += new System.EventHandler(this.B_OtherSlots_Click);
             // 
+            // B_OpenSealStickers
+            // 
+            this.B_OpenSealStickers.Location = new System.Drawing.Point(3, 235);
+            this.B_OpenSealStickers.Name = "B_OpenSealStickers";
+            this.B_OpenSealStickers.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSealStickers.TabIndex = 5;
+            this.B_OpenSealStickers.Text = "Seal Stickers";
+            this.B_OpenSealStickers.UseVisualStyleBackColor = true;
+            this.B_OpenSealStickers.Click += new System.EventHandler(this.B_OpenSealStickers_Click);
+            // 
             // L_SaveSlot
             // 
             this.L_SaveSlot.AutoSize = true;
@@ -959,5 +971,6 @@
         private System.Windows.Forms.Button B_RaidCrown;
         private System.Windows.Forms.Button Menu_ExportBAK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
+        private System.Windows.Forms.Button B_OpenSealStickers;
     }
 }

@@ -40,7 +40,7 @@ namespace PKHeX.Core
             // 0x8F454 - ENC_SV_DATA
             // PLAYER_SAVE_DATA
             // SaveBallDecoData
-            // SaveSealData[]
+            SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
             // _RANDOM_GROUP
             BerryTrees = new BerryTreeGrowSave8b(this, 0x94DA8); // size: 0x808
             Poffins = new PoffinSaveData8b(this, 0x955B0); // size: 0x644
@@ -190,6 +190,7 @@ namespace PKHeX.Core
         public Zukan8b Zukan { get; }
         public BattleTrainerStatus8b BattleTrainer { get; }
         public Record8b Records { get; }
+        public SealList8b SealList { get; }
         public BerryTreeGrowSave8b BerryTrees { get; }
         public PoffinSaveData8b Poffins { get; }
         public BattleTowerWork8b BattleTower { get; }
