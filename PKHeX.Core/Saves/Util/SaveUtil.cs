@@ -96,7 +96,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
         {
-            SIZE_G8BDSP,
+            SIZE_G8BDSP, SIZE_G8BDSP_1,
             // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
