@@ -429,9 +429,6 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
-
-            if (CheckHeightWeightOdds(pb7) && pb7.HeightScalar == 0 && pb7.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
-                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
         private static bool IsCloseEnough(float a, float b)
@@ -510,7 +507,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
             }
 
-            if (CheckHeightWeightOdds(pk8) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+            if (CheckHeightWeightOdds(data.EncounterMatch) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
                 data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
@@ -542,13 +539,23 @@ namespace PKHeX.Core
             if (pb8.HasAnyMoveRecordFlag() && !pb8.IsEgg) // already checked for eggs
                 data.AddLine(GetInvalid(LEggRelearnFlags));
 
-            if (CheckHeightWeightOdds(pb8) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+            if (CheckHeightWeightOdds(data.EncounterMatch) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
                 data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
-        private static bool CheckHeightWeightOdds(PKM pk)
+        private static bool CheckHeightWeightOdds(IEncounterTemplate enc)
         {
-            return pk.Generation >= 8 || pk.GG;
+            if (enc.Generation < 8)
+                return false;
+
+            if (GameVersion.BDSP.Contains(enc.Version))
+                return true;
+
+            if (enc is WC8 { IsHOMEGift: true })
+                return false;
+            if (GameVersion.SWSH.Contains(enc.Version))
+                return true;
+            return false;
         }
 
         private void VerifyStatNature(LegalityAnalysis data, PKM pk)

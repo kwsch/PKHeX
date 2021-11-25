@@ -30,7 +30,7 @@ namespace PKHeX.Core
         public static Severity Gen8MemoryMissingHT { get; private set; } = Severity.Fishy;
         public static Severity Gen8TransferTrackerNotPresent { get; private set; } = Severity.Fishy;
         public static Severity NicknamedAnotherSpecies { get; private set; } = Severity.Fishy;
-        public static Severity ZeroHeightWeight { get; private set; } = Severity.Invalid;
+        public static Severity ZeroHeightWeight { get; private set; } = Severity.Fishy;
 
         public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);

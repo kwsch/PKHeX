@@ -216,7 +216,7 @@ namespace PKHeX.WinForms
         public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
 
         [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
-        public Severity ZeroHeightWeight { get; set; } = Severity.Invalid;
+        public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
     }
 
     [Serializable]
