@@ -40,5 +40,15 @@
             PB8 { Met_Location: Locations.LinkTrade6NPC } pb8 when pb8.HT_Friendship == PersonalTable.BDSP[pb8.Species].BaseFriendship => true,
             _ => false,
         };
+
+        public static bool IsNicknameFlagSet(IEncounterTemplate enc) => enc switch
+        {
+            EncounterStatic7 => false,
+            WB8 or EncounterStatic8b => false,
+            { Generation: 4 } => false,
+            _ => true,
+        };
+
+        public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch);
     }
 }

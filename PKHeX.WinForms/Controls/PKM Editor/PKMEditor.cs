@@ -1441,12 +1441,8 @@ namespace PKHeX.WinForms.Controls
                     TB_OT.Text = Entity.OT_Name;
                 }
 
-                if (!CHK_Nicknamed.Checked)
-                {
-                    TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format);
-                    if (Entity.Format != 4) // eggs in gen4 do not have nickname flag
-                        CHK_Nicknamed.Checked = true;
-                }
+                CHK_Nicknamed.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
+                TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format);
 
                 // Wipe egg memories
                 if (Entity.Format >= 6 && ModifyPKM)
