@@ -130,6 +130,7 @@
             0,
             0});
             this.NUD_HeightScalar.ValueChanged += new System.EventHandler(this.NUD_HeightScalar_ValueChanged);
+            this.NUD_HeightScalar.Click += new System.EventHandler(this.ClickScalarEntry);
             // 
             // TB_HeightAbs
             // 
@@ -191,6 +192,7 @@
             0,
             0});
             this.NUD_WeightScalar.ValueChanged += new System.EventHandler(this.NUD_WeightScalar_ValueChanged);
+            this.NUD_WeightScalar.Click += new System.EventHandler(this.ClickScalarEntry);
             // 
             // TB_WeightAbs
             // 

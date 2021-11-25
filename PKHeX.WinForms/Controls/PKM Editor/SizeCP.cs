@@ -124,5 +124,12 @@ namespace PKHeX.WinForms.Controls
             var pb7 = pk is PB7;
             FLP_CP.Visible = L_CP.Visible = TB_HeightAbs.Visible = TB_WeightAbs.Visible = pb7;
         }
+
+        private void ClickScalarEntry(object sender, EventArgs e)
+        {
+            if (sender is not NumericUpDown nud || ModifierKeys != Keys.Control)
+                return;
+            nud.Value = PokeSizeUtil.GetRandomScalar();
+        }
     }
 }
