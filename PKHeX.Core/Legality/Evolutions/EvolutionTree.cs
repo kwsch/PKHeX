@@ -23,7 +23,7 @@ namespace PKHeX.Core
         private static readonly EvolutionTree Evolves7 = new(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
         private static readonly EvolutionTree Evolves7b = new(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
         private static readonly EvolutionTree Evolves8 = new(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-        internal static readonly EvolutionTree Evolves8b = new(Unpack("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
+        private static readonly EvolutionTree Evolves8b = new(Unpack("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
 
         private static byte[] Get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static byte[][] Unpack(string resource) => BinLinker.Unpack(Get(resource), resource);

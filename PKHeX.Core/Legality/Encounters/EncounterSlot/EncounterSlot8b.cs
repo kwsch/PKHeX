@@ -12,10 +12,13 @@ namespace PKHeX.Core
         public override int Generation => 8;
         public bool IsUnderground => Area.Location is (>= 508 and <= 617);
         public bool IsMarsh => Area.Location is (>= 219 and <= 224);
+        public readonly bool IsBCAT;
 
-        public EncounterSlot8b(EncounterArea area, int species, int form, int min, int max) : base(area, species, form, min, max)
+        public EncounterSlot8b(EncounterArea area, int species, int form, int min, int max, bool isBCAT = false) : base(area, species, form, min, max)
         {
+            IsBCAT = isBCAT;
         }
+
         protected override void SetFormatSpecificData(PKM pk)
         {
             if (IsUnderground)
@@ -32,42 +35,48 @@ namespace PKHeX.Core
 
         public bool CanBeUndergroundMove(int move)
         {
-            var et = EvolutionTree.Evolves8b;
-            var sf = et.GetBaseSpeciesForm(Species, Form);
-            var species = sf & 0x7FF;
-            var form = sf >> 11;
-            if (IgnoreEggMoves.TryGetValue(species, out var exclude) && Array.IndexOf(exclude, move) != -1)
+            var et = PersonalTable.BDSP;
+            var sf = (PersonalInfoBDSP)et.GetFormEntry(Species, Form);
+            var species = sf.HatchSpecies;
+            if (IsBCAT && IgnoreEggMoves.TryGetValue(species, out var exclude) && Array.IndexOf(exclude, move) != -1)
                 return false;
 
-            var baseEgg = MoveEgg.GetEggMoves(8, species, form, Version);
-            return baseEgg.Length == 0 || Array.IndexOf(baseEgg, move) >= 0;
+            var baseEgg = Legal.EggMovesBDSP[species].Moves;
+            if (baseEgg.Length == 0)
+                return move == 0;
+            return Array.IndexOf(baseEgg, move) >= 0;
         }
 
         public bool GetBaseEggMove(out int move)
         {
-            var et = EvolutionTree.Evolves8b;
-            var sf = et.GetBaseSpeciesForm(Species, Form);
-            var species = sf & 0x7FF;
-            var form = sf >> 11;
+            var et = PersonalTable.BDSP;
+            var sf = (PersonalInfoBDSP)et.GetFormEntry(Species, Form);
+            var species = sf.HatchSpecies;
 
             int[] Exclude = IgnoreEggMoves.TryGetValue(species, out var exclude) ? exclude : Array.Empty<int>();
-            var baseEgg = MoveEgg.GetEggMoves(8, species, form, Version);
+            var baseEgg = Legal.EggMovesBDSP[species].Moves;
             if (baseEgg.Length == 0)
             {
                 move = 0;
                 return false;
             }
 
+            // Official method creates a new List<ushort>() with all the egg moves, removes all ignored, then picks a random index.
+            // We'll just loop instead to not allocate, and because it's a >50% chance the move won't be ignored, thus faster.
             var rnd = Util.Rand;
             while (true)
             {
                 var index = rnd.Next(baseEgg.Length);
                 move = baseEgg[index];
-                if (Array.IndexOf(Exclude, move) == -1)
+                if (IsBCAT && Array.IndexOf(Exclude, move) == -1)
                     return true;
             }
         }
 
+        /// <summary>
+        /// Unreferenced in v1.0, so all egg moves are possible for ROM encounters.
+        /// Since the Underground supports BCAT distributions, we will keep this around on the off chance they do utilize that method of distribution.
+        /// </summary>
         private static readonly Dictionary<int, int[]> IgnoreEggMoves = new()
         {
             {004, new[] {394}}, // Charmander
