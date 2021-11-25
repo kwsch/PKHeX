@@ -348,11 +348,19 @@ namespace PKHeX.Core
 
         private void SetGenderFlag(int species, int gender, bool shiny)
         {
-            var ofs = (gender & 1) == 0
-                ? shiny ? OFS_MALESHINY : OFS_MALE
-                : shiny ? OFS_FEMALESHINY : OFS_FEMALE;
-            SetBoolean(species - 1, ofs, COUNT_SPECIES - 1, true);
+            switch (gender)
+            {
+                case 0: SetGenderFlagMale(species, shiny); break;
+                case 1: SetGenderFlagFemale(species, shiny); break;
+                case 2: // Yep, sets both gender flags.
+                    SetGenderFlagMale(species, shiny);
+                    SetGenderFlagFemale(species, shiny);
+                    break;
+            }
         }
+
+        private void SetGenderFlagMale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, COUNT_SPECIES - 1, true);
+        private void SetGenderFlagFemale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, COUNT_SPECIES - 1, true);
 
         public override void SeenNone()
         {
@@ -384,7 +392,7 @@ namespace PKHeX.Core
                     SetState(i, ZukanState8b.Seen);
                 var pi = pt[i];
                 var m = !pi.OnlyFemale;
-                var f = !pi.OnlyMale && !pi.Genderless;
+                var f = !pi.OnlyMale;
                 SetGenderFlags(i, m, f, m && shinyToo, f && shinyToo);
             }
         }
@@ -403,7 +411,7 @@ namespace PKHeX.Core
                 SetState(species, ZukanState8b.Caught);
                 var pi = pt[species];
                 var m = !pi.OnlyFemale;
-                var f = !pi.OnlyMale && !pi.Genderless;
+                var f = !pi.OnlyMale;
                 SetGenderFlags(species, m, f, m && shinyToo, f && shinyToo);
                 SetLanguageFlag(species, SAV.Language, true);
             }
@@ -420,7 +428,7 @@ namespace PKHeX.Core
                         SetState(species, ZukanState8b.Seen);
                     var pi = pt[species];
                     var m = !pi.OnlyFemale;
-                    var f = !pi.OnlyMale && !pi.Genderless;
+                    var f = !pi.OnlyMale;
                     SetGenderFlags(species, m, f, m && shinyToo, f && shinyToo);
                 }
                 else
@@ -439,7 +447,7 @@ namespace PKHeX.Core
             var pt = Personal;
             var pi = pt[species];
             var m = !pi.OnlyFemale;
-            var f = !pi.OnlyMale && !pi.Genderless;
+            var f = !pi.OnlyMale;
             SetGenderFlags(species, m, f, m && shinyToo, f && shinyToo);
 
             var formCount = GetFormCount(species);
