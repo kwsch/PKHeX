@@ -147,7 +147,9 @@ namespace PKHeX.Core
 
                 var iterate = inhabited6
                     ? GetInvalidRibbons6Any(pkm, s6, gen, enc)
-                    : GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
+                    : pkm.Format >= 8
+                        ? GetInvalidRibbons6AnyG8(pkm, s6)
+                        : GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var z in iterate)
                     yield return z;
 
@@ -212,10 +214,11 @@ namespace PKHeX.Core
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, evos, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
+            bool visitBDSP = pkm.BDSP;
             bool gen34 = gen is 3 or 4;
             bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
-            bool noDaily = !gen34 && not6;
-            bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded));
+            bool noDaily = !gen34 && not6 && !visitBDSP;
+            bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded)) && !visitBDSP;
 
             if (noDaily)
             {
@@ -242,7 +245,7 @@ namespace PKHeX.Core
 
             var contest = s6.RibbonBitsContest();
             bool allContest = contest.All(z => z);
-            if ((allContest ^ s6.RibbonContestStar) && !(untraded && pkm.XY)) // if not already checked
+            if ((allContest != s6.RibbonContestStar) && !(untraded && pkm.XY)) // if not already checked
                 yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
 
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
@@ -275,6 +278,53 @@ namespace PKHeX.Core
             var result = new RibbonResult(nameof(s6.RibbonBattlerSkillful), false);
             result.Combine(new RibbonResult(nameof(s6.RibbonBattlerExpert)));
             yield return result;
+        }
+
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6)
+        {
+            if (!pkm.BDSP)
+            {
+                var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
+                foreach (var x in none)
+                    yield return x;
+            }
+
+            if (s6.RibbonChampionKalos)
+                yield return new RibbonResult(nameof(s6.RibbonChampionKalos));
+            if (s6.RibbonChampionG6Hoenn)
+                yield return new RibbonResult(nameof(s6.RibbonChampionG6Hoenn));
+            if (s6.RibbonBestFriends)
+                yield return new RibbonResult(nameof(s6.RibbonBestFriends));
+            if (s6.RibbonTraining)
+                yield return new RibbonResult(nameof(s6.RibbonTraining));
+            if (s6.RibbonBattlerSkillful)
+                yield return new RibbonResult(nameof(s6.RibbonBattlerSkillful));
+            if (s6.RibbonBattlerExpert)
+                yield return new RibbonResult(nameof(s6.RibbonBattlerExpert));
+
+            if (s6.RibbonCountMemoryContest != 0)
+                yield return new RibbonResult(nameof(s6.RibbonCountMemoryContest));
+            if (s6.RibbonCountMemoryBattle != 0)
+                yield return new RibbonResult(nameof(s6.RibbonCountMemoryBattle));
+
+            // Can get contest ribbons via BD/SP contests.
+            //if (s6.RibbonContestStar)
+            //    yield return new RibbonResult(nameof(s6.RibbonContestStar));
+            //if (s6.RibbonMasterCoolness)
+            //    yield return new RibbonResult(nameof(s6.RibbonMasterCoolness));
+            //if (s6.RibbonMasterBeauty)
+            //    yield return new RibbonResult(nameof(s6.RibbonMasterBeauty));
+            //if (s6.RibbonMasterCuteness)
+            //    yield return new RibbonResult(nameof(s6.RibbonMasterCuteness));
+            //if (s6.RibbonMasterCleverness)
+            //    yield return new RibbonResult(nameof(s6.RibbonMasterCleverness));
+            //if (s6.RibbonMasterToughness)
+            //    yield return new RibbonResult(nameof(s6.RibbonMasterToughness));
+
+            var contest = s6.RibbonBitsContest();
+            bool allContest = contest.All(z => z);
+            if (allContest != s6.RibbonContestStar) // if not already checked
+                yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen, IEncounterTemplate enc)
@@ -365,7 +415,7 @@ namespace PKHeX.Core
             {
                 if (s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
-                if (s8.RibbonTowerMaster && !pkm.SWSH && pkm.IsUntraded)
+                if (s8.RibbonTowerMaster && !(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
                     yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                 if (s8.RibbonMasterRank)
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
@@ -387,7 +437,7 @@ namespace PKHeX.Core
 
                 if (s8.RibbonTowerMaster)
                 {
-                    if (!pkm.SWSH && pkm.IsUntraded)
+                    if (!(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
                         yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                 }
                 else
