@@ -477,7 +477,7 @@ namespace PKHeX.Core
             pk.IsEgg = true;
             pk.EggMetDate = DateTime.Now;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
-            pk.IsNicknamed = true;
+            pk.IsNicknamed = false;
         }
 
         private void SetPINGA(PKM pk, EncounterCriteria criteria)
