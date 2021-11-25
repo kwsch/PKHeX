@@ -103,6 +103,11 @@ namespace PKHeX.Core
 
             sav.ApplyHandlingTrainerInfo(pk);
 
+            if (pk is IScaledSize s)
+            {
+                s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
             if (this is IGigantamax g && pk is IGigantamax pg)
                 pg.CanGigantamax = g.CanGigantamax;
             if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)

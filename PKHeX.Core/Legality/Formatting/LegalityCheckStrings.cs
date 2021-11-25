@@ -420,6 +420,7 @@ namespace PKHeX.Core
         public static string LStatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
         public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
         public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
+        public static string LStatInvalidHeightWeight { get; set; } = "Height / Weight values are statistically improbable.";
         public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
         public static string LStatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
         public static string LStatGigantamaxValid { get; set; } = "Gigantamax Flag was changed via Max Soup.";

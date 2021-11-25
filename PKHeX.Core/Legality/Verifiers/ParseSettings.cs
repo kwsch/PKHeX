@@ -30,6 +30,7 @@ namespace PKHeX.Core
         public static Severity Gen8MemoryMissingHT { get; private set; } = Severity.Fishy;
         public static Severity Gen8TransferTrackerNotPresent { get; private set; } = Severity.Fishy;
         public static Severity NicknamedAnotherSpecies { get; private set; } = Severity.Fishy;
+        public static Severity ZeroHeightWeight { get; private set; } = Severity.Invalid;
 
         public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
@@ -95,6 +96,7 @@ namespace PKHeX.Core
             Gen8TransferTrackerNotPresent = settings.Gen8TransferTrackerNotPresent;
             Gen8MemoryMissingHT = settings.Gen8MemoryMissingHT;
             NicknamedAnotherSpecies = settings.NicknamedAnotherSpecies;
+            ZeroHeightWeight = settings.ZeroHeightWeight;
         }
     }
 
@@ -110,5 +112,6 @@ namespace PKHeX.Core
         Severity Gen8MemoryMissingHT { get; }
         Severity Gen8TransferTrackerNotPresent { get; }
         Severity NicknamedAnotherSpecies { get; }
+        Severity ZeroHeightWeight { get; }
     }
 }

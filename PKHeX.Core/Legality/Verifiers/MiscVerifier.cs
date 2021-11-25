@@ -429,6 +429,9 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
+
+            if (CheckHeightWeightOdds(pb7) && pb7.HeightScalar == 0 && pb7.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
         private static bool IsCloseEnough(float a, float b)
@@ -507,7 +510,8 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
             }
 
-            // weight/height scalars can be legally 0 so don't bother checking
+            if (CheckHeightWeightOdds(pk8) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
         private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
@@ -538,7 +542,13 @@ namespace PKHeX.Core
             if (pb8.HasAnyMoveRecordFlag() && !pb8.IsEgg) // already checked for eggs
                 data.AddLine(GetInvalid(LEggRelearnFlags));
 
-            // weight/height scalars can be legally 0 so don't bother checking
+            if (CheckHeightWeightOdds(pb8) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        }
+
+        private static bool CheckHeightWeightOdds(PKM pk)
+        {
+            return pk.Generation >= 8 || pk.GG;
         }
 
         private void VerifyStatNature(LegalityAnalysis data, PKM pk)

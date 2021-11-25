@@ -124,6 +124,11 @@ namespace PKHeX.Core
                 return;
 
             sav.ApplyHandlingTrainerInfo(pk);
+            if (pk is IScaledSize s)
+            {
+                s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
         }
 
         protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)

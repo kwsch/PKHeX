@@ -86,6 +86,11 @@ namespace PKHeX.Core
             pk.RelearnMove2 = pk.Move2;
             pk.RelearnMove3 = pk.Move3;
             pk.RelearnMove4 = pk.Move4;
+            if (pk is IScaledSize s)
+            {
+                s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
 
             return pk;
         }

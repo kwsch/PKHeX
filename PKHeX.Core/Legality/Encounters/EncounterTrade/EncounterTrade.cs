@@ -125,6 +125,11 @@ namespace PKHeX.Core
             sav.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
 
+            if (pk is IScaledSize s)
+            {
+                s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
             if (pk is PK6 pk6)
                 pk6.SetRandomMemory6();
         }
