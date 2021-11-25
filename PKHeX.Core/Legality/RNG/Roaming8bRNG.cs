@@ -231,19 +231,26 @@
         private static uint GetRevisedPID(uint fakeTID, uint pid, ITrainerID tr)
         {
             var xor = GetShinyXor(pid, fakeTID);
+            var newXor = GetShinyXor(pid, (uint)(tr.TID | (tr.SID << 16)));
+
+            var fakeRare = GetRareType(xor);
+            var newRare = GetRareType(newXor);
+
+            if (fakeRare == newRare)
+                return pid;
+
             var isShiny = xor < 16;
             if (isShiny)
-            {
-                if (!GetIsShiny(tr.TID, tr.SID, pid))
-                    return (((uint)(tr.TID ^ tr.SID) ^ (pid & 0xFFFF) ^ (xor == 0 ? 0u : 1u)) << 16) | (pid & 0xFFFF); // force same shiny star type
-            }
-            else
-            {
-                if (GetIsShiny(tr.TID, tr.SID, pid))
-                    return pid ^ 0x1000_0000;
-            }
-            return pid;
+                return (((uint)(tr.TID ^ tr.SID) ^ (pid & 0xFFFF) ^ (xor == 0 ? 0u : 1u)) << 16) | (pid & 0xFFFF); // force same shiny star type
+            return pid ^ 0x1000_0000;
         }
+
+        private static Shiny GetRareType(uint xor) => xor switch
+        {
+            0 => Shiny.AlwaysSquare,
+         < 16 => Shiny.AlwaysStar,
+            _ => Shiny.Never,
+        };
 
         private static bool GetIsShiny(int tid, int sid, uint pid)
         {
