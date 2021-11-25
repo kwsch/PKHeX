@@ -261,6 +261,14 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, new ushort[]
         {
+            537, // Prism Scale
+            565, // Health Feather
+            566, // Muscle Feather
+            567, // Resist Feather
+            568, // Genius Feather
+            569, // Clever Feather
+            570, // Swift Feather
+            796, // Gold Bottle Cap
             849, // Ice Stone
 
             005, // Safari Ball
@@ -269,6 +277,7 @@ namespace PKHeX.Core
             576, // Dream Ball
             851, // Beast Ball
 
+            // new BDSP items, but they can't be held
             1808, // Mysterious Shard S
             1809, // Mysterious Shard L
             1810, // Digger Drill

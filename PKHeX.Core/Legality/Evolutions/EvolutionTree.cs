@@ -176,8 +176,8 @@ namespace PKHeX.Core
 
         private void FixEvoTreeBS()
         {
-            // Eevee is programmed to evolve into Glaceon via Ice Stone or level up at the Ice Rock, but Ice Stone is unreleased.
-            BanEvo((int)Species.Glaceon, 0, pkm => pkm.CurrentLevel == pkm.Met_Level);
+            BanEvo((int)Species.Glaceon, 0, pkm => pkm.CurrentLevel == pkm.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock instead
+            BanEvo((int)Species.Milotic, 0, pkm => pkm.CurrentLevel == pkm.Met_Level); // Prism Scale is unreleased, requires 170 Beauty instead
         }
 
         private void BanEvo(int species, int form, Func<PKM, bool> func)
