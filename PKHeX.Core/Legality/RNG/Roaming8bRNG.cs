@@ -36,10 +36,11 @@
 
             // Encryption Constant
             pk.EncryptionConstant = seed;
-            var _ = xoro.NextUInt(); // fakeTID
 
             // PID
+            var fakeTID = xoro.NextUInt(); // fakeTID
             var pid = xoro.NextUInt();
+            pid = GetRevisedPID(fakeTID, pid, pk);
             if (shiny == Shiny.Never)
             {
                 if (GetIsShiny(pk.TID, pk.SID, pid))
@@ -103,8 +104,9 @@
             var xoro = new Xoroshiro128Plus8b(seed);
 
             // Check PID
-            var _ = xoro.NextUInt(); // fakeTID
+            var fakeTID = xoro.NextUInt(); // fakeTID
             var pid = xoro.NextUInt();
+            pid = GetRevisedPID(fakeTID, pid, pk);
             if (pk.PID != pid)
                 return false;
 
@@ -226,10 +228,29 @@
             return s.HeightScalar == height && s.WeightScalar == weight;
         }
 
+        private static uint GetRevisedPID(uint fakeTID, uint pid, ITrainerID tr)
+        {
+            var xor = GetShinyXor(pid, fakeTID);
+            var isShiny = xor < 16;
+            if (isShiny)
+            {
+                if (!GetIsShiny(tr.TID, tr.SID, pid))
+                    return (((uint)(tr.TID ^ tr.SID) ^ (pid & 0xFFFF) ^ (xor == 0 ? 0u : 1u)) << 16) | (pid & 0xFFFF); // force same shiny star type
+            }
+            else
+            {
+                if (GetIsShiny(tr.TID, tr.SID, pid))
+                    return pid ^ 0x1000_0000;
+            }
+            return pid;
+        }
+
         private static bool GetIsShiny(int tid, int sid, uint pid)
         {
-            return GetShinyXor(pid, (uint)((sid << 16) | tid)) < 16;
+            return GetIsShiny(pid, (uint)((sid << 16) | tid));
         }
+
+        private static bool GetIsShiny(uint pid, uint oid) => GetShinyXor(pid, oid) < 16;
 
         private static uint GetShinyXor(uint pid, uint oid)
         {

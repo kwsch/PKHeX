@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.StaticCorrelation8bRequirement;
 
@@ -9,12 +8,11 @@ namespace PKHeX.Core
     /// Generation 7 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStatic8b : EncounterStatic, IRelearn, IStaticCorrelation8b
+    public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
     {
         public override int Generation => 8;
-        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
-        public bool Roaming { get; init; } = false;
+        public bool Roaming { get; init; }
 
         public EncounterStatic8b(GameVersion game) : base(game)
         {
