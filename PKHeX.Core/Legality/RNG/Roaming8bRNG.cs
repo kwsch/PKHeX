@@ -24,6 +24,8 @@
             do
             {
                 var seed = Util.Rand32(rnd);
+                if (seed == int.MaxValue)
+                    continue; // Unity's Rand is [int.MinValue, int.MaxValue)
                 if (TryApplyFromSeed(pk, criteria, shiny, flawless, seed))
                     return;
             } while (++ctr != maxAttempts);
@@ -101,6 +103,8 @@
         public static bool ValidateRoamingEncounter(PKM pk, Shiny shiny = Shiny.Random, int flawless = 0)
         {
             var seed = pk.EncryptionConstant;
+            if (seed == int.MaxValue)
+                return false; // Unity's Rand is [int.MinValue, int.MaxValue)
             var xoro = new Xoroshiro128Plus8b(seed);
 
             // Check PID
