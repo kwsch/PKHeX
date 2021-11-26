@@ -14,10 +14,17 @@ namespace PKHeX.Core
 
         public MyItem8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
+        public int GetItemQuantity(ushort item)
+        {
+            var ofs = InventoryPouch8b.GetItemOffset(item, Offset);
+            var data = InventoryPouch8b.ReadItem(item, Data, ofs);
+            return data.Count;
+        }
+
         public void SetItemQuantity(ushort item, int quantity)
         {
             var ofs = InventoryPouch8b.GetItemOffset(item, Offset);
-            var data = InventoryPouch8b.ReadItem(item, Data, Offset);
+            var data = InventoryPouch8b.ReadItem(item, Data, ofs);
             data.Count = quantity;
             InventoryPouch8b.WriteItem(data, Data, ofs);
         }
