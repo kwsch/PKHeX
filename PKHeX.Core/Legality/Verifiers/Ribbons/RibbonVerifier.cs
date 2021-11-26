@@ -454,7 +454,7 @@ namespace PKHeX.Core
             }
 
             // can be expanded upon if SWSH gets updated with the new ribbon when HOME has BDSP support
-            if (!pkm.BDSP && s8.RibbonTwinklingStar)
+            if (s8.RibbonTwinklingStar && (pkm is IRibbonSetCommon6 {RibbonContestStar:false} || !pkm.BDSP))
             {
                 yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
             }
