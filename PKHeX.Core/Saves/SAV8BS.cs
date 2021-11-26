@@ -37,9 +37,9 @@ namespace PKHeX.Core
             // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
             // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
             Records = new Record8b(this, 0x8F3DC); // size: 0x78 * 12
-            // 0x8F97C - ENC_SV_DATA; 21 honey trees, 3 sway grass info, 2 mvpoke
-            // PLAYER_SAVE_DATA
-            // SaveBallDecoData CapsuleData[99], AffixSealData[20]
+            Encounter = new EncounterSave8b(this, 0x8F97C); // size: 0x188
+            Player = new PlayerData8b(this, 0x8FB04); // 0x80
+            SealDeco = new SealBallDecoData8b(this, 0x8FB84); // size: 0x4288
             SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
             // _RANDOM_GROUP
             // FieldGimmickSaveData; int[3] gearRotate
@@ -56,13 +56,13 @@ namespace PKHeX.Core
             UgSaveData = new UgSaveData8b(this, 0x9A89C); // size: 0x27A0
             // 0x9D03C - GMS_DATA // size: 0x31304, (GMS_POINT_DATA[650], ushort, ushort, byte)?; substructure GMS_POINT_HISTORY_DATA[5]
             // 0xCE340 - PLAYER_NETWORK_DATA; bcatFlagArray byte[1300]
-            // UnionSaveData
-            // CON_PHOTO_LANG_DATA -- contest photo language data; photo_data[5], photo_fx[5]
+            // 0xCEA10(?) - UnionSaveData
+            // 0xCEA1C(?) - CON_PHOTO_LANG_DATA -- contest photo language data; photo_data[5], photo_fx[5]
             // ZUKAN_PERSONAL_RND_DATA -- Spinda PID storage; uint[4] see, uint[4] get, uint[17] reserve
             // CON_PHOTO_EXT_DATA[5]
-            // GMS_POINT_HISTORY_EXT_DATA[]
-            // UgCountRecord
-            // ReBuffnameData
+            // GMS_POINT_HISTORY_EXT_DATA[3250]
+            UgCount = new UgCountRecord8b(this, 0xE8178); // size: 0x20
+            // 0xE8198 - ReBuffnameData; RE_DENDOU_RECORD[30], RE_DENDOU_POKEMON_DATA_INSIDE[6] (0x20) = 0x1680
             // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
             // v1.1 additions
@@ -192,6 +192,9 @@ namespace PKHeX.Core
         public Zukan8b Zukan { get; }
         public BattleTrainerStatus8b BattleTrainer { get; }
         public Record8b Records { get; }
+        public EncounterSave8b Encounter { get; }
+        public PlayerData8b Player { get; }
+        public SealBallDecoData8b SealDeco { get; }
         public SealList8b SealList { get; }
         public BerryTreeGrowSave8b BerryTrees { get; }
         public PoffinSaveData8b Poffins { get; }
@@ -200,6 +203,7 @@ namespace PKHeX.Core
         public Poketch8b Poketch { get; }
         public Daycare8b Daycare { get; }
         public UgSaveData8b UgSaveData { get; }
+        public UgCountRecord8b UgCount { get; }
 
         // First Savedata Expansion!
         public RecordAddData8b RecordAdd { get; }
