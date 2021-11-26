@@ -274,6 +274,7 @@ namespace PKHeX.Core
             Nickname.Verify(this);
             LanguageIndex.Verify(this);
             Trainer.Verify(this);
+            TrainerID.Verify(this);
             IndividualValues.Verify(this);
             EffortValues.Verify(this);
             Level.Verify(this);

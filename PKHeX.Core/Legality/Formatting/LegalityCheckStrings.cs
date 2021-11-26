@@ -399,6 +399,7 @@ namespace PKHeX.Core
         public static string LOT_SID0 { get; set; } = "SID is zero.";
         public static string LOT_SID0Invalid { get; set; } = "SID should be 0.";
         public static string LOT_TID0 { get; set; } = "TID is zero.";
+        public static string LOT_IDInvalid { get; set; } = "TID and SID combination is not possible.";
 
         public static string LPIDEncryptWurmple { get; set; } = "Wurmple evolution Encryption Constant mismatch.";
         public static string LPIDEncryptZero { get; set; } = "Encryption Constant is not set.";

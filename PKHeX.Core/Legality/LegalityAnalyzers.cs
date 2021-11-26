@@ -27,6 +27,7 @@
         public static readonly ContestStatVerifier Contest = new();
 
         public static readonly TrainerNameVerifier Trainer = new();
+        public static readonly TrainerIDVerifier TrainerID = new();
         public static readonly LevelVerifier Level = new();
         public static readonly MiscVerifier MiscValues = new();
         public static readonly TransferVerifier Transfer = new();

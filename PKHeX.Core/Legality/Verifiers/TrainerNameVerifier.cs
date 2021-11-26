@@ -19,44 +19,15 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            switch (data.EncounterMatch)
-            {
-                case EncounterTrade:
-                case MysteryGift {IsEgg: false}:
-                case EncounterStatic5N:
-                    return; // already verified
-            }
+            var enc = data.EncounterMatch;
+            if (!IsPlayerOriginalTrainer(enc))
+                return; // already verified
 
             var ot = pkm.OT_Name;
             if (ot.Length == 0)
                 data.AddLine(GetInvalid(LOTShort));
 
-            if (pkm.TID == 0 && pkm.SID == 0)
-            {
-                data.AddLine(Get(LOT_IDs0, Severity.Fishy));
-            }
-            else if (pkm.VC)
-            {
-                if (pkm.SID != 0)
-                    data.AddLine(GetInvalid(LOT_SID0Invalid));
-            }
-            else if (pkm.TID == pkm.SID)
-            {
-                data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
-            }
-            else if (pkm.TID == 0)
-            {
-                data.AddLine(Get(LOT_TID0, Severity.Fishy));
-            }
-            else if (pkm.SID == 0)
-            {
-                data.AddLine(Get(LOT_SID0, Severity.Fishy));
-            }
-            else if (IsOTNameSuspicious(ot))
-            {
-                data.AddLine(Get(LOTSuspicious, Severity.Fishy));
-            }
-            else if (IsOTIDSuspicious(pkm.TID, pkm.SID))
+            if (IsOTNameSuspicious(ot))
             {
                 data.AddLine(Get(LOTSuspicious, Severity.Fishy));
             }
@@ -81,6 +52,14 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
             }
         }
+
+        internal static bool IsPlayerOriginalTrainer(IEncounterable enc) => enc switch
+        {
+            EncounterTrade { HasTrainerName: true } => true,
+            MysteryGift { IsEgg: false } => true,
+            EncounterStatic5N => true,
+            _ => false,
+        };
 
         public static bool IsEdgeCaseLength(PKM pkm, IEncounterTemplate e, string ot)
         {
@@ -157,18 +136,6 @@ namespace PKHeX.Core
                 if (s.StartsWith(name, StringComparison.InvariantCultureIgnoreCase))
                     return true;
             }
-            return false;
-        }
-
-        public static bool IsOTIDSuspicious(int tid16, int sid16)
-        {
-            if (tid16 == 12345 && sid16 == 54321)
-                return true;
-
-            // 1234_123456 (SID7_TID7)
-            if (tid16 == 15040 && sid16 == 18831)
-                return true;
-
             return false;
         }
 
