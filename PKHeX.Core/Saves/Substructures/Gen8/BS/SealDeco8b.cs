@@ -97,7 +97,7 @@ namespace PKHeX.Core
         private readonly int Offset;
         private readonly byte[] Data;
 
-        public override string ToString() => $"{SealID}-({X},{Y},{Z})";
+        public override string ToString() => $"{(Seal8b)SealID}-({X},{Y},{Z})";
 
         public AffixSealData8b(byte[] data, int offset)
         {
