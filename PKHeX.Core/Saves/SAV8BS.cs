@@ -42,12 +42,12 @@ namespace PKHeX.Core
             // SaveBallDecoData CapsuleData[99], AffixSealData[20]
             SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
             // _RANDOM_GROUP
-            // FIeldGimmickSaveData; int[3] gearRotate
+            // FieldGimmickSaveData; int[3] gearRotate
             BerryTrees = new BerryTreeGrowSave8b(this, 0x94DA8); // size: 0x808
             Poffins = new PoffinSaveData8b(this, 0x955B0); // size: 0x644
             BattleTower = new BattleTowerWork8b(this, 0x95BF4); // size: 0x1B8
-            System = new SystemData8b(this, 0x95DAC);
-            Poketch = new Poketch8b(this, 0); // todo
+            System = new SystemData8b(this, 0x95DAC); // size: 0x138
+            Poketch = new Poketch8b(this, 0x95EE4); // todo
             Daycare = new Daycare8b(this, 0x96080); // 0x2C0
             // 0x96340 - _DENDOU_SAVEDATA; DENDOU_RECORD[30], POKEMON_DATA_INSIDE[6], ushort[4] ?
             // BadgeSaveData; byte[8]

@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Details about the Poketch corner app.
     /// </summary>
-    /// <remarks>size: ???</remarks>
+    /// <remarks>size: 0x19C</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public sealed class Poketch8b : SaveBlock
     {
