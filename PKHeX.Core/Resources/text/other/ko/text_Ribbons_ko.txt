@@ -149,5 +149,5 @@ RibbonMarkHumble	순박의증표
 RibbonMarkThorny	불순의증표
 RibbonMarkVigor	기력의증표
 RibbonMarkSlump	피곤의증표
-RibbonTwinklingStar	트윙클스타리본
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	트윙클스타리본

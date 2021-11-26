@@ -149,5 +149,5 @@ RibbonMarkHumble	ぼくとつのあかし
 RibbonMarkThorny	ふじゅんのあかし
 RibbonMarkVigor	げんきのあかし
 RibbonMarkSlump	ふちょうのあかし
-RibbonTwinklingStar	トゥインクルスターリボン
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	トゥインクルスターリボン

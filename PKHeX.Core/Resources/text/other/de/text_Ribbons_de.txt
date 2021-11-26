@@ -149,5 +149,5 @@ RibbonMarkHumble	Arglos-Zeichen
 RibbonMarkThorny	Scheinheilig-Zeichen
 RibbonMarkVigor	Elan-Zeichen
 RibbonMarkSlump	Formtief-Zeichen
-RibbonTwinklingStar	Glitzersternband
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	Glitzersternband

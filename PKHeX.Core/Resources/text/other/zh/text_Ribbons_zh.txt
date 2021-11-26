@@ -149,5 +149,5 @@ RibbonMarkHumble	木讷之证
 RibbonMarkThorny	不纯之证
 RibbonMarkVigor	活力之证
 RibbonMarkSlump	不振之证
-RibbonTwinklingStar	闪亮之星奖章
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	闪亮之星奖章

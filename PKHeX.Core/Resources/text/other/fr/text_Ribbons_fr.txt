@@ -149,5 +149,5 @@ RibbonMarkHumble	Insigne Discrétion
 RibbonMarkThorny	Insigne Frime
 RibbonMarkVigor	Insigne Énergie
 RibbonMarkSlump	Insigne Blessure
-RibbonTwinklingStar	Ruban Étoile Brillante
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	Ruban Étoile Brillante

@@ -149,5 +149,5 @@ RibbonMarkHumble	Humble Mark
 RibbonMarkThorny	Thorny Mark
 RibbonMarkVigor	Vigor Mark
 RibbonMarkSlump	Slump Mark
-RibbonTwinklingStar	Twinkling Star
 RibbonPioneer	Pioneer
+RibbonTwinklingStar	Twinkling Star
