@@ -54,8 +54,8 @@
             this.GB_System = new System.Windows.Forms.TabPage();
             this.TLP_System = new System.Windows.Forms.TableLayoutPanel();
             this.GB_Work = new System.Windows.Forms.TabPage();
-            this.GB_Research = new System.Windows.Forms.TabPage();
             this.TLP_Work = new System.Windows.Forms.TableLayoutPanel();
+            this.GB_Research = new System.Windows.Forms.TabPage();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_System)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Work)).BeginInit();
@@ -167,10 +167,15 @@
             // 
             this.NUD_Work.Location = new System.Drawing.Point(159, 70);
             this.NUD_Work.Maximum = new decimal(new int[] {
-            499,
+            2147483647,
             0,
             0,
             0});
+            this.NUD_Work.Minimum = new decimal(new int[] {
+            -2147483648,
+            0,
+            0,
+            -2147483648});
             this.NUD_Work.Name = "NUD_Work";
             this.NUD_Work.Size = new System.Drawing.Size(84, 20);
             this.NUD_Work.TabIndex = 38;
@@ -381,18 +386,6 @@
             this.GB_Work.Text = "Work Values";
             this.GB_Work.UseVisualStyleBackColor = true;
             // 
-            // GB_Research
-            // 
-            this.GB_Research.Controls.Add(this.GB_FlagStatus);
-            this.GB_Research.Controls.Add(this.GB_Researcher);
-            this.GB_Research.Location = new System.Drawing.Point(4, 22);
-            this.GB_Research.Name = "GB_Research";
-            this.GB_Research.Padding = new System.Windows.Forms.Padding(3);
-            this.GB_Research.Size = new System.Drawing.Size(422, 283);
-            this.GB_Research.TabIndex = 2;
-            this.GB_Research.Text = "Research";
-            this.GB_Research.UseVisualStyleBackColor = true;
-            // 
             // TLP_Work
             // 
             this.TLP_Work.AutoScroll = true;
@@ -408,6 +401,18 @@
             this.TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Work.Size = new System.Drawing.Size(416, 277);
             this.TLP_Work.TabIndex = 2;
+            // 
+            // GB_Research
+            // 
+            this.GB_Research.Controls.Add(this.GB_FlagStatus);
+            this.GB_Research.Controls.Add(this.GB_Researcher);
+            this.GB_Research.Location = new System.Drawing.Point(4, 22);
+            this.GB_Research.Name = "GB_Research";
+            this.GB_Research.Padding = new System.Windows.Forms.Padding(3);
+            this.GB_Research.Size = new System.Drawing.Size(422, 283);
+            this.GB_Research.TabIndex = 2;
+            this.GB_Research.Text = "Research";
+            this.GB_Research.UseVisualStyleBackColor = true;
             // 
             // SAV_FlagWork8b
             // 

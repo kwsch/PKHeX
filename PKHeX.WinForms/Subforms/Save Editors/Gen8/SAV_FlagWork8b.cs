@@ -45,16 +45,6 @@ namespace PKHeX.WinForms
             editing = false;
             ResumeLayout();
 
-            if (CB_CustomWork.Items.Count > 0)
-            {
-                CB_CustomWork.SelectedIndex = 0;
-            }
-            else
-            {
-                L_CustomWork.Visible = CB_CustomWork.Visible = NUD_Work.Visible = false;
-                TC_Features.TabPages.Remove(GB_Work);
-            }
-
             NUD_Flag.Maximum = obj.CountFlag - 1;
             NUD_Flag.Text = "0";
             CHK_CustomFlag.Checked = obj.GetFlag(0);
@@ -159,8 +149,8 @@ namespace PKHeX.WinForms
                 var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
                 var mtb = new NumericUpDown
                 {
-                    Maximum = ushort.MaxValue,
-                    Minimum = ushort.MinValue,
+                    Maximum = int.MaxValue,
+                    Minimum = int.MinValue,
                     Margin = Padding.Empty,
                     Width = 50,
                 };
