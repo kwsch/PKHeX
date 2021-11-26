@@ -9,12 +9,12 @@ namespace PKHeX.Core
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public sealed class Poketch8b : SaveBlock
     {
-        public const int APP_REGIST_MAX = 20;
-        public const int POKETCH_MAP_MARK_MAX = 6;
-        public const int POKETCH_DOTART_DATA_BYTESIZE = 192;
-        public const int POKETCH_POKE_HISTORY_COUNT_MAX = 12;
+        public const int APP_REGIST_MAX = 20; // bool array unlock flags
+        public const int POKETCH_MAP_MARK_MAX = 6; // mark_map_pos[6]
+        public const int POKETCH_DOTART_DATA_BYTESIZE = 192; // dotart data bytes
+        public const int POKETCH_POKE_HISTORY_COUNT_MAX = 12; // poke_history[12]
         public const int POKETCH_PEDOMETER_MAX = 99999;
-        public const int POKETCH_CALENDER_MONTH_MAX = 12;
+        public const int POKETCH_CALENDER_MONTH_MAX = 12; // calendar markbit uint[12]
 
         public Poketch8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

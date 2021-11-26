@@ -13,6 +13,15 @@ namespace PKHeX.Core
         public const int ItemSaveSize = 3000;
 
         public MyItem8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+
+        public void SetItemQuantity(ushort item, int quantity)
+        {
+            var ofs = InventoryPouch8b.GetItemOffset(item, Offset);
+            var data = InventoryPouch8b.ReadItem(item, Data, Offset);
+            data.Count = quantity;
+            InventoryPouch8b.WriteItem(data, Data, ofs);
+        }
+
         public override IReadOnlyList<InventoryPouch> Inventory { get => ConvertToPouches(); set => LoadFromPouches(value); }
 
         private IReadOnlyList<InventoryPouch> ConvertToPouches()

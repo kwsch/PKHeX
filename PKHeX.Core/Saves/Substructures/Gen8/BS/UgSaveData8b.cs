@@ -12,8 +12,8 @@ namespace PKHeX.Core
     {
         public const int COUNT_DIGPOINTS = 10;
         public const int COUNT_ENCOUNTERS = 15;
-        public const int COUNT_FRIENDS = 50; // 100 total with Friends+Others, not sure if it's evenly split 50/50, or if this is actually correct.
-        public const int COUNT_OTHERS = 50;
+        public const int COUNT_FRIENDS = 100; // 100 total with Friends+Others, savedata ctor allocates 100 for FriendPlayerList
+        public const int COUNT_OTHERS = 0; // unused
         public const int COUNT_TRAINERS = 100;
 
         public const int SIZE_SECRETBASE = 0x14 + (MAX_STONE_STATUE * SIZE_STATUE) + 4; // 0x270
@@ -31,8 +31,8 @@ namespace PKHeX.Core
         // int ReturnUgZoneID; // 0x1528
 
         // UGRecord ugRecord; (secret base, see below documentation), size 0x270
-        // UgPlayerInfo[???] FriendPlayerList;
-        // UgPlayerInfo[???] OtherPlayerList;
+        // UgPlayerInfo[100] FriendPlayerList;
+        // UgPlayerInfo[0] OtherPlayerList; // unused
         // byte[100] TalkedNPCsID;
 
         private const int OFS_DIGPOINT = 0x24;
@@ -106,6 +106,21 @@ namespace PKHeX.Core
 
         public void ClearNPC() => GetTrainers().Fill(0);
         public void ClearNPC(int start, int count = COUNT_TRAINERS) => FillNPC(0, start, count);
+
+        public int TalkedNPC // Spiritomb Trainer Count (duplicates OK)
+        {
+            get
+            {
+                var tr = GetTrainers();
+                int ctr = 0;
+                foreach (var t in tr)
+                {
+                    if (t != 0)
+                        ctr++;
+                }
+                return ctr;
+            }
+        }
 
         public void FillNPC(byte value, int start = 0, int count = COUNT_TRAINERS)
         {

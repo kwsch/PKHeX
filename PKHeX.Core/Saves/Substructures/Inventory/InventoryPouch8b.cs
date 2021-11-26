@@ -21,14 +21,10 @@ namespace PKHeX.Core
             foreach (var index in LegalItems)
             {
                 var ofs = GetItemOffset(index, Offset);
-                var count = BitConverter.ToInt32(data, ofs);
-                if (count == 0)
+                var item = ReadItem(index, data, ofs);
+                if (item.Count == 0)
                     continue;
-
-                bool isNew = BitConverter.ToInt32(data, ofs + 4) == 0;
-                bool isFavorite = BitConverter.ToInt32(data, ofs + 0x8) == 1;
-                // ushort sortOrder = BitConverter.ToUInt16(data, ofs + 0xE);
-                Items[ctr++] = new InventoryItem { Index = index, Count = count, New = isNew, FreeSpace = isFavorite };
+                Items[ctr++] = item;
             }
 
             while (ctr != LegalItems.Length)
@@ -72,6 +68,15 @@ namespace PKHeX.Core
         }
 
         public static int GetItemOffset(ushort index, int baseOffset) => baseOffset + (SIZE_ITEM * index);
+
+        public static InventoryItem ReadItem(ushort index, byte[] data, int ofs)
+        {
+            var count = BitConverter.ToInt32(data, ofs);
+            bool isNew = BitConverter.ToInt32(data, ofs + 4) == 0;
+            bool isFavorite = BitConverter.ToInt32(data, ofs + 0x8) == 1;
+            // ushort sortOrder = BitConverter.ToUInt16(data, ofs + 0xE);
+            return new InventoryItem { Index = index, Count = count, New = isNew, FreeSpace = isFavorite };
+        }
 
         public static void WriteItem(InventoryItem item, byte[] data, int ofs)
         {
