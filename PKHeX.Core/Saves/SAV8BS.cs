@@ -36,8 +36,8 @@ namespace PKHeX.Core
             BattleTrainer = new BattleTrainerStatus8b(this, 0x7D3E0); // size: 0x1618
             // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
             // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
-            Records = new Record8b(this, 0x8F3DC); // size: 0x78
-            // 0x8F454 - ENC_SV_DATA; 21 honey trees, 3 sway grass info, 2 mvpoke
+            Records = new Record8b(this, 0x8F3DC); // size: 0x78 * 12
+            // 0x8F97C - ENC_SV_DATA; 21 honey trees, 3 sway grass info, 2 mvpoke
             // PLAYER_SAVE_DATA
             // SaveBallDecoData CapsuleData[99], AffixSealData[20]
             SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
@@ -66,7 +66,7 @@ namespace PKHeX.Core
             // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
             // v1.1 additions
-            // 0xE9828 -- RECORD_ADD_DATA: 0x30-sized[12] (0x120 bytes)
+            RecordAdd = new RecordAddData8b(this, 0xE9828); // -- RECORD_ADD_DATA: 0x30-sized[12] (0x120 bytes), and 12*byte[32]
             // MysteryGiftSaveData, RecvData[50], byte[0x100] receiveFlag, OneDayData[10], uint[66] reserve
             // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
             // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
@@ -110,6 +110,8 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_8b;
         public override int MaxGameID => Legal.MaxGameID_8b;
         public override int MaxAbilityID => Legal.MaxAbilityID_8b;
+
+        public bool HasFirstSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_1;
 
         public int SaveRevision
         {
@@ -198,6 +200,9 @@ namespace PKHeX.Core
         public Poketch8b Poketch { get; }
         public Daycare8b Daycare { get; }
         public UgSaveData8b UgSaveData { get; }
+
+        // First Savedata Expansion!
+        public RecordAddData8b RecordAdd { get; }
         #endregion
 
         public override GameVersion Version => Game switch
@@ -310,7 +315,7 @@ namespace PKHeX.Core
         public int RecordCount => Record8b.RecordCount;
         public int GetRecord(int recordID) => Records.GetRecord(recordID);
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
-        public int GetRecordMax(int recordID) => recordID == 0 ? int.MaxValue : Record8b.RecordMaxValue;
+        public int GetRecordMax(int recordID) => Record8b.GetMax(recordID);
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
 
         #region Daycare

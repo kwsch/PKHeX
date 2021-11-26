@@ -93,6 +93,12 @@ namespace PKHeX.WinForms
         private void Save()
         {
             SaveTrainerInfo();
+            if (SAV.TID == 0 && SAV.SID == 0)
+                SAV.SID = 1; // Cannot have an all-zero ID.
+
+            // Trickle down the changes to the extra record block.
+            if (SAV.HasFirstSaveFileExpansion && (SAV.OT != Origin.OT || SAV.TID != Origin.TID || SAV.SID != Origin.SID))
+                SAV.RecordAdd.ReplaceOT(Origin, SAV);
         }
 
         private void SaveTrainerInfo()

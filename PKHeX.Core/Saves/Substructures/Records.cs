@@ -592,6 +592,40 @@ namespace PKHeX.Core
         public const int G8BattleTowerSingleWin = 47;
         public const int G8BattleTowerDoubleWin = 48;
 
+        public static readonly IReadOnlyList<int> MaxValue_BDSP = new[]
+        {
+            int.MaxValue, // CLEAR_TIME
+            9_999, // DENDOU_CNT
+            999_999, // CAPTURE_POKE
+            999_999, // FISHING_SUCCESS
+            999_999, // TAMAGO_HATCHING
+            999_999, // BEAT_DOWN_POKE
+            9_999, // RENSHOU_SINGLE
+            9_999, // RENSHOU_SINGLE_NOW
+            9_999, // RENSHOU_DOUBLE
+            9_999, // RENSHOU_DOUBLE_NOW
+            9_999, // RENSHOU_MASTER_SINGLE
+            9_999, // RENSHOU_MASTER_SINGLE_NOW
+            9_999, // RENSHOU_MASTER_DOUBLE
+            9_999, // RENSHOU_MASTER_DOUBLE_NOW
+            7, // BTL_TOWER_AVERAGE
+            5, // CONTEST_STYLE_RANK
+            5, // CONTEST_BEATIFUL_RANK
+            5, // CONTEST_CUTE_RANK
+            5, // CONTEST_CLEVER_RANK
+            5, // CONTEST_STRONG_RANK
+            9_999, // CONTEST_PLAY_SINGLE
+            9_999, // CONTEST_PLAY_LOCAL
+            9_999, // CONTEST_PLAY_NETWORK
+            9_999, // CONTEST_WIN_SINGLE
+            9_999, // CONTEST_WIN_LOCAL
+            9_999, // CONTEST_WIN_NETWORK
+            100,  // CONTEST_RATE_SINGLE
+            100,  // CONTEST_RATE_LOCAL
+            100,  // CONTEST_RATE_NETWORK
+            65_536,// CONTEST_GET_RIBBON
+        };
+
         public static readonly Dictionary<int, string> RecordList_8b = new()
         {
             { 00, "CLEAR_TIME" },
