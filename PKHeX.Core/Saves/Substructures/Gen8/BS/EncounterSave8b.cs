@@ -36,15 +36,15 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
         }
 
-        public int SafariRandSeed
+        public uint SafariRandSeed
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x04);
+            get => BitConverter.ToUInt32(Data, Offset + 0x04);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
         }
 
-        public int GenerateRandSeed
+        public uint GenerateRandSeed
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x08);
+            get => BitConverter.ToUInt32(Data, Offset + 0x08);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
         }
 
