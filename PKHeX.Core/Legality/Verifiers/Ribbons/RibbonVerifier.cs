@@ -123,7 +123,7 @@ namespace PKHeX.Core
 
                 var c4 = u4.RibbonBitsContest4();
                 var c4n = u4.RibbonNamesContest4();
-                var iter4 = (gen is 3 or 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
+                var iter4 = (gen is 3 or 4) && IsAllowedInContest4(pkm.Species, pkm.Form) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
                 foreach (var z in iter4)
                     yield return z;
             }
@@ -218,7 +218,14 @@ namespace PKHeX.Core
             bool gen34 = gen is 3 or 4;
             bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6 && !visitBDSP;
-            bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded)) && !visitBDSP;
+            bool noSinnoh = pkm is G4PKM { Species: (int)Species.Pichu, Form: 1 }; // Spiky Pichu
+            bool noCosmetic = (!gen34 && (not6 || (pkm.XY && pkm.IsUntraded)) && !visitBDSP) || noSinnoh;
+
+            if (noSinnoh)
+            {
+                if (s4.RibbonChampionSinnoh)
+                    yield return new RibbonResult(nameof(s4.RibbonChampionSinnoh));
+            }
 
             if (noDaily)
             {
@@ -238,7 +245,7 @@ namespace PKHeX.Core
             foreach (var p in GetInvalidRibbons6Memory(pkm, s6, gen, enc))
                 yield return p;
 
-            bool untraded = pkm.IsUntraded;
+            bool untraded = pkm.IsUntraded || (enc is EncounterStatic6 {Species:(int)Species.Pikachu, Form: not 0}); // Disallow cosplay pikachu from XY ribbons
             var iter = untraded ? GetInvalidRibbons6Untraded(pkm, s6) : GetInvalidRibbons6Traded(pkm, s6);
             foreach (var p in iter)
                 yield return p;
@@ -334,11 +341,11 @@ namespace PKHeX.Core
             switch (gen)
             {
                 case 3:
-                    contest = IsAllowedInContest4(pkm.Species) ? 40 : 20;
+                    contest = IsAllowedInContest4(pkm.Species, pkm.Form) ? 40 : 20;
                     battle = IsAllowedBattleFrontier(pkm.Species) ? CanHaveRibbonWinning(pkm, enc, 3) ? 8 : 7 : 0;
                     break;
                 case 4:
-                    contest = IsAllowedInContest4(pkm.Species) ? 20 : 0;
+                    contest = IsAllowedInContest4(pkm.Species, pkm.Form) ? 20 : 0;
                     battle = IsAllowedBattleFrontier(pkm.Species) ? 6 : 0;
                     break;
             }
@@ -556,7 +563,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool IsAllowedInContest4(int species) => species != 201 && species != 132; // Disallow Unown and Ditto
+        private static bool IsAllowedInContest4(int species, int form) => species switch
+        {
+            // Disallow Unown and Ditto, and Spiky Pichu (cannot trade)
+            (int)Species.Ditto => false,
+            (int)Species.Unown => false,
+            (int)Species.Pichu when form == 1 => false,
+            _ => true,
+        };
 
         private static bool IsAllowedBattleFrontier(int species) => !Legal.BattleFrontierBanlist.Contains(species);
 
