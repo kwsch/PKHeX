@@ -268,7 +268,6 @@ namespace PKHeX.Core
             568, // Genius Feather
             569, // Clever Feather
             570, // Swift Feather
-            796, // Gold Bottle Cap
             849, // Ice Stone
 
             005, // Safari Ball
