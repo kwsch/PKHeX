@@ -66,8 +66,8 @@ namespace PKHeX.Core
             // 0xE9818 -- 0x10 byte[] MD5 hash of all savedata;
 
             // v1.1 additions
-            RecordAdd = new RecordAddData8b(this, 0xE9828); // -- RECORD_ADD_DATA: 0x30-sized[12] (0x120 bytes), and 12*byte[32]
-            // MysteryGiftSaveData, RecvData[50], byte[0x100] receiveFlag, OneDayData[10], uint[66] reserve
+            RecordAdd = new RecordAddData8b(this, 0xE9828); // size: 0x3C0
+            MysteryRecords = new MysteryBlock8b(this, 0xE9BE8); // size: ???
             // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
             // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
             // MT_DATA mtData; -- 0x400 bytes
@@ -207,6 +207,7 @@ namespace PKHeX.Core
 
         // First Savedata Expansion!
         public RecordAddData8b RecordAdd { get; }
+        public MysteryBlock8b MysteryRecords { get; }
         #endregion
 
         public override GameVersion Version => Game switch
