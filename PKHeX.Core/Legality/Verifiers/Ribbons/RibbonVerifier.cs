@@ -294,14 +294,15 @@ namespace PKHeX.Core
                 var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var x in none)
                     yield return x;
+                yield break;
             }
 
             if (s6.RibbonChampionKalos)
                 yield return new RibbonResult(nameof(s6.RibbonChampionKalos));
             if (s6.RibbonChampionG6Hoenn)
                 yield return new RibbonResult(nameof(s6.RibbonChampionG6Hoenn));
-            if (s6.RibbonBestFriends)
-                yield return new RibbonResult(nameof(s6.RibbonBestFriends));
+            //if (s6.RibbonBestFriends)
+            //    yield return new RibbonResult(nameof(s6.RibbonBestFriends));
             if (s6.RibbonTraining)
                 yield return new RibbonResult(nameof(s6.RibbonTraining));
             if (s6.RibbonBattlerSkillful)
