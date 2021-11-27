@@ -98,6 +98,7 @@ namespace PKHeX.Core
             }
         }
 
+        // bitflags
         public byte LockedTeam
         {
             get => Data[Offset + 0x61C];
@@ -125,6 +126,8 @@ namespace PKHeX.Core
             get => Data[Offset + 0x61E];
             set => Data[Offset + 0x61E] = value;
         }
+
+        public bool GetIsTeamLocked(int team) => (LockedTeam & (1 << team)) != 0;
 
         public int GetBoxWallpaperOffset(int box) => Offset + 0x620 + box;
 

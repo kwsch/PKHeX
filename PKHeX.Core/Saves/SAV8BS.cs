@@ -83,8 +83,10 @@ namespace PKHeX.Core
             Box = 0x14EF4;
             Party = PartyInfo.Offset;
             PokeDex = Zukan.PokeDex;
-            BoxLayout.LoadBattleTeams();
             DaycareOffset = Daycare.Offset;
+
+            ReloadBattleTeams();
+            TeamSlots = BoxLayout.TeamSlots;
         }
 
         public override bool HasEvents => true;
@@ -141,6 +143,19 @@ namespace PKHeX.Core
                 BoxLayout.ClearBattleTeams();
             else // Valid slot locking info present
                 BoxLayout.LoadBattleTeams();
+        }
+
+        public override StorageSlotFlag GetSlotFlags(int index)
+        {
+            int team = Array.IndexOf(TeamSlots, index);
+            if (team < 0)
+                return StorageSlotFlag.None;
+
+            team /= 6;
+            var val = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+            if (BoxLayout.GetIsTeamLocked(team))
+                val |= StorageSlotFlag.Locked;
+            return val;
         }
 
         #region Checksums
