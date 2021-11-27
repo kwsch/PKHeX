@@ -176,8 +176,8 @@ namespace PKHeX.Core
 
         private void FixEvoTreeBS()
         {
-            BanEvo((int)Species.Glaceon, 0, pkm => pkm.CurrentLevel == pkm.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock instead
-            BanEvo((int)Species.Milotic, 0, pkm => pkm.CurrentLevel == pkm.Met_Level); // Prism Scale is unreleased, requires 170 Beauty instead
+            BanEvo((int)Species.Glaceon, 0, pkm => pkm.CurrentLevel == pkm.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock Level Up instead
+            BanEvo((int)Species.Milotic, 0, pkm => pkm is IContestStats { CNT_Beauty: < 170 } || pkm.CurrentLevel == pkm.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
         }
 
         private void BanEvo(int species, int form, Func<PKM, bool> func)
