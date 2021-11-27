@@ -1,7 +1,36 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/11/21 - New Update:
+21/11/27 - New Update:
+ - Legality:
+ - - Fixed: Shiny Roamers now recognized correctly (shiny type preservation with fakeTID).
+ - - Fixed: BDSP Milotic Prism Scale evolution is now disallowed. Thanks @sora10pls !
+ - - Fixed: BDSP Magnezone evolution via Thunder Stone instead of level up is now recognized correctly. Thanks @NinFanBoyFTW !
+ - - Fixed: BDSP Ribbon indexes for Pioneer and Twinkling Star now recognized correctly. Thanks @sora10pls !
+ - - Fixed: BDSP Ribbon legality revised to recognize all legal ribbons in BDSP. Thanks @Kermalis & @sora10pls !
+ - - Changed: BDSP TrainerID + SecretID both being zero is now illegal. Also int.MaxValue due to RNG quirks.
+ - - Added: Setting to flag entities with zero Height & Weight when appropriate; default severity is Fishy.
+ - Added: Height & Weight randomization in the PKM Editor GUI by control clicking the numeric entry.
+ - Added: BDSP Poffin Editor; hit Give All to give super poffins that max out contest stats in a single poffin.
+ - Added: BDSP received Sticker (Ball Capsule) editor; max quantity of a given sticker is 99.
+ - Added: BDSP Misc editor to toggle various cheats active (meeting all Underground NPCs, unlocking Shaymin/Darkrai events on latest patch).
+ - Added: BDSP Battle Team slots are now indicated in boxes, similar to Gen7. If teams ever get locked, then they will show the lock symbol too!
+ - Added: BDSP Safari RNG seed and roamer details now editable in the Encounter block.
+ - Added: BDSP Mystery Gift receiving records are now editable in the MysteryRecords block.
+ - Added: BDSP Player Misc data is now editable in the Player block.
+ - Added: BDSP Underground stats are now editable in UgCount block.
+ - Added: BDSP BP is now editable in the Trainer Info editor. Thanks @Synthlight !
+ - Fixed: BDSP game clear record is no longer clamped to 999,999. Please double check this record in the Trainer Editor and set to YYYYMMDD if needed.
+ - Fixed: BDSP genderless species are now registered to the Pokédex with both gender flags instead of just Male. Thanks @sora10pls !
+ - Fixed: BDSP Work values are now unclamped. Thanks @Bl4ckSh4rk !
+ - Fixed: BDSP custom system flag set now sets the correct flag value.
+ - Fixed: BDSP v1.1 save backups are now loaded into the File Browser (CTRL-F) correctly like v1.0 saves.
+ - Fixed: BDSP affixed ribbon values (not mutable in game, still present) now saves correctly in the Ribbon Editor.
+ - Changed: BDSP Box Backgrounds cropped for better viewing. Thanks @sora10pls!
+ - Changed: BDSP met locations now indicate sublocations if applicable for that zone ID. Met Location drop-downs now auto-size their width to fit all text.
+ - Changed: BDSP egg toggling via the PKM Editor GUI now sets the Nicknamed flag data according to matched encounter data.
+
+21/11/21 - New Update: (50606) [4190650]
  - Legality:
  - - Fixed: TM learn permissions now reference the correct move IDs.
  - - Fixed: Elemental Beam type tutors now permitted for PB8 formats.

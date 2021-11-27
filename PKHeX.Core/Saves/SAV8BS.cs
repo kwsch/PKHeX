@@ -290,6 +290,12 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x5638);
         }
 
+        public uint UnionRoomPenaltyTime // move this into the UnionSaveData block once reversed.
+        {
+            get => BitConverter.ToUInt32(Data, 0xCEA14);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0xCEA14);
+        }
+
         protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk = (PB8)pkm;
