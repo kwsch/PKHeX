@@ -24,7 +24,7 @@ PKHeX erwartet Spielstände, die mit konsolenspezifischen Schlüsseln entschlüs
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/gjW5JT3.png)
+![Main Window](https://i.imgur.com/ApbTkM0.png)
 
 ## Erstellen
 
