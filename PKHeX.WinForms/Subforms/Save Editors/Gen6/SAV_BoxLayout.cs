@@ -46,10 +46,13 @@ namespace PKHeX.WinForms
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
                     return true;
                 case 4 or 5 or 6:
-                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
+                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 24));
                     return true;
                 case 7:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
+                    return true;
+                case 8 when SAV is SAV8BS:
+                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
                     return true;
                 case 8:
                     CB_BG.Items.AddRange(Enumerable.Range(1, 19).Select(z => $"Wallpaper {z}").ToArray());
