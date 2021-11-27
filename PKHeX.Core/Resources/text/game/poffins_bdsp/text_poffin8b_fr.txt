@@ -4,26 +4,26 @@ Poffin Épicé Âpre
 Poffin Épicé Sucré
 Poffin Épicé Amer
 Poffin Épicé Acide
-Poffin Âpre Épicé
 Poffin Âpre
+Poffin Âpre Épicé
 Poffin Âpre Sucré
 Poffin Âpre Amer
 Poffin Âpre Acide
+Poffin Sucré
 Poffin Sucré Épicé
 Poffin Sucré Âpre
-Poffin Sucré
 Poffin Sucré Amer
 Poffin Sucré Acide
+Poffin Amer
 Poffin Amer Épicé
 Poffin Amer Âpre
 Poffin Amer Sucré
-Poffin Amer
 Poffin Amer Acide
+Poffin Acide
 Poffin Acide Épicé
 Poffin Acide Âpre
 Poffin Acide Sucré
 Poffin Acide Amer
-Poffin Acide
 Poffin Nourrissant
 Poffin Écœurant
 Poffin Infect

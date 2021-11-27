@@ -4,26 +4,26 @@ Poffin pepato agro
 Poffin pepato dolce
 Poffin pepato amaro
 Poffin pepato aspro
-Poffin agro pepato
 Poffin agro
+Poffin agro pepato
 Poffin agro dolce
 Poffin agro amaro
 Poffin agro aspro
+Poffin dolce
 Poffin dolce pepato
 Poffin dolce agro
-Poffin dolce
 Poffin dolce amaro
 Poffin dolce aspro
+Poffin amaro
 Poffin amaro pepato
 Poffin amaro agro
 Poffin amaro dolce
-Poffin amaro
 Poffin amaro aspro
+Poffin aspro
 Poffin aspro pepato
 Poffin aspro agro
 Poffin aspro dolce
 Poffin aspro amaro
-Poffin aspro
 Poffin ricco
 Poffin pesante
 Poffin cattivo

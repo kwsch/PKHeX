@@ -58,7 +58,7 @@ namespace PKHeX.WinForms
 
             var cTaste = new DataGridViewTextBoxColumn
             {
-                HeaderText = "Taste",
+                HeaderText = "Smooth",
                 DisplayIndex = 3,
                 Width = 50,
                 SortMode = DataGridViewColumnSortMode.Automatic,
