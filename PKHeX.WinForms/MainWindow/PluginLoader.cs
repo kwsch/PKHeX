@@ -63,6 +63,11 @@ namespace PKHeX.WinForms
         {
             try
             {
+                // Handle Costura merged plugin dll's; need to Attach for them to correctly retrieve their dependencies.
+                var assemblyLoaderType = z.GetType("Costura.AssemblyLoader", false);
+                var attachMethod = assemblyLoaderType?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
+                attachMethod?.Invoke(null, Array.Empty<object>());
+
                 var types = z.GetTypes();
                 return types.Where(type => IsTypePlugin(type, pluginType));
             }
