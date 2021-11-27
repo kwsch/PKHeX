@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using PKHeX.Drawing;
+using PKHeX.Drawing.Misc;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -167,7 +167,7 @@ namespace PKHeX.WinForms
                 return;
             int index = pba.IndexOf(pb);
 
-            SetBackground(index, Drawing.Properties.Resources.slotView);
+            SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotView);
             ViewGiftData(mga.Gifts[index]);
         }
 
@@ -201,7 +201,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
-            SetBackground(index, Drawing.Properties.Resources.slotSet);
+            SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
             mga.Gifts[index] = (DataMysteryGift)mg.Clone();
             SetGiftBoxes();
             SetCardID(mg.CardID);
@@ -234,7 +234,7 @@ namespace PKHeX.WinForms
                 mga.Gifts[i-1] = mg1;
                 mga.Gifts[i] = mg2;
             }
-            SetBackground(i, Drawing.Properties.Resources.slotDel);
+            SetBackground(i, Drawing.PokeSprite.Properties.Resources.slotDel);
             SetGiftBoxes();
         }
 
@@ -462,7 +462,7 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
-                SetBackground(index, Drawing.Properties.Resources.slotSet);
+                SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
                 mga.Gifts[index] = (DataMysteryGift)gift.Clone();
 
                 SetCardID(mga.Gifts[index].CardID);
@@ -506,7 +506,7 @@ namespace PKHeX.WinForms
                     index = i-1;
                 }
             }
-            SetBackground(index, Drawing.Properties.Resources.slotView);
+            SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotView);
             SetGiftBoxes();
         }
 

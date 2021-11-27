@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
+using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms
 {

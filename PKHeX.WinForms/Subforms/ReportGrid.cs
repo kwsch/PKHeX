@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms

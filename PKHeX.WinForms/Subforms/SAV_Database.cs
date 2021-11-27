@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Searching;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Controls;
 using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;

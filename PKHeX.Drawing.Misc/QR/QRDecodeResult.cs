@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Drawing
+﻿namespace PKHeX.Drawing.Misc
 {
     public enum QRDecodeResult
     {

@@ -1,38 +1,10 @@
 ﻿using PKHeX.Core;
-
 using static PKHeX.Core.GameVersion;
 
-namespace PKHeX.Drawing
+namespace PKHeX.Drawing.PokeSprite
 {
-    /// <summary>
-    /// Retrieves Box Storage wallpaper metadata.
-    /// </summary>
-    public static class BoxWallpaper
+    internal static class BoxWallpaper
     {
-        public static string GetWallpaperResourceName(GameVersion version, int index)
-        {
-            index++; // start indexes at 1
-            var suffix = GetResourceSuffix(version, index);
-            return $"box_wp{index:00}{suffix}";
-        }
-
-        private static string GetResourceSuffix(GameVersion version, int index) => version.GetGeneration() switch
-        {
-            3 when version == E => "e",
-            3 when FRLG.Contains(version) && index > 12 => "frlg",
-            3 => "rs",
-
-            4 when index < 16 => "dp",
-            4 when version == Pt => "pt",
-            4 when HGSS.Contains(version) => "hgss",
-
-            5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
-            6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
-            7 when !GG.Contains(version) => "xy",
-            8 => BDSP.Contains(version) ? "bdsp" : "swsh",
-            _ => string.Empty,
-        };
-
         public static bool IsWallpaperRed(GameVersion version, int wallpaperID)
         {
             switch (version.GetGeneration())

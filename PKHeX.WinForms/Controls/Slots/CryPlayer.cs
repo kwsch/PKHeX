@@ -2,7 +2,7 @@
 using System.IO;
 using System.Media;
 using PKHeX.Core;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls
 {

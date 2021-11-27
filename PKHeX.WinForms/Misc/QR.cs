@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
-
+using PKHeX.Drawing.Misc;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms

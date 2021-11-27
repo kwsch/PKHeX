@@ -4,8 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
-
+using PKHeX.Drawing.Misc;
+using PKHeX.Drawing.PokeSprite;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls

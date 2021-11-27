@@ -2,7 +2,7 @@
 using System.Text;
 using PKHeX.Core;
 
-namespace PKHeX.Drawing
+namespace PKHeX.Drawing.PokeSprite
 {
     public static class SpriteName
     {

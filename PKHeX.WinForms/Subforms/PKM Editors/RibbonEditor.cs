@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
+using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms
 {
@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
         {
             var name = rib.Name;
             var pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
-            var img = SpriteUtil.GetRibbonSprite(name);
+            var img = RibbonSpriteUtil.GetRibbonSprite(name);
             pb.BackgroundImage = img;
 
             var display = RibbonStrings.GetName(name);
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
             nud.ValueChanged += (sender, e) =>
             {
                 FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = (rib.RibbonCount = (int)nud.Value) > 0;
-                FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = SpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
+                FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
             };
             nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
             TLP_Ribbons.Controls.Add(nud, 0, row);

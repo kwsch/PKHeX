@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using PKHeX.Core;
 
-namespace PKHeX.Drawing
+namespace PKHeX.Drawing.Misc
 {
     public static class QRDecode
     {

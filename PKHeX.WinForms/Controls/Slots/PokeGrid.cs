@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace PKHeX.Drawing
+namespace PKHeX.Drawing.Misc
 {
     public static class QRImageUtil
     {

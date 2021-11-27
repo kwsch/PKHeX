@@ -2,7 +2,7 @@
 using PKHeX.Core;
 using QRCoder;
 
-namespace PKHeX.Drawing
+namespace PKHeX.Drawing.Misc
 {
     public static class QREncode
     {

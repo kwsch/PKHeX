@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
+using PKHeX.Drawing.Misc;
+using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms
 {
@@ -56,8 +58,8 @@ namespace PKHeX.WinForms
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStatTotal(p.BST);
             row.Cells[r++].Value = p.BST.ToString("000");
             row.Cells[r++].Value = p.CatchRate.ToString("000");
-            row.Cells[r++].Value = SpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
-            row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : SpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
+            row.Cells[r++].Value = TypeSpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
+            row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat(p.HP);
             row.Cells[r++].Value = p.HP.ToString("000");
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat(p.ATK);

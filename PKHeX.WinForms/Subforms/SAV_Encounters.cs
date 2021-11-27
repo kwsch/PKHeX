@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 

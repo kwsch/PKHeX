@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using PKHeX.Core;
-using PKHeX.Drawing;
+using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms
 {
