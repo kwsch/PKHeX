@@ -434,7 +434,7 @@ namespace PKHeX.Core
             {
                 // give random valid game
                 var rnd = Util.Rand;
-                do { pk.Version = (int)GameVersion.SW + rnd.Next(2); }
+                do { pk.Version = (int)GameVersion.BD + rnd.Next(2); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }
 
