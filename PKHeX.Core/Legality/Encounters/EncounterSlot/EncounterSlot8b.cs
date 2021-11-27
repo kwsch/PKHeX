@@ -68,7 +68,7 @@ namespace PKHeX.Core
             {
                 var index = rnd.Next(baseEgg.Length);
                 move = baseEgg[index];
-                if (IsBCAT && Array.IndexOf(Exclude, move) == -1)
+                if (!IsBCAT || Array.IndexOf(Exclude, move) == -1)
                     return true;
             }
         }
