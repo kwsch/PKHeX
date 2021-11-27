@@ -101,6 +101,7 @@
             this.TB_Secure1 = new System.Windows.Forms.TextBox();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
+            this.B_Poffins = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -465,6 +466,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_Blocks);
             this.FLP_SAVtools.Controls.Add(this.B_OtherSlots);
             this.FLP_SAVtools.Controls.Add(this.B_OpenSealStickers);
+            this.FLP_SAVtools.Controls.Add(this.B_Poffins);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -876,6 +878,16 @@
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
+            // B_Poffins
+            // 
+            this.B_Poffins.Location = new System.Drawing.Point(96, 235);
+            this.B_Poffins.Name = "B_Poffins";
+            this.B_Poffins.Size = new System.Drawing.Size(87, 23);
+            this.B_Poffins.TabIndex = 6;
+            this.B_Poffins.Text = "Poffins";
+            this.B_Poffins.UseVisualStyleBackColor = true;
+            this.B_Poffins.Click += new System.EventHandler(this.B_Poffins_Click);
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -972,5 +984,6 @@
         private System.Windows.Forms.Button Menu_ExportBAK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
         private System.Windows.Forms.Button B_OpenSealStickers;
+        private System.Windows.Forms.Button B_Poffins;
     }
 }
