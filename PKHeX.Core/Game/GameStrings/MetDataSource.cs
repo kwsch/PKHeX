@@ -84,12 +84,12 @@ namespace PKHeX.Core
         private static List<ComboItem> CreateGen5(GameStrings s)
         {
             var locations = Util.GetCBList(s.metBW2_00000, 0);
-            Util.AddCBWithOffset(locations, s.metBW2_60000, 60001, Locations.Daycare5);
-            Util.AddCBWithOffset(locations, s.metBW2_30000, 30001, Locations.LinkTrade5);
+            Util.AddCBWithOffset(locations, s.metBW2_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metBW2_30000, 30000, Locations.LinkTrade5);
             Util.AddCBWithOffset(locations, s.metBW2_00000, 00000, Legal.Met_BW2_0);
-            Util.AddCBWithOffset(locations, s.metBW2_30000, 30001, Legal.Met_BW2_3);
-            Util.AddCBWithOffset(locations, s.metBW2_40000, 40001, Legal.Met_BW2_4);
-            Util.AddCBWithOffset(locations, s.metBW2_60000, 60001, Legal.Met_BW2_6);
+            Util.AddCBWithOffset(locations, s.metBW2_30000, 30000, Legal.Met_BW2_3);
+            Util.AddCBWithOffset(locations, s.metBW2_40000, 40000, Legal.Met_BW2_4);
+            Util.AddCBWithOffset(locations, s.metBW2_60000, 60000, Legal.Met_BW2_6);
             return locations;
         }
 
@@ -107,55 +107,55 @@ namespace PKHeX.Core
         private static List<ComboItem> CreateGen6(GameStrings s)
         {
             var locations = Util.GetCBList(s.metXY_00000, 0);
-            Util.AddCBWithOffset(locations, s.metXY_60000, 60001, Locations.Daycare5);
-            Util.AddCBWithOffset(locations, s.metXY_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metXY_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metXY_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metXY_00000, 00000, Legal.Met_XY_0);
-            Util.AddCBWithOffset(locations, s.metXY_30000, 30001, Legal.Met_XY_3);
-            Util.AddCBWithOffset(locations, s.metXY_40000, 40001, Legal.Met_XY_4);
-            Util.AddCBWithOffset(locations, s.metXY_60000, 60001, Legal.Met_XY_6);
+            Util.AddCBWithOffset(locations, s.metXY_30000, 30000, Legal.Met_XY_3);
+            Util.AddCBWithOffset(locations, s.metXY_40000, 40000, Legal.Met_XY_4);
+            Util.AddCBWithOffset(locations, s.metXY_60000, 60000, Legal.Met_XY_6);
             return locations;
         }
 
         private static List<ComboItem> CreateGen7(GameStrings s)
         {
             var locations = Util.GetCBList(s.metSM_00000, 0);
-            Util.AddCBWithOffset(locations, s.metSM_60000, 60001, Locations.Daycare5);
-            Util.AddCBWithOffset(locations, s.metSM_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metSM_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metSM_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metSM_00000, 00000, Legal.Met_SM_0);
-            Util.AddCBWithOffset(locations, s.metSM_30000, 30001, Legal.Met_SM_3);
-            Util.AddCBWithOffset(locations, s.metSM_40000, 40001, Legal.Met_SM_4);
-            Util.AddCBWithOffset(locations, s.metSM_60000, 60001, Legal.Met_SM_6);
+            Util.AddCBWithOffset(locations, s.metSM_30000, 30000, Legal.Met_SM_3);
+            Util.AddCBWithOffset(locations, s.metSM_40000, 40000, Legal.Met_SM_4);
+            Util.AddCBWithOffset(locations, s.metSM_60000, 60000, Legal.Met_SM_6);
             return locations;
         }
 
         private static List<ComboItem> CreateGen7GG(GameStrings s)
         {
             var locations = Util.GetCBList(s.metGG_00000, 0);
-            Util.AddCBWithOffset(locations, s.metGG_60000, 60001, Locations.Daycare5);
-            Util.AddCBWithOffset(locations, s.metGG_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metGG_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metGG_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metGG_00000, 00000, Legal.Met_GG_0);
-            Util.AddCBWithOffset(locations, s.metGG_30000, 30001, Legal.Met_GG_3);
-            Util.AddCBWithOffset(locations, s.metGG_40000, 40001, Legal.Met_GG_4);
-            Util.AddCBWithOffset(locations, s.metGG_60000, 60001, Legal.Met_GG_6);
+            Util.AddCBWithOffset(locations, s.metGG_30000, 30000, Legal.Met_GG_3);
+            Util.AddCBWithOffset(locations, s.metGG_40000, 40000, Legal.Met_GG_4);
+            Util.AddCBWithOffset(locations, s.metGG_60000, 60000, Legal.Met_GG_6);
             return locations;
         }
 
         private static List<ComboItem> CreateGen8(GameStrings s)
         {
             var locations = Util.GetCBList(s.metSWSH_00000, 0);
-            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60001, Locations.Daycare5);
-            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations.Daycare5);
+            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
-            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30001, Legal.Met_SWSH_3);
-            Util.AddCBWithOffset(locations, s.metSWSH_40000, 40001, Legal.Met_SWSH_4);
-            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60001, Legal.Met_SWSH_6);
+            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Legal.Met_SWSH_3);
+            Util.AddCBWithOffset(locations, s.metSWSH_40000, 40000, Legal.Met_SWSH_4);
+            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Legal.Met_SWSH_6);
             return locations;
         }
 
         private static List<ComboItem> CreateGen8b(GameStrings s)
         {
             // Manually add invalid (-1) location from SWSH as ID 65535
-            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], 0xFFFF) };
+            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], unchecked((ushort)Locations.Default8bNone)) };
             Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Legal.Met_BS_0);
