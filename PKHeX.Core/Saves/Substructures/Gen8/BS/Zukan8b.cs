@@ -365,12 +365,7 @@ namespace PKHeX.Core
         public override void SeenNone()
         {
             for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
-            {
-                if (GetSeen(species))
-                    SetState(species, ZukanState8b.HeardOf);
-                SetGenderFlags(species, false, false, false, false);
-                SetLanguageFlags(species, 0);
-            }
+                ClearDexEntryAll(species);
         }
 
         public override void CaughtNone()
@@ -433,9 +428,7 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (GetSeen(species))
-                        SetState(species, ZukanState8b.HeardOf);
-                    SetGenderFlags(species, false, false, false, false);
+                    ClearDexEntryAll(species);
                 }
             }
         }
