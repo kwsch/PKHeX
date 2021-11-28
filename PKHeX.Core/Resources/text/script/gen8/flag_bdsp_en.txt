@@ -16,6 +16,21 @@
 114	*	FE_HIDEN_07_GET
 115	*	FE_HIDEN_08_GET
 
+464	*	FV_D02_FUUSEN (Valley Windworks Drifloon is Hidden)
+249	*	FE_D27R0103_LEGEND_CLEAR (Mesprit Left Verity Cavern)
+245	*	FE_D27R0103_LEGEND_CLEAR (Cresselia Left Fullmoon Island)
+
+262	g	FE_C05R0901_POKEMON_GET (Received Gift Eevee)
+
+252	r	FE_D29R0103_LEGEND_CLEAR (Captured Uxie)
+251	r	FE_D28R0103_LEGEND_CLEAR (Captured Azelf)
+308	r	FE_D05R0114_SPPOKE_GET (Captured Dialga/Palkia)
+246	r	FE_D16R0103_LEGEND_CLEAR (Captured Heatran)
+241	r	FE_D20R0106_LEGEND_CLEAR (Captured Regigigas)
+247	r	FE_D17R0104_LEGEND_CLEAR (Captured Giratina)
+
+1143	*	FE_D31R0201_JUDGE_TALK (Unlocked IV Judge)
+
 1246	*	FE_STAYLE_001 Unlocked Fashion: Everyday
 1247	*	FE_STAYLE_002 Unlocked Fashion: Contest
 1248	*	FE_STAYLE_003 Unlocked Fashion: Platinum

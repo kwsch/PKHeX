@@ -77,7 +77,7 @@ namespace PKHeX.Core
             new (BDSP) { Species = 380, Level = 70,              Location = 506, FlawlessIVCount = 3 }, // Latias
             new (BDSP) { Species = 381, Level = 70,              Location = 506, FlawlessIVCount = 3 }, // Latios
 
-            // Ramanas Park (Deep Space)
+            // Ramanas Park (Strange Space)
             new (BDSP) { Species = 150, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Mewtwo
             new (  SP) { Species = 249, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Lugia
             new (BD  ) { Species = 250, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Ho-Oh
