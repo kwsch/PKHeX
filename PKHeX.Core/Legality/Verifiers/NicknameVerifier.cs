@@ -237,7 +237,7 @@ namespace PKHeX.Core
 
             bool flagState = EggStateLegality.IsNicknameFlagSet(Info.EncounterMatch, pkm);
             if (pkm.IsNicknamed != flagState)
-                data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
+                data.AddLine(GetInvalid(flagState ? LNickFlagEggYes : LNickFlagEggNo, CheckIdentifier.Egg));
 
             var nick = pkm.Nickname;
             if (pkm.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nick, 2))
