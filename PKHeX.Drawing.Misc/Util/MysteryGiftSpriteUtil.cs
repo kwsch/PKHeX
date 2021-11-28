@@ -25,11 +25,10 @@ namespace PKHeX.Drawing.Misc
         private static Image GetBaseImage(MysteryGift gift)
         {
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
-                return SpriteUtil.GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, false, gift.Generation);
-            if (gift.IsPokémon)
-            {
                 return SpriteUtil.GetMysteryGiftPreviewPoke(gift);
-            }
+            if (gift.IsPokémon)
+                return SpriteUtil.GetMysteryGiftPreviewPoke(gift);
+
             if (gift.IsItem)
             {
                 int item = gift.ItemID;

@@ -41,9 +41,10 @@ namespace PKHeX.Drawing.PokeSprite
             var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
             if (pk is IShadowPKM {IsShadow: true})
             {
-                const int Lugia = 249;
+                const int Lugia = (int)Species.Lugia;
                 if (pk.Species == Lugia) // show XD shadow sprite
                     img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
+
                 GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 return ImageUtil.LayerImage(glowImg, img, 0, 0);
@@ -72,17 +73,22 @@ namespace PKHeX.Drawing.PokeSprite
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
                 else if (pk.Format >= 8 && pk.Moves.Any(Legal.GetDummiedMovesHashSet(pk).Contains))
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
+
                 if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
                     sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
             }
             if (inBox) // in box
             {
                 var flags = sav.GetSlotFlags(box, slot);
+
+                // Indicate any battle box teams & according locked state.
                 int team = flags.IsBattleTeam();
                 if (team >= 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.team, SlotTeamShiftX, 0);
                 if (flags.HasFlagFast(StorageSlotFlag.Locked))
                     sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
+
+                // Some games store Party directly in the list of pokemon data (LGP/E). Indicate accordingly.
                 int party = flags.IsParty();
                 if (party >= 0)
                     sprite = ImageUtil.LayerImage(sprite, PartyMarks[party], PartyMarkShiftX, 0);
@@ -166,7 +172,7 @@ namespace PKHeX.Drawing.PokeSprite
         public static Image Sprite(this IEncounterTemplate enc)
         {
             if (enc is MysteryGift g)
-                return g.Sprite();
+                return GetMysteryGiftPreviewPoke(g);
             var gender = GetDisplayGender(enc);
             var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny, enc.Generation);
             if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
@@ -197,9 +203,12 @@ namespace PKHeX.Drawing.PokeSprite
 
         public static Image GetMysteryGiftPreviewPoke(MysteryGift gift)
         {
+            if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
+                return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, false, gift.Generation);
+
             var gender = Math.Max(0, gift.Gender);
-            var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg,
-                gift.IsShiny, gift.Generation);
+            var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
+
             if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
             {
                 var ballSprite = GetBallSprite((int)b.FixedBall);
@@ -209,7 +218,7 @@ namespace PKHeX.Drawing.PokeSprite
             if (gift is IGigantamax { CanGigantamax: true })
             {
                 var gm = Resources.dyna;
-                return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+                img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
             }
             return img;
         }
