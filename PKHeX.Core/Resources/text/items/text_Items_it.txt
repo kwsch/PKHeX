@@ -430,16 +430,16 @@ Esplorokit
 Bottinosacca
 Libro Regole
 Poké Radar
-Scheda Punti
-Agenda
+Scheda punti
+Note di viaggio
 Portabolli
 Scatola Chic
 Bollosacca
 Blocco Amici
-Turbinchiave
-Arcamuleto
-Galachiave
-Rossocatena
+Chiave impianto
+Amuleto antico
+Chiave Galassia
+Catena rossa
 Mappa città
 Cercasfide
 Salvadanaio
@@ -449,9 +449,9 @@ Super Amo
 Sprayduck
 Portapoffin
 Bicicletta
-Chiave Suite
+Chiave suite
 Lettera Oak
-Alalunare
+Piumalunare
 Scheda Soci
 Flauto Cielo
 Biglietto nave
@@ -461,8 +461,8 @@ Pacco
 Coupon 1
 Coupon 2
 Coupon 3
-Depochiave
-Pozione Segreta
+Chiave magazzino
+Rimedio segreto
 Registradati
 Gracidea
 Chiave segreta

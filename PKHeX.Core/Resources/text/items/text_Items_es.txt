@@ -429,10 +429,10 @@ MO06
 Kit Explorador
 Saca Botín
 Reglamento
-Pokéradar
+Poké Radar
 Tarjeta Puntos
-Diario
-Caja Sellos
+Guía de Viaje
+Caja de Sellos
 Caja Corazón
 Bolsa Sellos
 Bloc amigos
@@ -454,7 +454,7 @@ Carta Prof. Oak
 Pluma Lunar
 Carné Socio
 Flauta Azur
-Ticket Barco
+Ticket del Barco
 Pase Concurso
 Piedra Magma
 Paquete
@@ -462,7 +462,7 @@ Cupón 1
 Cupón 2
 Cupón 3
 Llave Almacén
-Poción Secreta
+Medicina Secreta
 Cámara Lucha
 Gracídea
 Llave Secreta
@@ -734,7 +734,7 @@ Ll. Habitación 4
 Ll. Habitación 6
 Llave Almacén
 Detector Devon
-Ticket Barco
+Ticket del Barco
 MO07
 Bombona Devon
 Traje de Gala

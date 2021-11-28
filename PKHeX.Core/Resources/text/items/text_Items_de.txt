@@ -431,7 +431,7 @@ Beutesack
 Regelbuch
 Pokéradar
 Punktekarte
-Tagebuch
+Abenteuernotizen
 Stickerkoffer
 Modekoffer
 Stickertüte
@@ -446,10 +446,10 @@ Münzkorb
 Angel
 Profiangel
 Superangel
-Entonkanne
+Enton-Kanne
 Knurspbox
 Fahrrad
-B-Schlüssel
+Hotelschlüssel
 Eichs Brief
 Lunarfeder
 Mitgliedskarte
@@ -458,11 +458,11 @@ Bootsticket
 Wettbewerbskarte
 Magmastein
 Paket
-Kupon 1
-Kupon 2
-Kupon 3
+Coupon 1
+Coupon 2
+Coupon 3
 Lagerschlüssel
-Geheimtrank
+Geheimmedizin
 Kampfkamera
 Gracidea
 Geheimschlüssel

@@ -430,13 +430,13 @@ Explorakit
 Sac Butin
 Livre Règles
 Poké Radar
-Carte Points
-Journal
-Boîte Sceaux
+Carte à Points
+Notes d’Aventure
+Boîte à Sceaux
 Coffret Mode
 Sac Sceaux
 Registre Ami
-Clé Centrale
+Clé Parc Éolien
 Vieux Grigri
 Clé Galaxie
 Chaîne Rouge
@@ -447,11 +447,11 @@ Canne
 Super Canne
 Méga Canne
 Kwakarrosoir
-Boîte Poffin
+Boîte à Poffins
 Bicyclette
-Clé Chambre
+Clé de Chambre
 Lettre Chen
-Lun’Aile
+Plume Lune
 Carte Membre
 Flûte Azur
 Passe Bateau
@@ -461,8 +461,8 @@ Colis
 Bon 1
 Bon 2
 Bon 3
-Clé Stockage
-Potion Secrète
+Clé du Hangar
+Remède Secret
 Magnéto VS
 Gracidée
 Clé Secrète
@@ -732,7 +732,7 @@ Clé Salle 1
 Clé Salle 2
 Clé Salle 4
 Clé Salle 6
-Clé Stockage
+Clé du Hangar
 Devon Scope
 Passe Bateau
 CS07

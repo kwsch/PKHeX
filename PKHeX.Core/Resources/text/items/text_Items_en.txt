@@ -431,7 +431,7 @@ Loot Sack
 Rule Book
 Poké Radar
 Point Card
-Journal
+Guidebook
 Seal Case
 Fashion Case
 Seal Bag
@@ -451,7 +451,7 @@ Poffin Case
 Bike
 Suite Key
 Oak’s Letter
-Lunar Wing
+Lunar Feather
 Member Card
 Azure Flute
 S.S. Ticket
@@ -462,7 +462,7 @@ Coupon 1
 Coupon 2
 Coupon 3
 Storage Key
-Secret Potion
+Secret Medicine
 Vs. Recorder
 Gracidea
 Secret Key
