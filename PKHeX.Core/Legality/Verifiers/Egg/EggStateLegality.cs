@@ -41,14 +41,14 @@
             _ => false,
         };
 
-        public static bool IsNicknameFlagSet(IEncounterTemplate enc) => enc switch
+        public static bool IsNicknameFlagSet(IEncounterTemplate enc, PKM pk) => enc switch
         {
             EncounterStatic7 => false,
-            WB8 or EncounterStatic8b => false,
+            WB8 or EncounterStatic8b when pk.IsUntraded => false,
             { Generation: 4 } => false,
             _ => true,
         };
 
-        public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch);
+        public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch, pk);
     }
 }

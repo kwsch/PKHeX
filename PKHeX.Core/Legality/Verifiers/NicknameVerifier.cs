@@ -234,25 +234,13 @@ namespace PKHeX.Core
         {
             var Info = data.Info;
             var pkm = data.pkm;
-            var format = pkm.Format;
-            switch (format)
-            {
-                case 4:
-                    if (pkm.IsNicknamed) // gen4 doesn't use the nickname flag for eggs
-                        data.AddLine(GetInvalid(LNickFlagEggNo, CheckIdentifier.Egg));
-                    break;
-                case 7:
-                    if (pkm.IsNicknamed == Info.EncounterMatch is EncounterStatic7) // gen7 doesn't use for ingame gifts
-                        data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
-                    break;
-                default:
-                    if (pkm.IsNicknamed == Info.EncounterMatch is (EncounterStatic8b or WB8)) // bdsp doesn't use for ingame gifts
-                        data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
-                    break;
-            }
+
+            bool flagState = EggStateLegality.IsNicknameFlagSet(Info.EncounterMatch, pkm);
+            if (pkm.IsNicknamed != flagState)
+                data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
 
             var nick = pkm.Nickname;
-            if (format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nick, 2))
+            if (pkm.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nick, 2))
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
             else if (nick != SpeciesName.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation))
                 data.AddLine(GetInvalid(LNickMatchLanguageEggFail, CheckIdentifier.Egg));
