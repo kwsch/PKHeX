@@ -606,6 +606,7 @@ namespace PKHeX.WinForms.Controls
                 MinimumSize = new Size(350, 380),
                 MinimizeBox = false,
                 MaximizeBox = false,
+                Icon = Properties.Resources.Icon,
             };
             var pg = new PropertyGrid {SelectedObject = sav, Dock = DockStyle.Fill};
             form.Controls.Add(pg);
