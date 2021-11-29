@@ -41,7 +41,7 @@ namespace PKHeX.Core
             Player = new PlayerData8b(this, 0x8FB04); // 0x80
             SealDeco = new SealBallDecoData8b(this, 0x8FB84); // size: 0x4288
             SealList = new SealList8b(this, 0x93E0C); // size: 0x960 SaveSealData[200]
-            // _RANDOM_GROUP
+            Random = new RandomGroup8b(this, 0x9476C); // size: 0x630
             // FieldGimmickSaveData; int[3] gearRotate
             BerryTrees = new BerryTreeGrowSave8b(this, 0x94DA8); // size: 0x808
             Poffins = new PoffinSaveData8b(this, 0x955B0); // size: 0x644
@@ -211,6 +211,7 @@ namespace PKHeX.Core
         public PlayerData8b Player { get; }
         public SealBallDecoData8b SealDeco { get; }
         public SealList8b SealList { get; }
+        public RandomGroup8b Random { get; }
         public BerryTreeGrowSave8b BerryTrees { get; }
         public PoffinSaveData8b Poffins { get; }
         public BattleTowerWork8b BattleTower { get; }
