@@ -347,10 +347,10 @@ namespace PKHeX.Core
         #region Daycare
         public override int DaycareSeedSize => 16; // 8byte
         public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetParentSlotOffset(slot);
-        public override uint? GetDaycareEXP(int loc, int slot) => (uint)Daycare.EggStepCount;
+        public override uint? GetDaycareEXP(int loc, int slot) => 0;
         public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetDaycareSlotOccupied(slot);
         public override bool? IsDaycareHasEgg(int loc) => Daycare.IsEggAvailable;
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) => Daycare.EggStepCount = (int)EXP;
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
         public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
 
