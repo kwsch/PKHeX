@@ -252,6 +252,8 @@ namespace PKHeX.Core
         {
             switch (data.Info.Generation)
             {
+                case 8 when t is EncounterTrade8b: VerifyTrade8b(data, t); return;
+
                 case 1: VerifyTrade12(data, t); return;
                 case 2: return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
                 case 3: VerifyTrade3(data, t); return;
@@ -259,7 +261,6 @@ namespace PKHeX.Core
                 case 5: VerifyTrade5(data, t); return;
                 case 6:
                 case 7:
-                case 8 when t is EncounterTrade8b: VerifyTrade8b(data, t); return;
                 case 8:
                     VerifyTrade(data, t, data.pkm.Language); return;
             }
