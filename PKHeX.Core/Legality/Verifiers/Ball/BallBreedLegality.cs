@@ -1022,6 +1022,9 @@ namespace PKHeX.Core
             // Gen4 Fossils
             (int)Cranidos, (int)Shieldon,
 
+            // Riolu Egg from Riley
+            (int)Riolu,
+
             (int)Phione,
         };
     }
