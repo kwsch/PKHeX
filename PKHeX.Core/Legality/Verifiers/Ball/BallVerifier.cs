@@ -259,6 +259,8 @@ namespace PKHeX.Core
             int species = data.EncounterMatch.Species;
             if (BallBreedLegality.BanInheritedBall_BDSP.Contains(species))
                 return VerifyBallEquals(data, (int)Poke);
+            if (BallBreedLegality.BanInheritedExceptSafari_BDSP.Contains(species))
+                return VerifyBallEquals(data, (int)Safari);
 
             if (data.pkm.Ball == (int)Safari)
             {

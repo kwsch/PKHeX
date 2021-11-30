@@ -1013,6 +1013,16 @@ namespace PKHeX.Core
             (int)Yanma,
         };
 
+        internal static readonly HashSet<int> BanInheritedExceptSafari_BDSP = new()
+        {
+            (int)Exeggcute,
+            (int)Kangaskhan,
+            (int)Yanma,
+            (int)Shroomish,
+            (int)Gulpin,
+            (int)Carnivine,
+        };
+
         internal static readonly HashSet<int> BanInheritedBall_BDSP = new()
         {
             // Gen1 Fossils
