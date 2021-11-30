@@ -20,7 +20,7 @@
 249	*	FE_D27R0103_LEGEND_CLEAR (Mesprit Huyó de la Caverna Veraz)
 245	*	FE_D27R0103_LEGEND_CLEAR (Cresselia Huyó de la Isla Plenilunio)
 
-262	g	FE_C05R0901_POKEMON_GET (Recivido Eevee de Regalo)
+262	g	FE_C05R0901_POKEMON_GET (Recibido Eevee de Regalo)
 
 252	r	FE_D29R0103_LEGEND_CLEAR (Uxie Capturado)
 251	r	FE_D28R0103_LEGEND_CLEAR (Azelf Capturado)
@@ -61,4 +61,4 @@
 1298	r	FE_D10R0402POKE_01 Capturado Kyogre
 1299	r	FE_D10R0403POKE_01 Capturado Rayquaza
 1300	r	FE_D10R0601POKE_01 Capturado Mewtwo
-1301	r	FE_D10R0901POKE_01 Derrotado Giratina de Habitación Distorsión
+1301	r	FE_D10R0901POKE_01 Derrotado Giratina de Sala de la Distorsión
