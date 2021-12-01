@@ -32,7 +32,7 @@ namespace PKHeX.Core
             EncounterMatchRating rating = None;
 
             // Trades
-            if (pkm.Met_Location == Locations.LinkTrade6NPC)
+            if (!pkm.IsEgg && pkm.Met_Location == Locations.LinkTrade6NPC)
             {
                 foreach (var z in GetValidEncounterTrades(pkm, chain))
                 {
