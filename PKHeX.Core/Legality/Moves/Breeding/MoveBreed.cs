@@ -60,7 +60,8 @@ namespace PKHeX.Core
             var table = GameData.GetPersonal(version);
             var index = table.GetFormIndex(species, form);
             var learnset = learn[index];
-            var baseMoves = learnset.GetBaseEggMoves(generation >= 4 ? 1 : 5);
+            var eggLevel = EggStateLegality.GetEggLevel(generation);
+            var baseMoves = learnset.GetBaseEggMoves(eggLevel);
 
             RebuildMoves(baseMoves, exp, reorder2);
 
