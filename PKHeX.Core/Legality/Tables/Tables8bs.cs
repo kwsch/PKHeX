@@ -272,6 +272,7 @@ namespace PKHeX.Core
 
             005, // Safari Ball
             016, // Cherish Ball
+            499, // Sport Ball
             500, // Park Ball
             576, // Dream Ball
             851, // Beast Ball
