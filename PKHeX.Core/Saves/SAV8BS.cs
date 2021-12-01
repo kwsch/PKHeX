@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
+    /// </summary>
     public class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
     {
         // Save Data Attributes
@@ -23,8 +26,8 @@ namespace PKHeX.Core
             Underground = new UndergroundItemList8b(this, 0x111BC);
             // saveItemShortcut; ushort[4]
             PartyInfo = new Party8b(this, 0x14098);
-            BoxLayout = new BoxLayout8b(this, 0x148AA);
-            // Box[40]
+            BoxLayout = new BoxLayout8b(this, 0x148AA); // size: 0x64A
+            // 0x14EF4 - Box[40]
 
             // PLAYER_DATA:
             Config = new ConfigSave8b(this, 0x79B74); // size: 0x40
@@ -35,7 +38,7 @@ namespace PKHeX.Core
             Zukan = new Zukan8b(this, 0x7A328); // size: 0x30B8
             BattleTrainer = new BattleTrainerStatus8b(this, 0x7D3E0); // size: 0x1618
             // 0x7E9F8 - Menu selections (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
-            // 0x7EA3C - _FIELDOBJ_SAVE Objects[1000] (sizeof (0x44, 17 int fields), total size 0x109A0
+            FieldObjects = new FieldObjectSave8b(this, 0x7EA3C); //
             Records = new Record8b(this, 0x8F3DC); // size: 0x78 * 12
             Encounter = new EncounterSave8b(this, 0x8F97C); // size: 0x188
             Player = new PlayerData8b(this, 0x8FB04); // 0x80
@@ -121,12 +124,7 @@ namespace PKHeX.Core
             init => BitConverter.GetBytes(value).CopyTo(Data, 0);
         }
 
-        public string SaveRevisionString => (Gem8Version)SaveRevision switch
-        {
-            Gem8Version.V1_0 => "-1.0.0", // Launch Revision
-            Gem8Version.V1_1 => "-1.1.0", // 1.1.0
-            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
-        };
+        public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BS;
         protected override SaveFile CloneInternal() => new SAV8BS((byte[])(Data.Clone()));
@@ -206,6 +204,7 @@ namespace PKHeX.Core
         // public Misc8 Misc { get; }
         public Zukan8b Zukan { get; }
         public BattleTrainerStatus8b BattleTrainer { get; }
+        public FieldObjectSave8b FieldObjects { get; }
         public Record8b Records { get; }
         public EncounterSave8b Encounter { get; }
         public PlayerData8b Player { get; }
