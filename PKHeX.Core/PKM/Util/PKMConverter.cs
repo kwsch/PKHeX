@@ -124,9 +124,9 @@ namespace PKHeX.Core
 
         private static PKM CheckPKMFormat8(byte[] data)
         {
-            var ver = data[0xDE];
-            if (GameVersion.BDSP.Contains(ver))
-                return new PB8(data);
+            var pk8 = new PB8(data);
+            if (GameVersion.BDSP.Contains(pk8.Version))
+                return pk8;
             return new PK8(data);
         }
 
