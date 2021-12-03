@@ -18,7 +18,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var pouch = new InventoryPouch[]
+                var pouch = new[]
                 {
                     new InventoryPouch7b(InventoryType.Medicine, Legal.Pouch_Medicine_GG, 999, Medicine, PouchSize7b.Medicine),
                     new InventoryPouch7b(InventoryType.TMHMs, Legal.Pouch_TM_GG, 1, TM, PouchSize7b.TM),

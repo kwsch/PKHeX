@@ -30,11 +30,13 @@ namespace PKHeX.Core
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
-            for (int i = 0; i<Items.Length; i++)
+            for (int i = 0; i < Items.Length; i++)
             {
                 BitConverter.GetBytes((ushort) Items[i].Index).CopyTo(data, Offset + (i* 4));
                 BitConverter.GetBytes((ushort)((ushort) Items[i].Count ^ (ushort) SecurityKey)).CopyTo(data, Offset + (i* 4) + 2);
             }
         }
+
+        public override InventoryItem GetEmpty() => new();
     }
 }

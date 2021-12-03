@@ -6,6 +6,7 @@ namespace PKHeX.Core
     /// <remarks>Used by the Inventory Editor as the index for sprite lookup.</remarks>
     public enum InventoryType
     {
+        None,
         Items,
         KeyItems,
         TMHMs,

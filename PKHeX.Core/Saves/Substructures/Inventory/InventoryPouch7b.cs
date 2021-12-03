@@ -8,24 +8,24 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class InventoryPouch7b : InventoryPouch
     {
-        public InventoryPouch7b(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
-            : base(type, legal, maxCount, offset, size)
-        {
-        }
-
         public bool SetNew { get; set; }
-        private InventoryItem[] OriginalItems = Array.Empty<InventoryItem>();
+        private InventoryItem7b[] OriginalItems = Array.Empty<InventoryItem7b>();
+
+        public override InventoryItem GetEmpty() => new InventoryItem7b();
+
+        public InventoryPouch7b(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
+            : base(type, legal, maxCount, offset, size) { }
 
         public override void GetPouch(byte[] data)
         {
-            var items = new InventoryItem[PouchDataSize];
+            var items = new InventoryItem7b[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
                 uint val = BitConverter.ToUInt32(data, Offset + (i * 4));
-                items[i] = GetItem(val);
+                items[i] = InventoryItem7b.GetValue(val);
             }
             Items = items;
-            OriginalItems = Items.Select(i => i.Clone()).ToArray();
+            OriginalItems = items.Select(i => i.Clone()).ToArray();
         }
 
         public override void SetPouch(byte[] data)
@@ -33,41 +33,12 @@ namespace PKHeX.Core
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
-            for (int i = 0; i < Items.Length; i++)
+            var items = (InventoryItem7b[])Items;
+            for (int i = 0; i < items.Length; i++)
             {
-                uint val = SetItem(Items[i]);
+                uint val = items[i].GetValue(SetNew, OriginalItems);
                 BitConverter.GetBytes(val).CopyTo(data, Offset + (i * 4));
             }
-        }
-
-        private static InventoryItem GetItem(uint val)
-        {
-            // 15bit itemID
-            // 15bit count
-            // 1 bit new flag
-            // 1 bit reserved
-            return new()
-            {
-                Index = (int)(val & 0x7FF),
-                Count = (int)(val >> 15 & 0x3FF), // clamp to sane values
-                New = (val & 0x40000000) != 0, // 30th bit is "NEW"
-            };
-        }
-
-        private uint SetItem(InventoryItem item)
-        {
-            // 15bit itemID
-            // 15bit count
-            // 1 bit new flag
-            // 1 bit reserved
-            uint val = 0;
-            val |= (uint)(item.Index & 0x7FF);
-            val |= (uint)(item.Count & 0x3FF) << 15; // clamped to sane limit
-            if (SetNew)
-                item.New |= OriginalItems.All(z => z.Index != item.Index);
-            if (item.New)
-                val |= 0x40000000;
-            return val;
         }
 
         /// <summary>

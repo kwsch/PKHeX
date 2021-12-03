@@ -26,9 +26,12 @@ namespace PKHeX.WinForms
                     itemlist[i] = $"(Item #{i:000})";
             }
 
-            HasFreeSpace = SAV.Generation >= 7 && SAV is not SAV7b;
-            HasNew = SAV.Generation >= 7;
             Pouches = SAV.Inventory;
+            var item0 = Pouches[0].Items[0];
+            HasFreeSpace = item0 is IItemFreeSpace;
+            HasFavorite = item0 is IItemFavorite;
+            HasNew = item0 is IItemNew;
+
             CreateBagViews();
             LoadAllBags();
             ChangeViewedPouch(0);
@@ -36,12 +39,14 @@ namespace PKHeX.WinForms
 
         private readonly IReadOnlyList<InventoryPouch> Pouches;
         private readonly bool HasFreeSpace;
+        private readonly bool HasFavorite;
         private readonly bool HasNew;
 
         // assume that all pouches have the same amount of columns
         private int ColumnItem;
         private int ColumnCount;
         private int ColumnFreeSpace;
+        private int ColumnFavorite;
         private int ColumnNEW;
 
         private readonly Dictionary<InventoryType, DataGridView> ControlGrids = new();
@@ -64,7 +69,7 @@ namespace PKHeX.WinForms
             tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, IL_Pouch.Images[0].Height + 4);
             foreach (var pouch in Pouches)
             {
-                var tab = new TabPage {ImageIndex = (int)pouch.Type};
+                var tab = new TabPage {ImageIndex = (int)(pouch.Type - 1)};
                 var dgv = GetDGV(pouch);
                 ControlGrids.Add(pouch.Type, dgv);
                 tab.Controls.Add(dgv);
@@ -84,9 +89,11 @@ namespace PKHeX.WinForms
             dgv.Columns.Add(item);
             dgv.Columns.Add(GetCountColumn(pouch, Main.HaX, ColumnCount = dgv.Columns.Count));
             if (HasFreeSpace)
-                dgv.Columns.Add(GetFreeSpaceColumn(ColumnFreeSpace = dgv.Columns.Count, SAV.Generation >= 8 ? "Fav" : "Free"));
+                dgv.Columns.Add(GetCheckColumn(ColumnFreeSpace = dgv.Columns.Count, "Free"));
+            if (HasFavorite)
+                dgv.Columns.Add(GetCheckColumn(ColumnFavorite = dgv.Columns.Count,"Fav"));
             if (HasNew)
-                dgv.Columns.Add(GetNewColumn(ColumnNEW = dgv.Columns.Count));
+                dgv.Columns.Add(GetCheckColumn(ColumnNEW = dgv.Columns.Count, "New"));
 
             // Populate with rows
             var itemarr = Main.HaX ? itemlist : GetStringsForPouch(pouch.LegalItems);
@@ -122,17 +129,22 @@ namespace PKHeX.WinForms
             };
         }
 
-        private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item")
+        private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
         {
-            return new()
-            {
-                HeaderText = name,
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
-                DisplayIndex = c,
-                Width = 135,
-                FlatStyle = FlatStyle.Flat,
-            };
-        }
+            HeaderText = name,
+            DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+            DisplayIndex = c,
+            Width = 135,
+            FlatStyle = FlatStyle.Flat,
+        };
+
+        private static DataGridViewCheckBoxColumn GetCheckColumn(int c, string name) => new()
+        {
+            HeaderText = name,
+            DisplayIndex = c,
+            Width = 40,
+            FlatStyle = FlatStyle.Flat,
+        };
 
         private static DataGridViewColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
         {
@@ -146,28 +158,6 @@ namespace PKHeX.WinForms
             if (!HaX)
                 dgvIndex.MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
             return dgvIndex;
-        }
-
-        private static DataGridViewColumn GetFreeSpaceColumn(int c, string name = "Free")
-        {
-            return new DataGridViewCheckBoxColumn
-            {
-                HeaderText = name,
-                DisplayIndex = c,
-                Width = 40,
-                FlatStyle = FlatStyle.Flat,
-            };
-        }
-
-        private static DataGridViewColumn GetNewColumn(int c, string name = "NEW")
-        {
-            return new DataGridViewCheckBoxColumn
-            {
-                HeaderText = name,
-                DisplayIndex = c,
-                Width = 40,
-                FlatStyle = FlatStyle.Flat,
-            };
         }
 
         private void LoadAllBags()
@@ -204,13 +194,17 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
+                var item = pouch.Items[i];
                 var cells = dgv.Rows[i].Cells;
-                cells[ColumnItem].Value = itemlist[pouch.Items[i].Index];
-                cells[ColumnCount].Value = pouch.Items[i].Count;
-                if (HasFreeSpace)
-                    cells[ColumnFreeSpace].Value = pouch.Items[i].FreeSpace;
-                if (HasNew)
-                    cells[ColumnNEW].Value = pouch.Items[i].New;
+                cells[ColumnItem].Value = itemlist[item.Index];
+                cells[ColumnCount].Value = item.Count;
+
+                if (item is IItemFreeSpace f)
+                    cells[ColumnFreeSpace].Value = f.IsFreeSpace;
+                if (item is IItemFavorite v)
+                    cells[ColumnFavorite].Value = v.IsFavorite;
+                if (item is IItemNew n)
+                    cells[ColumnNEW].Value = n.IsNew;
             }
         }
 
@@ -233,16 +227,21 @@ namespace PKHeX.WinForms
                     continue; // ignore item
 
                 // create clean item data when saving
-                var obj = new InventoryItem {Index = itemindex, Count = itemcnt};
-                if (HasFreeSpace)
-                    obj.FreeSpace = (bool)cells[ColumnFreeSpace].Value;
-                if (HasNew)
-                    obj.New = (bool)cells[ColumnNEW].Value;
-                pouch.Items[ctr] = obj;
+                var item = pouch.GetEmpty();
+                item.Index = itemindex;
+                item.Count = itemcnt;
+                if (item is IItemFreeSpace f)
+                    f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value;
+                if (item is IItemFavorite v)
+                    v.IsFavorite = (bool)cells[ColumnFavorite].Value;
+                if (item is IItemNew n)
+                    n.IsNew = (bool)cells[ColumnNEW].Value;
+
+                pouch.Items[ctr] = item;
                 ctr++;
             }
             for (int i = ctr; i < pouch.Items.Length; i++)
-                pouch.Items[i] = new InventoryItem(); // Empty Slots at the end
+                pouch.Items[i] = pouch.GetEmpty(); // Empty Slots at the end
         }
 
         private void ChangeViewedPouch(int index)

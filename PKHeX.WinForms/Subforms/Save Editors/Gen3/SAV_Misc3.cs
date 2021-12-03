@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
 
             var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
             if (p == null)
-                throw new ArgumentException(nameof(InventoryPouch.Type));
+                throw new ArgumentException(nameof(InventoryType));
 
             // check for missing tickets
             var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();

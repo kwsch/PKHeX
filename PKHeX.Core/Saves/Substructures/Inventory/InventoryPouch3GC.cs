@@ -9,6 +9,8 @@ namespace PKHeX.Core
         {
         }
 
+        public override InventoryItem GetEmpty() => new();
+
         public override void GetPouch(byte[] data)
         {
             var items = new InventoryItem[PouchDataSize];
