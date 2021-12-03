@@ -27,7 +27,6 @@ namespace PKHeX.Core
             50, // {0} was taken to the Pokémon Day Care by {1} and left with {2}. {4} that {3}.
             52, // {0} was there when {1} used a repellent {2}. {4} that {3}.
             54, // {0} took an elevator with {1}. {4} that {3}.
-            57, // {0} went to a nice restaurant with {1} and ate until it got completely full. {4} that {3}.
             58, // {0} was taken to a nice lady by {1} and pampered. {4} that {3}.
             59, // {0} checked a bin with {1} {2}. {4} that {3}.
             61, // {0} went to a tall tower with {1} and looked down on the world. {4} that {3}.
