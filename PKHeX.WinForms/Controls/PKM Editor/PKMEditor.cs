@@ -1457,9 +1457,15 @@ namespace PKHeX.WinForms.Controls
 
                 if (CB_EggLocation.SelectedIndex == 0)
                 {
+                    CAL_MetDate.Value = DateTime.Now;
                     CAL_EggDate.Value = new DateTime(2000, 01, 01);
                     CHK_AsEgg.Checked = false;
                     GB_EggConditions.Enabled = false;
+                }
+                else
+                {
+                    CAL_MetDate.Value = CAL_EggDate.Value;
+                    CB_MetLocation.SelectedValue = EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
                 }
 
                 if (TB_Nickname.Text == SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format))
