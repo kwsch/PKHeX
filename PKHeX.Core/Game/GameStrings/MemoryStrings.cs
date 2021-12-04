@@ -55,7 +55,7 @@ namespace PKHeX.Core
         }
 
         public ReadOnlySpan<string> GetMemoryQualities() => s.intensity;
-        public ReadOnlySpan<string> GetMemoryFeelings(int memoryGen) => memoryGen >= 8 ? s.feeling.AsSpan(0, 25) : s.feeling.AsSpan(1, 24); // empty line for 0 in gen8+
+        public ReadOnlySpan<string> GetMemoryFeelings(int memoryGen) => memoryGen >= 8 ? s.feeling8 : s.feeling6;
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType type, int memoryGen) => type switch
         {
