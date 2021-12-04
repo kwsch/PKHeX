@@ -9,7 +9,7 @@
     <Authors>Kaphotics</Authors>
     <Product>PKHeX</Product>
     <Description>Pokémon Save Editor</Description>
-    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
     <AssemblyName>PKHeX</AssemblyName>
     <Version>21.11.27</Version>
