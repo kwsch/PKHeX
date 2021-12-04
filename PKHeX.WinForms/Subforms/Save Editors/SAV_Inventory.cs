@@ -227,9 +227,7 @@ namespace PKHeX.WinForms
                     continue; // ignore item
 
                 // create clean item data when saving
-                var item = pouch.GetEmpty();
-                item.Index = itemindex;
-                item.Count = itemcnt;
+                var item = pouch.GetEmpty(itemindex, itemcnt);
                 if (item is IItemFreeSpace f)
                     f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value;
                 if (item is IItemFavorite v)

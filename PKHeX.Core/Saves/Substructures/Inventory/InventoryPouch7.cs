@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public InventoryPouch7(InventoryType type, ushort[] legal, int maxCount, int offset)
             : base(type, legal, maxCount, offset) { }
 
-        public override InventoryItem GetEmpty() => new InventoryItem7();
+        public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem7 { Index = itemID, Count = count };
 
         public override void GetPouch(byte[] data)
         {

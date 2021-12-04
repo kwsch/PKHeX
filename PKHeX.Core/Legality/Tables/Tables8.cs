@@ -344,6 +344,13 @@ namespace PKHeX.Core
         };
 
         #region Unreleased Items
+
+        private const int DMAX_START = 1279;
+        private const int DMAX_END = 1578;
+        private const int DMAX_LEGAL_END = 1290; // ★Sgr7194 (Eevee)
+        public static bool IsDynamaxCrystal(ushort item) => item is >= DMAX_START and <= DMAX_END;
+        public static bool IsDynamaxCrystalAvailable(ushort item) => item is >= DMAX_START and <= DMAX_LEGAL_END;
+
         internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, new ushort[]
         {
             298, // Flame Plate

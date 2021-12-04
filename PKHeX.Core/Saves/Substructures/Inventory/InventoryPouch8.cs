@@ -11,10 +11,10 @@ namespace PKHeX.Core
         public bool SetNew { get; set; }
         private InventoryItem8[] OriginalItems = Array.Empty<InventoryItem8>();
 
-        public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
-            : base(type, legal, maxCount, offset, size) { }
+        public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size, Func<ushort, bool>? isLegal = null)
+            : base(type, legal, maxCount, offset, size, isLegal) { }
 
-        public override InventoryItem GetEmpty() => new InventoryItem8();
+        public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem8 { Index = itemID, Count = count };
 
         public override void GetPouch(byte[] data)
         {

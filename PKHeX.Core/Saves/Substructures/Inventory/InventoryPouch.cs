@@ -15,6 +15,8 @@ namespace PKHeX.Core
         /// <summary> Valid item IDs that may be stored in the pouch. </summary>
         public readonly ushort[] LegalItems;
 
+        public readonly Func<ushort, bool>? IsItemLegal;
+
         /// <summary> Max quantity for a given item that can be stored in the pouch. </summary>
         public readonly int MaxCount;
 
@@ -31,7 +33,7 @@ namespace PKHeX.Core
         /// <summary> Size of the backing byte array that represents the pouch. </summary>
         protected readonly int PouchDataSize;
 
-        protected InventoryPouch(InventoryType type, ushort[] legal, int maxCount, int offset, int size = -1)
+        protected InventoryPouch(InventoryType type, ushort[] legal, int maxCount, int offset, int size = -1, Func<ushort, bool>? isLegal = null)
         {
             Items = Array.Empty<InventoryItem>();
             Type = type;
@@ -39,6 +41,7 @@ namespace PKHeX.Core
             MaxCount = maxCount;
             Offset = offset;
             PouchDataSize = size > -1 ? size : legal.Length;
+            IsItemLegal = isLegal;
         }
 
         /// <summary> Reads the pouch from the backing <see cref="data"/>. </summary>
@@ -178,13 +181,13 @@ namespace PKHeX.Core
                 item.Count = modification(item);
         }
 
-        public void GiveAllItems(IReadOnlyList<ushort> newItems, Func<InventoryItem, int> getSuggestedItemCount, int count = -1)
+        public void GiveAllItems(ReadOnlySpan<ushort> newItems, Func<InventoryItem, int> getSuggestedItemCount, int count = -1)
         {
             GiveAllItems(newItems, count);
             ModifyAllCount(getSuggestedItemCount);
         }
 
-        public void GiveAllItems(SaveFile sav, IReadOnlyList<ushort> items, int count = -1)
+        public void GiveAllItems(SaveFile sav, ReadOnlySpan<ushort> items, int count = -1)
         {
             GiveAllItems(items, count);
             ModifyAllCount(item => GetSuggestedItemCount(sav, item.Index, count));
@@ -192,19 +195,23 @@ namespace PKHeX.Core
 
         public void GiveAllItems(SaveFile sav, int count = -1) => GiveAllItems(sav, LegalItems, count);
 
-        private void GiveAllItems(IReadOnlyList<ushort> newItems, int count = -1)
+        private void GiveAllItems(ReadOnlySpan<ushort> newItems, int count = -1)
         {
             if (count < 0)
                 count = MaxCount;
 
             var current = (InventoryItem[]) Items.Clone();
-            var itemEnd = Math.Min(Items.Length, newItems.Count);
-            for (int i = 0; i < itemEnd; i++)
-            {
-                var item = Items[i] = GetEmpty();
-                item.Index = newItems[i];
+            var itemEnd = Math.Min(Items.Length, newItems.Length);
+            var iterate = newItems[..itemEnd];
 
-                var match = Array.Find(current, z => z.Index == newItems[i]);
+            int ctr = 0;
+            foreach (var newItemID in iterate)
+            {
+                if (IsItemLegal?.Invoke(newItemID) == false)
+                    continue;
+
+                var item = Items[ctr++] = GetEmpty(newItemID);
+                var match = Array.Find(current, z => z.Index == newItemID);
                 if (match == null)
                 {
                     item.SetNewDetails(count);
@@ -214,6 +221,9 @@ namespace PKHeX.Core
                 // load old values
                 item.MergeOverwrite(match);
             }
+
+            for (int i = ctr; i < Items.Length; i++)
+                Items[i] = GetEmpty();
         }
 
         public bool IsValidItemAndCount(ITrainerInfo sav, int item, bool HasNew, bool HaX, ref int count)
@@ -257,7 +267,7 @@ namespace PKHeX.Core
             return Math.Min(MaxCount, requestVal);
         }
 
-        public abstract InventoryItem GetEmpty();
+        public abstract InventoryItem GetEmpty(int itemID = 0, int count = 0);
     }
 
     public static class InventoryPouchExtensions

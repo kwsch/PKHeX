@@ -63,14 +63,14 @@ namespace PKHeX.Core
         {
             var pouches = new[]
             {
-                MakePouch(InventoryType.Items),
+                MakePouch(InventoryType.Items, IsHeldItemLegal),
                 MakePouch(InventoryType.KeyItems),
-                MakePouch(InventoryType.TMHMs),
-                MakePouch(InventoryType.Medicine),
-                MakePouch(InventoryType.Berries),
-                MakePouch(InventoryType.Balls),
-                MakePouch(InventoryType.BattleItems),
-                MakePouch(InventoryType.Treasure),
+                MakePouch(InventoryType.TMHMs, IsHeldItemLegal),
+                MakePouch(InventoryType.Medicine, IsHeldItemLegal),
+                MakePouch(InventoryType.Berries, IsHeldItemLegal),
+                MakePouch(InventoryType.Balls, IsHeldItemLegal),
+                MakePouch(InventoryType.BattleItems, IsHeldItemLegal),
+                MakePouch(InventoryType.Treasure, IsHeldItemLegal),
             };
             return pouches.LoadAll(Data);
         }
@@ -103,12 +103,14 @@ namespace PKHeX.Core
             }
         }
 
-        private InventoryPouch8b MakePouch(InventoryType type)
+        private InventoryPouch8b MakePouch(InventoryType type, Func<ushort, bool>? isLegal = null)
         {
             ushort[] legal = GetLegal(type);
             var max = GetMax(type);
-            return new InventoryPouch8b(type, legal, max, Offset);
+            return new InventoryPouch8b(type, legal, max, Offset, isLegal);
         }
+
+        public static bool IsHeldItemLegal(ushort item) => !Legal.HeldItems_BS.Contains(item) || Legal.ReleasedHeldItems_8b[item];
 
         private static int GetMax(InventoryType type) => type switch
         {

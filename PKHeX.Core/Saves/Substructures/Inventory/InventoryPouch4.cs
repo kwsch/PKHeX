@@ -16,7 +16,7 @@ namespace PKHeX.Core
         // u16 id
         // u16 count
 
-        public override InventoryItem GetEmpty() => new();
+        public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
         public override void GetPouch(byte[] data)
         {

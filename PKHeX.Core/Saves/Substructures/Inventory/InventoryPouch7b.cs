@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public bool SetNew { get; set; }
         private InventoryItem7b[] OriginalItems = Array.Empty<InventoryItem7b>();
 
-        public override InventoryItem GetEmpty() => new InventoryItem7b();
+        public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem7b { Index = itemID, Count = count };
 
         public InventoryPouch7b(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
             : base(type, legal, maxCount, offset, size) { }

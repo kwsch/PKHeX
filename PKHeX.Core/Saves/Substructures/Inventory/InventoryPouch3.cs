@@ -37,6 +37,6 @@ namespace PKHeX.Core
             }
         }
 
-        public override InventoryItem GetEmpty() => new();
+        public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
     }
 }
