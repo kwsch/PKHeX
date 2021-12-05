@@ -98,15 +98,18 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static void TabMain_DragEnter(object sender, DragEventArgs e)
+        private static void TabMain_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e?.Data is null)
+                return;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
         }
 
-        private void TabMain_DragDrop(object sender, DragEventArgs e)
+        private void TabMain_DragDrop(object? sender, DragEventArgs? e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] {Length: not 0} files)
+                return;
             if (!Directory.Exists(files[0]))
                 return;
 

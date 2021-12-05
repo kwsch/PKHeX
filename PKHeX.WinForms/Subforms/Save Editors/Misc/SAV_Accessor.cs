@@ -35,8 +35,10 @@ namespace PKHeX.WinForms
             PG_BlockView.SelectedObject = obj;
         }
 
-        private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PG_BlockView_PropertyValueChanged(object? s, PropertyValueChangedEventArgs? e)
         {
+            if (e?.ChangedItem is null)
+                return;
             Debug.WriteLine($"ChangedItem = {e.ChangedItem.Label}, OldValue = {e.OldValue}, NewValue = {e.ChangedItem.Value}");
         }
     }

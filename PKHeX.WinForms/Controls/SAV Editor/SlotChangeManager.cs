@@ -229,10 +229,9 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        private void HandleDropPKM(PictureBox pb, DragEventArgs e, DropModifier mod)
+        private void HandleDropPKM(PictureBox pb, DragEventArgs? e, DropModifier mod)
         {
-            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
-            if (files == null)
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] {Length: not 0} files)
             {
                 Drag.Reset();
                 return;

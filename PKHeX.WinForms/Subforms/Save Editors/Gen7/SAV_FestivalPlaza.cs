@@ -660,10 +660,14 @@ namespace PKHeX.WinForms
             LoadFacility();
         }
 
-        private void LB_FacilityIndex_DrawItem(object sender, DrawItemEventArgs e)
+        private void LB_FacilityIndex_DrawItem(object? sender, DrawItemEventArgs? e)
         {
+            if (e is null || sender is not ListBox lb)
+                return;
             e.DrawBackground();
-            e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new RectangleF(e.Bounds.X, e.Bounds.Y + (e.Bounds.Height - 12 >> 1), e.Bounds.Width, 12));
+
+            var font = e.Font ?? Font;
+            e.Graphics.DrawString(lb.Items[e.Index].ToString(), font, new SolidBrush(e.ForeColor), new RectangleF(e.Bounds.X, e.Bounds.Y + (e.Bounds.Height - 12 >> 1), e.Bounds.Width, 12));
             e.DrawFocusRectangle();
         }
 

@@ -397,20 +397,23 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private void TAB_Poketch_DragEnter(object sender, DragEventArgs e)
+        private void TAB_Poketch_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e?.Data is null)
+                return;
             if (TAB_Main.AllowDrop && e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
             else
                 e.Effect = DragDropEffects.None;
         }
 
-        private void TAB_Poketch_DragDrop(object sender, DragEventArgs e)
+        private void TAB_Poketch_DragDrop(object? sender, DragEventArgs? e)
         {
-            if (!TAB_Main.AllowDrop) return;
-            string[] t = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            if (t.Length != 1) return;
-            SetFlagsFromFileName(t[0]);
+            if (!TAB_Main.AllowDrop)
+                return;
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+                return;
+            SetFlagsFromFileName(files[0]);
             SetPictureBoxFromFlags(DotArtistByte);
         }
 

@@ -70,7 +70,7 @@ namespace PKHeX.WinForms.Controls
             Enabled = true;
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        private void TimerElapsed(object? sender, ElapsedEventArgs? elapsedEventArgs)
         {
             if (!Enabled)
                 return; // timer canceled, was waiting to proceed

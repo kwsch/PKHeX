@@ -1062,18 +1062,19 @@ namespace PKHeX.WinForms
         private PKM PreparePKM(bool click = true) => PKME_Tabs.PreparePKM(click);
 
         // Drag & Drop Events
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e is null)
+                return;
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
         }
 
-        private void Main_DragDrop(object sender, DragEventArgs e)
+        private void Main_DragDrop(object? sender, DragEventArgs? e)
         {
-            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
-            if (files == null || files.Length == 0)
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
                 return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
@@ -1132,9 +1133,10 @@ namespace PKHeX.WinForms
                 Cursor = Cursors.Default;
         }
 
-        private void DragoutDrop(object sender, DragEventArgs e)
+        private void DragoutDrop(object? sender, DragEventArgs? e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+                return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
 

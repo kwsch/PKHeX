@@ -288,19 +288,24 @@ namespace PKHeX.WinForms
         }
 
         // Drag & Drop Wonder Cards
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e?.Data is null)
+                return;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
         }
 
-        private void Main_DragDrop(object sender, DragEventArgs e)
+        private void Main_DragDrop(object? sender, DragEventArgs? e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+                return;
 
+            var first = files[0];
             // Check for multiple wondercards
-            if (Directory.Exists(files[0]))
-                files = Directory.GetFiles(files[0], "*", SearchOption.AllDirectories);
+            if (Directory.Exists(first))
+                files = Directory.GetFiles(first, "*", SearchOption.AllDirectories);
+
             if (files.Length == 1 && !Directory.Exists(files[0]))
             {
                 string path = files[0]; // open first D&D
@@ -425,7 +430,7 @@ namespace PKHeX.WinForms
             wc_slot = -1;
         }
 
-        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
+        private void BoxSlot_DragDrop(object? sender, DragEventArgs? e)
         {
             if (mg == null || sender is not PictureBox pb)
                 return;
@@ -439,8 +444,7 @@ namespace PKHeX.WinForms
 
             if (wc_slot == -1) // dropped
             {
-                var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
-                if (files == null || files.Length == 0)
+                if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] {Length: not 0} files)
                     return;
 
                 var first = files[0];
@@ -510,7 +514,7 @@ namespace PKHeX.WinForms
             SetGiftBoxes();
         }
 
-        private static void BoxSlot_DragEnter(object sender, DragEventArgs e)
+        private static void BoxSlot_DragEnter(object? sender, DragEventArgs e)
         {
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;

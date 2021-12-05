@@ -267,15 +267,18 @@ namespace PKHeX.WinForms
                 WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, diff.WorkDiff));
         }
 
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e?.Data is null)
+                return;
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
         }
 
-        private void Main_DragDrop(object sender, DragEventArgs e)
+        private void Main_DragDrop(object? sender, DragEventArgs? e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+                return;
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
             var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
             LoadSAV(button, files[0]);

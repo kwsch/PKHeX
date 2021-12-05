@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
             var loaded = Main.Settings.Startup.RecentlyLoaded
                 .Where(z => recent.All(x => x.Metadata.FilePath != z))
                 .Where(File.Exists).Select(SaveUtil.GetVariantSAV).Where(z => z is not null);
-            recent.AddRange(loaded!);
+            recent.InsertRange(0, loaded!);
             Recent = PopulateData(dgDataRecent, recent);
             var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath});
             Backup = PopulateData(dgDataBackup, backup);
@@ -276,6 +276,8 @@ namespace PKHeX.WinForms
             LoadEntryInitial(dgData, list, sav1);
 
             int ctr = 1; // refresh every 7 until 15+ are loaded
+
+            void RefreshResize() => Refresh(dgData);
             Task.Run(async () => // load the rest async
             {
                 while (!dgData.IsHandleCreated)
@@ -284,12 +286,14 @@ namespace PKHeX.WinForms
                 {
                     var next = enumerator.Current;
                     var sav = new SavePreview(next, Paths);
-                    dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
+                    void Load() => LoadEntry(dgData, list, sav);
+
+                    dgData.Invoke((Action)Load);
                     ctr++;
                     if (ctr < 15 && ctr % 7 == 0)
-                        dgData.Invoke(new Action(() => Refresh(dgData)));
+                        dgData.Invoke((Action)RefreshResize);
                 }
-                dgData.Invoke(new Action(() => Refresh(dgData)));
+                dgData.Invoke((Action)RefreshResize);
                 enumerator.Dispose();
             });
 

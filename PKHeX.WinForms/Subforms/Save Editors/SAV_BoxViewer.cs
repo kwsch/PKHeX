@@ -54,8 +54,10 @@ namespace PKHeX.WinForms
         public int CurrentBox => Box.CurrentBox;
         private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
 
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e is null)
+                return;
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within

@@ -246,9 +246,10 @@ namespace PKHeX.WinForms
             bytes.CopyTo(data, 0);
         }
 
-        private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs? e)
         {
-            Debug.WriteLine($"ChangedItem = {e.ChangedItem.Label}, OldValue = {e.OldValue}, NewValue = {e.ChangedItem.Value}");
+            if (e?.ChangedItem is not null)
+                Debug.WriteLine($"ChangedItem = {e.ChangedItem.Label}, OldValue = {e.OldValue}, NewValue = {e.ChangedItem.Value}");
             if (CurrentBlock.Type != SCTypeCode.Object && CurrentBlock.Type != SCTypeCode.Array)
                 L_Detail_R.Text = GetBlockSummary(CurrentBlock);
         }

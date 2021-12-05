@@ -110,8 +110,10 @@ namespace PKHeX.WinForms
             Height = ((Boxes[0].Height + padHeight) * height) - (padHeight / 2);
         }
 
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object? sender, DragEventArgs? e)
         {
+            if (e is null)
+                return;
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
