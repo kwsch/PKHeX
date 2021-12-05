@@ -339,11 +339,14 @@ namespace PKHeX.Core
             if (pkm.IsEgg) // do not add
                 return;
 
+            var originalState = GetState(species);
             bool shiny = pkm.IsShiny;
             SetState(species, ZukanState8b.Caught);
             SetGenderFlag(species, pkm.Gender, shiny);
             SetLanguageFlag(species, pkm.Language, true);
             SetHasFormFlag(species, pkm.Form, shiny, true);
+            if (species is (int)Species.Spinda)
+                ((SAV8BS)SAV).ZukanExtra.SetDex(originalState, pkm.EncryptionConstant, pkm.Gender, shiny);
         }
 
         private void SetGenderFlag(int species, int gender, bool shiny)

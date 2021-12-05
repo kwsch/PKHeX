@@ -59,9 +59,9 @@ namespace PKHeX.Core
             UgSaveData = new UgSaveData8b(this, 0x9A89C); // size: 0x27A0
             // 0x9D03C - GMS_DATA // size: 0x31304, (GMS_POINT_DATA[650], ushort, ushort, byte)?; substructure GMS_POINT_HISTORY_DATA[5]
             // 0xCE340 - PLAYER_NETWORK_DATA; bcatFlagArray byte[1300]
-            // 0xCEA10(?) - UnionSaveData
-            // 0xCEA1C(?) - CON_PHOTO_LANG_DATA -- contest photo language data; photo_data[5], photo_fx[5]
-            // ZUKAN_PERSONAL_RND_DATA -- Spinda PID storage; uint[4] see, uint[4] get, uint[17] reserve
+            UnionSave = new UnionSaveData8b(this, 0xCEA10); // size: 0xC
+            ContestPhotoLanguage = new ContestPhotoLanguage8b(this, 0xCEA1C); // size: 0x18
+            ZukanExtra = new ZukanSpinda8b(this, 0xCEA34); // size: 0x64 (100)
             // CON_PHOTO_EXT_DATA[5]
             // GMS_POINT_HISTORY_EXT_DATA[3250]
             UgCount = new UgCountRecord8b(this, 0xE8178); // size: 0x20
@@ -221,6 +221,9 @@ namespace PKHeX.Core
         public Poketch8b Poketch { get; }
         public Daycare8b Daycare { get; }
         public UgSaveData8b UgSaveData { get; }
+        public UnionSaveData8b UnionSave { get; }
+        public ContestPhotoLanguage8b ContestPhotoLanguage { get; }
+        public ZukanSpinda8b ZukanExtra { get; }
         public UgCountRecord8b UgCount { get; }
 
         // First Savedata Expansion!
