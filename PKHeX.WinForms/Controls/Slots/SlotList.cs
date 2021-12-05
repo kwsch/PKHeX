@@ -119,19 +119,16 @@ namespace PKHeX.WinForms.Controls
 
         private const int PadPixels = 2;
 
-        private static PictureBox GetPictureBox(int index, SpriteBuilder s)
+        private static PictureBox GetPictureBox(int index, SpriteBuilder s) => new()
         {
-            return new()
-            {
-                BorderStyle = BorderStyle.FixedSingle,
-                Width = s.Width + 2,
-                Height = s.Height + 2,
-                AllowDrop = true,
-                Margin = new Padding(PadPixels),
-                SizeMode = PictureBoxSizeMode.CenterImage,
-                Name = $"bpkm{index}",
-            };
-        }
+            BorderStyle = BorderStyle.FixedSingle,
+            Width = s.Width + 2,
+            Height = s.Height + 2,
+            AllowDrop = true,
+            Margin = new Padding(PadPixels),
+            SizeMode = PictureBoxSizeMode.CenterImage,
+            Name = $"bpkm{index}",
+        };
 
         private sealed class LabelType : Label
         {

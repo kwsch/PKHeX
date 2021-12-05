@@ -107,17 +107,20 @@ namespace PKHeX.Core
 
             // Handle edge case with fixed-gender forms.
             if (Species is (int) Meowstic or (int) Indeedee)
+                ReviseGenderedForms();
+        }
+
+        private void ReviseGenderedForms()
+        {
+            if (Gender == 1) // Recognized with (F)
             {
-                if (Gender == 1) // Recognized with (F)
-                {
-                    FormName = "F";
-                    Form = 1;
-                }
-                else
-                {
-                    FormName = Form == 1 ? "F" : "M";
-                    Gender = Form;
-                }
+                FormName = "F";
+                Form = 1;
+            }
+            else
+            {
+                FormName = Form == 1 ? "F" : "M";
+                Gender = Form;
             }
         }
 

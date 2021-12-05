@@ -160,7 +160,7 @@ namespace PKHeX.Core
                 Moves = MoveList.GetBaseEggMoves(pk, Species, Form, (GameVersion)pk.Version, Level);
             if (Moves.Count != 4)
             {
-                var moves = Moves.ToArray();
+                int[] moves = Moves.ToArray();
                 Array.Resize(ref moves, 4);
                 Moves = moves;
             }

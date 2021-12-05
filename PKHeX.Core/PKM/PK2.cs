@@ -223,43 +223,40 @@ namespace PKHeX.Core
             return pk7;
         }
 
-        public SK2 ConvertToSK2()
+        public SK2 ConvertToSK2() => new(Japanese)
         {
-            return new(Japanese)
-            {
-                Species = Species,
-                HeldItem = HeldItem,
-                Move1 = Move1,
-                Move2 = Move2,
-                Move3 = Move3,
-                Move4 = Move4,
-                TID = TID,
-                EXP = EXP,
-                EV_HP = EV_HP,
-                EV_ATK = EV_ATK,
-                EV_DEF = EV_DEF,
-                EV_SPE = EV_SPE,
-                EV_SPC = EV_SPC,
-                DV16 = DV16,
-                Move1_PP = Move1_PP,
-                Move2_PP = Move2_PP,
-                Move3_PP = Move3_PP,
-                Move4_PP = Move4_PP,
-                Move1_PPUps = Move1_PPUps,
-                Move2_PPUps = Move2_PPUps,
-                Move3_PPUps = Move3_PPUps,
-                Move4_PPUps = Move4_PPUps,
-                CurrentFriendship = CurrentFriendship,
-                IsEgg = IsEgg,
-                Stat_Level = Stat_Level,
-                PKRS_Days = PKRS_Days,
-                PKRS_Strain = PKRS_Strain,
-                CaughtData = CaughtData,
+            Species = Species,
+            HeldItem = HeldItem,
+            Move1 = Move1,
+            Move2 = Move2,
+            Move3 = Move3,
+            Move4 = Move4,
+            TID = TID,
+            EXP = EXP,
+            EV_HP = EV_HP,
+            EV_ATK = EV_ATK,
+            EV_DEF = EV_DEF,
+            EV_SPE = EV_SPE,
+            EV_SPC = EV_SPC,
+            DV16 = DV16,
+            Move1_PP = Move1_PP,
+            Move2_PP = Move2_PP,
+            Move3_PP = Move3_PP,
+            Move4_PP = Move4_PP,
+            Move1_PPUps = Move1_PPUps,
+            Move2_PPUps = Move2_PPUps,
+            Move3_PPUps = Move3_PPUps,
+            Move4_PPUps = Move4_PPUps,
+            CurrentFriendship = CurrentFriendship,
+            IsEgg = IsEgg,
+            Stat_Level = Stat_Level,
+            PKRS_Days = PKRS_Days,
+            PKRS_Strain = PKRS_Strain,
+            CaughtData = CaughtData,
 
-                // Only copies until first 0x50 terminator, but just copy everything
-                Nickname = Nickname,
-                OT_Name = OT_Name,
-            };
-        }
+            // Only copies until first 0x50 terminator, but just copy everything
+            Nickname = Nickname,
+            OT_Name = OT_Name,
+        };
     }
 }

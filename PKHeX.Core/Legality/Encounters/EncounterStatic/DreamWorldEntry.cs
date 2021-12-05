@@ -37,20 +37,17 @@ namespace PKHeX.Core
             result[ctr++] = Create(game, a, Move3);
         }
 
-        private EncounterStatic5 Create(GameVersion game, int ability, int move)
+        private EncounterStatic5 Create(GameVersion game, int ability, int move) => new(game)
         {
-            return new(game)
-            {
-                Species = Species,
-                Form = Form,
-                Gender = Gender,
-                Level = Level,
-                Ability = ability,
-                Location = 075,
-                Shiny = Shiny.Never,
-                Moves = new[] { move },
-            };
-        }
+            Species = Species,
+            Form = Form,
+            Gender = Gender,
+            Level = Level,
+            Ability = ability,
+            Location = 075,
+            Shiny = Shiny.Never,
+            Moves = new[] { move },
+        };
 
         public static EncounterStatic5[] GetArray(GameVersion game, IReadOnlyList<DreamWorldEntry> t)
         {

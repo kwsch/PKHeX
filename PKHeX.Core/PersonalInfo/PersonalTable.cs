@@ -112,10 +112,7 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly PersonalTable Y = GetTable("y", GameVersion.YW);
 
-        private static PersonalTable GetTable(string game, GameVersion format)
-        {
-            return new(Util.GetBinaryResource($"personal_{game}"), format);
-        }
+        private static PersonalTable GetTable(string game, GameVersion format) => new(Util.GetBinaryResource($"personal_{game}"), format);
 
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format) => format switch
         {

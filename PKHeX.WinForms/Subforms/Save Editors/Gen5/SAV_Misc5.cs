@@ -172,16 +172,13 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static List<ComboItem> GetStates()
+        private static List<ComboItem> GetStates() => new()
         {
-            return new()
-            {
-                new ComboItem("Not roamed", 0),
-                new ComboItem("Roaming", 1),
-                new ComboItem("Defeated", 2),
-                new ComboItem("Captured", 3),
-            };
-        }
+            new ComboItem("Not roamed", 0),
+            new ComboItem("Roaming", 1),
+            new ComboItem("Defeated", 2),
+            new ComboItem("Captured", 3),
+        };
 
         private void SaveMain()
         {

@@ -34,21 +34,18 @@ namespace PKHeX.Core
             return Data;
         }
 
-        private SecretBase3PKM GetPKM(int index)
+        private SecretBase3PKM GetPKM(int index) => new()
         {
-            return new()
-            {
-                PID = BitConverter.ToUInt32(Data, GetOffsetPID(index)),
-                Species = BitConverter.ToUInt16(Data, GetOffsetSpecies(index)),
-                HeldItem = BitConverter.ToUInt16(Data, GetOffsetItem(index)),
-                Move1 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 0)),
-                Move2 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 1)),
-                Move3 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 2)),
-                Move4 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 3)),
-                Level = Data[O_Level + index],
-                EVAll = Data[O_EV + index],
-            };
-        }
+            PID = BitConverter.ToUInt32(Data, GetOffsetPID(index)),
+            Species = BitConverter.ToUInt16(Data, GetOffsetSpecies(index)),
+            HeldItem = BitConverter.ToUInt16(Data, GetOffsetItem(index)),
+            Move1 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 0)),
+            Move2 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 1)),
+            Move3 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 2)),
+            Move4 = BitConverter.ToUInt16(Data, GetOffsetMove(index, 3)),
+            Level = Data[O_Level + index],
+            EVAll = Data[O_EV + index],
+        };
 
         private void SetPKM(int index)
         {

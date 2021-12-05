@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation, IEncounterMatch, IFixedBall, IFixedAbilityNumber
+    public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, ILocation, IEncounterMatch, IFixedBall, IFixedAbilityNumber
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -17,7 +17,6 @@ namespace PKHeX.Core
         public virtual int LevelMin => Level;
         public virtual int LevelMax => Level;
         public abstract int Generation { get; }
-        public GameVersion Version { get; }
 
         public virtual int Location { get; init; }
         public int Ability { get; init; }
@@ -49,8 +48,6 @@ namespace PKHeX.Core
         private const int FormDynamic = FormVivillon;
         internal const int FormVivillon = 30;
       //protected const int FormRandom = 31;
-
-        protected EncounterStatic(GameVersion game) => Version = game;
 
         protected virtual PKM GetBlank(ITrainerInfo tr) => PKMConverter.GetBlank(Generation, Version);
 

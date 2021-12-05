@@ -113,15 +113,12 @@ namespace PKHeX.WinForms
             button.MouseHover += (_, _) => hover.Show(path, button);
         }
 
-        private static Button GetCustomButton(string name)
+        private static Button GetCustomButton(string name) => new()
         {
-            return new()
-            {
-                Size = new Size { Height = ButtonHeight, Width = ButtonWidth },
-                Text = name,
-                Name = $"B_{name}",
-            };
-        }
+            Size = new Size { Height = ButtonHeight, Width = ButtonWidth },
+            Text = name,
+            Name = $"B_{name}",
+        };
 
         private static IEnumerable<CustomFolderPath> GetUserPaths()
         {

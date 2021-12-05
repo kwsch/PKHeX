@@ -19,6 +19,7 @@ namespace PKHeX.Core
             _ => UndergroundItemList8b.ItemMaxCount,
         };
 
+        // ReSharper disable once NotAccessedPositionalProperty.Local
         private record UgItemDef(int UgItemID, int ItemID, int SphereID, int PedestalID, int StatueID)
         {
             private bool IsSphere => SphereID > 0;

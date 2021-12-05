@@ -28,10 +28,7 @@ namespace PKHeX.Core
             return Pressure ? LegalityCheckStrings.LEncConditionLead : LegalityCheckStrings.LEncCondition;
         }
 
-        public EncounterSlot6XY CreatePressureFormCopy(int evoForm)
-        {
-            return new((EncounterArea6XY) Area, Species, evoForm, LevelMin, LevelMax) {Pressure = true};
-        }
+        public EncounterSlot6XY CreatePressureFormCopy(int evoForm) => new((EncounterArea6XY) Area, Species, evoForm, LevelMin, LevelMax) {Pressure = true};
 
         protected override HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
     }

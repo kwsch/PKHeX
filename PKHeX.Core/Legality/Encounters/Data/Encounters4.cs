@@ -336,7 +336,7 @@ namespace PKHeX.Core
                 Location = 214,
                 Moves = new[] { 344, 270, 207, 220 },
                 GroundTile = Max_Pt,
-                Shiny = Shiny.Never
+                Shiny = Shiny.Never,
             },
 
             // Stationary Legendary

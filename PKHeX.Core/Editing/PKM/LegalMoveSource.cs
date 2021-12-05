@@ -47,11 +47,13 @@ namespace PKHeX.Core
         private int Compare(ComboItem i1, ComboItem i2)
         {
             // split into 2 groups: Allowed & Not, and sort each sublist
-            var c1 = AllowedMoves.Contains(i1.Value);
-            var c2 = AllowedMoves.Contains(i2.Value);
+            var (strA, value1) = i1;
+            var (strB, value2) = i2;
+            var c1 = AllowedMoves.Contains(value1);
+            var c2 = AllowedMoves.Contains(value2);
             if (c1)
-                return c2 ? string.CompareOrdinal(i1.Text, i2.Text) : -1;
-            return c2 ? 1 : string.CompareOrdinal(i1.Text, i2.Text);
+                return c2 ? string.CompareOrdinal(strA, strB) : -1;
+            return c2 ? 1 : string.CompareOrdinal(strA, strB);
         }
 
         public void ReloadMoves(IReadOnlyList<ComboItem> moves)

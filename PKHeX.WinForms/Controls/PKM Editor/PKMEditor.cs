@@ -727,7 +727,8 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality(skipMoveRepop: true);
             if (sender == GB_CurrentMoves)
             {
-                if (!SetSuggestedMoves(random: ModifierKeys == Keys.Control))
+                bool random = ModifierKeys == Keys.Control;
+                if (!SetSuggestedMoves(random))
                     return;
             }
             else if (sender == GB_RelearnMoves)

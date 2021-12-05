@@ -21,6 +21,13 @@ namespace PKHeX.WinForms.Controls
         }
 
         public bool SameLocation => (Destination != null) && (Source?.Equals(Destination) ?? false);
-        public bool DragIsParty => Source?.Slot is SlotInfoParty || Destination?.Slot is SlotInfoParty;
+
+        private bool SourceIsParty => Source?.Slot is SlotInfoParty;
+        private bool DestinationIsParty => Destination?.Slot is SlotInfoParty;
+
+        /// <summary>
+        /// Used to indicate if the changes will alter the player's party data state.
+        /// </summary>
+        public bool DragIsParty => SourceIsParty || DestinationIsParty;
     }
 }

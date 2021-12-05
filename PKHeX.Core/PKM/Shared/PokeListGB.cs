@@ -40,7 +40,7 @@ namespace PKHeX.Core
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
             StringLength = GetStringLength(jp);
-            var data = d ?? GetEmptyList(c, jp);
+            byte[] data = d ?? GetEmptyList(c, jp);
             var dataSize = 1 + 1 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
 
             Array.Resize(ref data, dataSize);

@@ -122,7 +122,7 @@ namespace PKHeX.Core
             InventoryType.Balls => 999,
             InventoryType.BattleItems => 999,
             InventoryType.Treasure => 999,
-            _ => throw new ArgumentOutOfRangeException(nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
         private static ushort[] GetLegal(InventoryType type) => type switch
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             InventoryType.Balls => Legal.Pouch_Ball_BS,
             InventoryType.BattleItems => Legal.Pouch_Battle_BS,
             InventoryType.Treasure => Legal.Pouch_Treasure_BS,
-            _ => throw new ArgumentOutOfRangeException(nameof(type))
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
     }
 }

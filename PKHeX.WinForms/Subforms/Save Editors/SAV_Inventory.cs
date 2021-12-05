@@ -105,29 +105,26 @@ namespace PKHeX.WinForms
             return dgv;
         }
 
-        private static DataGridView GetBaseDataGrid(InventoryPouch pouch)
+        private static DataGridView GetBaseDataGrid(InventoryPouch pouch) => new()
         {
-            return new()
-            {
-                Dock = DockStyle.Fill,
-                Text = pouch.Type.ToString(),
-                Name = "DGV_" + pouch.Type,
+            Dock = DockStyle.Fill,
+            Text = $"{pouch.Type}",
+            Name = $"DGV_{pouch.Type}",
 
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                AllowUserToResizeRows = false,
-                AllowUserToResizeColumns = false,
-                RowHeadersVisible = false,
-                MultiSelect = false,
-                ShowEditingIcon = false,
+            AllowUserToAddRows = false,
+            AllowUserToDeleteRows = false,
+            AllowUserToResizeRows = false,
+            AllowUserToResizeColumns = false,
+            RowHeadersVisible = false,
+            MultiSelect = false,
+            ShowEditingIcon = false,
 
-                EditMode = DataGridViewEditMode.EditOnEnter,
-                ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
-                ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-                SelectionMode = DataGridViewSelectionMode.CellSelect,
-                CellBorderStyle = DataGridViewCellBorderStyle.None,
-            };
-        }
+            EditMode = DataGridViewEditMode.EditOnEnter,
+            ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
+            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+            SelectionMode = DataGridViewSelectionMode.CellSelect,
+            CellBorderStyle = DataGridViewCellBorderStyle.None,
+        };
 
         private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
         {

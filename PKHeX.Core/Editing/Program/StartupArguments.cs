@@ -74,15 +74,12 @@ namespace PKHeX.Core
             Entity = pk;
         }
 
-        private static SaveFile? ReadSettingsDefinedPKM(IStartupSettings startup, PKM pkm)
+        private static SaveFile? ReadSettingsDefinedPKM(IStartupSettings startup, PKM pkm) => startup.AutoLoadSaveOnStartup switch
         {
-            var opt = startup.AutoLoadSaveOnStartup;
-            if (opt is AutoLoadSetting.LastLoaded)
-                return GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(z => z.IsCompatiblePKM(pkm));
-            if (opt is AutoLoadSetting.RecentBackup)
-                return SaveFinder.DetectSaveFiles().FirstOrDefault(z => z.IsCompatiblePKM(pkm));
-            return null;
-        }
+            AutoLoadSetting.RecentBackup => SaveFinder.DetectSaveFiles().FirstOrDefault(z => z.IsCompatiblePKM(pkm)),
+            AutoLoadSetting.LastLoaded => GetMostRecentlyLoaded(startup.RecentlyLoaded).FirstOrDefault(z => z.IsCompatiblePKM(pkm)),
+            _ => null,
+        };
 
         private static SaveFile? ReadSettingsAnyPKM(IStartupSettings startup) => startup.AutoLoadSaveOnStartup switch
         {

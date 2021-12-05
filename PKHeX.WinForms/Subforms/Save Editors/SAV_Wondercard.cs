@@ -586,42 +586,33 @@ namespace PKHeX.WinForms
             return pb;
         }
 
-        private static FlowLayoutPanel GetFlowLayoutPanel()
+        private static FlowLayoutPanel GetFlowLayoutPanel() => new()
         {
-            return new()
-            {
-                Width = 480,
-                Height = 60,
-                Padding = new Padding(0),
-                Margin = new Padding(0),
-            };
-        }
+            Width = 480,
+            Height = 60,
+            Padding = new Padding(0),
+            Margin = new Padding(0),
+        };
 
-        private static Label GetLabel(string text)
+        private static Label GetLabel(string text) => new()
         {
-            return new()
-            {
-                Size = new Size(40, 60),
-                AutoSize = false,
-                TextAlign = ContentAlignment.MiddleRight,
-                Text = text,
-                Padding = new Padding(0),
-                Margin = new Padding(0),
-            };
-        }
+            Size = new Size(40, 60),
+            AutoSize = false,
+            TextAlign = ContentAlignment.MiddleRight,
+            Text = text,
+            Padding = new Padding(0),
+            Margin = new Padding(0),
+        };
 
-        private static PictureBox GetPictureBox()
+        private static PictureBox GetPictureBox() => new()
         {
-            return new()
-            {
-                Size = new Size(70, 58),
-                SizeMode = PictureBoxSizeMode.CenterImage,
-                BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.Transparent,
-                Padding = new Padding(0),
-                Margin = new Padding(1),
-            };
-        }
+            Size = new Size(70, 58),
+            SizeMode = PictureBoxSizeMode.CenterImage,
+            BorderStyle = BorderStyle.FixedSingle,
+            BackColor = Color.Transparent,
+            Padding = new Padding(0),
+            Margin = new Padding(1),
+        };
 
         private void B_ModifyAll_Click(object sender, EventArgs e)
         {

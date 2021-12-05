@@ -136,14 +136,11 @@ namespace PKHeX.Core
             };
         }
 
-        public EvoCriteria GetEvoCriteria(int species, int form, int lvl)
+        public EvoCriteria GetEvoCriteria(int species, int form, int lvl) => new(species, form)
         {
-            return new(species, form)
-            {
-                Level = lvl,
-                Method = Method,
-            };
-        }
+            Level = lvl,
+            Method = Method,
+        };
 
         public static int GetAmpLowKeyResult(int n)
         {

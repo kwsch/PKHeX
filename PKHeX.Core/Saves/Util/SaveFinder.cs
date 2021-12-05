@@ -126,11 +126,11 @@ namespace PKHeX.Core
         {
             var foldersToCheck = extra.Where(f => !string.IsNullOrWhiteSpace(f)).Concat(CustomBackupPaths);
 
-            string path3DS = Path.GetPathRoot(Get3DSLocation(drives));
+            string? path3DS = Path.GetPathRoot(Get3DSLocation(drives));
             if (!string.IsNullOrEmpty(path3DS)) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(Get3DSBackupPaths(path3DS));
 
-            string pathNX = Path.GetPathRoot(GetSwitchLocation(drives));
+            string? pathNX = Path.GetPathRoot(GetSwitchLocation(drives));
             if (!string.IsNullOrEmpty(pathNX)) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(GetSwitchBackupPaths(pathNX));
 

@@ -72,19 +72,16 @@ namespace PKHeX.WinForms.Controls
 
         public void SetBackground(Image img) => BackgroundImage = img;
 
-        public static PictureBox GetControl(int width, int height)
+        public static PictureBox GetControl(int width, int height) => new()
         {
-            return new()
-            {
-                AutoSize = false,
-                SizeMode = PictureBoxSizeMode.CenterImage,
-                BackColor = Color.Transparent,
-                Width = width + (2 * 1),
-                Height = height + (2 * 1),
-                Padding = Padding.Empty,
-                Margin = Padding.Empty,
-                BorderStyle = BorderStyle.FixedSingle,
-            };
-        }
+            AutoSize = false,
+            SizeMode = PictureBoxSizeMode.CenterImage,
+            BackColor = Color.Transparent,
+            Width = width + (2 * 1),
+            Height = height + (2 * 1),
+            Padding = Padding.Empty,
+            Margin = Padding.Empty,
+            BorderStyle = BorderStyle.FixedSingle,
+        };
     }
 }
