@@ -214,7 +214,7 @@ namespace PKHeX.Core
             if (capsuleState != TimeCapsuleEvaluation.NotTransferred) // No Move Deleter in Gen 1
                 return 1; // Move Deleter exits, slots from 2 onwards can always be empty
 
-            if (enc is IMoveset {Moves: {Count: 4}})
+            if (enc is IMoveset {Moves.Count: 4 })
                 return 4;
 
             int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves, enc.Species);
