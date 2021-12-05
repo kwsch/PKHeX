@@ -725,20 +725,11 @@ namespace PKHeX.Core
     /// <summary>
     /// Indicates which <see cref="Zukan8Type"/> block will store the entry, and at what index.
     /// </summary>
-    public readonly struct Zukan8Index
+    /// <param name="DexType">Which block stores the Pokédex entry.</param>
+    /// <param name="Index">Index that the Pokédex entry is stored at.</param>
+    public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
     {
-        /// <summary> Index that the Pokédex entry is stored at. </summary>
-        public readonly int Index;
-        /// <summary> Which block stores the Pokédex entry. </summary>
-        public readonly Zukan8Type DexType;
-
         public override string ToString() => $"{Index:000} - {DexType}";
-
-        public Zukan8Index(Zukan8Type dexType, int index)
-        {
-            DexType = dexType;
-            Index = index;
-        }
 
         private int GetSavedIndex()
         {
@@ -794,25 +785,10 @@ namespace PKHeX.Core
         {
             return $"{DexPrefix}.{Index:000} - {speciesNames[species]}";
         }
-
-        public override bool Equals(object obj) => obj is Zukan8Index x && x.Equals(this);
-        public bool Equals(Zukan8Index obj) => obj.Index == Index && obj.DexType == DexType;
-        public override int GetHashCode() => (int)DexType ^ (Index << 3);
-        public static bool operator ==(Zukan8Index left, Zukan8Index right) => left.Equals(right);
-        public static bool operator !=(Zukan8Index left, Zukan8Index right) => !(left == right);
     }
 
-    public sealed class Zukan8EntryInfo
+    public readonly record struct Zukan8EntryInfo(int Species, Zukan8Index Entry)
     {
-        public readonly int Species;
-        public readonly Zukan8Index Entry;
-
-        public Zukan8EntryInfo(int species, Zukan8Index entry)
-        {
-            Species = species;
-            Entry = entry;
-        }
-
         public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
     }
 

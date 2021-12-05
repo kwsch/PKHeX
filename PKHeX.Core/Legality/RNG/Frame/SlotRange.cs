@@ -83,17 +83,7 @@ namespace PKHeX.Core
             };
         }
 
-        private readonly struct Range
-        {
-            internal readonly uint Min;
-            internal readonly uint Max;
-
-            internal Range(uint min, uint max)
-            {
-                Min = min;
-                Max = max;
-            }
-        }
+        private readonly record struct Range(uint Min, uint Max);
 
         private static Range[] GetRanges(params uint[] rates)
         {

@@ -12,13 +12,9 @@
         MegaEvolve = 8,
     }
 
-    public readonly struct TurnActionInstruction
+    public readonly record struct TurnActionInstruction(int PlayerID, int Count, int Bit)
     {
-        public readonly int PlayerID;
-        public readonly int Count;
-        public readonly int Bit;
-
-        public TurnActionInstruction(byte Op)
+        public TurnActionInstruction(byte Op) : this()
         {
             PlayerID = Op >> 5;
             Bit = (Op >> 4) & 1;
@@ -26,10 +22,5 @@
         }
 
         public byte GetRawValue => (byte)((Count & 0xF) | ((byte)Bit << 4) | (PlayerID << 5));
-
-        public override bool Equals(object obj) => obj is TurnStartInstruction t && t.GetRawValue == GetRawValue;
-        public override int GetHashCode() => GetRawValue;
-        public static bool operator ==(TurnActionInstruction left, TurnActionInstruction right) => left.Equals(right);
-        public static bool operator !=(TurnActionInstruction left, TurnActionInstruction right) => !(left == right);
     }
 }

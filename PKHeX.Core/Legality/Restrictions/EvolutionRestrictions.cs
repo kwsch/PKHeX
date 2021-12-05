@@ -31,17 +31,7 @@ namespace PKHeX.Core
             {(int)Clobbopus,  new(9, (int)Taunt)},
         };
 
-        private readonly struct MoveEvolution
-        {
-            public readonly int ReferenceIndex;
-            public readonly int Move;
-
-            public MoveEvolution(int referenceIndex, int move)
-            {
-                ReferenceIndex = referenceIndex;
-                Move = move;
-            }
-        }
+        private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
 
         private static readonly int[] FairyMoves =
         {

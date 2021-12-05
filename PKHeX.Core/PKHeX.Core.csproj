@@ -10,7 +10,7 @@
     <PackageIconUrl>https://github.com/kwsch/PKHeX/blob/master/PKHeX.WinForms/icon.ico</PackageIconUrl>
     <PackageProjectUrl />
     <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
-    <LangVersion>9</LangVersion>
+    <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

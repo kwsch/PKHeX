@@ -5,23 +5,8 @@ namespace PKHeX.Core
     /// <summary>
     /// Seed result value storage for passing frame seeds &amp; conditions.
     /// </summary>
-    public readonly struct SeedInfo
+    public readonly record struct SeedInfo(uint Seed, bool Charm3 = false)
     {
-        public readonly uint Seed;
-        public readonly bool Charm3;
-
-        private SeedInfo(uint seed, bool charm3 = false)
-        {
-            Seed = seed;
-            Charm3 = charm3;
-        }
-
-        public override bool Equals(object obj) => obj is SeedInfo s && Equals(s);
-        public bool Equals(SeedInfo s) => s.Charm3 == Charm3 && s.Seed == Seed;
-        public override int GetHashCode() => -1;
-        public static bool operator ==(SeedInfo left, SeedInfo right) => left.Equals(right);
-        public static bool operator !=(SeedInfo left, SeedInfo right) => !(left == right);
-
         /// <summary>
         /// Yields an enumerable list of seeds until another valid PID breaks the chain.
         /// </summary>

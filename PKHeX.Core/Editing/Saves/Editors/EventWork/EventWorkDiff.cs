@@ -123,9 +123,9 @@ namespace PKHeX.Core
                 return Array.Empty<string>();
             var ew = ((SAV7b)S1).Blocks.EventWork;
 
-            var fOn = SetFlags.Select(z => new FlagSummary(z, ew).ToString());
-            var fOff = ClearedFlags.Select(z => new FlagSummary(z, ew).ToString());
-            var wt = WorkChanged.Select((z, i) => new WorkSummary(z, ew, WorkDiff[i]).ToString());
+            var fOn = SetFlags.Select(z => FlagSummary.Get(z, ew).ToString());
+            var fOff = ClearedFlags.Select(z => FlagSummary.Get(z, ew).ToString());
+            var wt = WorkChanged.Select((z, i) => WorkSummary.Get(z, ew, WorkDiff[i]).ToString());
 
             var list = new List<string> { "Flags: ON", "=========" };
             list.AddRange(fOn);
@@ -149,37 +149,25 @@ namespace PKHeX.Core
             return list;
         }
 
-        private readonly struct FlagSummary
+        private readonly record struct FlagSummary(EventVarType Type, int Index, int Raw)
         {
-            private EventVarType Type { get; }
-            private int Index { get; }
-            private int Raw { get; }
-
             public override string ToString() => $"{Raw:0000}\t{false}\t{Index:0000}\t{Type}";
-
-            public FlagSummary(int rawIndex, EventWork7b ew)
+            
+            public static FlagSummary Get(int rawIndex, EventWork7b ew)
             {
-                Type = ew.GetFlagType(rawIndex, out var subIndex);
-                Index = subIndex;
-                Raw = rawIndex;
+                var type = ew.GetFlagType(rawIndex, out var subIndex);
+                return new FlagSummary(type, subIndex, rawIndex);
             }
         }
 
-        private readonly struct WorkSummary
+        private readonly record struct WorkSummary(EventVarType Type, int Index, int Raw, string Text)
         {
-            private EventVarType Type { get; }
-            private int Index { get; }
-            private int Raw { get; }
-            private string Text { get; }
-
             public override string ToString() => $"{Raw:000}\t{Text}\t{Index:000}\t{Type}";
 
-            public WorkSummary(int rawIndex, EventWork7b ew, string text)
+            public static WorkSummary Get(int rawIndex, EventWork7b ew, string text)
             {
-                Type = ew.GetFlagType(rawIndex, out var subIndex);
-                Index = subIndex;
-                Raw = rawIndex;
-                Text = text;
+                var type = ew.GetFlagType(rawIndex, out var subIndex);
+                return new WorkSummary(type, subIndex, rawIndex, text);
             }
         }
     }
@@ -266,30 +254,14 @@ namespace PKHeX.Core
             return list;
         }
 
-        private readonly struct FlagSummary
+        private readonly record struct FlagSummary(int Raw)
         {
-            private int Raw { get; }
-
             public override string ToString() => $"{Raw:0000}\t{false}";
-
-            public FlagSummary(int rawIndex)
-            {
-                Raw = rawIndex;
-            }
         }
 
-        private readonly struct WorkSummary
+        private readonly record struct WorkSummary(int Raw, string Text)
         {
-            private int Raw { get; }
-            private string Text { get; }
-
             public override string ToString() => $"{Raw:000}\t{Text}";
-
-            public WorkSummary(int rawIndex, string text)
-            {
-                Raw = rawIndex;
-                Text = text;
-            }
         }
     }
 }

@@ -102,16 +102,6 @@ namespace PKHeX.Core
                 result[i] = 0;
         }
 
-        private readonly struct MoveOrder
-        {
-            public readonly ushort Move;
-            public readonly byte Source;
-
-            public MoveOrder(ushort move, byte source)
-            {
-                Move = move;
-                Source = source;
-            }
-        }
+        private readonly record struct MoveOrder(ushort Move, byte Source);
     }
 }

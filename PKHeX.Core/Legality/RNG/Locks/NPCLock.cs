@@ -3,7 +3,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Locks associated to a given NPC PKM that appears before a <see cref="EncounterStaticShadow"/>.
     /// </summary>
-    public readonly struct NPCLock
+    public readonly record struct NPCLock
     {
         private readonly int Species;
         private readonly byte Nature;
@@ -45,11 +45,6 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
-
-        public override bool Equals(object obj) => false;
-        public override int GetHashCode() => 0;
-        public static bool operator ==(NPCLock left, NPCLock right) => left.Equals(right);
-        public static bool operator !=(NPCLock left, NPCLock right) => !(left == right);
 
 #if DEBUG
         public override string ToString()

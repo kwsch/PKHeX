@@ -68,19 +68,8 @@ namespace PKHeX.Core
             return true;
         }
 
-        private readonly struct PIDIVGroup
+        private readonly record struct PIDIVGroup(uint PID, uint IV1, uint IV2)
         {
-            private readonly uint PID;
-            private readonly uint IV1;
-            private readonly uint IV2;
-
-            public PIDIVGroup(uint pid, uint iv1, uint iv2)
-            {
-                PID = pid;
-                IV1 = iv1;
-                IV2 = iv2;
-            }
-
             public bool Equals(uint pid, uint iv1, uint iv2) => PID == pid && IV1 == iv1 && IV2 == iv2;
         }
 
