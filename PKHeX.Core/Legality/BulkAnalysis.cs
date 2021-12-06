@@ -200,17 +200,7 @@ namespace PKHeX.Core
             }
         }
 
-        private class CombinedReference
-        {
-            public readonly SlotCache Slot;
-            public readonly LegalityAnalysis Analysis;
-
-            public CombinedReference(SlotCache slot, LegalityAnalysis analysis)
-            {
-                Slot = slot;
-                Analysis = analysis;
-            }
-        }
+        private sealed record CombinedReference(SlotCache Slot, LegalityAnalysis Analysis);
 
         private void CheckIDReuse()
         {

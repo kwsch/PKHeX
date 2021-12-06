@@ -5,17 +5,15 @@ namespace PKHeX.Core
     /// <summary>
     /// Party Data <see cref="ISlotInfo"/>
     /// </summary>
-    public sealed class SlotInfoParty : ISlotInfo
+    public sealed record SlotInfoParty(int Slot) : ISlotInfo
     {
-        public int Slot { get; private set; }
+        public int Slot { get; private set; } = Slot;
         public SlotOrigin Origin => SlotOrigin.Party;
         public bool CanWriteTo(SaveFile sav) => sav.HasParty;
 
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => pkm.IsEgg && sav.IsPartyAllEggs(Slot)
             ? WriteBlockedMessage.InvalidPartyConfiguration
             : WriteBlockedMessage.None;
-
-        public SlotInfoParty(int slot) => Slot = slot;
 
         public bool WriteTo(SaveFile sav, PKM pkm, PKMImportSetting setting = PKMImportSetting.UseDefault)
         {
@@ -31,10 +29,5 @@ namespace PKHeX.Core
         }
 
         public PKM Read(SaveFile sav) => sav.GetPartySlotAtIndex(Slot);
-
-        private bool Equals(SlotInfoParty other) => Slot == other.Slot;
-        public bool Equals(ISlotInfo other) => other is SlotInfoParty p && Equals(p);
-        public override bool Equals(object obj) => obj is SlotInfoParty p && Equals(p);
-        public override int GetHashCode() => Slot;
     }
 }

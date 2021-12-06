@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Serves as the main object that is accessed for stat data in a particular generation/game format.
     /// </remarks>
-    public class PersonalTable
+    public sealed class PersonalTable
     {
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.BDSP"/>.

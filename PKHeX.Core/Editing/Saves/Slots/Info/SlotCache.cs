@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains slot data and metadata indicating where the <see cref="PKM"/> originated from.
     /// </summary>
-    public class SlotCache : IComparable<SlotCache>
+    public sealed class SlotCache : IComparable<SlotCache>
     {
         /// <summary>
         /// Information regarding how the <see cref="Entity"/> was obtained.

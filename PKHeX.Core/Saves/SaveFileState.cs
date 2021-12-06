@@ -3,7 +3,7 @@
     /// <summary>
     /// Tracks information about modifications made to a <see cref="SaveFile"/>
     /// </summary>
-    public class SaveFileState
+    public sealed class SaveFileState
     {
         /// <summary>
         /// Mutable value tracking if the save file has been changed. This is set manually by modifications, and not for all modifications.

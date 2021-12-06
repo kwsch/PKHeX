@@ -3,19 +3,11 @@ namespace PKHeX.Core
     /// <summary>
     /// Box Data <see cref="ISlotInfo"/>
     /// </summary>
-    public class SlotInfoBox : ISlotInfo
+    public sealed record SlotInfoBox(int Box, int Slot) : ISlotInfo
     {
-        public int Box { get; }
-        public int Slot { get; }
         public SlotOrigin Origin => SlotOrigin.Box;
         public bool CanWriteTo(SaveFile sav) => sav.HasBox && !sav.IsSlotLocked(Box, Slot);
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.None;
-
-        public SlotInfoBox(int box, int slot)
-        {
-            Box = box;
-            Slot = slot;
-        }
 
         public bool WriteTo(SaveFile sav, PKM pkm, PKMImportSetting setting = PKMImportSetting.UseDefault)
         {
@@ -24,11 +16,5 @@ namespace PKHeX.Core
         }
 
         public PKM Read(SaveFile sav) => sav.GetBoxSlotAtIndex(Box, Slot);
-
-        private bool Equals(SlotInfoBox other) => Box == other.Box && Slot == other.Slot;
-        public bool Equals(ISlotInfo other) => other is SlotInfoBox b && Equals(b);
-        public override bool Equals(object obj) => obj is SlotInfoBox b && Equals(b);
-
-        public override int GetHashCode() => (Box * 397) ^ Slot;
     }
 }

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Tracks information about where the <see cref="SAV"/> originated from, and provides logic for saving to a file.
     /// </summary>
-    public class SaveFileMetadata
+    public sealed class SaveFileMetadata
     {
         private readonly SaveFile SAV;
 

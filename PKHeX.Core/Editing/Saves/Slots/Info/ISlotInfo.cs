@@ -1,11 +1,9 @@
-using System;
-
 namespace PKHeX.Core
 {
     /// <summary>
     /// Data representing info for an individual slot.
     /// </summary>
-    public interface ISlotInfo : IEquatable<ISlotInfo>
+    public interface ISlotInfo
     {
         /// <summary>
         /// Indicates the type of format the slot originates. Useful for legality purposes.

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for recognizing .gci save files.
     /// </summary>
-    public class SaveHandlerGCI : ISaveHandler
+    public sealed class SaveHandlerGCI : ISaveHandler
     {
         private const int headerSize = 0x40;
         private const int SIZE_G3BOXGCI  = headerSize + SaveUtil.SIZE_G3BOX; // GCI data

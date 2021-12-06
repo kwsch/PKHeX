@@ -143,7 +143,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class HoneyTree8b
+    public sealed class HoneyTree8b
     {
         public const int SIZE = 0xC;
 

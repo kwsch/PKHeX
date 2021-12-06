@@ -66,7 +66,7 @@ namespace PKHeX.WinForms.Controls
             FlickerInterface();
         }
 
-        private class ValidationRequiredSet
+        private sealed class ValidationRequiredSet
         {
             private readonly Control[] Controls;
             private readonly Func<PKM, bool> ShouldCheck;

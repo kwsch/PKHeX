@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SecretBase6PKM
+    public sealed class SecretBase6PKM
     {
         public const int SIZE = 0x34;
         public readonly byte[] Data;

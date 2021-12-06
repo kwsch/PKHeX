@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
     }
 
     [Serializable]
-    public class AdvancedSettings
+    public sealed class AdvancedSettings
     {
         [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
         public bool AllowIncompatibleConversion { get; set; }
@@ -265,14 +265,14 @@ namespace PKHeX.WinForms
     }
 
     [Serializable]
-    public class EntityEditorSettings
+    public sealed class EntityEditorSettings
     {
         [LocalizedDescription("When changing the Hidden Power type, automatically maximize the IVs to ensure the highest Base Power result. Otherwise, keep the IVs as close as possible to the original.")]
         public bool HiddenPowerOnChangeMaxPower { get; set; } = true;
     }
 
     [Serializable]
-    public class EncounterDatabaseSettings
+    public sealed class EncounterDatabaseSettings
     {
         [LocalizedDescription("Skips searching if the user forgot to enter Species / Move(s) into the search criteria.")]
         public bool ReturnNoneIfEmptySearch { get; set; } = true;
@@ -288,7 +288,7 @@ namespace PKHeX.WinForms
     }
 
     [Serializable]
-    public class MysteryGiftDatabaseSettings
+    public sealed class MysteryGiftDatabaseSettings
     {
         [LocalizedDescription("Hides gifts if the currently loaded save file cannot (indirectly) receive them.")]
         public bool FilterUnavailableSpecies { get; set; } = true;

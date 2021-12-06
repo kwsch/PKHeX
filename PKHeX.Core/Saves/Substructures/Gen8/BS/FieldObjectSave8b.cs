@@ -40,7 +40,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class FieldObject8b
+    public sealed class FieldObject8b
     {
         public const int SIZE = 4 * 17;
 

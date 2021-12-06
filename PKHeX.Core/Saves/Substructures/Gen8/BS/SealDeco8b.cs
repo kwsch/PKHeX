@@ -90,7 +90,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class AffixSealData8b
+    public sealed class AffixSealData8b
     {
         public const int SIZE = 8; // u16 id, s16 x,y,z
 

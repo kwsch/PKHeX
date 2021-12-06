@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
     /// </summary>
-    public class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
+    public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
     {
         // Save Data Attributes
         protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             return base.GetFinalData();
         }
 
-        protected void ReloadBattleTeams()
+        private void ReloadBattleTeams()
         {
             if (!State.Exportable)
                 BoxLayout.ClearBattleTeams();

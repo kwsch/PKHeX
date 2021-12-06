@@ -153,7 +153,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class RecvData8b
+    public sealed class RecvData8b
     {
         public const int SIZE = 0xE0;
         // private const int ItemCount = 7;
@@ -237,7 +237,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class OneDay8b
+    public sealed class OneDay8b
     {
         public const int SIZE = 0x10;
 

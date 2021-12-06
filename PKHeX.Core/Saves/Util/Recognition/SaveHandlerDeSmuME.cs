@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for recognizing .dsv save files from DeSmuME.
     /// </summary>
-    public class SaveHandlerDeSmuME : ISaveHandler
+    public sealed class SaveHandlerDeSmuME : ISaveHandler
     {
         private const int sizeFooter = 0x7A;
         private const int ExpectedSize = SaveUtil.SIZE_G4RAW + sizeFooter;

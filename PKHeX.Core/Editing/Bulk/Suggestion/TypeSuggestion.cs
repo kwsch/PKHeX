@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     /// <inheritdoc cref="ISuggestModification"/>
     /// <typeparam name="T">Specific (or not) type</typeparam>
-    public class TypeSuggestion<T> : ISuggestModification where T : PKM
+    public sealed class TypeSuggestion<T> : ISuggestModification where T : PKM
     {
         public readonly string Keyword;
         public readonly Action<T, string> Action;

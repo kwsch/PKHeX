@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 Secret Base Decoration Good Inventory stock for a given good-index.
     /// </summary>
-    public class SecretBase6GoodStock
+    public sealed class SecretBase6GoodStock
     {
         public const int SIZE = 4;
 
