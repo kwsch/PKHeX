@@ -74,6 +74,9 @@ namespace PKHeX.Core
                 return ot.Length <= len;
             }
 
+            if (e is EncounterTrade { HasTrainerName: true })
+                return true; // already verified
+
             if (e is MysteryGift mg && mg.OT_Name.Length == ot.Length)
                 return true; // Mattle Ho-Oh
             return false;

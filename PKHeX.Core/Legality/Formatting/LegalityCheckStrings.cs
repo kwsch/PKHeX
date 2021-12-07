@@ -94,6 +94,9 @@ namespace PKHeX.Core
         public static string LBallUnavailable { get; set; } = "Ball unobtainable in origin Generation.";
 
         public static string LContestZero { get; set; } = "Contest Stats should be 0.";
+        public static string LContestZeroSheen { get; set; } = "Contest Stat Sheen should be 0.";
+        public static string LContestSheenTooLow_0 { get; set; } = "Contest Stat Sheen should be >= {0}.";
+        public static string LContestSheenTooHigh_0 { get; set; } = "Contest Stat Sheen should be <= {0}.";
 
         public static string LDateOutsideDistributionWindow { get; set; } = "Met Date is outside of distribution window.";
 
