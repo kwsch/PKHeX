@@ -31,8 +31,8 @@
         /// <returns>Usually 1...</returns>
         public static int GetMinimumEggHatchCycles(PKM pk) => pk switch
         {
-            PK7 => 0, // pelago can decrement to 0
-            _ => 1, // whenever it hits 0, it hatches, so anything above that is fine.
+            PK2 or PB8 => 1, // no grace period between 1 step remaining and hatch
+            _ => 0, // having several Eggs in your party and then hatching one will give the rest 0... they can then be boxed!
         };
 
         /// <inheritdoc cref="GetMaximumEggHatchCycles(PKM, IEncounterTemplate)"/>
