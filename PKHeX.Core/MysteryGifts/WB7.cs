@@ -216,7 +216,7 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDC); }
         public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDE); }
 
-        public int AV_HP {  get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
+        public int AV_HP  { get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
         public int AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
         public int AV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
         public int AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
@@ -425,6 +425,15 @@ namespace PKHeX.Core
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
             _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
+        };
+
+        public override int Ability => AbilityType switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 4,
+            3 => 0,
+            _ => -1,
         };
 
         private void SetPID(PKM pk)

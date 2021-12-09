@@ -214,7 +214,7 @@ namespace PKHeX.Core
             Data[RibbonBytesOffset + byteIndex] = ribbonIndex;
         }
 
-        public int IV_HP { get => Data[CardStart + 0x2B2]; set => Data[CardStart + 0x2B2] = (byte)value; }
+        public int IV_HP  { get => Data[CardStart + 0x2B2]; set => Data[CardStart + 0x2B2] = (byte)value; }
         public int IV_ATK { get => Data[CardStart + 0x2B3]; set => Data[CardStart + 0x2B3] = (byte)value; }
         public int IV_DEF { get => Data[CardStart + 0x2B4]; set => Data[CardStart + 0x2B4] = (byte)value; }
         public int IV_SPE { get => Data[CardStart + 0x2B5]; set => Data[CardStart + 0x2B5] = (byte)value; }
@@ -223,7 +223,7 @@ namespace PKHeX.Core
 
         public int OTGender { get => Data[CardStart + 0x2B8]; set => Data[CardStart + 0x2B8] = (byte)value; }
 
-        public int EV_HP {  get => Data[CardStart + 0x2B9]; set => Data[CardStart + 0x2B9] = (byte)value; }
+        public int EV_HP  { get => Data[CardStart + 0x2B9]; set => Data[CardStart + 0x2B9] = (byte)value; }
         public int EV_ATK { get => Data[CardStart + 0x2BA]; set => Data[CardStart + 0x2BA] = (byte)value; }
         public int EV_DEF { get => Data[CardStart + 0x2BB]; set => Data[CardStart + 0x2BB] = (byte)value; }
         public int EV_SPE { get => Data[CardStart + 0x2BC]; set => Data[CardStart + 0x2BC] = (byte)value; }
@@ -497,6 +497,15 @@ namespace PKHeX.Core
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
             _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
+        };
+
+        public override int Ability => AbilityType switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 4,
+            3 => 0,
+            _ => -1,
         };
 
         private uint GetPID(ITrainerID tr, byte type)

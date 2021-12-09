@@ -147,7 +147,7 @@ namespace PKHeX.Core
 
         public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
         public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
-        public override int AbilityType {  get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
+        public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public Shiny PIDType { get => (Shiny)Data[0xA3]; set => Data[0xA3] = (byte)value; }
         public override int EggLocation { get => BitConverter.ToUInt16(Data, 0xA4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
         public int MetLocation { get => BitConverter.ToUInt16(Data, 0xA6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA6); }
@@ -414,6 +414,15 @@ namespace PKHeX.Core
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
             _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
+        };
+
+        public override int Ability => AbilityType switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 4,
+            3 => 0,
+            _ => -1,
         };
 
         private void SetPID(PKM pk)

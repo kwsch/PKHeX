@@ -24,6 +24,8 @@ namespace PKHeX.Core
             set { if (IsPokémon) PK.Ball = value; }
         }
 
+        public override int Ability => IsManaphyEgg ? 0 : 1 + (int)(PK.PID & 1);
+
         private enum GiftType
         {
             Pokémon = 1,
@@ -174,7 +176,7 @@ namespace PKHeX.Core
             pk4.Move1 = 294; pk4.Move1_PP = 20;
             pk4.Move2 = 145; pk4.Move2_PP = 30;
             pk4.Move3 = 346; pk4.Move3_PP = 15;
-            pk4.Ability = (int)Ability.Hydration;
+            pk4.Ability = (int)Core.Ability.Hydration;
             pk4.FatefulEncounter = true;
             pk4.Ball = (int)Core.Ball.Poke;
             pk4.Version = GameVersion.Gen4.Contains(trainer.Game) ? trainer.Game : (int)GameVersion.D;

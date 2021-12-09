@@ -482,7 +482,6 @@ namespace PKHeX.Core
         private static int GetEncounterFixedAbilityNumber(IEncounterTemplate enc) => enc switch
         {
             IFixedAbilityNumber s => s.Ability,
-            EncounterSlot w => w.Ability,
             _ => -1,
         };
     }

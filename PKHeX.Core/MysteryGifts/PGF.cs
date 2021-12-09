@@ -288,6 +288,15 @@ namespace PKHeX.Core
             _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
+        public override int Ability => AbilityType switch
+        {
+            0 => 1,
+            1 => 2,
+            2 => 4,
+            3 => 0,
+            _ => -1,
+        };
+
         private void SetPID(PKM pk, int av)
         {
             if (PID != 0)

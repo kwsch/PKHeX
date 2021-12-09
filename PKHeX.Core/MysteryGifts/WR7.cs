@@ -19,6 +19,8 @@ namespace PKHeX.Core
         public WR7() : this(new byte[Size]) { }
         public WR7(byte[] data) : base(data) { }
 
+        public override int Ability => -1; // undefined
+
         public uint Epoch
         {
             get => BitConverter.ToUInt32(Data, 0x00);

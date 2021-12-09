@@ -91,6 +91,7 @@ namespace PKHeX.Core
         public override int TID { get => Gift.TID; set => Gift.TID = value; }
         public override int SID { get => Gift.SID; set => Gift.SID = value; }
         public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
+        public override int Ability => Gift.Ability;
 
         // ILocation overrides
         public override int Location { get => IsEgg ? 0 : Gift.EggLocation + 3000; set { } }
