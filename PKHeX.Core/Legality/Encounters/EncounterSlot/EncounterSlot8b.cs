@@ -19,6 +19,14 @@ namespace PKHeX.Core
             IsBCAT = isBCAT;
         }
 
+        public override EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            bool isHidden = pkm.AbilityNumber == 4;
+            if (isHidden && this.IsPartialMatchHidden(pkm.Species, Species))
+                return EncounterMatchRating.PartialMatch;
+            return base.GetMatchRating(pkm);
+        }
+
         protected override void SetFormatSpecificData(PKM pk)
         {
             if (IsUnderground)
@@ -72,6 +80,27 @@ namespace PKHeX.Core
                     return true;
             }
         }
+
+        public bool CanUseRadar => Area.Type is SlotType.Grass && !IsUnderground && !IsMarsh && Location switch
+        {
+            195 or 196 => false, // Oreburgh Mine
+            203 or 204 or 205 or 208 or 209 or 210 or 211 or 212 or 213 or 214 or 215 => false, // Mount Coronet, 206/207 exterior
+            >= 225 and <= 243 => false, // Solaceon Ruins
+            244 or 245 or 246 or 247 or 248 or 249 => false, // Victory Road
+            252 => false, // Ravaged Path
+            255 or 256 => false, // Oreburgh Gate
+            260 or 261 or 262 => false, // Stark Mountain, 259 exterior
+            >= 264 and <= 284 => false, // Turnback Cave
+            286 or 287 or 288 or 289 or 290 or 291 => false, // Snowpoint Temple
+            292 or 293 => false, // Wayward Cave
+            294 or 295 => false, // Ruin Maniac Cave
+            296 => false, // Maniac Tunnel
+            299 or 300 or 301 or 302 or 303 or 304 or 305 => false, // Iron Island, 298 exterior
+            306 or 307 or 308 or 309 or 310 or 311 or 312 or 313 or 314 => false, // Old Chateau
+            _ => true,
+        };
+
+        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanUseRadar ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
         /// <summary>
         /// Unreferenced in v1.0, so all egg moves are possible for ROM encounters.
