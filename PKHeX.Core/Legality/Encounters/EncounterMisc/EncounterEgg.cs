@@ -5,31 +5,17 @@ namespace PKHeX.Core
     /// <summary>
     /// Egg Encounter Data
     /// </summary>
-    public sealed record EncounterEgg : IEncounterable
+    public sealed record EncounterEgg(int Species, int Form, int Level, int Generation, GameVersion Version) : IEncounterable
     {
-        public int Species { get; }
-        public int Form { get; }
         public string Name => "Egg";
         public string LongName => "Egg";
 
         public bool EggEncounter => true;
         public int LevelMin => Level;
         public int LevelMax => Level;
-        public readonly int Level;
-        public int Generation { get; }
-        public GameVersion Version { get; }
         public bool IsShiny => false;
 
         public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
-
-        public EncounterEgg(int species, int form, int level, int gen, GameVersion game)
-        {
-            Species = species;
-            Form = form;
-            Level = level;
-            Generation = gen;
-            Version = game;
-        }
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 

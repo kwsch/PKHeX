@@ -7,26 +7,13 @@ namespace PKHeX.Core
     /// Wild Encounter Slot data
     /// </summary>
     /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-    public abstract record EncounterSlot : IEncounterable, ILocation, IEncounterMatch, IFixedAbilityNumber
+    public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, int LevelMin, int LevelMax) : IEncounterable, ILocation, IEncounterMatch, IFixedAbilityNumber
     {
-        public int Species { get; }
-        public int Form { get; }
-        public int LevelMin { get; }
-        public int LevelMax { get; }
         public abstract int Generation { get; }
         public bool EggEncounter => false;
         public virtual bool IsShiny => false;
 
-        protected EncounterSlot(EncounterArea area, int species, int form, int min, int max)
-        {
-            Area = area;
-            Species = species;
-            Form = form;
-            LevelMin = min;
-            LevelMax = max;
-        }
-
-        protected readonly EncounterArea Area;
+        protected readonly EncounterArea Area = Area;
         public GameVersion Version => Area.Version;
         public int Location => Area.Location;
         public int EggLocation => 0;

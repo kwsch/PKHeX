@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Generation 7 Trade Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterTrade"/>
-    public sealed record EncounterTrade7 : EncounterTrade, IMemoryOT
+    public sealed record EncounterTrade7(GameVersion Version) : EncounterTrade(Version), IMemoryOT
     {
         public override int Generation => 7;
         public override int Location => Locations.LinkTrade6NPC;
@@ -15,8 +15,6 @@ namespace PKHeX.Core
         public int OT_Intensity { get => 3; set => throw new InvalidOperationException(); }
         public int OT_Feeling { get => 5; set => throw new InvalidOperationException(); }
         public int OT_TextVar { get => 40; set => throw new InvalidOperationException(); }
-
-        public EncounterTrade7(GameVersion game) : base(game) { }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

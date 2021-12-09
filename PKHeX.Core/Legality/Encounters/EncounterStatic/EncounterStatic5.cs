@@ -6,13 +6,11 @@ namespace PKHeX.Core
     /// Generation 5 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public record EncounterStatic5 : EncounterStatic
+    public record EncounterStatic5(GameVersion Version) : EncounterStatic(Version)
     {
         public sealed override int Generation => 5;
         public bool Roaming { get; init; }
         public bool IsWildCorrelationPID => !Roaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle;
-
-        public EncounterStatic5(GameVersion game) : base(game) { }
 
         protected sealed override bool IsMatchPartial(PKM pkm)
         {

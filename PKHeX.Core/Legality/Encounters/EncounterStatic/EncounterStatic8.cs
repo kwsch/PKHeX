@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Generation 8 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public record EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn, IOverworldCorrelation8
+    public record EncounterStatic8(GameVersion Version) : EncounterStatic(Version), IDynamaxLevel, IGigantamax, IRelearn, IOverworldCorrelation8
     {
         public sealed override int Generation => 8;
         public bool ScriptedNoMarks { get; init; }
@@ -17,8 +17,6 @@ namespace PKHeX.Core
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         public AreaWeather8 Weather {get; init; } = AreaWeather8.Normal;
-
-        public EncounterStatic8(GameVersion game) : base(game) { }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {

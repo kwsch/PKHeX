@@ -4,15 +4,11 @@
     /// Generation 4 Trade Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterTradeGB"/>
-    public abstract record EncounterTrade4 : EncounterTrade
+    public abstract record EncounterTrade4(GameVersion Version) : EncounterTrade(Version)
     {
         public sealed override int Generation => 4;
 
         protected static readonly string[] RanchOTNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };
-
-        protected EncounterTrade4(GameVersion game) : base(game)
-        {
-        }
     }
 
     /// <summary>

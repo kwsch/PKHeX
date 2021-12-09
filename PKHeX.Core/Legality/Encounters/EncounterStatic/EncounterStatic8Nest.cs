@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Raid)
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public abstract record EncounterStatic8Nest<T> : EncounterStatic, IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
+    public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterStatic(Version), IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
     {
         public sealed override int Generation => 8;
         public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
@@ -16,8 +16,6 @@ namespace PKHeX.Core
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
         public override int Location { get => SharedNest; init { } }
-
-        protected EncounterStatic8Nest(GameVersion game)  : base(game) { }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {

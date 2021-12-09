@@ -6,24 +6,14 @@ namespace PKHeX.Core
     /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStaticShadow : EncounterStatic
+    /// <param name="ID">Initial Shadow Gauge value.</param>
+    /// <param name="Gauge">Initial Shadow Gauge value.</param>
+    /// <param name="Locks">Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.</param>
+    // ReSharper disable NotAccessedPositionalProperty.Global
+    public sealed record EncounterStaticShadow(GameVersion Version, byte ID, short Gauge, TeamLock[] Locks) : EncounterStatic(Version)
     {
+        // ReSharper restore NotAccessedPositionalProperty.Global
         public override int Generation => 3;
-
-        /// <summary>
-        /// Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.
-        /// </summary>
-        public readonly TeamLock[] Locks;
-
-        /// <summary>
-        /// Initial Shadow Gauge value.
-        /// </summary>
-        public byte ID { get; }
-
-        /// <summary>
-        /// Initial Shadow Gauge value.
-        /// </summary>
-        public short Gauge { get; }
 
         /// <summary>
         /// Originates from the EReader scans (Japanese Only)
@@ -31,13 +21,6 @@ namespace PKHeX.Core
         public bool EReader => ReferenceEquals(IVs, EReaderEmpty);
 
         public static readonly IReadOnlyList<int> EReaderEmpty = new[] {0,0,0,0,0,0};
-
-        public EncounterStaticShadow(GameVersion game, byte id, short gauge, TeamLock[] locks) : base(game)
-        {
-            ID = id;
-            Gauge = gauge;
-            Locks = locks;
-        }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

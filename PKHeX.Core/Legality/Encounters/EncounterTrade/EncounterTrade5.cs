@@ -4,14 +4,10 @@
     /// Generation 5 Trade Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterTrade"/>
-    public sealed record EncounterTrade5 : EncounterTrade
+    public sealed record EncounterTrade5(GameVersion Version) : EncounterTrade(Version)
     {
         public override int Generation => 5;
         public override int Location => Locations.LinkTrade5NPC;
-
-        public EncounterTrade5(GameVersion game) : base(game)
-        {
-        }
     }
 
     public sealed record EncounterTrade5PID : EncounterTrade

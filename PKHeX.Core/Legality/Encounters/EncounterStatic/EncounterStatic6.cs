@@ -4,7 +4,7 @@
     /// Generation 6 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStatic6 : EncounterStatic, IContestStats
+    public sealed record EncounterStatic6(GameVersion Version) : EncounterStatic(Version), IContestStats
     {
         public override int Generation => 6;
 
@@ -14,8 +14,6 @@
         public byte CNT_Smart  { get; init; }
         public byte CNT_Tough  { get; init; }
         public byte CNT_Sheen  { get; init; }
-
-        public EncounterStatic6(GameVersion game) : base(game) { }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

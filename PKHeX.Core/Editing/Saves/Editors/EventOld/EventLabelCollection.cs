@@ -269,15 +269,7 @@ namespace PKHeX.Core
 
     public record NamedEventValue(string Name, int Index, NamedEventType Type);
 
-    public sealed record NamedEventWork : NamedEventValue
-    {
-        public readonly IReadOnlyList<NamedEventConst> PredefinedValues;
-
-        public NamedEventWork(string Name, int Index, NamedEventType Type, IReadOnlyList<NamedEventConst> values) : base(Name, Index, Type)
-        {
-            PredefinedValues = values;
-        }
-    }
+    public sealed record NamedEventWork(string Name, int Index, NamedEventType Type, IReadOnlyList<NamedEventConst> PredefinedValues) : NamedEventValue(Name, Index, Type);
 
     public sealed record NamedEventConst(string Name, ushort Value)
     {

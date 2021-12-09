@@ -4,22 +4,14 @@
     /// Generation 6 Trade Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterTrade"/>
-    public sealed record EncounterTrade6 : EncounterTrade, IMemoryOT
+    public sealed record EncounterTrade6(GameVersion Version, int OT_Memory, int OT_Intensity, int OT_Feeling, int OT_TextVar) : EncounterTrade(Version), IMemoryOT
     {
         public override int Generation => 6;
         public override int Location => Locations.LinkTrade6NPC;
-        public int OT_Memory { get; set; }
-        public int OT_Intensity { get; set; }
-        public int OT_Feeling { get; set; }
-        public int OT_TextVar { get; set; }
-
-        public EncounterTrade6(GameVersion game, int m, int i, int f, int v) : base(game)
-        {
-            OT_Memory = m;
-            OT_Intensity = i;
-            OT_Feeling = f;
-            OT_TextVar = v;
-        }
+        public int OT_Memory { get; set; } = OT_Memory;
+        public int OT_Intensity { get; set; } = OT_Intensity;
+        public int OT_Feeling { get; set; } = OT_Feeling;
+        public int OT_TextVar { get; set; } = OT_TextVar;
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

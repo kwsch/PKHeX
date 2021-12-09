@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Generation 4 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStatic4 : EncounterStatic, IGroundTypeTile
+    public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Version), IGroundTypeTile
     {
         public override int Generation => 4;
 
@@ -17,8 +17,6 @@ namespace PKHeX.Core
 
         /// <summary> <see cref="PK4.GroundTile"/> values permitted for the encounter. </summary>
         public GroundTilePermission GroundTile { get; init; } = None;
-
-        public EncounterStatic4(GameVersion game) : base(game) { }
 
         protected override bool IsMatchLocation(PKM pkm)
         {
