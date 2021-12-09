@@ -9,18 +9,28 @@ public static class ContestStatInfo
     private const int WorstFeelPoffin = 17;
     private const int MaxContestStat = 255;
 
-    public static void SetSuggestedContestStats(PKM pk, IEncounterTemplate enc)
+    public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc)
     {
         if (pk is not IContestStatsMutable s)
             return;
 
         var restrict = GetContestStatRestriction(pk, pk.Generation);
-        if (restrict == None)
-            s.SetAllContestStatsTo(0, 0); // zero
-        if (pk.Species is not (int)Species.Milotic)
-            GetReferenceTemplate(enc).CopyContestStatsTo(s); // reset
+        var baseStat = GetReferenceTemplate(enc);
+        if (restrict == None || pk.Species is not (int)Species.Milotic)
+            baseStat.CopyContestStatsTo(s); // reset
         else
-            s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? (byte)0 : (byte)255);
+            s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : (byte)255);
+    }
+
+    public static void SetMaxContestStats(this PKM pk, IEncounterTemplate enc)
+    {
+        if (pk is not IContestStatsMutable s)
+            return;
+        var restrict = GetContestStatRestriction(pk, pk.Generation);
+        var baseStat = GetReferenceTemplate(enc);
+        if (restrict == None)
+            return;
+        s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : (byte)255);
     }
 
     public static ContestStatGranting GetContestStatRestriction(PKM pk, int origin) => origin switch
