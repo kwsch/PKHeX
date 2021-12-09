@@ -97,6 +97,7 @@ namespace PKHeX.Core
             296 => false, // Maniac Tunnel
             299 or 300 or 301 or 302 or 303 or 304 or 305 => false, // Iron Island, 298 exterior
             306 or 307 or 308 or 309 or 310 or 311 or 312 or 313 or 314 => false, // Old Chateau
+            368 or 369 or 370 or 371 or 372 => false, // Route 209 (Lost Tower)
             _ => true,
         };
 
