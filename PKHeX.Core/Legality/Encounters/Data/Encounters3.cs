@@ -36,21 +36,21 @@ namespace PKHeX.Core
         private static readonly EncounterStatic3[] Encounter_RSE_Regular =
         {
             // Starters
-            new(152, 05,  E  ) { Gift = true, Location = 000 }, // Chikorita @ Littleroot Town
-            new(155, 05,  E  ) { Gift = true, Location = 000 }, // Cyndaquil
-            new(158, 05,  E  ) { Gift = true, Location = 000 }, // Totodile
-            new(252, 05,  RSE) { Gift = true, Location = 016 }, // Treecko @ Route 101
-            new(255, 05,  RSE) { Gift = true, Location = 016 }, // Torchic
-            new(258, 05,  RSE) { Gift = true, Location = 016 }, // Mudkip
+            new(152, 05, E  ) { Gift = true, Location = 000 }, // Chikorita @ Littleroot Town
+            new(155, 05, E  ) { Gift = true, Location = 000 }, // Cyndaquil
+            new(158, 05, E  ) { Gift = true, Location = 000 }, // Totodile
+            new(252, 05, RSE) { Gift = true, Location = 016 }, // Treecko @ Route 101
+            new(255, 05, RSE) { Gift = true, Location = 016 }, // Torchic
+            new(258, 05, RSE) { Gift = true, Location = 016 }, // Mudkip
 
             // Fossil @ Rustboro City
-            new(345, 20, RSE) { Gift = true, Location = 010, }, // Lileep
-            new(347, 20, RSE) { Gift = true, Location = 010, }, // Anorith
+            new(345, 20, RSE) { Gift = true, Location = 010 }, // Lileep
+            new(347, 20, RSE) { Gift = true, Location = 010 }, // Anorith
 
             // Gift
-            new(351, 25, RSE) { Gift = true, Location = 034,    }, // Castform @ Weather Institute
-            new(374, 05, RSE) { Gift = true, Location = 013,    }, // Beldum @ Mossdeep City
-            new(360, 05, RSE) { Gift = true, EggLocation = 253, }, // Wynaut Egg
+            new(351, 25, RSE) { Gift = true, Location = 034    }, // Castform @ Weather Institute
+            new(374, 05, RSE) { Gift = true, Location = 013    }, // Beldum @ Mossdeep City
+            new(360, 05, RSE) { Gift = true, EggLocation = 253 }, // Wynaut Egg
 
             // Stationary
             new(352, 30, RSE) { Location = 034 }, // Kecleon @ Route 119
@@ -60,18 +60,18 @@ namespace PKHeX.Core
             new(185, 40, E  ) { Location = 058 }, // Sudowoodo @ Battle Frontier
 
             // Stationary Lengendary
-            new(377, 40, RSE) { Location = 082, }, // Regirock @ Desert Ruins
-            new(378, 40, RSE) { Location = 081, }, // Regice @ Island Cave
-            new(379, 40, RSE) { Location = 083, }, // Registeel @ Ancient Tomb
-            new(380, 50, R  ) { Location = 073, }, // Latias @ Southern Island
+            new(377, 40, RSE) { Location = 082 }, // Regirock @ Desert Ruins
+            new(378, 40, RSE) { Location = 081 }, // Regice @ Island Cave
+            new(379, 40, RSE) { Location = 083 }, // Registeel @ Ancient Tomb
+            new(380, 50, R  ) { Location = 073 }, // Latias @ Southern Island
             new(380, 50,   E) { Location = 073, Fateful = true }, // Latias @ Southern Island
-            new(381, 50,  S ) { Location = 073, }, // Latios @ Southern Island
+            new(381, 50,  S ) { Location = 073 }, // Latios @ Southern Island
             new(381, 50,   E) { Location = 073, Fateful = true }, // Latios @ Southern Island
-            new(382, 45,  S ) { Location = 072, }, // Kyogre @ Cave of Origin
-            new(382, 70,   E) { Location = 203, }, // Kyogre @ Marine Cave
-            new(383, 45, R  ) { Location = 072, }, // Groudon @ Cave of Origin
-            new(383, 70,   E) { Location = 205, }, // Groudon @ Terra Cave
-            new(384, 70, RSE) { Location = 085, }, // Rayquaza @ Sky Pillar
+            new(382, 45,  S ) { Location = 072 }, // Kyogre @ Cave of Origin
+            new(382, 70,   E) { Location = 203 }, // Kyogre @ Marine Cave
+            new(383, 45, R  ) { Location = 072 }, // Groudon @ Cave of Origin
+            new(383, 70,   E) { Location = 205 }, // Groudon @ Terra Cave
+            new(384, 70, RSE) { Location = 085 }, // Rayquaza @ Sky Pillar
 
             // Event
             new(151, 30, E) { Location = 201, Fateful = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
@@ -90,21 +90,21 @@ namespace PKHeX.Core
         private static readonly EncounterStatic3[] Encounter_FRLG_Stationary =
         {
             // Starters @ Pallet Town
-            new(001, 05, FRLG) { Gift = true, Location = 088, }, // Bulbasaur
-            new(004, 05, FRLG) { Gift = true, Location = 088, }, // Charmander
-            new(007, 05, FRLG) { Gift = true, Location = 088, }, // Squirtle
+            new(001, 05, FRLG) { Gift = true, Location = 088 }, // Bulbasaur
+            new(004, 05, FRLG) { Gift = true, Location = 088 }, // Charmander
+            new(007, 05, FRLG) { Gift = true, Location = 088 }, // Squirtle
 
             // Fossil @ Cinnabar Island
-            new(138, 05, FRLG) { Gift = true, Location = 096, }, // Omanyte
-            new(140, 05, FRLG) { Gift = true, Location = 096, }, // Kabuto
-            new(142, 05, FRLG) { Gift = true, Location = 096, }, // Aerodactyl
+            new(138, 05, FRLG) { Gift = true, Location = 096 }, // Omanyte
+            new(140, 05, FRLG) { Gift = true, Location = 096 }, // Kabuto
+            new(142, 05, FRLG) { Gift = true, Location = 096 }, // Aerodactyl
 
             // Gift
-            new(106, 25, FRLG) { Gift = true, Location = 098, }, // Hitmonlee @ Saffron City
-            new(107, 25, FRLG) { Gift = true, Location = 098, }, // Hitmonchan @ Saffron City
-            new(129, 05, FRLG) { Gift = true, Location = 099, }, // Magikarp @ Route 4
-            new(131, 25, FRLG) { Gift = true, Location = 134, }, // Lapras @ Silph Co.
-            new(133, 25, FRLG) { Gift = true, Location = 094, }, // Eevee @ Celadon City
+            new(106, 25, FRLG) { Gift = true, Location = 098 }, // Hitmonlee @ Saffron City
+            new(107, 25, FRLG) { Gift = true, Location = 098 }, // Hitmonchan @ Saffron City
+            new(129, 05, FRLG) { Gift = true, Location = 099 }, // Magikarp @ Route 4
+            new(131, 25, FRLG) { Gift = true, Location = 134 }, // Lapras @ Silph Co.
+            new(133, 25, FRLG) { Gift = true, Location = 094 }, // Eevee @ Celadon City
             new(175, 05, FRLG) { Gift = true, EggLocation = 253 }, // Togepi Egg
 
             // Celadon City Game Corner
@@ -121,22 +121,22 @@ namespace PKHeX.Core
             new(137, 18, LG) { Gift = true, Location = 94 }, // Porygon
 
             // Stationary
-            new(143, 30, FRLG) { Location = 112, }, // Snorlax @ Route 12
-            new(143, 30, FRLG) { Location = 116, }, // Snorlax @ Route 16
-            new(101, 34, FRLG) { Location = 142, }, // Electrode @ Power Plant
-            new(097, 30, FRLG) { Location = 176, }, // Hypno @ Berry Forest
+            new(143, 30, FRLG) { Location = 112 }, // Snorlax @ Route 12
+            new(143, 30, FRLG) { Location = 116 }, // Snorlax @ Route 16
+            new(101, 34, FRLG) { Location = 142 }, // Electrode @ Power Plant
+            new(097, 30, FRLG) { Location = 176 }, // Hypno @ Berry Forest
 
             // Stationary Legendary
-            new(144, 50, FRLG) { Location = 139, }, // Articuno @ Seafoam Islands
-            new(145, 50, FRLG) { Location = 142, }, // Zapdos @ Power Plant
-            new(146, 50, FRLG) { Location = 175, }, // Moltres @ Mt. Ember.
-            new(150, 70, FRLG) { Location = 141, }, // Mewtwo @ Cerulean Cave
+            new(144, 50, FRLG) { Location = 139 }, // Articuno @ Seafoam Islands
+            new(145, 50, FRLG) { Location = 142 }, // Zapdos @ Power Plant
+            new(146, 50, FRLG) { Location = 175 }, // Moltres @ Mt. Ember.
+            new(150, 70, FRLG) { Location = 141 }, // Mewtwo @ Cerulean Cave
 
             // Event
             new(249, 70, FRLG) { Location = 174, Fateful = true }, // Lugia @ Navel Rock
             new(250, 70, FRLG) { Location = 174, Fateful = true }, // Ho-Oh @ Navel Rock
-            new(386, 30, FR  ) { Location = 187, Fateful = true, Form = 1, }, // Deoxys @ Birth Island
-            new(386, 30,   LG) { Location = 187, Fateful = true, Form = 2, }, // Deoxys @ Birth Island
+            new(386, 30, FR  ) { Location = 187, Fateful = true, Form = 1 }, // Deoxys @ Birth Island
+            new(386, 30,   LG) { Location = 187, Fateful = true, Form = 2 }, // Deoxys @ Birth Island
         };
 
         private static readonly EncounterStatic3[] Encounter_RSE = ArrayUtil.ConcatAll(Encounter_RSE_Roam, Encounter_RSE_Regular);

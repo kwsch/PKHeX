@@ -362,26 +362,26 @@ namespace PKHeX.Core
             // Gen2 Events
             // Egg Cycles Subject to Change. OTs for Eggs are unknown.
             // Pokémon Center Mystery Egg #1 (December 15, 2001 to January 14, 2002)
-            new(152, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Chikorita Petal Dance
-            new(172, 05, GSC) {Moves = new[] {047}, EggLocation = 256, EggCycles = 10,}, // Pichu Sing
-            new(173, 05, GSC) {Moves = new[] {129}, EggLocation = 256, EggCycles = 10,}, // Cleffa Swift
-            new(194, 05, GSC) {Moves = new[] {187}, EggLocation = 256, EggCycles = 10,}, // Wooper Belly Drum
-            new(231, 05, GSC) {Moves = new[] {227}, EggLocation = 256, EggCycles = 10,}, // Phanpy Encore
-            new(238, 05, GSC) {Moves = new[] {118}, EggLocation = 256, EggCycles = 10,}, // Smoochum Metronome
+            new(152, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Chikorita Petal Dance
+            new(172, 05, GSC) {Moves = new[] {047}, EggLocation = 256, EggCycles = 10}, // Pichu Sing
+            new(173, 05, GSC) {Moves = new[] {129}, EggLocation = 256, EggCycles = 10}, // Cleffa Swift
+            new(194, 05, GSC) {Moves = new[] {187}, EggLocation = 256, EggCycles = 10}, // Wooper Belly Drum
+            new(231, 05, GSC) {Moves = new[] {227}, EggLocation = 256, EggCycles = 10}, // Phanpy Encore
+            new(238, 05, GSC) {Moves = new[] {118}, EggLocation = 256, EggCycles = 10}, // Smoochum Metronome
 
             // Pokémon Center Mystery Egg #2 (March 16 to April 7, 2002)
-            new(054, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Psyduck Petal Dance
-            new(152, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Chikorita Petal Dance
-            new(172, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Pichu Petal Dance
-            new(173, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Cleffa Petal Dance
-            new(174, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Igglybuff Petal Dance
-            new(238, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10,}, // Smoochum Petal Dance
+            new(054, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Psyduck Petal Dance
+            new(152, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Chikorita Petal Dance
+            new(172, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Pichu Petal Dance
+            new(173, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Cleffa Petal Dance
+            new(174, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Igglybuff Petal Dance
+            new(238, 05, GSC) {Moves = new[] {080}, EggLocation = 256, EggCycles = 10}, // Smoochum Petal Dance
 
             // Pokémon Center Mystery Egg #3 (April 27 to May 12, 2002)
-            new(001, 05, GSC) {Moves = new[] {246}, EggLocation = 256, EggCycles = 10,}, // Bulbasaur Ancientpower
-            new(004, 05, GSC) {Moves = new[] {242}, EggLocation = 256, EggCycles = 10,}, // Charmander Crunch
-            new(158, 05, GSC) {Moves = new[] {066}, EggLocation = 256, EggCycles = 10,}, // Totodile Submission
-            new(163, 05, GSC) {Moves = new[] {101}, EggLocation = 256, EggCycles = 10,}, // Hoot-Hoot Night Shade
+            new(001, 05, GSC) {Moves = new[] {246}, EggLocation = 256, EggCycles = 10}, // Bulbasaur Ancientpower
+            new(004, 05, GSC) {Moves = new[] {242}, EggLocation = 256, EggCycles = 10}, // Charmander Crunch
+            new(158, 05, GSC) {Moves = new[] {066}, EggLocation = 256, EggCycles = 10}, // Totodile Submission
+            new(163, 05, GSC) {Moves = new[] {101}, EggLocation = 256, EggCycles = 10}, // Hoot-Hoot Night Shade
         };
     }
 }

@@ -30,34 +30,34 @@ namespace PKHeX.Core
         private static readonly EncounterStatic6[] Encounter_XY =
         {
             // Kalos Starters @ Aquacorde Town
-            new(XY) { Gift = true, Species = 650, Level = 5, Location = 10, }, // Chespin
-            new(XY) { Gift = true, Species = 653, Level = 5, Location = 10, }, // Fennekin
-            new(XY) { Gift = true, Species = 656, Level = 5, Location = 10, }, // Froakie
+            new(XY) { Gift = true, Species = 650, Level = 5, Location = 10 }, // Chespin
+            new(XY) { Gift = true, Species = 653, Level = 5, Location = 10 }, // Fennekin
+            new(XY) { Gift = true, Species = 656, Level = 5, Location = 10 }, // Froakie
 
             // Kanto Starters @ Lumiose City
-            new(XY) { Gift = true, Species = 1, Level = 10, Location = 22, }, // Bulbasaur
-            new(XY) { Gift = true, Species = 4, Level = 10, Location = 22, }, // Charmander
-            new(XY) { Gift = true, Species = 7, Level = 10, Location = 22, }, // Squirtle
+            new(XY) { Gift = true, Species = 1, Level = 10, Location = 22 }, // Bulbasaur
+            new(XY) { Gift = true, Species = 4, Level = 10, Location = 22 }, // Charmander
+            new(XY) { Gift = true, Species = 7, Level = 10, Location = 22 }, // Squirtle
 
             // Fossils @ Ambrette Town
-            new(XY) { Gift = true, Species = 138, Level = 20, Location = 44, }, // Omanyte
-            new(XY) { Gift = true, Species = 140, Level = 20, Location = 44, }, // Kabuto
-            new(XY) { Gift = true, Species = 142, Level = 20, Location = 44, }, // Aerodactyl
-            new(XY) { Gift = true, Species = 345, Level = 20, Location = 44, }, // Lileep
-            new(XY) { Gift = true, Species = 347, Level = 20, Location = 44, }, // Anorith
-            new(XY) { Gift = true, Species = 408, Level = 20, Location = 44, }, // Cranidos
-            new(XY) { Gift = true, Species = 410, Level = 20, Location = 44, }, // Shieldon
-            new(XY) { Gift = true, Species = 564, Level = 20, Location = 44, }, // Tirtouga
-            new(XY) { Gift = true, Species = 566, Level = 20, Location = 44, }, // Archen
-            new(XY) { Gift = true, Species = 696, Level = 20, Location = 44, }, // Tyrunt
-            new(XY) { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
+            new(XY) { Gift = true, Species = 138, Level = 20, Location = 44 }, // Omanyte
+            new(XY) { Gift = true, Species = 140, Level = 20, Location = 44 }, // Kabuto
+            new(XY) { Gift = true, Species = 142, Level = 20, Location = 44 }, // Aerodactyl
+            new(XY) { Gift = true, Species = 345, Level = 20, Location = 44 }, // Lileep
+            new(XY) { Gift = true, Species = 347, Level = 20, Location = 44 }, // Anorith
+            new(XY) { Gift = true, Species = 408, Level = 20, Location = 44 }, // Cranidos
+            new(XY) { Gift = true, Species = 410, Level = 20, Location = 44 }, // Shieldon
+            new(XY) { Gift = true, Species = 564, Level = 20, Location = 44 }, // Tirtouga
+            new(XY) { Gift = true, Species = 566, Level = 20, Location = 44 }, // Archen
+            new(XY) { Gift = true, Species = 696, Level = 20, Location = 44 }, // Tyrunt
+            new(XY) { Gift = true, Species = 698, Level = 20, Location = 44 }, // Amaura
 
             // Gift
             new(XY) { Gift = true, Species = 448, Level = 32, Location = 60, Ability = 1, IVs = new[] {06,25,16,31,25,19}, Nature = Nature.Hasty, Gender = 0, Shiny = Shiny.Never }, // Lucario
-            new(XY) { Gift = true, Species = 131, Level = 30, Location = 62, Ability = 1, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Docile, }, // Lapras
+            new(XY) { Gift = true, Species = 131, Level = 30, Location = 62, Ability = 1, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Docile }, // Lapras
 
             // Stationary
-            new(XY) { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never, }, // Snorlax
+            new(XY) { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never }, // Snorlax
 
             // Shaking Trash Cans @ Lost Hotel
             new(XY) { Species = 568, Level = 35, Location = 142 }, // Trubbish
@@ -109,34 +109,34 @@ namespace PKHeX.Core
         private static readonly EncounterStatic6[] Encounter_AO_Regular =
         {
             // Starters @ Route 101
-            new(ORAS) { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
-            new(ORAS) { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
-            new(ORAS) { Gift = true, Species = 258, Level = 5, Location = 204, }, // Mudkip
+            new(ORAS) { Gift = true, Species = 252, Level = 5, Location = 204 }, // Treeko
+            new(ORAS) { Gift = true, Species = 255, Level = 5, Location = 204 }, // Torchic
+            new(ORAS) { Gift = true, Species = 258, Level = 5, Location = 204 }, // Mudkip
 
-            new(ORAS) { Gift = true, Species = 152, Level = 5, Location = 204, }, // Chikorita
-            new(ORAS) { Gift = true, Species = 155, Level = 5, Location = 204, }, // Cyndaquil
-            new(ORAS) { Gift = true, Species = 158, Level = 5, Location = 204, }, // Totodile
+            new(ORAS) { Gift = true, Species = 152, Level = 5, Location = 204 }, // Chikorita
+            new(ORAS) { Gift = true, Species = 155, Level = 5, Location = 204 }, // Cyndaquil
+            new(ORAS) { Gift = true, Species = 158, Level = 5, Location = 204 }, // Totodile
 
-            new(ORAS) { Gift = true, Species = 387, Level = 5, Location = 204, }, // Turtwig
-            new(ORAS) { Gift = true, Species = 390, Level = 5, Location = 204, }, // Chimchar
-            new(ORAS) { Gift = true, Species = 393, Level = 5, Location = 204, }, // Piplup
+            new(ORAS) { Gift = true, Species = 387, Level = 5, Location = 204 }, // Turtwig
+            new(ORAS) { Gift = true, Species = 390, Level = 5, Location = 204 }, // Chimchar
+            new(ORAS) { Gift = true, Species = 393, Level = 5, Location = 204 }, // Piplup
 
-            new(ORAS) { Gift = true, Species = 495, Level = 5, Location = 204, }, // Snivy
-            new(ORAS) { Gift = true, Species = 498, Level = 5, Location = 204, }, // Tepig
-            new(ORAS) { Gift = true, Species = 501, Level = 5, Location = 204, }, // Oshawott
+            new(ORAS) { Gift = true, Species = 495, Level = 5, Location = 204 }, // Snivy
+            new(ORAS) { Gift = true, Species = 498, Level = 5, Location = 204 }, // Tepig
+            new(ORAS) { Gift = true, Species = 501, Level = 5, Location = 204 }, // Oshawott
 
             // Fossils @ Rustboro City
-            new(ORAS) { Gift = true, Species = 138, Level = 20, Location = 190, }, // Omanyte
-            new(ORAS) { Gift = true, Species = 140, Level = 20, Location = 190, }, // Kabuto
-            new(ORAS) { Gift = true, Species = 142, Level = 20, Location = 190, }, // Aerodactyl
-            new(ORAS) { Gift = true, Species = 345, Level = 20, Location = 190, }, // Lileep
-            new(ORAS) { Gift = true, Species = 347, Level = 20, Location = 190, }, // Anorith
-            new(ORAS) { Gift = true, Species = 408, Level = 20, Location = 190, }, // Cranidos
-            new(ORAS) { Gift = true, Species = 410, Level = 20, Location = 190, }, // Shieldon
-            new(ORAS) { Gift = true, Species = 564, Level = 20, Location = 190, }, // Tirtouga
-            new(ORAS) { Gift = true, Species = 566, Level = 20, Location = 190, }, // Archen
-            new(ORAS) { Gift = true, Species = 696, Level = 20, Location = 190, }, // Tyrunt
-            new(ORAS) { Gift = true, Species = 698, Level = 20, Location = 190, }, // Amaura
+            new(ORAS) { Gift = true, Species = 138, Level = 20, Location = 190 }, // Omanyte
+            new(ORAS) { Gift = true, Species = 140, Level = 20, Location = 190 }, // Kabuto
+            new(ORAS) { Gift = true, Species = 142, Level = 20, Location = 190 }, // Aerodactyl
+            new(ORAS) { Gift = true, Species = 345, Level = 20, Location = 190 }, // Lileep
+            new(ORAS) { Gift = true, Species = 347, Level = 20, Location = 190 }, // Anorith
+            new(ORAS) { Gift = true, Species = 408, Level = 20, Location = 190 }, // Cranidos
+            new(ORAS) { Gift = true, Species = 410, Level = 20, Location = 190 }, // Shieldon
+            new(ORAS) { Gift = true, Species = 564, Level = 20, Location = 190 }, // Tirtouga
+            new(ORAS) { Gift = true, Species = 566, Level = 20, Location = 190 }, // Archen
+            new(ORAS) { Gift = true, Species = 696, Level = 20, Location = 190 }, // Tyrunt
+            new(ORAS) { Gift = true, Species = 698, Level = 20, Location = 190 }, // Amaura
 
             // Hot Springs Eggs
             new(ORAS) { Gift = true, Species = 360, Level = 1, EggLocation = 60004, Ability = 1, EggCycles = 70 }, // Wynaut
@@ -187,8 +187,8 @@ namespace PKHeX.Core
             // Devon Scope Kecleon
             //new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
             //new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
-            new(ORAS) { Species = 352, Level = 40, Location = 176, Gender = 1, }, // Kecleon @ Lavaridge
-            new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = 4, }, // Kecleon @ Mossdeep City
+            new(ORAS) { Species = 352, Level = 40, Location = 176, Gender = 1 }, // Kecleon @ Lavaridge
+            new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = 4 }, // Kecleon @ Mossdeep City
 
             // Eon Ticket Lati@s
             new(  AS) { Species = 381, Level = 30, Location = 320, FlawlessIVCount = 3 }, // Latios
@@ -223,24 +223,24 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade6[] TradeGift_XY =
         {
-            new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = 1, TID = 44285, IVs = new[] {-1,31,-1,-1,31,-1}, Gender = 0, Nature = Nature.Adamant, }, // Magikarp
-            new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = 1, TID = 29294, Gender = 1, Nature = Nature.Docile, }, // Eevee
+            new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = 1, TID = 44285, IVs = new[] {-1,31,-1,-1,31,-1}, Gender = 0, Nature = Nature.Adamant }, // Magikarp
+            new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = 1, TID = 29294, Gender = 1, Nature = Nature.Docile }, // Eevee
 
-            new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = 1, TID = 00185, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 0, Nature = Nature.Jolly, }, // Farfetch'd
-            new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = 1, TID = 19250, IVs = new[] {-1,-1,31,-1,-1,-1}, Gender = 1, Nature = Nature.Impish, }, // Steelix
-            new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = 1, TID = 03447, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Adamant, }, // Bisharp
+            new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = 1, TID = 00185, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 0, Nature = Nature.Jolly }, // Farfetch'd
+            new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = 1, TID = 19250, IVs = new[] {-1,-1,31,-1,-1,-1}, Gender = 1, Nature = Nature.Impish }, // Steelix
+            new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = 1, TID = 03447, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Adamant }, // Bisharp
 
-            new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,31,20,20}, Gender = 0, Nature = Nature.Jolly, }, // Froakie
-            new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,31,20,20,20,20}, Gender = 0, Nature = Nature.Adamant, }, // Chespin
-            new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,20,31,20}, Gender = 0, Nature = Nature.Modest, }, // Fennekin
-            new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = 1, TID = 37110, IVs = new[] {20,20,20,31,31,20}, Gender = 1, Nature = Nature.Modest, IsNicknamed = false, }, // Ralts
+            new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,31,20,20}, Gender = 0, Nature = Nature.Jolly }, // Froakie
+            new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,31,20,20,20,20}, Gender = 0, Nature = Nature.Adamant }, // Chespin
+            new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,20,31,20}, Gender = 0, Nature = Nature.Modest }, // Fennekin
+            new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = 1, TID = 37110, IVs = new[] {20,20,20,31,31,20}, Gender = 1, Nature = Nature.Modest, IsNicknamed = false }, // Ralts
         };
 
         internal static readonly EncounterTrade6[] TradeGift_AO =
         {
-            new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = 2, TID = 30724, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Brave, }, // Makuhita
-            new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = 1, TID = 03239, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 1, Nature = Nature.Naughty, }, // Skitty
-            new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = 4, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm, }, // Corsola
+            new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = 2, TID = 30724, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Brave }, // Makuhita
+            new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = 1, TID = 03239, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 1, Nature = Nature.Naughty }, // Skitty
+            new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = 4, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm }, // Corsola
         };
         #endregion
 

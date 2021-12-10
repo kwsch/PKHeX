@@ -12,14 +12,14 @@ namespace PKHeX.Core
         private static readonly EncounterStatic7b[] Encounter_GG =
         {
             // encounters
-            new(GG) { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3, }, // Articuno @ Seafoam Islands
-            new(GG) { Species = 145, Level = 50, Location = 42, FlawlessIVCount = 3, }, // Zapdos @ Power Plant
-            new(GG) { Species = 146, Level = 50, Location = 45, FlawlessIVCount = 3, }, // Moltres @ Victory Road
-            new(GG) { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3, }, // Mewtwo @ Cerulean Cave
-            new(GG) { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3, }, // Snorlax @ Route 12
-            new(GG) { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3, }, // Snorlax @ Route 16
-            // unused new EncounterStatic7b { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Voltorb @ Power Plant
-            // collision new EncounterStatic7b { Species = 101, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Electrode @ Power Plant
+            new(GG) { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3 }, // Articuno @ Seafoam Islands
+            new(GG) { Species = 145, Level = 50, Location = 42, FlawlessIVCount = 3 }, // Zapdos @ Power Plant
+            new(GG) { Species = 146, Level = 50, Location = 45, FlawlessIVCount = 3 }, // Moltres @ Victory Road
+            new(GG) { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3 }, // Mewtwo @ Cerulean Cave
+            new(GG) { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3 }, // Snorlax @ Route 12
+            new(GG) { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3 }, // Snorlax @ Route 16
+            // unused new EncounterStatic7b { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3 }, // Voltorb @ Power Plant
+            // collision new EncounterStatic7b { Species = 101, Level = 42, Location = 42, FlawlessIVCount = 3 }, // Electrode @ Power Plant
 
             // gifts
             new(GP) { Species = 025, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 8 }, // Pikachu @ Pallet Town
@@ -42,14 +42,14 @@ namespace PKHeX.Core
             new(GE) { Species = 059, Level = 16, Location = 33, Gift = true, IVs = new[] {25,30,25,31,30,25} }, // Arcanine @ Vermillion City (Outside Fan Club)
         };
 
-        private static readonly string[] T1 = { string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
-        private static readonly string[] T2 = { string.Empty, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", string.Empty, "Gelasio", "보아이스", "露冰冰", "露冰冰", };
-        private static readonly string[] T3 = { string.Empty, "レディダグ", "Diggette", "Taupilady", "Lady Glett", "Digga", string.Empty, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
-        private static readonly string[] T4 = { string.Empty, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", string.Empty, "Sinesio", "나뻐기", "达怀丹", "达怀丹", };
-        private static readonly string[] T5 = { string.Empty, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", string.Empty, "Menchu", "엘리츄", "晶莹丘", "晶莹丘", };
-        private static readonly string[] T6 = { string.Empty, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", string.Empty, "Mario", "젠구리", "申史加拉", "申史加拉", };
-        private static readonly string[] T7 = { string.Empty, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", string.Empty, "Gunter", "마니시", "艾浩舒", "艾浩舒", };
-        private static readonly string[] T8 = { string.Empty, "コツブ", "Higeo", "Montagnou", "George", "Karstein", string.Empty, "Georgie", "산돌", "科布", "科布", };
+        private static readonly string[] T1 = { string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮" };
+        private static readonly string[] T2 = { string.Empty, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", string.Empty, "Gelasio", "보아이스", "露冰冰", "露冰冰" };
+        private static readonly string[] T3 = { string.Empty, "レディダグ", "Diggette", "Taupilady", "Lady Glett", "Digga", string.Empty, "Glenda", "레이디그다", "蒂淑", "蒂淑" };
+        private static readonly string[] T4 = { string.Empty, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", string.Empty, "Sinesio", "나뻐기", "达怀丹", "达怀丹" };
+        private static readonly string[] T5 = { string.Empty, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", string.Empty, "Menchu", "엘리츄", "晶莹丘", "晶莹丘" };
+        private static readonly string[] T6 = { string.Empty, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", string.Empty, "Mario", "젠구리", "申史加拉", "申史加拉" };
+        private static readonly string[] T7 = { string.Empty, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", string.Empty, "Gunter", "마니시", "艾浩舒", "艾浩舒" };
+        private static readonly string[] T8 = { string.Empty, "コツブ", "Higeo", "Montagnou", "George", "Karstein", string.Empty, "Georgie", "산돌", "科布", "科布" };
 
         internal static readonly EncounterTrade7b[] TradeGift_GG =
         {

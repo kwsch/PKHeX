@@ -41,10 +41,10 @@ namespace PKHeX.Core
             new(021, 0, 05), // Spearow
             new(043, 1, 05), // Oddish
             new(095, 0, 09), // Onix
-            new(240, 0, 09) { Moves = new[]{241},}, // Magby: Sunny Day
+            new(240, 0, 09) { Moves = new[]{241} }, // Magby: Sunny Day
             new(066, 1, 07), // Machop
             new(077, 1, 07), // Ponyta
-            new(074, 1, 08) { Moves = new[]{189},}, // Geodude: Mud-Slap
+            new(074, 1, 08) { Moves = new[]{189} }, // Geodude: Mud-Slap
             new(163, 1, 06), // Hoothoot
             new(054, 1, 10), // Psyduck
             new(120, 2, 10), // Staryu
@@ -53,13 +53,13 @@ namespace PKHeX.Core
             new(191, 1, 06), // Sunkern
             new(194, 0, 06), // Wooper
             new(081, 2, 11), // Magnemite
-            new(239, 0, 11) { Moves = new[]{009},}, // Elekid: Thunder Punch
+            new(239, 0, 11) { Moves = new[]{009} }, // Elekid: Thunder Punch
             new(081, 2, 08), // Magnemite
             new(198, 1, 11), // Murkrow
             new(019, 1, 07), // Rattata
             new(163, 1, 07), // Hoothoot
-            new(092, 1, 15) { Moves = new[]{194},}, // Gastly: Destiny Bond
-            new(238, 1, 12) { Moves = new[]{419},}, // Smoochum: Avalanche
+            new(092, 1, 15) { Moves = new[]{194} }, // Gastly: Destiny Bond
+            new(238, 1, 12) { Moves = new[]{419} }, // Smoochum: Avalanche
             new(092, 1, 10), // Gastly
             new(095, 0, 10), // Onix
             new(041, 0, 08), // Zubat
@@ -126,20 +126,20 @@ namespace PKHeX.Core
             new(400, 1, 30), // Bibarel
             new(102, 1, 17), // Exeggcute
             new(179, 0, 19), // Mareep
-            new(200, 1, 32) { Moves = new[]{194},}, // Misdreavus: Destiny Bond
-            new(433, 0, 22) { Moves = new[]{105},}, // Chingling: Recover
+            new(200, 1, 32) { Moves = new[]{194} }, // Misdreavus: Destiny Bond
+            new(433, 0, 22) { Moves = new[]{105} }, // Chingling: Recover
             new(093, 0, 25), // Haunter
-            new(418, 0, 28) { Moves = new[]{226},}, // Buizel: Baton Pass
+            new(418, 0, 28) { Moves = new[]{226} }, // Buizel: Baton Pass
             new(170, 1, 17), // Chinchou
             new(223, 1, 19), // Remoraid
-            new(422, 1, 30) { Moves = new[]{243},}, // Shellos: Mirror Coat
+            new(422, 1, 30) { Moves = new[]{243} }, // Shellos: Mirror Coat
             new(456, 1, 26), // Finneon
             new(086, 1, 27), // Seel
             new(129, 1, 30), // Magikarp
-            new(054, 1, 22) { Moves = new[]{281},}, // Psyduck: Yawn
+            new(054, 1, 22) { Moves = new[]{281} }, // Psyduck: Yawn
             new(090, 0, 20), // Shellder
             new(025, 1, 30), // Pikachu
-            new(417, 1, 33) { Moves = new[]{175},}, // Pachirisu: Flail
+            new(417, 1, 33) { Moves = new[]{175} }, // Pachirisu: Flail
             new(035, 1, 31), // Clefairy
             new(039, 1, 30), // Jigglypuff
             new(183, 1, 25), // Marill
@@ -223,26 +223,26 @@ namespace PKHeX.Core
             new(Pt) { Gift = true, Species = 410, Level = 20, Location = 094, GroundTile = Max_Pt }, // Shieldon
 
             // Gift
-            new(DP) { Gift = true, Species = 133, Level = 05, Location = 010, GroundTile = Max_DP, }, // Eevee @ Hearthome City
-            new(Pt) { Gift = true, Species = 133, Level = 20, Location = 010, GroundTile = Max_Pt, }, // Eevee @ Hearthome City
-            new(Pt) { Gift = true, Species = 137, Level = 25, Location = 012, GroundTile = Max_Pt, }, // Porygon @ Veilstone City
+            new(DP) { Gift = true, Species = 133, Level = 05, Location = 010, GroundTile = Max_DP }, // Eevee @ Hearthome City
+            new(Pt) { Gift = true, Species = 133, Level = 20, Location = 010, GroundTile = Max_Pt }, // Eevee @ Hearthome City
+            new(Pt) { Gift = true, Species = 137, Level = 25, Location = 012, GroundTile = Max_Pt }, // Porygon @ Veilstone City
             new(Pt) { Gift = true, Species = 175, Level = 01, EggLocation = 2011 }, // Togepi Egg from Cynthia
             new(DP) { Gift = true, Species = 440, Level = 01, EggLocation = 2009 }, // Happiny Egg from Traveling Man
-            new(DPPt) { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, // Riolu Egg from Riley
+            new(DPPt) { Gift = true, Species = 447, Level = 01, EggLocation = 2010 }, // Riolu Egg from Riley
 
             // Stationary
-            new(DP) { Species = 425, Level = 22, Location = 47, }, // Drifloon @ Valley Windworks
-            new(Pt) { Species = 425, Level = 15, Location = 47, }, // Drifloon @ Valley Windworks
-            new(DP) { Species = 479, Level = 15, Location = 70, GroundTile = Building, }, // Rotom @ Old Chateau
-            new(Pt) { Species = 479, Level = 20, Location = 70, GroundTile = Building, }, // Rotom @ Old Chateau
+            new(DP) { Species = 425, Level = 22, Location = 47 }, // Drifloon @ Valley Windworks
+            new(Pt) { Species = 425, Level = 15, Location = 47 }, // Drifloon @ Valley Windworks
+            new(DP) { Species = 479, Level = 15, Location = 70, GroundTile = Building }, // Rotom @ Old Chateau
+            new(Pt) { Species = 479, Level = 20, Location = 70, GroundTile = Building }, // Rotom @ Old Chateau
             new(DPPt) { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
 
             // Stationary Legendary
-            new(Pt) { Species = 377, Level = 30, Location = 125, GroundTile = Cave, }, // Regirock @ Rock Peak Ruins
-            new(Pt) { Species = 378, Level = 30, Location = 124, GroundTile = Cave, }, // Regice @ Iceberg Ruins
-            new(Pt) { Species = 379, Level = 30, Location = 123, GroundTile = Cave, }, // Registeel @ Iron Ruins
-            new(DPPt) { Species = 480, Level = 50, Location = 089, GroundTile = Cave, }, // Uxie @ Acuity Cavern
-            new(DPPt) { Species = 482, Level = 50, Location = 088, GroundTile = Cave, }, // Azelf @ Valor Cavern
+            new(Pt) { Species = 377, Level = 30, Location = 125, GroundTile = Cave }, // Regirock @ Rock Peak Ruins
+            new(Pt) { Species = 378, Level = 30, Location = 124, GroundTile = Cave }, // Regice @ Iceberg Ruins
+            new(Pt) { Species = 379, Level = 30, Location = 123, GroundTile = Cave }, // Registeel @ Iron Ruins
+            new(DPPt) { Species = 480, Level = 50, Location = 089, GroundTile = Cave }, // Uxie @ Acuity Cavern
+            new(DPPt) { Species = 482, Level = 50, Location = 088, GroundTile = Cave }, // Azelf @ Valor Cavern
             new(D ) { Species = 483, Level = 47, Location = 051, GroundTile = Rock }, // Dialga @ Spear Pillar
             new( P) { Species = 484, Level = 47, Location = 051, GroundTile = Rock }, // Palkia @ Spear Pillar
             new(Pt) { Species = 483, Level = 70, Location = 051, GroundTile = Rock }, // Dialga @ Spear Pillar
@@ -251,9 +251,9 @@ namespace PKHeX.Core
             new(Pt) { Species = 485, Level = 50, Location = 084, GroundTile = Cave }, // Heatran @ Stark Mountain
             new(DP) { Species = 486, Level = 70, Location = 064, GroundTile = Cave }, // Regigigas @ Snowpoint Temple
             new(Pt) { Species = 486, Level = 01, Location = 064, GroundTile = Cave }, // Regigigas @ Snowpoint Temple
-            new(DP) { Species = 487, Level = 70, Location = 062, GroundTile = Cave, Form = 0, }, // Giratina @ Turnback Cave
-            new(Pt) { Species = 487, Level = 47, Location = 062, GroundTile = Cave, Form = 0, }, // Giratina @ Turnback Cave
-            new(Pt) { Species = 487, Level = 47, Location = 117, GroundTile = Distortion,Form = 1, HeldItem = 112 }, // Giratina @ Distortion World
+            new(DP) { Species = 487, Level = 70, Location = 062, GroundTile = Cave, Form = 0 }, // Giratina @ Turnback Cave
+            new(Pt) { Species = 487, Level = 47, Location = 062, GroundTile = Cave, Form = 0 }, // Giratina @ Turnback Cave
+            new(Pt) { Species = 487, Level = 47, Location = 117, GroundTile = Distortion, Form = 1, HeldItem = 112 }, // Giratina @ Distortion World
 
             // Event
           //new(DP) { Species = 491, Level = 40, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
@@ -284,23 +284,23 @@ namespace PKHeX.Core
             new(HGSS) { Gift = true, Species = 258, Level = 05, Location = 148, GroundTile = Max_Pt }, // Mudkip
 
             // Fossils @ Pewter City
-            new(HGSS) { Gift = true, Species = 138, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Omanyte
-            new(HGSS) { Gift = true, Species = 140, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Kabuto
-            new(HGSS) { Gift = true, Species = 142, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Aerodactyl
-            new(HGSS) { Gift = true, Species = 345, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Lileep
-            new(HGSS) { Gift = true, Species = 347, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Anorith
-            new(HGSS) { Gift = true, Species = 408, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Cranidos
-            new(HGSS) { Gift = true, Species = 410, Level = 20, Location = 140, GroundTile = Max_Pt, }, // Shieldon
+            new(HGSS) { Gift = true, Species = 138, Level = 20, Location = 140, GroundTile = Max_Pt }, // Omanyte
+            new(HGSS) { Gift = true, Species = 140, Level = 20, Location = 140, GroundTile = Max_Pt }, // Kabuto
+            new(HGSS) { Gift = true, Species = 142, Level = 20, Location = 140, GroundTile = Max_Pt }, // Aerodactyl
+            new(HGSS) { Gift = true, Species = 345, Level = 20, Location = 140, GroundTile = Max_Pt }, // Lileep
+            new(HGSS) { Gift = true, Species = 347, Level = 20, Location = 140, GroundTile = Max_Pt }, // Anorith
+            new(HGSS) { Gift = true, Species = 408, Level = 20, Location = 140, GroundTile = Max_Pt }, // Cranidos
+            new(HGSS) { Gift = true, Species = 410, Level = 20, Location = 140, GroundTile = Max_Pt }, // Shieldon
 
             // Gift
             new(HGSS) { Gift = true, Species = 072, Level = 15, Location = 130, GroundTile = Max_Pt }, // Tentacool @ Cianwood City
             new(HGSS) { Gift = true, Species = 133, Level = 05, Location = 131, GroundTile = Max_Pt }, // Eevee @ Goldenrod City
             new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 222, GroundTile = Max_Pt, Moves = new[] {245} }, // Dratini @ Dragon's Den (ExtremeSpeed)
-            new(HGSS) { Gift = true, Species = 236, Level = 10, Location = 216, GroundTile = Max_Pt, }, // Tyrogue @ Mt. Mortar
+            new(HGSS) { Gift = true, Species = 236, Level = 10, Location = 216, GroundTile = Max_Pt }, // Tyrogue @ Mt. Mortar
             new(HGSS) { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
-            new(HGSS) { Gift = true, Species = 179, Level = 01, EggLocation = 2014, }, // Mareep Egg from Primo
-            new(HGSS) { Gift = true, Species = 194, Level = 01, EggLocation = 2014, }, // Wooper Egg from Primo
-            new(HGSS) { Gift = true, Species = 218, Level = 01, EggLocation = 2014, }, // Slugma Egg from Primo
+            new(HGSS) { Gift = true, Species = 179, Level = 01, EggLocation = 2014 }, // Mareep Egg from Primo
+            new(HGSS) { Gift = true, Species = 194, Level = 01, EggLocation = 2014 }, // Wooper Egg from Primo
+            new(HGSS) { Gift = true, Species = 218, Level = 01, EggLocation = 2014 }, // Slugma Egg from Primo
 
             // Celadon City Game Corner
             new(HGSS) { Gift = true, Species = 122, Level = 15, Location = 144, GroundTile = Max_Pt }, // Mr. Mime
@@ -314,17 +314,17 @@ namespace PKHeX.Core
             new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 131, GroundTile = Max_Pt }, // Dratini
 
             // Team Rocket HQ Trap Floor
-            new(HGSS) { Species = 100, Level = 23, Location = 213, GroundTile = Building, }, // Voltorb
-            new(HGSS) { Species = 074, Level = 21, Location = 213, GroundTile = Building, }, // Geodude
-            new(HGSS) { Species = 109, Level = 21, Location = 213, GroundTile = Building, }, // Koffing
+            new(HGSS) { Species = 100, Level = 23, Location = 213, GroundTile = Building }, // Voltorb
+            new(HGSS) { Species = 074, Level = 21, Location = 213, GroundTile = Building }, // Geodude
+            new(HGSS) { Species = 109, Level = 21, Location = 213, GroundTile = Building }, // Koffing
 
             // Stationary
             new(HGSS) { Species = 130, Level = 30, Location = 135, GroundTile = Water, Shiny = Shiny.Always }, // Gyarados @ Lake of Rage
-            new(HGSS) { Species = 131, Level = 20, Location = 210, GroundTile = Water, }, // Lapras @ Union Cave Friday Only
-            new(HGSS) { Species = 101, Level = 23, Location = 213, GroundTile = Building, }, // Electrode @ Team Rocket HQ
-            new(HGSS) { Species = 143, Level = 50, Location = 159, }, // Snorlax @ Route 11
-            new(HGSS) { Species = 143, Level = 50, Location = 160, }, // Snorlax @ Route 12
-            new(HGSS) { Species = 185, Level = 20, Location = 184, }, // Sudowoodo @ Route 36, Encounter does not have type
+            new(HGSS) { Species = 131, Level = 20, Location = 210, GroundTile = Water }, // Lapras @ Union Cave Friday Only
+            new(HGSS) { Species = 101, Level = 23, Location = 213, GroundTile = Building }, // Electrode @ Team Rocket HQ
+            new(HGSS) { Species = 143, Level = 50, Location = 159 }, // Snorlax @ Route 11
+            new(HGSS) { Species = 143, Level = 50, Location = 160 }, // Snorlax @ Route 12
+            new(HGSS) { Species = 185, Level = 20, Location = 184 }, // Sudowoodo @ Route 36, Encounter does not have type
 
             new(HGSS) // Spiky-Eared Pichu @ Ilex Forest
             {
@@ -341,10 +341,10 @@ namespace PKHeX.Core
 
             // Stationary Legendary
             new(HGSS) { Species = 144, Level = 50, Location = 203, GroundTile = Cave }, // Articuno @ Seafoam Islands
-            new(HGSS) { Species = 145, Level = 50, Location = 158, }, // Zapdos @ Route 10
+            new(HGSS) { Species = 145, Level = 50, Location = 158 }, // Zapdos @ Route 10
             new(HGSS) { Species = 146, Level = 50, Location = 219, GroundTile = Cave }, // Moltres @ Mt. Silver Cave
             new(HGSS) { Species = 150, Level = 70, Location = 199, GroundTile = Cave }, // Mewtwo @ Cerulean Cave
-            new(HGSS) { Species = 245, Level = 40, Location = 173, }, // Suicune @ Route 25
+            new(HGSS) { Species = 245, Level = 40, Location = 173 }, // Suicune @ Route 25
             new(HGSS) { Species = 245, Level = 40, Location = 206, GroundTile = Cave }, // Suicune @ Burned Tower
             new(  SS) { Species = 249, Level = 45, Location = 218, GroundTile = Water }, // Lugia @ Whirl Islands
             new(HG  ) { Species = 249, Level = 70, Location = 218, GroundTile = Water }, // Lugia @ Whirl Islands
@@ -360,40 +360,40 @@ namespace PKHeX.Core
             new(HGSS) { Species = 487, Level = 01, Location = 231, Gift = true, GroundTile = Max_Pt, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
 
             // Johto Roamers
-            new(HGSS) { Roaming = true, Species = 243, Level = 40, GroundTile = Grass | Water, }, // Raikou
-            new(HGSS) { Roaming = true, Species = 244, Level = 40, GroundTile = Grass | Water, }, // Entei
+            new(HGSS) { Roaming = true, Species = 243, Level = 40, GroundTile = Grass | Water }, // Raikou
+            new(HGSS) { Roaming = true, Species = 244, Level = 40, GroundTile = Grass | Water }, // Entei
 
             // Kanto Roamers
-            new(HG  ) { Roaming = true, Species = 380, Level = 35, GroundTile = Grass | Water, }, // Latias
-            new(  SS) { Roaming = true, Species = 381, Level = 35, GroundTile = Grass | Water, }, // Latios
+            new(HG  ) { Roaming = true, Species = 380, Level = 35, GroundTile = Grass | Water }, // Latias
+            new(  SS) { Roaming = true, Species = 381, Level = 35, GroundTile = Grass | Water }, // Latios
         };
         #endregion
         #region Trade Tables
 
         private static readonly EncounterTrade4[] RanchGifts =
         {
-            new EncounterTrade4RanchGift(323975838, 025, 18) { Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 1, CurrentLevel = 20, }, // Pikachu
-            new EncounterTrade4RanchGift(323977664, 037, 16) { Moves = new[] {412,109,053,219}, TID = 1000, SID = 21150, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 1, CurrentLevel = 30, }, // Vulpix
-            new EncounterTrade4RanchGift(323975579, 077, 13) { Moves = new[] {036,033,039,052}, TID = 1000, SID = 01123, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 16, }, // Ponyta
-            new EncounterTrade4RanchGift(323975564, 108, 34) { Moves = new[] {076,111,014,205}, TID = 1000, SID = 03050, OTGender = 1, MetLocation = 0077, Gender = 0, Ability = 1, CurrentLevel = 40, }, // Lickitung
-            new EncounterTrade4RanchGift(323977579, 114, 01) { Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 2, }, // Tangela
-            new EncounterTrade4RanchGift(323977675, 133, 16) { Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 2, CurrentLevel = 30, }, // Eevee
-            new EncounterTrade4RanchGift(323977588, 142, 20) { Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, MetLocation = 0094, Gender = 0, Ability = 1, CurrentLevel = 50, }, // Aerodactyl
-            new EncounterTrade4RanchGift(232975554, 193, 22) { Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 1, CurrentLevel = 45, Ball = 0x05, }, // Yanma
-            new EncounterTrade4RanchGift(323975570, 241, 16) { Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 48, }, // Miltank
-            new EncounterTrade4RanchGift(323975563, 285, 22) { Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 45, Ball = 0x05, }, // Shroomish
-            new EncounterTrade4RanchGift(323975559, 320, 30) { Moves = new[] {156,323,133,058}, TID = 1000, SID = 27046, OTGender = 1, MetLocation = 0038, Gender = 0, Ability = 2, CurrentLevel = 45, }, // Wailmer
-            new EncounterTrade4RanchGift(323977657, 360, 01) { Moves = new[] {204,150,227,000}, TID = 1000, SID = 01788, OTGender = 1, MetLocation = 0004, Gender = 0, Ability = 2, EggLocation = 2000, }, // Wynaut
-            new EncounterTrade4RanchGift(323975563, 397, 02) { Moves = new[] {355,017,283,018}, TID = 1000, SID = 59298, OTGender = 1, MetLocation = 0016, Gender = 0, Ability = 2, CurrentLevel = 23, }, // Staravia
-            new EncounterTrade4RanchGift(323970584, 415, 05) { Moves = new[] {230,016,000,000}, TID = 1000, SID = 54140, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 20, }, // Combee
-            new EncounterTrade4RanchGift(323977539, 417, 09) { Moves = new[] {447,045,351,098}, TID = 1000, SID = 18830, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 2, CurrentLevel = 10, }, // Pachirisu
+            new EncounterTrade4RanchGift(323975838, 025, 18) { Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 1, CurrentLevel = 20 }, // Pikachu
+            new EncounterTrade4RanchGift(323977664, 037, 16) { Moves = new[] {412,109,053,219}, TID = 1000, SID = 21150, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 1, CurrentLevel = 30 }, // Vulpix
+            new EncounterTrade4RanchGift(323975579, 077, 13) { Moves = new[] {036,033,039,052}, TID = 1000, SID = 01123, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 16 }, // Ponyta
+            new EncounterTrade4RanchGift(323975564, 108, 34) { Moves = new[] {076,111,014,205}, TID = 1000, SID = 03050, OTGender = 1, MetLocation = 0077, Gender = 0, Ability = 1, CurrentLevel = 40 }, // Lickitung
+            new EncounterTrade4RanchGift(323977579, 114, 01) { Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 2 }, // Tangela
+            new EncounterTrade4RanchGift(323977675, 133, 16) { Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = 2, CurrentLevel = 30 }, // Eevee
+            new EncounterTrade4RanchGift(323977588, 142, 20) { Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, MetLocation = 0094, Gender = 0, Ability = 1, CurrentLevel = 50 }, // Aerodactyl
+            new EncounterTrade4RanchGift(232975554, 193, 22) { Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 1, CurrentLevel = 45, Ball = 5 }, // Yanma
+            new EncounterTrade4RanchGift(323975570, 241, 16) { Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 48 }, // Miltank
+            new EncounterTrade4RanchGift(323975563, 285, 22) { Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = 2, CurrentLevel = 45, Ball = 5 }, // Shroomish
+            new EncounterTrade4RanchGift(323975559, 320, 30) { Moves = new[] {156,323,133,058}, TID = 1000, SID = 27046, OTGender = 1, MetLocation = 0038, Gender = 0, Ability = 2, CurrentLevel = 45 }, // Wailmer
+            new EncounterTrade4RanchGift(323977657, 360, 01) { Moves = new[] {204,150,227,000}, TID = 1000, SID = 01788, OTGender = 1, MetLocation = 0004, Gender = 0, Ability = 2, EggLocation = 2000 }, // Wynaut
+            new EncounterTrade4RanchGift(323975563, 397, 02) { Moves = new[] {355,017,283,018}, TID = 1000, SID = 59298, OTGender = 1, MetLocation = 0016, Gender = 0, Ability = 2, CurrentLevel = 23 }, // Staravia
+            new EncounterTrade4RanchGift(323970584, 415, 05) { Moves = new[] {230,016,000,000}, TID = 1000, SID = 54140, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 20 }, // Combee
+            new EncounterTrade4RanchGift(323977539, 417, 09) { Moves = new[] {447,045,351,098}, TID = 1000, SID = 18830, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 2, CurrentLevel = 10 }, // Pachirisu
             new EncounterTrade4RanchGift(323974107, 422, 20) { Moves = new[] {363,352,426,104}, TID = 1000, SID = 39272, OTGender = 1, MetLocation = 0028, Gender = 0, Ability = 2, CurrentLevel = 25, Form = 1 }, // Shellos
-            new EncounterTrade4RanchGift(323977566, 427, 10) { Moves = new[] {204,193,409,098}, TID = 1000, SID = 31045, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 16, }, // Buneary
-            new EncounterTrade4RanchGift(323975579, 453, 22) { Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 2, CurrentLevel = 31, Ball = 0x05, }, // Croagunk
-            new EncounterTrade4RanchGift(323977566, 456, 15) { Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 35, }, // Finneon
-            new EncounterTrade4RanchGift(323975582, 459, 32) { Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, MetLocation = 0031, Gender = 0, Ability = 1, CurrentLevel = 41, }, // Snover
-            new EncounterTrade4RanchSpecial(151, 50) { Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Ball = 0x10, Gender = 2, }, // Mew
-            new EncounterTrade4RanchSpecial(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Ball = 0x10, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
+            new EncounterTrade4RanchGift(323977566, 427, 10) { Moves = new[] {204,193,409,098}, TID = 1000, SID = 31045, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = 1, CurrentLevel = 16 }, // Buneary
+            new EncounterTrade4RanchGift(323975579, 453, 22) { Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = 2, CurrentLevel = 31, Ball = 5 }, // Croagunk
+            new EncounterTrade4RanchGift(323977566, 456, 15) { Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = 1, CurrentLevel = 35 }, // Finneon
+            new EncounterTrade4RanchGift(323975582, 459, 32) { Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, MetLocation = 0031, Gender = 0, Ability = 1, CurrentLevel = 41 }, // Snover
+            new EncounterTrade4RanchSpecial(151, 50) { Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Ball = 0x10, Gender = 2 }, // Mew
+            new EncounterTrade4RanchSpecial(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Ball = 0x10, Gender = 2, CurrentLevel = 50, EggLocation = 3000 }, // Phione
         };
 
         private static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =
