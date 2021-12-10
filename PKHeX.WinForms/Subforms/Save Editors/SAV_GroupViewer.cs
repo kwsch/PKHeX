@@ -109,12 +109,12 @@ namespace PKHeX.WinForms
             if (index == CurrentGroup)
                 return;
 
-            var group = Groups[index];
-            Regenerate(group.Slots.Length);
+            var (_, slots) = Groups[index];
+            Regenerate(slots.Length);
 
             var sav = SAV;
-            for (int i = 0; i < group.Slots.Length; i++)
-                Box.Entries[i].Image = group.Slots[i].Sprite(sav, -1, -1, true);
+            for (int i = 0; i < slots.Length; i++)
+                Box.Entries[i].Image = slots[i].Sprite(sav, -1, -1, true);
 
             if (slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
                 Box.Entries[slotSelected].BackgroundImage = groupSelected != index ? null : SpriteUtil.Spriter.View;

@@ -6,10 +6,8 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Distributed Crystal Data)
     /// </summary>
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
-    public sealed record EncounterStatic8NC : EncounterStatic8Nest<EncounterStatic8NC>
+    public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8Nest<EncounterStatic8NC>(Version)
     {
-        public EncounterStatic8NC(GameVersion game) : base(game) { }
-
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;

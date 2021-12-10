@@ -77,10 +77,9 @@ public static class ContestStatInfo
 
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
-        if (pokeBlock3)
-            return Math.Min(MaxContestStat, Math.Max(WorstFeelBlock, avg));
-        else
-            return Math.Min(MaxContestStat, Math.Max(WorstFeelPoffin, avg));
+
+        var worst = pokeBlock3 ? WorstFeelBlock : WorstFeelPoffin;
+        return Math.Min(MaxContestStat, Math.Max(worst, avg));
     }
 
     private static int GetAverageFeel(IContestStats s, int nature, IContestStats initial)

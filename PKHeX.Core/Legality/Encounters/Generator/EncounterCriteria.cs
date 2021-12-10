@@ -86,25 +86,21 @@ namespace PKHeX.Core
         /// <param name="s">Template data (end result).</param>
         /// <param name="pi">Personal info the end result will exist with.</param>
         /// <returns>Initialized criteria data to be passed to generators.</returns>
-        public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalInfo pi)
+        public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalInfo pi) => new()
         {
-            int gender = s.Gender;
-            return new EncounterCriteria
-            {
-                Gender = gender,
-                IV_HP = s.IVs[0],
-                IV_ATK = s.IVs[1],
-                IV_DEF = s.IVs[2],
-                IV_SPE = s.IVs[3],
-                IV_SPA = s.IVs[4],
-                IV_SPD = s.IVs[5],
-                HPType = s.HiddenPowerType,
+            Gender = s.Gender,
+            IV_HP = s.IVs[0],
+            IV_ATK = s.IVs[1],
+            IV_DEF = s.IVs[2],
+            IV_SPE = s.IVs[3],
+            IV_SPA = s.IVs[4],
+            IV_SPD = s.IVs[5],
+            HPType = s.HiddenPowerType,
 
-                AbilityNumber = GetAbilityNumber(s.Ability, pi),
-                Nature = NatureUtil.GetNature(s.Nature),
-                Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
-            };
-        }
+            AbilityNumber = GetAbilityNumber(s.Ability, pi),
+            Nature = NatureUtil.GetNature(s.Nature),
+            Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
+        };
 
         private static AbilityPermission GetAbilityNumber(int ability, PersonalInfo pi)
         {

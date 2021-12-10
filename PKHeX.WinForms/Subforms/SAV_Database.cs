@@ -154,11 +154,9 @@ namespace PKHeX.WinForms
                 if (File.Exists(path))
                     File.Delete(path);
             }
-            else if (entry.Source is SlotInfoBox b && entry.SAV == SAV)
+            else if (entry.Source is SlotInfoBox(var box, var slot) && entry.SAV == SAV)
             {
                 // Data from Box: Delete from save file
-                int box = b.Box;
-                int slot = b.Slot;
                 var change = new SlotInfoBox(box, slot);
                 var pkSAV = change.Read(SAV);
 

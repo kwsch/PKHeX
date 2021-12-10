@@ -99,8 +99,8 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < ranges.Length; ++i)
             {
-                var span = ranges[i];
-                if (esv >= span.Min && esv <= span.Max)
+                var (min, max) = ranges[i];
+                if (esv >= min && esv <= max)
                     return i;
             }
             return Invalid;

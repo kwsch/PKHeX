@@ -60,9 +60,9 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare }, // egg
+                new(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare }, // egg
             };
         }
 
@@ -89,52 +89,52 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots5(SAV5 sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
-                new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
-                new SlotInfoMisc(sav.Data, 0, sav.PGL) { Type = StorageSlotType.Misc },
+                new(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
+                new(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
+                new(sav.Data, 0, sav.PGL) { Type = StorageSlotType.Misc },
 
-                new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
             };
         }
 
         private static List<SlotInfoMisc> GetExtraSlots6XY(SAV6XY sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
-                new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
-                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc}, // Old Man
+                new(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
+                new(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
+                new(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc}, // Old Man
 
-                new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
             };
         }
 
         private static List<SlotInfoMisc> GetExtraSlots6AO(SAV6AO sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, SAV6AO.GTS) {Type = StorageSlotType.GTS},
-                new SlotInfoMisc(sav.Data, 0, SAV6AO.Fused) {Type = StorageSlotType.Fused},
-                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc},
+                new(sav.Data, 0, SAV6AO.GTS) {Type = StorageSlotType.GTS},
+                new(sav.Data, 0, SAV6AO.Fused) {Type = StorageSlotType.Fused},
+                new(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc},
 
-                new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
-                new SlotInfoMisc(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 2, sav.GetBattleBoxSlot(2)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
+                new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
             };
         }
 
@@ -171,9 +171,9 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots7b(SAV7b sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.Blocks.GetBlockOffset(BelugaBlockIndex.Daycare) + 8, true) {Type = StorageSlotType.Daycare},
+                new(sav.Data, 0, sav.Blocks.GetBlockOffset(BelugaBlockIndex.Daycare) + 8, true) {Type = StorageSlotType.Daycare},
             };
         }
 
@@ -205,17 +205,17 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots8b(SAV8BS sav)
         {
-            return new()
+            return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.UgSaveData.GetSlotOffset(0), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 1, sav.UgSaveData.GetSlotOffset(1), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 2, sav.UgSaveData.GetSlotOffset(2), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 3, sav.UgSaveData.GetSlotOffset(3), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 4, sav.UgSaveData.GetSlotOffset(4), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 5, sav.UgSaveData.GetSlotOffset(5), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 6, sav.UgSaveData.GetSlotOffset(6), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
-                new SlotInfoMisc(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 0, sav.UgSaveData.GetSlotOffset(0), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 1, sav.UgSaveData.GetSlotOffset(1), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 2, sav.UgSaveData.GetSlotOffset(2), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 3, sav.UgSaveData.GetSlotOffset(3), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 4, sav.UgSaveData.GetSlotOffset(4), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 5, sav.UgSaveData.GetSlotOffset(5), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 6, sav.UgSaveData.GetSlotOffset(6), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
+                new(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
             };
         }
     }

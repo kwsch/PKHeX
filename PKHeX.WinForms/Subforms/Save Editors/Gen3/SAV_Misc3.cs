@@ -319,9 +319,9 @@ namespace PKHeX.WinForms
 
         private void ChangeStatVal(object sender, EventArgs e)
         {
-            if (editingval)
+            if (editingval || sender is not NumericUpDown nud)
                 return;
-            int n = Array.IndexOf(StatNUDA, sender);
+            int n = Array.IndexOf(StatNUDA, nud);
             if (n < 0)
                 return;
             StatAddrControl(SetValToSav: n, SetSavToVal: false);

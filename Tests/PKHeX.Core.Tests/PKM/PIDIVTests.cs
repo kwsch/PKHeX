@@ -44,33 +44,38 @@ namespace PKHeX.Tests.PKM
         {
             // Method 3, reversed for Unown.
             var m3R = new PK3 { PID = 0x3DD1BB49, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 001 }; // Regular
-            var m3t = MethodFinder.Analyze(m3R).Type;
-            Assert.Equal(PIDType.Method_3, m3t);
+            var (type3, _) = MethodFinder.Analyze(m3R);
+            Assert.Equal(PIDType.Method_3, type3);
+
             var m3u = new PK3 { PID = 0xBB493DD1, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 201 }; // Unown
-            var u3t = MethodFinder.Analyze(m3u).Type;
-            Assert.Equal(PIDType.Method_3_Unown, u3t);
+            var (type3R, _) = MethodFinder.Analyze(m3u);
+            Assert.Equal(PIDType.Method_3_Unown, type3R);
         }
 
         [Fact]
-        public void PIDIVMatchingTest3Misc()
+        public void PIDIVMatchingTest3MiscCXD()
         {
             // Colosseum / XD
             var pk3 = new PK3 {PID = 0x0985A297, IVs = new[] {06, 01, 00, 07, 17, 07}};
-            var ak3 = MethodFinder.Analyze(pk3);
-            Assert.Equal(PIDType.CXD, MethodFinder.Analyze(pk3).Type);
+            var (type, seed) = MethodFinder.Analyze(pk3);
+            Assert.Equal(PIDType.CXD, type);
 
             var gk3 = new PK3();
-            PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, ak3.OriginSeed);
+            PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, seed);
             Assert.Equal(pk3.PID, gk3.PID);
             Assert.True(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to CXD spread");
-
+        }
+            
+        [Fact]
+        public void PIDIVMatchingTest3MiscChannel()
+        {
             // Channel Jirachi
             var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
-            var akC = MethodFinder.Analyze(pkC);
-            Assert.Equal(PIDType.Channel,akC.Type);
+            var (type, seed) = MethodFinder.Analyze(pkC);
+            Assert.Equal(PIDType.Channel,type);
 
             var gkC = new PK3();
-            PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, akC.OriginSeed);
+            PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, seed);
             Assert.Equal(pkC.PID, gkC.PID);
             Assert.True(pkC.IVs.SequenceEqual(gkC.IVs), "Unable to match generated IVs to Channel spread");
         }
