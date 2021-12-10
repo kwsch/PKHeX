@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Manipulates boxes of a <see cref="SaveFile"/>.
+    /// </summary>
     public abstract class BoxManipulator
     {
         protected abstract SaveFile SAV { get; }

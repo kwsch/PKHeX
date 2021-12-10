@@ -4,16 +4,19 @@ using PKHeX.Core.Searching;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Base class for defining a manipulation of box data.
+    /// </summary>
     public abstract class BoxManipBase : IBoxManip
     {
+        public BoxManipType Type { get; }
+        public Func<SaveFile, bool> Usable { get; }
+
         protected BoxManipBase(BoxManipType type, Func<SaveFile, bool> usable)
         {
             Type = type;
             Usable = usable;
         }
-
-        public BoxManipType Type { get; }
-        public Func<SaveFile, bool> Usable { get; }
 
         public abstract string GetPrompt(bool all);
         public abstract string GetFail(bool all);
