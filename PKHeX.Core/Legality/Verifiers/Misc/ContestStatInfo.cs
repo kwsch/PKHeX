@@ -52,15 +52,14 @@ public static class ContestStatInfo
         if (s.IsContestEqual(initial))
             return initial.CNT_Sheen;
 
+        if (pokeBlock3)
+        {
+            return CalculateMaximumSheen3(s, nature, initial);
+        }
+
         var avg = GetAverageFeel(s, nature, initial);
         if (avg <= 0)
             return initial.CNT_Sheen;
-
-        if (pokeBlock3)
-        {
-            var fudge = (avg * 225) / 100;
-            return Math.Min(MaxContestStat, Math.Max(WorstFeelBlock, fudge));
-        }
 
         // Can get trash poffins by burning and spilling on purpose.
         return Math.Min(MaxContestStat, avg * WorstFeelPoffin);
@@ -82,7 +81,34 @@ public static class ContestStatInfo
         return Math.Min(MaxContestStat, Math.Max(worst, avg));
     }
 
+    private static int CalculateMaximumSheen3(IContestStats s, int nature, IContestStats initial)
+    {
+        // By using Enigma and Lansat and a 25 +1/-1, can get a +9/+19s at minimum RPM
+        // By using Enigma, Lansat, and Starf, can get a black +2/2/2 & 21 block (6:21) at minimum RPM.
+        var sum = GetGainedSum(s, nature, initial);
+        if (sum == 0)
+            return 0;
+
+        static int Gained2(byte a, byte b) => a - b >= 2 ? 1 : 0;
+        int gained = Gained2(s.CNT_Cool,   initial.CNT_Cool)
+                   + Gained2(s.CNT_Beauty, initial.CNT_Beauty)
+                   + Gained2(s.CNT_Cute,   initial.CNT_Cute)
+                   + Gained2(s.CNT_Smart,  initial.CNT_Smart)
+                   + Gained2(s.CNT_Tough,  initial.CNT_Tough);
+        bool has3 = gained >= 3;
+
+        // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
+        var permit = has3 ? (sum * 21 / 6) : (sum * 19 / 9);
+        return Math.Min(MaxContestStat, Math.Max(WorstFeelBlock, permit));
+    }
+
     private static int GetAverageFeel(IContestStats s, int nature, IContestStats initial)
+    {
+        var sum = GetGainedSum(s, nature, initial);
+        return sum / 5;
+    }
+
+    private static int GetGainedSum(IContestStats s, int nature, IContestStats initial)
     {
         ReadOnlySpan<sbyte> span = NatureAmpTable.AsSpan(5 * nature, 5);
         int sum = 0;
@@ -91,7 +117,7 @@ public static class ContestStatInfo
         sum += GetAmpedStat(span, 2, s.CNT_Cute - initial.CNT_Cute);
         sum += GetAmpedStat(span, 3, s.CNT_Smart - initial.CNT_Smart);
         sum += GetAmpedStat(span, 4, s.CNT_Tough - initial.CNT_Tough);
-        return sum / 5;
+        return sum;
     }
 
     private static int GetAmpedStat(ReadOnlySpan<sbyte> amps, int index, int gain)
