@@ -114,6 +114,6 @@ namespace PKHeX.WinForms.Controls
             return cache[frameIndex] = frame;
         }
 
-        private Color GetFrameColor(double elapsedFraction) => ImageUtil.Blend(GlowToColor, GlowFromColor, elapsedFraction);
+        private Color GetFrameColor(double elapsedFraction) => ColorUtil.Blend(GlowToColor, GlowFromColor, elapsedFraction);
     }
 }

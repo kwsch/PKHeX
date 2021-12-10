@@ -368,11 +368,11 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < stats.Count; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
-                MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
+                MT_Base[i].BackColor = ColorUtil.ColorBaseStat(stats[i]);
             }
             var bst = pi.Stats.Sum();
             TB_BST.Text = bst.ToString("000");
-            TB_BST.BackColor = ImageUtil.ColorBaseStatTotal(bst);
+            TB_BST.BackColor = ColorUtil.ColorBaseStatTotal(bst);
         }
 
         public void UpdateRandomIVs(object sender, EventArgs e)

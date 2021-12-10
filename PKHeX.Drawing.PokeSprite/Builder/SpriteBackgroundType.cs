@@ -1,9 +1,8 @@
-﻿namespace PKHeX.Drawing.PokeSprite
+﻿namespace PKHeX.Drawing.PokeSprite;
+
+public enum SpriteBackgroundType
 {
-    public enum SpriteBackgroundType
-    {
-        None,
-        BottomStripe,
-        FullBackground,
-    }
+    None,
+    BottomStripe,
+    FullBackground,
 }

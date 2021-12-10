@@ -53,9 +53,7 @@ public static class ContestStatInfo
             return initial.CNT_Sheen;
 
         if (pokeBlock3)
-        {
             return CalculateMaximumSheen3(s, nature, initial);
-        }
 
         var avg = GetAverageFeel(s, nature, initial);
         if (avg <= 0)
@@ -162,7 +160,7 @@ public static class ContestStatInfo
 
     private static readonly sbyte[] NatureAmpTable =
     {
-        // Spicy,  Dry, Sweet, Bitter, Sour
+        // Spicy, Dry, Sweet, Bitter, Sour
         0, 0, 0, 0, 0, // Hardy
         1, 0, 0, 0,-1, // Lonely
         1, 0,-1, 0, 0, // Brave

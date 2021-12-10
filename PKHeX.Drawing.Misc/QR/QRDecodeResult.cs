@@ -1,12 +1,11 @@
-﻿namespace PKHeX.Drawing.Misc
+﻿namespace PKHeX.Drawing.Misc;
+
+public enum QRDecodeResult
 {
-    public enum QRDecodeResult
-    {
-        Success,
-        BadPath,
-        BadImage,
-        BadType,
-        BadConnection,
-        BadConversion,
-    }
+    Success,
+    BadPath,
+    BadImage,
+    BadType,
+    BadConnection,
+    BadConversion,
 }
