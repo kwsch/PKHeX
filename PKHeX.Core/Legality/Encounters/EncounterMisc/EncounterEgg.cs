@@ -34,7 +34,7 @@ namespace PKHeX.Core
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
-            pk.Ball = (int)Ball.Poke;
+            pk.Ball = (int)BallBreedLegality.GetDefaultBall(Version, Species);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             SetEncounterMoves(pk, version);

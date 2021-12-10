@@ -1037,5 +1037,23 @@ namespace PKHeX.Core
 
             (int)Phione,
         };
+
+        /// <summary>
+        /// Gets a legal <see cref="Ball"/> value for a bred egg encounter.
+        /// </summary>
+        /// <param name="version">Version the egg was created on.</param>
+        /// <param name="species">Species the egg contained.</param>
+        /// <returns>Valid ball to hatch with.</returns>
+        /// <remarks>Not all things can hatch with a Poké Ball!</remarks>
+        public static Ball GetDefaultBall(GameVersion version, int species)
+        {
+            if (GameVersion.BDSP.Contains(version))
+            {
+                if (BanInheritedExceptSafari_BDSP.Contains(species))
+                    return Ball.Safari;
+            }
+
+            return Ball.Poke;
+        }
     }
 }
