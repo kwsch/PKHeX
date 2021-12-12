@@ -62,6 +62,8 @@ namespace PKHeX.Core
                 {
                     486 => location is 167, // Route 223 -> Pokémon League
                     167 => location is 486, // Pokémon League -> Route 223
+                    420 => location is 489, // Route 229 -> Route 230
+                    489 => location is 420, // Route 230 -> Route 229
 
                     // All other crossover surf locations are identical slot lists.
                     _ => false,
