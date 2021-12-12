@@ -31,6 +31,8 @@ namespace PKHeX.WinForms
             B_Spiritomb.Enabled = SAV.UgSaveData.TalkedNPC < 32;
             B_Darkrai.Enabled = SAV.Work.GetFlag(301) || !(SAV.Work.GetWork(275) == 1 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(454) == 1); // HAIHUEVENT_ID_D18, Member Card
             B_Shaymin.Enabled = SAV.Work.GetFlag(545) || !(SAV.Work.GetWork(276) == 1 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(452) == 1 && SAV.Work.GetSystemFlag(5)); // HAIHUEVENT_ID_D30, Oak's Letter
+            B_DialgaPalkia.Enabled = SAV.Work.GetFlag(308) && SAV.Work.GetWork(84) != 5; // FE_D05R0114_SPPOKE_GET, WK_SCENE_D05R0114 (1-3 story related, 4 = captured, 5 = can retry)
+            B_Roamer.Enabled = SAV.Encounter.Roamer1Encount != 1 || SAV.Encounter.Roamer2Encount != 1; // 0 = inactive, 1 = roaming, 2 = KOed, 3 = captured
         }
 
         private void SaveMain()
@@ -67,6 +69,33 @@ namespace PKHeX.WinForms
 
             System.Media.SystemSounds.Asterisk.Play();
             B_Darkrai.Enabled = false;
+        }
+
+        private void B_DialgaPalkia_Click(object sender, EventArgs e)
+        {
+            SAV.Work.SetFlag(308, false); // captured
+            SAV.Work.SetFlag(393, false); // clear vanish
+            SAV.Work.SetFlag(1623, false); // can retry
+            SAV.Work.SetWork(84, 5); // can retry
+
+            System.Media.SystemSounds.Asterisk.Play();
+            B_DialgaPalkia.Enabled = false;
+        }
+
+        private void B_Roamer_Click(object sender, EventArgs e)
+        {
+            // Mesprit
+            SAV.Work.SetFlag(249, false); // clear met
+            SAV.Work.SetFlag(420, false); // clear vanish
+            SAV.Encounter.Roamer1Encount = 0; // not actively roaming
+
+            // Cresselia
+            SAV.Work.SetFlag(245, false); // clear met
+            SAV.Work.SetFlag(532, false); // clear vanish
+            SAV.Encounter.Roamer2Encount = 0; // not actively roaming
+
+            System.Media.SystemSounds.Asterisk.Play();
+            B_Roamer.Enabled = false;
         }
     }
 }
