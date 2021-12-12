@@ -47,6 +47,31 @@ namespace PKHeX.Core
             return slots;
         }
 
+        public override bool IsMatchLocation(int location)
+        {
+            if (base.IsMatchLocation(location))
+                return true;
+            return CanCrossoverTo(location);
+        }
+
+        private bool CanCrossoverTo(int location)
+        {
+            if (Type is SlotType.Surf)
+            {
+                return Location switch
+                {
+                    486 => location is 167, // Route 223 -> Pokémon League
+                    167 => location is 486, // Pokémon League -> Route 223
+
+                    // All other crossover surf locations are identical slot lists.
+                    _ => false,
+                };
+            }
+
+            // No crossover
+            return false;
+        }
+
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
