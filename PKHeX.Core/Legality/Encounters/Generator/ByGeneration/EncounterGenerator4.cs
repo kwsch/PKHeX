@@ -74,8 +74,9 @@ namespace PKHeX.Core
             }
 
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters34(pkm, chain))
+            foreach (var slot in GetValidWildEncounters34(pkm, chain))
             {
+                var z = (EncounterSlot4)slot;
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
                 {
@@ -83,7 +84,14 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                var frame = slots.Find(s => s.IsSlotCompatibile((EncounterSlot4)z, pkm));
+                // Can use Radar to force the encounter slot to stay consistent across encounters.
+                if (z.CanUseRadar)
+                {
+                    yield return slot;
+                    continue;
+                }
+
+                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
                 if (frame == null)
                 {
                     deferred ??= z;
