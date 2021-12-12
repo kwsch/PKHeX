@@ -252,7 +252,7 @@ namespace PKHeX.Core
         {
             switch (data.Info.Generation)
             {
-                case 8 when t is EncounterTrade8b: VerifyTrade8b(data, t); return;
+                case 8 when t is EncounterTrade8b b: VerifyTrade8b(data, b); return;
 
                 case 1: VerifyTrade12(data, t); return;
                 case 2: return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
@@ -349,13 +349,22 @@ namespace PKHeX.Core
             VerifyTrade(data, t, lang);
         }
 
-        private static void VerifyTrade8b(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyTrade8b(LegalityAnalysis data, EncounterTrade8b t)
         {
             var pkm = data.pkm;
             int lang = pkm.Language;
             if (t.Species == (int)Species.Magikarp)
-                lang = DetectTradeLanguageG4MeisterMagikarp(pkm, t, lang);
+                lang = DetectTradeLanguageG8MeisterMagikarp(pkm, t, lang);
             VerifyTrade(data, t, lang);
+        }
+
+        private static int DetectTradeLanguageG8MeisterMagikarp(PKM pkm, EncounterTrade8b t, int currentLanguageID)
+        {
+            if (currentLanguageID is 5)
+                return 1;
+            if (currentLanguageID is 1)
+                return 5;
+            return 0;
         }
 
         private static void FlagKoreanIncompatibleSameGenTrade(LegalityAnalysis data, PKM pkm, int lang)
