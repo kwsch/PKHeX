@@ -99,7 +99,7 @@ namespace PKHeX.Core
             for (ushort i = 0; i < (ushort)SAV.MaxItemID; i++) // even though there are 3000, just overwrite the ones that people will mess up.
             {
                 if (!hashSet.Contains(i))
-                    InventoryPouch8b.ClearItem(Data, InventoryPouch8b.GetItemOffset(i, Offset));
+                    InventoryItem8b.Clear(Data, InventoryPouch8b.GetItemOffset(i, Offset));
             }
         }
 

@@ -4,6 +4,8 @@ namespace PKHeX.Core
 {
     public sealed class InventoryItem8b : InventoryItem, IItemFavorite, IItemNew
     {
+        public const int SIZE = 0x10;
+
         public bool IsFavorite { get; set; }
         public bool IsNew { get; set; }
         public ushort SortOrder { get; set; }
@@ -37,6 +39,8 @@ namespace PKHeX.Core
             BitConverter.GetBytes(SortOrder).CopyTo(data, offset + 0xC);
             BitConverter.GetBytes((ushort)0).CopyTo(data, offset + 0xE);
         }
+
+        public static void Clear(byte[] data, int offset) => Array.Clear(data, offset, SIZE);
 
         public override void SetNewDetails(int count)
         {

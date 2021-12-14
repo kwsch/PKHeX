@@ -6,8 +6,6 @@ namespace PKHeX.Core
 {
     public sealed class InventoryPouch8b : InventoryPouch
     {
-        private const int SIZE_ITEM = 0x10;
-
         public bool SetNew { get; set; }
 
         public InventoryPouch8b(InventoryType type, ushort[] legal, int maxCount, int offset,
@@ -84,8 +82,8 @@ namespace PKHeX.Core
             }
         }
 
-        public static int GetItemOffset(ushort index, int baseOffset) => baseOffset + (SIZE_ITEM * index);
+        public static int GetItemOffset(ushort index, int baseOffset) => baseOffset + (InventoryItem8b.SIZE * index);
 
-        public static void ClearItem(byte[] data, int ofs) => Array.Clear(data, ofs, 0x10);
+        public void ClearItem(byte[] data, ushort index) => InventoryItem8b.Clear(data, GetItemOffset(index, Offset));
     }
 }
