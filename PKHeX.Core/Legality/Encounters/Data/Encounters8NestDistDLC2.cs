@@ -8,6 +8,23 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 034, 372 }, Index = 93 }, // Delibird
+            new(17,01,1) { Species = 121, Ability = A4, Moves = new[]{ 057, 408, 055, 129 }, Index = 93 }, // Starmie
+            new(17,01,1) { Species = 615, Ability = A4, Moves = new[]{ 196, 020, 229, 420 }, Index = 93 }, // Cryogonal
+            new(30,03,2) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 034, 693 }, Index = 93 }, // Delibird
+            new(30,03,2) { Species = 121, Ability = A4, Moves = new[]{ 057, 408, 094, 129 }, Index = 93 }, // Starmie
+            new(30,03,2) { Species = 615, Ability = A4, Moves = new[]{ 400, 062, 229, 246 }, Index = 93 }, // Cryogonal
+            new(40,05,3) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 280, 196 }, Index = 93 }, // Delibird
+            new(40,05,3) { Species = 121, Ability = A4, Moves = new[]{ 056, 408, 094, 129 }, Index = 93 }, // Starmie
+            new(40,05,3) { Species = 615, Ability = A4, Moves = new[]{ 400, 062, 573, 246 }, Index = 93 }, // Cryogonal
+            new(50,08,4) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 034, 280 }, Index = 93 }, // Delibird
+            new(50,08,4) { Species = 121, Ability = A4, Moves = new[]{ 056, 408, 094, 605 }, Index = 93 }, // Starmie
+            new(50,08,4) { Species = 615, Ability = A4, Moves = new[]{ 400, 058, 573, 430 }, Index = 93 }, // Cryogonal
+            new(60,10,5) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 065, 280 }, Index = 93, Shiny = Shiny.Always }, // Delibird
+            new(60,10,5) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 065, 280 }, Index = 93 }, // Delibird
+            new(60,10,5) { Species = 121, Ability = A4, Moves = new[]{ 056, 800, 094, 605 }, Index = 93 }, // Starmie
+            new(60,10,5) { Species = 615, Ability = A4, Moves = new[]{ 400, 329, 573, 430 }, Index = 93 }, // Cryogonal
+
             new(17,01,1) { Species = 133, Ability = A4, Moves = new[]{ 033, 098, 039, 608 }, Index = 91 }, // Eevee
             new(30,03,2) { Species = 133, Ability = A4, Moves = new[]{ 129, 098, 039, 608 }, Index = 91 }, // Eevee
             new(40,05,3) { Species = 133, Ability = A4, Moves = new[]{ 129, 098, 231, 608 }, Index = 91 }, // Eevee
