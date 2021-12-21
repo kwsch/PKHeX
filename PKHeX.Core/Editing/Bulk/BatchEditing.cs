@@ -63,7 +63,7 @@ namespace PKHeX.Core
 
         internal const string CONST_RAND = "$rand";
         internal const string CONST_SHINY = "$shiny";
-        private const string CONST_SUGGEST = "$suggest";
+        internal const string CONST_SUGGEST = "$suggest";
         private const string CONST_BYTES = "$[]";
 
         internal const string PROP_LEGAL = "Legal";

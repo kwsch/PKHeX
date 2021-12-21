@@ -66,5 +66,20 @@ namespace PKHeX.Core
             pk.HealPP();
             return ModifyResult.Modified;
         }
+
+        /// <summary>
+        /// Sets the contests stats as requested.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="enc">Encounter matched to.</param>
+        /// <param name="option">Option to apply with</param>
+        public static ModifyResult SetContestStats(PKM pk, IEncounterTemplate enc, string option)
+        {
+            if (option.Length != 0 && option[BatchEditing.CONST_SUGGEST.Length..] is not "0")
+                pk.SetMaxContestStats(enc);
+            else
+                pk.SetSuggestedContestStats(enc);
+            return ModifyResult.Modified;
+        }
     }
 }
