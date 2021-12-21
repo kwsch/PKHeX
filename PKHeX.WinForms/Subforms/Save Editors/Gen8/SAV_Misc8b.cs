@@ -33,6 +33,9 @@ namespace PKHeX.WinForms
             B_Shaymin.Enabled = SAV.Work.GetFlag(545) || !(SAV.Work.GetWork(276) == 1 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(452) == 1 && SAV.Work.GetSystemFlag(5)); // HAIHUEVENT_ID_D30, Oak's Letter
             B_DialgaPalkia.Enabled = SAV.Work.GetFlag(308) && SAV.Work.GetWork(84) != 5; // FE_D05R0114_SPPOKE_GET, WK_SCENE_D05R0114 (1-3 story related, 4 = captured, 5 = can retry)
             B_Roamer.Enabled = SAV.Encounter.Roamer1Encount != 1 || SAV.Encounter.Roamer2Encount != 1; // 0 = inactive, 1 = roaming, 2 = KOed, 3 = captured
+
+            B_RebattleEyecatch.Enabled = SAV.BattleTrainer.AnyDefeated;
+            B_DefeatEyecatch.Enabled = SAV.BattleTrainer.AnyUndefeated;
         }
 
         private void SaveMain()
@@ -96,6 +99,22 @@ namespace PKHeX.WinForms
 
             System.Media.SystemSounds.Asterisk.Play();
             B_Roamer.Enabled = false;
+        }
+
+        private void B_DefeatEyecatch_Click(object sender, EventArgs e)
+        {
+            SAV.BattleTrainer.DefeatAll();
+            System.Media.SystemSounds.Asterisk.Play();
+            B_DefeatEyecatch.Enabled = false;
+            B_RebattleEyecatch.Enabled = true;
+        }
+
+        private void B_RebattleEyecatch_Click(object sender, EventArgs e)
+        {
+            SAV.BattleTrainer.RebattleAll();
+            System.Media.SystemSounds.Asterisk.Play();
+            B_RebattleEyecatch.Enabled = false;
+            B_DefeatEyecatch.Enabled = true;
         }
     }
 }

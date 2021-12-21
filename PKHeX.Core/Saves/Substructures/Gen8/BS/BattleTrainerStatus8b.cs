@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -14,6 +15,9 @@ namespace PKHeX.Core
         // (bool IsWin, bool IsBattleSearcher)[707];
         private const int COUNT_TRAINER = 707;
         private const int SIZE_TRAINER = 8; // bool,bool
+
+        public bool AnyDefeated => Enumerable.Range(0, COUNT_TRAINER).Any(GetIsWin);
+        public bool AnyUndefeated => Enumerable.Range(0, COUNT_TRAINER).Any(z => !GetIsWin(z));
 
         /// <summary>
         /// Don't use this unless you've finished the post-game.
