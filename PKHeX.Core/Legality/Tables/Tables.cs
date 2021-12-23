@@ -129,7 +129,7 @@ namespace PKHeX.Core
                 return false;
             if (generation is 8 && DummiedMoves_BDSP.Contains(move)) // can't Sketch unusable moves in BDSP
                 return false;
-            return true;
+            return move <= GetMaxMoveID(generation);
         }
 
         /// <summary>

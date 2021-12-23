@@ -129,6 +129,19 @@ namespace PKHeX.Core
             _ => -1,
         };
 
+        internal static int GetMaxMoveID(int generation) => generation switch
+        {
+            1 => MaxMoveID_1,
+            2 => MaxMoveID_2,
+            3 => MaxMoveID_3,
+            4 => MaxMoveID_4,
+            5 => MaxMoveID_5,
+            6 => MaxMoveID_6_AO,
+            7 => MaxMoveID_7b,
+            8 => MaxMoveID_8,
+            _ => -1,
+        };
+
         internal const GameVersion NONE = GameVersion.Invalid;
         internal static readonly LearnVersion LearnNONE = new(-1);
 
