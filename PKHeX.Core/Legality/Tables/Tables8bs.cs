@@ -218,6 +218,17 @@ namespace PKHeX.Core
         };
 
         /// <summary>
+        /// Unavailable Sketch Moves that are only learnable once certain species are distributed / made accessible.
+        /// </summary>
+        public static readonly HashSet<int> SignatureSketch_BDSP = new()
+        {
+            (int)Move.PsychoBoost, // Deoxys
+            (int)Move.SeedFlare, // Shaymin
+            (int)Move.DarkVoid, // Darkrai
+            (int)Move.Judgment, // Arceus
+        };
+
+        /// <summary>
         /// Moves that are kill
         /// </summary>
         public static readonly HashSet<int> DummiedMoves_BDSP = new()
