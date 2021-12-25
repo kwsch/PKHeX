@@ -360,10 +360,24 @@ namespace PKHeX.Core
 
         private static int DetectTradeLanguageG8MeisterMagikarp(PKM pkm, EncounterTrade8b t, int currentLanguageID)
         {
-            if (currentLanguageID is 5)
-                return 1;
-            if (currentLanguageID is 1)
-                return 5;
+            // Receiving the trade on a German game -> Japanese LanguageID.
+            // Receiving the trade on any other language -> German LanguageID.
+            if (currentLanguageID is not ((int)Japanese or (int)German))
+                return 0;
+
+            var nick = pkm.Nickname;
+            var ot = pkm.OT_Name;
+            for (int i = 1; i < (int)ChineseT; i++)
+            {
+                if (t.Nicknames[i] != nick)
+                    continue;
+                if (t.TrainerNames[i] != ot)
+                    continue;
+
+                // Language gets flipped to another language ID; can't be equal.
+                var shouldNotBe = currentLanguageID == (int)German ? German : Japanese;
+                return i != (int)shouldNotBe ? i : 0;
+            }
             return 0;
         }
 
