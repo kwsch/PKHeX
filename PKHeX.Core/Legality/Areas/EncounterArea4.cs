@@ -65,10 +65,10 @@ namespace PKHeX.Core
                 return GetSlotsFuzzy(chain);
             if (pkm.Met_Location != Location)
                 return Array.Empty<EncounterSlot4>();
-            return GetSlotsMatching(chain, pkm.Met_Level);
+            return GetSlotsMatching(chain, pkm.Met_Level, pkm);
         }
 
-        private IEnumerable<EncounterSlot4> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        private IEnumerable<EncounterSlot4> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl, PKM pk)
         {
             foreach (var slot in Slots)
             {
@@ -86,11 +86,56 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(lvl))
                         break;
 
+                    if (Type is SlotType.HoneyTree && IsInaccessibleHoneySlotLocation(slot, pk))
+                        break;
+
                     yield return slot;
                     break;
                 }
             }
         }
+
+        private static bool IsInaccessibleHoneySlotLocation(EncounterSlot4 slot, PKM pk)
+        {
+            // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
+            // C table encounters are only available from 4 trees, which are determined by TID/SID of the save file.
+            if (slot.Species is not (int)Species.Munchlax)
+                return false;
+
+            // We didn't encode the honey tree index to the encounter slot resource.
+            // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
+            var location = pk.Met_Location;
+            var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID, pk.SID);
+            return LocationID_HoneyTree[trees.Tree1] != location
+                && LocationID_HoneyTree[trees.Tree2] != location
+                && LocationID_HoneyTree[trees.Tree3] != location
+                && LocationID_HoneyTree[trees.Tree4] != location;
+        }
+
+        private static readonly byte[] LocationID_HoneyTree =
+        {
+            20, // 00 Route 205 Floaroma
+            20, // 01 Route 205 Eterna
+            21, // 02 Route 206
+            22, // 03 Route 207
+            23, // 04 Route 208
+            24, // 05 Route 209
+            25, // 06 Route 210 Solaceon
+            25, // 07 Route 210 Celestic
+            26, // 08 Route 211
+            27, // 09 Route 212 Hearthome
+            27, // 10 Route 212 Pastoria
+            28, // 11 Route 213
+            29, // 12 Route 214
+            30, // 13 Route 215
+            33, // 14 Route 218
+            36, // 15 Route 221
+            37, // 16 Route 222
+            47, // 17 Valley Windworks
+            48, // 18 Eterna Forest
+            49, // 19 Fuego Ironworks
+            58, // 20 Floaroma Meadow
+        };
 
         // original met level cannot be inferred
         private IEnumerable<EncounterSlot4> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)

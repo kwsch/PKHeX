@@ -129,9 +129,9 @@ namespace PKHeX.Core
                 SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
         }
 
-        public int[] GetMunchlaxTrees() => CalculateMunchlaxTrees(TID, SID);
+        public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID, SID);
 
-        private static int[] CalculateMunchlaxTrees(int tid, int sid)
+        public static MunchlaxTreeSet4 CalculateMunchlaxTrees(int tid, int sid)
         {
             int A = (tid >> 8) % 21;
             int B = (tid & 0x00FF) % 21;
@@ -145,7 +145,7 @@ namespace PKHeX.Core
             if (B == D) D = (D + 1) % 21;
             if (C == D) D = (D + 1) % 21;
 
-            return new[] {A, B, C, D};
+            return new(A, B, C, D);
         }
 
         #endregion
@@ -227,5 +227,10 @@ namespace PKHeX.Core
         Matchup_Checker,
         Stopwatch,
         Alarm_Clock,
+    }
+
+    public readonly record struct MunchlaxTreeSet4(int Tree1, int Tree2, int Tree3, int Tree4)
+    {
+        public int[] ToArray() => new[] { Tree1, Tree2, Tree3, Tree4 };
     }
 }

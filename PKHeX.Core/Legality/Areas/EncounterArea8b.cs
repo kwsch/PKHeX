@@ -89,10 +89,54 @@ namespace PKHeX.Core
                     if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
                         break;
 
+                    if (Type is SlotType.HoneyTree && IsInaccessibleHoneySlotLocation(slot, pkm))
+                        break;
+
                     yield return slot;
                     break;
                 }
             }
         }
+        private static bool IsInaccessibleHoneySlotLocation(EncounterSlot8b slot, PKM pk)
+        {
+            // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
+            // C table encounters are only available from 4 trees, which are determined by TID/SID of the save file.
+            if (slot.Species is not (int)Species.Munchlax)
+                return false;
+
+            // We didn't encode the honey tree index to the encounter slot resource.
+            // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
+            var location = pk.Met_Location;
+            var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID, pk.SID);
+            return LocationID_HoneyTree[trees.Tree1] != location
+                && LocationID_HoneyTree[trees.Tree2] != location
+                && LocationID_HoneyTree[trees.Tree3] != location
+                && LocationID_HoneyTree[trees.Tree4] != location;
+        }
+
+        private static readonly ushort[] LocationID_HoneyTree =
+        {
+            359, //	00 Route 205 Floaroma
+            361, //	01 Route 205 Eterna
+            362, //	02 Route 206
+            364, //	03 Route 207
+            365, //	04 Route 208
+            367, //	05 Route 209
+            373, //	06 Route 210 Solaceon
+            375, //	07 Route 210 Celestic
+            378, //	08 Route 211
+            379, //	09 Route 212 Hearthome
+            383, //	10 Route 212 Pastoria
+            385, //	11 Route 213
+            392, //	12 Route 214
+            394, //	13 Route 215
+            400, //	14 Route 218
+            404, //	15 Route 221
+            407, //	16 Route 222
+            197, //	17 Valley Windworks
+            199, //	18 Eterna Forest
+            201, //	19 Fuego Ironworks
+            253, //	20 Floaroma Meadow
+        };
     }
 }

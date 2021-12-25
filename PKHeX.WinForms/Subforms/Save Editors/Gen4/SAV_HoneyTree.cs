@@ -24,7 +24,7 @@ namespace PKHeX.WinForms
             };
 
             // Get Munchlax tree for this savegame in screen
-            MunchlaxTrees = SAV.GetMunchlaxTrees();
+            MunchlaxTrees = SAV.GetMunchlaxTrees().ToArray();
 
             const string sep = "- ";
             L_Tree0.Text = string.Join(Environment.NewLine, MunchlaxTrees.Select(z => sep + CB_TreeList.Items[z]));
