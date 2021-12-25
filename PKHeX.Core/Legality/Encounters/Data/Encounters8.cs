@@ -600,6 +600,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 832, Level = 63, Locations = new[] {204, 208}, Weather = Normal | Intense_Sun }, // Dubwool on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SW  ) { Species = 576, Level = 65, Locations = new[] {204, 208}, Weather = Heavy_Fog }, // Gothitelle on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(  SH) { Species = 579, Level = 65, Locations = new[] {204, 208}, Weather = Heavy_Fog }, // Reuniclus on Slippery Slope, Frostpoint Field
+            new EncounterStatic8S(SWSH) { Species = 461, Level = 63, Locations = new[] {204, 208}, Weather = Overcast }, // Weavile in Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SWSH) { Species = 531, Level = 62, Locations = new[] {204, 208}, Weather = Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Audino on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SWSH) { Species = 615, Level = 62, Locations = new[] {204, 208, 210}, Weather = Icy }, // Cryogonal on Slippery Slope, Frostpoint Field, Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 778, Level = 62, Locations = new[] {204, 208, 210, 212}, Weather = Heavy_Fog }, // Mimikyu on Slippery Slope, Frostpoint Field, Giant’s Bed, Old Cemetery
@@ -613,7 +614,6 @@ namespace PKHeX.Core
             new(SWSH) { Species = 029, Level = 60, Location = 208, Weather = Normal | Overcast | Intense_Sun | Icy }, // Nidoran♀ in Frostpoint Field
             new(SWSH) { Species = 032, Level = 60, Location = 208, Weather = Normal | Overcast | Intense_Sun | Icy }, // Nidoran♂ in Frostpoint Field
             new(SWSH) { Species = 359, Level = 62, Location = 208, Weather = Snowstorm }, // Absol in Frostpoint Field
-            new(SWSH) { Species = 461, Level = 63, Location = 208, Weather = Overcast }, // Weavile in Frostpoint Field
             new(SWSH) { Species = 143, Level = 65, Location = 208, Weather = Normal | Stormy | Intense_Sun | Overcast }, // Snorlax in Frostpoint Field
             new EncounterStatic8S(SWSH) { Species = 584, Level = 65, Locations = new[] {208, 210}, Weather = Icy }, // Vanilluxe in Frostpoint Field, Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 333, Level = 60, Locations = new[] {208, 210}, Weather = Overcast }, // Swablu in Frostpoint Field, Giant’s Bed
