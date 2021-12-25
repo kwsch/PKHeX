@@ -203,7 +203,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg8BDSP(PKM pkm)
         {
             if (pkm.BDSP)
-                return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_BDSP);
+                return VerifyEncounterEggLevelLoc(pkm, 1, Legal.IsValidEggHatchLocation8b);
 
             // no other games
             return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
@@ -211,9 +211,15 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, ICollection<int> MetLocations)
         {
+            return VerifyEncounterEggLevelLoc(pkm, eggLevel, (location, version) => MetLocations.Contains(location));
+        }
+
+        // (hatch location, hatch version, bool result)
+        private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, Func<int, GameVersion, bool> isValid)
+        {
             if (pkm.Met_Level != eggLevel)
                 return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, eggLevel), CheckIdentifier.Encounter);
-            return MetLocations.Contains(pkm.Met_Location)
+            return isValid(pkm.Met_Location, (GameVersion)pkm.Version)
                 ? new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
         }
