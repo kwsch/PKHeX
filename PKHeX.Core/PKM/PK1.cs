@@ -108,7 +108,7 @@ namespace PKHeX.Core
                 return;
 
             var table = EvolutionTree.GetEvolutionTree(1);
-            var evos = table.GetValidPreEvolutions(this, maxLevel: 100, maxSpeciesOrigin: -1, skipChecks: true);
+            var evos = table.GetValidPreEvolutions(this, maxLevel: 100, maxSpeciesOrigin: Legal.MaxSpeciesID_1, skipChecks: true);
             var baseSpecies = evos[^1].Species;
             if (IsCatchRatePreEvolutionRate(baseSpecies, value, rate))
                 return;
