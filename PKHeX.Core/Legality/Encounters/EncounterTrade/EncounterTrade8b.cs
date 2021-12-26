@@ -37,12 +37,9 @@
             base.ApplyDetails(sav, criteria, pk);
             var pb8 = (PB8)pk;
 
-            // Has German Language ID for all except German origin, which is English
+            // Has German Language ID for all except German origin, which is Japanese
             if (Species == (int)Core.Species.Magikarp)
-                pb8.Language = (int)(pb8.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
-            // All other trades received: English games have a Japanese language ID instead of English.
-            else if (pb8.Language == (int)LanguageID.English)
-                pb8.Language = (int)LanguageID.Japanese;
+                pb8.Language = (int)(pb8.Language == (int)LanguageID.German ? LanguageID.Japanese : LanguageID.German);
 
             this.CopyContestStatsTo(pb8);
             pb8.HT_Language = sav.Language;
