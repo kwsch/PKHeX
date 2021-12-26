@@ -265,6 +265,8 @@ namespace PKHeX.WinForms
                 }
                 for (int f = 0; f < fc; f++)
                 {
+                    if (FormInfo.IsBattleOnlyForm(s, f, pk.Format))
+                        continue;
                     var encs = GetEncounters(s, f, moves, pk, versions);
                     foreach (var enc in encs)
                         yield return enc;
