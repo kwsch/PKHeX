@@ -493,7 +493,11 @@ namespace PKHeX.Core
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (moves.Any(z => z != null && z.Generation != enc.Generation && z.Generation <= 2))
+            {
+                if (pkm is PK1 {Catch_Rate: not 0} g1 && !IsTradebackCatchRate(g1.Catch_Rate))
+                    return TimeCapsuleEvaluation.BadCatchRate;
                 return enc.Generation == 2 ? TimeCapsuleEvaluation.Transferred21 : TimeCapsuleEvaluation.Transferred12;
+            }
 
             if (pkm is not GBPKM gb)
             {
@@ -518,9 +522,14 @@ namespace PKHeX.Core
 
             if (gb is PK1 pk1)
             {
+                var rate = pk1.Catch_Rate;
+                if (rate == 0)
+                    return TimeCapsuleEvaluation.Transferred12;
+
+                bool isTradebackItem = IsTradebackCatchRate(rate);
                 if (IsCatchRateMatchEncounter(enc, pk1))
-                    return IsTradebackCatchRate(pk1.Catch_Rate) ? TimeCapsuleEvaluation.Indeterminate : TimeCapsuleEvaluation.NotTransferred;
-                return IsTradebackCatchRate(pk1.Catch_Rate) ? TimeCapsuleEvaluation.Transferred12 : TimeCapsuleEvaluation.BadCatchRate;
+                    return isTradebackItem ? TimeCapsuleEvaluation.Indeterminate : TimeCapsuleEvaluation.NotTransferred;
+                return isTradebackItem ? TimeCapsuleEvaluation.Transferred12 : TimeCapsuleEvaluation.BadCatchRate;
             }
             return TimeCapsuleEvaluation.Indeterminate;
         }

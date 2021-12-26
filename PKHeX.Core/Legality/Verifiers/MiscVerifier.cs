@@ -168,7 +168,7 @@ namespace PKHeX.Core
         {
             var catch_rate = pk1.Catch_Rate;
             var tradeback = GBRestrictions.IsTimeCapsuleTransferred(pk1, data.Info.Moves, data.EncounterMatch);
-            var result = tradeback == TimeCapsuleEvaluation.NotTransferred
+            var result = tradeback is TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate
                 ? GetWasNotTradeback(tradeback)
                 : GetWasTradeback(tradeback);
             data.AddLine(result);
@@ -185,6 +185,8 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
             {
+                if (data.Info.Moves.Any(z => z.Generation == 2))
+                    return GetInvalid(LG1CatchRateItem);
                 var e = data.EncounterMatch;
                 if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
