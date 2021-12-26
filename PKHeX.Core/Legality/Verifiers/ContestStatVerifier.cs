@@ -44,7 +44,11 @@ public sealed class ContestStatVerifier : Verifier
 
             // Check for stat values that exceed a valid sheen value.
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
-            var minSheen = CalculateMinimumSheen(s, pkm.Nature, initial, gen3);
+            bool bdsp = pkm.HasVisitedBDSP(data.Info.EncounterOriginal.Species);
+            var minSheen = bdsp
+                ? CalculateMinimumSheen8b(s, pkm.Nature, initial)
+                : CalculateMinimumSheen(s, pkm.Nature, initial, gen3);
+
             if (s.CNT_Sheen < minSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooLow_0, minSheen)));
 

@@ -149,6 +149,18 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
 
+        internal static bool HasVisitedBDSP(this PKM pkm, int species)
+        {
+            if (!pkm.InhabitedGeneration(8, species)) 
+                return false;
+            if (pkm.BDSP)
+                return true;
+            if (pkm.IsUntraded)
+                return false;
+            var pi = (PersonalInfoBDSP)PersonalTable.BDSP[species];
+            return pi.IsPresentInGame;
+        }
+
         /// <summary>
         /// Indicates if the moveset is restricted to only the original version.
         /// </summary>

@@ -5,9 +5,11 @@ namespace PKHeX.Core;
 
 public static class ContestStatInfo
 {
-    private const int WorstFeelBlock = 3;
-    private const int WorstFeelPoffin = 17;
+    private const int LowestFeelBlock3 = 3;
+    private const int LowestFeelPoffin4 = 17;
+    private const int LowestFeelPoffin8b = 8;
     private const int MaxContestStat = 255;
+    private const int BestSheenStat8b = 160; // using optimal poffins in BD/SP, roughly 160-170; be generous.
 
     public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc)
     {
@@ -60,7 +62,23 @@ public static class ContestStatInfo
             return initial.CNT_Sheen;
 
         // Can get trash poffins by burning and spilling on purpose.
-        return Math.Min(MaxContestStat, avg * WorstFeelPoffin);
+        return Math.Min(MaxContestStat, avg * LowestFeelPoffin4);
+    }
+
+    // Slightly better stat:sheen ratio than Gen4; prefer if has visited.
+    public static int CalculateMinimumSheen8b(IContestStats s, int nature, IContestStats initial)
+    {
+        if (s.IsContestEqual(initial))
+            return initial.CNT_Sheen;
+
+        var rawAvg = GetAverageFeel(s, 0, initial);
+        if (rawAvg == MaxContestStat)
+            return BestSheenStat8b;
+
+        var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
+        avg = Math.Min(rawAvg, avg); // be generous
+
+        return Math.Min(BestSheenStat8b, Math.Max(LowestFeelPoffin8b, avg));
     }
 
     public static int CalculateMinimumSheen(IContestStats s, int nature, IContestStats initial, bool pokeBlock3)
@@ -75,7 +93,7 @@ public static class ContestStatInfo
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
 
-        var worst = pokeBlock3 ? WorstFeelBlock : WorstFeelPoffin;
+        var worst = pokeBlock3 ? LowestFeelBlock3 : LowestFeelPoffin4;
         return Math.Min(MaxContestStat, Math.Max(worst, avg));
     }
 
@@ -97,7 +115,7 @@ public static class ContestStatInfo
 
         // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
         var permit = has3 ? (sum * 21 / 6) : (sum * 19 / 9);
-        return Math.Min(MaxContestStat, Math.Max(WorstFeelBlock, permit));
+        return Math.Min(MaxContestStat, Math.Max(LowestFeelBlock3, permit));
     }
 
     private static int GetAverageFeel(IContestStats s, int nature, IContestStats initial)
