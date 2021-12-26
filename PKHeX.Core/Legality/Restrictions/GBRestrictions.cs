@@ -235,7 +235,7 @@ namespace PKHeX.Core
         private static int GetRequiredMoveCount(PK1 pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves, int originalSpecies)
         {
             if (SpecialMinMoveSlots.Contains(pk.Species))
-                return GetRequiredMoveCountSpecial(pk, moves, learn);
+                return GetRequiredMoveCountSpecial(pk, moves, learn, originalSpecies);
 
             // A pokemon is captured with initial moves and can't forget any until have all 4 slots used
             // If it has learn a move before having 4 it will be in one of the free slots
@@ -319,12 +319,12 @@ namespace PKHeX.Core
             return usedslots;
         }
 
-        private static int GetRequiredMoveCountSpecial(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn)
+        private static int GetRequiredMoveCountSpecial(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, int originalSpecies)
         {
             // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
             // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves,
             // every other move could be avoided switching game or evolving
-            var mandatory = GetRequiredMoveCountLevel(pk);
+            var mandatory = GetRequiredMoveCountLevel(pk, originalSpecies);
             switch (pk.Species)
             {
                 case (int)Exeggutor when pk.CurrentLevel >= 28: // Exeggutor
@@ -346,10 +346,9 @@ namespace PKHeX.Core
             return mandatory.Distinct().Count(z => z != 0) + moves.Where(m => m != 0).Count(m => !mandatory.Contains(m) && learn[1].Contains(m));
         }
 
-        private static List<int> GetRequiredMoveCountLevel(PKM pk)
+        private static List<int> GetRequiredMoveCountLevel(PKM pk, int basespecies)
         {
             int species = pk.Species;
-            int basespecies = EvoBase.GetBaseSpecies(pk).Species;
             int maxlevel = 1;
             int minlevel = 1;
 

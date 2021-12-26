@@ -107,7 +107,9 @@ namespace PKHeX.Core
             if (value == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
                 return;
 
-            int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
+            var table = EvolutionTree.GetEvolutionTree(1);
+            var evos = table.GetValidPreEvolutions(this, maxLevel: 100, maxSpeciesOrigin: -1, skipChecks: true);
+            var baseSpecies = evos[^1].Species;
             if (IsCatchRatePreEvolutionRate(baseSpecies, value, rate))
                 return;
 

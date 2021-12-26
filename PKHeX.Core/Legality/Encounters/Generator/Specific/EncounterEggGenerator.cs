@@ -17,10 +17,12 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, int generation, bool all = false)
         {
             System.Diagnostics.Debug.Assert(generation >= 3); // if generating Gen2 eggs, use the other generator.
-            int species = pkm.Species;
-            if (!Breeding.CanHatchAsEgg(species))
+            int currentSpecies = pkm.Species;
+            if (!Breeding.CanHatchAsEgg(currentSpecies))
                 yield break;
-            if (!Breeding.CanHatchAsEgg(species, pkm.Form, generation))
+
+            var currentForm = pkm.Form;
+            if (!Breeding.CanHatchAsEgg(currentSpecies, currentForm, generation))
                 yield break; // can't originate from eggs
 
             // version is a true indicator for all generation 3-5 origins
@@ -31,26 +33,39 @@ namespace PKHeX.Core
             int lvl = EggStateLegality.GetEggLevel(generation);
             int max = GetMaxSpeciesOrigin(generation);
 
-            var e = EvoBase.GetBaseSpecies(chain, 0);
-            if (e.Species <= max && Breeding.CanHatchAsEgg(e.Species, e.Form, ver))
+            var (species, form) = GetBaseSpecies(chain, 0);
+            if ((uint)species <= max)
             {
-                yield return new EncounterEgg(e.Species, e.Form, lvl, generation, ver);
-                if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(e.Species, e.Form, lvl, generation, GetOtherTradePair(ver));
+                // NOTE: THE SPLIT-BREED SECTION OF CODE SHOULD BE EXACTLY THE SAME AS THE BELOW SECTION
+                if (FormInfo.IsBattleOnlyForm(species, form, generation))
+                    form = FormInfo.GetOutOfBattleForm(species, form, generation);
+                if (Breeding.CanHatchAsEgg(species, form, ver))
+                {
+                    yield return new EncounterEgg(species, form, lvl, generation, ver);
+                    if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
+                        yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver));
+                }
             }
 
-            if (!Breeding.GetSplitBreedGeneration(generation).Contains(species))
+            if (!Breeding.GetSplitBreedGeneration(generation).Contains(currentSpecies))
                 yield break; // no other possible species
 
-            var o = EvoBase.GetBaseSpecies(chain, 1);
-            if (o.Species == e.Species)
+            var otherSplit = species;
+            (species, form) = GetBaseSpecies(chain, 1);
+            if ((uint)species == otherSplit)
                 yield break;
 
-            if (o.Species <= max && Breeding.CanHatchAsEgg(o.Species, o.Form, ver))
+            if (species <= max)
             {
-                yield return new EncounterEgg(o.Species, o.Form, lvl, generation, ver);
-                if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(o.Species, o.Form, lvl, generation, GetOtherTradePair(ver));
+                // NOTE: THIS SECTION OF CODE SHOULD BE EXACTLY THE SAME AS THE ABOVE SECTION
+                if (FormInfo.IsBattleOnlyForm(species, form, generation))
+                    form = FormInfo.GetOutOfBattleForm(species, form, generation);
+                if (Breeding.CanHatchAsEgg(species, form, ver))
+                {
+                    yield return new EncounterEgg(species, form, lvl, generation, ver);
+                    if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
+                        yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver));
+                }
             }
         }
 
@@ -65,6 +80,20 @@ namespace PKHeX.Core
         private static bool HasOtherGamePair(GameVersion ver)
         {
             return ver < GameVersion.GP; // lgpe and sw/sh don't have a sister pair
+        }
+
+        private static (int Species, int Form) GetBaseSpecies(IReadOnlyList<EvoCriteria> evolutions, int skipOption)
+        {
+            int species = evolutions[0].Species;
+            if (species == (int)Species.Shedinja) // Shedinja
+                return ((int)Species.Nincada, 0); // Nincada
+
+            // skip n from end, return empty if invalid index
+            int index = evolutions.Count - 1 - skipOption;
+            if ((uint)index >= evolutions.Count)
+                return (-1, 0);
+            var evo = evolutions[index];
+            return (evo.Species, evo.Form);
         }
     }
 }
