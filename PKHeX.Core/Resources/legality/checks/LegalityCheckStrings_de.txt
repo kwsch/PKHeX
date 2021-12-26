@@ -47,7 +47,10 @@ LBallNone = No check satisfied, assuming illegal.
 LBallSpecies = Can't obtain species in Ball.
 LBallSpeciesPass = Ball possible for species.
 LBallUnavailable = Ball unobtainable in origin Generation.
+LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
+LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = Contest Stats should be 0.
+LContestZeroSheen = Contest Stat Sheen should be 0.
 LDateOutsideDistributionWindow = Met Date is outside of distribution window.
 LEffort2Remaining = 2 EVs remaining.
 LEffortAbove252 = EVs cannot go above 252.
@@ -312,6 +315,7 @@ LNickMatchLanguageFlag = Nickname flagged, matches species name.
 LNickMatchNoOthers = Nickname does not match another species name.
 LNickMatchNoOthersFail = Nickname matches another species name (+language).
 LOT_IDEqual = TID and SID are equal.
+LOT_IDInvalid = TID and SID combination is not possible.
 LOT_IDs0 = TID and SID are 0.
 LOT_SID0 = SID is zero.
 LOT_SID0Invalid = SID should be 0.
@@ -342,6 +346,7 @@ LStatGigantamaxValid = Gigantamax Flag was changed via Max Soup.
 LStatIncorrectCP = Calculated CP does not match stored value.
 LStatIncorrectHeight = Calculated Height does not match stored value.
 LStatIncorrectWeight = Calculated Weight does not match stored value.
+LStatInvalidHeightWeight = Height / Weight values are statistically improbable.
 LStatNatureInvalid = Stat Nature is not within the expected range.
 LSuperComplete = Super Training complete flag mismatch.
 LSuperDistro = Distribution Super Training missions are not released.

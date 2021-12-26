@@ -47,7 +47,10 @@ LBallNone = 만족한 체크가 없습니다. 존재 불가능한 포켓몬으�
 LBallSpecies = 이 포켓몬 종류를 잡을 수 없는 볼입니다.
 LBallSpeciesPass = 이 포켓몬 종류를 잡을 수 있는 볼입니다.
 LBallUnavailable = 만난 게임에서 얻을 수 없는 볼입니다.
+LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
+LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = 컨디션은 0이어야 합니다.
+LContestZeroSheen = Contest Stat Sheen should be 0.
 LDateOutsideDistributionWindow = Met Date is outside of distribution window.
 LEffort2Remaining = EV가 2 남았습니다.
 LEffortAbove252 = EV는 252 이하여야 합니다.
@@ -312,6 +315,7 @@ LNickMatchLanguageFlag = 이름 플래그가 켜져 있으나 이름이 포켓�
 LNickMatchNoOthers = 이름이 다른 포켓몬 종류와 일치하지 않습니다.
 LNickMatchNoOthersFail = 이름이 다른 포켓몬 종류와 일치합니다 (+언어).
 LOT_IDEqual = TID와 SID가 동일합니다.
+LOT_IDInvalid = TID and SID combination is not possible.
 LOT_IDs0 = TID와 SID가 0입니다.
 LOT_SID0 = SID가 0입니다.
 LOT_SID0Invalid = SID는 0이어야 합니다.
@@ -342,6 +346,7 @@ LStatGigantamaxValid = Gigantamax Flag was changed via Max Soup.
 LStatIncorrectCP = 계산된 CP와 저장된 값이 일치하지 않습니다.
 LStatIncorrectHeight = 계산된 키와 저장된 값이 일치하지 않습니다.
 LStatIncorrectWeight = 계산된 몸무게와 저장된 값이 일치하지 않습니다.
+LStatInvalidHeightWeight = Height / Weight values are statistically improbable.
 LStatNatureInvalid = Stat Nature is not within the expected range.
 LSuperComplete = 대단한 특훈 완료 플래그가 일치하지 않습니다.
 LSuperDistro = 배분한 대단한 특훈 미션이 배포되지 않은 미션입니다.

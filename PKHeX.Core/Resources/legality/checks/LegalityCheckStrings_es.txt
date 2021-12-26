@@ -47,7 +47,10 @@ LBallNone = No cumple con el chequeo, se asume ilegalidad.
 LBallSpecies = La especie no se puede obtener en esta Ball.
 LBallSpeciesPass = Ball posible para ésta Especie.
 LBallUnavailable = Ball imposible en la Generación de origen.
+LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
+LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = Las estadísticas de Concurso deberían ser 0.
+LContestZeroSheen = Contest Stat Sheen should be 0.
 LDateOutsideDistributionWindow = La fecha de encuentro está fuera del rango de fechas de distribución.
 LEffort2Remaining = 2 EVs restantes.
 LEffortAbove252 = Los EVs no pueden superar los 252.
@@ -312,6 +315,7 @@ LNickMatchLanguageFlag = Mote marcado, coincide con el de la especie.
 LNickMatchNoOthers = El Mote no coincide con el de otra especie.
 LNickMatchNoOthersFail = El Mote coincide con el de otra especie (+Idioma).
 LOT_IDEqual = El TID y el SID son iguales.
+LOT_IDInvalid = TID and SID combination is not possible.
 LOT_IDs0 = El TID y el SID son 0.
 LOT_SID0 = El SID es cero.
 LOT_SID0Invalid = El SID debería ser 0.
@@ -342,6 +346,7 @@ LStatGigantamaxValid = La marca de Gigamax fue cambiada por Maxi Sopa.
 LStatIncorrectCP = Los CP calculados no concuerdan con el valor almacenado.
 LStatIncorrectHeight = La Altura calculada no concuerda con el valor almacenado.
 LStatIncorrectWeight = El Peso calculado no concuerda con el valor almacenado.
+LStatInvalidHeightWeight = Height / Weight values are statistically improbable.
 LStatNatureInvalid = La Estadística de la Naturaleza no está dentro del rango esperado.
 LSuperComplete = El Super Entrenamiento completo no es correcto.
 LSuperDistro = Las misiones de Super Entrenamiento distribuidas no están liberadas.

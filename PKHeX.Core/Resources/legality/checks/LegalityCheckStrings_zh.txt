@@ -47,7 +47,10 @@ LBallNone = 没有满足条件的检查，假设为不合法。
 LBallSpecies = 不能以该球捕获宝可梦。
 LBallSpeciesPass = 球对该种类合法。
 LBallUnavailable = 在原来世代该球不可获得。
+LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
+LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = 华丽大赛状态值应为0。
+LContestZeroSheen = Contest Stat Sheen should be 0.
 LDateOutsideDistributionWindow = 相遇日期在配信日期区间之外.
 LEffort2Remaining = 剩下2点努力值。
 LEffortAbove252 = 单项努力值不能超过252。
@@ -312,6 +315,7 @@ LNickMatchLanguageFlag = 昵称被标记, 与种类名一致。
 LNickMatchNoOthers = 昵称不与另一种类名一致。
 LNickMatchNoOthersFail = 昵称与另一宝可梦种类名一致 (+language)。
 LOT_IDEqual = 表里ID相等。
+LOT_IDInvalid = TID and SID combination is not possible.
 LOT_IDs0 = 表ID与里ID为 0。
 LOT_SID0 = 里ID为0。
 LOT_SID0Invalid = 里ID应为 0。
@@ -342,6 +346,7 @@ LStatGigantamaxValid = 超级极巨标志已被极巨汤修改.
 LStatIncorrectCP = 计算的CP值与存储值不匹配.
 LStatIncorrectHeight = 计算的高度与存储值不匹配
 LStatIncorrectWeight = 计算的重量与存储值不匹配
+LStatInvalidHeightWeight = Height / Weight values are statistically improbable.
 LStatNatureInvalid = 性格不在期望范围内.
 LSuperComplete = 超级训练完成标记不匹配。
 LSuperDistro = 配信超级训练任务未发布。

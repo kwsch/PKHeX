@@ -47,7 +47,10 @@ LBallNone = Aucune vérification réussie, Pokémon considéré illégal.
 LBallSpecies = L'espèce ne peut pas être capturée avec cette Ball.
 LBallSpeciesPass = Ball possible pour les espèces.
 LBallUnavailable = Ball impossible à obtenir dans la génération du jeu.
+LContestSheenTooHigh_0 = Contest Stat Sheen should be <= {0}.
+LContestSheenTooLow_0 = Contest Stat Sheen should be >= {0}.
 LContestZero = Les Stats de Concours doivent être 0.
+LContestZeroSheen = Contest Stat Sheen should be 0.
 LDateOutsideDistributionWindow = La date de rencontre est en dehors de la fenêtre de distribution.
 LEffort2Remaining = 2 EVs restants. 
 LEffortAbove252 = Les EVs dans une seule statistique ne peuvent pas dépasser 252.
@@ -312,6 +315,7 @@ LNickMatchLanguageFlag = Surnom marqué, coïncide avec celui de l'espèce.
 LNickMatchNoOthers = Le surnom ne correspond pas au nom d'une autre espèce.
 LNickMatchNoOthersFail = Surnom correspond à un autre nom d'espèce (+ langue).
 LOT_IDEqual = L'ID Dresseur est égal à l'ID Secret.
+LOT_IDInvalid = TID and SID combination is not possible.
 LOT_IDs0 = L'ID Dresseur et son ID secret sont nuls.
 LOT_SID0 = L'ID Secret est 0.
 LOT_SID0Invalid = L'ID secret doit être 0
@@ -342,6 +346,7 @@ LStatGigantamaxValid = La marque Gigamax a été changée via Max Soup.
 LStatIncorrectCP = Le CP calculé ne correspond pas à la valeur enregistrée.
 LStatIncorrectHeight = La hauteur calculée ne correspond pas à la valeur stockée.
 LStatIncorrectWeight = Le poids calculé ne correspond pas à la valeur stockée.
+LStatInvalidHeightWeight = Height / Weight values are statistically improbable.
 LStatNatureInvalid = La Nature Stat n'est pas dans le rang attendue.
 LSuperComplete = Contradiction avec le flag d'entraînement SPV complété.
 LSuperDistro = Les missions Super Training distribuées ne sont pas publiées.
