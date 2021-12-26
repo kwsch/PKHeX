@@ -60,7 +60,9 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form) // no wild forms can change
+                    // Deerling and Sawsbuck can change forms when seasons change, thus can be any of the [0,3] form values.
+                    // no other wild forms can change
+                    if (slot.Form != evo.Form && slot.Species is not ((int)Species.Deerling or (int)Species.Sawsbuck))
                         break;
 
                     yield return slot;
