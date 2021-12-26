@@ -74,8 +74,8 @@
                 // Has German Language ID for all except German origin, which is English
                 if (Species == (int)Core.Species.Magikarp)
                     pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
-                // All other trades received: English games have a Japanese language ID instead of English.
-                else if (pkm.Language == (int)LanguageID.English)
+                // All other trades received (DP only): English games have a Japanese language ID instead of English.
+                else if (pkm.Version is not (int)GameVersion.Pt && pkm.Language == (int)LanguageID.English)
                     pkm.Language = (int)LanguageID.Japanese;
             }
             else // HGSS
