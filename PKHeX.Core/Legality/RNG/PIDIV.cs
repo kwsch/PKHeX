@@ -16,8 +16,6 @@ public readonly record struct PIDIV(PIDType Type, uint OriginSeed = 0)
     /// <remarks> Some PIDIVs may be generated without a single seed, but may follow a traceable pattern. </remarks>
     public bool NoSeed => Type is PIDType.None or PIDType.CuteCharm or PIDType.Pokewalker or PIDType.G5MGShiny;
 
-    /// <summary> Type of PIDIV correlation </summary>
-
 #if DEBUG
     public override string ToString() => NoSeed ? Type.ToString() : $"{Type} - 0x{OriginSeed:X8}";
 #endif
