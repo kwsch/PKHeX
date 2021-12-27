@@ -3,7 +3,6 @@ using System.ComponentModel;
 
 namespace PKHeX.Core
 {
-#pragma warning disable CA1819 // Properties should not return arrays
     public sealed class BattleTree7 : SaveBlock
     {
         public BattleTree7(SAV7SM sav, int offset) : base(sav) => Offset = offset;

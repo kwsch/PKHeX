@@ -6,7 +6,6 @@ namespace PKHeX.Core
     /// Self-modifying RNG structure that implements xoroshiro128+
     /// </summary>
     /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Unused")]
     public ref struct Xoroshiro128Plus
     {
         public const ulong XOROSHIRO_CONST = 0x82A2B175229D6A5B;

@@ -63,9 +63,7 @@ namespace PKHeX.WinForms
             if (File.Exists(externalLangPath))
             {
                 try { return File.ReadAllLines(externalLangPath); }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch { /* In use? Just return the internal resource. */ }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             if (Util.IsStringListCached(file, out var result))
@@ -178,10 +176,8 @@ namespace PKHeX.WinForms
                 {
                     var _ = (Form?)System.Activator.CreateInstance(t, new object[argCount]);
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 // This is a debug utility method, will always be logging. Shouldn't ever fail.
                 catch
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     Debug.Write($"Failed to create a new form {t}");
                 }

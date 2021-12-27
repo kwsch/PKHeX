@@ -1,6 +1,5 @@
 ﻿namespace PKHeX.Core
 {
-#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum TrainerSprite6
     {
         Serena = 00,

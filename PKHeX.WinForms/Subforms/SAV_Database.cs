@@ -335,9 +335,7 @@ namespace PKHeX.WinForms
                 while (!IsHandleCreated) { }
                 BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { /* Window Closed? */ }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
@@ -651,9 +649,7 @@ namespace PKHeX.WinForms
                     continue;
 
                 try { File.Delete(path); ++deleted; }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + path); }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             if (deleted == 0)

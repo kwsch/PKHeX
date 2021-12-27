@@ -71,9 +71,7 @@ namespace PKHeX.WinForms
                 System.Diagnostics.Process.Start(Application.ExecutablePath);
                 Environment.Exit(0);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error("Failed to delete settings.", ex.Message);
             }

@@ -15,13 +15,11 @@ namespace PKHeX.Core
 
         public FieldObjectSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-#pragma warning disable CA1819 // Properties should not return arrays
         public FieldObject8b[] AllObjects
         {
             get => GetObjects();
             set => SetObjects(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private FieldObject8b[] GetObjects()
         {

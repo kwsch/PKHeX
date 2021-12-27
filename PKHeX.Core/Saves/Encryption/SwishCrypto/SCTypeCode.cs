@@ -5,7 +5,6 @@ namespace PKHeX.Core
     /// <summary>
     /// Block type for a <see cref="SCBlock"/>.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1027:Mark enums with FlagsAttribute", Justification = "NOT FLAGS")]
     public enum SCTypeCode : byte
     {
         None = 0,

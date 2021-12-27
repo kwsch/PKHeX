@@ -786,9 +786,7 @@ namespace PKHeX.Core
                 result = files.Where(f => IsSizeValid(FileUtil.GetFileSize(f)));
                 return true;
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 result = new[]
                 {

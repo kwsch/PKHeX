@@ -228,9 +228,7 @@ namespace PKHeX.Core
             for (int i = 0; i < count; i++)
             {
                 try { result[i] = sav.GetBoxName(i); }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch { result[i] = $"Box {i + 1}"; }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             return result;

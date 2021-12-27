@@ -18,10 +18,8 @@ namespace PKHeX.Core
                 using var reader = new StreamReader(stream);
                 return reader.ReadToEnd();
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // No internet?
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine(e.Message);
                 return null;

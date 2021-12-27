@@ -24,9 +24,7 @@ namespace PKHeX.WinForms
             {
                 T? activate;
                 try { activate = (T?)Activator.CreateInstance(t); }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{t.Name}]: {t.FullName}");
                     System.Diagnostics.Debug.WriteLine(ex.Message);
@@ -71,10 +69,8 @@ namespace PKHeX.WinForms
                 var types = z.GetTypes();
                 return types.Where(type => IsTypePlugin(type, pluginType));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // User plugins can be out of date, with mismatching API surfaces.
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}");
                 System.Diagnostics.Debug.WriteLine(ex.Message);

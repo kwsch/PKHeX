@@ -91,9 +91,7 @@ namespace PKHeX.WinForms
                 mg = g;
             }
             // Some user input mystery gifts can have out-of-bounds values. Just swallow any exception.
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error(MsgMysteryGiftParseTypeUnknown, e);
                 RTB.Clear();
@@ -422,9 +420,7 @@ namespace PKHeX.WinForms
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception x)
-#pragma warning restore CA1031 // Do not catch general exception types
             { WinFormsUtil.Error("Drag & Drop Error", x); }
             File.Delete(newfile);
             wc_slot = -1;

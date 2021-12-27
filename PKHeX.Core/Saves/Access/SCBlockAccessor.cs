@@ -24,9 +24,7 @@ namespace PKHeX.Core
         public SCBlock GetBlockSafe(uint key)
         {
             try { return GetBlock(key); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (KeyNotFoundException) { return new SCBlock(0, SCTypeCode.None); }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static SCBlock BinarySearch(IReadOnlyList<SCBlock> arr, uint key)

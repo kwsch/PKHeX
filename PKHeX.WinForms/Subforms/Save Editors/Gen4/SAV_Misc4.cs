@@ -278,9 +278,7 @@ namespace PKHeX.WinForms
                 return; // 24*20*4(ARGB)=1920
 
             Bitmap bmp; try { bmp = (Bitmap)Image.FromFile(inpFileName); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { return; }
-#pragma warning restore CA1031 // Do not catch general exception types
 
             if (bmp.Width != 24 || bmp.Height != 20)
                 return;

@@ -8,7 +8,6 @@ namespace PKHeX.Core
     /// This implementation allows for yielding crypto bytes on demand.
     /// </para>
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Unused")]
     public ref struct SCXorShift32
     {
         private int Counter;

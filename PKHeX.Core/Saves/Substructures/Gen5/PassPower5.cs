@@ -3,9 +3,7 @@
     /// <summary>
     /// Text File 263 in Black2/White2
     /// </summary>
-#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum PassPower5
-#pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
         Encounter_Plus1 = 0,
         Encounter_Plus2 = 1,

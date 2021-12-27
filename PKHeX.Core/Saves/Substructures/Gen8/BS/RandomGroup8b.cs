@@ -15,13 +15,11 @@ namespace PKHeX.Core
 
         public RandomGroup8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-#pragma warning disable CA1819 // Properties should not return arrays
         public RandomSeed8b[] Seeds
         {
             get => GetSeeds();
             set => SetSeeds(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private RandomSeed8b[] GetSeeds()
         {

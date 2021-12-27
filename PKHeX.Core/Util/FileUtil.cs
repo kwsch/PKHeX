@@ -29,10 +29,8 @@ namespace PKHeX.Core
                 var ext = Path.GetExtension(path);
                 return GetSupportedFile(data, ext, reference);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // User input data can be fuzzed; if anything blows up, just fail safely.
             catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine(MessageStrings.MsgFileInUse);
                 Debug.WriteLine(e.Message);
@@ -71,9 +69,7 @@ namespace PKHeX.Core
         public static bool IsFileLocked(string path)
         {
             try { return (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0; }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { return true; }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public static int GetFileSize(string path)
@@ -85,9 +81,7 @@ namespace PKHeX.Core
                     return -1;
                 return (int)size;
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { return -1; } // Bad File / Locked
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)

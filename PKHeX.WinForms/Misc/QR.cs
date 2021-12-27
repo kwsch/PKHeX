@@ -76,10 +76,8 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage))
                 return;
             try { Clipboard.SetImage(PB_QR.Image); }
-#pragma warning disable CA1031 // Do not catch general exception types
             // Clipboard can be locked periodically, just notify on failure.
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private void UpdateBoxSlotCopies(object sender, EventArgs e)

@@ -153,10 +153,8 @@ namespace PKHeX.Core
             }
 
             // ReSharper disable once UnusedMember.Local
-#pragma warning disable CA1822 // do not make this static, we want it to show up in a property grid as a readonly value
             [Description("Type of Value this Block stores")]
             public string ValueType => typeof(T).Name;
-#pragma warning restore CA1822 
 
             public WrappedValueView(SCBlock block, object currentValue)
             {

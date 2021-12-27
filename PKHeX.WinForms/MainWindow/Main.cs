@@ -184,9 +184,7 @@ namespace PKHeX.WinForms
                 Version? latestVersion;
                 // User might not be connected to the internet or with a flaky connection.
                 try { latestVersion = UpdateUtil.GetLatestPKHeXVersion(); }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     Debug.WriteLine($"Exception while checking for latest version: {ex}");
                     return;
@@ -519,9 +517,7 @@ namespace PKHeX.WinForms
                 return;
             }
             byte[] input; try { input = File.ReadAllBytes(path); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e) { WinFormsUtil.Error(MsgFileInUse + path, e); return; }
-#pragma warning restore CA1031 // Do not catch general exception types
 
             string ext = fi.Extension;
             #if DEBUG
@@ -1109,10 +1105,8 @@ namespace PKHeX.WinForms
                     C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
-#pragma warning restore CA1031 // Do not catch general exception types
             { WinFormsUtil.Error("Drag && Drop Error", x); }
             C_SAV.M.Drag.ResetCursor(this);
             File.Delete(newfile);
@@ -1182,9 +1176,7 @@ namespace PKHeX.WinForms
                 if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
                     LoadFile(sav, path); // load save
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error(ex.Message); // `path` contains the error message
             }
@@ -1200,10 +1192,8 @@ namespace PKHeX.WinForms
                 Directory.CreateDirectory(BackupPath);
                 WinFormsUtil.Alert(MsgBackupSuccess, string.Format(MsgBackupDelete, BackupPath));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             // Maybe they put their exe in a folder that we can't create files/folders to.
-#pragma warning restore CA1031 // Do not catch general exception types
             { WinFormsUtil.Error($"{MsgBackupUnable} @ {BackupPath}", ex); }
         }
 

@@ -7,7 +7,6 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
     /// <seealso cref="Xoroshiro128Plus"/>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Unused")]
     public ref struct Xoroshiro128Plus8b
     {
         private ulong s0, s1;

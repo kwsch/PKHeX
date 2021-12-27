@@ -3,9 +3,7 @@
     /// <summary>
     /// <see cref="GameVersion"/> analogues used by Colosseum/XD instead of the main-series values.
     /// </summary>
-#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum GCVersion : byte
-#pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
         None = 0,
         FR = 1,

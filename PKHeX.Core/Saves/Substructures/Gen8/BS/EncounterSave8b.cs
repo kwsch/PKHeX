@@ -77,13 +77,11 @@ namespace PKHeX.Core
             set => Data[Offset + OFS_HoneyTree + 0x08] = value;
         }
 
-#pragma warning disable CA1819 // Properties should not return arrays
         public HoneyTree8b[] HoneyTrees
         {
             get => GetTrees();
             set => SetTrees(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private HoneyTree8b[] GetTrees()
         {

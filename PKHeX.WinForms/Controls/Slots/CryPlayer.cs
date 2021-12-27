@@ -21,9 +21,7 @@ namespace PKHeX.WinForms.Controls
 
             Sounds.SoundLocation = path;
             try { Sounds.Play(); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { Debug.WriteLine("Failed to play sound."); }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public void Stop()
@@ -32,9 +30,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             try { Sounds.Stop(); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch { Debug.WriteLine("Failed to stop sound."); }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static string GetCryPath(ISpeciesForm pk, string cryFolder, int format)

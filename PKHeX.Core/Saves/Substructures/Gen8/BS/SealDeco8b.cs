@@ -21,13 +21,11 @@ namespace PKHeX.Core
 
         public byte CapsuleCount { get => Data[Offset]; set => Data[Offset] = value; }
 
-#pragma warning disable CA1819 // Properties should not return arrays
         public SealCapsule8b[] Capsules
         {
             get => GetCapsules();
             set => SetCapsules(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private SealCapsule8b[] GetCapsules()
         {
@@ -65,13 +63,11 @@ namespace PKHeX.Core
         public uint EncryptionConstant { get => BitConverter.ToUInt32(Data, Offset + 4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4); }
         public uint Unknown            { get => BitConverter.ToUInt32(Data, Offset + 8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 8); }
 
-#pragma warning disable CA1819 // Properties should not return arrays
         public AffixSealData8b[] Seals
         {
             get => GetSeals();
             set => SetSeals(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private AffixSealData8b[] GetSeals()
         {

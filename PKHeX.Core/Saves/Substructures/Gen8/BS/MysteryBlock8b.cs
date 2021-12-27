@@ -78,13 +78,12 @@ namespace PKHeX.Core
         }
 
         #region Received Array
-#pragma warning disable CA1819 // Properties should not return arrays
         public RecvData8b[] Received
         {
             get => GetReceived();
             set => SetReceived(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
+
         private RecvData8b[] GetReceived()
         {
             var result = new RecvData8b[RecvDataMax];
@@ -102,13 +101,12 @@ namespace PKHeX.Core
         #endregion
 
         #region Flag Array
-#pragma warning disable CA1819 // Properties should not return arrays
         public bool[] ReceivedFlags
         {
             get => GetFlags();
             set => SetFlags(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
+
         private bool[] GetFlags()
         {
             var result = new bool[FlagSize];
@@ -126,13 +124,11 @@ namespace PKHeX.Core
         #endregion
 
         #region OneDay Array
-#pragma warning disable CA1819 // Properties should not return arrays
         public OneDay8b[] OneDay
         {
             get => GetOneDay();
             set => SetOneDay(value);
         }
-#pragma warning restore CA1819 // Properties should not return arrays
 
         private OneDay8b[] GetOneDay()
         {

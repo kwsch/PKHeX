@@ -187,10 +187,8 @@ namespace PKHeX.WinForms.Controls
                 var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
                 external = TryMakeDragDropPKM(pb, data, newfile);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error("Drag && Drop Error", x);
                 external = false;

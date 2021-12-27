@@ -4,7 +4,6 @@
     /// Ball Capsule Seals used in Generation 4 save files.
     /// </summary>
     /// <remarks>80 bytes, one for each seal.</remarks>
-#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum Seal4
     {
         HeartA,

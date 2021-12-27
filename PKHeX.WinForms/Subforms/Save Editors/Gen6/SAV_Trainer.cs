@@ -150,9 +150,7 @@ namespace PKHeX.WinForms
                     NUD_Y.Value = (decimal)sit.Y;
                 }
                 // If we can't accurately represent the coordinates, don't allow them to be changed.
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch { GB_Map.Enabled = false; }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             // Load BP and PokeMiles

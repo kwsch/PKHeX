@@ -82,9 +82,7 @@ namespace PKHeX.WinForms
                     details.AppendLine();
                 }
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 details.AppendLine("An error occurred while listing the Loaded Assemblies:");
                 details.AppendLine(ex.ToString());

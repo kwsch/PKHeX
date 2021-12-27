@@ -26,9 +26,7 @@ namespace PKHeX.WinForms
             {
                 Debug.WriteLine($"Unable to read font file: {ex.Message}");
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine($"Unable to add in-game font: {ex.Message}");
             }

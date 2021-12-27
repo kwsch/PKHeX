@@ -141,10 +141,8 @@ namespace PKHeX.WinForms
             {
                 Error(MsgClipboardFailWrite, x);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             // Clipboard might be locked sometimes
             catch
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Error(MsgClipboardFailWrite);
             }
@@ -282,9 +280,7 @@ namespace PKHeX.WinForms
                 {
                     sav = SaveFinder.FindMostRecentSaveFile();
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     Error(ex.Message);
                 }

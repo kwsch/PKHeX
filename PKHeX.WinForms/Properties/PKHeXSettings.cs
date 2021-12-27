@@ -46,9 +46,7 @@ namespace PKHeX.WinForms
                 var lines = File.ReadAllText(configPath);
                 return JsonConvert.DeserializeObject<PKHeXSettings>(lines) ?? new PKHeXSettings();
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception x)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 DumpConfigError(x);
                 return new PKHeXSettings();
@@ -68,9 +66,7 @@ namespace PKHeX.WinForms
                 var text = JsonConvert.SerializeObject(cfg, settings);
                 File.WriteAllText(configPath, text);
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception x)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 DumpConfigError(x);
             }
@@ -82,9 +78,7 @@ namespace PKHeX.WinForms
             {
                 File.WriteAllLines("config error.txt", new[] { x.ToString() });
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine(x); // ???
             }
@@ -100,13 +94,11 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Tracks if the \"Create Backup\" prompt has been issued to the user.")]
         public bool BAKPrompt { get; set; }
 
-#pragma warning disable CA1819 // Properties should not return arrays
         [LocalizedDescription("List of extra locations to look for Save Files.")]
         public string[] OtherBackupPaths { get; set; } = Array.Empty<string>();
 
         [LocalizedDescription("Save File file-extensions (no period) that the program should also recognize.")]
         public string[] OtherSaveFileExtensions { get; set; } = Array.Empty<string>();
-#pragma warning restore CA1819 // Properties should not return arrays
     }
 
     [Serializable]
