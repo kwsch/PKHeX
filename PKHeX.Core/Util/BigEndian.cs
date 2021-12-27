@@ -1,80 +1,18 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
     public static class BigEndian
     {
-        public static uint ToUInt32(ReadOnlySpan<byte> data)
-        {
-            int val = 0;
-            val |= data[0] << 24;
-            val |= data[1] << 16;
-            val |= data[2] << 8;
-            val |= data[3];
-            return (uint)val;
-        }
-
-        public static ushort ToUInt16(ReadOnlySpan<byte> data)
-        {
-            int val = 0;
-            val |= data[0] << 8;
-            val |= data[1];
-            return (ushort)val;
-        }
-
-        public static int ToInt32(ReadOnlySpan<byte> data)
-        {
-            int val = 0;
-            val |= data[0] << 24;
-            val |= data[1] << 16;
-            val |= data[2] << 8;
-            val |= data[3];
-            return val;
-        }
-
-        public static short ToInt16(ReadOnlySpan<byte> data)
-        {
-            int val = 0;
-            val |= data[0] << 8;
-            val |= data[1];
-            return (short)val;
-        }
-
-        public static uint ToUInt32(byte[] data, int offset)
-        {
-            int val = 0;
-            val |= data[offset + 0] << 24;
-            val |= data[offset + 1] << 16;
-            val |= data[offset + 2] << 8;
-            val |= data[offset + 3];
-            return (uint)val;
-        }
-
-        public static ushort ToUInt16(byte[] data, int offset)
-        {
-            int val = 0;
-            val |= data[offset + 0] << 8;
-            val |= data[offset + 1];
-            return (ushort)val;
-        }
-
-        public static int ToInt32(byte[] data, int offset)
-        {
-            int val = 0;
-            val |= data[offset + 0] << 24;
-            val |= data[offset + 1] << 16;
-            val |= data[offset + 2] << 8;
-            val |= data[offset + 3];
-            return val;
-        }
-
-        public static short ToInt16(byte[] data, int offset)
-        {
-            int val = 0;
-            val |= data[offset + 0] << 8;
-            val |= data[offset + 1];
-            return (short)val;
-        }
+        public static uint ToUInt32(ReadOnlySpan<byte> data) => ReadUInt32BigEndian(data);
+        public static ushort ToUInt16(ReadOnlySpan<byte> data) => ReadUInt16BigEndian(data);
+        public static int ToInt32(ReadOnlySpan<byte> data) => ReadInt32BigEndian(data);
+        public static short ToInt16(ReadOnlySpan<byte> data) => ReadInt16BigEndian(data);
+        public static uint ToUInt32(byte[] data, int offset) => ReadUInt32BigEndian(data.AsSpan(offset));
+        public static ushort ToUInt16(byte[] data, int offset) => ReadUInt16BigEndian(data.AsSpan(offset));
+        public static int ToInt32(byte[] data, int offset) => ReadInt32BigEndian(data.AsSpan(offset));
+        public static short ToInt16(byte[] data, int offset) => ReadInt16BigEndian(data.AsSpan(offset));
 
         public static byte[] GetBytes(int value)
         {
