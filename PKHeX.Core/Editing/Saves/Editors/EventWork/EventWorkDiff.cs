@@ -152,7 +152,7 @@ namespace PKHeX.Core
         private readonly record struct FlagSummary(EventVarType Type, int Index, int Raw)
         {
             public override string ToString() => $"{Raw:0000}\t{false}\t{Index:0000}\t{Type}";
-            
+
             public static FlagSummary Get(int rawIndex, EventWork7b ew)
             {
                 var type = ew.GetFlagType(rawIndex, out var subIndex);
