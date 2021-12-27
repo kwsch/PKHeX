@@ -65,16 +65,20 @@ namespace PKHeX.Core
 
             if (IsEgg) // No memories if is egg.
             {
-                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
-                    /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
-                HT_Trash.Clear();
+                if (!IsTradedEgg)
+                {
+                    HT_Friendship = HT_Language = HT_Gender = 0;
+                    HT_Trash.Clear();
+                }
                 return;
             }
 
             if (IsUntraded)
-                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Gender = 0;
 
             int gen = Generation;
             if (gen < 6)
