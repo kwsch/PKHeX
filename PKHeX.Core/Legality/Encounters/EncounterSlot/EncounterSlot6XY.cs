@@ -30,6 +30,6 @@ namespace PKHeX.Core
 
         public EncounterSlot6XY CreatePressureFormCopy(int evoForm) => new((EncounterArea6XY) Area, Species, evoForm, LevelMin, LevelMax) {Pressure = true};
 
-        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
+        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde || IsFriendSafari ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
     }
 }

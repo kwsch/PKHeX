@@ -45,7 +45,7 @@ namespace PKHeX.Core
             return Pressure ? LegalityCheckStrings.LEncConditionLead : LegalityCheckStrings.LEncCondition;
         }
 
-        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || Area.Type == SlotType.Horde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
+        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
         private int[] GetDexNavMoves()
         {
