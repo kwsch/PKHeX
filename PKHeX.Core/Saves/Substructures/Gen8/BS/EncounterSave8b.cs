@@ -110,6 +110,7 @@ namespace PKHeX.Core
         public int BeforeZone { get => BitConverter.ToInt32(Data, Offset + OFS_ZONEHISTORY + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ZONEHISTORY + 0x00); }
         public int OldZone    { get => BitConverter.ToInt32(Data, Offset + OFS_ZONEHISTORY + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ZONEHISTORY + 0x04); }
 
+        // Mesprit
         public int   Roamer1ZoneID  { get => BitConverter.ToInt32 (Data, Offset + OFS_ROAM1 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x00); }
         public ulong Roamer1Seed    { get => BitConverter.ToUInt64(Data, Offset + OFS_ROAM1 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x04); }
         public uint  Roamer1Species { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM1 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x0C); }
@@ -118,6 +119,7 @@ namespace PKHeX.Core
         public uint  Roamer1Status  { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM1 + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x18); }
         public byte  Roamer1Encount { get => Data[Offset + OFS_ROAM1 + 0x1C]; set => Data[Offset + OFS_ROAM1 + 0x1C] = value; }
 
+        // Cresselia
         public int   Roamer2ZoneID  { get => BitConverter.ToInt32 (Data, Offset + OFS_ROAM2 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x00); }
         public ulong Roamer2Seed    { get => BitConverter.ToUInt64(Data, Offset + OFS_ROAM2 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x04); }
         public uint  Roamer2Species { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM2 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x0C); }
