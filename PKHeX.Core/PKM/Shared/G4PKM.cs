@@ -165,6 +165,46 @@ namespace PKHeX.Core
         public abstract byte CNT_Sheen { get; set; }
 
         public abstract GroundTileType GroundTile { get; set; }
+        public abstract byte BallDPPt { get; set; }
+        public abstract byte BallHGSS { get; set; }
+        public abstract byte PokéathlonStat { get; set; }
+
+        public sealed override int Ball
+        {
+            // HG/SS added new ball IDs mid-generation, and the previous Gen4 games couldn't handle invalid ball values.
+            // Pokémon obtained in HG/SS have the HG/SS ball value set (@0x86) to the capture ball.
+            // However, this info is not set in event gift data!
+            // Event gift data contains a pre-formatted PK4 template, which is slightly mutated.
+            // No HG/SS ball values were used in these event gifts, and no HG/SS ball values are set (0).
+
+            // To get the display ball (assume HG/SS +), return the higher of the two values.
+            get => Math.Max(BallHGSS, BallDPPt);
+            set
+            {
+                static byte Clamp(int value, Ball max) => (uint)value <= (uint)max ? (byte)value : (byte)Core.Ball.Poke;
+
+                // Ball to display in DPPt
+                BallDPPt = Clamp(value, Core.Ball.Cherish);
+
+                // Only set the HG/SS value if it originated in HG/SS and was not an event.
+                if (!HGSS || FatefulEncounter)
+                    BallHGSS = 0;
+                else
+                    BallHGSS = Clamp(value, Core.Ball.Sport);
+            }
+        }
+
+        // Synthetic Trading Logic
+        public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
+        {
+            // Eggs do not have any modifications done if they are traded
+            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+            {
+                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
+                return true;
+            }
+            return false;
+        }
 
         protected T ConvertTo<T>() where T : G4PKM, new()
         {
@@ -222,8 +262,10 @@ namespace PKHeX.Core
                 Version = Version,
                 PKRS_Days = PKRS_Days,
                 PKRS_Strain = PKRS_Strain,
-                Ball = Ball,
+                BallDPPt = BallDPPt,
+                BallHGSS = BallHGSS,
                 GroundTile = GroundTile,
+                PokéathlonStat = PokéathlonStat,
                 FatefulEncounter = FatefulEncounter,
 
                 Met_Level = Met_Level,

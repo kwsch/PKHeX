@@ -283,35 +283,12 @@ namespace PKHeX.Core
         private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
-
-        public override int Ball
-        {
-            get =>
-                // Pokemon obtained in HGSS have the HGSS ball set (@0x86)
-                // However, this info is not set when receiving a wondercard!
-                // The PGT contains a preformatted PK4 file, which is slightly modified.
-                // No HGSS balls were used, and no HGSS ball info is set.
-
-                // Sneaky way = return the higher of the two values.
-                Math.Max(Data[0x86], Data[0x83]);
-            set
-            {
-                // Ball to display in DPPt
-                Data[0x83] = (byte)(value <= 0x10 ? value : 4); // Cap at Cherish Ball
-
-                // HGSS Exclusive Balls -- If the user wants to screw things up, let them. Any legality checking could catch hax.
-                if (value > 0x10 || (HGSS && !FatefulEncounter))
-                    Data[0x86] = (byte)(value <= 0x18 ? value : 4); // Cap at Comp Ball
-                else
-                    Data[0x86] = 0; // Unused
-            }
-        }
-
+        public override byte BallDPPt { get => Data[0x83]; set => Data[0x83] = value; }
         public override int Met_Level { get => Data[0x84] & ~0x80; set => Data[0x84] = (byte)((Data[0x84] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x84] >> 7; set => Data[0x84] = (byte)((Data[0x84] & ~0x80) | value << 7); }
         public override GroundTileType GroundTile { get => (GroundTileType)Data[0x85]; set => Data[0x85] = (byte)value; }
-        public byte PokéathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
-        // Unused 0x87
+        public override byte BallHGSS { get => Data[0x86]; set => Data[0x86] = value; }
+        public override byte PokéathlonStat { get => Data[0x87]; set => Data[0x87] = value; }
         #endregion
 
         #region Battle Stats
@@ -335,18 +312,6 @@ namespace PKHeX.Core
         {
             RefreshChecksum();
             return PokeCrypto.EncryptArray45(Data);
-        }
-
-        // Synthetic Trading Logic
-        public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
-        {
-            // Eggs do not have any modifications done if they are traded
-            if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
-            {
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
-                return true;
-            }
-            return false;
         }
 
         public BK4 ConvertToBK4()
@@ -423,6 +388,10 @@ namespace PKHeX.Core
             if (Array.IndexOf(banned, Move3) != -1) Move3 = 0;
             if (Array.IndexOf(banned, Move4) != -1) Move4 = 0;
             pk5.FixMoves();
+
+            // D/P(not Pt)/HG/SS created Shedinja forget to set Gender to Genderless.
+            if (pk5.Species is (int)Core.Species.Shedinja)
+                pk5.Gender = 2; // Genderless
 
             pk5.RefreshChecksum();
             return pk5;
