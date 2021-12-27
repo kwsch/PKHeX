@@ -13,13 +13,9 @@ namespace PKHeX.Core
     /// </summary>
     internal static class GBRestrictions
     {
-        private static readonly int[] G1CaterpieMoves = { 33, 81 };
-        private static readonly int[] G1WeedleMoves = { 40, 81 };
-        //private static readonly int[] G1MetapodMoves = { 33, 81, 106 };
-        private static readonly int[] G1KakunaMoves = { 40, 81, 106 };
         private static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
 
-        internal static readonly int[] Stadium_CatchRate =
+        private static readonly int[] Stadium_CatchRate =
         {
             167, // Normal Box
             168, // Gorgeous Box
@@ -292,7 +288,9 @@ namespace PKHeX.Core
                     break;
                 case (int)Cubone or (int)Marowak: // Cubone & Marowak
                     if (!moves.Contains((int)Move.TailWhip) && !moves.Contains((int)Move.Headbutt)) // Initial Red
-                        usedslots-=2;
+                    {
+                        usedslots -=2;
+                    }
                     else
                     {
                         if (!moves.Contains(39)) // Initial Yellow Tail Whip

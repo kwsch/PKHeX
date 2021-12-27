@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <inheritdoc cref="ISuggestModification"/>
-    public class ComplexSuggestion : ISuggestModification
+    public sealed class ComplexSuggestion : ISuggestModification
     {
         public readonly string Keyword;
         public readonly Func<PKM, bool> Criteria = _ => true;

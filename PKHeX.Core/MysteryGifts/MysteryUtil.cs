@@ -61,19 +61,23 @@ namespace PKHeX.Core
                 }
                 catch { result.Add(MsgMysteryGiftParseFail); }
             }
-            else switch (gift)
+            else
             {
-                case WC7 { IsBP: true } w7bp:
-                    result.Add($"BP: {w7bp.BP}");
-                    break;
-                case WC7 { IsBean: true } w7bean:
-                    result.Add($"Bean ID: {w7bean.Bean}");
-                    result.Add($"Quantity: {w7bean.Quantity}");
-                    break;
-                default:
-                    result.Add(MsgMysteryGiftParseTypeUnknown);
-                    break;
+                switch (gift)
+                {
+                    case WC7 { IsBP: true } w7bp:
+                        result.Add($"BP: {w7bp.BP}");
+                        break;
+                    case WC7 { IsBean: true } w7bean:
+                        result.Add($"Bean ID: {w7bean.Bean}");
+                        result.Add($"Quantity: {w7bean.Quantity}");
+                        break;
+                    default:
+                        result.Add(MsgMysteryGiftParseTypeUnknown);
+                        break;
+                }
             }
+
             switch (gift)
             {
                 case WC7 w7:

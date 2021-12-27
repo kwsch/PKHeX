@@ -423,7 +423,7 @@ namespace PKHeX.WinForms
             var text = TB_Nickname.Text;
             ReadOnlySpan<byte> minTrash = SAV.SetString(text, Math.Min(text.Length, nicktrash.Length));
             if (minTrash.Length > nicktrash.Length)
-                minTrash.Slice(0, nicktrash.Length);
+                minTrash = minTrash[..nicktrash.Length];
             minTrash.CopyTo(nicktrash);
             var d = new TrashEditor(tb, nicktrash, SAV);
             d.ShowDialog();
