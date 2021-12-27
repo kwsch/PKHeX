@@ -929,7 +929,7 @@ namespace PKHeX.Core
         private static (int Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, int currentSpecies) => currentSpecies switch
         {
             // Nincada evo chain travels from M/F -> Genderless Shedinja
-            (int)Species.Shedinja  => ((int)Species.Nincada, PKX.GetGenderFromPID(currentSpecies, pid)),
+            (int)Species.Shedinja  => ((int)Species.Nincada, PKX.GetGenderFromPID((int)Species.Nincada, pid)),
 
             // These evolved species cannot be encountered with cute charm.
             // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
