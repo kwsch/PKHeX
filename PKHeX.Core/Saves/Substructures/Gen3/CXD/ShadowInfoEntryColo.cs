@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core
 {
     public sealed class ShadowInfoEntryColo
     {
@@ -8,8 +11,8 @@
         public ShadowInfoEntryColo() => Data = new byte[SIZE_ENTRY];
         public ShadowInfoEntryColo(byte[] data) => Data = data;
 
-        public uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
-        public int Met_Location { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }
-        public uint Unk08 { get => BigEndian.ToUInt32(Data, 0x08); set => BigEndian.GetBytes(value).CopyTo(Data, 0x08); }
+        public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
+        public int Met_Location { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), (ushort)value); }
+        public uint Unk08 { get => ReadUInt32BigEndian(Data.AsSpan(0x08)); set => WriteUInt32BigEndian(Data.AsSpan(0x08), value); }
     }
 }

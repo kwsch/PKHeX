@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,15 +18,15 @@ namespace PKHeX.Core
             Length = 4 + ChecksumRegionSize;
 
             // Values stored in Big Endian format
-            OriginalChecksum = BigEndian.ToUInt32(data, Offset);
-            ID = BigEndian.ToUInt32(data, Offset + 4);
-            SaveCount = BigEndian.ToUInt32(data, Offset + 8);
+            OriginalChecksum = ReadUInt32BigEndian(data.AsSpan(Offset));
+            ID = ReadUInt32BigEndian(data.AsSpan(Offset + 4));
+            SaveCount = ReadUInt32BigEndian(data.AsSpan(Offset + 8));
         }
 
         protected override bool ChecksumValid(byte[] data)
         {
             var chk = GetChecksum(data);
-            var old = BigEndian.ToUInt32(data, Offset);
+            var old = ReadUInt32BigEndian(data.AsSpan(Offset));
             return chk == old;
         }
 

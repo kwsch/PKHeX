@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -39,14 +40,14 @@ namespace PKHeX.Core
         public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
         public override int Move3 { get => Data[4]; set => Data[4] = (byte)value; }
         public override int Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-        public override int TID { get => BigEndian.ToUInt16(Data, 6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); }
-        public override uint EXP { get => BigEndian.ToUInt32(Data, 8); set => BigEndian.GetBytes(value).CopyTo(Data, 8); } // not 3 bytes like in PK2
-        public override int EV_HP { get => BigEndian.ToUInt16(Data, 0x0C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
-        public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0x0E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0E); }
-        public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0x10); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x10); }
-        public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x12); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x12); }
-        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x14); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x14); }
-        public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x16); set => BigEndian.GetBytes(value).CopyTo(Data, 0x16); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+        public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); } // not 3 bytes like in PK2
+        public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
+        public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
+        public override int EV_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x10)); set => WriteUInt16BigEndian(Data.AsSpan(0x10), (ushort)value); }
+        public override int EV_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x12)); set => WriteUInt16BigEndian(Data.AsSpan(0x12), (ushort)value); }
+        public override int EV_SPC { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), (ushort)value); }
+        public override ushort DV16 { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), value); }
         public override int Move1_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x19] & 0x3F; set => Data[0x19] = (byte)((Data[0x19] & 0xC0) | Math.Min(63, value)); }
         public override int Move3_PP { get => Data[0x1A] & 0x3F; set => Data[0x1A] = (byte)((Data[0x1A] & 0xC0) | Math.Min(63, value)); }
@@ -83,7 +84,7 @@ namespace PKHeX.Core
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
 
-        public int CaughtData { get => BigEndian.ToUInt16(Data, 0x21); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x21); }
+        public int CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x21)); set => WriteUInt16BigEndian(Data.AsSpan(0x21), (ushort)value); }
 
         public int Met_TimeOfDay { get => (CaughtData >> 14) & 0x3; set => CaughtData = (CaughtData & 0x3FFF) | ((value & 0x3) << 14); }
         public override int Met_Level { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (CaughtData & 0xC0FF) | ((value & 0x3F) << 8); }

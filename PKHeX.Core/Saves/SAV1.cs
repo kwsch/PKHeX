@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -250,8 +251,8 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.TID);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.TID);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID));
+            set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID), (ushort)value);
         }
 
         public override int SID { get => 0; set { } }

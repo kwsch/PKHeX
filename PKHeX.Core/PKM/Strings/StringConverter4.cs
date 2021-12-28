@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -77,7 +78,7 @@ namespace PKHeX.Core
             var sb = new StringBuilder(count / 2);
             for (int i = 0; i < count; i += 2)
             {
-                var val = BigEndian.ToUInt16(data, offset + i);
+                var val = ReadUInt16BigEndian(data.AsSpan(offset + i));
                 if (val == Terminator)
                     break;
                 var chr = ConvertValue2CharG4(val);
@@ -116,7 +117,7 @@ namespace PKHeX.Core
             {
                 var chr = sb[i];
                 var val = ConvertChar2ValueG4(chr);
-                BigEndian.GetBytes(val).CopyTo(data, i * 2);
+                WriteUInt16BigEndian(data.AsSpan(i*2), val);
             }
             return data;
         }

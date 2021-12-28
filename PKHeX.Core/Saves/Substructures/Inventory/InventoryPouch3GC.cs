@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,10 +17,11 @@ namespace PKHeX.Core
             var items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
+                ReadOnlySpan<byte> item = data.AsSpan(Offset + (i * 4));
                 items[i] = new InventoryItem
                 {
-                    Index = BigEndian.ToUInt16(data, Offset + (i * 4)),
-                    Count = BigEndian.ToUInt16(data, Offset + (i * 4) + 2),
+                    Index = ReadUInt16BigEndian(item),
+                    Count = ReadUInt16BigEndian(item[2..]),
                 };
             }
             Items = items;
@@ -32,8 +34,9 @@ namespace PKHeX.Core
 
             for (int i = 0; i < Items.Length; i++)
             {
-                BigEndian.GetBytes((ushort)Items[i].Index).CopyTo(data, Offset + (i * 4));
-                BigEndian.GetBytes((ushort)Items[i].Count).CopyTo(data, Offset + (i * 4) + 2);
+                var item = data.AsSpan(Offset + (i * 4));
+                WriteUInt32BigEndian(item,      (ushort)Items[i].Index);
+                WriteUInt32BigEndian(item[2..], (ushort)Items[i].Count);
             }
         }
     }

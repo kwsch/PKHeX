@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -30,8 +31,8 @@ namespace PKHeX.Core
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
-            var first  = BigEndian.ToUInt32(Data, 0x00004C);
-            var second = BigEndian.ToUInt32(Data, 0x1C004C);
+            var first  = ReadUInt32BigEndian(Data.AsSpan(0x00004C));
+            var second = ReadUInt32BigEndian(Data.AsSpan(0x1C004C));
             SaveCount = Math.Max(second, first);
             if (second > first)
             {
@@ -274,7 +275,7 @@ namespace PKHeX.Core
         {
             ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
-                keys[i] = BigEndian.ToUInt16(input, ofs + (i * 2));
+                keys[i] = ReadUInt16BigEndian(input.AsSpan(ofs + (i * 2)));
             return keys;
         }
 
@@ -283,15 +284,16 @@ namespace PKHeX.Core
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
+                var chk = input.AsSpan(checksum_offset + (i * 4), 4);
+                storedChecksums[i] = ReadUInt32BigEndian(chk);
+                chk.Clear();
             }
 
             uint[] checksums = new uint[16];
 
             for (int i = 0; i < len; i += 2)
             {
-                uint val = BigEndian.ToUInt16(input, offset + i);
+                uint val = ReadUInt16BigEndian(input.AsSpan(offset + i));
                 for (int j = 0; j < 16; j++)
                 {
                     checksums[j] += ((val >> j) & 1);
@@ -301,7 +303,9 @@ namespace PKHeX.Core
             // Restore original checksums
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + (i * 4));
+                var chk = storedChecksums[i];
+                var dest = input.AsSpan(checksum_offset + (i * 4));
+                WriteUInt32BigEndian(dest, chk);
             }
 
             // Check if they match
@@ -318,22 +322,25 @@ namespace PKHeX.Core
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
             {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
+                var chk = input.AsSpan(checksum_offset + (i * 4), 4);
+                storedChecksums[i] = ReadUInt32BigEndian(chk);
+                chk.Clear();
             }
 
             uint[] checksums = new uint[16];
 
             for (int i = 0; i < len; i += 2)
             {
-                uint val = BigEndian.ToUInt16(input, offset + i);
+                uint val = ReadUInt16BigEndian(input.AsSpan(offset + i));
                 for (int j = 0; j < 16; j++)
                     checksums[j] += ((val >> j) & 1);
             }
 
             for (int i = 0; i < checksums.Length; i++)
             {
-                BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + (i * 4));
+                var chk = checksums[i];
+                var dest = input.AsSpan(checksum_offset + (i * 4));
+                WriteUInt32BigEndian(dest, chk);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -61,7 +62,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+            var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
             return chk == actual;
         }
 
@@ -70,7 +71,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
         }
 
         protected override void SetBoxMetadata(int box)
@@ -115,7 +116,7 @@ namespace PKHeX.Core
             var str = GetString(ofs + 2, 5);
             if (string.IsNullOrWhiteSpace(str))
                 return name;
-            var id = BigEndian.ToUInt16(Data, ofs + 8);
+            var id = ReadUInt16BigEndian(Data.AsSpan(ofs + 8));
             return $"{name} [{id:D5}:{str}]";
         }
 

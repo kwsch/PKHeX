@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.GameVersion;
 
@@ -326,7 +327,7 @@ namespace PKHeX.Core
             const int offset = 0x2000;
             var span = new ReadOnlySpan<byte>(data, offset + 4, 0x1FF8);
             var chk = Checksums.CheckSum16BigInvert(span);
-            var actual = BigEndian.ToUInt32(data, offset);
+            var actual = ReadUInt32BigEndian(data.AsSpan(offset));
             return chk == actual ? RSBOX : Invalid;
         }
 
@@ -506,8 +507,8 @@ namespace PKHeX.Core
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
         private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
-        private static bool GetIsRanchDP(byte[] data) => data.Length == SIZE_G4RANCH && BigEndian.ToUInt32(data, 0x22AC) != 0;
-        private static bool GetIsRanchPlat(byte[] data) => data.Length == SIZE_G4RANCH_PLAT && BigEndian.ToUInt32(data, 0x268C) != 0;
+        private static bool GetIsRanchDP(byte[] data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data.AsSpan(0x22AC)) != 0;
+        private static bool GetIsRanchPlat(byte[] data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data.AsSpan(0x268C)) != 0;
         private static bool GetIsRanch4(byte[] data) => GetIsRanchDP(data) || GetIsRanchPlat(data);
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>

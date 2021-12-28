@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -322,7 +323,7 @@ namespace PKHeX.Core
         }
 
         public Span<byte> OT_Trash
-        { 
+        {
             get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
             set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
@@ -353,16 +354,16 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Trainer1));
+            set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), (ushort)value);
         }
 
         public override int SID { get => 0; set { } }
 
         public override int PlayedHours
         {
-            get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.TimePlayed);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed));
+            set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed), (ushort)value);
         }
 
         public override int PlayedMinutes
@@ -447,23 +448,25 @@ namespace PKHeX.Core
             set => Data[Offsets.Options + 5] = value ? (byte)1 : (byte)0;
         }
 
+        // 3 bytes
         public override uint Money
         {
-            get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
+            get => ReadUInt32BigEndian(Data.AsSpan(Offsets.Money)) >> 8;
             set
             {
-                byte[] data = BigEndian.GetBytes((uint) Math.Min(value, MaxMoney));
-                Array.Copy(data, 1, Data, Offsets.Money, 3);
+                var clamp = (uint)Math.Min(value, MaxMoney);
+                var toWrite = (clamp << 8) | Data[Offsets.Money + 3];
+                WriteUInt32BigEndian(Data.AsSpan(Offsets.Money), toWrite);
             }
         }
 
         public uint Coin
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Money + 7);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Money + 7));
             set
             {
-                value = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Money + 7);
+                var clamped = (ushort)Math.Min(value, MaxCoins);
+                WriteUInt16BigEndian(Data.AsSpan(Offsets.Money + 7), clamped);
             }
         }
 

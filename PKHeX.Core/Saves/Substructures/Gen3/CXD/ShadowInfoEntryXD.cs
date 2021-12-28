@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core
 {
     public abstract class ShadowInfoEntryXD
     {
@@ -16,11 +19,16 @@
         public int IV_SPD { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
         public int IV_SPE { get => Data[0x10]; set => Data[0x10] = (byte)value; }
 
-        public int Species { get => BigEndian.ToUInt16(Data, 0x1A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
-        public uint PID { get => BigEndian.ToUInt32(Data, 0x1C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1C); }
-        public int Purification { get => BigEndian.ToInt32(Data, 0x24); set => BigEndian.GetBytes(value).CopyTo(Data, 0x24); }
+        public int Species { get => ReadUInt16BigEndian(Data.AsSpan(0x1A)); set => WriteUInt16BigEndian(Data.AsSpan(0x1A), (ushort)value); }
+        public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x1C)); set => WriteUInt32BigEndian(Data.AsSpan(0x1C), value); }
+        public int Purification { get => ReadInt32BigEndian(Data.AsSpan(0x24)); set => WriteInt32BigEndian(Data.AsSpan(0x24), value); }
 
-        public uint EXP { get => BigEndian.ToUInt32(Data, 0x04) >> 12; set => BigEndian.GetBytes((BigEndian.ToUInt32(Data, 0x04) & 0xFFF) | (value << 12)).CopyTo(Data, 0x04); }
+        public uint EXP
+        {
+            get => ReadUInt32BigEndian(Data.AsSpan(0x04)) >> 12;
+            set => WriteUInt32BigEndian(Data.AsSpan(0x04), (ReadUInt32BigEndian(Data.AsSpan(0x04)) & 0xFFF) | (value << 12));
+        }
+
         public bool IsEmpty => Species == 0;
 
         public abstract byte Index { get; set; }

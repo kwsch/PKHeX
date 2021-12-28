@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -81,7 +82,7 @@ namespace PKHeX.Core
 
             for (int i = 0; i < length; i++)
             {
-                var val = BigEndian.ToUInt16(Data, ofs + (i * 2));
+                var val = ReadUInt16BigEndian(Data.AsSpan(ofs + (i * 2)));
                 csum += val;
                 inv_csum += (ushort)~val;
             }
@@ -119,28 +120,28 @@ namespace PKHeX.Core
         }
 
         // Structure
-        private int Header_Size => BigEndian.ToUInt16(Data, Header + 0x0022);
-        private ushort Header_Checksum => BigEndian.ToUInt16(Data, Header + 0x01fc);
-        private ushort Header_Checksum_Inv => BigEndian.ToUInt16(Data, Header + 0x01fe);
+        private int Header_Size => ReadUInt16BigEndian(Data.AsSpan(Header + 0x0022));
+        private ushort Header_Checksum => ReadUInt16BigEndian(Data.AsSpan(Header + 0x01fc));
+        private ushort Header_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(Header + 0x01fe));
 
         // Encoding (Windows-1252 or Shift JIS)
-        private int Header_Encoding => BigEndian.ToUInt16(Data, Header + 0x0024);
+        private int Header_Encoding => ReadUInt16BigEndian(Data.AsSpan(Header + 0x0024));
         private bool Header_Japanese => Header_Encoding == 1;
         private Encoding EncodingType => Header_Japanese ? Encoding.GetEncoding(1252) : Encoding.GetEncoding(932);
 
-        private int Directory_UpdateCounter => BigEndian.ToUInt16(Data, Directory + 0x1ffa);
-        private int Directory_Checksum => BigEndian.ToUInt16(Data, Directory + 0x1ffc);
-        private int Directory_Checksum_Inv => BigEndian.ToUInt16(Data, Directory + 0x1ffe);
+        private int Directory_UpdateCounter => ReadUInt16BigEndian(Data.AsSpan(Directory + 0x1ffa));
+        private int Directory_Checksum => ReadUInt16BigEndian(Data.AsSpan(Directory + 0x1ffc));
+        private int Directory_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(Directory + 0x1ffe));
 
-        private int DirectoryBAK_UpdateCounter => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffa);
-        private int DirectoryBAK_Checksum => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffc);
-        private int DirectoryBAK_Checksum_Inv => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffe);
+        private int DirectoryBAK_UpdateCounter => ReadUInt16BigEndian(Data.AsSpan(DirectoryBAK + 0x1ffa));
+        private int DirectoryBAK_Checksum => ReadUInt16BigEndian(Data.AsSpan(DirectoryBAK + 0x1ffc));
+        private int DirectoryBAK_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(DirectoryBAK + 0x1ffe));
 
-        private int BlockAlloc_Checksum => BigEndian.ToUInt16(Data, BlockAlloc + 0x0000);
-        private int BlockAlloc_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAlloc + 0x0002);
+        private int BlockAlloc_Checksum => ReadUInt16BigEndian(Data.AsSpan(BlockAlloc + 0x0000));
+        private int BlockAlloc_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(BlockAlloc + 0x0002));
 
-        private int BlockAllocBAK_Checksum => BigEndian.ToUInt16(Data, BlockAllocBAK + 0x0000);
-        private int BlockAllocBAK_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAllocBAK + 0x0002);
+        private int BlockAllocBAK_Checksum => ReadUInt16BigEndian(Data.AsSpan(BlockAllocBAK + 0x0000));
+        private int BlockAllocBAK_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(BlockAllocBAK + 0x0002));
 
         private int DirectoryBlock_Used;
         private int NumBlocks => (Data.Length/BLOCK_SIZE) - 5;
@@ -225,8 +226,8 @@ namespace PKHeX.Core
                 if (BitConverter.ToUInt32(Data, offset) == uint.MaxValue) // empty entry
                     continue;
 
-                int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
-                int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
+                int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
+                int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
 
                 // Memory card directory contains info for deleted files with boundaries beyond memory card size, ignore
                 if (FirstBlock + BlockCount > NumBlocks)
@@ -322,8 +323,8 @@ namespace PKHeX.Core
                 return Array.Empty<byte>(); // No entry selected
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
-            int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
-            int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
+            int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
+            int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
 
             byte[] SaveData = new byte[BlockCount * BLOCK_SIZE];
             Array.Copy(Data, FirstBlock * BLOCK_SIZE, SaveData, 0, BlockCount * BLOCK_SIZE);
@@ -337,8 +338,8 @@ namespace PKHeX.Core
                 return;
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
-            int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
-            int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
+            int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
+            int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
 
             if (SaveData.Length != BlockCount * BLOCK_SIZE) // Invalid File Size
                 return;

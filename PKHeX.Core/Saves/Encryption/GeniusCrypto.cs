@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Genius Sonority's logic for <see cref="GameVersion.XD"/> and <see cref="GameVersion.BATREV"/> encryption.
@@ -19,10 +22,9 @@
                 for (int i = 0; i < keys.Length; i++)
                 {
                     var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
+                    ushort val = ReadUInt16BigEndian(input.AsSpan(index));
                     val -= keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
+                    WriteUInt16BigEndian(output.AsSpan(index), val);
                 }
 
                 AdvanceKeys(keys);
@@ -43,10 +45,9 @@
                 for (int i = 0; i < keys.Length; i++)
                 {
                     var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
+                    ushort val = ReadUInt16BigEndian(input.AsSpan(index));
                     val += keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
+                    WriteUInt16BigEndian(output.AsSpan(index), val);
                 }
 
                 AdvanceKeys(keys);

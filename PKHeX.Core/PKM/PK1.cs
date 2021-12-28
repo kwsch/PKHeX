@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -37,7 +38,7 @@ namespace PKHeX.Core
         #region Stored Attributes
         public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
         public override int Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
-        public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
+        public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x1)); set => WriteUInt16BigEndian(Data.AsSpan(0x1), (ushort)value); }
         public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
         public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
         public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
@@ -47,14 +48,14 @@ namespace PKHeX.Core
         public override int Move2 { get => Data[9]; set => Data[9] = (byte)value; }
         public override int Move3 { get => Data[10]; set => Data[10] = (byte)value; }
         public override int Move4 { get => Data[11]; set => Data[11] = (byte)value; }
-        public override int TID { get => BigEndian.ToUInt16(Data, 0xC); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xC); }
-        public override uint EXP { get => BigEndian.ToUInt32(Data, 0xE) >> 8; set => Array.Copy(BigEndian.GetBytes(value << 8), 0, Data, 0xE, 3); }
-        public override int EV_HP { get => BigEndian.ToUInt16(Data, 0x11); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); }
-        public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
-        public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x15); }
-        public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x17); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x17); }
-        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
-        public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x1B); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1B); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), (ushort)value); }
+        public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0xE)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(0xE), (value << 8) | Data[0x11]); }
+        public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x11)); set => WriteUInt16BigEndian(Data.AsSpan(0x11), (ushort)value); }
+        public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x13)); set => WriteUInt16BigEndian(Data.AsSpan(0x13), (ushort)value); }
+        public override int EV_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x15)); set => WriteUInt16BigEndian(Data.AsSpan(0x15), (ushort)value); }
+        public override int EV_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x17)); set => WriteUInt16BigEndian(Data.AsSpan(0x17), (ushort)value); }
+        public override int EV_SPC { get => ReadUInt16BigEndian(Data.AsSpan(0x19)); set => WriteUInt16BigEndian(Data.AsSpan(0x19), (ushort)value); }
+        public override ushort DV16 { get => ReadUInt16BigEndian(Data.AsSpan(0x1B)); set => WriteUInt16BigEndian(Data.AsSpan(0x1B), value); }
         public override int Move1_PP { get => Data[0x1D] & 0x3F; set => Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x1E] & 0x3F; set => Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | Math.Min(63, value)); }
         public override int Move3_PP { get => Data[0x1F] & 0x3F; set => Data[0x1F] = (byte)((Data[0x1F] & 0xC0) | Math.Min(63, value)); }
@@ -67,11 +68,11 @@ namespace PKHeX.Core
 
         #region Party Attributes
         public override int Stat_Level { get => Data[0x21]; set => Stat_LevelBox = Data[0x21] = (byte)value; }
-        public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
-        public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }
-        public override int Stat_DEF { get => BigEndian.ToUInt16(Data, 0x26); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x26); }
-        public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x28); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); }
-        public int Stat_SPC { get => BigEndian.ToUInt16(Data, 0x2A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); }
+        public override int Stat_HPMax { get => ReadUInt16BigEndian(Data.AsSpan(0x22)); set => WriteUInt16BigEndian(Data.AsSpan(0x22), (ushort)value); }
+        public override int Stat_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
+        public override int Stat_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
+        public override int Stat_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
+        public int Stat_SPC { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
         // Leave SPA and SPD as alias for SPC
         public override int Stat_SPA { get => Stat_SPC; set => Stat_SPC = value; }
         public override int Stat_SPD { get => Stat_SPC; set { } }

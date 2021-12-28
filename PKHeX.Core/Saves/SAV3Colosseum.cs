@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -74,7 +75,7 @@ namespace PKHeX.Core
             for (int i = 0; i < SLOT_COUNT; i++)
             {
                 int slotOffset = SLOT_START + (i * SLOT_SIZE);
-                int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
+                int SaveCounter = ReadInt32BigEndian(Data.AsSpan(slotOffset + 4));
                 if (SaveCounter <= SaveCount)
                     continue;
 
@@ -207,23 +208,15 @@ namespace PKHeX.Core
             // Set Checksum to end
             Array.Copy(checksum, 0, Data, Data.Length - 20, 20);
 
-            // Header Integrity
-            byte[] H = new byte[8]; Array.Copy(checksum, 0, H, 0, 8);
-            byte[] D = new byte[8]; Array.Copy(Data, 0x18, D, 0, 8);
-            // Decrypt Checksum
-            for (int i = 0; i < 8; i++)
-                D[i] ^= (byte)~H[i];
-
             // Compute new header checksum
             int newHC = 0;
             for (int i = 0; i < 0x18; i += 4)
-                newHC -= BigEndian.ToInt32(Data, i);
-
-            newHC -= BigEndian.ToInt32(D, 0);
-            newHC -= BigEndian.ToInt32(D, 4);
+                newHC -= ReadInt32BigEndian(Data.AsSpan(i));
+            newHC -= ReadInt32BigEndian(Data.AsSpan(0x18)) ^ ~ReadInt32BigEndian(checksum.AsSpan(0));
+            newHC -= ReadInt32BigEndian(Data.AsSpan(0x1C)) ^ ~ReadInt32BigEndian(checksum.AsSpan(4));
 
             // Set Header Checksum
-            BigEndian.GetBytes(newHC).CopyTo(Data, 12);
+            WriteInt32BigEndian(Data.AsSpan(12), newHC);
         }
 
         public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -233,27 +226,18 @@ namespace PKHeX.Core
             get
             {
                 byte[] data = (byte[])Data.Clone();
-                int oldHC = BigEndian.ToInt32(data, 12);
+                int oldHC = ReadInt32BigEndian(data.AsSpan(12));
                 // Clear Header Checksum
                 BitConverter.GetBytes(0).CopyTo(data, 12);
                 using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
-                // Header Integrity
-                byte[] H = new byte[8];
-                byte[] D = new byte[8];
-
-                Array.Copy(checksum, 0, H, 0, H.Length);
-                Array.Copy(data, 0x00018, D, 0, D.Length);
-                for (int i = 0; i < 8; i++)
-                    D[i] ^= (byte)~H[i];
 
                 // Compute new header checksum
                 int newHC = 0;
                 for (int i = 0; i < 0x18; i += 4)
-                    newHC -= BigEndian.ToInt32(data, i);
-
-                newHC -= BigEndian.ToInt32(D, 0);
-                newHC -= BigEndian.ToInt32(D, 4);
+                    newHC -= ReadInt32BigEndian(data.AsSpan(i));
+                newHC -= ReadInt32BigEndian(data.AsSpan(0x18)) ^ ~ReadInt32BigEndian(checksum.AsSpan(0));
+                newHC -= ReadInt32BigEndian(data.AsSpan(0x1C)) ^ ~ReadInt32BigEndian(checksum.AsSpan(4));
 
                 var chk = data.AsSpan(data.Length - 20, 20);
 
@@ -337,8 +321,8 @@ namespace PKHeX.Core
 
         private TimeSpan PlayedSpan
         {
-            get => TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128);
-            set => BigEndian.GetBytes((uint)(value.TotalSeconds * 128) + 0x47000000).CopyTo(Data, 40);
+            get => TimeSpan.FromSeconds((double)(ReadUInt32BigEndian(Data.AsSpan(40)) - 0x47000000) / 128);
+            set => WriteUInt32BigEndian(Data.AsSpan(40), (uint)(value.TotalSeconds * 128) + 0x47000000);
         }
 
         public override int PlayedHours
@@ -362,12 +346,12 @@ namespace PKHeX.Core
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
         public override string OT { get => GetString(0x78, 20); set { SetString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
         public string OT2 { get => GetString(0x8C, 20); set => SetString(value, 10).CopyTo(Data, 0x8C); }
-        public override int SID { get => BigEndian.ToUInt16(Data, 0xA4); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
-        public override int TID { get => BigEndian.ToUInt16(Data, 0xA6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xA6); }
+        public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)value); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)value); }
 
         public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
-        public override uint Money { get => BigEndian.ToUInt32(Data, 0xAFC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xAFC); }
-        public uint Coupons { get => BigEndian.ToUInt32(Data, 0xB00); set => BigEndian.GetBytes(value).CopyTo(Data, 0xB00); }
+        public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(0xAFC)); set => WriteUInt32BigEndian(Data.AsSpan(0xAFC), value); }
+        public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(0xB00)); set => WriteUInt32BigEndian(Data.AsSpan(0xB00), value); }
         public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(value, 10).CopyTo(Data, 0xB3A); }
 
         public override IReadOnlyList<InventoryPouch> Inventory
