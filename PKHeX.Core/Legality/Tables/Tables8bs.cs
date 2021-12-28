@@ -347,7 +347,7 @@ namespace PKHeX.Core
             181, 182, 183,                // Pokémon League
             218,                          // Hall of Origin (Diamond)
             285,                          // Flower Paradise
-            323, 329,                     // Lake Verity (start), Lake Acuity
+            329,                          // Lake Acuity
             332, 333,                     // Newmoon Island
             337, 338,                     // Battle Park
             339, 340, 341, 342, 343, 344, // Battle Tower
