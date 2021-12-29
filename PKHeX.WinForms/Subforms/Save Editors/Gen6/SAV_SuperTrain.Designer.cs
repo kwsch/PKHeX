@@ -87,7 +87,7 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.Size = new System.Drawing.Size(158, 139);
+            this.dataGridView1.Size = new System.Drawing.Size(240, 139);
             this.dataGridView1.TabIndex = 116;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DropClick);
             // 
