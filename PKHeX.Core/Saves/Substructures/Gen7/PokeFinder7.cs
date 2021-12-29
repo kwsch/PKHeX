@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public bool GyroFlag
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02)) == 1;
-            set => BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, Offset + 0x02);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x02), (ushort)(value ? 1 : 0));
         }
 
         public uint SnapCount

@@ -201,19 +201,21 @@ namespace PKHeX.Core
         protected override void SetChecksums()
         {
             // Clear Header Checksum
-            BitConverter.GetBytes(0).CopyTo(Data, 12);
+            WriteInt32BigEndian(Data.AsSpan(12), 0);
             // Compute checksum of data
             using var sha1 = SHA1.Create();
             byte[] checksum = sha1.ComputeHash(Data, 0, 0x1DFD8);
             // Set Checksum to end
-            Array.Copy(checksum, 0, Data, Data.Length - 20, 20);
+            var checkSpan = checksum.AsSpan(20);
+            checkSpan.CopyTo(Data.AsSpan(Data.Length - checkSpan.Length));
 
             // Compute new header checksum
+            var header = Data.AsSpan(0, 0x20);
             int newHC = 0;
             for (int i = 0; i < 0x18; i += 4)
-                newHC -= ReadInt32BigEndian(Data.AsSpan(i));
-            newHC -= ReadInt32BigEndian(Data.AsSpan(0x18)) ^ ~ReadInt32BigEndian(checksum.AsSpan(0));
-            newHC -= ReadInt32BigEndian(Data.AsSpan(0x1C)) ^ ~ReadInt32BigEndian(checksum.AsSpan(4));
+                newHC -= ReadInt32BigEndian(header[i..]);
+            newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
+            newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
 
             // Set Header Checksum
             WriteInt32BigEndian(Data.AsSpan(12), newHC);
@@ -231,20 +233,23 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(0).CopyTo(data, 12);
                 using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
+                var checkSpan = checksum.AsSpan(20);
 
                 // Compute new header checksum
+                var header = data.AsSpan(0, 0x20);
                 int newHC = 0;
                 for (int i = 0; i < 0x18; i += 4)
-                    newHC -= ReadInt32BigEndian(data.AsSpan(i));
-                newHC -= ReadInt32BigEndian(data.AsSpan(0x18)) ^ ~ReadInt32BigEndian(checksum.AsSpan(0));
-                newHC -= ReadInt32BigEndian(data.AsSpan(0x1C)) ^ ~ReadInt32BigEndian(checksum.AsSpan(4));
+                    newHC -= ReadInt32BigEndian(header[i..]);
+
+                newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
+                newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
 
                 var chk = data.AsSpan(data.Length - 20, 20);
 
-                bool header = newHC == oldHC;
-                bool body = chk.SequenceEqual(checksum);
+                bool isHeaderValid = newHC == oldHC;
+                bool isBodyValid = chk.SequenceEqual(checkSpan);
                 static string valid(bool s) => s ? "Valid" : "Invalid";
-                return $"Header Checksum {valid(header)}, Body Checksum {valid(body)}.";
+                return $"Header Checksum {valid(isHeaderValid)}, Body Checksum {valid(isBodyValid)}.";
             }
         }
 

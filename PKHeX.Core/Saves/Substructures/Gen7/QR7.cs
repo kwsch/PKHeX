@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -47,7 +48,7 @@ namespace PKHeX.Core
         private static byte[] GetRawQR(int species, int form, bool shiny, int gender)
         {
             var basedata = (byte[])BaseQR.Clone();
-            BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
+            WriteUInt16LittleEndian(basedata.AsSpan(0x28), (ushort)species);
 
             var pi = PersonalTable.USUM.GetFormEntry(species, form);
             bool biGender = false;

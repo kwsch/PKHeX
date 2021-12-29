@@ -173,7 +173,7 @@ namespace PKHeX.Core
                 var chkbytes = BitConverter.GetBytes(chk);
                 int footer = CGearDataOffset + bgdata.Length;
 
-                BitConverter.GetBytes((ushort)1).CopyTo(Data, footer); // block updated once
+                WriteUInt16LittleEndian(Data.AsSpan(footer), 1); // block updated once
                 chkbytes.CopyTo(Data, footer + 2); // checksum
                 chkbytes.CopyTo(Data, footer + 0x100); // second checksum
                 dlcfooter.CopyTo(Data, footer + 0x102);
@@ -181,7 +181,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
 
                 // Indicate in the save file that data is present
-                BitConverter.GetBytes((ushort)0xC21E).CopyTo(Data, 0x19438);
+                WriteUInt16LittleEndian(Data.AsSpan(0x19438), 0xC21E);
 
                 chkbytes.CopyTo(Data, CGearSkinInfoOffset);
                 CGearSkinPresent = true;

@@ -44,7 +44,7 @@ namespace PKHeX.Core
         protected override void SetChecksum(byte[] data)
         {
             ushort chk = GetChecksum(data);
-            BitConverter.GetBytes(chk).CopyTo(data, ChecksumOffset);
+            WriteUInt16LittleEndian(data.AsSpan(ChecksumOffset), chk);
         }
     }
 

@@ -83,16 +83,13 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CheckSum32(byte[] data, int start, int length, uint initial = 0)
+        public static ushort CheckSum32(ReadOnlySpan<byte> data, uint initial = 0)
         {
             uint val = initial;
-            var iterate = data.AsSpan(start, length);
-            for (int i = 0; i < iterate.Length; i += 4)
-                val += ReadUInt32LittleEndian(iterate[i..]);
+            for (int i = 0; i < data.Length; i += 4)
+                val += ReadUInt32LittleEndian(data[i..]);
             return (ushort)(val + (val >> 16));
         }
 
@@ -107,12 +104,6 @@ namespace PKHeX.Core
                 acc += b;
             return acc;
         }
-
-        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="initial">Initial value for checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CheckSum32(byte[] data, uint initial = 0) => CheckSum32(data, 0, data.Length, initial);
 
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GC R/S BOX.</summary>
         /// <param name="data">Input byte array</param>

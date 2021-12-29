@@ -10,19 +10,19 @@ namespace PKHeX.Core
 
         // this HoF region is immediately after the Event Flags
         private const int MaxCount = 12;
-        public int First1 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x00)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x00); }
-        public int First2 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x02)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x02); }
-        public int First3 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x04)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x04); }
-        public int First4 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x04)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x04); }
-        public int First5 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x06)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x06); }
-        public int First6 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x08)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x08); }
+        public int First1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); }
+        public int First2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x02), (ushort)value); }
+        public int First3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x04), (ushort)value); }
+        public int First4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x04), (ushort)value); }
+        public int First5 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x06), (ushort)value); }
+        public int First6 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x08), (ushort)value); }
 
-        public int Current1 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x0A)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x0A); }
-        public int Current2 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x0C)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x0C); }
-        public int Current3 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x0E)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x0E); }
-        public int Current4 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x10)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x10); }
-        public int Current5 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x12)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x12); }
-        public int Current6 { get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x14)); set => SAV.SetData(BitConverter.GetBytes((ushort)value), Offset + 0x14); }
+        public int Current1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0A), (ushort)value); }
+        public int Current2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0C), (ushort)value); }
+        public int Current3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0E), (ushort)value); }
+        public int Current4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x10), (ushort)value); }
+        public int Current5 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x12), (ushort)value); }
+        public int Current6 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14), (ushort)value); }
 
         public int GetEntry(int index)
         {

@@ -98,21 +98,23 @@ namespace PKHeX.Core
         public int Count
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)));
-            set => BitConverter.GetBytes((ushort) value).CopyTo(Data, Offset + (COUNT * 2));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)), (ushort)value);
         }
 
         private int[] LoadPointerData()
         {
+            var span = Data.AsSpan(Offset);
             var list = new int[7];
             for (int i = 0; i < list.Length; i++)
-                list[i] = ReadUInt16LittleEndian(Data.AsSpan(Offset + (i * 2)));
+                list[i] = ReadUInt16LittleEndian(span[(i * 2)..]);
             return list;
         }
 
         private void SetPointerData(IList<int> vals)
         {
+            var span = Data.AsSpan(Offset);
             for (int i = 0; i < vals.Count; i++)
-                BitConverter.GetBytes((ushort)vals[i]).CopyTo(Data, Offset + (i * 2));
+                WriteUInt16LittleEndian(span[(i*2)..], (ushort)vals[i]);
             vals.CopyTo(PokeListInfo);
         }
 

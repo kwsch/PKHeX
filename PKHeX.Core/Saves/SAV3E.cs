@@ -54,8 +54,8 @@ namespace PKHeX.Core
 
         public override uint SecurityKey
         {
-            get => BitConverter.ToUInt32(Small, 0xAC);
-            set => SetData(Small, BitConverter.GetBytes(value), 0xAC);
+            get => ReadUInt32LittleEndian(Small.AsSpan(0xAC));
+            set => WriteUInt32LittleEndian(Small.AsSpan(0xAC), value);
         }
 
         public RTC3 ClockInitial
@@ -70,16 +70,16 @@ namespace PKHeX.Core
             set => SetData(Small, value.Data, 0xA0);
         }
 
-        public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0x1FC)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x1FC); }
+        public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0x1FC)); set => WriteUInt16LittleEndian(Small.AsSpan(0x1FC), Math.Min((ushort)9999, value)); }
         // u16 field2;
-        public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0x200)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x200); }
-        public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0x202)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x202); }
+        public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0x200)); set => WriteUInt16LittleEndian(Small.AsSpan(0x200), Math.Min((ushort)9999, value)); }
+        public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0x202)); set => WriteUInt16LittleEndian(Small.AsSpan(0x202), Math.Min((ushort)9999, value)); }
         // u32 field8;
-        public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0x208); }
+        public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0x208)); set => WriteUInt32LittleEndian(Small.AsSpan(0x208), Math.Min(9999, value)); }
 
-        public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0x20C); }
-        public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0x210)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x210); }
-        public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0x212)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x212); }
+        public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0x20C)); set => WriteUInt32LittleEndian(Small.AsSpan(0x20C), Math.Min(9999, value)); }
+        public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0x210)); set => WriteUInt16LittleEndian(Small.AsSpan(0x210), Math.Min((ushort)9999, value)); }
+        public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0x212)); set => WriteUInt16LittleEndian(Small.AsSpan(0x212), Math.Min((ushort)9999, value)); }
 
         public uint BP
         {
@@ -88,7 +88,7 @@ namespace PKHeX.Core
             {
                 if (value > 9999)
                     value = 9999;
-                BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xEB8);
+                WriteUInt16LittleEndian(Small.AsSpan(0xEB8), (ushort)value);
             }
         }
 
@@ -99,7 +99,7 @@ namespace PKHeX.Core
             {
                 if (value > 65535)
                     value = 65535;
-                BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xEBA);
+                WriteUInt16LittleEndian(Small.AsSpan(0xEBA), (ushort)value);
             }
         }
         #endregion
@@ -117,7 +117,7 @@ namespace PKHeX.Core
         public override uint Coin
         {
             get => (ushort)(ReadUInt16LittleEndian(Large.AsSpan(0x0494)) ^ SecurityKey);
-            set => SetData(Large, BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0494);
+            set => WriteUInt16LittleEndian(Large.AsSpan(0x0494), (ushort)(value ^ SecurityKey));
         }
 
         private const int OFS_PCItem = 0x0498;
@@ -214,8 +214,8 @@ namespace PKHeX.Core
         protected override int SeenOffset3 => 0x3B24;
 
         private const int Walda = 0x3D70;
-        public ushort WaldaBackgroundColor { get => ReadUInt16LittleEndian(Large.AsSpan(Walda + 0)); set => BitConverter.GetBytes(value).CopyTo(Large, Walda + 0); }
-        public ushort WaldaForegroundColor { get => ReadUInt16LittleEndian(Large.AsSpan(Walda + 2)); set => BitConverter.GetBytes(value).CopyTo(Large, Walda + 2); }
+        public ushort WaldaBackgroundColor { get => ReadUInt16LittleEndian(Large.AsSpan(Walda + 0)); set => WriteUInt16LittleEndian(Large.AsSpan(Walda + 0), value); }
+        public ushort WaldaForegroundColor { get => ReadUInt16LittleEndian(Large.AsSpan(Walda + 2)); set => WriteUInt16LittleEndian(Large.AsSpan(Walda + 2), value); }
         public byte WaldaIconID { get => Large[Walda + 0x14]; set => Large[Walda + 0x14] = value; }
         public byte WaldaPatternID { get => Large[Walda + 0x15]; set => Large[Walda + 0x15] = value; }
         public bool WaldaUnlocked { get => Large[Walda + 0x16] != 0; set => Large[Walda + 0x16] = (byte)(value ? 1 : 0); }

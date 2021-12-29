@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -175,8 +176,9 @@ namespace PKHeX.Core
             int end = start + SIZE_MAIN;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
-                BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
+                var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+                ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+                WriteUInt16LittleEndian(sector[0xFF6..], chk);
             }
 
             if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
@@ -184,11 +186,13 @@ namespace PKHeX.Core
 
             // Hall of Fame Checksums
             {
-                ushort chk = Checksums.CheckSum32(Data, 0x1C000, SIZE_SECTOR_USED);
+                ushort chk = Checksums.CheckSum32(Data.AsSpan(0x1C000, SIZE_SECTOR_USED));
+                WriteUInt16LittleEndian(Data.AsSpan(0x1CFF4), chk);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1CFF4);
             }
             {
-                ushort chk = Checksums.CheckSum32(Data, 0x1D000, SIZE_SECTOR_USED);
+                ushort chk = Checksums.CheckSum32(Data.AsSpan(0x1D000, SIZE_SECTOR_USED));
+                WriteUInt16LittleEndian(Data.AsSpan(0x1DFF4), chk);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1DFF4);
             }
         }
@@ -216,16 +220,18 @@ namespace PKHeX.Core
 
         private bool IsSectorValidExtra(int ofs)
         {
-            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
-            return chk == ReadUInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
+            var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+            return chk == ReadUInt16LittleEndian(sector[0xFF4..]);
         }
 
-        private bool IsSectorValid(int sector)
+        private bool IsSectorValid(int sectorIndex)
         {
             int start = ActiveSlot * SIZE_MAIN;
-            int ofs = start + (sector * SIZE_SECTOR);
-            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
-            return chk == ReadUInt16LittleEndian(Data.AsSpan(ofs + 0xFF6));
+            int ofs = start + (sectorIndex * SIZE_SECTOR);
+            var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+            return chk == ReadUInt16LittleEndian(sector[0xFF6..]);
         }
 
         public sealed override string ChecksumInfo
@@ -271,19 +277,19 @@ namespace PKHeX.Core
         public sealed override int TID
         {
             get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xA);
+            set => WriteUInt16LittleEndian(Small.AsSpan(0xA), (ushort)value);
         }
 
         public sealed override int SID
         {
             get => ReadUInt16LittleEndian(Small.AsSpan(0xC));
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xC);
+            set => WriteUInt16LittleEndian(Small.AsSpan(0xC), (ushort)value);
         }
 
         public sealed override int PlayedHours
         {
             get => ReadUInt16LittleEndian(Small.AsSpan(0xE));
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xE);
+            set => WriteUInt16LittleEndian(Small.AsSpan(0xE), (ushort)value);
         }
 
         public sealed override int PlayedMinutes
@@ -326,7 +332,7 @@ namespace PKHeX.Core
         public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Large, offset, bitIndex, value);
 
         public ushort GetEventConst(int index) => ReadUInt16LittleEndian(Large.AsSpan(EventConst + (index * 2)));
-        public void SetEventConst(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Large, EventConst + (index * 2));
+        public void SetEventConst(int index, ushort value) => WriteUInt16LittleEndian(Large.AsSpan(EventConst + (index * 2)), value);
 
         public sealed override ushort[] GetEventConsts()
         {
@@ -390,7 +396,7 @@ namespace PKHeX.Core
         protected abstract int DaycareSlotSize { get; }
 
         public sealed override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)));
-        public sealed override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Large, GetDaycareEXPOffset(slot));
+        public sealed override void SetDaycareEXP(int loc, int slot, uint EXP) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)), EXP);
         public sealed override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Large.AsSpan(GetDaycareSlotOffset(loc, slot)));
         public sealed override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
         public sealed override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * DaycareSlotSize);
@@ -470,8 +476,8 @@ namespace PKHeX.Core
             SetSeen(species, true);
         }
 
-        public uint DexPIDUnown { get => BitConverter.ToUInt32(Small, PokeDex + 0x4); set => BitConverter.GetBytes(value).CopyTo(Small, PokeDex + 0x4); }
-        public uint DexPIDSpinda { get => BitConverter.ToUInt32(Small, PokeDex + 0x8); set => BitConverter.GetBytes(value).CopyTo(Small, PokeDex + 0x8); }
+        public uint DexPIDUnown  { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4), value); }
+        public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8), value); }
         public int DexUnownForm => PKX.GetUnownForm(DexPIDUnown);
 
         public sealed override bool GetCaught(int species)
@@ -585,7 +591,7 @@ namespace PKHeX.Core
             Buffer.BlockCopy(value, SIZE_SECTOR_USED, Data, 0x1D000, SIZE_SECTOR_USED);
         }
 
-        public bool IsCorruptPokedexFF() => BitConverter.ToUInt64(Small, 0xAC) == ulong.MaxValue;
+        public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small.AsSpan(0xAC)) == ulong.MaxValue;
 
         public override void CopyChangesFrom(SaveFile sav)
         {

@@ -179,8 +179,8 @@ namespace PKHeX.WinForms
                     SAV.General[o] = (byte)((SAV.General[o] & ~(1 << (FlyDestC[i] & 7))) | (CLB_FlyDest.GetItemChecked(i) ? 1 << (FlyDestC[i] & 7) : 0));
                 }
             }
-            BitConverter.GetBytes(valFly).CopyTo(SAV.General, ofsFly);
-            BitConverter.GetBytes((ushort)NUD_BP.Value).CopyTo(SAV.General, ofsBP);
+            WriteUInt32LittleEndian(SAV.General.AsSpan(ofsFly), valFly);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(ofsBP), (ushort)NUD_BP.Value);
 
             if (SAV is SAV4Sinnoh sinnoh)
                 SavePoketch(sinnoh);
@@ -653,7 +653,8 @@ namespace PKHeX.WinForms
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0)
                     return;
-                BitConverter.GetBytes((ushort)(val > 9999 ? 9999 : val)).CopyTo(SAV.General, addrVal + (SetValToSav << 1));
+                var clamp = Math.Min((ushort)9999, val);
+                WriteUInt16LittleEndian(SAV.General.AsSpan(addrVal + (SetValToSav << 1)), clamp);
                 return;
             }
             if (SetValToSav == -1)
@@ -758,15 +759,19 @@ namespace PKHeX.WinForms
 
             if (ofsHallStat > 0)
             {
-                ushort v = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1)));
+                var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
+                ushort v = ReadUInt16LittleEndian(SAV.General.AsSpan(offset));
                 NUD_HallStreaks.Value = v > 9999 ? 9999 : v;
             }
         }
 
         private void CHK_HallCurrent_CheckedChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.General, BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 4);
+            if (editing)
+                return;
+            var offset = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 4;
+            ushort value = (ushort)(CHK_HallCurrent.Checked ? species : 0);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(offset), value);
             editing = true;
             GetHallStat();
             editing = false;
@@ -786,7 +791,8 @@ namespace PKHeX.WinForms
         {
             if (editing || ofsHallStat < 0)
                 return;
-            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+            var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(offset), (ushort)NUD_HallStreaks.Value);
             HallStatUpdated = true;
         }
         #endregion

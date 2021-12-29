@@ -223,7 +223,7 @@ namespace PKHeX.Core
                     for (int i = p[0]; i < p[1]; i++)
                         sum += Data[i];
                 }
-                BitConverter.GetBytes(sum).CopyTo(Data, 0x7E6B);
+                WriteUInt16LittleEndian(Data.AsSpan(0x7E6B), sum);
             }
             else
             {
@@ -297,8 +297,8 @@ namespace PKHeX.Core
         protected override void SetChecksums()
         {
             ushort accum = GetChecksum();
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition);
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition2);
+            WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition), accum);
+            WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2), accum);
         }
 
         public override bool ChecksumsValid

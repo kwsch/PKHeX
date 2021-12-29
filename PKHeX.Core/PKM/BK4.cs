@@ -186,7 +186,19 @@ namespace PKHeX.Core
         public override int Gender { get => (Data[0x40] >> 5) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x60) | ((value & 3) << 5)); }
         public override int Form { get => Data[0x40] & 0x1F; set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte)value; }
-        // 0x43-0x47 Unused
+
+        // 0x42-0x43 Unused
+        public override ushort Egg_LocationExtended
+        {
+            get => ReadUInt16BigEndian(Data.AsSpan(0x44));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x44), value);
+        }
+
+        public override ushort Met_LocationExtended
+        {
+            get => ReadUInt16BigEndian(Data.AsSpan(0x46));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x46), value);
+        }
         #endregion
 
         #region Block C
@@ -241,66 +253,15 @@ namespace PKHeX.Core
         public override int Met_Month { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
         public override int Met_Day { get => Data[0x7D]; set => Data[0x7D] = (byte)value; }
 
-        public override int Egg_Location
+        public override ushort Egg_LocationDP
         {
-            get
-            {
-                ushort hgssloc = ReadUInt16BigEndian(Data.AsSpan(0x44));
-                if (hgssloc != 0)
-                    return hgssloc;
-                return ReadUInt16BigEndian(Data.AsSpan(0x7E));
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    WriteUInt16BigEndian(Data.AsSpan(0x44), 0);
-                    WriteUInt16BigEndian(Data.AsSpan(0x7E), 0);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    WriteUInt16BigEndian(Data.AsSpan(0x44), (ushort)value);
-                    WriteUInt16BigEndian(Data.AsSpan(0x7E), 0xBBA);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    WriteUInt16BigEndian(Data.AsSpan(0x44), (ushort)pthgss);
-                    WriteUInt16BigEndian(Data.AsSpan(0x7E), (ushort)value);
-                }
-            }
+            get => ReadUInt16BigEndian(Data.AsSpan(0x7E));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x7E), value);
         }
-
-        public override int Met_Location
+        public override ushort Met_LocationDP
         {
-            get
-            {
-                ushort hgssloc = ReadUInt16BigEndian(Data.AsSpan(0x46));
-                if (hgssloc != 0)
-                    return hgssloc;
-                return ReadUInt16BigEndian(Data.AsSpan(0x80));
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    WriteUInt16BigEndian(Data.AsSpan(0x46), 0);
-                    WriteUInt16BigEndian(Data.AsSpan(0x80), 0);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    WriteUInt16BigEndian(Data.AsSpan(0x46), (ushort)value);
-                    WriteUInt16BigEndian(Data.AsSpan(0x80), 0xBBA);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    WriteUInt16BigEndian(Data.AsSpan(0x46), (ushort)pthgss);
-                    WriteUInt16BigEndian(Data.AsSpan(0x80), (ushort)value);
-                }
-            }
+            get => ReadUInt16BigEndian(Data.AsSpan(0x80));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x80), value);
         }
 
         private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }

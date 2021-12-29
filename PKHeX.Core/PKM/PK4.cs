@@ -164,7 +164,19 @@ namespace PKHeX.Core
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
         public override int Form { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte) value; }
-        // 0x43-0x47 Unused
+        // 0x42-0x43 Unused
+        public override ushort Egg_LocationExtended
+        {
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x44));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x44), value);
+        }
+
+        public override ushort Met_LocationExtended
+        {
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x46));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x46), value);
+        }
+
         #endregion
 
         #region Block C
@@ -219,66 +231,15 @@ namespace PKHeX.Core
         public override int Met_Month { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
         public override int Met_Day { get => Data[0x7D]; set => Data[0x7D] = (byte)value; }
 
-        public override int Egg_Location
+        public override ushort Egg_LocationDP
         {
-            get
-            {
-                ushort hgssloc = ReadUInt16LittleEndian(Data.AsSpan(0x44));
-                if (hgssloc != 0)
-                    return hgssloc;
-                return ReadUInt16LittleEndian(Data.AsSpan(0x7E));
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    WriteUInt16LittleEndian(Data.AsSpan(0x44), (ushort)value);
-                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    BitConverter.GetBytes((ushort)pthgss).CopyTo(Data, 0x44);
-                    WriteUInt16LittleEndian(Data.AsSpan(0x7E), (ushort)value);
-                }
-            }
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x7E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value);
         }
-
-        public override int Met_Location
+        public override ushort Met_LocationDP
         {
-            get
-            {
-                ushort hgssloc = ReadUInt16LittleEndian(Data.AsSpan(0x46));
-                if (hgssloc != 0)
-                    return hgssloc;
-                return ReadUInt16LittleEndian(Data.AsSpan(0x80));
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    WriteUInt16LittleEndian(Data.AsSpan(0x46), (ushort)value);
-                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    BitConverter.GetBytes((ushort)pthgss).CopyTo(Data, 0x46);
-                    WriteUInt16LittleEndian(Data.AsSpan(0x80), (ushort)value);
-                }
-            }
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x80));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value);
         }
 
         private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }
@@ -361,7 +322,7 @@ namespace PKHeX.Core
             pk5.Nature = Nature;
 
             // Delete Platinum/HGSS Met Location Data
-            BitConverter.GetBytes((uint)0).CopyTo(pk5.Data, 0x44);
+            WriteUInt32LittleEndian(pk5.Data.AsSpan(0x44), 0);
 
             // Met / Crown Data Detection
             pk5.Met_Location = Legal.GetTransfer45MetLocation(pk5);
@@ -370,7 +331,7 @@ namespace PKHeX.Core
             // pk5.Egg_Location = Egg_Location;
 
             // Delete HGSS Data
-            BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
+            WriteUInt16LittleEndian(pk5.Data.AsSpan(0x86), 0);
             pk5.Ball = Ball;
 
             // Transfer Nickname and OT Name, update encoding

@@ -31,29 +31,26 @@
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.TB_Time1 = new System.Windows.Forms.TextBox();
-            this.TB_Time2 = new System.Windows.Forms.TextBox();
-            this.CB_S2 = new System.Windows.Forms.ComboBox();
-            this.L_Time1 = new System.Windows.Forms.Label();
-            this.L_Time2 = new System.Windows.Forms.Label();
-            this.L_Species2 = new System.Windows.Forms.Label();
+            this.CB_Species2 = new System.Windows.Forms.ComboBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.TB_Time = new System.Windows.Forms.TextBox();
-            this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.TB_Unk = new System.Windows.Forms.MaskedTextBox();
-            this.L_Unk = new System.Windows.Forms.Label();
+            this.TB_Time1 = new System.Windows.Forms.TextBox();
+            this.CB_Species1 = new System.Windows.Forms.ComboBox();
+            this.MTB_Form1 = new System.Windows.Forms.MaskedTextBox();
             this.L_Species = new System.Windows.Forms.Label();
             this.L_Time0 = new System.Windows.Forms.Label();
             this.L_Records = new System.Windows.Forms.Label();
             this.L_Bags = new System.Windows.Forms.Label();
-            this.L_UNKNOWN = new System.Windows.Forms.Label();
+            this.TB_Time2 = new System.Windows.Forms.TextBox();
+            this.MTB_Gender1 = new System.Windows.Forms.MaskedTextBox();
+            this.MTB_Gender2 = new System.Windows.Forms.MaskedTextBox();
+            this.MTB_Form2 = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(176, 281);
+            this.B_Cancel.Location = new System.Drawing.Point(258, 281);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(60, 23);
             this.B_Cancel.TabIndex = 0;
@@ -64,7 +61,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(242, 281);
+            this.B_Save.Location = new System.Drawing.Point(324, 281);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(60, 23);
             this.B_Save.TabIndex = 1;
@@ -78,8 +75,6 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeColumns = false;
             this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -96,66 +91,17 @@
             this.dataGridView1.TabIndex = 116;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DropClick);
             // 
-            // TB_Time1
+            // CB_Species2
             // 
-            this.TB_Time1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Time1.Location = new System.Drawing.Point(178, 181);
-            this.TB_Time1.Name = "TB_Time1";
-            this.TB_Time1.Size = new System.Drawing.Size(100, 20);
-            this.TB_Time1.TabIndex = 118;
-            // 
-            // TB_Time2
-            // 
-            this.TB_Time2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Time2.Location = new System.Drawing.Point(178, 220);
-            this.TB_Time2.Name = "TB_Time2";
-            this.TB_Time2.Size = new System.Drawing.Size(101, 20);
-            this.TB_Time2.TabIndex = 119;
-            // 
-            // CB_S2
-            // 
-            this.CB_S2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_S2.FormattingEnabled = true;
-            this.CB_S2.Location = new System.Drawing.Point(178, 259);
-            this.CB_S2.Name = "CB_S2";
-            this.CB_S2.Size = new System.Drawing.Size(101, 21);
-            this.CB_S2.TabIndex = 120;
-            // 
-            // L_Time1
-            // 
-            this.L_Time1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Time1.AutoSize = true;
-            this.L_Time1.Location = new System.Drawing.Point(176, 165);
-            this.L_Time1.Name = "L_Time1";
-            this.L_Time1.Size = new System.Drawing.Size(36, 13);
-            this.L_Time1.TabIndex = 121;
-            this.L_Time1.Text = "Time1";
-            // 
-            // L_Time2
-            // 
-            this.L_Time2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Time2.AutoSize = true;
-            this.L_Time2.Location = new System.Drawing.Point(176, 204);
-            this.L_Time2.Name = "L_Time2";
-            this.L_Time2.Size = new System.Drawing.Size(36, 13);
-            this.L_Time2.TabIndex = 122;
-            this.L_Time2.Text = "Time2";
-            // 
-            // L_Species2
-            // 
-            this.L_Species2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Species2.AutoSize = true;
-            this.L_Species2.Location = new System.Drawing.Point(175, 243);
-            this.L_Species2.Name = "L_Species2";
-            this.L_Species2.Size = new System.Drawing.Size(45, 13);
-            this.L_Species2.TabIndex = 123;
-            this.L_Species2.Text = "Species";
+            this.CB_Species2.FormattingEnabled = true;
+            this.CB_Species2.Location = new System.Drawing.Point(283, 41);
+            this.CB_Species2.Name = "CB_Species2";
+            this.CB_Species2.Size = new System.Drawing.Size(101, 21);
+            this.CB_Species2.TabIndex = 120;
+            this.CB_Species2.SelectedIndexChanged += new System.EventHandler(this.ChangeRecordSpecies2);
             // 
             // listBox1
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Items.AddRange(new object[] {
             "1",
@@ -194,51 +140,37 @@
             this.listBox1.TabIndex = 124;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.ChangeListRecordSelection);
             // 
-            // TB_Time
+            // TB_Time1
             // 
-            this.TB_Time.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Time.Location = new System.Drawing.Point(176, 115);
-            this.TB_Time.Name = "TB_Time";
-            this.TB_Time.Size = new System.Drawing.Size(100, 20);
-            this.TB_Time.TabIndex = 125;
-            this.TB_Time.TextChanged += new System.EventHandler(this.ChangeRecordTime);
+            this.TB_Time1.Location = new System.Drawing.Point(174, 118);
+            this.TB_Time1.Name = "TB_Time1";
+            this.TB_Time1.Size = new System.Drawing.Size(100, 20);
+            this.TB_Time1.TabIndex = 125;
+            this.TB_Time1.TextChanged += new System.EventHandler(this.ChangeRecordTime1);
             // 
-            // CB_Species
+            // CB_Species1
             // 
-            this.CB_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(176, 38);
-            this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(100, 21);
-            this.CB_Species.TabIndex = 126;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeRecordSpecies);
+            this.CB_Species1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Species1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Species1.FormattingEnabled = true;
+            this.CB_Species1.Location = new System.Drawing.Point(174, 41);
+            this.CB_Species1.Name = "CB_Species1";
+            this.CB_Species1.Size = new System.Drawing.Size(100, 21);
+            this.CB_Species1.TabIndex = 126;
+            this.CB_Species1.SelectedIndexChanged += new System.EventHandler(this.ChangeRecordSpecies1);
             // 
-            // TB_Unk
+            // MTB_Form1
             // 
-            this.TB_Unk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_Unk.Location = new System.Drawing.Point(219, 65);
-            this.TB_Unk.Name = "TB_Unk";
-            this.TB_Unk.Size = new System.Drawing.Size(57, 20);
-            this.TB_Unk.TabIndex = 127;
-            this.TB_Unk.TextChanged += new System.EventHandler(this.ChangeRecordVal);
-            // 
-            // L_Unk
-            // 
-            this.L_Unk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Unk.AutoSize = true;
-            this.L_Unk.Location = new System.Drawing.Point(178, 68);
-            this.L_Unk.Name = "L_Unk";
-            this.L_Unk.Size = new System.Drawing.Size(39, 13);
-            this.L_Unk.TabIndex = 128;
-            this.L_Unk.Text = "L_Unk";
+            this.MTB_Form1.Location = new System.Drawing.Point(237, 68);
+            this.MTB_Form1.Name = "MTB_Form1";
+            this.MTB_Form1.Size = new System.Drawing.Size(37, 20);
+            this.MTB_Form1.TabIndex = 127;
+            this.MTB_Form1.TextChanged += new System.EventHandler(this.ChangeRecordMisc1);
             // 
             // L_Species
             // 
-            this.L_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Species.AutoSize = true;
-            this.L_Species.Location = new System.Drawing.Point(178, 22);
+            this.L_Species.Location = new System.Drawing.Point(176, 25);
             this.L_Species.Name = "L_Species";
             this.L_Species.Size = new System.Drawing.Size(48, 13);
             this.L_Species.TabIndex = 129;
@@ -246,9 +178,8 @@
             // 
             // L_Time0
             // 
-            this.L_Time0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Time0.AutoSize = true;
-            this.L_Time0.Location = new System.Drawing.Point(178, 99);
+            this.L_Time0.Location = new System.Drawing.Point(176, 102);
             this.L_Time0.Name = "L_Time0";
             this.L_Time0.Size = new System.Drawing.Size(33, 13);
             this.L_Time0.TabIndex = 130;
@@ -273,37 +204,55 @@
             this.L_Bags.TabIndex = 132;
             this.L_Bags.Text = "Training Bags";
             // 
-            // L_UNKNOWN
+            // TB_Time2
             // 
-            this.L_UNKNOWN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_UNKNOWN.AutoSize = true;
-            this.L_UNKNOWN.Location = new System.Drawing.Point(227, 165);
-            this.L_UNKNOWN.Name = "L_UNKNOWN";
-            this.L_UNKNOWN.Size = new System.Drawing.Size(65, 13);
-            this.L_UNKNOWN.TabIndex = 133;
-            this.L_UNKNOWN.Text = "UNKNOWN";
+            this.TB_Time2.Location = new System.Drawing.Point(284, 118);
+            this.TB_Time2.Name = "TB_Time2";
+            this.TB_Time2.Size = new System.Drawing.Size(100, 20);
+            this.TB_Time2.TabIndex = 136;
+            // 
+            // MTB_Gender1
+            // 
+            this.MTB_Gender1.Location = new System.Drawing.Point(196, 68);
+            this.MTB_Gender1.Name = "MTB_Gender1";
+            this.MTB_Gender1.Size = new System.Drawing.Size(35, 20);
+            this.MTB_Gender1.TabIndex = 137;
+            this.MTB_Gender1.TextChanged += new System.EventHandler(this.ChangeRecordMisc1);
+            // 
+            // MTB_Gender2
+            // 
+            this.MTB_Gender2.Location = new System.Drawing.Point(306, 68);
+            this.MTB_Gender2.Name = "MTB_Gender2";
+            this.MTB_Gender2.Size = new System.Drawing.Size(35, 20);
+            this.MTB_Gender2.TabIndex = 139;
+            this.MTB_Gender2.TextChanged += new System.EventHandler(this.ChangeRecordMisc2);
+            // 
+            // MTB_Form2
+            // 
+            this.MTB_Form2.Location = new System.Drawing.Point(347, 68);
+            this.MTB_Form2.Name = "MTB_Form2";
+            this.MTB_Form2.Size = new System.Drawing.Size(37, 20);
+            this.MTB_Form2.TabIndex = 138;
+            this.MTB_Form2.TextChanged += new System.EventHandler(this.ChangeRecordMisc2);
             // 
             // SAV_SuperTrain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(314, 312);
-            this.Controls.Add(this.L_UNKNOWN);
+            this.ClientSize = new System.Drawing.Size(396, 312);
+            this.Controls.Add(this.MTB_Gender2);
+            this.Controls.Add(this.MTB_Form2);
+            this.Controls.Add(this.MTB_Gender1);
+            this.Controls.Add(this.TB_Time2);
             this.Controls.Add(this.L_Bags);
             this.Controls.Add(this.L_Records);
             this.Controls.Add(this.L_Time0);
             this.Controls.Add(this.L_Species);
-            this.Controls.Add(this.L_Unk);
-            this.Controls.Add(this.TB_Unk);
-            this.Controls.Add(this.CB_Species);
-            this.Controls.Add(this.TB_Time);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.L_Species2);
-            this.Controls.Add(this.L_Time2);
-            this.Controls.Add(this.L_Time1);
-            this.Controls.Add(this.CB_S2);
-            this.Controls.Add(this.TB_Time2);
+            this.Controls.Add(this.MTB_Form1);
+            this.Controls.Add(this.CB_Species1);
             this.Controls.Add(this.TB_Time1);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.CB_Species2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -326,21 +275,18 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox TB_Time1;
-        private System.Windows.Forms.TextBox TB_Time2;
-        private System.Windows.Forms.ComboBox CB_S2;
-        private System.Windows.Forms.Label L_Time1;
-        private System.Windows.Forms.Label L_Time2;
-        private System.Windows.Forms.Label L_Species2;
+        private System.Windows.Forms.ComboBox CB_Species2;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.TextBox TB_Time;
-        private System.Windows.Forms.ComboBox CB_Species;
-        private System.Windows.Forms.MaskedTextBox TB_Unk;
-        private System.Windows.Forms.Label L_Unk;
+        private System.Windows.Forms.TextBox TB_Time1;
+        private System.Windows.Forms.ComboBox CB_Species1;
+        private System.Windows.Forms.MaskedTextBox MTB_Form1;
         private System.Windows.Forms.Label L_Species;
         private System.Windows.Forms.Label L_Time0;
         private System.Windows.Forms.Label L_Records;
         private System.Windows.Forms.Label L_Bags;
-        private System.Windows.Forms.Label L_UNKNOWN;
+        private System.Windows.Forms.TextBox TB_Time2;
+        private System.Windows.Forms.MaskedTextBox MTB_Gender1;
+        private System.Windows.Forms.MaskedTextBox MTB_Gender2;
+        private System.Windows.Forms.MaskedTextBox MTB_Form2;
     }
 }

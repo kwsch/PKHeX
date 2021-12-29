@@ -45,7 +45,7 @@ namespace PKHeX.Core
         public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
         public override string AuthorName { get => StringConverter4.GetString4(Data.AsSpan(8), 0x10); set => StringConverter4.SetString4(value, 7, 8, 0xFFFF).CopyTo(Data, 8); }
         public int GetAppearPKM(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
-        public void SetAppearPKM(int index, int value) => BitConverter.GetBytes((ushort)(value == 0 ? 0xFFFF : value)).CopyTo(Data, 0x1C - (index * 2));
+        public void SetAppearPKM(int index, int value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)(value == 0 ? 0xFFFF : value));
         public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data.AsSpan(0x20 + (((index1 * 4) + index2) * 2)));
         public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(0x20 + (((index1 * 4) + index2) * 2)), value);
 

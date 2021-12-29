@@ -169,6 +169,71 @@ namespace PKHeX.Core
         public abstract byte BallHGSS { get; set; }
         public abstract byte PokéathlonStat { get; set; }
 
+        public abstract ushort Egg_LocationDP { get; set; }
+        public abstract ushort Egg_LocationExtended { get; set; }
+        public abstract ushort Met_LocationDP { get; set; }
+        public abstract ushort Met_LocationExtended { get; set; }
+
+        public sealed override int Egg_Location
+        {
+            get
+            {
+                ushort hgssloc = Egg_LocationExtended;
+                if (hgssloc != 0)
+                    return hgssloc;
+                return Egg_LocationDP;
+            }
+            set
+            {
+                if (value == 0)
+                {
+                    Egg_LocationDP = Egg_LocationExtended = 0;
+                }
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
+                {
+                    // Met location not in DP, set to Faraway Place
+                    Egg_LocationDP = Locations.Faraway4;
+                    Egg_LocationExtended = (ushort)value;
+                }
+                else
+                {
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    Egg_LocationDP = (ushort)pthgss;
+                    Egg_LocationExtended = (ushort)value;
+                }
+            }
+        }
+
+        public sealed override int Met_Location
+        {
+            get
+            {
+                ushort hgssloc = Met_LocationExtended;
+                if (hgssloc != 0)
+                    return hgssloc;
+                return Met_LocationDP;
+            }
+            set
+            {
+                if (value == 0)
+                {
+                    Met_LocationDP = Met_LocationExtended = 0;
+                }
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
+                {
+                    // Met location not in DP, set to Faraway Place
+                    Met_LocationDP = Locations.Faraway4;
+                    Met_LocationExtended = (ushort)value;
+                }
+                else
+                {
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    Met_LocationDP = (ushort)pthgss;
+                    Met_LocationExtended = (ushort)value;
+                }
+            }
+        }
+
         public sealed override int Ball
         {
             // HG/SS added new ball IDs mid-generation, and the previous Gen4 games couldn't handle invalid ball values.

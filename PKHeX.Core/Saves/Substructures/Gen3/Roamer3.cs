@@ -37,13 +37,13 @@ namespace PKHeX.Core
         public int Species
         {
             get => SpeciesConverter.GetG4Species(ReadInt16LittleEndian(Data.AsSpan(Offset + 8)));
-            set => SAV.SetData(Data, BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)), Offset + 8);
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 8), (short)SpeciesConverter.GetG3Species(value));
         }
 
         public int HP_Current
         {
             get => ReadInt16LittleEndian(Data.AsSpan(Offset + 10));
-            set => SAV.SetData(Data, BitConverter.GetBytes((short)value), Offset + 10);
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 10), (short)value);
         }
 
         public int CurrentLevel

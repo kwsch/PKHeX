@@ -339,18 +339,20 @@ namespace PKHeX.WinForms
         private void SaveBattleAgency()
         {
             SAV.SetFlag(0x6C55E, 1, CHK_Choosed.Checked);
-            if (IsTrainerInvited() ^ CHK_TrainerInvited.Checked)
+            if (IsTrainerInvited() != CHK_TrainerInvited.Checked)
             {
-                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0)), 0x6C3EE);
-                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0)), 0x6C526);
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C3EE), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0));
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C526), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0));
             }
             SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
             SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
             SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
-            SAV.SetData(BitConverter.GetBytes((ushort)(((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6 | (SAV.Data[0x6C55C] & 0x3F))), 0x6C55C);
-            SAV.SetData(BitConverter.GetBytes((ushort)NUD_DefeatMon.Value), 0x6C558);
+
+            var gradeDefeated = (((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6 | (SAV.Data[0x6C55C] & 0x3F));
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C558), (ushort)NUD_DefeatMon.Value);
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C), (ushort)gradeDefeated);
             for (int i = 0; i < NUD_Trainers.Length; i++)
-                SAV.SetData(BitConverter.GetBytes((ushort)NUD_Trainers[i].Value), 0x6C56C + (0x14 * i));
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C56C + (0x14 * i)), (ushort)NUD_Trainers[i].Value);
             SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
         }
 

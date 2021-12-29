@@ -12,9 +12,9 @@ namespace PKHeX.Core
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02));
             set
             {
-                var val = BitConverter.GetBytes((ushort)value);
-                val.CopyTo(Data, Offset + 0x02);
-                val.CopyTo(Data, Offset + 0x02 + 0xF4);
+                var span = Data.AsSpan(Offset + 0x02);
+                WriteUInt16LittleEndian(span, (ushort)value);
+                WriteUInt16LittleEndian(span[0xF4..], (ushort)value);
             }
         }
 
@@ -23,9 +23,9 @@ namespace PKHeX.Core
             get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)) / 18;
             set
             {
-                var val = BitConverter.GetBytes(value * 18);
-                val.CopyTo(Data, Offset + 0x10);
-                val.CopyTo(Data, Offset + 0x10 + 0xF4);
+                var span = Data.AsSpan(Offset + 0x10);
+                WriteSingleLittleEndian(span, value * 18);
+                WriteSingleLittleEndian(span[0xF4..], value * 18);
             }
         }
 
@@ -34,9 +34,9 @@ namespace PKHeX.Core
             get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14));
             set
             {
-                var val = BitConverter.GetBytes(value);
-                val.CopyTo(Data, Offset + 0x14);
-                val.CopyTo(Data, Offset + 0x14 + 0xF4);
+                var span = Data.AsSpan(Offset + 0x14);
+                WriteSingleLittleEndian(span, value * 18);
+                WriteSingleLittleEndian(span[0xF4..], value * 18);
             }
         }
 
@@ -45,9 +45,9 @@ namespace PKHeX.Core
             get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)) / 18;
             set
             {
-                var val = BitConverter.GetBytes(value * 18);
-                val.CopyTo(Data, Offset + 0x18);
-                val.CopyTo(Data, Offset + 0x18 + 0xF4);
+                var span = Data.AsSpan(Offset + 0x18);
+                WriteSingleLittleEndian(span, value * 18);
+                WriteSingleLittleEndian(span[0xF4..], value * 18);
             }
         }
 

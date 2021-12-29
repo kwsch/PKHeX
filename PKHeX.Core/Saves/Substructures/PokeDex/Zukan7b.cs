@@ -123,8 +123,9 @@ namespace PKHeX.Core
         public void SetSizeData(DexSizeType group, int index, int height, int weight)
         {
             var ofs = GetDexSizeOffset(group, index);
-            BitConverter.GetBytes((ushort)(height << 1)).CopyTo(SAV.Data, ofs);
-            BitConverter.GetBytes((ushort)(weight)).CopyTo(SAV.Data, ofs + 2);
+            var span = SAV.Data.AsSpan(ofs);
+            WriteUInt16LittleEndian(span, (ushort)(height << 1));
+            WriteUInt16LittleEndian(span[2..], (ushort)weight);
         }
 
         public static bool TryGetSizeEntryIndex(int species, int form, out int index)
