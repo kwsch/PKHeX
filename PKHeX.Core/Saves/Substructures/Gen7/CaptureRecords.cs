@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -28,8 +29,8 @@ namespace PKHeX.Core
         // Calling into these directly, you should be sure that you're less than ENTRY_COUNT.
         private int GetCapturedOffset(int index) => Offset + CapturedOffset + (index * 4);
         private int GetTransferredOffset(int index) => Offset + TransferredOffset + (index * 4);
-        public uint GetCapturedCountIndex(int index) => BitConverter.ToUInt32(Data, GetCapturedOffset(index));
-        public uint GetTransferredCountIndex(int index) => BitConverter.ToUInt32(Data, GetTransferredOffset(index));
+        public uint GetCapturedCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetCapturedOffset(index)));
+        public uint GetTransferredCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetTransferredOffset(index)));
         public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_CAPTURE, value)).CopyTo(Data, GetCapturedOffset(index));
         public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_TRANSFER, value)).CopyTo(Data, GetTransferredOffset(index));
 
@@ -81,13 +82,13 @@ namespace PKHeX.Core
 
         public uint TotalCaptured
         {
-            get => BitConverter.ToUInt32(Data, Offset + TotalCapturedOffset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalCapturedOffset));
             set => BitConverter.GetBytes(Math.Min(MAX_COUNT_TOTAL, value)).CopyTo(Data, Offset + TotalCapturedOffset);
         }
 
         public uint TotalTransferred
         {
-            get => BitConverter.ToUInt32(Data, Offset + TotalTransferredOffset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalTransferredOffset));
             set => BitConverter.GetBytes(Math.Min(MAX_COUNT_TOTAL, value)).CopyTo(Data, Offset + TotalTransferredOffset);
         }
 

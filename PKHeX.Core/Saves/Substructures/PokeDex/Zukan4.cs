@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -45,7 +46,7 @@ namespace PKHeX.Core
             Offset = offset;
         }
 
-        public uint Magic { get => BitConverter.ToUInt32(Data, Offset); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public uint Magic { get => ReadUInt32LittleEndian(Data.AsSpan(Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
         public override bool GetCaught(int species) => GetRegionFlag(0, species - 1);
         public override bool GetSeen(int species) => GetRegionFlag(1, species - 1);
@@ -70,7 +71,7 @@ namespace PKHeX.Core
             FlagUtil.SetFlag(Data, ofs, index, value);
         }
 
-        public uint SpindaPID { get => BitConverter.ToUInt32(Data, Offset + OFS_SPINDA); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public uint SpindaPID { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SPINDA)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
         public static string[] GetFormNames4Dex(int species)
         {
@@ -110,7 +111,7 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             return species switch
             {
-                (int)Species.Rotom => GetDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6),
+                (int)Species.Rotom => GetDexFormValues(ReadUInt32LittleEndian(Data.AsSpan(FormOffset2)), 3, 6),
                 (int)Species.Shaymin => GetDexFormValues(Data[FormOffset2 + 4], 1, 2),
                 (int)Species.Giratina => GetDexFormValues(Data[FormOffset2 + 5], 1, 2),
                 (int)Species.Pichu when HGSS => GetDexFormValues(Data[FormOffset2 + 6], 2, 3),

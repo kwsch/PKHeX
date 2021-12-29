@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,12 +22,13 @@ namespace PKHeX.Core
         private static Dictionary<int, MysteryGiftRestriction> GetRestriction(int generation)
         {
             var resource = RestrictionSetName(generation);
-            var data = Util.GetBinaryResource(resource);
+            var data = Util.GetBinaryResource(resource).AsSpan();
             var dict = new Dictionary<int, MysteryGiftRestriction>();
             for (int i = 0; i < data.Length; i += 8)
             {
-                int hash = BitConverter.ToInt32(data, i + 0);
-                var restrict = BitConverter.ToInt32(data, i + 4);
+                var entry = data[i..];
+                int hash = ReadInt32LittleEndian(entry);
+                var restrict = ReadInt32LittleEndian(entry[4..]);
                 dict.Add(hash, (MysteryGiftRestriction)restrict);
             }
             return dict;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -70,10 +71,10 @@ namespace PKHeX.Core
         private readonly int Offset;
         private readonly bool Japanese;
 
-        public int TID { get => BitConverter.ToUInt16(Data, 0 + Offset); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0 + Offset); }
-        public int SID { get => BitConverter.ToUInt16(Data, 2 + Offset); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 2 + Offset); }
-        public uint PID { get => BitConverter.ToUInt32(Data, 4 + Offset); set => BitConverter.GetBytes(value).CopyTo(Data, 4 + Offset); }
-        private int SpecLevel { get => BitConverter.ToUInt16(Data, 8 + Offset); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 8 + Offset); }
+        public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
+        public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
+        public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(4 + Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(4 + Offset), value); }
+        private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
         public string Nickname { get => GetString(Data, 10 + Offset, 10); set => SetString(value, 10).CopyTo(Data, 10 + Offset); }
 
         public int Species { get => SpecLevel & 0x1FF; set => SpecLevel = (SpecLevel & 0xFE00) | value; }

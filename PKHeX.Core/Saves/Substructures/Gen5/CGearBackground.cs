@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -64,7 +65,7 @@ namespace PKHeX.Core
 
             ColorPalette = new int[ColorCount];
             for (int i = 0; i < ColorPalette.Length; i++)
-                ColorPalette[i] = GetRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
+                ColorPalette[i] = GetRGB555_16(ReadUInt16LittleEndian(ColorData.AsSpan(i * 2)));
 
             Tiles = new Tile[0xFF];
             for (int i = 0; i < Tiles.Length; i++)
@@ -128,7 +129,7 @@ namespace PKHeX.Core
             byte[] psk = (byte[])cgb.Clone();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                var tileVal = BitConverter.ToUInt16(cgb, i);
+                var tileVal = ReadUInt16LittleEndian(cgb.AsSpan(i));
                 int val = GetPSKValue(tileVal);
 
                 psk[i] = (byte)val;
@@ -152,7 +153,7 @@ namespace PKHeX.Core
             byte[] cgb = (byte[])psk.Clone();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                int val = BitConverter.ToUInt16(psk, i);
+                int val = ReadUInt16LittleEndian(psk.AsSpan(i));
                 int index = ValToIndex(val);
 
                 byte tile = (byte)index;

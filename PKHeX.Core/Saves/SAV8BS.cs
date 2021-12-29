@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -120,8 +121,8 @@ namespace PKHeX.Core
 
         public int SaveRevision
         {
-            get => BitConverter.ToInt32(Data, 0);
-            init => BitConverter.GetBytes(value).CopyTo(Data, 0);
+            get => ReadInt32LittleEndian(Data.AsSpan(0));
+            init => WriteInt32LittleEndian(Data.AsSpan(0), value);
         }
 
         public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
@@ -286,20 +287,20 @@ namespace PKHeX.Core
 
         public short ZoneID // map
         {
-            get => BitConverter.ToInt16(Data, 0x5634);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x5634);
+            get => ReadInt16LittleEndian(Data.AsSpan(0x5634));
+            set => WriteInt16LittleEndian(Data.AsSpan(0x5634), value);
         }
 
         public float TimeScale // default 1440.0f
         {
-            get => BitConverter.ToSingle(Data, 0x5638);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x5638);
+            get => ReadSingleLittleEndian(Data.AsSpan(0x5638));
+            set => WriteSingleLittleEndian(Data.AsSpan(0x5638), value);
         }
 
         public uint UnionRoomPenaltyTime // move this into the UnionSaveData block once reversed.
         {
-            get => BitConverter.ToUInt32(Data, 0xCEA14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xCEA14);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0xCEA14));
+            set => WriteSingleLittleEndian(Data.AsSpan(0xCEA14), value);
         }
 
         protected override void SetPKM(PKM pkm, bool isParty = false)

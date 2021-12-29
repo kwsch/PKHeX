@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -121,7 +122,7 @@ namespace PKHeX.Core
         public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            return ReadUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4));
         }
 
         public override bool? IsDaycareOccupied(int loc, int slot)

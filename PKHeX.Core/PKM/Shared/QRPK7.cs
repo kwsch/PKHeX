@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -15,7 +16,7 @@ namespace PKHeX.Core
         public const int SIZE = 0x30;
         public QRPK7(byte[] d) => Data = (byte[])d.Clone();
 
-        public uint EncryptionConstant => BitConverter.ToUInt32(Data, 0);
+        public uint EncryptionConstant => ReadUInt32LittleEndian(Data.AsSpan(0));
         public int HT_Flags => Data[4];
         public int Unk_5 => Data[5];
         public int Unk_6 => Data[6];
@@ -24,20 +25,20 @@ namespace PKHeX.Core
         public int Move2_PPUps => Data[9];
         public int Move3_PPUps => Data[0xA];
         public int Move4_PPUps => Data[0xB];
-        public uint IV32 { get => BitConverter.ToUInt32(Data, 0xC); set => BitConverter.GetBytes(value).CopyTo(Data, 0xC); }
+        public uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0xC)); set => WriteUInt32LittleEndian(Data.AsSpan(0xC), value); }
         public int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
         public int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 05)) | (uint)((value > 31 ? 31 : value) << 05)); }
         public int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 10)) | (uint)((value > 31 ? 31 : value) << 10)); }
         public int IV_SPE { get => (int)(IV32 >> 15) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 15)) | (uint)((value > 31 ? 31 : value) << 15)); }
         public int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
         public int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
-        public uint PID => BitConverter.ToUInt32(Data, 0x10);
-        public int Species => BitConverter.ToUInt16(Data, 0x14);
-        public ushort HeldItem => BitConverter.ToUInt16(Data, 0x16);
-        public ushort Move1 => BitConverter.ToUInt16(Data, 0x18);
-        public ushort Move2 => BitConverter.ToUInt16(Data, 0x1A);
-        public ushort Move3 => BitConverter.ToUInt16(Data, 0x1C);
-        public ushort Move4 => BitConverter.ToUInt16(Data, 0x1E);
+        public uint PID => ReadUInt32LittleEndian(Data.AsSpan(0x10));
+        public int Species => ReadUInt16LittleEndian(Data.AsSpan(0x14));
+        public ushort HeldItem => ReadUInt16LittleEndian(Data.AsSpan(0x16));
+        public ushort Move1 => ReadUInt16LittleEndian(Data.AsSpan(0x18));
+        public ushort Move2 => ReadUInt16LittleEndian(Data.AsSpan(0x1A));
+        public ushort Move3 => ReadUInt16LittleEndian(Data.AsSpan(0x1C));
+        public ushort Move4 => ReadUInt16LittleEndian(Data.AsSpan(0x1E));
         public int Unk_20 => Data[0x20];
         public int AbilityIndex => Data[0x21];
         public int Nature => Data[0x22];

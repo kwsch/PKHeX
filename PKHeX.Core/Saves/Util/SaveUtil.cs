@@ -299,7 +299,7 @@ namespace PKHeX.Core
             // E: Encryption Key
             // FR/LG @ 0xAC has a fixed value (01 00 00 00)
             // RS has battle tower data (variable)
-            uint _0xAC = BitConverter.ToUInt32(data, offset + 0xAC);
+            uint _0xAC = ReadUInt32LittleEndian(data.AsSpan(offset + 0xAC));
             switch (_0xAC)
             {
                 case 1: return FRLG; // fixed value
@@ -344,7 +344,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 3; i++)
             {
                 var ofs = offset + (0x1E000 * i);
-                if (BitConverter.ToUInt32(data, ofs) != 0x00000101)
+                if (ReadUInt32LittleEndian(data.AsSpan(ofs)) != 0x00000101)
                     return Invalid;
             }
             return COLO;
@@ -363,7 +363,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 2; i++)
             {
                 var ofs = offset + (0x28000 * i);
-                if ((BitConverter.ToUInt32(data, ofs) & 0xFFFE_FFFF) != 0x00000101)
+                if ((ReadUInt32LittleEndian(data.AsSpan(ofs)) & 0xFFFE_FFFF) != 0x00000101)
                     return Invalid;
             }
             return XD;
@@ -381,10 +381,10 @@ namespace PKHeX.Core
             // Korean saves have a different timestamp from other localizations.
             bool validSequence(int offset)
             {
-                var size = BitConverter.ToUInt32(data, offset - 0xC);
+                var size = ReadUInt32LittleEndian(data.AsSpan(offset - 0xC));
                 if (size != (offset & 0xFFFF))
                     return false;
-                var sdk = BitConverter.ToUInt32(data, offset - 0x8);
+                var sdk = ReadUInt32LittleEndian(data.AsSpan(offset - 0x8));
 
                 const int DATE_INT = 0x20060623;
                 const int DATE_KO  = 0x20070903;
@@ -424,11 +424,11 @@ namespace PKHeX.Core
                 return Invalid;
 
             // check the checksum block validity; nobody would normally modify this region
-            ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
+            ushort chk1 = ReadUInt16LittleEndian(data.AsSpan(SIZE_G5BW - 0x100 + 0x8C + 0xE));
             ushort actual1 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5BW - 0x100, 0x8C));
             if (chk1 == actual1)
                 return BW;
-            ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
+            ushort chk2 = ReadUInt16LittleEndian(data.AsSpan(SIZE_G5B2W2 - 0x100 + 0x94 + 0xE));
             ushort actual2 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5B2W2 - 0x100, 0x94));
             if (chk2 == actual2)
                 return B2W2;
@@ -443,7 +443,7 @@ namespace PKHeX.Core
             if (data.Length is not (SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO))
                 return Invalid;
 
-            if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
+            if (ReadUInt32LittleEndian(data.AsSpan(data.Length - 0x1F0)) != BEEF)
                 return Invalid;
 
             return data.Length switch
@@ -462,7 +462,7 @@ namespace PKHeX.Core
             if (data.Length is not (SIZE_G7SM or SIZE_G7USUM))
                 return Invalid;
 
-            if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
+            if (ReadUInt32LittleEndian(data.AsSpan(data.Length - 0x1F0)) != BEEF)
                 return Invalid;
 
             return data.Length == SIZE_G7SM ? SM : USUM;
@@ -477,9 +477,9 @@ namespace PKHeX.Core
                 return Invalid;
 
             const int actualLength = 0xB8800;
-            if (BitConverter.ToUInt32(data, actualLength - 0x1F0) != BEEF) // beef table start
+            if (ReadUInt32LittleEndian(data.AsSpan(actualLength - 0x1F0)) != BEEF) // beef table start
                 return Invalid;
-            if (BitConverter.ToUInt16(data, actualLength - 0x200 + 0xB0) != 0x13) // check a block number to double check
+            if (ReadUInt16LittleEndian(data.AsSpan(actualLength - 0x200 + 0xB0)) != 0x13) // check a block number to double check
                 return Invalid;
 
             return GG;
@@ -505,8 +505,8 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
-        private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
-        private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
+        private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data.AsSpan(0x3FC00)) != 0; // box name present
+        private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data.AsSpan(0x3FC00)) == 0; // size collision with ^
         private static bool GetIsRanchDP(byte[] data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data.AsSpan(0x22AC)) != 0;
         private static bool GetIsRanchPlat(byte[] data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data.AsSpan(0x268C)) != 0;
         private static bool GetIsRanch4(byte[] data) => GetIsRanchDP(data) || GetIsRanchPlat(data);

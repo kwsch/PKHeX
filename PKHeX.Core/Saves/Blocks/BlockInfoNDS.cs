@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -23,9 +24,9 @@ namespace PKHeX.Core
         protected override bool ChecksumValid(byte[] data)
         {
             ushort chk = GetChecksum(data);
-            if (chk != BitConverter.ToUInt16(data, ChecksumOffset))
+            if (chk != ReadUInt16LittleEndian(data.AsSpan(ChecksumOffset)))
                 return false;
-            if (chk != BitConverter.ToUInt16(data, ChecksumMirror))
+            if (chk != ReadUInt16LittleEndian(data.AsSpan(ChecksumMirror)))
                 return false;
             return true;
         }

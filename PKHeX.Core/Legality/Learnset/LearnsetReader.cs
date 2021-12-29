@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -67,7 +68,7 @@ namespace PKHeX.Core
         /// Reads a Level up move pool definition from a single move pool definition.
         /// </summary>
         /// <remarks>Count of moves, followed by Moves and Levels which are 16-bit</remarks>
-        private static Learnset ReadLearnset16(byte[] data)
+        private static Learnset ReadLearnset16(ReadOnlySpan<byte> data)
         {
             if (data.Length == 0)
                 return EMPTY;
@@ -76,9 +77,9 @@ namespace PKHeX.Core
             var Levels = new int[Count];
             for (int i = 0; i < Count; i++)
             {
-                int ofs = i * 4;
-                Moves[i] = BitConverter.ToInt16(data, ofs);
-                Levels[i] = BitConverter.ToInt16(data, ofs + 2);
+                var move = data.Slice(i * 4, 4);
+                Moves[i] = ReadInt16LittleEndian(move);
+                Levels[i] = ReadInt16LittleEndian(move[2..]);
             }
             return new Learnset(Moves, Levels);
         }

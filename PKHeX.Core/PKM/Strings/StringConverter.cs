@@ -31,7 +31,7 @@ namespace PKHeX.Core
             {
                 1 or 2 => StringConverter12.GetString1(data, offset, count, jp),
                 3 => StringConverter3.GetString3(data, offset, count, jp),
-                4 => StringConverter4.GetString4(data, offset, count),
+                4 => StringConverter4.GetString4(data.AsSpan(offset), count),
                 5 => GetString5(data, offset, count),
                 6 => GetString6(data, offset, count),
                 7 => GetString7(data, offset, count),

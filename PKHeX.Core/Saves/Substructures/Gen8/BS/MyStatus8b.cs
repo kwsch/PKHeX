@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -23,19 +24,19 @@ namespace PKHeX.Core
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x1C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x1C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), (ushort)value);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x1E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x1E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1E), (ushort)value);
         }
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x20);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x20));
             set => BitConverter.GetBytes(Math.Min(MAX_MONEY, value)).CopyTo(Data, Offset + 0x20);
         }
 
@@ -53,19 +54,19 @@ namespace PKHeX.Core
 
         public MoveType StarterType
         {
-            get => (MoveType)BitConverter.ToInt32(Data, Offset + 0x34);
-            set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x34);
+            get => (MoveType)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x34));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x34), (int)value);
         }
 
         public bool DSPlayer { get => Data[Offset + 0x38] == 1; set => Data[Offset + 0x38] = (byte)(value ? 1 : 0); }
         // 3byte align
 
         /// <summary> turewalkMemberIndex </summary>
-        public int FollowIndex { get => BitConverter.ToInt32(Data, Offset + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x3C); }
-        public int X { get => BitConverter.ToInt32(Data, Offset + 0x40); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x40); }
-        public int Y { get => BitConverter.ToInt32(Data, Offset + 0x44); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x44); }
-        public float Height { get => BitConverter.ToSingle(Data, Offset + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x48); }
-        public float Rotation { get => BitConverter.ToSingle(Data, Offset + 0x4C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4C); }
+        public int FollowIndex { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x3C)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x3C), value); }
+        public int X { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x40), value); }
+        public int Y { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x44)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x44), value); }
+        public float Height { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x48)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x48), value); }
+        public float Rotation { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x4C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x4C), value); }
 
         // end structure!
 

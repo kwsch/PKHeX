@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -86,7 +87,7 @@ namespace PKHeX.Core
             _ => throw new IndexOutOfRangeException(nameof(daycare)),
         };
 
-        public ulong GetDaycareSeed(int daycare) => BitConverter.ToUInt64(Data, GetDaycareMetadataOffset(daycare) + 6);
-        public void SetDaycareSeed(int daycare, ulong value) => SAV.SetData(Data, BitConverter.GetBytes(value), GetDaycareMetadataOffset(daycare) + 6);
+        public ulong GetDaycareSeed(int daycare) => ReadUInt64LittleEndian(Data.AsSpan(GetDaycareMetadataOffset(daycare) + 6));
+        public void SetDaycareSeed(int daycare, ulong value) => WriteUInt64LittleEndian(Data.AsSpan(GetDaycareMetadataOffset(daycare) + 6), value);
     }
 }

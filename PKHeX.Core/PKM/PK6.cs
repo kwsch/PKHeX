@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -36,50 +37,50 @@ namespace PKHeX.Core
         #region Block A
         public override uint EncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
         }
 
         public override ushort Sanity
         {
-            get => BitConverter.ToUInt16(Data, 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x04);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x04));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value);
         }
 
         public override ushort Checksum
         {
-            get => BitConverter.ToUInt16(Data, 0x06);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x06);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x06));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
         }
 
         public override int Species
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
         }
 
         public override int HeldItem
         {
-            get => BitConverter.ToUInt16(Data, 0x0A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
         }
 
         public override int TID
         {
-            get => BitConverter.ToUInt16(Data, 0x0C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value);
         }
 
         public override int SID
         {
-            get => BitConverter.ToUInt16(Data, 0x0E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x0E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value);
         }
 
         public override uint EXP
         {
-            get => BitConverter.ToUInt32(Data, 0x10);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x10);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
         }
 
         public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
@@ -89,8 +90,8 @@ namespace PKHeX.Core
 
         public override uint PID
         {
-            get => BitConverter.ToUInt32(Data, 0x18);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x18);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x18));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value);
         }
 
         public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
@@ -149,7 +150,7 @@ namespace PKHeX.Core
         public bool SuperTrain7_2 { get => (ST4 & (1 << 5)) == 1 << 5; set => ST4 = (byte)((ST4 & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public bool SuperTrain7_3 { get => (ST4 & (1 << 6)) == 1 << 6; set => ST4 = (byte)((ST4 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool SuperTrain8_1 { get => (ST4 & (1 << 7)) == 1 << 7; set => ST4 = (byte)((ST4 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
-        public uint SuperTrainBitFlags { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data); }
+        public uint SuperTrainBitFlags { get => ReadUInt32LittleEndian(Data.AsSpan(0x2C)); set => BitConverter.GetBytes(value).CopyTo(Data); }
         private byte RIB0 { get => Data[0x30]; set => Data[0x30] = value; } // Ribbons are read as uints, but let's keep them per byte.
         private byte RIB1 { get => Data[0x31]; set => Data[0x31] = value; }
         private byte RIB2 { get => Data[0x32]; set => Data[0x32] = value; }
@@ -206,7 +207,7 @@ namespace PKHeX.Core
         public bool RIB5_7 { get => (RIB5 & (1 << 7)) == 1 << 7; set => RIB5 = (byte)((RIB5 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
         public int RibbonCountMemoryContest { get => Data[0x38]; set => HasContestMemoryRibbon = (Data[0x38] = (byte)value) != 0; }
         public int RibbonCountMemoryBattle { get => Data[0x39]; set => HasBattleMemoryRibbon = (Data[0x39] = (byte)value) != 0; }
-        private ushort DistByte { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
+        private ushort DistByte { get => ReadUInt16LittleEndian(Data.AsSpan(0x3A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3A), value); }
         public bool DistSuperTrain1 { get => (DistByte & (1 << 0)) == 1 << 0; set => DistByte = (byte)((DistByte & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
         public bool DistSuperTrain2 { get => (DistByte & (1 << 1)) == 1 << 1; set => DistByte = (byte)((DistByte & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
         public bool DistSuperTrain3 { get => (DistByte & (1 << 2)) == 1 << 2; set => DistByte = (byte)((DistByte & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
@@ -215,7 +216,7 @@ namespace PKHeX.Core
         public bool DistSuperTrain6 { get => (DistByte & (1 << 5)) == 1 << 5; set => DistByte = (byte)((DistByte & ~(1 << 5)) | (value ? 1 << 5 : 0)); }
         public bool Dist7 { get => (DistByte & (1 << 6)) == 1 << 6; set => DistByte = (byte)((DistByte & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)((DistByte & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
-        public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3C), value); }
         public byte FormArgumentMaximum { get => (byte)FormArgument; set => FormArgument = value & 0xFFu; }
         #endregion
         #region Block B
@@ -223,26 +224,26 @@ namespace PKHeX.Core
 
         public override int Move1
         {
-            get => BitConverter.ToUInt16(Data, 0x5A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x5A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), (ushort)value);
         }
 
         public override int Move2
         {
-            get => BitConverter.ToUInt16(Data, 0x5C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x5C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), (ushort)value);
         }
 
         public override int Move3
         {
-            get => BitConverter.ToUInt16(Data, 0x5E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x5E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), (ushort)value);
         }
 
         public override int Move4
         {
-            get => BitConverter.ToUInt16(Data, 0x60);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x60);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x60));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x60), (ushort)value);
         }
 
         public override int Move1_PP { get => Data[0x62]; set => Data[0x62] = (byte)value; }
@@ -256,32 +257,32 @@ namespace PKHeX.Core
 
         public override int RelearnMove1
         {
-            get => BitConverter.ToUInt16(Data, 0x6A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value);
         }
 
         public override int RelearnMove2
         {
-            get => BitConverter.ToUInt16(Data, 0x6C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x6C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x6C), (ushort)value);
         }
 
         public override int RelearnMove3
         {
-            get => BitConverter.ToUInt16(Data, 0x6E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x6E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x6E), (ushort)value);
         }
 
         public override int RelearnMove4
         {
-            get => BitConverter.ToUInt16(Data, 0x70);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x70));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value);
         }
 
         public bool SecretSuperTrainingUnlocked { get => (Data[0x72] & 1) == 1; set => Data[0x72] = (byte)((Data[0x72] & ~1) | (value ? 1 : 0)); }
         public bool SecretSuperTrainingComplete { get => (Data[0x72] & 2) == 2; set => Data[0x72] = (byte)((Data[0x72] & ~2) | (value ? 2 : 0)); }
         // 0x73 Unused
-        private uint IV32 { get => BitConverter.ToUInt32(Data, 0x74); set => BitConverter.GetBytes(value).CopyTo(Data, 0x74); }
+        private uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x74)); set => WriteUInt32LittleEndian(Data.AsSpan(0x74), value); }
         public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
         public override int IV_DEF { get => (int)(IV32 >> 10) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 10)) | ((value > 31 ? 31u : (uint)value) << 10); }
@@ -315,7 +316,7 @@ namespace PKHeX.Core
         public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
         // 0xA7 Unused
-        public int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
+        public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), (ushort)value); }
         // 0xAA Unused
         // 0xAB Unused
         // 0xAC Unused
@@ -329,7 +330,7 @@ namespace PKHeX.Core
         public int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
         public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
         public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0xCE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); }
+        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), (ushort)value); }
         public int OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
@@ -338,8 +339,8 @@ namespace PKHeX.Core
         public override int Met_Month { get => Data[0xD5]; set => Data[0xD5] = (byte)value; }
         public override int Met_Day { get => Data[0xD6]; set => Data[0xD6] = (byte)value; }
         // 0xD7 Unused
-        public override int Egg_Location { get => BitConverter.ToUInt16(Data, 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
-        public override int Met_Location { get => BitConverter.ToUInt16(Data, 0xDA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); }
+        public override int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), (ushort)value); }
+        public override int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
         public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
         public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
         public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
@@ -351,17 +352,17 @@ namespace PKHeX.Core
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats
-        public override int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
+        public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0xE8)); set => WriteInt32LittleEndian(Data.AsSpan(0xE8), value); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
         public byte FormArgumentRemain { get => Data[0xED]; set => Data[0xED] = value; }
         public byte FormArgumentElapsed { get => Data[0xEE]; set => Data[0xEE] = value; }
-        public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
-        public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }
-        public override int Stat_ATK { get => BitConverter.ToUInt16(Data, 0xF4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF4); }
-        public override int Stat_DEF { get => BitConverter.ToUInt16(Data, 0xF6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF6); }
-        public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0xF8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF8); }
-        public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0xFA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFA); }
-        public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0xFC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); }
+        public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0xF0)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF0), (ushort)value); }
+        public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0xF2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF2), (ushort)value); }
+        public override int Stat_ATK { get => ReadUInt16LittleEndian(Data.AsSpan(0xF4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF4), (ushort)value); }
+        public override int Stat_DEF { get => ReadUInt16LittleEndian(Data.AsSpan(0xF6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF6), (ushort)value); }
+        public override int Stat_SPE { get => ReadUInt16LittleEndian(Data.AsSpan(0xF8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xF8), (ushort)value); }
+        public override int Stat_SPA { get => ReadUInt16LittleEndian(Data.AsSpan(0xFA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFA), (ushort)value); }
+        public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0xFC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFC), (ushort)value); }
         #endregion
 
         public int SuperTrainingMedalCount(int maxCount = 30)

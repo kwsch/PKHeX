@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,6 +18,6 @@ namespace PKHeX.Core
 
         private const int OFS_RANK = SIZE_CONTEST_PHOTO * PHOTO_MAX; // 0x71C;
 
-        public uint ContestRankPoint { get => BitConverter.ToUInt32(Data, Offset + OFS_RANK); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_RANK); }
+        public uint ContestRankPoint { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_RANK)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_RANK), value); }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -20,7 +21,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        public static bool IsValid(byte[] data)
+        public static bool IsValid(ReadOnlySpan<byte> data)
         {
             if (BV6.IsValid(data))
                 return true;

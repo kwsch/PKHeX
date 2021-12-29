@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -20,8 +21,8 @@ namespace PKHeX.Core
         public const int Count_Goods = 200;
         public const int Count_Goods_Used = 173;
 
-        public SecretBase6GoodStock GetGood(int index) => new(Data, Offset + GetGoodOffset(index));
-        public void SetGood(SecretBase6GoodStock good, int index) => good.Write(Data, Offset + GetGoodOffset(index));
+        public SecretBase6GoodStock GetGood(int index) => new(Data.AsSpan(Offset + GetGoodOffset(index)));
+        public void SetGood(SecretBase6GoodStock good, int index) => good.Write(Data.AsSpan(Offset + GetGoodOffset(index)));
 
         private static int GetGoodOffset(int index)
         {
@@ -32,15 +33,15 @@ namespace PKHeX.Core
 
         public void GiveAllGoods()
         {
-            var bytes = BitConverter.GetBytes(25u | (1 << 16)); // count: 25, new flag.
+            const uint value = 25u | (1 << 16); // count: 25, new flag.
             for (int i = 0; i < Count_Goods_Used; i++)
-                bytes.CopyTo(Data, Offset + GetGoodOffset(i));
+                WriteUInt32BigEndian( Data.AsSpan(Offset + GetGoodOffset(i)), value);
         }
 
         public ushort SecretBaseSelfLocation
         {
-            get => BitConverter.ToUInt16(Data, Offset + 800);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 800);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 800));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 800), value);
         }
 
         public const int OtherSecretBaseCount = 30;

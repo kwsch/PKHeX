@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -37,7 +38,7 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-                ushort SpecForm = BitConverter.ToUInt16(data, offset);
+                ushort SpecForm = ReadUInt16LittleEndian(data.AsSpan(offset));
                 int species = SpecForm & 0x3FF;
                 int form = SpecForm >> 11;
                 int min = data[offset + 2];

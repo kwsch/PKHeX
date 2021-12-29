@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,19 +15,19 @@ namespace PKHeX.Core
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x04);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x04));
             set
             {
                 if (value > 9999999)
                     value = 9999999;
-                SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x04);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
             }
         }
 
         public int BP
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x11C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x11C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11C), (ushort)value);
         }
     }
 }

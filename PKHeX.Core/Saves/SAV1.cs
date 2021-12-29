@@ -216,7 +216,7 @@ namespace PKHeX.Core
         public override bool HasParty => true;
         private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
 
-        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGB(data);
 
         // Checksums
         protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.OT, Offsets.ChecksumOfs);
@@ -510,7 +510,7 @@ namespace PKHeX.Core
             SetFlag(region + ofs, bit & 7, value);
         }
 
-        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
+        public override void WriteSlotFormatStored(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -518,7 +518,7 @@ namespace PKHeX.Core
             base.WriteSlotFormatStored(pkm, Data, offset);
         }
 
-        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        public override void WriteBoxSlot(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,8 +15,8 @@ namespace PKHeX.Core
 
         public int PuffCount
         {
-            get => BitConverter.ToInt32(Data, Offset + PuffSlots);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + PuffSlots);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + PuffSlots));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + PuffSlots), value);
         }
 
         public void Reset()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -50,9 +51,9 @@ namespace PKHeX.Core
             return Offset + (trainer * SIZE_TRAINER);
         }
 
-        public bool GetIsWin(int trainer) => BitConverter.ToUInt32(Data, GetTrainerOffset(trainer)) == 1;
-        public bool GetIsBattleSearcher(int trainer) => BitConverter.ToUInt32(Data, GetTrainerOffset(trainer) + 4) == 1;
-        public void SetIsWin(int trainer, bool value) => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, GetTrainerOffset(trainer));
-        public void SetIsBattleSearcher(int trainer, bool value) => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, GetTrainerOffset(trainer) + 4);
+        public bool GetIsWin(int trainer) => ReadUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer))) == 1;
+        public bool GetIsBattleSearcher(int trainer) => ReadUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer) + 4)) == 1;
+        public void SetIsWin(int trainer, bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer)), value ? 1u : 0u);
+        public void SetIsBattleSearcher(int trainer, bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetTrainerOffset(trainer) + 4), value ? 1u : 0u);
     }
 }

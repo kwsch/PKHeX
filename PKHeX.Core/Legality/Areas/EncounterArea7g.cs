@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -37,9 +38,9 @@ namespace PKHeX.Core
 
         private const int entrySize = (2 * sizeof(int)) + 2;
 
-        private static EncounterArea7g GetArea(byte[] data)
+        private static EncounterArea7g GetArea(ReadOnlySpan<byte> data)
         {
-            var sf = BitConverter.ToUInt16(data, 0);
+            var sf = ReadUInt16LittleEndian(data);
             int species = sf & 0x7FF;
             int form = sf >> 11;
 
@@ -48,20 +49,20 @@ namespace PKHeX.Core
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = (i * entrySize) + 2;
-                result[i] = ReadSlot(data, offset, area, species, form);
+                result[i] = ReadSlot(data[offset..], area, species, form);
             }
 
             return area;
         }
 
-        private static EncounterSlot7GO ReadSlot(byte[] data, int offset, EncounterArea7g area, int species, int form)
+        private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> data, EncounterArea7g area, int species, int form)
         {
-            int start = BitConverter.ToInt32(data, offset);
-            int end = BitConverter.ToInt32(data, offset + 4);
-            var sg = data[offset + 8];
+            int start = ReadInt32LittleEndian(data);
+            int end = ReadInt32LittleEndian(data[4..]);
+            var sg = data[8];
             var shiny = (Shiny)(sg & 0x3F);
             var gender = (Gender)(sg >> 6);
-            var type = (PogoType)data[offset + 9];
+            var type = (PogoType)data[9];
             return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
         }
 

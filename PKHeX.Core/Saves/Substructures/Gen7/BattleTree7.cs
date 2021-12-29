@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,7 +15,7 @@ namespace PKHeX.Core
                 throw new ArgumentOutOfRangeException(nameof(battletype));
 
             var offset = GetStreakOffset(battletype, super, max);
-            return BitConverter.ToUInt16(Data, Offset + offset);
+            return ReadUInt16LittleEndian(Data.AsSpan(Offset + offset));
         }
 
         public void SetTreeStreak(int value, int battletype, bool super, bool max)
@@ -26,7 +27,7 @@ namespace PKHeX.Core
                 value = ushort.MaxValue;
 
             var offset = GetStreakOffset(battletype, super, max);
-            BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + offset);
+            WriteUInt16LittleEndian(Data.AsSpan(Offset + offset), (ushort)value);
         }
 
         private static int GetStreakOffset(int battletype, bool super, bool max)
@@ -46,9 +47,9 @@ namespace PKHeX.Core
             if ((uint)index >= ScoutCount)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            var id = BitConverter.ToInt16(Data, Offset + 0x24 + (index * 2));
-            var p1 = BitConverter.ToInt16(Data, Offset + 0x88 + (index * 2));
-            var p2 = BitConverter.ToInt16(Data, Offset + 0xEC + (index * 2));
+            var id = ReadInt16LittleEndian(Data.AsSpan(Offset + 0x24 + (index * 2)));
+            var p1 = ReadInt16LittleEndian(Data.AsSpan(Offset + 0x88 + (index * 2)));
+            var p2 = ReadInt16LittleEndian(Data.AsSpan(Offset + 0xEC + (index * 2)));
 
             var a1 = (sbyte)Data[Offset + 0x154 + index];
             var a2 = (sbyte)Data[Offset + 0x186 + index];
@@ -73,8 +74,8 @@ namespace PKHeX.Core
 
         public int Music
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x18);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x18), value);
         }
 
         public BattleTreeTrainer[] ScoutedTrainers

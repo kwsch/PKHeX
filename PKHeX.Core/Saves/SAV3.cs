@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -49,7 +50,7 @@ namespace PKHeX.Core
             // OT name is the first 8 bytes of Small. The game fills any unused characters with 0xFF.
             // Japanese games are limited to 5 character OT names; INT 7 characters. +1 0xFF terminator.
             // Since JPN games don't touch the last 2 bytes (alignment), they end up as zeroes!
-            Japanese = BitConverter.ToInt16(Small, 0x6) == 0;
+            Japanese = ReadInt16LittleEndian(Small.AsSpan(0x6)) == 0;
         }
 
         private void ReadSectors(byte[] data, int group)
@@ -58,7 +59,7 @@ namespace PKHeX.Core
             int end = start + SIZE_MAIN;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                var id = ReadInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
                 switch (id)
                 {
                     case >=5: Buffer.BlockCopy(data, ofs, Storage, (id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED); break;
@@ -74,7 +75,7 @@ namespace PKHeX.Core
             int end = start + SIZE_MAIN;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                var id = ReadInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
                 switch (id)
                 {
                     case >=5: Buffer.BlockCopy(Storage, (id - 5) * SIZE_SECTOR_USED, data, ofs, SIZE_SECTOR_USED); break;
@@ -99,7 +100,7 @@ namespace PKHeX.Core
             sector0 = 0;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                var id = ReadInt16LittleEndian(data.AsSpan(ofs + 0xFF4));
                 bitTrack |= (1 << id);
                 if (id == 0)
                     sector0 = ofs;
@@ -120,8 +121,8 @@ namespace PKHeX.Core
             if (!v1)
                 return 0;
 
-            var count0 = BitConverter.ToUInt32(data, sectorZero0 + 0x0FFC);
-            var count1 = BitConverter.ToUInt32(data, sectorZero1 + 0x0FFC);
+            var count0 = ReadUInt32LittleEndian(data.AsSpan(sectorZero0 + 0x0FFC));
+            var count1 = ReadUInt32LittleEndian(data.AsSpan(sectorZero1 + 0x0FFC));
             // don't care about 32bit overflow. a 10 second save would take 1,000 years to overflow!
             return count1 > count0 ? 1 : 0;
         }
@@ -157,7 +158,7 @@ namespace PKHeX.Core
 
         public sealed override bool HasParty => true;
 
-        public sealed override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGBA(data, offset);
+        public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGBA(data);
         protected sealed override PKM GetPKM(byte[] data) => new PK3(data);
         protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
@@ -216,7 +217,7 @@ namespace PKHeX.Core
         private bool IsSectorValidExtra(int ofs)
         {
             ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
-            return chk == BitConverter.ToUInt16(Data, ofs + 0xFF4);
+            return chk == ReadUInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
         }
 
         private bool IsSectorValid(int sector)
@@ -224,7 +225,7 @@ namespace PKHeX.Core
             int start = ActiveSlot * SIZE_MAIN;
             int ofs = start + (sector * SIZE_SECTOR);
             ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
-            return chk == BitConverter.ToUInt16(Data, ofs + 0xFF6);
+            return chk == ReadUInt16LittleEndian(Data.AsSpan(ofs + 0xFF6));
         }
 
         public sealed override string ChecksumInfo
@@ -269,19 +270,19 @@ namespace PKHeX.Core
 
         public sealed override int TID
         {
-            get => BitConverter.ToUInt16(Small, 0xA);
+            get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
             set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xA);
         }
 
         public sealed override int SID
         {
-            get => BitConverter.ToUInt16(Small, 0xC);
+            get => ReadUInt16LittleEndian(Small.AsSpan(0xC));
             set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xC);
         }
 
         public sealed override int PlayedHours
         {
-            get => BitConverter.ToUInt16(Small, 0xE);
+            get => ReadUInt16LittleEndian(Small.AsSpan(0xE));
             set => BitConverter.GetBytes((ushort)value).CopyTo(Small, 0xE);
         }
 
@@ -324,7 +325,7 @@ namespace PKHeX.Core
         public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Large, offset, bitIndex);
         public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Large, offset, bitIndex, value);
 
-        public ushort GetEventConst(int index) => BitConverter.ToUInt16(Large, EventConst + (index * 2));
+        public ushort GetEventConst(int index) => ReadUInt16LittleEndian(Large.AsSpan(EventConst + (index * 2)));
         public void SetEventConst(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Large, EventConst + (index * 2));
 
         public sealed override ushort[] GetEventConsts()
@@ -335,7 +336,7 @@ namespace PKHeX.Core
             return Constants;
         }
 
-        public sealed override void SetEventConsts(ushort[] value)
+        public sealed override void SetEventConsts(ReadOnlySpan<ushort> value)
         {
             if (value.Length != EventConstMax)
                 return;
@@ -388,9 +389,9 @@ namespace PKHeX.Core
 
         protected abstract int DaycareSlotSize { get; }
 
-        public sealed override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Large, GetDaycareEXPOffset(slot));
+        public sealed override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(slot)));
         public sealed override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Large, GetDaycareEXPOffset(slot));
-        public sealed override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Large, GetDaycareSlotOffset(loc, slot));
+        public sealed override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Large.AsSpan(GetDaycareSlotOffset(loc, slot)));
         public sealed override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
         public sealed override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * DaycareSlotSize);
 
@@ -601,14 +602,14 @@ namespace PKHeX.Core
 
         public uint ColosseumRaw1
         {
-            get => BitConverter.ToUInt32(Large, ExternalEventData + 7);
-            set => SetData(Large, BitConverter.GetBytes(value), ExternalEventData + 7);
+            get => ReadUInt32LittleEndian(Large.AsSpan(ExternalEventData + 7));
+            set => WriteUInt32LittleEndian(Large.AsSpan(ExternalEventData + 7), value);
         }
 
         public uint ColosseumRaw2
         {
-            get => BitConverter.ToUInt32(Large, ExternalEventData + 11);
-            set => SetData(Large, BitConverter.GetBytes(value), ExternalEventData + 11);
+            get => ReadUInt32LittleEndian(Large.AsSpan(ExternalEventData + 11));
+            set => WriteUInt32LittleEndian(Large.AsSpan(ExternalEventData + 11), value);
         }
 
         /// <summary>

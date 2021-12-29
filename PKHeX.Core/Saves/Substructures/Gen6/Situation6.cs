@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,7 +9,7 @@ namespace PKHeX.Core
 
         public int M
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x02);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02));
             set
             {
                 var val = BitConverter.GetBytes((ushort)value);
@@ -19,7 +20,7 @@ namespace PKHeX.Core
 
         public float X
         {
-            get => BitConverter.ToSingle(Data, Offset + 0x10) / 18;
+            get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)) / 18;
             set
             {
                 var val = BitConverter.GetBytes(value * 18);
@@ -30,7 +31,7 @@ namespace PKHeX.Core
 
         public float Z
         {
-            get => BitConverter.ToSingle(Data, Offset + 0x14);
+            get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14));
             set
             {
                 var val = BitConverter.GetBytes(value);
@@ -41,7 +42,7 @@ namespace PKHeX.Core
 
         public float Y
         {
-            get => BitConverter.ToSingle(Data, Offset + 0x18) / 18;
+            get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)) / 18;
             set
             {
                 var val = BitConverter.GetBytes(value * 18);

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -13,6 +14,6 @@ namespace PKHeX.Core
             TypeTutors = GetBits(Data.AsSpan(0x38, 1)); // at most 8 flags used
         }
 
-        public int GoSpecies { get => BitConverter.ToUInt16(Data, 0x48); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x48); }
+        public int GoSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x48)); set => WriteUInt16LittleEndian(Data.AsSpan(0x48), (ushort)value); }
     }
 }

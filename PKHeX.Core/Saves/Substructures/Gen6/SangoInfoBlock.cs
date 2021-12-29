@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
 
         public uint EonTicketReceivedMagic // 0x319B8
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x63B8);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x63B8));
             set => SAV.SetData(BitConverter.GetBytes(value), Offset + 0x63B8);
         }
 
@@ -22,7 +23,7 @@ namespace PKHeX.Core
 
         public uint EonTicketSendMagic // 0x319DE
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x63DE);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x63DE));
             set => SAV.SetData(BitConverter.GetBytes(value), Offset + 0x63DE);
         }
 

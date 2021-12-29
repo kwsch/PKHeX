@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -69,8 +70,8 @@ namespace PKHeX.Core
 
         public int Language
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x1C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1C);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
         }
 
         public byte Gender { get => Data[Offset + 0x20]; set => Data[Offset + 0x20] = value; }
@@ -80,20 +81,20 @@ namespace PKHeX.Core
 
         public int BodyType
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x24);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x24);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x24));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x24), value);
         }
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x28);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x28);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x28));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x28), (ushort)value);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x2A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x2A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x2A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2A), (ushort)value);
         }
 
         // 0x2C int32 reserved

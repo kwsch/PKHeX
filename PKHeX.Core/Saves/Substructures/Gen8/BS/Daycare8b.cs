@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -40,20 +41,20 @@ namespace PKHeX.Core
 
         public bool IsEggAvailable
         {
-            get => BitConverter.ToUInt32(Data, Offset + ExtraDataOffset) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + ExtraDataOffset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + ExtraDataOffset)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + ExtraDataOffset), value ? 1u : 0u);
         }
 
         public ulong DaycareSeed
         {
-            get => BitConverter.ToUInt64(Data, Offset + ExtraDataOffset + 4);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + ExtraDataOffset + 4);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + ExtraDataOffset + 4));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + ExtraDataOffset + 4), value);
         }
 
         public int EggStepCount
         {
-            get => BitConverter.ToInt32(Data, Offset + ExtraDataOffset + 4 + 8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + ExtraDataOffset + 4 + 8);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + ExtraDataOffset + 4 + 8));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + ExtraDataOffset + 4 + 8), value);
         }
     }
 }

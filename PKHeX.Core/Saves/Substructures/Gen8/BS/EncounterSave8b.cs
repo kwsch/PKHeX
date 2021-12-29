@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -32,44 +33,44 @@ namespace PKHeX.Core
 
         public int EncounterWalkCount
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
         }
 
         public uint SafariRandSeed
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
         }
 
         public uint GenerateRandSeed
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x08);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
         }
 
         // HILL_BACK_DATA
         public bool HillTalkFlag
         {
-            get => BitConverter.ToUInt32(Data, Offset + OFS_HillBackData + 0x00) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + OFS_HillBackData + 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x00)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x00), value ? 1u : 0u);
         }
         public ushort HillEncTblIdx1
         {
-            get => BitConverter.ToUInt16(Data, Offset + OFS_HillBackData + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_HillBackData + 0x04);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x04));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x04), value);
         }
         public ushort HillEncTblIdx2
         {
-            get => BitConverter.ToUInt16(Data, Offset + OFS_HillBackData + 0x06);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_HillBackData + 0x06);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x06));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + OFS_HillBackData + 0x06), value);
         }
 
         // HONEY_TREE
         public long HoneyLastUpdateMinutes
         {
-            get => BitConverter.ToInt64(Data, Offset + OFS_HoneyTree + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_HoneyTree + 0x00);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + OFS_HoneyTree + 0x00));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset + OFS_HoneyTree + 0x00), value);
         }
         public byte HoneyTreeNo
         {
@@ -98,43 +99,43 @@ namespace PKHeX.Core
             // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
         }
 
-        public uint Radar1Species { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x00); }
-        public uint Radar1Chain   { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x04); }
-        public uint Radar2Species { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x08); }
-        public uint Radar2Chain   { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x0C); }
-        public uint Radar3Species { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x10); }
-        public uint Radar3Chain   { get => BitConverter.ToUInt32(Data, Offset + OFS_SWAY + 0x14); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SWAY + 0x14); }
+        public uint Radar1Species { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x00), value); }
+        public uint Radar1Chain   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x04)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x04), value); }
+        public uint Radar2Species { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x08), value); }
+        public uint Radar2Chain   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x0C), value); }
+        public uint Radar3Species { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x10), value); }
+        public uint Radar3Chain   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x14)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_SWAY + 0x14), value); }
 
-        public int BeforeZone { get => BitConverter.ToInt32(Data, Offset + OFS_ZONEHISTORY + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ZONEHISTORY + 0x00); }
-        public int OldZone    { get => BitConverter.ToInt32(Data, Offset + OFS_ZONEHISTORY + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ZONEHISTORY + 0x04); }
+        public int BeforeZone { get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ZONEHISTORY + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ZONEHISTORY + 0x00), value); }
+        public int OldZone    { get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ZONEHISTORY + 0x04)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ZONEHISTORY + 0x04), value); }
 
         // Mesprit
-        public int   Roamer1ZoneID  { get => BitConverter.ToInt32 (Data, Offset + OFS_ROAM1 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x00); }
-        public ulong Roamer1Seed    { get => BitConverter.ToUInt64(Data, Offset + OFS_ROAM1 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x04); }
-        public uint  Roamer1Species { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM1 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x0C); }
-        public uint  Roamer1HP      { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM1 + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x10); }
+        public int   Roamer1ZoneID  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x00), value); }
+        public ulong Roamer1Seed    { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x04)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x04), value); }
+        public uint  Roamer1Species { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x0C), value); }
+        public uint  Roamer1HP      { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x10), value); }
         public byte  Roamer1Level   { get => Data[Offset + OFS_ROAM1 + 0x14]; set => Data[Offset + OFS_ROAM1 + 0x14] = value; }
-        public uint  Roamer1Status  { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM1 + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM1 + 0x18); }
+        public uint  Roamer1Status  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x18)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM1 + 0x18), value); }
         public byte  Roamer1Encount { get => Data[Offset + OFS_ROAM1 + 0x1C]; set => Data[Offset + OFS_ROAM1 + 0x1C] = value; }
 
         // Cresselia
-        public int   Roamer2ZoneID  { get => BitConverter.ToInt32 (Data, Offset + OFS_ROAM2 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x00); }
-        public ulong Roamer2Seed    { get => BitConverter.ToUInt64(Data, Offset + OFS_ROAM2 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x04); }
-        public uint  Roamer2Species { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM2 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x0C); }
-        public uint  Roamer2HP      { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM2 + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x10); }
+        public int   Roamer2ZoneID  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x00), value); }
+        public ulong Roamer2Seed    { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x04)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x04), value); }
+        public uint  Roamer2Species { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x0C), value); }
+        public uint  Roamer2HP      { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x10), value); }
         public byte  Roamer2Level   { get => Data[Offset + OFS_ROAM2 + 0x14]; set => Data[Offset + OFS_ROAM2 + 0x14] = value; }
-        public uint  Roamer2Status  { get => BitConverter.ToUInt32(Data, Offset + OFS_ROAM2 + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ROAM2 + 0x18); }
+        public uint  Roamer2Status  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x18)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_ROAM2 + 0x18), value); }
         public byte  Roamer2Encount { get => Data[Offset + OFS_ROAM2 + 0x1C]; set => Data[Offset + OFS_ROAM2 + 0x1C] = value; }
 
         public bool GenerateValid
         {
-            get => BitConverter.ToUInt32(Data, Offset + OFS_CLOSING + 0) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + OFS_CLOSING + 0);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_CLOSING + 0)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_CLOSING + 0), value ? 1u : 0u);
         }
         public short SprayCount
         {
-            get => BitConverter.ToInt16(Data, Offset + OFS_CLOSING + 4);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_CLOSING + 4);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + OFS_CLOSING + 4));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + OFS_CLOSING + 4), value);
         }
         public byte SprayType       { get => Data[Offset + OFS_CLOSING + 6]; set => Data[Offset + OFS_CLOSING + 6] = value; }
         public byte VsSeekerCharge  { get => Data[Offset + OFS_CLOSING + 7]; set => Data[Offset + OFS_CLOSING + 7] = value; } // max 100
@@ -158,13 +159,13 @@ namespace PKHeX.Core
 
         public bool Spreaded
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x00) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value ? 1u : 0u);
         }
         public int Minutes
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
         }
         public byte TblMonsNo
         {

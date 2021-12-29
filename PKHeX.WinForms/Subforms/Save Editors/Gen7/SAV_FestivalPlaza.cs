@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -305,14 +306,14 @@ namespace PKHeX.WinForms
             B_ImportParty.Visible = SAV.HasParty;
             CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
             CHK_TrainerInvited.Checked = IsTrainerInvited();
-            ushort valus = BitConverter.ToUInt16(SAV.Data, 0x6C55C);
+            ushort valus = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C));
             int grade = valus >> 6 & 0x3F;
             NUD_Grade.Value = grade;
             int max = (Math.Min(49, grade) / 10 * 3) + 2;
             int defeated = valus >> 12;
             NUD_Defeated.Value = defeated > max ? max : defeated;
             NUD_Defeated.Maximum = max;
-            NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.Data, 0x6C558);
+            NUD_DefeatMon.Value = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C558));
             for (int i = 0; i < NUD_Trainers.Length; i++)
             {
                 int j = GetSavData16(0x6C56C + (0x14 * i));
@@ -329,7 +330,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
-        private ushort GetSavData16(int Offset) => BitConverter.ToUInt16(SAV.Data, Offset);
+        private ushort GetSavData16(int offset) => ReadUInt16LittleEndian(SAV.Data.AsSpan(offset));
         private const ushort InvitedValue = 0x7DFF;
         private readonly PKM[] p = new PKM[3];
         private readonly PictureBox[] PBs = new PictureBox[3];

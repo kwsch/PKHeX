@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,7 +17,7 @@ namespace PKHeX.Core
             {
                 int[] list = new int[BoundItemCount];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, Offset + 10 + (2 * i));
+                    list[i] = ReadUInt16LittleEndian(Data.AsSpan(Offset + 10 + (2 * i)));
                 return list;
             }
             set
@@ -35,7 +36,7 @@ namespace PKHeX.Core
             {
                 int[] list = new int[RecentItemCount];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, Offset + 20 + (2 * i));
+                    list[i] = ReadUInt16LittleEndian(Data.AsSpan(Offset + 20 + (2 * i)));
                 return list;
             }
             set

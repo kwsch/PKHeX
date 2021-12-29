@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -15,9 +16,9 @@ namespace PKHeX.Core
                 throw new ArgumentException("Invalid size.", nameof(data));
         }
 
-        public ushort CardID { get => BitConverter.ToUInt16(Data, 4); set => BitConverter.GetBytes(value).CopyTo(Data, 4); }
-        public ushort Icon { get => BitConverter.ToUInt16(Data, 6); set => BitConverter.GetBytes(value).CopyTo(Data, 6); }
-        public uint Count { get => BitConverter.ToUInt16(Data, 8); set => BitConverter.GetBytes(value).CopyTo(Data, 8); }
+        public ushort CardID { get => ReadUInt16LittleEndian(Data.AsSpan(4)); set => WriteUInt16LittleEndian(Data.AsSpan(4), value); }
+        public ushort Icon { get => ReadUInt16LittleEndian(Data.AsSpan(6)); set => WriteUInt16LittleEndian(Data.AsSpan(6), value); }
+        public uint Count { get => ReadUInt16LittleEndian(Data.AsSpan(8)); set => WriteUInt32LittleEndian(Data.AsSpan(8), value); }
 
         public byte Type { get => (byte)(Data[0xC] & 0b11); set => Data[0xC] = (byte)((Data[0xC] & ~0b11) | (value & 0b11)); }
         public byte Color { get => (byte)(Data[0xC] & 0b00111100); set => Data[0xC] = (byte)((Data[0xC] & ~0b00111100) | (value & 0b00111100)); }

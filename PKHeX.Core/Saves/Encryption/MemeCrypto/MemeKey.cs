@@ -56,30 +56,27 @@ namespace PKHeX.Core
         /// <summary>
         /// Get the AES key for this MemeKey
         /// </summary>
-        private byte[] GetAesKey(byte[] data)
+        private byte[] GetAesKey(ReadOnlySpan<byte> data)
         {
             if (data.Length < 0x60)
                 throw new ArgumentException("Memebuffers must be atleast 0x60 bytes long!");
 
             var buffer = new byte[DER.Length + data.Length - 0x60];
-            Array.Copy(DER, 0, buffer, 0, DER.Length);
-            Array.Copy(data, 0, buffer, DER.Length, buffer.Length - DER.Length);
+            DER.CopyTo(buffer, 0);
+            data[..(buffer.Length - DER.Length)].CopyTo(buffer.AsSpan(DER.Length));
 
             using var sha1 = SHA1.Create();
             var result = sha1.ComputeHash(buffer);
-            var key = new byte[0x10];
-            Array.Copy(result, 0, key, 0, 0x10);
-            return key;
+            return result.AsSpan(0, 0x10).ToArray();
         }
 
         /// <summary>
         /// Performs Aes Decryption
         /// </summary>
-        internal byte[] AesDecrypt(byte[] input)
+        internal byte[] AesDecrypt(ReadOnlySpan<byte> input)
         {
             var key = GetAesKey(input);
-            var data = new byte[0x60];
-            Array.Copy(input, input.Length - 0x60, data, 0, 0x60);
+            var data = input[^0x60..].ToArray();
             var temp = new byte[0x10];
             var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
@@ -119,7 +116,7 @@ namespace PKHeX.Core
                 curblock.CopyTo(temp, 0);
             }
 
-            var outbuf = (byte[]) input.Clone();
+            var outbuf = input.ToArray();
             Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
 
             return outbuf;
@@ -195,10 +192,10 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Rsa Decryption
         /// </summary>
-        internal byte[] RsaPrivate(byte[] data)
+        internal byte[] RsaPrivate(ReadOnlySpan<byte> data)
         {
             var _M = new byte[data.Length + 1];
-            data.CopyTo(_M, 1);
+            data.CopyTo(_M.AsSpan(1));
             Array.Reverse(_M);
             var M = new BigInteger(_M);
 

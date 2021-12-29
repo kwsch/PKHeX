@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -20,7 +21,7 @@ namespace PKHeX.Core
         private const int GroupNameSpacing = GroupNameSize + 2;
         private const int BankNameSpacing = BankNameSize + 2;
 
-        public ulong UID => BitConverter.ToUInt64(Data, 0);
+        public ulong UID => ReadUInt64LittleEndian(Data.AsSpan(0));
 
         public string GetGroupName(int group)
         {
@@ -38,7 +39,7 @@ namespace PKHeX.Core
             set => Data[0x15E] = (byte)value;
         }
 
-        private int Year => BitConverter.ToUInt16(Data, 0x160);
+        private int Year => ReadUInt16LittleEndian(Data.AsSpan(0x160));
         private int Month => Data[0x162];
         private int Day => Data[0x163];
         private int Hours => Data[0x164];
@@ -48,7 +49,7 @@ namespace PKHeX.Core
         public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
         public override string GetBoxName(int box) => GetString(GetBoxNameOffset(box), BankNameSize / 2);
         public int GetBoxNameOffset(int box) => GetBoxOffset(box) + (SlotsPerBox * SIZE_STORED);
-        public int GetBoxIndex(int box) => BitConverter.ToUInt16(Data, GetBoxNameOffset(box) + BankNameSize);
+        public int GetBoxIndex(int box) => ReadUInt16LittleEndian(Data.AsSpan(GetBoxNameOffset(box) + BankNameSize));
 
         private const int BoxStart = 0x17C;
         public static Bank7 GetBank7(byte[] data) => new(data, typeof(PK7), BoxStart);

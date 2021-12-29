@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -81,32 +82,32 @@ namespace PKHeX.Core
 
         public int RegionCode
         {
-            get => BitConverter.ToInt32(Data, Offset + OFS_REGION);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_REGION);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION), value);
         }
 
         public ulong Seed
         {
-            get => BitConverter.ToUInt64(Data, Offset + OFS_SEED);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SEED);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED), value);
         }
 
         public ulong Random
         {
-            get => BitConverter.ToUInt64(Data, Offset + OFS_RAND);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_RAND);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND), value);
         }
 
         public long Ticks
         {
-            get => BitConverter.ToInt64(Data, Offset + OFS_TICK);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TICK);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK), value);
         }
 
         public int UserID
         {
-            get => BitConverter.ToInt32(Data, Offset + OFS_UID);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_UID);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_UID));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_UID), value);
         }
 
         public DateTime Timestamp { get => DateTime.FromFileTimeUtc(Ticks); set => Ticks = value.ToFileTimeUtc(); }

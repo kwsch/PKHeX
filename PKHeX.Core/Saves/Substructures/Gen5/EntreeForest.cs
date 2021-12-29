@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -75,8 +76,8 @@ namespace PKHeX.Core
 
         public uint EncryptionSeed
         {
-            get => BitConverter.ToUInt32(Data, EncryptionSeedOffset);
-            private set => BitConverter.GetBytes(value).CopyTo(Data, EncryptionSeedOffset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(EncryptionSeedOffset));
+            private set => WriteUInt32LittleEndian(Data.AsSpan(EncryptionSeedOffset), value);
         }
 
         public void UnlockAllAreas()

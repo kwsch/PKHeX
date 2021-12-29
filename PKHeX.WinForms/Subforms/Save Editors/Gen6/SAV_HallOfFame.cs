@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -76,7 +77,7 @@ namespace PKHeX.WinForms
             int index = LB_DataEntry.SelectedIndex;
             int offset = index * 0x1B4;
 
-            uint vnd = BitConverter.ToUInt32(data, offset + 0x1B0);
+            uint vnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
             uint vn = vnd & 0xFF;
             TB_VN.Text = vn.ToString("000");
             var s = new List<string> {$"Entry #{vn}"};
@@ -121,7 +122,7 @@ namespace PKHeX.WinForms
             int moncount = 0;
             for (int i = 0; i < 6; i++)
             {
-                int species = BitConverter.ToUInt16(data, offset + 0x00);
+                int species = ReadUInt16LittleEndian(data.AsSpan(offset + 0x00));
                 if (species == 0)
                     continue;
 
@@ -136,16 +137,16 @@ namespace PKHeX.WinForms
 
         private void AddEntryDescription(int offset, List<string> s, int species)
         {
-            int helditem = BitConverter.ToUInt16(data, offset + 0x02);
-            int move1 = BitConverter.ToUInt16(data, offset + 0x04);
-            int move2 = BitConverter.ToUInt16(data, offset + 0x06);
-            int move3 = BitConverter.ToUInt16(data, offset + 0x08);
-            int move4 = BitConverter.ToUInt16(data, offset + 0x0A);
+            int helditem = ReadUInt16LittleEndian(data.AsSpan(offset + 0x02));
+            int move1 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x04));
+            int move2 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x06));
+            int move3 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x08));
+            int move4 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x0A));
 
-            int TID = BitConverter.ToUInt16(data, offset + 0x10);
-            int SID = BitConverter.ToUInt16(data, offset + 0x12);
+            int TID = ReadUInt16LittleEndian(data.AsSpan(offset + 0x10));
+            int SID = ReadUInt16LittleEndian(data.AsSpan(offset + 0x12));
 
-            uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
+            uint slgf = ReadUInt32LittleEndian(data.AsSpan(offset + 0x14));
             // uint form = slgf & 0x1F;
             uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
             uint level = slgf >> 7 & 0x7F;
@@ -181,34 +182,34 @@ namespace PKHeX.WinForms
             if (offset < 0)
                 return;
 
-            int species = BitConverter.ToUInt16(data, offset + 0x00);
+            int species = ReadUInt16LittleEndian(data.AsSpan(offset + 0x00));
             CB_Species.SelectedValue = species;
-            int item = BitConverter.ToUInt16(data, offset + 0x02);
+            int item = ReadUInt16LittleEndian(data.AsSpan(offset + 0x02));
             CB_HeldItem.SelectedValue = item;
-            int move1 = BitConverter.ToUInt16(data, offset + 0x04);
-            int move2 = BitConverter.ToUInt16(data, offset + 0x06);
-            int move3 = BitConverter.ToUInt16(data, offset + 0x08);
-            int move4 = BitConverter.ToUInt16(data, offset + 0x0A);
+            int move1 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x04));
+            int move2 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x06));
+            int move3 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x08));
+            int move4 = ReadUInt16LittleEndian(data.AsSpan(offset + 0x0A));
             CB_Move1.SelectedValue = move1;
             CB_Move2.SelectedValue = move2;
             CB_Move3.SelectedValue = move3;
             CB_Move4.SelectedValue = move4;
 
-            uint EC = BitConverter.ToUInt32(data, offset + 0xC);
+            uint EC = ReadUInt32LittleEndian(data.AsSpan(offset + 0xC));
             TB_EC.Text = EC.ToString("X8");
 
-            TB_TID.Text = BitConverter.ToUInt16(data, offset + 0x10).ToString("00000");
-            TB_SID.Text = BitConverter.ToUInt16(data, offset + 0x12).ToString("00000");
+            TB_TID.Text = ReadUInt16LittleEndian(data.AsSpan(offset + 0x10)).ToString("00000");
+            TB_SID.Text = ReadUInt16LittleEndian(data.AsSpan(offset + 0x12)).ToString("00000");
 
             TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
             TB_OT.Text = StringConverter.GetString6(data, offset + 0x30, 24);
 
-            uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
+            uint slgf = ReadUInt32LittleEndian(data.AsSpan(offset + 0x14));
             uint form = slgf & 0x1F;
             uint gender = slgf >> 5 & 3; // 0 M; 1 F; 2 G
             uint level = slgf >> 7 & 0x7F;
             uint shiny = slgf >> 14 & 0x1;
-            uint nick = BitConverter.ToUInt16(data,offset+0x16);
+            uint nick = ReadUInt16LittleEndian(data.AsSpan(offset + 0x16));
 
             CHK_Shiny.Checked = shiny == 1;
 
@@ -246,7 +247,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(Convert.ToUInt16(TB_TID.Text)).CopyTo(data, offset + 0x10);
             BitConverter.GetBytes(Convert.ToUInt16(TB_SID.Text)).CopyTo(data, offset + 0x12);
 
-            uint rawslgf = BitConverter.ToUInt32(data, offset + 0x14);
+            uint rawslgf = ReadUInt32LittleEndian(data.AsSpan(offset + 0x14));
             uint slgf = 0;
             slgf |= (uint)(CB_Form.SelectedIndex & 0x1F);
             slgf |= (uint)((PKX.GetGenderFromString(Label_Gender.Text) & 0x3) << 5);
@@ -278,7 +279,7 @@ namespace PKHeX.WinForms
             date |= (uint)((CAL_MetDate.Value.Day & 0x1F) << 12);
             vnd |= (date & 0x1FFFF) << 14;
             //Fix for top bit
-            uint rawvnd = BitConverter.ToUInt32(data, offset + 0x1B0);
+            uint rawvnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 

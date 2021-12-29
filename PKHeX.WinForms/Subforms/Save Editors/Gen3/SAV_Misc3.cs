@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -308,12 +309,15 @@ namespace PKHeX.WinForms
             editingval = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                int vali = BitConverter.ToUInt16(SAV.Small, BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi));
+                var offset = BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi);
+                int vali = ReadUInt16LittleEndian(SAV.Small.AsSpan(offset));
                 if (vali > 9999)
                     vali = 9999;
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
             }
-            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Small, 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
+
+            var shift = (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi);
+            CHK_Continue.Checked = (ReadUInt32LittleEndian(SAV.Small.AsSpan(0xCDC)) & (1 << shift)) != 0;
             editingval = false;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -93,7 +94,7 @@ namespace PKHeX.Core
             if ((uint) index >= MAX)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            return BitConverter.ToSingle(Data, Offset + 0x08 + (4 * index));
+            return ReadSingleLittleEndian(Data.AsSpan(Offset + 0x08 + (4 * index)));
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace PKHeX.Core
             if ((uint)index >= MAX)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08 + (4 * index));
+            WriteSingleLittleEndian(Data.AsSpan(Offset + 0x08 + (4 * index)), value);
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace PKHeX.Core
             if ((uint)index >= MAX)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            return BitConverter.ToSingle(Data, Offset + 0xC8 + (4 * index));
+            return ReadSingleLittleEndian(Data.AsSpan(Offset + 0xC8 + (4 * index)));
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace PKHeX.Core
             if ((uint)index >= MAX)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC8 + (4 * index));
+            WriteSingleLittleEndian(Data.AsSpan(Offset + 0xC8 + (4 * index)), value);
         }
 
         /// <summary>
@@ -230,8 +231,8 @@ namespace PKHeX.Core
 
         public uint TutorialIndex
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x314);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x314);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x314));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x314), value);
         }
 
         /// <summary>
@@ -298,8 +299,8 @@ namespace PKHeX.Core
         /// </summary>
         public int Species
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
         }
 
         /// <summary>

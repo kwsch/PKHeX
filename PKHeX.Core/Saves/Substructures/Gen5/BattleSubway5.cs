@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -9,57 +10,57 @@ namespace PKHeX.Core
 
         public int BP
         {
-            get => BitConverter.ToUInt16(Data, Offset);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)value);
         }
 
         // Normal
         public int SinglePast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x08);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x08);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x08), (ushort)value);
         }
 
         public int SingleRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x1A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x1A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1A), (ushort)value);
         }
 
         public int DoublePast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x0A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0A), (ushort)value);
         }
 
         public int DoubleRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x1C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x1C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), (ushort)value);
         }
 
         public int MultiNPCPast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x0C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0C), (ushort)value);
         }
 
         public int MultiNPCRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x1E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x1E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1E), (ushort)value);
         }
 
         public int MultiFriendsPast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x0E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0E), (ushort)value);
         }
 
         public int MultiFriendsRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x20);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x20);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x20));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x20), (ushort)value);
         }
 
         // Super Check
@@ -72,50 +73,50 @@ namespace PKHeX.Core
         // Super
         public int SuperSinglePast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x12);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x12);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x12));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x12), (ushort)value);
         }
 
         public int SuperSingleRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x24);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x24);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x24));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x24), (ushort)value);
         }
 
         public int SuperDoublePast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x14);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x14);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14), (ushort)value);
         }
 
         public int SuperDoubleRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x26);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x26);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x26));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x26), (ushort)value);
         }
 
         public int SuperMultiNPCPast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x16);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x16);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x16));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x16), (ushort)value);
         }
 
         public int SuperMultiNPCRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x28);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x28);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x28));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x28), (ushort)value);
         }
 
         public int SuperMultiFriendsPast
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x18);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x18);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x18), (ushort)value);
         }
 
         public int SuperMultiFriendsRecord
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x2A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x2A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x2A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2A), (ushort)value);
         }
 
         // TODO: Wifi??

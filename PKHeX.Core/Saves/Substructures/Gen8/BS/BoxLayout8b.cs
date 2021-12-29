@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -64,7 +65,7 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < TeamCount * TeamSlotCount; i++)
             {
-                short val = BitConverter.ToInt16(Data, Offset + TeamPositionOffset + (i * 2));
+                short val = ReadInt16LittleEndian(Data.AsSpan(Offset + TeamPositionOffset + (i * 2)));
                 if (val < 0)
                 {
                     TeamSlots[i] = NONE_SELECTED;
@@ -151,8 +152,8 @@ namespace PKHeX.Core
 
         public ushort StatusPut
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x648);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x648);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x648));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x648), value);
         }
     }
 }

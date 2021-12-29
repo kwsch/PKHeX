@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem8b { Index = itemID, Count = count, IsNew = true };
 
-        public override void GetPouch(byte[] data)
+        public override void GetPouch(ReadOnlySpan<byte> data)
         {
             var items = new InventoryItem8b[LegalItems.Length];
 
@@ -33,13 +33,13 @@ namespace PKHeX.Core
             SortBy<InventoryItem8b, ushort>(z => !z.IsValidSaveSortNumberCount ? (ushort)0xFFFF : z.SortOrder);
         }
 
-        public InventoryItem8b GetItem(byte[] data, ushort itemID)
+        public InventoryItem8b GetItem(ReadOnlySpan<byte> data, ushort itemID)
         {
             var ofs = GetItemOffset(itemID, Offset);
-            return InventoryItem8b.Read(itemID, data, ofs);
+            return InventoryItem8b.Read(itemID, data[ofs..]);
         }
 
-        public override void SetPouch(byte[] data)
+        public override void SetPouch(Span<byte> data)
         {
             HashSet<ushort> processed = new();
 
@@ -67,7 +67,7 @@ namespace PKHeX.Core
                 }
 
                 var ofs = GetItemOffset(index, Offset);
-                item.Write(data, ofs);
+                item.Write(data[ofs..]);
 
                 if (!processed.Contains(index)) // we will allow duplicate item definitions, but they'll overwrite instead of sum/separate.
                     processed.Add(index);
@@ -84,6 +84,6 @@ namespace PKHeX.Core
 
         public static int GetItemOffset(ushort index, int baseOffset) => baseOffset + (InventoryItem8b.SIZE * index);
 
-        public void ClearItem(byte[] data, ushort index) => InventoryItem8b.Clear(data, GetItemOffset(index, Offset));
+        public void ClearItem(Span<byte> data, ushort index) => InventoryItem8b.Clear(data, GetItemOffset(index, Offset));
     }
 }

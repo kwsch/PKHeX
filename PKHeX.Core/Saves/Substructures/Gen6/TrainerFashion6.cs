@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -11,10 +12,10 @@ namespace PKHeX.Core
 
         protected TrainerFashion6(byte[] data, int offset)
         {
-            data0 = BitConverter.ToUInt32(data, 0 + offset);
-            data1 = BitConverter.ToUInt32(data, 4 + offset);
-            data2 = BitConverter.ToUInt32(data, 8 + offset);
-            data3 = BitConverter.ToUInt32(data, 12 + offset);
+            data0 = ReadUInt32LittleEndian(data.AsSpan(0 + offset));
+            data1 = ReadUInt32LittleEndian(data.AsSpan(4 + offset));
+            data2 = ReadUInt32LittleEndian(data.AsSpan(8 + offset));
+            data3 = ReadUInt32LittleEndian(data.AsSpan(12 + offset));
         }
 
         public static TrainerFashion6 GetFashion(byte[] data, int offset, int gender)

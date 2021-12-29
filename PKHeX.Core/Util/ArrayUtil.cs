@@ -48,32 +48,25 @@ namespace PKHeX.Core
                 yield return bin.Slice(i, size);
         }
 
-        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
+        public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
         {
             bool[] result = new bool[count];
             for (int i = 0; i < result.Length; i++)
-                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
+                result[i] = (data[i >> 3] >> (i & 7) & 0x1) == 1;
             return result;
         }
 
-        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
+        public static void SetBitFlagArray(Span<byte> data, bool[] value)
         {
             for (int i = 0; i < value.Length; i++)
             {
-                var ofs = offset + (i >> 3);
+                var ofs = i >> 3;
                 var mask = (1 << (i & 7));
                 if (value[i])
                     data[ofs] |= (byte)mask;
                 else
                     data[ofs] &= (byte)~mask;
             }
-        }
-
-        public static byte[] SetBitFlagArray(bool[] value)
-        {
-            byte[] data = new byte[value.Length / 8];
-            SetBitFlagArray(data, 0, value);
-            return data;
         }
 
         /// <summary>

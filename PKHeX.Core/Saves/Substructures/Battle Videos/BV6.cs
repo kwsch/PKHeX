@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 // ReSharper disable UnusedType.Local
 
 namespace PKHeX.Core
@@ -15,11 +16,11 @@ namespace PKHeX.Core
         public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
         public override int Generation => 6;
 
-        internal new static bool IsValid(byte[] data)
+        internal new static bool IsValid(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE)
                 return false;
-            return BitConverter.ToUInt64(data, 0xE18) != 0 && BitConverter.ToUInt16(data, 0xE12) == 0;
+            return ReadUInt64LittleEndian(data[0xE18..]) != 0 && ReadUInt16LittleEndian(data[0xE12..]) == 0;
         }
 
         public BV6(byte[] data) => Data = (byte[])data.Clone();
@@ -38,15 +39,15 @@ namespace PKHeX.Core
             set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x50);
         }
 
-        public ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
-        public ulong RNGConst2 { get => BitConverter.ToUInt64(Data, 0x1A4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A4); }
-        public ulong RNGSeed1 { get => BitConverter.ToUInt64(Data, 0x1A8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A8); }
-        public ulong RNGSeed2 { get => BitConverter.ToUInt64(Data, 0x1B0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); }
+        public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A0), value); }
+        public ulong RNGConst2 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A4)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A4), value); }
+        public ulong RNGSeed1  { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A8)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A8), value); }
+        public ulong RNGSeed2  { get => ReadUInt64LittleEndian(Data.AsSpan(0x1B0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1B0), value); }
 
-        public int Background { get => BitConverter.ToInt32(Data, 0x1BC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); }
-        public int Unk1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
-        public int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
-        public int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
+        public int Background { get => ReadInt32LittleEndian(Data.AsSpan(0x1BC)); set => WriteInt32LittleEndian(Data.AsSpan(0x1BC), value); }
+        public int Unk1CE { get => ReadUInt16LittleEndian(Data.AsSpan(0x1CE)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1CE), (ushort)value); }
+        public int IntroID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E4)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E4), (ushort)value); }
+        public int MusicID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1F0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1F0), (ushort)value); }
 
         public string[] GetPlayerNames()
         {
@@ -113,7 +114,7 @@ namespace PKHeX.Core
             }
         }
 
-        public int MatchYear { get => BitConverter.ToUInt16(Data, 0x2E50); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E50); }
+        public int MatchYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E50), (ushort)value); }
         public int MatchDay { get => Data[0x2E52]; set => Data[0x2E52] = (byte)value; }
         public int MatchMonth { get => Data[0x2E53]; set => Data[0x2E53] = (byte)value; }
         public int MatchHour { get => Data[0x2E54]; set => Data[0x2E54] = (byte)value; }
@@ -121,7 +122,7 @@ namespace PKHeX.Core
         public int MatchSecond { get => Data[0x2E56]; set => Data[0x2E56] = (byte)value; }
         public int MatchFlags { get => Data[0x2E57]; set => Data[0x2E57] = (byte)value; }
 
-        public int UploadYear { get => BitConverter.ToUInt16(Data, 0x2E58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E58); }
+        public int UploadYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E58), (ushort)value); }
         public int UploadDay { get => Data[0x2E5A]; set => Data[0x2E5A] = (byte)value; }
         public int UploadMonth { get => Data[0x2E5B]; set => Data[0x2E5B] = (byte)value; }
         public int UploadHour { get => Data[0x2E5C]; set => Data[0x2E5C] = (byte)value; }

@@ -16,15 +16,14 @@ namespace PKHeX.Core
 
         /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
         /// <param name="data">Encoded data</param>
-        /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetString4(byte[] data, int offset, int count)
+        public static string GetString4(ReadOnlySpan<byte> data, int count)
         {
             var s = new StringBuilder(count / 2);
             for (int i = 0; i < count; i += 2)
             {
-                var val = BitConverter.ToUInt16(data, offset + i);
+                var val = ReadUInt16LittleEndian(data[i..]);
                 if (val == Terminator)
                     break;
                 var chr = ConvertValue2CharG4(val);
@@ -135,7 +134,7 @@ namespace PKHeX.Core
             // Scan for null terminator
             for (int i = 0; i < count; i+=2)
             {
-                if (BitConverter.ToInt16(data, offset + i) != 0)
+                if (ReadInt16LittleEndian(data.AsSpan(offset + i)) != 0)
                     continue;
                 count = i;
                 break;

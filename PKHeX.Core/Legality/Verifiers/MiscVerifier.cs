@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -435,8 +436,12 @@ namespace PKHeX.Core
 
         private static bool IsCloseEnough(float a, float b)
         {
-            var ia = BitConverter.ToInt32(BitConverter.GetBytes(a), 0);
-            var ib = BitConverter.ToInt32(BitConverter.GetBytes(b), 0);
+            // since we don't have access to SingleToInt32Bits on net46, just do a temp write-read.
+            Span<byte> ta = stackalloc byte[4];
+            WriteSingleLittleEndian(ta, a);
+            var ia = ReadInt32LittleEndian(ta);
+            WriteSingleLittleEndian(ta, b);
+            var ib = ReadInt32LittleEndian(ta);
             return Math.Abs(ia - ib) <= 7;
         }
 

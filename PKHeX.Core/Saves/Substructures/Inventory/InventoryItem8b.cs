@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -20,27 +21,27 @@ namespace PKHeX.Core
         /// </summary>
         public bool IsValidSaveSortNumberCount => SortOrder != 0;
 
-        public static InventoryItem8b Read(ushort index, byte[] data, int offset) => new()
+        public static InventoryItem8b Read(ushort index, ReadOnlySpan<byte> data) => new()
         {
             Index = index,
-            Count = BitConverter.ToInt32(data, offset),
-            IsNew = BitConverter.ToInt32(data, offset + 4) == 0,
-            IsFavorite = BitConverter.ToInt32(data, offset + 0x8) == 1,
-            SortOrder = BitConverter.ToUInt16(data, offset + 0xC),
+            Count = ReadInt32LittleEndian(data),
+            IsNew = ReadInt32LittleEndian(data[4..]) == 0,
+            IsFavorite = ReadInt32LittleEndian(data[8..]) == 1,
+            SortOrder = ReadUInt16LittleEndian(data[12..]),
             // 0xE alignment
         };
 
-        public void Write(byte[] data, int offset)
+        public void Write(Span<byte> data)
         {
             // Index is not saved.
-            BitConverter.GetBytes((uint)Count).CopyTo(data, offset);
-            BitConverter.GetBytes(IsNew ? 0u : 1u).CopyTo(data, offset + 0x4);
-            BitConverter.GetBytes(IsFavorite ? 1u : 0u).CopyTo(data, offset + 0x8);
-            BitConverter.GetBytes(SortOrder).CopyTo(data, offset + 0xC);
-            BitConverter.GetBytes((ushort)0).CopyTo(data, offset + 0xE);
+            WriteUInt32LittleEndian(data, (uint)Count);
+            WriteUInt32LittleEndian(data[4..], IsNew ? 0u : 1u);
+            WriteUInt32LittleEndian(data[8..], IsFavorite ? 1u : 0u);
+            WriteUInt16LittleEndian(data[12..], SortOrder);
+            WriteUInt16LittleEndian(data[14..], 0);
         }
 
-        public static void Clear(byte[] data, int offset) => Array.Clear(data, offset, SIZE);
+        public static void Clear(Span<byte> data, int offset) => data.Slice(offset, SIZE).Clear();
 
         public override void SetNewDetails(int count)
         {

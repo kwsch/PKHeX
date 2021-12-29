@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.RibbonIndex;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -40,8 +41,8 @@ namespace PKHeX.Core
 
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x8);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x8);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x8));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x8), (ushort)value);
         }
 
         public byte CardFlags { get => Data[CardStart + 0x10]; set => Data[CardStart + 0x10] = value; }
@@ -77,10 +78,10 @@ namespace PKHeX.Core
             set => SetQuantity(0, (ushort)value);
         }
 
-        public int GetItem(int index) => BitConverter.ToUInt16(Data, CardStart + 0x20 + (0x10 * index));
-        public void SetItem(int index, ushort item) => BitConverter.GetBytes(item).CopyTo(Data, CardStart + 0x20 + (0x10 * index));
-        public int GetQuantity(int index) => BitConverter.ToUInt16(Data, CardStart + 0x22 + (0x10 * index));
-        public void SetQuantity(int index, ushort quantity) => BitConverter.GetBytes(quantity).CopyTo(Data, CardStart + 0x22 + (0x10 * index));
+        public int GetItem(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x20 + (0x10 * index)));
+        public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x20 + (0x10 * index)), item);
+        public int GetQuantity(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22 + (0x10 * index)));
+        public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22 + (0x10 * index)), quantity);
 
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == GiftType.Pokemon; set { if (value) CardType = GiftType.Pokemon; } }
@@ -108,59 +109,59 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x20);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x20);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x20));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x20), (ushort)value);
         }
 
         public override int SID {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x22);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x22);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22), (ushort)value);
         }
 
         public int OriginGame
         {
-            get => BitConverter.ToInt32(Data, CardStart + 0x24);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x24);
+            get => ReadInt32LittleEndian(Data.AsSpan(CardStart + 0x24));
+            set => WriteInt32LittleEndian(Data.AsSpan(CardStart + 0x24), value);
         }
 
         public uint EncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, CardStart + 0x28);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x28);
+            get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x28));
+            set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x28), value);
         }
 
         public uint PID
         {
-            get => BitConverter.ToUInt32(Data, CardStart + 0x2C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x2C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x2C));
+            set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x2C), value);
         }
 
         // Nicknames, OT Names 0x30 - 0x270
-        public override int EggLocation { get => BitConverter.ToUInt16(Data, CardStart + 0x270); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x270); }
-        public int MetLocation { get => BitConverter.ToUInt16(Data, CardStart + 0x272); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x272); }
+        public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x270)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x270), (ushort)value); }
+        public int MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x272)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x272), (ushort)value); }
 
         public override int Ball
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x274);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x274);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x274));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x274), (ushort)value);
         }
 
         public override int HeldItem
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x276);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x276);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x276));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x276), (ushort)value);
         }
 
-        public int Move1 { get => BitConverter.ToUInt16(Data, CardStart + 0x278); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x278); }
-        public int Move2 { get => BitConverter.ToUInt16(Data, CardStart + 0x27A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x27A); }
-        public int Move3 { get => BitConverter.ToUInt16(Data, CardStart + 0x27C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x27C); }
-        public int Move4 { get => BitConverter.ToUInt16(Data, CardStart + 0x27E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x27E); }
-        public int RelearnMove1 { get => BitConverter.ToUInt16(Data, CardStart + 0x280); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x280); }
-        public int RelearnMove2 { get => BitConverter.ToUInt16(Data, CardStart + 0x282); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x282); }
-        public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0x284); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x284); }
-        public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0x286); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x286); }
+        public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x278)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x278), (ushort)value); }
+        public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A), (ushort)value); }
+        public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), (ushort)value); }
+        public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E), (ushort)value); }
+        public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x280)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x280), (ushort)value); }
+        public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x282)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x282), (ushort)value); }
+        public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x284)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x284), (ushort)value); }
+        public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x286)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x286), (ushort)value); }
 
-        public override int Species { get => BitConverter.ToUInt16(Data, CardStart + 0x288); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x288); }
+        public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), (ushort)value); }
         public override int Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = (byte)value; }
         public override int Gender { get => Data[CardStart + 0x28B]; set => Data[CardStart + 0x28B] = (byte)value; }
         public override int Level { get => Data[CardStart + 0x28C]; set => Data[CardStart + 0x28C] = (byte)value; }
@@ -260,14 +261,14 @@ namespace PKHeX.Core
             }
         }
 
-        public bool GetIsNicknamed(int language) => BitConverter.ToUInt16(Data, GetNicknameOffset(language)) != 0;
+        public bool GetIsNicknamed(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetNicknameOffset(language))) != 0;
 
         public bool CanBeAnyLanguage()
         {
             for (int i = 0; i < 9; i++)
             {
                 var ofs = GetLanguageOffset(i);
-                var lang = BitConverter.ToInt16(Data, ofs);
+                var lang = ReadInt16LittleEndian(Data.AsSpan(ofs));
                 if (lang != 0)
                     return false;
             }
@@ -285,7 +286,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 9; i++)
             {
                 var ofs = GetLanguageOffset(i);
-                var lang = BitConverter.ToInt16(Data, ofs);
+                var lang = ReadInt16LittleEndian(Data.AsSpan(ofs));
                 if (lang == language)
                     return true;
             }
@@ -295,7 +296,7 @@ namespace PKHeX.Core
         public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
         private static int GetLanguageOffset(int index) => 0x30 + (index * 0x20) + 0x1A;
 
-        public bool GetHasOT(int language) => BitConverter.ToUInt16(Data, GetOTOffset(language)) != 0;
+        public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
 
         private static int GetLanguageIndex(int language)
         {

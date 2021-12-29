@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -13,25 +14,25 @@ public sealed class ZukanSpinda8b : SaveBlock
     public uint GetSeen(int gender, bool shiny)
     {
         var ofs = GetOffset(gender, shiny);
-        return BitConverter.ToUInt32(Data, Offset + ofs);
+        return ReadUInt32LittleEndian(Data.AsSpan(Offset + ofs));
     }
 
     public uint GetCaught(int gender, bool shiny)
     {
         var ofs = GetOffset(gender, shiny);
-        return BitConverter.ToUInt32(Data, Offset + 0x10 + ofs);
+        return ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10 + ofs));
     }
 
     public void SetSeen(int gender, bool shiny, uint value)
     {
         var ofs = GetOffset(gender, shiny);
-        BitConverter.GetBytes(value).CopyTo(Data, Offset + ofs);
+        WriteUInt32LittleEndian(Data.AsSpan(Offset + ofs), value);
     }
 
     public void SetCaught(int gender, bool shiny, uint value)
     {
         var ofs = GetOffset(gender, shiny);
-        BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10 + ofs);
+        WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10 + ofs), value);
     }
 
     private static int GetOffset(int gender, bool shiny) => 4 * ((gender & 1) + (shiny ? 2 : 0));

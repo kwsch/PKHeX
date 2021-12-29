@@ -17,21 +17,23 @@ namespace PKHeX.Core
         public int GetItemQuantity(ushort itemIndex)
         {
             var ofs = InventoryPouch8b.GetItemOffset(itemIndex, Offset);
-            var item = InventoryItem8b.Read(itemIndex, Data, ofs);
+            var span = Data.AsSpan(ofs, InventoryItem8b.SIZE);
+            var item = InventoryItem8b.Read(itemIndex, span);
             return item.Count;
         }
 
         public void SetItemQuantity(ushort itemIndex, int quantity)
         {
             var ofs = InventoryPouch8b.GetItemOffset(itemIndex, Offset);
-            var item = InventoryItem8b.Read(itemIndex, Data, ofs);
+            var span = Data.AsSpan(ofs, InventoryItem8b.SIZE);
+            var item = InventoryItem8b.Read(itemIndex, span);
             item.Count = quantity;
             if (!item.IsValidSaveSortNumberCount) // not yet obtained
             {
                 var type = GetType(itemIndex);
                 item.SortOrder = GetNextSortIndex(type);
             }
-            item.Write(Data, ofs);
+            item.Write(span);
         }
 
         public static InventoryType GetType(ushort itemIndex)
@@ -50,7 +52,8 @@ namespace PKHeX.Core
             foreach (var itemID in GetLegal(type))
             {
                 var ofs = InventoryPouch8b.GetItemOffset(itemID, Offset);
-                var item = InventoryItem8b.Read(itemID, Data, ofs);
+                var span = Data.AsSpan(ofs, InventoryItem8b.SIZE);
+                var item = InventoryItem8b.Read(itemID, span);
                 if (item.SortOrder > max)
                     max = item.SortOrder;
             }

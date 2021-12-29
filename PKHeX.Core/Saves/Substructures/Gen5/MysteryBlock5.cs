@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,7 +22,7 @@ namespace PKHeX.Core
         {
             get
             {
-                uint seed = BitConverter.ToUInt32(Data, SeedOffset);
+                uint seed = ReadUInt32LittleEndian(Data.AsSpan(SeedOffset));
                 byte[] wcData = SAV.GetData(Offset + FlagStart, 0xA90); // Encrypted, Decrypt
                 return GetAlbum(seed, wcData);
             }

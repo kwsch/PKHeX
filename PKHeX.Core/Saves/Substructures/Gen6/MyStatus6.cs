@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,14 +9,14 @@ namespace PKHeX.Core
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 2);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
         }
 
         public int Game
@@ -71,13 +72,13 @@ namespace PKHeX.Core
 
         public decimal Latitude // don't use the setters
         {
-            get => (BitConverter.ToInt16(Data, Offset + 0x28) * 180m) / 0x8000;
+            get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x28)) * 180m) / 0x8000;
             set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x28);
         }
 
         public decimal Longitude // don't use the setters
         {
-            get => (BitConverter.ToInt16(Data, Offset + 0x2A) * 180m) / 0x8000;
+            get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x2A)) * 180m) / 0x8000;
             set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x2A);
         }
 

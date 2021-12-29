@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -22,20 +23,20 @@ namespace PKHeX.Core
 
         public int TrainerID
         {
-            get => BitConverter.ToInt32(Data, 0x1C);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
+            get => ReadInt32LittleEndian(Data.AsSpan(0x1C));
+            set => WriteInt32LittleEndian(Data.AsSpan(0x1C), value);
         }
 
         public ushort PokeDexOwned
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x20);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x20);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x20));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x20), value);
         }
 
         public ushort ShinyPokemonFound
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x22);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x22);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x22));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x22), value);
         }
 
         public byte Game
@@ -52,21 +53,20 @@ namespace PKHeX.Core
 
         public ushort CurryTypesOwned
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x26);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x26);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x26));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x26), value);
         }
 
         public const int RotoRallyScoreMax = 99_999;
 
         public int RotoRallyScore
         {
-            get => BitConverter.ToInt32(Data, 0x28);
+            get => ReadInt32LittleEndian(Data.AsSpan(0x28));
             set
             {
                 if (value > RotoRallyScoreMax)
                     value = RotoRallyScoreMax;
-                var data = BitConverter.GetBytes(value);
-                SAV.SetData(Data, data, 0x28);
+                WriteInt32LittleEndian(Data.AsSpan(0x28), value);
                 // set to the other block since it doesn't have an accessor
                 ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KRotoRally, (uint)value);
             }
@@ -76,13 +76,12 @@ namespace PKHeX.Core
 
         public int CaughtPokemon
         {
-            get => BitConverter.ToInt32(Data, 0x2C);
+            get => ReadInt32LittleEndian(Data.AsSpan(0x2C));
             set
             {
                 if (value > MaxPokemonCaught)
                     value = MaxPokemonCaught;
-                var data = BitConverter.GetBytes(value);
-                SAV.SetData(Data, data, 0x2C);
+                WriteInt32LittleEndian(Data.AsSpan(0x2C), value);
             }
         }
 
@@ -123,98 +122,98 @@ namespace PKHeX.Core
 
         public ulong Skin // aka the base model
         {
-            get => BitConverter.ToUInt64(Data, 0x40);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x40);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x40));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x40), value);
         }
 
         public ulong Hair
         {
-            get => BitConverter.ToUInt64(Data, 0x48);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x48);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x48));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x48), value);
         }
 
         public ulong Brow
         {
-            get => BitConverter.ToUInt64(Data, 0x50);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x50);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x50));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x50), value);
         }
 
         public ulong Lashes
         {
-            get => BitConverter.ToUInt64(Data, 0x58);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x58);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x58));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x58), value);
         }
 
         public ulong Contacts
         {
-            get => BitConverter.ToUInt64(Data, 0x60);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x60);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x60));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x60), value);
         }
 
         public ulong Lips
         {
-            get => BitConverter.ToUInt64(Data, 0x68);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x68);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x68));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x68), value);
         }
 
         public ulong Glasses
         {
-            get => BitConverter.ToUInt64(Data, 0x70);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x70);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x70));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x70), value);
         }
 
         public ulong Hat
         {
-            get => BitConverter.ToUInt64(Data, 0x78);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x78);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x78));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x78), value);
         }
 
         public ulong Jacket
         {
-            get => BitConverter.ToUInt64(Data, 0x80);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x80);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x80));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x80), value);
         }
 
         public ulong Top
         {
-            get => BitConverter.ToUInt64(Data, 0x88);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x88);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x88));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x88), value);
         }
 
         public ulong Bag
         {
-            get => BitConverter.ToUInt64(Data, 0x90);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x90);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x90));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x90), value);
         }
 
         public ulong Gloves
         {
-            get => BitConverter.ToUInt64(Data, 0x98);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x98);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0x98));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0x98), value);
         }
 
         public ulong BottomOrDress
         {
-            get => BitConverter.ToUInt64(Data, 0xA0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xA0);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0xA0));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0xA0), value);
         }
 
         public ulong Sock
         {
-            get => BitConverter.ToUInt64(Data, 0xA8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xA8);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0xA8));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0xA8), value);
         }
 
         public ulong Shoe
         {
-            get => BitConverter.ToUInt64(Data, 0xB0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xB0);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0xB0));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0xB0), value);
         }
 
         public ulong MomSkin // aka the base model
         {
-            get => BitConverter.ToUInt64(Data, 0xC0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xC0);
+            get => ReadUInt64LittleEndian(Data.AsSpan(0xC0));
+            set => WriteUInt64LittleEndian(Data.AsSpan(0xC0), value);
         }
 
         // Trainer Card Pokemon
@@ -250,8 +249,8 @@ namespace PKHeX.Core
 
         public ushort StartedYear
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x170);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x170);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x170));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x170), value);
         }
 
         public byte StartedMonth
@@ -269,8 +268,8 @@ namespace PKHeX.Core
         public uint TimestampPrinted
         {
             // should this be a ulong?
-            get => BitConverter.ToUInt32(Data, Offset + 0x1A8);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x1A8);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8), value);
         }
     }
 
@@ -288,20 +287,20 @@ namespace PKHeX.Core
 
         public int Species
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
         }
 
         public int Form
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
         }
 
         public int Gender
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x08);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
         }
 
         public bool IsShiny
@@ -312,20 +311,20 @@ namespace PKHeX.Core
 
         public uint EncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x10);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
         }
 
         public uint Unknown
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x14));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
         }
 
         public int FormArgument
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x18);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x18), value);
         }
 
         public void Clear() => Array.Clear(Data, Offset, SIZE);

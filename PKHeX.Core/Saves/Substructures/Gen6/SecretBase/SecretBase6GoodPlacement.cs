@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -15,26 +16,26 @@ namespace PKHeX.Core
         public ushort Param1 { get; set; }
         public ushort Param2 { get; set; }
 
-        public SecretBase6GoodPlacement(byte[] data, int offset)
+        public SecretBase6GoodPlacement(ReadOnlySpan<byte> data)
         {
-            Good = BitConverter.ToUInt16(data, offset);
-            X = BitConverter.ToUInt16(data, offset + 2);
-            Y = BitConverter.ToUInt16(data, offset + 4);
-            Rotation = data[offset + 6];
+            Good = ReadUInt16LittleEndian(data);
+            X = ReadUInt16LittleEndian(data[2..]);
+            Y = ReadUInt16LittleEndian(data[4..]);
+            Rotation = data[6];
 
-            Param1 = BitConverter.ToUInt16(data, offset + 8);
-            Param2 = BitConverter.ToUInt16(data, offset + 10);
+            Param1 = ReadUInt16LittleEndian(data[8..]);
+            Param2 = ReadUInt16LittleEndian(data[10..]);
         }
 
-        public void Write(byte[] data, int offset)
+        public void Write(Span<byte> data)
         {
-            BitConverter.GetBytes(Good).CopyTo(data, offset);
-            BitConverter.GetBytes(X).CopyTo(data, offset + 2);
-            BitConverter.GetBytes(Y).CopyTo(data, offset + 4);
+            WriteUInt16LittleEndian(data, Good);
+            WriteUInt16LittleEndian(data[2..], X);
+            WriteUInt16LittleEndian(data[4..], Y);
             data[6] = Rotation;
 
-            BitConverter.GetBytes(Param1).CopyTo(data, offset + 8);
-            BitConverter.GetBytes(Param2).CopyTo(data, offset + 10);
+            WriteUInt16LittleEndian(data[8..], Param1);
+            WriteUInt16LittleEndian(data[10..], Param2);
         }
     }
 }

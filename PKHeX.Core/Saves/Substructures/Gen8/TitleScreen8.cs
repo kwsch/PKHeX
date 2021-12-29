@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -48,20 +49,20 @@ namespace PKHeX.Core
 
         public int Species
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
         }
 
         public int Form
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
         }
 
         public int Gender
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x08);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
         }
 
         public bool IsShiny
@@ -72,38 +73,38 @@ namespace PKHeX.Core
 
         public uint EncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x10);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
         }
 
         public int FormArgument
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x14));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
         }
 
         public uint Unknown18
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x18);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x18), value);
         }
 
         public uint Unknown1C
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x1C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
         }
 
         public uint Unknown20
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x20);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x20));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x20), value);
         }
 
         public uint Unknown24
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x24);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x24);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x24));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x24), value);
         }
 
         public void Clear() => Array.Clear(Data, Offset, SIZE);

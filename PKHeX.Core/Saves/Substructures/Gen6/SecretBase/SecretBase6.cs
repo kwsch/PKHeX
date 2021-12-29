@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -45,13 +46,13 @@ namespace PKHeX.Core
         public bool IsNew
         {
             get => Data[Offset] == 1;
-            set => BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, Offset);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)(value ? 1 : 0));
         }
 
         private int RawLocation
         {
-            get => BitConverter.ToInt16(Data, Offset + 2);
-            set => BitConverter.GetBytes((short)value).CopyTo(Data, Offset + 2);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 2));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 2), (short)value);
         }
 
         public int BaseLocation
@@ -66,9 +67,9 @@ namespace PKHeX.Core
             };
         }
 
-        public SecretBase6GoodPlacement GetPlacement(int index) => new(Data, Offset + GetPlacementOffset(index));
+        public SecretBase6GoodPlacement GetPlacement(int index) => new(Data.AsSpan(Offset + GetPlacementOffset(index)));
 
-        public void SetPlacement(int index, SecretBase6GoodPlacement value) => value.Write(Data, Offset + GetPlacementOffset(index));
+        public void SetPlacement(int index, SecretBase6GoodPlacement value) => value.Write(Data.AsSpan(Offset + GetPlacementOffset(index)));
 
         private static int GetPlacementOffset(int index)
         {
@@ -106,20 +107,20 @@ namespace PKHeX.Core
 
         public SecretBase6Rank Rank
         {
-            get => (SecretBase6Rank) BitConverter.ToInt32(Data, Offset + 0x300);
-            set => BitConverter.GetBytes((int) value).CopyTo(Data, Offset + 0x300);
+            get => (SecretBase6Rank) ReadInt32LittleEndian(Data.AsSpan(Offset + 0x300));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x300), (int)value);
         }
 
         public uint TotalFlagsFromFriends
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x304);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x304);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x304));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x304), value);
         }
 
         public uint TotalFlagsFromOther
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x308);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x308);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x308));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x308), value);
         }
 
         public byte CollectedFlagsToday { get => Data[Offset + 0x30C]; set => Data[Offset + 0x30C] = value; }

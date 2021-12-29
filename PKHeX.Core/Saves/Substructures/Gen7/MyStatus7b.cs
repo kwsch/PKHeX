@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -12,14 +13,14 @@ namespace PKHeX.Core
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 2);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
         }
 
         public int Game

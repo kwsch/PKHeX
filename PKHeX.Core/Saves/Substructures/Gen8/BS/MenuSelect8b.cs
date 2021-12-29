@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,25 +18,25 @@ namespace PKHeX.Core
         public int GetMenuItem(int index)
         {
             int ofs = GetOffset(index);
-            return BitConverter.ToInt32(Data, Offset + ofs);
+            return ReadInt32LittleEndian(Data.AsSpan(Offset + ofs));
         }
 
         public void SetMenuItem(int index, int value)
         {
             int ofs = GetOffset(index);
-            BitConverter.GetBytes(value).CopyTo(Data, Offset + ofs);
+            WriteInt32LittleEndian(Data.AsSpan(Offset + ofs), value);
         }
 
         public bool GetMenuItemIsNew(int index)
         {
             int ofs = GetOffset(index);
-            return BitConverter.ToInt32(Data, Offset + ofs + 4) == 1;
+            return ReadInt32LittleEndian(Data.AsSpan(Offset + ofs + 4)) == 1;
         }
 
         public void SetMenuItemIsNew(int index, bool value)
         {
             int ofs = GetOffset(index);
-            BitConverter.GetBytes(value).CopyTo(Data, Offset + ofs + 4);
+            WriteInt32LittleEndian(Data.AsSpan(Offset + ofs + 4), value ? 1 : 0);
         }
 
         private static int GetOffset(int index)
@@ -45,6 +46,6 @@ namespace PKHeX.Core
             return index * SIZE_TUPLE;
         }
 
-        public int LastSelectedMenu { get => BitConverter.ToInt32(Data, Offset + 0x40); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x40); }
+        public int LastSelectedMenu { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x40), value); }
     }
 }

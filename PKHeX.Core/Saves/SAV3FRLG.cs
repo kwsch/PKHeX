@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -68,16 +69,16 @@ namespace PKHeX.Core
             }
         }
 
-        public ushort JoyfulJumpInRow           { get => BitConverter.ToUInt16(Small, 0xB00); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB00); }
+        public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB00)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB00); }
         // u16 field2;
-        public ushort JoyfulJump5InRow          { get => BitConverter.ToUInt16(Small, 0xB04); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB04); }
-        public ushort JoyfulJumpGamesMaxPlayers { get => BitConverter.ToUInt16(Small, 0xB06); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB06); }
+        public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0xB04)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB04); }
+        public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0xB06)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB06); }
         // u32 field8;
-        public uint   JoyfulJumpScore           { get => BitConverter.ToUInt16(Small, 0xB0C); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB0C); }
+        public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB0C)); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB0C); }
 
-        public uint   JoyfulBerriesScore        { get => BitConverter.ToUInt16(Small, 0xB10); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB10); }
-        public ushort JoyfulBerriesInRow        { get => BitConverter.ToUInt16(Small, 0xB14); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB14); }
-        public ushort JoyfulBerries5InRow       { get => BitConverter.ToUInt16(Small, 0xB16); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB16); }
+        public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB10)); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB10); }
+        public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB14)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB14); }
+        public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0xB16)); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB16); }
 
         public uint BerryPowder
         {
@@ -98,14 +99,14 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get => BitConverter.ToUInt32(Large, 0x0290) ^ SecurityKey;
-            set => SetData(Large, BitConverter.GetBytes(value ^ SecurityKey), 0x0290);
+            get => ReadUInt32LittleEndian(Large.AsSpan(0x0290)) ^ SecurityKey;
+            set => WriteUInt32LittleEndian(Large.AsSpan(0x0290), value ^ SecurityKey);
         }
 
         public override uint Coin
         {
-            get => (ushort)(BitConverter.ToUInt16(Large, 0x0294) ^ SecurityKey);
-            set => SetData(Large, BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0294);
+            get => (ushort)(ReadUInt16LittleEndian(Large.AsSpan(0x0294)) ^ SecurityKey);
+            set => WriteUInt16LittleEndian(Large.AsSpan(0x0294), (ushort)(value ^ SecurityKey));
         }
 
         private const int OFS_PCItem = 0x0298;
@@ -134,7 +135,7 @@ namespace PKHeX.Core
         protected override int MailOffset => 0x2CD0;
 
         protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pkm slot
-        public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt16(Large, GetDaycareEXPOffset(2)).ToString("X4"); // after the 2nd slot EXP, before the step counter
+        public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4"); // after the 2nd slot EXP, before the step counter
         public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes((ushort)Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
 
         protected override int ExternalEventData => 0x30A7;

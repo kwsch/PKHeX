@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -118,7 +119,7 @@ namespace PKHeX.Core
         public static SCBlock ReadFromOffset(byte[] data, ref int offset)
         {
             // Create block, parse its key.
-            var key = BitConverter.ToUInt32(data, offset);
+            var key = ReadUInt32LittleEndian(data.AsSpan(offset));
             offset += 4;
             var xk = new SCXorShift32(key);
 
@@ -137,7 +138,7 @@ namespace PKHeX.Core
 
                 case SCTypeCode.Object: // Cast raw bytes to Object
                 {
-                    var num_bytes = BitConverter.ToUInt32(data, offset) ^ xk.Next32();
+                    var num_bytes = ReadUInt32LittleEndian(data.AsSpan(offset)) ^ xk.Next32();
                     offset += 4;
                     var arr = new byte[num_bytes];
                     for (int i = 0; i < arr.Length; i++)
@@ -148,7 +149,7 @@ namespace PKHeX.Core
 
                 case SCTypeCode.Array: // Cast raw bytes to SubType[]
                 {
-                    var num_entries = BitConverter.ToUInt32(data, offset) ^ xk.Next32();
+                    var num_entries = ReadUInt32LittleEndian(data.AsSpan(offset)) ^ xk.Next32();
                     offset += 4;
                     var sub = (SCTypeCode)(data[offset++] ^ xk.Next());
 

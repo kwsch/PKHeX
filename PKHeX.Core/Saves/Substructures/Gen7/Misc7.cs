@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x4);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x4));
             set
             {
                 if (value > 9_999_999)
@@ -20,10 +21,10 @@ namespace PKHeX.Core
 
         public uint Stamps
         {
-            get => (BitConverter.ToUInt32(Data, Offset + 0x08) << 13) >> 17;  // 15 stamps; discard top13, lowest4
+            get => (ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)) << 13) >> 17;  // 15 stamps; discard top13, lowest4
             set
             {
-                uint flags = BitConverter.ToUInt32(Data, Offset + 0x08) & 0xFFF8000F;
+                uint flags = ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)) & 0xFFF8000F;
                 flags |= (value & 0x7FFF) << 4;
                 SAV.SetData(BitConverter.GetBytes(flags), Offset + 0x08);
             }
@@ -31,7 +32,7 @@ namespace PKHeX.Core
 
         public uint BP
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x11C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x11C));
             set
             {
                 if (value > 9999)
@@ -48,7 +49,7 @@ namespace PKHeX.Core
 
         public uint StarterEncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x148);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x148));
             set => SAV.SetData(BitConverter.GetBytes(value), Offset + 0x148);
         }
 
@@ -62,7 +63,7 @@ namespace PKHeX.Core
         {
             if ((uint)recordID >= 4)
                 recordID = 0;
-            return BitConverter.ToInt32(Data, Offset + 0x138 + (4 * recordID));
+            return ReadInt32LittleEndian(Data.AsSpan(Offset + 0x138 + (4 * recordID)));
         }
 
         public void SetSurfScore(int recordID, int score)

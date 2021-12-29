@@ -12,12 +12,13 @@ namespace PKHeX.Core
 
         public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
-        public override void GetPouch(byte[] data)
+        public override void GetPouch(ReadOnlySpan<byte> data)
         {
+            var span = data[Offset..];
             var items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
-                ReadOnlySpan<byte> item = data.AsSpan(Offset + (i * 4));
+                var item = span.Slice(i * 4, 4);
                 items[i] = new InventoryItem
                 {
                     Index = ReadUInt16BigEndian(item),
@@ -27,14 +28,15 @@ namespace PKHeX.Core
             Items = items;
         }
 
-        public override void SetPouch(byte[] data)
+        public override void SetPouch(Span<byte> data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
+            var span = data[Offset..];
             for (int i = 0; i < Items.Length; i++)
             {
-                var item = data.AsSpan(Offset + (i * 4));
+                var item = span.Slice(i * 4, 4);
                 WriteUInt32BigEndian(item,      (ushort)Items[i].Index);
                 WriteUInt32BigEndian(item[2..], (ushort)Items[i].Count);
             }

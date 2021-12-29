@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -18,7 +19,7 @@ namespace PKHeX.Core
                 result.Add("----");
                 result.Add(headers[g]);
                 result.Add("----");
-                // uint count = BitConverter.ToUInt32(savefile, offset + 0x4E20);
+                // uint count = ReadUInt32LittleEndian(data.AsSpan(offset + 0x4E20));
                 ReadTrainers(result, data, offset, 100);
                 offset += 0x5000; // Advance to next block
             }
@@ -41,26 +42,26 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool ReadTrainer(ICollection<string> result, byte[] Data, int ofs)
+        private static bool ReadTrainer(ICollection<string> result, byte[] data, int ofs)
         {
-            ulong pssID = BitConverter.ToUInt64(Data, ofs);
+            ulong pssID = ReadUInt64LittleEndian(data.AsSpan(ofs));
             if (pssID == 0)
                 return false; // no data
 
-            string otname = StringConverter.GetString6(Data, ofs + 8, 0x1A);
-            string message = StringConverter.GetString6(Data, ofs + 8 + 0x1A, 0x22);
+            string otname = StringConverter.GetString6(data, ofs + 8, 0x1A);
+            string message = StringConverter.GetString6(data, ofs + 8 + 0x1A, 0x22);
 
             // Trim terminated
 
-            // uint unk1 = BitConverter.ToUInt32(savefile, r_offset + 0x44);
-            // ulong unk2 = BitConverter.ToUInt64(savefile, r_offset + 0x48);
-            // uint unk3 = BitConverter.ToUInt32(savefile, r_offset + 0x50);
-            // uint unk4 = BitConverter.ToUInt16(savefile, r_offset + 0x54);
-            byte regionID = Data[ofs + 0x56];
-            byte countryID = Data[ofs + 0x57];
-            byte game = Data[ofs + 0x5A];
-            // ulong outfit = BitConverter.ToUInt64(savefile, r_offset + 0x5C);
-            int favpkm = BitConverter.ToUInt16(Data, ofs + 0x9C) & 0x7FF;
+            // uint unk1  = ReadUInt32LittleEndian(data.AsSpan(ofs + 0x44));
+            // ulong unk2 = ReadUInt64LittleEndian(data.AsSpan(ofs + 0x48));
+            // uint unk3  = ReadUInt32LittleEndian(data.AsSpan(ofs + 0x50));
+            // uint unk4  = ReadUInt16LittleEndian(data.AsSpan(ofs + 0x54));
+            byte regionID = data[ofs + 0x56];
+            byte countryID = data[ofs + 0x57];
+            byte game = data[ofs + 0x5A];
+            // ulong outfit = ReadUInt64LittleEndian(data.AsSpan(ofs + 0x5C));
+            int favpkm = ReadUInt16LittleEndian(data.AsSpan(ofs + 0x9C)) & 0x7FF;
 
             string gamename = GetGameName(game);
             var (country, region) = GeoLocation.GetCountryRegionText(countryID, regionID, GameInfo.CurrentLanguage);

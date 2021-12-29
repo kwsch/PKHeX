@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -33,8 +34,8 @@ namespace PKHeX.Core
         // General Card Properties
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0), (ushort)value);
         }
 
         public override string CardTitle
@@ -46,8 +47,8 @@ namespace PKHeX.Core
 
         internal uint RawDate
         {
-            get => BitConverter.ToUInt32(Data, 0x4C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x4C));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x4C), value);
         }
 
         private uint Year
@@ -113,29 +114,29 @@ namespace PKHeX.Core
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
 
         public override int ItemID {
-            get => BitConverter.ToUInt16(Data, 0x68);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); }
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x68));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
 
         public override int Quantity {
-            get => BitConverter.ToUInt16(Data, 0x70);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x70));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value); }
 
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == Shiny.Always;
-        public override int TID { get => BitConverter.ToUInt16(Data, 0x68); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); }
-        public override int SID { get => BitConverter.ToUInt16(Data, 0x6A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); }
+        public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
+        public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
         public int OriginGame { get => Data[0x6C]; set => Data[0x6C] = (byte)value; }
-        public uint EncryptionConstant { get => BitConverter.ToUInt32(Data, 0x70); set => BitConverter.GetBytes(value).CopyTo(Data, 0x70); }
+        public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x70)); set => WriteUInt32LittleEndian(Data.AsSpan(0x70), value); }
         public override int Ball { get => Data[0x76]; set => Data[0x76] = (byte)value; }
-        public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x78); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x78); }
+        public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x78)); set => WriteUInt16LittleEndian(Data.AsSpan(0x78), (ushort)value); }
 
-        public int Move1 { get => BitConverter.ToUInt16(Data, 0x7A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x7A); }
-        public int Move2 { get => BitConverter.ToUInt16(Data, 0x7C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x7C); }
-        public int Move3 { get => BitConverter.ToUInt16(Data, 0x7E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x7E); }
-        public int Move4 { get => BitConverter.ToUInt16(Data, 0x80); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x80); }
+        public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7A), (ushort)value); }
+        public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7C), (ushort)value); }
+        public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), (ushort)value); }
+        public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(0x80), (ushort)value); }
 
-        public override int Species { get => BitConverter.ToUInt16(Data, 0x82); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x82); }
+        public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(0x82), (ushort)value); }
         public override int Form { get => Data[0x84]; set => Data[0x84] = (byte)value; }
         public int Language { get => Data[0x85]; set => Data[0x85] = (byte)value; }
 
@@ -149,8 +150,8 @@ namespace PKHeX.Core
         public override int Gender { get => Data[0xA1]; set => Data[0xA1] = (byte)value; }
         public override int AbilityType { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public Shiny PIDType { get => (Shiny)Data[0xA3]; set => Data[0xA3] = (byte)value; }
-        public override int EggLocation { get => BitConverter.ToUInt16(Data, 0xA4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA4); }
-        public int MetLocation { get => BitConverter.ToUInt16(Data, 0xA6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA6); }
+        public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA4), (ushort)value); }
+        public int MetLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA6), (ushort)value); }
 
         public byte CNT_Cool   { get => Data[0xA9]; set => Data[0xA9] = value; }
         public byte CNT_Beauty { get => Data[0xAA]; set => Data[0xAA] = value; }
@@ -176,16 +177,16 @@ namespace PKHeX.Core
 
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
         public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
-        public uint PID { get => BitConverter.ToUInt32(Data, 0xD4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xD4); }
+        public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
 
-        public int RelearnMove1 { get => BitConverter.ToUInt16(Data, 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
-        public int RelearnMove2 { get => BitConverter.ToUInt16(Data, 0xDA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); }
-        public int RelearnMove3 { get => BitConverter.ToUInt16(Data, 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDC); }
-        public int RelearnMove4 { get => BitConverter.ToUInt16(Data, 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDE); }
+        public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD8), (ushort)value); }
+        public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDA), (ushort)value); }
+        public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDC), (ushort)value); }
+        public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDE), (ushort)value); }
 
         public int OT_Intensity { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
         public int OT_Memory { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0xE2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xE2); }
+        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xE2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xE2), (ushort)value); }
         public int OT_Feeling { get => Data[0xE4]; set => Data[0xE4] = (byte)value; }
 
         public int EV_HP { get => Data[0xE5]; set => Data[0xE5] = (byte)value; }

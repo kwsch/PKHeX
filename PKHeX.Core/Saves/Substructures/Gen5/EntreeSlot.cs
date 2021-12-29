@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -69,8 +70,8 @@ namespace PKHeX.Core
         /// </summary>
         public uint RawValue
         {
-            get => BitConverter.ToUInt32(Data, Offset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value);
         }
 
         public void Delete() => RawValue = 0;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -12,7 +13,7 @@ public sealed class UnionSaveData8b : SaveBlock
 {
     public UnionSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-    public bool IsInitTalk { get => BitConverter.ToUInt32(Data, Offset) == 1;  set => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, Offset); }
-    public int PenaltyCount { get => BitConverter.ToInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
-    public float PenaltyTime { get => BitConverter.ToSingle(Data, Offset + 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x8); }
+    public bool IsInitTalk { get => ReadUInt32LittleEndian(Data.AsSpan(Offset)) == 1;  set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value ? 1u : 0u); }
+    public int PenaltyCount { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
+    public float PenaltyTime { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x8)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x8), value); }
 }

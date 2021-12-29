@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -59,15 +60,15 @@ namespace PKHeX.Core
 
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, 0x150);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x150);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x150));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x150), (ushort)value);
         }
 
         private const int TitleLength = 0x48;
 
         public override string CardTitle
         {
-            get => StringConverter4.GetString4(Data, 0x104, TitleLength);
+            get => StringConverter4.GetString4(Data.AsSpan(0x104), TitleLength);
             set
             {
                 byte[] data = StringConverter4.SetString4(value, (TitleLength / 2) - 1, TitleLength / 2, 0xFFFF);
@@ -79,7 +80,7 @@ namespace PKHeX.Core
             }
         }
 
-        public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
+        public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
         public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }

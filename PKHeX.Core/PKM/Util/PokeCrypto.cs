@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -180,8 +181,8 @@ namespace PKHeX.Core
         /// <returns>Decrypted Pokémon data.</returns>
         public static byte[] DecryptArray45(byte[] ekm)
         {
-            uint pv = BitConverter.ToUInt32(ekm, 0);
-            uint chk = BitConverter.ToUInt16(ekm, 6);
+            uint pv = ReadUInt32LittleEndian(ekm);
+            uint chk = ReadUInt16LittleEndian(ekm.AsSpan(6));
             uint sv = pv >> 13 & 31;
 
             CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
@@ -196,7 +197,7 @@ namespace PKHeX.Core
         public static byte[] EncryptArray45(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
-            uint chk = BitConverter.ToUInt16(pkm, 6);
+            uint chk = ReadUInt16LittleEndian(pkm.AsSpan(6));
             uint sv = pv >> 13 & 31;
 
             byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_4BLOCK);
@@ -205,7 +206,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void CryptPKM(byte[] data, uint pv, int blockSize)
+        private static void CryptPKM(Span<byte> data, uint pv, int blockSize)
         {
             const int start = 8;
             int end = (4 * blockSize) + start;
@@ -215,7 +216,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void CryptPKM45(byte[] data, uint pv, uint chk, int blockSize)
+        private static void CryptPKM45(Span<byte> data, uint pv, uint chk, int blockSize)
         {
             const int start = 8;
             int end = (4 * blockSize) + start;
@@ -225,13 +226,13 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CryptArray(byte[] data, uint seed, int start, int end)
+        public static void CryptArray(Span<byte> data, uint seed, int start, int end)
         {
             int i = start;
             do // all block sizes are multiples of 4
             {
-                Crypt(data, ref seed, i); i += 2;
-                Crypt(data, ref seed, i); i += 2;
+                Crypt(data[i..], ref seed); i += 2;
+                Crypt(data[i..], ref seed); i += 2;
             }
             while (i < end);
         }
@@ -240,11 +241,12 @@ namespace PKHeX.Core
         public static void CryptArray(byte[] data, uint seed) => CryptArray(data, seed, 0, data.Length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void Crypt(byte[] data, ref uint seed, in int i)
+        private static void Crypt(Span<byte> data, ref uint seed)
         {
             seed = (0x41C64E6D * seed) + 0x00006073;
-            data[i] ^= (byte)(seed >> 16);
-            data[i + 1] ^= (byte)(seed >> 24);
+            var current = ReadUInt16LittleEndian(data);
+            current ^= (ushort)(seed >> 16);
+            WriteUInt16LittleEndian(data, current);
         }
 
         /// <summary>
@@ -314,11 +316,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Decrypted Pokémon data.</param>
         /// <param name="partyStart">Offset at which the Stored data ends and the Party data starts.</param>
-        public static ushort GetCHK(byte[] data, int partyStart)
+        public static ushort GetCHK(ReadOnlySpan<byte> data, int partyStart)
         {
             ushort chk = 0;
             for (int i = 8; i < partyStart; i += 2)
-                chk += BitConverter.ToUInt16(data, i);
+                chk += ReadUInt16LittleEndian(data[i..]);
             return chk;
         }
 
@@ -327,11 +329,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Decrypted Pokémon data.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort GetCHK3(byte[] data)
+        public static ushort GetCHK3(ReadOnlySpan<byte> data)
         {
             ushort chk = 0;
             for (int i = 0x20; i < SIZE_3STORED; i += 2)
-                chk += BitConverter.ToUInt16(data, i);
+                chk += ReadUInt16LittleEndian(data[i..]);
             return chk;
         }
 
@@ -342,7 +344,7 @@ namespace PKHeX.Core
         public static void DecryptIfEncrypted3(ref byte[] pkm)
         {
             ushort chk = GetCHK3(pkm);
-            if (chk != BitConverter.ToUInt16(pkm, 0x1C))
+            if (chk != ReadUInt16LittleEndian(pkm.AsSpan(0x1C)))
                 pkm = DecryptArray3(pkm);
         }
 
@@ -362,7 +364,7 @@ namespace PKHeX.Core
         /// <remarks>Generation 6 &amp; 7 Format encryption check</remarks>
         public static void DecryptIfEncrypted67(ref byte[] pkm)
         {
-            if (BitConverter.ToUInt16(pkm, 0xC8) != 0 || BitConverter.ToUInt16(pkm, 0x58) != 0)
+            if (ReadUInt16LittleEndian(pkm.AsSpan(0xC8)) != 0 || ReadUInt16LittleEndian(pkm.AsSpan(0x58)) != 0)
                 pkm = DecryptArray6(pkm);
         }
 
@@ -372,7 +374,7 @@ namespace PKHeX.Core
         /// <remarks>Generation 8 Format encryption check</remarks>
         public static void DecryptIfEncrypted8(ref byte[] pkm)
         {
-            if (BitConverter.ToUInt16(pkm, 0x70) != 0 || BitConverter.ToUInt16(pkm, 0xC0) != 0)
+            if (ReadUInt16LittleEndian(pkm.AsSpan(0x70)) != 0 || ReadUInt16LittleEndian(pkm.AsSpan(0xC0)) != 0)
                 pkm = DecryptArray8(pkm);
         }
     }

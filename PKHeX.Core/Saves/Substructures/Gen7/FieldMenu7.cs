@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
         // USUM ONLY
         public ushort RotomAffection
         {
-            get => BitConverter.ToUInt16(SAV.Data, Offset + 0x1A);
+            get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x1A));
             set => SAV.SetData(BitConverter.GetBytes(Math.Min((ushort)1000, value)), Offset + 0x1A);
         }
 

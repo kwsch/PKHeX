@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -50,7 +51,7 @@ namespace PKHeX.WinForms
             listBox1.SelectedIndex = 0;
             FillTrainingBags();
 
-            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * 30));
+            CB_S2.SelectedValue = (int)ReadUInt16LittleEndian(SAV.Data.AsSpan(offsetSpec + (4 * 30)));
             TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 30)).ToString(CultureInfo.InvariantCulture);
             TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * 31)).ToString(CultureInfo.InvariantCulture);
         }
@@ -112,8 +113,8 @@ namespace PKHeX.WinForms
                 return;
             loading = true;
             TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString(CultureInfo.InvariantCulture);
-            TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + (4 * index)).ToString();
-            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + (4 * index));
+            TB_Unk.Text = ReadUInt16LittleEndian(SAV.Data.AsSpan(offsetVal + (4 * index))).ToString();
+            CB_Species.SelectedValue = (int)ReadUInt16LittleEndian(SAV.Data.AsSpan(offsetSpec + (4 * index)));
             loading = false;
         }
 

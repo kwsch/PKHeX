@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,8 +15,8 @@ namespace PKHeX.Core
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x8);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x8));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x8), value);
         }
 
         public int Badges
@@ -26,8 +27,8 @@ namespace PKHeX.Core
 
         public int BP
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x30);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x30);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x30));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x30), (ushort)value);
         }
 
         public int Vivillon

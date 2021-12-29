@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -28,8 +29,8 @@ namespace PKHeX.Core
 
         public ushort Checksum
         {
-            get => BitConverter.ToUInt16(Data, GetChecksumOffset());
-            set => BitConverter.GetBytes(value).CopyTo(Data, GetChecksumOffset());
+            get => ReadUInt16LittleEndian(Data.AsSpan(GetChecksumOffset()));
+            set => WriteUInt16LittleEndian(Data.AsSpan(GetChecksumOffset()), value);
         }
     }
 }

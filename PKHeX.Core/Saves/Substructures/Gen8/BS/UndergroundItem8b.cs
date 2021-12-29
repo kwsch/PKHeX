@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -13,21 +14,33 @@ namespace PKHeX.Core
         public bool HideNewFlag { get; set; }
         public bool IsFavoriteFlag { get; set; }
 
-        public UndergroundItem8b(byte[] data, int baseOffset, int index)
+        public UndergroundItem8b(ReadOnlySpan<byte> data, int baseOffset, int index)
         {
             Index = index;
             var offset = baseOffset + (SIZE * index);
-            Count = BitConverter.ToInt32(data, offset + 0);
-            HideNewFlag = BitConverter.ToUInt32(data, offset + 4) == 1;
-            IsFavoriteFlag = BitConverter.ToUInt32(data, offset + 8) == 1;
+            var span = data.Slice(offset, SIZE);
+            Read(span);
         }
 
-        public void Write(byte[] data, int baseOffset)
+        public void Write(Span<byte> data, int baseOffset)
         {
             var offset = baseOffset + (SIZE * Index);
-            BitConverter.GetBytes(Count).CopyTo(data, offset + 0);
-            BitConverter.GetBytes(HideNewFlag ? 1u : 0u).CopyTo(data, offset + 4);
-            BitConverter.GetBytes(IsFavoriteFlag ? 1u : 0u).CopyTo(data, offset + 8);
+            var span = data.Slice(offset, SIZE);
+            Write(span);
+        }
+
+        private void Read(ReadOnlySpan<byte> span)
+        {
+            Count = ReadInt32LittleEndian(span);
+            HideNewFlag = ReadUInt32LittleEndian(span[4..]) == 1;
+            IsFavoriteFlag = ReadUInt32LittleEndian(span[8..]) == 1;
+        }
+
+        private void Write(Span<byte> span)
+        {
+            WriteInt32LittleEndian(span, Count);
+            WriteUInt32LittleEndian(span[4..], HideNewFlag ? 1u : 0u);
+            WriteUInt32LittleEndian(span[8..], IsFavoriteFlag ? 1u : 0u);
         }
     }
 }

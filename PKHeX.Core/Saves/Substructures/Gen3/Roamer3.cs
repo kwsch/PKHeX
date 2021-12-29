@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -23,25 +24,25 @@ namespace PKHeX.Core
 
         private uint IV32
         {
-            get => BitConverter.ToUInt32(Data, Offset);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value);
         }
 
         public uint PID
         {
-            get => BitConverter.ToUInt32(Data, Offset + 4);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 4);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value);
         }
 
         public int Species
         {
-            get => SpeciesConverter.GetG4Species(BitConverter.ToInt16(Data, Offset + 8));
+            get => SpeciesConverter.GetG4Species(ReadInt16LittleEndian(Data.AsSpan(Offset + 8)));
             set => SAV.SetData(Data, BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)), Offset + 8);
         }
 
         public int HP_Current
         {
-            get => BitConverter.ToInt16(Data, Offset + 10);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 10));
             set => SAV.SetData(Data, BitConverter.GetBytes((short)value), Offset + 10);
         }
 

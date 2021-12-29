@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -19,7 +20,7 @@ namespace PKHeX.Core
         {
             ushort chk = 0;
             for (int i = 8; i < PokeCrypto.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
-                chk += BitConverter.ToUInt16(Data, i);
+                chk += ReadUInt16LittleEndian(Data.AsSpan(i));
             return chk;
         }
 

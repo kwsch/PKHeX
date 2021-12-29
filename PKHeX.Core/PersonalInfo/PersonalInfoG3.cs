@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -26,15 +27,15 @@ namespace PKHeX.Core
         public sealed override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
         public sealed override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
         public sealed override int BaseEXP { get => Data[0x09]; set => Data[0x09] = (byte)value; }
-        private int EVYield { get => BitConverter.ToUInt16(Data, 0x0A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A); }
+        private int EVYield { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
         public sealed override int EV_HP { get => EVYield >> 0 & 0x3; set => EVYield = (EVYield & ~(0x3 << 0)) | (value & 0x3) << 0; }
         public sealed override int EV_ATK { get => EVYield >> 2 & 0x3; set => EVYield = (EVYield & ~(0x3 << 2)) | (value & 0x3) << 2; }
         public sealed override int EV_DEF { get => EVYield >> 4 & 0x3; set => EVYield = (EVYield & ~(0x3 << 4)) | (value & 0x3) << 4; }
         public sealed override int EV_SPE { get => EVYield >> 6 & 0x3; set => EVYield = (EVYield & ~(0x3 << 6)) | (value & 0x3) << 6; }
         public sealed override int EV_SPA { get => EVYield >> 8 & 0x3; set => EVYield = (EVYield & ~(0x3 << 8)) | (value & 0x3) << 8; }
         public sealed override int EV_SPD { get => EVYield >> 10 & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | (value & 0x3) << 10; }
-        public int Item1 { get => BitConverter.ToInt16(Data, 0xC); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0xC); }
-        public int Item2 { get => BitConverter.ToInt16(Data, 0xE); set => BitConverter.GetBytes((short)value).CopyTo(Data, 0xE); }
+        public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0xC)); set => WriteInt16LittleEndian(Data.AsSpan(0xC), (short)value); }
+        public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0xE)); set => WriteInt16LittleEndian(Data.AsSpan(0xE), (short)value); }
         public sealed override int Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
         public sealed override int HatchCycles { get => Data[0x11]; set => Data[0x11] = (byte)value; }
         public sealed override int BaseFriendship { get => Data[0x12]; set => Data[0x12] = (byte)value; }

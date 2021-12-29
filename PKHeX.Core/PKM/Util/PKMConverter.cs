@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
+using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
@@ -48,7 +49,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Raw data representing a Pokemon.</param>
         /// <returns>An integer indicating the generation of the PKM file, or -1 if the data is invalid.</returns>
-        public static int GetPKMDataFormat(byte[] data)
+        public static int GetPKMDataFormat(ReadOnlySpan<byte> data)
         {
             if (!PKX.IsPKM(data.Length))
                 return -1;
@@ -66,17 +67,17 @@ namespace PKHeX.Core
                     return 3;
                 case PokeCrypto.SIZE_4PARTY or PokeCrypto.SIZE_4STORED:
                 case PokeCrypto.SIZE_5PARTY:
-                    if ((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
+                    if ((ReadUInt16LittleEndian(data[0x4..]) == 0) && (ReadUInt16LittleEndian(data.Slice(0x80)) >= 0x3333 || data[0x5F] >= 0x10) && ReadUInt16LittleEndian(data[0x46..]) == 0) // PK5
                         return 5;
                     return 4;
                 case PokeCrypto.SIZE_6STORED:
                     return 6;
                 case PokeCrypto.SIZE_6PARTY: // collision with PGT, same size.
-                    if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
+                    if (ReadUInt16LittleEndian(data[0x4..]) != 0) // Bad Sanity?
                         return -1;
-                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data, PokeCrypto.SIZE_6STORED))
+                    if (ReadUInt32LittleEndian(data[0x06..]) == PokeCrypto.GetCHK(data, PokeCrypto.SIZE_6STORED))
                         return 6;
-                    if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
+                    if (ReadUInt16LittleEndian(data[0x58..]) != 0) // Encrypted?
                     {
                         for (int i = data.Length - 0x10; i < data.Length; i++) // 0x10 of 00's at the end != PK6
                         {
@@ -114,7 +115,7 @@ namespace PKHeX.Core
                     PokeCrypto.SIZE_3XSTORED => new XK3(data),
                     _ => new PK3(data),
                 },
-                4 => BitConverter.ToUInt16(data, 0x04) == 0 ? new PK4(data) : new BK4(data),
+                4 => ReadUInt16LittleEndian(data.AsSpan(0x04)) == 0 ? new PK4(data) : new BK4(data),
                 5 => new PK5(data),
                 6 => CheckPKMFormat7(new PK6(data), prefer),
                 8 => CheckPKMFormat8(data),
@@ -181,7 +182,7 @@ namespace PKHeX.Core
                     return true;
             }
 
-            int mb = BitConverter.ToUInt16(pk.Data, 0x16);
+            int mb = ReadUInt16LittleEndian(pk.Data.AsSpan(0x16));
             if (mb > 0xAAA)
                 return false;
             for (int i = 0; i < 6; i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -88,7 +89,7 @@ namespace PKHeX.Core
         public override int DaycareSeedSize => 16;
         public override bool HasTwoDaycares => false;
         public override bool? IsDaycareOccupied(int loc, int slot) => Data[DaycareOffset + 0 + ((SIZE_STORED + 8) * slot)] == 1;
-        public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, DaycareOffset + 4 + ((SIZE_STORED + 8) * slot));
+        public override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Data.AsSpan(DaycareOffset + 4 + ((SIZE_STORED + 8) * slot)));
 
         public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + 8 + (slot * (SIZE_STORED + 8));
         public override bool? IsDaycareHasEgg(int loc) => Data[DaycareOffset + 0x1E0] == 1;

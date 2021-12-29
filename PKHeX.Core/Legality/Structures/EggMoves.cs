@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,16 +15,16 @@ namespace PKHeX.Core
     {
         private EggMoves2(int[] moves) : base(moves) { }
 
-        public static EggMoves2[] GetArray(byte[] data, int count)
+        public static EggMoves2[] GetArray(ReadOnlySpan<byte> data, int count)
         {
             var entries = new EggMoves2[count + 1];
             var empty = entries[0] = new EggMoves2(Array.Empty<int>());
 
-            int baseOffset = BitConverter.ToInt16(data, 0) - (count * 2);
+            int baseOffset = ReadInt16LittleEndian(data) - (count * 2);
             for (int i = 1; i < entries.Length; i++)
             {
-                int start = BitConverter.ToInt16(data, (i - 1) * 2) - baseOffset;
-                int end = Array.IndexOf(data, (byte)0xFF, start);
+                int start = ReadInt16LittleEndian(data[((i - 1) * 2)..]) - baseOffset;
+                int end = data[start..].IndexOf((byte)0xFF) + start;
                 if (start == end)
                 {
                     entries[i] = empty;
@@ -47,15 +48,15 @@ namespace PKHeX.Core
 
         private EggMoves6(int[] moves) : base(moves) { }
 
-        private static EggMoves6 Get(byte[] data)
+        private static EggMoves6 Get(ReadOnlySpan<byte> data)
         {
             if (data.Length == 0)
                 return None;
 
-            int count = BitConverter.ToInt16(data, 0);
+            int count = ReadInt16LittleEndian(data[..]);
             var moves = new int[count];
             for (int i = 0; i < moves.Length; i++)
-                moves[i] = BitConverter.ToInt16(data, 2 + (i * 2));
+                moves[i] = ReadInt16LittleEndian(data[(2 + (i * 2))..]);
             return new EggMoves6(moves);
         }
 
@@ -75,16 +76,16 @@ namespace PKHeX.Core
 
         private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
 
-        private static EggMoves7 Get(byte[] data)
+        private static EggMoves7 Get(ReadOnlySpan<byte> data)
         {
             if (data.Length == 0)
                 return None;
 
-            int formIndex = BitConverter.ToInt16(data, 0);
-            int count = BitConverter.ToInt16(data, 2);
+            int formIndex = ReadInt16LittleEndian(data[..]);
+            int count = ReadInt16LittleEndian(data[2..]);
             var moves = new int[count];
             for (int i = 0; i < moves.Length; i++)
-                moves[i] = BitConverter.ToInt16(data, 4 + (i * 2));
+                moves[i] = ReadInt16LittleEndian(data[(4 + (i * 2))..]);
             return new EggMoves7(moves, formIndex);
         }
 

@@ -267,7 +267,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
-        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGB(data);
 
         protected override int EventConstMax => 0x100;
         protected override int EventFlagMax => 2000;
@@ -306,7 +306,7 @@ namespace PKHeX.Core
             get
             {
                 ushort accum = GetChecksum();
-                ushort actual = BitConverter.ToUInt16(Data, Offsets.OverallChecksumPosition);
+                ushort actual = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition));
                 return accum == actual;
             }
         }
@@ -380,8 +380,13 @@ namespace PKHeX.Core
 
         public int Badges
         {
-            get => BitConverter.ToUInt16(Data, Offsets.JohtoBadges);
-            set { if (value < 0) return; BitConverter.GetBytes((ushort)value).CopyTo(Data, Offsets.JohtoBadges); }
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges));
+            set
+            {
+                if (value < 0)
+                    return;
+                WriteUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges), (ushort)value);
+            }
         }
 
         private byte Options
@@ -688,7 +693,7 @@ namespace PKHeX.Core
 
         /// <summary>All Event Constant values for the save file</summary>
         /// <remarks>These are all bytes</remarks>
-        public override void SetEventConsts(ushort[] value)
+        public override void SetEventConsts(ReadOnlySpan<ushort> value)
         {
             if (value.Length != EventConstMax)
                 return;

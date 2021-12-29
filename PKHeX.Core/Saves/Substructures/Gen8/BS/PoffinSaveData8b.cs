@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -30,7 +31,7 @@ namespace PKHeX.Core
 
         public Poffin8b GetPoffin(int index) => new(Data, GetPoffinOffset(index));
         public void SetPoffin(int index, Poffin8b poffin) => poffin.CopyTo(Data, GetPoffinOffset(index));
-        public int CookingCount { get => BitConverter.ToInt32(Data, Offset + 0x640); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x640); }
+        public int CookingCount { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x640)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x640), value); }
 
         public Poffin8b[] GetPoffins()
         {
@@ -74,7 +75,7 @@ namespace PKHeX.Core
         public byte Level { get => Data[0x01]; set => Data[0x01] = value; }
         public byte Taste { get => Data[0x02]; set => Data[0x02] = value; } // Smoothness/feel of the Poffin => +sheen
 
-        public bool IsNew { get => BitConverter.ToUInt32(Data, 0x04) == 1; set => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, 0x04); }
+        public bool IsNew { get => ReadUInt32LittleEndian(Data.AsSpan(0x04)) == 1; set => WriteUInt32LittleEndian(Data.AsSpan(0x04), value ? 1u : 0u); }
 
         public byte FlavorSpicy  { get => Data[0x08]; set => Data[0x08] = value; }
         public byte FlavorDry    { get => Data[0x09]; set => Data[0x09] = value; }

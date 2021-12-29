@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -20,7 +21,7 @@ namespace PKHeX.Core
 
             for (int i = 0; i < TeamCount * 6; i++)
             {
-                short val = BitConverter.ToInt16(Data, Offset + (i * 2));
+                short val = ReadInt16LittleEndian(Data.AsSpan(Offset + (i * 2)));
                 if (val < 0)
                 {
                     TeamSlots[i] = NONE_SELECTED;

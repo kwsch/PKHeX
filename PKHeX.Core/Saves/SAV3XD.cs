@@ -177,7 +177,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 8;
 
-        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(Data, offset);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGC(data);
 
         // Checksums
         protected override void SetChecksums()

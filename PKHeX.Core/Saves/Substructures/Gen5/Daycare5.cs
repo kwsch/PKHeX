@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -22,7 +23,7 @@ namespace PKHeX.Core
         {
             if (SAV is not SAV5B2W2)
                 return null;
-            return BitConverter.ToUInt64(Data, Offset + 0x1CC);
+            return ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x1CC));
         }
 
         public void SetSeed(string value)
@@ -37,10 +38,10 @@ namespace PKHeX.Core
         public int GetPKMOffset(int slot) => GetDaycareSlotOffset(slot) + 4;
         private int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot) + 4 + PokeCrypto.SIZE_5PARTY;
 
-        public bool? IsOccupied(int slot) => BitConverter.ToUInt32(Data, GetDaycareSlotOffset(slot)) == 1;
+        public bool? IsOccupied(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareSlotOffset(slot))) == 1;
         public void SetOccupied(int slot, bool occupied) => SAV.SetData(BitConverter.GetBytes((uint)(occupied ? 1 : 0)), GetDaycareSlotOffset(slot));
 
-        public uint? GetEXP(int slot) => BitConverter.ToUInt32(Data, GetDaycareEXPOffset(slot));
+        public uint? GetEXP(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareEXPOffset(slot)));
         public void SetEXP(int slot, uint EXP) => SAV.SetData(BitConverter.GetBytes(EXP), GetDaycareEXPOffset(slot));
     }
 }

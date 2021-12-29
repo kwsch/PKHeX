@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -197,7 +198,7 @@ namespace PKHeX.Core
         public ushort GetEncounterCount(int index)
         {
             var ofs = PokeDex + 0x686 + (index * 2);
-            return BitConverter.ToUInt16(SAV.Data, ofs);
+            return ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs));
         }
 
         public void SetEncounterCount(int index, ushort value)

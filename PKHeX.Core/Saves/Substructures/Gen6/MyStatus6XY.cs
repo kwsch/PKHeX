@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -24,8 +25,8 @@ namespace PKHeX.Core
 
         public short EyeColor
         {
-            get => BitConverter.ToInt16(Data, Offset + 0x148);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x148);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0x148));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x148), value);
         }
     }
 }

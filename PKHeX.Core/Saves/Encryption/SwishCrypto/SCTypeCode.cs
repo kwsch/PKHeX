@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -71,42 +72,42 @@ namespace PKHeX.Core
             _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString()),
         };
 
-        public static object GetValue(this SCTypeCode type, byte[] data)
+        public static object GetValue(this SCTypeCode type, ReadOnlySpan<byte> data)
         {
             // don't use a switch expression here, we want to box our underlying type rather than the last type (double)
             switch (type)
             {
                 case SCTypeCode.Byte:   return data[0];
-                case SCTypeCode.UInt16: return BitConverter.ToUInt16(data, 0);
-                case SCTypeCode.UInt32: return BitConverter.ToUInt32(data, 0);
-                case SCTypeCode.UInt64: return BitConverter.ToUInt64(data, 0);
+                case SCTypeCode.UInt16: return ReadUInt16LittleEndian(data);
+                case SCTypeCode.UInt32: return ReadUInt32LittleEndian(data);
+                case SCTypeCode.UInt64: return ReadUInt64LittleEndian(data);
                 case SCTypeCode.SByte:  return (sbyte) data[0];
-                case SCTypeCode.Int16:  return BitConverter.ToInt16(data, 0);
-                case SCTypeCode.Int32:  return BitConverter.ToInt32(data, 0);
-                case SCTypeCode.Int64:  return BitConverter.ToInt64(data, 0);
-                case SCTypeCode.Single: return BitConverter.ToSingle(data, 0);
-                case SCTypeCode.Double: return BitConverter.ToDouble(data, 0);
+                case SCTypeCode.Int16:  return ReadInt16LittleEndian(data);
+                case SCTypeCode.Int32:  return ReadInt32LittleEndian(data);
+                case SCTypeCode.Int64:  return ReadInt64LittleEndian(data);
+                case SCTypeCode.Single: return ReadSingleLittleEndian(data);
+                case SCTypeCode.Double: return ReadDoubleLittleEndian(data);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type.ToString());
             }
         }
 
-        public static void SetValue(this SCTypeCode type, byte[] data, object value)
+        public static void SetValue(this SCTypeCode type, Span<byte> data, object value)
         {
             switch (type)
             {
                 case SCTypeCode.Byte: data[0] = (byte)value; break;
-                case SCTypeCode.UInt16: BitConverter.GetBytes((ushort)value).CopyTo(data, 0); break;
-                case SCTypeCode.UInt32: BitConverter.GetBytes((uint)value).CopyTo(data, 0); break;
-                case SCTypeCode.UInt64: BitConverter.GetBytes((ulong)value).CopyTo(data, 0); break;
+                case SCTypeCode.UInt16: WriteUInt16LittleEndian(data, (ushort)value); break;
+                case SCTypeCode.UInt32: WriteUInt32LittleEndian(data, (uint)value); break;
+                case SCTypeCode.UInt64: WriteUInt64LittleEndian(data, (ulong)value); break;
 
                 case SCTypeCode.SByte: data[0] = (byte)value; break;
-                case SCTypeCode.Int16: BitConverter.GetBytes((short)value).CopyTo(data, 0); break;
-                case SCTypeCode.Int32: BitConverter.GetBytes((int)value).CopyTo(data, 0); break;
-                case SCTypeCode.Int64: BitConverter.GetBytes((long)value).CopyTo(data, 0); break;
+                case SCTypeCode.Int16: WriteInt16LittleEndian(data, (short)value); break;
+                case SCTypeCode.Int32: WriteInt32LittleEndian(data, (int)value); break;
+                case SCTypeCode.Int64: WriteInt64LittleEndian(data, (long)value); break;
 
-                case SCTypeCode.Single: BitConverter.GetBytes((float)value).CopyTo(data, 0); break;
-                case SCTypeCode.Double: BitConverter.GetBytes((double)value).CopyTo(data, 0); break;
+                case SCTypeCode.Single: WriteSingleLittleEndian(data, (float)value); break;
+                case SCTypeCode.Double: WriteDoubleLittleEndian(data, (double)value); break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type.ToString());

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -72,14 +73,14 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get => BitConverter.ToUInt32(Large, 0x0490);
-            set => SetData(Large, BitConverter.GetBytes(value), 0x0490);
+            get => ReadUInt32LittleEndian(Large.AsSpan(0x0490));
+            set => WriteUInt32LittleEndian(Large.AsSpan(0x0490), value);
         }
 
         public override uint Coin
         {
-            get => BitConverter.ToUInt16(Large, 0x0494);
-            set => SetData(Large, BitConverter.GetBytes((ushort)value), 0x0494);
+            get => ReadUInt16LittleEndian(Large.AsSpan(0x0494));
+            set => WriteUInt16LittleEndian(Large.AsSpan(0x0494), (ushort)(value));
         }
 
         private const int OFS_PCItem = 0x0498;
@@ -139,7 +140,7 @@ namespace PKHeX.Core
         protected override int MailOffset => 0x2B4C;
 
         protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, 2) + (2 * 0x38) + (4 * slot); // consecutive vals, after both consecutive slots & 2 mail
-        public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt16(Large, GetDaycareEXPOffset(2)).ToString("X4");
+        public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4");
         public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes((ushort)Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
 
         protected override int ExternalEventData => 0x311B;

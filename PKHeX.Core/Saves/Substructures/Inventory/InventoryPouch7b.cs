@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,28 +17,32 @@ namespace PKHeX.Core
         public InventoryPouch7b(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
             : base(type, legal, maxCount, offset, size) { }
 
-        public override void GetPouch(byte[] data)
+        public override void GetPouch(ReadOnlySpan<byte> data)
         {
+            var span = data[Offset..];
             var items = new InventoryItem7b[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
-                uint val = BitConverter.ToUInt32(data, Offset + (i * 4));
+                var item = span.Slice(i * 4, 4);
+                uint val = ReadUInt32LittleEndian(item);
                 items[i] = InventoryItem7b.GetValue(val);
             }
             Items = items;
             OriginalItems = items.Select(i => i.Clone()).ToArray();
         }
 
-        public override void SetPouch(byte[] data)
+        public override void SetPouch(Span<byte> data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
+            var span = data[Offset..];
             var items = (InventoryItem7b[])Items;
             for (int i = 0; i < items.Length; i++)
             {
+                var item = span.Slice(i * 4, 4);
                 uint val = items[i].GetValue(SetNew, OriginalItems);
-                BitConverter.GetBytes(val).CopyTo(data, Offset + (i * 4));
+                WriteUInt32LittleEndian(item, val);
             }
         }
 

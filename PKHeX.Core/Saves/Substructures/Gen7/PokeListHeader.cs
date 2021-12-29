@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -96,7 +97,7 @@ namespace PKHeX.Core
 
         public int Count
         {
-            get => BitConverter.ToUInt16(Data, Offset + (COUNT * 2));
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)));
             set => BitConverter.GetBytes((ushort) value).CopyTo(Data, Offset + (COUNT * 2));
         }
 
@@ -104,7 +105,7 @@ namespace PKHeX.Core
         {
             var list = new int[7];
             for (int i = 0; i < list.Length; i++)
-                list[i] = BitConverter.ToUInt16(Data, Offset + (i * 2));
+                list[i] = ReadUInt16LittleEndian(Data.AsSpan(Offset + (i * 2)));
             return list;
         }
 

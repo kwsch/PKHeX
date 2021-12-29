@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -79,9 +80,9 @@ namespace PKHeX.Core
         protected static byte[] GetData(byte[] data, int offset, int length) => data.Slice(offset, length);
         public void SetData(byte[] input, int offset) => SetData(Data, input, offset);
 
-        public void SetData(byte[] dest, byte[] input, int offset)
+        public void SetData(Span<byte> dest, Span<byte> input, int offset)
         {
-            input.CopyTo(dest, offset);
+            input.CopyTo(dest[offset..]);
             State.Edited = true;
         }
 
@@ -145,20 +146,21 @@ namespace PKHeX.Core
 
             ushort[] Constants = new ushort[EventConstMax];
             for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = BitConverter.ToUInt16(Data, EventConst + (i * 2));
+                Constants[i] = ReadUInt16LittleEndian(Data.AsSpan(EventConst + (i * 2)));
             return Constants;
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public virtual void SetEventConsts(ushort[] value)
+        public virtual void SetEventConsts(ReadOnlySpan<ushort> value)
         {
             if (EventConstMax <= 0)
                 return;
             if (value.Length != EventConstMax)
                 return;
 
+            var span = Data.AsSpan(EventConst);
             for (int i = 0; i < value.Length; i++)
-                BitConverter.GetBytes(value[i]).CopyTo(Data, EventConst + (i * 2));
+                WriteUInt16LittleEndian(span[(i*2)..], value[i]);
         }
 
         /// <summary>
@@ -391,7 +393,7 @@ namespace PKHeX.Core
             WritePartySlot(pkm, data, offset);
         }
 
-        public void SetSlotFormatStored(PKM pkm, byte[] data, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        public void SetSlotFormatStored(PKM pkm, Span<byte> data, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
@@ -401,7 +403,7 @@ namespace PKHeX.Core
             WriteSlotFormatStored(pkm, data, offset);
         }
 
-        public void SetBoxSlot(PKM pkm, byte[] data, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        public void SetBoxSlot(PKM pkm, Span<byte> data, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
@@ -442,7 +444,7 @@ namespace PKHeX.Core
         public abstract IReadOnlyList<ushort> HeldItems { get; }
         protected virtual byte[] BoxBuffer => Data;
         protected virtual byte[] PartyBuffer => Data;
-        public virtual bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresent(data, offset);
+        public virtual bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresent(data);
         public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public virtual PKM GetPartySlot(byte[] data, int offset) => GetDecryptedPKM(GetData(data, offset, SIZE_PARTY));
         public virtual PKM GetStoredSlot(byte[] data, int offset) => GetDecryptedPKM(GetData(data, offset, SIZE_STORED));
@@ -453,10 +455,10 @@ namespace PKHeX.Core
         public virtual byte[] GetDataForParty(PKM pkm) => pkm.EncryptedPartyData;
         public virtual byte[] GetDataForBox(PKM pkm) => pkm.EncryptedBoxData;
 
-        public virtual void WriteSlotFormatStored(PKM pkm, byte[] data, int offset) => SetData(data, GetDataForFormatStored(pkm), offset);
-        public virtual void WriteSlotFormatParty(PKM pkm, byte[] data, int offset) => SetData(data, GetDataForFormatParty(pkm), offset);
-        public virtual void WritePartySlot(PKM pkm, byte[] data, int offset) => SetData(data, GetDataForParty(pkm), offset);
-        public virtual void WriteBoxSlot(PKM pkm, byte[] data, int offset) => SetData(data, GetDataForBox(pkm), offset);
+        public virtual void WriteSlotFormatStored(PKM pkm, Span<byte> data, int offset) => SetData(data, GetDataForFormatStored(pkm), offset);
+        public virtual void WriteSlotFormatParty(PKM pkm, Span<byte> data, int offset) => SetData(data, GetDataForFormatParty(pkm), offset);
+        public virtual void WritePartySlot(PKM pkm, Span<byte> data, int offset) => SetData(data, GetDataForParty(pkm), offset);
+        public virtual void WriteBoxSlot(PKM pkm, Span<byte> data, int offset) => SetData(data, GetDataForBox(pkm), offset);
 
         protected virtual void SetPartyValues(PKM pkm, bool isParty)
         {
@@ -597,12 +599,12 @@ namespace PKHeX.Core
 
         public int NextOpenBoxSlot(int lastKnownOccupied = -1)
         {
-            var storage = BoxBuffer;
+            var storage = BoxBuffer.AsSpan();
             int count = BoxSlotCount * BoxCount;
             for (int i = lastKnownOccupied + 1; i < count; i++)
             {
                 int offset = GetBoxSlotOffset(i);
-                if (!IsPKMPresent(storage, offset))
+                if (!IsPKMPresent(storage[offset..]))
                     return i;
             }
             return StorageFullValue;
@@ -829,7 +831,7 @@ namespace PKHeX.Core
         /// <returns>Count of deleted <see cref="PKM"/> slots.</returns>
         public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool>? deleteCriteria = null)
         {
-            var storage = BoxBuffer;
+            var storage = BoxBuffer.AsSpan();
 
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
@@ -843,7 +845,7 @@ namespace PKHeX.Core
                     if (IsSlotOverwriteProtected(i, p))
                         continue;
                     var ofs = GetBoxSlotOffset(i, p);
-                    if (!IsPKMPresent(storage, ofs))
+                    if (!IsPKMPresent(storage[ofs..]))
                         continue;
                     if (deleteCriteria != null)
                     {
@@ -871,7 +873,7 @@ namespace PKHeX.Core
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
 
-            var storage = BoxBuffer;
+            var storage = BoxBuffer.AsSpan();
             int modified = 0;
             for (int b = BoxStart; b <= BoxEnd; b++)
             {
@@ -880,7 +882,7 @@ namespace PKHeX.Core
                     if (IsSlotOverwriteProtected(b, s))
                         continue;
                     var ofs = GetBoxSlotOffset(b, s);
-                    if (!IsPKMPresent(storage, ofs))
+                    if (!IsPKMPresent(storage[ofs..]))
                         continue;
                     var pk = GetBoxSlotAtIndex(b, s);
                     action(pk);
@@ -960,7 +962,7 @@ namespace PKHeX.Core
 
     public static class StorageUtil
     {
-        public static bool CompressStorage(this SaveFile sav, byte[] storage, out int storedCount, IList<int>[] slotPointers)
+        public static bool CompressStorage(this SaveFile sav, Span<byte> storage, out int storedCount, IList<int>[] slotPointers)
         {
             // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
             var empty = new List<byte[]>();
@@ -972,13 +974,13 @@ namespace PKHeX.Core
             for (int i = 0; i < count; i++)
             {
                 int offset = sav.GetBoxSlotOffset(i);
-                if (sav.IsPKMPresent(storage, offset))
+                if (sav.IsPKMPresent(storage[offset..]))
                 {
                     if (ctr != i) // copy required
                     {
                         shiftedSlots = true; // appending empty slots afterwards is now required since a rewrite was done
                         int destOfs = sav.GetBoxSlotOffset(ctr);
-                        Buffer.BlockCopy(storage, offset, storage, destOfs, size);
+                        storage[offset..(offset + size)].CopyTo(storage[destOfs..(destOfs + size)]);
                         SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
                     }
 
@@ -987,8 +989,7 @@ namespace PKHeX.Core
                 }
 
                 // pop out an empty slot; save all unused data & preserve order
-                byte[] data = new byte[size];
-                Buffer.BlockCopy(storage, offset, data, 0, size);
+                var data = storage.Slice(offset, size).ToArray();
                 empty.Add(data);
             }
 
@@ -1001,7 +1002,7 @@ namespace PKHeX.Core
             {
                 var data = empty[i - ctr];
                 int offset = sav.GetBoxSlotOffset(i);
-                data.CopyTo(storage, offset);
+                data.CopyTo(storage[offset..]);
             }
 
             return true;

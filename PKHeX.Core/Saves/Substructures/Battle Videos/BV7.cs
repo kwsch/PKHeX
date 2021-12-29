@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,7 +15,7 @@ namespace PKHeX.Core
         private readonly byte[] Data;
 
         public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-        internal new static bool IsValid(byte[] data) => data.Length == SIZE;
+        internal new static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
 
         public BV7(byte[] data) => Data = (byte[])data.Clone();
 
@@ -82,7 +83,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int MatchYear { get => BitConverter.ToUInt16(Data, 0x2BB0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2BB0); }
+        private int MatchYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2BB0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2BB0), (ushort)value); }
         private int MatchDay { get => Data[0x2BB3]; set => Data[0x2BB3] = (byte)value; }
         private int MatchMonth { get => Data[0x2BB2]; set => Data[0x2BB2] = (byte)value; }
         private int MatchHour { get => Data[0x2BB4]; set => Data[0x2BB4] = (byte)value; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -28,14 +29,14 @@ namespace PKHeX.Core
 
         public SystemData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-        public uint CountStart   { get => BitConverter.ToUInt32(Data, Offset + 0 + (0 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0 + (0 * SIZE_GMTIME)); }
-        public long TicksStart   { get => BitConverter. ToInt64(Data, Offset + 4 + (0 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4 + (0 * SIZE_GMTIME)); }
-        public uint CountLatest  { get => BitConverter.ToUInt32(Data, Offset + 0 + (1 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0 + (1 * SIZE_GMTIME)); }
-        public long TicksLatest  { get => BitConverter. ToInt64(Data, Offset + 4 + (1 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4 + (1 * SIZE_GMTIME)); }
-        public uint CountPenalty { get => BitConverter.ToUInt32(Data, Offset + 0 + (2 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0 + (2 * SIZE_GMTIME)); }
-        public long TicksPenalty { get => BitConverter. ToInt64(Data, Offset + 4 + (2 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4 + (2 * SIZE_GMTIME)); }
-        public uint CountDaily   { get => BitConverter.ToUInt32(Data, Offset + 0 + (3 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0 + (3 * SIZE_GMTIME)); }
-        public long TicksDaily   { get => BitConverter. ToInt64(Data, Offset + 4 + (3 * SIZE_GMTIME)); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4 + (3 * SIZE_GMTIME)); }
+        public uint CountStart   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (0 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (0 * SIZE_GMTIME)), value); }
+        public long TicksStart   { get => BitConverter. ToInt64(Data, Offset + 4 + (0 * SIZE_GMTIME)); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (0 * SIZE_GMTIME)), value); }
+        public uint CountLatest  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (1 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (1 * SIZE_GMTIME)), value); }
+        public long TicksLatest  { get => BitConverter. ToInt64(Data, Offset + 4 + (1 * SIZE_GMTIME)); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (1 * SIZE_GMTIME)), value); }
+        public uint CountPenalty { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (2 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (2 * SIZE_GMTIME)), value); }
+        public long TicksPenalty { get => BitConverter. ToInt64(Data, Offset + 4 + (2 * SIZE_GMTIME)); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (2 * SIZE_GMTIME)), value); }
+        public uint CountDaily   { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0 + (3 * SIZE_GMTIME))); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0 + (3 * SIZE_GMTIME)), value); }
+        public long TicksDaily   { get => BitConverter. ToInt64(Data, Offset + 4 + (3 * SIZE_GMTIME)); set =>  WriteInt64LittleEndian(Data.AsSpan(Offset + 4 + (3 * SIZE_GMTIME)), value); }
 
         // byte[] nxSnapshot
         // u32 fd_bgmEvnet

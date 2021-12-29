@@ -249,7 +249,7 @@ namespace PKHeX.Core
             return new SlotGroup(name, members);
         }
 
-        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
+        public override void WriteSlotFormatStored(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -257,7 +257,7 @@ namespace PKHeX.Core
             base.WriteSlotFormatStored(pkm, Data, offset);
         }
 
-        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        public override void WriteBoxSlot(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time

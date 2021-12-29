@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -12,32 +13,42 @@ namespace PKHeX.Core
     {
         public ConfigSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-        public TextSpeedOption TextSpeed { get => (TextSpeedOption)BitConverter.ToInt32(Data, Offset + 0); set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0); }
-        public int Language { get => BitConverter.ToInt32(Data, Offset + 4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4); }
+        public TextSpeedOption TextSpeed
+        {
+            get => (TextSpeedOption)ReadInt32LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0), (int)value);
+        }
+
+        public int Language
+        {
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 4));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 4), value);
+        }
+
         public bool IsKanji { get => Data[Offset + 8] == 1; set => Data[Offset + 8] = (byte)(value ? 1 : 0); }
 
         public int WindowType
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x0C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0C);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x0C));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
         }
 
         public BattleAnimationSetting MoveAnimations
         {
-            get => (BattleAnimationSetting)BitConverter.ToInt32(Data, Offset + 0x10);
-            set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x10);
+            get => (BattleAnimationSetting)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x10));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x10), (int)value);
         }
 
         public BattleStyleSetting BattleStyle
         {
-            get => (BattleStyleSetting)BitConverter.ToInt32(Data, Offset + 0x14);
-            set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x14);
+            get => (BattleStyleSetting)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x14));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x14), (int)value);
         }
 
         public PartyBoxSetting PartyBox
         {
-            get => (PartyBoxSetting)BitConverter.ToInt32(Data, Offset + 0x18);
-            set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x18);
+            get => (PartyBoxSetting)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x18), (int)value);
         }
 
         // 4 byte bool, nice
@@ -45,10 +56,26 @@ namespace PKHeX.Core
         public bool GyroSensor          { get => Data[Offset + 0x20] == 1; set => Data[Offset + 0x20] = (byte)(value ? 1 : 0); }
         public bool CameraShakeOfFossil { get => Data[Offset + 0x24] == 1; set => Data[Offset + 0x24] = (byte)(value ? 1 : 0); }
 
-        public CameraInputMode CameraUpDown   { get => (CameraInputMode)BitConverter.ToInt32(Data, Offset + 0x28); set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x28); }
-        public CameraInputMode CamerLeftRight { get => (CameraInputMode)BitConverter.ToInt32(Data, Offset + 0x2C); set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x2C); }
+        public CameraInputMode CameraUpDown
+        {
+            get => (CameraInputMode)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x28));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x28), (int)value);
+        }
+
+        public CameraInputMode CamerLeftRight
+        {
+            get => (CameraInputMode)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x2C));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x2C), (int)value);
+        }
+
         public bool AutoReport         { get => Data[Offset + 0x30] == 1; set => Data[Offset + 0x30] = (byte)(value ? 1 : 0); }
-        public InputMode Input         { get => (InputMode)BitConverter.ToInt32(Data, Offset + 0x34); set => BitConverter.GetBytes((int)value).CopyTo(Data, Offset + 0x34); }
+
+        public InputMode Input
+        {
+            get => (InputMode)ReadInt32LittleEndian(Data.AsSpan(Offset + 0x34));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x34), (int)value);
+        }
+
         public bool ShowNicknames      { get => Data[Offset + 0x38] == 1; set => Data[Offset + 0x38] = (byte)(value ? 1 : 0); }
         public byte VolumeBGM          { get => Data[Offset + 0x3C]; set => Data[Offset + 0x3C] = value; }
         public byte VolumeSoundEffects { get => Data[Offset + 0x3D]; set => Data[Offset + 0x3D] = value; }

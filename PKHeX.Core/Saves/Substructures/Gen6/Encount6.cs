@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     {
         public Encount6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
-        public ushort RepelItemUsed { get => BitConverter.ToUInt16(Data, Offset + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00); }
+        public ushort RepelItemUsed { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), value); }
         public byte RepelSteps { get => Data[Offset + 0x02]; set => Data[Offset + 0x02] = value; }
 
         // 0x04
@@ -47,15 +48,15 @@ namespace PKHeX.Core
         public PokeRadar6(byte[] data) => Data = data;
         public override string ToString() => ((Species)PokeRadarSpecies).ToString();
 
-        public ushort PokeRadarSpecies { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
-        private ushort PokeRadarPacked { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes(value).CopyTo(Data, 0x02); }
+        public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
+        private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
 
         public int PokeRadarCharge { get => PokeRadarPacked & 0x3FFF; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~0x3FFF) | Math.Min(MaxCharge, value)); }
         public bool PokeRadarFlag1 { get => PokeRadarPacked >> 14 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
         public bool PokeRadarFlag2 { get => PokeRadarPacked >> 15 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
 
-        public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Data, GetRecordOffset(index));
-        public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Data, GetRecordOffset(index));
+        public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Data.AsSpan(GetRecordOffset(index)));
+        public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Data.AsSpan(GetRecordOffset(index)));
 
         private static int GetRecordOffset(int index)
         {
@@ -87,17 +88,17 @@ namespace PKHeX.Core
             Count = count;
         }
 
-        public static PokeRadarRecord ReadRecord(byte[] data, int ofs)
+        public static PokeRadarRecord ReadRecord(ReadOnlySpan<byte> data)
         {
-            var species = BitConverter.ToUInt16(data, ofs);
-            var count = BitConverter.ToUInt16(data, ofs + 2);
+            var species = ReadUInt16LittleEndian(data);
+            var count = ReadUInt16LittleEndian(data[2..]);
             return new PokeRadarRecord(species, count);
         }
 
-        public void WriteRecord(byte[] data, int ofs)
+        public void WriteRecord(Span<byte> data)
         {
-            BitConverter.GetBytes(Species).CopyTo(data, ofs);
-            BitConverter.GetBytes(Count).CopyTo(data, ofs + 2);
+            WriteUInt16LittleEndian(data, Species);
+            WriteUInt16LittleEndian(data[2..], Count);
         }
     }
 
@@ -111,7 +112,7 @@ namespace PKHeX.Core
         public Roamer6(byte[] data) => Data = data;
         public override string ToString() => ((Species)Species).ToString();
 
-        private ushort SpecForm { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
+        private ushort SpecForm { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
         public int Species { get => SpecForm & 0x3FF; set => SpecForm = (ushort)((SpecForm & ~0x3FF) | (value & 0x3FF)); }
         public bool Flag1 { get => SpecForm >> 14 != 0; set => SpecForm = (ushort)((SpecForm & 0xBFFF) | (value ? (1 << 14) : 0)); }
         public bool Flag2 { get => SpecForm >> 15 != 0; set => SpecForm = (ushort)((SpecForm & 0x7FFF) | (value ? (1 << 15) : 0)); }
@@ -120,7 +121,7 @@ namespace PKHeX.Core
         private int Status { get => Data[0x07]; set => Data[0x07] = (byte)value; }
         public Roamer6State RoamStatus { get => (Roamer6State)((Status >> 4) & 0xF); set => Status = (Status & 0x0F) | (((int)value << 4) & 0xF0); }
 
-        public uint TimesEncountered { get => BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes(value).CopyTo(Data, 0x24); }
+        public uint TimesEncountered { get => ReadUInt32LittleEndian(Data.AsSpan(0x24)); set => WriteUInt32LittleEndian(Data.AsSpan(0x24), value); }
     }
 
     public enum Roamer6State

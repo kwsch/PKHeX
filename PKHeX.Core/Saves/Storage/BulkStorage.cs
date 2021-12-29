@@ -15,8 +15,6 @@ namespace PKHeX.Core
             blank = PKMConverter.GetBlank(t);
             var slots = (Data.Length - Box) / blank.SIZE_STORED;
             BoxCount = slots / SlotsPerBox;
-
-            GetIsPKMPresent = PKX.GetFuncIsPKMPresent(blank);
         }
 
         protected readonly int SlotsPerBox;
@@ -46,9 +44,6 @@ namespace PKHeX.Core
         public sealed override int OTLength => blank.OTLength;
         public sealed override int NickLength => blank.NickLength;
         public bool IsBigEndian => blank is BK4 or XK3 or CK3;
-
-        private readonly Func<byte[], int, bool> GetIsPKMPresent;
-        public sealed override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);
 
         public override int BoxCount { get; }
         protected override void SetChecksums() { }

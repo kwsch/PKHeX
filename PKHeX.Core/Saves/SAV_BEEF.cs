@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -33,8 +34,8 @@ namespace PKHeX.Core
         /// </summary>
         public ulong TimeStampCurrent
         {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset);
+            get => ReadUInt64LittleEndian(Data.AsSpan(BlockInfoOffset));
+            set => WriteUInt64LittleEndian(Data.AsSpan(BlockInfoOffset), value);
         }
 
         /// <summary>
@@ -42,8 +43,8 @@ namespace PKHeX.Core
         /// </summary>
         public ulong TimeStampPrevious
         {
-            get => BitConverter.ToUInt64(Data, BlockInfoOffset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, BlockInfoOffset);
+            get => ReadUInt64LittleEndian(Data.AsSpan(BlockInfoOffset));
+            set => WriteUInt64LittleEndian(Data.AsSpan(BlockInfoOffset), value);
         }
     }
 }
