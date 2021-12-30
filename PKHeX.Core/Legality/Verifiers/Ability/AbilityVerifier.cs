@@ -264,7 +264,7 @@ namespace PKHeX.Core
             var num = pkm.AbilityNumber;
 
             var pers = (PersonalInfoG3)PersonalTable.E[pkm.Species];
-            if (Info.EvoGenerations.Last() > 3)
+            if (Info.EvoGenerations.Any() && Info.EvoGenerations.Last() > 3)
                 // it has evolved in either gen 4 or gen 5; the ability must match PID
                 State = AbilityState.MustMatch;
             else if (pers.Ability1 != pers.Ability2) // Excluding Colosseum/XD, a Gen3 pkm must match PID if it has 2 unique abilities
