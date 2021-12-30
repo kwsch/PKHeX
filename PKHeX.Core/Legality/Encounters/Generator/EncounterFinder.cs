@@ -90,6 +90,9 @@ namespace PKHeX.Core
             var format = pkm.Format;
             if (chain.Count <= 1 || gen == format || format <= 2 || !chain.Any(p => p.Species == evolvedspecies))
             {
+                if (format == gen && chain.Count > 1)
+                    info.EvoGenerations = Enumerable.Repeat(gen, chain.Count - 1).ToList();
+                
                 // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
                 return VerifySecondaryChecksEvolution(pkm, ref info);
             }
