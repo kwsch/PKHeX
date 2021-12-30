@@ -44,7 +44,7 @@ namespace PKHeX.Core
             var previousspecies = chain[index + 1].Species;
             var mingen = pkm.Generation;
             var maxgen = pkm.Format;
-            for (int gen = mingen; gen < maxgen; gen++)
+            for (int gen = mingen; gen <= maxgen; gen++)
             {
                 // For gen 1 and 2 return only one generation. A pokemon evolved in GB could be traded between both generations after and before being evolved
                 if (gen <= 2 && gen != mingen)
