@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     // generations after being evolved, remove previous species from the chain
                     reducedchainallgens[currentgen] = chainallgens[currentgen].Take(indexgen).ToList();
             }
-            var format = pkm.Form;
+            var format = pkm.Format;
             if (!pkm.HasOriginalMetLocation && format >= 4 && genevolution < format)
             {
                 // pokemon first evolved and then it was transferred losing original meet level, chainsallgens has meet level as evolution level
