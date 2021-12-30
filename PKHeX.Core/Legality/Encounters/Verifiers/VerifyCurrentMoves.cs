@@ -274,7 +274,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
+            if (pkm.Species == (int)Species.Shedinja && info.EvoGenerations.Any() && info.EvoGenerations.Last() <= 4)
                 ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves, info.EvoChainsAllGensReduced);
 
             // ReSharper disable once ConstantNullCoalescingCondition
