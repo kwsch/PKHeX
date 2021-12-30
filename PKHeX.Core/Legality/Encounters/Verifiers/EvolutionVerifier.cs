@@ -37,7 +37,7 @@ namespace PKHeX.Core
         /// <returns>Evolution is valid or not</returns>
         private static bool IsValidEvolution(PKM pkm, LegalInfo info)
         {
-            var chains = info.EvoChainsAllGens;
+            var chains = info.EvoChainsAllGensReduced;
             if (chains[pkm.Format].Count == 0)
                 return false; // Can't exist as current species
 
@@ -45,6 +45,10 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (info.EncounterMatch.Species == species)
                 return true;
+
+            // Feebas evolved into Milotic before Generation 5
+            if (species == (int)Species.Milotic && info.EvoGenerations.Any() && info.EvoGenerations.Last() < 5 && pkm is IContestStats s && s.CNT_Beauty < 170)
+                return false;
 
             // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
             if (species == (int)Species.Vespiquen && info.Generation < 6 && (pkm.PID & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution

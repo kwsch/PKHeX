@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -46,6 +47,7 @@ namespace PKHeX.Core
 
                 // Looks like we might have a good enough match. Check if this is really a good match.
                 info.EncounterMatch = enc;
+                info.Evolution = null;
                 info.Parse.Add(e);
                 if (!VerifySecondaryChecks(pkm, info, encounter))
                     continue;
@@ -164,7 +166,16 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-            return true;
+
+            // Milotic evolution beauty required changes based on which evolution it has evolved
+            var MiloticCheckGenEvo = pkm.Species == (int)Milotic && gen < 5 && format >= 5;
+            // Evolutions with move is affected based on which generation it has evolved, the move level could be different for different generation evolutions
+            var EvolutionByMove = EvolutionRestrictions.SpeciesEvolutionWithMove.Keys.Contains(info.EncounterMatch.Species) && info.EncounterMatch.Species != pkm.Species;
+            if (!MiloticCheckGenEvo && !EvolutionByMove)
+                return true;
+
+            info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
+            return info.Evolution.Valid;
         }
 
 
@@ -204,12 +215,12 @@ namespace PKHeX.Core
             if (info.Parse.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;
 
-            var evo = EvolutionVerifier.VerifyEvolution(pkm, info);
-            if (!evo.Valid && iterator.PeekIsNext())
+            if (info.Evolution == null)
+                info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
+            if (!info.Evolution.Valid && iterator.PeekIsNext())
                 return false;
 
-
-            info.Parse.Add(evo);
+            info.Parse.Add(info.Evolution);
             return true;
         }
 

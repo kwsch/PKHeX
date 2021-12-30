@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <summary>
         /// List of species that evolve from a previous species having a move while leveling up
         /// </summary>
-        private static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
+        internal static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
         {
             {(int)Eevee,      new(0, 0)}, // FairyMoves
             {(int)MimeJr,     new(1, (int)Mimic)},
@@ -31,7 +31,7 @@ namespace PKHeX.Core
             {(int)Clobbopus,  new(9, (int)Taunt)},
         };
 
-        private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
+        internal readonly record struct MoveEvolution(int ReferenceIndex, int Move);
 
         private static readonly int[] FairyMoves =
         {
@@ -146,41 +146,35 @@ namespace PKHeX.Core
                     return true;
             }
 
+            var genevolve = Array.IndexOf(info.EvoChainsAllGensReduced, info.EvoChainsAllGensReduced.Last(g => g.Count > 1 && g.Any(s => s.Species == pkm.Species)));
             // Current level must be at least the minimum post-evolution level.
-            var lvl = GetMinLevelKnowRequiredMove(pkm, gen, index);
-            return pkm.CurrentLevel >= lvl;
+            return IsValidEvolutionWithMove(pkm, gen, genevolve, index);
         }
 
-        private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index)
+        private static bool IsValidEvolutionWithMove(PKM pkm, int gen, int genevolve, int index)
         {
-            var lvl = GetLevelLearnMove(pkm, gen, index);
-
+            var lvl = GetLevelLearnMove(genevolve, index);
+            if (lvl == 0)
+                //invalid evolution, can't learn move in the generation it has evolved
+                return false;
+            if (!pkm.HasOriginalMetLocation && pkm.Format > 4 && genevolve == 4)
+                // Species evolved in generation 4 and then was transfered to generation 5, learn level must be bellow or equals to transfer level
+                return pkm.Met_Level >= lvl;
             // If has original met location the minimum evolution level is one level after met level
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
             // VC pokemon: minimum level is one level after transfer to generation 7
             // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
             if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && gen == 3) || pkm.VC || pkm.Species == (int)Sylveon)
                 lvl = Math.Max(pkm.Met_Level + 1, lvl);
-            return lvl;
+
+            return pkm.CurrentLevel >= lvl;
         }
 
-        private static int GetLevelLearnMove(PKM pkm, int gen, int index)
+        private static int GetLevelLearnMove(int gen, int index)
         {
-            // Get the minimum level in any generation when the pokemon could learn the evolve move
+            // Get the minimum level the pokemon could learn the evolve move in the generation it has evolved
             var levels = MinLevelEvolutionWithMove[index];
-            var lvl = 101;
-            var end = pkm.Format;
-            for (int g = gen; g <= end; g++)
-            {
-                var l = levels[g];
-                if (l == 0)
-                    continue;
-                if (l == 2)
-                    return 2; // true minimum
-                if (l < lvl)
-                    lvl = l; // best minimum
-            }
-            return lvl;
+            return levels[gen];
         }
 
         private static bool IsMoveInherited(PKM pkm, LegalInfo info, int move)

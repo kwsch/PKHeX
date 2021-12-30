@@ -45,6 +45,7 @@ namespace PKHeX.Core
         internal readonly List<CheckResult> Parse;
 
         public readonly CheckResult[] Relearn = new CheckResult[4];
+        public CheckResult? Evolution;
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
 
         private static readonly ValidEncounterMoves NONE = new();
