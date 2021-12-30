@@ -97,7 +97,6 @@ namespace PKHeX.Core
             var index = chain.Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
             var previousspecies = chain[index + 1].Species;
             var gensevolution = EvolutionChain.getGenerationsEvolution(pkm, chain, chainallgens, evolvedspecies);
-            var l = gensevolution.ToList();
             foreach (int genevolution in gensevolution)
             {
                 // Iterate throught generations for second evolution or single evolution
