@@ -46,6 +46,19 @@ namespace PKHeX.Core
             if (info.EncounterMatch.Species == species)
                 return true;
 
+            // Glaceon evolved before generation 8 requires to gain one level
+            if (species == (int)Species.Glaceon)
+            {
+                if (info.EvoGenerations.Any() && info.EvoGenerations.Last() == 8)
+                    return true;
+                if (!pkm.HasOriginalMetLocation)
+                    // Eevee before gen 5 requires to level up after met level
+                    return pkm.Met_Level < pkm.CurrentLevel;
+
+                var enc = info.EncounterMatch;
+                return enc.LevelMin < pkm.CurrentLevel;
+            }
+
             // Feebas evolved into Milotic before Generation 5
             if (species == (int)Species.Milotic && info.EvoGenerations.Any() && info.EvoGenerations.Last() < 5 && pkm is IContestStats s && s.CNT_Beauty < 170)
                 return false;

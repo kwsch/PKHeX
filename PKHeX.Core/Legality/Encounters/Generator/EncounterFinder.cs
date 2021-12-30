@@ -189,7 +189,7 @@ namespace PKHeX.Core
             var MiloticCheckGenEvo = pkm.Species == (int)Milotic && gen < 5 && format >= 5;
             // Evolutions with move is affected based on which generation it has evolved, the move level could be different for different generation evolutions
             var EvolutionByMove = EvolutionRestrictions.SpeciesEvolutionWithMove.Keys.Contains(info.EncounterMatch.Species) && info.EncounterMatch.Species != pkm.Species;
-            if (!MiloticCheckGenEvo && !EvolutionByMove)
+            if (pkm.Species != (int)Glaceon && !MiloticCheckGenEvo && !EvolutionByMove)
                 return true;
 
             info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
