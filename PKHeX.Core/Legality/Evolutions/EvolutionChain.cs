@@ -74,7 +74,6 @@ namespace PKHeX.Core
                     reducedchainallgens[currentgen] = chainallgens[currentgen].ToList();
                     continue;
                 }
-                var indexgen = chainallgens[currentgen].Select((p, index) => (p.Species, index)).First(p => p.Species == previousspecies).index;
                 // Gen 1 and 2 are treated as the same generation because a pokemon could be traded between both generations after and before being evolved
                 var genevolved = genevolution > 2 ? currentgen == genevolution : genevolution <= 2 && currentgen <= 2;
                 if (genevolved)
@@ -85,10 +84,10 @@ namespace PKHeX.Core
                 }
                 if (currentgen < genevolution)
                     // generations before being evolved, remove evolvedspecies and next species from the chain
-                    reducedchainallgens[currentgen] = chainallgens[currentgen].Skip(indexgen).ToList();
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].SkipWhile(i => i.Species != previousspecies).ToList();
                 else
                     // generations after being evolved, remove previous species from the chain
-                    reducedchainallgens[currentgen] = chainallgens[currentgen].Take(indexgen).ToList();
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].TakeWhile(i => i.Species != previousspecies).ToList();
             }
             var format = pkm.Format;
             if (!pkm.HasOriginalMetLocation && format >= 4 && genevolution < format)
