@@ -55,8 +55,8 @@ namespace PKHeX.Core
             }
         }
 
-        // Copy chainallgens to a new chain limiting the evolution into evolvedspecies to one generation
-        internal static IReadOnlyList<EvoCriteria>[] GetChainsAllGensReduced(PKM pkm, IReadOnlyList<EvoCriteria>[] chainallgens, int evolvedspecies, int genevolution)
+        // Copy chainallgens to a new chain limiting the evolution from previousspecies into evolvedspecies to one generation
+        internal static IReadOnlyList<EvoCriteria>[] GetChainsAllGensReduced(PKM pkm, IReadOnlyList<EvoCriteria>[] chainallgens, int previousspecies, int genevolution)
         {
             var reducedchainallgens = new List<EvoCriteria>[chainallgens.Length];
             for (int gen = 0; gen < chainallgens.Length; gen++)
@@ -68,13 +68,13 @@ namespace PKHeX.Core
             var maxgen = pkm.Format;
             for (int currentgen = mingen; currentgen <= maxgen; currentgen++)
             {
-                if (!chainallgens[currentgen].Any(p => p.Species == evolvedspecies))
+                if (!chainallgens[currentgen].Any(p => p.Species == previousspecies))
                 {
                     // It has not evolved yet or VC pokemon in gens 3 to 6, chain doesnt need to be reduced
                     reducedchainallgens[currentgen] = chainallgens[currentgen].ToList();
                     continue;
                 }
-                var indexgen = chainallgens[currentgen].Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
+                var indexgen = chainallgens[currentgen].Select((p, index) => (p.Species, index)).First(p => p.Species == previousspecies).index;
                 // Gen 1 and 2 are treated as the same generation because a pokemon could be traded between both generations after and before being evolved
                 var genevolved = genevolution > 2 ? currentgen == genevolution : genevolution <= 2 && currentgen <= 2;
                 if (genevolved)
