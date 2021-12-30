@@ -10,9 +10,8 @@ namespace PKHeX.Core
     {
         private static readonly List<EvoCriteria> NONE = new(0);
 
-        internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc)
+        internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc, List<EvoCriteria> chain)
         {
-            var chain = GetEvolutionChain(pkm, enc, pkm.Species, pkm.CurrentLevel);
             if (enc is EncounterInvalid || pkm.IsEgg || chain.Count == 0)
                 return GetChainSingle(pkm, chain);
 
@@ -32,6 +31,94 @@ namespace PKHeX.Core
             var chain = GetChainBase(Math.Max(2, pkm.Format));
             chain[pkm.Format] = fullChain;
             return chain;
+        }
+
+        // Return all posible generations in which the pokemon could have evolved into evolvedspecies
+        internal static IEnumerable<int> getGenerationsEvolution(PKM pkm, IReadOnlyList<EvoCriteria> chain, IReadOnlyList<EvoCriteria>[] chainallgens, int evolvedspecies)
+        {
+            // Invalid pokemon, pokemon without evolutions or pokemon that has not yet evolved
+            if (!chain.Any(p => p.Species == evolvedspecies) || chain.Last().Species == evolvedspecies)
+                yield break;
+
+            var index = chain.Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
+            var previousspecies = chain[index + 1].Species;
+            var mingen = pkm.Generation;
+            var maxgen = pkm.Format;
+            for (int gen = mingen; gen < maxgen; gen++)
+            {
+                // For gen 1 and 2 return only one generation. A pokemon evolved in GB could be traded between both generations after and before being evolved
+                if (gen <= 2 && gen != mingen)
+                    continue;
+                // It could have exits as evolved and previous species on that generation
+                if (chainallgens[gen].Any(e => e.Species == evolvedspecies) && chainallgens[gen].Any(e => e.Species == previousspecies))
+                    yield return gen;
+            }
+        }
+
+        // Copy chainallgens to a new chain limiting the evolution into evolvedspecies to one generation
+        internal static IReadOnlyList<EvoCriteria>[] GetChainsAllGensReduced(PKM pkm, IReadOnlyList<EvoCriteria>[] chainallgens, int evolvedspecies, int genevolution)
+        {
+            var reducedchainallgens = new List<EvoCriteria>[chainallgens.Length];
+            for (int gen = 0; gen < chainallgens.Length; gen++)
+            {
+                reducedchainallgens[gen] = new List<EvoCriteria>();
+            }
+
+            var mingen = pkm.Generation <= 2 ? 1 : pkm.Generation;
+            var maxgen = pkm.Format;
+            for (int currentgen = mingen; currentgen <= maxgen; currentgen++)
+            {
+                if (!chainallgens[currentgen].Any(p => p.Species == evolvedspecies))
+                {
+                    // It has not evolved yet or VC pokemon in gens 3 to 6, chain doesnt need to be reduced
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].ToList();
+                    continue;
+                }
+                var indexgen = chainallgens[currentgen].Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
+                // Gen 1 and 2 are treated as the same generation because a pokemon could be traded between both generations after and before being evolved
+                var genevolved = genevolution > 2 ? currentgen == genevolution : genevolution <= 2 && currentgen <= 2;
+                if (genevolved)
+                {
+                    // it has evolved in this generation, chain doesnt need to be reduced
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].ToList();
+                    continue;
+                }
+                if (currentgen < genevolution)
+                    // generations before being evolved, remove evolvedspecies and next species from the chain
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].Skip(indexgen).ToList();
+                else
+                    // generations after being evolved, remove previous species from the chain
+                    reducedchainallgens[currentgen] = chainallgens[currentgen].Take(indexgen).ToList();
+            }
+            var format = pkm.Form;
+            if (!pkm.HasOriginalMetLocation && format >= 4 && genevolution < format)
+            {
+                // pokemon first evolved and then it was transferred losing original meet level, chainsallgens has meet level as evolution level
+                // but for reduced chain if the evolution requires level up then evolution level should be meet level - 1 for last evolution and meet level - 2 for the first evolution
+                DecreaseGenerationEvolutionLevel(reducedchainallgens[genevolution]);
+                if (genevolution <= 2)
+                {
+                    // for GB era apply the reduction for both gens
+                    int alt = genevolution == 2 ? 1 : 2;
+                    DecreaseGenerationEvolutionLevel(reducedchainallgens[alt]);
+                }
+            }
+            return reducedchainallgens;
+        }
+
+        private static void DecreaseGenerationEvolutionLevel(List<EvoCriteria> chain)
+        {
+            if (chain.Count < 2)
+                return;
+
+            var lvl = chain[0].Level;
+            for (int i = 1; i < chain.Count; i++)
+            {
+                var vs = new EvoCriteria(chain[i]);
+                vs.Level = lvl;
+                if (vs.RequiresLvlUp)
+                    lvl--;
+            }
         }
 
         private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> fullChain)
@@ -163,7 +250,7 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterTemplate enc, int mostEvolvedSpecies, int maxlevel)
+        internal static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterTemplate enc, int mostEvolvedSpecies, int maxlevel)
         {
             var chain = GetValidPreEvolutions(pkm, minLevel: enc.LevelMin);
             if (enc.Species == mostEvolvedSpecies)

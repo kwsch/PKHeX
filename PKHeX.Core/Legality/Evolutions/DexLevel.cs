@@ -5,6 +5,11 @@
 /// </summary>
 public record DexLevel(int Species, int Form) : ISpeciesForm
 {
+    public DexLevel(DexLevel source)
+    {
+        Species = source.Species;
+        Form = source.Form;
+    }
     /// <summary>
     /// Maximum Level
     /// </summary>

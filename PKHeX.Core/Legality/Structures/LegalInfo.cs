@@ -20,7 +20,10 @@ namespace PKHeX.Core
             set
             {
                 if (!ReferenceEquals(_match, EncounterInvalid.Default) && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
-                    _evochains = null; // clear if evo chain has the potential to be different
+                {
+                    _evochainsallgenreduced = null;
+                    _evochainsallgen = null; // clear if evo chain has the potential to be different
+                }  
                 _match = value;
                 Parse.Clear();
             }
@@ -46,8 +49,24 @@ namespace PKHeX.Core
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
-        private IReadOnlyList<EvoCriteria>[]? _evochains;
+
+        private IList<int>? _evogenerations;
+        public IList<int> EvoGenerations
+        {
+            get => _evogenerations ?? new List<int>();
+            set => _evogenerations = value;
+        }
+
+        private List<EvoCriteria>? _evochain;
+        public List<EvoCriteria> EvoChain => _evochain ??= EvolutionChain.GetEvolutionChain(pkm, EncounterMatch, pkm.Species, pkm.CurrentLevel);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochainsallgen ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch, EvoChain);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReduced
+        {
+            get => _evochainsallgenreduced ??= EvoChainsAllGens;
+            set => _evochainsallgenreduced = value;
+        }
+        private IReadOnlyList<EvoCriteria>[]? _evochainsallgen;
+        private IReadOnlyList<EvoCriteria>[]? _evochainsallgenreduced;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV

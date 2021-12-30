@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -73,6 +74,77 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Iterates through all possible generations evolutions for the encounter until a sufficient match is found
+        /// </summary>
+        /// </summary>
+        /// <param name="pkm">Source data to check the match for</param>
+        /// <param name="info">Information containing the matched encounter and generation evolution</param>
+        /// <returns>Indication whether or not the encounter passes secondary checks</returns>
+        private static bool verifyGenerationEvolution(PKM pkm, ref LegalInfo info)
+        {
+            var chain = info.EvoChain;
+            var gen = pkm.Generation;
+            var format = pkm.Format;
+            if (chain.Count <= 1 || gen == format || format <= 2)
+            {
+                // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
+                return VerifySecondaryChecksEvolution(pkm, ref info);
+            }
+
+            var chainallgens = info.EvoChainsAllGens;
+            var EvolveSpecies = pkm.Species;
+            var PreviousSpecies = chain[1].Species;
+            var GensEvo2 = EvolutionChain.getGenerationsEvolution(pkm, chain, chainallgens, EvolveSpecies);
+            foreach (int GenEvo2 in GensEvo2)
+            {
+                // Iterate throught generations for second evolution or single evolution
+                info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, PreviousSpecies, GenEvo2);
+                if (chain.Count == 2)
+                {
+                    // pokemon with one evolution
+                    info.EvoGenerations = new List<int>() { GenEvo2 };
+                    if (VerifySecondaryChecksEvolution(pkm, ref info))
+                    {
+                        return true;
+                    }
+                    continue;
+                }
+                // pokemon with two evolutions
+                var GensEvo1 = EvolutionChain.getGenerationsEvolution(pkm, chain, info.EvoChainsAllGensReduced, PreviousSpecies);
+                var FirstSpecie = chain[2].Species;
+                foreach (int GenEvo1 in GensEvo1)
+                {
+                    // Iterate throught generations for first evolution
+                    info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, info.EvoChainsAllGensReduced, FirstSpecie, GenEvo1);
+                    info.EvoGenerations = new List<int>() { GenEvo1, GenEvo2 };
+                    if (VerifySecondaryChecksEvolution(pkm, ref info))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks supplementary info to see if the encounter and generation evolution is still valid.
+        /// </summary>
+        /// <param name="pkm">Source data to check the match for</param>
+        /// <param name="info">Information containing the matched encounter and generation evolution</param>
+        /// <returns>Indication whether or not the encounter passes secondary checks</returns>
+        private static bool VerifySecondaryChecksEvolution(PKM pkm, ref LegalInfo info)
+        {
+            var gen = pkm.Generation;
+            var format = pkm.Format;
+            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            if (!info.Moves.All(z => z.Valid))
+                return false;
+
+            return true;
+        }
+
+
+        /// <summary>
         /// Checks supplementary info to see if the encounter is still valid.
         /// </summary>
         /// <remarks>
@@ -99,7 +171,9 @@ namespace PKHeX.Core
                     relearn[i] = VerifyRelearnMoves.DummyValid;
             }
 
-            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            if (!verifyGenerationEvolution(pkm, ref info) && iterator.PeekIsNext())
+                return false;
+
             if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;
 
