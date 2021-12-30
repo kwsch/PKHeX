@@ -179,13 +179,13 @@ namespace PKHeX.Core
                 // Evolving in Gen3 does not mutate the ability bit, so any mismatched abilities will stay mismatched.
                 if (enc.Generation == 3)
                 {
+                    // If it has evolved in a future game then it must match the PID.
+                    var info = data.Info;
+                    if (pkm.Format != 3 && info.EvoGenerations.Any() && info.EvoGenerations.Last() > 3)
+                        return GetPIDAbilityMatch(pkm, abilities);
+
                     if (encounterAbility == 1 << abilIndex)
                         return VALID;
-
-                    // If it has evolved in a future game and does not match the fixed ability, then it must match the PID.
-                    var info = data.Info;
-                    if (pkm.Format != 3 && info.EvoGenerations.Any() && info.EvoGenerations.Last() >= 4)
-                        return GetPIDAbilityMatch(pkm, abilities);
 
                     // No way to un-mismatch it while existing solely on Gen3 games.
                     return INVALID;
