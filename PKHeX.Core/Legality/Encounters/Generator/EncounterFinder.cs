@@ -142,6 +142,12 @@ namespace PKHeX.Core
                     return false;
             }
 
+            if (gen < 8 && format >= 8)
+            {
+                if (!AbilityVerifier.IsValidAbilityPatch(pkm, info))
+                    return false;
+            }
+
             // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
             // The list of moves that a pokemon can move changes based on which generation the pokemon has evolved
             if (pkm is ITrainerMemories m)

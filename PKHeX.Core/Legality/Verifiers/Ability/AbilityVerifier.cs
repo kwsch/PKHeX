@@ -74,9 +74,15 @@ namespace PKHeX.Core
                     if (CanAbilityPatch(format, abilities, pkm.Species))
                         return GetValid(LAbilityPatchUsed);
 
-                    var e = data.EncounterOriginal;
-                    if (e.Species != pkm.Species && CanAbilityPatch(format, PKX.Personal.GetFormEntry(e.Species, e.Form).Abilities, e.Species))
-                        return GetValid(LAbilityPatchUsed);
+                    for (int gen = 8; gen <= format; gen++)
+                    {
+                        var chain = data.Info.EvoChainsAllGensReduced[gen];
+                        foreach (var evo in chain)
+                        {
+                            if (CanAbilityPatch(format, PKX.Personal.GetFormEntry(evo.Species, pkm.Form).Abilities, evo.Species))
+                                return GetValid(LAbilityPatchUsed);
+                        }
+                    }
 
                     // Verify later, it may be encountered with its hidden ability without using an ability patch.
                 }
@@ -258,29 +264,58 @@ namespace PKHeX.Core
             return AbilityState.CanMismatch;
         }
 
+
+        internal static bool IsValidAbilityPatch(PKM pkm, LegalInfo Info)
+        {
+            var format = pkm.Format;
+            if (format >= 8)
+            {
+                if (pkm.AbilityNumber == 4)
+                {
+                    for (int gen = 8; gen <= format; gen++)
+                    {
+                        var chain = Info.EvoChainsAllGensReduced[gen];
+                        foreach (var evo in chain)
+                        {
+                            if (CanAbilityPatch(format, PKX.Personal.GetFormEntry(evo.Species, pkm.Form).Abilities, evo.Species))
+                                return true;
+                        }
+                    }
+                    int encounterAbility = GetEncounterFixedAbilityNumber(Info.EncounterMatch);
+                    if (encounterAbility > 0)
+                        return IsValidAbilityEncounter(pkm, Info, encounterAbility);
+                    
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static bool IsValidAbilityEncounter(PKM pkm, LegalInfo Info, int encounterAbility)
+        {
+            var pi = pkm.PersonalInfo;
+
+            int ability = pkm.Ability;
+            int abilIndex = pi.GetAbilityIndex(ability);
+
+            if (encounterAbility == 1 << abilIndex)
+                return true;
+
+            if (pkm.AbilityNumber == encounterAbility)
+                return true;
+
+            return false;
+        }
+
         internal static bool IsValidAbilityGen3Evolution(PKM pkm, LegalInfo Info)
         {
             AbilityState State;
 
             var num = pkm.AbilityNumber;
-
             int encounterAbility = GetEncounterFixedAbilityNumber(Info.EncounterMatch);
             if (encounterAbility > 0)
-            {
-                var pi = pkm.PersonalInfo;
+                return IsValidAbilityEncounter(pkm, Info, encounterAbility);
 
-                int ability = pkm.Ability;
-                int abilIndex = pi.GetAbilityIndex(ability);
-
-                if (encounterAbility == 1 << abilIndex)
-                    return true;
-
-                if (pkm.AbilityNumber == encounterAbility)
-                    return true;
-
-                return false;
-            }
-            
             var pers = (PersonalInfoG3)PersonalTable.E[pkm.Species];
             if (Info.EvoGenerations.Any() && Info.EvoGenerations.Last() > 3)
                 // it has evolved in either gen 4 or gen 5; the ability must match PID
