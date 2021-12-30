@@ -182,8 +182,9 @@ namespace PKHeX.Core
                     if (encounterAbility == 1 << abilIndex)
                         return VALID;
 
-                    // If it is in a future game and does not match the fixed ability, then it must match the PID.
-                    if (pkm.Format != 3)
+                    // If it has evolved in a future game and does not match the fixed ability, then it must match the PID.
+                    var info = data.Info;
+                    if (pkm.Format != 3 && info.EvoGenerations.Any() && info.EvoGenerations.Last() >= 4)
                         return GetPIDAbilityMatch(pkm, abilities);
 
                     // No way to un-mismatch it while existing solely on Gen3 games.
@@ -263,6 +264,23 @@ namespace PKHeX.Core
 
             var num = pkm.AbilityNumber;
 
+            int encounterAbility = GetEncounterFixedAbilityNumber(Info.EncounterMatch);
+            if (encounterAbility > 0)
+            {
+                var pi = pkm.PersonalInfo;
+
+                int ability = pkm.Ability;
+                int abilIndex = pi.GetAbilityIndex(ability);
+
+                if (encounterAbility == 1 << abilIndex)
+                    return true;
+
+                if (pkm.AbilityNumber == encounterAbility)
+                    return true;
+
+                return false;
+            }
+            
             var pers = (PersonalInfoG3)PersonalTable.E[pkm.Species];
             if (Info.EvoGenerations.Any() && Info.EvoGenerations.Last() > 3)
                 // it has evolved in either gen 4 or gen 5; the ability must match PID
