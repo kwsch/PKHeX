@@ -92,7 +92,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine4(int species, int move, int format, bool RemoveTransfer, int form)
         {
-            for (int i = 0; i < Legal.TM_3.Length; i++)
+            for (int i = 0; i < Legal.TM_4.Length; i++)
             {
                 if (Legal.TM_4[i] == move && PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i])
                     return GameVersion.Gen4;
