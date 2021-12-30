@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 return ParseMovesForSmeargle(pkm, currentMoves, info); // Smeargle can have any moves except a few
 
             // gather valid moves for encounter species
-            info.EncounterMoves = new ValidEncounterMoves(pkm, info.EncounterMatch, info.EvoChainsAllGens);
+            info.EncounterMoves = new ValidEncounterMoves(pkm, info.EncounterMatch, info.EvoChainsAllGensReduced);
 
             var res = info.Generation < 6
                 ? ParseMovesPre3DS(pkm, currentMoves, info)
@@ -58,7 +58,7 @@ namespace PKHeX.Core
                 return ParseMovesSketch(pkm, currentMoves);
 
             // can only know sketch as egg
-            var levelup = new int[info.EvoChainsAllGens.Length][];
+            var levelup = new int[info.EvoChainsAllGensReduced.Length][];
             levelup[pkm.Format] = new[] {166};
             info.EncounterMoves = new ValidEncounterMoves(levelup);
             var source = new MoveParseSource { CurrentMoves = currentMoves };
@@ -76,7 +76,7 @@ namespace PKHeX.Core
 
             var TradebackPreevo = pkm.Format == 2 && e.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
-                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
+                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGensReduced[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
@@ -275,7 +275,7 @@ namespace PKHeX.Core
             }
 
             if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
-                ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves, info.EvoChainsAllGens);
+                ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves, info.EvoChainsAllGensReduced);
 
             // ReSharper disable once ConstantNullCoalescingCondition
             for (int m = 0; m < 4; m++)

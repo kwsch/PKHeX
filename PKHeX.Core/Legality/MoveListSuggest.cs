@@ -101,7 +101,7 @@ namespace PKHeX.Core
                 types = types.ClearNonEggSources();
 
             var info = analysis.Info;
-            return GetSuggestedMoves(pkm, info.EvoChainsAllGens, types, info.EncounterOriginal);
+            return GetSuggestedMoves(pkm, info.EvoChainsAllGensReduced, types, info.EncounterOriginal);
         }
 
         /// <summary>
