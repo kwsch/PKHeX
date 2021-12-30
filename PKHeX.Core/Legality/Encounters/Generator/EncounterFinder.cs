@@ -118,6 +118,13 @@ namespace PKHeX.Core
                 if (verifyGenerationEvolution(pkm, previousspecies, info.EvoGenerations, info.EvoChainsAllGensReduced, ref info))
                     return true;
             }
+
+            if (info.EvoGenerationsMoves != null)
+            {
+                info.EvoChainsAllGensReduced = info.EvoChainsAllGensReducedMoves;
+                info.EvoGenerations = info.EvoGenerationsMoves;
+                info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            }
             return false;
         }
 
@@ -135,6 +142,14 @@ namespace PKHeX.Core
             if (!info.Moves.All(z => z.Valid))
                 return false;
 
+            // Keep the evolution chain in wich all moves are valid
+            // If the encounter is invalid use this chain instead of the last chain checked
+            if (info.EvoGenerationsMoves == null)
+            {
+                info.EvoChainsAllGensReducedMoves = info.EvoChainsAllGensReduced;
+                info.EvoGenerationsMoves = info.EvoGenerations;
+            }
+
             if (gen == 3 && format is 4 or 5)
             {
                 // ability check could change based on which generation the pokemon has evolved
@@ -147,6 +162,10 @@ namespace PKHeX.Core
                 if (!AbilityVerifier.IsValidAbilityPatch(pkm, info))
                     return false;
             }
+
+            // A chain with valid moves and abilities is better than one with just the moves
+            info.EvoChainsAllGensReducedMoves = info.EvoChainsAllGensReduced;
+            info.EvoGenerationsMoves = info.EvoGenerations;
 
             // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
             // The list of moves that a pokemon can move changes based on which generation the pokemon has evolved

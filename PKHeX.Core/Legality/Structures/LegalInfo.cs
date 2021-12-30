@@ -57,10 +57,16 @@ namespace PKHeX.Core
             get => _evogenerations ?? new List<int>();
             set => _evogenerations = value;
         }
+        public IEnumerable<int>? EvoGenerationsMoves { get; set; }
 
         private List<EvoCriteria>? _evochain;
         public List<EvoCriteria> EvoChain => _evochain ??= EvolutionChain.GetEvolutionChain(pkm, EncounterMatch, pkm.Species, pkm.CurrentLevel);
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochainsallgen ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch, EvoChain);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReducedMoves
+        {
+            get => _evochainsallgenmoves ??= EvoChainsAllGensReduced;
+            set => _evochainsallgenmoves = value;
+        }
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReduced
         {
             get => _evochainsallgenreduced ??= EvoChainsAllGens;
@@ -68,6 +74,7 @@ namespace PKHeX.Core
         }
         private IReadOnlyList<EvoCriteria>[]? _evochainsallgen;
         private IReadOnlyList<EvoCriteria>[]? _evochainsallgenreduced;
+        private IReadOnlyList<EvoCriteria>[]? _evochainsallgenmoves;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV
