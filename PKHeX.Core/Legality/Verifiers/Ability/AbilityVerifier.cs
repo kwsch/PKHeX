@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -58,7 +59,7 @@ namespace PKHeX.Core
                     if (abilities[0] == abilities[1] && num != 1)
                     {
                         // Check if any pre-evolution could have it flipped.
-                        var evos = data.Info.EvoChainsAllGens[6];
+                        var evos = data.Info.EvoChainsAllGensReduced[6];
                         var pt = GameData.GetPersonal(GameUtil.GetVersion(format));
                         if (!GetWasDual(evos, pt, pkm))
                             return INVALID;
@@ -230,7 +231,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             // If the species could not exist in Gen3, must match.
-            var g3 = info.EvoChainsAllGens[3];
+            var g3 = info.EvoChainsAllGensReduced[3];
             if (g3.Count == 0)
                 return AbilityState.MustMatch;
 
@@ -243,29 +244,47 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             var pers = (PersonalInfoG3)PersonalTable.E[maxGen3Species];
+            if (data.Info.EvoGenerations.Any() && data.Info.EvoGenerations.Last() > 3)
+                // it has evolved in either gen 4 or gen 5; the ability must match PID
+                return AbilityState.MustMatch;
             if (pers.Ability1 != pers.Ability2) // Excluding Colosseum/XD, a Gen3 pkm must match PID if it has 2 unique abilities
                 return pkm.Version == (int) GameVersion.CXD ? AbilityState.CanMismatch : AbilityState.MustMatch;
-
-            if (pkm.Species != maxGen3Species) // it has evolved in either gen 4 or gen 5; the ability must match PID
-                return AbilityState.MustMatch;
-
-            var chain = data.Info.EvoChainsAllGens;
-            bool evolved45 = chain[4].Count > 1 || (pkm.Format == 5 && chain[5].Count > 1);
-            if (evolved45)
-            {
-                if (pkm.Ability == pers.Ability1) // Could evolve in Gen4/5 and have a Gen3 only ability
-                    return AbilityState.CanMismatch; // Not evolved in Gen4/5, doesn't need to match PIDAbility
-
-                if (pkm.Ability == abilities[1]) // It could evolve in Gen4/5 and have Gen4 second ability
-                    return AbilityState.MustMatch; // Evolved in Gen4/5, must match PIDAbility
-            }
-
             // If we reach here, it has not evolved in Gen4/5 games or has an invalid ability.
             // The ability does not need to match the PIDAbility, but only Gen3 ability is allowed.
             if (pkm.Ability != pers.Ability1) // Not evolved in Gen4/5, but doesn't have Gen3 only ability
                 data.AddLine(GetInvalid(LAbilityMismatch3)); // probably bad to do this here
 
             return AbilityState.CanMismatch;
+        }
+
+        internal static bool IsValidAbilityGen3Evolution(PKM pkm, LegalInfo Info)
+        {
+            AbilityState State;
+
+            var num = pkm.AbilityNumber;
+
+            var pers = (PersonalInfoG3)PersonalTable.E[pkm.Species];
+            if (Info.EvoGenerations.Last() > 3)
+                // it has evolved in either gen 4 or gen 5; the ability must match PID
+                State = AbilityState.MustMatch;
+            else if (pers.Ability1 != pers.Ability2) // Excluding Colosseum/XD, a Gen3 pkm must match PID if it has 2 unique abilities
+                State = pkm.Version == (int)GameVersion.CXD ? AbilityState.CanMismatch : AbilityState.MustMatch;
+
+            // If we reach here, it has not evolved in Gen4/5 games or has an invalid ability.
+            // The ability does not need to match the PIDAbility, but only Gen3 ability is allowed.
+            else if (pkm.Ability != pers.Ability1) // Not evolved in Gen4/5, but doesn't have Gen3 only ability
+                return false;
+            else
+                return true;
+
+            if (State == AbilityState.CanMismatch)
+                return true;
+
+            var abil = pkm.PersonalInfo.Abilities[num >> 1];
+            if (abil != pkm.Ability)
+                return false;
+
+            return true;
         }
 
         private CheckResult VerifyAbilityMG(LegalityAnalysis data, MysteryGift g, IReadOnlyList<int> abilities)
@@ -301,7 +320,7 @@ namespace PKHeX.Core
                     return GetValid(LAbilityCapsuleUsed);
 
                 // Maybe was evolved after using ability capsule.
-                var evos = data.Info.EvoChainsAllGens[pkm.Format];
+                var evos = data.Info.EvoChainsAllGensReduced[pkm.Format];
                 if (GetWasDual(evos, PKX.Personal, pkm))
                     return GetValid(LAbilityCapsuleUsed);
             }

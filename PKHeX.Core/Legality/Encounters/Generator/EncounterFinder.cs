@@ -140,6 +140,13 @@ namespace PKHeX.Core
             if (!info.Moves.All(z => z.Valid))
                 return false;
 
+            if (gen == 3 && format is 4 or 5)
+            {
+                // ability check could change based on which generation the pokemon has evolved
+                if (!AbilityVerifier.IsValidAbilityGen3Evolution(pkm, info))
+                    return false;
+            }
+
             // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
             // The list of moves that a pokemon can move changes based on which generation the pokemon has evolved
             if (pkm is ITrainerMemories m)
