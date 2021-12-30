@@ -51,8 +51,8 @@ namespace PKHeX.Core
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
 
-        private IList<int>? _evogenerations;
-        public IList<int> EvoGenerations
+        private IEnumerable<int>? _evogenerations;
+        public IEnumerable<int> EvoGenerations
         {
             get => _evogenerations ?? new List<int>();
             set => _evogenerations = value;

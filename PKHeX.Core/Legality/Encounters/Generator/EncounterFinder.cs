@@ -82,48 +82,39 @@ namespace PKHeX.Core
         /// <param name="pkm">Source data to check the match for</param>
         /// <param name="info">Information containing the matched encounter and generation evolution</param>
         /// <returns>Indication whether or not the encounter passes secondary checks</returns>
-        private static bool verifyGenerationEvolution(PKM pkm, ref LegalInfo info)
+        private static bool verifyGenerationEvolution(PKM pkm, ref LegalInfo info) => verifyGenerationEvolution(pkm, pkm.Species, info.EvoGenerations, info.EvoChainsAllGens, ref info);
+        private static bool verifyGenerationEvolution(PKM pkm, int evolvedspecies, IEnumerable<int> generationsevolution, IReadOnlyList<EvoCriteria>[] chainallgens, ref LegalInfo info)
         {
             var chain = info.EvoChain;
             var gen = pkm.Generation;
             var format = pkm.Format;
-            if (chain.Count <= 1 || gen == format || format <= 2)
+            if (chain.Count <= 1 || gen == format || format <= 2 || !chain.Any(p => p.Species == evolvedspecies))
             {
                 // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
                 return VerifySecondaryChecksEvolution(pkm, ref info);
             }
 
-            var chainallgens = info.EvoChainsAllGens;
-            var EvolveSpecies = pkm.Species;
-            var PreviousSpecies = chain[1].Species;
-            var GensEvo2 = EvolutionChain.getGenerationsEvolution(pkm, chain, chainallgens, EvolveSpecies);
-            foreach (int GenEvo2 in GensEvo2)
+            var index = chain.Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
+            var previousspecies = chain[index + 1].Species;
+            var gensevolution = EvolutionChain.getGenerationsEvolution(pkm, chain, chainallgens, evolvedspecies);
+            var l = gensevolution.ToList();
+            foreach (int genevolution in gensevolution)
             {
                 // Iterate throught generations for second evolution or single evolution
-                info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, PreviousSpecies, GenEvo2);
-                if (chain.Count == 2)
+                info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, previousspecies, genevolution);
+                info.EvoGenerations = generationsevolution.Union(new List<int>() { genevolution });
+                if (chain.Last().Species == previousspecies)
                 {
-                    // pokemon with one evolution
-                    info.EvoGenerations = new List<int>() { GenEvo2 };
+                    // no more evolutions to iterate
                     if (VerifySecondaryChecksEvolution(pkm, ref info))
                     {
                         return true;
                     }
                     continue;
                 }
-                // pokemon with two evolutions
-                var GensEvo1 = EvolutionChain.getGenerationsEvolution(pkm, chain, info.EvoChainsAllGensReduced, PreviousSpecies);
-                var FirstSpecie = chain[2].Species;
-                foreach (int GenEvo1 in GensEvo1)
-                {
-                    // Iterate throught generations for first evolution
-                    info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, info.EvoChainsAllGensReduced, FirstSpecie, GenEvo1);
-                    info.EvoGenerations = new List<int>() { GenEvo1, GenEvo2 };
-                    if (VerifySecondaryChecksEvolution(pkm, ref info))
-                    {
-                        return true;
-                    }
-                }
+                // Iterate throught the previous evolution
+                if (verifyGenerationEvolution(pkm, previousspecies, info.EvoGenerations, info.EvoChainsAllGensReduced, ref info))
+                    return true;
             }
             return false;
         }
