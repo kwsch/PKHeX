@@ -140,6 +140,23 @@ namespace PKHeX.Core
             if (!info.Moves.All(z => z.Valid))
                 return false;
 
+            // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
+            // The list of moves that a pokemon can move changes based on which generation the pokemon has evolved
+            if (pkm is ITrainerMemories m)
+            {
+                if (m is IMemoryOT o && MemoryPermissions.IsMemoryOfKnownMove(o.OT_Memory))
+                {
+                    var mem = MemoryVariableSet.Read(m, 0);
+                    if (!MemoryPermissions.CanKnowMove(pkm, mem, info.EncounterMatch.Generation, info))
+                        return false;
+                }
+                if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pkm.HasMove(h.HT_TextVar))
+                {
+                    var mem = MemoryVariableSet.Read(m, 1);
+                    if (!MemoryPermissions.CanKnowMove(pkm, mem, pkm.Format, info))
+                        return false;
+                }
+            }
             return true;
         }
 
@@ -184,22 +201,6 @@ namespace PKHeX.Core
             if (!evo.Valid && iterator.PeekIsNext())
                 return false;
 
-            // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
-            if (pkm is ITrainerMemories m)
-            {
-                if (m is IMemoryOT o && MemoryPermissions.IsMemoryOfKnownMove(o.OT_Memory))
-                {
-                    var mem = MemoryVariableSet.Read(m, 0);
-                    if (!MemoryPermissions.CanKnowMove(pkm, mem, info.EncounterMatch.Generation, info))
-                        return false;
-                }
-                if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pkm.HasMove(h.HT_TextVar))
-                {
-                    var mem = MemoryVariableSet.Read(m, 1);
-                    if (!MemoryPermissions.CanKnowMove(pkm, mem, pkm.Format, info))
-                        return false;
-                }
-            }
 
             info.Parse.Add(evo);
             return true;

@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
                 if (pkm.Species != (int)Species.Smeargle)
                 {
-                    if (!GetCanLearnMachineMove(pkm, info.EvoChainsAllGens[gen], MemoryContext6.MoveSpecificMemories[1][matchingMoveMemory], 6))
+                    if (!GetCanLearnMachineMove(pkm, info.EvoChainsAllGensReduced[gen], MemoryContext6.MoveSpecificMemories[1][matchingMoveMemory], 6))
                         return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
                 }
             }
@@ -63,7 +63,7 @@ namespace PKHeX.Core
                 case 16 or 48 when !CanKnowMove(pkm, memory, gen, info, memory.MemoryID == 16):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 49 when memory.Variable == 0 || !GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
+                case 49 when memory.Variable == 0 || !GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGensReduced[gen]):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // Dynamaxing

@@ -102,7 +102,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (GetCanKnowMove(pkm, move, gen, info.EvoChainsAllGens))
+            if (GetCanKnowMove(pkm, move, gen, info.EvoChainsAllGensReduced))
                 return true;
 
             var enc = info.EncounterMatch;
