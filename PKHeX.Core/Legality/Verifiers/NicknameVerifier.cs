@@ -505,6 +505,8 @@ namespace PKHeX.Core
         {
             if (nick == "Quacklin’" && pkm.Nickname == "Quacklin'")
                 return true;
+            if (nick == "CH’DING" && pkm.Nickname == "CH'DING")
+                return true;
             if (enc.IsNicknamed != pkm.IsNicknamed)
                 return false;
             if (nick != pkm.Nickname) // if not match, must not be a nicknamed trade && not currently named
