@@ -293,14 +293,17 @@ namespace PKHeX.WinForms
                     return;
                 if (val > 9999)
                     val = 9999;
-                BitConverter.GetBytes(val).CopyTo(SAV.Small, BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi));
+                var offset = BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi);
+                WriteUInt32LittleEndian(SAV.Small.AsSpan(offset), val);
                 return;
             }
             if (SetValToSav == -1)
             {
                 int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
                 const int offset = 0xCDC;
-                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.Small, offset) & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Small, offset);
+                var current = ReadUInt32LittleEndian(SAV.Small.AsSpan(offset));
+                var update = (current & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p);
+                WriteUInt32LittleEndian(SAV.Small.AsSpan(offset), update);
                 return;
             }
             if (!SetSavToVal)

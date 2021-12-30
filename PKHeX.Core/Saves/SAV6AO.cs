@@ -134,9 +134,7 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            var data = Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2).ToArray();
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
+            return Util.GetHexStringFromBytes(Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2));
         }
 
         public override bool? IsDaycareHasEgg(int loc)
@@ -148,7 +146,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            WriteUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4), EXP);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)

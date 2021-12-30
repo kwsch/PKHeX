@@ -39,9 +39,9 @@ namespace PKHeX.Core
         private int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot) + 4 + PokeCrypto.SIZE_5PARTY;
 
         public bool? IsOccupied(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareSlotOffset(slot))) == 1;
-        public void SetOccupied(int slot, bool occupied) => SAV.SetData(BitConverter.GetBytes((uint)(occupied ? 1 : 0)), GetDaycareSlotOffset(slot));
+        public void SetOccupied(int slot, bool occupied) => WriteUInt32LittleEndian(Data.AsSpan(GetDaycareSlotOffset(slot)), (uint)(occupied ? 1 : 0));
 
         public uint? GetEXP(int slot) => ReadUInt32LittleEndian(Data.AsSpan(GetDaycareEXPOffset(slot)));
-        public void SetEXP(int slot, uint EXP) => SAV.SetData(BitConverter.GetBytes(EXP), GetDaycareEXPOffset(slot));
+        public void SetEXP(int slot, uint EXP) => WriteUInt32LittleEndian(Data.AsSpan(GetDaycareEXPOffset(slot)), EXP);
     }
 }

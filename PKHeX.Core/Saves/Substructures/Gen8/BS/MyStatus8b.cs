@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public uint Money
         {
             get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x20));
-            set => BitConverter.GetBytes(Math.Min(MAX_MONEY, value)).CopyTo(Data, Offset + 0x20);
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x20), Math.Min(MAX_MONEY, value));
         }
 
         public bool Male { get => Data[Offset + 0x24] == 1; set => Data[Offset + 0x24] = (byte)(value ? 1 : 0); }

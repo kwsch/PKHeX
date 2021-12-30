@@ -73,13 +73,13 @@ namespace PKHeX.Core
         public decimal Latitude // don't use the setters
         {
             get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x28)) * 180m) / 0x8000;
-            set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x28);
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x28), (short)((value * 0x8000) / 180m));
         }
 
         public decimal Longitude // don't use the setters
         {
             get => (ReadInt16LittleEndian(Data.AsSpan(Offset + 0x2A)) * 180m) / 0x8000;
-            set => SAV.SetData(BitConverter.GetBytes((short)(value * 0x8000) / 180), Offset + 0x2A);
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x2A), (short)((value * 0x8000) / 180m));
         }
 
         public byte ConsoleRegion

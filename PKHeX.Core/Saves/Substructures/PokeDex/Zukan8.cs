@@ -196,7 +196,7 @@ namespace PKHeX.Core
             for (int i = 0; i < SeenRegionCount; i++)
             {
                 var ofs = offset + (SeenRegionSize * i);
-                if (BitConverter.ToUInt64(data, ofs) != 0)
+                if (ReadUInt64LittleEndian(data.AsSpan(ofs)) != 0)
                     return true;
             }
 
@@ -336,7 +336,7 @@ namespace PKHeX.Core
             var index = entry.Offset;
             var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
             uint nv = (val & ~(0x1FFFu << 15)) | ((value & 0x1FFF) << 15);
-            BitConverter.GetBytes(nv).CopyTo(data, index + OFS_CAUGHT);
+            WriteUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT), nv);
         }
 
         public uint GetGenderDisplayed(int species)
@@ -369,7 +369,7 @@ namespace PKHeX.Core
             var index = entry.Offset;
             var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
             uint nv = (val & ~(3u << 29)) | ((value & 3) << 29);
-            BitConverter.GetBytes(nv).CopyTo(data, index + OFS_CAUGHT);
+            WriteUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT), nv);
         }
 
         public bool GetDisplayDynamaxInstead(int species) => GetCaughtFlagID(species, 28);
@@ -460,7 +460,7 @@ namespace PKHeX.Core
             var dex = entry.DexType;
             var index = entry.Offset;
             var data = GetDexBlock(dex);
-            BitConverter.GetBytes(value).CopyTo(data, index + ofs);
+            WriteUInt32LittleEndian(data.AsSpan(index + ofs), value);
         }
 
         #endregion

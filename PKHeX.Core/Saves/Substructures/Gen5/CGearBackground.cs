@@ -103,7 +103,11 @@ namespace PKHeX.Core
                 Array.Copy(Tiles[i].Write(), 0, data, i*Tile.SIZE_TILE, Tile.SIZE_TILE);
 
             for (int i = 0; i < ColorPalette.Length; i++)
-                BitConverter.GetBytes(GetRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + (i * 2));
+            {
+                var value = GetRGB555(ColorPalette[i]);
+                var span = data.AsSpan(0x1FE0 + (i * 2));
+                WriteUInt16LittleEndian(span, value);
+            }
 
             Array.Copy(Map.Write(), 0, data, 0x2000, 0x600);
 

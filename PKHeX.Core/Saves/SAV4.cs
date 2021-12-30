@@ -100,8 +100,8 @@ namespace PKHeX.Core
 
         protected sealed override void SetChecksums()
         {
-            BitConverter.GetBytes(CalcBlockChecksum(General)).CopyTo(General, General.Length - 2);
-            BitConverter.GetBytes(CalcBlockChecksum(Storage)).CopyTo(Storage, Storage.Length - 2);
+            WriteUInt16LittleEndian(General.AsSpan(General.Length - 2), CalcBlockChecksum(General));
+            WriteUInt16LittleEndian(Storage.AsSpan(Storage.Length - 2), CalcBlockChecksum(Storage));
 
             // Write blocks back
             General.CopyTo(Data, GeneralBlockPosition * PartitionSize);
@@ -269,7 +269,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
-            BitConverter.GetBytes(EXP).CopyTo(General, ofs);
+            WriteUInt32LittleEndian(General.AsSpan(ofs), EXP);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Utility logic for dealing with bitflags in a byte array.
@@ -11,7 +13,7 @@
         /// <param name="arr">Buffer to read</param>
         /// <param name="offset">Offset of the byte</param>
         /// <param name="bitIndex">Bit to read</param>
-        public static bool GetFlag(byte[] arr, int offset, int bitIndex)
+        public static bool GetFlag(ReadOnlySpan<byte> arr, int offset, int bitIndex)
         {
             bitIndex &= 7; // ensure bit access is 0-7
             return (arr[offset] >> bitIndex & 1) != 0;
@@ -24,7 +26,7 @@
         /// <param name="offset">Offset of the byte</param>
         /// <param name="bitIndex">Bit to write</param>
         /// <param name="value">Bit flag value to set</param>
-        public static void SetFlag(byte[] arr, int offset, int bitIndex, bool value)
+        public static void SetFlag(Span<byte> arr, int offset, int bitIndex, bool value)
         {
             bitIndex &= 7; // ensure bit access is 0-7
             var current = arr[offset] & ~(1 << bitIndex);

@@ -95,7 +95,7 @@ namespace PKHeX.Core
         public uint PoketchStepCounter
         {
             get => ReadUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24));
-            set => SetData(General, BitConverter.GetBytes(value), PoketchStart + 0x24);
+            set => WriteUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24), value);
         }
 
         // 2 bytes for alarm clock time setting
@@ -156,13 +156,13 @@ namespace PKHeX.Core
         #region Underground
         //Underground Scores
         protected int OFS_UG_Stats;
-        public uint UG_PlayersMet { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats); }
-        public uint UG_Gifts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x4); }
-        public uint UG_Spheres { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0xC); }
-        public uint UG_Fossils { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x10); }
-        public uint UG_TrapsAvoided { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x18); }
-        public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
-        public uint UG_Flags { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34)); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
+        public uint UG_PlayersMet { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats), value); }
+        public uint UG_Gifts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4), value); }
+        public uint UG_Spheres { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC), value); }
+        public uint UG_Fossils { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10), value); }
+        public uint UG_TrapsAvoided { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18), value); }
+        public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C), value); }
+        public uint UG_Flags { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34), value); }
 
         //Underground Items
         protected int OFS_UG_Items;

@@ -235,19 +235,18 @@ namespace PKHeX.WinForms
             int index = LB_DataEntry.SelectedIndex;
             int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
             int offset = (index * 0x1B4) + (partymember * 0x48);
+            var span = data.AsSpan(offset);
+            WriteUInt16LittleEndian(span, Convert.ToUInt16(CB_Species.SelectedValue));
+            WriteUInt16LittleEndian(span[0x02..], Convert.ToUInt16(CB_HeldItem.SelectedValue));
+            WriteUInt16LittleEndian(span[0x04..], Convert.ToUInt16(CB_Move1.SelectedValue));
+            WriteUInt16LittleEndian(span[0x06..], Convert.ToUInt16(CB_Move2.SelectedValue));
+            WriteUInt16LittleEndian(span[0x08..], Convert.ToUInt16(CB_Move3.SelectedValue));
+            WriteUInt16LittleEndian(span[0x0A..], Convert.ToUInt16(CB_Move4.SelectedValue));
+            WriteUInt32LittleEndian(span[0x0C..], Util.GetHexValue(TB_EC.Text));
+            WriteUInt16LittleEndian(span[0x10..], Convert.ToUInt16(TB_TID.Text));
+            WriteUInt16LittleEndian(span[0x12..], Convert.ToUInt16(TB_SID.Text));
 
-            BitConverter.GetBytes(Convert.ToUInt16(CB_Species.SelectedValue)).CopyTo(data, offset + 0x00);
-            BitConverter.GetBytes(Convert.ToUInt16(CB_HeldItem.SelectedValue)).CopyTo(data, offset + 0x02);
-            BitConverter.GetBytes(Convert.ToUInt16(CB_Move1.SelectedValue)).CopyTo(data, offset + 0x04);
-            BitConverter.GetBytes(Convert.ToUInt16(CB_Move2.SelectedValue)).CopyTo(data, offset + 0x06);
-            BitConverter.GetBytes(Convert.ToUInt16(CB_Move3.SelectedValue)).CopyTo(data, offset + 0x08);
-            BitConverter.GetBytes(Convert.ToUInt16(CB_Move4.SelectedValue)).CopyTo(data, offset + 0x0A);
-            BitConverter.GetBytes(Util.GetHexValue(TB_EC.Text)).CopyTo(data, offset + 0x0C);
-
-            BitConverter.GetBytes(Convert.ToUInt16(TB_TID.Text)).CopyTo(data, offset + 0x10);
-            BitConverter.GetBytes(Convert.ToUInt16(TB_SID.Text)).CopyTo(data, offset + 0x12);
-
-            uint rawslgf = ReadUInt32LittleEndian(data.AsSpan(offset + 0x14));
+            uint rawslgf = ReadUInt32LittleEndian(span[14..]);
             uint slgf = 0;
             slgf |= (uint)(CB_Form.SelectedIndex & 0x1F);
             slgf |= (uint)((PKX.GetGenderFromString(Label_Gender.Text) & 0x3) << 5);
@@ -256,18 +255,23 @@ namespace PKHeX.WinForms
                 slgf |= 1 << 14;
 
             slgf |= rawslgf & 0x8000;
-            Array.Copy(BitConverter.GetBytes(slgf), 0, data, offset + 0x14, 2);
+            WriteUInt16LittleEndian(span[14..], (ushort)slgf);
 
             uint nick = 0;
             if (CHK_Nicknamed.Checked)
                 nick = 1;
-            Array.Copy(BitConverter.GetBytes(nick), 0, data, offset + 0x16, 2);
+            WriteUInt16LittleEndian(span[16..], (ushort)nick);
 
             //Mimic in-game behavior of not clearing strings. It's awful, but accuracy > good.
-            string pk = TB_Nickname.Text; if (pk.Length != 12) pk = pk.PadRight(pk.Length + 1, '\0');
-            string ot = TB_OT.Text; if (ot.Length != 12) ot = ot.PadRight(pk.Length + 1, '\0');
-            Encoding.Unicode.GetBytes(pk).CopyTo(data, offset + 0x18);
-            Encoding.Unicode.GetBytes(ot).CopyTo(data, offset + 0x30);
+            string pk = TB_Nickname.Text;
+            if (pk.Length != 12)
+                pk = pk.PadRight(pk.Length + 1, '\0');
+            string ot = TB_OT.Text;
+            if (ot.Length != 12)
+                ot = ot.PadRight(pk.Length + 1, '\0');
+
+            Encoding.Unicode.GetBytes(pk).CopyTo(span[0x18..]);
+            Encoding.Unicode.GetBytes(ot).CopyTo(span[0x30..]);
 
             offset = index * 0x1B4;
 
@@ -281,7 +285,7 @@ namespace PKHeX.WinForms
             //Fix for top bit
             uint rawvnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
             vnd |= rawvnd & 0x80000000;
-            Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
+            WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
 
             var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;

@@ -24,7 +24,7 @@ namespace PKHeX.Core
             if (id is < PWTRecordID.Normal or > PWTRecordID.MixMaster)
                 throw new ArgumentOutOfRangeException(nameof(id));
             int ofs = Offset + 0x5C + ((int)id * 2);
-            SAV.SetData(BitConverter.GetBytes(value), ofs);
+            WriteUInt16LittleEndian(Data.AsSpan(ofs), value);
         }
     }
 }

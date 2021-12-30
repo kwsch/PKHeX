@@ -15,25 +15,25 @@ namespace PKHeX.Core
         public ushort Hosted
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF0));
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF0);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF0), Math.Min(MaxScore, value));
         }
 
         public ushort Participated
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF2));
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF2);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF2), Math.Min(MaxScore, value));
         }
 
         public ushort Completed
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF4));
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF4);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF4), Math.Min(MaxScore, value));
         }
 
         public ushort TopScores
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF6));
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF6);
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF6), Math.Min(MaxScore, value));
         }
 
         public byte WhiteEXP

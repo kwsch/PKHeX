@@ -266,12 +266,13 @@ namespace PKHeX.WinForms
             CHK_FacilityIntroduced.Checked = facility.IsIntroduced;
             TB_OTName.Text = facility.OT_Name;
             LoadOTlabel(facility.Gender);
-            if (CB_FacilityMessage.SelectedIndex >= 0) LoadFMessage(CB_FacilityMessage.SelectedIndex);
-            TB_UsedFlags.Text = f[entry].UsedFlags.ToString("X8");
-            TB_UsedStats.Text = f[entry].UsedRandStat.ToString("X8");
-            var bytes = f[entry].TrainerFesID;
-            var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            TB_FacilityID.Text = str;
+            if (CB_FacilityMessage.SelectedIndex >= 0)
+                LoadFMessage(CB_FacilityMessage.SelectedIndex);
+
+            var obj = f[entry];
+            TB_UsedFlags.Text = obj.UsedFlags.ToString("X8");
+            TB_UsedStats.Text = obj.UsedRandStat.ToString("X8");
+            TB_FacilityID.Text = Util.GetHexStringFromBytes(obj.TrainerFesID);
             editing = false;
         }
 
@@ -483,11 +484,7 @@ namespace PKHeX.WinForms
             }
             else if (sender == TB_FacilityID)
             {
-                if (t.Length != 12 * 2)
-                    t = t.PadLeft(24, '0');
-                var bytes = t.ToByteArray();
-                Array.Resize(ref bytes, 12);
-                f[entry].TrainerFesID = bytes;
+                f[entry].TrainerFesID = Util.GetBytesFromHexString(t.PadLeft(24, '0'));
             }
         }
 

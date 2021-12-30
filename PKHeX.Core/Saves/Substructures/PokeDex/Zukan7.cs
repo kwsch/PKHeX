@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -32,7 +33,7 @@ namespace PKHeX.Core
         {
             DexFormIndexFetcher = form;
             FormBaseSpecies = GetFormIndexBaseSpeciesList();
-            Debug.Assert(!SAV.State.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
+            Debug.Assert(!SAV.State.Exportable || ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex)) == MAGIC);
         }
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }
@@ -143,12 +144,15 @@ namespace PKHeX.Core
                 var flag1 = (1 << (shift + 4));
                 if ((SAV.Data[PokeDex + 0x84] & flag1) != 0) // Already showing this one
                     return;
-                BitConverter.GetBytes(pkm.EncryptionConstant).CopyTo(SAV.Data, PokeDex + 0x8E8 + (shift * 4));
+
+                var span = SAV.Data.AsSpan(PokeDex + 0x8E8 + (shift * 4));
+                WriteUInt32LittleEndian(span, pkm.EncryptionConstant);
                 SAV.Data[PokeDex + 0x84] |= (byte)(flag1 | (1 << shift));
             }
             else if ((SAV.Data[PokeDex + 0x84] & (1 << shift)) == 0)
             {
-                BitConverter.GetBytes(pkm.EncryptionConstant).CopyTo(SAV.Data, PokeDex + 0x8E8 + (shift * 4));
+                var span = SAV.Data.AsSpan(PokeDex + 0x8E8 + (shift * 4));
+                WriteUInt32LittleEndian(span, pkm.EncryptionConstant);
                 SAV.Data[PokeDex + 0x84] |= (byte)(1 << shift);
             }
         }
@@ -163,7 +167,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the last viewed dex entry in the Pokedex (by National Dex ID), internally called DefaultMons
         /// </summary>
-        public uint CurrentViewedDex => BitConverter.ToUInt32(SAV.Data, PokeDex + 4) >> 9 & 0x3FF;
+        public uint CurrentViewedDex => ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + 4)) >> 9 & 0x3FF;
 
         public IEnumerable<int> GetAllFormEntries(int species)
         {

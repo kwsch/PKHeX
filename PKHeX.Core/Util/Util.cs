@@ -135,6 +135,11 @@ namespace PKHeX.Core
         public static string GetHexStringFromBytes(byte[] data, int offset, int length)
         {
             var arr = data.AsSpan(offset, length);
+            return GetHexStringFromBytes(arr);
+        }
+
+        public static string GetHexStringFromBytes(ReadOnlySpan<byte> arr)
+        {
             var sb = new StringBuilder(arr.Length * 2);
             for (int i = arr.Length - 1; i >= 0; i--)
                 sb.AppendFormat("{0:X2}", arr[i]);

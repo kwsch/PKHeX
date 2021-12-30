@@ -49,18 +49,19 @@ namespace PKHeX.Core
 
         public void SaveBattleTeams()
         {
+            var span = Data.AsSpan(Offset);
             for (int i = 0; i < TeamCount * 6; i++)
             {
                 int index = TeamSlots[i];
                 if (index < 0)
                 {
-                    BitConverter.GetBytes((short)index).CopyTo(Data, Offset + (i * 2));
+                    WriteInt16LittleEndian(span[(i * 2)..], (short)index);
                     continue;
                 }
 
                 SAV.GetBoxSlotFromIndex(index, out var box, out var slot);
-                int val = (box << 8) | slot;
-                BitConverter.GetBytes((short)val).CopyTo(Data, Offset + (i * 2));
+                index = (box << 8) | slot;
+                WriteInt16LittleEndian(span[(i * 2)..], (short)index);
             }
         }
 

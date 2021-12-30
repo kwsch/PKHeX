@@ -64,9 +64,9 @@ namespace PKHeX.Core
             if ((uint)index >= ScoutCount)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            BitConverter.GetBytes(tr.ID).CopyTo(Data, Offset + 0x24 + (index * 2));
-            BitConverter.GetBytes(tr.Poke1.ID).CopyTo(Data, Offset + 0x88 + (index * 2));
-            BitConverter.GetBytes(tr.Poke2.ID).CopyTo(Data, Offset + 0xEC + (index * 2));
+            WriteInt16LittleEndian(Data.AsSpan(Offset + 0x24 + (index * 2)), tr.ID      );
+            WriteInt16LittleEndian(Data.AsSpan(Offset + 0x88 + (index * 2)), tr.Poke1.ID);
+            WriteInt16LittleEndian(Data.AsSpan(Offset + 0xEC + (index * 2)), tr.Poke2.ID);
 
             Data[Offset + 0x154 + index] = (byte)tr.Poke1.AbilityIndex;
             Data[Offset + 0x186 + index] = (byte)tr.Poke2.AbilityIndex;

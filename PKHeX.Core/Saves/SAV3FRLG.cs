@@ -31,7 +31,7 @@ namespace PKHeX.Core
             // Fix save files that have an overflow corruption with the Pokédex.
             // Future loads of this save file will cause it to be recognized as FR/LG correctly.
             if (IsCorruptPokedexFF())
-                BitConverter.GetBytes(1u).CopyTo(Small, 0xAC);
+                WriteUInt32LittleEndian(Small.AsSpan(0xAC), 1);
         }
 
         private void Initialize()

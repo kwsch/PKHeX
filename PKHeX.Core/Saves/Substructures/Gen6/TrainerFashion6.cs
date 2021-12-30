@@ -12,10 +12,11 @@ namespace PKHeX.Core
 
         protected TrainerFashion6(byte[] data, int offset)
         {
-            data0 = ReadUInt32LittleEndian(data.AsSpan(0 + offset));
-            data1 = ReadUInt32LittleEndian(data.AsSpan(4 + offset));
-            data2 = ReadUInt32LittleEndian(data.AsSpan(8 + offset));
-            data3 = ReadUInt32LittleEndian(data.AsSpan(12 + offset));
+            var span = data.AsSpan(offset);
+            data0 = ReadUInt32LittleEndian(span);
+            data1 = ReadUInt32LittleEndian(span[04..]);
+            data2 = ReadUInt32LittleEndian(span[08..]);
+            data3 = ReadUInt32LittleEndian(span[12..]);
         }
 
         public static TrainerFashion6 GetFashion(byte[] data, int offset, int gender)
@@ -27,10 +28,11 @@ namespace PKHeX.Core
 
         public void Write(byte[] data, int offset)
         {
-            BitConverter.GetBytes(data0).CopyTo(data, 0 + offset);
-            BitConverter.GetBytes(data1).CopyTo(data, 4 + offset);
-            BitConverter.GetBytes(data2).CopyTo(data, 8 + offset);
-            BitConverter.GetBytes(data3).CopyTo(data, 12 + offset);
+            var span = data.AsSpan(offset);
+            WriteUInt32LittleEndian(span, data0);
+            WriteUInt32LittleEndian(span[04..], data1);
+            WriteUInt32LittleEndian(span[08..], data2);
+            WriteUInt32LittleEndian(span[12..], data3);
         }
 
         protected static uint GetBits(uint value, int startPos, int bits)

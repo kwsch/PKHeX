@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
                     break;
                 default: return;
             }
-            uint valFly = BitConverter.ToUInt32(SAV.General, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
             CLB_FlyDest.Items.Clear();
             for (int i = 0; i < FlyDestD.Length; i++)
             {
@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
 
             if (ofsUGFlagCount > 0)
             {
-                uint fc = BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & 0xFFFFF;
+                uint fc = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
                 NUD_UGFlags.Value = fc > 999999 ? 999999 : fc;
             }
             if (ofsMap > 0)
@@ -163,7 +163,7 @@ namespace PKHeX.WinForms
         private void SaveMain()
         {
             SAV.Coin = (uint)NUD_Coin.Value;
-            uint valFly = BitConverter.ToUInt32(SAV.General, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {
                 if (FlyDestC[i] < 32)
@@ -188,7 +188,11 @@ namespace PKHeX.WinForms
                 SaveWalker(hgss);
 
             if (ofsUGFlagCount > 0)
-                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.General, ofsUGFlagCount);
+            {
+                var current = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & ~0xFFFFFu;
+                var update = current | (uint)NUD_UGFlags.Value;
+                WriteUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount), update);
+            }
             if (ofsMap > 0)
             {
                 int valMap = CB_UpgradeMap.SelectedIndex;
@@ -481,13 +485,16 @@ namespace PKHeX.WinForms
                 bool f = false;
                 for (int i = 0; i < 2; i++, ofsHallStat += 0x14)
                 {
-                    var h = BitConverter.ToInt32(SAV.General, ofsHallStat);
+                    var h = ReadInt32LittleEndian(SAV.General.AsSpan(ofsHallStat));
                     if (h == -1) continue;
                     for (int j = 0; j < 0x20; j++)
                     {
                         for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
                         {
-                            if (h != BitConverter.ToInt32(SAV.Data, a) || ReadInt16LittleEndian(SAV.Data.AsSpan(a + 0xBA8)) != 0xBA0)
+                            var span = SAV.Data.AsSpan(a);
+                            if (h != ReadInt32LittleEndian(span))
+                                continue;
+                            if (ReadInt16LittleEndian(span[0xBA8..]) != 0xBA0)
                                 continue;
 
                             f = true;
@@ -532,12 +539,17 @@ namespace PKHeX.WinForms
                 {
                     if (Prints[i] == 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1))) >> 1) - 1))
                         continue;
-                    BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.General, ofsPrints + (i << 1));
+                    var value = Prints[i] << 1;
+                    WriteInt32LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1)), value);
                 }
             }
 
             if (HallStatUpdated)
-                BitConverter.GetBytes(Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE))).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+            {
+                var span = new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE);
+                var chk = Checksums.CRC16_CCITT(span);
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(ofsHallStat + 0xBAE), chk);
+            }
         }
 
         private void SetPrints()
@@ -648,7 +660,10 @@ namespace PKHeX.WinForms
                 ushort val = (ushort)StatNUDA[SetValToSav].Value;
 
                 if (Facility == 0 && SetValToSav == 1) // tower continue count
-                    BitConverter.GetBytes(val).CopyTo(SAV.General, addrFlag + TowerContinueCountOfs + (BattleType << 1));
+                {
+                    var offset = addrFlag + TowerContinueCountOfs + (BattleType << 1);
+                    WriteUInt16LittleEndian(SAV.General.AsSpan(offset), val);
+                }
 
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0)
@@ -734,7 +749,8 @@ namespace PKHeX.WinForms
             int i = Array.IndexOf(na, sender);
             if (i < 0)
                 return;
-            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.General, BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A + (i << 1));
+            var offset = BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A + (i << 1);
+            WriteInt32LittleEndian(SAV.General.AsSpan(offset), (int)na[i].Value);
         }
 
         private void GetHallStat()

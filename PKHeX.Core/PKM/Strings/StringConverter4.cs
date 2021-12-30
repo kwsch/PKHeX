@@ -60,7 +60,7 @@ namespace PKHeX.Core
             {
                 var chr = sb[i];
                 var val = ConvertChar2ValueG4(chr);
-                BitConverter.GetBytes(val).CopyTo(data, i * 2);
+                WriteUInt16LittleEndian(data.AsSpan(i * 2), val);
             }
             return data;
         }

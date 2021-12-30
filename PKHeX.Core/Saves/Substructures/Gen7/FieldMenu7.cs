@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public ushort RotomAffection
         {
             get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x1A));
-            set => SAV.SetData(BitConverter.GetBytes(Math.Min((ushort)1000, value)), Offset + 0x1A);
+            set => WriteUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x1A), Math.Min((ushort)1000, value));
         }
 
         public bool RotomLoto1 { get => (SAV.Data[Offset + 0x2A] & 1) == 1; set => SAV.Data[Offset + 0x2A] = (byte)((SAV.Data[Offset + 0x2A] & ~1) | (value ? 1 : 0)); }

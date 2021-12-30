@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -17,10 +18,11 @@ namespace PKHeX.WinForms
             nup_spec = new[] { NUP_Red, NUP_Blue, NUP_Pink, NUP_Green, NUP_Yellow, NUP_Rainbow, NUP_RedPlus, NUP_BluePlus, NUP_PinkPlus, NUP_GreenPlus, NUP_YellowPlus, NUP_RainbowPlus };
             Label[] lbl_spec = { L_Red, L_Blue, L_Pink, L_Green, L_Yellow, L_Rainbow, L_RedPlus, L_BluePlus, L_PinkPlus, L_GreenPlus, L_YellowPlus, L_RainbowPlus };
 
+            var span = SAV.Data.AsSpan(SAV6AO.Contest);
             for (int i = 0; i < lbl_spec.Length; i++)
             {
                 lbl_spec[i].Text = $"{GameInfo.Strings.pokeblocks[94 + i]}:";
-                nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV6AO.Contest + (i * 4));
+                nup_spec[i].Value = ReadUInt32LittleEndian(span[(i * 4)..]);
             }
         }
 
@@ -33,8 +35,9 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
+            var span = SAV.Data.AsSpan(SAV6AO.Contest);
             for (int i = 0; i < nup_spec.Length; i++)
-                BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV6AO.Contest + (i * 4));
+                WriteUInt32LittleEndian(span[(i*4)..], (uint)nup_spec[i].Value);
             Origin.CopyChangesFrom(SAV);
             Close();
         }
@@ -45,14 +48,18 @@ namespace PKHeX.WinForms
                 return;
 
             // Randomize the trees.
-            byte[] tree = { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 };
+            Span<byte> tree = stackalloc byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 };
             var plantable = Legal.Pouch_Berry_XY; // 0 index is None, skip with rand
             var rnd = Util.Rand;
+
+            var plots = SAV.Data.AsSpan(SAV.BerryField);
             for (int i = 0; i < 90; i++) // amount of plots in the game
             {
+                var plot = plots[(i * 0x10)..];
+                tree.CopyTo(plot); // put tree into plot
+
                 ushort berry = plantable[rnd.Next(1, plantable.Length)]; // get random berry item ID from list
-                BitConverter.GetBytes(berry).CopyTo(tree, 6); // put berry into tree.
-                tree.CopyTo(SAV.Data, SAV.BerryField + (0x10 * i)); // put tree into plot
+                WriteUInt16LittleEndian(plot[6..], berry); // put berry into tree.
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -7,8 +8,8 @@ namespace PKHeX.Core
     {
         private readonly SAV3 SAV;
 
-        public uint GetRecord(int record) => BitConverter.ToUInt32(SAV.Large, GetRecordOffset(record)) ^ SAV.SecurityKey;
-        public void SetRecord(int record, uint value) => SAV.SetData(SAV.Large, BitConverter.GetBytes(value ^ SAV.SecurityKey), GetRecordOffset(record));
+        public uint GetRecord(int record) => ReadUInt32LittleEndian(SAV.Large.AsSpan(GetRecordOffset(record))) ^ SAV.SecurityKey;
+        public void SetRecord(int record, uint value) => WriteUInt32LittleEndian(SAV.Large.AsSpan(GetRecordOffset(record)), value ^ SAV.SecurityKey);
 
         private int GetRecordOffset(int record)
         {

@@ -104,10 +104,10 @@ namespace PKHeX.Core
 
         public bool[] GetMysteryGiftDPSlotActiveFlags()
         {
-            int ofs = WondercardFlags + 0x100; // skip over flags
+            var span = General.AsSpan(WondercardFlags + 0x100); // skip over flags
             bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
             for (int i = 0; i < active.Length; i++)
-                active[i] = ReadUInt32LittleEndian(General.AsSpan(ofs + (4 * i))) == MysteryGiftDPSlotActive;
+                active[i] = ReadUInt32LittleEndian(span[(4*i)..]) == MysteryGiftDPSlotActive;
 
             return active;
         }
@@ -117,12 +117,9 @@ namespace PKHeX.Core
             if (value.Length != GiftCountMax)
                 return;
 
-            int ofs = WondercardFlags + 0x100; // skip over flags
+            var span = General.AsSpan(WondercardFlags + 0x100); // skip over flags
             for (int i = 0; i < value.Length; i++)
-            {
-                byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
-                SetData(General, magic, ofs + (4 * i));
-            }
+                WriteUInt32LittleEndian(span[(4 * i)..], value[i] ? MysteryGiftDPSlotActive : 0);
         }
 
         public override MysteryGiftAlbum GiftAlbum

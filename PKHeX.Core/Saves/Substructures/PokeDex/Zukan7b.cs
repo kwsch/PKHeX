@@ -42,8 +42,9 @@ namespace PKHeX.Core
         public bool GetSizeData(DexSizeType group, int index, out int height, out int weight)
         {
             var ofs = GetDexSizeOffset(group, index);
-            height = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs)) >> 1;
-            weight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + 2));
+            var entry = SAV.Data.AsSpan(ofs);
+            height = ReadUInt16LittleEndian(entry) >> 1;
+            weight = ReadUInt16LittleEndian(entry[2..]);
             return !IsEntryUnset(height, weight);
         }
 
@@ -59,36 +60,40 @@ namespace PKHeX.Core
             if (Math.Round(pkm.HeightAbsolute) < pkm.PersonalInfo.Height) // possible minimum height
             {
                 int ofs = GetDexSizeOffset(DexSizeType.MinHeight, index);
-                var minHeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs)) >> 1;
+                var entry = SAV.Data.AsSpan(ofs);
+                var minHeight = ReadUInt16LittleEndian(entry) >> 1;
                 var calcHeight = PB7.GetHeightAbsolute(pkm.PersonalInfo, minHeight);
-                if (Math.Round(pkm.HeightAbsolute) < Math.Round(calcHeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
+                if (Math.Round(pkm.HeightAbsolute) < Math.Round(calcHeight) || ReadUInt32LittleEndian(entry) == 0x007F00FE) // unset
                     SetSizeData(pkm, DexSizeType.MinHeight);
             }
             else if (Math.Round(pkm.HeightAbsolute) > pkm.PersonalInfo.Height) // possible maximum height
             {
                 int ofs = GetDexSizeOffset(DexSizeType.MaxHeight, index);
-                var maxHeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs)) >> 1;
+                var entry = SAV.Data.AsSpan(ofs);
+                var maxHeight = ReadUInt16LittleEndian(entry) >> 1;
                 var calcHeight = PB7.GetHeightAbsolute(pkm.PersonalInfo, maxHeight);
-                if (Math.Round(pkm.HeightAbsolute) > Math.Round(calcHeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
+                if (Math.Round(pkm.HeightAbsolute) > Math.Round(calcHeight) || ReadUInt32LittleEndian(entry) == 0x007F00FE) // unset
                     SetSizeData(pkm, DexSizeType.MaxHeight);
             }
 
             if (Math.Round(pkm.WeightAbsolute) < pkm.PersonalInfo.Weight) // possible minimum weight
             {
                 int ofs = GetDexSizeOffset(DexSizeType.MinWeight, index);
-                var minWeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + 2));
-                var minHeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs)) >> 1;
+                var entry = SAV.Data.AsSpan(ofs);
+                var minHeight = ReadUInt16LittleEndian(entry) >> 1;
+                var minWeight = ReadUInt16LittleEndian(entry[2..]);
                 var calcWeight = PB7.GetWeightAbsolute(pkm.PersonalInfo, minHeight, minWeight);
-                if (Math.Round(pkm.WeightAbsolute) < Math.Round(calcWeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
+                if (Math.Round(pkm.WeightAbsolute) < Math.Round(calcWeight) || ReadUInt32LittleEndian(entry) == 0x007F00FE) // unset
                     SetSizeData(pkm, DexSizeType.MinWeight);
             }
             else if (Math.Round(pkm.WeightAbsolute) > pkm.PersonalInfo.Weight) // possible maximum weight
             {
                 int ofs = GetDexSizeOffset(DexSizeType.MaxWeight, index);
-                var maxWeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + 2));
-                var maxHeight = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs)) >> 1;
+                var entry = SAV.Data.AsSpan(ofs);
+                var maxHeight = ReadUInt16LittleEndian(entry) >> 1;
+                var maxWeight = ReadUInt16LittleEndian(entry[2..]);
                 var calcWeight = PB7.GetWeightAbsolute(pkm.PersonalInfo, maxHeight, maxWeight);
-                if (Math.Round(pkm.WeightAbsolute) > Math.Round(calcWeight) || BitConverter.ToUInt32(SAV.Data, ofs) == 0x007F00FE) // unset
+                if (Math.Round(pkm.WeightAbsolute) > Math.Round(calcWeight) || ReadUInt32LittleEndian(entry) == 0x007F00FE) // unset
                     SetSizeData(pkm, DexSizeType.MaxWeight);
             }
         }

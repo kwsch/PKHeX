@@ -31,8 +31,8 @@ namespace PKHeX.Core
         private int GetTransferredOffset(int index) => Offset + TransferredOffset + (index * 4);
         public uint GetCapturedCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetCapturedOffset(index)));
         public uint GetTransferredCountIndex(int index) => ReadUInt32LittleEndian(Data.AsSpan(GetTransferredOffset(index)));
-        public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_CAPTURE, value)).CopyTo(Data, GetCapturedOffset(index));
-        public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_TRANSFER, value)).CopyTo(Data, GetTransferredOffset(index));
+        public void SetCapturedCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data.AsSpan(GetCapturedOffset(index)), Math.Min(MAX_COUNT_ENTRY_CAPTURE, value));
+        public void SetTransferredCountIndex(int index, uint value) => WriteUInt32LittleEndian(Data.AsSpan(GetTransferredOffset(index)), Math.Min(MAX_COUNT_ENTRY_TRANSFER, value));
 
         public static int GetSpeciesIndex(int species) => (uint)species switch
         {
@@ -83,13 +83,13 @@ namespace PKHeX.Core
         public uint TotalCaptured
         {
             get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalCapturedOffset));
-            set => BitConverter.GetBytes(Math.Min(MAX_COUNT_TOTAL, value)).CopyTo(Data, Offset + TotalCapturedOffset);
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + TotalCapturedOffset), Math.Min(MAX_COUNT_TOTAL, value));
         }
 
         public uint TotalTransferred
         {
             get => ReadUInt32LittleEndian(Data.AsSpan(Offset + TotalTransferredOffset));
-            set => BitConverter.GetBytes(Math.Min(MAX_COUNT_TOTAL, value)).CopyTo(Data, Offset + TotalTransferredOffset);
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + TotalTransferredOffset), Math.Min(MAX_COUNT_TOTAL, value));
         }
 
         public uint CalculateTotalCaptured()

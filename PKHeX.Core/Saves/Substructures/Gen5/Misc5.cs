@@ -47,7 +47,7 @@ namespace PKHeX.Core
         public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-            SAV.SetData(BitConverter.GetBytes(species), ofs);
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(ofs), species);
         }
     }
 

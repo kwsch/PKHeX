@@ -360,14 +360,8 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
         public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            var data = BitConverter.GetBytes(Daycare.DaycareSeed);
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
-        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = BitConverter.ToUInt64(Util.GetBytesFromHexString(seed), 0);
+        public override string GetDaycareRNGSeed(int loc) => Daycare.DaycareSeed.ToString("X16");
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = Util.GetHexValue64(seed);
         #endregion
     }
 }

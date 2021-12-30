@@ -228,9 +228,10 @@ namespace PKHeX.Core
             get
             {
                 byte[] data = (byte[])Data.Clone();
-                int oldHC = ReadInt32BigEndian(data.AsSpan(12));
+                var hc = data.AsSpan(12);
+                int oldHC = ReadInt32BigEndian(hc);
                 // Clear Header Checksum
-                BitConverter.GetBytes(0).CopyTo(data, 12);
+                WriteUInt32LittleEndian(hc, 0);
                 using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
                 var checkSpan = checksum.AsSpan(20);

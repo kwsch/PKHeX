@@ -28,8 +28,8 @@ namespace PKHeX.Core
             var offset = baseOffset + (SIZE * Index);
             var span = data.AsSpan(offset, SIZE);
             WriteUInt32LittleEndian(span, IsGet ? 1u : 0u);
-            BitConverter.GetBytes(Count).CopyTo(data, offset + 4);
-            BitConverter.GetBytes(TotalCount).CopyTo(data, offset + 8);
+            WriteInt32LittleEndian(span[4..], Count);
+            WriteInt32LittleEndian(span[8..], TotalCount);
         }
     }
 

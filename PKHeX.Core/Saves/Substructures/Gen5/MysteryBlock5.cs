@@ -31,7 +31,7 @@ namespace PKHeX.Core
                 var wcData = SetAlbum(value);
                 // Write Back
                 wcData.CopyTo(Data, Offset + FlagStart);
-                BitConverter.GetBytes(value.Seed).CopyTo(Data, SeedOffset);
+                WriteUInt32LittleEndian(Data.AsSpan(SeedOffset), value.Seed);
             }
         }
 

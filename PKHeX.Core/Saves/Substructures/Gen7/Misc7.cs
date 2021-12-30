@@ -15,7 +15,7 @@ namespace PKHeX.Core
             {
                 if (value > 9_999_999)
                     value = 9_999_999;
-                SAV.SetData(BitConverter.GetBytes(value), Offset + 0x4);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x4), value);
             }
         }
 
@@ -26,7 +26,7 @@ namespace PKHeX.Core
             {
                 uint flags = ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)) & 0xFFF8000F;
                 flags |= (value & 0x7FFF) << 4;
-                SAV.SetData(BitConverter.GetBytes(flags), Offset + 0x08);
+                WriteUInt32LittleEndian(SAV.Data.AsSpan(Offset + 0x08), flags);
             }
         }
 
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             {
                 if (value > 9999)
                     value = 9999;
-                SAV.SetData(BitConverter.GetBytes(value), Offset + 0x11C);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x11C), value);
             }
         }
 
@@ -50,7 +50,7 @@ namespace PKHeX.Core
         public uint StarterEncryptionConstant
         {
             get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x148));
-            set => SAV.SetData(BitConverter.GetBytes(value), Offset + 0x148);
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x148), value);
         }
 
         public int DaysFromRefreshed
@@ -70,7 +70,7 @@ namespace PKHeX.Core
         {
             if ((uint)recordID >= 4)
                 recordID = 0;
-            SAV.SetData(BitConverter.GetBytes(score), Offset + 0x138 + (4 * recordID));
+            WriteInt32LittleEndian(Data.AsSpan(Offset + 0x138 + (4 * recordID)), score);
         }
     }
 }

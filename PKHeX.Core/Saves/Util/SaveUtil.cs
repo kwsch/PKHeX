@@ -268,7 +268,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG3SAV(byte[] data)
+        private static GameVersion GetIsG3SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not (SIZE_G3RAW or SIZE_G3RAWHALF))
                 return Invalid;
@@ -281,7 +281,7 @@ namespace PKHeX.Core
                     continue;
 
                 // Detect RS/E/FRLG
-                return GetVersionG3SAV(data, smallOffset);
+                return GetVersionG3SAV(data[smallOffset..]);
             }
             return Invalid;
         }
@@ -290,16 +290,15 @@ namespace PKHeX.Core
         /// Checks the input <see cref="data"/> to see which game is for this file.
         /// </summary>
         /// <param name="data">Data to check</param>
-        /// <param name="offset">Offset for the start of the first Small chunk.</param>
         /// <returns>RS, E, or FR/LG.</returns>
-        private static GameVersion GetVersionG3SAV(byte[] data, int offset = 0)
+        private static GameVersion GetVersionG3SAV(ReadOnlySpan<byte> data)
         {
             // 0xAC
             // RS: Battle Tower Data, which will never match the FR/LG fixed value.
             // E: Encryption Key
             // FR/LG @ 0xAC has a fixed value (01 00 00 00)
             // RS has battle tower data (variable)
-            uint _0xAC = ReadUInt32LittleEndian(data.AsSpan(offset + 0xAC));
+            uint _0xAC = ReadUInt32LittleEndian(data[0xAC..]);
             switch (_0xAC)
             {
                 case 1: return FRLG; // fixed value
@@ -308,7 +307,7 @@ namespace PKHeX.Core
                     // RS data structure only extends 0x890 bytes; check if any data is present afterwards.
                     for (int i = 0x890; i < 0xF2C; i += 4)
                     {
-                        if (BitConverter.ToUInt64(data, offset + i) != 0)
+                        if (ReadUInt64LittleEndian(data[i..]) != 0)
                             return E;
                     }
                     return RS;
@@ -318,16 +317,16 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 Box RS save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG3BOXSAV(byte[] data)
+        private static GameVersion GetIsG3BOXSAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not SIZE_G3BOX)
                 return Invalid;
 
             // Verify first checksum
             const int offset = 0x2000;
-            var span = new ReadOnlySpan<byte>(data, offset + 4, 0x1FF8);
-            var chk = Checksums.CheckSum16BigInvert(span);
-            var actual = ReadUInt32BigEndian(data.AsSpan(offset));
+            var span = data.Slice(offset, 0x1FFC);
+            var actual = ReadUInt32BigEndian(span);
+            var chk = Checksums.CheckSum16BigInvert(span[4..]);
             return chk == actual ? RSBOX : Invalid;
         }
 

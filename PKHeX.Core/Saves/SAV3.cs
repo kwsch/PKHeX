@@ -92,7 +92,7 @@ namespace PKHeX.Core
         /// <param name="data">Data to check</param>
         /// <param name="slot">Which main to check (primary or secondary)</param>
         /// <param name="sector0">Offset of the sector that has the small object data</param>
-        public static bool IsAllMainSectorsPresent(byte[] data, int slot, out int sector0)
+        public static bool IsAllMainSectorsPresent(ReadOnlySpan<byte> data, int slot, out int sector0)
         {
             System.Diagnostics.Debug.Assert(slot is 0 or 1);
             int start = SIZE_MAIN * slot;
@@ -101,7 +101,8 @@ namespace PKHeX.Core
             sector0 = 0;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = ReadInt16LittleEndian(data.AsSpan(ofs + 0xFF4));
+                var span = data[ofs..];
+                var id = ReadInt16LittleEndian(span[0xFF4..]);
                 bitTrack |= (1 << id);
                 if (id == 0)
                     sector0 = ofs;
@@ -186,14 +187,14 @@ namespace PKHeX.Core
 
             // Hall of Fame Checksums
             {
-                ushort chk = Checksums.CheckSum32(Data.AsSpan(0x1C000, SIZE_SECTOR_USED));
-                WriteUInt16LittleEndian(Data.AsSpan(0x1CFF4), chk);
-                BitConverter.GetBytes(chk).CopyTo(Data, 0x1CFF4);
+                var sector2 = Data.AsSpan(0x1C000, SIZE_SECTOR);
+                ushort chk = Checksums.CheckSum32(sector2[..SIZE_SECTOR_USED]);
+                WriteUInt16LittleEndian(sector2[0xFF4..], chk);
             }
             {
-                ushort chk = Checksums.CheckSum32(Data.AsSpan(0x1D000, SIZE_SECTOR_USED));
-                WriteUInt16LittleEndian(Data.AsSpan(0x1DFF4), chk);
-                BitConverter.GetBytes(chk).CopyTo(Data, 0x1DFF4);
+                var sector2 = Data.AsSpan(0x1D000, SIZE_SECTOR);
+                ushort chk = Checksums.CheckSum32(sector2[..SIZE_SECTOR_USED]);
+                WriteUInt16LittleEndian(sector2[0xFF4..], chk);
             }
         }
 
