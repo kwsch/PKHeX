@@ -112,8 +112,8 @@ namespace PKHeX.Core
                         info.EvoGenerationsInfo = EvoInfo;
                         return true;
                     }
-                    if (!info.BestEvoGenerationsInfo.IsPreferredEvoGeneration(EvoInfo))
-                        info.BestEvoGenerationsInfo = EvoInfo;
+                    if (!info.PreferredEvoGenerationsInfo.IsPreferredEvoGeneration(EvoInfo))
+                        info.PreferredEvoGenerationsInfo = EvoInfo;
                     continue;
                 }
                 // Iterate throught the previous evolution
@@ -212,7 +212,7 @@ namespace PKHeX.Core
                return false;
 
             if (!verifygenevo)
-                info.EvoGenerationsInfo = info.BestEvoGenerationsInfo;
+                info.EvoGenerationsInfo = info.PreferredEvoGenerationsInfo;
 
             if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;

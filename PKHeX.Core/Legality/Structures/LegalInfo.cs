@@ -49,16 +49,28 @@ namespace PKHeX.Core
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
+        /// <summary>
+        /// Generations in wich the pokemon has evolved
+        /// </summary>
         public IEnumerable<int>? EvoGenerations => EvoGenerationsInfo.EvoGenerations;
 
         private List<EvoCriteria>? _evochain;
         public List<EvoCriteria> EvoChain => _evochain ??= EvolutionChain.GetEvolutionChain(pkm, EncounterMatch, pkm.Species, pkm.CurrentLevel);
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochainsallgen ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch, EvoChain);
+        /// <summary>
+        /// Reduced evolution chain that does not allow the same evolution in different generations
+        /// </summary>
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReduced => EvoGenerationsInfo?.EvoChainsAllGens ?? EvoChainsAllGens;
 
         private IReadOnlyList<EvoCriteria>[]? _evochainsallgen;
+        /// <summary>
+        /// Legal information related to the pokemon evolution chain throught all generations
+        /// </summary>
         public LegalEvoGenerationsInfo EvoGenerationsInfo { get; set; } = new LegalEvoGenerationsInfo();
-        internal LegalEvoGenerationsInfo BestEvoGenerationsInfo { get; set; } = new LegalEvoGenerationsInfo();
+        /// <summary>
+        /// Preffered Legal information related to the pokemon evolution chain throught all generations in case all possible chains are invalid
+        /// </summary>
+        internal LegalEvoGenerationsInfo PreferredEvoGenerationsInfo { get; set; } = new LegalEvoGenerationsInfo();
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV
