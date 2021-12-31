@@ -27,12 +27,12 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public static BK4 ReadUnshuffle(byte[] data)
+        public static BK4 ReadUnshuffle(ReadOnlySpan<byte> data)
         {
-            var PID = ReadUInt32BigEndian(data.AsSpan(0));
+            var PID = ReadUInt32BigEndian(data);
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            var Data = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
-            var result = new BK4(Data);
+            var unshuffled = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
+            var result = new BK4(unshuffled);
             result.RefreshChecksum();
             return result;
         }

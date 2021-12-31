@@ -166,7 +166,7 @@ namespace PKHeX.Core
         }
 
         public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
-        public void CopyTo(byte[] data, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(data.AsSpan(offset));
+        public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
         public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
         public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }
@@ -249,7 +249,7 @@ namespace PKHeX.Core
 
         public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
 
-        public void CopyTo(byte[] data, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(data.AsSpan(offset));
+        public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
         public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
         public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }

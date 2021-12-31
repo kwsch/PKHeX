@@ -11,9 +11,9 @@ namespace PKHeX.Core
         public byte[] GetLinkInfoData() => Data.Slice(Offset + 0x1FF, PL6.Size);
         public PL6 GetLinkInfo() => new(GetLinkInfoData());
 
-        public void SetLinkInfoData(byte[] data)
+        public void SetLinkInfoData(ReadOnlySpan<byte> data)
         {
-            data.CopyTo(Data, Offset);
+            data.CopyTo(Data.AsSpan(Offset));
             Checksum = GetCalculatedChecksum(); // [app,chk)
         }
 

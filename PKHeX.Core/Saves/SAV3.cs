@@ -54,34 +54,34 @@ namespace PKHeX.Core
             Japanese = ReadInt16LittleEndian(Small.AsSpan(0x6)) == 0;
         }
 
-        private void ReadSectors(byte[] data, int group)
+        private void ReadSectors(ReadOnlySpan<byte> data, int group)
         {
             int start = group * SIZE_MAIN;
             int end = start + SIZE_MAIN;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = ReadInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
+                var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
                 switch (id)
                 {
-                    case >=5: Buffer.BlockCopy(data, ofs, Storage, (id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED); break;
-                    case >=1: Buffer.BlockCopy(data, ofs, Large  , (id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED); break;
-                    default:  Buffer.BlockCopy(data, ofs, Small  , 0                          , SIZE_SECTOR_USED); break;
+                    case >=5: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Storage.AsSpan((id - 5) * SIZE_SECTOR_USED)); break;
+                    case >=1: data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Large  .AsSpan((id - 1) * SIZE_SECTOR_USED)); break;
+                    default:  data.Slice(ofs, SIZE_SECTOR_USED).CopyTo(Small  .AsSpan(0                          )); break;
                 }
             }
         }
 
-        private void WriteSectors(byte[] data, int group)
+        private void WriteSectors(Span<byte> data, int group)
         {
             int start = group * SIZE_MAIN;
             int end = start + SIZE_MAIN;
             for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                var id = ReadInt16LittleEndian(Data.AsSpan(ofs + 0xFF4));
+                var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
                 switch (id)
                 {
-                    case >=5: Buffer.BlockCopy(Storage, (id - 5) * SIZE_SECTOR_USED, data, ofs, SIZE_SECTOR_USED); break;
-                    case >=1: Buffer.BlockCopy(Large  , (id - 1) * SIZE_SECTOR_USED, data, ofs, SIZE_SECTOR_USED); break;
-                    default:  Buffer.BlockCopy(Small  , 0                          , data, ofs, SIZE_SECTOR_USED); break;
+                    case >=5: Storage.AsSpan((id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
+                    case >=1: Large  .AsSpan((id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
+                    default:  Small  .AsSpan(0                          , SIZE_SECTOR_USED).CopyTo(data[ofs..]); break;
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace PKHeX.Core
             return bitTrack == 0b_0011_1111_1111_1111;
         }
 
-        private static int GetActiveSlot(byte[] data)
+        private static int GetActiveSlot(ReadOnlySpan<byte> data)
         {
             if (data.Length == SaveUtil.SIZE_G3RAWHALF)
                 return 0;
@@ -123,8 +123,8 @@ namespace PKHeX.Core
             if (!v1)
                 return 0;
 
-            var count0 = ReadUInt32LittleEndian(data.AsSpan(sectorZero0 + 0x0FFC));
-            var count1 = ReadUInt32LittleEndian(data.AsSpan(sectorZero1 + 0x0FFC));
+            var count0 = ReadUInt32LittleEndian(data[(sectorZero0 + 0x0FFC)..]);
+            var count1 = ReadUInt32LittleEndian(data[(sectorZero1 + 0x0FFC)..]);
             // don't care about 32bit overflow. a 10 second save would take 1,000 years to overflow!
             return count1 > count0 ? 1 : 0;
         }
@@ -578,18 +578,19 @@ namespace PKHeX.Core
         {
             // HoF Data is split across two sectors
             byte[] data = new byte[SIZE_SECTOR_USED * 2];
-            Buffer.BlockCopy(Data, 0x1C000, data, 0               , SIZE_SECTOR_USED);
-            Buffer.BlockCopy(Data, 0x1D000, data, SIZE_SECTOR_USED, SIZE_SECTOR_USED);
+            Data.AsSpan(0x1C000, SIZE_SECTOR_USED).CopyTo(data.AsSpan(0               , SIZE_SECTOR_USED));
+            Data.AsSpan(0x1D000, SIZE_SECTOR_USED).CopyTo(data.AsSpan(SIZE_SECTOR_USED, SIZE_SECTOR_USED));
             return data;
         }
 
-        public void SetHallOfFameData(byte[] value)
+        public void SetHallOfFameData(ReadOnlySpan<byte> value)
         {
             if (value.Length != SIZE_SECTOR_USED * 2)
                 throw new ArgumentException("Invalid size", nameof(value));
             // HoF Data is split across two sav sectors
-            Buffer.BlockCopy(value, 0               , Data, 0x1C000, SIZE_SECTOR_USED);
-            Buffer.BlockCopy(value, SIZE_SECTOR_USED, Data, 0x1D000, SIZE_SECTOR_USED);
+            Span<byte> savedata = Data;
+            value[..SIZE_SECTOR_USED].CopyTo(savedata[0x1C000..]);
+            value.Slice(SIZE_SECTOR_USED, SIZE_SECTOR_USED).CopyTo(savedata[0x1D000..]);
         }
 
         public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small.AsSpan(0xAC)) == ulong.MaxValue;

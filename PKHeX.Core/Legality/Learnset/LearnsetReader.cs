@@ -42,7 +42,7 @@ namespace PKHeX.Core
         /// Reads a Level up move pool definition from a contiguous chunk of GB era ROM data.
         /// </summary>
         /// <remarks>Moves and Levels are 8-bit</remarks>
-        private static Learnset ReadLearnset8(byte[] data, ref int offset)
+        private static Learnset ReadLearnset8(ReadOnlySpan<byte> data, ref int offset)
         {
             int end = offset; // scan for count
             if (data[end] == 0)

@@ -23,7 +23,8 @@ namespace PKHeX.Core
             Gift.RestrictVersion = RestrictVersion;
             Gift.RestrictLanguage = RestrictLanguage;
         }
-        public static WC6[] GetArray(byte[] WC6Full, byte[] data)
+
+        public static WC6[] GetArray(ReadOnlySpan<byte> WC6Full, ReadOnlySpan<byte> data)
         {
             var countfull = WC6Full.Length / Size;
             var countgift = data.Length / WC6.Size;
@@ -38,9 +39,9 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static WC6 ReadWC6(byte[] data, int ofs, DateTime date)
+        private static WC6 ReadWC6(ReadOnlySpan<byte> data, int ofs, DateTime date)
         {
-            var slice = data.Slice(ofs + GiftStart, WC6.Size);
+            var slice = data.Slice(ofs + GiftStart, WC6.Size).ToArray();
             return new WC6(slice)
             {
                 RestrictVersion = data[ofs],
@@ -49,9 +50,9 @@ namespace PKHeX.Core
             };
         }
 
-        private static WC6 ReadWC6Only(byte[] data, int ofs)
+        private static WC6 ReadWC6Only(ReadOnlySpan<byte> data, int ofs)
         {
-            var slice = data.Slice(ofs, WC6.Size);
+            var slice = data.Slice(ofs, WC6.Size).ToArray();
             return new WC6(slice);
         }
     }

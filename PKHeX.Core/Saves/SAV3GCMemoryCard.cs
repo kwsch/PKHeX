@@ -50,11 +50,11 @@ namespace PKHeX.Core
 
         public static bool IsMemoryCardSize(long Size) => ValidMemoryCardSizes.Contains((int)Size);
 
-        public static bool IsMemoryCardSize(byte[] Data)
+        public static bool IsMemoryCardSize(ReadOnlySpan<byte> Data)
         {
             if (!IsMemoryCardSize(Data.Length))
                 return false; // bad size
-            if (ReadUInt64LittleEndian(Data.AsSpan(0)) == ulong.MaxValue)
+            if (ReadUInt64LittleEndian(Data) == ulong.MaxValue)
                 return false; // uninitialized
             return true;
         }
@@ -335,12 +335,17 @@ namespace PKHeX.Core
             return Data.AsSpan(blockFirst * BLOCK_SIZE, blockCount * BLOCK_SIZE).ToArray();
         }
 
-        public void WriteSaveGameData(byte[] data)
+        public void WriteSaveGameData(ReadOnlySpan<byte> data)
         {
-            if (EntrySelected < 0) // Can't write anywhere
+            var entry = EntrySelected;
+            if (entry < 0) // Can't write anywhere
                 return;
+            WriteSaveGameData(data, entry);
+        }
 
-            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
+        private void WriteSaveGameData(ReadOnlySpan<byte> data, int entry)
+        {
+            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (entry * DENTRY_SIZE);
             var span = Data.AsSpan(offset);
             int blockFirst = ReadUInt16BigEndian(span[0x36..]);
             int blockCount = ReadUInt16BigEndian(span[0x38..]);
@@ -348,7 +353,8 @@ namespace PKHeX.Core
             if (data.Length != blockCount * BLOCK_SIZE) // Invalid File Size
                 return;
 
-            data.AsSpan(0, blockCount * BLOCK_SIZE).CopyTo(Data.AsSpan(blockFirst * BLOCK_SIZE));
+            var dest = Data.AsSpan(blockFirst * BLOCK_SIZE);
+            data[..(blockCount * BLOCK_SIZE)].CopyTo(dest);
         }
     }
 }

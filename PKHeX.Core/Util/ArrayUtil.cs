@@ -33,8 +33,7 @@ namespace PKHeX.Core
             }
             return count;
         }
-
-        public static byte[] Truncate(byte[] data, int newSize) => data.AsSpan(0, newSize).ToArray();
+        
         public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
         public static byte[] SliceEnd(this byte[] src, int offset) => src.AsSpan(offset).ToArray();
         public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
@@ -42,11 +41,11 @@ namespace PKHeX.Core
 
         public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
-        public static T[][] Split<T>(this T[] data, int size)
+        public static T[][] Split<T>(this ReadOnlySpan<T> data, int size)
         {
             var result = new T[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
-                result[i / size] = data.Slice(i, size);
+                result[i / size] = data.Slice(i, size).ToArray();
             return result;
         }
 

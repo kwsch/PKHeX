@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Contains logic for the Generation 8b (BD/SP) roaming spawns.
@@ -61,12 +63,12 @@
             pk.PID = pid;
 
             // Check IVs: Create flawless IVs at random indexes, then the random IVs for not flawless.
-            int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+            Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
             const int MAX = 31;
             var determined = 0;
             while (determined < flawless)
             {
-                var idx = xoro.NextUInt(6);
+                var idx = (int)xoro.NextUInt(6);
                 if (ivs[idx] != UNSET)
                     continue;
                 ivs[idx] = 31;
@@ -115,12 +117,12 @@
                 return false;
 
             // Check IVs: Create flawless IVs at random indexes, then the random IVs for not flawless.
-            int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+            Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
 
             var determined = 0;
             while (determined < flawless)
             {
-                var idx = xoro.NextUInt(6);
+                var idx = (int)xoro.NextUInt(6);
                 if (ivs[idx] != UNSET)
                     continue;
                 ivs[idx] = 31;
@@ -133,12 +135,12 @@
                     ivs[i] = (int)xoro.NextUInt(31 + 1);
             }
 
-            if (ivs[0] != pk.GetIV(0)) return false;
-            if (ivs[1] != pk.GetIV(1)) return false;
-            if (ivs[2] != pk.GetIV(2)) return false;
-            if (ivs[3] != pk.GetIV(4)) return false;
-            if (ivs[4] != pk.GetIV(5)) return false;
-            if (ivs[5] != pk.GetIV(3)) return false;
+            if (ivs[0] != pk.IV_HP ) return false;
+            if (ivs[1] != pk.IV_ATK) return false;
+            if (ivs[2] != pk.IV_DEF) return false;
+            if (ivs[3] != pk.IV_SPA) return false;
+            if (ivs[4] != pk.IV_SPD) return false;
+            if (ivs[5] != pk.IV_SPE) return false;
 
             // Don't check Hidden ability, as roaming encounters are 1/2 only.
             if (pk.AbilityNumber != (1 << (int)xoro.NextUInt(2)))

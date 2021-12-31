@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -20,13 +21,13 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea7b(byte[] data, GameVersion game) : base(game)
+        private EncounterArea7b(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Slots = ReadSlots(data);
         }
 
-        private EncounterSlot7b[] ReadSlots(byte[] data)
+        private EncounterSlot7b[] ReadSlots(ReadOnlySpan<byte> data)
         {
             const int size = 4;
             int count = (data.Length - 2) / size;
@@ -34,14 +35,20 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 2 + (size * i);
-                int species = data[offset]; // always < 255; only original 151
-                // form is always 0
-                int min = data[offset + 2];
-                int max = data[offset + 3];
-                slots[i] = new EncounterSlot7b(this, species, min, max);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot7b ReadSlot(ReadOnlySpan<byte> data)
+        {
+            int species = data[0]; // always < 255; only original 151
+            // form is always 0
+            int min = data[2];
+            int max = data[3];
+            return new EncounterSlot7b(this, species, min, max);
         }
 
         private const int CatchComboBonus = 1;

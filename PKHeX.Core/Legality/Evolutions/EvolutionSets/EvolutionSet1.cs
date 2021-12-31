@@ -8,17 +8,18 @@ namespace PKHeX.Core
     /// </summary>
     public static class EvolutionSet1
     {
-        private static EvolutionMethod GetMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
         {
-            int method = data[offset];
-            int species = data[offset + 1];
-            int arg = data[offset + 2];
+            int method = data[0];
+            int species = data[1];
+            int arg = data[2];
+
             return (method == 1)
                 ? new EvolutionMethod(method, species, level: arg)
                 : new EvolutionMethod(method, species, argument: arg);
         }
 
-        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data, int maxSpecies)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data, int maxSpecies)
         {
             var evos = new EvolutionMethod[maxSpecies + 1][];
             int ofs = 0;
@@ -35,7 +36,7 @@ namespace PKHeX.Core
                 var m = new EvolutionMethod[count];
                 for (int j = 0; j < m.Length; j++)
                 {
-                    m[j] = GetMethod(data, ofs);
+                    m[j] = GetMethod(data.Slice(ofs, bpe));
                     ofs += bpe;
                 }
                 evos[i] = m;

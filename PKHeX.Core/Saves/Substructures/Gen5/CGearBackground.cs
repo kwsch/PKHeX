@@ -454,10 +454,10 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal int GetRotationValue(int[] tileColors)
+        internal int GetRotationValue(ReadOnlySpan<int> tileColors)
         {
             // Check all rotation types
-            if (ColorChoices.SequenceEqual(tileColors))
+            if (tileColors.SequenceEqual(ColorChoices))
                 return 0;
 
             if (IsMirrorX(tileColors))
@@ -470,7 +470,7 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private bool IsMirrorX(int[] tileColors)
+        private bool IsMirrorX(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -481,7 +481,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMirrorY(int[] tileColors)
+        private bool IsMirrorY(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -492,7 +492,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMirrorXY(int[] tileColors)
+        private bool IsMirrorXY(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {

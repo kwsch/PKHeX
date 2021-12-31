@@ -43,7 +43,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
         {
             var evos = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
             evos[0] = Array.Empty<EvolutionMethod>();
@@ -71,7 +71,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(data.AsSpan(offset + (j * size), size));
+                    set[j] = GetMethod(data.Slice(offset + (j * size), size));
                 evos[g4species] = set;
             }
             return evos;

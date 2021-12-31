@@ -31,7 +31,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea3(byte[] data, GameVersion game) : base(game)
+        private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
@@ -40,7 +40,7 @@ namespace PKHeX.Core
             Slots = ReadRegularSlots(data);
         }
 
-        private EncounterArea3(byte[] data, GameVersion game, SlotType type) : base(game)
+        private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType type) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = type;

@@ -53,7 +53,7 @@ namespace PKHeX.Core
             if (data.Length == 0)
                 return None;
 
-            int count = ReadInt16LittleEndian(data[..]);
+            int count = ReadInt16LittleEndian(data);
             var moves = new int[count];
             for (int i = 0; i < moves.Length; i++)
                 moves[i] = ReadInt16LittleEndian(data[(2 + (i * 2))..]);
@@ -81,11 +81,13 @@ namespace PKHeX.Core
             if (data.Length == 0)
                 return None;
 
-            int formIndex = ReadInt16LittleEndian(data[..]);
+            int formIndex = ReadInt16LittleEndian(data);
             int count = ReadInt16LittleEndian(data[2..]);
             var moves = new int[count];
+
+            var moveSpan = data[4..];
             for (int i = 0; i < moves.Length; i++)
-                moves[i] = ReadInt16LittleEndian(data[(4 + (i * 2))..]);
+                moves[i] = ReadInt16LittleEndian(moveSpan[(i * 2)..]);
             return new EggMoves7(moves, formIndex);
         }
 

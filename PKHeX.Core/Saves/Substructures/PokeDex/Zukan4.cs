@@ -221,13 +221,13 @@ namespace PKHeX.Core
             return Value;
         }
 
-        private static bool TryInsertForm(int[] forms, int form)
+        private static bool TryInsertForm(Span<int> forms, int form)
         {
-            if (Array.IndexOf(forms, form) >= 0)
+            if (forms.IndexOf(form) >= 0)
                 return false; // already in list
 
             // insert at first empty
-            var index = Array.IndexOf(forms, -1);
+            var index = forms.IndexOf(-1);
             if (index < 0)
                 return false; // no free slots?
 
@@ -334,7 +334,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            var forms = GetForms(species);
+            Span<int> forms = GetForms(species);
             if (forms.Length == 0)
                 return;
 

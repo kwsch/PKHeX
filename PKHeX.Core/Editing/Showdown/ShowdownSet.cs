@@ -311,7 +311,7 @@ namespace PKHeX.Core
             return $"{Nickname} ({specForm})";
         }
 
-        private static IList<string> GetStringStats(int[] stats, int ignore)
+        private static IList<string> GetStringStats(ReadOnlySpan<int> stats, int ignore)
         {
             var result = new List<string>();
             for (int i = 0; i < stats.Length; i++)

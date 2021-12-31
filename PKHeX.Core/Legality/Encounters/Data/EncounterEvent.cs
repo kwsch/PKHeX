@@ -36,24 +36,24 @@ namespace PKHeX.Core
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Count != 0;
 
-        private static PCD[] GetPCDDB(byte[] bin) => Get(bin, PCD.Size, d => new PCD(d));
-        private static PGF[] GetPGFDB(byte[] bin) => Get(bin, PGF.Size, d => new PGF(d));
+        private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, d => new PCD(d));
+        private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, d => new PGF(d));
 
-        private static WC6[] GetWC6DB(byte[] wc6bin, byte[] wc6full) => WC6Full.GetArray(wc6full, wc6bin);
-        private static WC7[] GetWC7DB(byte[] wc7bin, byte[] wc7full) => WC7Full.GetArray(wc7full, wc7bin);
+        private static WC6[] GetWC6DB(ReadOnlySpan<byte> wc6bin, ReadOnlySpan<byte> wc6full) => WC6Full.GetArray(wc6full, wc6bin);
+        private static WC7[] GetWC7DB(ReadOnlySpan<byte> wc7bin, ReadOnlySpan<byte> wc7full) => WC7Full.GetArray(wc7full, wc7bin);
 
-        private static WB7[] GetWB7DB(byte[] bin) => Get(bin, WB7.SizeFull, d => new WB7(d));
-        private static WC8[] GetWC8DB(byte[] bin) => Get(bin, WC8.Size, d => new WC8(d));
-        private static WB8[] GetWB8DB(byte[] bin) => Get(bin, WB8.Size, d => new WB8(d));
+        private static WB7[] GetWB7DB(ReadOnlySpan<byte> bin) => Get(bin, WB7.SizeFull, d => new WB7(d));
+        private static WC8[] GetWC8DB(ReadOnlySpan<byte> bin) => Get(bin, WC8.Size, d => new WC8(d));
+        private static WB8[] GetWB8DB(ReadOnlySpan<byte> bin) => Get(bin, WB8.Size, d => new WB8(d));
 
-        private static T[] Get<T>(byte[] bin, int size, Func<byte[], T> ctor)
+        private static T[] Get<T>(ReadOnlySpan<byte> bin, int size, Func<byte[], T> ctor)
         {
             var result = new T[bin.Length / size];
             System.Diagnostics.Debug.Assert(result.Length * size == bin.Length);
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = i * size;
-                var slice = bin.Slice(offset, size);
+                var slice = bin.Slice(offset, size).ToArray();
                 result[i] = ctor(slice);
             }
             return result;

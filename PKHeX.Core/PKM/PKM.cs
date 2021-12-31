@@ -23,10 +23,10 @@ namespace PKHeX.Core
         protected PKM(byte[] data) => Data = data;
         protected PKM(int size) => Data = new byte[size];
 
-        public virtual byte[] EncryptedPartyData => ArrayUtil.Truncate(Encrypt(), SIZE_PARTY);
-        public virtual byte[] EncryptedBoxData => ArrayUtil.Truncate(Encrypt(), SIZE_STORED);
-        public virtual byte[] DecryptedPartyData => ArrayUtil.Truncate(Write(), SIZE_PARTY);
-        public virtual byte[] DecryptedBoxData => ArrayUtil.Truncate(Write(), SIZE_STORED);
+        public virtual byte[] EncryptedPartyData => Encrypt().AsSpan()[..SIZE_PARTY].ToArray();
+        public virtual byte[] EncryptedBoxData => Encrypt().AsSpan()[..SIZE_STORED].ToArray();
+        public virtual byte[] DecryptedPartyData => Write().AsSpan()[..SIZE_PARTY].ToArray();
+        public virtual byte[] DecryptedBoxData => Write().AsSpan()[..SIZE_STORED].ToArray();
 
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 

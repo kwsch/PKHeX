@@ -18,6 +18,11 @@ namespace PKHeX.Core
             Index = index;
             var offset = baseOffset + (SIZE * index);
             var span = data.AsSpan(offset, SIZE);
+            Read(span);
+        }
+
+        private void Read(ReadOnlySpan<byte> span)
+        {
             IsGet = ReadUInt32LittleEndian(span) == 1;
             Count = ReadInt32LittleEndian(span[4..]);
             TotalCount = ReadInt32LittleEndian(span[8..]);
@@ -27,6 +32,11 @@ namespace PKHeX.Core
         {
             var offset = baseOffset + (SIZE * Index);
             var span = data.AsSpan(offset, SIZE);
+            Write(span);
+        }
+
+        private void Write(Span<byte> span)
+        {
             WriteUInt32LittleEndian(span, IsGet ? 1u : 0u);
             WriteInt32LittleEndian(span[4..], Count);
             WriteInt32LittleEndian(span[8..], TotalCount);
