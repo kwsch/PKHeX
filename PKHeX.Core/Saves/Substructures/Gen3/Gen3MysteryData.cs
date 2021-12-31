@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public bool IsChecksumValid() => Checksum == GetChecksum(Data);
         public void FixChecksum() => Checksum = GetChecksum(Data);
 
-        private static uint GetChecksum(byte[] data)
+        private static uint GetChecksum(ReadOnlySpan<byte> data)
         {
             uint sum = 0;
             for (var i = 4; i < data.Length; i++)

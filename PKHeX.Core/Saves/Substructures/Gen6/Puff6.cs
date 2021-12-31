@@ -43,7 +43,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < PuffSlots; i++)
                     Data[Offset + i] = (byte)((i % MaxPuffID) + 1);
-                Util.Shuffle(Data, Offset, Offset + PuffSlots, rnd);
+                Util.Shuffle(Data.AsSpan(), Offset, Offset + PuffSlots, rnd);
             }
             PuffCount = PuffSlots;
         }

@@ -85,11 +85,10 @@ namespace PKHeX.Core
 
             // Decrypt most recent save slot
             {
-                byte[] slot = new byte[SLOT_SIZE];
                 int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-                Array.Copy(Data, slotOffset, slot, 0, slot.Length);
-                byte[] digest = new byte[20];
-                Array.Copy(slot, SLOT_SIZE - 20, digest, 0, digest.Length);
+                ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
+                Span<byte> digest = stackalloc byte[20];
+                slot[^20..].CopyTo(digest);
 
                 // Decrypt Slot
                 Data = DecryptColosseum(slot, digest);
@@ -114,8 +113,10 @@ namespace PKHeX.Core
             SetChecksums();
 
             // Get updated save slot data
-            byte[] digest = Data.Slice(Data.Length - 20, 20);
-            byte[] newSAV = EncryptColosseum(Data, digest);
+            ReadOnlySpan<byte> slot = Data;
+            Span<byte> digest = stackalloc byte[20];
+            slot[^20..].CopyTo(digest);
+            byte[] newSAV = EncryptColosseum(slot, digest);
 
             // Put save slot back in original save data
             byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) State.BAK.Clone();
@@ -153,49 +154,48 @@ namespace PKHeX.Core
         public override int BoxCount => 3;
         public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGC(data);
 
-        private static byte[] EncryptColosseum(byte[] input, byte[] digest)
+        private static byte[] EncryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
         {
             if (input.Length != SLOT_SIZE)
                 throw new ArgumentException(nameof(input));
 
-            byte[] d = (byte[])input.Clone();
-            byte[] k = (byte[])digest.Clone(); // digest
+            byte[] output = input.ToArray();
 
             // NOT key
             for (int i = 0; i < 20; i++)
-                k[i] = (byte)~k[i];
+                digest[i] = (byte)~digest[i];
 
             using var sha1 = SHA1.Create();
             for (int i = 0x18; i < 0x1DFD8; i += 20)
             {
                 for (int j = 0; j < 20; j++)
-                    d[i + j] ^= k[j];
-                k = sha1.ComputeHash(d, i, 20); // update digest
+                    output[i + j] ^= digest[j];
+                byte[] key = sha1.ComputeHash(output, i, 20); // update digest
+                key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
             }
-            return d;
+            return output;
         }
 
-        private static byte[] DecryptColosseum(byte[] input, byte[] digest)
+        private static byte[] DecryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
         {
             if (input.Length != SLOT_SIZE)
                 throw new ArgumentException(nameof(input));
 
-            byte[] d = (byte[])input.Clone();
-            byte[] k = (byte[])digest.Clone();
+            byte[] output = input.ToArray();
 
             // NOT key
             for (int i = 0; i < 20; i++)
-                k[i] = (byte)~k[i];
+                digest[i] = (byte)~digest[i];
 
             using var sha1 = SHA1.Create();
             for (int i = 0x18; i < 0x1DFD8; i += 20)
             {
-                byte[] key = sha1.ComputeHash(d, i, 20); // update digest
+                byte[] key = sha1.ComputeHash(output, i, 20); // update digest
                 for (int j = 0; j < 20; j++)
-                    d[i + j] ^= k[j];
-                Array.Copy(key, k, 20); // for use in next loop
+                    output[i + j] ^= digest[j];
+                key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
             }
-            return d;
+            return output;
         }
 
         protected override void SetChecksums()

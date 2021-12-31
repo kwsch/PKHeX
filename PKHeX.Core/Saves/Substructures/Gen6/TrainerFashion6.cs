@@ -10,9 +10,10 @@ namespace PKHeX.Core
         protected uint data2;
         protected uint data3;
 
-        protected TrainerFashion6(byte[] data, int offset)
+        protected TrainerFashion6(ReadOnlySpan<byte> data, int offset) : this(data[offset..]) { }
+
+        private TrainerFashion6(ReadOnlySpan<byte> span)
         {
-            var span = data.AsSpan(offset);
             data0 = ReadUInt32LittleEndian(span);
             data1 = ReadUInt32LittleEndian(span[04..]);
             data2 = ReadUInt32LittleEndian(span[08..]);

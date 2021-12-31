@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -449,7 +448,7 @@ namespace PKHeX.Core
 
         private void SetIVs(PKM pk)
         {
-            int[] finalIVs = new int[6];
+            Span<int> finalIVs = stackalloc int[6];
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             var rnd = Util.Rand;
             if (ivflag == 0) // Random IVs
@@ -461,11 +460,11 @@ namespace PKHeX.Core
             {
                 int IVCount = ivflag - 0xFB;
                 do { finalIVs[rnd.Next(6)] = 31; }
-                while (finalIVs.Count(iv => iv == 31) < IVCount);
+                while (finalIVs.Count(31) < IVCount);
                 for (int i = 0; i < 6; i++)
                     finalIVs[i] = finalIVs[i] == 31 ? 31 : rnd.Next(32);
             }
-            pk.IVs = finalIVs;
+            pk.SetIVs(finalIVs);
         }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)

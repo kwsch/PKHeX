@@ -102,13 +102,15 @@ namespace PKHeX.Core
                 pkDat.CopyTo(Data, dest);
             }
 
-            byte[] rawDC = new byte[0x38];
-            Array.Copy(Data, Offsets.Daycare, rawDC, 0, rawDC.Length);
+            Span<byte> rawDC = stackalloc byte[0x38];
+            Data.AsSpan(Offsets.Daycare, rawDC.Length).CopyTo(rawDC);
             byte[] TempDaycare = new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
             TempDaycare[0] = rawDC[0];
-            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength);
-            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength);
-            Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PokeCrypto.SIZE_1STORED);
+
+            rawDC.Slice(1, StringLength).CopyTo(TempDaycare.AsSpan(2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength));
+            rawDC.Slice(1 + StringLength, StringLength).CopyTo(TempDaycare.AsSpan(2 + 1 + PokeCrypto.SIZE_1PARTY));
+            rawDC.Slice(1 + (2 * StringLength), PokeCrypto.SIZE_1STORED).CopyTo(TempDaycare.AsSpan(2 + 1));
+
             PokeList1 daycareList = new(TempDaycare, PokeListType.Single, Japanese);
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             DaycareOffset = GetPartyOffset(7);
@@ -162,18 +164,16 @@ namespace PKHeX.Core
             partyPL.Write().CopyTo(Data, Offsets.Party);
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
-            byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
-            byte[] dc = new byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
+            Span<byte> rawDC = Data.AsSpan(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
+            Span<byte> dc = stackalloc byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
             dc[0] = IsDaycareOccupied(0, 0) == true ? (byte)1 : (byte)0;
-            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, dc, 1, StringLength);
-            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
-            Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PokeCrypto.SIZE_1STORED);
-            dc.CopyTo(Data, Offsets.Daycare);
+            rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength).CopyTo(dc[1..]);
+            rawDC.Slice(2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength).CopyTo(dc[(1 + StringLength)..]);
+            rawDC.Slice(2 + 1, PokeCrypto.SIZE_1STORED).CopyTo(dc[(1 + (2 * StringLength))..]);
+            dc.CopyTo(Data.AsSpan(Offsets.Daycare));
 
             SetChecksums();
-            byte[] outData = new byte[Data.Length - SIZE_RESERVED];
-            Array.Copy(Data, outData, outData.Length);
-            return outData;
+            return Data.AsSpan()[..^SIZE_RESERVED].ToArray();
         }
 
         private int GetBoxRawDataOffset(int box)
@@ -276,7 +276,7 @@ namespace PKHeX.Core
 
         public int PikaBeachScore
         {
-            get => BinaryCodedDecimal.ToInt32LE(Data, Offsets.PikaBeachScore, 2);
+            get => BinaryCodedDecimal.ToInt32LE(Data.AsSpan(Offsets.PikaBeachScore, 2));
             set => BinaryCodedDecimal.WriteBytesLE(Data.AsSpan(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
         }
 
@@ -362,7 +362,7 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get => (uint)BinaryCodedDecimal.ToInt32BE(Data, Offsets.Money, 3);
+            get => (uint)BinaryCodedDecimal.ToInt32BE(Data.AsSpan(Offsets.Money, 3));
             set
             {
                 value = (uint)Math.Min(value, MaxMoney);
@@ -372,7 +372,7 @@ namespace PKHeX.Core
 
         public uint Coin
         {
-            get => (uint)BinaryCodedDecimal.ToInt32BE(Data, Offsets.Coin, 2);
+            get => (uint)BinaryCodedDecimal.ToInt32BE(Data.AsSpan(Offsets.Coin, 2));
             set
             {
                 value = (ushort)Math.Min(value, MaxCoins);

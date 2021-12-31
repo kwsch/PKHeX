@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -102,7 +101,11 @@ namespace PKHeX.Core
                 case (int)Species.Wormadam: // Wormadam
                     return GetDexFormValues(Data[FormOffset1 + 3], 2, 3);
                 case (int)Species.Unown: // Unown
-                    return Data.Slice(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
+                    int[] result = new int[0x1C];
+                    var slice = Data.AsSpan(FormOffset1 + 4);
+                    for (int i = 0; i < result.Length; i++)
+                        result[i] = slice[i];
+                    return result;
             }
             if (DP)
                 return Array.Empty<int>();
@@ -119,7 +122,7 @@ namespace PKHeX.Core
             };
         }
 
-        public void SetForms(int species, int[] forms)
+        public void SetForms(int species, ReadOnlySpan<int> forms)
         {
             const int brSize = 0x40;
             switch (species)
@@ -149,10 +152,12 @@ namespace PKHeX.Core
                 case (int)Species.Unown: // Unown
                     int ofs = FormOffset1 + 4;
                     int len = forms.Length;
-                    Array.Resize(ref forms, 0x1C);
+                    Span<byte> unown = stackalloc byte[0x1C];
+                    for (int i = 0; i < len; i++)
+                        unown[i] = (byte)forms[i];
                     for (int i = len; i < forms.Length; i++)
-                        forms[i] = 0xFF;
-                    Array.Copy(forms.Select(b => (byte)b).ToArray(), 0, Data, ofs, forms.Length);
+                        unown[i] = 0xFF;
+                    unown.CopyTo(Data.AsSpan(ofs));
                     return;
             }
 
@@ -199,7 +204,7 @@ namespace PKHeX.Core
             return Forms;
         }
 
-        private static uint SetDexFormValues(int[] Forms, int BitsPerForm, int readCt)
+        private static uint SetDexFormValues(ReadOnlySpan<int> Forms, int BitsPerForm, int readCt)
         {
             int n1 = 0xFF >> (8 - BitsPerForm);
             uint Value = 0xFFFFFFFF << (readCt * BitsPerForm);
@@ -459,7 +464,9 @@ namespace PKHeX.Core
             if (forms.Length <= 1)
                 return;
 
-            var values = forms.Select((_, i) => i).ToArray();
+            Span<int> values = stackalloc int[forms.Length];
+            for (int i = 1; i < values.Length; i++)
+                values[i] = i;
             SetForms(species, values);
         }
 

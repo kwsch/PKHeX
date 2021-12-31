@@ -33,9 +33,9 @@ namespace PKHeX.Core
 
         private StrategyMemoEntry Read(byte[] input, int offset, int index)
         {
-            byte[] data = new byte[SIZE_ENTRY];
             var ofs = 4 + offset + (SIZE_ENTRY * index);
-            Array.Copy(input, ofs, data, 0, SIZE_ENTRY);
+            var span = input.AsSpan(ofs, SIZE_ENTRY);
+            var data = span.ToArray();
             return new StrategyMemoEntry(XD, data);
         }
 

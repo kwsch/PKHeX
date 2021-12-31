@@ -152,7 +152,7 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;

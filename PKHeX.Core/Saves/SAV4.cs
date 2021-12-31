@@ -94,9 +94,9 @@ namespace PKHeX.Core
 
         // Checksums
         protected abstract int FooterSize { get; }
-        private ushort CalcBlockChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, 0, data.Length - FooterSize));
-        private static ushort GetBlockChecksumSaved(byte[] data) => ReadUInt16LittleEndian(data.AsSpan(data.Length - 2));
-        private bool GetBlockChecksumValid(byte[] data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
+        private ushort CalcBlockChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data[..^FooterSize]);
+        private static ushort GetBlockChecksumSaved(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[^2..]);
+        private bool GetBlockChecksumValid(ReadOnlySpan<byte> data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
         protected sealed override void SetChecksums()
         {
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static int GetActiveBlock(byte[] data, int begin, int length)
+        private static int GetActiveBlock(ReadOnlySpan<byte> data, int begin, int length)
         {
             int offset = begin + length - 0x14;
             return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
@@ -372,14 +372,13 @@ namespace PKHeX.Core
                 if (GiftFlagMax != value.Length)
                     return;
 
-                byte[] data = new byte[value.Length / 8];
+                Span<byte> data = General.AsSpan(WondercardFlags, value.Length / 8);
+                data.Clear();
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (value[i])
                         data[i >> 3] |= (byte)(1 << (i & 7));
                 }
-
-                SetData(General, data, WondercardFlags);
             }
         }
 

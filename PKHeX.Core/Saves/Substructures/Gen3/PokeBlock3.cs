@@ -32,10 +32,9 @@ namespace PKHeX.Core
 
         public void SetBlock(byte[] data, int offset) => Data.CopyTo(data, offset);
 
-        public static PokeBlock3 GetBlock(byte[] data, int offset)
+        public static PokeBlock3 GetBlock(ReadOnlySpan<byte> data, int offset)
         {
-            byte[] result = new byte[SIZE];
-            Array.Copy(data, offset, result, 0, SIZE);
+            byte[] result = data.Slice(offset, SIZE).ToArray();
             return new PokeBlock3(result);
         }
     }

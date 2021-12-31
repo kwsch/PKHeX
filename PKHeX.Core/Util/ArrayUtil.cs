@@ -18,6 +18,22 @@ namespace PKHeX.Core
             return true;
         }
 
+        public static int Count<T>(this Span<T> data, T value) where T : IEquatable<T>
+        {
+            return ((ReadOnlySpan<T>)data).Count(value);
+        }
+
+        public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
+        {
+            int count = 0;
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                if (data[i].Equals(value))
+                    count++;
+            }
+            return count;
+        }
+
         public static byte[] Truncate(byte[] data, int newSize) => data.AsSpan(0, newSize).ToArray();
         public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
         public static byte[] SliceEnd(this byte[] src, int offset) => src.AsSpan(offset).ToArray();

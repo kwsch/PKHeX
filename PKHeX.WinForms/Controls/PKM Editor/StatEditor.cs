@@ -457,7 +457,7 @@ namespace PKHeX.WinForms.Controls
             pk.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
         }
 
-        public void LoadEVs(int[] EVs)
+        public void LoadEVs(ReadOnlySpan<int> EVs)
         {
             ChangingFields = true;
              TB_EVHP.Text = EVs[0].ToString();
@@ -470,7 +470,7 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        public void LoadIVs(int[] IVs)
+        public void LoadIVs(ReadOnlySpan<int> IVs)
         {
             ChangingFields = true;
              TB_IVHP.Text = IVs[0].ToString();

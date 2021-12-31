@@ -146,15 +146,18 @@ namespace PKHeX.Core
 
         private PK2 ReadPKMFromOffset(int offset)
         {
-            byte[] nick = new byte[StringLength];
-            byte[] ot = new byte[StringLength];
-            byte[] pk = new byte[PokeCrypto.SIZE_2STORED];
+            var stringLength = StringLength;
+            var span = Data.AsSpan(offset);
 
-            Array.Copy(Data, offset, nick, 0, nick.Length); offset += nick.Length;
-            Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
-            Array.Copy(Data, offset, pk, 0, pk.Length);
+            var pkData = span.Slice(stringLength * 2, PokeCrypto.SIZE_2STORED).ToArray();
+            var pk = new PK2(pkData, jp: Japanese);
 
-            return new PK2(pk, jp: Japanese) { OT_Trash = ot, Nickname_Trash = nick };
+            var nick = span[..stringLength];
+            var ot = span.Slice(stringLength, stringLength);
+            nick.CopyTo(pk.RawNickname);
+            ot.CopyTo(pk.RawOT);
+
+            return pk;
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
@@ -202,25 +205,25 @@ namespace PKHeX.Core
             {
                 switch (Version)
                 {
-                    case GameVersion.GS: Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xC83); break;
-                    case GameVersion.C:  Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xADA); break;
+                    case GameVersion.GS: Data.AsSpan(Offsets.Trainer1, 0xC83).CopyTo(Data.AsSpan(0x7209)); break;
+                    case GameVersion.C:  Data.AsSpan(Offsets.Trainer1, 0xADA).CopyTo(Data.AsSpan(0x7209)); break;
                 }
             }
             else if (Korean)
             {
                 // Calculate oddball checksum
                 ushort sum = 0;
-                ushort[][] offsetpairs =
+                Span<(ushort, ushort)> offsetpairs = stackalloc (ushort,ushort)[]
                 {
-                    new ushort[] {0x106B, 0x1533},
-                    new ushort[] {0x1534, 0x1A12},
-                    new ushort[] {0x1A13, 0x1C38},
-                    new ushort[] {0x3DD8, 0x3F79},
-                    new ushort[] {0x7E39, 0x7E6A},
+                    (0x106B, 0x1533),
+                    (0x1534, 0x1A12),
+                    (0x1A13, 0x1C38),
+                    (0x3DD8, 0x3F79),
+                    (0x7E39, 0x7E6A),
                 };
-                foreach (ushort[] p in offsetpairs)
+                foreach (var p in offsetpairs)
                 {
-                    for (int i = p[0]; i < p[1]; i++)
+                    for (int i = p.Item1; i < p.Item2; i++)
                         sum += Data[i];
                 }
                 WriteUInt16LittleEndian(Data.AsSpan(0x7E6B), sum);

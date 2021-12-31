@@ -128,16 +128,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static byte[] CGBtoPSK(byte[] cgb)
+        private static byte[] CGBtoPSK(ReadOnlySpan<byte> cgb)
         {
-            byte[] psk = (byte[])cgb.Clone();
+            byte[] psk = cgb.ToArray();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                var tileVal = ReadUInt16LittleEndian(cgb.AsSpan(i));
+                var span = psk.AsSpan(i);
+                var tileVal = ReadUInt16LittleEndian(span);
                 int val = GetPSKValue(tileVal);
-
-                psk[i] = (byte)val;
-                psk[i + 1] = (byte)(val >> 8);
+                WriteUInt16LittleEndian(span, (ushort)val);
             }
             return psk;
         }
@@ -152,12 +151,12 @@ namespace PKHeX.Core
             return tile + (15 * (tile / 17)) + 0xA0A0 + rot;
         }
 
-        private static byte[] PSKtoCGB(byte[] psk)
+        private static byte[] PSKtoCGB(ReadOnlySpan<byte> psk)
         {
-            byte[] cgb = (byte[])psk.Clone();
+            byte[] cgb = psk.ToArray();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                int val = ReadUInt16LittleEndian(psk.AsSpan(i));
+                int val = ReadUInt16LittleEndian(psk[i..]);
                 int index = ValToIndex(val);
 
                 byte tile = (byte)index;

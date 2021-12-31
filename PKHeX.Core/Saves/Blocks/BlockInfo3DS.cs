@@ -32,37 +32,37 @@ namespace PKHeX.Core
         }
 
         private int ChecksumOffset => BlockInfoOffset + 0x14 + ((int)ID * 8) + 6;
-        protected abstract ushort GetChecksum(byte[] data);
+        protected abstract ushort GetChecksum(Span<byte> data);
 
-        protected override bool ChecksumValid(byte[] data)
+        protected override bool ChecksumValid(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            var old = ReadUInt16LittleEndian(data.AsSpan(ChecksumOffset));
+            var old = ReadUInt16LittleEndian(data[ChecksumOffset..]);
             return chk == old;
         }
 
-        protected override void SetChecksum(byte[] data)
+        protected override void SetChecksum(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            WriteUInt16LittleEndian(data.AsSpan(ChecksumOffset), chk);
+            WriteUInt16LittleEndian(data[ChecksumOffset..], chk);
         }
     }
 
     public sealed class BlockInfo6 : BlockInfo3DS
     {
         public BlockInfo6(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, Offset, Length));
+        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
     }
 
     public sealed class BlockInfo7 : BlockInfo3DS
     {
         public BlockInfo7(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16Invert(new ReadOnlySpan<byte>(data, Offset, Length));
+        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16Invert(data.Slice(Offset, Length));
     }
 
     public sealed class BlockInfo7b : BlockInfo3DS
     {
         public BlockInfo7b(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16NoInvert(new ReadOnlySpan<byte>(data, Offset, Length));
+        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16NoInvert(data.Slice(Offset, Length));
     }
 }

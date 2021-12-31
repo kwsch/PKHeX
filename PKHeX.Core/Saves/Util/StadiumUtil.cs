@@ -11,7 +11,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="magic"/> value is present either with or without byte-swapping.
         /// </summary>
-        public static bool IsMagicPresentEither(byte[] data, int size, uint magic)
+        public static bool IsMagicPresentEither(ReadOnlySpan<byte> data, int size, uint magic)
         {
             if (IsMagicPresent(data, size, magic))
                 return true;
@@ -25,12 +25,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="magic"/> value is present without byte-swapping.
         /// </summary>
-        public static bool IsMagicPresent(byte[] data, int size, uint magic)
+        public static bool IsMagicPresent(ReadOnlySpan<byte> data, int size, uint magic)
         {
             // Check footers of first few teams to see if the magic value is there.
             for (int i = 0; i < 10; i++)
             {
-                var footer = data.AsSpan(size - 6 + (i * size));
+                var footer = data[(size - 6 + (i * size))..];
                 if (ReadUInt32LittleEndian(footer) != magic)
                     return false;
             }

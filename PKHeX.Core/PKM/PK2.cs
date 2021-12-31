@@ -169,15 +169,15 @@ namespace PKHeX.Core
 
             // IVs
             var special = Species is 151 or 251;
-            var new_ivs = new int[6];
+            Span<int> finalIVs = stackalloc int[6];
             int flawless = special ? 5 : 3;
             var rnd = Util.Rand;
-            for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(32);
+            for (var i = 0; i < finalIVs.Length; i++)
+                finalIVs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
-                new_ivs[i] = 31;
-            Util.Shuffle(new_ivs);
-            pk7.IVs = new_ivs;
+                finalIVs[i] = 31;
+            Util.Shuffle(finalIVs);
+            pk7.SetIVs(finalIVs);
 
             switch (IsShiny ? Shiny.Always : Shiny.Never)
             {

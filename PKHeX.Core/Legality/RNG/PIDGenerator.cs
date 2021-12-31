@@ -127,7 +127,9 @@ namespace PKHeX.Core
             pk.HeldItem = (int)(C >> 31) + 169; // 0-Ganlon, 1-Salac
             pk.Version = (int)(D >> 31) + 1; // 0-Sapphire, 1-Ruby
             pk.OT_Gender = (int)(E >> 31);
-            pk.IVs = rng.GetSequentialIVsInt32(E);
+            Span<int> ivs = stackalloc int[6];
+            rng.GetSequentialIVsInt32(E, ivs);
+            pk.SetIVs(ivs);
         }
 
         public static void SetValuesFromSeed(PKM pk, PIDType type, uint seed)

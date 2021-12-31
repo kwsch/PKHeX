@@ -26,7 +26,7 @@ namespace PKHeX.Core
             InitializeData(data);
         }
 
-        private void InitializeData(byte[] data)
+        private void InitializeData(ReadOnlySpan<byte> data)
         {
             Data = DecryptPBRSaveData(data);
 
@@ -143,7 +143,7 @@ namespace PKHeX.Core
         public override bool ChecksumsValid => IsChecksumsValid(Data);
         public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
-        public static bool IsChecksumsValid(byte[] sav)
+        public static bool IsChecksumsValid(Span<byte> sav)
         {
             return VerifyChecksum(sav, 0x000000, 0x1C0000, 0x1BFF80)
                 && VerifyChecksum(sav, 0x000000, 0x000100, 0x000008)
@@ -247,91 +247,84 @@ namespace PKHeX.Core
             pkm.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
         }
 
-        public static byte[] DecryptPBRSaveData(byte[] input)
+        public static byte[] DecryptPBRSaveData(ReadOnlySpan<byte> input)
         {
             byte[] output = new byte[input.Length];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                var keys = GetKeys(input, i);
-                Array.Copy(input, i, output, i, 8);
+                ReadKeys(input, i, keys);
+                input.Slice(i, 8).CopyTo(output.AsSpan(i, 8));
                 GeniusCrypto.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
 
-        private static byte[] EncryptPBRSaveData(byte[] input)
+        private static byte[] EncryptPBRSaveData(ReadOnlySpan<byte> input)
         {
             byte[] output = new byte[input.Length];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                var keys = GetKeys(input, i);
-                Array.Copy(input, i, output, i, 8);
+                ReadKeys(input, i, keys);
+                input.Slice(i, 8).CopyTo(output.AsSpan(i, 8));
                 GeniusCrypto.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
 
-        private static ushort[] GetKeys(byte[] input, int ofs)
+        private static void ReadKeys(ReadOnlySpan<byte> input, int ofs, Span<ushort> keys)
         {
-            ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
-                keys[i] = ReadUInt16BigEndian(input.AsSpan(ofs + (i * 2)));
-            return keys;
+                keys[i] = ReadUInt16BigEndian(input[(ofs + (i * 2))..]);
         }
 
-        public static bool VerifyChecksum(byte[] input, int offset, int len, int checksum_offset)
+        public static bool VerifyChecksum(Span<byte> input, int offset, int len, int checksum_offset)
         {
-            uint[] storedChecksums = new uint[16];
-            for (int i = 0; i < storedChecksums.Length; i++)
+            Span<uint> originalChecksums = stackalloc uint[16];
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                var chk = input.AsSpan(checksum_offset + (i * 4), 4);
-                storedChecksums[i] = ReadUInt32BigEndian(chk);
+                var chk = input.Slice(checksum_offset + (i * 4), 4);
+                originalChecksums[i] = ReadUInt32BigEndian(chk);
                 chk.Clear();
             }
 
-            uint[] checksums = new uint[16];
-
-            for (int i = 0; i < len; i += 2)
+            Span<uint> checksums = stackalloc uint[16];
+            var span = input.Slice(offset, len);
+            for (int i = 0; i < span.Length; i += 2)
             {
-                uint val = ReadUInt16BigEndian(input.AsSpan(offset + i));
+                uint val = ReadUInt16BigEndian(span[i..]);
                 for (int j = 0; j < 16; j++)
-                {
                     checksums[j] += ((val >> j) & 1);
-                }
             }
 
             // Restore original checksums
-            for (int i = 0; i < storedChecksums.Length; i++)
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                var chk = storedChecksums[i];
-                var dest = input.AsSpan(checksum_offset + (i * 4));
+                var chk = originalChecksums[i];
+                var dest = input[(checksum_offset + (i * 4))..];
                 WriteUInt32BigEndian(dest, chk);
             }
 
             // Check if they match
-            for (int i = 0; i < storedChecksums.Length; i++)
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                if (storedChecksums[i] != checksums[i])
+                if (originalChecksums[i] != checksums[i])
                     return false;
             }
             return true;
         }
 
-        private static void SetChecksum(byte[] input, int offset, int len, int checksum_offset)
+        private static void SetChecksum(Span<byte> input, int offset, int len, int checksum_offset)
         {
-            uint[] storedChecksums = new uint[16];
-            for (int i = 0; i < storedChecksums.Length; i++)
-            {
-                var chk = input.AsSpan(checksum_offset + (i * 4), 4);
-                storedChecksums[i] = ReadUInt32BigEndian(chk);
-                chk.Clear();
-            }
+            // Wipe Checksum region.
+            input.Slice(checksum_offset, 4 * 16).Clear();
 
-            uint[] checksums = new uint[16];
-
+            Span<uint> checksums = stackalloc uint[16];
+            var span = input.Slice(offset, len);
             for (int i = 0; i < len; i += 2)
             {
-                uint val = ReadUInt16BigEndian(input.AsSpan(offset + i));
+                uint val = ReadUInt16BigEndian(span[i..]);
                 for (int j = 0; j < 16; j++)
                     checksums[j] += ((val >> j) & 1);
             }
@@ -339,7 +332,7 @@ namespace PKHeX.Core
             for (int i = 0; i < checksums.Length; i++)
             {
                 var chk = checksums[i];
-                var dest = input.AsSpan(checksum_offset + (i * 4));
+                var dest = input[(checksum_offset + (i * 4))..];
                 WriteUInt32BigEndian(dest, chk);
             }
         }

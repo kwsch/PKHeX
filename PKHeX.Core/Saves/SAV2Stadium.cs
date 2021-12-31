@@ -175,7 +175,7 @@ namespace PKHeX.Core
             return BoxContinue + ListHeaderSizeBox + ((box - 1) * BoxSize);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G2STAD)
                 return false;
@@ -183,7 +183,7 @@ namespace PKHeX.Core
         }
 
         // Check Box 1's footer magic.
-        private static bool IsStadiumJ(byte[] data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER);
     }
 
     public enum Stadium2TeamType

@@ -27,8 +27,14 @@ namespace PKHeX.Core
 
         public static GP1 FromData(byte[] data, int offset)
         {
+            var span = data.AsSpan(offset);
+            return FromData(span);
+        }
+
+        private static GP1 FromData(ReadOnlySpan<byte> span)
+        {
             var gpkm = new GP1();
-            Array.Copy(data, offset, gpkm.Data, 0, SIZE);
+            span[..SIZE].CopyTo(gpkm.Data);
             return gpkm;
         }
 

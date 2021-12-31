@@ -677,7 +677,7 @@ namespace PKHeX.WinForms
             var facility = f[entry];
             // there is a unknown value when not introduced...no reproducibility, just mistake?
             if (facility.IsIntroduced)
-                facility.TrainerFesID = new byte[12];
+                facility.ClearTrainerFesID();
             facility.IsIntroduced = false;
             facility.OT_Name = string.Empty;
             facility.Gender = 0;
@@ -755,7 +755,7 @@ namespace PKHeX.WinForms
         {
             if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
                 return;
-            SAV.SetData(new byte[] { 3 }, SAV.Fashion.Offset + 0xD0);
+            SAV.Data[SAV.Fashion.Offset + 0xD0] = 3;
             B_AgentGlass.Enabled = false;
             System.Media.SystemSounds.Asterisk.Play();
         }

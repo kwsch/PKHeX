@@ -49,7 +49,7 @@ namespace PKHeX.Core
                         max -= evs[i] = (byte)Math.Min(rnd.Next(Math.Min(300, max)), 252);
                     evs[5] = max;
                 } while (evs[5] > 252);
-                Util.Shuffle(evs);
+                Util.Shuffle(evs.AsSpan());
                 return evs;
             }
             else

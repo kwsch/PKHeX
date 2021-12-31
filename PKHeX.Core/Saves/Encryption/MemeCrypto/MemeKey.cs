@@ -27,19 +27,17 @@ namespace PKHeX.Core
         public MemeKey(MemeKeyIndex key)
         {
             DER = GetMemeData(key);
-            var _N = new byte[0x61];
-            var _E = new byte[0x3];
-            Array.Copy(DER, 0x18, _N, 0, 0x61);
-            Array.Copy(DER, 0x7B, _E, 0, 3);
-            Array.Reverse(_N);
+            var _N = DER.AsSpan(0x18, 0x61).ToArray();
+            var _E = DER.AsSpan(0x7B, 3).ToArray();
+            _N.AsSpan().Reverse();
+            _E.AsSpan().Reverse();
             N = new BigInteger(_N);
-            Array.Reverse(_E);
             E = new BigInteger(_E);
 
             if (key == MemeKeyIndex.PokedexAndSaveFile)
             {
-                var _D = (byte[])D_3.Clone();
-                Array.Reverse(_D);
+                var _D = D_3.AsSpan().ToArray();
+                _D.AsSpan().Reverse();
                 D = new BigInteger(_D);
             }
             else
@@ -95,47 +93,50 @@ namespace PKHeX.Core
             // How can we derive subkey?
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
-            Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
+            var last = outdata.AsSpan(((data.Length / 0x10) - 1) * 0x10, 0x10);
+            last.CopyTo(temp);
             temp = Xor(temp, outdata.AsSpan(0, 0x10));
-            var subkey = GetSubKey(temp);
+
+            Span<byte> subkey = stackalloc byte[0x10];
+            GetSubKey(temp, subkey);
             for (var i = 0; i < data.Length / 0x10; i++)
             {
-                Array.Copy(outdata, 0x10 * i, curblock, 0, 0x10);
+                var slice = outdata.AsSpan(0x10 * i, 0x10);
+                slice.CopyTo(curblock);
                 var temp1 = Xor(curblock, subkey);
-                Array.Copy(temp1, 0, outdata, 0x10 * i, 0x10);
+                temp1.AsSpan(0, 0x10).CopyTo(slice);
             }
 
             // Now we have Phase1Encrypt(buf).
-            Array.Clear(temp, 0, 0x10); // Clear to all zero
+            temp.AsSpan().Clear(); // Clear to all zero
             for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
             {
-                Array.Copy(outdata, i * 0x10, curblock, 0, 0x10);
+                var slice = outdata.AsSpan(0x10 * i, 0x10);
+                slice.CopyTo(curblock);
                 var temp1 = AesEcbDecrypt(key, curblock);
                 var temp2 = Xor(temp1, temp);
-                temp2.CopyTo(outdata, i * 0x10);
+                temp2.CopyTo(slice);
                 curblock.CopyTo(temp, 0);
             }
 
             var outbuf = input.ToArray();
-            Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
-
+            outdata.AsSpan()[..0x60].CopyTo(outbuf.AsSpan()[^0x60..]);
             return outbuf;
         }
 
         /// <summary>
         /// Perform Aes Encryption
         /// </summary>
-        internal byte[] AesEncrypt(byte[] input)
+        internal byte[] AesEncrypt(ReadOnlySpan<byte> input)
         {
             var key = GetAesKey(input);
-            var data = new byte[0x60];
-            Array.Copy(input, input.Length - 0x60, data, 0, 0x60);
+            var data = input[^0x60..];
             var temp = new byte[0x10];
             var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
             for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
             {
-                Array.Copy(data, i * 0x10, curblock, 0, 0x10);
+                data.Slice(i * 0x10, 0x10).CopyTo(curblock);
                 var temp1 = Xor(temp, curblock);
                 temp = AesEcbEncrypt(key, temp1);
                 temp.CopyTo(outdata, i * 0x10);
@@ -144,29 +145,31 @@ namespace PKHeX.Core
             // In between - CMAC stuff
             var inbet = outdata.AsSpan(0, 0x10);
             temp = Xor(temp, inbet);
-            var subkey = GetSubKey(temp);
 
-            Array.Clear(temp, 0, temp.Length); // Memcpy from an all-zero buffer
+            Span<byte> subkey = stackalloc byte[0x10];
+            GetSubKey(temp, subkey);
+
+            temp.AsSpan().Clear(); // Memcpy from an all-zero buffer
             for (var i = 0; i < data.Length / 0x10; i++)
             {
                 var ofs = ((data.Length / 0x10) - 1 - i) * 0x10;
-                Array.Copy(outdata, ofs, curblock, 0, 0x10);
+                var slice = outdata.AsSpan(ofs, 0x10);
+                slice.CopyTo(curblock);
                 byte[] temp2 = Xor(curblock, subkey);
                 byte[] temp3 = AesEcbEncrypt(key, temp2);
                 byte[] temp4 = Xor(temp3, temp);
-                Array.Copy(temp4, 0, outdata, ofs, 0x10);
+                temp4.CopyTo(slice);
                 temp = temp2;
             }
 
-            var outbuf = (byte[])input.Clone();
-            Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
+            var outbuf = input.ToArray();
+            outdata.AsSpan()[..0x60].CopyTo(outbuf.AsSpan()[^0x60..]);
 
             return outbuf;
         }
 
-        private static byte[] GetSubKey(byte[] temp)
+        private static void GetSubKey(ReadOnlySpan<byte> temp, Span<byte> subkey)
         {
-            var subkey = new byte[0x10];
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -177,7 +180,6 @@ namespace PKHeX.Core
             }
             if ((temp[0] & 0x80) != 0)
                 subkey[0xF] ^= 0x87;
-            return subkey;
         }
 
         private static byte[] Xor(byte[] b1, ReadOnlySpan<byte> b2)

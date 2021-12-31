@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -20,7 +19,7 @@ public class FlagUtilTests
         var value = FlagUtil.GetFlag(data, byteIndex, bitIndex);
         value.Should().Be(true);
 
-        var copy = new byte[data.Length];
+        Span<byte> copy = stackalloc byte[data.Length];
         FlagUtil.SetFlag(copy, byteIndex, bitIndex, true);
         data.SequenceEqual(copy).Should().BeTrue();
     }
@@ -35,12 +34,12 @@ public class FlagUtilTests
         value.Should().Be(false);
 
         // does nothing on empty
-        var copy = new byte[data.Length];
+        Span<byte> copy = stackalloc byte[data.Length];
         FlagUtil.SetFlag(copy, byteIndex, bitIndex, false);
-        copy.All(z => z == 0).Should().BeTrue();
+        copy.Count((byte)0).Should().Be(copy.Length);
 
         // doesn't clear any other flag
-        copy = data.ToArray();
+        data.CopyTo(copy);
         FlagUtil.SetFlag(copy, byteIndex, bitIndex, false);
         data.SequenceEqual(copy).Should().BeTrue();
     }

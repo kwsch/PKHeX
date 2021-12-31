@@ -28,8 +28,8 @@ namespace PKHeX.Core
             // initialize string buffers
             RawOT = new byte[strLen];
             RawNickname = new byte[strLen];
-            for (int i = 0; i < RawOT.Length; i++)
-                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
+            RawOT.AsSpan().Fill(StringConverter12.G1TerminatorCode);
+            RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
         }
 
         protected GBPKML(byte[] data, bool jp = false) : base(data)
@@ -39,8 +39,8 @@ namespace PKHeX.Core
             // initialize string buffers
             RawOT = new byte[strLen];
             RawNickname = new byte[strLen];
-            for (int i = 0; i < RawOT.Length; i++)
-                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
+            RawOT.AsSpan().Fill(StringConverter12.G1TerminatorCode);
+            RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
         }
 
         public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(RawNickname);

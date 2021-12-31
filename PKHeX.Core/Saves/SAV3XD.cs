@@ -64,20 +64,18 @@ namespace PKHeX.Core
 
             // Decrypt most recent save slot
             {
-                byte[] slot = new byte[SLOT_SIZE];
                 int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-                Array.Copy(Data, slotOffset, slot, 0, slot.Length);
-
-                ushort[] keys = new ushort[4];
+                ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
+                Span<ushort> keys = stackalloc ushort[4];
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = ReadUInt16BigEndian(slot.AsSpan(8 + (i * 2)));
+                    keys[i] = ReadUInt16BigEndian(slot[(8 + (i * 2))..]);
 
                 // Decrypt Slot
                 Data = GeniusCrypto.Decrypt(slot, 0x00010, 0x27FD8, keys);
             }
 
             // Get Offset Info
-            ushort[] subLength = new ushort[16];
+            Span<ushort> subLength = stackalloc ushort[16];
             for (int i = 0; i < 16; i++)
             {
                 subLength[i] = ReadUInt16BigEndian(Data.AsSpan(0x20 + (2 * i)));
@@ -137,7 +135,7 @@ namespace PKHeX.Core
             SetChecksums();
 
             // Get updated save slot data
-            ushort[] keys = new ushort[4];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < keys.Length; i++)
                 keys[i] = ReadUInt16BigEndian(Data.AsSpan(8 + (i * 2)));
             byte[] newSAV = GeniusCrypto.Encrypt(Data, 0x10, 0x27FD8, keys);
@@ -222,7 +220,7 @@ namespace PKHeX.Core
 
             // Body Checksum
             data.AsSpan(0x10, 0x10).Fill(0); // Clear old Checksum Data
-            uint[] checksum = new uint[4];
+            Span<uint> checksum = stackalloc uint[4];
             int dt = 8;
             for (int i = 0; i < checksum.Length; i++)
             {
@@ -234,7 +232,7 @@ namespace PKHeX.Core
                 checksum[i] = val;
             }
 
-            ushort[] newchks = new ushort[8];
+            Span<ushort> newchks = stackalloc ushort[8];
             for (int i = 0; i < 4; i++)
             {
                 newchks[i*2] = (ushort)(checksum[i] >> 16);

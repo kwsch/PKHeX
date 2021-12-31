@@ -60,7 +60,8 @@ namespace PKHeX.Tests.Util
             var result = BinaryCodedDecimal.ToInt32LE(data);
             result.Should().Be(expect);
 
-            var newData = BinaryCodedDecimal.GetBytesLE(result, 4);
+            Span<byte> newData = stackalloc byte[4];
+            BinaryCodedDecimal.WriteBytesLE(newData, result);
             data.SequenceEqual(newData).Should().BeTrue();
         }
 
@@ -74,7 +75,8 @@ namespace PKHeX.Tests.Util
             var result = BinaryCodedDecimal.ToInt32BE(data);
             result.Should().Be(expect);
 
-            var newData = BinaryCodedDecimal.GetBytesBE(result, 4);
+            Span<byte> newData = stackalloc byte[4];
+            BinaryCodedDecimal.WriteBytesBE(newData, result);
             data.SequenceEqual(newData).Should().BeTrue();
         }
     }

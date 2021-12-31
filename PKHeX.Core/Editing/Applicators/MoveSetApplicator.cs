@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 m = m.Intersect(learn).ToArray();
 
             if (random && !la.pkm.IsEgg)
-                Util.Shuffle(m);
+                Util.Shuffle(m.AsSpan());
 
             const int count = 4;
             if (m.Length > count)

@@ -265,7 +265,7 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G1STAD)
                 return false;
@@ -276,8 +276,8 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsStadiumU(byte[] data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeU, FOOTER_MAGIC);
-        private static bool IsStadiumJ(byte[] data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
+        private static bool IsStadiumU(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeU, FOOTER_MAGIC);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
     }
 
     public enum Stadium1TeamType

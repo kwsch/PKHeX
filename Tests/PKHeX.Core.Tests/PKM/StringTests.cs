@@ -18,7 +18,7 @@ namespace PKHeX.Tests.PKM
         {
             const string name_fabian = "Fabian♂";
             var pkm = new PK7 { OT_Name = name_fabian };
-            var byte_fabian = new byte[]
+            Span<byte> byte_fabian = stackalloc byte[]
             {
                 0x46, 0x00, // F
                 0x61, 0x00, // a
@@ -37,7 +37,7 @@ namespace PKHeX.Tests.PKM
         {
             const string name_nidoran = "ニドラン♀";
             var pkm = new PK7 { Nickname = name_nidoran };
-            var byte_nidoran = new byte[]
+            Span<byte> byte_nidoran = stackalloc byte[]
             {
                 0xCB, 0x30, // ニ
                 0xC9, 0x30, // ド

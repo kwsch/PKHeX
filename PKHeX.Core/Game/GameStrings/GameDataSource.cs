@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -78,7 +79,7 @@ namespace PKHeX.Core
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
             var list = s.gamelist;
-            var games = new byte[]
+            ReadOnlySpan<byte> games = stackalloc byte[]
             {
                 48, 49, // 8 bdsp
                 44, 45, // 8 swsh

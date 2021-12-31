@@ -12,8 +12,8 @@ namespace PKHeX.Core
 
         public string Summary => $"{ID:00}: {Offset:X5}-{Offset + Length - 1:X5}, {Length:X5}";
 
-        protected abstract bool ChecksumValid(byte[] data);
-        protected abstract void SetChecksum(byte[] data);
+        protected abstract bool ChecksumValid(Span<byte> data);
+        protected abstract void SetChecksum(Span<byte> data);
 
         /// <summary>
         /// Checks if the currently written checksum values are valid.
@@ -21,7 +21,7 @@ namespace PKHeX.Core
         /// <param name="blocks">Block info objects used for offset/length</param>
         /// <param name="data">Complete data array</param>
         /// <returns>True if checksums are valid, false if anything is invalid.</returns>
-        public static bool GetChecksumsValid(IEnumerable<BlockInfo> blocks, byte[] data)
+        public static bool GetChecksumsValid(IEnumerable<BlockInfo> blocks, Span<byte> data)
         {
             foreach (var b in blocks)
             {
@@ -39,7 +39,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="blocks">Block info objects used for offset/length</param>
         /// <param name="data">Complete data array</param>
-        public static void SetChecksums(IEnumerable<BlockInfo> blocks, byte[] data)
+        public static void SetChecksums(IEnumerable<BlockInfo> blocks, Span<byte> data)
         {
             foreach (var b in blocks)
                 b.SetChecksum(data);
@@ -51,14 +51,14 @@ namespace PKHeX.Core
         /// <param name="blocks">Block info objects used for offset/length</param>
         /// <param name="data">Complete data array</param>
         /// <returns>Multi-line string with <see cref="Summary"/> data.</returns>
-        public static string GetChecksumInfo(IReadOnlyList<BlockInfo> blocks, byte[] data)
+        public static string GetChecksumInfo(IReadOnlyList<BlockInfo> blocks, Span<byte> data)
         {
             var invalid = GetInvalidBlockCount(blocks, data, out var list);
             list.Add($"SAV: {blocks.Count - invalid}/{blocks.Count}");
             return string.Join(Environment.NewLine, list);
         }
 
-        private static int GetInvalidBlockCount(IReadOnlyList<BlockInfo> blocks, byte[] data, out List<string> list)
+        private static int GetInvalidBlockCount(IReadOnlyList<BlockInfo> blocks, Span<byte> data, out List<string> list)
         {
             int invalid = 0;
             list = new List<string>();
@@ -82,8 +82,8 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        public static bool GetChecksumsValid(this IEnumerable<BlockInfo> blocks, byte[] data) => BlockInfo.GetChecksumsValid(blocks, data);
-        public static void SetChecksums(this IEnumerable<BlockInfo> blocks, byte[] data) => BlockInfo.SetChecksums(blocks, data);
-        public static string GetChecksumInfo(this IReadOnlyList<BlockInfo> blocks, byte[] data) => BlockInfo.GetChecksumInfo(blocks, data);
+        public static bool GetChecksumsValid(this IEnumerable<BlockInfo> blocks, Span<byte> data) => BlockInfo.GetChecksumsValid(blocks, data);
+        public static void SetChecksums(this IEnumerable<BlockInfo> blocks, Span<byte> data) => BlockInfo.SetChecksums(blocks, data);
+        public static string GetChecksumInfo(this IReadOnlyList<BlockInfo> blocks, Span<byte> data) => BlockInfo.GetChecksumInfo(blocks, data);
     }
 }

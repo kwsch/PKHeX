@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     public sealed class PokeBlock3Case
@@ -5,7 +7,7 @@ namespace PKHeX.Core
         private const int Count = 40;
         public readonly PokeBlock3[] Blocks;
 
-        public PokeBlock3Case(byte[] data, int offset)
+        public PokeBlock3Case(ReadOnlySpan<byte> data, int offset)
         {
             Blocks = new PokeBlock3[Count];
             for (int i = 0; i < Blocks.Length; i++)

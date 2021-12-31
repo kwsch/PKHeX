@@ -745,15 +745,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        private void SwapBox(int box1, int box2, byte[] boxData)
+        private void SwapBox(int box1, int box2, Span<byte> boxData)
         {
             int b1o = GetBoxOffset(box1);
             int b2o = GetBoxOffset(box2);
             int len = BoxSlotCount * SIZE_BOXSLOT;
-            byte[] b1 = new byte[len];
-            Buffer.BlockCopy(boxData, b1o, b1, 0, len);
-            Buffer.BlockCopy(boxData, b2o, boxData, b1o, len);
-            Buffer.BlockCopy(b1, 0, boxData, b2o, len);
+            Span<byte> b1 = stackalloc byte[len];
+            boxData.Slice(b1o, len).CopyTo(b1);
+            boxData.Slice(b2o, len).CopyTo(boxData[b1o..]);
+            b1.CopyTo(boxData[b2o..]);
 
             // Name
             string b1n = GetBoxName(box1);

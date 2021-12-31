@@ -51,14 +51,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static bool VerifyMemeData(byte[] input, out byte[] output)
+        public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output)
         {
             foreach (MemeKeyIndex keyIndex in Enum.GetValues(typeof(MemeKeyIndex)))
             {
                 if (VerifyMemeData(input, out output, keyIndex))
                     return true;
             }
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
@@ -155,7 +155,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="sav7">Save file data to resign</param>
         /// <returns>The resigned save data. Invalid input returns null.</returns>
-        public static byte[] Resign7(byte[] sav7)
+        public static byte[] Resign7(ReadOnlySpan<byte> sav7)
         {
             if (sav7.Length is not (SaveUtil.SIZE_G7SM or SaveUtil.SIZE_G7USUM))
                 throw new ArgumentException("Should not be using this for unsupported saves.");
@@ -167,19 +167,20 @@ namespace PKHeX.Core
             var ChecksumSignatureLength = isUSUM ? 0x150 : 0x140;
             const int MemeCryptoSignatureLength = 0x80;
 
-            var result = (byte[])sav7.Clone();
+            var result = sav7.ToArray();
 
             // Store current signature
-            var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength);
+            var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength).ToArray();
 
             using var sha256 = SHA256.Create();
-            var newSig = sha256.ComputeHash(sav7, ChecksumTableOffset, ChecksumSignatureLength);
-            Array.Resize(ref newSig, MemeCryptoSignatureLength);
+            var newSig = sha256.ComputeHash(result, ChecksumTableOffset, ChecksumSignatureLength);
+            Span<byte> sigSpan = stackalloc byte[MemeCryptoSignatureLength];
+            newSig.CopyTo(sigSpan);
 
             if (VerifyMemeData(oldSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
-                Buffer.BlockCopy(memeSig, 0x20, newSig, 0x20, 0x60);
+                memeSig.AsSpan()[0x20..0x80].CopyTo(sigSpan[0x20..]);
 
-            SignMemeData(newSig).CopyTo(result, MemeCryptoOffset);
+            SignMemeData(sigSpan).CopyTo(result, MemeCryptoOffset);
             return result;
         }
     }

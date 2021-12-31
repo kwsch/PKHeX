@@ -187,7 +187,7 @@ namespace PKHeX.Core
         private const int SIZE_EBERRY = 0x134;
 
         public byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
-        public void SetEReaderBerry(byte[] data) => SetData(Large, data, OFFSET_EBERRY);
+        public void SetEReaderBerry(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(OFFSET_EBERRY));
 
         public override string EBerryName => GetString(Large, OFFSET_EBERRY, 7);
         public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;

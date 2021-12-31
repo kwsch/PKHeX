@@ -288,9 +288,9 @@ namespace PKHeX.WinForms
             if (bmp.Width != 24 || bmp.Height != 20)
                 return;
 
-            byte[] BrightMap = new byte[480];
-            byte[] BrightCount = new byte[0x100];
-            byte[] iBrightCount = new byte[0x100];
+            Span<byte> BrightMap = stackalloc byte[480];
+            Span<byte> BrightCount = stackalloc byte[0x100];
+            Span<byte> iBrightCount = stackalloc byte[0x100];
             for (int iy = 0; iy < 20; iy++)
             {
                 for (int ix = 0; ix < 24; ix++)
@@ -301,18 +301,24 @@ namespace PKHeX.WinForms
                 }
             }
 
-            int ColorCount = BrightCount.Count(v => v > 0);
+            int ColorCount = 0;
+            foreach (var value in BrightCount)
+            {
+                if (value > 0)
+                    ++ColorCount;
+            }
+
             if (ColorCount is 0 or > 4)
                 return;
             int errmin = int.MaxValue;
-            byte[] LCT = new byte[4];
-            byte[] mLCT = new byte[4];
+            Span<byte> LCT = stackalloc byte[4];
+            Span<byte> mLCT = stackalloc byte[4];
             for (int i = 0; i < 4; i++)
                 LCT[i] = (byte)(ColorCount < i + 1 ? 4 : ColorCount - i - 1);
             int ee = 0;
             while (++ee < 1000)
             {
-                BrightCount.CopyTo(iBrightCount, 0);
+                BrightCount.CopyTo(iBrightCount);
                 for (int i = 0, j = 0; i < 0x100; i++)
                 {
                     if (iBrightCount[i] > 0)
@@ -325,10 +331,11 @@ namespace PKHeX.WinForms
                 if (errmin > errtot)
                 {
                     errmin = errtot;
-                    LCT.CopyTo(mLCT, 0);
+                    LCT.CopyTo(mLCT);
                 }
-                LCT = GetNextLCT(LCT);
-                if (LCT[0] >= 4) break;
+                GetNextLCT(LCT);
+                if (LCT[0] >= 4)
+                    break;
             }
             for (int i = 0, j = 0; i < 0x100; i++)
             {
@@ -339,14 +346,14 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 480; i++)
                 BrightMap[i] = BrightCount[BrightMap[i]];
 
-            byte[] ndab = new byte[120];
+            Span<byte> ndab = stackalloc byte[120];
             for (int i = 0; i < 480; i++)
                 ndab[i >> 2] |= (byte)((BrightMap[i] & 3) << (i % 4 << 1));
 
-            ndab.CopyTo(DotArtistByte, 0);
+            ndab.CopyTo(DotArtistByte.AsSpan(0));
         }
 
-        private static byte[] GetNextLCT(byte[] inp)
+        private static void GetNextLCT(Span<byte> inp)
         {
             while (true)
             {
@@ -366,7 +373,7 @@ namespace PKHeX.WinForms
                     continue;
 
                 inp[0] = 4;
-                return inp;
+                return;
             }
         }
 

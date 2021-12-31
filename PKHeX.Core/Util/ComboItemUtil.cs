@@ -52,11 +52,11 @@ namespace PKHeX.Core
             return list;
         }
 
-        public static IReadOnlyList<ComboItem> GetUnsortedCBList(IReadOnlyList<string> inStrings, IReadOnlyList<byte> allowed)
+        public static IReadOnlyList<ComboItem> GetUnsortedCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<byte> allowed)
         {
-            var count = allowed.Count;
+            var count = allowed.Length;
             var list = new ComboItem[count];
-            for (var i = 0; i < allowed.Count; i++)
+            for (var i = 0; i < allowed.Length; i++)
             {
                 var index = allowed[i];
                 var item = new ComboItem(inStrings[index], index);

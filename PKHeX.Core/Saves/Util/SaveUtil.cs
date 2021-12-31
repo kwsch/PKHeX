@@ -172,7 +172,7 @@ namespace PKHeX.Core
         /// <param name="offset">Offset the list starts at</param>
         /// <param name="listCount">Max count of Pokémon in the list</param>
         /// <returns>True if a valid list, False otherwise</returns>
-        private static bool IsG12ListValid(byte[] data, int offset, int listCount)
+        private static bool IsG12ListValid(ReadOnlySpan<byte> data, int offset, int listCount)
         {
             byte num_entries = data[offset];
             return num_entries <= listCount && data[offset + 1 + num_entries] == 0xFF;
@@ -181,7 +181,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen1 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG1SAV(byte[] data)
+        internal static GameVersion GetIsG1SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not (SIZE_G1RAW or SIZE_G1BAT))
                 return Invalid;
@@ -197,7 +197,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to an International Gen1 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid International save, False otherwise.</returns>
-        private static bool GetIsG1SAVU(byte[] data)
+        private static bool GetIsG1SAVU(ReadOnlySpan<byte> data)
         {
             return IsG12ListValid(data, 0x2F2C, 20) && IsG12ListValid(data, 0x30C0, 20);
         }
@@ -205,7 +205,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Japanese Gen1 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid Japanese save, False otherwise.</returns>
-        internal static bool GetIsG1SAVJ(byte[] data)
+        internal static bool GetIsG1SAVJ(ReadOnlySpan<byte> data)
         {
             return IsG12ListValid(data, 0x2ED5, 30) && IsG12ListValid(data, 0x302D, 30);
         }
@@ -213,7 +213,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen2 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG2SAV(byte[] data)
+        internal static GameVersion GetIsG2SAV(ReadOnlySpan<byte> data)
         {
             if (!SizesGen2.Contains(data.Length))
                 return Invalid;
@@ -232,7 +232,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to an International (not Japanese or Korean) Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid International save, False otherwise.</returns>
-        private static GameVersion GetIsG2SAVU(byte[] data)
+        private static GameVersion GetIsG2SAVU(ReadOnlySpan<byte> data)
         {
             if (IsG12ListValid(data, 0x288A, 20) && IsG12ListValid(data, 0x2D6C, 20))
                 return GS;
@@ -244,7 +244,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Japanese Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid Japanese save, False otherwise.</returns>
-        internal static GameVersion GetIsG2SAVJ(byte[] data)
+        internal static GameVersion GetIsG2SAVJ(ReadOnlySpan<byte> data)
         {
             if (!IsG12ListValid(data, 0x2D10, 30))
                 return Invalid;
@@ -258,7 +258,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Korean Gen2 save</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid Korean save, False otherwise.</returns>
-        internal static GameVersion GetIsG2SAVK(byte[] data)
+        internal static GameVersion GetIsG2SAVK(ReadOnlySpan<byte> data)
         {
             if (IsG12ListValid(data, 0x2DAE, 20) && IsG12ListValid(data, 0x28CC, 20))
                 return GS;
@@ -333,7 +333,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Colosseum save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG3COLOSAV(byte[] data)
+        private static GameVersion GetIsG3COLOSAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not SIZE_G3COLO)
                 return Invalid;
@@ -343,7 +343,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 3; i++)
             {
                 var ofs = offset + (0x1E000 * i);
-                if (ReadUInt32LittleEndian(data.AsSpan(ofs)) != 0x00000101)
+                if (ReadUInt32LittleEndian(data[ofs..]) != 0x00000101)
                     return Invalid;
             }
             return COLO;
@@ -352,7 +352,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 XD save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG3XDSAV(byte[] data)
+        private static GameVersion GetIsG3XDSAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not SIZE_G3XD)
                 return Invalid;
@@ -362,7 +362,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 2; i++)
             {
                 var ofs = offset + (0x28000 * i);
-                if ((ReadUInt32LittleEndian(data.AsSpan(ofs)) & 0xFFFE_FFFF) != 0x00000101)
+                if ((ReadUInt32LittleEndian(data[ofs..]) & 0xFFFE_FFFF) != 0x00000101)
                     return Invalid;
             }
             return XD;
@@ -371,19 +371,19 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen4 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG4SAV(byte[] data)
+        private static GameVersion GetIsG4SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE_G4RAW)
                 return Invalid;
 
             // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp(?)
             // Korean saves have a different timestamp from other localizations.
-            bool validSequence(int offset)
+            static bool validSequence(ReadOnlySpan<byte> data, int offset)
             {
-                var size = ReadUInt32LittleEndian(data.AsSpan(offset - 0xC));
+                var size = ReadUInt32LittleEndian(data[(offset - 0xC)..]);
                 if (size != (offset & 0xFFFF))
                     return false;
-                var sdk = ReadUInt32LittleEndian(data.AsSpan(offset - 0x8));
+                var sdk = ReadUInt32LittleEndian(data[(offset - 0x8)..]);
 
                 const int DATE_INT = 0x20060623;
                 const int DATE_KO  = 0x20070903;
@@ -392,11 +392,11 @@ namespace PKHeX.Core
 
             // Check the other save -- first save is done to the latter half of the binary.
             // The second save should be all that is needed to check.
-            if (validSequence(0x4C100))
+            if (validSequence(data, 0x4C100))
                 return DP;
-            if (validSequence(0x4CF2C))
+            if (validSequence(data, 0x4CF2C))
                 return Pt;
-            if (validSequence(0x4F628))
+            if (validSequence(data, 0x4F628))
                 return HGSS;
 
             return Invalid;
@@ -405,7 +405,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen4 Battle Revolution save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG4BRSAV(byte[] data)
+        private static GameVersion GetIsG4BRSAV(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE_G4BR)
                 return Invalid;
@@ -417,18 +417,18 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen5 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG5SAV(byte[] data)
+        private static GameVersion GetIsG5SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE_G5RAW)
                 return Invalid;
 
             // check the checksum block validity; nobody would normally modify this region
-            ushort chk1 = ReadUInt16LittleEndian(data.AsSpan(SIZE_G5BW - 0x100 + 0x8C + 0xE));
-            ushort actual1 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5BW - 0x100, 0x8C));
+            ushort chk1 = ReadUInt16LittleEndian(data[(SIZE_G5BW - 0x100 + 0x8C + 0xE)..]);
+            ushort actual1 = Checksums.CRC16_CCITT(data.Slice(SIZE_G5BW - 0x100, 0x8C));
             if (chk1 == actual1)
                 return BW;
-            ushort chk2 = ReadUInt16LittleEndian(data.AsSpan(SIZE_G5B2W2 - 0x100 + 0x94 + 0xE));
-            ushort actual2 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5B2W2 - 0x100, 0x94));
+            ushort chk2 = ReadUInt16LittleEndian(data[(SIZE_G5B2W2 - 0x100 + 0x94 + 0xE)..]);
+            ushort actual2 = Checksums.CRC16_CCITT(data.Slice(SIZE_G5B2W2 - 0x100, 0x94));
             if (chk2 == actual2)
                 return B2W2;
             return Invalid;
@@ -437,12 +437,12 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen6 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG6SAV(byte[] data)
+        private static GameVersion GetIsG6SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not (SIZE_G6XY or SIZE_G6ORAS or SIZE_G6ORASDEMO))
                 return Invalid;
 
-            if (ReadUInt32LittleEndian(data.AsSpan(data.Length - 0x1F0)) != BEEF)
+            if (ReadUInt32LittleEndian(data[^0x1F0..]) != BEEF)
                 return Invalid;
 
             return data.Length switch
@@ -456,12 +456,12 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen7 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsG7SAV(byte[] data)
+        private static GameVersion GetIsG7SAV(ReadOnlySpan<byte> data)
         {
             if (data.Length is not (SIZE_G7SM or SIZE_G7USUM))
                 return Invalid;
 
-            if (ReadUInt32LittleEndian(data.AsSpan(data.Length - 0x1F0)) != BEEF)
+            if (ReadUInt32LittleEndian(data[^0x1F0..]) != BEEF)
                 return Invalid;
 
             return data.Length == SIZE_G7SM ? SM : USUM;
@@ -470,15 +470,15 @@ namespace PKHeX.Core
         /// <summary>Determines if the input data belongs to a <see cref="SAV7b"/> save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        private static GameVersion GetIsBelugaSAV(byte[] data)
+        private static GameVersion GetIsBelugaSAV(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE_G7GG)
                 return Invalid;
 
             const int actualLength = 0xB8800;
-            if (ReadUInt32LittleEndian(data.AsSpan(actualLength - 0x1F0)) != BEEF) // beef table start
+            if (ReadUInt32LittleEndian(data[(actualLength - 0x1F0)..]) != BEEF) // beef table start
                 return Invalid;
-            if (ReadUInt16LittleEndian(data.AsSpan(actualLength - 0x200 + 0xB0)) != 0x13) // check a block number to double check
+            if (ReadUInt16LittleEndian(data[(actualLength - 0x200 + 0xB0)..]) != 0x13) // check a block number to double check
                 return Invalid;
 
             return GG;
@@ -495,7 +495,7 @@ namespace PKHeX.Core
             return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
         }
 
-        private static GameVersion GetIsG8SAV_BDSP(byte[] data)
+        private static GameVersion GetIsG8SAV_BDSP(ReadOnlySpan<byte> data)
         {
             if (data.Length is not SIZE_G8BDSP && data.Length is not SIZE_G8BDSP_1)
                 return Invalid;
@@ -503,12 +503,12 @@ namespace PKHeX.Core
             return BDSP;
         }
 
-        private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
-        private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data.AsSpan(0x3FC00)) != 0; // box name present
-        private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data.AsSpan(0x3FC00)) == 0; // size collision with ^
-        private static bool GetIsRanchDP(byte[] data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data.AsSpan(0x22AC)) != 0;
-        private static bool GetIsRanchPlat(byte[] data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data.AsSpan(0x268C)) != 0;
-        private static bool GetIsRanch4(byte[] data) => GetIsRanchDP(data) || GetIsRanchPlat(data);
+        private static bool GetIsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
+        private static bool GetIsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
+        private static bool GetIsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
+        private static bool GetIsRanchDP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data[0x22AC..]) != 0;
+        private static bool GetIsRanchPlat(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH_PLAT && ReadUInt32BigEndian(data[0x268C..]) != 0;
+        private static bool GetIsRanch4(ReadOnlySpan<byte> data) => GetIsRanchDP(data) || GetIsRanchPlat(data);
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="path">File location from which to create a SaveFile.</param>

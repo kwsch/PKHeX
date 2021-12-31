@@ -29,8 +29,7 @@ namespace PKHeX.Core
         public WR7 GetRecord(int index)
         {
             int ofs = GetRecordOffset(index);
-            byte[] data = new byte[WR7.Size];
-            Array.Copy(Data, ofs, data, 0, WR7.Size);
+            byte[] data = Data.AsSpan(ofs, WR7.Size).ToArray();
             return new WR7(data);
         }
 

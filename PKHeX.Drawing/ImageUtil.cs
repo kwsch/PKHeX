@@ -115,7 +115,7 @@ public static class ImageUtil
         return argbData;
     }
 
-    public static void SetAllUsedPixelsOpaque(byte[] data)
+    public static void SetAllUsedPixelsOpaque(Span<byte> data)
     {
         for (int i = 0; i < data.Length; i += 4)
         {
@@ -124,7 +124,7 @@ public static class ImageUtil
         }
     }
 
-    public static void RemovePixels(byte[] pixels, byte[] original)
+    public static void RemovePixels(Span<byte> pixels, ReadOnlySpan<byte> original)
     {
         for (int i = 0; i < original.Length; i += 4)
         {
@@ -137,13 +137,13 @@ public static class ImageUtil
         }
     }
 
-    private static void SetAllTransparencyTo(byte[] data, double trans)
+    private static void SetAllTransparencyTo(Span<byte> data, double trans)
     {
         for (int i = 0; i < data.Length; i += 4)
             data[i + 3] = (byte)(data[i + 3] * trans);
     }
 
-    public static void SetAllTransparencyTo(byte[] data, Color c, byte trans, int start)
+    public static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans, int start)
     {
         byte R = c.R;
         byte G = c.G;
@@ -159,7 +159,7 @@ public static class ImageUtil
         }
     }
 
-    public static void ChangeAllTo(byte[] data, Color c, int start, int end)
+    public static void ChangeAllTo(Span<byte> data, Color c, int start, int end)
     {
         byte R = c.R;
         byte G = c.G;
@@ -174,7 +174,7 @@ public static class ImageUtil
         }
     }
 
-    public static void ChangeAllColorTo(byte[] data, Color c)
+    public static void ChangeAllColorTo(Span<byte> data, Color c)
     {
         byte R = c.R;
         byte G = c.G;
@@ -189,7 +189,7 @@ public static class ImageUtil
         }
     }
 
-    private static void SetAllColorToGrayScale(byte[] data)
+    private static void SetAllColorToGrayScale(Span<byte> data)
     {
         for (int i = 0; i < data.Length; i += 4)
         {
@@ -202,13 +202,13 @@ public static class ImageUtil
         }
     }
 
-    public static void GlowEdges(byte[] data, byte blue, byte green, byte red, int width, int reach = 3, double amount = 0.0777)
+    public static void GlowEdges(Span<byte> data, byte blue, byte green, byte red, int width, int reach = 3, double amount = 0.0777)
     {
         PollutePixels(data, width, reach, amount);
         CleanPollutedPixels(data, blue, green, red);
     }
 
-    private static void PollutePixels(byte[] data, int width, int reach, double amount)
+    private static void PollutePixels(Span<byte> data, int width, int reach, double amount)
     {
         int stride = width * 4;
         int height = data.Length / stride;
@@ -220,29 +220,26 @@ public static class ImageUtil
 
             int x = (i % stride) / 4;
             int y = (i / stride);
-            Pollute(x, y);
-        }
-
-        void Pollute(int x, int y)
-        {
-            int left = Math.Max(0, x - reach);
-            int right = Math.Min(width - 1, x + reach);
-            int top = Math.Max(0, y - reach);
-            int bottom = Math.Min(height - 1, y + reach);
-            for (int i = left; i <= right; i++)
             {
-                for (int j = top; j <= bottom; j++)
+                int left = Math.Max(0, x - reach);
+                int right = Math.Min(width - 1, x + reach);
+                int top = Math.Max(0, y - reach);
+                int bottom = Math.Min(height - 1, y + reach);
+                for (int ix = left; ix <= right; ix++)
                 {
-                    // update one of the color bits
-                    // it is expected that a transparent pixel RGBA value is 0.
-                    var c = 4 * (i + (j * width));
-                    data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
+                    for (int iy = top; iy <= bottom; iy++)
+                    {
+                        // update one of the color bits
+                        // it is expected that a transparent pixel RGBA value is 0.
+                        var c = 4 * (ix + (iy * width));
+                        data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
+                    }
                 }
             }
         }
     }
 
-    private static void CleanPollutedPixels(byte[] data, byte blue, byte green, byte red)
+    private static void CleanPollutedPixels(Span<byte> data, byte blue, byte green, byte red)
     {
         for (int i = 0; i < data.Length; i += 4)
         {

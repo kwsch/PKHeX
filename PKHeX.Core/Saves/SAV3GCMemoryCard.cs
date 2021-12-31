@@ -319,32 +319,36 @@ namespace PKHeX.Core
 
         public byte[] ReadSaveGameData()
         {
-            if (EntrySelected < 0)
+            var entry = EntrySelected;
+            if (entry < 0)
                 return Array.Empty<byte>(); // No entry selected
-
-            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
-            int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
-            int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
-
-            byte[] SaveData = new byte[BlockCount * BLOCK_SIZE];
-            Array.Copy(Data, FirstBlock * BLOCK_SIZE, SaveData, 0, BlockCount * BLOCK_SIZE);
-
-            return SaveData;
+            return ReadSaveGameData(entry);
         }
 
-        public void WriteSaveGameData(byte[] SaveData)
+        private byte[] ReadSaveGameData(int entry)
+        {
+            int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (entry * DENTRY_SIZE);
+            var span = Data.AsSpan(offset);
+            int blockFirst = ReadUInt16BigEndian(span[0x36..]);
+            int blockCount = ReadUInt16BigEndian(span[0x38..]);
+
+            return Data.AsSpan(blockFirst * BLOCK_SIZE, blockCount * BLOCK_SIZE).ToArray();
+        }
+
+        public void WriteSaveGameData(byte[] data)
         {
             if (EntrySelected < 0) // Can't write anywhere
                 return;
 
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
-            int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
-            int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
+            var span = Data.AsSpan(offset);
+            int blockFirst = ReadUInt16BigEndian(span[0x36..]);
+            int blockCount = ReadUInt16BigEndian(span[0x38..]);
 
-            if (SaveData.Length != BlockCount * BLOCK_SIZE) // Invalid File Size
+            if (data.Length != blockCount * BLOCK_SIZE) // Invalid File Size
                 return;
 
-            Array.Copy(SaveData, 0, Data, FirstBlock * BLOCK_SIZE, BlockCount * BLOCK_SIZE);
+            data.AsSpan(0, blockCount * BLOCK_SIZE).CopyTo(Data.AsSpan(blockFirst * BLOCK_SIZE));
         }
     }
 }

@@ -19,23 +19,23 @@ namespace PKHeX.Core
             ChecksumMirror = chkMirror;
         }
 
-        private ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, Offset, Length));
+        private ushort GetChecksum(Span<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
 
-        protected override bool ChecksumValid(byte[] data)
+        protected override bool ChecksumValid(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            if (chk != ReadUInt16LittleEndian(data.AsSpan(ChecksumOffset)))
+            if (chk != ReadUInt16LittleEndian(data[ChecksumOffset..]))
                 return false;
-            if (chk != ReadUInt16LittleEndian(data.AsSpan(ChecksumMirror)))
+            if (chk != ReadUInt16LittleEndian(data[ChecksumMirror..]))
                 return false;
             return true;
         }
 
-        protected override void SetChecksum(byte[] data)
+        protected override void SetChecksum(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            WriteUInt16LittleEndian(data.AsSpan(ChecksumOffset), chk);
-            WriteUInt16LittleEndian(data.AsSpan(ChecksumMirror), chk);
+            WriteUInt16LittleEndian(data[ChecksumOffset..], chk);
+            WriteUInt16LittleEndian(data[ChecksumMirror..], chk);
         }
     }
 }

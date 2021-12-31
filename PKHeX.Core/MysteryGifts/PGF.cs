@@ -331,11 +331,11 @@ namespace PKHeX.Core
 
         private void SetIVs(PKM pk)
         {
-            int[] finalIVs = new int[6];
+            Span<int> finalIVs = stackalloc int[6];
             var rnd = Util.Rand;
             for (int i = 0; i < IVs.Length; i++)
                 finalIVs[i] = IVs[i] == 0xFF ? rnd.Next(32) : IVs[i];
-            pk.IVs = finalIVs;
+            pk.SetIVs(finalIVs);
         }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)

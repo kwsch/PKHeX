@@ -94,10 +94,9 @@ namespace PKHeX.Core
 
         private void EncryptPK()
         {
-            byte[] ekdata = new byte[PokeCrypto.SIZE_4PARTY];
-            Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-            ekdata = PokeCrypto.EncryptArray45(ekdata);
-            ekdata.CopyTo(Data, 8);
+            var span = Data.AsSpan(8, PokeCrypto.SIZE_4PARTY);
+            var ekdata = PokeCrypto.EncryptArray45(span);
+            ekdata.CopyTo(span);
         }
 
         private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }

@@ -102,11 +102,11 @@ namespace PKHeX.Core
 
         public byte[] GetPoketchDotArtistData() => General.Slice(PoketchStart + 0x2A, 120);
 
-        public void SetPoketchDotArtistData(byte[] value)
+        public void SetPoketchDotArtistData(ReadOnlySpan<byte> value)
         {
             if (value.Length != 120)
                 throw new ArgumentException($"Expected {120} bytes.", nameof(value.Length));
-            SetData(General, value, PoketchStart + 0x2A);
+            value.CopyTo(General.AsSpan(PoketchStart + 0x2A));
         }
 
         // map marking stuff is at the end, unimportant
@@ -170,17 +170,17 @@ namespace PKHeX.Core
         public const int UG_POUCH_SIZE = 0x28; // 40 for each of the inventory pouches
 
         public byte[] GetUGI_Traps() => General.Slice(OFS_UG_Items, UG_POUCH_SIZE);
-        public void SetUGI_Traps(byte[] value) => SetData(General, value, OFS_UG_Items);
+        public void SetUGI_Traps(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items));
 
         public byte[] GetUGI_Goods() => General.Slice(OFS_UG_Items + 0x28, UG_POUCH_SIZE);
-        public void SetUGI_Goods(byte[] value) => SetData(General, value, OFS_UG_Items + 0x28);
+        public void SetUGI_Goods(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x28));
 
         public byte[] GetUGI_Treasures() => General.Slice(OFS_UG_Items + 0x50, UG_POUCH_SIZE);
-        public void SetUGI_Treasures(byte[] value) => SetData(General, value, OFS_UG_Items + 0x50);
+        public void SetUGI_Treasures(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x50));
 
         // first 40 are the sphere type, last 40 are the sphere sizes
         public byte[] GetUGI_Spheres() => General.Slice(OFS_UG_Items + 0x78, UG_POUCH_SIZE * 2);
-        public void SetUGI_Spheres(byte[] value) => SetData(General, value, OFS_UG_Items + 0x78);
+        public void SetUGI_Spheres(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x78));
 
         #endregion
 
