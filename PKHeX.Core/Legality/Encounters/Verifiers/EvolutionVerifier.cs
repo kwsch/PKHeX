@@ -61,7 +61,7 @@ namespace PKHeX.Core
                     return false;
 
                 if (!pkm.HasOriginalMetLocation && pkm.Met_Level == pkm.CurrentLevel && genevolved >= 5)
-                    // Magnezone evolved after gen transfer to gen 5 requires to level up after met level
+                    // Magnezone, Leafeon and Glaceon evolved after gen transfer to gen 5 requires to level up after met level
                     // Gen 3 Milotic does not require this edge case, if evolved in gen 4 it loose met level in gen 5 and does not require level up in gens 5-8
                     return false;
 

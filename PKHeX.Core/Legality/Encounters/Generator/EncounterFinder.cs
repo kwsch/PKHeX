@@ -47,6 +47,8 @@ namespace PKHeX.Core
 
                 // Looks like we might have a good enough match. Check if this is really a good match.
                 info.EncounterMatch = enc;
+                info.EvoGenerationsInfo = new LegalEvoGenerationsInfo();
+                info.PreferredEvoGenerationsInfo = new LegalEvoGenerationsInfo();
                 info.Parse.Add(e);
                 if (!VerifySecondaryChecks(pkm, info, encounter))
                     continue;
@@ -93,6 +95,7 @@ namespace PKHeX.Core
                 // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
                 var check = VerifySecondaryChecksEvolution(pkm, out LegalEvoGenerationsInfo EvoInfo, ref info);
                 info.EvoGenerationsInfo = EvoInfo;
+                info.PreferredEvoGenerationsInfo = EvoInfo;
                 return check;
             }
 
