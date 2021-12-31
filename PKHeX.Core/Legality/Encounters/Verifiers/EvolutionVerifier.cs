@@ -46,22 +46,39 @@ namespace PKHeX.Core
             if (info.EncounterMatch.Species == species)
                 return true;
 
-            // Glaceon evolved before generation 8 requires to gain one level
-            if (species == (int)Species.Glaceon)
+            var format = pkm.Format;
+            var genevolved = info.EvoGenerations.Any() ? info.EvoGenerations.Last() : format;
+            // Pokemon with evolution methods that do not require level up in current gen but it was required if evolved on previous generations
+            if (SpeciesEvolutionLevelUpPreviousGenerations(species, genevolved, format))
             {
-                if (info.EvoGenerations.Any() && info.EvoGenerations.Last() == 8)
-                    return true;
-                if (!pkm.HasOriginalMetLocation)
-                    // Eevee before gen 5 requires to level up after met level
-                    return pkm.Met_Level < pkm.CurrentLevel;
+                var chain = info.EvoChainsAllGensReduced;
+                var minlevel = chain[genevolved].First().Level;
+                // Chain level are calculated using current format in wich the evolution does not require level up
+                // But pokemon was evolved on a previous generation in wich level up was required
+                // Example: Magnemite evolve into Magneto at level 30 and Magneton into Magnezone with a stone in gen 8 and leveling up in magnetic zone before gen 8
+                // Min level is 30 for both in case of gen 8 evolution but for previous gens evolutions min level for Magnezone should be 31
+                if (pkm.CurrentLevel <= minlevel)
+                    return false;
+
+                if (!pkm.HasOriginalMetLocation && pkm.Met_Level == pkm.CurrentLevel && genevolved >= 5)
+                    // Magnezone evolved after gen transfer to gen 5 requires to level up after met level
+                    // Gen 3 Milotic does not require this edge case, if evolved in gen 4 it loose met level in gen 5 and does not require level up in gens 5-8
+                    return false;
 
                 var enc = info.EncounterMatch;
-                return enc.LevelMin < pkm.CurrentLevel;
+                if (pkm.CurrentLevel <= enc.LevelMin)
+                    return false;
             }
 
-            // Feebas evolved into Milotic before Generation 5
-            if (species == (int)Species.Milotic && info.EvoGenerations.Any() && info.EvoGenerations.Last() < 5 && pkm is IContestStats s && s.CNT_Beauty < 170)
-                return false;
+            if (species == (int)Species.Milotic)
+            {
+                if (pkm is IContestStats s && s.CNT_Beauty >= 170)
+                    return true;
+
+                // Feebas evolved into Milotic before Generation 5 requires beauty
+                if (genevolved < 5)
+                    return false;
+            }
 
             // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
             if (species == (int)Species.Vespiquen && info.Generation < 6 && (pkm.PID & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution

@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <summary>
         /// List of species that evolve from a previous species having a move while leveling up
         /// </summary>
-        internal static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
+        private static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
         {
             {(int)Eevee,      new(0, 0)}, // FairyMoves
             {(int)MimeJr,     new(1, (int)Mimic)},
@@ -31,7 +31,25 @@ namespace PKHeX.Core
             {(int)Clobbopus,  new(9, (int)Taunt)},
         };
 
-        internal readonly record struct MoveEvolution(int ReferenceIndex, int Move);
+        /// <summary>
+        /// List of species that had an evolution that requires to level up to evolve until gen 7 but it can evolve with a stone in gen 8
+        /// </summary>
+        private static readonly int[] SpeciesEvolutionLevelUpPreviousGenerations8 = {
+            (int) Magnezone,
+            (int) Leafeon,
+            (int) Glaceon,
+            (int) Probopass, // Not released yet in gen 8, but there is no magnetic field anymore, it will probably evolve with a stone
+            (int) Vikavolt,
+        };
+
+        internal static bool SpeciesEvolutionLevelUpPreviousGenerations(int species, int genevolve, int format)
+        {
+            if (species == (int)Milotic && format >= 5)
+                return genevolve is 3 or 4;
+            return format >= 8 && genevolve <8 && SpeciesEvolutionLevelUpPreviousGenerations8.Contains(species);
+        }
+
+        private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
 
         private static readonly int[] FairyMoves =
         {

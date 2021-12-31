@@ -90,9 +90,7 @@ namespace PKHeX.Core
             var format = pkm.Format;
             if (chain.Count <= 1 || gen == format || format <= 2 || !chain.Any(p => p.Species == evolvedspecies))
             {
-                if (format == gen && chain.Count > 1)
-                    info.EvoGenerations = Enumerable.Repeat(gen, chain.Count - 1).ToList();
-                
+                info.EvoGenerations = Enumerable.Repeat(gen, chain.Count - 1);
                 // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
                 return VerifySecondaryChecksEvolution(pkm, ref info);
             }
@@ -184,13 +182,6 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-
-            // Milotic evolution beauty required changes based on which evolution it has evolved
-            var MiloticCheckGenEvo = pkm.Species == (int)Milotic && gen < 5 && format >= 5;
-            // Evolutions with move is affected based on which generation it has evolved, the move level could be different for different generation evolutions
-            var EvolutionByMove = EvolutionRestrictions.SpeciesEvolutionWithMove.Keys.Contains(info.EncounterMatch.Species) && info.EncounterMatch.Species != pkm.Species;
-            if (pkm.Species != (int)Glaceon && !MiloticCheckGenEvo && !EvolutionByMove)
-                return true;
 
             info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
             return info.Evolution.Valid;
