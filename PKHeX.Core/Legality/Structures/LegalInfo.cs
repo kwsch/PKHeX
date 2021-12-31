@@ -21,7 +21,7 @@ namespace PKHeX.Core
             {
                 if (!ReferenceEquals(_match, EncounterInvalid.Default) && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
                 {
-                    _evochainsallgenreduced = null;
+                    EvoGenerationsInfo = new LegalEvoGenerationsInfo();
                     _evochainsallgen = null; // clear if evo chain has the potential to be different
                 }  
                 _match = value;
@@ -34,7 +34,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>
         /// Generation 1/2 <see cref="pkm"/> that are transferred forward to Generation 7 are restricted to new encounter details.
-        /// By retaining their original match, more information can be provided by the parse.
+        /// By retaining their original match, more information canf be provided by the parse.
         /// </remarks>
         public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
@@ -45,36 +45,20 @@ namespace PKHeX.Core
         internal readonly List<CheckResult> Parse;
 
         public readonly CheckResult[] Relearn = new CheckResult[4];
-        public CheckResult? Evolution;
-        public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
+        public CheckMoveResult[] Moves => EvoGenerationsInfo.Moves;
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-
-        private IEnumerable<int>? _evogenerations;
-        public IEnumerable<int> EvoGenerations
-        {
-            get => _evogenerations ?? new List<int>();
-            set => _evogenerations = value;
-        }
-        public IEnumerable<int>? EvoGenerationsMoves { get; set; }
+        public IEnumerable<int>? EvoGenerations => EvoGenerationsInfo.EvoGenerations;
 
         private List<EvoCriteria>? _evochain;
         public List<EvoCriteria> EvoChain => _evochain ??= EvolutionChain.GetEvolutionChain(pkm, EncounterMatch, pkm.Species, pkm.CurrentLevel);
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochainsallgen ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch, EvoChain);
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReducedMoves
-        {
-            get => _evochainsallgenmoves ??= EvoChainsAllGensReduced;
-            set => _evochainsallgenmoves = value;
-        }
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReduced
-        {
-            get => _evochainsallgenreduced ??= EvoChainsAllGens;
-            set => _evochainsallgenreduced = value;
-        }
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGensReduced => EvoGenerationsInfo?.EvoChainsAllGens ?? EvoChainsAllGens;
+
         private IReadOnlyList<EvoCriteria>[]? _evochainsallgen;
-        private IReadOnlyList<EvoCriteria>[]? _evochainsallgenreduced;
-        private IReadOnlyList<EvoCriteria>[]? _evochainsallgenmoves;
+        public LegalEvoGenerationsInfo EvoGenerationsInfo { get; set; } = new LegalEvoGenerationsInfo();
+        internal LegalEvoGenerationsInfo BestEvoGenerationsInfo { get; set; } = new LegalEvoGenerationsInfo();
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV

@@ -47,7 +47,6 @@ namespace PKHeX.Core
 
                 // Looks like we might have a good enough match. Check if this is really a good match.
                 info.EncounterMatch = enc;
-                info.Evolution = null;
                 info.Parse.Add(e);
                 if (!VerifySecondaryChecks(pkm, info, encounter))
                     continue;
@@ -82,7 +81,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Source data to check the match for</param>
         /// <param name="info">Information containing the matched encounter and generation evolution</param>
         /// <returns>Indication whether or not the encounter passes secondary checks</returns>
-        private static bool verifyGenerationEvolution(PKM pkm, ref LegalInfo info) => verifyGenerationEvolution(pkm, pkm.Species, info.EvoGenerations, info.EvoChainsAllGens, ref info);
+        private static bool verifyGenerationEvolution(PKM pkm, ref LegalInfo info) => verifyGenerationEvolution(pkm, pkm.Species, info.EvoGenerationsInfo.EvoGenerations, info.EvoChainsAllGens, ref info);
         private static bool verifyGenerationEvolution(PKM pkm, int evolvedspecies, IEnumerable<int> generationsevolution, IReadOnlyList<EvoCriteria>[] chainallgens, ref LegalInfo info)
         {
             var chain = info.EvoChain;
@@ -90,9 +89,11 @@ namespace PKHeX.Core
             var format = pkm.Format;
             if (chain.Count <= 1 || gen == format || format <= 2 || !chain.Any(p => p.Species == evolvedspecies))
             {
-                info.EvoGenerations = Enumerable.Repeat(gen, chain.Count - 1);
+                info.EvoGenerationsInfo.EvoGenerations = Enumerable.Repeat(gen, chain.Count - 1);
                 // invalid pokemon, pokemon without evolutions or pokemon that has not been moved between generations
-                return VerifySecondaryChecksEvolution(pkm, ref info);
+                var check = VerifySecondaryChecksEvolution(pkm, out LegalEvoGenerationsInfo EvoInfo, ref info);
+                info.EvoGenerationsInfo = EvoInfo;
+                return check;
             }
 
             var index = chain.Select((p, index) => (p.Species, index)).First(p => p.Species == evolvedspecies).index;
@@ -101,28 +102,25 @@ namespace PKHeX.Core
             foreach (int genevolution in gensevolution)
             {
                 // Iterate throught generations for second evolution or single evolution
-                info.EvoChainsAllGensReduced = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, previousspecies, genevolution);
-                info.EvoGenerations = generationsevolution.Union(new List<int>() { genevolution });
+                info.EvoGenerationsInfo.EvoChainsAllGens = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, previousspecies, genevolution);
+                info.EvoGenerationsInfo.EvoGenerations = generationsevolution.Union(new List<int>() { genevolution });
                 if (chain.Last().Species == previousspecies)
                 {
                     // no more evolutions to iterate
-                    if (VerifySecondaryChecksEvolution(pkm, ref info))
+                    if (VerifySecondaryChecksEvolution(pkm, out LegalEvoGenerationsInfo EvoInfo, ref info))
                     {
+                        info.EvoGenerationsInfo = EvoInfo;
                         return true;
                     }
+                    if (!info.BestEvoGenerationsInfo.IsPreferredEvoGeneration(EvoInfo))
+                        info.BestEvoGenerationsInfo = EvoInfo;
                     continue;
                 }
                 // Iterate throught the previous evolution
-                if (verifyGenerationEvolution(pkm, previousspecies, info.EvoGenerations, info.EvoChainsAllGensReduced, ref info))
+                if (verifyGenerationEvolution(pkm, previousspecies, info.EvoGenerationsInfo.EvoGenerations, info.EvoChainsAllGensReduced, ref info))
                     return true;
             }
 
-            if (info.EvoGenerationsMoves != null)
-            {
-                info.EvoChainsAllGensReduced = info.EvoChainsAllGensReducedMoves;
-                info.EvoGenerations = info.EvoGenerationsMoves;
-                info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
-            }
             return false;
         }
 
@@ -132,21 +130,14 @@ namespace PKHeX.Core
         /// <param name="pkm">Source data to check the match for</param>
         /// <param name="info">Information containing the matched encounter and generation evolution</param>
         /// <returns>Indication whether or not the encounter passes secondary checks</returns>
-        private static bool VerifySecondaryChecksEvolution(PKM pkm, ref LegalInfo info)
+        private static bool VerifySecondaryChecksEvolution(PKM pkm, out LegalEvoGenerationsInfo EvoInfo, ref LegalInfo info)
         {
+            EvoInfo = new LegalEvoGenerationsInfo(info.EvoGenerationsInfo);
             var gen = pkm.Generation;
             var format = pkm.Format;
-            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
-            if (!info.Moves.All(z => z.Valid))
+            EvoInfo.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            if (!EvoInfo.Moves.All(z => z.Valid))
                 return false;
-
-            // Keep the evolution chain in wich all moves are valid
-            // If the encounter is invalid use this chain instead of the last chain checked
-            if (info.EvoGenerationsMoves == null)
-            {
-                info.EvoChainsAllGensReducedMoves = info.EvoChainsAllGensReduced;
-                info.EvoGenerationsMoves = info.EvoGenerations;
-            }
 
             if (gen == 3 && format is 4 or 5)
             {
@@ -161,9 +152,11 @@ namespace PKHeX.Core
                     return false;
             }
 
-            // A chain with valid moves and abilities is better than one with just the moves
-            info.EvoChainsAllGensReducedMoves = info.EvoChainsAllGensReduced;
-            info.EvoGenerationsMoves = info.EvoGenerations;
+            EvoInfo.ValidAbility = true;
+            EvoInfo.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
+
+            if (!EvoInfo.Evolution.Valid)
+                return false;
 
             // Memories of Knowing a move which is later forgotten can be problematic with encounters that have special moves.
             // The list of moves that a pokemon can move changes based on which generation the pokemon has evolved
@@ -182,9 +175,8 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-
-            info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
-            return info.Evolution.Valid;
+            EvoInfo.ValidMemory = true;
+            return true;
         }
 
 
@@ -215,8 +207,12 @@ namespace PKHeX.Core
                     relearn[i] = VerifyRelearnMoves.DummyValid;
             }
 
-            if (!verifyGenerationEvolution(pkm, ref info) && iterator.PeekIsNext())
-                return false;
+            var verifygenevo = verifyGenerationEvolution(pkm, ref info);
+            if (!verifygenevo && iterator.PeekIsNext())
+               return false;
+
+            if (!verifygenevo)
+                info.EvoGenerationsInfo = info.BestEvoGenerationsInfo;
 
             if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;
@@ -224,12 +220,10 @@ namespace PKHeX.Core
             if (info.Parse.Any(z => !z.Valid) && iterator.PeekIsNext())
                 return false;
 
-            if (info.Evolution == null)
-                info.Evolution = EvolutionVerifier.VerifyEvolution(pkm, info);
-            if (!info.Evolution.Valid && iterator.PeekIsNext())
+            if (!info.EvoGenerationsInfo.Evolution.Valid && iterator.PeekIsNext())
                 return false;
 
-            info.Parse.Add(info.Evolution);
+            info.Parse.Add(info.EvoGenerationsInfo.Evolution);
             return true;
         }
 
@@ -246,7 +240,7 @@ namespace PKHeX.Core
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, info.Relearn);
-            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            info.EvoGenerationsInfo.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
         }
 
         private static string GetHintWhyNotFound(PKM pkm, int gen)
