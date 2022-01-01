@@ -37,32 +37,7 @@ namespace PKHeX.Core
         private readonly SAV7 SAV;
         public BeanPouch(SAV7 sav) => SAV = sav;
 
-        public int[] Beans
-        {
-            get => GetBeanCounts();
-            set => SetBeanCounts(value);
-        }
-
-        private int[] GetBeanCounts()
-        {
-            int[] beans = new int[Count];
-            for (int i = 0; i < beans.Length; i++)
-                beans[i] = SAV.ResortSave.GetPokebeanCount(i);
-            return beans;
-        }
-
-        private void SetBeanCounts(IReadOnlyList<int> beans)
-        {
-            if (beans.Count != Count)
-                return;
-            for (int i = 0; i < beans.Count; i++)
-                SAV.ResortSave.SetPokebeanCount(i, beans[i]);
-        }
-
-        public void SetCountAll(int val)
-        {
-            for (int i = 0; i < Count; i++)
-                SAV.ResortSave.SetPokebeanCount(i, val);
-        }
+        public Span<byte> Beans => SAV.ResortSave.GetBeans();
+        public void SetCountAll(byte val) => SAV.ResortSave.GetBeans().Fill(val);
     }
 }

@@ -89,8 +89,7 @@ namespace PKHeX.WinForms
         {
             var beans = Pouch.Beans;
             for (int i = 0; i < beans.Length; i++)
-                beans[i] = (int)dgv.Rows[i].Cells[1].Value;
-            Pouch.Beans = beans;
+                beans[i] = (byte)dgv.Rows[i].Cells[1].Value;
             Origin.CopyChangesFrom(SAV);
             Close();
         }
