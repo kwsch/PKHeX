@@ -43,7 +43,7 @@ namespace PKHeX.Core
         public override byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
         public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
         public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
-        public override string AuthorName { get => StringConverter4.GetString4(Data.AsSpan(8), 0x10); set => StringConverter4.SetString4(value, 7, 8, 0xFFFF).CopyTo(Data, 8); }
+        public override string AuthorName { get => StringConverter4.GetString(Data.AsSpan(8, 0x10)); set => StringConverter4.SetString(Data.AsSpan(8, 0x10), value.AsSpan(), 7, StringConverterOption.ClearFF); }
         public int GetAppearPKM(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
         public void SetAppearPKM(int index, int value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)(value == 0 ? 0xFFFF : value));
         public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data.AsSpan(0x20 + (((index1 * 4) + index2) * 2)));

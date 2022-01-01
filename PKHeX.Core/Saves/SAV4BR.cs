@@ -157,13 +157,15 @@ namespace PKHeX.Core
         private string GetOTName(int slot)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            return GetString(Data, ofs, 16);
+            var span = Data.AsSpan(ofs, 16);
+            return GetString(span);
         }
 
         private void SetOTName(int slot, string name)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            SetData(SetString(name, 7, 8), ofs);
+            var span = Data.AsSpan(ofs, 16);
+            SetString(span, name.AsSpan(), 7, StringConverterOption.ClearZero);
         }
 
         public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
@@ -202,10 +204,10 @@ namespace PKHeX.Core
                 return $"BOX {box + 1}";
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = GetString(ofs, BoxNameLength);
-            if (string.IsNullOrWhiteSpace(str))
+            var span = Data.AsSpan(ofs, BoxNameLength);
+            if (span.Count((byte)0) == span.Length)
                 return $"BOX {box + 1}";
-            return str;
+            return GetString(ofs, BoxNameLength);
         }
 
         public override void SetBoxName(int box, string value)
@@ -214,12 +216,11 @@ namespace PKHeX.Core
                 return;
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = GetString(ofs, BoxNameLength);
-            if (string.IsNullOrWhiteSpace(str))
+            var span = Data.AsSpan(ofs, BoxNameLength);
+            if (span.Count((byte)0) == span.Length)
                 return;
 
-            var data = SetString(value, BoxNameLength / 2, BoxNameLength / 2);
-            SetData(data, ofs);
+            SetString(span, value.AsSpan(), BoxNameLength / 2, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -338,8 +339,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4Unicode(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => StringConverter4.SetBEString4Unicode(value, maxLength, PadToSize, PadWith);
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
     }
 }

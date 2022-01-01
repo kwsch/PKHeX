@@ -32,19 +32,11 @@ namespace PKHeX.Core
 
         public override string AuthorName
         {
-            get => StringConverter3.GetString3(Data, 0x12, 7, JP);
+            get => StringConverter3.GetString(Data.AsSpan(0x12, 7), JP);
             set
             {
-                if (value.Length == 0)
-                {
-                    for (int i = 0; i < 8; i++)
-                        Data[0x12 + i] = 0xFF;
-                }
-                else
-                {
-                    Data[0x18] = Data[0x19] = 0xFF;
-                    StringConverter3.SetString3(value, 7, JP, 6).CopyTo(Data, 0x12);
-                }
+                var span = Data.AsSpan(0x12, 8);
+                StringConverter3.SetString(span, value.AsSpan(), 7, JP, StringConverterOption.ClearFF);
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -40,8 +39,8 @@ namespace PKHeX.Core
         public override string CardTitle
         {
             // Max len 36 char, followed by null terminator
-            get => StringConverter.GetString7(Data, 2, 0x4A);
-            set => StringConverter.SetString7(value, 36, 37).CopyTo(Data, 2);
+            get => StringConverter7.GetString(Data.AsSpan(2, 0x4A));
+            set => StringConverter7.SetString(Data.AsSpan(2, 0x4A), value.AsSpan(), 36, Language, StringConverterOption.ClearZero);
         }
 
         internal uint RawDate
@@ -183,8 +182,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter.GetString7(Data, 0x86, 0x1A);
-            set => StringConverter.SetString7(value, 12, 13).CopyTo(Data, 0x86);
+            get => StringConverter7.GetString(Data.AsSpan(0x86, 0x1A));
+            set => StringConverter7.SetString(Data.AsSpan(0x86, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero);
         }
 
         public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
@@ -213,8 +212,8 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString7(Data, 0xB6, 0x1A);
-            set => StringConverter.SetString7(value, 12, 13).CopyTo(Data, 0xB6);
+            get => StringConverter7.GetString(Data.AsSpan(0xB6, 0x1A));
+            set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero);
         }
 
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }

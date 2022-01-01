@@ -111,13 +111,11 @@ namespace PKHeX.Core
             _ => GameVersion.Invalid,
         };
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter7.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+            return StringConverter7.SetString(destBuffer, value, maxLength, Language, option);
         }
 
         // Player Information

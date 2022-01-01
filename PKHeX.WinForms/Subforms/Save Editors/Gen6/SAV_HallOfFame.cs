@@ -153,8 +153,8 @@ namespace PKHeX.WinForms
             uint shiny = slgf >> 14 & 0x1;
             // uint unkn = slgf >> 15;
 
-            string nickname = StringConverter.GetString6(data, offset + 0x18, 24);
-            string OTname = StringConverter.GetString6(data, offset + 0x30, 24);
+            string nickname = StringConverter6.GetString(data.AsSpan(offset + 0x18, 26));
+            string OTname = StringConverter6.GetString(data.AsSpan(offset + 0x30, 26));
 
             string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
@@ -201,8 +201,8 @@ namespace PKHeX.WinForms
             TB_TID.Text = ReadUInt16LittleEndian(data.AsSpan(offset + 0x10)).ToString("00000");
             TB_SID.Text = ReadUInt16LittleEndian(data.AsSpan(offset + 0x12)).ToString("00000");
 
-            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
-            TB_OT.Text = StringConverter.GetString6(data, offset + 0x30, 24);
+            TB_Nickname.Text = StringConverter6.GetString(data.AsSpan(offset + 0x18, 26));
+            TB_OT.Text = StringConverter6.GetString(data.AsSpan(offset + 0x30, 26));
 
             uint slgf = ReadUInt32LittleEndian(data.AsSpan(offset + 0x14));
             uint form = slgf & 0x1F;
@@ -424,18 +424,15 @@ namespace PKHeX.WinForms
                 return;
 
             int offset = (LB_DataEntry.SelectedIndex * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value) - 1) * 0x48);
-            var nicktrash = data.AsSpan(offset + 0x18, 24);
+            var nicktrash = data.AsSpan(offset + 0x18, 26);
             var text = TB_Nickname.Text;
-            ReadOnlySpan<byte> minTrash = SAV.SetString(text, Math.Min(text.Length, nicktrash.Length));
-            if (minTrash.Length > nicktrash.Length)
-                minTrash = minTrash[..nicktrash.Length];
-            minTrash.CopyTo(nicktrash);
+            SAV.SetString(nicktrash, text.AsSpan(), 12, StringConverterOption.ClearZero);
             var d = new TrashEditor(tb, nicktrash, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
-            d.FinalBytes.CopyTo(data, offset + 0x18);
+            d.FinalBytes.CopyTo(nicktrash);
 
-            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
+            TB_Nickname.Text = StringConverter6.GetString(nicktrash);
         }
     }
 }

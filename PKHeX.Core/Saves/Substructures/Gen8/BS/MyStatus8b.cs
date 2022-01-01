@@ -16,10 +16,12 @@ namespace PKHeX.Core
 
         public MyStatus8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
+        private Span<byte> OT_Trash => Data.AsSpan(Offset + 0, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Data, Offset + 0, 0x1A);
-            set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), Offset + 0);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), 10, StringConverterOption.ClearZero);
         }
 
         public int TID

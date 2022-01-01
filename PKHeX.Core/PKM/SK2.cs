@@ -91,19 +91,23 @@ namespace PKHeX.Core
         public override int OT_Gender { get => (CaughtData >> 7) & 1; set => CaughtData = (CaughtData & 0xFF7F) | ((value & 1) << 7); }
         public override int Met_Location { get => CaughtData & 0x7F; set => CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); }
 
-        public override string Nickname { get => GetString(0x24, StringLength); set => StringConverter12.SetString1(value, 12, Japanese).CopyTo(Data, 0x24); }
+        public override string Nickname
+        {
+            get => StringConverter12.GetString(Nickname_Trash, Japanese);
+            set => StringConverter12.SetString(Nickname_Trash, value.AsSpan(), 12, Japanese, StringConverterOption.None);
+        }
 
         public override string OT_Name
         {
-            get => GetString(0x30, StringLength);
+            get => StringConverter12.GetString(OT_Trash, Japanese);
             set
             {
                 if (IsRental)
                 {
-                    Array.Clear(Data, 0x30, StringLength);
+                    OT_Trash.Clear();
                     return;
                 }
-                SetString(value, StringLength).CopyTo(Data, 0x30);
+                StringConverter12.SetString(OT_Trash, value.AsSpan(), StringLength, Japanese, StringConverterOption.None);
             }
         }
 
@@ -126,19 +130,18 @@ namespace PKHeX.Core
         public override bool HasOriginalMetLocation => CaughtData != 0;
         public override int Version { get => (int)GameVersion.GSC; set { } }
 
-        private string GetString(int offset, int length) => StringConverter12.GetString1(Data, offset, length - 1, Japanese);
-        private byte[] SetString(string value, int length) => StringConverter12.SetString1(value, length - 1, Japanese);
-
         protected override byte[] GetNonNickname(int language)
         {
-            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
-            return SetString(name, StringLength);
+            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
+            byte[] data = new byte[name.Length];
+            StringConverter12.SetString(data, name.AsSpan(), data.Length, Japanese, StringConverterOption.Clear50);
+            return data;
         }
 
         public override void SetNotNicknamed(int language)
         {
-            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
-            Array.Clear(Data, 0x24, 0xC);
+            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
+            Nickname_Trash.Clear();
             Nickname = name;
         }
 

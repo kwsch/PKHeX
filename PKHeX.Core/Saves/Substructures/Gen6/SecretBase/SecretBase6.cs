@@ -91,12 +91,13 @@ namespace PKHeX.Core
 
         public string TrainerName
         {
-            get => StringConverter.GetString6(Data, Offset + 0x21A, NameLengthBytes);
-            set => StringConverter.SetString6(value, NameLength).CopyTo(Data, Offset + 0x21A);
+            get => StringConverter6.GetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes));
+            set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value.AsSpan(), NameLength, StringConverterOption.ClearZero);
         }
 
-        private string GetMessage(int index) => StringConverter.GetString6(Data, Offset + 0x234 + (MessageLengthBytes * index), MessageLengthBytes);
-        private void SetMessage(int index, string value) => StringConverter.SetString6(value, MessageLength).CopyTo(Data, Offset + 0x234 + (MessageLengthBytes * index));
+        private Span<byte> GetMessageSpan(int index) => Data.AsSpan(Offset + 0x234 + (MessageLengthBytes * index), MessageLengthBytes);
+        private string GetMessage(int index) => StringConverter6.GetString(GetMessageSpan(index));
+        private void SetMessage(int index, string value) => StringConverter6.SetString(GetMessageSpan(index), value.AsSpan(), MessageLength, StringConverterOption.ClearZero);
 
         public string TeamName { get => GetMessage(0); set => SetMessage(0, value); }
         public string TeamSlogan { get => GetMessage(1); set => SetMessage(1, value); }

@@ -144,12 +144,6 @@ namespace PKHeX.Core
         public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x1240)); set => WriteUInt16LittleEndian(General.AsSpan(0x1240), (ushort)(X2 = value)); }
         public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x1244)); set => WriteUInt16LittleEndian(General.AsSpan(0x1244), (ushort)(Y2 = value)); }
 
-        public override string Rival
-        {
-            get => GetString(General, 0x25A8, OTLength * 2);
-            set => SetString(value, OTLength).CopyTo(General, 0x25A8);
-        }
-
         public override Span<byte> Rival_Trash
         {
             get => General.AsSpan(0x25A8, OTLength * 2);

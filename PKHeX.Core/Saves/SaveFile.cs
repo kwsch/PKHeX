@@ -86,9 +86,9 @@ namespace PKHeX.Core
             State.Edited = true;
         }
 
-        public abstract string GetString(byte[] data, int offset, int length);
-        public string GetString(int offset, int length) => GetString(Data, offset, length);
-        public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
+        public abstract string GetString(ReadOnlySpan<byte> data);
+        public string GetString(int offset, int length) => GetString(Data.AsSpan(offset, length));
+        public abstract int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option);
         #endregion
 
         public virtual void CopyChangesFrom(SaveFile sav) => SetData(sav.Data, 0);

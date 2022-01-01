@@ -97,16 +97,13 @@ namespace PKHeX.Core
             set => WriteInt32LittleEndian(Storage.AsSpan(BOX_END + 4), value);
         }
 
-        public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
+        public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
         public override void SetBoxName(int box, string value)
         {
             const int maxlen = 8;
-            if (value.Length > maxlen)
-                value = value[..maxlen]; // Hard cap
-            int offset = GetBoxNameOffset(box);
-            var str = SetString(value, maxlen);
-            SetData(Storage, str, offset);
+            var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+            SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
         }
 
         private static int AdjustWallpaper(int value, int shift)
@@ -155,13 +152,7 @@ namespace PKHeX.Core
         public override int M { get => ReadUInt16LittleEndian(General.AsSpan(0x1234)); set => WriteUInt16LittleEndian(General.AsSpan(0x1234), (ushort)value); }
         public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x123C)); set => WriteUInt16LittleEndian(General.AsSpan(0x123C), (ushort)(X2 = value)); }
         public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x1240)); set => WriteUInt16LittleEndian(General.AsSpan(0x1240), (ushort)(Y2 = value)); }
-
-        public override string Rival
-        {
-            get => GetString(General, 0x22D4, OTLength * 2);
-            set => SetString(value, OTLength).CopyTo(General, 0x22D4);
-        }
-
+        
         public override Span<byte> Rival_Trash
         {
             get => General.AsSpan(0x22D4, OTLength * 2);

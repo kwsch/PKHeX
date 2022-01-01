@@ -135,13 +135,11 @@ namespace PKHeX.Core
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString5(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter5.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
+            return StringConverter5.SetString(destBuffer, value, maxLength, option);
         }
 
         // DLC

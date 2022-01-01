@@ -34,9 +34,6 @@ namespace PKHeX.Core
             set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
         }
 
-        private string GetString(int offset, int count) => StringConverter.GetString7b(Data, offset, count);
-        private static byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
-
         public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
 
@@ -329,8 +326,8 @@ namespace PKHeX.Core
         #region Block B
         public override string Nickname
         {
-            get => GetString(0x58, 24);
-            set => SetString(value, 12).CopyTo(Data, 0x58);
+            get => StringConverter8.GetString(Nickname_Trash);
+            set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
         }
 
         // 2 bytes for \0, automatically handled above
@@ -377,7 +374,12 @@ namespace PKHeX.Core
 
         #endregion
         #region Block C
-        public override string HT_Name { get => GetString(0xA8, 24); set => SetString(value, 12).CopyTo(Data, 0xA8); }
+        public override string HT_Name
+        {
+            get => StringConverter8.GetString(HT_Trash);
+            set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        }
+
         public override int HT_Gender { get => Data[0xC2]; set => Data[0xC2] = (byte)value; }
         public int HT_Language { get => Data[0xC3]; set => Data[0xC3] = (byte)value; }
         public override int CurrentHandler { get => Data[0xC4]; set => Data[0xC4] = (byte)value; }
@@ -408,7 +410,12 @@ namespace PKHeX.Core
 
         #endregion
         #region Block D
-        public override string OT_Name { get => GetString(0xF8, 24); set => SetString(value, 12).CopyTo(Data, 0xF8); }
+        public override string OT_Name
+        {
+            get => StringConverter8.GetString(OT_Trash);
+            set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        }
+
         public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }
         public int OT_Intensity { get => Data[0x113]; set => Data[0x113] = (byte)value; }
         public int OT_Memory { get => Data[0x114]; set => Data[0x114] = (byte)value; }

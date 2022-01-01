@@ -173,8 +173,14 @@ namespace PKHeX.WinForms
                 Bytes[i].Value = 0;
         }
 
-        private byte[] SetString(string text) => SAV.SetString(text, text.Length);
-        private string GetString() => SAV.GetString(Raw, 0, Raw.Length);
+        private byte[] SetString(string text)
+        {
+            Span<byte> temp = stackalloc byte[Raw.Length];
+            var written = SAV.SetString(temp, text.AsSpan(), text.Length, StringConverterOption.None);
+            return temp[..written].ToArray();
+        }
+
+        private string GetString() => SAV.GetString(Raw.AsSpan());
 
         // Helpers
         private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};

@@ -32,10 +32,12 @@ namespace PKHeX.Core
             }
         }
 
+        private Span<byte> FestivalPlazaNameSpan => Data.AsSpan(Offset + 0x510, 0x2A);
+
         public string FestivalPlazaName
         {
-            get => StringConverter.GetString7(Data, Offset + 0x510, 0x2A);
-            set => StringConverter.SetString7(value, 20, 21).CopyTo(Data, Offset + 0x510);
+            get => StringConverter7.GetString(FestivalPlazaNameSpan);
+            set => StringConverter7.SetString(FestivalPlazaNameSpan, value.AsSpan(), 20, 0, StringConverterOption.ClearZero);
         }
 
         public ushort FestaRank { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x53A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x53A), value); }

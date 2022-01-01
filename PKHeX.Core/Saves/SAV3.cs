@@ -261,11 +261,11 @@ namespace PKHeX.Core
 
         public sealed override string OT
         {
-            get => GetString(Small, 0, 0x10);
+            get => GetString(Small.AsSpan(0, 8));
             set
             {
                 int len = Japanese ? 5 : OTLength;
-                SetString(value, len, PadToSize: len, PadWith: 0xFF).CopyTo(Small, 0);
+                SetString(Small.AsSpan(0, len), value.AsSpan(), len, StringConverterOption.ClearFF);
             }
         }
 
@@ -445,13 +445,14 @@ namespace PKHeX.Core
         public sealed override string GetBoxName(int box)
         {
             int offset = GetBoxOffset(COUNT_BOX);
-            return StringConverter3.GetString3(Storage, offset + (box * COUNT_BOXNAME), COUNT_BOXNAME, Japanese);
+            return StringConverter3.GetString(Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
         }
 
         public sealed override void SetBoxName(int box, string value)
         {
             int offset = GetBoxOffset(COUNT_BOX);
-            SetString(value, COUNT_BOXNAME - 1).CopyTo(Storage, offset + (box * COUNT_BOXNAME));
+            var dest = Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
+            SetString(dest, value.AsSpan(), COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
         }
         #endregion
 
@@ -551,13 +552,11 @@ namespace PKHeX.Core
         public abstract bool NationalDex { get; set; }
         #endregion
 
-        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter3.GetString(data, Japanese);
 
-        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter3.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter3.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         protected abstract int MailOffset { get; }

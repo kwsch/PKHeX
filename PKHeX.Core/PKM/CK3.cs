@@ -28,12 +28,10 @@ namespace PKHeX.Core
         public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
         public override PKM Clone() => new CK3((byte[])Data.Clone());
 
-        private string GetString(int offset, int count) => StringConverter3.GetBEString3(Data, offset, count);
-        private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
-
         // Trash Bytes
         public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x2E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x2E)); } }
         public override Span<byte> OT_Trash { get => Data.AsSpan(0x18, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x18)); } }
+        public Span<byte> NicknameCopy_Trash { get => Data.AsSpan(0x44, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x44)); } }
 
         // Future Attributes
 
@@ -50,9 +48,9 @@ namespace PKHeX.Core
         public override int OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
         public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0x14)); set => WriteUInt16BigEndian(Data.AsSpan(0x14), (ushort)value); }
         public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0x16)); set => WriteUInt16BigEndian(Data.AsSpan(0x16), (ushort)value); }
-        public override string OT_Name { get => GetString(0x18, 20); set => SetString(value, 10).CopyTo(Data, 0x18); } // +2 terminator
-        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); NicknameCopy = value; } } // +2 terminator
-        public string NicknameCopy { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
+        public override string OT_Name { get => StringConverter3GC.GetString(OT_Trash); set => StringConverter3GC.SetString(OT_Trash, value.AsSpan(), 10, StringConverterOption.None); }
+        public override string Nickname { get => StringConverter3GC.GetString(Nickname_Trash); set { StringConverter3GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); NicknameCopy = value; } }
+        public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value.AsSpan(), 10, StringConverterOption.None); }
         public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
         public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
 

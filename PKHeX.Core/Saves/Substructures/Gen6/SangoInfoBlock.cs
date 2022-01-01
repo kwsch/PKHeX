@@ -17,8 +17,8 @@ namespace PKHeX.Core
 
         public string SecretBaseQRText // 0x319BC -- 17*u16
         {
-            get => SAV.GetString(Offset + 0x63BC, 0x10);
-            set => SAV.SetData(SAV.SetString(value, 0x10), Offset + 0x63BC);
+            get => SAV.GetString(Data.AsSpan(Offset + 0x63BC, 36));
+            set => SAV.SetString(Data.AsSpan(Offset + 0x63BC, 36), value.AsSpan(), 0x10, StringConverterOption.ClearZero);
         }
 
         public uint EonTicketSendMagic // 0x319DE

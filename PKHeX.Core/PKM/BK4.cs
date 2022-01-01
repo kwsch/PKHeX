@@ -47,9 +47,6 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new BK4((byte[])Data.Clone());
 
-        public string GetString(int offset, int count) => StringConverter4.GetBEString4(Data, offset, count);
-        private static byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
-
         // Structure
         public override uint PID { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
         public override ushort Sanity { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
@@ -202,7 +199,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 20); set => SetString(value, 10).CopyTo(Data, 0x48); }
+        public override string Nickname { get => StringConverter4GC.GetString(Nickname_Trash); set => StringConverter4GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -245,7 +242,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => StringConverter4GC.GetString(OT_Trash); set => StringConverter4GC.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }

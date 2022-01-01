@@ -164,7 +164,7 @@ namespace PKHeX.Core
                     data.AddLine(Get(msg, ParseSettings.NicknamedAnotherSpecies));
                     return true;
                 }
-                if (pkm.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname) && pkm is not PB7) // East Asian Scripts
+                if (pkm.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname.AsSpan()) && pkm is not PB7) // East Asian Scripts
                 {
                     data.AddLine(GetInvalid(LNickInvalidChar));
                     return true;

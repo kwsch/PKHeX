@@ -40,8 +40,8 @@ namespace PKHeX.Core
         public override string CardTitle
         {
             // Max len 36 char, followed by null terminator
-            get => StringConverter.GetString6(Data, 2, 0x4A);
-            set => StringConverter.SetString6(value, 36, 37).CopyTo(Data, 2);
+            get => StringConverter6.GetString(Data.AsSpan(2, 0x4A));
+            set => StringConverter6.SetString(Data.AsSpan(2, 0x4A), value.AsSpan(), 36, StringConverterOption.ClearZero);
         }
 
         internal uint RawDate
@@ -141,8 +141,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter.GetString6(Data, 0x86, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x86);
+            get => StringConverter6.GetString(Data.AsSpan(0x86, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x86, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
@@ -170,8 +170,8 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString6(Data, 0xB6, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0xB6);
+            get => StringConverter6.GetString(Data.AsSpan(0xB6, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0xB6, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }

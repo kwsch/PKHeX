@@ -11,10 +11,12 @@ namespace PKHeX.Core
         public PlayerData5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
         public PlayerData5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
+        private Span<byte> OT_Trash => Data.AsSpan(Offset + 4, 0x10);
+
         public string OT
         {
-            get => SAV.GetString(Offset + 0x4, 0x10);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x4);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
         public int TID

@@ -159,8 +159,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get => GetString(General, Trainer1, 16);
-            set => SetString(value, OTLength).CopyTo(General, Trainer1);
+            get => GetString(General.AsSpan(Trainer1, 16));
+            set => SetString(General.AsSpan(Trainer1, 16), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
         }
 
         public override int TID
@@ -233,7 +233,12 @@ namespace PKHeX.Core
         public abstract int X { get; set; }
         public abstract int Y { get; set; }
 
-        public abstract string Rival { get; set; }
+        public string Rival
+        {
+            get => GetString(Rival_Trash);
+            set => SetString(Rival_Trash, value.AsSpan(), OTLength, StringConverterOption.ClearZero);
+        }
+
         public abstract Span<byte> Rival_Trash { get; set; }
 
         public abstract int X2 { get; set; }
@@ -469,13 +474,11 @@ namespace PKHeX.Core
             }
         }
 
-        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter4.GetString4(data.AsSpan(offset), length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter4.GetString(data);
 
-        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter4.SetString4(value, maxLength, PadToSize, PadWith);
+            return StringConverter4.SetString(destBuffer, value, maxLength, option);
         }
 
         /// <summary> All Event Constant values for the savegame </summary>

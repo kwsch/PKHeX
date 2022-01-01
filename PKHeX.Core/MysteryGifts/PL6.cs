@@ -35,7 +35,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Name of data source
         /// </summary>
-        public string Origin { get => StringConverter.GetString6(Data, 0x01, 110); set => StringConverter.SetString6(value, 54, 55).CopyTo(Data, 0x01); }
+        public string Origin { get => StringConverter6.GetString(Data.AsSpan(0x01, 110)); set => StringConverter6.SetString(Data.AsSpan(0x01, 110), value.AsSpan(), 54, StringConverterOption.ClearZero); }
 
         // Pokemon transfer flags?
         public uint Flags_1 { get => ReadUInt32LittleEndian(Data.AsSpan(0x099)); set => WriteUInt32LittleEndian(Data.AsSpan(0x099), value); }
@@ -103,8 +103,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter.GetString6(Data, 0x1E, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x1E);
+            get => StringConverter6.GetString(Data.AsSpan(0x1E, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x1E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
@@ -133,8 +133,8 @@ namespace PKHeX.Core
 
         public string OT
         {
-            get => StringConverter.GetString6(Data, 0x4E, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x4E);
+            get => StringConverter6.GetString(Data.AsSpan(0x4E, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x4E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }

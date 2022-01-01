@@ -169,8 +169,13 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value)
         {
             int offset = Box + 0x1EC38 + (9 * box);
-            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : SetString(value, 8);
-            SetData(data, offset);
+            var span = Data.AsSpan(offset, 9);
+            if (value == $"BOX {box + 1}")
+            {
+                span.Clear();
+                return;
+            }
+            SetString(span, value.AsSpan(), 8, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -196,13 +201,11 @@ namespace PKHeX.Core
             WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED + 2)..], (ushort)pkm.SID);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter3.GetString(data, Japanese);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter3.SetString3(value, maxLength, Japanese, PadToSize, PadWith);
+            return StringConverter3.SetString(destBuffer, value, maxLength, Japanese, option);
         }
     }
 }

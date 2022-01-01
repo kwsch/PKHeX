@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public sealed class BoxLayout5 : SaveBlock
     {
@@ -23,19 +25,18 @@
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
 
+        private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), 0x14);
+
         public string GetBoxName(int box)
         {
             if (box >= SAV.BoxCount)
                 return string.Empty;
-            return SAV.GetString(GetBoxNameOffset(box), 0x14);
+            return SAV.GetString(GetBoxNameSpan(box));
         }
 
         public void SetBoxName(int box, string value)
         {
-            if (value.Length > 0x26 / 2)
-                return;
-            var data = SAV.SetString(value + '\uFFFF', 0x14, 0x14, 0);
-            SAV.SetData(data, GetBoxNameOffset(box));
+            SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), 13, StringConverterOption.ClearZero);
         }
 
         public string this[int i]

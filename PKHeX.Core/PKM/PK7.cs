@@ -31,9 +31,6 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK7((byte[])Data.Clone());
 
-        private string GetString(int offset, int count) => StringConverter.GetString7(Data, offset, count);
-        private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
-
         // Structure
         #region Block A
         public override uint EncryptionConstant
@@ -234,7 +231,7 @@ namespace PKHeX.Core
         #region Block B
         public override string Nickname
         {
-            get => GetString(0x40, 24);
+            get => StringConverter7.GetString(Nickname_Trash);
             set
             {
                 if (!IsNicknamed)
@@ -242,11 +239,11 @@ namespace PKHeX.Core
                     int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
                     if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                     {
-                        StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
+                        StringConverter7.SetString(Nickname_Trash, value.AsSpan(), 12, lang, StringConverterOption.None, chinese: true);
                         return;
                     }
                 }
-                SetString(value, 12).CopyTo(Data, 0x40);
+                StringConverter7.SetString(Nickname_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
             }
         }
 
@@ -321,7 +318,12 @@ namespace PKHeX.Core
         public override bool IsNicknamed { get => ((IV32 >> 31) & 1) == 1; set => IV32 = (IV32 & 0x7FFFFFFFu) | (value ? 0x80000000u : 0u); }
         #endregion
         #region Block C
-        public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
+        public override string HT_Name
+        {
+            get => StringConverter7.GetString(HT_Trash);
+            set => StringConverter7.SetString(HT_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
+        }
+
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
         public byte Geo1_Region  { get => Data[0x94]; set => Data[0x94] = value; }
@@ -353,7 +355,12 @@ namespace PKHeX.Core
         public override byte Enjoyment { get => Data[0xAF]; set => Data[0xAF] = value; }
         #endregion
         #region Block D
-        public override string OT_Name { get => GetString(0xB0, 24); set => SetString(value, 12).CopyTo(Data, 0xB0); }
+        public override string OT_Name
+        {
+            get => StringConverter7.GetString(OT_Trash);
+            set => StringConverter7.SetString(OT_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
+        }
+
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
         public int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
         public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }

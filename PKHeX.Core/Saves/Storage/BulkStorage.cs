@@ -53,10 +53,10 @@ namespace PKHeX.Core
         public sealed override void SetBoxName(int box, string value) { }
         public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
-        public override string GetString(byte[] data, int offset, int length)
-            => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, length, offset);
+        public override string GetString(ReadOnlySpan<byte> data)
+            => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-            => StringConverter.SetString(value, Generation, blank.Japanese, IsBigEndian, maxLength, padTo: PadToSize, padWith: PadWith);
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+            => StringConverter.SetString(destBuffer, value, maxLength, option: option, generation: Generation, jp: blank.Japanese, isBigEndian: IsBigEndian, language: Language);
     }
 }

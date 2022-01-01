@@ -147,7 +147,7 @@ namespace PKHeX.Core
         public byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
         public void SetEReaderBerry(byte[] data) => SetData(Large, data, OFFSET_EBERRY);
 
-        public override string EBerryName => GetString(Large, OFFSET_EBERRY, 7);
+        public override string EBerryName => GetString(Large.AsSpan(OFFSET_EBERRY, 7));
         public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;
         #endregion
 
@@ -173,8 +173,8 @@ namespace PKHeX.Core
 
         public string RivalName
         {
-            get => GetString(Large, 0x3A4C, 8);
-            set => SetData(Large, SetString(value, 7), 0x3A4C);
+            get => GetString(Large.AsSpan(0x3A4C, 8));
+            set => SetString(Large.AsSpan(0x3A4C, 8), value.AsSpan(), 7, StringConverterOption.ClearZero);
         }
 
         #endregion

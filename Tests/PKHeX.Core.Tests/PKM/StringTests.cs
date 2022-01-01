@@ -77,8 +77,8 @@ namespace PKHeX.Tests.PKM
         [InlineData(0x105, 0x266A)] // ♪
         public static void Encode45(ushort g4, char g5)
         {
-            StringConverter4.ConvertChar2ValueG4(g5).Should().Be(g4);
-            StringConverter4.ConvertValue2CharG4(g4).Should().Be(g5);
+            StringConverter4Util.ConvertChar2ValueG4(g5).Should().Be(g4);
+            StringConverter4Util.ConvertValue2CharG4(g4).Should().Be(g5);
         }
     }
 }

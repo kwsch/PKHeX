@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -88,16 +87,11 @@ namespace PKHeX.Core
             SetData(result, 0);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (value.Length > maxLength)
-                value = value[..maxLength]; // Hard cap
-            string temp = value
-                .PadRight(value.Length + 1, (char)0) // Null Terminator
-                .PadRight(PadToSize, (char)PadWith); // Padding
-            return Encoding.BigEndianUnicode.GetBytes(temp);
+            return StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
         }
     }
 }

@@ -239,13 +239,11 @@ namespace PKHeX.Core
             _ => GameVersion.Invalid,
         };
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString7b(value, maxLength, PadToSize, PadWith);
+            return StringConverter8.SetString(destBuffer, value, maxLength, option);
         }
 
         public override bool GetEventFlag(int flagNumber) => Work.GetFlag(flagNumber);
@@ -282,7 +280,7 @@ namespace PKHeX.Core
         public string Rival
         {
             get => GetString(0x55F4, 0x1A);
-            set => SetString(value, OTLength).CopyTo(Data, 0x55F4);
+            set => SetString(Data.AsSpan(0x55F4, 0x1A), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
         }
 
         public short ZoneID // map

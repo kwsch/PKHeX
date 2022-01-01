@@ -56,10 +56,12 @@ namespace PKHeX.Core
             set => Data[Offset + 0x35] = (byte)value;
         }
 
+        private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x38, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Offset + 0x38, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
         // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).

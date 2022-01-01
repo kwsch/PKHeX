@@ -68,14 +68,14 @@ namespace PKHeX.Core
 
         public string GroupName
         {
-            get => StringConverter.GetString7b(Data, Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2);
-            set => StringConverter.SetString7b(value, GROUP_NAME_SIZE, GROUP_NAME_SIZE).CopyTo(Data, Offset + OFS_GROUPNAME);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2), value.AsSpan(), GROUP_NAME_SIZE, StringConverterOption.ClearZero);
         }
 
         public string PlayerName
         {
-            get => StringConverter.GetString7b(Data, Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2);
-            set => StringConverter.SetString7b(value, PERSON_NAME_SIZE, PERSON_NAME_SIZE).CopyTo(Data, Offset + OFS_PLAYERNAME);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value.AsSpan(), PERSON_NAME_SIZE, StringConverterOption.ClearZero);
         }
 
         public bool Male { get => Data[Offset + OFS_GENDER] == 1; set => Data[Offset + OFS_GENDER] = (byte)(value ? 1 : 0); }

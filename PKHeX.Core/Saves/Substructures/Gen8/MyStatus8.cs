@@ -162,10 +162,12 @@ namespace PKHeX.Core
             }
         }
 
+        private Span<byte> OT_Trash =>Data.AsSpan(0xB0, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Data, 0xB0, 0x1A);
-            set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0xB0);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
         // D0

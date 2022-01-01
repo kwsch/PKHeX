@@ -60,8 +60,8 @@ namespace PKHeX.Core
 
         public string Rival
         {
-            get => GetString(0x23BA4, OTLength * 2);
-            set => SetString(value, OTLength).CopyTo(Data, 0x23BA4);
+            get => GetString(Rival_Trash);
+            set => SetString(Rival_Trash, value.AsSpan(), OTLength, StringConverterOption.ClearZero);
         }
 
         public Span<byte> Rival_Trash

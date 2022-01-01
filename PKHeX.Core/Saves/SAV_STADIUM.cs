@@ -94,13 +94,11 @@ namespace PKHeX.Core
             return result;
         }
 
-        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, Japanese);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter12.GetString(data, Japanese);
 
-        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         /// <summary>

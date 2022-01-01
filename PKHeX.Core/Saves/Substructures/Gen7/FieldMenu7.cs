@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public string RotomOT
         {
             get => SAV.GetString(Offset + 0x30, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x30);
+            set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
     }
 }

@@ -238,7 +238,7 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(Offsets.OT, OTLength);
-            set => SetString(value, OTLength).CopyTo(Data, Offsets.OT);
+            set => SetString(Data.AsSpan(Offsets.OT, OTLength), value.AsSpan(), OTLength, StringConverterOption.Clear50);
         }
 
         public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -260,7 +260,7 @@ namespace PKHeX.Core
         public string Rival
         {
             get => GetString(Offsets.Rival, OTLength);
-            set => SetString(value, OTLength).CopyTo(Data, Offsets.Rival);
+            set => SetString(Data.AsSpan(Offsets.Rival, OTLength), value.AsSpan(), OTLength, StringConverterOption.Clear50);
         }
 
         public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
@@ -547,13 +547,11 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, Japanese);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter12.GetString(data, Japanese);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
     }
 }

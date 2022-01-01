@@ -275,7 +275,7 @@ namespace PKHeX.Core
 
         public override void SetBoxName(int box, string value)
         {
-            SetString(value, 8).CopyTo(Data, Box + (0x24A4 * box));
+            SetString(Data.AsSpan(Box + (0x24A4 * box), 16), value.AsSpan(), 8, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -350,15 +350,15 @@ namespace PKHeX.Core
         }
 
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-        public override string OT { get => GetString(0x78, 20); set { SetString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
-        public string OT2 { get => GetString(0x8C, 20); set => SetString(value, 10).CopyTo(Data, 0x8C); }
+        public override string OT { get => GetString(0x78, 20); set { SetString(Data.AsSpan(0x78, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); OT2 = value; } }
+        public string OT2 { get => GetString(0x8C, 20); set => SetString(Data.AsSpan(0x8C, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
         public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)value); }
         public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)value); }
 
         public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
         public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(0xAFC)); set => WriteUInt32BigEndian(Data.AsSpan(0xAFC), value); }
         public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(0xB00)); set => WriteUInt32BigEndian(Data.AsSpan(0xB00), value); }
-        public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(value, 10).CopyTo(Data, 0xB3A); }
+        public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(Data.AsSpan(0xB3A, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
 
         public override IReadOnlyList<InventoryPouch> Inventory
         {
@@ -389,13 +389,11 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetBEString3(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter3.SetBEString3(value, maxLength, PadToSize, PadWith);
+            return StringConverter3GC.SetString(destBuffer, value, maxLength, option);
         }
     }
 }

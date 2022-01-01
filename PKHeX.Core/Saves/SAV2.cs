@@ -322,7 +322,7 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
-            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
+            set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         public Span<byte> OT_Trash
@@ -334,7 +334,7 @@ namespace PKHeX.Core
         public string Rival
         {
             get => GetString(Offsets.Rival, (Korean ? 2 : 1) * OTLength);
-            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Rival);
+            set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         public Span<byte> Rival_Trash
@@ -555,8 +555,8 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value)
         {
             int len = Korean ? 17 : 9;
-            var data = SetString(value, len, len, 0x50);
-            SetData(data, Offsets.BoxNames + (box * len));
+            var span = Data.AsSpan(Offsets.BoxNames + (box * len), len);
+            SetString(span, value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -733,18 +733,18 @@ namespace PKHeX.Core
                 SetEventFlag(i, true);
         }
 
-        public override string GetString(byte[] data, int offset, int length)
+        public override string GetString(ReadOnlySpan<byte> data)
         {
             if (Korean)
-                return StringConverter2KOR.GetString2KOR(data, offset, length);
-            return StringConverter12.GetString1(data, offset, length, Japanese);
+                return StringConverter2KOR.GetString(data);
+            return StringConverter12.GetString(data, Japanese);
         }
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength, PadToSize, (byte)PadWith);
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
+                return StringConverter2KOR.SetString(value, destBuffer, maxLength, option);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;

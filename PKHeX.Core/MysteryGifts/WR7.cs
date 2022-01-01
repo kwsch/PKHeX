@@ -90,8 +90,8 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString7b(Data, 0x120, 0x1A);
-            set => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, 0x120 + 0xB6); // careful with length
+            get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
+            set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public LanguageID LanguageReceived

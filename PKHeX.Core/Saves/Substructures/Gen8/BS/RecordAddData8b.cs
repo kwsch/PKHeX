@@ -62,8 +62,8 @@ namespace PKHeX.Core
         }
         public string OT
         {
-            get => StringConverter.GetString7b(Data, Offset + 0, 0x1A);
-            set => StringConverter.SetString7b(value, 12, 12).CopyTo(Data, Offset);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + 0, 0x1A));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
         // 1A reserved byte
         // 1B reserved byte

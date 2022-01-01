@@ -43,16 +43,13 @@ namespace PKHeX.Core
             set => Storage[BOX_FLAGS] = value[0];
         }
 
-        public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
+        public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
         public override void SetBoxName(int box, string value)
         {
             const int maxlen = 8;
-            if (value.Length > maxlen)
-                value = value[..maxlen]; // Hard cap
-            int offset = GetBoxNameOffset(box);
-            var str = SetString(value, maxlen);
-            SetData(Storage, str, offset);
+            var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+            SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
         }
         #endregion
 

@@ -9,10 +9,12 @@ namespace PKHeX.Core
     {
         public TrainerCard8(SAV8SWSH sav, SCBlock block) : base (sav, block.Data) { }
 
+        private Span<byte> OT_Trash => Data.AsSpan(0x00, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Data, 0x00, 0x1A);
-            set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0x00);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
         public byte Language

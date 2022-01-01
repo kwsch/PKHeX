@@ -1,24 +1,19 @@
 ﻿using System;
-using static PKHeX.Core.StringConverter4Util;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-/// <summary>
-/// Logic for converting a <see cref="string"/> for Generation 4.
-/// </summary>
-public static class StringConverter4
+public static class StringConverter5
 {
-    private const ushort Terminator = 0xFFFF;
-    private const char TerminatorChar = (char)Terminator;
+    private const char TerminatorFFFF = (char)0xFFFF;
 
-    /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
+    /// <summary>Converts Generation 5 encoded data to decoded string.</summary>
     /// <param name="data">Encoded data</param>
     /// <returns>Decoded string.</returns>
     public static string GetString(ReadOnlySpan<byte> data)
     {
         Span<char> result = stackalloc char[data.Length];
-        var length = LoadString(data, result);
+        int length = LoadString(data, result);
         return new string(result[..length].ToArray());
     }
 
@@ -28,18 +23,14 @@ public static class StringConverter4
         for (; i < data.Length; i += 2)
         {
             var value = ReadUInt16LittleEndian(data[i..]);
-            if (value == Terminator)
+            if (value == TerminatorFFFF)
                 break;
-            char chr = (char)ConvertValue2CharG4(value);
-            if (chr == TerminatorChar)
-                break;
-            chr = StringConverter.SanitizeChar(chr);
-            result[i/2] = chr;
+            result[i/2] = StringConverter.SanitizeChar((char)value);
         }
         return i/2;
     }
 
-    /// <summary>Gets the bytes for a 4th Generation String</summary>
+    /// <summary>Gets the bytes for a Generation 5 string.</summary>
     /// <param name="destBuffer"></param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
@@ -53,19 +44,20 @@ public static class StringConverter4
 
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
+        else if (option is StringConverterOption.ClearFF)
+            destBuffer.Fill(0xFF);
 
         for (int i = 0; i < value.Length; i++)
         {
-            var chr = value[i];
-            chr = StringConverter.UnSanitizeChar5(chr);
-            ushort val = ConvertChar2ValueG4(chr);
+            char c = value[i];
+            ushort val = StringConverter.UnSanitizeChar5(c);
             WriteUInt16LittleEndian(destBuffer[(i * 2)..], val);
         }
 
         int count = value.Length * 2;
         if (count == destBuffer.Length)
             return count;
-        WriteUInt16LittleEndian(destBuffer[count..], Terminator);
+        WriteUInt16LittleEndian(destBuffer[count..], TerminatorFFFF);
         return count + 2;
     }
 }

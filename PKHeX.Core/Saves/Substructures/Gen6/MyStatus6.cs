@@ -94,15 +94,18 @@ namespace PKHeX.Core
             set => Data[Offset + 0x2D] = (byte)value;
         }
 
+        private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x48, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Offset + 0x48, 0x1A);
-            set => SAV.SetData(SAV.SetString(value, SAV.OTLength), Offset + 0x48);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
+        private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);
         private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6.LongStringLength * say);
-        private string GetSaying(int say) => SAV.GetString(GetSayingOffset(say), SAV6.LongStringLength);
-        private void SetSaying(int say, string value) => SAV.SetData(SAV.SetString(value, SAV6.LongStringLength / 2), GetSayingOffset(say));
+        private string GetSaying(int say) => SAV.GetString(GetSayingSpan(say));
+        private void SetSaying(int say, string value) => SAV.SetString(GetSayingSpan(say), value.AsSpan(), SAV6.LongStringLength / 2, StringConverterOption.ClearZero);
 
         public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
         public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }

@@ -65,7 +65,8 @@ namespace PKHeX.Core
             string[] trainers = new string[PlayerCount];
             for (int i = 0; i < PlayerCount; i++)
             {
-                var str = StringConverter.GetString7(Data, 0x12C + (0x1A * i), 0x1A);
+                var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+                var str = StringConverter7.GetString(span);
                 trainers[i] = string.IsNullOrWhiteSpace(trainers[i]) ? NPC : str;
             }
             return trainers;
@@ -79,7 +80,8 @@ namespace PKHeX.Core
             for (int i = 0; i < PlayerCount; i++)
             {
                 string tr = value[i] == NPC ? string.Empty : value[i];
-                StringConverter.SetString7(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
+                var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+                StringConverter7.SetString(span, tr.AsSpan(), 12, 0, StringConverterOption.ClearZero);
             }
         }
 

@@ -38,19 +38,11 @@ namespace PKHeX.Core
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
 
+
+        private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
         private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
-
-        public string GetBoxName(int box)
-        {
-            return SAV.GetString(Data, GetBoxNameOffset(box), SAV6.LongStringLength);
-        }
-
-        public void SetBoxName(int box, string value)
-        {
-            var data = SAV.SetString(value, StringMaxLength, StringMaxLength, 0);
-            var offset = GetBoxNameOffset(box - 1) + (SAV6.LongStringLength);
-            SAV.SetData(data, offset);
-        }
+        public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
+        public void SetBoxName(int box, string value) => SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
 
         public byte[] BoxFlags
         {

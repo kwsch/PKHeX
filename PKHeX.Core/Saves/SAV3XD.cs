@@ -250,7 +250,7 @@ namespace PKHeX.Core
         }
         // Trainer Info
         public override GameVersion Version { get => GameVersion.XD; protected set { } }
-        public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(value, 10).CopyTo(Data, Trainer1 + 0x00); }
+        public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
         public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), (ushort)value); }
         public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), (ushort)value); }
 
@@ -266,9 +266,7 @@ namespace PKHeX.Core
 
         public override void SetBoxName(int box, string value)
         {
-            if (value.Length > 8)
-                value = value[..8]; // Hard cap
-            SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
+            SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value.AsSpan(), 8, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -372,13 +370,11 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetBEString3(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter3.SetBEString3(value, maxLength, PadToSize, PadWith);
+            return StringConverter3GC.SetString(destBuffer, value, maxLength, option);
         }
-}
+    }
 }

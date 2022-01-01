@@ -52,8 +52,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter.GetString5(Data, 0x1E, 11 * 2);
-            set => StringConverter.SetString5(value, 11, 11, '\uFFFF').CopyTo(Data, 0x1E);
+            get => StringConverter5.GetString(Data.AsSpan( 0x1E, 11 * 2));
+            set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2),value.AsSpan(), 11, StringConverterOption.ClearFF);
         }
 
         public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
@@ -78,8 +78,8 @@ namespace PKHeX.Core
         // Unused 0x49
         public override string OT_Name
         {
-            get => StringConverter.GetString5(Data, 0x4A, 8 * 2);
-            set => StringConverter.SetString5(value, 8, 8, '\uFFFF').CopyTo(Data, 0x4A);
+            get => StringConverter5.GetString(Data.AsSpan(0x4A, 8 * 2));
+            set => StringConverter5.SetString(Data.AsSpan(0x4A, 8 * 2), value.AsSpan(), 8, StringConverterOption.ClearFF);
         }
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
@@ -88,8 +88,8 @@ namespace PKHeX.Core
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
-            get => StringConverter.GetString5(Data, 0x60, 37 * 2);
-            set => StringConverter.SetString5(value, 37, 37, 0).CopyTo(Data, 0x60);
+            get => StringConverter5.GetString(Data.AsSpan(0x60, 37 * 2));
+            set => StringConverter5.SetString(Data.AsSpan(0x60, 37 * 2), value.AsSpan(), 36, StringConverterOption.ClearZero);
         }
 
         // Card Attributes

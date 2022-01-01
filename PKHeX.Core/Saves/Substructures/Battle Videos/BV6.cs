@@ -29,14 +29,14 @@ namespace PKHeX.Core
 
         public string Debug1
         {
-            get => StringConverter.GetString6(Data, 0x6, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x6);
+            get => StringConverter6.GetString(Data.AsSpan(0x6, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public string Debug2
         {
-            get => StringConverter.GetString6(Data, 0x50, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x50);
+            get => StringConverter6.GetString(Data.AsSpan(0x50, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A0), value); }
@@ -54,7 +54,8 @@ namespace PKHeX.Core
             string[] trainers = new string[PlayerCount];
             for (int i = 0; i < PlayerCount; i++)
             {
-                var str = StringConverter.GetString6(Data, 0xEC + (0x1A * i), 0x1A);
+                var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
+                var str = StringConverter6.GetString(span);
                 trainers[i] = string.IsNullOrWhiteSpace(str) ? NPC : str;
             }
             return trainers;
@@ -67,8 +68,9 @@ namespace PKHeX.Core
 
             for (int i = 0; i < PlayerCount; i++)
             {
+                var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
                 string tr = value[i] == NPC ? string.Empty : value[i];
-                StringConverter.SetString6(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
+                StringConverter6.SetString(span, tr.AsSpan(), 12, StringConverterOption.ClearZero);
             }
         }
 

@@ -66,18 +66,12 @@ namespace PKHeX.Core
 
         private const int TitleLength = 0x48;
 
+        private Span<byte> CardTitleSpan => Data.AsSpan(0x104, TitleLength);
+
         public override string CardTitle
         {
-            get => StringConverter4.GetString4(Data.AsSpan(0x104), TitleLength);
-            set
-            {
-                byte[] data = StringConverter4.SetString4(value, (TitleLength / 2) - 1, TitleLength / 2, 0xFFFF);
-                int len = data.Length;
-                Array.Resize(ref data, 0x48);
-                for (int i = 0; i < len; i++)
-                    data[i] = 0xFF;
-                data.CopyTo(Data, 0x104);
-            }
+            get => StringConverter4.GetString(CardTitleSpan);
+            set => StringConverter4.SetString(CardTitleSpan, value.AsSpan(), TitleLength / 2, StringConverterOption.ClearFF);
         }
 
         public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about

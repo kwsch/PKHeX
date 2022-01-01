@@ -26,12 +26,10 @@ namespace PKHeX.Core
         public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
         public override void RefreshChecksum() => Valid = true;
 
-        private string GetString(int offset, int count) => StringConverter3.GetBEString3(Data, offset, count);
-        private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
-
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x4E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x4E)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x38, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x38)); } }
+        public override Span<byte> OT_Trash { get => Data.AsSpan(0x38, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x38)); } }
+        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x4E, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x4E)); } }
+        public Span<byte> NicknameCopy_Trash { get => Data.AsSpan(0x64, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x64)); } }
 
         public override int Species { get => SpeciesConverter.GetG4Species(ReadUInt16BigEndian(Data.AsSpan(0x00))); set => WriteUInt16BigEndian(Data.AsSpan(0x00), (ushort)SpeciesConverter.GetG3Species(value)); }
         public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
@@ -89,9 +87,9 @@ namespace PKHeX.Core
         public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
-        public override string OT_Name { get => GetString(0x38, 20); set => SetString(value, 10).CopyTo(Data, 0x38); } // +2 terminator
-        public override string Nickname { get => GetString(0x4E, 20); set { SetString(value, 10).CopyTo(Data, 0x4E); NicknameCopy = value; } } // +2 terminator
-        public string NicknameCopy { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
+        public override string OT_Name { get => StringConverter3GC.GetString(OT_Trash); set => StringConverter3GC.SetString(OT_Trash, value.AsSpan(), 10, StringConverterOption.None); }
+        public override string Nickname { get => StringConverter3GC.GetString(Nickname_Trash); set { StringConverter3GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); NicknameCopy = value; } }
+        public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value.AsSpan(), 10, StringConverterOption.None); }
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get => ReadUInt16BigEndian(Data.AsSpan(0x7C)); set => WriteUInt16BigEndian(Data.AsSpan(0x7C), value); }
         public override bool RibbonChampionG3        { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (value ? 1 << 15 : 0)); }

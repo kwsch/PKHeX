@@ -22,32 +22,32 @@ namespace PKHeX.Core
 
         public string GetBoxName(int box)
         {
-            var boxName = SAV.GetString(Data, Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
-            if (string.IsNullOrEmpty(boxName))
-                boxName = $"Box {box + 1}";
-            return boxName;
+            var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
+            if (span.Count((byte)0) == span.Length)
+                return $"Box {box + 1}";
+            return SAV.GetString(span);
         }
 
         public void SetBoxName(int box, string value)
         {
-            var data = SAV.SetString(value, StringMaxLength, StringMaxLength, 0);
-            var offset = Offset + GetBoxNameOffset(box);
-            SAV.SetData(Data, data, offset);
+            var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
+            SAV.SetString(span, value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
         }
 
         public string GetTeamName(int team)
         {
-            var boxName = SAV.GetString(Data, Offset + GetTeamNameOffset(team), TeamNameLength);
-            if (string.IsNullOrEmpty(boxName))
-                boxName = $"Team {team + 1}";
-            return boxName;
+            var offset = Offset + GetTeamNameOffset(team);
+            var span = Data.AsSpan(offset, TeamNameLength);
+            if (span.Count((byte)0) == span.Length)
+                return $"Team {team + 1}";
+            return SAV.GetString(span);
         }
 
         public void SetTeamName(int team, string value)
         {
-            var data = SAV.SetString(value, StringMaxLength, TeamNameLength / 2, 0);
             var offset = Offset + GetTeamNameOffset(team);
-            SAV.SetData(Data, data, offset);
+            var span = Data.AsSpan(offset, TeamNameLength);
+            SAV.SetString(span, value.AsSpan(), TeamNameLength/2, StringConverterOption.ClearZero);
         }
 
         public string this[int i]

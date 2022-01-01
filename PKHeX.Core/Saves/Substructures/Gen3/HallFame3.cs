@@ -75,12 +75,11 @@ namespace PKHeX.Core
         public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
         public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(4 + Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(4 + Offset), value); }
         private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
-        public string Nickname { get => GetString(Data, 10 + Offset, 10); set => SetString(value, 10).CopyTo(Data, 10 + Offset); }
+
+        private Span<byte> Nickname_Trash => Data.AsSpan(10 + Offset, 10);
+        public string Nickname { get => StringConverter3.GetString(Nickname_Trash, Japanese); set => StringConverter3.SetString(Nickname_Trash, value.AsSpan(), 10, Japanese, StringConverterOption.ClearZero); }
 
         public int Species { get => SpecLevel & 0x1FF; set => SpecLevel = (SpecLevel & 0xFE00) | value; }
         public int Level { get => SpecLevel >> 9; set => SpecLevel = (SpecLevel & 0x1FF) | (value << 9); }
-
-        private string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);
-        private byte[] SetString(string value, int maxLength) => StringConverter3.SetString3(value, maxLength, Japanese, 10);
     }
 }
