@@ -24,6 +24,7 @@ namespace PKHeX.Core
         public XK3(byte[] data) : base(data) { }
         public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
         public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
+        public override void RefreshChecksum() => Valid = true;
 
         private string GetString(int offset, int count) => StringConverter3.GetBEString3(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
@@ -31,11 +32,6 @@ namespace PKHeX.Core
         // Trash Bytes
         public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x4E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x4E)); } }
         public override Span<byte> OT_Trash { get => Data.AsSpan(0x38, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x38)); } }
-
-        // Silly Attributes
-        public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => Checksums.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
-        public override bool ChecksumValid => Valid;
 
         public override int Species { get => SpeciesConverter.GetG4Species(ReadUInt16BigEndian(Data.AsSpan(0x00))); set => WriteUInt16BigEndian(Data.AsSpan(0x00), (ushort)SpeciesConverter.GetG3Species(value)); }
         public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);

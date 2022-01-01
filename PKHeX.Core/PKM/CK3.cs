@@ -37,12 +37,6 @@ namespace PKHeX.Core
 
         // Future Attributes
 
-        // Silly Attributes
-        public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => Checksums.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
-        public override bool ChecksumValid => true;
-        public override bool Valid { get => !Invalid; set => Invalid = !value; }
-
         public override int Species { get => SpeciesConverter.GetG4Species(ReadUInt16BigEndian(Data.AsSpan(0x00))); set => WriteUInt16BigEndian(Data, (ushort)SpeciesConverter.GetG3Species(value)); }
         // 02-04 unused
         public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
@@ -179,7 +173,7 @@ namespace PKHeX.Core
         public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
         public override bool IsEgg { get => Data[0xCB] == 1; set => Data[0xCB] = value ? (byte)1 : (byte)0; }
         public override bool AbilityBit { get => Data[0xCC] == 1; set => Data[0xCC] = value ? (byte)1 : (byte)0; }
-        private bool Invalid { get => Data[0xCD] != 0; set => Data[0xCD] = value ? (byte)1 : (byte)0; }
+        public override bool Valid { get => Data[0xCD] == 0; set => Data[0xCD] = !value ? (byte)1 : (byte)0; }
 
         public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }

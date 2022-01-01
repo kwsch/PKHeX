@@ -28,14 +28,15 @@ namespace PKHeX.Core
         public virtual byte[] DecryptedPartyData => Write().AsSpan()[..SIZE_PARTY].ToArray();
         public virtual byte[] DecryptedBoxData => Write().AsSpan()[..SIZE_STORED].ToArray();
 
-        public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        /// <summary>
+        /// Rough indication if the data is junk or not.
+        /// </summary>
+        public abstract bool Valid { get; set; }
 
         // Trash Bytes
         public abstract Span<byte> Nickname_Trash { get; set; }
         public abstract Span<byte> OT_Trash { get; set; }
         public virtual Span<byte> HT_Trash { get => Span<byte>.Empty; set { } }
-
-        protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, SIZE_STORED);
 
         protected abstract byte[] Encrypt();
         public abstract int Format { get; }
@@ -108,8 +109,6 @@ namespace PKHeX.Core
 
         public abstract uint EncryptionConstant { get; set; }
         public abstract uint PID { get; set; }
-        public abstract ushort Sanity { get; set; }
-        public abstract ushort Checksum { get; set; }
 
         // Misc Properties
         public abstract int Language { get; set; }
@@ -336,7 +335,6 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
@@ -581,7 +579,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
         /// </summary>
-        public virtual void RefreshChecksum() => Checksum = CalculateChecksum();
+        public abstract void RefreshChecksum();
+
+        /// <summary>
+        /// Indicates if the data has a proper checksum.
+        /// </summary>
+        /// <remarks>Returns true for structures that do not compute or contain a checksum in the structure.</remarks>
+        public abstract bool ChecksumValid { get; }
 
         /// <summary>
         /// Reorders moves and fixes PP if necessary.

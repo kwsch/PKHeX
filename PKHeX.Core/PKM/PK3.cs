@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
-    public sealed class PK3 : G3PKM
+    public sealed class PK3 : G3PKM, ISanityChecksum
     {
         private static readonly ushort[] Unused =
         {
@@ -60,8 +60,8 @@ namespace PKHeX.Core
         public bool FlagIsEgg      { get => (Data[0x13] & 4) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~4) | (value ? 4 : 0)); }
         public override string OT_Name { get => GetString(0x14, 7); set => SetString(value, 7).CopyTo(Data, 0x14); }
         public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
-        public override ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
-        public override ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
+        public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
+        public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
 
         #region Block A
         public int SpeciesID3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value); } // raw access
@@ -199,10 +199,11 @@ namespace PKHeX.Core
         public override void RefreshChecksum()
         {
             FlagIsBadEgg = false;
-            base.RefreshChecksum();
+            Checksum = PokeCrypto.GetCHK3(Data);
         }
 
-        protected override ushort CalculateChecksum() => PokeCrypto.GetCHK3(Data);
+        public override bool ChecksumValid => CalculateChecksum() == Checksum;
+        private ushort CalculateChecksum() => PokeCrypto.GetCHK3(Data);
 
         public PK4 ConvertToPK4()
         {

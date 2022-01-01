@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public abstract class G6PKM : PKM
+    public abstract class G6PKM : PKM, ISanityChecksum
     {
         public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
@@ -16,7 +16,13 @@ namespace PKHeX.Core
         public sealed override Span<byte> HT_Trash { get => Data.AsSpan(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x78)); } }
         public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xB0)); } }
 
-        protected sealed override ushort CalculateChecksum()
+        public abstract ushort Sanity { get; set; }
+        public abstract ushort Checksum { get; set; }
+        public sealed override void RefreshChecksum() => Checksum = CalculateChecksum();
+        public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
+        public sealed override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+
+        private ushort CalculateChecksum()
         {
             ushort chk = 0;
             for (int i = 8; i < PokeCrypto.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size

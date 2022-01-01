@@ -43,6 +43,13 @@ namespace PKHeX.Core
             }
         }
 
+        public abstract ushort Sanity { get; set; }
+        public abstract ushort Checksum { get; set; }
+        public sealed override void RefreshChecksum() => Checksum = CalculateChecksum();
+        public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
+        public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
+
         // Trash Bytes
         public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x48)); } }
         public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data.AsSpan(0x68)); } }

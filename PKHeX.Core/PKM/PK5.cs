@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core
 {
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
-    public sealed class PK5 : PKM,
+    public sealed class PK5 : PKM, ISanityChecksum,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
         IContestStats, IContestStatsMutable, IGroundTile
     {
@@ -37,6 +37,10 @@ namespace PKHeX.Core
         }
 
         public override PKM Clone() => new PK5((byte[])Data.Clone());
+        public override void RefreshChecksum() => Checksum = CalculateChecksum();
+        public override bool ChecksumValid => CalculateChecksum() == Checksum;
+        public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        private ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
 
         private string GetString(int offset, int count) => StringConverter.GetString5(Data, offset, count);
         private static byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
@@ -53,8 +57,8 @@ namespace PKHeX.Core
 
         // Structure
         public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
-        public override ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value); }
-        public override ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value); }
+        public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value); }
+        public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value); }
 
         #region Block A
         public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value); }
