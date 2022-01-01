@@ -46,7 +46,7 @@ namespace PKHeX.Core
         {
             if (species == (int)Milotic && format >= 5)
                 return genevolve is 3 or 4;
-            return format >= 8 && genevolve > 3 && genevolve < 8 && SpeciesEvolutionLevelUpPreviousGenerations8.Contains(species);
+            return format >= 8 && genevolve is > 3 and < 8 && SpeciesEvolutionLevelUpPreviousGenerations8.Contains(species);
         }
 
         private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
