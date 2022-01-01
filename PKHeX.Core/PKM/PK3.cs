@@ -38,9 +38,6 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private string GetString(int offset, int count) => StringConverter3.GetString(Data.AsSpan(offset, count), Japanese);
-        private void SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength) => StringConverter3.SetString(destBuffer, value, maxLength, Japanese);
-
         private const string EggNameJapanese = "タマゴ";
 
         // Trash Bytes
@@ -53,12 +50,20 @@ namespace PKHeX.Core
         public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
         public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), (ushort)value); }
         public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), (ushort)value); }
-        public override string Nickname { get => GetString(0x08, 10); set => SetString((IsEgg ? EggNameJapanese : value).AsSpan(), Nickname_Trash, 10); }
+        public override string Nickname
+        {
+            get => StringConverter3.GetString(Nickname_Trash, Japanese);
+            set => StringConverter3.SetString(Nickname_Trash, (IsEgg ? EggNameJapanese : value).AsSpan(), 10, Japanese, StringConverterOption.None);
+        }
         public override int Language { get => Data[0x12]; set => Data[0x12] = (byte)value; }
         public bool FlagIsBadEgg   { get => (Data[0x13] & 1) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~1) | (value ? 1 : 0)); }
         public bool FlagHasSpecies { get => (Data[0x13] & 2) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~2) | (value ? 2 : 0)); }
         public bool FlagIsEgg      { get => (Data[0x13] & 4) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~4) | (value ? 4 : 0)); }
-        public override string OT_Name { get => GetString(0x14, 7); set => SetString(value.AsSpan(), OT_Trash, 7); }
+        public override string OT_Name
+        {
+            get => StringConverter3.GetString(OT_Trash, Japanese);
+            set => StringConverter3.SetString(OT_Trash, value.AsSpan(), 7, Japanese, StringConverterOption.None);
+        }
         public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
         public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
         public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }

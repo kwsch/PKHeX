@@ -31,9 +31,6 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PK4((byte[])Data.Clone());
 
-        private string GetString(int offset, int count) => StringConverter4.GetString(Data.AsSpan(offset, count));
-        private static void SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option) => StringConverter4.SetString(destBuffer, value, maxLength, option);
-
         // Structure
         public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
         public override ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value); }
@@ -180,7 +177,12 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 20); set => SetString(value.AsSpan(), Nickname_Trash, 10, StringConverterOption.None); }
+        public override string Nickname
+        {
+            get => StringConverter4.GetString(Nickname_Trash);
+            set => StringConverter4.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None);
+        }
+
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -223,7 +225,12 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value.AsSpan(), OT_Trash, 7, StringConverterOption.None); }
+        public override string OT_Name
+        {
+            get => StringConverter4.GetString(OT_Trash);
+            set => StringConverter4.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None);
+        }
+
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
