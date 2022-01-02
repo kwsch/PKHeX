@@ -111,8 +111,9 @@ namespace PKHeX.Core
             }
         }
 
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x24, 12); set { if (value.Length == 12) value.CopyTo(Data.AsSpan(0x24)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x30, 12); set { if (value.Length == 12) value.CopyTo(Data.AsSpan(0x30)); } }
+        public override Span<byte> Nickname_Trash => Data.AsSpan(0x24, 12);
+        public override Span<byte> OT_Trash => Data.AsSpan(0x30, 12);
+
         #endregion
 
         #region Party Attributes

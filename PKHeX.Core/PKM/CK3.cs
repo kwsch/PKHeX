@@ -29,9 +29,9 @@ namespace PKHeX.Core
         public override PKM Clone() => new CK3((byte[])Data.Clone());
 
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x2E, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x2E)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x18, 20); set { if (value.Length == 20) value.CopyTo(Data.AsSpan(0x18)); } }
-        public Span<byte> NicknameCopy_Trash { get => Data.AsSpan(0x44, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x44)); } }
+        public override Span<byte> OT_Trash => Data.AsSpan(0x18, 22);
+        public override Span<byte> Nickname_Trash => Data.AsSpan(0x2E, 22);
+        public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x44, 22);
 
         // Future Attributes
 

@@ -41,8 +41,8 @@ namespace PKHeX.Core
         private const string EggNameJapanese = "タマゴ";
 
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x08, 10); set { if (value.Length == 10) value.CopyTo(Data.AsSpan(0x08)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x14, 7); set { if (value.Length == 7) value.CopyTo(Data.AsSpan(0x14)); } }
+        public override Span<byte> Nickname_Trash => Data.AsSpan(0x08, 10); // no inaccessible terminator
+        public override Span<byte> OT_Trash => Data.AsSpan(0x14, 7); // no inaccessible terminator
 
         // At top for System.Reflection execution order hack
 

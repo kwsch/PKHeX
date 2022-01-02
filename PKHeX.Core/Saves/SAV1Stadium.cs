@@ -109,10 +109,13 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data)
         {
             int len = StringLength;
-            var nick = data.Slice(PokeCrypto.SIZE_1STORED, len);
-            var ot = data.Slice(PokeCrypto.SIZE_1STORED + len, len);
+            var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);
+            var ot = data.AsSpan(PokeCrypto.SIZE_1STORED + len, len);
             data = data.Slice(0, PokeCrypto.SIZE_1STORED);
-            return new PK1(data, Japanese) { OT_Trash = ot, Nickname_Trash = nick };
+            var pk1 = new PK1(data, Japanese);
+            nick.CopyTo(pk1.RawNickname);
+            ot.CopyTo(pk1.RawOT);
+            return pk1;
         }
 
         public override byte[] GetDataForFormatStored(PKM pkm)

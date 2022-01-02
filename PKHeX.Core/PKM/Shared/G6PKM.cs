@@ -12,9 +12,9 @@ namespace PKHeX.Core
         protected G6PKM(int size) : base(size) { }
 
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x40)); } }
-        public sealed override Span<byte> HT_Trash { get => Data.AsSpan(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x78)); } }
-        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xB0)); } }
+        public sealed override Span<byte> Nickname_Trash => Data.AsSpan(0x40, 26);
+        public sealed override Span<byte> HT_Trash => Data.AsSpan(0x78, 26);
+        public sealed override Span<byte> OT_Trash => Data.AsSpan(0xB0, 26);
 
         public abstract ushort Sanity { get; set; }
         public abstract ushort Checksum { get; set; }

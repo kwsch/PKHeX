@@ -51,10 +51,10 @@ namespace PKHeX.Core
             switch (tr)
             {
                 case SAV1 s1:
-                    pk12.OT_Trash = s1.OT_Trash;
+                    s1.OT_Trash.CopyTo(pk12.OT_Trash);
                     break;
                 case SAV2 s2:
-                    pk12.OT_Trash = s2.OT_Trash;
+                    s2.OT_Trash.CopyTo(pk12.OT_Trash);
                     break;
             }
         }

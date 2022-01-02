@@ -18,8 +18,8 @@ namespace PKHeX.Core
         internal readonly byte[] RawNickname;
 
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => RawNickname; set { if (value.Length == RawNickname.Length) value.CopyTo(RawNickname); } }
-        public sealed override Span<byte> OT_Trash { get => RawOT; set { if (value.Length == RawOT.Length) value.CopyTo(RawOT); } }
+        public sealed override Span<byte> Nickname_Trash => RawNickname;
+        public sealed override Span<byte> OT_Trash => RawOT;
 
         protected GBPKML(int size, bool jp = false) : base(size)
         {

@@ -42,9 +42,9 @@ namespace PKHeX.Core
         public sealed override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         // Trash Bytes
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x58, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0x58)); } }
-        public override Span<byte> HT_Trash { get => Data.AsSpan(0xA8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xA8)); } }
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data.AsSpan(0xF8)); } }
+        public override Span<byte> Nickname_Trash => Data.AsSpan(0x58, 26);
+        public override Span<byte> HT_Trash => Data.AsSpan(0xA8, 26);
+        public override Span<byte> OT_Trash => Data.AsSpan(0xF8, 26);
 
         // Maximums
         public override int MaxIV => 31;

@@ -27,9 +27,9 @@ namespace PKHeX.Core
         public override void RefreshChecksum() => Valid = true;
 
         // Trash Bytes
-        public override Span<byte> OT_Trash { get => Data.AsSpan(0x38, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x38)); } }
-        public override Span<byte> Nickname_Trash { get => Data.AsSpan(0x4E, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x4E)); } }
-        public Span<byte> NicknameCopy_Trash { get => Data.AsSpan(0x64, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x64)); } }
+        public override Span<byte> OT_Trash => Data.AsSpan(0x38, 22);
+        public override Span<byte> Nickname_Trash => Data.AsSpan(0x4E, 22);
+        public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x64, 22);
 
         public override int Species { get => SpeciesConverter.GetG4Species(ReadUInt16BigEndian(Data.AsSpan(0x00))); set => WriteUInt16BigEndian(Data.AsSpan(0x00), (ushort)SpeciesConverter.GetG3Species(value)); }
         public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);

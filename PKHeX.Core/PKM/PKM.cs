@@ -34,9 +34,9 @@ namespace PKHeX.Core
         public abstract bool Valid { get; set; }
 
         // Trash Bytes
-        public abstract Span<byte> Nickname_Trash { get; set; }
-        public abstract Span<byte> OT_Trash { get; set; }
-        public virtual Span<byte> HT_Trash { get => Span<byte>.Empty; set { } }
+        public abstract Span<byte> Nickname_Trash { get; }
+        public abstract Span<byte> OT_Trash { get; }
+        public virtual Span<byte> HT_Trash => Span<byte>.Empty;
 
         protected abstract byte[] Encrypt();
         public abstract int Format { get; }

@@ -27,12 +27,13 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
+        public override PKM Clone()
         {
-            OT_Trash = RawOT,
-            Nickname_Trash = RawNickname,
-            IsEgg = IsEgg,
-        };
+            var clone = new PK2((byte[])Data.Clone(), Japanese) { IsEgg = IsEgg };
+            OT_Trash.CopyTo(clone.OT_Trash);
+            Nickname_Trash.CopyTo(clone.Nickname_Trash);
+            return clone;
+        }
 
         protected override byte[] Encrypt() => new PokeList2(this).Write();
 
@@ -120,8 +121,8 @@ namespace PKHeX.Core
                 pk1.Stat_Level = Stat_Level;
             }
             // Status = 0
-            pk1.OT_Trash = RawOT;
-            pk1.Nickname_Trash = RawNickname;
+            OT_Trash.CopyTo(pk1.OT_Trash);
+            Nickname_Trash.CopyTo(pk1.OT_Trash);
 
             pk1.ClearInvalidMoves();
 

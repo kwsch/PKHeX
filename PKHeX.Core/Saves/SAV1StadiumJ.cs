@@ -82,10 +82,13 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data)
         {
             const int len = StringLength;
-            var nick = data.Slice(0x21, len);
-            var ot = data.Slice(0x21 + len, len);
+            var nick = data.AsSpan(0x21, len);
+            var ot = data.AsSpan(0x21 + len, len);
             data = data.Slice(0, 0x21);
-            return new PK1(data, true) { OT_Trash = ot, Nickname_Trash = nick };
+            var pk1 = new PK1(data, true);
+            nick.CopyTo(pk1.RawNickname);
+            ot.CopyTo(pk1.RawOT);
+            return pk1;
         }
 
         public override byte[] GetDataForFormatStored(PKM pkm)

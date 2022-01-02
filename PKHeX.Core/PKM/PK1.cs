@@ -27,11 +27,13 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
+        public override PKM Clone()
         {
-            OT_Trash = RawOT,
-            Nickname_Trash = RawNickname,
-        };
+            var clone = new PK1((byte[])Data.Clone(), Japanese);
+            OT_Trash.CopyTo(clone.OT_Trash);
+            Nickname_Trash.CopyTo(clone.Nickname_Trash);
+            return clone;
+        }
 
         protected override byte[] Encrypt() => new PokeList1(this).Write();
 

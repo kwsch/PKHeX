@@ -51,8 +51,8 @@ namespace PKHeX.Core
         protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
 
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x48)); } }
-        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data.AsSpan(0x68)); } }
+        public sealed override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);
+        public sealed override Span<byte> OT_Trash => Data.AsSpan(0x68, 16);
 
         // Future Attributes
         public sealed override uint EncryptionConstant { get => PID; set { } }
