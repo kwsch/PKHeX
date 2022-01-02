@@ -974,9 +974,9 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
-            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
+            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var value))
             {
-                UpdateFromFriendshipTextBox(Entity, val);
+                UpdateFromFriendshipTextBox(Entity, value);
                 UpdateStats();
             }
         }

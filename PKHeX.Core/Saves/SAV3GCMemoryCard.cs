@@ -82,9 +82,9 @@ namespace PKHeX.Core
 
             for (int i = 0; i < length; i++)
             {
-                var val = ReadUInt16BigEndian(Data.AsSpan(ofs + (i * 2)));
-                csum += val;
-                inv_csum += (ushort)~val;
+                var value = ReadUInt16BigEndian(Data.AsSpan(ofs + (i * 2)));
+                csum += value;
+                inv_csum += (ushort)~value;
             }
             if (csum == 0xffff)
                 csum = 0;

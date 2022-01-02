@@ -36,21 +36,21 @@ namespace PKHeX.Core
 
         public static CheckResult VerifyGift(PKM pk, MysteryGift g)
         {
-            bool restricted = TryGetRestriction(g, out var val);
+            bool restricted = TryGetRestriction(g, out var value);
             if (!restricted)
                 return new CheckResult(CheckIdentifier.GameOrigin);
 
-            var ver = (int)val >> 16;
+            var ver = (int)value >> 16;
             if (ver != 0 && !CanVersionReceiveGift(g.Generation, ver, pk.Version))
                 return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
-            var lang = val & MysteryGiftRestriction.LangRestrict;
+            var lang = value & MysteryGiftRestriction.LangRestrict;
             if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
                 return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
 
             if (pk is IRegionOrigin tr)
             {
-                var region = val & MysteryGiftRestriction.RegionRestrict;
+                var region = value & MysteryGiftRestriction.RegionRestrict;
                 if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
                     return new CheckResult(Severity.Invalid, LGeoHardwareRange, CheckIdentifier.GameOrigin);
             }

@@ -249,8 +249,8 @@ namespace PKHeX.Core
         /// <remarks>Only use this for modern era name -> ID fetching.</remarks>
         public static int GetSpeciesID(string speciesName, int language = (int)LanguageID.English)
         {
-            if (SpeciesDict[language].TryGetValue(speciesName, out var val))
-                return val;
+            if (SpeciesDict[language].TryGetValue(speciesName, out var value))
+                return value;
 
             // stupid ’, ignore language if we match these.
             return speciesName switch

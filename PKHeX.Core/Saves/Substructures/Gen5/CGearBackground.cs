@@ -378,12 +378,9 @@ namespace PKHeX.Core
             for (int i = 0; i < pixels; i++)
             {
                 var choice = ColorChoices[i];
-                var val = Palette[choice];
-                var o = 4 * i;
-                data[o + 0] = (byte)(val & 0xFF);
-                data[o + 1] = (byte)(val >> 8 & 0xFF);
-                data[o + 2] = (byte)(val >> 16 & 0xFF);
-                data[o + 3] = (byte)(val >> 24 & 0xFF);
+                var value = Palette[choice];
+                var span = data.AsSpan(4 * i, 4);
+                WriteInt32LittleEndian(span, value);
             }
             return data;
         }
@@ -393,9 +390,8 @@ namespace PKHeX.Core
             byte[] data = new byte[SIZE_TILE];
             for (int i = 0; i < data.Length; i++)
             {
-                var ofs = i * 2;
-                data[i] |= (byte)(ColorChoices[ofs + 0] & 0xF);
-                data[i] |= (byte)((ColorChoices[ofs + 1] & 0xF) << 4);
+                var span = ColorChoices.AsSpan(i * 2, 2);
+                data[i] = (byte)((span[0] & 0xF) | ((span[1] & 0xF) << 4));
             }
             return data;
         }

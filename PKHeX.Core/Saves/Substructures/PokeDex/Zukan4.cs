@@ -169,8 +169,8 @@ namespace PKHeX.Core
             switch (species)
             {
                 case (int)Species.Rotom: // Rotom
-                    var val = SetDexFormValues(forms, 3, 6);
-                    WriteUInt32LittleEndian(Data.AsSpan(FormOffset2), val);
+                    var value = SetDexFormValues(forms, 3, 6);
+                    WriteUInt32LittleEndian(Data.AsSpan(FormOffset2), value);
                     return;
                 case (int)Species.Shaymin: // Shaymin
                     Data[FormOffset2 + 4] = (byte)SetDexFormValues(forms, 1, 2);

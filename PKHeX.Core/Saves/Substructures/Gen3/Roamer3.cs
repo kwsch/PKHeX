@@ -91,8 +91,8 @@ namespace PKHeX.Core
         /// <returns>Indication if the PID is shiny for the trainer.</returns>
         public bool IsShiny(uint pid)
         {
-            var val = (ushort)(SAV.SID ^ SAV.TID ^ (pid >> 16) ^ pid);
-            return val < 8;
+            var xor = (ushort)(SAV.SID ^ SAV.TID ^ (pid >> 16) ^ pid);
+            return xor < 8;
         }
 
         /// <summary>

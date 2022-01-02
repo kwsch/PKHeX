@@ -99,8 +99,8 @@ namespace PKHeX.WinForms
                 {
                     if (j < 63)
                         c.Items[j] = $"{j:00} - {(j < forms.Length ? forms[j] : "N/A")}";
-                    var val = Dex.GetSeenRegion(entry, j, i);
-                    c.SetItemChecked(j, val);
+                    var value = Dex.GetSeenRegion(entry, j, i);
+                    c.SetItemChecked(j, value);
                 }
 
                 if (species == (int) Species.Urshifu)
@@ -160,8 +160,8 @@ namespace PKHeX.WinForms
                 var c = CHK[i];
                 for (int j = 0; j < 64; j++)
                 {
-                    var val = c.GetItemChecked(j);
-                    Dex.SetSeenRegion(entry, j, i, val);
+                    var value = c.GetItemChecked(j);
+                    Dex.SetSeenRegion(entry, j, i, value);
                 }
             }
 

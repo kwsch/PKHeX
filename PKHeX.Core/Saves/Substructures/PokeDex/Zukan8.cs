@@ -318,8 +318,8 @@ namespace PKHeX.Core
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
-            var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
-            return (val >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
+            var value = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
+            return (value >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
         }
 
         public void SetFormDisplayed(int species, uint value = 0)
@@ -334,9 +334,10 @@ namespace PKHeX.Core
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
-            var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
-            uint nv = (val & ~(0x1FFFu << 15)) | ((value & 0x1FFF) << 15);
-            WriteUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT), nv);
+            var span = data.AsSpan(index + OFS_CAUGHT);
+            var current = ReadUInt32LittleEndian(span);
+            uint update = (current & ~(0x1FFFu << 15)) | ((value & 0x1FFF) << 15);
+            WriteUInt32LittleEndian(span, update);
         }
 
         public uint GetGenderDisplayed(int species)
@@ -351,8 +352,8 @@ namespace PKHeX.Core
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
-            var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
-            return (val >> 29) & 3;
+            var value = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
+            return (value >> 29) & 3;
         }
 
         public void SetGenderDisplayed(int species, uint value = 0)
@@ -367,9 +368,10 @@ namespace PKHeX.Core
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
-            var val = ReadUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT));
-            uint nv = (val & ~(3u << 29)) | ((value & 3) << 29);
-            WriteUInt32LittleEndian(data.AsSpan(index + OFS_CAUGHT), nv);
+            var span = data.AsSpan(index + OFS_CAUGHT);
+            var current = ReadUInt32LittleEndian(span);
+            uint update = (current & ~(3u << 29)) | ((value & 3) << 29);
+            WriteUInt32LittleEndian(span, update);
         }
 
         public bool GetDisplayDynamaxInstead(int species) => GetCaughtFlagID(species, 28);

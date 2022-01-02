@@ -221,8 +221,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < PoketchTitle.Length; i++)
             {
                 var title = $"{i:00} - {PoketchTitle[i]}";
-                var val = s.GetPoketchAppUnlocked((PoketchApp)i);
-                CLB_Poketch.Items.Add(title, val);
+                var value = s.GetPoketchAppUnlocked((PoketchApp)i);
+                CLB_Poketch.Items.Add(title, value);
             }
 
             DotArtistByte = s.GetPoketchDotArtistData();

@@ -7,6 +7,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class StringConverter12Transporter
 {
+    private const ushort Terminator = 0;
+
     /// <summary>
     /// Converts Generation 1 encoded data the same way Bank converts.
     /// </summary>
@@ -30,11 +32,11 @@ public static class StringConverter12Transporter
             if (b == 0)
                 break;
 
-            var val = table[b];
-            if (val == 0)
+            var value = table[b];
+            if (value == Terminator)
                 break;
 
-            result[i] = (char)val;
+            result[i] = (char)value;
         }
         CheckKata(result[..i]);
         return i;

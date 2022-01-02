@@ -39,8 +39,8 @@ namespace PKHeX.Core
             for (int i = 0; i < Items.Length; i++)
             {
                 var item = span.Slice(i * 4, 4);
-                var val = items[i].GetValue(SetNew, OriginalItems);
-                WriteUInt32LittleEndian(item, val);
+                var value = items[i].GetValue(SetNew, OriginalItems);
+                WriteUInt32LittleEndian(item, value);
             }
         }
     }

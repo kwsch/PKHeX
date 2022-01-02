@@ -114,8 +114,8 @@ public static class StringConverter12
         int i = 0;
         for (; i < data.Length; i++)
         {
-            var val = data[i];
-            if (!dict.TryGetValue(val, out var c)) // Take valid values
+            var value = data[i];
+            if (!dict.TryGetValue(value, out var c)) // Take valid values
                 break;
             if (c == G1Terminator) // Stop if Terminator
                 break;
@@ -179,8 +179,8 @@ public static class StringConverter12
     public static char GetG1Char(byte key, bool jp)
     {
         var dict = jp ? RBY2U_J : RBY2U_U;
-        if (dict.TryGetValue(key, out var val))
-            return val;
+        if (dict.TryGetValue(key, out var value))
+            return value;
         return G1Terminator;
     }
 

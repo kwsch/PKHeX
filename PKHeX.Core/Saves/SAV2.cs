@@ -710,7 +710,7 @@ namespace PKHeX.Core
 
         private ushort GetResetKey()
         {
-            var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
+            var value = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
             var ot = Data.AsSpan(Offsets.Trainer1 + 2, 5);
             var sum = 0;
             foreach (var b in ot)
@@ -719,7 +719,7 @@ namespace PKHeX.Core
                     break;
                 sum += b;
             }
-            return (ushort)(val + sum);
+            return (ushort)(value + sum);
         }
 
         /// <summary>

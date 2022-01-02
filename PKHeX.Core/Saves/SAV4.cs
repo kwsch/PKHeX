@@ -518,9 +518,9 @@ namespace PKHeX.Core
         public void SetAllSeals(byte count, bool unreleased = false)
         {
             var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
-            var val = Math.Min(count, SealMaxCount);
+            var clamped = Math.Min(count, SealMaxCount);
             for (int i = 0; i < sealIndexCount; i++)
-                General[Seal + i] = val;
+                General[Seal + i] = clamped;
         }
 
         public int GetMailOffset(int index)

@@ -116,39 +116,39 @@ namespace PKHeX.WinForms.Controls
             if (sender is not MaskedTextBox mt)
                 return;
 
-            if (!int.TryParse(mt.Text, out var val))
-                val = 0;
+            if (!int.TryParse(mt.Text, out var value))
+                value = 0;
             if (mt == TB_TID7)
             {
-                if (val > 999_999)
+                if (value > 999_999)
                 {
                     mt.Text = "999999";
                     return;
                 }
                 if (!int.TryParse(TB_SID7.Text, out var sid))
                     sid = 0;
-                SanityCheckSID7(val, sid);
+                SanityCheckSID7(value, sid);
             }
             else if (mt == TB_SID7)
             {
-                if (val > 4294) // max 4 digits of 32bit int
+                if (value > 4294) // max 4 digits of 32bit int
                 {
                     mt.Text = "4294";
                     return;
                 }
                 if (!int.TryParse(TB_TID7.Text, out var tid))
                     tid = 0;
-                SanityCheckSID7(tid, val);
+                SanityCheckSID7(tid, value);
             }
             else
             {
-                if (val > ushort.MaxValue) // prior to gen7
-                    mt.Text = (val = ushort.MaxValue).ToString();
+                if (value > ushort.MaxValue) // prior to gen7
+                    mt.Text = (value = ushort.MaxValue).ToString();
 
                 if (mt == TB_TID)
-                    Trainer.TID = val;
+                    Trainer.TID = value;
                 else
-                    Trainer.SID = val;
+                    Trainer.SID = value;
             }
 
             UpdatedID?.Invoke(sender, e);

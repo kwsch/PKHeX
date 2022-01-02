@@ -187,10 +187,10 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < RibbonBytesCount; i++)
             {
-                var val = Data[RibbonBytesOffset + i];
-                if (val == RibbonByteNone)
+                var value = Data[RibbonBytesOffset + i];
+                if (value == RibbonByteNone)
                     return false;
-                if ((RibbonIndex)val is >= MarkLunchtime and <= MarkSlump)
+                if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
                     return true;
             }
             return false;

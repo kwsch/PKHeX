@@ -11,7 +11,7 @@ namespace PKHeX.Core
         private readonly List<string> ValueChanged = new();
 
         private readonly Dictionary<uint, string> KeyNames;
-        private string GetKeyName(uint key) => KeyNames.TryGetValue(key, out var val) ? val : $"{key:X8}";
+        private string GetKeyName(uint key) => KeyNames.TryGetValue(key, out var value) ? value : $"{key:X8}";
 
         public SCBlockCompare(SCBlockAccessor s1, SCBlockAccessor s2, IEnumerable<string> extraKeyNames)
         {

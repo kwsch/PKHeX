@@ -176,8 +176,8 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static int GetUnownForm(uint pid)
         {
-            var val = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
-            return (int)(val % 28);
+            var value = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
+            return (int)(value % 28);
         }
 
         /// <summary>

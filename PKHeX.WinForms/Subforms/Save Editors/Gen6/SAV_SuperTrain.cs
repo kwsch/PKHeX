@@ -185,8 +185,8 @@ namespace PKHeX.WinForms
             int index = listBox1.SelectedIndex;
             if (index < 0 || loading)
                 return;
-            if (float.TryParse(TB_Time1.Text, out var val))
-                STB.SetTime1(index, val);
+            if (float.TryParse(TB_Time1.Text, out var value))
+                STB.SetTime1(index, value);
         }
 
         private void ChangeRecordTime2(object sender, EventArgs e)
@@ -194,8 +194,8 @@ namespace PKHeX.WinForms
             int index = listBox1.SelectedIndex;
             if (index < 0 || loading)
                 return;
-            if (float.TryParse(TB_Time2.Text, out var val))
-                STB.SetTime2(index, val);
+            if (float.TryParse(TB_Time2.Text, out var value))
+                STB.SetTime2(index, value);
         }
     }
 }

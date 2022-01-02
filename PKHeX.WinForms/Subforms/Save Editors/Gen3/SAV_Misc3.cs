@@ -450,10 +450,10 @@ namespace PKHeX.WinForms
                     return;
 
                 var index = WinFormsUtil.GetIndex(CB_Record);
-                var val = (uint) NUD_RecordValue.Value;
-                records.SetRecord(index, val);
+                var value = (uint) NUD_RecordValue.Value;
+                records.SetRecord(index, value);
                 if (index == 1)
-                    LoadFame(val);
+                    LoadFame(value);
             };
 
             if (SAV is SAV3E em)

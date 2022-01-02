@@ -49,11 +49,11 @@ public static class StringConverter2KOR
         int ctr = 0;
         for (; i < data.Length; i++)
         {
-            var val = data[i];
-            var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
-            if (val is <= 0xB and not 0)
-                val = data[++i];
-            if (!dict.TryGetValue(val, out var c)) // Take valid values
+            var value = data[i];
+            var table = value <= 0xB ? GSC2U_KOR[value] : RBY2U_U;
+            if (value is <= 0xB and not 0)
+                value = data[++i];
+            if (!table.TryGetValue(value, out var c)) // Take valid values
                 break;
             if (c == G1Terminator) // Stop if Terminator
                 break;

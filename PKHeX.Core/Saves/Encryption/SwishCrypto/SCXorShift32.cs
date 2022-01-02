@@ -33,7 +33,7 @@ namespace PKHeX.Core
         public uint Next()
         {
             var c = Counter;
-            var val = (Seed >> (c << 3)) & 0xFF;
+            var result = (Seed >> (c << 3)) & 0xFF;
             if (c == 3)
             {
                 Seed = XorshiftAdvance(Seed);
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             {
                 ++Counter;
             }
-            return val;
+            return result;
         }
 
         /// <summary>

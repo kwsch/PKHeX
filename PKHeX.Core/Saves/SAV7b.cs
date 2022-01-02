@@ -115,14 +115,14 @@ namespace PKHeX.Core
 
         public override StorageSlotFlag GetSlotFlags(int index)
         {
-            var val = StorageSlotFlag.None;
+            var result = StorageSlotFlag.None;
             var header = Blocks.Storage.PokeListInfo;
             int position = Array.IndexOf(header, index, 0, 6);
             if (position >= 0)
-                val = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
+                result = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
             if (header[PokeListHeader.STARTER] == index)
-                val |= StorageSlotFlag.Starter;
-            return val;
+                result |= StorageSlotFlag.Starter;
+            return result;
         }
 
         public override string GetBoxName(int box) => $"Box {box + 1}";

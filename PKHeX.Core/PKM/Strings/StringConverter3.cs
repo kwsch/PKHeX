@@ -22,8 +22,8 @@ public static class StringConverter3
         int i = 0;
         for (; i < data.Length; i++)
         {
-            var val = data[i];
-            var c = GetG3Char(val, jp); // Convert to Unicode
+            var value = data[i];
+            var c = GetG3Char(value, jp); // Convert to Unicode
             if (c == Terminator) // Stop if Terminator/Invalid
                 break;
             result[i] = c;
@@ -55,10 +55,10 @@ public static class StringConverter3
         for (; i < value.Length; i++)
         {
             var chr = value[i];
-            var val = SetG3Char(chr, jp);
-            if (val == Terminator)
+            var b = SetG3Char(chr, jp);
+            if (b == TerminatorByte)
                 break;
-            buffer[i] = val;
+            buffer[i] = b;
         }
 
         int count = i;
