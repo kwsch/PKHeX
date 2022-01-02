@@ -1,7 +1,43 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/11/27 - New Update:
+22/01/01 - New Update:
+ - Legality:
+ - - Added: Hatch Counter legality checking.
+ - - Added: Contest Stat Sheen legality checking (roughly compared to amount of other contest stats gained).
+ - - Added: Munchlax encounter slots for DPPt and BDSP are now checked for Trainer ID legality.
+ - - Fixed: BDSP Gigantamax is now flagged illegal correctly.
+ - - Fixed: BDSP Meister Magikarp now recognized correctly.
+ - - Fixed: BDSP bred (egg) ball legality for Great Marsh exclusives now require Safari Ball.
+ - - Fixed: BDSP underground level ranges for Area 6 revised per National Dex early acquisition.
+ - - Fixed: BDSP encounter searching no longer considers SWSH TR flags when checking if a move is learnable.
+ - - Fixed: BDSP encounter slots that cannot obtain their Hidden Ability via Radar or Ability Patch are now flagged. Thanks @Lusamine !
+ - - Fixed: BDSP impossible egg hatch locations are now recognized (some version exclusives). Thanks @Lusamine & @sora10pls !
+ - - Fixed: BDSP location crossover surf encounters now recognized as valid. Thanks @sora10pls !
+ - - Fixed: SWSH "restaurant" memory now recognized as legal (Circhester restaurant). Thanks @Lusamine !
+ - - Fixed: Sketched moves are now properly flagged if the move is out of range for the game the PKM is present in.
+ - - Fixed: Gen4 Shedinja now recognizes correctly with Cute Charm, and permits Sport Ball due to HGSS ball quirk. Thanks @Lusamine !
+ - - Fixed: Gen1/2 Tradeback Catch Rates are now flagged if the PKM has Gen2 moves and the unmodified Gen1 catch rate. Thanks @soopercool101  !
+ - Added: SWSH Gen8 localization for Memories to display memories as they appeared in the memory's original game.
+ - Added: BDSP Dialga/Palkia & Roamer reset cheats to the Misc Editor. Thanks @sora10pls !
+ - Added: BDSP In-Game Trainers can now be marked as defeated in bulk in the Misc Editor.
+ - Added: BDSP savedata blocks are now editable for Battle Tower / RandomGroup / Union Room / etc.
+ - Added: BDSP inventory edits now acknowledge the item sort order.
+ - Fixed: BDSP inventory edits no longer set incorrect "NEW" flag values for items that have no quantity.
+ - Fixed: BDSP encrypted pb8 files are now recognized correctly when opened in the program.
+ - Fixed: BDSP daycare no longer indicates gained EXP (can't gain EXP from daycare).
+ - Fixed: BDSP eggs dropped into the program no longer partially set trainer data.
+ - Fixed: BDSP Pokedex clearing all entries now clears all form and language entries.
+ - Fixed: BDSP event work values can now be properly edited in the GUI. Thanks @MewTracker !
+ - Fixed: Gen4 Rival String can now be edited correctly.
+ - Fixed: Inventory editing can now filter out illegal items for giving all. SWSH no longer gives all illegal dynamax crystals.
+ - Fixed: Program Icon now appears correctly on some generic subform windows. Thanks @murrty !
+ - Fixed: Clearing Contest Stats now resets to the matched encounter template's minimum values.
+ - Fixed: Hint/Warn image no longer has stray opaque pixels. Thanks @sora10pls !
+ - Changed: Toggling egg state in the PKM Editor GUI will now update met locations and hatch counters correctly.
+ - Changed: Key Items with changed names (in BDSP) now reflect the BDSP name in prior games (DPPt).
+
+21/11/27 - New Update: (156702) [4347352]
  - Legality:
  - - Fixed: Shiny Roamers now recognized correctly (shiny type preservation with fakeTID).
  - - Fixed: BDSP Milotic Prism Scale evolution is now disallowed. Thanks @sora10pls !
