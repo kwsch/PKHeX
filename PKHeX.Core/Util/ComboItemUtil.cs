@@ -19,9 +19,9 @@ namespace PKHeX.Core
             var arr = new List<ComboItem>(inputCSV.Count);
             foreach (var line in inputCSV)
             {
-                var val = line[..3];
-                var text = StringUtil.GetNthEntry(line, index, 4);
-                var item = new ComboItem(text, Convert.ToInt32(val));
+                var text = StringUtil.GetNthEntry(line.AsSpan(), index, 4);
+                var value = line.AsSpan(0, 3);
+                var item = new ComboItem(text, ToInt32(value));
                 arr.Add(item);
             }
             return arr;
@@ -127,9 +127,9 @@ namespace PKHeX.Core
             for (int i = 0; i < stringNum.Length; i++)
             {
                 int index = stringNum[i];
-                var val = stringVal[i];
-                var txt = inStrings[index];
-                list[i + 3] = new ComboItem(txt, val);
+                var value = stringVal[i];
+                var text = inStrings[index];
+                list[i + 3] = new ComboItem(text, value);
             }
 
             Array.Sort(list, 3, list.Length - 3, Comparer);
