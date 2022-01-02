@@ -533,7 +533,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             if (pb8.CanGigantamax)
-                GetInvalid(LStatGigantamaxInvalid);
+                data.AddLine(GetInvalid(LStatGigantamaxInvalid));
 
             if (pb8.DynamaxLevel != 0)
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
