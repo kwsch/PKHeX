@@ -27,3 +27,5 @@
 
 331	*	WK_PLAYER_BIRTH_MOUNTH
 332	*	WK_PLAYER_BIRTH_DAY
+
+436	*	SWARM_SEED	00:Doduo (Route 201),01:Zigzagoon (Route 202),02:Cubone (Route 203),03:Nosepass (Route 206),04:Phanpy (Route 207),05:Dunsparce (Route 208),06:Snubbull (Route 209),07:Absol (Route 213),08:Spoink (Route 214),09:Drowzee (Route 215),10:Delibird (Route 216),11:Swinub (Route 217),12:Voltorb (Route 218),13:Farfetch'd (Route 221),14:Skitty (Route 222),15:Natu (Route 224),16:Makuhita (Route 225),17:Krabby (Route 226),18:Spinda (Route 227),19:Beldum (Route 228),20:Pidgey (Route 229),21:Corsola (Route 230),22:Surskit (Lake Verity),23:Lickitung (Lake Valor),24:Smoochum (Lake Acuity),25:Electrike (Valley Windworks),26:Slakoth (Eterna Forest),27:Magnemite (Fuego Ironworks)
