@@ -60,7 +60,7 @@ namespace PKHeX.Core
                     if (rate != -1)
                     {
                         var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
-                        if (expect != rate && !GBRestrictions.IsTradebackCatchRate(rate))
+                        if (expect != rate && !(ParseSettings.AllowGen1Tradeback && GBRestrictions.IsTradebackCatchRate(rate)))
                             break;
                     }
                     yield return slot;
