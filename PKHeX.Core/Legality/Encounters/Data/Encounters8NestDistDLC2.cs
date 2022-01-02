@@ -8,6 +8,33 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 000, 000 }, Index = 95 }, // Magikarp
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
+            new(17,01,1) { Species = 438, Ability = A4, Moves = new[]{ 088, 383, 175, 313 }, Index = 95 }, // Bonsly
+            new(17,01,1) { Species = 554, Ability = A4, Moves = new[]{ 052, 044, 033, 526 }, Index = 95 }, // Darumaka
+            new(30,03,2) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 000, 000 }, Index = 95 }, // Magikarp
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
+            new(30,03,2) { Species = 438, Ability = A4, Moves = new[]{ 088, 317, 175, 313 }, Index = 95 }, // Bonsly
+            new(30,03,2) { Species = 554, Ability = A4, Moves = new[]{ 007, 044, 157, 029 }, Index = 95 }, // Darumaka
+            new(40,05,3) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 000 }, Index = 95 }, // Magikarp
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
+            new(40,05,3) { Species = 438, Ability = A4, Moves = new[]{ 317, 389, 157, 313 }, Index = 95 }, // Bonsly
+            new(40,05,3) { Species = 555, Ability = A4, Moves = new[]{ 359, 276, 157, 442 }, Index = 95 }, // Darmanitan
+            new(50,08,4) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 000 }, Index = 95 }, // Magikarp
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
+            new(50,08,4) { Species = 185, Ability = A4, Moves = new[]{ 452, 359, 157, 389 }, Index = 95 }, // Sudowoodo
+            new(50,08,4) { Species = 555, Ability = A4, Moves = new[]{ 394, 276, 157, 442 }, Index = 95 }, // Darmanitan
+            new(60,10,5) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 340 }, Index = 95, Shiny = Shiny.Always }, // Magikarp
+            new(60,10,5) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 340 }, Index = 95 }, // Magikarp
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
+            new(60,10,5) { Species = 185, Ability = A4, Moves = new[]{ 452, 444, 038, 389 }, Index = 95 }, // Sudowoodo
+            new(60,10,5) { Species = 555, Ability = A4, Moves = new[]{ 394, 276, 089, 442 }, Index = 95 }, // Darmanitan
+
             new(17,01,1) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 034, 372 }, Index = 93 }, // Delibird
             new(17,01,1) { Species = 121, Ability = A4, Moves = new[]{ 057, 408, 055, 129 }, Index = 93 }, // Starmie
             new(17,01,1) { Species = 615, Ability = A4, Moves = new[]{ 196, 020, 229, 420 }, Index = 93 }, // Cryogonal

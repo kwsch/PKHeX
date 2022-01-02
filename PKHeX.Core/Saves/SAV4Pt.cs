@@ -21,7 +21,7 @@ namespace PKHeX.Core
         }
 
         public override Zukan4 Dex { get; }
-        protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt(Data) : new SAV4Pt();
+        protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt((byte[])Data.Clone()) : new SAV4Pt();
         public override PersonalTable Personal => PersonalTable.Pt;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
         public override int MaxItemID => Legal.MaxItemID_4_Pt;
@@ -114,14 +114,14 @@ namespace PKHeX.Core
 
         public override string Rival
         {
-            get => GetString(0x27E8, OTLength * 2);
-            set => SetString(value, OTLength).CopyTo(Data, 0x27E8);
+            get => GetString(General, 0x27E8, OTLength * 2);
+            set => SetString(value, OTLength).CopyTo(General, 0x27E8);
         }
 
         public override Span<byte> Rival_Trash
         {
-            get => Data.AsSpan(0x27E8, OTLength * 2);
-            set { if (value.Length == OTLength * 2) value.CopyTo(Data.AsSpan(0x27E8)); }
+            get => General.AsSpan(0x27E8, OTLength * 2);
+            set { if (value.Length == OTLength * 2) value.CopyTo(General.AsSpan(0x27E8)); }
         }
 
         public override int X2 { get => BitConverter.ToUInt16(General, 0x287E); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x287E); }

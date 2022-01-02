@@ -52,6 +52,9 @@ namespace PKHeX.WinForms
             NUD_System.Text = "0";
             CHK_CustomSystem.Checked = obj.GetSystemFlag(0);
 
+            NUD_Work.Maximum = obj.CountWork - 1;
+            CB_CustomWork.SelectedIndex = 0;
+
             Text = $"{Text} ({sav.Version})";
         }
 
@@ -176,7 +179,7 @@ namespace PKHeX.WinForms
                         return;
 
                     updating = true;
-                    var value = (ushort)mtb.Value;
+                    var value = (int)mtb.Value;
                     var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
                     if (WinFormsUtil.GetIndex(cb) != valueID)
                         cb.SelectedValue = valueID;

@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         internal static bool HasVisitedBDSP(this PKM pkm, int species)
         {
-            if (!pkm.InhabitedGeneration(8, species)) 
+            if (!pkm.InhabitedGeneration(8, species))
                 return false;
             if (pkm.BDSP)
                 return true;
