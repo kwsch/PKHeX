@@ -22,6 +22,12 @@ namespace PKHeX.Core
         /// <summary>Analysis not available for the <see cref="PKM"/></summary>
         public static string L_AnalysisUnavailable { get; set; } = "Analysis not available for this Pokémon.";
 
+        /// <summary>Format text for exporting a legality check result for an Evolution.</summary>
+        public static string L_E_0_1 { get; set; } = "Evolution {0}: Generation {1}";
+
+        /// <summary>Format text for exporting a legality check result for an Evolution in Gens 1 or 2.</summary>
+        public static string L_E_0_GB { get; set; } = "Evolution {0}: Generation 1 or 2";
+
         /// <summary>Format text for exporting a legality check result.</summary>
         public static string L_F0_1 { get; set; } = "{0}: {1}";
 

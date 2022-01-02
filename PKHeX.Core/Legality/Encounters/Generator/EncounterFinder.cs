@@ -106,7 +106,7 @@ namespace PKHeX.Core
             {
                 // Iterate throught generations for second evolution or single evolution
                 info.EvoGenerationsInfo.EvoChainsAllGens = EvolutionChain.GetChainsAllGensReduced(pkm, chainallgens, previousspecies, genevolution);
-                info.EvoGenerationsInfo.EvoGenerations = generationsevolution.Union(new List<int>() { genevolution });
+                info.EvoGenerationsInfo.EvoGenerations = generationsevolution.Concat(new List<int>() { genevolution });
                 if (chain.Last().Species == previousspecies)
                 {
                     // no more evolutions to iterate

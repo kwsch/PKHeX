@@ -51,7 +51,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Generations in wich the pokemon has evolved
         /// </summary>
-        public IEnumerable<int>? EvoGenerations => EvoGenerationsInfo.EvoGenerations;
+        public IEnumerable<int> EvoGenerations => EvoGenerationsInfo.EvoGenerations;
 
         private List<EvoCriteria>? _evochain;
         public List<EvoCriteria> EvoChain => _evochain ??= EvolutionChain.GetEvolutionChain(pkm, EncounterMatch, pkm.Species, pkm.CurrentLevel);

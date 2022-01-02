@@ -89,6 +89,30 @@ namespace PKHeX.Core
 
             // PIDIV
             AddEncounterInfoPIDIV(la, lines);
+
+            //Evolutions
+            AddEncounterInfoEvolutions(la, lines);
+        }
+
+        public static void AddEncounterInfoEvolutions(LegalityAnalysis la, List<string> lines)
+        {
+            var info = la.Info;
+            var chain = info.EvoChain;
+            var evogens = info.EvoGenerations;
+            if (evogens.Any())
+            {
+                int i = chain.Count - 1;
+                foreach(var gen in evogens)
+                {
+                    if (i < 0) break;
+                    var previousspecies = chain[i--].Species;
+                    var evolvedspecies = chain[i].Species;
+                    if (gen > 2 || (previousspecies > Legal.MaxSpeciesID_1 && evolvedspecies > Legal.MaxSpeciesID_1))
+                        lines.Add(string.Format(L_E_0_1, GetSpeciesName(evolvedspecies), gen));
+                    else
+                        lines.Add(string.Format(L_E_0_GB, GetSpeciesName(evolvedspecies)));
+                }
+            }
         }
 
         public static void AddEncounterInfoPIDIV(LegalityAnalysis la, List<string> lines)
@@ -111,6 +135,12 @@ namespace PKHeX.Core
             var str = ParseSettings.SpeciesStrings;
             var name = (uint) enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
             return $"{enc.LongName} ({name})";
+        }
+
+        public static string GetSpeciesName(int Species)
+        {
+            var str = ParseSettings.SpeciesStrings;
+            return (uint)Species < str.Count ? str[Species] : Species.ToString();
         }
 
         public static string? GetEncounterLocation(this IEncounterTemplate enc)
