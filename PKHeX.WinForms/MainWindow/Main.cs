@@ -524,9 +524,7 @@ namespace PKHeX.WinForms
             OpenFile(input, path, ext);
             #else
             try { OpenFile(input, path, ext); }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
-#pragma warning restore CA1031 // Do not catch general exception types
             #endif
         }
 
