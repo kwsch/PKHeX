@@ -38,7 +38,6 @@ namespace PKHeX.Core
             (int) Magnezone,
             (int) Leafeon,
             (int) Glaceon,
-            (int) Probopass, // Not released yet in gen 8, but there is no magnetic field anymore, it will probably evolve with a stone
             (int) Vikavolt,
         };
 
