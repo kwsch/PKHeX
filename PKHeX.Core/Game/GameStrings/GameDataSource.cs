@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -32,14 +31,10 @@ namespace PKHeX.Core
             new ComboItem("CHT (繁體中文)",  (int)LanguageID.ChineseT),
         };
 
-        // ignores Poke/Great/Ultra
-        private static readonly ushort[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
-        private static readonly byte[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
-
         public GameDataSource(GameStrings s)
         {
             Strings = s;
-            BallDataSource = Util.GetVariedCBListBall(s.itemlist, ball_nums, ball_vals);
+            BallDataSource = GetBalls(s.itemlist);
             SpeciesDataSource = Util.GetCBList(s.specieslist);
             NatureDataSource = Util.GetCBList(s.natures);
             AbilityDataSource = Util.GetCBList(s.abilitylist);
@@ -75,6 +70,14 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<ComboItem> LegalMoveDataSource;
         public readonly IReadOnlyList<ComboItem> HaXMoveDataSource;
         public readonly IReadOnlyList<ComboItem> GroundTileDataSource;
+
+        private static IReadOnlyList<ComboItem> GetBalls(string[] itemList)
+        {
+            // ignores Poke/Great/Ultra
+            ReadOnlySpan<ushort> ball_nums = stackalloc ushort[] { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
+            ReadOnlySpan<byte>   ball_vals = stackalloc   byte[] { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
+            return Util.GetVariedCBListBall(itemList, ball_nums, ball_vals);
+        }
 
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
@@ -112,7 +115,7 @@ namespace PKHeX.Core
 
         public static IReadOnlyList<ComboItem> LanguageDataSource(int gen)
         {
-            var languages = LanguageList.ToList();
+            var languages = new List<ComboItem>(LanguageList);
             if (gen == 3)
                 languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
             else if (gen < 7)

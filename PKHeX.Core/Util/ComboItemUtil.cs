@@ -116,7 +116,7 @@ namespace PKHeX.Core
             cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
-        public static ComboItem[] GetVariedCBListBall(string[] inStrings, ushort[] stringNum, byte[] stringVal)
+        public static ComboItem[] GetVariedCBListBall(string[] inStrings, ReadOnlySpan<ushort> stringNum, ReadOnlySpan<byte> stringVal)
         {
             const int forcedTop = 3; // 3 Balls are preferentially first
             var list = new ComboItem[forcedTop + stringNum.Length];
