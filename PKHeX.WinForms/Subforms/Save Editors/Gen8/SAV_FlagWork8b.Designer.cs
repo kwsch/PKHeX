@@ -71,7 +71,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(289, 330);
+            this.B_Cancel.Location = new System.Drawing.Point(369, 330);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 2;
@@ -218,7 +218,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(372, 330);
+            this.B_Save.Location = new System.Drawing.Point(452, 330);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 9;
@@ -320,7 +320,7 @@
             this.TC_Features.Location = new System.Drawing.Point(12, 12);
             this.TC_Features.Name = "TC_Features";
             this.TC_Features.SelectedIndex = 0;
-            this.TC_Features.Size = new System.Drawing.Size(430, 309);
+            this.TC_Features.Size = new System.Drawing.Size(510, 309);
             this.TC_Features.TabIndex = 42;
             // 
             // GB_Flags
@@ -329,7 +329,7 @@
             this.GB_Flags.Location = new System.Drawing.Point(4, 22);
             this.GB_Flags.Name = "GB_Flags";
             this.GB_Flags.Padding = new System.Windows.Forms.Padding(3);
-            this.GB_Flags.Size = new System.Drawing.Size(422, 283);
+            this.GB_Flags.Size = new System.Drawing.Size(502, 283);
             this.GB_Flags.TabIndex = 0;
             this.GB_Flags.Text = "Event Flags";
             this.GB_Flags.UseVisualStyleBackColor = true;
@@ -346,7 +346,7 @@
             this.TLP_Flags.RowCount = 2;
             this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Flags.Size = new System.Drawing.Size(416, 277);
+            this.TLP_Flags.Size = new System.Drawing.Size(496, 277);
             this.TLP_Flags.TabIndex = 1;
             // 
             // GB_System
@@ -419,7 +419,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 361);
+            this.ClientSize = new System.Drawing.Size(534, 361);
             this.Controls.Add(this.TC_Features);
             this.Controls.Add(this.L_EventFlagWarn);
             this.Controls.Add(this.B_Save);

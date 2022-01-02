@@ -155,14 +155,14 @@ namespace PKHeX.WinForms
                     Maximum = int.MaxValue,
                     Minimum = int.MinValue,
                     Margin = Padding.Empty,
-                    Width = 50,
+                    Width = 85,
                 };
 
                 var map = entry.PredefinedValues.Select(z => new ComboItem(z.Name, z.Value)).ToList();
                 var cb = new ComboBox
                 {
                     Margin = Padding.Empty,
-                    Width = 150,
+                    Width = 165,
                     DropDownStyle = ComboBoxStyle.DropDownList,
                     BindingContext = BindingContext,
                     DropDownWidth = Width + 100,
