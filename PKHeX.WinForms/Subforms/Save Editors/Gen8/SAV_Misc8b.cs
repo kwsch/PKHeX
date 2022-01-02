@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8BS)(Origin = sav).Clone();
-            Unlocker = new EventUnlocker8b(sav);
+            Unlocker = new EventUnlocker8b(SAV);
 
             ReadMain();
         }
