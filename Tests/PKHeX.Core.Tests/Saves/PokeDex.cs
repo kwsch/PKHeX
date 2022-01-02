@@ -46,7 +46,7 @@ namespace PKHeX.Tests.Saves
             var offset = bit >> 3;
 
             // Check the regular flag regions.
-            var span = data.AsSpan(dex + 0x08 + offset);
+            var span = data.AsSpan(dex + 0x08);
             span[offset].Should().Be(value, "caught flag");
             span[offset + regionSize].Should().Be(value, "seen flag");
             span[offset + regionSize + (regionSize * 4)].Should().Be(value, "displayed flag");
