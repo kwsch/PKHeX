@@ -104,7 +104,7 @@ namespace PKHeX.Core
                 int i = chain.Count - 1;
                 foreach(var gen in evogens)
                 {
-                    if (i < 0) break;
+                    if (i <= 0) break;
                     var previousspecies = chain[i--].Species;
                     var evolvedspecies = chain[i].Species;
                     if (gen > 2 || (previousspecies > Legal.MaxSpeciesID_1 && evolvedspecies > Legal.MaxSpeciesID_1))

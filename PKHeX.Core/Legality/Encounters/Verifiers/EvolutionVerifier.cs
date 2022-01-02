@@ -55,7 +55,7 @@ namespace PKHeX.Core
                 var minlevel = chain[genevolved].First().Level;
                 // Chain level are calculated using current format in wich the evolution does not require level up
                 // But pokemon was evolved on a previous generation in wich level up was required
-                // Example: Magnemite evolve into Magneto at level 30 and Magneton into Magnezone with a stone in gen 8 and leveling up in magnetic zone before gen 8
+                // Example: Magnemite evolve into Magneton at level 30 and Magneton into Magnezone with a stone in gen 8 and leveling up in magnetic zone before gen 8
                 // Min level is 30 for both in case of gen 8 evolution but for previous gens evolutions min level for Magnezone should be 31
                 if (pkm.CurrentLevel <= minlevel)
                     return false;
