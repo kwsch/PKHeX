@@ -8,15 +8,33 @@ namespace PKHeX.Core
 {
     public static partial class Util
     {
+        /// <inheritdoc cref="ToInt32(ReadOnlySpan{char})"/>
+        public static int ToInt32(string value) => ToInt32(value.AsSpan());
+
+        /// <inheritdoc cref="ToUInt32(ReadOnlySpan{char})"/>
+        public static uint ToUInt32(string value) => ToUInt32(value.AsSpan());
+
+        /// <inheritdoc cref="GetHexValue(ReadOnlySpan{char})"/>
+        public static uint GetHexValue(string value) => GetHexValue(value.AsSpan());
+
+        /// <inheritdoc cref="GetHexValue64(ReadOnlySpan{char})"/>
+        public static ulong GetHexValue64(string value) => GetHexValue64(value.AsSpan());
+
+        /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char})"/>
+        public static byte[] GetBytesFromHexString(string value) => GetBytesFromHexString(value.AsSpan());
+
+        /// <inheritdoc cref="GetHexStringFromBytes(ReadOnlySpan{byte})"/>
+        public static string GetHexStringFromBytes(byte[] data, int offset, int length) => GetHexStringFromBytes(data.AsSpan(offset, length));
+
         /// <summary>
         /// Parses the string into an <see cref="int"/>, skipping all characters except for valid digits.
         /// </summary>
         /// <param name="value">String to parse</param>
         /// <returns>Parsed value</returns>
-        public static int ToInt32(string value)
+        public static int ToInt32(ReadOnlySpan<char> value)
         {
             int result = 0;
-            if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
                 return result;
 
             bool negative = false;
@@ -41,10 +59,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">String to parse</param>
         /// <returns>Parsed value</returns>
-        public static uint ToUInt32(string value)
+        public static uint ToUInt32(ReadOnlySpan<char> value)
         {
             uint result = 0;
-            if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
                 return result;
 
             foreach (var c in value)
@@ -62,10 +80,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">Hex String to parse</param>
         /// <returns>Parsed value</returns>
-        public static uint GetHexValue(string value)
+        public static uint GetHexValue(ReadOnlySpan<char> value)
         {
             uint result = 0;
-            if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
                 return result;
 
             foreach (var c in value)
@@ -94,10 +112,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">Hex String to parse</param>
         /// <returns>Parsed value</returns>
-        public static ulong GetHexValue64(string value)
+        public static ulong GetHexValue64(ReadOnlySpan<char> value)
         {
             ulong result = 0;
-            if (string.IsNullOrEmpty(value))
+            if (value.Length == 0)
                 return result;
 
             foreach (var c in value)
@@ -121,21 +139,15 @@ namespace PKHeX.Core
             return result;
         }
 
-        public static byte[] GetBytesFromHexString(string seed)
+        public static byte[] GetBytesFromHexString(ReadOnlySpan<char> seed)
         {
             byte[] result = new byte[seed.Length / 2];
             for (int i = 0; i < result.Length; i++)
             {
-                var slice = seed.Substring(i * 2, 2);
-                result[^(i+1)] = Convert.ToByte(slice, 16);
+                var slice = seed.Slice(i * 2, 2);
+                result[^(i+1)] = (byte)GetHexValue(slice);
             }
             return result;
-        }
-
-        public static string GetHexStringFromBytes(byte[] data, int offset, int length)
-        {
-            var arr = data.AsSpan(offset, length);
-            return GetHexStringFromBytes(arr);
         }
 
         public static string GetHexStringFromBytes(ReadOnlySpan<byte> arr)

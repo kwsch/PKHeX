@@ -70,13 +70,15 @@ namespace PKHeX.Core
         {
             if (s.Length != 1)
                 return 2;
-            return s[0] switch
-            {
-                '♂' or 'M' => 0,
-                '♀' or 'F' => 1,
-                _ => 2,
-            };
+            return GetGenderFromChar(s[0]);
         }
+
+        private static int GetGenderFromChar(char c) => c switch
+        {
+            '♂' or 'M' => 0,
+            '♀' or 'F' => 1,
+            _ => 2,
+        };
 
         /// <summary>
         /// Gets the nature modification values and checks if they are equal.
