@@ -210,6 +210,7 @@
             this.TB_Time2.Name = "TB_Time2";
             this.TB_Time2.Size = new System.Drawing.Size(100, 20);
             this.TB_Time2.TabIndex = 136;
+            this.TB_Time2.TextChanged += new System.EventHandler(this.ChangeRecordTime2);
             // 
             // MTB_Gender1
             // 
