@@ -578,7 +578,7 @@ namespace PKHeX.Core
             {
                 if (evos[gen].Count != 2)
                     continue; // Was not evolved in this generation
-                if (gen == 4 && pkm.Ball != 4)
+                if (gen == 4 && pkm.Ball != 4 && !(pkm.Ball == (int)Ball.Sport && pkm.HGSS))
                     continue; // Was definitively evolved in Gen3
 
                 var maxLevel = pkm.CurrentLevel;
