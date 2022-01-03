@@ -35,7 +35,7 @@ namespace PKHeX.Core
         {
             const uint value = 25u | (1 << 16); // count: 25, new flag.
             for (int i = 0; i < Count_Goods_Used; i++)
-                WriteUInt32BigEndian( Data.AsSpan(Offset + GetGoodOffset(i)), value);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + GetGoodOffset(i)), value);
         }
 
         public ushort SecretBaseSelfLocation

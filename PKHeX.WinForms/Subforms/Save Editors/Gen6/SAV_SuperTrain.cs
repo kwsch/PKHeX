@@ -174,9 +174,9 @@ namespace PKHeX.WinForms
             if (index < 0 || loading)
                 return;
             var holder = STB.GetHolder2(index);
-            if (byte.TryParse(MTB_Form1.Text, out var form))
+            if (byte.TryParse(MTB_Form2.Text, out var form))
                 holder.Form = form;
-            if (byte.TryParse(MTB_Gender1.Text, out var gender))
+            if (byte.TryParse(MTB_Gender2.Text, out var gender))
                 holder.Gender = gender;
         }
 
