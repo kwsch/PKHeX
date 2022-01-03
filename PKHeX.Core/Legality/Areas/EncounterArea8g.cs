@@ -58,14 +58,14 @@ namespace PKHeX.Core
             return area;
         }
 
-        private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> data, EncounterArea8g area, int species, int form, GameVersion group)
+        private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea8g area, int species, int form, GameVersion group)
         {
-            int start = ReadInt32LittleEndian(data);
-            int end = ReadInt32LittleEndian(data[4..]);
-            var sg = data[8];
+            int start = ReadInt32LittleEndian(entry);
+            int end = ReadInt32LittleEndian(entry[4..]);
+            var sg = entry[8];
             var shiny = (Shiny)(sg & 0x3F);
             var gender = (Gender)(sg >> 6);
-            var type = (PogoType)data[9];
+            var type = (PogoType)entry[9];
             return new EncounterSlot8GO(area, species, form, start, end, shiny, gender, type, group);
         }
 

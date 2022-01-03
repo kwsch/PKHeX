@@ -231,7 +231,7 @@ namespace PKHeX.Core
                 var hc = data.AsSpan(12);
                 int oldHC = ReadInt32BigEndian(hc);
                 // Clear Header Checksum
-                WriteUInt32LittleEndian(hc, 0);
+                WriteUInt32BigEndian(hc, 0);
                 using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
                 var checkSpan = checksum.AsSpan(20);

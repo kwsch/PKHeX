@@ -69,19 +69,19 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = start + (4 * i);
-                var span = data.Slice(offset, 4);
-                slots[i] = ReadSlot(span);
+                var entry = data.Slice(offset, 4);
+                slots[i] = ReadSlot(entry);
             }
 
             return slots;
         }
 
-        private EncounterSlot2 ReadSlot(ReadOnlySpan<byte> data)
+        private EncounterSlot2 ReadSlot(ReadOnlySpan<byte> entry)
         {
-            int species = data[0];
-            int slotNum = data[1];
-            int min = data[2];
-            int max = data[3];
+            int species = entry[0];
+            int slotNum = entry[1];
+            int min = entry[2];
+            int max = entry[3];
             return new EncounterSlot2(this, species, min, max, slotNum);
         }
 

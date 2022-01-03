@@ -21,7 +21,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var train = (ISuperTrain)pkm;
             var Info = data.Info;
-            uint value = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian( data.pkm.Data.AsSpan(0x2C));
+            uint value = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(data.pkm.Data.AsSpan(0x2C));
             if ((value & 3) != 0) // 2 unused flags
                 data.AddLine(GetInvalid(LSuperUnused));
             int TrainCount = train.SuperTrainingMedalCount();

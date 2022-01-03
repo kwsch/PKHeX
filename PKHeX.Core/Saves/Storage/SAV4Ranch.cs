@@ -87,9 +87,9 @@ namespace PKHeX.Core
             SetData(result, 0);
         }
 
-        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
 
-        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
             return StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
         }

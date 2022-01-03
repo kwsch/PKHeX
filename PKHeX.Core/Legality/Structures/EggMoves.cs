@@ -55,8 +55,9 @@ namespace PKHeX.Core
 
             int count = ReadInt16LittleEndian(data);
             var moves = new int[count];
+            var span = data[2..];
             for (int i = 0; i < moves.Length; i++)
-                moves[i] = ReadInt16LittleEndian(data[(2 + (i * 2))..]);
+                moves[i] = ReadInt16LittleEndian(span[(i * 2)..]);
             return new EggMoves6(moves);
         }
 

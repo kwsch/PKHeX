@@ -388,9 +388,10 @@ namespace PKHeX.Core
                 ofs += 6;
 
                 // Read slots
-                for (int i = 0; i < count; i++, ctr++, ofs += 2)
+                const int bpe = 2;
+                for (int i = 0; i < count; i++, ctr++, ofs += bpe)
                 {
-                    var entry = areaData.Slice(ofs, 2);
+                    var entry = areaData.Slice(ofs, bpe);
                     var specForm = ReadUInt16LittleEndian(entry);
                     var species = specForm & 0x7FF;
                     var form = specForm >> 11;

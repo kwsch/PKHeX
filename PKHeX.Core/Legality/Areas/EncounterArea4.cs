@@ -61,8 +61,7 @@ namespace PKHeX.Core
             int mpc = entry[7];
             int sti = entry[8];
             int stc = entry[9];
-            var slot = new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
-            return slot;
+            return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

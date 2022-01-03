@@ -42,12 +42,12 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private EncounterSlot7b ReadSlot(ReadOnlySpan<byte> data)
+        private EncounterSlot7b ReadSlot(ReadOnlySpan<byte> entry)
         {
-            int species = data[0]; // always < 255; only original 151
+            int species = entry[0]; // always < 255; only original 151
             // form is always 0
-            int min = data[2];
-            int max = data[3];
+            int min = entry[2];
+            int max = entry[3];
             return new EncounterSlot7b(this, species, min, max);
         }
 

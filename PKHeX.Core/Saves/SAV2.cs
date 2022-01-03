@@ -384,12 +384,7 @@ namespace PKHeX.Core
         public int Badges
         {
             get => ReadUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges));
-            set
-            {
-                if (value < 0)
-                    return;
-                WriteUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges), (ushort)value);
-            }
+            set { if (value < 0) return; WriteUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges), (ushort)value); }
         }
 
         private byte Options

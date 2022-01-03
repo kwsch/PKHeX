@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(data[(offset + (j * bpe))..]);
+                    set[j] = GetMethod(data.Slice(offset + (j * bpe), bpe));
                 evos[i] = set;
             }
             return evos;

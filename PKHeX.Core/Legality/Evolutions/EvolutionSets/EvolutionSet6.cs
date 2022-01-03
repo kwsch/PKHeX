@@ -18,7 +18,7 @@ namespace PKHeX.Core
             for (int i = 0; i < data.Length; i += SIZE)
             {
                 var entry = data.Slice(i, SIZE);
-                evos[i / SIZE] = GetMethod(entry);
+                evos[i/SIZE] = GetMethod(entry);
             }
             return evos;
         }
@@ -32,8 +32,7 @@ namespace PKHeX.Core
             // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
             var lvl = EvosWithArg.Contains(method) ? 0 : arg;
 
-            var evo = new EvolutionMethod(method, species, argument: arg, level: lvl);
-            return evo;
+            return new EvolutionMethod(method, species, argument: arg, level: lvl);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(IReadOnlyList<byte[]> data)

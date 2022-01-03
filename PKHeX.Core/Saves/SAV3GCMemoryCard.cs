@@ -54,7 +54,7 @@ namespace PKHeX.Core
         {
             if (!IsMemoryCardSize(Data.Length))
                 return false; // bad size
-            if (ReadUInt64LittleEndian(Data) == ulong.MaxValue)
+            if (ReadUInt64BigEndian(Data) == ulong.MaxValue)
                 return false; // uninitialized
             return true;
         }
@@ -223,7 +223,7 @@ namespace PKHeX.Core
             for (int i = 0; i < NumEntries_Directory; i++)
             {
                 int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
-                if (ReadUInt32LittleEndian(Data.AsSpan(offset)) == uint.MaxValue) // empty entry
+                if (ReadUInt32BigEndian(Data.AsSpan(offset)) == uint.MaxValue) // empty entry
                     continue;
 
                 int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));

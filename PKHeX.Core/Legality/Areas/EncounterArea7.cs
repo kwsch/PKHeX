@@ -38,16 +38,21 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-                var entry = data[offset..];
-                ushort SpecForm = ReadUInt16LittleEndian(entry);
-                int species = SpecForm & 0x3FF;
-                int form = SpecForm >> 11;
-                int min = entry[2];
-                int max = entry[3];
-                slots[i] = new EncounterSlot7(this, species, form, min, max);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot7 ReadSlot(ReadOnlySpan<byte> entry)
+        {
+            ushort SpecForm = ReadUInt16LittleEndian(entry);
+            int species = SpecForm & 0x3FF;
+            int form = SpecForm >> 11;
+            int min = entry[2];
+            int max = entry[3];
+            return new EncounterSlot7(this, species, form, min, max);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

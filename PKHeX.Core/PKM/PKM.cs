@@ -369,7 +369,7 @@ namespace PKHeX.Core
         public int[] IVs
         {
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
-            set { SetIVs(value); }
+            set => SetIVs(value);
         }
 
         public void SetIVs(ReadOnlySpan<int> value)

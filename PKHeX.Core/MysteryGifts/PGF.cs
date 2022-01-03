@@ -53,7 +53,7 @@ namespace PKHeX.Core
         public string Nickname
         {
             get => StringConverter5.GetString(Data.AsSpan( 0x1E, 11 * 2));
-            set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2),value.AsSpan(), 11, StringConverterOption.ClearFF);
+            set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2), value.AsSpan(), 11, StringConverterOption.ClearFF);
         }
 
         public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }

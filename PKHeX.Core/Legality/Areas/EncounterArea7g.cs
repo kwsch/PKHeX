@@ -49,20 +49,21 @@ namespace PKHeX.Core
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = (i * entrySize) + 2;
-                result[i] = ReadSlot(data[offset..], area, species, form);
+                var entry = data.Slice(offset, entrySize);
+                result[i] = ReadSlot(entry, area, species, form);
             }
 
             return area;
         }
 
-        private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> data, EncounterArea7g area, int species, int form)
+        private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea7g area, int species, int form)
         {
-            int start = ReadInt32LittleEndian(data);
-            int end = ReadInt32LittleEndian(data[4..]);
-            var sg = data[8];
+            int start = ReadInt32LittleEndian(entry);
+            int end = ReadInt32LittleEndian(entry[4..]);
+            var sg = entry[8];
             var shiny = (Shiny)(sg & 0x3F);
             var gender = (Gender)(sg >> 6);
-            var type = (PogoType)data[9];
+            var type = (PogoType)entry[9];
             return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
         }
 

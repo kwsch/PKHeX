@@ -76,8 +76,7 @@ namespace PKHeX.Core
             int mpc = entry[7];
             int sti = entry[8];
             int stc = entry[9];
-            var slot = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
-            return slot;
+            return new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
         }
 
         private EncounterSlot3[] ReadSwarmSlots(ReadOnlySpan<byte> data)

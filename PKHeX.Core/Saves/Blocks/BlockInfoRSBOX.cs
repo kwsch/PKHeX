@@ -32,12 +32,9 @@ namespace PKHeX.Core
 
         protected override void SetChecksum(Span<byte> data)
         {
-            var span = data[Offset..];
             var chk = GetChecksum(data);
-            span[0] = (byte)(chk >> 24);
-            span[1] = (byte)(chk >> 16);
-            span[2] = (byte)(chk >> 8);
-            span[3] = (byte)(chk >> 0);
+            var span = data[Offset..];
+            WriteUInt32BigEndian(span, chk);
         }
 
         private uint GetChecksum(Span<byte> data)

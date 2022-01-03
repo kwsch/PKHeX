@@ -26,9 +26,10 @@ namespace PKHeX.Core
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 
-            Span<uint> IVs = stackalloc uint[6];
+            Span<uint> temp = stackalloc uint[6];
             for (int i = 0; i < 6; i++)
-                IVs[i] = (uint)pk.GetIV(i);
+                temp[i] = (uint)pk.GetIV(i);
+            ReadOnlySpan<uint> IVs = temp;
 
             if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
@@ -55,7 +56,7 @@ namespace PKHeX.Core
             return PIDIV.None; // no match
         }
 
-        private static bool GetModifiedPIDMatch(PKM pk, uint pid, Span<uint> IVs, out PIDIV pidiv)
+        private static bool GetModifiedPIDMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             if (pk.IsShiny)
             {
@@ -80,7 +81,7 @@ namespace PKHeX.Core
                 : GetG5MGShinyMatch(pk, pid, out pidiv) || (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv));
         }
 
-        private static bool GetLCRNGMatch(uint top, uint bot, Span<uint> IVs, out PIDIV pidiv)
+        private static bool GetLCRNGMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
             var iv1 = GetIVChunk(IVs, 0);
@@ -388,7 +389,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetChainShinyMatch(PKM pk, uint pid, Span<uint> IVs, out PIDIV pidiv)
+        private static bool GetChainShinyMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             // 13 shiny bits
             // PIDH & 7
@@ -537,7 +538,7 @@ namespace PKHeX.Core
             return pid == oldpid;
         }
 
-        private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, Span<uint> IVs, out PIDIV pidiv)
+        private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             if (pk.Version != (int)GameVersion.CXD || pk.Species is not ((int)Species.Espeon or (int)Species.Umbreon))
                 return GetNonMatch(out pidiv);
