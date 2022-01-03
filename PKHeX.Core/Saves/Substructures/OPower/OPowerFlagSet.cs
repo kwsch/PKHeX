@@ -7,7 +7,7 @@ namespace PKHeX.Core
     {
         public readonly OPower6Type Identifier;
         public readonly int Count;
-        public int Offset;
+        public int Offset { get; set; }
         public int BaseCount => Math.Min(3, Count);
         public bool HasOPowerS => Count > 3;
         public bool HasOPowerMAX => Count == 5;
@@ -18,11 +18,11 @@ namespace PKHeX.Core
             Count = count;
         }
 
-        public int GetOPowerLevel(byte[] data, int offset)
+        public int GetOPowerLevel(ReadOnlySpan<byte> data)
         {
             for (int i = 0; i < BaseCount; i++)
             {
-                if (GetFlag(data, offset, i))
+                if (GetFlag(data, i))
                     continue;
                 Debug.WriteLine($"Fetched {Identifier}: {i}");
                 return i;
@@ -32,28 +32,28 @@ namespace PKHeX.Core
             return BaseCount;
         }
 
-        public void SetOPowerLevel(byte[] data, int offset, int value)
+        public void SetOPowerLevel(Span<byte> data, int value)
         {
             Debug.WriteLine($"Setting {Identifier}: {value}");
             for (int i = 0; i < BaseCount; i++)
-                SetFlag(data, offset, i, i + 1 <= value);
-            Debug.Assert(value == GetOPowerLevel(data, offset));
+                SetFlag(data, i, i + 1 <= value);
+            Debug.Assert(value == GetOPowerLevel(data));
         }
 
-        public bool GetOPowerS(byte[] data, int offset) => HasOPowerS && GetFlag(data, offset, 3);
-        public bool GetOPowerMAX(byte[] data, int offset) => HasOPowerMAX && GetFlag(data, offset, 4);
-        public void SetOPowerS(byte[] data, int offset, bool value) => SetFlag(data, offset, 3, value);
-        public void SetOPowerMAX(byte[] data, int offset, bool value) => SetFlag(data, offset, 4, value);
+        public bool GetOPowerS(ReadOnlySpan<byte> data) => HasOPowerS && GetFlag(data, 3);
+        public bool GetOPowerMAX(ReadOnlySpan<byte> data) => HasOPowerMAX && GetFlag(data, 4);
+        public void SetOPowerS(Span<byte> data, bool value) => SetFlag(data, 3, value);
+        public void SetOPowerMAX(Span<byte> data, bool value) => SetFlag(data, 4, value);
 
-        private bool GetFlag(byte[] data, int offset, int index)
+        private bool GetFlag(ReadOnlySpan<byte> data, int index)
         {
-            return data[Offset + offset + index] == (byte)OPowerFlagState.Unlocked;
+            return data[Offset + index] == (byte)OPowerFlagState.Unlocked;
         }
 
-        private void SetFlag(byte[] data, int offset, int index, bool value)
+        private void SetFlag(Span<byte> data, int index, bool value)
         {
             if (index < Count)
-                data[Offset + offset + index] = (byte)(value ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
+                data[Offset + index] = (byte)(value ? OPowerFlagState.Unlocked : OPowerFlagState.Locked);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,11 +9,11 @@ namespace PKHeX.Core
     /// </summary>
     public static class EvolutionSet3
     {
-        private static EvolutionMethod GetMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
         {
-            int method = BitConverter.ToUInt16(data, offset + 0);
-            int arg =  BitConverter.ToUInt16(data, offset + 2);
-            int species = SpeciesConverter.GetG4Species(BitConverter.ToUInt16(data, offset + 4));
+            int method = ReadUInt16LittleEndian(data);
+            int arg =  ReadUInt16LittleEndian(data[2..]);
+            int species = SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(data[4..]));
             //2 bytes padding
 
             switch (method)
@@ -42,7 +43,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
         {
             var evos = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
             evos[0] = Array.Empty<EvolutionMethod>();
@@ -70,7 +71,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(data, offset + (j * size));
+                    set[j] = GetMethod(data.Slice(offset + (j * size), size));
                 evos[g4species] = set;
             }
             return evos;

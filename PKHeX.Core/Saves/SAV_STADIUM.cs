@@ -1,4 +1,8 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using System.Buffers.Binary;
+using System.Runtime.InteropServices;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Base class for GB Era Stadium files.
@@ -32,7 +36,7 @@
 
             if (!swap)
                 return;
-            BigEndian.SwapBytes32(Data);
+            ReverseEndianness(Data);
             IsPairSwapped = true;
         }
 
@@ -76,7 +80,7 @@
         {
             var result = base.GetFinalData();
             if (IsPairSwapped)
-                BigEndian.SwapBytes32(result = (byte[])result.Clone());
+                ReverseEndianness(result = (byte[])result.Clone());
             return result;
         }
 
@@ -90,13 +94,23 @@
             return result;
         }
 
-        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, Japanese);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter12.GetString(data, Japanese);
 
-        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
+        }
+
+        /// <summary>
+        /// Some emulators emit with system architecture endianness (Little Endian) instead of the original Big Endian ordering.
+        /// This will efficiently swap 32-bit endianness for the entire span.
+        /// </summary>
+        /// <param name="data">Full savedata</param>
+        private static void ReverseEndianness(Span<byte> data)
+        {
+            var uintArr = MemoryMarshal.Cast<byte, uint>(data);
+            for (int i = 0; i < uintArr.Length; i++)
+                uintArr[i] = BinaryPrimitives.ReverseEndianness(uintArr[i]);
         }
     }
 }

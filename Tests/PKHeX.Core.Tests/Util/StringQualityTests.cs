@@ -72,9 +72,9 @@ namespace PKHeX.Tests.Util
             {
                 iterated = true;
                 var name = p.Name;
-                var val = p.GetValue(strings);
-                Assert.NotNull(val);
-                var arr = (string[])val!;
+                var value = p.GetValue(strings);
+                Assert.NotNull(value);
+                var arr = (string[])value!;
                 var hs = new HashSet<string>();
 
                 bool sm0 = name == nameof(GameStrings.metSM_00000);

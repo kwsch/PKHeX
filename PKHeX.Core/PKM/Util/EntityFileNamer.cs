@@ -28,7 +28,8 @@
         {
             string form = pk.Form > 0 ? $"-{pk.Form:00}" : string.Empty;
             string star = pk.IsShiny ? " ★" : string.Empty;
-            return $"{pk.Species:000}{form}{star} - {pk.Nickname} - {pk.Checksum:X4}{pk.EncryptionConstant:X8}";
+            var chk = pk is ISanityChecksum s ? s.Checksum : PokeCrypto.GetCHK(pk.Data, pk.SIZE_STORED);
+            return $"{pk.Species:000}{form}{star} - {pk.Nickname} - {chk:X4}{pk.EncryptionConstant:X8}";
         }
 
         private static string GetGBPKM(GBPKM gb)

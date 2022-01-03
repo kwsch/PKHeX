@@ -23,19 +23,20 @@ namespace PKHeX.Core
         protected PKM(byte[] data) => Data = data;
         protected PKM(int size) => Data = new byte[size];
 
-        public virtual byte[] EncryptedPartyData => ArrayUtil.Truncate(Encrypt(), SIZE_PARTY);
-        public virtual byte[] EncryptedBoxData => ArrayUtil.Truncate(Encrypt(), SIZE_STORED);
-        public virtual byte[] DecryptedPartyData => ArrayUtil.Truncate(Write(), SIZE_PARTY);
-        public virtual byte[] DecryptedBoxData => ArrayUtil.Truncate(Write(), SIZE_STORED);
+        public virtual byte[] EncryptedPartyData => Encrypt().AsSpan()[..SIZE_PARTY].ToArray();
+        public virtual byte[] EncryptedBoxData => Encrypt().AsSpan()[..SIZE_STORED].ToArray();
+        public virtual byte[] DecryptedPartyData => Write().AsSpan()[..SIZE_PARTY].ToArray();
+        public virtual byte[] DecryptedBoxData => Write().AsSpan()[..SIZE_STORED].ToArray();
 
-        public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        /// <summary>
+        /// Rough indication if the data is junk or not.
+        /// </summary>
+        public abstract bool Valid { get; set; }
 
         // Trash Bytes
-        public abstract Span<byte> Nickname_Trash { get; set; }
-        public abstract Span<byte> OT_Trash { get; set; }
-        public virtual Span<byte> HT_Trash { get => Span<byte>.Empty; set { } }
-
-        protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, SIZE_STORED);
+        public abstract Span<byte> Nickname_Trash { get; }
+        public abstract Span<byte> OT_Trash { get; }
+        public virtual Span<byte> HT_Trash => Span<byte>.Empty;
 
         protected abstract byte[] Encrypt();
         public abstract int Format { get; }
@@ -108,8 +109,6 @@ namespace PKHeX.Core
 
         public abstract uint EncryptionConstant { get; set; }
         public abstract uint PID { get; set; }
-        public abstract ushort Sanity { get; set; }
-        public abstract ushort Checksum { get; set; }
 
         // Misc Properties
         public abstract int Language { get; set; }
@@ -336,7 +335,6 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
@@ -371,13 +369,19 @@ namespace PKHeX.Core
         public int[] IVs
         {
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
-            set
-            {
-                if (value.Length != 6)
-                    return;
-                IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
-                IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
-            }
+            set => SetIVs(value);
+        }
+
+        public void SetIVs(ReadOnlySpan<int> value)
+        {
+            if (value.Length != 6)
+                return;
+            IV_HP = value[0];
+            IV_ATK = value[1];
+            IV_DEF = value[2];
+            IV_SPE = value[3];
+            IV_SPA = value[4];
+            IV_SPD = value[5];
         }
 
         public int[] EVs
@@ -575,7 +579,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
         /// </summary>
-        public virtual void RefreshChecksum() => Checksum = CalculateChecksum();
+        public abstract void RefreshChecksum();
+
+        /// <summary>
+        /// Indicates if the data has a proper checksum.
+        /// </summary>
+        /// <remarks>Returns true for structures that do not compute or contain a checksum in the structure.</remarks>
+        public abstract bool ChecksumValid { get; }
 
         /// <summary>
         /// Reorders moves and fixes PP if necessary.
@@ -891,7 +901,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < count; i++)
                     ivs[i] = MaxIV;
-                Util.Shuffle(ivs, 0, ivs.Length, rnd); // Randomize IV order
+                Util.Shuffle(ivs.AsSpan(), 0, ivs.Length, rnd); // Randomize IV order
             }
             return IVs = ivs;
         }

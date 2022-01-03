@@ -62,8 +62,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < count; ++i)
             {
                 var obj = this[i];
-                var val = prop.GetValue(obj);
-                if (val?.Equals(key) == true)
+                var value = prop.GetValue(obj);
+                if (value?.Equals(key) == true)
                     return i;
             }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using static System.Buffers.Binary. BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -36,21 +36,21 @@ namespace PKHeX.Core
         // General Card Properties
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0), (ushort)value);
         }
 
         public override string CardTitle
         {
             // Max len 36 char, followed by null terminator
-            get => StringConverter.GetString7b(Data, CardStart + 2, 0x4A);
-            set => StringConverter.SetString7b(value, 36, 37).CopyTo(Data, CardStart + 2);
+            get => StringConverter8.GetString(Data.AsSpan(CardStart + 2, 0x4A));
+            set => StringConverter8.SetString(Data.AsSpan(CardStart + 2, 0x4A), value.AsSpan(), 36, StringConverterOption.ClearZero);
         }
 
         private uint RawDate
         {
-            get => BitConverter.ToUInt32(Data, CardStart + 0x4C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x4C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x4C));
+            set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x4C), value);
         }
 
         private uint Year
@@ -119,16 +119,16 @@ namespace PKHeX.Core
 
         // Item Properties
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
-        public override int ItemID { get => BitConverter.ToUInt16(Data, CardStart + 0x68); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x68); }
-        public int GetItem(int index) => BitConverter.ToUInt16(Data, CardStart + 0x68 + (0x4 * index));
-        public void SetItem(int index, ushort item) => BitConverter.GetBytes(item).CopyTo(Data, CardStart + 0x68 + (4 * index));
-        public int GetQuantity(int index) => BitConverter.ToUInt16(Data, CardStart + 0x6A + (0x4 * index));
-        public void SetQuantity(int index, ushort quantity) => BitConverter.GetBytes(quantity).CopyTo(Data, CardStart + 0x6A + (4 * index));
+        public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), (ushort)value); }
+        public int GetItem(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68 + (0x4 * index)));
+        public void SetItem(int index, ushort item) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68 + (4 * index)), item);
+        public int GetQuantity(int index) => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A + (0x4 * index)));
+        public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A + (4 * index)), quantity);
 
         public override int Quantity
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x6A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x6A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), (ushort)value);
         }
 
         // Pokémon Properties
@@ -137,24 +137,24 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x68);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x68);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), (ushort)value);
         }
 
         public override int SID {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x6A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x6A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), (ushort)value);
         }
 
         public int OriginGame
         {
-            get => BitConverter.ToInt32(Data, CardStart + 0x6C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x6C);
+            get => ReadInt32LittleEndian(Data.AsSpan(CardStart + 0x6C));
+            set => WriteInt32LittleEndian(Data.AsSpan(CardStart + 0x6C), value);
         }
 
         public uint EncryptionConstant {
-            get => BitConverter.ToUInt32(Data, CardStart + 0x70);
-            set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0x70);
+            get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x70));
+            set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x70), value);
         }
 
         public override int Ball
@@ -164,15 +164,15 @@ namespace PKHeX.Core
 
         public override int HeldItem // no references
         {
-            get => BitConverter.ToUInt16(Data, CardStart + 0x78);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x78);
+            get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x78));
+            set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x78), (ushort)value);
         }
 
-        public int Move1 { get => BitConverter.ToUInt16(Data, CardStart + 0x7A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x7A); }
-        public int Move2 { get => BitConverter.ToUInt16(Data, CardStart + 0x7C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x7C); }
-        public int Move3 { get => BitConverter.ToUInt16(Data, CardStart + 0x7E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x7E); }
-        public int Move4 { get => BitConverter.ToUInt16(Data, CardStart + 0x80); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x80); }
-        public override int Species { get => BitConverter.ToUInt16(Data, CardStart + 0x82); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0x82); }
+        public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A), (ushort)value); }
+        public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C), (ushort)value); }
+        public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E), (ushort)value); }
+        public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x80), (ushort)value); }
+        public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x82), (ushort)value); }
         public override int Form { get => Data[CardStart + 0x84]; set => Data[CardStart + 0x84] = (byte)value; }
 
         // public int Language { get => Data[CardStart + 0x85]; set => Data[CardStart + 0x85] = (byte)value; }
@@ -187,8 +187,8 @@ namespace PKHeX.Core
         public override int Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = (byte)value; }
         public override int AbilityType { get => 3; set => Data[CardStart + 0xA2] = (byte)value; } // no references, always ability 0/1
         public Shiny PIDType { get => (Shiny)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
-        public override int EggLocation { get => BitConverter.ToUInt16(Data, CardStart + 0xA4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xA4); }
-        public int MetLocation  { get => BitConverter.ToUInt16(Data, CardStart + 0xA6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xA6); }
+        public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4), (ushort)value); }
+        public int MetLocation  { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6), (ushort)value); }
         public int MetLevel { get => Data[CardStart + 0xA8]; set => Data[CardStart + 0xA8] = (byte)value; }
 
         public int IV_HP { get => Data[CardStart + 0xAF]; set => Data[CardStart + 0xAF] = (byte)value; }
@@ -208,13 +208,13 @@ namespace PKHeX.Core
 
         public override int Level { get => Data[CardStart + 0xD0]; set => Data[CardStart + 0xD0] = (byte)value; }
         public override bool IsEgg { get => Data[CardStart + 0xD1] == 1; set => Data[CardStart + 0xD1] = value ? (byte)1 : (byte)0; }
-        public ushort AdditionalItem { get => BitConverter.ToUInt16(Data, CardStart + 0xD2); set => BitConverter.GetBytes(value).CopyTo(Data, CardStart + 0xD2); }
+        public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2), value); }
 
-        public uint PID { get => BitConverter.ToUInt32(Data, 0xD4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xD4); }
-        public int RelearnMove1 { get => BitConverter.ToUInt16(Data, CardStart + 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xD8); }
-        public int RelearnMove2 { get => BitConverter.ToUInt16(Data, CardStart + 0xDA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDA); }
-        public int RelearnMove3 { get => BitConverter.ToUInt16(Data, CardStart + 0xDC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDC); }
-        public int RelearnMove4 { get => BitConverter.ToUInt16(Data, CardStart + 0xDE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, CardStart + 0xDE); }
+        public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
+        public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8), (ushort)value); }
+        public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA), (ushort)value); }
+        public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC), (ushort)value); }
+        public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE), (ushort)value); }
 
         public int AV_HP  { get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
         public int AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
@@ -289,11 +289,11 @@ namespace PKHeX.Core
             return redeemLanguage;
         }
 
-        public string GetNickname(int language) => StringConverter.GetString7b(Data, GetNicknameOffset(language), 0x1A);
-        public void SetNickname(int language, string value) => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, GetNicknameOffset(language));
+        public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
+        public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
 
-        public string GetOT(int language) => StringConverter.GetString7b(Data, GetOTOffset(language), 0x1A);
-        public void SetOT(int language, string value) => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, GetOTOffset(language));
+        public string GetOT(int language) => StringConverter8.GetString(Data.AsSpan(GetOTOffset(language), 0x1A));
+        public void SetOT(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetOTOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
 
         private static int GetNicknameOffset(int language)
         {
@@ -459,7 +459,7 @@ namespace PKHeX.Core
 
         private void SetIVs(PKM pk)
         {
-            int[] finalIVs = new int[6];
+            Span<int> finalIVs = stackalloc int[6];
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
             var rng = Util.Rand;
             if (ivflag == 0) // Random IVs
@@ -471,11 +471,11 @@ namespace PKHeX.Core
             {
                 int IVCount = ivflag - 0xFB;
                 do { finalIVs[rng.Next(6)] = 31; }
-                while (finalIVs.Count(iv => iv == 31) < IVCount);
+                while (finalIVs.Count(31) < IVCount);
                 for (int i = 0; i < 6; i++)
                     finalIVs[i] = finalIVs[i] == 31 ? 31 : rng.Next(32);
             }
-            pk.IVs = finalIVs;
+            pk.SetIVs(finalIVs);
         }
 
         public bool CanHaveLanguage(int language)

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -9,12 +10,14 @@ namespace PKHeX.Core
         protected uint data2;
         protected uint data3;
 
-        protected TrainerFashion6(byte[] data, int offset)
+        protected TrainerFashion6(ReadOnlySpan<byte> data, int offset) : this(data[offset..]) { }
+
+        private TrainerFashion6(ReadOnlySpan<byte> span)
         {
-            data0 = BitConverter.ToUInt32(data, 0 + offset);
-            data1 = BitConverter.ToUInt32(data, 4 + offset);
-            data2 = BitConverter.ToUInt32(data, 8 + offset);
-            data3 = BitConverter.ToUInt32(data, 12 + offset);
+            data0 = ReadUInt32LittleEndian(span);
+            data1 = ReadUInt32LittleEndian(span[04..]);
+            data2 = ReadUInt32LittleEndian(span[08..]);
+            data3 = ReadUInt32LittleEndian(span[12..]);
         }
 
         public static TrainerFashion6 GetFashion(byte[] data, int offset, int gender)
@@ -26,10 +29,11 @@ namespace PKHeX.Core
 
         public void Write(byte[] data, int offset)
         {
-            BitConverter.GetBytes(data0).CopyTo(data, 0 + offset);
-            BitConverter.GetBytes(data1).CopyTo(data, 4 + offset);
-            BitConverter.GetBytes(data2).CopyTo(data, 8 + offset);
-            BitConverter.GetBytes(data3).CopyTo(data, 12 + offset);
+            var span = data.AsSpan(offset);
+            WriteUInt32LittleEndian(span, data0);
+            WriteUInt32LittleEndian(span[04..], data1);
+            WriteUInt32LittleEndian(span[08..], data2);
+            WriteUInt32LittleEndian(span[12..], data3);
         }
 
         protected static uint GetBits(uint value, int startPos, int bits)

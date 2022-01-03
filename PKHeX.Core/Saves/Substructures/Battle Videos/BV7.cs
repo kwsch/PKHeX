@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,7 +15,7 @@ namespace PKHeX.Core
         private readonly byte[] Data;
 
         public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
-        internal new static bool IsValid(byte[] data) => data.Length == SIZE;
+        internal new static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
 
         public BV7(byte[] data) => Data = (byte[])data.Clone();
 
@@ -64,7 +65,8 @@ namespace PKHeX.Core
             string[] trainers = new string[PlayerCount];
             for (int i = 0; i < PlayerCount; i++)
             {
-                var str = StringConverter.GetString7(Data, 0x12C + (0x1A * i), 0x1A);
+                var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+                var str = StringConverter7.GetString(span);
                 trainers[i] = string.IsNullOrWhiteSpace(trainers[i]) ? NPC : str;
             }
             return trainers;
@@ -78,11 +80,12 @@ namespace PKHeX.Core
             for (int i = 0; i < PlayerCount; i++)
             {
                 string tr = value[i] == NPC ? string.Empty : value[i];
-                StringConverter.SetString7(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
+                var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
+                StringConverter7.SetString(span, tr.AsSpan(), 12, 0, StringConverterOption.ClearZero);
             }
         }
 
-        private int MatchYear { get => BitConverter.ToUInt16(Data, 0x2BB0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2BB0); }
+        private int MatchYear { get => ReadUInt16LittleEndian(Data.AsSpan(0x2BB0)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2BB0), (ushort)value); }
         private int MatchDay { get => Data[0x2BB3]; set => Data[0x2BB3] = (byte)value; }
         private int MatchMonth { get => Data[0x2BB2]; set => Data[0x2BB2] = (byte)value; }
         private int MatchHour { get => Data[0x2BB4]; set => Data[0x2BB4] = (byte)value; }

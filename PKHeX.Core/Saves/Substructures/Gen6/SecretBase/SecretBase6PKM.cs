@@ -1,8 +1,9 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class SecretBase6PKM
+    public sealed class SecretBase6PKM : ISanityChecksum
     {
         public const int SIZE = 0x34;
         public readonly byte[] Data;
@@ -12,32 +13,32 @@ namespace PKHeX.Core
 
         public uint EncryptionConstant
         {
-            get => BitConverter.ToUInt32(Data, 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
         }
 
         public ushort Sanity
         {
-            get => BitConverter.ToUInt16(Data, 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x04);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x04));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value);
         }
 
         public ushort Checksum
         {
-            get => BitConverter.ToUInt16(Data, 0x06);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x06);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x06));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
         }
 
         public int Species
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
         }
 
         public int HeldItem
         {
-            get => BitConverter.ToUInt16(Data, 0x0A);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x0A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
         }
 
         public int Ability { get => Data[0x0C]; set => Data[0x0C] = (byte)value; }
@@ -45,8 +46,8 @@ namespace PKHeX.Core
 
         public uint PID
         {
-            get => BitConverter.ToUInt32(Data, 0x10);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x10);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
         }
 
         public int Nature { get => Data[0x14]; set => Data[0x14] = (byte)value; }
@@ -64,26 +65,26 @@ namespace PKHeX.Core
 
         public int Move1
         {
-            get => BitConverter.ToUInt16(Data, 0x1C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x1C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), (ushort)value);
         }
 
         public int Move2
         {
-            get => BitConverter.ToUInt16(Data, 0x1E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x1E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value);
         }
 
         public int Move3
         {
-            get => BitConverter.ToUInt16(Data, 0x20);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x20));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value);
         }
 
         public int Move4
         {
-            get => BitConverter.ToUInt16(Data, 0x22);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x22));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x22), (ushort)value);
         }
 
         public int Move1_PPUps { get => Data[0x24]; set => Data[0x24] = (byte)value; }

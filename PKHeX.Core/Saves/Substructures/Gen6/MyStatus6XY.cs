@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,16 +17,18 @@ namespace PKHeX.Core
             set => value.Write(Data, Offset + 0x30);
         }
 
+        private Span<byte> Nickname_Trash => Data.AsSpan(Offset + 0x62, SAV6.ShortStringLength);
+
         public string OT_Nick
         {
-            get => SAV.GetString(Offset + 0x62, SAV6.ShortStringLength);
-            set => SAV.SetData(SAV.SetString(value, 12), Offset + 0x62);
+            get => SAV.GetString(Nickname_Trash);
+            set => SAV.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public short EyeColor
         {
-            get => BitConverter.ToInt16(Data, Offset + 0x148);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x148);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0x148));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x148), value);
         }
     }
 }

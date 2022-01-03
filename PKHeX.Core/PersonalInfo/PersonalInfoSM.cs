@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -28,9 +29,9 @@ namespace PKHeX.Core
             return Data;
         }
 
-        public int SpecialZ_Item { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
-        public int SpecialZ_BaseMove { get => BitConverter.ToUInt16(Data, 0x4E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4E); }
-        public int SpecialZ_ZMove { get => BitConverter.ToUInt16(Data, 0x50); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x50); }
+        public int SpecialZ_Item { get => ReadUInt16LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4C), (ushort)value); }
+        public int SpecialZ_BaseMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x4E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4E), (ushort)value); }
+        public int SpecialZ_ZMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x50)); set => WriteUInt16LittleEndian(Data.AsSpan(0x50), (ushort)value); }
         public bool LocalVariant { get => Data[0x52] == 1; set => Data[0x52] = value ? (byte)1 : (byte)0; }
     }
 }

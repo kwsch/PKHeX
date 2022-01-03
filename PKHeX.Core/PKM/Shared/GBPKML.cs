@@ -18,8 +18,8 @@ namespace PKHeX.Core
         internal readonly byte[] RawNickname;
 
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => RawNickname; set { if (value.Length == RawNickname.Length) value.CopyTo(RawNickname); } }
-        public sealed override Span<byte> OT_Trash { get => RawOT; set { if (value.Length == RawOT.Length) value.CopyTo(RawOT); } }
+        public sealed override Span<byte> Nickname_Trash => RawNickname;
+        public sealed override Span<byte> OT_Trash => RawOT;
 
         protected GBPKML(int size, bool jp = false) : base(size)
         {
@@ -28,8 +28,8 @@ namespace PKHeX.Core
             // initialize string buffers
             RawOT = new byte[strLen];
             RawNickname = new byte[strLen];
-            for (int i = 0; i < RawOT.Length; i++)
-                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
+            RawOT.AsSpan().Fill(StringConverter12.G1TerminatorCode);
+            RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
         }
 
         protected GBPKML(byte[] data, bool jp = false) : base(data)
@@ -39,8 +39,8 @@ namespace PKHeX.Core
             // initialize string buffers
             RawOT = new byte[strLen];
             RawNickname = new byte[strLen];
-            for (int i = 0; i < RawOT.Length; i++)
-                RawOT[i] = RawNickname[i] = StringConverter12.G1TerminatorCode;
+            RawOT.AsSpan().Fill(StringConverter12.G1TerminatorCode);
+            RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
         }
 
         public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(RawNickname);
@@ -49,7 +49,8 @@ namespace PKHeX.Core
         {
             var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
             var len = Nickname_Trash.Length;
-            var data = SetString(name, len, len, 0x50);
+            byte[] data = new byte[len];
+            SetString(name.AsSpan(), data, len, StringConverterOption.Clear50);
             if (!Korean)
             {
                 // Decimal point<->period fix
@@ -62,11 +63,11 @@ namespace PKHeX.Core
             return data;
         }
 
-        private byte[] SetString(string value, int maxLength, int padTo = 0, byte padWith = 0)
+        private void SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.None)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength - 1, padTo, padWith);
-            return StringConverter12.SetString1(value, maxLength - 1, Japanese, padTo, padWith);
+                StringConverter2KOR.SetString(value, destBuffer, maxLength, option);
+            StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         public sealed override string Nickname
@@ -74,15 +75,15 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter2KOR.GetString2KOR(RawNickname, 0, RawNickname.Length);
-                return StringConverter12.GetString1(RawNickname, 0, RawNickname.Length, Japanese);
+                    return StringConverter2KOR.GetString(RawNickname);
+                return StringConverter12.GetString(RawNickname, Japanese);
             }
             set
             {
                 if (!IsNicknamed && Nickname == value)
                     return;
 
-                SetStringKeepTerminatorStyle(value, RawNickname);
+                SetStringKeepTerminatorStyle(value.AsSpan(), RawNickname);
             }
         }
 
@@ -91,28 +92,27 @@ namespace PKHeX.Core
             get
             {
                 if (Korean)
-                    return StringConverter2KOR.GetString2KOR(RawOT, 0, RawOT.Length);
-                return StringConverter12.GetString1(RawOT, 0, RawOT.Length, Japanese);
+                    return StringConverter2KOR.GetString(RawOT.AsSpan());
+                return StringConverter12.GetString(RawOT.AsSpan(), Japanese);
             }
             set
             {
                 if (value == OT_Name)
                     return;
-                SetStringKeepTerminatorStyle(value, RawOT);
+                SetStringKeepTerminatorStyle(value.AsSpan(), RawOT);
             }
         }
 
-        private void SetStringKeepTerminatorStyle(string value, byte[] exist)
+        private void SetStringKeepTerminatorStyle(ReadOnlySpan<char> value, Span<byte> exist)
         {
             // Reset the destination buffer based on the termination style of the existing string.
-            bool zeroed = Array.IndexOf(exist, (byte)0) != -1;
+            bool zeroed = exist.IndexOf((byte)0) != -1;
             byte fill = zeroed ? (byte)0 : StringConverter12.G1TerminatorCode;
             for (int i = 0; i < exist.Length; i++)
                 exist[i] = fill;
 
             int finalLength = Math.Min(value.Length + 1, exist.Length);
-            byte[] strdata = SetString(value, finalLength);
-            strdata.CopyTo(exist, 0);
+            SetString(value, exist, finalLength);
         }
     }
 }

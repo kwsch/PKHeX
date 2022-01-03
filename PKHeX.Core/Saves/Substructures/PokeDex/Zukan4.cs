@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -45,7 +45,7 @@ namespace PKHeX.Core
             Offset = offset;
         }
 
-        public uint Magic { get => BitConverter.ToUInt32(Data, Offset); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public uint Magic { get => ReadUInt32LittleEndian(Data.AsSpan(Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
         public override bool GetCaught(int species) => GetRegionFlag(0, species - 1);
         public override bool GetSeen(int species) => GetRegionFlag(1, species - 1);
@@ -70,7 +70,7 @@ namespace PKHeX.Core
             FlagUtil.SetFlag(Data, ofs, index, value);
         }
 
-        public uint SpindaPID { get => BitConverter.ToUInt32(Data, Offset + OFS_SPINDA); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public uint SpindaPID { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SPINDA)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
         public static string[] GetFormNames4Dex(int species)
         {
@@ -101,7 +101,11 @@ namespace PKHeX.Core
                 case (int)Species.Wormadam: // Wormadam
                     return GetDexFormValues(Data[FormOffset1 + 3], 2, 3);
                 case (int)Species.Unown: // Unown
-                    return Data.Slice(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
+                    int[] result = new int[0x1C];
+                    var slice = Data.AsSpan(FormOffset1 + 4);
+                    for (int i = 0; i < result.Length; i++)
+                        result[i] = slice[i];
+                    return result;
             }
             if (DP)
                 return Array.Empty<int>();
@@ -110,7 +114,7 @@ namespace PKHeX.Core
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
             return species switch
             {
-                (int)Species.Rotom => GetDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6),
+                (int)Species.Rotom => GetDexFormValues(ReadUInt32LittleEndian(Data.AsSpan(FormOffset2)), 3, 6),
                 (int)Species.Shaymin => GetDexFormValues(Data[FormOffset2 + 4], 1, 2),
                 (int)Species.Giratina => GetDexFormValues(Data[FormOffset2 + 5], 1, 2),
                 (int)Species.Pichu when HGSS => GetDexFormValues(Data[FormOffset2 + 6], 2, 3),
@@ -118,7 +122,7 @@ namespace PKHeX.Core
             };
         }
 
-        public void SetForms(int species, int[] forms)
+        public void SetForms(int species, ReadOnlySpan<int> forms)
         {
             const int brSize = 0x40;
             switch (species)
@@ -148,10 +152,12 @@ namespace PKHeX.Core
                 case (int)Species.Unown: // Unown
                     int ofs = FormOffset1 + 4;
                     int len = forms.Length;
-                    Array.Resize(ref forms, 0x1C);
+                    Span<byte> unown = stackalloc byte[0x1C];
+                    for (int i = 0; i < len; i++)
+                        unown[i] = (byte)forms[i];
                     for (int i = len; i < forms.Length; i++)
-                        forms[i] = 0xFF;
-                    Array.Copy(forms.Select(b => (byte)b).ToArray(), 0, Data, ofs, forms.Length);
+                        unown[i] = 0xFF;
+                    unown.CopyTo(Data.AsSpan(ofs));
                     return;
             }
 
@@ -163,7 +169,8 @@ namespace PKHeX.Core
             switch (species)
             {
                 case (int)Species.Rotom: // Rotom
-                    BitConverter.GetBytes(SetDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
+                    var value = SetDexFormValues(forms, 3, 6);
+                    WriteUInt32LittleEndian(Data.AsSpan(FormOffset2), value);
                     return;
                 case (int)Species.Shaymin: // Shaymin
                     Data[FormOffset2 + 4] = (byte)SetDexFormValues(forms, 1, 2);
@@ -197,7 +204,7 @@ namespace PKHeX.Core
             return Forms;
         }
 
-        private static uint SetDexFormValues(int[] Forms, int BitsPerForm, int readCt)
+        private static uint SetDexFormValues(ReadOnlySpan<int> Forms, int BitsPerForm, int readCt)
         {
             int n1 = 0xFF >> (8 - BitsPerForm);
             uint Value = 0xFFFFFFFF << (readCt * BitsPerForm);
@@ -214,13 +221,13 @@ namespace PKHeX.Core
             return Value;
         }
 
-        private static bool TryInsertForm(int[] forms, int form)
+        private static bool TryInsertForm(Span<int> forms, int form)
         {
-            if (Array.IndexOf(forms, form) >= 0)
+            if (forms.IndexOf(form) >= 0)
                 return false; // already in list
 
             // insert at first empty
-            var index = Array.IndexOf(forms, -1);
+            var index = forms.IndexOf(-1);
             if (index < 0)
                 return false; // no free slots?
 
@@ -327,7 +334,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            var forms = GetForms(species);
+            Span<int> forms = GetForms(species);
             if (forms.Length == 0)
                 return;
 
@@ -457,7 +464,9 @@ namespace PKHeX.Core
             if (forms.Length <= 1)
                 return;
 
-            var values = forms.Select((_, i) => i).ToArray();
+            Span<int> values = stackalloc int[forms.Length];
+            for (int i = 1; i < values.Length; i++)
+                values[i] = i;
             SetForms(species, values);
         }
 

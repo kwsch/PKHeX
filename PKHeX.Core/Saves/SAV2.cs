@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -145,15 +146,18 @@ namespace PKHeX.Core
 
         private PK2 ReadPKMFromOffset(int offset)
         {
-            byte[] nick = new byte[StringLength];
-            byte[] ot = new byte[StringLength];
-            byte[] pk = new byte[PokeCrypto.SIZE_2STORED];
+            var stringLength = StringLength;
+            var span = Data.AsSpan(offset);
 
-            Array.Copy(Data, offset, nick, 0, nick.Length); offset += nick.Length;
-            Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
-            Array.Copy(Data, offset, pk, 0, pk.Length);
+            var pkData = span.Slice(stringLength * 2, PokeCrypto.SIZE_2STORED).ToArray();
+            var pk = new PK2(pkData, jp: Japanese);
 
-            return new PK2(pk, jp: Japanese) { OT_Trash = ot, Nickname_Trash = nick };
+            var nick = span[..stringLength];
+            var ot = span.Slice(stringLength, stringLength);
+            nick.CopyTo(pk.RawNickname);
+            ot.CopyTo(pk.RawOT);
+
+            return pk;
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
@@ -201,28 +205,28 @@ namespace PKHeX.Core
             {
                 switch (Version)
                 {
-                    case GameVersion.GS: Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xC83); break;
-                    case GameVersion.C:  Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xADA); break;
+                    case GameVersion.GS: Data.AsSpan(Offsets.Trainer1, 0xC83).CopyTo(Data.AsSpan(0x7209)); break;
+                    case GameVersion.C:  Data.AsSpan(Offsets.Trainer1, 0xADA).CopyTo(Data.AsSpan(0x7209)); break;
                 }
             }
             else if (Korean)
             {
                 // Calculate oddball checksum
                 ushort sum = 0;
-                ushort[][] offsetpairs =
+                Span<(ushort, ushort)> offsetpairs = stackalloc (ushort,ushort)[]
                 {
-                    new ushort[] {0x106B, 0x1533},
-                    new ushort[] {0x1534, 0x1A12},
-                    new ushort[] {0x1A13, 0x1C38},
-                    new ushort[] {0x3DD8, 0x3F79},
-                    new ushort[] {0x7E39, 0x7E6A},
+                    (0x106B, 0x1533),
+                    (0x1534, 0x1A12),
+                    (0x1A13, 0x1C38),
+                    (0x3DD8, 0x3F79),
+                    (0x7E39, 0x7E6A),
                 };
-                foreach (ushort[] p in offsetpairs)
+                foreach (var p in offsetpairs)
                 {
-                    for (int i = p[0]; i < p[1]; i++)
+                    for (int i = p.Item1; i < p.Item2; i++)
                         sum += Data[i];
                 }
-                BitConverter.GetBytes(sum).CopyTo(Data, 0x7E6B);
+                WriteUInt16LittleEndian(Data.AsSpan(0x7E6B), sum);
             }
             else
             {
@@ -266,7 +270,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
-        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGB(data);
 
         protected override int EventConstMax => 0x100;
         protected override int EventFlagMax => 2000;
@@ -296,8 +300,8 @@ namespace PKHeX.Core
         protected override void SetChecksums()
         {
             ushort accum = GetChecksum();
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition);
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition2);
+            WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition), accum);
+            WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2), accum);
         }
 
         public override bool ChecksumsValid
@@ -305,7 +309,7 @@ namespace PKHeX.Core
             get
             {
                 ushort accum = GetChecksum();
-                ushort actual = BitConverter.ToUInt16(Data, Offsets.OverallChecksumPosition);
+                ushort actual = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition));
                 return accum == actual;
             }
         }
@@ -318,11 +322,11 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
-            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
+            set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         public Span<byte> OT_Trash
-        { 
+        {
             get => Data.AsSpan(Offsets.Trainer1 + 2, StringLength);
             set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Trainer1 + 2)); }
         }
@@ -330,7 +334,7 @@ namespace PKHeX.Core
         public string Rival
         {
             get => GetString(Offsets.Rival, (Korean ? 2 : 1) * OTLength);
-            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Rival);
+            set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         public Span<byte> Rival_Trash
@@ -353,16 +357,16 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Trainer1));
+            set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), (ushort)value);
         }
 
         public override int SID { get => 0; set { } }
 
         public override int PlayedHours
         {
-            get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.TimePlayed);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed));
+            set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TimePlayed), (ushort)value);
         }
 
         public override int PlayedMinutes
@@ -379,8 +383,8 @@ namespace PKHeX.Core
 
         public int Badges
         {
-            get => BitConverter.ToUInt16(Data, Offsets.JohtoBadges);
-            set { if (value < 0) return; BitConverter.GetBytes((ushort)value).CopyTo(Data, Offsets.JohtoBadges); }
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges));
+            set { if (value < 0) return; WriteUInt16LittleEndian(Data.AsSpan(Offsets.JohtoBadges), (ushort)value); }
         }
 
         private byte Options
@@ -447,23 +451,25 @@ namespace PKHeX.Core
             set => Data[Offsets.Options + 5] = value ? (byte)1 : (byte)0;
         }
 
+        // 3 bytes
         public override uint Money
         {
-            get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
+            get => ReadUInt32BigEndian(Data.AsSpan(Offsets.Money)) >> 8;
             set
             {
-                byte[] data = BigEndian.GetBytes((uint) Math.Min(value, MaxMoney));
-                Array.Copy(data, 1, Data, Offsets.Money, 3);
+                var clamp = (uint)Math.Min(value, MaxMoney);
+                var toWrite = (clamp << 8) | Data[Offsets.Money + 3];
+                WriteUInt32BigEndian(Data.AsSpan(Offsets.Money), toWrite);
             }
         }
 
         public uint Coin
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Money + 7);
+            get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Money + 7));
             set
             {
-                value = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Money + 7);
+                var clamped = (ushort)Math.Min(value, MaxCoins);
+                WriteUInt16BigEndian(Data.AsSpan(Offsets.Money + 7), clamped);
             }
         }
 
@@ -544,8 +550,8 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value)
         {
             int len = Korean ? 17 : 9;
-            var data = SetString(value, len, len, 0x50);
-            SetData(data, Offsets.BoxNames + (box * len));
+            var span = Data.AsSpan(Offsets.BoxNames + (box * len), len);
+            SetString(span, value.AsSpan(), 8, StringConverterOption.Clear50);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -685,7 +691,7 @@ namespace PKHeX.Core
 
         /// <summary>All Event Constant values for the save file</summary>
         /// <remarks>These are all bytes</remarks>
-        public override void SetEventConsts(ushort[] value)
+        public override void SetEventConsts(ReadOnlySpan<ushort> value)
         {
             if (value.Length != EventConstMax)
                 return;
@@ -699,7 +705,7 @@ namespace PKHeX.Core
 
         private ushort GetResetKey()
         {
-            var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
+            var value = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
             var ot = Data.AsSpan(Offsets.Trainer1 + 2, 5);
             var sum = 0;
             foreach (var b in ot)
@@ -708,7 +714,7 @@ namespace PKHeX.Core
                     break;
                 sum += b;
             }
-            return (ushort)(val + sum);
+            return (ushort)(value + sum);
         }
 
         /// <summary>
@@ -722,18 +728,18 @@ namespace PKHeX.Core
                 SetEventFlag(i, true);
         }
 
-        public override string GetString(byte[] data, int offset, int length)
+        public override string GetString(ReadOnlySpan<byte> data)
         {
             if (Korean)
-                return StringConverter2KOR.GetString2KOR(data, offset, length);
-            return StringConverter12.GetString1(data, offset, length, Japanese);
+                return StringConverter2KOR.GetString(data);
+            return StringConverter12.GetString(data, Japanese);
         }
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
             if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength, PadToSize, (byte)PadWith);
-            return StringConverter12.SetString1(value, maxLength, Japanese, PadToSize, (byte)PadWith);
+                return StringConverter2KOR.SetString(value, destBuffer, maxLength, option);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;

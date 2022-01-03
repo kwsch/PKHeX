@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -45,7 +46,7 @@ namespace PKHeX.Core
             0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E,
         };
 
-        public static void CryptStaticXorpadBytes(byte[] data)
+        public static void CryptStaticXorpadBytes(Span<byte> data)
         {
             var xp = StaticXorpad;
             for (var i = 0; i < data.Length - SIZE_HASH; i++)
@@ -84,13 +85,8 @@ namespace PKHeX.Core
                 return false;
 
             var hash = ComputeHash(data);
-            for (int i = 0; i < hash.Length; i++)
-            {
-                if (hash[i] != data[data.Length - SIZE_HASH + i])
-                    return false;
-            }
-
-            return true;
+            var span = data.AsSpan()[^hash.Length..];
+            return span.SequenceEqual(hash);
         }
 
         /// <summary>
@@ -101,7 +97,7 @@ namespace PKHeX.Core
         /// <remarks>
         /// Hash is assumed to be valid before calling this method.
         /// </remarks>
-        public static IReadOnlyList<SCBlock> Decrypt(byte[] data)
+        public static IReadOnlyList<SCBlock> Decrypt(Span<byte> data)
         {
             CryptStaticXorpadBytes(data);
             return ReadBlocks(data);
@@ -110,7 +106,7 @@ namespace PKHeX.Core
         private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)
         private const int BlockDataRatioEstimate2 = 555; // bytes per block, on average (stingy)
 
-        private static IReadOnlyList<SCBlock> ReadBlocks(byte[] data)
+        private static IReadOnlyList<SCBlock> ReadBlocks(ReadOnlySpan<byte> data)
         {
             var result = new List<SCBlock>(data.Length / BlockDataRatioEstimate2);
             int offset = 0;

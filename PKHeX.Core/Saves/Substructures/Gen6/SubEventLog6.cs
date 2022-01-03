@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -34,13 +35,13 @@ namespace PKHeX.Core
         public ushort GetBadgeVictorySpecies(uint badge, uint slot)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-            return BitConverter.ToUInt16(Data, ofs);
+            return ReadUInt16LittleEndian(Data.AsSpan(ofs));
         }
 
         public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-            SAV.SetData(BitConverter.GetBytes(species), ofs);
+            WriteUInt16LittleEndian(Data.AsSpan(ofs), species);
         }
     }
 
@@ -54,8 +55,8 @@ namespace PKHeX.Core
         // u8[0x28] chateau data
         private ushort ChateauValue
         {
-            get => BitConverter.ToUInt16(Data, Offset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset), value);
         }
 
         public ushort ChateauRank
@@ -121,14 +122,14 @@ namespace PKHeX.Core
         // u16 SeasideCyclingRoadTimeMilliseconds 29C
         public ushort SeasideCyclingRoadTimeMilliseconds
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x29C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x29C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x29C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x29C), value);
         }
         // u16 SeasideCyclingRoadCollisions 29E
         public ushort SeasideCyclingRoadCollisions
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x29E);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x29E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x29E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x29E), value);
         }
         // u16[7] 2A0
         // u16[7] 2AE

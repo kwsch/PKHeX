@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,7 +18,7 @@ namespace PKHeX.Core
     {
         private const uint POKE = 0x454B4F50;
 
-        public static bool VerifyMemePOKE(byte[] input, out byte[] output)
+        public static bool VerifyMemePOKE(ReadOnlySpan<byte> input, out byte[] output)
         {
             if (input.Length < 0x60)
                 throw new ArgumentException("Invalid POKE buffer!");
@@ -25,10 +26,10 @@ namespace PKHeX.Core
             var memeIndex = MemeKeyIndex.PokedexAndSaveFile;
             for (var i = input.Length - 8; i >= 0; i--)
             {
-                if (BitConverter.ToUInt32(input, i) != POKE)
+                if (ReadUInt32LittleEndian(input[i..]) != POKE)
                     continue;
 
-                var keyIndex = BitConverter.ToInt32(input, i + 4);
+                var keyIndex = ReadInt32LittleEndian(input[(i+4)..]);
                 if (!MemeKey.IsValidPokeKeyIndex(keyIndex))
                     continue;
 
@@ -46,32 +47,32 @@ namespace PKHeX.Core
                     return true;
             }
 
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
-        public static bool VerifyMemeData(byte[] input, out byte[] output)
+        public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output)
         {
             foreach (MemeKeyIndex keyIndex in Enum.GetValues(typeof(MemeKeyIndex)))
             {
                 if (VerifyMemeData(input, out output, keyIndex))
                     return true;
             }
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
-        public static bool VerifyMemeData(byte[] input, out byte[] output, MemeKeyIndex keyIndex)
+        public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, MemeKeyIndex keyIndex)
         {
             if (input.Length < 0x60)
             {
-                output = input;
+                output = Array.Empty<byte>();
                 return false;
             }
             var key = new MemeKey(keyIndex);
-            output = (byte[])input.Clone();
+            output = input.ToArray();
 
-            var sigBuffer = key.RsaPublic(input.AsSpan(input.Length - 0x60));
+            var sigBuffer = key.RsaPublic(input[^0x60..]);
             using var sha1 = SHA1.Create();
             if (DecryptCompare(output, sigBuffer, key, sha1))
                 return true;
@@ -79,52 +80,50 @@ namespace PKHeX.Core
             if (DecryptCompare(output, sigBuffer, key, sha1))
                 return true;
 
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
         private static bool DecryptCompare(byte[] output, ReadOnlySpan<byte> sigBuffer, MemeKey key, SHA1 sha1)
         {
             sigBuffer.CopyTo(output.AsSpan(output.Length - 0x60));
-            key.AesDecrypt(output).CopyTo(output, 0);
+            key.AesDecrypt(output).CopyTo(output);
             // Check for 8-byte equality.
             var hash = sha1.ComputeHash(output, 0, output.Length - 0x8);
-            var computed = BitConverter.ToUInt64(hash, 0);
-            var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
+            var computed = ReadUInt64LittleEndian(hash.AsSpan());
+            var existing = ReadUInt64LittleEndian(output.AsSpan(output.Length - 0x8));
             return computed == existing;
         }
 
-        public static bool VerifyMemeData(byte[] input, out byte[] output, int offset, int length)
+        public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, int offset, int length)
         {
-            var data = new byte[length];
-            Array.Copy(input, offset, data, 0, length);
+            var data = input.Slice(offset, length).ToArray();
             if (VerifyMemeData(data, out output))
             {
-                var newOutput = (byte[])input.Clone();
+                var newOutput = input.ToArray();
                 output.CopyTo(newOutput, offset);
                 output = newOutput;
                 return true;
             }
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
-        public static bool VerifyMemeData(byte[] input, out byte[] output, int offset, int length, MemeKeyIndex keyIndex)
+        public static bool VerifyMemeData(ReadOnlySpan<byte> input, out byte[] output, int offset, int length, MemeKeyIndex keyIndex)
         {
-            var data = new byte[length];
-            Array.Copy(input, offset, data, 0, length);
+            var data = input.Slice(offset, length);
             if (VerifyMemeData(data, out output, keyIndex))
             {
-                var newOutput = (byte[])input.Clone();
+                var newOutput = input.ToArray();
                 output.CopyTo(newOutput, offset);
                 output = newOutput;
                 return true;
             }
-            output = input;
+            output = Array.Empty<byte>();
             return false;
         }
 
-        public static byte[] SignMemeData(byte[] input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)
+        public static byte[] SignMemeData(ReadOnlySpan<byte> input, MemeKeyIndex keyIndex = MemeKeyIndex.PokedexAndSaveFile)
         {
             // Validate Input
             if (input.Length < 0x60)
@@ -133,22 +132,21 @@ namespace PKHeX.Core
             if (!key.CanResign)
                 throw new ArgumentException("Cannot sign with the specified memekey!");
 
-            var output = (byte[])input.Clone();
+            var output = input.ToArray();
 
             // Copy in the SHA1 signature
             using (var sha1 = SHA1.Create())
             {
-                var hash = sha1.ComputeHash(input, 0, input.Length - 8);
-                Array.Copy(hash, 0, output, output.Length - 8, 8);
+                var hash = sha1.ComputeHash(output, 0, output.Length - 8);
+                hash.AsSpan(0, 8).CopyTo(output.AsSpan(output.Length - 8, 8));
             }
 
             // Perform AES operations
             output = key.AesEncrypt(output);
-            var sigBuffer = new byte[0x60];
-            Array.Copy(output, output.Length - 0x60, sigBuffer, 0, 0x60);
+            var sigBuffer = output.AsSpan(output.Length - 0x60, 0x60);
             sigBuffer[0] &= 0x7F;
-            sigBuffer = key.RsaPrivate(sigBuffer);
-            sigBuffer.CopyTo(output, output.Length - 0x60);
+            var signed = key.RsaPrivate(sigBuffer);
+            signed.CopyTo(sigBuffer);
             return output;
         }
 
@@ -157,7 +155,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="sav7">Save file data to resign</param>
         /// <returns>The resigned save data. Invalid input returns null.</returns>
-        public static byte[] Resign7(byte[] sav7)
+        public static byte[] Resign7(ReadOnlySpan<byte> sav7)
         {
             if (sav7.Length is not (SaveUtil.SIZE_G7SM or SaveUtil.SIZE_G7USUM))
                 throw new ArgumentException("Should not be using this for unsupported saves.");
@@ -169,19 +167,20 @@ namespace PKHeX.Core
             var ChecksumSignatureLength = isUSUM ? 0x150 : 0x140;
             const int MemeCryptoSignatureLength = 0x80;
 
-            var result = (byte[])sav7.Clone();
+            var result = sav7.ToArray();
 
             // Store current signature
-            var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength);
+            var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength).ToArray();
 
             using var sha256 = SHA256.Create();
-            var newSig = sha256.ComputeHash(sav7, ChecksumTableOffset, ChecksumSignatureLength);
-            Array.Resize(ref newSig, MemeCryptoSignatureLength);
+            var newSig = sha256.ComputeHash(result, ChecksumTableOffset, ChecksumSignatureLength);
+            Span<byte> sigSpan = stackalloc byte[MemeCryptoSignatureLength];
+            newSig.CopyTo(sigSpan);
 
             if (VerifyMemeData(oldSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
-                Buffer.BlockCopy(memeSig, 0x20, newSig, 0x20, 0x60);
+                memeSig.AsSpan()[0x20..0x80].CopyTo(sigSpan[0x20..]);
 
-            SignMemeData(newSig).CopyTo(result, MemeCryptoOffset);
+            SignMemeData(sigSpan).CopyTo(result, MemeCryptoOffset);
             return result;
         }
     }

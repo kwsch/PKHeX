@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -54,8 +55,8 @@ namespace PKHeX.Core
         public int CountFlag => FlagCount;
         public int CountWork => WorkCount;
 
-        public int GetWork(int index) => BitConverter.ToInt32(Data, Offset + (index * WorkSize));
-        public void SetWork(int index, int value) => BitConverter.GetBytes(value).CopyTo(Data, Offset + (index * WorkSize));
+        public int GetWork(int index) => ReadInt32LittleEndian(Data.AsSpan(Offset + (index * WorkSize)));
+        public void SetWork(int index, int value) => WriteInt32LittleEndian(Data.AsSpan(Offset + (index * WorkSize)), value);
         public int GetWork(EventVarType type, int index) => GetWork(GetWorkRawIndex(type, index));
         public void SetWork(EventVarType type, int index, int value) => SetWork(GetWorkRawIndex(type, index), value);
         public bool GetFlag(EventVarType type, int index) => GetFlag(GetFlagRawIndex(type, index));

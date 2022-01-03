@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.ParseSettings;
 
@@ -127,7 +128,7 @@ namespace PKHeX.Core
 
         private const int NO_DUPE = -1;
 
-        private static int IsAnyMoveDuplicate(int[] move)
+        private static int IsAnyMoveDuplicate(ReadOnlySpan<int> move)
         {
             int m1 = move[0];
             int m2 = move[1];

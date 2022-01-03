@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -57,15 +58,15 @@ namespace PKHeX.Core
             return Offset + OFS_WORK + (4 * flagNo);
         }
 
-        public bool GetFlag      (int flagNo) => BitConverter.ToInt32(Data, GetOffsetFlag(flagNo)) == 1;
-        public bool GetSystemFlag(int flagNo) => BitConverter.ToInt32(Data, GetOffsetSystem(flagNo)) == 1;
-        public int GetWork       (int workNo) => BitConverter.ToInt32(Data, GetOffsetWork(workNo));
-        public float GetFloatWork(int workNo) => BitConverter.ToSingle(Data, GetOffsetWork(workNo));
+        public bool GetFlag      (int flagNo) => ReadInt32LittleEndian(Data.AsSpan(GetOffsetFlag(flagNo))) == 1;
+        public bool GetSystemFlag(int flagNo) => ReadInt32LittleEndian(Data.AsSpan(GetOffsetSystem(flagNo))) == 1;
+        public int GetWork       (int workNo) => ReadInt32LittleEndian(Data.AsSpan(GetOffsetWork(workNo)));
+        public float GetFloatWork(int workNo) => ReadSingleLittleEndian(Data.AsSpan(GetOffsetWork(workNo)));
 
-        public void SetFlag      (int flagNo,  bool value) => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, GetOffsetFlag(flagNo));
-        public void SetSystemFlag(int flagNo,  bool value) => BitConverter.GetBytes(value ? 1u : 0u).CopyTo(Data, GetOffsetSystem(flagNo));
-        public void SetWork      (int workNo,   int value) => BitConverter.GetBytes(value).CopyTo(Data, GetOffsetWork(workNo));
-        public void SetFloatWork (int workNo, float value) => BitConverter.GetBytes(value).CopyTo(Data, GetOffsetWork(workNo));
+        public void SetFlag      (int flagNo,  bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetOffsetFlag(flagNo)), value ? 1u : 0u);
+        public void SetSystemFlag(int flagNo,  bool value) => WriteUInt32LittleEndian(Data.AsSpan(GetOffsetSystem(flagNo)), value ? 1u : 0u);
+        public void SetWork      (int workNo,   int value) => WriteInt32LittleEndian(Data.AsSpan(GetOffsetWork(workNo)), value);
+        public void SetFloatWork (int workNo, float value) => WriteSingleLittleEndian(Data.AsSpan(GetOffsetWork(workNo)), value);
 
         public void ResetFlag      (int flagNo) => SetFlag(flagNo, false);
         public void ResetVanishFlag(int flagNo) => SetVanishFlag(flagNo, false);

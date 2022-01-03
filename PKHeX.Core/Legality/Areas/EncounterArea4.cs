@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -23,18 +24,18 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea4(byte[] data, GameVersion game) : base(game)
+        private EncounterArea4(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
-            Location = data[0] | (data[1] << 8);
+            Location = ReadUInt16LittleEndian(data);
             Type = (SlotType)data[2];
             Rate = data[3];
             // although GroundTilePermission flags are 32bit, none have values > 16bit.
-            GroundTile = (GroundTilePermission) BitConverter.ToUInt16(data, 4);
+            GroundTile = (GroundTilePermission)ReadUInt16LittleEndian(data[4..]);
 
             Slots = ReadRegularSlots(data);
         }
 
-        private EncounterSlot4[] ReadRegularSlots(byte[] data)
+        private EncounterSlot4[] ReadRegularSlots(ReadOnlySpan<byte> data)
         {
             const int size = 10;
             int count = (data.Length - 6) / size;
@@ -42,21 +43,25 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 6 + (size * i);
-
-                int species = BitConverter.ToUInt16(data, offset + 0);
-                int form = data[offset + 2];
-                int slotNum = data[offset + 3];
-                int min = data[offset + 4];
-                int max = data[offset + 5];
-
-                int mpi = data[offset + 6];
-                int mpc = data[offset + 7];
-                int sti = data[offset + 8];
-                int stc = data[offset + 9];
-                slots[i] = new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadRegularSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot4 ReadRegularSlot(ReadOnlySpan<byte> entry)
+        {
+            int species = ReadUInt16LittleEndian(entry);
+            int form = entry[2];
+            int slotNum = entry[3];
+            int min = entry[4];
+            int max = entry[5];
+            int mpi = entry[6];
+            int mpc = entry[7];
+            int sti = entry[8];
+            int stc = entry[9];
+            return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

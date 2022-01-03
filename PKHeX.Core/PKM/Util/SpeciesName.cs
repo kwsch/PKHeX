@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -104,18 +105,24 @@ namespace PKHeX.Core
                     return nick; // No further processing
             }
 
+            Span<char> result = stackalloc char[nick.Length];
+            nick.AsSpan().CopyTo(result);
+
             // All names are uppercase.
-            var sb = new System.Text.StringBuilder(nick);
-            for (int i = 0; i < sb.Length; i++)
-                sb[i] = char.ToUpperInvariant(sb[i]);
+            for (int i = 0; i < result.Length; i++)
+                result[i] = char.ToUpperInvariant(result[i]);
             if (language == (int)LanguageID.French)
-                StringConverter4.StripDiacriticsFR4(sb); // strips accents on E and I
+                StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 
             // Gen1/2 species names do not have spaces.
-            if (generation < 3)
-                sb.Replace(" ", string.Empty);
-
-            return sb.ToString();
+            int indexSpace = result.IndexOf(' ');
+            if (indexSpace != -1)
+            {
+                // Shift down. Strings have at most 1 occurrence of a space.
+                result[(indexSpace+1)..].CopyTo(result[indexSpace..]);
+                result = result[..^1];
+            }
+            return new string(result.ToArray());
         }
 
         private static string GetEggName1234(int species, int language, int generation)
@@ -242,8 +249,8 @@ namespace PKHeX.Core
         /// <remarks>Only use this for modern era name -> ID fetching.</remarks>
         public static int GetSpeciesID(string speciesName, int language = (int)LanguageID.English)
         {
-            if (SpeciesDict[language].TryGetValue(speciesName, out var val))
-                return val;
+            if (SpeciesDict[language].TryGetValue(speciesName, out var value))
+                return value;
 
             // stupid ’, ignore language if we match these.
             return speciesName switch

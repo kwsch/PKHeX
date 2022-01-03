@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,7 +17,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GSC;
         public override GameVersion Version { get; protected set; } = GameVersion.Stadium2;
 
-        protected override SaveFile CloneInternal() => new SAV1Stadium((byte[])Data.Clone(), Japanese);
+        protected override SaveFile CloneInternal() => new SAV2Stadium((byte[])Data.Clone(), Japanese);
 
         public override int Generation => 2;
         private const int StringLength = 12;
@@ -74,7 +75,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSizeBox;
             var size = BoxSize - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+            var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
             return chk == actual;
         }
 
@@ -97,7 +98,7 @@ namespace PKHeX.Core
                 Data[boxOfs] = 1;
                 Data[boxOfs + 1] = (byte)count;
                 Data[boxOfs + 4] = StringConverter12.G1TerminatorCode;
-                StringConverter12.SetString1("1234", 4, Japanese).CopyTo(Data, boxOfs + 0x10);
+                StringConverter12.SetString(Data.AsSpan(boxOfs + 0x10, 4), "1234".AsSpan(), 4, Japanese, StringConverterOption.None);
             }
             else
             {
@@ -110,7 +111,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSizeBox;
             var size = BoxSize - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
         }
 
         public static int GetTeamOffset(Stadium2TeamType type, int team)
@@ -138,7 +139,7 @@ namespace PKHeX.Core
             var str = GetString(ofs + 4, 7);
             if (string.IsNullOrWhiteSpace(str))
                 return name;
-            var id = BigEndian.ToUInt16(Data, ofs + 2);
+            var id = ReadUInt16BigEndian(Data.AsSpan(ofs + 2));
             return $"{name} [{id:D5}:{str}]";
         }
 
@@ -174,7 +175,7 @@ namespace PKHeX.Core
             return BoxContinue + ListHeaderSizeBox + ((box - 1) * BoxSize);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G2STAD)
                 return false;
@@ -182,7 +183,7 @@ namespace PKHeX.Core
         }
 
         // Check Box 1's footer magic.
-        private static bool IsStadiumJ(byte[] data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER);
     }
 
     public enum Stadium2TeamType

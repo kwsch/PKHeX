@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -61,7 +62,7 @@ namespace PKHeX.Core
         public void SetReceived(int index, RecvData8b data) => data.CopyTo(Data, GetRecvDataOffset(index));
         public void SetOneDay(int index, OneDay8b data) => data.CopyTo(Data, GetOneDayOffset(index));
 
-        public long TicksSerialLock { get => BitConverter.ToInt64(Data, Offset + OFS_SERIALLOCK); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SERIALLOCK); }
+        public long TicksSerialLock { get => ReadInt64LittleEndian(Data.AsSpan(Offset + OFS_SERIALLOCK)); set => WriteInt64LittleEndian(Data.AsSpan(Offset + OFS_SERIALLOCK), value); }
         public DateTime TimestampSerialLock { get => DateTime.FromFileTimeUtc(TicksSerialLock); set => TicksSerialLock = value.ToFileTimeUtc(); }
         public DateTime LocalTimestampSerialLock { get => TimestampSerialLock.ToLocalTime(); set => TimestampSerialLock = value.ToUniversalTime(); }
         public void ResetLock() => TicksSerialLock = 0;
@@ -165,32 +166,32 @@ namespace PKHeX.Core
         }
 
         public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
-        public void CopyTo(byte[] data, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(data.AsSpan(offset));
+        public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
         public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
-        public long Ticks { get => BitConverter.ToInt64(Data, Offset); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }
         public DateTime Timestamp { get => DateTime.FromFileTimeUtc(Ticks); set => Ticks = value.ToFileTimeUtc(); }
         public DateTime LocalTimestamp { get => Timestamp.ToLocalTime(); set => Timestamp = value.ToUniversalTime(); }
 
-        public ushort DeliveryID { get => BitConverter.ToUInt16(Data, Offset + 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x8); }
-        public ushort TextID { get => BitConverter.ToUInt16(Data, Offset + 0xA); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xA); }
+        public ushort DeliveryID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x8)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x8), value); }
+        public ushort TextID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xA)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xA), value); }
         public byte DataType { get => Data[Offset + 0xC]; set => Data[Offset + 0xC] = value; }
         public byte ReservedByte1 { get => Data[Offset + 0xD]; set => Data[Offset + 0xD] = value; }
-        public short ReservedShort1 { get => BitConverter.ToInt16(Data, Offset + 0xE); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xE); }
+        public short ReservedShort1 { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0xE)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0xE), value); }
 
         #region MonsData: 0x30 Bytes
-        public ushort Species { get => BitConverter.ToUInt16(Data, Offset + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10); }
-        public ushort Form    { get => BitConverter.ToUInt16(Data, Offset + 0x12); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x12); }
-        public ushort HeldItem{ get => BitConverter.ToUInt16(Data, Offset + 0x14); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14); }
-        public ushort Move1   { get => BitConverter.ToUInt16(Data, Offset + 0x16); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x16); }
-        public ushort Move2   { get => BitConverter.ToUInt16(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
-        public ushort Move3   { get => BitConverter.ToUInt16(Data, Offset + 0x1A); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1A); }
-        public ushort Move4   { get => BitConverter.ToUInt16(Data, Offset + 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1C); }
+        public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x10), value); }
+        public ushort Form    { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x12), value); }
+        public ushort HeldItem{ get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14), value); }
+        public ushort Move1   { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x16), value); }
+        public ushort Move2   { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x18), value); }
+        public ushort Move3   { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1A), value); }
+        public ushort Move4   { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), value); }
 
         public string OT
         {
-            get => StringConverter.GetString7b(Data, Offset + 0x1E, 0x1A);
-            set => StringConverter.SetString7b(value, 12, 12).CopyTo(Data, Offset + 0x1E);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + 0x1E, 0x1A));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + 0x1E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public byte OT_Gender { get => Data[Offset + 0x38]; set => Data[Offset + 0x38] = value; }
@@ -201,35 +202,35 @@ namespace PKHeX.Core
         // 0x3D 0x3E 0x3F reserved
         #endregion
 
-        public ushort Item1 { get => BitConverter.ToUInt16(Data, Offset + 0x40); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x40); }
-        public ushort Item2 { get => BitConverter.ToUInt16(Data, Offset + 0x50); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x50); }
-        public ushort Item3 { get => BitConverter.ToUInt16(Data, Offset + 0x60); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x60); }
-        public ushort Item4 { get => BitConverter.ToUInt16(Data, Offset + 0x70); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x70); }
-        public ushort Item5 { get => BitConverter.ToUInt16(Data, Offset + 0x80); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x80); }
-        public ushort Item6 { get => BitConverter.ToUInt16(Data, Offset + 0x90); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x90); }
-        public ushort Item7 { get => BitConverter.ToUInt16(Data, Offset + 0xA0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xA0); }
-        public ushort Item1Count { get => BitConverter.ToUInt16(Data, Offset + 0x42); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x42); }
-        public ushort Item2Count { get => BitConverter.ToUInt16(Data, Offset + 0x52); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x52); }
-        public ushort Item3Count { get => BitConverter.ToUInt16(Data, Offset + 0x62); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x62); }
-        public ushort Item4Count { get => BitConverter.ToUInt16(Data, Offset + 0x72); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x72); }
-        public ushort Item5Count { get => BitConverter.ToUInt16(Data, Offset + 0x82); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x82); }
-        public ushort Item6Count { get => BitConverter.ToUInt16(Data, Offset + 0x92); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x92); }
-        public ushort Item7Count { get => BitConverter.ToUInt16(Data, Offset + 0xA2); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xA2); }
+        public ushort Item1      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x40), value); }
+        public ushort Item2      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x50)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x50), value); }
+        public ushort Item3      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x60)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x60), value); }
+        public ushort Item4      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x70)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x70), value); }
+        public ushort Item5      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x80), value); }
+        public ushort Item6      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x90), value); }
+        public ushort Item7      { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xA0)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xA0), value); }
+        public ushort Item1Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x42), value); }
+        public ushort Item2Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x52)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x52), value); }
+        public ushort Item3Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x62), value); }
+        public ushort Item4Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x72)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x72), value); }
+        public ushort Item5Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x82), value); }
+        public ushort Item6Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x92), value); }
+        public ushort Item7Count { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xA2)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xA2), value); }
         // 0xC reserved for each item index
 
-        public uint DressID1 { get => BitConverter.ToUInt32(Data, Offset + 0xB0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xB0); }
-        public uint DressID2 { get => BitConverter.ToUInt32(Data, Offset + 0xB4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xB4); }
-        public uint DressID3 { get => BitConverter.ToUInt32(Data, Offset + 0xB8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xB8); }
-        public uint DressID4 { get => BitConverter.ToUInt32(Data, Offset + 0xBC); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xBC); }
-        public uint DressID5 { get => BitConverter.ToUInt32(Data, Offset + 0xC0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC0); }
-        public uint DressID6 { get => BitConverter.ToUInt32(Data, Offset + 0xC4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC4); }
-        public uint DressID7 { get => BitConverter.ToUInt32(Data, Offset + 0xC8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC8); }
+        public uint DressID1 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xB0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xB0), value); }
+        public uint DressID2 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xB4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xB4), value); }
+        public uint DressID3 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xB8)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xB8), value); }
+        public uint DressID4 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xBC)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xBC), value); }
+        public uint DressID5 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xC0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xC0), value); }
+        public uint DressID6 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xC4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xC4), value); }
+        public uint DressID7 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xC8)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xC8), value); }
 
-        public uint MoneyData { get => BitConverter.ToUInt32(Data, Offset + 0xCC); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xCC); }
-        public int Reserved1 { get => BitConverter.ToInt32(Data, Offset + 0xD0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xD0); }
-        public int Reserved2 { get => BitConverter.ToInt32(Data, Offset + 0xD4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xD4); }
-        public int Reserved3 { get => BitConverter.ToInt32(Data, Offset + 0xD8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xD8); }
-        public int Reserved4 { get => BitConverter.ToInt32(Data, Offset + 0xDC); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xDC); }
+        public uint MoneyData { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0xCC)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0xCC), value); }
+        public int Reserved1  { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0xD0)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xD0), value); }
+        public int Reserved2  { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0xD4)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xD4), value); }
+        public int Reserved3  { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0xD8)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xD8), value); }
+        public int Reserved4  { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0xDC)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xDC), value); }
     }
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -248,16 +249,16 @@ namespace PKHeX.Core
 
         public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
 
-        public void CopyTo(byte[] data, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(data.AsSpan(offset));
+        public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
         public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
-        public long Ticks { get => BitConverter.ToInt64(Data, Offset); set => BitConverter.GetBytes(value).CopyTo(Data, Offset); }
+        public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }
         public DateTime Timestamp { get => DateTime.FromFileTimeUtc(Ticks); set => Ticks = value.ToFileTimeUtc(); }
         public DateTime LocalTimestamp { get => Timestamp.ToLocalTime(); set => Timestamp = value.ToUniversalTime(); }
 
-        public ushort DeliveryID { get => BitConverter.ToUInt16(Data, Offset + 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x8); }
-        public short Reserved1 { get => BitConverter.ToInt16(Data, Offset + 0xA); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xA); }
-        public short Reserved2 { get => BitConverter.ToInt16(Data, Offset + 0xC); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC); }
-        public short Reserved3 { get => BitConverter.ToInt16(Data, Offset + 0xE); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xE); }
+        public ushort DeliveryID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x8)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x8), value); }
+        public short Reserved1 { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0xA)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0xA), value); }
+        public short Reserved2 { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0xC)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0xC), value); }
+        public short Reserved3 { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0xE)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0xE), value); }
     }
 }

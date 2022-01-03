@@ -57,15 +57,17 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the <see cref="nth"/> string entry within the input <see cref="line"/>, based on the <see cref="separator"/> and <see cref="start"/> position.
         /// </summary>
-        public static string GetNthEntry(string line, int nth, int start, char separator = ',')
+        public static string GetNthEntry(ReadOnlySpan<char> line, int nth, int start, char separator = ',')
         {
             if (nth != 1)
                 start = line.IndexOfNth(separator, nth - 1, start + 1);
             var end = line.IndexOfNth(separator, 1, start + 1);
-            return end == -1 ? line[(start + 1)..] : line[(start + 1)..end];
+            if (end == -1)
+                return new string(line[(start + 1)..].ToArray());
+            return new string(line[(start + 1)..end].ToArray());
         }
 
-        private static int IndexOfNth(this string s, char t, int n, int start)
+        private static int IndexOfNth(this ReadOnlySpan<char> s, char t, int n, int start)
         {
             int count = 0;
             for (int i = start; i < s.Length; i++)

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -24,6 +25,6 @@ namespace PKHeX.Core
 
         // Manually added attributes
         public override int FormCount { get => Data[0x29]; set {} }
-        protected internal override int FormStatsIndex { get => BitConverter.ToUInt16(Data, 0x2A); set {} }
+        protected internal override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set {} }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -18,24 +19,23 @@ namespace PKHeX.Core
             ChecksumMirror = chkMirror;
         }
 
-        private ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, Offset, Length));
+        private ushort GetChecksum(Span<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
 
-        protected override bool ChecksumValid(byte[] data)
+        protected override bool ChecksumValid(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            if (chk != BitConverter.ToUInt16(data, ChecksumOffset))
+            if (chk != ReadUInt16LittleEndian(data[ChecksumOffset..]))
                 return false;
-            if (chk != BitConverter.ToUInt16(data, ChecksumMirror))
+            if (chk != ReadUInt16LittleEndian(data[ChecksumMirror..]))
                 return false;
             return true;
         }
 
-        protected override void SetChecksum(byte[] data)
+        protected override void SetChecksum(Span<byte> data)
         {
             ushort chk = GetChecksum(data);
-            var bytes = BitConverter.GetBytes(chk);
-            bytes.CopyTo(data, ChecksumOffset);
-            bytes.CopyTo(data, ChecksumMirror);
+            WriteUInt16LittleEndian(data[ChecksumOffset..], chk);
+            WriteUInt16LittleEndian(data[ChecksumMirror..], chk);
         }
     }
 }

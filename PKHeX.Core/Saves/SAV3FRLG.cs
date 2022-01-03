@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -30,7 +31,7 @@ namespace PKHeX.Core
             // Fix save files that have an overflow corruption with the Pokédex.
             // Future loads of this save file will cause it to be recognized as FR/LG correctly.
             if (IsCorruptPokedexFF())
-                BitConverter.GetBytes(1u).CopyTo(Small, 0xAC);
+                WriteUInt32LittleEndian(Small.AsSpan(0xAC), 1);
         }
 
         private void Initialize()
@@ -68,27 +69,27 @@ namespace PKHeX.Core
             }
         }
 
-        public ushort JoyfulJumpInRow           { get => BitConverter.ToUInt16(Small, 0xB00); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB00); }
+        public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB00)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB00), Math.Min((ushort)9999, value)); }
         // u16 field2;
-        public ushort JoyfulJump5InRow          { get => BitConverter.ToUInt16(Small, 0xB04); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB04); }
-        public ushort JoyfulJumpGamesMaxPlayers { get => BitConverter.ToUInt16(Small, 0xB06); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB06); }
+        public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small.AsSpan(0xB04)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB04), Math.Min((ushort)9999, value)); }
+        public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small.AsSpan(0xB06)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB06), Math.Min((ushort)9999, value)); }
         // u32 field8;
-        public uint   JoyfulJumpScore           { get => BitConverter.ToUInt16(Small, 0xB0C); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB0C); }
+        public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small.AsSpan(0xB0C)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB0C), Math.Min(9999, value)); }
 
-        public uint   JoyfulBerriesScore        { get => BitConverter.ToUInt16(Small, 0xB10); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0xB10); }
-        public ushort JoyfulBerriesInRow        { get => BitConverter.ToUInt16(Small, 0xB14); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB14); }
-        public ushort JoyfulBerries5InRow       { get => BitConverter.ToUInt16(Small, 0xB16); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0xB16); }
+        public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB10)); set => WriteUInt32LittleEndian(Small.AsSpan(0xB10), Math.Min(9999, value)); }
+        public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small.AsSpan(0xB14)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB14), Math.Min((ushort)9999, value)); }
+        public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small.AsSpan(0xB16)); set => WriteUInt16LittleEndian(Small.AsSpan(0xB16), Math.Min((ushort)9999, value)); }
 
         public uint BerryPowder
         {
-            get => BitConverter.ToUInt32(Small, 0xAF8) ^ SecurityKey;
-            set => SetData(Small, BitConverter.GetBytes(value ^ SecurityKey), 0xAF8);
+            get => ReadUInt32LittleEndian(Small.AsSpan(0xAF8)) ^ SecurityKey;
+            set => WriteUInt32LittleEndian(Small.AsSpan(0xAF8), value ^ SecurityKey);
         }
 
         public override uint SecurityKey
         {
-            get => BitConverter.ToUInt32(Small, 0xF20);
-            set => SetData(Small, BitConverter.GetBytes(value), 0xF20);
+            get => ReadUInt32LittleEndian(Small.AsSpan(0xF20));
+            set => WriteUInt32LittleEndian(Small.AsSpan(0xF20), value);
         }
         #endregion
 
@@ -98,14 +99,14 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get => BitConverter.ToUInt32(Large, 0x0290) ^ SecurityKey;
-            set => SetData(Large, BitConverter.GetBytes(value ^ SecurityKey), 0x0290);
+            get => ReadUInt32LittleEndian(Large.AsSpan(0x0290)) ^ SecurityKey;
+            set => WriteUInt32LittleEndian(Large.AsSpan(0x0290), value ^ SecurityKey);
         }
 
         public override uint Coin
         {
-            get => (ushort)(BitConverter.ToUInt16(Large, 0x0294) ^ SecurityKey);
-            set => SetData(Large, BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0294);
+            get => (ushort)(ReadUInt16LittleEndian(Large.AsSpan(0x0294)) ^ SecurityKey);
+            set => WriteUInt16LittleEndian(Large.AsSpan(0x0294), (ushort)(value ^ SecurityKey));
         }
 
         private const int OFS_PCItem = 0x0298;
@@ -134,8 +135,8 @@ namespace PKHeX.Core
         protected override int MailOffset => 0x2CD0;
 
         protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(0, slot + 1) - 4; // @ end of each pkm slot
-        public override string GetDaycareRNGSeed(int loc) => BitConverter.ToUInt16(Large, GetDaycareEXPOffset(2)).ToString("X4"); // after the 2nd slot EXP, before the step counter
-        public override void SetDaycareRNGSeed(int loc, string seed) => BitConverter.GetBytes((ushort)Util.GetHexValue(seed)).CopyTo(Large, GetDaycareEXPOffset(2));
+        public override string GetDaycareRNGSeed(int loc) => ReadUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2))).ToString("X4"); // after the 2nd slot EXP, before the step counter
+        public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt16LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), (ushort)Util.GetHexValue(seed));
 
         protected override int ExternalEventData => 0x30A7;
 
@@ -146,7 +147,7 @@ namespace PKHeX.Core
         public byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
         public void SetEReaderBerry(byte[] data) => SetData(Large, data, OFFSET_EBERRY);
 
-        public override string EBerryName => GetString(Large, OFFSET_EBERRY, 7);
+        public override string EBerryName => GetString(Large.AsSpan(OFFSET_EBERRY, 7));
         public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;
         #endregion
 
@@ -172,8 +173,8 @@ namespace PKHeX.Core
 
         public string RivalName
         {
-            get => GetString(Large, 0x3A4C, 8);
-            set => SetData(Large, SetString(value, 7), 0x3A4C);
+            get => GetString(Large.AsSpan(0x3A4C, 8));
+            set => SetString(Large.AsSpan(0x3A4C, 8), value.AsSpan(), 7, StringConverterOption.ClearZero);
         }
 
         #endregion

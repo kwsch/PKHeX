@@ -1,59 +1,60 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Genius Sonority's logic for <see cref="GameVersion.XD"/> and <see cref="GameVersion.BATREV"/> encryption.
     /// </summary>
     public static class GeniusCrypto
     {
-        public static byte[] Decrypt(byte[] input, int start, int end, ushort[] keys)
+        public static byte[] Decrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys)
         {
-            var output = (byte[])input.Clone();
+            var output = input.ToArray();
             Decrypt(input, start, end, keys, output);
             return output;
         }
 
-        public static void Decrypt(byte[] input, int start, int end, ushort[] keys, byte[] output)
+        public static void Decrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys, Span<byte> output)
         {
             for (int ofs = start; ofs < end; ofs += 8)
             {
                 for (int i = 0; i < keys.Length; i++)
                 {
                     var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
+                    ushort val = ReadUInt16BigEndian(input[index..]);
                     val -= keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
+                    WriteUInt16BigEndian(output[index..], val);
                 }
 
                 AdvanceKeys(keys);
             }
         }
 
-        public static byte[] Encrypt(byte[] input, int start, int end, ushort[] keys)
+        public static byte[] Encrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys)
         {
-            var output = (byte[])input.Clone();
+            var output = input.ToArray();
             Encrypt(input, start, end, keys, output);
             return output;
         }
 
-        public static void Encrypt(byte[] input, int start, int end, ushort[] keys, byte[] output)
+        public static void Encrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys, Span<byte> output)
         {
             for (int ofs = start; ofs < end; ofs += 8)
             {
                 for (int i = 0; i < keys.Length; i++)
                 {
                     var index = ofs + (i * 2);
-                    ushort val = BigEndian.ToUInt16(input, index);
+                    ushort val = ReadUInt16BigEndian(input[index..]);
                     val += keys[i];
-                    output[index] = (byte)(val >> 8);
-                    output[index + 1] = (byte)val;
+                    WriteUInt16BigEndian(output[index..], val);
                 }
 
                 AdvanceKeys(keys);
             }
         }
 
-        private static void AdvanceKeys(ushort[] keys)
+        private static void AdvanceKeys(Span<ushort> keys)
         {
             var k3 = keys[3] + 0x13;
             var k2 = keys[2] + 0x17;

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -9,41 +10,41 @@ namespace PKHeX.Core
 
         public ushort CameraVersion
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), value);
         }
 
         public bool GyroFlag
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x02) == 1;
-            set => BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, Offset + 0x02);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02)) == 1;
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x02), (ushort)(value ? 1 : 0));
         }
 
         public uint SnapCount
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x04);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x04));
             set
             {
                 if (value > 9999999) // Top bound is unchecked, check anyway
                     value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
             }
         }
 
         public uint ThumbsTotalValue
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x0C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0C);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0C));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
         }
 
         public uint ThumbsHighValue
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x10);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
             set
             {
                 if (value > 9_999_999)
                     value = 9_999_999;
-                BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10);
+                WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
 
                 if (value > ThumbsTotalValue)
                     ThumbsTotalValue = value;
@@ -52,8 +53,8 @@ namespace PKHeX.Core
 
         public ushort TutorialFlags
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14), value);
         }
     }
 }

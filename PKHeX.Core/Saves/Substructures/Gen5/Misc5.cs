@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,8 +9,8 @@ namespace PKHeX.Core
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value);
         }
 
         public int Badges
@@ -20,8 +21,8 @@ namespace PKHeX.Core
 
         public ushort PokeTransferMinigameScore
         {
-            get => BitConverter.ToUInt16(Data, Offset + TransferMinigameScoreOffset);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + TransferMinigameScoreOffset);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + TransferMinigameScoreOffset));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + TransferMinigameScoreOffset), value);
         }
 
         protected abstract int BadgeVictoryOffset { get; }
@@ -40,13 +41,13 @@ namespace PKHeX.Core
         public ushort GetBadgeVictorySpecies(uint badge, uint slot)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-            return BitConverter.ToUInt16(Data, ofs);
+            return ReadUInt16LittleEndian(Data.AsSpan(ofs));
         }
 
         public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
-            SAV.SetData(BitConverter.GetBytes(species), ofs);
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(ofs), species);
         }
     }
 

@@ -45,9 +45,9 @@ namespace PKHeX.Core
         }
 
         /// <summary> Reads the pouch from the backing <see cref="data"/>. </summary>
-        public abstract void GetPouch(byte[] data);
+        public abstract void GetPouch(ReadOnlySpan<byte> data);
         /// <summary> Writes the pouch to the backing <see cref="data"/>. </summary>
-        public abstract void SetPouch(byte[] data);
+        public abstract void SetPouch(Span<byte> data);
 
         /// <summary> Orders the <see cref="Items"/> based on <see cref="InventoryItem.Count"/> </summary>
         public void SortByCount(bool reverse = false) => Array.Sort(Items, (x, y) => Compare(x.Count, y.Count, reverse));

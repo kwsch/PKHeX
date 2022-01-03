@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
         private readonly int SIZE_ENTRY;
         private const int MaxCount = 128;
 
-        public ShadowInfoTableXD(byte[] data, bool jp)
+        public ShadowInfoTableXD(ReadOnlySpan<byte> data, bool jp)
         {
             SIZE_ENTRY = GetEntrySize(jp);
             MaxLength = data.Length;
@@ -23,9 +24,9 @@ namespace PKHeX.Core
 
         public ShadowInfoTableXD(bool jp) : this(new byte[GetEntrySize(jp) * MaxCount], jp) { }
 
-        private ShadowInfoEntryXD GetEntry(byte[] data, int index, bool jp)
+        private ShadowInfoEntryXD GetEntry(ReadOnlySpan<byte> data, int index, bool jp)
         {
-            var slice = data.Slice(index * SIZE_ENTRY, SIZE_ENTRY);
+            var slice = data.Slice(index * SIZE_ENTRY, SIZE_ENTRY).ToArray();
             return jp ? new ShadowInfoEntry3J(slice) : new ShadowInfoEntry3U(slice);
         }
 

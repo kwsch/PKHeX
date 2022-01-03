@@ -55,11 +55,7 @@ namespace PKHeX.Core
             return $"{fn} @ ";
         }
 
-        public bool IsDataValid()
-        {
-            var e = Entity;
-            return e.Species != 0 && e.ChecksumValid && (e.Sanity == 0 || e is BK4);
-        }
+        public bool IsDataValid() => Entity.Species != 0 && Entity.Valid;
 
         public int CompareTo(SlotCache? other)
         {

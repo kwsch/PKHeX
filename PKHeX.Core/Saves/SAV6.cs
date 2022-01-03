@@ -92,13 +92,13 @@ namespace PKHeX.Core
         {
             if (PCLayout < 0)
                 return $"B{box + 1}";
-            return GetString(Data, GetBoxNameOffset(box), LongStringLength);
+            return GetString(Data.AsSpan(GetBoxNameOffset(box), LongStringLength));
         }
 
         public override void SetBoxName(int box, string value)
         {
-            var data = SetString(value, LongStringLength / 2, LongStringLength / 2);
-            SetData(data, PCLayout + (LongStringLength * box));
+            var span = Data.AsSpan(GetBoxNameOffset(box), LongStringLength);
+            SetString(span, value.AsSpan(), LongStringLength / 2, StringConverterOption.ClearZero);
         }
 
         protected override void SetPKM(PKM pkm, bool isParty = false)
@@ -171,13 +171,11 @@ namespace PKHeX.Core
             protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString6(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter6.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString6(value, maxLength, PadToSize, PadWith);
+            return StringConverter6.SetString(destBuffer, value, maxLength, option);
         }
 
         public int GetRecord(int recordID) => Records.GetRecord(recordID);

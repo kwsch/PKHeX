@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,7 +18,7 @@ namespace PKHeX.Core
         {
             int ofs = Records.GetOffset(Offset, recordID);
             if (recordID < RecordCount)
-                return BitConverter.ToInt32(Data, ofs);
+                return ReadInt32LittleEndian(Data.AsSpan(ofs));
             Trace.Fail(nameof(recordID));
             return 0;
         }
@@ -31,7 +32,7 @@ namespace PKHeX.Core
             if (value > max)
                 value = max;
             if (recordID < RecordCount)
-                BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                WriteInt32LittleEndian(Data.AsSpan(ofs), value);
             else
                 Trace.Fail(nameof(recordID));
         }

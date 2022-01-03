@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,8 +9,8 @@ namespace PKHeX.Core
 
         public int PlayedHours
         {
-            get => BitConverter.ToUInt16(Data, Offset);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset), (ushort)value);
         }
 
         public int PlayedMinutes
@@ -24,7 +25,7 @@ namespace PKHeX.Core
             set => Data[Offset + 3] = (byte)value;
         }
 
-        private uint LastSaved { get => BitConverter.ToUInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
+        private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
         private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
         private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | ((uint)value & 0xF) << 12; }
         private int LastSavedDay { get => (int)(LastSaved >> 16 & 0x1F); set => LastSaved = (LastSaved & 0xFFE0FFFF) | ((uint)value & 0x1F) << 16; }

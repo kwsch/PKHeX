@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -25,32 +26,24 @@ namespace PKHeX.Core
             MailType = 0;
         }
 
-        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, ((index1 * 3) + index2) * 2);
-        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, ((index1 * 3) + index2) * 2);
+        public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data.AsSpan(((index1 * 3) + index2) * 2));
+        public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(((index1 * 3) + index2) * 2), value);
         public override void CopyTo(SaveFile sav) => sav.SetData(((SAV3)sav).Large, DataOffset);
 
         public override string AuthorName
         {
-            get => StringConverter3.GetString3(Data, 0x12, 7, JP);
+            get => StringConverter3.GetString(Data.AsSpan(0x12, 7), JP);
             set
             {
-                if (value.Length == 0)
-                {
-                    for (int i = 0; i < 8; i++)
-                        Data[0x12 + i] = 0xFF;
-                }
-                else
-                {
-                    Data[0x18] = Data[0x19] = 0xFF;
-                    StringConverter3.SetString3(value, 7, JP, 6).CopyTo(Data, 0x12);
-                }
+                var span = Data.AsSpan(0x12, 8);
+                StringConverter3.SetString(span, value.AsSpan(), 7, JP, StringConverterOption.ClearFF);
             }
         }
 
-        public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A); }
-        public override ushort AuthorSID { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
-        public override int AppearPKM { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)(value == 0 ? 1 : value)).CopyTo(Data, 0x1E); }
-        public override int MailType { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
+        public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value); }
+        public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
+        public override int AppearPKM { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)(value == 0 ? 1 : value)); }
+        public override int MailType { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value); }
 
         public override bool? IsEmpty => MailType switch
         {

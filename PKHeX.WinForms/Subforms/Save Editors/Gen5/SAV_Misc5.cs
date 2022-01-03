@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -106,7 +107,7 @@ namespace PKHeX.WinForms
 
                 default: throw new ArgumentOutOfRangeException(nameof(SAV.Version));
             }
-            uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsFly));
             CLB_FlyDest.Items.Clear();
             CLB_FlyDest.Items.AddRange(FlyDestA);
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
@@ -142,7 +143,7 @@ namespace PKHeX.WinForms
 
                 // LibertyPass
                 valLibPass = keyLibPass ^ (uint)(SAV.SID << 16 | SAV.TID);
-                bLibPass = BitConverter.ToUInt32(SAV.Data, ofsLibPass) == valLibPass;
+                bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
                 CHK_LibertyPass.Checked = bLibPass;
             }
             else if (SAV is SAV5B2W2)
@@ -155,14 +156,14 @@ namespace PKHeX.WinForms
                     "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
                     "Unlock IcebergChamber",
                 };
-                uint KSID = BitConverter.ToUInt32(SAV.Data, ofsKS + 0x34);
+                uint KSID = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + 0x34));
                 valKS = new uint[keyKS.Length];
                 bKS = new bool[keyKS.Length];
                 CLB_KeySystem.Items.Clear();
                 for (int i = 0; i < valKS.Length; i++)
                 {
                     valKS[i] = keyKS[i] ^ KSID;
-                    bKS[i] = BitConverter.ToUInt32(SAV.Data, ofsKS + (i << 2)) == valKS[i];
+                    bKS[i] = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + (i << 2))) == valKS[i];
                     CLB_KeySystem.Items.Add(KeySystemA[i], bKS[i]);
                 }
             }
@@ -182,7 +183,7 @@ namespace PKHeX.WinForms
 
         private void SaveMain()
         {
-            uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsFly));
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {
                 if (FlyDestC[i] < 32)
@@ -198,7 +199,7 @@ namespace PKHeX.WinForms
                     SAV.Data[ofs] = (byte)((SAV.Data[ofs] & ~(1 << (FlyDestC[i] & 7))) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] & 7)));
                 }
             }
-            BitConverter.GetBytes(valFly).CopyTo(SAV.Data, ofsFly);
+            WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsFly), valFly);
 
             if (SAV is SAV5BW)
             {
@@ -213,21 +214,24 @@ namespace PKHeX.WinForms
                     SAV.Data[ofsRoamer + 0x2E + i] = (byte)d;
                     if (c != 1)
                         continue;
-                    new byte[14].CopyTo(SAV.Data, ofsRoamer + 4 + (i * 0x14));
+                    SAV.Data.AsSpan(ofsRoamer + 4 + (i * 0x14), 14).Clear();
                     SAV.Data[ofsRoamer + 0x2C + i] = 0;
                 }
 
                 // LibertyPass
-                if (CHK_LibertyPass.Checked ^ bLibPass)
-                    BitConverter.GetBytes(bLibPass ? 0 : valLibPass).CopyTo(SAV.Data, ofsLibPass);
+                if (CHK_LibertyPass.Checked != bLibPass)
+                    WriteUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass), bLibPass ? 0u : valLibPass);
             }
             else if (SAV is SAV5B2W2)
             {
                 // KeySystem
                 for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
                 {
-                    if (CLB_KeySystem.GetItemChecked(i) ^ bKS[i])
-                        BitConverter.GetBytes(bKS[i] ? 0 : valKS[i]).CopyTo(SAV.Data, ofsKS + (i << 2));
+                    if (CLB_KeySystem.GetItemChecked(i) == bKS[i])
+                        continue;
+                    var dest = SAV.Data.AsSpan(ofsKS + (i << 2));
+                    var value = bKS[i] ? 0u : valKS[i];
+                    WriteUInt32LittleEndian(dest, value);
                 }
             }
         }

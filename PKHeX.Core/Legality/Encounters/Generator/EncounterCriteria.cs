@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
@@ -47,7 +48,7 @@ namespace PKHeX.Core
         /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is not last.</param>
         /// <param name="generation">Destination generation</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public bool IsIVsCompatible(int[] encounterIVs, int generation)
+        public bool IsIVsCompatible(Span<int> encounterIVs, int generation)
         {
             var IVs = encounterIVs;
             if (!ivCanMatch(IV_HP , IVs[0])) return false;

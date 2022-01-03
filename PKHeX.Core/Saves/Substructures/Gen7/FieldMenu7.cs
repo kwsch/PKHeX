@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -10,8 +11,8 @@ namespace PKHeX.Core
         // USUM ONLY
         public ushort RotomAffection
         {
-            get => BitConverter.ToUInt16(SAV.Data, Offset + 0x1A);
-            set => SAV.SetData(BitConverter.GetBytes(Math.Min((ushort)1000, value)), Offset + 0x1A);
+            get => ReadUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x1A));
+            set => WriteUInt16LittleEndian(SAV.Data.AsSpan(Offset + 0x1A), Math.Min((ushort)1000, value));
         }
 
         public bool RotomLoto1 { get => (SAV.Data[Offset + 0x2A] & 1) == 1; set => SAV.Data[Offset + 0x2A] = (byte)((SAV.Data[Offset + 0x2A] & ~1) | (value ? 1 : 0)); }
@@ -20,7 +21,7 @@ namespace PKHeX.Core
         public string RotomOT
         {
             get => SAV.GetString(Offset + 0x30, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x30);
+            set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,14 +9,14 @@ namespace PKHeX.Core
 
         public ushort WhiteForestLevel
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0C), value);
         }
 
         public ushort BlackCityLevel
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0E);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0E), value);
         }
     }
 

@@ -24,8 +24,8 @@ namespace PKHeX.Core
 
             foreach (var s in items)
             {
-                if (int.TryParse(s[0], out var val))
-                    Options.Add(new EventWorkVal(s[1], val));
+                if (int.TryParse(s[0], out var value))
+                    Options.Add(new EventWorkVal(s[1], value));
             }
         }
     }

@@ -205,7 +205,7 @@ namespace PKHeX.Core
             }
         }
 
-        public PersonalTable(byte[] data, GameVersion format)
+        public PersonalTable(ReadOnlySpan<byte> data, GameVersion format)
         {
             var get = GetConstructor(format);
             int size = GetEntrySize(format);

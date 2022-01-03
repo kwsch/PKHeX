@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -47,7 +48,7 @@ namespace PKHeX.Core
         private static byte[] GetRawQR(int species, int form, bool shiny, int gender)
         {
             var basedata = (byte[])BaseQR.Clone();
-            BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
+            WriteUInt16LittleEndian(basedata.AsSpan(0x28), (ushort)species);
 
             var pi = PersonalTable.USUM.GetFormEntry(species, form);
             bool biGender = false;
@@ -81,18 +82,18 @@ namespace PKHeX.Core
                 num_copies = 1;
 
             byte[] data = new byte[0x1A2];
-            BitConverter.GetBytes(0x454B4F50).CopyTo(data, 0); // POKE magic
+            var span = data.AsSpan();
+            WriteUInt32LittleEndian(span, 0x454B4F50); // POKE magic
             data[0x4] = 0xFF; // QR Type
-            BitConverter.GetBytes(box).CopyTo(data, 0x8);
-            BitConverter.GetBytes(slot).CopyTo(data, 0xC);
-            BitConverter.GetBytes(num_copies).CopyTo(data, 0x10); // No need to check max num_copies, payload parser handles it on-console.
+            WriteInt32LittleEndian(span[0x08..], box);
+            WriteInt32LittleEndian(span[0x0C..], slot);
+            WriteInt32LittleEndian(span[0x10..], num_copies); // No need to check max num_copies, payload parser handles it on-console.
 
-            pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
-            GetRawQR(pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
+            pk7.EncryptedPartyData.CopyTo(span[0x30..]); // Copy in pokemon data
+            GetRawQR(pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender).CopyTo(span[0x140..]);
 
-            var span = new ReadOnlySpan<byte>(data, 0, 0x1A0);
-            var chk = Checksums.CRC16Invert(span);
-            BitConverter.GetBytes(chk).CopyTo(data, 0x1A0);
+            var chk = Checksums.CRC16Invert(span[..0x1A0]);
+            WriteUInt16LittleEndian(span[0x1A0..], chk);
             return data;
         }
     }

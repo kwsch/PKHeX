@@ -28,7 +28,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea2(byte[] data, GameVersion game) : base(game)
+        private EncounterArea2(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0];
             Time = (EncounterTime)data[1];
@@ -63,20 +63,26 @@ namespace PKHeX.Core
             }
         }
 
-        private EncounterSlot2[] ReadSlots(byte[] data, int count, int start)
+        private EncounterSlot2[] ReadSlots(ReadOnlySpan<byte> data, int count, int start)
         {
             var slots = new EncounterSlot2[count];
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = start + (4 * i);
-                int species = data[offset + 0];
-                int slotNum = data[offset + 1];
-                int min = data[offset + 2];
-                int max = data[offset + 3];
-                slots[i] = new EncounterSlot2(this, species, min, max, slotNum);
+                var entry = data.Slice(offset, 4);
+                slots[i] = ReadSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot2 ReadSlot(ReadOnlySpan<byte> entry)
+        {
+            int species = entry[0];
+            int slotNum = entry[1];
+            int min = entry[2];
+            int max = entry[3];
+            return new EncounterSlot2(this, species, min, max, slotNum);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

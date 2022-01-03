@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -13,11 +14,11 @@ namespace PKHeX.Core
 
         public readonly byte[] Data;
 
-        internal new static bool IsValid(byte[] data)
+        internal new static bool IsValid(ReadOnlySpan<byte> data)
         {
             if (data.Length != SIZE)
                 return false;
-            var chk = BitConverter.ToUInt32(data, SIZE - 4);
+            var chk = ReadUInt32LittleEndian(data[(SIZE-4)..]);
             if (chk > 0xF7080)
                 return false; // max if all are FF
             var expect = GetChecksum8(data);
@@ -74,27 +75,27 @@ namespace PKHeX.Core
 
         public uint Seed
         {
-            get => BitConverter.ToUInt32(Data, 0x4E8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x4E8);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x4E8));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x4E8), value);
         }
 
         public uint Mode
         {
-            get => BitConverter.ToUInt32(Data, 0x4EC);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x4EC);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x4EC));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x4EC), value);
         }
 
         // ...
 
         public uint Checksum
         {
-            get => BitConverter.ToUInt32(Data, SIZE - 4);
-            set => BitConverter.GetBytes(value).CopyTo(Data, SIZE - 4);
+            get => ReadUInt32LittleEndian(Data.AsSpan(SIZE - 4));
+            set => WriteUInt32LittleEndian(Data.AsSpan(SIZE - 4), value);
         }
 
         public bool IsChecksumValid() => Checksum == GetChecksum8(Data);
 
-        public static uint GetChecksum8(byte[] data)
+        public static uint GetChecksum8(ReadOnlySpan<byte> data)
         {
             uint result = 0;
             for (int i = 0; i < data.Length - 4; i++)

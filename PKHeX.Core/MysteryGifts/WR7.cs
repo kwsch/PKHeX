@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -23,22 +24,22 @@ namespace PKHeX.Core
 
         public uint Epoch
         {
-            get => BitConverter.ToUInt32(Data, 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
         }
 
         public DateTime Date => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Epoch);
 
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, 0x08);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x08);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
         }
 
         public ushort CardType
         {
-            get => BitConverter.ToUInt16(Data, 0x0A);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x0A);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x0A));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), value);
         }
 
         public WR7GiftType GiftType
@@ -57,30 +58,30 @@ namespace PKHeX.Core
 
         public override int Species
         {
-            get => BitConverter.ToUInt16(Data, 0x10C);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10C);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x10C));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x10C), (ushort)value);
         }
 
         public override bool GiftUsed { get; set; }
 
         public override int Level // are moves stored? mew has '1' but this could be move
         {
-            get => BitConverter.ToUInt16(Data, 0x10E);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x10E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x10E), (ushort)value);
         }
 
-        public override int ItemID { get => BitConverter.ToUInt16(Data, 0x110); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x110); }
-        public ushort ItemIDCount { get => BitConverter.ToUInt16(Data, 0x112); set => BitConverter.GetBytes(value).CopyTo(Data, 0x112); }
-        public ushort ItemSet2Item  { get => BitConverter.ToUInt16(Data, 0x114); set => BitConverter.GetBytes(value).CopyTo(Data, 0x114); }
-        public ushort ItemSet2Count { get => BitConverter.ToUInt16(Data, 0x116); set => BitConverter.GetBytes(value).CopyTo(Data, 0x116); }
-        public ushort ItemSet3Item  { get => BitConverter.ToUInt16(Data, 0x118); set => BitConverter.GetBytes(value).CopyTo(Data, 0x118); }
-        public ushort ItemSet3Count { get => BitConverter.ToUInt16(Data, 0x11A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x11A); }
-        public ushort ItemSet4Item  { get => BitConverter.ToUInt16(Data, 0x11C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x11C); }
-        public ushort ItemSet4Count { get => BitConverter.ToUInt16(Data, 0x11E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x11E); }
-        public ushort ItemSet5Item  { get => BitConverter.ToUInt16(Data, 0x120); set => BitConverter.GetBytes(value).CopyTo(Data, 0x120); } // struct union overlaps OT Name data, beware!
-        public ushort ItemSet5Count { get => BitConverter.ToUInt16(Data, 0x122); set => BitConverter.GetBytes(value).CopyTo(Data, 0x122); }
-        public ushort ItemSet6Item  { get => BitConverter.ToUInt16(Data, 0x124); set => BitConverter.GetBytes(value).CopyTo(Data, 0x124); }
-        public ushort ItemSet6Count { get => BitConverter.ToUInt16(Data, 0x126); set => BitConverter.GetBytes(value).CopyTo(Data, 0x126); }
+        public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(0x110)); set => WriteUInt16LittleEndian(Data.AsSpan(0x110), (ushort)value); }
+        public ushort ItemIDCount   { get => ReadUInt16LittleEndian(Data.AsSpan(0x112)); set => WriteUInt16LittleEndian(Data.AsSpan(0x112), value); }
+        public ushort ItemSet2Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x114)); set => WriteUInt16LittleEndian(Data.AsSpan(0x114), value); }
+        public ushort ItemSet2Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x116)); set => WriteUInt16LittleEndian(Data.AsSpan(0x116), value); }
+        public ushort ItemSet3Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x118)); set => WriteUInt16LittleEndian(Data.AsSpan(0x118), value); }
+        public ushort ItemSet3Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x11A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11A), value); }
+        public ushort ItemSet4Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x11C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11C), value); }
+        public ushort ItemSet4Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x11E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x11E), value); }
+        public ushort ItemSet5Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x120)); set => WriteUInt16LittleEndian(Data.AsSpan(0x120), value); } // struct union overlaps OT Name data, beware!
+        public ushort ItemSet5Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x122)); set => WriteUInt16LittleEndian(Data.AsSpan(0x122), value); }
+        public ushort ItemSet6Item  { get => ReadUInt16LittleEndian(Data.AsSpan(0x124)); set => WriteUInt16LittleEndian(Data.AsSpan(0x124), value); }
+        public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x126)); set => WriteUInt16LittleEndian(Data.AsSpan(0x126), value); }
 
         public override int Gender { get; set; }
         public override int Form { get; set; }
@@ -89,8 +90,8 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString7b(Data, 0x120, 0x1A);
-            set => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, 0x120 + 0xB6); // careful with length
+            get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
+            set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public LanguageID LanguageReceived

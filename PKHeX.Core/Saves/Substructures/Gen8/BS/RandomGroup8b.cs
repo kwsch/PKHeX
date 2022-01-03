@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -67,46 +68,46 @@ namespace PKHeX.Core
 
         public string GroupName
         {
-            get => StringConverter.GetString7b(Data, Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2);
-            set => StringConverter.SetString7b(value, GROUP_NAME_SIZE, GROUP_NAME_SIZE).CopyTo(Data, Offset + OFS_GROUPNAME);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2), value.AsSpan(), GROUP_NAME_SIZE, StringConverterOption.ClearZero);
         }
 
         public string PlayerName
         {
-            get => StringConverter.GetString7b(Data, Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2);
-            set => StringConverter.SetString7b(value, PERSON_NAME_SIZE, PERSON_NAME_SIZE).CopyTo(Data, Offset + OFS_PLAYERNAME);
+            get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2));
+            set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value.AsSpan(), PERSON_NAME_SIZE, StringConverterOption.ClearZero);
         }
 
         public bool Male { get => Data[Offset + OFS_GENDER] == 1; set => Data[Offset + OFS_GENDER] = (byte)(value ? 1 : 0); }
 
         public int RegionCode
         {
-            get => BitConverter.ToInt32(Data, Offset + OFS_REGION);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_REGION);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_REGION), value);
         }
 
         public ulong Seed
         {
-            get => BitConverter.ToUInt64(Data, Offset + OFS_SEED);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_SEED);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_SEED), value);
         }
 
         public ulong Random
         {
-            get => BitConverter.ToUInt64(Data, Offset + OFS_RAND);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_RAND);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + OFS_RAND), value);
         }
 
         public long Ticks
         {
-            get => BitConverter.ToInt64(Data, Offset + OFS_TICK);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TICK);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset + OFS_TICK), value);
         }
 
         public int UserID
         {
-            get => BitConverter.ToInt32(Data, Offset + OFS_UID);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_UID);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_UID));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_UID), value);
         }
 
         public DateTime Timestamp { get => DateTime.FromFileTimeUtc(Ticks); set => Ticks = value.ToFileTimeUtc(); }

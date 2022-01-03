@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -65,16 +66,16 @@ namespace PKHeX.Core
 
         public UgSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 
-        public int ReturnZoneID        { get => BitConverter.ToInt32(Data, Offset + 0x0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0); }
-        public int ReturnGridPositionX { get => BitConverter.ToInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
-        public int ReturnGridPositionY { get => BitConverter.ToInt32(Data, Offset + 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x8); }
-        public int ReturnGridPositionZ { get => BitConverter.ToInt32(Data, Offset + 0xC); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0xC); }
+        public int ReturnZoneID        { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x0), value); }
+        public int ReturnGridPositionX { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
+        public int ReturnGridPositionY { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x8), value); }
+        public int ReturnGridPositionZ { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x0C)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0xC), value); }
 
-        public int ZenmetsuZoneID      { get => BitConverter.ToInt32 (Data, Offset + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10); }
-        public float ZenmetsuPositionX { get => BitConverter.ToSingle(Data, Offset + 0x14); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14); }
-        public float ZenmetsuPositionY { get => BitConverter.ToSingle(Data, Offset + 0x18); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18); }
-        public float ZenmetsuPositionZ { get => BitConverter.ToSingle(Data, Offset + 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1C); }
-        public int ZenmetsuDirection   { get => BitConverter.ToInt32 (Data, Offset + 0x20); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20); }
+        public int ZenmetsuZoneID      { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x10), value); }
+        public float ZenmetsuPositionX { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x14), value); }
+        public float ZenmetsuPositionY { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x18), value); }
+        public float ZenmetsuPositionZ { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x1C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x1C), value); }
+        public int ZenmetsuDirection   { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x20)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x20), value); }
 
         private Span<byte> GetDigPoints() => Data.AsSpan(Offset + 0x24, COUNT_DIGPOINTS);
         public void ClearDigPoints() => GetDigPoints().Fill(0xFF);
@@ -86,9 +87,9 @@ namespace PKHeX.Core
             return Offset + OFS_ENCOUNTPOKE + (slot * PokeCrypto.SIZE_8PARTY);
         }
 
-        public  int ReturnUgZoneID   { get => BitConverter.ToInt32 (Data, Offset + OFS_ReturnUgZoneID); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_ReturnUgZoneID); }
-        public uint TalkPlayerDataID { get => BitConverter.ToUInt32(Data, Offset + OFS_UgRecord + 0x0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_UgRecord + 0x0); }
-        public uint TalkPlayerCount  { get => BitConverter.ToUInt32(Data, Offset + OFS_UgRecord + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_UgRecord + 0x4); }
+        public  int ReturnUgZoneID   { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_ReturnUgZoneID)); set =>  WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_ReturnUgZoneID), value); }
+        public uint TalkPlayerDataID { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x0), value); }
+        public uint TalkPlayerCount  { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_UgRecord + 0x4), value); }
 
         #region Seen NPCs
 

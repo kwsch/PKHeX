@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -10,14 +11,14 @@ namespace PKHeX.Core
 
         public uint Checksum
         {
-            get => BitConverter.ToUInt32(Data, 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0));
+            set => WriteUInt32LittleEndian(Data.AsSpan(0), value);
         }
 
         public bool IsChecksumValid() => Checksum == GetChecksum(Data);
         public void FixChecksum() => Checksum = GetChecksum(Data);
 
-        private static uint GetChecksum(byte[] data)
+        private static uint GetChecksum(ReadOnlySpan<byte> data)
         {
             uint sum = 0;
             for (var i = 4; i < data.Length; i++)

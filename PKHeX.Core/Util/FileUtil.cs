@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -87,7 +88,7 @@ namespace PKHeX.Core
         private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)
         {
             gp1 = null;
-            if (data.Length != GP1.SIZE || BitConverter.ToUInt32(data, 0x28) == 0)
+            if (data.Length != GP1.SIZE || ReadUInt32LittleEndian(data.AsSpan(0x28)) == 0)
                 return false;
             gp1 = new GP1(data);
             return true;

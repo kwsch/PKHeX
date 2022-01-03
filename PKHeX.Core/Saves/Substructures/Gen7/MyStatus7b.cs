@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -12,14 +13,14 @@ namespace PKHeX.Core
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 2);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
         }
 
         public int Game
@@ -55,10 +56,12 @@ namespace PKHeX.Core
             set => Data[Offset + 0x35] = (byte)value;
         }
 
+        private Span<byte> OT_Trash => Data.AsSpan(Offset + 0x38, 0x1A);
+
         public string OT
         {
-            get => SAV.GetString(Offset + 0x38, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
+            get => SAV.GetString(OT_Trash);
+            set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
 
         // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).

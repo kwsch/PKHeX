@@ -56,8 +56,8 @@ namespace PKHeX.Core
         public override bool ChecksumsValid => true;
         public override string ChecksumInfo => string.Empty;
         public override int Generation => 3;
-        public override string GetString(byte[] data, int offset, int length) => string.Empty;
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => Array.Empty<byte>();
+        public override string GetString(ReadOnlySpan<byte> data) => string.Empty;
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => 0;
         public override PersonalTable Personal => PersonalTable.RS;
         public override int MaxEV => 0;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;

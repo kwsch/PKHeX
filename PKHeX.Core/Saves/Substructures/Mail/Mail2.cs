@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     public sealed class Mail2 : Mail
@@ -14,28 +16,28 @@ namespace PKHeX.Core
             return index < 6 ? (index * 0x2F) + 0x600 : ((index - 6) * 0x2F) + 0x835;
         }
 
-        public override string GetMessage(bool isLastLine) => US ? StringConverter12.GetString1(Data, isLastLine ? 0x11 : 0, 0x10, false) : string.Empty;
+        public override string GetMessage(bool isLastLine) => US ? StringConverter12.GetString(Data.AsSpan(isLastLine ? 0x11 : 0, 0x10), false) : string.Empty;
 
         public override void SetMessage(string line1, string line2)
         {
             if (US)
             {
-                StringConverter12.SetString1(line2, 0x10, false, 0x10, StringConverter12.G1TerminatorCode).CopyTo(Data, 0x11);
+                StringConverter12.SetString(Data.AsSpan(0x11, 0x10), line2.AsSpan(), 0x10, false, StringConverterOption.Clear50);
                 bool hasLine2 = Data[0x11] != StringConverter12.G1TerminatorCode;
-                byte padChar = !hasLine2 ? StringConverter12.G1TerminatorCode : (byte)0x7F; // space
-                StringConverter12.SetString1(line1, 0x10, false, 0x10, padChar).CopyTo(Data, 0);
+                var padChar = !hasLine2 ? StringConverterOption.Clear50 : StringConverterOption.Clear7F; // space
+                StringConverter12.SetString(Data.AsSpan(0, 0x10), line1.AsSpan(), 0x10, false, padChar);
                 Data[0x10] = 0x4E;
             }
         }
 
         public override string AuthorName
         {
-            get => US ? StringConverter12.GetString1(Data, 0x21, 7, false) : string.Empty;
+            get => US ? StringConverter12.GetString(Data.AsSpan(0x21, 8), false) : string.Empty;
             set
             {
                 if (US)
                 {
-                    StringConverter12.SetString1(value, 7, false, 8, 0x50).CopyTo(Data, 0x21);
+                    StringConverter12.SetString(Data.AsSpan(0x21, 8), value.AsSpan(), 7, false, StringConverterOption.Clear50);
                     Data[0x29] = Data[0x2A] = 0;
                 }
             }

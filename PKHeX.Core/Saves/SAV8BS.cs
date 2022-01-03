@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -120,8 +121,8 @@ namespace PKHeX.Core
 
         public int SaveRevision
         {
-            get => BitConverter.ToInt32(Data, 0);
-            init => BitConverter.GetBytes(value).CopyTo(Data, 0);
+            get => ReadInt32LittleEndian(Data.AsSpan(0));
+            init => WriteInt32LittleEndian(Data.AsSpan(0), value);
         }
 
         public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
@@ -150,10 +151,10 @@ namespace PKHeX.Core
                 return StorageSlotFlag.None;
 
             team /= 6;
-            var val = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+            var result = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
             if (BoxLayout.GetIsTeamLocked(team))
-                val |= StorageSlotFlag.Locked;
-            return val;
+                result |= StorageSlotFlag.Locked;
+            return result;
         }
 
         #region Checksums
@@ -238,13 +239,11 @@ namespace PKHeX.Core
             _ => GameVersion.Invalid,
         };
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString7b(value, maxLength, PadToSize, PadWith);
+            return StringConverter8.SetString(destBuffer, value, maxLength, option);
         }
 
         public override bool GetEventFlag(int flagNumber) => Work.GetFlag(flagNumber);
@@ -281,25 +280,25 @@ namespace PKHeX.Core
         public string Rival
         {
             get => GetString(0x55F4, 0x1A);
-            set => SetString(value, OTLength).CopyTo(Data, 0x55F4);
+            set => SetString(Data.AsSpan(0x55F4, 0x1A), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
         }
 
         public short ZoneID // map
         {
-            get => BitConverter.ToInt16(Data, 0x5634);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x5634);
+            get => ReadInt16LittleEndian(Data.AsSpan(0x5634));
+            set => WriteInt16LittleEndian(Data.AsSpan(0x5634), value);
         }
 
         public float TimeScale // default 1440.0f
         {
-            get => BitConverter.ToSingle(Data, 0x5638);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0x5638);
+            get => ReadSingleLittleEndian(Data.AsSpan(0x5638));
+            set => WriteSingleLittleEndian(Data.AsSpan(0x5638), value);
         }
 
         public uint UnionRoomPenaltyTime // move this into the UnionSaveData block once reversed.
         {
-            get => BitConverter.ToUInt32(Data, 0xCEA14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, 0xCEA14);
+            get => ReadUInt32LittleEndian(Data.AsSpan(0xCEA14));
+            set => WriteSingleLittleEndian(Data.AsSpan(0xCEA14), value);
         }
 
         protected override void SetPKM(PKM pkm, bool isParty = false)
@@ -359,14 +358,8 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
         public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.IsEggAvailable = hasEgg;
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            var data = BitConverter.GetBytes(Daycare.DaycareSeed);
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
-        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = BitConverter.ToUInt64(Util.GetBytesFromHexString(seed), 0);
+        public override string GetDaycareRNGSeed(int loc) => Daycare.DaycareSeed.ToString("X16");
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = Util.GetHexValue64(seed);
         #endregion
     }
 }

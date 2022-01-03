@@ -310,7 +310,7 @@ namespace PKHeX.WinForms
             {
                 items = (ushort[])items.Clone();
                 if (shuffle)
-                    Util.Shuffle(items);
+                    Util.Shuffle(items.AsSpan());
                 Array.Resize(ref items, pouch.Items.Length);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -13,26 +14,26 @@ namespace PKHeX.Core
 
         public ushort Hosted
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0xF0);
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF0);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF0));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF0), Math.Min(MaxScore, value));
         }
 
         public ushort Participated
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0xF2);
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF2);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF2));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF2), Math.Min(MaxScore, value));
         }
 
         public ushort Completed
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0xF4);
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF4);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF4));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF4), Math.Min(MaxScore, value));
         }
 
         public ushort TopScores
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0xF6);
-            set => BitConverter.GetBytes(Math.Min(MaxScore, value)).CopyTo(Data, Offset + 0xF6);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xF6));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xF6), Math.Min(MaxScore, value));
         }
 
         public byte WhiteEXP
@@ -62,14 +63,14 @@ namespace PKHeX.Core
 
         public Funfest5Score GetMissionRecord(int mission)
         {
-            var raw = BitConverter.ToUInt32(Data, Offset + GetMissionRecordOffset(mission));
+            var raw = ReadUInt32LittleEndian(Data.AsSpan(Offset + GetMissionRecordOffset(mission)));
             return new Funfest5Score(raw);
         }
 
         public void SetMissionRecord(int mission, Funfest5Score score)
         {
             var value = score.RawValue;
-            BitConverter.GetBytes(value).CopyTo(Data, Offset + GetMissionRecordOffset(mission));
+            WriteUInt32LittleEndian(Data.AsSpan(Offset + GetMissionRecordOffset(mission)), value);
         }
 
         public bool IsFunfestMissionsUnlocked

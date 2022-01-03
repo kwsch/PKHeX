@@ -18,7 +18,22 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static byte[] Truncate(byte[] data, int newSize) => data.AsSpan(0, newSize).ToArray();
+        public static int Count<T>(this Span<T> data, T value) where T : IEquatable<T>
+        {
+            return ((ReadOnlySpan<T>)data).Count(value);
+        }
+
+        public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
+        {
+            int count = 0;
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                if (data[i].Equals(value))
+                    count++;
+            }
+            return count;
+        }
+        
         public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
         public static byte[] SliceEnd(this byte[] src, int offset) => src.AsSpan(offset).ToArray();
         public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
@@ -26,11 +41,11 @@ namespace PKHeX.Core
 
         public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
-        public static T[][] Split<T>(this T[] data, int size)
+        public static T[][] Split<T>(this ReadOnlySpan<T> data, int size)
         {
             var result = new T[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
-                result[i / size] = data.Slice(i, size);
+                result[i / size] = data.Slice(i, size).ToArray();
             return result;
         }
 
@@ -48,32 +63,25 @@ namespace PKHeX.Core
                 yield return bin.Slice(i, size);
         }
 
-        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
+        public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
         {
             bool[] result = new bool[count];
             for (int i = 0; i < result.Length; i++)
-                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
+                result[i] = (data[i >> 3] >> (i & 7) & 0x1) == 1;
             return result;
         }
 
-        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
+        public static void SetBitFlagArray(Span<byte> data, bool[] value)
         {
             for (int i = 0; i < value.Length; i++)
             {
-                var ofs = offset + (i >> 3);
+                var ofs = i >> 3;
                 var mask = (1 << (i & 7));
                 if (value[i])
                     data[ofs] |= (byte)mask;
                 else
                     data[ofs] &= (byte)~mask;
             }
-        }
-
-        public static byte[] SetBitFlagArray(bool[] value)
-        {
-            byte[] data = new byte[value.Length / 8];
-            SetBitFlagArray(data, 0, value);
-            return data;
         }
 
         /// <summary>

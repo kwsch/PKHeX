@@ -163,10 +163,10 @@ namespace PKHeX.Core
                 return StorageSlotFlag.None;
 
             team /= 6;
-            var val = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+            var result = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
             if (TeamIndexes.GetIsTeamLocked(team))
-                val |= StorageSlotFlag.Locked;
-            return val;
+                result |= StorageSlotFlag.Locked;
+            return result;
         }
 
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }

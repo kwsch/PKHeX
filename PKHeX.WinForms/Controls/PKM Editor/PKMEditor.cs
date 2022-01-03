@@ -421,8 +421,8 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
-                 if (tr is SAV1 s1 && Entity is PK1 p1) p1.OT_Trash = s1.OT_Trash;
-            else if (tr is SAV2 s2 && Entity is PK2 p2) p2.OT_Trash = s2.OT_Trash;
+                 if (tr is SAV1 s1 && Entity is PK1 p1) s1.OT_Trash.CopyTo(p1.OT_Trash);
+            else if (tr is SAV2 s2 && Entity is PK2 p2) s2.OT_Trash.CopyTo(p2.OT_Trash);
 
             UpdateNickname(this, EventArgs.Empty);
         }
@@ -974,9 +974,9 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
-            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var val))
+            if (sender == TB_Friendship && int.TryParse(TB_Friendship.Text, out var value))
             {
-                UpdateFromFriendshipTextBox(Entity, val);
+                UpdateFromFriendshipTextBox(Entity, value);
                 UpdateStats();
             }
         }
@@ -1368,26 +1368,29 @@ namespace PKHeX.WinForms.Controls
             if (tb == TB_Nickname)
             {
                 Entity.Nickname = tb.Text;
-                var d = new TrashEditor(tb, Entity.Nickname_Trash, sav);
+                var span = Entity.Nickname_Trash;
+                var d = new TrashEditor(tb, span, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
-                Entity.Nickname_Trash = d.FinalBytes;
+                d.FinalBytes.CopyTo(span);
             }
             else if (tb == TB_OT)
             {
                 Entity.OT_Name = tb.Text;
-                var d = new TrashEditor(tb, Entity.OT_Trash, sav);
+                var span = Entity.OT_Trash;
+                var d = new TrashEditor(tb, span, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
-                Entity.OT_Trash = d.FinalBytes;
+                d.FinalBytes.CopyTo(span);
             }
             else if (tb == TB_OTt2)
             {
                 Entity.HT_Name = tb.Text;
-                var d = new TrashEditor(tb, Entity.HT_Trash, sav);
+                var span = Entity.HT_Trash;
+                var d = new TrashEditor(tb, span, sav);
                 d.ShowDialog();
                 tb.Text = d.FinalString;
-                Entity.HT_Trash = d.FinalBytes;
+                d.FinalBytes.CopyTo(span);
             }
         }
 

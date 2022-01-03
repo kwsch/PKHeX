@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -25,13 +26,13 @@ namespace PKHeX.Core
             InitializeData(data);
         }
 
-        private void InitializeData(byte[] data)
+        private void InitializeData(ReadOnlySpan<byte> data)
         {
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
-            var first  = BigEndian.ToUInt32(Data, 0x00004C);
-            var second = BigEndian.ToUInt32(Data, 0x1C004C);
+            var first  = ReadUInt32BigEndian(Data.AsSpan(0x00004C));
+            var second = ReadUInt32BigEndian(Data.AsSpan(0x1C004C));
             SaveCount = Math.Max(second, first);
             if (second > first)
             {
@@ -142,7 +143,7 @@ namespace PKHeX.Core
         public override bool ChecksumsValid => IsChecksumsValid(Data);
         public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
-        public static bool IsChecksumsValid(byte[] sav)
+        public static bool IsChecksumsValid(Span<byte> sav)
         {
             return VerifyChecksum(sav, 0x000000, 0x1C0000, 0x1BFF80)
                 && VerifyChecksum(sav, 0x000000, 0x000100, 0x000008)
@@ -156,13 +157,15 @@ namespace PKHeX.Core
         private string GetOTName(int slot)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            return GetString(Data, ofs, 16);
+            var span = Data.AsSpan(ofs, 16);
+            return GetString(span);
         }
 
         private void SetOTName(int slot, string name)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            SetData(SetString(name, 7, 8), ofs);
+            var span = Data.AsSpan(ofs, 16);
+            SetString(span, name.AsSpan(), 7, StringConverterOption.ClearZero);
         }
 
         public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
@@ -201,10 +204,10 @@ namespace PKHeX.Core
                 return $"BOX {box + 1}";
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = GetString(ofs, BoxNameLength);
-            if (string.IsNullOrWhiteSpace(str))
+            var span = Data.AsSpan(ofs, BoxNameLength);
+            if (span.Count((byte)0) == span.Length)
                 return $"BOX {box + 1}";
-            return str;
+            return GetString(ofs, BoxNameLength);
         }
 
         public override void SetBoxName(int box, string value)
@@ -213,12 +216,11 @@ namespace PKHeX.Core
                 return;
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = GetString(ofs, BoxNameLength);
-            if (string.IsNullOrWhiteSpace(str))
+            var span = Data.AsSpan(ofs, BoxNameLength);
+            if (span.Count((byte)0) == span.Length)
                 return;
 
-            var data = SetString(value, BoxNameLength / 2, BoxNameLength / 2);
-            SetData(data, ofs);
+            SetString(span, value.AsSpan(), BoxNameLength / 2, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -243,102 +245,102 @@ namespace PKHeX.Core
 
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
-            pkm.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
+            if (pkm is G4PKM g4)
+                g4.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
         }
 
-        public static byte[] DecryptPBRSaveData(byte[] input)
+        public static byte[] DecryptPBRSaveData(ReadOnlySpan<byte> input)
         {
             byte[] output = new byte[input.Length];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                var keys = GetKeys(input, i);
-                Array.Copy(input, i, output, i, 8);
+                ReadKeys(input, i, keys);
+                input.Slice(i, 8).CopyTo(output.AsSpan(i, 8));
                 GeniusCrypto.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
 
-        private static byte[] EncryptPBRSaveData(byte[] input)
+        private static byte[] EncryptPBRSaveData(ReadOnlySpan<byte> input)
         {
             byte[] output = new byte[input.Length];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < SaveUtil.SIZE_G4BR; i += 0x1C0000)
             {
-                var keys = GetKeys(input, i);
-                Array.Copy(input, i, output, i, 8);
+                ReadKeys(input, i, keys);
+                input.Slice(i, 8).CopyTo(output.AsSpan(i, 8));
                 GeniusCrypto.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
 
-        private static ushort[] GetKeys(byte[] input, int ofs)
+        private static void ReadKeys(ReadOnlySpan<byte> input, int ofs, Span<ushort> keys)
         {
-            ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
-                keys[i] = BigEndian.ToUInt16(input, ofs + (i * 2));
-            return keys;
+                keys[i] = ReadUInt16BigEndian(input[(ofs + (i * 2))..]);
         }
 
-        public static bool VerifyChecksum(byte[] input, int offset, int len, int checksum_offset)
+        public static bool VerifyChecksum(Span<byte> input, int offset, int len, int checksum_offset)
         {
-            uint[] storedChecksums = new uint[16];
-            for (int i = 0; i < storedChecksums.Length; i++)
+            Span<uint> originalChecksums = stackalloc uint[16];
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
+                var chk = input.Slice(checksum_offset + (i * 4), 4);
+                originalChecksums[i] = ReadUInt32BigEndian(chk);
+                chk.Clear();
             }
 
-            uint[] checksums = new uint[16];
-
-            for (int i = 0; i < len; i += 2)
+            Span<uint> checksums = stackalloc uint[16];
+            var span = input.Slice(offset, len);
+            for (int i = 0; i < span.Length; i += 2)
             {
-                uint val = BigEndian.ToUInt16(input, offset + i);
+                uint val = ReadUInt16BigEndian(span[i..]);
                 for (int j = 0; j < 16; j++)
-                {
                     checksums[j] += ((val >> j) & 1);
-                }
             }
 
             // Restore original checksums
-            for (int i = 0; i < storedChecksums.Length; i++)
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                BigEndian.GetBytes(storedChecksums[i]).CopyTo(input, checksum_offset + (i * 4));
+                var chk = originalChecksums[i];
+                var dest = input[(checksum_offset + (i * 4))..];
+                WriteUInt32BigEndian(dest, chk);
             }
 
             // Check if they match
-            for (int i = 0; i < storedChecksums.Length; i++)
+            for (int i = 0; i < originalChecksums.Length; i++)
             {
-                if (storedChecksums[i] != checksums[i])
+                if (originalChecksums[i] != checksums[i])
                     return false;
             }
             return true;
         }
 
-        private static void SetChecksum(byte[] input, int offset, int len, int checksum_offset)
+        private static void SetChecksum(Span<byte> input, int offset, int len, int checksum_offset)
         {
-            uint[] storedChecksums = new uint[16];
-            for (int i = 0; i < storedChecksums.Length; i++)
-            {
-                storedChecksums[i] = BigEndian.ToUInt32(input, checksum_offset + (i * 4));
-                BitConverter.GetBytes(0u).CopyTo(input, checksum_offset + (i * 4));
-            }
+            // Wipe Checksum region.
+            input.Slice(checksum_offset, 4 * 16).Clear();
 
-            uint[] checksums = new uint[16];
-
+            Span<uint> checksums = stackalloc uint[16];
+            var span = input.Slice(offset, len);
             for (int i = 0; i < len; i += 2)
             {
-                uint val = BigEndian.ToUInt16(input, offset + i);
+                uint val = ReadUInt16BigEndian(span[i..]);
                 for (int j = 0; j < 16; j++)
                     checksums[j] += ((val >> j) & 1);
             }
 
             for (int i = 0; i < checksums.Length; i++)
             {
-                BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + (i * 4));
+                var chk = checksums[i];
+                var dest = input[(checksum_offset + (i * 4))..];
+                WriteUInt32BigEndian(dest, chk);
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4Unicode(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => StringConverter4.SetBEString4Unicode(value, maxLength, PadToSize, PadWith);
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
     }
 }

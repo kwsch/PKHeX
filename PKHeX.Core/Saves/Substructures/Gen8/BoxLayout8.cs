@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public sealed class BoxLayout8 : SaveBlock, IBoxDetailName
     {
@@ -9,18 +11,9 @@
         public BoxLayout8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
-
-        public string GetBoxName(int box)
-        {
-            return SAV.GetString(Data, GetBoxNameOffset(box), SAV6.LongStringLength);
-        }
-
-        public void SetBoxName(int box, string value)
-        {
-            var data = SAV.SetString(value, StringMaxLength, StringMaxLength, 0);
-            var offset = GetBoxNameOffset(box);
-            SAV.SetData(Data, data, offset);
-        }
+        private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
+        public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
+        public void SetBoxName(int box, string value) => SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
 
         public string this[int i]
         {

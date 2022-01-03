@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -93,14 +94,14 @@ namespace PKHeX.Core
 
         // Checksums
         protected abstract int FooterSize { get; }
-        private ushort CalcBlockChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, 0, data.Length - FooterSize));
-        private static ushort GetBlockChecksumSaved(byte[] data) => BitConverter.ToUInt16(data, data.Length - 2);
-        private bool GetBlockChecksumValid(byte[] data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
+        private ushort CalcBlockChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data[..^FooterSize]);
+        private static ushort GetBlockChecksumSaved(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[^2..]);
+        private bool GetBlockChecksumValid(ReadOnlySpan<byte> data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
         protected sealed override void SetChecksums()
         {
-            BitConverter.GetBytes(CalcBlockChecksum(General)).CopyTo(General, General.Length - 2);
-            BitConverter.GetBytes(CalcBlockChecksum(Storage)).CopyTo(Storage, Storage.Length - 2);
+            WriteUInt16LittleEndian(General.AsSpan(General.Length - 2), CalcBlockChecksum(General));
+            WriteUInt16LittleEndian(Storage.AsSpan(Storage.Length - 2), CalcBlockChecksum(Storage));
 
             // Write blocks back
             General.CopyTo(Data, GeneralBlockPosition * PartitionSize);
@@ -134,7 +135,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static int GetActiveBlock(byte[] data, int begin, int length)
+        private static int GetActiveBlock(ReadOnlySpan<byte> data, int begin, int length)
         {
             int offset = begin + length - 0x14;
             return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
@@ -158,26 +159,26 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get => GetString(General, Trainer1, 16);
-            set => SetString(value, OTLength).CopyTo(General, Trainer1);
+            get => GetString(General.AsSpan(Trainer1, 16));
+            set => SetString(General.AsSpan(Trainer1, 16), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
         }
 
         public override int TID
         {
-            get => BitConverter.ToUInt16(General, Trainer1 + 0x10);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(General, Trainer1 + 0x10);
+            get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10));
+            set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10), (ushort)value);
         }
 
         public override int SID
         {
-            get => BitConverter.ToUInt16(General, Trainer1 + 0x12);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(General, Trainer1 + 0x12);
+            get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12));
+            set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12), (ushort)value);
         }
 
         public override uint Money
         {
-            get => BitConverter.ToUInt32(General, Trainer1 + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(General, Trainer1 + 0x14);
+            get => ReadUInt32LittleEndian(General.AsSpan(Trainer1 + 0x14));
+            set => WriteUInt32LittleEndian(General.AsSpan(Trainer1 + 0x14), value);
         }
 
         public override int Gender
@@ -206,14 +207,14 @@ namespace PKHeX.Core
 
         public uint Coin
         {
-            get => BitConverter.ToUInt16(General, Trainer1 + 0x20);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(General, Trainer1 + 0x20);
+            get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x20));
+            set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x20), (ushort)value);
         }
 
         public override int PlayedHours
         {
-            get => BitConverter.ToUInt16(General, Trainer1 + 0x22);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(General, Trainer1 + 0x22);
+            get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x22));
+            set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x22), (ushort)value);
         }
 
         public override int PlayedMinutes
@@ -232,15 +233,20 @@ namespace PKHeX.Core
         public abstract int X { get; set; }
         public abstract int Y { get; set; }
 
-        public abstract string Rival { get; set; }
+        public string Rival
+        {
+            get => GetString(Rival_Trash);
+            set => SetString(Rival_Trash, value.AsSpan(), OTLength, StringConverterOption.ClearZero);
+        }
+
         public abstract Span<byte> Rival_Trash { get; set; }
 
         public abstract int X2 { get; set; }
         public abstract int Y2 { get; set; }
         public abstract int Z { get; set; }
 
-        public override uint SecondsToStart { get => BitConverter.ToUInt32(General, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x34); }
-        public override uint SecondsToFame { get => BitConverter.ToUInt32(General, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x3C); }
+        public override uint SecondsToStart { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34), value); }
+        public override uint SecondsToFame { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C), value); }
 
         protected sealed override PKM GetPKM(byte[] data) => new PK4(data);
         protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -260,7 +266,7 @@ namespace PKHeX.Core
         public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
-            return BitConverter.ToUInt32(General, ofs);
+            return ReadUInt32LittleEndian(General.AsSpan(ofs));
         }
 
         public override bool? IsDaycareOccupied(int loc, int slot) => null; // todo
@@ -268,7 +274,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
-            BitConverter.GetBytes(EXP).CopyTo(General, ofs);
+            WriteUInt32LittleEndian(General.AsSpan(ofs), EXP);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
@@ -371,14 +377,13 @@ namespace PKHeX.Core
                 if (GiftFlagMax != value.Length)
                     return;
 
-                byte[] data = new byte[value.Length / 8];
+                Span<byte> data = General.AsSpan(WondercardFlags, value.Length / 8);
+                data.Clear();
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (value[i])
                         data[i >> 3] |= (byte)(1 << (i & 7));
                 }
-
-                SetData(General, data, WondercardFlags);
             }
         }
 
@@ -469,13 +474,11 @@ namespace PKHeX.Core
             }
         }
 
-        public sealed override string GetString(byte[] data, int offset, int length) => StringConverter4.GetString4(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter4.GetString(data);
 
-        public sealed override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter4.SetString4(value, maxLength, PadToSize, PadWith);
+            return StringConverter4.SetString(destBuffer, value, maxLength, option);
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
@@ -486,20 +489,21 @@ namespace PKHeX.Core
 
             ushort[] Constants = new ushort[EventConstMax];
             for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = BitConverter.ToUInt16(General, EventConst + (i * 2));
+                Constants[i] = ReadUInt16LittleEndian(General.AsSpan(EventConst + (i * 2)));
             return Constants;
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public sealed override void SetEventConsts(ushort[] value)
+        public sealed override void SetEventConsts(ReadOnlySpan<ushort> value)
         {
             if (EventConstMax <= 0)
                 return;
             if (value.Length != EventConstMax)
                 return;
 
+            var span = General.AsSpan(EventConst);
             for (int i = 0; i < value.Length; i++)
-                BitConverter.GetBytes(value[i]).CopyTo(General, EventConst + (i * 2));
+                WriteUInt16LittleEndian(span[(i * 2)..], value[i]);
         }
 
         // Seals
@@ -514,9 +518,9 @@ namespace PKHeX.Core
         public void SetAllSeals(byte count, bool unreleased = false)
         {
             var sealIndexCount = (int)(unreleased ? Seal4.MAX : Seal4.MAXLEGAL);
-            var val = Math.Min(count, SealMaxCount);
+            var clamped = Math.Min(count, SealMaxCount);
             for (int i = 0; i < sealIndexCount; i++)
-                General[Seal + i] = val;
+                General[Seal + i] = clamped;
         }
 
         public int GetMailOffset(int index)

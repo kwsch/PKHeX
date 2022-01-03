@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
 
         public RTC3(byte[] data) => Data = data;
 
-        public int Day { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public int Day { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
         public int Hour { get => Data[2]; set => Data[2] = (byte)value; }
         public int Minute { get => Data[3]; set => Data[3] = (byte)value; }
         public int Second { get => Data[4]; set => Data[4] = (byte)value; }

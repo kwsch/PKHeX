@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -15,10 +16,10 @@ namespace PKHeX.Core
                 throw new ArgumentException("Invalid size.", nameof(data));
         }
 
-        public ushort Wins   { get => BitConverter.ToUInt16(Data, 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x4); }
-        public ushort Losses { get => BitConverter.ToUInt16(Data, 0x6); set => BitConverter.GetBytes(value).CopyTo(Data, 0x6); }
-        public ushort Trades { get => BitConverter.ToUInt16(Data, 0x8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x8); }
-        public ushort Unk    { get => BitConverter.ToUInt16(Data, 0xA); set => BitConverter.GetBytes(value).CopyTo(Data, 0xA); }
+        public ushort Wins   { get => ReadUInt16LittleEndian(Data.AsSpan(0x4)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4), value); }
+        public ushort Losses { get => ReadUInt16LittleEndian(Data.AsSpan(0x6)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6), value); }
+        public ushort Trades { get => ReadUInt16LittleEndian(Data.AsSpan(0x8)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8), value); }
+        public ushort Unk    { get => ReadUInt16LittleEndian(Data.AsSpan(0xA)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA), value); }
 
         // u16 distributedMons[2][7]
     }

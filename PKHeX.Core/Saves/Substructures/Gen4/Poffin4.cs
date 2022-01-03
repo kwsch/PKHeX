@@ -8,15 +8,12 @@ namespace PKHeX.Core
         public const int SIZE = 8;
         public readonly byte[] Data;
 
-        public Poffin4(byte[] data, int offset)
+        public Poffin4(byte[] data) => Data = data;
+        public Poffin4(byte[] data, int offset) : this(data.AsSpan(offset, SIZE).ToArray())
         {
-            Data = new byte[SIZE];
-            Array.Copy(data, offset, Data, 0, SIZE);
         }
 
         private const string Stats = nameof(Stats);
-
-        public Poffin4(byte[] data) => Data = data;
 
         public PoffinFlavor4 Type{ get => (PoffinFlavor4)Data[0]; set => Data[0] = (byte)value; }
 

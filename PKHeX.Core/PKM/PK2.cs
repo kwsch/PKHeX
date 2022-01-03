@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -26,12 +27,13 @@ namespace PKHeX.Core
             return data;
         }
 
-        public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
+        public override PKM Clone()
         {
-            OT_Trash = RawOT,
-            Nickname_Trash = RawNickname,
-            IsEgg = IsEgg,
-        };
+            var clone = new PK2((byte[])Data.Clone(), Japanese) { IsEgg = IsEgg };
+            OT_Trash.CopyTo(clone.OT_Trash);
+            Nickname_Trash.CopyTo(clone.Nickname_Trash);
+            return clone;
+        }
 
         protected override byte[] Encrypt() => new PokeList2(this).Write();
 
@@ -43,14 +45,14 @@ namespace PKHeX.Core
         public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
         public override int Move3 { get => Data[4]; set => Data[4] = (byte)value; }
         public override int Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-        public override int TID { get => BigEndian.ToUInt16(Data, 6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); }
-        public override uint EXP { get => BigEndian.ToUInt32(Data, 8) >> 8; set => Array.Copy(BigEndian.GetBytes(value << 8), 0, Data, 8, 3); }
-        public override int EV_HP { get => BigEndian.ToUInt16(Data, 0xB); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xB); }
-        public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0xD); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD); }
-        public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0xF); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xF); }
-        public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x11); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); }
-        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
-        public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes(value).CopyTo(Data, 0x15); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+        public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x08)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(8), (value << 8) | Data[0xB]); }
+        public override int EV_HP  { get => ReadUInt16BigEndian(Data.AsSpan(0x0B)); set => WriteUInt16BigEndian(Data.AsSpan(0xB), (ushort)value); }
+        public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x0D)); set => WriteUInt16BigEndian(Data.AsSpan(0xD), (ushort)value); }
+        public override int EV_DEF { get => ReadUInt16BigEndian(Data.AsSpan(0x0F)); set => WriteUInt16BigEndian(Data.AsSpan(0xF), (ushort)value); }
+        public override int EV_SPE { get => ReadUInt16BigEndian(Data.AsSpan(0x11)); set => WriteUInt16BigEndian(Data.AsSpan(0x11), (ushort)value); }
+        public override int EV_SPC { get => ReadUInt16BigEndian(Data.AsSpan(0x13)); set => WriteUInt16BigEndian(Data.AsSpan(0x13), (ushort)value); }
+        public override ushort DV16 { get => ReadUInt16BigEndian(Data.AsSpan(0x15)); set => WriteUInt16BigEndian(Data.AsSpan(0x15), value); }
         public override int Move1_PP { get => Data[0x17] & 0x3F; set => Data[0x17] = (byte)((Data[0x17] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
         public override int Move3_PP { get => Data[0x19] & 0x3F; set => Data[0x19] = (byte)((Data[0x19] & 0xC0) | Math.Min(63, value)); }
@@ -64,7 +66,7 @@ namespace PKHeX.Core
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
         // Crystal only Caught Data
-        public int CaughtData { get => BigEndian.ToUInt16(Data, 0x1D); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1D); }
+        public int CaughtData { get => ReadUInt16BigEndian(Data.AsSpan(0x1D)); set => WriteUInt16BigEndian(Data.AsSpan(0x1D), (ushort)value); }
         public int Met_TimeOfDay { get => (CaughtData >> 14) & 0x3; set => CaughtData = (CaughtData & 0x3FFF) | ((value & 0x3) << 14); }
         public override int Met_Level { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (CaughtData & 0xC0FF) | ((value & 0x3F) << 8); }
         public override int OT_Gender { get => (CaughtData >> 7) & 1; set => CaughtData = (CaughtData & 0xFF7F) | ((value & 1) << 7); }
@@ -81,13 +83,13 @@ namespace PKHeX.Core
         #region Party Attributes
         public override int Status_Condition { get => Data[0x20]; set => Data[0x20] = (byte)value; }
 
-        public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
-        public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }
-        public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x26); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x26); }
-        public override int Stat_DEF { get => BigEndian.ToUInt16(Data, 0x28); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); }
-        public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x2A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); }
-        public override int Stat_SPA { get => BigEndian.ToUInt16(Data, 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
-        public override int Stat_SPD { get => BigEndian.ToUInt16(Data, 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2E); }
+        public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x22)); set => WriteUInt16BigEndian(Data.AsSpan(0x22), (ushort)value); }
+        public override int Stat_HPMax     { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
+        public override int Stat_ATK       { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
+        public override int Stat_DEF       { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
+        public override int Stat_SPE       { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
+        public override int Stat_SPA       { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), (ushort)value); }
+        public override int Stat_SPD       { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), (ushort)value); }
         #endregion
 
         public override bool IsEgg { get; set; }
@@ -119,8 +121,8 @@ namespace PKHeX.Core
                 pk1.Stat_Level = Stat_Level;
             }
             // Status = 0
-            pk1.OT_Trash = RawOT;
-            pk1.Nickname_Trash = RawNickname;
+            OT_Trash.CopyTo(pk1.OT_Trash);
+            Nickname_Trash.CopyTo(pk1.OT_Trash);
 
             pk1.ClearInvalidMoves();
 
@@ -168,15 +170,15 @@ namespace PKHeX.Core
 
             // IVs
             var special = Species is 151 or 251;
-            var new_ivs = new int[6];
+            Span<int> finalIVs = stackalloc int[6];
             int flawless = special ? 5 : 3;
             var rnd = Util.Rand;
-            for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(32);
+            for (var i = 0; i < finalIVs.Length; i++)
+                finalIVs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
-                new_ivs[i] = 31;
-            Util.Shuffle(new_ivs);
-            pk7.IVs = new_ivs;
+                finalIVs[i] = 31;
+            Util.Shuffle(finalIVs);
+            pk7.SetIVs(finalIVs);
 
             switch (IsShiny ? Shiny.Always : Shiny.Never)
             {

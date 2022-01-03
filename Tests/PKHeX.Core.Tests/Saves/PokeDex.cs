@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 using FluentAssertions;
 using PKHeX.Core;
 
@@ -41,11 +42,14 @@ namespace PKHeX.Tests.Saves
             var data = sav.Data;
 
             var bit = species - 1;
-            var val = (byte) (1 << (bit & 7));
-            var ofs = bit >> 3;
-            data[dex + 0x08 + ofs].Should().Be(val, "caught flag");
-            data[dex + 0x08 + regionSize + ofs].Should().Be(val, "seen flag");
-            data[dex + 0x08 + regionSize + (regionSize * 4) + ofs].Should().Be(val, "displayed flag");
+            var value = (byte) (1 << (bit & 7));
+            var offset = bit >> 3;
+
+            // Check the regular flag regions.
+            var span = data.AsSpan(dex + 0x08);
+            span[offset].Should().Be(value, "caught flag");
+            span[offset + regionSize].Should().Be(value, "seen flag");
+            span[offset + regionSize + (regionSize * 4)].Should().Be(value, "displayed flag");
         }
 
         private static void CheckDexFlags5(SaveFile sav, int species, int form, int regionSize, int formRegionSize)
@@ -53,17 +57,18 @@ namespace PKHeX.Tests.Saves
             var dex = sav.PokeDex;
             var data = sav.Data;
 
-            var formDex = dex + 8 + (regionSize * 9);
-
             int fc = sav.Personal[species].FormCount;
             var bit = ((SAV5)sav).Zukan.DexFormIndexFetcher(species, fc);
             if (bit < 0)
                 return;
             bit += form;
-            var val = (byte)(1 << (bit & 7));
-            var ofs = bit >> 3;
-            data[formDex + ofs].Should().Be(val, "seen flag");
-            data[formDex + ofs + (formRegionSize * 2)].Should().Be(val, "displayed flag");
+            var value = (byte)(1 << (bit & 7));
+            var offset = bit >> 3;
+
+            // Check the form flag regions.
+            var span = data.AsSpan(dex + 0x08 + (regionSize * 9));
+            span[offset].Should().Be(value, "seen flag");
+            span[offset + (formRegionSize * 2)].Should().Be(value, "displayed flag");
         }
     }
 }

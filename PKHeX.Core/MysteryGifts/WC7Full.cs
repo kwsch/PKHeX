@@ -24,7 +24,7 @@ namespace PKHeX.Core
             Gift.RestrictLanguage = RestrictLanguage;
         }
 
-        public static WC7[] GetArray(byte[] wc7Full, byte[] data)
+        public static WC7[] GetArray(ReadOnlySpan<byte> wc7Full, ReadOnlySpan<byte> data)
         {
             var countfull = wc7Full.Length / Size;
             var countgift = data.Length / WC7.Size;
@@ -39,9 +39,9 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static WC7 ReadWC7(byte[] data, int ofs, DateTime date)
+        private static WC7 ReadWC7(ReadOnlySpan<byte> data, int ofs, DateTime date)
         {
-            var slice = data.Slice(ofs + GiftStart, WC7.Size);
+            var slice = data.Slice(ofs + GiftStart, WC7.Size).ToArray();
             return new WC7(slice)
             {
                 RestrictVersion = data[ofs],
@@ -50,9 +50,9 @@ namespace PKHeX.Core
             };
         }
 
-        private static WC7 ReadWC7Only(byte[] data, int ofs)
+        private static WC7 ReadWC7Only(ReadOnlySpan<byte> data, int ofs)
         {
-            var slice = data.Slice(ofs, WC7.Size);
+            var slice = data.Slice(ofs, WC7.Size).ToArray();
             return new WC7(slice);
         }
     }

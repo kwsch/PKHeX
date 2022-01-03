@@ -1,6 +1,20 @@
-﻿#if !NET5
+﻿#if !NET6
 #pragma warning disable
 // ReSharper disable once UnusedType.Global
+global using static PKHeX.Core.Buffers.Binary.Extra.BinaryPrimitives;
+using System;
+using System.Runtime.InteropServices;
+
+namespace PKHeX.Core.Buffers.Binary.Extra
+{
+    internal static class BinaryPrimitives
+    {
+        public static float ReadSingleLittleEndian(ReadOnlySpan<byte> data) => MemoryMarshal.Read<float>(data);
+        public static void WriteSingleLittleEndian(Span<byte> data, float value) => MemoryMarshal.Write(data, ref value);
+        public static double ReadDoubleLittleEndian(ReadOnlySpan<byte> data) => MemoryMarshal.Read<double>(data);
+        public static void WriteDoubleLittleEndian(Span<byte> data, double value) => MemoryMarshal.Write(data, ref value);
+    }
+}
 
 namespace System.Runtime.CompilerServices
 {

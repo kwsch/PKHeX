@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -82,15 +83,13 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CheckSum32(byte[] data, int start, int length, uint initial = 0)
+        public static ushort CheckSum32(ReadOnlySpan<byte> data, uint initial = 0)
         {
             uint val = initial;
-            for (int i = start; i < start + length; i += 4)
-                val += BitConverter.ToUInt32(data, i);
+            for (int i = 0; i < data.Length; i += 4)
+                val += ReadUInt32LittleEndian(data[i..]);
             return (ushort)(val + (val >> 16));
         }
 
@@ -106,23 +105,18 @@ namespace PKHeX.Core
             return acc;
         }
 
-        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <param name="initial">Initial value for checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CheckSum32(byte[] data, uint initial = 0) => CheckSum32(data, 0, data.Length, initial);
-
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GC R/S BOX.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
         public static uint CheckSum16BigInvert(ReadOnlySpan<byte> data)
         {
+            if ((data.Length & 1) != 0)
+                data = data[..^2];
+
             ushort chk = 0; // initial value
-            while ((data.Length & ~1) != 0)
-            {
-                chk += BigEndian.ToUInt16(data);
-                data = data[2..];
-            }
+            for (int i = 0; i < data.Length; i += 2)
+                chk += ReadUInt16BigEndian(data[i..]);
+
             return (uint)(chk << 16 | (ushort)(0xF004u - chk));
         }
     }

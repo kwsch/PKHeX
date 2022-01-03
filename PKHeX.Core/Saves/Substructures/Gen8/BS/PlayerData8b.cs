@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -27,69 +28,69 @@ namespace PKHeX.Core
 
         public bool GearType
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x00) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value ? 1u : 0);
         }
         public bool ShoesFlag
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x04) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + 0x04);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x04)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x04), value ? 1u : 0);
         }
         public uint Form
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x08);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
         }
         public byte BikeColor { get => Data[Offset + 0x0C]; set => Data[Offset + 0x0C] = value; }
         // 0x10: WorpPoint - Teleport
         // 0x10: WorpPoint - Zenmetu
         // 0x10: WorpPoint - Ananuke
 
-        public int WarpTeleportZone { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC1 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC1 + 0x00); }
-        public float WarpTeleportX  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC1 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC1 + 0x04); }
-        public float WarpTeleportY  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC1 + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC1 + 0x08); }
-        public float WarpTeleportZ  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC1 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC1 + 0x0C); }
-        public int WarpTeleportDir  { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC1 + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC1 + 0x10); }
+        public int WarpTeleportZone { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x00), value); }
+        public float WarpTeleportX  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x04)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x04), value); }
+        public float WarpTeleportY  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x08), value); }
+        public float WarpTeleportZ  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x0C), value); }
+        public int WarpTeleportDir  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC1 + 0x10), value); }
 
-        public int WarpZenmetuZone { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC2 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC2 + 0x00); }
-        public float WarpZenmetuX  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC2 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC2 + 0x04); }
-        public float WarpZenmetuY  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC2 + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC2 + 0x08); }
-        public float WarpZenmetuZ  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC2 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC2 + 0x0C); }
-        public int WarpZenmetuDir  { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC2 + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC2 + 0x10); }
+        public int WarpZenmetuZone { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x00), value); }
+        public float WarpZenmetuX  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x04)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x04), value); }
+        public float WarpZenmetuY  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x08), value); }
+        public float WarpZenmetuZ  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x0C), value); }
+        public int WarpZenmetuDir  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC2 + 0x10), value); }
 
-        public int WarpAnanukeZone { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC3 + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC3 + 0x00); }
-        public float WarpAnanukeX  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC3 + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC3 + 0x04); }
-        public float WarpAnanukeY  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC3 + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC3 + 0x08); }
-        public float WarpAnanukeZ  { get => BitConverter.ToSingle(Data, Offset + OFS_LOC3 + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC3 + 0x0C); }
-        public int WarpAnanukeDir  { get => BitConverter.ToInt32 (Data, Offset + OFS_LOC3 + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_LOC3 + 0x10); }
+        public int WarpAnanukeZone { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x00), value); }
+        public float WarpAnanukeX  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x04)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x04), value); }
+        public float WarpAnanukeY  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x08), value); }
+        public float WarpAnanukeZ  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x0C), value); }
+        public int WarpAnanukeDir  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_LOC3 + 0x10), value); }
 
         public float WalkCount
         {
-            get => BitConverter.ToSingle(Data, Offset + OFS_PART2 + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_PART2 + 0x04);
+            get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_PART2 + 0x00));
+            set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_PART2 + 0x04), value);
         }
         public int NatukiWalkCount
         {
-            get => BitConverter.ToInt32(Data, Offset + OFS_PART2 + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_PART2 + 0x04);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_PART2 + 0x04));
+            set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_PART2 + 0x04), value);
         }
 
-        public int TownMapZone { get => BitConverter.ToInt32 (Data, Offset + OFS_MAP + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_MAP + 0x00); }
-        public float TownMapX  { get => BitConverter.ToSingle(Data, Offset + OFS_MAP + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_MAP + 0x04); }
-        public float TownMapY  { get => BitConverter.ToSingle(Data, Offset + OFS_MAP + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_MAP + 0x08); }
-        public float TownMapZ  { get => BitConverter.ToSingle(Data, Offset + OFS_MAP + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_MAP + 0x0C); }
-        public int TownMapDir  { get => BitConverter.ToInt32 (Data, Offset + OFS_MAP + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_MAP + 0x10); }
+        public int TownMapZone { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x00), value); }
+        public float TownMapX  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x04)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x04), value); }
+        public float TownMapY  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x08), value); }
+        public float TownMapZ  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x0C), value); }
+        public int TownMapDir  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_MAP + 0x10), value); }
 
         public bool IsTokushuLocation
         {
-            get => BitConverter.ToUInt32(Data, Offset + OFS_TOKUSHU_BOOL + 0x00) == 1;
-            set => BitConverter.GetBytes(value ? 1u : 0).CopyTo(Data, Offset + OFS_TOKUSHU_BOOL + 0x00);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU_BOOL + 0x00)) == 1;
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU_BOOL + 0x00), value ? 1u : 0u);
         }
 
-        public int TokushuZone { get => BitConverter.ToInt32 (Data, Offset + OFS_TOKUSHU + 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TOKUSHU + 0x00); }
-        public float TokushuX  { get => BitConverter.ToSingle(Data, Offset + OFS_TOKUSHU + 0x04); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TOKUSHU + 0x04); }
-        public float TokushuY  { get => BitConverter.ToSingle(Data, Offset + OFS_TOKUSHU + 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TOKUSHU + 0x08); }
-        public float TokushuZ  { get => BitConverter.ToSingle(Data, Offset + OFS_TOKUSHU + 0x0C); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TOKUSHU + 0x0C); }
-        public int TokushuDir  { get => BitConverter.ToInt32 (Data, Offset + OFS_TOKUSHU + 0x10); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + OFS_TOKUSHU + 0x10); }
+        public int TokushuZone { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x00)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x00), value); }
+        public float TokushuX  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x04)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x04), value); }
+        public float TokushuY  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x08), value); }
+        public float TokushuZ  { get => ReadSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x0C), value); }
+        public int TokushuDir  { get =>  ReadInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x10)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + OFS_TOKUSHU + 0x10), value); }
     }
 }

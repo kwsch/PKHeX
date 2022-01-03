@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -13,7 +14,7 @@ namespace PKHeX.Core
             if (id is < PWTRecordID.Normal or > PWTRecordID.MixMaster)
                 throw new ArgumentOutOfRangeException(nameof(id));
             int ofs = Offset + 0x5C + ((int)id * 2);
-            return BitConverter.ToUInt16(Data, ofs);
+            return ReadUInt16LittleEndian(Data.AsSpan(ofs));
         }
 
         public void SetPWTRecord(int id, ushort value) => SetPWTRecord((PWTRecordID)id, value);
@@ -23,7 +24,7 @@ namespace PKHeX.Core
             if (id is < PWTRecordID.Normal or > PWTRecordID.MixMaster)
                 throw new ArgumentOutOfRangeException(nameof(id));
             int ofs = Offset + 0x5C + ((int)id * 2);
-            SAV.SetData(BitConverter.GetBytes(value), ofs);
+            WriteUInt16LittleEndian(Data.AsSpan(ofs), value);
         }
     }
 }

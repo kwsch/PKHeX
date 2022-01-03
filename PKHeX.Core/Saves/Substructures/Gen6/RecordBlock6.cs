@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -49,9 +50,9 @@ namespace PKHeX.Core
             switch (recordID)
             {
                 case < 100:
-                    return BitConverter.ToInt32(Data, ofs);
+                    return ReadInt32LittleEndian(Data.AsSpan(ofs));
                 case < 200:
-                    return BitConverter.ToInt16(Data, ofs);
+                    return ReadInt16LittleEndian(Data.AsSpan(ofs));
                 default:
                     Trace.Fail(nameof(recordID));
                     return 0;
@@ -69,10 +70,10 @@ namespace PKHeX.Core
             switch (recordID)
             {
                 case < 100:
-                    BitConverter.GetBytes(value).CopyTo(Data, ofs);
+                    WriteInt32LittleEndian(Data.AsSpan(ofs), value);
                     break;
                 case < 200:
-                    BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
+                    WriteUInt16LittleEndian(Data.AsSpan(ofs), (ushort)value);
                     break;
                 default:
                     Trace.Fail(nameof(recordID));

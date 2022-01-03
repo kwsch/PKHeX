@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace PKHeX.Core
@@ -19,7 +18,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="items">Item collection</param>
-        public static void Shuffle<T>(IList<T> items) => Shuffle(items, 0, items.Count, Rand);
+        public static void Shuffle<T>(Span<T> items) => Shuffle(items, 0, items.Length, Rand);
 
         /// <summary>
         /// Shuffles the order of items within a collection of items.
@@ -29,7 +28,7 @@ namespace PKHeX.Core
         /// <param name="start">Starting position</param>
         /// <param name="end">Ending position</param>
         /// <param name="rnd">RNG object to use</param>
-        public static void Shuffle<T>(IList<T> items, int start, int end, Random rnd)
+        public static void Shuffle<T>(Span<T> items, int start, int end, Random rnd)
         {
             for (int i = start; i < end; i++)
             {

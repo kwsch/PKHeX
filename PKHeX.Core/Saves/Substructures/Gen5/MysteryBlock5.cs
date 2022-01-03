@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,7 +22,7 @@ namespace PKHeX.Core
         {
             get
             {
-                uint seed = BitConverter.ToUInt32(Data, SeedOffset);
+                uint seed = ReadUInt32LittleEndian(Data.AsSpan(SeedOffset));
                 byte[] wcData = SAV.GetData(Offset + FlagStart, 0xA90); // Encrypted, Decrypt
                 return GetAlbum(seed, wcData);
             }
@@ -30,7 +31,7 @@ namespace PKHeX.Core
                 var wcData = SetAlbum(value);
                 // Write Back
                 wcData.CopyTo(Data, Offset + FlagStart);
-                BitConverter.GetBytes(value.Seed).CopyTo(Data, SeedOffset);
+                WriteUInt32LittleEndian(Data.AsSpan(SeedOffset), value.Seed);
             }
         }
 
@@ -48,8 +49,7 @@ namespace PKHeX.Core
             // 12 PGFs
             for (int i = 0; i < Info.Gifts.Length; i++)
             {
-                var data = new byte[PGF.Size];
-                Array.Copy(wcData, CardStart + (i * PGF.Size), data, 0, PGF.Size);
+                var data = wcData.AsSpan(CardStart + (i * PGF.Size), PGF.Size).ToArray();
                 Info.Gifts[i] = new PGF(data);
             }
 
@@ -67,8 +67,9 @@ namespace PKHeX.Core
                     wcData[i / 8] |= (byte) (1 << (i & 7));
             }
 
+            var span = wcData.AsSpan(CardStart);
             for (int i = 0; i < value.Gifts.Length; i++)
-                value.Gifts[i].Data.CopyTo(wcData, CardStart + (i * PGF.Size));
+                value.Gifts[i].Data.CopyTo(span[(i * PGF.Size)..]);
 
             // Decrypted, Encrypt
             PokeCrypto.CryptArray(wcData, value.Seed);

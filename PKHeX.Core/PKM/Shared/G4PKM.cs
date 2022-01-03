@@ -43,9 +43,16 @@ namespace PKHeX.Core
             }
         }
 
+        public abstract ushort Sanity { get; set; }
+        public abstract ushort Checksum { get; set; }
+        public sealed override void RefreshChecksum() => Checksum = CalculateChecksum();
+        public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
+        public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
+
         // Trash Bytes
-        public sealed override Span<byte> Nickname_Trash { get => Data.AsSpan(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data.AsSpan(0x48)); } }
-        public sealed override Span<byte> OT_Trash { get => Data.AsSpan(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data.AsSpan(0x68)); } }
+        public sealed override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);
+        public sealed override Span<byte> OT_Trash => Data.AsSpan(0x68, 16);
 
         // Future Attributes
         public sealed override uint EncryptionConstant { get => PID; set { } }
@@ -168,6 +175,71 @@ namespace PKHeX.Core
         public abstract byte BallDPPt { get; set; }
         public abstract byte BallHGSS { get; set; }
         public abstract byte PokéathlonStat { get; set; }
+
+        public abstract ushort Egg_LocationDP { get; set; }
+        public abstract ushort Egg_LocationExtended { get; set; }
+        public abstract ushort Met_LocationDP { get; set; }
+        public abstract ushort Met_LocationExtended { get; set; }
+
+        public sealed override int Egg_Location
+        {
+            get
+            {
+                ushort hgssloc = Egg_LocationExtended;
+                if (hgssloc != 0)
+                    return hgssloc;
+                return Egg_LocationDP;
+            }
+            set
+            {
+                if (value == 0)
+                {
+                    Egg_LocationDP = Egg_LocationExtended = 0;
+                }
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
+                {
+                    // Met location not in DP, set to Faraway Place
+                    Egg_LocationDP = Locations.Faraway4;
+                    Egg_LocationExtended = (ushort)value;
+                }
+                else
+                {
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    Egg_LocationDP = (ushort)pthgss;
+                    Egg_LocationExtended = (ushort)value;
+                }
+            }
+        }
+
+        public sealed override int Met_Location
+        {
+            get
+            {
+                ushort hgssloc = Met_LocationExtended;
+                if (hgssloc != 0)
+                    return hgssloc;
+                return Met_LocationDP;
+            }
+            set
+            {
+                if (value == 0)
+                {
+                    Met_LocationDP = Met_LocationExtended = 0;
+                }
+                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
+                {
+                    // Met location not in DP, set to Faraway Place
+                    Met_LocationDP = Locations.Faraway4;
+                    Met_LocationExtended = (ushort)value;
+                }
+                else
+                {
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    Met_LocationDP = (ushort)pthgss;
+                    Met_LocationExtended = (ushort)value;
+                }
+            }
+        }
 
         public sealed override int Ball
         {

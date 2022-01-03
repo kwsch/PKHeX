@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -30,7 +31,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea3(byte[] data, GameVersion game) : base(game)
+        private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
@@ -39,7 +40,7 @@ namespace PKHeX.Core
             Slots = ReadRegularSlots(data);
         }
 
-        private EncounterArea3(byte[] data, GameVersion game, SlotType type) : base(game)
+        private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType type) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = type;
@@ -48,7 +49,7 @@ namespace PKHeX.Core
             Slots = ReadSwarmSlots(data);
         }
 
-        private EncounterSlot3[] ReadRegularSlots(byte[] data)
+        private EncounterSlot3[] ReadRegularSlots(ReadOnlySpan<byte> data)
         {
             const int size = 10;
             int count = (data.Length - 4) / size;
@@ -56,24 +57,29 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-
-                int species = BitConverter.ToUInt16(data, offset + 0);
-                int form = data[offset + 2];
-                int slotNum = data[offset + 3];
-                int min = data[offset + 4];
-                int max = data[offset + 5];
-
-                int mpi = data[offset + 6];
-                int mpc = data[offset + 7];
-                int sti = data[offset + 8];
-                int stc = data[offset + 9];
-                slots[i] = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadRegularSlot(entry);
             }
 
             return slots;
         }
 
-        private EncounterSlot3[] ReadSwarmSlots(byte[] data)
+        private EncounterSlot3 ReadRegularSlot(ReadOnlySpan<byte> entry)
+        {
+            int species = ReadUInt16LittleEndian(entry);
+            int form = entry[2];
+            int slotNum = entry[3];
+            int min = entry[4];
+            int max = entry[5];
+
+            int mpi = entry[6];
+            int mpc = entry[7];
+            int sti = entry[8];
+            int stc = entry[9];
+            return new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
+        }
+
+        private EncounterSlot3[] ReadSwarmSlots(ReadOnlySpan<byte> data)
         {
             const int size = 14;
             int count = (data.Length - 4) / size;
@@ -81,25 +87,30 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-
-                int species = BitConverter.ToUInt16(data, offset + 0);
-                // form always 0
-                int slotNum = data[offset + 3];
-                int min = data[offset + 4];
-                int max = data[offset + 5];
-
-                int[] moves =
-                {
-                    BitConverter.ToUInt16(data, offset + 6),
-                    BitConverter.ToUInt16(data, offset + 8),
-                    BitConverter.ToUInt16(data, offset + 10),
-                    BitConverter.ToUInt16(data, offset + 12),
-                };
-
-                slots[i] = new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadSwarmSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot3Swarm ReadSwarmSlot(ReadOnlySpan<byte> entry)
+        {
+            int species = ReadUInt16LittleEndian(entry);
+            // form always 0
+            int slotNum = entry[3];
+            int min = entry[4];
+            int max = entry[5];
+
+            int[] moves =
+            {
+                ReadUInt16LittleEndian(entry[06..]),
+                ReadUInt16LittleEndian(entry[08..]),
+                ReadUInt16LittleEndian(entry[10..]),
+                ReadUInt16LittleEndian(entry[12..]),
+            };
+
+            return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

@@ -96,7 +96,7 @@ namespace PKHeX.Core
         public string Relearn2 => Get(Strings.movelist, pkm.RelearnMove2);
         public string Relearn3 => Get(Strings.movelist, pkm.RelearnMove3);
         public string Relearn4 => Get(Strings.movelist, pkm.RelearnMove4);
-        public ushort Checksum => pkm.Checksum;
+        public ushort Checksum => pkm is ISanityChecksum s ? s.Checksum : PokeCrypto.GetCHK(pkm.Data, pkm.SIZE_STORED);
         public int Friendship => pkm.OT_Friendship;
         public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
         public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;

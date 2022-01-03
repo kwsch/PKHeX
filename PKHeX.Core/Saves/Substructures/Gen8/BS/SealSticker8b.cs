@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,17 +17,29 @@ namespace PKHeX.Core
         {
             Index = index;
             var offset = baseOffset + (SIZE * index);
-            IsGet = BitConverter.ToUInt32(data, offset + 0) == 1;
-            Count = BitConverter.ToInt32(data, offset + 4);
-            TotalCount = BitConverter.ToInt32(data, offset + 8);
+            var span = data.AsSpan(offset, SIZE);
+            Read(span);
+        }
+
+        private void Read(ReadOnlySpan<byte> span)
+        {
+            IsGet = ReadUInt32LittleEndian(span) == 1;
+            Count = ReadInt32LittleEndian(span[4..]);
+            TotalCount = ReadInt32LittleEndian(span[8..]);
         }
 
         public void Write(byte[] data, int baseOffset)
         {
             var offset = baseOffset + (SIZE * Index);
-            BitConverter.GetBytes(IsGet ? 1u : 0u).CopyTo(data, offset + 0);
-            BitConverter.GetBytes(Count).CopyTo(data, offset + 4);
-            BitConverter.GetBytes(TotalCount).CopyTo(data, offset + 8);
+            var span = data.AsSpan(offset, SIZE);
+            Write(span);
+        }
+
+        private void Write(Span<byte> span)
+        {
+            WriteUInt32LittleEndian(span, IsGet ? 1u : 0u);
+            WriteInt32LittleEndian(span[4..], Count);
+            WriteInt32LittleEndian(span[8..], TotalCount);
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -50,7 +51,7 @@ namespace PKHeX.Core
         private PGT? _gift;
 
         public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
-        public void SetMetadata(byte[] data) => data.CopyTo(Data, Data.Length - PGT.Size);
+        public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data.AsSpan(PGT.Size));
 
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
         public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
@@ -59,27 +60,21 @@ namespace PKHeX.Core
 
         public override int CardID
         {
-            get => BitConverter.ToUInt16(Data, 0x150);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x150);
+            get => ReadUInt16LittleEndian(Data.AsSpan(0x150));
+            set => WriteUInt16LittleEndian(Data.AsSpan(0x150), (ushort)value);
         }
 
         private const int TitleLength = 0x48;
 
+        private Span<byte> CardTitleSpan => Data.AsSpan(0x104, TitleLength);
+
         public override string CardTitle
         {
-            get => StringConverter4.GetString4(Data, 0x104, TitleLength);
-            set
-            {
-                byte[] data = StringConverter4.SetString4(value, (TitleLength / 2) - 1, TitleLength / 2, 0xFFFF);
-                int len = data.Length;
-                Array.Resize(ref data, 0x48);
-                for (int i = 0; i < len; i++)
-                    data[i] = 0xFF;
-                data.CopyTo(Data, 0x104);
-            }
+            get => StringConverter4.GetString(CardTitleSpan);
+            set => StringConverter4.SetString(CardTitleSpan, value.AsSpan(), TitleLength / 2, StringConverterOption.ClearFF);
         }
 
-        public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
+        public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
         public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }

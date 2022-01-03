@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -10,13 +11,13 @@ namespace PKHeX.Core
 
         public FashionUnlock8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
 
-        public bool[] GetArrayOwned(int region) => ArrayUtil.GitBitFlagArray(Data, region * SIZE_ENTRY, SIZE_ENTRY * 8);
-        public bool[] GetArrayNew(int region) => ArrayUtil.GitBitFlagArray(Data, (region + REGIONS) * SIZE_ENTRY, SIZE_ENTRY * 8);
+        public bool[] GetArrayOwned(int region) => ArrayUtil.GitBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), SIZE_ENTRY * 8);
+        public bool[] GetArrayNew(int region) => ArrayUtil.GitBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), SIZE_ENTRY * 8);
         public int[] GetIndexesOwned(int region) => GetIndexes(GetArrayOwned(region));
         public int[] GetIndexesNew(int region) => GetIndexes(GetArrayNew(region));
 
-        public void SetArrayOwned(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data, region * SIZE_ENTRY, value);
-        public void SetArrayNew(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data, (region + REGIONS) * SIZE_ENTRY, value);
+        public void SetArrayOwned(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), value);
+        public void SetArrayNew(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), value);
         public void SetIndexesOwned(int region, int[] value) => SetArrayOwned(region, SetIndexes(value));
         public void SetIndexesNew(int region, int[] value) => SetArrayNew(region, SetIndexes(value));
 

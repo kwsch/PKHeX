@@ -50,16 +50,16 @@ namespace PKHeX.Core
             {
                 foreach (var item in g.Vars)
                 {
-                    var val = ((EventWork<T>)item).Value;
-                    Block.SetWork(item.RawIndex, val);
+                    var value = ((EventWork<T>)item).Value;
+                    Block.SetWork(item.RawIndex, value);
                 }
             }
             foreach (var g in Flag)
             {
                 foreach (var item in g.Vars)
                 {
-                    var val = ((EventFlag)item).Flag;
-                    Block.SetFlag(item.RawIndex, val);
+                    var value = ((EventFlag)item).Flag;
+                    Block.SetFlag(item.RawIndex, value);
                 }
             }
         }

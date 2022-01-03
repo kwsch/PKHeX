@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -129,8 +130,8 @@ namespace PKHeX.Core
 
         public uint SpindaPID
         {
-            get => BitConverter.ToUInt32(SAV.Data, PokeDex + SpindaOffset);
-            set => SAV.SetData(BitConverter.GetBytes(value), PokeDex + SpindaOffset);
+            get => ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + SpindaOffset));
+            set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + SpindaOffset), value);
         }
 
         public bool[] GetLanguageBitflags(int species)
@@ -197,14 +198,13 @@ namespace PKHeX.Core
         public ushort GetEncounterCount(int index)
         {
             var ofs = PokeDex + 0x686 + (index * 2);
-            return BitConverter.ToUInt16(SAV.Data, ofs);
+            return ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs));
         }
 
         public void SetEncounterCount(int index, ushort value)
         {
             var ofs = PokeDex + 0x686 + (index * 2);
-            var data = BitConverter.GetBytes(value);
-            SAV.SetData(data, ofs);
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(ofs), value);
         }
     }
 

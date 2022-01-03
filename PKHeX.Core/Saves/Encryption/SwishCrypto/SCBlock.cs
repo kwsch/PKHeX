@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -80,9 +81,10 @@ namespace PKHeX.Core
         {
             if (Data.Length == 0)
                 return new SCBlock(Key, Type);
+            var clone = Data.AsSpan().ToArray();
             if (SubType == 0)
-                return new SCBlock(Key, Type, (byte[]) Data.Clone());
-            return new SCBlock(Key, (byte[])Data.Clone(), SubType);
+                return new SCBlock(Key, Type, clone);
+            return new SCBlock(Key, clone, SubType);
         }
 
         /// <summary>
@@ -115,10 +117,10 @@ namespace PKHeX.Core
         /// <param name="data">Decrypted data</param>
         /// <param name="offset">Offset the block is to be read from (modified to offset by the amount of bytes consumed).</param>
         /// <returns>New object containing all info for the block.</returns>
-        public static SCBlock ReadFromOffset(byte[] data, ref int offset)
+        public static SCBlock ReadFromOffset(ReadOnlySpan<byte> data, ref int offset)
         {
             // Create block, parse its key.
-            var key = BitConverter.ToUInt32(data, offset);
+            var key = ReadUInt32LittleEndian(data[offset..]);
             offset += 4;
             var xk = new SCXorShift32(key);
 
@@ -137,25 +139,27 @@ namespace PKHeX.Core
 
                 case SCTypeCode.Object: // Cast raw bytes to Object
                 {
-                    var num_bytes = BitConverter.ToUInt32(data, offset) ^ xk.Next32();
+                    var num_bytes = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
                     offset += 4;
-                    var arr = new byte[num_bytes];
+                    var arr = data.Slice(offset, num_bytes).ToArray();
+                    offset += num_bytes;
                     for (int i = 0; i < arr.Length; i++)
-                        arr[i] = (byte)(data[offset++] ^ xk.Next());
+                        arr[i] ^= (byte)xk.Next();
 
                     return new SCBlock(key, type, arr);
                 }
 
                 case SCTypeCode.Array: // Cast raw bytes to SubType[]
                 {
-                    var num_entries = BitConverter.ToUInt32(data, offset) ^ xk.Next32();
+                    var num_entries = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
                     offset += 4;
                     var sub = (SCTypeCode)(data[offset++] ^ xk.Next());
 
                     var num_bytes = num_entries * sub.GetTypeSize();
-                    var arr = new byte[num_bytes];
+                    var arr = data.Slice(offset, num_bytes).ToArray();
+                    offset += num_bytes;
                     for (int i = 0; i < arr.Length; i++)
-                        arr[i] = (byte)(data[offset++] ^ xk.Next());
+                        arr[i] ^= (byte)xk.Next();
 #if DEBUG
                     Debug.Assert(sub > SCTypeCode.Array || Array.TrueForAll(arr, z => z <= 1));
 #endif
@@ -165,9 +169,10 @@ namespace PKHeX.Core
                 default: // Single Value Storage
                 {
                     var num_bytes = type.GetTypeSize();
-                    var arr = new byte[num_bytes];
+                    var arr = data.Slice(offset, num_bytes).ToArray();
+                    offset += num_bytes;
                     for (int i = 0; i < arr.Length; i++)
-                        arr[i] = (byte)(data[offset++] ^ xk.Next());
+                        arr[i] ^= (byte)xk.Next();
                     return new SCBlock(key, type, arr);
                 }
             }

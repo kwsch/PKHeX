@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -64,7 +65,7 @@ namespace PKHeX.Core
 
             ColorPalette = new int[ColorCount];
             for (int i = 0; i < ColorPalette.Length; i++)
-                ColorPalette[i] = GetRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
+                ColorPalette[i] = GetRGB555_16(ReadUInt16LittleEndian(ColorData.AsSpan(i * 2)));
 
             Tiles = new Tile[0xFF];
             for (int i = 0; i < Tiles.Length; i++)
@@ -102,7 +103,11 @@ namespace PKHeX.Core
                 Array.Copy(Tiles[i].Write(), 0, data, i*Tile.SIZE_TILE, Tile.SIZE_TILE);
 
             for (int i = 0; i < ColorPalette.Length; i++)
-                BitConverter.GetBytes(GetRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + (i * 2));
+            {
+                var value = GetRGB555(ColorPalette[i]);
+                var span = data.AsSpan(0x1FE0 + (i * 2));
+                WriteUInt16LittleEndian(span, value);
+            }
 
             Array.Copy(Map.Write(), 0, data, 0x2000, 0x600);
 
@@ -123,16 +128,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static byte[] CGBtoPSK(byte[] cgb)
+        private static byte[] CGBtoPSK(ReadOnlySpan<byte> cgb)
         {
-            byte[] psk = (byte[])cgb.Clone();
+            byte[] psk = cgb.ToArray();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                var tileVal = BitConverter.ToUInt16(cgb, i);
+                var span = psk.AsSpan(i);
+                var tileVal = ReadUInt16LittleEndian(span);
                 int val = GetPSKValue(tileVal);
-
-                psk[i] = (byte)val;
-                psk[i + 1] = (byte)(val >> 8);
+                WriteUInt16LittleEndian(span, (ushort)val);
             }
             return psk;
         }
@@ -147,12 +151,12 @@ namespace PKHeX.Core
             return tile + (15 * (tile / 17)) + 0xA0A0 + rot;
         }
 
-        private static byte[] PSKtoCGB(byte[] psk)
+        private static byte[] PSKtoCGB(ReadOnlySpan<byte> psk)
         {
-            byte[] cgb = (byte[])psk.Clone();
+            byte[] cgb = psk.ToArray();
             for (int i = 0x2000; i < 0x2600; i += 2)
             {
-                int val = BitConverter.ToUInt16(psk, i);
+                int val = ReadUInt16LittleEndian(psk[i..]);
                 int index = ValToIndex(val);
 
                 byte tile = (byte)index;
@@ -374,12 +378,9 @@ namespace PKHeX.Core
             for (int i = 0; i < pixels; i++)
             {
                 var choice = ColorChoices[i];
-                var val = Palette[choice];
-                var o = 4 * i;
-                data[o + 0] = (byte)(val & 0xFF);
-                data[o + 1] = (byte)(val >> 8 & 0xFF);
-                data[o + 2] = (byte)(val >> 16 & 0xFF);
-                data[o + 3] = (byte)(val >> 24 & 0xFF);
+                var value = Palette[choice];
+                var span = data.AsSpan(4 * i, 4);
+                WriteInt32LittleEndian(span, value);
             }
             return data;
         }
@@ -389,9 +390,8 @@ namespace PKHeX.Core
             byte[] data = new byte[SIZE_TILE];
             for (int i = 0; i < data.Length; i++)
             {
-                var ofs = i * 2;
-                data[i] |= (byte)(ColorChoices[ofs + 0] & 0xF);
-                data[i] |= (byte)((ColorChoices[ofs + 1] & 0xF) << 4);
+                var span = ColorChoices.AsSpan(i * 2, 2);
+                data[i] = (byte)((span[0] & 0xF) | ((span[1] & 0xF) << 4));
             }
             return data;
         }
@@ -450,10 +450,10 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal int GetRotationValue(int[] tileColors)
+        internal int GetRotationValue(ReadOnlySpan<int> tileColors)
         {
             // Check all rotation types
-            if (ColorChoices.SequenceEqual(tileColors))
+            if (tileColors.SequenceEqual(ColorChoices))
                 return 0;
 
             if (IsMirrorX(tileColors))
@@ -466,7 +466,7 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private bool IsMirrorX(int[] tileColors)
+        private bool IsMirrorX(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -477,7 +477,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMirrorY(int[] tileColors)
+        private bool IsMirrorY(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {
@@ -488,7 +488,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMirrorXY(int[] tileColors)
+        private bool IsMirrorXY(ReadOnlySpan<int> tileColors)
         {
             for (int i = 0; i < 64; i++)
             {

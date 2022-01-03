@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -11,29 +12,33 @@ namespace PKHeX.Core
 
         public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
-        public override void GetPouch(byte[] data)
+        public override void GetPouch(ReadOnlySpan<byte> data)
         {
+            var span = data[Offset..];
             var items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
             {
+                var item = span.Slice(i * 4, 4);
                 items[i] = new InventoryItem
                 {
-                    Index = BigEndian.ToUInt16(data, Offset + (i * 4)),
-                    Count = BigEndian.ToUInt16(data, Offset + (i * 4) + 2),
+                    Index = ReadUInt16BigEndian(item),
+                    Count = ReadUInt16BigEndian(item[2..]),
                 };
             }
             Items = items;
         }
 
-        public override void SetPouch(byte[] data)
+        public override void SetPouch(Span<byte> data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
 
+            var span = data[Offset..];
             for (int i = 0; i < Items.Length; i++)
             {
-                BigEndian.GetBytes((ushort)Items[i].Index).CopyTo(data, Offset + (i * 4));
-                BigEndian.GetBytes((ushort)Items[i].Count).CopyTo(data, Offset + (i * 4) + 2);
+                var item = span.Slice(i * 4, 4);
+                WriteUInt32BigEndian(item,      (ushort)Items[i].Index);
+                WriteUInt32BigEndian(item[2..], (ushort)Items[i].Count);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -37,19 +38,11 @@ namespace PKHeX.Core
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
 
+
+        private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
         private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
-
-        public string GetBoxName(int box)
-        {
-            return SAV.GetString(Data, GetBoxNameOffset(box), SAV6.LongStringLength);
-        }
-
-        public void SetBoxName(int box, string value)
-        {
-            var data = SAV.SetString(value, StringMaxLength, StringMaxLength, 0);
-            var offset = GetBoxNameOffset(box - 1) + (SAV6.LongStringLength);
-            SAV.SetData(data, offset);
-        }
+        public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
+        public void SetBoxName(int box, string value) => SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
 
         public byte[] BoxFlags
         {
@@ -79,7 +72,7 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < TeamCount * 6; i++)
             {
-                short val = BitConverter.ToInt16(Data, Offset + BattleBoxFlags + (i * 2));
+                short val = ReadInt16LittleEndian(Data.AsSpan(Offset + BattleBoxFlags + (i * 2)));
                 if (val < 0)
                 {
                     TeamSlots[i] = NONE_SELECTED;
@@ -103,18 +96,19 @@ namespace PKHeX.Core
 
         public void SaveBattleTeams()
         {
+            var span = Data.AsSpan(Offset + BattleBoxFlags);
             for (int i = 0; i < TeamCount * 6; i++)
             {
                 int index = TeamSlots[i];
                 if (index < 0)
                 {
-                    BitConverter.GetBytes((short)index).CopyTo(Data, Offset + BattleBoxFlags + (i * 2));
+                    WriteInt16LittleEndian(span[(i*2)..], (short)index);
                     continue;
                 }
 
                 SAV.GetBoxSlotFromIndex(index, out var box, out var slot);
-                int val = (box << 8) | slot;
-                BitConverter.GetBytes((short)val).CopyTo(Data, Offset + BattleBoxFlags + (i * 2));
+                index = (box << 8) | slot;
+                WriteInt16LittleEndian(span[(i * 2)..], (short)index);
             }
         }
 

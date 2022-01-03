@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -31,7 +32,7 @@ namespace PKHeX.Core
 
         public int GetRecord(int recordID)
         {
-            var value = BitConverter.ToInt32(Data, GetRecordOffset(recordID));
+            var value = ReadInt32LittleEndian(Data.AsSpan(GetRecordOffset(recordID)));
             if (recordID != 0)
                 value = ClampRecord(recordID, value);
             return value;
@@ -41,7 +42,7 @@ namespace PKHeX.Core
         {
             if (recordID != 0)
                 value = Math.Min(RecordMaxValue, value);
-            BitConverter.GetBytes(value).CopyTo(Data, GetRecordOffset(recordID));
+            WriteInt32LittleEndian(Data.AsSpan(GetRecordOffset(recordID)), value);
         }
 
         public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -53,7 +54,7 @@ namespace PKHeX.Core
             for (int i = 0; i < SLOT_COUNT; i++)
             {
                 int slotOffset = SLOT_START + (i * SLOT_SIZE);
-                int SaveCounter = BigEndian.ToInt32(Data, slotOffset + 4);
+                int SaveCounter = ReadInt32BigEndian(Data.AsSpan(slotOffset + 4));
                 if (SaveCounter <= SaveCount)
                     continue;
 
@@ -63,24 +64,22 @@ namespace PKHeX.Core
 
             // Decrypt most recent save slot
             {
-                byte[] slot = new byte[SLOT_SIZE];
                 int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-                Array.Copy(Data, slotOffset, slot, 0, slot.Length);
-
-                ushort[] keys = new ushort[4];
+                ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
+                Span<ushort> keys = stackalloc ushort[4];
                 for (int i = 0; i < keys.Length; i++)
-                    keys[i] = BigEndian.ToUInt16(slot, 8 + (i * 2));
+                    keys[i] = ReadUInt16BigEndian(slot[(8 + (i * 2))..]);
 
                 // Decrypt Slot
                 Data = GeniusCrypto.Decrypt(slot, 0x00010, 0x27FD8, keys);
             }
 
             // Get Offset Info
-            ushort[] subLength = new ushort[16];
+            Span<ushort> subLength = stackalloc ushort[16];
             for (int i = 0; i < 16; i++)
             {
-                subLength[i] = BigEndian.ToUInt16(Data, 0x20 + (2 * i));
-                subOffsets[i] = BigEndian.ToUInt16(Data, 0x40 + (4 * i)) | BigEndian.ToUInt16(Data, 0x40 + (4 * i) + 2) << 16;
+                subLength[i] = ReadUInt16BigEndian(Data.AsSpan(0x20 + (2 * i)));
+                subOffsets[i] = ReadUInt16BigEndian(Data.AsSpan(0x40 + (4 * i))) | ReadUInt16BigEndian(Data.AsSpan(0x40 + (4 * i) + 2)) << 16;
             }
 
             // Offsets are displaced by the 0xA8 savedata region
@@ -136,9 +135,9 @@ namespace PKHeX.Core
             SetChecksums();
 
             // Get updated save slot data
-            ushort[] keys = new ushort[4];
+            Span<ushort> keys = stackalloc ushort[4];
             for (int i = 0; i < keys.Length; i++)
-                keys[i] = BigEndian.ToUInt16(Data, 8 + (i * 2));
+                keys[i] = ReadUInt16BigEndian(Data.AsSpan(8 + (i * 2)));
             byte[] newSAV = GeniusCrypto.Encrypt(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
@@ -176,7 +175,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 8;
 
-        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(Data, offset);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGC(data);
 
         // Checksums
         protected override void SetChecksums()
@@ -193,8 +192,8 @@ namespace PKHeX.Core
                 byte[] data = SetChecksums(Data, subOffsets[0]);
 
                 const int start = 0xA8; // 0x88 + 0x20
-                int oldHC = BigEndian.ToInt32(Data, start + subOffsets[0] + 0x38);
-                int newHC = BigEndian.ToInt32(data, start + subOffsets[0] + 0x38);
+                int oldHC = ReadInt32BigEndian(Data.AsSpan(start + subOffsets[0] + 0x38));
+                int newHC = ReadInt32BigEndian(data.AsSpan(start + subOffsets[0] + 0x38));
                 bool header = newHC == oldHC;
 
                 var oldCHK = Data.AsSpan(0x10, 0x10);
@@ -217,44 +216,47 @@ namespace PKHeX.Core
             for (int i = 0; i < 8; i++)
                 newHC += data[i];
 
-            BigEndian.GetBytes(newHC).CopyTo(data, start + subOffset0 + 0x38);
+            WriteInt32BigEndian(data.AsSpan(start + subOffset0 + 0x38), newHC);
 
             // Body Checksum
             data.AsSpan(0x10, 0x10).Fill(0); // Clear old Checksum Data
-            uint[] checksum = new uint[4];
+            Span<uint> checksum = stackalloc uint[4];
             int dt = 8;
             for (int i = 0; i < checksum.Length; i++)
             {
                 uint val = 0;
                 var end = dt + 0x9FF4;
                 for (int j = dt; j < end; j += 2)
-                    val += BigEndian.ToUInt16(data, j);
+                    val += ReadUInt16BigEndian(data.AsSpan(j));
                 dt = end;
                 checksum[i] = val;
             }
 
-            ushort[] newchks = new ushort[8];
+            Span<ushort> newchks = stackalloc ushort[8];
             for (int i = 0; i < 4; i++)
             {
                 newchks[i*2] = (ushort)(checksum[i] >> 16);
                 newchks[(i * 2) + 1] = (ushort)checksum[i];
             }
 
-            Array.Reverse(newchks);
             for (int i = 0; i < newchks.Length; i++)
-                BigEndian.GetBytes(newchks[i]).CopyTo(data, 0x10 + (2 * i));
+            {
+                var dest = data.AsSpan(0x10 + (2 * i));
+                var chk = newchks[newchks.Length - 1 - i];
+                WriteUInt16BigEndian(dest, chk);
+            }
 
             return data;
         }
         // Trainer Info
         public override GameVersion Version { get => GameVersion.XD; protected set { } }
-        public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(value, 10).CopyTo(Data, Trainer1 + 0x00); }
-        public override int SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2C); }
-        public override int TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x2E); }
+        public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
+        public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), (ushort)value); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), (ushort)value); }
 
         public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
-        public override uint Money { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E4); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E4); }
-        public uint Coupons { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E8); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E8); }
+        public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4), value); }
+        public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E8), value); }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
@@ -264,9 +266,7 @@ namespace PKHeX.Core
 
         public override void SetBoxName(int box, string value)
         {
-            if (value.Length > 8)
-                value = value[..8]; // Hard cap
-            SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
+            SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value.AsSpan(), 8, StringConverterOption.ClearZero);
         }
 
         protected override PKM GetPKM(byte[] data)
@@ -370,13 +370,11 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetBEString3(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter3GC.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter3.SetBEString3(value, maxLength, PadToSize, PadWith);
+            return StringConverter3GC.SetString(destBuffer, value, maxLength, option);
         }
-}
+    }
 }

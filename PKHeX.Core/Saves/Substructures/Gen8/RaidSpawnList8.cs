@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -80,15 +81,15 @@ namespace PKHeX.Core
         [Category(General), Description("FNV Hash for fetching the Raid data table (64bit)."), TypeConverter(typeof(TypeConverterU64))]
         public ulong Hash
         {
-            get => BitConverter.ToUInt64(Data, Offset + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0), value);
         }
 
         [Category(General), Description("RNG Seed for generating the Raid's content (64bit)."), TypeConverter(typeof(TypeConverterU64))]
         public ulong Seed
         {
-            get => BitConverter.ToUInt64(Data, Offset + 8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 8);
+            get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 8));
+            set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 8), value);
         }
 
         [Category(General), Description("Star Count for the Raid's content (0-4).")]

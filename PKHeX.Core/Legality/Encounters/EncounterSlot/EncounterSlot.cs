@@ -165,8 +165,8 @@ namespace PKHeX.Core
 
         public bool IsRandomUnspecificForm => Form >= FormDynamic;
         private const int FormDynamic = FormVivillon;
-        private const int FormVivillon = 30;
-        protected const int FormRandom = 31;
+        protected internal const int FormVivillon = 30;
+        protected internal const int FormRandom = 31;
 
         private static int GetWildForm(PKM pk, int form, ITrainerInfo sav)
         {

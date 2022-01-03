@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -265,12 +266,13 @@ namespace PKHeX.WinForms
             CHK_FacilityIntroduced.Checked = facility.IsIntroduced;
             TB_OTName.Text = facility.OT_Name;
             LoadOTlabel(facility.Gender);
-            if (CB_FacilityMessage.SelectedIndex >= 0) LoadFMessage(CB_FacilityMessage.SelectedIndex);
-            TB_UsedFlags.Text = f[entry].UsedFlags.ToString("X8");
-            TB_UsedStats.Text = f[entry].UsedRandStat.ToString("X8");
-            var bytes = f[entry].TrainerFesID;
-            var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
-            TB_FacilityID.Text = str;
+            if (CB_FacilityMessage.SelectedIndex >= 0)
+                LoadFMessage(CB_FacilityMessage.SelectedIndex);
+
+            var obj = f[entry];
+            TB_UsedFlags.Text = obj.UsedFlags.ToString("X8");
+            TB_UsedStats.Text = obj.UsedRandStat.ToString("X8");
+            TB_FacilityID.Text = Util.GetHexStringFromBytes(obj.TrainerFesID);
             editing = false;
         }
 
@@ -305,14 +307,14 @@ namespace PKHeX.WinForms
             B_ImportParty.Visible = SAV.HasParty;
             CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
             CHK_TrainerInvited.Checked = IsTrainerInvited();
-            ushort valus = BitConverter.ToUInt16(SAV.Data, 0x6C55C);
+            ushort valus = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C));
             int grade = valus >> 6 & 0x3F;
             NUD_Grade.Value = grade;
             int max = (Math.Min(49, grade) / 10 * 3) + 2;
             int defeated = valus >> 12;
             NUD_Defeated.Value = defeated > max ? max : defeated;
             NUD_Defeated.Maximum = max;
-            NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.Data, 0x6C558);
+            NUD_DefeatMon.Value = ReadUInt16LittleEndian(SAV.Data.AsSpan(0x6C558));
             for (int i = 0; i < NUD_Trainers.Length; i++)
             {
                 int j = GetSavData16(0x6C56C + (0x14 * i));
@@ -329,7 +331,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
-        private ushort GetSavData16(int Offset) => BitConverter.ToUInt16(SAV.Data, Offset);
+        private ushort GetSavData16(int offset) => ReadUInt16LittleEndian(SAV.Data.AsSpan(offset));
         private const ushort InvitedValue = 0x7DFF;
         private readonly PKM[] p = new PKM[3];
         private readonly PictureBox[] PBs = new PictureBox[3];
@@ -338,18 +340,20 @@ namespace PKHeX.WinForms
         private void SaveBattleAgency()
         {
             SAV.SetFlag(0x6C55E, 1, CHK_Choosed.Checked);
-            if (IsTrainerInvited() ^ CHK_TrainerInvited.Checked)
+            if (IsTrainerInvited() != CHK_TrainerInvited.Checked)
             {
-                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0)), 0x6C3EE);
-                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0)), 0x6C526);
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C3EE), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0));
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C526), (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0));
             }
             SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
             SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
             SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
-            SAV.SetData(BitConverter.GetBytes((ushort)(((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6 | (SAV.Data[0x6C55C] & 0x3F))), 0x6C55C);
-            SAV.SetData(BitConverter.GetBytes((ushort)NUD_DefeatMon.Value), 0x6C558);
+
+            var gradeDefeated = (((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6 | (SAV.Data[0x6C55C] & 0x3F));
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C558), (ushort)NUD_DefeatMon.Value);
+            WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C55C), (ushort)gradeDefeated);
             for (int i = 0; i < NUD_Trainers.Length; i++)
-                SAV.SetData(BitConverter.GetBytes((ushort)NUD_Trainers[i].Value), 0x6C56C + (0x14 * i));
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(0x6C56C + (0x14 * i)), (ushort)NUD_Trainers[i].Value);
             SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
         }
 
@@ -480,11 +484,7 @@ namespace PKHeX.WinForms
             }
             else if (sender == TB_FacilityID)
             {
-                if (t.Length != 12 * 2)
-                    t = t.PadLeft(24, '0');
-                var bytes = t.ToByteArray();
-                Array.Resize(ref bytes, 12);
-                f[entry].TrainerFesID = bytes;
+                f[entry].TrainerFesID = Util.GetBytesFromHexString(t.PadLeft(24, '0'));
             }
         }
 
@@ -677,7 +677,7 @@ namespace PKHeX.WinForms
             var facility = f[entry];
             // there is a unknown value when not introduced...no reproducibility, just mistake?
             if (facility.IsIntroduced)
-                facility.TrainerFesID = new byte[12];
+                facility.ClearTrainerFesID();
             facility.IsIntroduced = false;
             facility.OT_Name = string.Empty;
             facility.Gender = 0;
@@ -755,7 +755,7 @@ namespace PKHeX.WinForms
         {
             if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
                 return;
-            SAV.SetData(new byte[] { 3 }, SAV.Fashion.Offset + 0xD0);
+            SAV.Data[SAV.Fashion.Offset + 0xD0] = 3;
             B_AgentGlass.Enabled = false;
             System.Media.SystemSounds.Asterisk.Play();
         }

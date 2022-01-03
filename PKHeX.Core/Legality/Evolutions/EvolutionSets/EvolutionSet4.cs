@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,11 +9,11 @@ namespace PKHeX.Core
     /// </summary>
     public static class EvolutionSet4
     {
-        private static EvolutionMethod GetMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
         {
-            var method = data[offset]; // other byte unnecessary
-            int arg = BitConverter.ToUInt16(data, offset + 2);
-            int species = BitConverter.ToUInt16(data, offset + 4);
+            var method = data[0]; // other byte unnecessary
+            int arg = ReadUInt16LittleEndian(data[2..]);
+            int species = ReadUInt16LittleEndian(data[4..]);
 
             if (method == 0)
                 throw new ArgumentOutOfRangeException(nameof(method));
@@ -26,7 +27,7 @@ namespace PKHeX.Core
             return new EvolutionMethod(method, species, argument: arg, level: lvl);
         }
 
-        public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
         {
             const int bpe = 6; // bytes per evolution entry
             const int entries = 7; // amount of entries per species
@@ -52,7 +53,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(data, offset + (j * bpe));
+                    set[j] = GetMethod(data.Slice(offset + (j * bpe), bpe));
                 evos[i] = set;
             }
             return evos;

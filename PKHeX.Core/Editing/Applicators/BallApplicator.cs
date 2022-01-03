@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public static int ApplyBallLegalRandom(PKM pkm)
         {
             var balls = GetBallListFromColor(pkm).ToArray();
-            Util.Shuffle(balls);
+            Util.Shuffle(balls.AsSpan());
             return ApplyFirstLegalBall(pkm, balls);
         }
 
@@ -118,7 +118,7 @@ namespace PKHeX.Core
             {
                 var matchingColors = BallColors[c];
                 var extra = allBalls.Except(matchingColors).ToArray();
-                Util.Shuffle(extra);
+                Util.Shuffle(extra.AsSpan());
                 BallColors[c] = ArrayUtil.ConcatAll(matchingColors, extra, end);
             }
         }

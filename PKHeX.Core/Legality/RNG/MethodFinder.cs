@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -25,9 +26,10 @@ namespace PKHeX.Core
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 
-            var IVs = new uint[6];
+            Span<uint> temp = stackalloc uint[6];
             for (int i = 0; i < 6; i++)
-                IVs[i] = (uint)pk.GetIV(i);
+                temp[i] = (uint)pk.GetIV(i);
+            ReadOnlySpan<uint> IVs = temp;
 
             if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
@@ -54,7 +56,7 @@ namespace PKHeX.Core
             return PIDIV.None; // no match
         }
 
-        private static bool GetModifiedPIDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetModifiedPIDMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             if (pk.IsShiny)
             {
@@ -79,7 +81,7 @@ namespace PKHeX.Core
                 : GetG5MGShinyMatch(pk, pid, out pidiv) || (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv));
         }
 
-        private static bool GetLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
             var iv1 = GetIVChunk(IVs, 0);
@@ -147,7 +149,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGUnownMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
             var reg = GetSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
@@ -216,7 +218,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGRoamerMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             if (IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7)
                 return GetNonMatch(out pidiv);
@@ -235,7 +237,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetXDRNGMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetXDRNGMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
             foreach (var seed in xdc)
@@ -284,7 +286,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv, PKM pk)
+        private static bool GetChannelMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
         {
             var ver = pk.Version;
             if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
@@ -307,7 +309,7 @@ namespace PKHeX.Core
                 if (E >> 31 != pk.OT_Gender)
                     continue;
 
-                if (!RNG.XDRNG.GetSequentialIVsUInt32(E).SequenceEqual(IVs))
+                if (!RNG.XDRNG.GetSequentialIVsUInt32(E, IVs))
                     continue;
 
                 if (seed >> 16 != pk.SID)
@@ -319,7 +321,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetMG4Match(uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetMG4Match(uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             uint mg4Rev = RNG.ARNG.Prev(pid);
             var mg4 = GetSeedsFromPID(RNG.LCRNG, mg4Rev >> 16, mg4Rev & 0xFFFF);
@@ -387,7 +389,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetChainShinyMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetChainShinyMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             // 13 shiny bits
             // PIDH & 7
@@ -432,7 +434,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<uint> GetCuteCharmSeeds(PKM pk)
         {
-            var IVs = new uint[6];
+            Span<uint> IVs = stackalloc uint[6];
             for (int i = 0; i < 6; i++)
                 IVs[i] = (uint)pk.GetIV(i);
             var bot = GetIVChunk(IVs, 0);
@@ -441,7 +443,7 @@ namespace PKHeX.Core
             return GetSeedsFromIVs(RNG.LCRNG, top, bot);
         }
 
-        private static bool GetBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetBACDMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             var bot = GetIVChunk(IVs, 0);
             var top = GetIVChunk(IVs, 3);
@@ -536,7 +538,7 @@ namespace PKHeX.Core
             return pid == oldpid;
         }
 
-        private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
         {
             if (pk.Version != (int)GameVersion.CXD || pk.Species is not ((int)Species.Espeon or (int)Species.Umbreon))
                 return GetNonMatch(out pidiv);
@@ -700,7 +702,7 @@ namespace PKHeX.Core
         /// <param name="IVs">IVs that should be the result</param>
         /// <returns>IVs match random number IVs</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IVsMatch(uint r1, uint r2, IReadOnlyList<uint> IVs)
+        private static bool IVsMatch(uint r1, uint r2, ReadOnlySpan<uint> IVs)
         {
             if (IVs[0] != (r1 & 31))
                 return false;
@@ -749,7 +751,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static uint GetIVChunk(uint[] IVs, int start)
+        private static uint GetIVChunk(ReadOnlySpan<uint> IVs, int start)
         {
             uint val = 0;
             for (int i = 0; i < 3; i++)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -21,7 +22,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea1(byte[] data, GameVersion game) : base(game)
+        private EncounterArea1(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0];
             // 1 byte unused
@@ -33,13 +34,19 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (4 * i);
-                int species = data[offset + 0];
-                int slotNum = data[offset + 1];
-                int min = data[offset + 2];
-                int max = data[offset + 3];
-                slots[i] = new EncounterSlot1(this, species, min, max, slotNum);
+                var entry = data.Slice(offset, 4);
+                slots[i] = ReadSlot(entry);
             }
             Slots = slots;
+        }
+
+        private EncounterSlot1 ReadSlot(ReadOnlySpan<byte> entry)
+        {
+            int species = entry[0];
+            int slotNum = entry[1];
+            int min = entry[2];
+            int max = entry[3];
+            return new EncounterSlot1(this, species, min, max, slotNum);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

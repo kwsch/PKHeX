@@ -1,0 +1,130 @@
+﻿using System;
+using static PKHeX.Core.StringConverter4Util;
+using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core;
+
+public static class StringConverter4GC
+{
+    private const ushort Terminator = 0xFFFF;
+    private const char TerminatorChar = (char)Terminator;
+
+    /// <summary>
+    /// Converts Generation 4 Big Endian encoded character data to string.
+    /// </summary>
+    /// <param name="data">Byte array containing encoded character data.</param>
+    /// <returns>Converted string.</returns>
+    public static string GetString(ReadOnlySpan<byte> data)
+    {
+        Span<char> result = stackalloc char[data.Length];
+        var length = LoadString(data, result);
+        return new string(result[..length].ToArray());
+    }
+
+    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+    {
+        int i = 0;
+        for (; i < data.Length; i += 2)
+        {
+            var value = ReadUInt16BigEndian(data[i..]);
+            if (value == Terminator)
+                break;
+            char chr = (char)ConvertValue2CharG4(value);
+            if (chr == TerminatorChar)
+                break;
+            chr = StringConverter.SanitizeChar(chr);
+            result[i/2] = chr;
+        }
+        return i/2;
+    }
+
+    /// <summary>
+    /// Converts a string to Generation 4 Big Endian encoded character data.
+    /// </summary>
+    /// <param name="destBuffer"></param>
+    /// <param name="value">String to be converted.</param>
+    /// <param name="maxLength">Maximum length of string</param>
+    /// <param name="option"></param>
+    /// <returns>Byte array containing encoded character data</returns>
+    public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
+        StringConverterOption option = StringConverterOption.ClearZero)
+    {
+        if (value.Length > maxLength)
+            value = value[..maxLength]; // Hard cap
+
+        if (option is StringConverterOption.ClearZero)
+            destBuffer.Clear();
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            var chr = value[i];
+            chr = StringConverter.UnSanitizeChar5(chr);
+            ushort val = ConvertChar2ValueG4(chr);
+            WriteUInt16BigEndian(destBuffer[(i * 2)..], val);
+        }
+
+        var count = value.Length * 2;
+        if (count == destBuffer.Length)
+            return count;
+        WriteUInt16BigEndian(destBuffer[count..], Terminator);
+        return count + 2;
+    }
+
+    /// <summary>
+    /// Converts Generation 4 Big Endian encoded character data to string, with direct Unicode characters.
+    /// </summary>
+    /// <remarks>Used by the Save File's internal strings.</remarks>
+    /// <param name="data">Byte array containing encoded character data.</param>
+    /// <returns>Converted string.</returns>
+    public static string GetStringUnicode(ReadOnlySpan<byte> data)
+    {
+        Span<char> result = stackalloc char[data.Length];
+        var length = LoadStringUnicode(data, result);
+        return new string(result[..length].ToArray());
+    }
+
+    private static int LoadStringUnicode(ReadOnlySpan<byte> data, Span<char> result)
+    {
+        int i = 0;
+        for (; i < data.Length; i += 2)
+        {
+            char chr = (char)ReadUInt16BigEndian(data[i..]);
+            if (chr == TerminatorChar)
+                break;
+            chr = StringConverter.SanitizeChar(chr);
+            result[i/2] = chr;
+        }
+        return i/2;
+    }
+
+    /// <summary>
+    /// Converts a string to Generation 4 Big Endian encoded character data, with direct Unicode characters.
+    /// </summary>
+    /// <remarks>Used by the Save File's internal strings.</remarks>
+    /// <param name="value">String to be converted.</param>
+    /// <param name="destBuffer"></param>
+    /// <param name="maxLength">Maximum length of string</param>
+    /// <param name="option"></param>
+    /// <returns>Byte array containing encoded character data</returns>
+    public static int SetStringUnicode(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.ClearZero)
+    {
+        if (value.Length > maxLength)
+            value = value[..maxLength]; // Hard cap
+
+        if (option is StringConverterOption.ClearZero)
+            destBuffer.Clear();
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            var c = value[i];
+            c = StringConverter.UnSanitizeChar5(c);
+            WriteUInt16BigEndian(destBuffer[(i * 2)..], c);
+        }
+
+        var count = value.Length * 2;
+        if (count == destBuffer.Length)
+            return count;
+        WriteUInt16BigEndian(destBuffer[count..], 0);
+        return count + 2;
+    }
+}

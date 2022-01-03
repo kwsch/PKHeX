@@ -432,12 +432,9 @@ namespace PKHeX.Core
         {
             switch (cmd.PropertyName)
             {
-                case nameof(PKM.Nickname_Trash):
-                    pk.Nickname_Trash = ConvertToBytes(cmd.PropertyValue);
-                    return ModifyResult.Modified;
-                case nameof(PKM.OT_Trash):
-                    pk.OT_Trash = ConvertToBytes(cmd.PropertyValue);
-                    return ModifyResult.Modified;
+                case nameof(PKM.Nickname_Trash): ConvertToBytes(cmd.PropertyValue).CopyTo(pk.Nickname_Trash); return ModifyResult.Modified;
+                case nameof(PKM.OT_Trash):       ConvertToBytes(cmd.PropertyValue).CopyTo(pk.OT_Trash);       return ModifyResult.Modified;
+                case nameof(PKM.HT_Trash):       ConvertToBytes(cmd.PropertyValue).CopyTo(pk.HT_Trash);       return ModifyResult.Modified;
                 default:
                     return ModifyResult.Error;
             }

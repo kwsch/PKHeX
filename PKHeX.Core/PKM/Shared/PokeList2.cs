@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -6,7 +8,14 @@ namespace PKHeX.Core
     public sealed class PokeList2 : PokeListGB<PK2>
     {
         protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? PK2.EggSpeciesValue : (byte)pk.Species;
-        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg) => new(dat, Japanese) { OT_Trash = otname, Nickname_Trash = nick, IsEgg = egg };
+        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg)
+        {
+            var result = new PK2(dat, Japanese) { IsEgg = egg };
+            otname.AsSpan().CopyTo(result.OT_Trash);
+            nick.AsSpan().CopyTo(result.Nickname_Trash);
+            return result;
+        }
+
         protected override int GetEntrySize() => GetEntrySize(IsFormatParty);
 
         public PokeList2(byte[] d, PokeListType c = PokeListType.Single, bool jp = false) : base(d, c, jp) { }

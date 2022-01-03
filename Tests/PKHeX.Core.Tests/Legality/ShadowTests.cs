@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -192,18 +193,18 @@ namespace PKHeX.Tests.Legality.Shadow
         [Fact]
         public static void VerifyMawileAntishiny()
         {
-            VerifyResultsAntiShiny(Mawile, Encounters3Teams.Mawile, 12345, 51882, new[] {31, 30, 29, 31, 23, 27});
+            VerifyResultsAntiShiny(Mawile, Encounters3Teams.Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
         }
 
-        private static void VerifyResultsAntiShiny(uint[] results, TeamLock[] team, int tid, int sid, int[] ivs)
+        private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, Span<int> ivs)
         {
             var pk3 = new PK3
             {
-                PID = results[^1],
+                PID = resultPIDs[^1],
                 TID = tid,
                 SID = sid,
-                IVs = ivs,
             };
+            pk3.SetIVs(ivs);
 
             var info = MethodFinder.Analyze(pk3);
             info.Type.Should().Be(PIDType.CXD, "because the PID should have matched the CXD spread");

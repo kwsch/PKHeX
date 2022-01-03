@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -75,7 +76,7 @@ namespace PKHeX.Core
         {
             var flag = GetEventFlag(3100);
             ulong value = flag ? MagearnaConst : 0ul;
-            SetData(BitConverter.GetBytes(value), Blocks.BlockInfo[35].Offset + 0x168);
+            WriteUInt64LittleEndian(Data.AsSpan(Blocks.BlockInfo[35].Offset + 0x168), value);
         }
     }
 }

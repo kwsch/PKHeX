@@ -13,13 +13,13 @@ namespace PKHeX.Core
         public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
         public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-        public bool[] GetReceivedFlags() => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
+        public bool[] GetReceivedFlags() => ArrayUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
 
         public void SetReceivedFlags(bool[] value)
         {
             if (value.Length != MaxReceivedFlag)
                 return;
-            ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
+            ArrayUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
             SAV.State.Edited = true;
         }
 

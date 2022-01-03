@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,17 +15,19 @@ namespace PKHeX.Core
             // UP,RIGHT,DOWN,LEFT
             get
             {
+                var span = Data.AsSpan(Offset + 10);
                 int[] list = new int[BoundItemCount];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, Offset + 10 + (2 * i));
+                    list[i] = ReadUInt16LittleEndian(span[(2 * i)..]);
                 return list;
             }
             set
             {
                 if (value.Length != BoundItemCount)
                     throw new ArgumentException(nameof(value));
+                var span = Data.AsSpan(Offset + 10);
                 for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, Offset + 10 + (2 * i));
+                    WriteUInt16LittleEndian(span[(2 * i)..], (ushort)value[i]);
             }
         }
 
@@ -33,17 +36,19 @@ namespace PKHeX.Core
             // Items recently interacted with (Give, Use)
             get
             {
+                var span = Data.AsSpan(Offset + 20);
                 int[] list = new int[RecentItemCount];
                 for (int i = 0; i < list.Length; i++)
-                    list[i] = BitConverter.ToUInt16(Data, Offset + 20 + (2 * i));
+                    list[i] = ReadUInt16LittleEndian(span[(2 * i)..]);
                 return list;
             }
             set
             {
                 if (value.Length != RecentItemCount)
                     throw new ArgumentException(nameof(value));
+                var span = Data.AsSpan(Offset + 20);
                 for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes((ushort)value[i]).CopyTo(Data, Offset + 20 + (2 * i));
+                    WriteUInt16LittleEndian(span[(2 * i)..], (ushort)value[i]);
             }
         }
     }

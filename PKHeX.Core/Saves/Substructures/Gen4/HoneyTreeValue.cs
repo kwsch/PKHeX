@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -11,7 +12,7 @@ namespace PKHeX.Core
 
         public readonly byte[] Data;
 
-        public uint Time { get => BitConverter.ToUInt32(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
+        public uint Time { get => ReadUInt32LittleEndian(Data.AsSpan(0)); set => WriteUInt32LittleEndian(Data.AsSpan(0), value); }
         public int Slot { get => Data[4]; set => Data[4] = (byte)value; }
         public int SubTable { get => Data[5]; set => Data[5] = (byte)value; } // offset by 1 with respect to Group
         public int Group { get => Data[6]; set { Data[6] = (byte)value; SubTable = Math.Max(0, Group - 1); } }

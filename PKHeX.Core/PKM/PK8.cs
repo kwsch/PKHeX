@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -49,7 +50,7 @@ namespace PKHeX.Core
                 TradeHT(tr);
         }
 
-        public int DynamaxType { get => BitConverter.ToUInt16(Data, 0x156); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x156); }
+        public int DynamaxType { get => ReadUInt16LittleEndian(Data.AsSpan(0x156)); set => WriteUInt16LittleEndian(Data.AsSpan(0x156), (ushort)value); }
 
         public void FixMemories()
         {

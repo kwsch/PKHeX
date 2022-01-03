@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -25,12 +27,12 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public static BK4 ReadUnshuffle(byte[] data)
+        public static BK4 ReadUnshuffle(ReadOnlySpan<byte> data)
         {
-            var PID = BigEndian.ToUInt32(data, 0);
+            var PID = ReadUInt32BigEndian(data);
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            var Data = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
-            var result = new BK4(Data);
+            var unshuffled = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
+            var result = new BK4(unshuffled);
             result.RefreshChecksum();
             return result;
         }
@@ -45,24 +47,21 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new BK4((byte[])Data.Clone());
 
-        public string GetString(int offset, int count) => StringConverter4.GetBEString4(Data, offset, count);
-        private static byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
-
         // Structure
-        public override uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
-        public override ushort Sanity { get => BigEndian.ToUInt16(Data, 0x04); set => BigEndian.GetBytes(value).CopyTo(Data, 0x04); }
-        public override ushort Checksum { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes(value).CopyTo(Data, 0x06); }
+        public override uint PID { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
+        public override ushort Sanity { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
+        public override ushort Checksum { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt32BigEndian(Data.AsSpan(0x06), value); }
 
         #region Block A
-        public override int Species { get => BigEndian.ToUInt16(Data, 0x08); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x08); }
-        public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x0A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0A); }
-        public override int SID { get => BigEndian.ToUInt16(Data, 0x0C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
-        public override int TID { get => BigEndian.ToUInt16(Data, 0x0E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0E); }
+        public override int Species { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), (ushort)value); }
+        public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x0A)); set => WriteUInt16BigEndian(Data.AsSpan(0x0A), (ushort)value); }
+        public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
+        public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
 
         public override uint EXP
         {
-            get => BigEndian.ToUInt32(Data, 0x10);
-            set => BigEndian.GetBytes(value).CopyTo(Data, 0x10);
+            get => ReadUInt32BigEndian(Data.AsSpan(0x10));
+            set => WriteUInt32BigEndian(Data.AsSpan(0x10), value);
         }
 
         public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
@@ -121,10 +120,10 @@ namespace PKHeX.Core
         #endregion
 
         #region Block B
-        public override int Move1 { get => BigEndian.ToUInt16(Data, 0x28); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); }
-        public override int Move2 { get => BigEndian.ToUInt16(Data, 0x2A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); }
-        public override int Move3 { get => BigEndian.ToUInt16(Data, 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
-        public override int Move4 { get => BigEndian.ToUInt16(Data, 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2E); }
+        public override int Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
+        public override int Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
+        public override int Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), (ushort)value); }
+        public override int Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), (ushort)value); }
         public override int Move1_PP { get => Data[0x30]; set => Data[0x30] = (byte)value; }
         public override int Move2_PP { get => Data[0x31]; set => Data[0x31] = (byte)value; }
         public override int Move3_PP { get => Data[0x32]; set => Data[0x32] = (byte)value; }
@@ -133,7 +132,7 @@ namespace PKHeX.Core
         public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-        private uint IV32 { get => BigEndian.ToUInt32(Data, 0x38); set => BigEndian.GetBytes(value).CopyTo(Data, 0x38); }
+        private uint IV32 { get => ReadUInt32BigEndian(Data.AsSpan(0x38)); set => WriteUInt32BigEndian(Data.AsSpan(0x38), value); }
         public override int IV_SPD { get => (int)(IV32 >> 02) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 02)) | ((value > 31 ? 31u : (uint)value) << 02)); }
         public override int IV_SPA { get => (int)(IV32 >> 07) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 07)) | ((value > 31 ? 31u : (uint)value) << 07)); }
         public override int IV_SPE { get => (int)(IV32 >> 12) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 12)) | ((value > 31 ? 31u : (uint)value) << 12)); }
@@ -184,11 +183,23 @@ namespace PKHeX.Core
         public override int Gender { get => (Data[0x40] >> 5) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x60) | ((value & 3) << 5)); }
         public override int Form { get => Data[0x40] & 0x1F; set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte)value; }
-        // 0x43-0x47 Unused
+
+        // 0x42-0x43 Unused
+        public override ushort Egg_LocationExtended
+        {
+            get => ReadUInt16BigEndian(Data.AsSpan(0x44));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x44), value);
+        }
+
+        public override ushort Met_LocationExtended
+        {
+            get => ReadUInt16BigEndian(Data.AsSpan(0x46));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x46), value);
+        }
         #endregion
 
         #region Block C
-        public override string Nickname { get => GetString(0x48, 20); set => SetString(value, 10).CopyTo(Data, 0x48); }
+        public override string Nickname { get => StringConverter4GC.GetString(Nickname_Trash); set => StringConverter4GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -231,7 +242,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => GetString(0x68, 14); set => SetString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => StringConverter4GC.GetString(OT_Trash); set => StringConverter4GC.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -239,66 +250,15 @@ namespace PKHeX.Core
         public override int Met_Month { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
         public override int Met_Day { get => Data[0x7D]; set => Data[0x7D] = (byte)value; }
 
-        public override int Egg_Location
+        public override ushort Egg_LocationDP
         {
-            get
-            {
-                ushort hgssloc = BigEndian.ToUInt16(Data, 0x44);
-                if (hgssloc != 0)
-                    return hgssloc;
-                return BigEndian.ToUInt16(Data, 0x7E);
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x44);
-                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x7E);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x44);
-                    BigEndian.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    BigEndian.GetBytes((ushort)pthgss).CopyTo(Data, 0x44);
-                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x7E);
-                }
-            }
+            get => ReadUInt16BigEndian(Data.AsSpan(0x7E));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x7E), value);
         }
-
-        public override int Met_Location
+        public override ushort Met_LocationDP
         {
-            get
-            {
-                ushort hgssloc = BigEndian.ToUInt16(Data, 0x46);
-                if (hgssloc != 0)
-                    return hgssloc;
-                return BigEndian.ToUInt16(Data, 0x80);
-            }
-            set
-            {
-                if (value == 0)
-                {
-                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x46);
-                    BigEndian.GetBytes((ushort)0).CopyTo(Data, 0x80);
-                }
-                else if (Locations.IsPtHGSSLocation(value) || Locations.IsPtHGSSLocationEgg(value))
-                {
-                    // Met location not in DP, set to Faraway Place
-                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BigEndian.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80);
-                }
-                else
-                {
-                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    BigEndian.GetBytes((ushort)pthgss).CopyTo(Data, 0x46);
-                    BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x80);
-                }
-            }
+            get => ReadUInt16BigEndian(Data.AsSpan(0x80));
+            set => WriteUInt16BigEndian(Data.AsSpan(0x80), value);
         }
 
         private byte PKRS { get => Data[0x82]; set => Data[0x82] = value; }
@@ -326,9 +286,10 @@ namespace PKHeX.Core
         // Methods
         protected override ushort CalculateChecksum()
         {
+            ReadOnlySpan<byte> arr = Data.AsSpan();
             ushort chk = 0;
             for (int i = 8; i < PokeCrypto.SIZE_4STORED; i += 2)
-                chk += BigEndian.ToUInt16(Data, i);
+                chk += ReadUInt16BigEndian(arr[i..]);
             return chk;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -22,14 +23,14 @@ namespace PKHeX.WinForms
 
             // Gather Data
             int ofs = SAV.BerryField + 0xC + (listBox1.SelectedIndex * 0x18);
-            int berry = BitConverter.ToUInt16(SAV.Data, ofs + (2 * 0));
-            int u1 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 1));
-            int u2 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 2));
-            int u3 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 3));
-            int u4 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 4));
-            int u5 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 5));
-            int u6 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 6));
-            int u7 =    BitConverter.ToUInt16(SAV.Data, ofs + (2 * 7));
+            int berry = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 0)));
+            int u1 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 1)));
+            int u2 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 2)));
+            int u3 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 3)));
+            int u4 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 4)));
+            int u5 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 5)));
+            int u6 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 6)));
+            int u7 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 7)));
 
             // Display Data
             TB_Berry.Text = berry.ToString();

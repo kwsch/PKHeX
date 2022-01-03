@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -17,10 +18,10 @@ namespace PKHeX.Core
         public StrategyMemo(byte[] input, int offset, bool xd)
         {
             XD = xd;
-            int count = BigEndian.ToInt16(input, offset);
+            int count = ReadUInt16BigEndian(input.AsSpan(offset));
             if (count > MAX_COUNT)
                 count = MAX_COUNT;
-            _unk = BigEndian.ToUInt16(input, offset + 2);
+            _unk = ReadUInt16BigEndian(input.AsSpan(offset + 2));
 
             Entries = new List<StrategyMemoEntry>(count);
             for (int i = 0; i < count; i++)
@@ -32,17 +33,17 @@ namespace PKHeX.Core
 
         private StrategyMemoEntry Read(byte[] input, int offset, int index)
         {
-            byte[] data = new byte[SIZE_ENTRY];
             var ofs = 4 + offset + (SIZE_ENTRY * index);
-            Array.Copy(input, ofs, data, 0, SIZE_ENTRY);
+            var span = input.AsSpan(ofs, SIZE_ENTRY);
+            var data = span.ToArray();
             return new StrategyMemoEntry(XD, data);
         }
 
         public byte[] Write()
         {
             var result = new byte[4 + (Entries.Count * SIZE_ENTRY)];
-            BigEndian.GetBytes((short)Entries.Count).CopyTo(result, 0);
-            BigEndian.GetBytes((short)_unk).CopyTo(result, 2);
+            WriteInt16BigEndian(result.AsSpan(0), (short)Entries.Count);
+            WriteInt16BigEndian(result.AsSpan(2), (short)_unk);
 
             var count = Math.Min(MAX_COUNT, Entries.Count);
             for (int i = 0; i < count; i++)
@@ -82,23 +83,23 @@ namespace PKHeX.Core
         {
             get
             {
-                int val = BigEndian.ToUInt16(Data, 0) & 0x1FF;
+                int val = ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF;
                 return SpeciesConverter.GetG4Species(val);
             }
             set
             {
                 value = SpeciesConverter.GetG3Species(value);
-                int cval = BigEndian.ToUInt16(Data, 0);
+                int cval = ReadUInt16BigEndian(Data.AsSpan(0));
                 cval &= 0xE00; value &= 0x1FF; cval |= value;
-                BigEndian.GetBytes((ushort)cval).CopyTo(Data, 0);
+                WriteUInt16BigEndian(Data.AsSpan(0x00), (ushort)cval);
             }
         }
 
         private bool Flag0 { get => Data[0] >> 6 == 1; set { Data[0] &= 0xBF; if (value) Data[0] |= 0x40; } } // Unused
         private bool Flag1 { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } } // Complete Entry
-        public int SID { get => BigEndian.ToUInt16(Data, 4); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 4); }
-        public int TID { get => BigEndian.ToUInt16(Data, 6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); }
-        public uint PID { get => BigEndian.ToUInt32(Data, 8); set => BigEndian.GetBytes(value).CopyTo(Data, 8); }
+        public int SID { get => ReadUInt16BigEndian(Data.AsSpan(4)); set => WriteUInt16BigEndian(Data.AsSpan(4), (ushort)value); }
+        public int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+        public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); }
 
         public bool Seen
         {

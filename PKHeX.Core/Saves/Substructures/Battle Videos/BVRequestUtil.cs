@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -19,7 +20,10 @@ namespace PKHeX.Core
         {
             var chk = Pull(0, 4) >> 4; // first four chars are checksum bits
             var result = Pull(4, input.Length); // next 12 chars are the 70 value bits
-            var actual = Checksums.CRC16_CCITT(BitConverter.GetBytes(result));
+
+            Span<byte> temp = stackalloc byte[8];
+            WriteUInt64LittleEndian(temp, result);
+            var actual = Checksums.CRC16_CCITT(temp);
             valid = chk == actual;
             return result;
 
@@ -41,7 +45,9 @@ namespace PKHeX.Core
 
         public static string U64ToStr(ulong input, bool insertDash)
         {
-            uint chk = Checksums.CRC16_CCITT(BitConverter.GetBytes(input));
+            Span<byte> temp = stackalloc byte[8];
+            WriteUInt64LittleEndian(temp, input);
+            uint chk = Checksums.CRC16_CCITT(temp);
             var buff = new char[16];
             int ctr = 15;
             Push(input, 12); // store value bits

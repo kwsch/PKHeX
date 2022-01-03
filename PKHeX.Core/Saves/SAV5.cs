@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -125,8 +126,8 @@ namespace PKHeX.Core
         public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
         public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
         public override uint Money { get => Misc.Money; set => Misc.Money = value; }
-        public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
-        public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
+        public override uint SecondsToStart { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x34), value); }
+        public override uint SecondsToFame  { get => ReadUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(AdventureInfo + 0x3C), value); }
         public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
         public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
@@ -134,13 +135,11 @@ namespace PKHeX.Core
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString5(data, offset, length);
+        public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter5.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
+            return StringConverter5.SetString(destBuffer, value, maxLength, option);
         }
 
         // DLC
@@ -156,33 +155,31 @@ namespace PKHeX.Core
         {
             get
             {
-                byte[] data = new byte[CGearBackground.SIZE_CGB];
                 if (CGearSkinPresent)
-                    Array.Copy(Data, CGearDataOffset, data, 0, data.Length);
-                return data;
+                    return Data.AsSpan(CGearDataOffset, CGearBackground.SIZE_CGB).ToArray();
+                return new byte[CGearBackground.SIZE_CGB];
             }
             set
             {
-                byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+                SetData(value, CGearDataOffset);
 
-                byte[] bgdata = value;
-                SetData(bgdata, CGearDataOffset);
+                ushort chk = Checksums.CRC16_CCITT(value);
+                var footer = Data.AsSpan(CGearDataOffset + value.Length);
 
-                ushort chk = Checksums.CRC16_CCITT(bgdata);
-                var chkbytes = BitConverter.GetBytes(chk);
-                int footer = CGearDataOffset + bgdata.Length;
+                WriteUInt16LittleEndian(footer, 1); // block updated once
+                WriteUInt16LittleEndian(footer[2..], chk); // checksum
+                WriteUInt16LittleEndian(footer[0x100..], chk);  // second checksum
 
-                BitConverter.GetBytes((ushort)1).CopyTo(Data, footer); // block updated once
-                chkbytes.CopyTo(Data, footer + 2); // checksum
-                chkbytes.CopyTo(Data, footer + 0x100); // second checksum
-                dlcfooter.CopyTo(Data, footer + 0x102);
-                ushort skinchkval = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(Data, footer + 0x100, 4));
-                BitConverter.GetBytes(skinchkval).CopyTo(Data, footer + 0x112);
+                Span<byte> dlcfooter = stackalloc byte[] { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+                dlcfooter.CopyTo(footer[0x102..]);
+
+                ushort skinchkval = Checksums.CRC16_CCITT(footer[0x100..0x104]);
+                WriteUInt16LittleEndian(footer[0x112..], skinchkval);
 
                 // Indicate in the save file that data is present
-                BitConverter.GetBytes((ushort)0xC21E).CopyTo(Data, 0x19438);
+                WriteUInt16LittleEndian(Data.AsSpan(0x19438), 0xC21E);
 
-                chkbytes.CopyTo(Data, CGearSkinInfoOffset);
+                WriteUInt16LittleEndian(Data.AsSpan(CGearSkinInfoOffset), chk);
                 CGearSkinPresent = true;
 
                 State.Edited = true;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -61,14 +61,14 @@ namespace PKHeX.Core
              * uint32_t name4;
              */
 
-            var pkCountOffset = BigEndian.ToInt32(Data, 0x34) + 4;
-            SlotCount = BigEndian.ToInt32(Data, pkCountOffset);
+            var pkCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
+            SlotCount = ReadInt32BigEndian(Data.AsSpan(pkCountOffset));
             BoxCount = (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
 
             Box = pkCountOffset + 4;
 
-            FinalCountOffset = BigEndian.ToInt32(Data, 0x3C);
-            FinalCount = BigEndian.ToInt32(Data, FinalCountOffset);
+            FinalCountOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
+            FinalCount = ReadInt32BigEndian(Data.AsSpan(FinalCountOffset));
         }
 
         private readonly int FinalCount;
@@ -76,7 +76,8 @@ namespace PKHeX.Core
 
         protected override void SetChecksums()
         {
-            BigEndian.GetBytes(FinalCount).CopyTo(Data, FinalCountOffset); // ensure the final data is written if the user screws stuff up
+            // ensure the final data is written if the user screws stuff up
+            WriteInt32BigEndian(Data.AsSpan(FinalCountOffset), FinalCount);
             var goodlen = (FinalCountOffset + 4);
             Array.Clear(Data, goodlen, Data.Length - goodlen);
 
@@ -86,16 +87,11 @@ namespace PKHeX.Core
             SetData(result, 0);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (value.Length > maxLength)
-                value = value[..maxLength]; // Hard cap
-            string temp = value
-                .PadRight(value.Length + 1, (char)0) // Null Terminator
-                .PadRight(PadToSize, (char)PadWith); // Padding
-            return Encoding.BigEndianUnicode.GetBytes(temp);
+            return StringConverter4GC.SetStringUnicode(value, destBuffer, maxLength, option);
         }
     }
 }

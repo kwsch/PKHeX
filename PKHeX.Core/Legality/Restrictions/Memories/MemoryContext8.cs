@@ -84,8 +84,8 @@ namespace PKHeX.Core
                 return true;
             if (loc is Encounters8Nest.SharedNest)
                 return !PossibleGeneralLocations8.Contains(arg) || arg is 79; // dangerous place - all locations are Y-Comm locked
-            if (SingleGenLocAreas.TryGetValue((byte)loc, out var val))
-                return arg != val;
+            if (SingleGenLocAreas.TryGetValue((byte)loc, out var value))
+                return arg != value;
             if (MultiGenLocAreas.TryGetValue((byte)loc, out var arr))
                 return !arr.Contains(arg);
             return false;

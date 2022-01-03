@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -16,8 +17,8 @@ namespace PKHeX.Core
         [Category(General), Description("Raw amount of seconds since 1970 (Unix Timestamp)")]
         public long TimeStamp
         {
-            get => BitConverter.ToInt64(Data, Offset + 0);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + 0));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset), value);
         }
 
         [Category(General), Description("Date and Time (UTC) the player entered the Hall Of Fame")]

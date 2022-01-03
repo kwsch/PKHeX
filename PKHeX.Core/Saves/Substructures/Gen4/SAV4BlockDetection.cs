@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -15,18 +16,18 @@ namespace PKHeX.Core
         /// Compares the footers of the two blocks to determine which is newest.
         /// </summary>
         /// <returns>0=Primary, 1=Secondary.</returns>
-        public static int CompareFooters(byte[] data, int offset1, int offset2)
+        public static int CompareFooters(ReadOnlySpan<byte> data, int offset1, int offset2)
         {
             // Major Counters
-            var major1 = BitConverter.ToUInt32(data, offset1);
-            var major2 = BitConverter.ToUInt32(data, offset2);
+            var major1 = ReadUInt32LittleEndian(data[offset1..]);
+            var major2 = ReadUInt32LittleEndian(data[offset2..]);
             var result1 = CompareCounters(major1, major2);
             if (result1 != Same)
                 return result1;
 
             // Minor Counters
-            var minor1 = BitConverter.ToUInt32(data, offset1 + 4);
-            var minor2 = BitConverter.ToUInt32(data, offset2 + 4);
+            var minor1 = ReadUInt32LittleEndian(data[(offset1 + 4)..]);
+            var minor2 = ReadUInt32LittleEndian(data[(offset2 + 4)..]);
             var result2 = CompareCounters(minor1, minor2);
             return result2 == Second ? Second : First; // Same -> First, shouldn't happen for valid saves.
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -88,21 +89,14 @@ namespace PKHeX.Core
         public override int DaycareSeedSize => 16;
         public override bool HasTwoDaycares => false;
         public override bool? IsDaycareOccupied(int loc, int slot) => Data[DaycareOffset + 0 + ((SIZE_STORED + 8) * slot)] == 1;
-        public override uint? GetDaycareEXP(int loc, int slot) => BitConverter.ToUInt32(Data, DaycareOffset + 4 + ((SIZE_STORED + 8) * slot));
+        public override uint? GetDaycareEXP(int loc, int slot) => ReadUInt32LittleEndian(Data.AsSpan(DaycareOffset + 4 + ((SIZE_STORED + 8) * slot)));
 
         public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + 8 + (slot * (SIZE_STORED + 8));
         public override bool? IsDaycareHasEgg(int loc) => Data[DaycareOffset + 0x1E0] == 1;
         public override void SetDaycareHasEgg(int loc, bool hasEgg) => Data[DaycareOffset + 0x1E0] = hasEgg ? (byte)1 : (byte)0;
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Data[DaycareOffset + ((SIZE_STORED + 8) * slot)] = occupied ? (byte)1 : (byte)0;
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, DaycareOffset + 4 + ((SIZE_STORED + 8) * slot));
-
-        public override string GetDaycareRNGSeed(int loc)
-        {
-            int ofs = DaycareOffset;
-            var data = Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2).ToArray();
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
-        }
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => WriteUInt32LittleEndian(Data.AsSpan(DaycareOffset + 4 + ((SIZE_STORED + 8) * slot)), EXP);
+        public override string GetDaycareRNGSeed(int loc) => Util.GetHexStringFromBytes(Data.AsSpan(DaycareOffset + 0x1E8, DaycareSeedSize / 2));
 
         public override void SetDaycareRNGSeed(int loc, string seed)
         {
@@ -116,7 +110,7 @@ namespace PKHeX.Core
             Util.GetBytesFromHexString(seed).CopyTo(Data, DaycareOffset + 0x1E8);
         }
 
-        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
+        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
         public override byte[] GetJPEGData() => !HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 

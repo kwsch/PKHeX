@@ -28,6 +28,9 @@ namespace PKHeX.Core
         public sealed override byte[] DecryptedBoxData => Encrypt();
         public sealed override byte[] DecryptedPartyData => Encrypt();
 
+        public override bool Valid { get => true; set { } }
+        public sealed override void RefreshChecksum() { }
+
         protected abstract byte[] GetNonNickname(int language);
 
         private bool? _isnicknamed;
@@ -101,9 +104,7 @@ namespace PKHeX.Core
         public sealed override uint EncryptionConstant { get => 0; set { } }
         public sealed override uint PID { get => 0; set { } }
         public sealed override int Nature { get => 0; set { } }
-        public sealed override ushort Sanity { get => 0; set { } }
         public sealed override bool ChecksumValid => true;
-        public sealed override ushort Checksum { get => 0; set { } }
         public sealed override bool FatefulEncounter { get => false; set { } }
         public sealed override int TSV => 0x0000;
         public sealed override int PSV => 0xFFFF;

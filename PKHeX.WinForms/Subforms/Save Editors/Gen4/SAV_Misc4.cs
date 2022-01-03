@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms
 {
@@ -125,7 +126,7 @@ namespace PKHeX.WinForms
                     break;
                 default: return;
             }
-            uint valFly = BitConverter.ToUInt32(SAV.General, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
             CLB_FlyDest.Items.Clear();
             for (int i = 0; i < FlyDestD.Length; i++)
             {
@@ -136,7 +137,7 @@ namespace PKHeX.WinForms
                     : (SAV.General[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0;
                 CLB_FlyDest.Items.Add(name, state);
             }
-            uint valBP = BitConverter.ToUInt16(SAV.General, ofsBP);
+            uint valBP = ReadUInt16LittleEndian(SAV.General.AsSpan(ofsBP));
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
             if (SAV is SAV4Sinnoh sinnoh)
@@ -146,7 +147,7 @@ namespace PKHeX.WinForms
 
             if (ofsUGFlagCount > 0)
             {
-                uint fc = BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & 0xFFFFF;
+                uint fc = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
                 NUD_UGFlags.Value = fc > 999999 ? 999999 : fc;
             }
             if (ofsMap > 0)
@@ -162,7 +163,7 @@ namespace PKHeX.WinForms
         private void SaveMain()
         {
             SAV.Coin = (uint)NUD_Coin.Value;
-            uint valFly = BitConverter.ToUInt32(SAV.General, ofsFly);
+            uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {
                 if (FlyDestC[i] < 32)
@@ -178,8 +179,8 @@ namespace PKHeX.WinForms
                     SAV.General[o] = (byte)((SAV.General[o] & ~(1 << (FlyDestC[i] & 7))) | (CLB_FlyDest.GetItemChecked(i) ? 1 << (FlyDestC[i] & 7) : 0));
                 }
             }
-            BitConverter.GetBytes(valFly).CopyTo(SAV.General, ofsFly);
-            BitConverter.GetBytes((ushort)NUD_BP.Value).CopyTo(SAV.General, ofsBP);
+            WriteUInt32LittleEndian(SAV.General.AsSpan(ofsFly), valFly);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(ofsBP), (ushort)NUD_BP.Value);
 
             if (SAV is SAV4Sinnoh sinnoh)
                 SavePoketch(sinnoh);
@@ -187,7 +188,11 @@ namespace PKHeX.WinForms
                 SaveWalker(hgss);
 
             if (ofsUGFlagCount > 0)
-                BitConverter.GetBytes((BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.General, ofsUGFlagCount);
+            {
+                var current = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & ~0xFFFFFu;
+                var update = current | (uint)NUD_UGFlags.Value;
+                WriteUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount), update);
+            }
             if (ofsMap > 0)
             {
                 int valMap = CB_UpgradeMap.SelectedIndex;
@@ -216,8 +221,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < PoketchTitle.Length; i++)
             {
                 var title = $"{i:00} - {PoketchTitle[i]}";
-                var val = s.GetPoketchAppUnlocked((PoketchApp)i);
-                CLB_Poketch.Items.Add(title, val);
+                var value = s.GetPoketchAppUnlocked((PoketchApp)i);
+                CLB_Poketch.Items.Add(title, value);
             }
 
             DotArtistByte = s.GetPoketchDotArtistData();
@@ -283,9 +288,9 @@ namespace PKHeX.WinForms
             if (bmp.Width != 24 || bmp.Height != 20)
                 return;
 
-            byte[] BrightMap = new byte[480];
-            byte[] BrightCount = new byte[0x100];
-            byte[] iBrightCount = new byte[0x100];
+            Span<byte> BrightMap = stackalloc byte[480];
+            Span<byte> BrightCount = stackalloc byte[0x100];
+            Span<byte> iBrightCount = stackalloc byte[0x100];
             for (int iy = 0; iy < 20; iy++)
             {
                 for (int ix = 0; ix < 24; ix++)
@@ -296,18 +301,24 @@ namespace PKHeX.WinForms
                 }
             }
 
-            int ColorCount = BrightCount.Count(v => v > 0);
+            int ColorCount = 0;
+            foreach (var value in BrightCount)
+            {
+                if (value > 0)
+                    ++ColorCount;
+            }
+
             if (ColorCount is 0 or > 4)
                 return;
             int errmin = int.MaxValue;
-            byte[] LCT = new byte[4];
-            byte[] mLCT = new byte[4];
+            Span<byte> LCT = stackalloc byte[4];
+            Span<byte> mLCT = stackalloc byte[4];
             for (int i = 0; i < 4; i++)
                 LCT[i] = (byte)(ColorCount < i + 1 ? 4 : ColorCount - i - 1);
             int ee = 0;
             while (++ee < 1000)
             {
-                BrightCount.CopyTo(iBrightCount, 0);
+                BrightCount.CopyTo(iBrightCount);
                 for (int i = 0, j = 0; i < 0x100; i++)
                 {
                     if (iBrightCount[i] > 0)
@@ -320,10 +331,11 @@ namespace PKHeX.WinForms
                 if (errmin > errtot)
                 {
                     errmin = errtot;
-                    LCT.CopyTo(mLCT, 0);
+                    LCT.CopyTo(mLCT);
                 }
-                LCT = GetNextLCT(LCT);
-                if (LCT[0] >= 4) break;
+                GetNextLCT(LCT);
+                if (LCT[0] >= 4)
+                    break;
             }
             for (int i = 0, j = 0; i < 0x100; i++)
             {
@@ -334,14 +346,14 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 480; i++)
                 BrightMap[i] = BrightCount[BrightMap[i]];
 
-            byte[] ndab = new byte[120];
+            Span<byte> ndab = stackalloc byte[120];
             for (int i = 0; i < 480; i++)
                 ndab[i >> 2] |= (byte)((BrightMap[i] & 3) << (i % 4 << 1));
 
-            ndab.CopyTo(DotArtistByte, 0);
+            ndab.CopyTo(DotArtistByte.AsSpan(0));
         }
 
-        private static byte[] GetNextLCT(byte[] inp)
+        private static void GetNextLCT(Span<byte> inp)
         {
             while (true)
             {
@@ -361,7 +373,7 @@ namespace PKHeX.WinForms
                     continue;
 
                 inp[0] = 4;
-                return inp;
+                return;
             }
         }
 
@@ -462,7 +474,7 @@ namespace PKHeX.WinForms
                 PrintButtonA = new[] { BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade };
                 Prints = new int[PrintButtonA.Length];
                 for (int i = 0; i < Prints.Length; i++)
-                    Prints[i] = 1 + Math.Sign((BitConverter.ToUInt16(SAV.General, ofsPrints + (i << 1)) >> 1) - 1);
+                    Prints[i] = 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1))) >> 1) - 1);
                 SetPrints();
 
                 HallNUDA = new[] {
@@ -480,13 +492,16 @@ namespace PKHeX.WinForms
                 bool f = false;
                 for (int i = 0; i < 2; i++, ofsHallStat += 0x14)
                 {
-                    var h = BitConverter.ToInt32(SAV.General, ofsHallStat);
+                    var h = ReadInt32LittleEndian(SAV.General.AsSpan(ofsHallStat));
                     if (h == -1) continue;
                     for (int j = 0; j < 0x20; j++)
                     {
                         for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
                         {
-                            if (h != BitConverter.ToInt32(SAV.Data, a) || BitConverter.ToInt16(SAV.Data, a + 0xBA8) != 0xBA0)
+                            var span = SAV.Data.AsSpan(a);
+                            if (h != ReadInt32LittleEndian(span))
+                                continue;
+                            if (ReadInt16LittleEndian(span[0xBA8..]) != 0xBA0)
                                 continue;
 
                             f = true;
@@ -529,13 +544,19 @@ namespace PKHeX.WinForms
             {
                 for (int i = 0; i < Prints.Length; i++)
                 {
-                    if (Prints[i] == 1 + Math.Sign((BitConverter.ToUInt16(SAV.General, ofsPrints + (i << 1)) >> 1) - 1)) continue;
-                    BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.General, ofsPrints + (i << 1));
+                    if (Prints[i] == 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1))) >> 1) - 1))
+                        continue;
+                    var value = Prints[i] << 1;
+                    WriteInt32LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1)), value);
                 }
             }
 
             if (HallStatUpdated)
-                BitConverter.GetBytes(Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE))).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+            {
+                var span = new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE);
+                var chk = Checksums.CRC16_CCITT(span);
+                WriteUInt16LittleEndian(SAV.Data.AsSpan(ofsHallStat + 0xBAE), chk);
+            }
         }
 
         private void SetPrints()
@@ -630,13 +651,13 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
                 {
                     if (BFV[BFF[Facility][0]][i] < 0) continue;
-                    int vali = BitConverter.ToUInt16(SAV.General, addrVal + (i << 1));
+                    int vali = ReadUInt16LittleEndian(SAV.General.AsSpan(addrVal + (i << 1)));
                     StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali > 9999 ? 9999 : vali;
                 }
                 CHK_Continue.Checked = (SAV.General[addrFlag] & maskFlag) != 0;
 
                 if (Facility == 0) // tower continue count
-                    StatNUDA[1].Value = BitConverter.ToUInt16(SAV.General, addrFlag + TowerContinueCountOfs + (BattleType << 1));
+                    StatNUDA[1].Value = ReadUInt16LittleEndian(SAV.General.AsSpan(addrFlag + TowerContinueCountOfs + (BattleType << 1)));
 
                 editing = false;
                 return;
@@ -646,12 +667,16 @@ namespace PKHeX.WinForms
                 ushort val = (ushort)StatNUDA[SetValToSav].Value;
 
                 if (Facility == 0 && SetValToSav == 1) // tower continue count
-                    BitConverter.GetBytes(val).CopyTo(SAV.General, addrFlag + TowerContinueCountOfs + (BattleType << 1));
+                {
+                    var offset = addrFlag + TowerContinueCountOfs + (BattleType << 1);
+                    WriteUInt16LittleEndian(SAV.General.AsSpan(offset), val);
+                }
 
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0)
                     return;
-                BitConverter.GetBytes((ushort)(val > 9999 ? 9999 : val)).CopyTo(SAV.General, addrVal + (SetValToSav << 1));
+                var clamp = Math.Min((ushort)9999, val);
+                WriteUInt16LittleEndian(SAV.General.AsSpan(addrVal + (SetValToSav << 1)), clamp);
                 return;
             }
             if (SetValToSav == -1)
@@ -718,7 +743,7 @@ namespace PKHeX.WinForms
             NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
             for (int i = 0; i < na.Length; i++)
             {
-                int val = BitConverter.ToInt16(SAV.General, ofs + (i << 1));
+                int val = ReadInt16LittleEndian(SAV.General.AsSpan(ofs + (i << 1)));
                 na[i].Value = val > na[i].Maximum ? na[i].Maximum : val < na[i].Minimum ? na[i].Minimum : val;
             }
         }
@@ -731,13 +756,14 @@ namespace PKHeX.WinForms
             int i = Array.IndexOf(na, sender);
             if (i < 0)
                 return;
-            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.General, BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A + (i << 1));
+            var offset = BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A + (i << 1);
+            WriteInt32LittleEndian(SAV.General.AsSpan(offset), (int)na[i].Value);
         }
 
         private void GetHallStat()
         {
             int ofscur = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex);
-            int curspe = BitConverter.ToInt16(SAV.General, ofscur + 4);
+            int curspe = ReadInt16LittleEndian(SAV.General.AsSpan(ofscur + 4));
             bool c = curspe == species;
             CHK_HallCurrent.Checked = c;
             CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
@@ -756,15 +782,19 @@ namespace PKHeX.WinForms
 
             if (ofsHallStat > 0)
             {
-                ushort v = BitConverter.ToUInt16(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+                var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
+                ushort v = ReadUInt16LittleEndian(SAV.General.AsSpan(offset));
                 NUD_HallStreaks.Value = v > 9999 ? 9999 : v;
             }
         }
 
         private void CHK_HallCurrent_CheckedChanged(object sender, EventArgs e)
         {
-            if (editing) return;
-            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.General, BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 4);
+            if (editing)
+                return;
+            var offset = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 4;
+            ushort value = (ushort)(CHK_HallCurrent.Checked ? species : 0);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(offset), value);
             editing = true;
             GetHallStat();
             editing = false;
@@ -784,7 +814,8 @@ namespace PKHeX.WinForms
         {
             if (editing || ofsHallStat < 0)
                 return;
-            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+            var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
+            WriteUInt16LittleEndian(SAV.General.AsSpan(offset), (ushort)NUD_HallStreaks.Value);
             HallStatUpdated = true;
         }
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -92,20 +93,17 @@ namespace PKHeX.Core
 
         public int Counter
         {
-            get => BitConverter.ToInt32(Storage, BOX_END + 4);
-            set => SetData(Storage, BitConverter.GetBytes(value), BOX_END + 4);
+            get => ReadInt32LittleEndian(Storage.AsSpan(BOX_END + 4));
+            set => WriteInt32LittleEndian(Storage.AsSpan(BOX_END + 4), value);
         }
 
-        public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
+        public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
         public override void SetBoxName(int box, string value)
         {
             const int maxlen = 8;
-            if (value.Length > maxlen)
-                value = value[..maxlen]; // Hard cap
-            int offset = GetBoxNameOffset(box);
-            var str = SetString(value, maxlen);
-            SetData(Storage, str, offset);
+            var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+            SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
         }
 
         private static int AdjustWallpaper(int value, int shift)
@@ -151,25 +149,19 @@ namespace PKHeX.Core
             set => value.SaveAll(General);
         }
 
-        public override int M { get => BitConverter.ToUInt16(General, 0x1234); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x1234); }
-        public override int X { get => BitConverter.ToUInt16(General, 0x123C); set => BitConverter.GetBytes((ushort)(X2 = value)).CopyTo(General, 0x123C); }
-        public override int Y { get => BitConverter.ToUInt16(General, 0x1240); set => BitConverter.GetBytes((ushort)(Y2 = value)).CopyTo(General, 0x1240); }
-
-        public override string Rival
-        {
-            get => GetString(General, 0x22D4, OTLength * 2);
-            set => SetString(value, OTLength).CopyTo(General, 0x22D4);
-        }
-
+        public override int M { get => ReadUInt16LittleEndian(General.AsSpan(0x1234)); set => WriteUInt16LittleEndian(General.AsSpan(0x1234), (ushort)value); }
+        public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x123C)); set => WriteUInt16LittleEndian(General.AsSpan(0x123C), (ushort)(X2 = value)); }
+        public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x1240)); set => WriteUInt16LittleEndian(General.AsSpan(0x1240), (ushort)(Y2 = value)); }
+        
         public override Span<byte> Rival_Trash
         {
             get => General.AsSpan(0x22D4, OTLength * 2);
             set { if (value.Length == OTLength * 2) value.CopyTo(General.AsSpan(0x22D4)); }
         }
 
-        public override int X2 { get => BitConverter.ToUInt16(General, 0x236E); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x236E); }
-        public override int Y2 { get => BitConverter.ToUInt16(General, 0x2372); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2372); }
-        public override int Z { get => BitConverter.ToUInt16(General, 0x2376); set => BitConverter.GetBytes((ushort)value).CopyTo(General, 0x2376); }
+        public override int X2 { get => ReadUInt16LittleEndian(General.AsSpan(0x236E)); set => WriteUInt16LittleEndian(General.AsSpan(0x236E), (ushort)value); }
+        public override int Y2 { get => ReadUInt16LittleEndian(General.AsSpan(0x2372)); set => WriteUInt16LittleEndian(General.AsSpan(0x2372), (ushort)value); }
+        public override int Z  { get => ReadUInt16LittleEndian(General.AsSpan(0x2376)); set => WriteUInt16LittleEndian(General.AsSpan(0x2376), (ushort)value); }
 
         public int Badges16
         {
@@ -240,15 +232,15 @@ namespace PKHeX.Core
         public const int WalkerPair = 0xE5E0;
         private const int OFS_WALKER = 0xE704;
 
-        public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
-        public uint PokewalkerWatts { get => BitConverter.ToUInt32(General, OFS_WALKER + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x4); }
+        public uint PokewalkerSteps { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER), value); }
+        public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 4), value); }
 
-        public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32);
-        public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
+        public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
+        public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
 
-        public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
+        public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x8), value);
 
-        public override uint SwarmSeed { get => BitConverter.ToUInt32(General, 0x68A8); set => BitConverter.GetBytes(value).CopyTo(General, 0x68A8); }
+        public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x68A8)); set => WriteUInt32LittleEndian(General.AsSpan(0x68A8), value); }
         public override uint SwarmMaxCountModulo => 20;
     }
 }

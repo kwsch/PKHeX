@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -76,7 +77,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             var size = BoxSize - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+            var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
             return chk == actual;
         }
 
@@ -85,7 +86,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             var size = BoxSize - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
         }
 
         protected override void SetBoxMetadata(int box)
@@ -108,10 +109,13 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data)
         {
             int len = StringLength;
-            var nick = data.Slice(PokeCrypto.SIZE_1STORED, len);
-            var ot = data.Slice(PokeCrypto.SIZE_1STORED + len, len);
+            var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);
+            var ot = data.AsSpan(PokeCrypto.SIZE_1STORED + len, len);
             data = data.Slice(0, PokeCrypto.SIZE_1STORED);
-            return new PK1(data, Japanese) { OT_Trash = ot, Nickname_Trash = nick };
+            var pk1 = new PK1(data, Japanese);
+            nick.CopyTo(pk1.RawNickname);
+            ot.CopyTo(pk1.RawOT);
+            return pk1;
         }
 
         public override byte[] GetDataForFormatStored(PKM pkm)
@@ -202,7 +206,7 @@ namespace PKHeX.Core
             if (string.IsNullOrWhiteSpace(str))
                 return name;
             var idOfs = ofs + (Japanese ? 0x8 : 0xC);
-            var id = BigEndian.ToUInt16(Data, idOfs);
+            var id = ReadUInt16BigEndian(Data.AsSpan(idOfs));
             return $"{name} [{id:D5}:{str}]";
         }
 
@@ -248,7 +252,7 @@ namespace PKHeX.Core
             return new SlotGroup(name, members);
         }
 
-        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
+        public override void WriteSlotFormatStored(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -256,7 +260,7 @@ namespace PKHeX.Core
             base.WriteSlotFormatStored(pkm, Data, offset);
         }
 
-        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        public override void WriteBoxSlot(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -264,7 +268,7 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G1STAD)
                 return false;
@@ -275,8 +279,8 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsStadiumU(byte[] data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeU, FOOTER_MAGIC);
-        private static bool IsStadiumJ(byte[] data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
+        private static bool IsStadiumU(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeU, FOOTER_MAGIC);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
     }
 
     public enum Stadium1TeamType

@@ -46,6 +46,10 @@
             AbilityBit = n == 1 && ((PersonalInfoG3)PersonalInfo).HasSecondAbility;
         }
 
+        public override bool Valid { get => true; set { } }
+        public override void RefreshChecksum() { }
+        public override bool ChecksumValid => Valid;
+
         public abstract bool RibbonEarth { get; set; }
         public abstract bool RibbonNational { get; set; }
         public abstract bool RibbonCountry { get; set; }

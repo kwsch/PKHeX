@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -48,7 +49,7 @@ namespace PKHeX.Core
                         max -= evs[i] = (byte)Math.Min(rnd.Next(Math.Min(300, max)), 252);
                     evs[5] = max;
                 } while (evs[5] > 252);
-                Util.Shuffle(evs);
+                Util.Shuffle(evs.AsSpan());
                 return evs;
             }
             else
@@ -69,13 +70,15 @@ namespace PKHeX.Core
         {
             if (s.Length != 1)
                 return 2;
-            return s[0] switch
-            {
-                '♂' or 'M' => 0,
-                '♀' or 'F' => 1,
-                _ => 2,
-            };
+            return GetGenderFromChar(s[0]);
         }
+
+        private static int GetGenderFromChar(char c) => c switch
+        {
+            '♂' or 'M' => 0,
+            '♀' or 'F' => 1,
+            _ => 2,
+        };
 
         /// <summary>
         /// Gets the nature modification values and checks if they are equal.
@@ -173,8 +176,8 @@ namespace PKHeX.Core
         /// <returns></returns>
         public static int GetUnownForm(uint pid)
         {
-            var val = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
-            return (int)(val % 28);
+            var value = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
+            return (int)(value % 28);
         }
 
         /// <summary>
@@ -254,15 +257,15 @@ namespace PKHeX.Core
             return last == 'x' ? 6 : prefer;
         }
 
-        internal static bool IsPKMPresentGB(byte[] data, int offset) => data[offset] != 0;
-        internal static bool IsPKMPresentGC(byte[] data, int offset) => BitConverter.ToUInt16(data, offset) != 0;
-        internal static bool IsPKMPresentGBA(byte[] data, int offset) => (data[offset + 0x13] & 0xFB) == 2; // ignore egg flag, must be FlagHasSpecies.
+        internal static bool IsPKMPresentGB(ReadOnlySpan<byte> data) => data[0] != 0; // Species non-zero
+        internal static bool IsPKMPresentGC(ReadOnlySpan<byte> data) => ReadUInt16BigEndian(data) != 0; // Species non-zero
+        internal static bool IsPKMPresentGBA(ReadOnlySpan<byte> data) => (data[0x13] & 0xFB) == 2; // ignore egg flag, must be FlagHasSpecies.
 
-        internal static bool IsPKMPresent(byte[] data, int offset)
+        internal static bool IsPKMPresent(ReadOnlySpan<byte> data)
         {
-            if (BitConverter.ToUInt32(data, offset) != 0) // PID
+            if (ReadUInt32LittleEndian(data) != 0) // PID
                 return true;
-            ushort species = BitConverter.ToUInt16(data, offset + 8);
+            ushort species = ReadUInt16LittleEndian(data[8..]);
             return species != 0;
         }
 
@@ -271,15 +274,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="blank"></param>
         /// <returns>Function that checks if a byte array (at an offset) has a <see cref="PKM"/> present</returns>
-        public static Func<byte[], int, bool> GetFuncIsPKMPresent(PKM blank)
+        public static Func<byte[], bool> GetFuncIsPKMPresent(PKM blank)
         {
             if (blank.Format >= 4)
-                return IsPKMPresent;
+                return x => IsPKMPresent(x);
             if (blank.Format <= 2)
-                return IsPKMPresentGB;
+                return x => IsPKMPresentGB(x);
             if (blank.Data.Length <= PokeCrypto.SIZE_3PARTY)
-                return IsPKMPresentGBA;
-            return IsPKMPresentGC;
+                return x => IsPKMPresentGBA(x);
+            return x => IsPKMPresentGC(x);
         }
 
         /// <summary>

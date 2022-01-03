@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Contains logic for the Generation 8 (SW/SH) overworld spawns that walk around the overworld.
@@ -55,7 +57,7 @@
             pk.PID = pid;
 
             // IVs
-            var ivs = new[] {UNSET, UNSET, UNSET, UNSET, UNSET, UNSET};
+            Span<int> ivs = stackalloc[] {UNSET, UNSET, UNSET, UNSET, UNSET, UNSET};
             const int MAX = 31;
             for (int i = 0; i < flawless; i++)
             {
@@ -153,7 +155,7 @@
                     continue;
 
                 var copy = xoro;
-                int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+                Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
                 const int MAX = 31;
                 for (int i = 0; i < iv_count; i++)
                 {
@@ -162,8 +164,18 @@
                     ivs[index] = MAX;
                 }
 
-                if (!IsValidSequence(pk, ivs, ref copy))
-                    continue;
+                for (var i = 0; i < ivs.Length; i++)
+                {
+                    if (ivs[i] == UNSET)
+                        ivs[i] = (int)copy.NextInt(31 + 1);
+                }
+
+                if (ivs[0] != pk.IV_HP)  continue;
+                if (ivs[1] != pk.IV_ATK) continue;
+                if (ivs[2] != pk.IV_DEF) continue;
+                if (ivs[3] != pk.IV_SPA) continue;
+                if (ivs[4] != pk.IV_SPD) continue;
+                if (ivs[5] != pk.IV_SPE) continue;
 
                 if (pk is not IScaledSize s)
                     continue;
@@ -177,28 +189,6 @@
                 return iv_count;
             }
             return NoMatchIVs;
-        }
-
-        private static bool IsValidSequence(PKM pk, int[] template, ref Xoroshiro128Plus rng)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                var temp = template[i];
-                var expect = temp == UNSET ? (int)rng.NextInt(32) : temp;
-                var actual = i switch
-                {
-                    0 => pk.IV_HP,
-                    1 => pk.IV_ATK,
-                    2 => pk.IV_DEF,
-                    3 => pk.IV_SPA,
-                    4 => pk.IV_SPD,
-                    _ => pk.IV_SPE,
-                };
-                if (expect != actual)
-                    return false;
-            }
-
-            return true;
         }
 
         private static uint GetShinyPID(int tid, int sid, uint pid, int type)

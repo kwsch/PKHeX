@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -42,16 +43,13 @@ namespace PKHeX.Core
             set => Storage[BOX_FLAGS] = value[0];
         }
 
-        public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
+        public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
         public override void SetBoxName(int box, string value)
         {
             const int maxlen = 8;
-            if (value.Length > maxlen)
-                value = value[..maxlen]; // Hard cap
-            int offset = GetBoxNameOffset(box);
-            var str = SetString(value, maxlen);
-            SetData(Storage, str, offset);
+            var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+            SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
         }
         #endregion
 
@@ -93,19 +91,19 @@ namespace PKHeX.Core
 
         public uint PoketchStepCounter
         {
-            get => BitConverter.ToUInt32(General, PoketchStart + 0x24);
-            set => SetData(General, BitConverter.GetBytes(value), PoketchStart + 0x24);
+            get => ReadUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24));
+            set => WriteUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24), value);
         }
 
         // 2 bytes for alarm clock time setting
 
         public byte[] GetPoketchDotArtistData() => General.Slice(PoketchStart + 0x2A, 120);
 
-        public void SetPoketchDotArtistData(byte[] value)
+        public void SetPoketchDotArtistData(ReadOnlySpan<byte> value)
         {
             if (value.Length != 120)
                 throw new ArgumentException($"Expected {120} bytes.", nameof(value.Length));
-            SetData(General, value, PoketchStart + 0x2A);
+            value.CopyTo(General.AsSpan(PoketchStart + 0x2A));
         }
 
         // map marking stuff is at the end, unimportant
@@ -155,13 +153,13 @@ namespace PKHeX.Core
         #region Underground
         //Underground Scores
         protected int OFS_UG_Stats;
-        public uint UG_PlayersMet { get => BitConverter.ToUInt32(General, OFS_UG_Stats); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats); }
-        public uint UG_Gifts { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x4); }
-        public uint UG_Spheres { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0xC); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0xC); }
-        public uint UG_Fossils { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x10); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x10); }
-        public uint UG_TrapsAvoided { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x18); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x18); }
-        public uint UG_TrapsTriggered { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x1C); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
-        public uint UG_Flags { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x34); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
+        public uint UG_PlayersMet { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats), value); }
+        public uint UG_Gifts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4), value); }
+        public uint UG_Spheres { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC), value); }
+        public uint UG_Fossils { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10), value); }
+        public uint UG_TrapsAvoided { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18), value); }
+        public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C), value); }
+        public uint UG_Flags { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34), value); }
 
         //Underground Items
         protected int OFS_UG_Items;
@@ -169,17 +167,17 @@ namespace PKHeX.Core
         public const int UG_POUCH_SIZE = 0x28; // 40 for each of the inventory pouches
 
         public byte[] GetUGI_Traps() => General.Slice(OFS_UG_Items, UG_POUCH_SIZE);
-        public void SetUGI_Traps(byte[] value) => SetData(General, value, OFS_UG_Items);
+        public void SetUGI_Traps(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items));
 
         public byte[] GetUGI_Goods() => General.Slice(OFS_UG_Items + 0x28, UG_POUCH_SIZE);
-        public void SetUGI_Goods(byte[] value) => SetData(General, value, OFS_UG_Items + 0x28);
+        public void SetUGI_Goods(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x28));
 
         public byte[] GetUGI_Treasures() => General.Slice(OFS_UG_Items + 0x50, UG_POUCH_SIZE);
-        public void SetUGI_Treasures(byte[] value) => SetData(General, value, OFS_UG_Items + 0x50);
+        public void SetUGI_Treasures(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x50));
 
         // first 40 are the sphere type, last 40 are the sphere sizes
         public byte[] GetUGI_Spheres() => General.Slice(OFS_UG_Items + 0x78, UG_POUCH_SIZE * 2);
-        public void SetUGI_Spheres(byte[] value) => SetData(General, value, OFS_UG_Items + 0x78);
+        public void SetUGI_Spheres(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x78));
 
         #endregion
 

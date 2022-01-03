@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -59,9 +60,9 @@ namespace PKHeX.Core
             Data = data;
             Offset = offset;
         }
-        public uint Species            { get => BitConverter.ToUInt32(Data, Offset + 0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0); }
-        public uint EncryptionConstant { get => BitConverter.ToUInt32(Data, Offset + 4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4); }
-        public uint Unknown            { get => BitConverter.ToUInt32(Data, Offset + 8); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 8); }
+        public uint Species            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value); }
+        public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value); }
+        public uint Unknown            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 8)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 8), value); }
 
         public AffixSealData8b[] Seals
         {
@@ -101,9 +102,9 @@ namespace PKHeX.Core
             Offset = offset;
         }
 
-        public ushort SealID { get => BitConverter.ToUInt16(Data, Offset + 0); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0); }
-        public short X { get => BitConverter.ToInt16(Data, Offset + 2); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 2); }
-        public short Y { get => BitConverter.ToInt16(Data, Offset + 4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4); }
-        public short Z { get => BitConverter.ToInt16(Data, Offset + 6); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 6); }
+        public ushort SealID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value); }
+        public short X { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 2)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 2), value); }
+        public short Y { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 4)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 4), value); }
+        public short Z { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 6)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 6), value); }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -61,7 +62,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+            var actual = ReadUInt16BigEndian(Data.AsSpan(boxOfs + size));
             return chk == actual;
         }
 
@@ -70,7 +71,7 @@ namespace PKHeX.Core
             var boxOfs = GetBoxOffset(box) - ListHeaderSize;
             const int size = BoxSizeJ - 2;
             var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
-            BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            WriteUInt16BigEndian(Data.AsSpan(boxOfs + size), chk);
         }
 
         protected override void SetBoxMetadata(int box)
@@ -81,10 +82,13 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data)
         {
             const int len = StringLength;
-            var nick = data.Slice(0x21, len);
-            var ot = data.Slice(0x21 + len, len);
+            var nick = data.AsSpan(0x21, len);
+            var ot = data.AsSpan(0x21 + len, len);
             data = data.Slice(0, 0x21);
-            return new PK1(data, true) { OT_Trash = ot, Nickname_Trash = nick };
+            var pk1 = new PK1(data, true);
+            nick.CopyTo(pk1.RawNickname);
+            ot.CopyTo(pk1.RawOT);
+            return pk1;
         }
 
         public override byte[] GetDataForFormatStored(PKM pkm)
@@ -115,7 +119,7 @@ namespace PKHeX.Core
             var str = GetString(ofs + 2, 5);
             if (string.IsNullOrWhiteSpace(str))
                 return name;
-            var id = BigEndian.ToUInt16(Data, ofs + 8);
+            var id = ReadUInt16BigEndian(Data.AsSpan(ofs + 8));
             return $"{name} [{id:D5}:{str}]";
         }
 
@@ -135,7 +139,7 @@ namespace PKHeX.Core
             return new SlotGroup(name, members);
         }
 
-        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
+        public override void WriteSlotFormatStored(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -143,7 +147,7 @@ namespace PKHeX.Core
             base.WriteSlotFormatStored(pkm, Data, offset);
         }
 
-        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        public override void WriteBoxSlot(PKM pkm, Span<byte> data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
@@ -151,7 +155,7 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        public static bool IsStadium(byte[] data)
+        public static bool IsStadium(ReadOnlySpan<byte> data)
         {
             if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;

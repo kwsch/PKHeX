@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.AreaWeather8;
 using static PKHeX.Core.AreaSlotType8;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -369,7 +370,7 @@ namespace PKHeX.Core
             Slots = ReadSlots(areaData, areaData[1]);
         }
 
-        private EncounterSlot8[] ReadSlots(byte[] areaData, byte slotCount)
+        private EncounterSlot8[] ReadSlots(ReadOnlySpan<byte> areaData, byte slotCount)
         {
             var slots = new EncounterSlot8[slotCount];
 
@@ -378,17 +379,20 @@ namespace PKHeX.Core
             do
             {
                 // Read area metadata
-                var flags = (AreaWeather8) BitConverter.ToUInt16(areaData, ofs);
-                var min = areaData[ofs + 2];
-                var max = areaData[ofs + 3];
-                var count = areaData[ofs + 4];
-                var slotType = (AreaSlotType8) areaData[ofs + 5];
+                var meta = areaData.Slice(ofs, 6);
+                var flags = (AreaWeather8) ReadUInt16LittleEndian(meta);
+                var min = meta[2];
+                var max = meta[3];
+                var count = meta[4];
+                var slotType = (AreaSlotType8)meta[5];
                 ofs += 6;
 
                 // Read slots
-                for (int i = 0; i < count; i++, ctr++, ofs += 2)
+                const int bpe = 2;
+                for (int i = 0; i < count; i++, ctr++, ofs += bpe)
                 {
-                    var specForm = BitConverter.ToUInt16(areaData, ofs);
+                    var entry = areaData.Slice(ofs, bpe);
+                    var specForm = ReadUInt16LittleEndian(entry);
                     var species = specForm & 0x7FF;
                     var form = specForm >> 11;
                     slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slotType);

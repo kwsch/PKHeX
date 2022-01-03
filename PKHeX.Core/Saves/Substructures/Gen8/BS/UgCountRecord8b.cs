@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -14,38 +15,38 @@ namespace PKHeX.Core
 
         public short DigFossilPlayCount
         {
-            get => BitConverter.ToInt16(Data, Offset + 0x00);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0x00));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x00), value);
         }
         public short NumStatueBroadcastOnTV
         {
-            get => BitConverter.ToInt16(Data, Offset + 0x02);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x02);
+            get => ReadInt16LittleEndian(Data.AsSpan(Offset + 0x02));
+            set => WriteInt16LittleEndian(Data.AsSpan(Offset + 0x02), value);
         }
         public int NumTimesSecretBaseBroadcastOnTVWereLiked
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x04);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
         }
         public int SomeoneSecretBaseLikeCount
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x08);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x08);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x08));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x08), value);
         }
         public int NumSuccessfulLightStoneSearches
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x0C);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0C);
+            get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x0C));
+            set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
         }
         public long Reserved1
         {
-            get => BitConverter.ToInt64(Data, Offset + 0x10);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + 0x10));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset + 0x10), value);
         }
         public long Reserved2
         {
-            get => BitConverter.ToInt64(Data, Offset + 0x18);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18);
+            get => ReadInt64LittleEndian(Data.AsSpan(Offset + 0x18));
+            set => WriteInt64LittleEndian(Data.AsSpan(Offset + 0x18), value);
         }
     }
 }

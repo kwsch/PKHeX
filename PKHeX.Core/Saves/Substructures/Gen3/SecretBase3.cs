@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -36,14 +37,14 @@ namespace PKHeX.Core
 
         public string OT_Name
         {
-            get => StringConverter3.GetString3(Data, Offset + 2, 7, Japanese);
-            set => StringConverter3.SetString3(value, 7, Japanese, 7).CopyTo(Data, Offset + 2);
+            get => StringConverter3.GetString(Data.AsSpan(Offset + 2, 7), Japanese);
+            set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value.AsSpan(), 7, Japanese, StringConverterOption.ClearFF);
         }
 
         public uint OT_ID
         {
-            get => BitConverter.ToUInt32(Data, Offset + 9);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 9);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 9));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 9), value);
         }
 
         public int OT_Class => Data[Offset + 9] % 5;
@@ -51,8 +52,8 @@ namespace PKHeX.Core
 
         public ushort SecretBasesReceived
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x0E);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x0E);
+            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0E));
+            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0E), value);
         }
 
         public byte TimesEntered { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }

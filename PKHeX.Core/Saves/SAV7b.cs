@@ -115,26 +115,24 @@ namespace PKHeX.Core
 
         public override StorageSlotFlag GetSlotFlags(int index)
         {
-            var val = StorageSlotFlag.None;
+            var result = StorageSlotFlag.None;
             var header = Blocks.Storage.PokeListInfo;
             int position = Array.IndexOf(header, index, 0, 6);
             if (position >= 0)
-                val = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
+                result = (StorageSlotFlag)((int)StorageSlotFlag.Party1 << position);
             if (header[PokeListHeader.STARTER] == index)
-                val |= StorageSlotFlag.Starter;
-            return val;
+                result |= StorageSlotFlag.Starter;
+            return result;
         }
 
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7b(data, offset, length);
+        public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter.SetString7b(value, maxLength, PadToSize, PadWith);
+            return StringConverter8.SetString(destBuffer, value, maxLength);
         }
 
         public override GameVersion Version => Game switch

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,12 +22,13 @@ namespace PKHeX.Core
         private static Dictionary<int, MysteryGiftRestriction> GetRestriction(int generation)
         {
             var resource = RestrictionSetName(generation);
-            var data = Util.GetBinaryResource(resource);
+            var data = Util.GetBinaryResource(resource).AsSpan();
             var dict = new Dictionary<int, MysteryGiftRestriction>();
             for (int i = 0; i < data.Length; i += 8)
             {
-                int hash = BitConverter.ToInt32(data, i + 0);
-                var restrict = BitConverter.ToInt32(data, i + 4);
+                var entry = data[i..];
+                int hash = ReadInt32LittleEndian(entry);
+                var restrict = ReadInt32LittleEndian(entry[4..]);
                 dict.Add(hash, (MysteryGiftRestriction)restrict);
             }
             return dict;
@@ -34,21 +36,21 @@ namespace PKHeX.Core
 
         public static CheckResult VerifyGift(PKM pk, MysteryGift g)
         {
-            bool restricted = TryGetRestriction(g, out var val);
+            bool restricted = TryGetRestriction(g, out var value);
             if (!restricted)
                 return new CheckResult(CheckIdentifier.GameOrigin);
 
-            var ver = (int)val >> 16;
+            var ver = (int)value >> 16;
             if (ver != 0 && !CanVersionReceiveGift(g.Generation, ver, pk.Version))
                 return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
-            var lang = val & MysteryGiftRestriction.LangRestrict;
+            var lang = value & MysteryGiftRestriction.LangRestrict;
             if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
                 return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
 
             if (pk is IRegionOrigin tr)
             {
-                var region = val & MysteryGiftRestriction.RegionRestrict;
+                var region = value & MysteryGiftRestriction.RegionRestrict;
                 if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
                     return new CheckResult(Severity.Invalid, LGeoHardwareRange, CheckIdentifier.GameOrigin);
             }

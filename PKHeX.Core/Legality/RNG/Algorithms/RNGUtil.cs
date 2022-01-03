@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -9,17 +10,19 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="rng">RNG to use</param>
         /// <param name="seed">RNG seed</param>
-        /// <returns>Array of 6 IVs as <see cref="uint"/>.</returns>
+        /// <param name="IVs">Expected IVs</param>
+        /// <returns>True if all match.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static uint[] GetSequentialIVsUInt32(this LCRNG rng, uint seed)
+        internal static bool GetSequentialIVsUInt32(this LCRNG rng, uint seed, ReadOnlySpan<uint> IVs)
         {
-            uint[] ivs = new uint[6];
-            for (int i = 0; i < 6; i++)
+            foreach (var iv in IVs)
             {
                 seed = rng.Next(seed);
-                ivs[i] = seed >> 27;
+                var IV = seed >> 27;
+                if (IV != iv)
+                    return false;
             }
-            return ivs;
+            return true;
         }
 
         /// <summary>
@@ -27,17 +30,16 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="rng">RNG to use</param>
         /// <param name="seed">RNG seed</param>
+        /// <param name="ivs">Buffer to store generated values</param>
         /// <returns>Array of 6 IVs as <see cref="int"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static int[] GetSequentialIVsInt32(this LCRNG rng, uint seed)
+        internal static void GetSequentialIVsInt32(this LCRNG rng, uint seed, Span<int> ivs)
         {
-            int[] ivs = new int[6];
             for (int i = 0; i < 6; i++)
             {
                 seed = rng.Next(seed);
                 ivs[i] = (int)(seed >> 27);
             }
-            return ivs;
         }
     }
 }

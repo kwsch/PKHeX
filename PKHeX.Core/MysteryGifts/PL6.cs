@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -34,15 +35,15 @@ namespace PKHeX.Core
         /// <summary>
         /// Name of data source
         /// </summary>
-        public string Origin { get => StringConverter.GetString6(Data, 0x01, 110); set => StringConverter.SetString6(value, 54, 55).CopyTo(Data, 0x01); }
+        public string Origin { get => StringConverter6.GetString(Data.AsSpan(0x01, 110)); set => StringConverter6.SetString(Data.AsSpan(0x01, 110), value.AsSpan(), 54, StringConverterOption.ClearZero); }
 
         // Pokemon transfer flags?
-        public uint Flags_1 { get => BitConverter.ToUInt32(Data, 0x099); set => BitConverter.GetBytes(value).CopyTo(Data, 0x099); }
-        public uint Flags_2 { get => BitConverter.ToUInt32(Data, 0x141); set => BitConverter.GetBytes(value).CopyTo(Data, 0x141); }
-        public uint Flags_3 { get => BitConverter.ToUInt32(Data, 0x1E9); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E9); }
-        public uint Flags_4 { get => BitConverter.ToUInt32(Data, 0x291); set => BitConverter.GetBytes(value).CopyTo(Data, 0x291); }
-        public uint Flags_5 { get => BitConverter.ToUInt32(Data, 0x339); set => BitConverter.GetBytes(value).CopyTo(Data, 0x339); }
-        public uint Flags_6 { get => BitConverter.ToUInt32(Data, 0x3E1); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3E1); }
+        public uint Flags_1 { get => ReadUInt32LittleEndian(Data.AsSpan(0x099)); set => WriteUInt32LittleEndian(Data.AsSpan(0x099), value); }
+        public uint Flags_2 { get => ReadUInt32LittleEndian(Data.AsSpan(0x141)); set => WriteUInt32LittleEndian(Data.AsSpan(0x141), value); }
+        public uint Flags_3 { get => ReadUInt32LittleEndian(Data.AsSpan(0x1E9)); set => WriteUInt32LittleEndian(Data.AsSpan(0x1E9), value); }
+        public uint Flags_4 { get => ReadUInt32LittleEndian(Data.AsSpan(0x291)); set => WriteUInt32LittleEndian(Data.AsSpan(0x291), value); }
+        public uint Flags_5 { get => ReadUInt32LittleEndian(Data.AsSpan(0x339)); set => WriteUInt32LittleEndian(Data.AsSpan(0x339), value); }
+        public uint Flags_6 { get => ReadUInt32LittleEndian(Data.AsSpan(0x3E1)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3E1), value); }
 
         // Pokémon
         public PL6_PKM Poke_1 { get => new(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
@@ -53,21 +54,21 @@ namespace PKHeX.Core
         public PL6_PKM Poke_6 { get => new(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
 
         // Item Properties
-        public int Item_1     { get => BitConverter.ToUInt16(Data, 0x489); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x489); }
-        public int Quantity_1 { get => BitConverter.ToUInt16(Data, 0x48B); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x48B); }
-        public int Item_2     { get => BitConverter.ToUInt16(Data, 0x48D); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x48D); }
-        public int Quantity_2 { get => BitConverter.ToUInt16(Data, 0x48F); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x48F); }
-        public int Item_3     { get => BitConverter.ToUInt16(Data, 0x491); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x491); }
-        public int Quantity_3 { get => BitConverter.ToUInt16(Data, 0x493); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x493); }
-        public int Item_4     { get => BitConverter.ToUInt16(Data, 0x495); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x495); }
-        public int Quantity_4 { get => BitConverter.ToUInt16(Data, 0x497); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x497); }
-        public int Item_5     { get => BitConverter.ToUInt16(Data, 0x499); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x499); }
-        public int Quantity_5 { get => BitConverter.ToUInt16(Data, 0x49B); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x49B); }
-        public int Item_6     { get => BitConverter.ToUInt16(Data, 0x49D); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x49D); }
-        public int Quantity_6 { get => BitConverter.ToUInt16(Data, 0x49F); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x49F); }
+        public int Item_1     { get => ReadUInt16LittleEndian(Data.AsSpan(0x489)); set => WriteUInt16LittleEndian(Data.AsSpan(0x489), (ushort)value); }
+        public int Quantity_1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x48B)); set => WriteUInt16LittleEndian(Data.AsSpan(0x48B), (ushort)value); }
+        public int Item_2     { get => ReadUInt16LittleEndian(Data.AsSpan(0x48D)); set => WriteUInt16LittleEndian(Data.AsSpan(0x48D), (ushort)value); }
+        public int Quantity_2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x48F)); set => WriteUInt16LittleEndian(Data.AsSpan(0x48F), (ushort)value); }
+        public int Item_3     { get => ReadUInt16LittleEndian(Data.AsSpan(0x491)); set => WriteUInt16LittleEndian(Data.AsSpan(0x491), (ushort)value); }
+        public int Quantity_3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x493)); set => WriteUInt16LittleEndian(Data.AsSpan(0x493), (ushort)value); }
+        public int Item_4     { get => ReadUInt16LittleEndian(Data.AsSpan(0x495)); set => WriteUInt16LittleEndian(Data.AsSpan(0x495), (ushort)value); }
+        public int Quantity_4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x497)); set => WriteUInt16LittleEndian(Data.AsSpan(0x497), (ushort)value); }
+        public int Item_5     { get => ReadUInt16LittleEndian(Data.AsSpan(0x499)); set => WriteUInt16LittleEndian(Data.AsSpan(0x499), (ushort)value); }
+        public int Quantity_5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x49B)); set => WriteUInt16LittleEndian(Data.AsSpan(0x49B), (ushort)value); }
+        public int Item_6     { get => ReadUInt16LittleEndian(Data.AsSpan(0x49D)); set => WriteUInt16LittleEndian(Data.AsSpan(0x49D), (ushort)value); }
+        public int Quantity_6 { get => ReadUInt16LittleEndian(Data.AsSpan(0x49F)); set => WriteUInt16LittleEndian(Data.AsSpan(0x49F), (ushort)value); }
 
-        public int BattlePoints { get => BitConverter.ToUInt16(Data, 0x4A1); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A1); }
-        public int Pokemiles { get => BitConverter.ToUInt16(Data, 0x4A3); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); }
+        public int BattlePoints { get => ReadUInt16LittleEndian(Data.AsSpan(0x4A1)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4A1), (ushort)value); }
+        public int Pokemiles { get => ReadUInt16LittleEndian(Data.AsSpan(0x4A3)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4A3), (ushort)value); }
     }
 
     /// <summary>
@@ -86,32 +87,32 @@ namespace PKHeX.Core
         public PL6_PKM() : this(new byte[Size]) { }
         public PL6_PKM(byte[] data) => Data = data;
 
-        public int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
-        public int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
+        public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
+        public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
         public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
-        public uint EncryptionConstant { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
+        public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
         public int Pokéball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
-        public int HeldItem { get => BitConverter.ToUInt16(Data, 0x10); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x10); }
-        public int Move1 { get => BitConverter.ToUInt16(Data, 0x12); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x12); }
-        public int Move2 { get => BitConverter.ToUInt16(Data, 0x14); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); }
-        public int Move3 { get => BitConverter.ToUInt16(Data, 0x16); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
-        public int Move4 { get => BitConverter.ToUInt16(Data, 0x18); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
-        public int Species { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
+        public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value); }
+        public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value); }
+        public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), (ushort)value); }
+        public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
+        public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
+        public int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), (ushort)value); }
         public int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
 
         public string Nickname
         {
-            get => StringConverter.GetString6(Data, 0x1E, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x1E);
+            get => StringConverter6.GetString(Data.AsSpan(0x1E, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x1E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
         public int Gender { get => Data[0x39]; set => Data[0x39] = (byte)value; }
         public int AbilityType { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int PIDType { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
-        public int EggLocation { get => BitConverter.ToUInt16(Data, 0x3C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x3C); }
-        public int MetLocation  { get => BitConverter.ToUInt16(Data, 0x3E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x3F); }
+        public int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), (ushort)value); }
+        public int MetLocation  { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), (ushort)value); }
         public int MetLevel  { get => Data[0x40]; set => Data[0x40] = (byte)value; }
 
         public int CNT_Cool { get => Data[0x41]; set => Data[0x41] = (byte)value; }
@@ -132,20 +133,20 @@ namespace PKHeX.Core
 
         public string OT
         {
-            get => StringConverter.GetString6(Data, 0x4E, 0x1A);
-            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x4E);
+            get => StringConverter6.GetString(Data.AsSpan(0x4E, 0x1A));
+            set => StringConverter6.SetString(Data.AsSpan(0x4E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
         public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }
         public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? (byte)1 : (byte)0; }
-        public uint PID { get => BitConverter.ToUInt32(Data, 0x6C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x6C); }
-        public int RelearnMove1 { get => BitConverter.ToUInt16(Data, 0x70); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
-        public int RelearnMove2 { get => BitConverter.ToUInt16(Data, 0x72); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x72); }
-        public int RelearnMove3 { get => BitConverter.ToUInt16(Data, 0x74); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x74); }
-        public int RelearnMove4 { get => BitConverter.ToUInt16(Data, 0x76); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x76); }
+        public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x6C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x6C), value); }
+        public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x70)); set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value); }
+        public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x72)); set => WriteUInt16LittleEndian(Data.AsSpan(0x72), (ushort)value); }
+        public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x74)); set => WriteUInt16LittleEndian(Data.AsSpan(0x74), (ushort)value); }
+        public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x76)); set => WriteUInt16LittleEndian(Data.AsSpan(0x76), (ushort)value); }
         public int OT_Intensity { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public int OT_Memory { get => Data[0x79]; set => Data[0x79] = (byte)value; }
-        public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0x7A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x7A); }
+        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7A), (ushort)value); }
         public int OT_Feeling { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
 
         private byte RIB0 { get => Data[0x0C]; set => Data[0x0C] = value; }

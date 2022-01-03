@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,7 +22,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea8b(byte[] data, GameVersion game) : base(game)
+        private EncounterArea8b(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
@@ -29,7 +30,7 @@ namespace PKHeX.Core
             Slots = ReadSlots(data);
         }
 
-        private EncounterSlot8b[] ReadSlots(byte[] data)
+        private EncounterSlot8b[] ReadSlots(ReadOnlySpan<byte> data)
         {
             const int size = 4;
             int count = (data.Length - 4) / size;
@@ -37,14 +38,20 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-                ushort SpecForm = BitConverter.ToUInt16(data, offset);
-                int species = SpecForm & 0x3FF;
-                int form = SpecForm >> 11;
-                int min = data[offset + 2];
-                int max = data[offset + 3];
-                slots[i] = new EncounterSlot8b(this, species, form, min, max);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadSlot(entry);
             }
             return slots;
+        }
+
+        private EncounterSlot8b ReadSlot(ReadOnlySpan<byte> data)
+        {
+            ushort SpecForm = ReadUInt16LittleEndian(data);
+            int species = SpecForm & 0x3FF;
+            int form = SpecForm >> 11;
+            int min = data[2];
+            int max = data[3];
+            return new EncounterSlot8b(this, species, form, min, max);
         }
 
         public override bool IsMatchLocation(int location)

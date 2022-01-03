@@ -1,4 +1,5 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,14 +9,16 @@ namespace PKHeX.Core
 
         public uint Money
         {
-            get => BitConverter.ToUInt32(Data, Offset + 4);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 4);
+            get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4));
+            set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value);
         }
+
+        private Span<byte> Rival_Trash => Data.AsSpan(Offset + 0x200, 0x1A);
 
         public string Rival
         {
-            get => SAV.GetString(Offset + 0x200, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x200);
+            get => SAV.GetString(Rival_Trash);
+            set => SAV.SetString(Rival_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
         }
     }
 }

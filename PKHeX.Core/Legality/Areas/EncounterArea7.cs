@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -21,7 +22,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea7(byte[] data, GameVersion game) : base(game)
+        private EncounterArea7(ReadOnlySpan<byte> data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
@@ -29,7 +30,7 @@ namespace PKHeX.Core
             Slots = ReadSlots(data);
         }
 
-        private EncounterSlot7[] ReadSlots(byte[] data)
+        private EncounterSlot7[] ReadSlots(ReadOnlySpan<byte> data)
         {
             const int size = 4;
             int count = (data.Length - 4) / size;
@@ -37,15 +38,21 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 int offset = 4 + (size * i);
-                ushort SpecForm = BitConverter.ToUInt16(data, offset);
-                int species = SpecForm & 0x3FF;
-                int form = SpecForm >> 11;
-                int min = data[offset + 2];
-                int max = data[offset + 3];
-                slots[i] = new EncounterSlot7(this, species, form, min, max);
+                var entry = data.Slice(offset, size);
+                slots[i] = ReadSlot(entry);
             }
 
             return slots;
+        }
+
+        private EncounterSlot7 ReadSlot(ReadOnlySpan<byte> entry)
+        {
+            ushort SpecForm = ReadUInt16LittleEndian(entry);
+            int species = SpecForm & 0x3FF;
+            int form = SpecForm >> 11;
+            int min = entry[2];
+            int max = entry[3];
+            return new EncounterSlot7(this, species, form, min, max);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

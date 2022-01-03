@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
+using PKHeX.Core;
 using Xunit;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Tests.Util
 {
@@ -42,7 +43,7 @@ namespace PKHeX.Tests.Util
         public void CheckConvertHexString(string v, uint result)
         {
             var convert = Core.Util.GetBytesFromHexString(v);
-            var u32 = BitConverter.ToUInt32(convert);
+            var u32 = ReadUInt32LittleEndian(convert);
             u32.Should().Be(result);
 
             var remake = Core.Util.GetHexStringFromBytes(convert, 0, convert.Length);
@@ -53,11 +54,14 @@ namespace PKHeX.Tests.Util
         [InlineData(0x12345678, 12345678)]
         public void CheckConvertBCD_Little(uint raw, int expect)
         {
-            var data = BitConverter.GetBytes(raw);
-            var result = Core.BinaryCodedDecimal.ToInt32LE(data);
+            Span<byte> data = stackalloc byte[4];
+            WriteUInt32LittleEndian(data, raw);
+
+            var result = BinaryCodedDecimal.ToInt32LE(data);
             result.Should().Be(expect);
 
-            var newData = Core.BinaryCodedDecimal.GetBytesLE(result, 4);
+            Span<byte> newData = stackalloc byte[4];
+            BinaryCodedDecimal.WriteBytesLE(newData, result);
             data.SequenceEqual(newData).Should().BeTrue();
         }
 
@@ -65,49 +69,15 @@ namespace PKHeX.Tests.Util
         [InlineData(0x78563412, 12345678)]
         public void CheckConvertBCD_Big(uint raw, int expect)
         {
-            var data = BitConverter.GetBytes(raw);
-            var result = Core.BinaryCodedDecimal.ToInt32BE(data);
+            Span<byte> data = stackalloc byte[4];
+            WriteUInt32LittleEndian(data, raw);
+
+            var result = BinaryCodedDecimal.ToInt32BE(data);
             result.Should().Be(expect);
 
-            var newData = Core.BinaryCodedDecimal.GetBytesBE(result, 4);
+            Span<byte> newData = stackalloc byte[4];
+            BinaryCodedDecimal.WriteBytesBE(newData, result);
             data.SequenceEqual(newData).Should().BeTrue();
-        }
-    }
-
-    public class FlagUtilTests
-    {
-        [Theory]
-        [InlineData(1, 0, 0)]
-        [InlineData(2, 0, 1)]
-        [InlineData(0x8000_0000, 3, 7)]
-        public void GetSetFlag(uint raw, int byteIndex, int bitIndex)
-        {
-            var data = BitConverter.GetBytes(raw);
-            var value = Core.FlagUtil.GetFlag(data, byteIndex, bitIndex);
-            value.Should().Be(true);
-
-            var copy = new byte[data.Length];
-            Core.FlagUtil.SetFlag(copy, byteIndex, bitIndex, true);
-            copy.SequenceEqual(data).Should().BeTrue();
-        }
-
-        [Theory]
-        [InlineData(0x7FFF_FFFE, 0, 0)]
-        public void ClearFlag(uint raw, int byteIndex, int bitIndex)
-        {
-            var data = BitConverter.GetBytes(raw);
-            var value = Core.FlagUtil.GetFlag(data, byteIndex, bitIndex);
-            value.Should().Be(false);
-
-            // does nothing on empty
-            var copy = new byte[data.Length];
-            Core.FlagUtil.SetFlag(copy, byteIndex, bitIndex, false);
-            copy.All(z => z == 0).Should().BeTrue();
-
-            // doesn't clear any other flag
-            copy = (byte[])data.Clone();
-            Core.FlagUtil.SetFlag(copy, byteIndex, bitIndex, false);
-            copy.SequenceEqual(data).Should().BeTrue();
         }
     }
 }

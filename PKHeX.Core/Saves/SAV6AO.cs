@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -121,7 +122,7 @@ namespace PKHeX.Core
         public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            return ReadUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4));
         }
 
         public override bool? IsDaycareOccupied(int loc, int slot)
@@ -133,9 +134,7 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            var data = Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2).ToArray();
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
+            return Util.GetHexStringFromBytes(Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2));
         }
 
         public override bool? IsDaycareHasEgg(int loc)
@@ -147,7 +146,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            WriteUInt32LittleEndian(Data.AsSpan(ofs + ((SIZE_STORED + 8) * slot) + 4), EXP);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
@@ -174,7 +173,7 @@ namespace PKHeX.Core
             Data[ofs + 0x1E0] = hasEgg ? (byte)1 : (byte)0;
         }
 
-        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter.GetString6(Data, JPEG, 0x1A);
+        public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
         public override byte[] GetJPEGData() => !HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 

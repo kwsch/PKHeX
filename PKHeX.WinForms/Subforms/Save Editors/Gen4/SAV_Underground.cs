@@ -104,10 +104,10 @@ namespace PKHeX.WinForms
 
         private void SaveUGData()
         {
-            byte[] goodsList = new byte[SAV.GetUGI_Goods().Length];
-            byte[] spheresList = new byte[SAV.GetUGI_Spheres().Length];
-            byte[] trapsList = new byte[SAV.GetUGI_Traps().Length];
-            byte[] treasuresList = new byte[SAV.GetUGI_Treasures().Length];
+            Span<byte> goodsList = stackalloc byte[SAV.GetUGI_Goods().Length];
+            Span<byte> spheresList = stackalloc byte[SAV.GetUGI_Spheres().Length];
+            Span<byte> trapsList = stackalloc byte[SAV.GetUGI_Traps().Length];
+            Span<byte> treasuresList = stackalloc byte[SAV.GetUGI_Treasures().Length];
 
             // Goods
             int ctr = 0;
