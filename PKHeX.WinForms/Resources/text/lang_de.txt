@@ -857,6 +857,7 @@ SAV_Misc5.TAB_Entralink=Kontaktebene
 SAV_Misc5.TAB_Forest=Wald
 SAV_Misc5.TAB_Main=Haupt
 SAV_Misc5.TAB_Subway=Metro
+SAV_Misc8b.B_Zones=Unlock All Zones
 SAV_Misc8b.B_Cancel=Cancel
 SAV_Misc8b.B_Darkrai=Unlock Darkrai Event
 SAV_Misc8b.B_DefeatEyecatch=Defeat all Eyecatch Trainers

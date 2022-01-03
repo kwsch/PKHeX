@@ -32,13 +32,14 @@ namespace PKHeX.WinForms
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.B_Zones = new System.Windows.Forms.Button();
+            this.B_RebattleEyecatch = new System.Windows.Forms.Button();
             this.B_DefeatEyecatch = new System.Windows.Forms.Button();
             this.B_Roamer = new System.Windows.Forms.Button();
             this.B_DialgaPalkia = new System.Windows.Forms.Button();
             this.B_Darkrai = new System.Windows.Forms.Button();
             this.B_Shaymin = new System.Windows.Forms.Button();
             this.B_Spiritomb = new System.Windows.Forms.Button();
-            this.B_RebattleEyecatch = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +81,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.B_Zones);
             this.TAB_Main.Controls.Add(this.B_RebattleEyecatch);
             this.TAB_Main.Controls.Add(this.B_DefeatEyecatch);
             this.TAB_Main.Controls.Add(this.B_Roamer);
@@ -94,6 +96,26 @@ namespace PKHeX.WinForms
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
+            // 
+            // B_Zones
+            // 
+            this.B_Zones.Location = new System.Drawing.Point(6, 198);
+            this.B_Zones.Name = "B_Zones";
+            this.B_Zones.Size = new System.Drawing.Size(124, 58);
+            this.B_Zones.TabIndex = 7;
+            this.B_Zones.Text = "Unlock All Zones";
+            this.B_Zones.UseVisualStyleBackColor = true;
+            this.B_Zones.Click += new System.EventHandler(this.B_Zones_Click);
+            // 
+            // B_RebattleEyecatch
+            // 
+            this.B_RebattleEyecatch.Location = new System.Drawing.Point(136, 198);
+            this.B_RebattleEyecatch.Name = "B_RebattleEyecatch";
+            this.B_RebattleEyecatch.Size = new System.Drawing.Size(124, 58);
+            this.B_RebattleEyecatch.TabIndex = 6;
+            this.B_RebattleEyecatch.Text = "Rebattle all Eyecatch Trainers";
+            this.B_RebattleEyecatch.UseVisualStyleBackColor = true;
+            this.B_RebattleEyecatch.Click += new System.EventHandler(this.B_RebattleEyecatch_Click);
             // 
             // B_DefeatEyecatch
             // 
@@ -155,16 +177,6 @@ namespace PKHeX.WinForms
             this.B_Spiritomb.UseVisualStyleBackColor = true;
             this.B_Spiritomb.Click += new System.EventHandler(this.B_Spiritomb_Click);
             // 
-            // B_RebattleEyecatch
-            // 
-            this.B_RebattleEyecatch.Location = new System.Drawing.Point(6, 198);
-            this.B_RebattleEyecatch.Name = "B_RebattleEyecatch";
-            this.B_RebattleEyecatch.Size = new System.Drawing.Size(124, 58);
-            this.B_RebattleEyecatch.TabIndex = 6;
-            this.B_RebattleEyecatch.Text = "Rebattle all Eyecatch Trainers";
-            this.B_RebattleEyecatch.UseVisualStyleBackColor = true;
-            this.B_RebattleEyecatch.Click += new System.EventHandler(this.B_RebattleEyecatch_Click);
-            // 
             // SAV_Misc8b
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -197,5 +209,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_DefeatEyecatch;
         private System.Windows.Forms.Button B_RebattleEyecatch;
+        private System.Windows.Forms.Button B_Zones;
     }
 }

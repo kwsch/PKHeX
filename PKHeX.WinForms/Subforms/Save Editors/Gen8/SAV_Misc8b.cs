@@ -79,6 +79,12 @@ namespace PKHeX.WinForms
             B_Roamer.Enabled = Unlocker.ResetReadyRoamerMesprit || Unlocker.ResetReadyRoamerCresselia;
         }
 
+        private void B_Zones_Click(object sender, EventArgs e)
+        {
+            Unlocker.UnlockZones();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         private void B_DefeatEyecatch_Click(object sender, EventArgs e)
         {
             SAV.BattleTrainer.DefeatAll();

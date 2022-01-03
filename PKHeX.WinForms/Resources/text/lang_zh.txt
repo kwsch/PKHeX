@@ -853,6 +853,7 @@ SAV_Misc5.TAB_Entralink=连入
 SAV_Misc5.TAB_Forest=森林
 SAV_Misc5.TAB_Main=主界面
 SAV_Misc5.TAB_Subway=地铁
+SAV_Misc8b.B_Zones=Unlock All Zones
 SAV_Misc8b.B_Cancel=Cancel
 SAV_Misc8b.B_Darkrai=Unlock Darkrai Event
 SAV_Misc8b.B_DefeatEyecatch=Defeat all Eyecatch Trainers

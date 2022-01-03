@@ -47,6 +47,25 @@ public class EventUnlocker8b : EventUnlocker<SAV8BS>
         SAV.Work.SetFlag(301, false); // clear vanish
     }
 
+    public void UnlockZones()
+    {
+        const int ZONE_START = 134; // FLAG_ARRIVE_C01
+        const int ZONE_END = 757; // FLAG_ARRIVE_UGSECRETBASE04
+
+        for (int i = ZONE_START; i <= ZONE_END; i++)
+        {
+            SAV.Work.SetSystemFlag(i, true);
+        }
+
+        // uncover hidden zones
+        SAV.Work.SetWork(278, 1); // Fullmoon Island
+        SAV.Work.SetWork(279, 1); // Newmoon Island
+        SAV.Work.SetWork(280, 1); // Spring Path / Sendoff Spring
+        SAV.Work.SetWork(281, 1); // Seabreak Path / Flower Paradise
+        SAV.Work.SetWork(291, 1); // Pokémon League (Victory Road entrance)
+        SAV.Work.SetWork(292, 1); // Ramanas Park
+    }
+
     public void RespawnRoamer()
     {
         RespawnMesprit();
