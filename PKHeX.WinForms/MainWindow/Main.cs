@@ -103,6 +103,7 @@ namespace PKHeX.WinForms
         public static readonly string BackupPath = Path.Combine(WorkingDirectory, "bak");
         public static readonly string CryPath = Path.Combine(WorkingDirectory, "sounds");
         private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
+        private static readonly string TrainerPath = Path.Combine(WorkingDirectory, "trainers");
         private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
 
@@ -325,8 +326,19 @@ namespace PKHeX.WinForms
 
         private void Menu_EncDatabase_Click(object sender, EventArgs e)
         {
-            if (!this.OpenWindowExists<SAV_Encounters>())
-                new SAV_Encounters(PKME_Tabs).Show();
+            if (this.OpenWindowExists<SAV_Encounters>())
+                return;
+
+            var db = new TrainerDatabase();
+            var sav = C_SAV.SAV;
+            Task.Run(() =>
+            {
+                var files = Directory.EnumerateFiles(TrainerPath, "*.*", SearchOption.AllDirectories);
+                var pkm = BoxUtil.GetPKMsFromPaths(files, sav.Generation);
+                foreach (var f in pkm)
+                    db.RegisterCopy(f);
+            });
+            new SAV_Encounters(PKME_Tabs, db).Show();
         }
 
         private void MainMenuMysteryDB(object sender, EventArgs e)

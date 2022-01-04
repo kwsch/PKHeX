@@ -19,5 +19,17 @@
             o.Region = 7; // California
             o.Country = 49; // USA
         }
+
+        public static void CopyRegionOrigin(this IRegionOrigin source, IRegionOrigin dest)
+        {
+            dest.ConsoleRegion = source.ConsoleRegion;
+            dest.Country = source.Country;
+            dest.Region = source.Region;
+        }
+
+        public static void ClearRegionOrigin(this IRegionOrigin o)
+        {
+            o.ConsoleRegion = o.Region = o.Country = 0;
+        }
     }
 }

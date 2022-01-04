@@ -1,11 +1,11 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
+    public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     {
         public string OT { get; set; } = "PKHeX";
         public int TID { get; set; } = 12345;
         public int SID { get; set; } = 54321;
-        public int Gender { get; set; } = 0;
+        public int Gender { get; set; }
         public int Language { get; set; } = (int)LanguageID.English;
 
         // IRegionOrigin for generation 6/7
@@ -19,8 +19,28 @@
         public SimpleTrainerInfo(GameVersion game = GameVersion.SW)
         {
             Game = (int) game;
+            SanityCheckRegionOrigin(game);
+        }
+
+        private void SanityCheckRegionOrigin(GameVersion game)
+        {
             if (GameVersion.Gen7b.Contains(game) || game.GetGeneration() >= 8)
-                ConsoleRegion = Region = Country = 0;
+                this.ClearRegionOrigin();
+        }
+
+        public SimpleTrainerInfo(ITrainerInfo other) : this((GameVersion)other.Game)
+        {
+            OT = other.OT;
+            TID = other.TID;
+            SID = other.SID;
+            Gender = other.Gender;
+            Language = other.Language;
+            Generation = other.Generation;
+
+            if (other is IRegionOrigin r)
+                r.CopyRegionOrigin(this);
+
+            SanityCheckRegionOrigin((GameVersion)Game);
         }
     }
 }
