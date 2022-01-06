@@ -134,6 +134,7 @@ namespace PKHeX.Core
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == Shiny.Always;
+        public override Shiny Shiny => PIDType;
 
         public override int TID
         {

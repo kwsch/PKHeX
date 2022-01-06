@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Wild Encounter Slot data
     /// </summary>
     /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-    public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, int LevelMin, int LevelMax) : IEncounterable, ILocation, IEncounterMatch, IFixedAbilityNumber
+    public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, int LevelMin, int LevelMax) : IEncounterable, IEncounterMatch
     {
         public abstract int Generation { get; }
         public bool EggEncounter => false;
@@ -17,6 +17,8 @@ namespace PKHeX.Core
         public GameVersion Version => Area.Version;
         public int Location => Area.Location;
         public int EggLocation => 0;
+        public virtual Ball FixedBall => Ball.None;
+        public virtual Shiny Shiny => Shiny.Random;
 
         public bool IsFixedLevel => LevelMin == LevelMax;
         public bool IsRandomLevel => LevelMin != LevelMax;
@@ -68,12 +70,6 @@ namespace PKHeX.Core
             }
         }
 
-        /// <summary>
-        /// Returns a required ball if the wild encounter can only be caught in certain scenarios.
-        /// </summary>
-        /// <returns><see cref="Ball.None"/> if unrestricted, otherwise, a specific ball value.</returns>
-        public virtual Ball GetRequiredBallValue() => Ball.None;
-
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
@@ -95,7 +91,7 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
-            var ball = GetRequiredBallValue();
+            var ball = FixedBall;
             pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
             pk.Form = GetWildForm(pk, Form, sav);

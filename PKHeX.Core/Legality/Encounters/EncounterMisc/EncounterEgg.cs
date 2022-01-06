@@ -14,6 +14,11 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public bool IsShiny => false;
+        public int Location => 0;
+        public int EggLocation => Locations.GetDaycareLocation(Generation, Version);
+        public Ball FixedBall => BallBreedLegality.GetDefaultBall(Version, Species);
+        public Shiny Shiny => Shiny.Random;
+        public int Ability => 0;
 
         public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
 
@@ -34,7 +39,9 @@ namespace PKHeX.Core
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
-            pk.Ball = (int)BallBreedLegality.GetDefaultBall(Version, Species);
+
+            var ball = FixedBall;
+            pk.Ball = ball is Ball.None ? (int)Ball.Poke : (int)ball;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             SetEncounterMoves(pk, version);

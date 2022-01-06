@@ -4,7 +4,7 @@
     /// Common Encounter Properties base interface.
     /// <inheritdoc cref="IEncounterInfo"/>
     /// </summary>
-    public interface IEncounterable : IEncounterInfo
+    public interface IEncounterable : IEncounterInfo, ILocation, IFixedAbilityNumber, IFixedBall, IShinyPotential
     {
         /// <summary>
         /// Short name to describe the encounter data, usually just indicating which of the main component encounter types the data is.

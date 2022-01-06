@@ -15,6 +15,7 @@ namespace PKHeX.Core
         public SlotType Type => Area.Type;
 
         public int SlotNumber { get; }
+        public override Ball FixedBall => Locations.IsSafariZoneLocation3(Location) ? Ball.Safari : Ball.None;
 
         public EncounterSlot3(EncounterArea3 area, int species, int form, int min, int max, int slot, int mpi, int mpc, int sti, int stc) : base(area, species, form, min, max)
         {
@@ -36,6 +37,5 @@ namespace PKHeX.Core
 
         private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
 
-        public override Ball GetRequiredBallValue() => Locations.IsSafariZoneLocation3(Location) ? Ball.Safari : Ball.None;
     }
 }

@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public SlotType Type => Area.Type;
 
         public int SlotNumber { get; }
+        public override Ball FixedBall => GetRequiredBallValue();
         public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTilePermission.Grass);
 
         public EncounterSlot4(EncounterArea4 area, int species, int form, int min, int max, int slot, int mpi, int mpc, int sti, int stc) : base(area, species, form, min, max)
@@ -44,7 +45,7 @@ namespace PKHeX.Core
             return base.GetMatchRating(pkm);
         }
 
-        public override Ball GetRequiredBallValue()
+        private Ball GetRequiredBallValue()
         {
             if (Type is SlotType.BugContest)
                 return Ball.Sport;

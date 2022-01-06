@@ -329,6 +329,13 @@ namespace PKHeX.Core
                 pk.PID &= 0xFFFEFFFF;
         }
 
+        public override Shiny Shiny => PIDType switch
+        {
+            1 => Shiny.Random,
+            2 => Shiny.Always,
+            _ => Shiny.Never,
+        };
+
         private void SetIVs(PKM pk)
         {
             Span<int> finalIVs = stackalloc int[6];

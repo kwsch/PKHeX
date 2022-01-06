@@ -1047,13 +1047,13 @@ namespace PKHeX.Core
         /// <remarks>Not all things can hatch with a Poké Ball!</remarks>
         public static Ball GetDefaultBall(GameVersion version, int species)
         {
-            if (GameVersion.BDSP.Contains(version))
+            if (version is GameVersion.BD or GameVersion.SP)
             {
                 if (BanInheritedExceptSafari_BDSP.Contains(species))
                     return Ball.Safari;
             }
 
-            return Ball.Poke;
+            return Ball.None;
         }
     }
 }

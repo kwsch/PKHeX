@@ -17,9 +17,14 @@ namespace PKHeX.Core
         public int Generation { get; }
         public GameVersion Version { get; }
         public bool IsShiny => false;
+        public Shiny Shiny => Shiny.Never;
 
         public string Name => "Invalid";
         public string LongName => "Invalid";
+        public int Location => 0;
+        public int EggLocation => 0;
+        public int Ability => 0;
+        public Ball FixedBall => Ball.None;
 
         private EncounterInvalid() { }
 

@@ -31,6 +31,6 @@ namespace PKHeX.Core
 
         protected override HiddenAbilityPermission IsHiddenAbilitySlot() => IsSOS ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
-        public override Ball GetRequiredBallValue() => Location == Locations.Pelago7 ? Ball.Poke : Ball.None;
+        public override Ball FixedBall => Location == Locations.Pelago7 ? Ball.Poke : Ball.None;
     }
 }
