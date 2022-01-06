@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMoveset, ILocation, IEncounterMatch, IFixedBall, IFixedAbilityNumber
+    public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
     {
         public int Species { get; init; }
         public int Form { get; init; }

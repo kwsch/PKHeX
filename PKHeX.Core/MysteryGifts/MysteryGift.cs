@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation, IFixedBall, IFixedAbilityNumber
+    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -133,6 +133,13 @@ namespace PKHeX.Core
         public virtual IReadOnlyList<int> Relearn { get => Array.Empty<int>(); set { } }
         public virtual int[] IVs { get => Array.Empty<int>(); set { } }
         public virtual bool IsShiny => false;
+
+        public virtual Shiny Shiny
+        {
+            get => Shiny.Never;
+            init => throw new InvalidOperationException();
+        }
+
         public virtual bool IsEgg { get => false; set { } }
         public virtual int HeldItem { get => -1; set { } }
         public virtual int AbilityType { get => -1; set { } }

@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
-            var req = w.GetRequiredBallValue();
+            var req = w.FixedBall;
             if (req != None)
                 return VerifyBallEquals(data, (int) req);
 

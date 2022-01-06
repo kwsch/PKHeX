@@ -47,6 +47,7 @@ namespace PKHeX.Core
         public override string CardTitle { get => "Raw Gift (PGT)"; set { } }
         public override int CardID { get => -1; set { } }
         public override bool GiftUsed { get => false; set { } }
+        public override Shiny Shiny => IsEgg ? Shiny.Random : PK.PID == 1 ? Shiny.Never : IsShiny ? Shiny.Always : Shiny.Never;
 
         public PGT() : this(new byte[Size]) { }
         public PGT(byte[] data) : base(data) { }

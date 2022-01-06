@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains details about an encounter that can be found in <see cref="GameVersion.GO"/>.
     /// </summary>
-    public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot, IFixedBall
+    public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
     {
         /// <inheritdoc/>
         public int Start { get; }
@@ -13,8 +13,7 @@ namespace PKHeX.Core
         /// <inheritdoc/>
         public int End { get; }
 
-        /// <inheritdoc/>
-        public Shiny Shiny { get; }
+        public override Shiny Shiny { get; }
 
         /// <inheritdoc/>
         public PogoType Type { get; }
@@ -24,7 +23,7 @@ namespace PKHeX.Core
 
         public override bool IsShiny => Shiny.IsShiny();
 
-        public Ball FixedBall => Type.GetValidBall();
+        public override Ball FixedBall => Type.GetValidBall();
 
         protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
         {

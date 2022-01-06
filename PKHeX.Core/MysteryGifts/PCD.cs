@@ -80,6 +80,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }
         public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
         public override bool IsShiny => Gift.IsShiny;
+        public override Shiny Shiny => Gift.Shiny;
         public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
         public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
         public override int Form { get => Gift.Form; set => Gift.Form = value; }

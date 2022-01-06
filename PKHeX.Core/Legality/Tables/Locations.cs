@@ -153,5 +153,14 @@
             GameVersion.BD or GameVersion.SP => Default8bNone,
             _ => 0,
         };
+
+        public static int GetDaycareLocation(int generation, GameVersion version) => generation switch
+        {
+            1 or 2 or 3 => 0,
+            4 => Daycare4,
+            5 => Daycare5,
+            8 when version is GameVersion.BD or GameVersion.SP => Daycare8b,
+            _ => Daycare5,
+        };
     }
 }

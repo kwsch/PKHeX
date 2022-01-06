@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, ILocation, IEncounterMatch, IFixedBall, IFixedAbilityNumber
+    public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
     {
         public int Species { get; init; }
         public int Form { get; init; }

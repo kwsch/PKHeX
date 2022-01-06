@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public bool IsUnderground => Area.Location is (>= 508 and <= 617);
         public bool IsMarsh => Area.Location is (>= 219 and <= 224);
         public readonly bool IsBCAT;
+        public override Ball FixedBall => IsMarsh ? Ball.Safari : Ball.None;
 
         public EncounterSlot8b(EncounterArea area, int species, int form, int min, int max, bool isBCAT = false) : base(area, species, form, min, max)
         {
@@ -33,10 +34,6 @@ namespace PKHeX.Core
             {
                 if (GetBaseEggMove(out int move1))
                     pk.RelearnMove1 = move1;
-            }
-            else if (IsMarsh)
-            {
-                pk.Ball = (int)Ball.Safari;
             }
             pk.SetRandomEC();
         }

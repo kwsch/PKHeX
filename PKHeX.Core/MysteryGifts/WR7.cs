@@ -104,6 +104,7 @@ namespace PKHeX.Core
         public override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         protected override bool IsMatchPartial(PKM pkm) => false;
+        public override Shiny Shiny => Shiny.Never;
 
         public override int Location { get; set; }
         public override int EggLocation { get; set; }

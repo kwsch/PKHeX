@@ -137,7 +137,35 @@ namespace PKHeX.Core
 
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
-        public override bool IsShiny => PIDType == Shiny.Always;
+        public override bool IsShiny => Shiny.IsShiny();
+
+        public override Shiny Shiny
+        {
+            get
+            {
+                var type = PIDType;
+                if (type is not Shiny.FixedValue)
+                    return type;
+                return GetShinyXor() switch
+                {
+                    0 => Shiny.AlwaysSquare,
+                    <= 15 => Shiny.AlwaysStar,
+                    _ => Shiny.Never,
+                };
+            }
+        }
+
+        private int GetShinyXor()
+        {
+            // Player owned anti-shiny fixed PID
+            if (TID == 0 && SID == 0)
+                return int.MaxValue;
+
+            var pid = PID;
+            var psv = (int)(pid >> 16 ^ (pid & 0xFFFF));
+            var tsv = (TID ^ SID);
+            return psv ^ tsv;
+        }
 
         public override int TID
         {
