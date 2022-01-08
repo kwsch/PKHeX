@@ -93,7 +93,7 @@ namespace PKHeX.Core
 
             bool jp = subLength[7] == 0x1E00;
             memo = new StrategyMemo(Data, Memo, xd: true);
-            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]), jp);
+            info = new ShadowInfoTableXD(Data.AsSpan(Shadow, subLength[7]), jp);
         }
 
         private void Initialize()
