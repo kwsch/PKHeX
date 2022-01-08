@@ -19,7 +19,9 @@ namespace PKHeX.Core
         public int IV_SPD { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
         public int IV_SPE { get => Data[0x10]; set => Data[0x10] = (byte)value; }
 
-        public int Species { get => ReadUInt16BigEndian(Data.AsSpan(0x1A)); set => WriteUInt16BigEndian(Data.AsSpan(0x1A), (ushort)value); }
+        // Gen3 Species ID
+        public ushort RawSpecies { get => ReadUInt16BigEndian(Data.AsSpan(0x1A)); set => WriteUInt16BigEndian(Data.AsSpan(0x1A), value); }
+        public int Species { get => SpeciesConverter.GetG4Species(RawSpecies); set => RawSpecies = (ushort)SpeciesConverter.GetG3Species(value); }
         public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x1C)); set => WriteUInt32BigEndian(Data.AsSpan(0x1C), value); }
         public int Purification { get => ReadInt32BigEndian(Data.AsSpan(0x24)); set => WriteInt32BigEndian(Data.AsSpan(0x24), value); }
 
