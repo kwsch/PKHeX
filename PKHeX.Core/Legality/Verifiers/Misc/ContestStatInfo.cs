@@ -77,6 +77,7 @@ public static class ContestStatInfo
 
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
+        avg = (avg * 8) / 10; // even more generous?? sheen formula undocumented
 
         return Math.Min(BestSheenStat8b, Math.Max(LowestFeelPoffin8b, avg));
     }
