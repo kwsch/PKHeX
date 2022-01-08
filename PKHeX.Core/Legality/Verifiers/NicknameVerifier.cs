@@ -199,7 +199,7 @@ namespace PKHeX.Core
             System.Diagnostics.Debug.Assert(match is not WC8 {IsHOMEGift:true});
 
             int length = 0;
-            if (origin is 4 or 5 && match.EggEncounter && pkm.WasTradedEgg)
+            if (origin is (4 or 5 or 6 or 7) && match.EggEncounter && pkm.WasTradedEgg)
                 length = Legal.GetMaxLengthNickname(origin, English);
 
             if (pkm.FatefulEncounter)
@@ -209,7 +209,8 @@ namespace PKHeX.Core
                 return length;
 
             // Can only nickname if the language matches.
-            return Legal.GetMaxLengthNickname(pkm.Format, (LanguageID)pkm.Language);
+            var future = Legal.GetMaxLengthNickname(pkm.Format, (LanguageID)pkm.Language);
+            return Math.Max(length, future);
         }
 
         private static bool IsNicknameValid(PKM pkm, IEncounterTemplate enc, string nickname)
