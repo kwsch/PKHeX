@@ -600,13 +600,13 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 832, Level = 63, Locations = new[] {204, 208}, Weather = Normal | Intense_Sun }, // Dubwool on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SW  ) { Species = 576, Level = 65, Locations = new[] {204, 208}, Weather = Heavy_Fog }, // Gothitelle on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(  SH) { Species = 579, Level = 65, Locations = new[] {204, 208}, Weather = Heavy_Fog }, // Reuniclus on Slippery Slope, Frostpoint Field
-            new EncounterStatic8S(SWSH) { Species = 461, Level = 63, Locations = new[] {204, 208}, Weather = Overcast }, // Weavile in Slippery Slope, Frostpoint Field
+            new EncounterStatic8S(SWSH) { Species = 461, Level = 63, Locations = new[] {204, 208}, Weather = Overcast }, // Weavile on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SWSH) { Species = 531, Level = 62, Locations = new[] {204, 208}, Weather = Normal | Overcast | Intense_Sun | Icy | Heavy_Fog }, // Audino on Slippery Slope, Frostpoint Field
             new EncounterStatic8S(SWSH) { Species = 615, Level = 62, Locations = new[] {204, 208, 210}, Weather = Icy }, // Cryogonal on Slippery Slope, Frostpoint Field, Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 778, Level = 62, Locations = new[] {204, 208, 210, 212}, Weather = Heavy_Fog }, // Mimikyu on Slippery Slope, Frostpoint Field, Giant’s Bed, Old Cemetery
             new EncounterStatic8S(SWSH) { Species = 126, Level = 62, Locations = new[] {204, 210}, Weather = Intense_Sun }, // Magmar on Slippery Slope, Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 861, Level = 65, Locations = new[] {204, 210}, Weather = Heavy_Fog }, // Grimmsnarl on Slippery Slope, Giant’s Bed
-            new EncounterStatic8S(SWSH) { Species = 709, Level = 63, Locations = new[] {204, 212}, Weather = Overcast }, // Trevenant on Slippery Slope, Old Cemetery
+            new EncounterStatic8S(SWSH) { Species = 709, Level = 63, Locations = new[] {204, 210, 212}, Weather = Overcast }, // Trevenant on Slippery Slope, Giant's Bed, Old Cemetery
             new(SWSH) { Species = 124, Level = 62, Location = 208, Weather = Snowing | Heavy_Fog }, // Jynx in Frostpoint Field
             new(SWSH) { Species = 460, Level = 65, Location = 208, Weather = Normal | Overcast | Intense_Sun | Snowing }, // Abomasnow in Frostpoint Field
             new(SWSH) { Species = 698, Level = 60, Location = 208, Weather = Normal | Icy }, // Amaura in Frostpoint Field
