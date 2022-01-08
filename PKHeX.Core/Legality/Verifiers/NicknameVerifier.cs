@@ -354,7 +354,19 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             int lang = pkm.Language;
             if (t.Species == (int)Species.Magikarp)
+            {
+                // Japanese 
+                if (pkm.Language == (int)Japanese && pkm.OT_Name is "Diamond." or "Pearl.")
+                {
+                    // Traded between players, the original OT is replaced with the above OT (version dependent) as the original OT is >6 chars in length.
+                    VerifyTradeNickname(data, t, t.Nicknames[(int)German], pkm);
+                    return;
+                }
+
                 lang = DetectTradeLanguageG8MeisterMagikarp(pkm, t, lang);
+                if (lang == 0) // err
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pkm.Language}"), CheckIdentifier.Language));
+            }
             VerifyTrade(data, t, lang);
         }
 
@@ -492,13 +504,18 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             // trades that are not nicknamed (but are present in a table with others being named)
-            var result = IsNicknameMatch(nick, pkm, t)
-                ? GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname)
-                : Get(LEncTradeChangedNickname, ParseSettings.NicknamedTrade, CheckIdentifier.Nickname);
-            data.AddLine(result);
+            VerifyTradeNickname(data, t, nick, pkm);
 
             if (OT != pkm.OT_Name)
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
+        }
+
+        private static void VerifyTradeNickname(LegalityAnalysis data, EncounterTrade t, string expectedNickname, PKM pkm)
+        {
+            var result = IsNicknameMatch(expectedNickname, pkm, t)
+                ? GetValid(LEncTradeUnchanged, CheckIdentifier.Nickname)
+                : Get(LEncTradeChangedNickname, ParseSettings.NicknamedTrade, CheckIdentifier.Nickname);
+            data.AddLine(result);
         }
 
         private static bool IsNicknameMatch(string nick, ILangNick pkm, EncounterTrade enc)
