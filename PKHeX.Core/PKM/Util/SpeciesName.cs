@@ -115,6 +115,9 @@ namespace PKHeX.Core
                 StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 
             // Gen1/2 species names do not have spaces.
+            if (generation >= 3)
+                return new string(result.ToArray());
+
             int indexSpace = result.IndexOf(' ');
             if (indexSpace != -1)
             {
