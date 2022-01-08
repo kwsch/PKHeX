@@ -41,7 +41,7 @@ public static class StringConverter2KOR
     {
         if (data[0] == G1TradeOTCode)
         {
-            result[0] = G1Terminator;
+            result[0] = G1TradeOT;
             return 1;
         }
 

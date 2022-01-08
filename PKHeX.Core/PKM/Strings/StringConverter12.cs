@@ -106,7 +106,7 @@ public static class StringConverter12
     {
         if (data[0] == G1TradeOTCode)
         {
-            result[0] = G1Terminator;
+            result[0] = G1TradeOT;
             return 1;
         }
 
@@ -166,7 +166,7 @@ public static class StringConverter12
         int count = i;
         if (count == destBuffer.Length)
             return count;
-        destBuffer[value.Length] = G1TerminatorCode;
+        destBuffer[count] = G1TerminatorCode;
         return count + 1;
     }
 
