@@ -97,7 +97,7 @@ namespace PKHeX.Core
 
         protected abstract int GetEntrySize();
         protected abstract byte GetSpeciesBoxIdentifier(T pk);
-        protected abstract T GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg);
+        protected abstract T GetEntry(byte[] dat, ReadOnlySpan<byte> otname, ReadOnlySpan<byte> nick, bool egg);
 
         public T this[int i]
         {
@@ -141,8 +141,8 @@ namespace PKHeX.Core
             int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
             var dat = Data.Slice(pkOfs, Entry_Size);
-            var otname = Data.Slice(otOfs, StringLength);
-            var nick = Data.Slice(nkOfs, StringLength);
+            var otname = Data.AsSpan(otOfs, StringLength);
+            var nick = Data.AsSpan(nkOfs, StringLength);
 
             return GetEntry(dat, otname, nick, Data[1 + index] == 0xFD);
         }

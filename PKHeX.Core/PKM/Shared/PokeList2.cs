@@ -8,11 +8,11 @@ namespace PKHeX.Core
     public sealed class PokeList2 : PokeListGB<PK2>
     {
         protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? PK2.EggSpeciesValue : (byte)pk.Species;
-        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg)
+        protected override PK2 GetEntry(byte[] dat, ReadOnlySpan<byte> otname, ReadOnlySpan<byte> nick, bool egg)
         {
             var result = new PK2(dat, Japanese) { IsEgg = egg };
-            otname.AsSpan().CopyTo(result.OT_Trash);
-            nick.AsSpan().CopyTo(result.Nickname_Trash);
+            otname.CopyTo(result.OT_Trash);
+            nick.CopyTo(result.Nickname_Trash);
             return result;
         }
 
