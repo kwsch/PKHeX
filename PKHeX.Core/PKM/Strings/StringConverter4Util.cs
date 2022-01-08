@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility Logic for converting Generation 4 character encoding.
+/// </summary>
 public static class StringConverter4Util
 {
     /// <summary>

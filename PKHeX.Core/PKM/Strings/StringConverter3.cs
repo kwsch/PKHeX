@@ -38,7 +38,7 @@ public static class StringConverter3
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="jp">String destination is Japanese font.</param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> buffer, ReadOnlySpan<char> value, int maxLength, bool jp,
         StringConverterOption option = StringConverterOption.ClearFF)

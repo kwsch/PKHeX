@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for converting a <see cref="string"/> for Generation 3 GameCube games.
+/// </summary>
 public static class StringConverter3GC
 {
     private const char TerminatorBigEndian = (char)0; // GC
@@ -31,7 +34,7 @@ public static class StringConverter3GC
     }
 
     /// <summary>Gets the bytes for a Big Endian string.</summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="option">Option to clear the buffer. Only <see cref="StringConverterOption.ClearZero"/> is recognized.</param>

@@ -33,15 +33,15 @@ public static class StringConverter
     /// <summary>
     /// Gets the bytes for a Generation specific string according to the input parameters.
     /// </summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <param name="generation">Generation string format</param>
     /// <param name="jp">Encoding is Japanese</param>
     /// <param name="isBigEndian">Encoding is Big Endian</param>
     /// <param name="language">Language specific conversion (Chinese)</param>
-    /// <returns>Encoded data.</returns>
+    /// <returns>Count of bytes written to the <see cref="destBuffer"/>.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option,
         int generation, bool jp, bool isBigEndian, int language = 0) => generation switch
     {

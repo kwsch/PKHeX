@@ -40,10 +40,10 @@ public static class StringConverter4
     }
 
     /// <summary>Gets the bytes for a 4th Generation String</summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
         StringConverterOption option = StringConverterOption.ClearZero)

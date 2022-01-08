@@ -3,6 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for converting a <see cref="string"/> for Generation 8 games.
+/// </summary>
+/// <remarks>Also used by LGP/E; this encoding is essentially the same as Generation 6's.</remarks>
 public static class StringConverter8
 {
     private const ushort TerminatorNull = 0;
@@ -31,10 +35,10 @@ public static class StringConverter8
     }
 
     /// <summary>Gets the bytes for a Generation 7-Beluga string.</summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
         StringConverterOption option = StringConverterOption.ClearZero)

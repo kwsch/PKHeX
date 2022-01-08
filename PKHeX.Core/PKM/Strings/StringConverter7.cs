@@ -3,6 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for converting a <see cref="string"/> for Generation 7 games.
+/// </summary>
+/// <remarks>Customized Unicode glyph remapping for visual display. Chinese Species names use a special range of characters -- <see cref="StringConverter7ZH"/>.</remarks>
 public static class StringConverter7
 {
     private const ushort TerminatorNull = 0;
@@ -34,11 +38,11 @@ public static class StringConverter7
     }
 
     /// <summary>Gets the bytes for a Generation 7 string.</summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="language">Language specific conversion (Chinese)</param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <param name="chinese">Chinese string remapping should be attempted</param>
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, int language,

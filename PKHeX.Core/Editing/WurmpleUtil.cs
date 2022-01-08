@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Indicates or coerces values pertaining to <see cref="Species.Wurmple"/> and its branched evolutions.
+    /// </summary>
     public static class WurmpleUtil
     {
         /// <summary>

@@ -4,6 +4,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for converting a <see cref="string"/> for Generation 4 GameCube games.
+/// </summary>
 public static class StringConverter4GC
 {
     private const ushort Terminator = 0xFFFF;
@@ -41,10 +44,10 @@ public static class StringConverter4GC
     /// <summary>
     /// Converts a string to Generation 4 Big Endian encoded character data.
     /// </summary>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="value">String to be converted.</param>
     /// <param name="maxLength">Maximum length of string</param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Byte array containing encoded character data</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
         StringConverterOption option = StringConverterOption.ClearZero)
@@ -102,9 +105,9 @@ public static class StringConverter4GC
     /// </summary>
     /// <remarks>Used by the Save File's internal strings.</remarks>
     /// <param name="value">String to be converted.</param>
-    /// <param name="destBuffer"></param>
+    /// <param name="destBuffer">Span of bytes to write encoded string data</param>
     /// <param name="maxLength">Maximum length of string</param>
-    /// <param name="option"></param>
+    /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Byte array containing encoded character data</returns>
     public static int SetStringUnicode(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.ClearZero)
     {
