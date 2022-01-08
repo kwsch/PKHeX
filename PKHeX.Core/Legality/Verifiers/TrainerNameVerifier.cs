@@ -53,12 +53,15 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Checks if any player (human) was the original OT.
+        /// </summary>
         internal static bool IsPlayerOriginalTrainer(IEncounterable enc) => enc switch
         {
-            EncounterTrade { HasTrainerName: true } => true,
-            MysteryGift { IsEgg: false } => true,
-            EncounterStatic5N => true,
-            _ => false,
+            EncounterTrade { HasTrainerName: true } => false,
+            MysteryGift { IsEgg: false } => false,
+            EncounterStatic5N => false,
+            _ => true,
         };
 
         public static bool IsEdgeCaseLength(PKM pkm, IEncounterTemplate e, string ot)

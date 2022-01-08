@@ -171,9 +171,8 @@ namespace PKHeX.Core
                 }
                 if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    var severe = pkm.Format >= 8 || (data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, English))
-                            ? Severity.Fishy
-                            : Severity.Invalid;
+                    int length = GetForeignNicknameLength(pkm, data.Info.EncounterOriginal, data.Info.Generation);
+                    var severe = (length != 0 && nickname.Length <= length) ? Severity.Fishy : Severity.Invalid;
                     data.AddLine(Get(LNickLengthLong, severe));
                     return true;
                 }
@@ -192,6 +191,25 @@ namespace PKHeX.Core
                 data.AddLine(result);
             }
             return false;
+        }
+
+        private static int GetForeignNicknameLength(PKM pkm, IEncounterTemplate match, int origin)
+        {
+            // HOME gifts already verified prior to reaching here.
+            System.Diagnostics.Debug.Assert(match is not WC8 {IsHOMEGift:true});
+
+            int length = 0;
+            if (origin is 4 or 5 && match.EggEncounter && pkm.WasTradedEgg)
+                length = Legal.GetMaxLengthNickname(origin, English);
+
+            if (pkm.FatefulEncounter)
+                return length;
+
+            if (pkm.Format < 8 || pkm.BDSP)
+                return length;
+
+            // Can only nickname if the language matches.
+            return Legal.GetMaxLengthNickname(pkm.Format, (LanguageID)pkm.Language);
         }
 
         private static bool IsNicknameValid(PKM pkm, IEncounterTemplate enc, string nickname)
