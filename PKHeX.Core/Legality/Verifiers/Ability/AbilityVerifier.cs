@@ -112,10 +112,10 @@ namespace PKHeX.Core
         private CheckResult VerifyAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilIndex)
         {
             var enc = data.EncounterMatch;
-            var eabil = GetEncounterFixedAbilityNumber(enc);
+            var eabil = enc.Ability;
             if (eabil >= 0)
             {
-                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                if ((data.pkm.AbilityNumber == 4) != (eabil == AbilityPermission.OnlyHidden))
                     return GetInvalid(LAbilityHiddenFail);
                 if (eabil > 0)
                     return VerifyFixedAbility(data, abilities, AbilityState.CanMismatch, eabil, abilIndex);
@@ -132,7 +132,7 @@ namespace PKHeX.Core
             };
         }
 
-        private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterTemplate enc, IReadOnlyList<int> abilities, int abilIndex)
+        private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities, int abilIndex)
         {
             var pkm = data.pkm;
             int format = pkm.Format;
@@ -140,10 +140,10 @@ namespace PKHeX.Core
             if (format is (3 or 4 or 5) && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
                 state = VerifyAbilityPreCapsule(data, abilities);
 
-            int encounterAbility = GetEncounterFixedAbilityNumber(enc);
+            var encounterAbility = enc.Ability;
             if (encounterAbility >= 0)
             {
-                if ((pkm.AbilityNumber == 4) != (encounterAbility == 4))
+                if ((pkm.AbilityNumber == 4) != (encounterAbility == AbilityPermission.OnlyHidden))
                     return GetInvalid(LAbilityHiddenFail);
                 if (encounterAbility > 0)
                     return VerifyFixedAbility(data, abilities, state, encounterAbility, abilIndex);
@@ -156,7 +156,7 @@ namespace PKHeX.Core
             return CheckMatch(pkm, abilities, gen, state, enc);
         }
 
-        private CheckResult VerifyFixedAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, AbilityState state, int encounterAbility, int abilIndex)
+        private CheckResult VerifyFixedAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, AbilityState state, AbilityPermission encounterAbility, int abilIndex)
         {
             var pkm = data.pkm;
             var enc = data.Info.EncounterMatch;
@@ -164,12 +164,12 @@ namespace PKHeX.Core
             {
                 if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility))
                     return GetValid(LAbilityCapsuleUsed);
-                if (pkm.AbilityNumber != encounterAbility)
+                if (pkm.AbilityNumber != 1 << encounterAbility.GetSingleValue())
                     return INVALID;
                 return VALID;
             }
 
-            if ((pkm.AbilityNumber == 4) != (encounterAbility == 4))
+            if ((pkm.AbilityNumber == 4) != (encounterAbility == AbilityPermission.OnlyHidden))
                 return GetInvalid(LAbilityHiddenFail);
 
             bool hasEvolved = enc.Species != pkm.Species;
@@ -178,7 +178,7 @@ namespace PKHeX.Core
                 // Evolving in Gen3 does not mutate the ability bit, so any mismatched abilities will stay mismatched.
                 if (enc.Generation == 3)
                 {
-                    if (encounterAbility == 1 << abilIndex)
+                    if (encounterAbility.GetSingleValue() == abilIndex)
                         return VALID;
 
                     // If it is in a future game and does not match the fixed ability, then it must match the PID.
@@ -192,10 +192,10 @@ namespace PKHeX.Core
                 return CheckMatch(pkm, abilities, enc.Generation, AbilityState.MustMatch, enc);
             }
 
-            if (encounterAbility == 1 << abilIndex)
+            if (encounterAbility.GetSingleValue() == abilIndex)
                 return VALID;
 
-            if (pkm.AbilityNumber == encounterAbility)
+            if (pkm.AbilityNumber == 1 << encounterAbility.GetSingleValue())
                 return VALID;
 
             if (state == AbilityState.CanMismatch || encounterAbility == 0)
@@ -440,13 +440,13 @@ namespace PKHeX.Core
         }
 
         // Ability Capsule can change between 1/2
-        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, int encounterAbility)
+        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility)
         {
             if (!CanAbilityCapsule(pkm.Format, abilities))
                 return false;
             if (pkm.AbilityNumber == 4)
                 return false; // Cannot alter to hidden ability.
-            if (encounterAbility == 4)
+            if (encounterAbility == AbilityPermission.OnlyHidden)
                 return false; // Cannot alter from hidden ability.
             return true;
         }
@@ -478,11 +478,5 @@ namespace PKHeX.Core
                 _ => false,
             };
         }
-
-        private static int GetEncounterFixedAbilityNumber(IEncounterTemplate enc) => enc switch
-        {
-            IFixedAbilityNumber s => s.Ability,
-            _ => -1,
-        };
     }
 }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public sealed class GP1 : IEncounterInfo
+    public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
     {
         public const int SIZE = 0x1B0;
         public readonly byte[] Data;
@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public int Generation => 7;
+        public AbilityPermission Ability => AbilityPermission.Any12;
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPB7(sav);
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria) => ConvertToPB7(sav, criteria);
 
@@ -176,10 +177,9 @@ namespace PKHeX.Core
             pk.IV_SPE = Util.Rand.Next(32);
 
             var pi = pk.PersonalInfo;
-            const int av = 3;
             pk.Gender = criteria.GetGender(Gender, pi);
             pk.Nature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbilityFromType(av));
+            pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
             bool isShiny = pk.IsShiny;
             if (IsShiny && !isShiny) // Force Square

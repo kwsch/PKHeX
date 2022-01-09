@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public int CurrentLevel { get; init; } = -1;
         public abstract int Location { get; }
-        public int Ability { get; init; }
+        public AbilityPermission Ability { get; init; }
         public int Gender { get; init; } = -1;
         public Nature Nature { get; init; } = Nature.Random;
         public Shiny Shiny { get; init; } = Shiny.Never;

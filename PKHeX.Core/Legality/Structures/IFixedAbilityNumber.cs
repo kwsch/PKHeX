@@ -2,6 +2,6 @@
 {
     public interface IFixedAbilityNumber
     {
-        int Ability { get; }
+        AbilityPermission Ability { get; }
     }
 }

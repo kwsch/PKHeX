@@ -13,7 +13,7 @@ namespace PKHeX.Core
         private void AddTo(GameVersion game, EncounterStatic5[] result, ref int ctr)
         {
             var p = (PersonalInfoBW)PersonalTable.B2W2[Species];
-            var a = p.HasHiddenAbility ? 4 : 1;
+            var a = p.HasHiddenAbility ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
             if (Move1 == 0)
             {
                 result[ctr++] = new EncounterStatic5(game)
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             result[ctr++] = Create(game, a, Move3);
         }
 
-        private EncounterStatic5 Create(GameVersion game, int ability, int move) => new(game)
+        private EncounterStatic5 Create(GameVersion game, AbilityPermission ability, int move) => new(game)
         {
             Species = Species,
             Form = Form,

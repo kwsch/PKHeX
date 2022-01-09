@@ -19,7 +19,7 @@ namespace PKHeX.Core
         public abstract int Generation { get; }
 
         public virtual int Location { get; init; }
-        public int Ability { get; init; }
+        public AbilityPermission Ability { get; init; }
         public Shiny Shiny { get; init; } = Shiny.Random;
         public int Gender { get; init; } = -1;
         public int EggLocation { get; init; }

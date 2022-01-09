@@ -449,11 +449,11 @@ namespace PKHeX.Core
         };
 
         // Abilities Allowed
-        private const int A0 = 1; // 1 only
-        private const int A1 = 2; // 2 only
-        private const int A2 = 4; // Ability 4 only
-        private const int A3 = 0; // 1/2 only
-        private const int A4 = -1; // 1/2/H
+        private const AbilityPermission A0 = AbilityPermission.OnlyFirst;
+        private const AbilityPermission A1 = AbilityPermission.OnlySecond;
+        private const AbilityPermission A2 = AbilityPermission.OnlyHidden;
+        private const AbilityPermission A3 = AbilityPermission.Any12;
+        private const AbilityPermission A4 = AbilityPermission.Any12H;
 
         internal const int SharedNest = 162;
         internal const int Watchtower = 126;

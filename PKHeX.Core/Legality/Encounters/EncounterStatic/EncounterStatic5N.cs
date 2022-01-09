@@ -19,14 +19,14 @@
         {
             int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pk.PersonalInfo);
             int nature = (int)Nature;
-            int ability = Ability;
+            int ability = Ability.IsSingleValue(out var index) ? index : 0;
 
             pk.PID = PID;
             pk.Gender = gender;
             SetIVs(pk);
 
             pk.Nature = nature;
-            pk.RefreshAbility(ability >> 1);
+            pk.RefreshAbility(ability);
         }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
