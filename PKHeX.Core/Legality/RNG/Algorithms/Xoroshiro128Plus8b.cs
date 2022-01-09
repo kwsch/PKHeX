@@ -26,6 +26,14 @@ namespace PKHeX.Core
             s1 = _s1 ^ (_s1 >> 31);
         }
 
+        public Xoroshiro128Plus8b(ulong s0, ulong s1)
+        {
+            this.s0 = s0;
+            this.s1 = s1;
+        }
+
+        public (ulong s0, ulong s1) GetState() => (s0, s1);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong RotateLeft(ulong x, int k)
         {
@@ -67,6 +75,26 @@ namespace PKHeX.Core
         {
             var rnd = NextUInt();
             return rnd - ((rnd / max) * max);
+        }
+
+        /// <summary>
+        /// Gets the next random <see cref="ulong"/>.
+        /// </summary>
+        public int NextInt(int start = int.MinValue, int end = int.MaxValue)
+        {
+            var _s0 = s0 & 0xFFFFFFFF;
+            var _s1 = s1 >> 32;
+
+            _s0 ^= (_s0 << 11) & 0xFFFFFFFF;
+            _s0 ^= (_s0 >> 8);
+            _s0 ^= (_s1 ^ (_s1 >> 19));
+
+            // Final calculations and store back to fields
+            s0 = ((s1 & 0xFFFFFFFF) << 32) | (s0 >> 32);
+            s1 = _s0 << 32 | (s1 >> 32);
+
+            var delta = unchecked(end - start);
+            return start + (int)(_s0 % (ulong)delta);
         }
     }
 }
