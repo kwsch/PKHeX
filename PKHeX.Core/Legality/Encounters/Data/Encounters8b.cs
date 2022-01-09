@@ -66,25 +66,25 @@ namespace PKHeX.Core
           //new (BDSP) { Species = 493, Level = 80, Location = 218, FlawlessIVCount = 3, Fateful = true }, // Arceus
 
             // Ramanas Park (Pure Space)
-            new (  SP) { Species = 144, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Articuno
-            new (  SP) { Species = 145, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Zapdos
-            new (  SP) { Species = 146, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Moltres
-            new (BD  ) { Species = 243, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Raikou
-            new (BD  ) { Species = 244, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Entei
-            new (BD  ) { Species = 245, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Suicune
-            new (BDSP) { Species = 377, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Regirock
-            new (BDSP) { Species = 378, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Regice
-            new (BDSP) { Species = 379, Level = 70, Ability = OnlyHidden, Location = 506, FlawlessIVCount = 3 }, // Registeel
-            new (BDSP) { Species = 380, Level = 70,                       Location = 506, FlawlessIVCount = 3 }, // Latias
-            new (BDSP) { Species = 381, Level = 70,                       Location = 506, FlawlessIVCount = 3 }, // Latios
+            new (  SP) { Species = 144, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Articuno
+            new (  SP) { Species = 145, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Zapdos
+            new (  SP) { Species = 146, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Moltres
+            new (BD  ) { Species = 243, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Raikou
+            new (BD  ) { Species = 244, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Entei
+            new (BD  ) { Species = 245, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Suicune
+            new (BDSP) { Species = 377, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Regirock
+            new (BDSP) { Species = 378, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Regice
+            new (BDSP) { Species = 379, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Registeel
+            new (BDSP) { Species = 380, Level = 70, Location = 506, FlawlessIVCount = 3                       }, // Latias
+            new (BDSP) { Species = 381, Level = 70, Location = 506, FlawlessIVCount = 3                       }, // Latios
 
             // Ramanas Park (Strange Space)
-            new (BDSP) { Species = 150, Level = 70, Ability = OnlyHidden, Location = 507, FlawlessIVCount = 3 }, // Mewtwo
-            new (  SP) { Species = 249, Level = 70, Ability = OnlyHidden, Location = 507, FlawlessIVCount = 3 }, // Lugia
-            new (BD  ) { Species = 250, Level = 70, Ability = OnlyHidden, Location = 507, FlawlessIVCount = 3 }, // Ho-Oh
-            new (BDSP) { Species = 382, Level = 70,                       Location = 507, FlawlessIVCount = 3 }, // Kyogre
-            new (BDSP) { Species = 383, Level = 70,                       Location = 507, FlawlessIVCount = 3 }, // Groudon
-            new (BDSP) { Species = 384, Level = 70,                       Location = 507, FlawlessIVCount = 3 }, // Rayquaza
+            new (BDSP) { Species = 150, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Mewtwo
+            new (  SP) { Species = 249, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Lugia
+            new (BD  ) { Species = 250, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Ho-Oh
+            new (BDSP) { Species = 382, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Kyogre
+            new (BDSP) { Species = 383, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Groudon
+            new (BDSP) { Species = 384, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Rayquaza
         };
 
         internal static readonly EncounterStatic8b[] StaticBD = GetEncounters(Encounter_BDSP, BD);
