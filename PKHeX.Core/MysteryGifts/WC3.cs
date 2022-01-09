@@ -72,7 +72,7 @@ namespace PKHeX.Core
             init => _metLevel = value;
         }
 
-        public override int Ability => 0; // 1/2
+        public override AbilityPermission Ability => AbilityPermission.Any12;
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {

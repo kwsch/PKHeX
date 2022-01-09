@@ -1,5 +1,6 @@
 ﻿using System;
 using static PKHeX.Core.Encounters8Nest;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
 {
@@ -23,7 +24,7 @@ namespace PKHeX.Core
                 return false;
 
             // Required Ability
-            if (Ability == 4 && pkm.AbilityNumber != 4)
+            if (Ability == AbilityPermission.OnlyHidden && pkm.AbilityNumber != 4)
                 return false; // H
 
             if (Version != GameVersion.SWSH && pkm.Version != (int)Version && pkm.Met_Location != SharedNest)
@@ -42,18 +43,18 @@ namespace PKHeX.Core
 
         protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)
         {
-            if (Ability != -1) // Any
+            if (Ability != Any12H)
             {
                 // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
                 var num = pkm.AbilityNumber;
                 if (num == 4)
                 {
-                    if (Ability is not 4 && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pkm.Species))
+                    if (Ability is not OnlyHidden && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pkm.Species))
                         return EncounterMatchRating.DeferredErrors;
                 }
-                else if (num != Ability) // Fixed regular ability
+                else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
                 {
-                    if (Ability is 1 or 2 && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
+                    if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
                         return EncounterMatchRating.DeferredErrors;
                 }
             }

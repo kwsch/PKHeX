@@ -93,7 +93,7 @@
             pk.PID = PID;
             pk.Nature = (int)(PID % 25);
             pk.Gender = Gender;
-            pk.RefreshAbility(Ability >> 1);
+            pk.RefreshAbility(Ability.GetSingleValue());
             SetIVs(pk);
         }
 
@@ -136,7 +136,7 @@
             pk.PID = PID;
             pk.Nature = (int)(PID % 25);
             pk.Gender = Gender;
-            pk.RefreshAbility(Ability >> 1);
+            pk.RefreshAbility(Ability.GetSingleValue());
             SetIVs(pk);
         }
     }

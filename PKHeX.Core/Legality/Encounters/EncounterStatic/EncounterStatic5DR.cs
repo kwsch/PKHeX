@@ -6,11 +6,11 @@
     /// <inheritdoc cref="EncounterStatic"/>
     public sealed record EncounterStatic5DR : EncounterStatic5
     {
-        public EncounterStatic5DR(int species, int form, int abilityIndex = 4) : base(GameVersion.B2W2)
+        public EncounterStatic5DR(int species, int form, AbilityPermission ability = AbilityPermission.OnlyHidden) : base(GameVersion.B2W2)
         {
             Species = species;
             Form = form;
-            Ability = abilityIndex;
+            Ability = ability;
             Location = 30015;
             Gift = true;
             Ball = 25;

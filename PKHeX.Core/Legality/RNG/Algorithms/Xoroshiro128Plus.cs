@@ -18,6 +18,14 @@ namespace PKHeX.Core
             s1 = XOROSHIRO_CONST;
         }
 
+        public Xoroshiro128Plus(ulong s0, ulong s1)
+        {
+            this.s0 = s0;
+            this.s1 = s1;
+        }
+
+        public (ulong s0, ulong s1) GetState() => (s0, s1);
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong RotateLeft(ulong x, int k)
         {

@@ -1,5 +1,6 @@
 ﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
 {
@@ -41,7 +42,7 @@ namespace PKHeX.Core
             new(436, 0), // Bronzor
             new(442, 0), // Spiritomb
             new(447, 0), // Riolu
-            new(479, 0, 0), // Rotom (no HA)
+            new(479, 0, Any12), // Rotom (no HA)
             new(483, 0), // Dialga (Diamond cart)
             new(484, 0), // Palkia (Pearl cart)
             new(487, 0), // Giratina (Platinum cart)
@@ -424,11 +425,11 @@ namespace PKHeX.Core
             new(BW) { Gift = true, Species = 636, Level = 01, EggLocation = 60003 }, // Larvesta Egg from Treasure Hunter
 
             // Stationary
-            new(BW) { Species = 518, Level = 50, Location = 032, Ability = 4 }, // Musharna @ Dreamyard Friday Only
+            new(BW) { Species = 518, Level = 50, Location = 032, Ability = OnlyHidden }, // Musharna @ Dreamyard Friday Only
             new(BW) { Species = 590, Level = 20, Location = 019 }, // Foongus @ Route 6
             new(BW) { Species = 590, Level = 30, Location = 023 }, // Foongus @ Route 10
             new(BW) { Species = 591, Level = 40, Location = 023 }, // Amoonguss @ Route 10
-            new(BW) { Species = 555, Level = 35, Location = 034, Ability = 4 }, // HA Darmanitan @ Desert Resort
+            new(BW) { Species = 555, Level = 35, Location = 034, Ability = OnlyHidden }, // HA Darmanitan @ Desert Resort
             new(BW) { Species = 637, Level = 70, Location = 035 }, // Volcarona @ Relic Castle
 
             // Stationary Legendary
@@ -471,11 +472,11 @@ namespace PKHeX.Core
             new(B2W2) { Gift = true, Species = 566, Level = 25, Location = 007 }, // Archen
 
             // Gift
-            new(B2W2) { Gift = true, Species = 133, Level = 10, Location = 008, Ability = 4 }, // HA Eevee @ Castelia City
-            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 0 }, // HA Deerling @ Route 6
-            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 1 }, // HA Deerling @ Route 6
-            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 2 }, // HA Deerling @ Route 6
-            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 3 }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 133, Level = 10, Location = 008, Ability = OnlyHidden }, // HA Eevee @ Castelia City
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 0 }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 1 }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 2 }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = OnlyHidden, Form = 3 }, // HA Deerling @ Route 6
             new(B2  ) { Gift = true, Species = 443, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0 }, // Shiny Gible @ Floccesy Town
             new(  W2) { Gift = true, Species = 147, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0 }, // Shiny Dratini @ Floccesy Town
             new(B2W2) { Gift = true, Species = 129, Level = 05, Location = 068 } , // Magikarp @ Marvelous Bridge
@@ -486,11 +487,11 @@ namespace PKHeX.Core
             new(B2W2) { Species = 591, Level = 43, Location = 024 }, // Amoonguss @ Route 11
             new(B2W2) { Species = 591, Level = 47, Location = 127 }, // Amoonguss @ Route 22
             new(B2W2) { Species = 591, Level = 56, Location = 128 }, // Amoonguss @ Route 23
-            new(B2  ) { Species = 593, Level = 40, Location = 071, Ability = 4, Gender = 0 }, // HA Jellicent @ Undella Bay Mon Only
-            new(  W2) { Species = 593, Level = 40, Location = 071, Ability = 4, Gender = 1 }, // HA Jellicent @ Undella Bay Thurs Only
+            new(B2  ) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden, Gender = 0 }, // HA Jellicent @ Undella Bay Mon Only
+            new(  W2) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden, Gender = 1 }, // HA Jellicent @ Undella Bay Thurs Only
             new(B2W2) { Species = 593, Level = 40, Location = 071 }, // HA Jellicent @ Undella Bay EncounterSlot collision
-            new(  W2) { Species = 628, Level = 25, Location = 017, Ability = 4, Gender = 0 }, // HA Braviary @ Route 4 Mon Only
-            new(B2  ) { Species = 630, Level = 25, Location = 017, Ability = 4, Gender = 1 }, // HA Mandibuzz @ Route 4 Thurs Only
+            new(  W2) { Species = 628, Level = 25, Location = 017, Ability = OnlyHidden, Gender = 0 }, // HA Braviary @ Route 4 Mon Only
+            new(B2  ) { Species = 630, Level = 25, Location = 017, Ability = OnlyHidden, Gender = 1 }, // HA Mandibuzz @ Route 4 Thurs Only
             new(B2W2) { Species = 637, Level = 35, Location = 035 }, // Volcarona @ Relic Castle
             new(B2W2) { Species = 637, Level = 65, Location = 035 }, // Volcarona @ Relic Castle
             new(B2W2) { Species = 558, Level = 42, Location = 141 }, // Crustle @ Seaside Cave
@@ -522,21 +523,21 @@ namespace PKHeX.Core
         private static readonly EncounterStatic5N[] Encounter_B2W2_N =
         {
             // N's Pokemon
-            new(0xFF01007F) { Species = 509, Level = 07, Location = 015, Ability = 2, Nature = Nature.Timid }, // Purloin @ Route 2
-            new(0xFF01007F) { Species = 519, Level = 13, Location = 033, Ability = 2, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
-            new(0xFF00003F) { Species = 532, Level = 13, Location = 033, Ability = 1, Nature = Nature.Rash }, // Timburr @ Pinwheel Forest
-            new(0xFF01007F) { Species = 535, Level = 13, Location = 033, Ability = 2, Nature = Nature.Modest }, // Tympole @ Pinwheel Forest
-            new(0xFF00007F) { Species = 527, Level = 55, Location = 053, Ability = 1, Nature = Nature.Timid }, // Woobat @ Wellspring Cave
-            new(0xFF01007F) { Species = 551, Level = 22, Location = 034, Ability = 2, Nature = Nature.Docile }, // Sandile @ Desert Resort
-            new(0xFF00007F) { Species = 554, Level = 22, Location = 034, Ability = 1, Nature = Nature.Naive }, // Darumaka @ Desert Resort
-            new(0xFF00007F) { Species = 555, Level = 35, Location = 034, Ability = 4, Nature = Nature.Calm }, // Darmanitan @ Desert Resort
-            new(0xFF00007F) { Species = 559, Level = 22, Location = 034, Ability = 1, Nature = Nature.Lax }, // Scraggy @ Desert Resort
-            new(0xFF01007F) { Species = 561, Level = 22, Location = 034, Ability = 2, Nature = Nature.Gentle }, // Sigilyph @ Desert Resort
-            new(0xFF00007F) { Species = 525, Level = 28, Location = 037, Ability = 1, Nature = Nature.Naive }, // Boldore @ Chargestone Cave
-            new(0xFF01007F) { Species = 595, Level = 28, Location = 037, Ability = 2, Nature = Nature.Docile }, // Joltik @ Chargestone Cave
-            new(0xFF00007F) { Species = 597, Level = 28, Location = 037, Ability = 1, Nature = Nature.Bashful }, // Ferroseed @ Chargestone Cave
-            new(0xFF000000) { Species = 599, Level = 28, Location = 037, Ability = 1, Nature = Nature.Rash }, // Klink @ Chargestone Cave
-            new(0xFF00001F) { Species = 570, Level = 25, Location = 010, Ability = 1, Nature = Nature.Hasty, Gift = true }, // N's Zorua @ Driftveil City
+            new(0xFF01007F) { Species = 509, Level = 07, Location = 015, Ability = OnlySecond, Nature = Nature.Timid }, // Purloin @ Route 2
+            new(0xFF01007F) { Species = 519, Level = 13, Location = 033, Ability = OnlySecond, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
+            new(0xFF00003F) { Species = 532, Level = 13, Location = 033, Ability = OnlyFirst,  Nature = Nature.Rash }, // Timburr @ Pinwheel Forest
+            new(0xFF01007F) { Species = 535, Level = 13, Location = 033, Ability = OnlySecond, Nature = Nature.Modest }, // Tympole @ Pinwheel Forest
+            new(0xFF00007F) { Species = 527, Level = 55, Location = 053, Ability = OnlyFirst,  Nature = Nature.Timid }, // Woobat @ Wellspring Cave
+            new(0xFF01007F) { Species = 551, Level = 22, Location = 034, Ability = OnlySecond, Nature = Nature.Docile }, // Sandile @ Desert Resort
+            new(0xFF00007F) { Species = 554, Level = 22, Location = 034, Ability = OnlyFirst,  Nature = Nature.Naive }, // Darumaka @ Desert Resort
+            new(0xFF00007F) { Species = 555, Level = 35, Location = 034, Ability = OnlyHidden, Nature = Nature.Calm }, // Darmanitan @ Desert Resort
+            new(0xFF00007F) { Species = 559, Level = 22, Location = 034, Ability = OnlyFirst,  Nature = Nature.Lax }, // Scraggy @ Desert Resort
+            new(0xFF01007F) { Species = 561, Level = 22, Location = 034, Ability = OnlySecond, Nature = Nature.Gentle }, // Sigilyph @ Desert Resort
+            new(0xFF00007F) { Species = 525, Level = 28, Location = 037, Ability = OnlyFirst,  Nature = Nature.Naive }, // Boldore @ Chargestone Cave
+            new(0xFF01007F) { Species = 595, Level = 28, Location = 037, Ability = OnlySecond, Nature = Nature.Docile }, // Joltik @ Chargestone Cave
+            new(0xFF00007F) { Species = 597, Level = 28, Location = 037, Ability = OnlyFirst,  Nature = Nature.Bashful }, // Ferroseed @ Chargestone Cave
+            new(0xFF000000) { Species = 599, Level = 28, Location = 037, Ability = OnlyFirst,  Nature = Nature.Rash }, // Klink @ Chargestone Cave
+            new(0xFF00001F) { Species = 570, Level = 25, Location = 010, Ability = OnlyFirst,  Nature = Nature.Hasty, Gift = true }, // N's Zorua @ Driftveil City
         };
 
         private static readonly EncounterStatic5[] Encounter_B2W2 = ArrayUtil.ConcatAll(Encounter_B2W2_Regular, Encounter_B2W2_N, Encounter_DreamRadar);
@@ -546,24 +547,24 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade5PID[] TradeGift_BW =
         {
-            new(B , 0x64000000) { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Petilil
-            new( W, 0x6400007E) { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
-            new(B , 0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
-            new( W, 0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
-            new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax }, // Emolga
-            new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Gentle }, // Rotom
-            new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious }, // Munchlax
+            new(B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Petilil
+            new( W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
+            new(B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
+            new( W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
+            new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax }, // Emolga
+            new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Gentle }, // Rotom
+            new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious }, // Munchlax
         };
 
         internal static readonly EncounterTrade5[] TradeGift_B2W2_Regular =
         {
-            new(B2  ) { Species = 548, Level = 20, Ability = 2, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid }, // Petilil
-            new(  W2) { Species = 546, Level = 20, Ability = 1, TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
-            new(B2W2) { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
-            new(B2W2) { Species = 465, Level = 45, Ability = 1, TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy }, // Tangrowth
-            new(B2W2) { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm }, // Rotom
-            new(B2W2) { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly }, // Ambipom
-            new(B2W2) { Species = 065, Level = 40, Ability = 1, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid }, // Alakazam
+            new(B2  ) { Species = 548, Level = 20, Ability = OnlySecond, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid }, // Petilil
+            new(  W2) { Species = 546, Level = 20, Ability = OnlyFirst,  TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
+            new(B2W2) { Species = 526, Level = 35, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
+            new(B2W2) { Species = 465, Level = 45, Ability = OnlyFirst,  TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy }, // Tangrowth
+            new(B2W2) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm }, // Rotom
+            new(B2W2) { Species = 424, Level = 40, Ability = OnlySecond, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly }, // Ambipom
+            new(B2W2) { Species = 065, Level = 40, Ability = OnlyFirst,  TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid }, // Alakazam
         };
 
         internal const int YancyTID = 10303;
@@ -574,32 +575,32 @@ namespace PKHeX.Core
         private static readonly EncounterTrade5[] TradeGift_B2W2_YancyCurtis =
         {
             // Player is Male
-            new(B2W2) { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Meowth
-            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Wobbuffet
-            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Ralts
-            new(B2W2) { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Shieldon
-            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Rhyhorn
-            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, Form = 0 }, // Shellos-West
-            new(B2W2) { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Mawile
-            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Spiritomb
-            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Snorlax
-            new(B2W2) { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Teddiursa
-            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Spinda
-            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Togepi
+            new(B2W2) { Species = 052, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Meowth
+            new(B2W2) { Species = 202, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Ralts
+            new(B2W2) { Species = 410, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Shieldon
+            new(B2W2) { Species = 111, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, Form = 0 }, // Shellos-West
+            new(B2W2) { Species = 303, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Mawile
+            new(B2W2) { Species = 442, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Snorlax
+            new(B2W2) { Species = 216, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Teddiursa
+            new(B2W2) { Species = 327, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = OnlyHidden, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F }, // Togepi
 
             // Player is Female
-            new(B2W2) { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Mankey
-            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Wobbuffet
-            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Ralts
-            new(B2W2) { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Cranidos
-            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Rhyhorn
-            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, Form = 1 }, // Shellos-East
-            new(B2W2) { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Sableye
-            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Spiritomb
-            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Snorlax
-            new(B2W2) { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Phanpy
-            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Spinda
-            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Togepi
+            new(B2W2) { Species = 056, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Mankey
+            new(B2W2) { Species = 202, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Ralts
+            new(B2W2) { Species = 408, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Cranidos
+            new(B2W2) { Species = 111, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, Form = 1 }, // Shellos-East
+            new(B2W2) { Species = 302, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Sableye
+            new(B2W2) { Species = 442, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Snorlax
+            new(B2W2) { Species = 231, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Phanpy
+            new(B2W2) { Species = 327, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = OnlyHidden, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M }, // Togepi
         };
 
         private const string tradeBW = "tradebw";

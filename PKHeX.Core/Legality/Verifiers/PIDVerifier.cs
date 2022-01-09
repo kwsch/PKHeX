@@ -55,7 +55,7 @@ namespace PKHeX.Core
                         break;
 
                     // Not wild / forced ability
-                    if (s.Gift || s.Ability == 4)
+                    if (s.Gift || s.Ability == AbilityPermission.OnlyHidden)
                         break;
 
                     // Forced PID or generated without an encounter

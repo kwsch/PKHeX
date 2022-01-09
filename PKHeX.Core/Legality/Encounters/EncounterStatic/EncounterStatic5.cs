@@ -14,7 +14,8 @@ namespace PKHeX.Core
 
         protected sealed override bool IsMatchPartial(PKM pkm)
         {
-            if (Ability == 4 && pkm.AbilityNumber != 4 && pkm.Format <= 7) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
+            // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
+            if (Ability == AbilityPermission.OnlyHidden && pkm.AbilityNumber != 4 && pkm.Format <= 7)
                 return true;
             return base.IsMatchPartial(pkm);
         }

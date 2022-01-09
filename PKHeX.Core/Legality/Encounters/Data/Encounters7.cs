@@ -1,5 +1,6 @@
 ﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
 {
@@ -40,8 +41,8 @@ namespace PKHeX.Core
             new(SM) { Gift = true, Species = 137, Level = 30, Location = 116 }, // Porygon @ Route 15
             new(SM) { Gift = true, Species = 133, Level = 1,  EggLocation = 60002 }, // Eevee @ Nursery helpers
             new(SM) { Gift = true, Species = 772, Level = 40, Location = 188, FlawlessIVCount = 3 }, // Type: Null
-            new(SN) { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = Shiny.Never, Ability = 2, FlawlessIVCount = 3 }, // Cosmog
-            new(MN) { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = Shiny.Never, Ability = 2, FlawlessIVCount = 3 }, // Cosmog
+            new(SN) { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
+            new(MN) { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
             new(SM) { Gift = true, Species = 142, Level = 40, Location = 172 }, // Aerodactyl @ Seafolk Village
 
             new(SM) { Gift = true, Species = 718, Form = 0, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
@@ -56,34 +57,34 @@ namespace PKHeX.Core
 
             new(SM) // Magearna (Bottle Cap) 00 FF
             {
-                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = 2,
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
                 Fateful = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
 
             // Static Encounters - 1.bin
-            new(SM) { Species = 746, Level = 17, Location = 086, Shiny = Shiny.Never, Ability = 1 }, // Wishiwashi
-            new(SM) { Species = 746, Level = 18, Location = 086, Shiny = Shiny.Never, Ability = 1 }, // Wishiwashi
+            new(SM) { Species = 746, Level = 17, Location = 086, Shiny = Shiny.Never, Ability = OnlyFirst }, // Wishiwashi
+            new(SM) { Species = 746, Level = 18, Location = 086, Shiny = Shiny.Never, Ability = OnlyFirst }, // Wishiwashi
 
-            new(SN) { Species = 791, Level = 55, Location = 176, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3, Relearn = new[]{713, 322, 242, 428} }, // Solgaleo
-            new(MN) { Species = 792, Level = 55, Location = 178, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3, Relearn = new[]{714, 322, 539, 247} }, // Lunala
+            new(SN) { Species = 791, Level = 55, Location = 176, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[]{713, 322, 242, 428} }, // Solgaleo
+            new(MN) { Species = 792, Level = 55, Location = 178, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[]{714, 322, 539, 247} }, // Lunala
 
-            new(SM) { Species = 785, Level = 60, Location = 030, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Tapu Koko
-            new(SM) { Species = 786, Level = 60, Location = 092, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Tapu Lele
-            new(SM) { Species = 787, Level = 60, Location = 140, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Tapu Bulu
-            new(SM) { Species = 788, Level = 60, Location = 180, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Tapu Fini
+            new(SM) { Species = 785, Level = 60, Location = 030, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Koko
+            new(SM) { Species = 786, Level = 60, Location = 092, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Lele
+            new(SM) { Species = 787, Level = 60, Location = 140, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Bulu
+            new(SM) { Species = 788, Level = 60, Location = 180, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Fini
 
-            new(SM) { Species = 793, Level = 55, Location = 082, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Nihilego @ Wela Volcano Park
-            new(SM) { Species = 793, Level = 55, Location = 100, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Nihilego @ Diglett’s Tunnel
-            new(SN) { Species = 794, Level = 65, Location = 040, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Buzzwole @ Melemele Meadow
-            new(MN) { Species = 795, Level = 60, Location = 046, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Pheromosa @ Verdant Cavern (Trial Site)
-            new(SM) { Species = 796, Level = 65, Location = 090, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Xurkitree @ Lush Jungle
-            new(SM) { Species = 796, Level = 65, Location = 076, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Xurkitree @ Memorial Hill
-            new(SN) { Species = 798, Level = 60, Location = 134, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Kartana @ Malie Garden
-            new(SN) { Species = 798, Level = 60, Location = 120, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Kartana @ Route 17
-            new(MN) { Species = 797, Level = 65, Location = 124, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Celesteela @ Haina Desert
-            new(MN) { Species = 797, Level = 65, Location = 134, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Celesteela @ Malie Garden
-            new(SM) { Species = 799, Level = 70, Location = 182, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Guzzlord @ Resolution Cave
-            new(SM) { Species = 800, Level = 75, Location = 036, Shiny = Shiny.Never, Ability = 1, FlawlessIVCount = 3 }, // Necrozma @ Ten Carat Hill (Farthest Hollow)
+            new(SM) { Species = 793, Level = 55, Location = 082, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Nihilego @ Wela Volcano Park
+            new(SM) { Species = 793, Level = 55, Location = 100, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Nihilego @ Diglett’s Tunnel
+            new(SN) { Species = 794, Level = 65, Location = 040, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Melemele Meadow
+            new(MN) { Species = 795, Level = 60, Location = 046, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Pheromosa @ Verdant Cavern (Trial Site)
+            new(SM) { Species = 796, Level = 65, Location = 090, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Xurkitree @ Lush Jungle
+            new(SM) { Species = 796, Level = 65, Location = 076, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Xurkitree @ Memorial Hill
+            new(SN) { Species = 798, Level = 60, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Malie Garden
+            new(SN) { Species = 798, Level = 60, Location = 120, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Route 17
+            new(MN) { Species = 797, Level = 65, Location = 124, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Haina Desert
+            new(MN) { Species = 797, Level = 65, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Malie Garden
+            new(SM) { Species = 799, Level = 70, Location = 182, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Guzzlord @ Resolution Cave
+            new(SM) { Species = 800, Level = 75, Location = 036, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Necrozma @ Ten Carat Hill (Farthest Hollow)
 
             // QR Scan: Su/M/Tu/W/Th/F/Sa
             // Melemele Island
@@ -126,13 +127,13 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade7[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
-            new(SM) { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
-            new(SM) { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
-            new(SM) { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
-            new(SM) { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
-            new(SM) { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-            new(SM) { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
-            new(SM) { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
+            new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
+            new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
+            new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
+            new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
+            new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+            new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
+            new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
         };
 
         private static readonly EncounterStatic7[] Encounter_USUM =
@@ -155,31 +156,31 @@ namespace PKHeX.Core
             new(USUM) { Gift = true, Species = 137, Level = 30, Location = 116 }, // Porygon @ Route 15
             new(USUM) { Gift = true, Species = 772, Level = 60, Location = 188, FlawlessIVCount = 3 }, // Type: Null @ Aether Paradise
             new(USUM) { Gift = true, Species = 772, Level = 60, Location = 160, FlawlessIVCount = 3 }, // Type: Null @ Ancient Poni Path
-            new(US  ) { Gift = true, Species = 789, Level = 05, Location = 142, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = 2 }, // Cosmog @ Lake of the Sunne
-            new(  UM) { Gift = true, Species = 789, Level = 05, Location = 144, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = 2 }, // Cosmog @ Lake of the Moone
+            new(US  ) { Gift = true, Species = 789, Level = 05, Location = 142, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = OnlySecond }, // Cosmog @ Lake of the Sunne
+            new(  UM) { Gift = true, Species = 789, Level = 05, Location = 144, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = OnlySecond }, // Cosmog @ Lake of the Moone
             new(USUM) { Gift = true, Species = 142, Level = 40, Location = 172 }, // Aerodactyl @ Seafolk Village
             new(USUM) { Gift = true, Species = 025, Level = 40, Location = 070, FlawlessIVCount = 3, HeldItem = 796, Relearn = new[] {57,0,0,0} }, // Pikachu @ Heahea City
             new(USUM) { Gift = true, Species = 803, Level = 40, Location = 208, FlawlessIVCount = 3 }, // Poipole @ Megalo Tower
             new(USUM) { Gift = true, Species = 803, Level = 40, Location = 206, FlawlessIVCount = 3 }, // Poipole @ Ultra Megalopolis
 
             // Totem-Sized Gifts @ Heahea Beach
-            new(US  ) { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Gumshoos
-            new(  UM) { Gift = true, Species = 020, Level = 20, Ability = 4, Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Raticate
-            new(US  ) { Gift = true, Species = 105, Level = 25, Ability = 4, Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Marowak
-            new(  UM) { Gift = true, Species = 752, Level = 25, Ability = 1, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Araquanid
-            new(US  ) { Gift = true, Species = 754, Level = 30, Ability = 2, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Lurantis
-            new(  UM) { Gift = true, Species = 758, Level = 30, Ability = 1, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Salazzle
-            new(US  ) { Gift = true, Species = 738, Level = 35, Ability = 1, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Vikavolt
-            new(  UM) { Gift = true, Species = 777, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Togedemaru
-            new(USUM) { Gift = true, Species = 778, Level = 40, Ability = 1, Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mimikyu
-            new(US  ) { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Ribombee
-            new(  UM) { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kommo-o
+            new(US  ) { Gift = true, Species = 735, Level = 20, Ability = OnlyHidden, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Gumshoos
+            new(  UM) { Gift = true, Species = 020, Level = 20, Ability = OnlyHidden, Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Raticate
+            new(US  ) { Gift = true, Species = 105, Level = 25, Ability = OnlyHidden, Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Marowak
+            new(  UM) { Gift = true, Species = 752, Level = 25, Ability = OnlyFirst,  Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Araquanid
+            new(US  ) { Gift = true, Species = 754, Level = 30, Ability = OnlySecond, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Lurantis
+            new(  UM) { Gift = true, Species = 758, Level = 30, Ability = OnlyFirst,  Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Salazzle
+            new(US  ) { Gift = true, Species = 738, Level = 35, Ability = OnlyFirst,  Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Vikavolt
+            new(  UM) { Gift = true, Species = 777, Level = 35, Ability = OnlyHidden, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Togedemaru
+            new(USUM) { Gift = true, Species = 778, Level = 40, Ability = OnlyFirst,  Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mimikyu
+            new(US  ) { Gift = true, Species = 743, Level = 50, Ability = OnlyHidden, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Ribombee
+            new(  UM) { Gift = true, Species = 784, Level = 50, Ability = OnlyHidden, Location = 202, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kommo-o
 
-            new(USUM) { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde (10%) @ Route 16
+            new(USUM) { Gift = true, Species = 718, Level = 63, Ability = OnlyFirst,  Location = 118, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde (10%) @ Route 16
 
             new(USUM) // Magearna (Bottle Cap)
             {
-                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = 2,
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
                 Fateful = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
 
@@ -188,8 +189,8 @@ namespace PKHeX.Core
             new(USUM) { Gift = true, Species = 718, Form = 2, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3 }, // Zygarde (10%-C)
             new(USUM) { Gift = true, Species = 718, Form = 3, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3 }, // Zygarde (50%-C)
 
-            new(US  ) { Species = 791, Level = 60, Location = 028, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {713,322,242,428} }, // Solgaleo @ Mahalo Trail (Plank Bridge)
-            new(  UM) { Species = 792, Level = 60, Location = 028, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {714,322,539,585} }, // Lunala @ Mahalo Trail (Plank Bridge)
+            new(US  ) { Species = 791, Level = 60, Location = 028, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {713,322,242,428} }, // Solgaleo @ Mahalo Trail (Plank Bridge)
+            new(  UM) { Species = 792, Level = 60, Location = 028, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {714,322,539,585} }, // Lunala @ Mahalo Trail (Plank Bridge)
 
             // QR Scan: Su/M/Tu/W/Th/F/Sa
             // Melemele Island
@@ -228,56 +229,56 @@ namespace PKHeX.Core
             new(USUM) { Species = 658, Level = 44, Location = 158, Relearn = new[] {516,164,185,594} }, // Greninja @ Poni Wilds
             new(USUM) { Species = 655, Level = 44, Location = 160, Relearn = new[] {273,473,113,595} }, // Delphox @ Ancient Poni Path
 
-            new(USUM) { Species = 785, Level = 60, Location = 030, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Koko @ Ruins of Conflict
-            new(USUM) { Species = 786, Level = 60, Location = 092, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Lele @ Ruins of Life
-            new(USUM) { Species = 787, Level = 60, Location = 140, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Bulu @ Ruins of Abundance
-            new(USUM) { Species = 788, Level = 60, Location = 180, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Fini @ Ruins of Hope
+            new(USUM) { Species = 785, Level = 60, Location = 030, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Koko @ Ruins of Conflict
+            new(USUM) { Species = 786, Level = 60, Location = 092, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Lele @ Ruins of Life
+            new(USUM) { Species = 787, Level = 60, Location = 140, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Bulu @ Ruins of Abundance
+            new(USUM) { Species = 788, Level = 60, Location = 180, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Tapu Fini @ Ruins of Hope
 
-            new(USUM) { Species = 023, Level = 10, Location = 012, Ability = 1 }, // Ekans @ Route 2
+            new(USUM) { Species = 023, Level = 10, Location = 012, Ability = OnlyFirst }, // Ekans @ Route 2
 
             new(USUM) { Species = 127, Level = 42, Location = 184, Shiny = Shiny.Never }, // Pinsir @ Exeggutor Island
             new(USUM) { Species = 127, Level = 43, Location = 184, Shiny = Shiny.Never }, // Pinsir @ Exeggutor Island
-            new(USUM) { Species = 800, Level = 65, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {722,334,408,400}, HeldItem = 923 }, // Necrozma @ Mount Lanakila
+            new(USUM) { Species = 800, Level = 65, Location = 146, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {722,334,408,400}, HeldItem = 923 }, // Necrozma @ Mount Lanakila
 
             // Legendaries
-            new(USUM) { Species = 144, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,573,115,258} }, // Articuno
-            new(USUM) { Species = 145, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,435,365,240} }, // Zapdos
-            new(USUM) { Species = 146, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {246,053,403,241} }, // Moltres
-            new(USUM) { Species = 150, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {094,105,129,427} }, // Mewtwo
-            new(US  ) { Species = 243, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Raikou
-            new(  UM) { Species = 244, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {023,044,207,436} }, // Entei
-            new(USUM) { Species = 245, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {061,062,054,240} }, // Suicune
-            new(  UM) { Species = 249, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {285,177,326,246} }, // Lugia
-            new(US  ) { Species = 250, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {682,221,326,246}, HeldItem = 044 }, // Ho-Oh
-            new(USUM) { Species = 377, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Regirock
-            new(USUM) { Species = 378, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Regice
-            new(USUM) { Species = 379, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Registeel
-            new(  UM) { Species = 380, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {296,406,375,273}, Gender = 1 }, // Latias
-            new(US  ) { Species = 381, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {295,406,375,225}, Gender = 0 }, // Latios
-            new(  UM) { Species = 382, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {058,618,347,330} }, // Kyogre
-            new(US  ) { Species = 383, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {089,619,339,076} }, // Groudon
-            new(USUM) { Species = 384, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Rayquaza
-            new(USUM) { Species = 480, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {326,281,133,129} }, // Uxie
-            new(USUM) { Species = 481, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {326,204,248,129} }, // Mesprit
-            new(USUM) { Species = 482, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {326,417,253,129} }, // Azelf
-            new(US  ) { Species = 483, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Dialga
-            new(  UM) { Species = 484, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Palkia
-            new(US  ) { Species = 485, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Heatran
-            new(  UM) { Species = 486, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {428,279,146,109} }, // Regigigas
-            new(USUM) { Species = 487, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {467,396,414,337} }, // Giratina
-            new(USUM) { Species = 488, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Gender = 1 }, // Cresselia
-            new(USUM) { Species = 638, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {533,014,098,442} }, // Cobalion
-            new(USUM) { Species = 639, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {533,014,157,444} }, // Terrakion
-            new(USUM) { Species = 640, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {533,014,202,348} }, // Virizion
-            new(US  ) { Species = 641, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Gender = 0 }, // Tornadus
-            new(  UM) { Species = 642, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Gender = 0 }, // Thundurus
-            new(US  ) { Species = 643, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Reshiram
-            new(  UM) { Species = 644, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Zekrom
-            new(USUM) { Species = 645, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Gender = 0 }, // Landorus
-            new(USUM) { Species = 646, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3 }, // Kyurem
-            new(US  ) { Species = 716, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {601,532,400,585} }, // Xerneas
-            new(  UM) { Species = 717, Level = 60, Location = 222, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {613,399,566,094} }, // Yveltal
-            new(USUM) { Species = 718, Level = 60, Location = 182, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {616,137,219,225} }, // Zygarde @ Resolution Cave
+            new(USUM) { Species = 144, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {246,573,115,258} }, // Articuno
+            new(USUM) { Species = 145, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {246,435,365,240} }, // Zapdos
+            new(USUM) { Species = 146, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {246,053,403,241} }, // Moltres
+            new(USUM) { Species = 150, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {094,105,129,427} }, // Mewtwo
+            new(US  ) { Species = 243, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Raikou
+            new(  UM) { Species = 244, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {023,044,207,436} }, // Entei
+            new(USUM) { Species = 245, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {061,062,054,240} }, // Suicune
+            new(  UM) { Species = 249, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {285,177,326,246} }, // Lugia
+            new(US  ) { Species = 250, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {682,221,326,246}, HeldItem = 044 }, // Ho-Oh
+            new(USUM) { Species = 377, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Regirock
+            new(USUM) { Species = 378, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Regice
+            new(USUM) { Species = 379, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Registeel
+            new(  UM) { Species = 380, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {296,406,375,273}, Gender = 1 }, // Latias
+            new(US  ) { Species = 381, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {295,406,375,225}, Gender = 0 }, // Latios
+            new(  UM) { Species = 382, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {058,618,347,330} }, // Kyogre
+            new(US  ) { Species = 383, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {089,619,339,076} }, // Groudon
+            new(USUM) { Species = 384, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Rayquaza
+            new(USUM) { Species = 480, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {326,281,133,129} }, // Uxie
+            new(USUM) { Species = 481, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {326,204,248,129} }, // Mesprit
+            new(USUM) { Species = 482, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {326,417,253,129} }, // Azelf
+            new(US  ) { Species = 483, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Dialga
+            new(  UM) { Species = 484, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Palkia
+            new(US  ) { Species = 485, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Heatran
+            new(  UM) { Species = 486, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {428,279,146,109} }, // Regigigas
+            new(USUM) { Species = 487, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {467,396,414,337} }, // Giratina
+            new(USUM) { Species = 488, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Gender = 1 }, // Cresselia
+            new(USUM) { Species = 638, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {533,014,098,442} }, // Cobalion
+            new(USUM) { Species = 639, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {533,014,157,444} }, // Terrakion
+            new(USUM) { Species = 640, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {533,014,202,348} }, // Virizion
+            new(US  ) { Species = 641, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Gender = 0 }, // Tornadus
+            new(  UM) { Species = 642, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Gender = 0 }, // Thundurus
+            new(US  ) { Species = 643, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Reshiram
+            new(  UM) { Species = 644, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zekrom
+            new(USUM) { Species = 645, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Gender = 0 }, // Landorus
+            new(USUM) { Species = 646, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kyurem
+            new(US  ) { Species = 716, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {601,532,400,585} }, // Xerneas
+            new(  UM) { Species = 717, Level = 60, Location = 222, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {613,399,566,094} }, // Yveltal
+            new(USUM) { Species = 718, Level = 60, Location = 182, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3, Relearn = new[] {616,137,219,225} }, // Zygarde @ Resolution Cave
 
             // Ultra Space Wilds
             new(USUM) { Species = 334, Level = 60, Location = 222, FlawlessIVCount = 3 }, // Altaria
@@ -302,15 +303,15 @@ namespace PKHeX.Core
             new(USUM) { Species = 195, Level = 60, Location = 222, FlawlessIVCount = 3 }, // Quagsire
 
             // Ultra Beasts
-            new(USUM) { Species = 793, Level = 60, Location = 190, Ability = 1, FlawlessIVCount = 3, Relearn = new[] {408,491,446,243} }, // Nihilego @ Ultra Deep Sea
-            new(US  ) { Species = 794, Level = 60, Location = 218, Ability = 1, FlawlessIVCount = 3 }, // Buzzwole @ Ultra Jungle
-            new(  UM) { Species = 795, Level = 60, Location = 214, Ability = 1, FlawlessIVCount = 3 }, // Pheromosa @ Ultra Desert
-            new(USUM) { Species = 796, Level = 60, Location = 210, Ability = 1, FlawlessIVCount = 3 }, // Xurkitree @ Ultra Plant
-            new(  UM) { Species = 797, Level = 60, Location = 212, Ability = 1, FlawlessIVCount = 3 }, // Celesteela @ Ultra Crater
-            new(US  ) { Species = 798, Level = 60, Location = 216, Ability = 1, FlawlessIVCount = 3 }, // Kartana @ Ultra Forest
-            new(USUM) { Species = 799, Level = 60, Location = 220, Ability = 1, FlawlessIVCount = 3 }, // Guzzlord @ Ultra Ruin
-            new(  UM) { Species = 805, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3 }, // Stakataka @ Poni Grove
-            new(US  ) { Species = 806, Level = 60, Location = 164, Ability = 1, FlawlessIVCount = 3 }, // Blacephalon @ Poni Grove
+            new(USUM) { Species = 793, Level = 60, Location = 190, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new[] {408,491,446,243} }, // Nihilego @ Ultra Deep Sea
+            new(US  ) { Species = 794, Level = 60, Location = 218, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Ultra Jungle
+            new(  UM) { Species = 795, Level = 60, Location = 214, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Pheromosa @ Ultra Desert
+            new(USUM) { Species = 796, Level = 60, Location = 210, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Xurkitree @ Ultra Plant
+            new(  UM) { Species = 797, Level = 60, Location = 212, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Ultra Crater
+            new(US  ) { Species = 798, Level = 60, Location = 216, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Ultra Forest
+            new(USUM) { Species = 799, Level = 60, Location = 220, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Guzzlord @ Ultra Ruin
+            new(  UM) { Species = 805, Level = 60, Location = 164, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Stakataka @ Poni Grove
+            new(US  ) { Species = 806, Level = 60, Location = 164, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Blacephalon @ Poni Grove
 
             // Ditto Five
             new(USUM) { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,00,30,-1}, Nature = Nature.Bold }, // Ditto @ Route 9
@@ -328,7 +329,7 @@ namespace PKHeX.Core
             new(USUM) { Species = 425, Level = 19, Location = 230, Shiny = Shiny.Never, Relearn = new[] {310,132,016,371} }, // Drifloon @ Route 1 (Trainers’ School)
             new(  UM) { Species = 769, Level = 30, Location = 116, Shiny = Shiny.Never, Relearn = new[] {310,523,072,328} }, // Sandygast @ Route 15
             new(USUM) { Species = 592, Level = 34, Location = 126, Shiny = Shiny.Never, Gender = 1 }, // Frillish @ Route 14
-            new(USUM) { Species = 101, Level = 60, Location = 224, Ability = 1, Shiny = Shiny.Never }, // Electrode @ Team Rocket's Castle
+            new(USUM) { Species = 101, Level = 60, Location = 224, Ability = OnlyFirst,  Shiny = Shiny.Never }, // Electrode @ Team Rocket's Castle
 
             // Crabrawler in Berry Piles
             new(USUM) { Species = 739, Level = 25, Location = 106 }, // Route 10
@@ -340,13 +341,13 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade7[] TradeGift_USUM =
         {
             // Trades - 4.bin
-            new(USUM) { Species = 701, Form = 0, Level = 08, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
-            new(USUM) { Species = 714, Form = 0, Level = 19, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
-            new(USUM) { Species = 339, Form = 0, Level = 21, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
-            new(USUM) { Species = 024, Form = 0, Level = 22, Ability = 1, TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
-            new(USUM) { Species = 708, Form = 0, Level = 33, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
-            new(USUM) { Species = 422, Form = 0, Level = 44, Ability = 2, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
-            new(USUM) { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
+            new(USUM) { Species = 701, Form = 0, Level = 08, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
+            new(USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
+            new(USUM) { Species = 339, Form = 0, Level = 21, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
+            new(USUM) { Species = 024, Form = 0, Level = 22, Ability = OnlyFirst,  TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
+            new(USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
+            new(USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
+            new(USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
         };
 
         private const string tradeSM = "tradesm";

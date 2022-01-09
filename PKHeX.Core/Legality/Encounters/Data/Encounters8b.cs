@@ -1,6 +1,7 @@
 ﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
 {
@@ -38,8 +39,8 @@ namespace PKHeX.Core
             new (BDSP) { Gift = true, Species = 410, Level = 01, Location = 049, FlawlessIVCount = 3 }, // Shieldon
 
             // Game-specific gifts
-            new (BDSP) { Gift = true, Species = 151, Level = 01, Ability = 2, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Mew
-            new (BDSP) { Gift = true, Species = 385, Level = 05, Ability = 2, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Jirachi
+            new (BDSP) { Gift = true, Species = 151, Level = 01, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Mew
+            new (BDSP) { Gift = true, Species = 385, Level = 05, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Jirachi
 
             // Stationary
             new (BDSP) { Species = 425, Level = 22, Location = 197 }, // Drifloon
@@ -65,25 +66,25 @@ namespace PKHeX.Core
           //new (BDSP) { Species = 493, Level = 80, Location = 218, FlawlessIVCount = 3, Fateful = true }, // Arceus
 
             // Ramanas Park (Pure Space)
-            new (  SP) { Species = 144, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Articuno
-            new (  SP) { Species = 145, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Zapdos
-            new (  SP) { Species = 146, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Moltres
-            new (BD  ) { Species = 243, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Raikou
-            new (BD  ) { Species = 244, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Entei
-            new (BD  ) { Species = 245, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Suicune
-            new (BDSP) { Species = 377, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Regirock
-            new (BDSP) { Species = 378, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Regice
-            new (BDSP) { Species = 379, Level = 70, Ability = 4, Location = 506, FlawlessIVCount = 3 }, // Registeel
-            new (BDSP) { Species = 380, Level = 70,              Location = 506, FlawlessIVCount = 3 }, // Latias
-            new (BDSP) { Species = 381, Level = 70,              Location = 506, FlawlessIVCount = 3 }, // Latios
+            new (  SP) { Species = 144, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Articuno
+            new (  SP) { Species = 145, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Zapdos
+            new (  SP) { Species = 146, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Moltres
+            new (BD  ) { Species = 243, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Raikou
+            new (BD  ) { Species = 244, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Entei
+            new (BD  ) { Species = 245, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Suicune
+            new (BDSP) { Species = 377, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Regirock
+            new (BDSP) { Species = 378, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Regice
+            new (BDSP) { Species = 379, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Registeel
+            new (BDSP) { Species = 380, Level = 70, Location = 506, FlawlessIVCount = 3                       }, // Latias
+            new (BDSP) { Species = 381, Level = 70, Location = 506, FlawlessIVCount = 3                       }, // Latios
 
             // Ramanas Park (Strange Space)
-            new (BDSP) { Species = 150, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Mewtwo
-            new (  SP) { Species = 249, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Lugia
-            new (BD  ) { Species = 250, Level = 70, Ability = 4, Location = 507, FlawlessIVCount = 3 }, // Ho-Oh
-            new (BDSP) { Species = 382, Level = 70,              Location = 507, FlawlessIVCount = 3 }, // Kyogre
-            new (BDSP) { Species = 383, Level = 70,              Location = 507, FlawlessIVCount = 3 }, // Groudon
-            new (BDSP) { Species = 384, Level = 70,              Location = 507, FlawlessIVCount = 3 }, // Rayquaza
+            new (BDSP) { Species = 150, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Mewtwo
+            new (  SP) { Species = 249, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Lugia
+            new (BD  ) { Species = 250, Level = 70, Location = 507, FlawlessIVCount = 3, Ability = OnlyHidden }, // Ho-Oh
+            new (BDSP) { Species = 382, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Kyogre
+            new (BDSP) { Species = 383, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Groudon
+            new (BDSP) { Species = 384, Level = 70, Location = 507, FlawlessIVCount = 3                       }, // Rayquaza
         };
 
         internal static readonly EncounterStatic8b[] StaticBD = GetEncounters(Encounter_BDSP, BD);
@@ -94,10 +95,10 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade8b[] TradeGift_BDSP =
         {
-            new (BDSP) { Species = 063, Level = 09, Ability = 1, Gender = 0, OTGender = 0, TID = 25643, IVs = new[] {28,10,09,31,11,03}, Moves = new[] {100,000,000,000}, HeightScalar = 029, WeightScalar = 202, Nature = Nature.Quiet  }, // Abra
-            new (BDSP) { Species = 441, Level = 15, Ability = 2, Gender = 1, OTGender = 0, TID = 44142, IVs = new[] {17,08,29,25,17,23}, Moves = new[] {448,047,064,045}, HeightScalar = 088, WeightScalar = 091, Nature = Nature.Lonely }, // Chatot
-            new (BDSP) { Species = 093, Level = 33, Ability = 1, Gender = 0, OTGender = 0, TID = 19248, IVs = new[] {18,24,28,02,22,30}, Moves = new[] {247,371,389,109}, HeightScalar = 096, WeightScalar = 208, Nature = Nature.Hasty  }, // Haunter
-            new (BDSP) { Species = 129, Level = 45, Ability = 1, Gender = 1, OTGender = 0, TID = 53277, IVs = new[] {03,03,31,02,11,03}, Moves = new[] {150,000,000,000}, HeightScalar = 169, WeightScalar = 068, Nature = Nature.Mild   }, // Magikarp
+            new (BDSP) { Species = 063, Level = 09, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 25643, IVs = new[] {28,10,09,31,11,03}, Moves = new[] {100,000,000,000}, HeightScalar = 029, WeightScalar = 202, Nature = Nature.Quiet  }, // Abra
+            new (BDSP) { Species = 441, Level = 15, Ability = OnlySecond, Gender = 1, OTGender = 0, TID = 44142, IVs = new[] {17,08,29,25,17,23}, Moves = new[] {448,047,064,045}, HeightScalar = 088, WeightScalar = 091, Nature = Nature.Lonely }, // Chatot
+            new (BDSP) { Species = 093, Level = 33, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 19248, IVs = new[] {18,24,28,02,22,30}, Moves = new[] {247,371,389,109}, HeightScalar = 096, WeightScalar = 208, Nature = Nature.Hasty  }, // Haunter
+            new (BDSP) { Species = 129, Level = 45, Ability = OnlyFirst,  Gender = 1, OTGender = 0, TID = 53277, IVs = new[] {03,03,31,02,11,03}, Moves = new[] {150,000,000,000}, HeightScalar = 169, WeightScalar = 068, Nature = Nature.Mild   }, // Magikarp
         };
     }
 }

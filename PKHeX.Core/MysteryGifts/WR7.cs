@@ -20,7 +20,7 @@ namespace PKHeX.Core
         public WR7() : this(new byte[Size]) { }
         public WR7(byte[] data) : base(data) { }
 
-        public override int Ability => -1; // undefined
+        public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 
         public uint Epoch
         {

@@ -114,7 +114,7 @@ namespace PKHeX.Core
 
         // Properties
         public virtual int Species { get => -1; set { } }
-        public abstract int Ability { get; }
+        public abstract AbilityPermission Ability { get; }
         public abstract bool GiftUsed { get; set; }
         public abstract string CardTitle { get; set; }
         public abstract int CardID { get; set; }
