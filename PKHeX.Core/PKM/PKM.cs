@@ -458,15 +458,17 @@ namespace PKHeX.Core
                     mark[i] = (MarkValue >> i) & 1;
                 return mark;
             }
-            set
-            {
-                if (value.Length > 8)
-                    return;
-                byte b = 0;
-                for (int i = 0; i < value.Length; i++)
-                    b |= (byte)(Math.Min(value[i], 1) << i);
-                MarkValue = b;
-            }
+            set => SetMarkings(value);
+        }
+
+        public virtual void SetMarkings(ReadOnlySpan<int> value)
+        {
+            if (value.Length > 8)
+                return;
+            byte b = 0;
+            for (int i = 0; i < value.Length; i++)
+                b |= (byte)(Math.Min(value[i], 1) << i);
+            MarkValue = b;
         }
 
         private int HPBitValPower => ((IV_HP & 2) >> 1) | ((IV_ATK & 2) >> 0) | ((IV_DEF & 2) << 1) | ((IV_SPE & 2) << 2) | ((IV_SPA & 2) << 3) | ((IV_SPD & 2) << 4);

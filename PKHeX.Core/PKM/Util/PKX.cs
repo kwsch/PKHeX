@@ -290,13 +290,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">Input array to reorder</param>
         /// <returns>Same array, reordered.</returns>
-        public static int[] ReorderSpeedLast(int[] value)
+        public static void ReorderSpeedLast(Span<int> value)
         {
             var spe = value[3];
             value[3] = value[4];
             value[4] = value[5];
             value[5] = spe;
-            return value;
         }
     }
 }

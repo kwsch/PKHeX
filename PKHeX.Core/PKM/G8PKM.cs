@@ -489,15 +489,17 @@ namespace PKHeX.Core
                     marks[i] = ((val >> (i * 2)) & 3) % 3;
                 return marks;
             }
-            set
-            {
-                if (value.Length > 8)
-                    return;
-                int v = 0;
-                for (int i = 0; i < value.Length; i++)
-                    v |= (value[i] % 3) << (i * 2);
-                MarkValue = v;
-            }
+            set => SetMarkings(value);
+        }
+
+        public override void SetMarkings(ReadOnlySpan<int> value)
+        {
+            if (value.Length > 8)
+                return;
+            int v = 0;
+            for (int i = 0; i < value.Length; i++)
+                v |= (value[i] % 3) << (i * 2);
+            MarkValue = v;
         }
 
         public bool GetRibbon(int index) => FlagUtil.GetFlag(Data, GetRibbonByte(index), index & 7);

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -13,7 +13,9 @@ namespace PKHeX.Core
             var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
-            var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
+
+            Span<int> IVs = stackalloc int[6];
+            LoadIVs(raid, IVs);
             return Verify(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
         }
 
@@ -25,8 +27,23 @@ namespace PKHeX.Core
             var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
-            var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
+
+            Span<int> IVs = stackalloc int[6];
+            LoadIVs(raid, IVs);
             ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+        }
+
+        private static void LoadIVs<T>(T raid, Span<int> IVs) where T : EncounterStatic8Nest<T>
+        {
+            if (raid.IVs.Count == 0)
+            {
+                IVs.Fill(-1);
+            }
+            else
+            {
+                ((int[])raid.IVs).CopyTo(IVs);
+                PKX.ReorderSpeedLast(IVs);
+            }
         }
 
         private static int RemapAbilityToParam(AbilityPermission a) => a switch
@@ -36,9 +53,7 @@ namespace PKHeX.Core
             _ => a.GetSingleValue(),
         };
 
-        private static int[] GetBlankIVTemplate() => new[] {-1, -1, -1, -1, -1, -1};
-
-        private static bool Verify(PKM pk, ulong seed, int[] ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+        private static bool Verify(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
         {
             var rng = new Xoroshiro128Plus(seed);
             var ec = (uint)rng.NextInt();
@@ -67,7 +82,7 @@ namespace PKHeX.Core
 
             const int UNSET = -1;
             const int MAX = 31;
-            for (int i = ivs.Count(z => z == MAX); i < iv_count; i++)
+            for (int i = ivs.Count(MAX); i < iv_count; i++)
             {
                 int index = (int)rng.NextInt(6);
                 while (ivs[index] != UNSET)
@@ -188,7 +203,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool ApplyDetailsTo(PKM pk, ulong seed, int[] ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+        private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
         {
             var rng = new Xoroshiro128Plus(seed);
             pk.EncryptionConstant = (uint)rng.NextInt();
@@ -223,7 +238,7 @@ namespace PKHeX.Core
 
             const int UNSET = -1;
             const int MAX = 31;
-            for (int i = ivs.Count(z => z == MAX); i < iv_count; i++)
+            for (int i = ivs.Count(MAX); i < iv_count; i++)
             {
                 int index = (int)rng.NextInt(6);
                 while (ivs[index] != UNSET)

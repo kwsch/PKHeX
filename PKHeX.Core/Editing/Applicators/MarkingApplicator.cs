@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -24,8 +23,12 @@ namespace PKHeX.Core
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
 
-            var markings = ivs.Select(MarkingMethod(pk)).ToArray(); // future: stackalloc
-            pk.Markings = PKX.ReorderSpeedLast(markings);
+            Span<int> markings = stackalloc int[ivs.Length];
+            var method = MarkingMethod(pk);
+            for (int i = 0; i < markings.Length; i++)
+                markings[i] = method(ivs[i], i);
+            PKX.ReorderSpeedLast(markings);
+            pk.SetMarkings(markings);
         }
 
         /// <summary>
