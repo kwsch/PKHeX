@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public int EggLocation => Locations.GetDaycareLocation(Generation, Version);
         public Ball FixedBall => BallBreedLegality.GetDefaultBall(Version, Species);
         public Shiny Shiny => Shiny.Random;
-        public int Ability => -1;
+        public AbilityPermission Ability => AbilityPermission.Any12H;
 
         public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
 

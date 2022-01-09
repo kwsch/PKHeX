@@ -21,7 +21,7 @@ namespace PKHeX.Core
             pk.Gender = criteria.GetGender(-1, pi);
             criteria.SetRandomIVs(pk);
 
-            int num = Ability;
+            var num = Ability;
             if (IsSOS && pk.FlawlessIVCount < 2)
                 num = 0; // let's fake it as an insufficient chain, no HA possible.
             var ability = criteria.GetAbilityFromNumber(num);

@@ -28,7 +28,7 @@ public static class ContestStatInfo
     {
         if (pk is not IContestStatsMutable s)
             return;
-        var restrict = GetContestStatRestriction(pk, pk.Generation);
+        var restrict = GetContestStatRestriction(pk, enc.Generation);
         var baseStat = GetReferenceTemplate(enc);
         if (restrict == None)
             return;

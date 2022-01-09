@@ -472,17 +472,17 @@ namespace PKHeX.Core
         private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
-            03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
+            03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
             _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
         };
 
-        public override int Ability => AbilityType switch
+        public override AbilityPermission Ability => AbilityType switch
         {
-            0 => 1,
-            1 => 2,
-            2 => 4,
-            3 => 0,
-            _ => -1,
+            0 => AbilityPermission.OnlyFirst,
+            1 => AbilityPermission.OnlySecond,
+            2 => AbilityPermission.OnlyHidden,
+            3 => AbilityPermission.Any12,
+            _ => AbilityPermission.Any12H,
         };
 
         private void SetPID(PKM pk)

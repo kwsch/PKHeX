@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public string LongName => "Invalid";
         public int Location => 0;
         public int EggLocation => 0;
-        public int Ability => 0;
+        public AbilityPermission Ability => AbilityPermission.Any12H;
         public Ball FixedBall => Ball.None;
 
         private EncounterInvalid() { }

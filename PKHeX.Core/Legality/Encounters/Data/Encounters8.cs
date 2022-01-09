@@ -2,6 +2,7 @@
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AreaWeather8;
+using static PKHeX.Core.AbilityPermission;
 
 using static PKHeX.Core.Encounters8Nest;
 
@@ -44,40 +45,40 @@ namespace PKHeX.Core
             new(SWSH) { Gift = true, Species = 882, FlawlessIVCount = 3, Level = 10, Location = 068 }, // Dracovish @ Route 6
             new(SWSH) { Gift = true, Species = 883, FlawlessIVCount = 3, Level = 10, Location = 068 }, // Arctovish @ Route 6
 
-            new(SWSH) { Gift = true, Species = 004, Shiny = Never, Level = 05, Location = 006, FlawlessIVCount = 3, CanGigantamax = true, Ability = 1 }, // Charmander
+            new(SWSH) { Gift = true, Species = 004, Shiny = Never, Level = 05, Location = 006, FlawlessIVCount = 3, CanGigantamax = true, Ability = OnlyFirst }, // Charmander
             new(SWSH) { Gift = true, Species = 025, Shiny = Never, Level = 10, Location = 156, FlawlessIVCount = 6, CanGigantamax = true }, // Pikachu
             new(SWSH) { Gift = true, Species = 133, Shiny = Never, Level = 10, Location = 156, FlawlessIVCount = 6, CanGigantamax = true }, // Eevee
 
             // DLC gifts
-            new(SWSH) { Gift = true, Species = 001, Level = 05, Location = 196, Shiny = Never, Ability = 1, FlawlessIVCount = 3, CanGigantamax = true }, // Bulbasaur
-            new(SWSH) { Gift = true, Species = 007, Level = 05, Location = 196, Shiny = Never, Ability = 1, FlawlessIVCount = 3, CanGigantamax = true }, // Squirtle
-            new(SWSH) { Gift = true, Species = 137, Level = 25, Location = 196, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Porygon
+            new(SWSH) { Gift = true, Species = 001, Level = 05, Location = 196, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3, CanGigantamax = true }, // Bulbasaur
+            new(SWSH) { Gift = true, Species = 007, Level = 05, Location = 196, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3, CanGigantamax = true }, // Squirtle
+            new(SWSH) { Gift = true, Species = 137, Level = 25, Location = 196, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3 }, // Porygon
             new(SWSH) { Gift = true, Species = 891, Level = 10, Location = 196, Shiny = Never, FlawlessIVCount = 3 }, // Kubfu
 
-            new(SWSH) { Gift = true, Species = 079, Level = 10, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Slowpoke
-            new(SWSH) { Gift = true, Species = 722, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Rowlet
-            new(SWSH) { Gift = true, Species = 725, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Litten
-            new(SWSH) { Gift = true, Species = 728, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Popplio
-            new(SWSH) { Gift = true, Species = 026, Level = 30, Location = 164, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Form = 01 }, // Raichu-1
-            new(SWSH) { Gift = true, Species = 027, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Sandshrew-1
-            new(SWSH) { Gift = true, Species = 037, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Vulpix-1
-            new(SWSH) { Gift = true, Species = 052, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Meowth-1
-            new(SWSH) { Gift = true, Species = 103, Level = 30, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Exeggutor-1
-            new(SWSH) { Gift = true, Species = 105, Level = 30, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Marowak-1
-            new(SWSH) { Gift = true, Species = 050, Level = 20, Location = 164, Shiny = Never, Ability = 4, Gender = 0, Nature = Nature.Jolly, FlawlessIVCount = 6, Form = 01 }, // Diglett-1
+            new(SWSH) { Gift = true, Species = 079, Level = 10, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3 }, // Slowpoke
+            new(SWSH) { Gift = true, Species = 722, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3 }, // Rowlet
+            new(SWSH) { Gift = true, Species = 725, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3 }, // Litten
+            new(SWSH) { Gift = true, Species = 728, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3 }, // Popplio
+            new(SWSH) { Gift = true, Species = 026, Level = 30, Location = 164, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Form = 01 }, // Raichu-1
+            new(SWSH) { Gift = true, Species = 027, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3, Form = 01 }, // Sandshrew-1
+            new(SWSH) { Gift = true, Species = 037, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3, Form = 01 }, // Vulpix-1
+            new(SWSH) { Gift = true, Species = 052, Level = 05, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3, Form = 01 }, // Meowth-1
+            new(SWSH) { Gift = true, Species = 103, Level = 30, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3, Form = 01 }, // Exeggutor-1
+            new(SWSH) { Gift = true, Species = 105, Level = 30, Location = 164, Shiny = Never, Ability = OnlyHidden, FlawlessIVCount = 3, Form = 01 }, // Marowak-1
+            new(SWSH) { Gift = true, Species = 050, Level = 20, Location = 164, Shiny = Never, Ability = OnlyHidden, Gender = 0, Nature = Nature.Jolly, FlawlessIVCount = 6, Form = 01 }, // Diglett-1
 
-            new(SWSH) { Gift = true, Species = 789, Level = 05, Location = 206, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
-            new(SWSH) { Gift = true, Species = 803, Level = 20, Location = 244, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Ball = 26 }, // Poipole
+            new(SWSH) { Gift = true, Species = 789, Level = 05, Location = 206, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Cosmog
+            new(SWSH) { Gift = true, Species = 803, Level = 20, Location = 244, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Ball = 26 }, // Poipole
 
             // Technically a gift, but copies ball from Calyrex.
-            new(SWSH) { Species = 896, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {556,0,0,0} }, // Glastrier
-            new(SWSH) { Species = 897, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {247,0,0,0} }, // Spectrier
+            new(SWSH) { Species = 896, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Relearn = new[] {556,0,0,0} }, // Glastrier
+            new(SWSH) { Species = 897, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Relearn = new[] {247,0,0,0} }, // Spectrier
 
             #region Static Part 1
             // encounters
-            new(SW  ) { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Zacian
-            new(  SH) { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Zamazenta
-            new(SWSH) { Species = 890, Level = 60, Location = 66, ScriptedNoMarks = true, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
+            new(SW  ) { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zacian
+            new(  SH) { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zamazenta
+            new(SWSH) { Species = 890, Level = 60, Location = 66, ScriptedNoMarks = true, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
 
             // Motostoke Stadium Static Encounters
             new(SWSH) { Species = 037, Level = 24, Location = 24, ScriptedNoMarks = true }, // Vulpix at Motostoke Stadium
@@ -85,7 +86,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 607, Level = 25, Location = 24, ScriptedNoMarks = true }, // Litwick at Motostoke Stadium
             new(SWSH) { Species = 850, Level = 25, Location = 24, ScriptedNoMarks = true, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
 
-            new(SWSH) { Species = 618, Level = 25, Location = 054, Moves = new[] {389,319,279,341}, Form = 01, Ability = 1 }, // Stunfisk in Galar Mine No. 2
+            new(SWSH) { Species = 618, Level = 25, Location = 054, Moves = new[] {389,319,279,341}, Form = 01, Ability = OnlyFirst }, // Stunfisk in Galar Mine No. 2
             new(SWSH) { Species = 618, Level = 48, Location = 008, Moves = new[] {779,330,340,334}, Form = 01 }, // Stunfisk in the Slumbering Weald
             new(SWSH) { Species = 527, Level = 16, Location = 030, Moves = new[] {000,000,000,000} }, // Woobat in Galar Mine
             new(SWSH) { Species = 838, Level = 18, Location = 030, Moves = new[] {488,397,229,033} }, // Carkol in Galar Mine
@@ -171,7 +172,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 593, Level = 46, Location = 130, Weather = Overcast | Raining | Heavy_Fog }, // Jellicent at West Lake Axewell
             new EncounterStatic8S(SWSH) { Species = 119, Level = 46, Locations = new[] {130, 142}, Weather = Normal | Overcast | Sandstorm }, // Seaking at West Lake Axewell, Bridge Field
             new EncounterStatic8S(SWSH) { Species = 131, Level = 56, Locations = new[] {130, 134, 138, 154}, Weather = Normal | Stormy | Icy | Heavy_Fog }, // Lapras at North/East/South Lake Miloch/Axewell, the Lake of Outrage
-            new(SWSH) { Species = 612, Level = 60, Location = 132, Ability = 1, Weather = Normal | Overcast | Raining | Intense_Sun | Sandstorm | Heavy_Fog }, // Haxorus on Axew’s Eye
+            new(SWSH) { Species = 612, Level = 60, Location = 132, Ability = OnlyFirst,  Weather = Normal | Overcast | Raining | Intense_Sun | Sandstorm | Heavy_Fog }, // Haxorus on Axew’s Eye
             new(SWSH) { Species = 845, Level = 65, Location = 132, Weather = All }, // Cramorant on Axew’s Eye
             new(SWSH) { Species = 537, Level = 60, Location = 132, Weather = Thunderstorm }, // Seismitoad on Axew’s Eye
             new(SWSH) { Species = 460, Level = 60, Location = 132, Weather = Icy }, // Abomasnow on Axew’s Eye
@@ -192,7 +193,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 426, Level = 46, Locations = new[] {134, 138}, Weather = Normal | Overcast | Snowstorm | Heavy_Fog }, // Drifblim at North/South Lake Miloch
             new EncounterStatic8S(SWSH) { Species = 130, Level = 60, Locations = new[] {134, 138, 154 }, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy | Sandstorm }, // Gyarados at North/South Lake Miloch, the Lake of Outrage
             new EncounterStatic8S(SWSH) { Species = 593, Level = 46, Locations = new[] {134, 142}, Weather = Raining | Heavy_Fog }, // Jellicent at South Lake Miloch, Bridge Field
-            new EncounterStatic8S(SWSH) { Species = 350, Level = 60, Locations = new[] {134, 154}, Gender = 0, Ability = 1, Weather = Heavy_Fog }, // Milotic at South Lake Miloch, the Lake of Outrage
+            new EncounterStatic8S(SWSH) { Species = 350, Level = 60, Locations = new[] {134, 154}, Gender = 0, Ability = OnlyFirst,  Weather = Heavy_Fog }, // Milotic at South Lake Miloch, the Lake of Outrage
             new(SWSH) { Species = 208, Level = 50, Location = 136, Weather = All }, // Steelix near the Giant’s Seat
             new(SWSH) { Species = 738, Level = 46, Location = 136, Weather = Normal | Overcast | Intense_Sun | Sandstorm }, // Vikavolt near the Giant’s Seat
             new(SWSH) { Species = 112, Level = 46, Location = 136 }, // Rhydon near the Giant’s Seat
@@ -221,7 +222,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 143, Level = 36, Location = 140, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy | Sandstorm }, // Snorlax at the Motostoke Riverbank
             new(SWSH) { Species = 452, Level = 40, Location = 140, Weather = Normal | Stormy | Intense_Sun | Sandstorm }, // Drapion at the Motostoke Riverbank
             new(SWSH) { Species = 561, Level = 36, Location = 140, Weather = All }, // Sigilyph at the Motostoke Riverbank
-            new(SWSH) { Species = 534, Level = 55, Location = 140, Ability = 1, Weather = Normal | Overcast | Stormy | Snowing | Heavy_Fog }, // Conkeldurr at the Motostoke Riverbank
+            new(SWSH) { Species = 534, Level = 55, Location = 140, Ability = OnlyFirst,  Weather = Normal | Overcast | Stormy | Snowing | Heavy_Fog }, // Conkeldurr at the Motostoke Riverbank
             new(SWSH) { Species = 320, Level = 56, Location = 140, Weather = All }, // Wailmer at the Motostoke Riverbank
             new(SWSH) { Species = 561, Level = 40, Location = 140, Weather = Normal | Overcast | Heavy_Fog }, // Sigilyph at the Motostoke Riverbank
             new(SWSH) { Species = 830, Level = 65, Location = 140, Weather = All }, // Eldegoss at the Motostoke Riverbank
@@ -270,7 +271,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 750, Level = 41, Location = 146, Weather = Normal | Intense_Sun | Sandstorm }, // Mudsdale in Dusty Bowl
             new(SWSH) { Species = 185, Level = 41, Location = 146, Weather = Normal | Overcast | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Sudowoodo in Dusty Bowl
             new(SWSH) { Species = 437, Level = 41, Location = 146, Weather = Normal | Stormy | Icy | Heavy_Fog }, // Bronzong in Dusty Bowl
-            new(SW  ) { Species = 784, Level = 60, Location = 146, Ability = 1, Weather = Normal | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Kommo-o in Dusty Bowl
+            new(SW  ) { Species = 784, Level = 60, Location = 146, Ability = OnlyFirst,  Weather = Normal | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Kommo-o in Dusty Bowl
             new(  SH) { Species = 248, Level = 60, Location = 146, Weather = Normal | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Tyranitar in Dusty Bowl
             new(SWSH) { Species = 213, Level = 34, Location = 146, Weather = All }, // Shuckle in Dusty Bowl
             new(SWSH) { Species = 330, Level = 51, Location = 146, Weather = Normal | Sandstorm }, // Flygon in Dusty Bowl
@@ -286,7 +287,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 623, Level = 51, Location = 146, Weather = Overcast | Stormy | Icy | Sandstorm | Heavy_Fog }, // Golurk in Dusty Bowl
             new EncounterStatic8S(SWSH) { Species = 423, Level = 56, Locations = new[] {146, 148}, Form = 01, Weather = All }, // Gastrodon in Dusty Bowl, Giant’s Mirror
             new(SWSH) { Species = 208, Level = 50, Location = 148, Weather = All }, // Steelix around the Giant’s Mirror
-            new(SWSH) { Species = 068, Level = 60, Location = 148, Ability = 1, Weather = All }, // Machamp around the Giant’s Mirror
+            new(SWSH) { Species = 068, Level = 60, Location = 148, Ability = OnlyFirst,  Weather = All }, // Machamp around the Giant’s Mirror
             new(SWSH) { Species = 182, Level = 41, Location = 148, Weather = Normal | Intense_Sun | Heavy_Fog }, // Bellossom around the Giant’s Mirror
             new(SWSH) { Species = 521, Level = 41, Location = 148, Weather = Normal | Overcast | Intense_Sun }, // Unfezant around the Giant’s Mirror
             new(SWSH) { Species = 045, Level = 41, Location = 148, Weather = Overcast | Stormy | Icy | Sandstorm }, // Vileplume around the Giant’s Mirror
@@ -429,7 +430,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 184, Level = 27, Location = 170, Weather = Heavy_Fog }, // Azumarill on Challenge Beach
             new(SWSH) { Species = 549, Level = 26, Location = 170, Weather = Intense_Sun }, // Lilligant on Challenge Beach
             new(SWSH) { Species = 845, Level = 24, Location = 170, Weather = Normal | Overcast | Raining | Intense_Sun | Heavy_Fog }, // Cramorant on Challenge Beach
-            new(SWSH) { Species = 055, Level = 27, Location = 170, Ability = 2, Weather = Thunderstorm | Intense_Sun }, // Golduck on Challenge Beach
+            new(SWSH) { Species = 055, Level = 27, Location = 170, Ability = OnlySecond, Weather = Thunderstorm | Intense_Sun }, // Golduck on Challenge Beach
             new(SWSH) { Species = 702, Level = 25, Location = 170, Weather = Normal | Stormy }, // Dedenne on Challenge Beach
           //new(SWSH) { Species = 113, Level = 27, Location = -1 }, // Chansey
             new(SWSH) { Species = 405, Level = 36, Location = 170, Weather = Thunderstorm }, // Luxray on Challenge Beach
@@ -563,28 +564,28 @@ namespace PKHeX.Core
             #endregion
 
             #region R2 Static Encounters
-            new EncounterStatic8S(SWSH) { Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Weather = All_CT }, // Articuno-1 in the Crown Tundra
-            new EncounterStatic8S(SWSH) { Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Weather = All }, // Zapdos-1 in a Wild Area
-            new EncounterStatic8S(SWSH) { Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190, 192}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Weather = All_IoA }, // Moltres-1 on the Isle of Armor
-            new(SWSH) { Species = 377, Level = 70, Location = 236, ScriptedNoMarks = true, Moves = new[] {276,444,359,174}, FlawlessIVCount = 3, Ability = 1 }, // Regirock
-            new(SWSH) { Species = 378, Level = 70, Location = 238, ScriptedNoMarks = true, Moves = new[] {058,192,133,196}, FlawlessIVCount = 3, Ability = 1 }, // Regice
-            new(SWSH) { Species = 379, Level = 70, Location = 240, ScriptedNoMarks = true, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = 1 }, // Registeel
-            new(SWSH) { Species = 894, Level = 70, Location = 242, ScriptedNoMarks = true, Moves = new[] {819,527,245,393}, FlawlessIVCount = 3, Ability = 1 }, // Regieleki
-            new(SWSH) { Species = 895, Level = 70, Location = 242, ScriptedNoMarks = true, Moves = new[] {820,337,359,673}, FlawlessIVCount = 3, Ability = 1 }, // Regidrago
-            new(SWSH) { Species = 486, Level =100, Location = 210, ScriptedNoMarks = true, Moves = new[] {416,428,359,462}, FlawlessIVCount = 3, Ability = 1, DynamaxLevel = 10 }, // Regigigas in the Giant’s Bed
-            new(SWSH) { Species = 638, Level = 70, Location = 226, FlawlessIVCount = 3, Ability = 1, Weather = No_Sun_Sand }, // Cobalion at the Frigid Sea
-            new(SWSH) { Species = 639, Level = 70, Location = 232, FlawlessIVCount = 3, Ability = 1, Weather = Overcast }, // Terrakion in Lakeside Cavern
-            new(SWSH) { Species = 640, Level = 70, Location = 210, FlawlessIVCount = 3, Ability = 1, Weather = All_CT }, // Virizion at Giant's Bed
-            new(SWSH) { Species = 647, Level = 65, Location = 230, Moves = new[] {548,533,014,056}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Fateful = true, Weather = All_Ballimere }, // Keldeo-1 at Ballimere Lake
-          //new(SWSH) { Species = 896, Level = 75, Location = -1, Moves = new[] {556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Glastrier
-          //new(SWSH) { Species = 897, Level = 75, Location = -1, Moves = new[] {247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Spectrier
-            new(SWSH) { Species = 898, Level = 80, Location = 220, Moves = new[] {202,094,473,505}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, ScriptedNoMarks = true }, // Calyrex
-            new(SWSH) { Species = 442, Level = 72, Location = 230, FlawlessIVCount = 3, Ability = 4, Weather = All_Ballimere }, // Spiritomb at Ballimere Lake
+            new EncounterStatic8S(SWSH) { Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, Weather = All_CT }, // Articuno-1 in the Crown Tundra
+            new EncounterStatic8S(SWSH) { Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, Weather = All }, // Zapdos-1 in a Wild Area
+            new EncounterStatic8S(SWSH) { Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190, 192}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, Weather = All_IoA }, // Moltres-1 on the Isle of Armor
+            new(SWSH) { Species = 377, Level = 70, Location = 236, ScriptedNoMarks = true, Moves = new[] {276,444,359,174}, FlawlessIVCount = 3, Ability = OnlyFirst }, // Regirock
+            new(SWSH) { Species = 378, Level = 70, Location = 238, ScriptedNoMarks = true, Moves = new[] {058,192,133,196}, FlawlessIVCount = 3, Ability = OnlyFirst }, // Regice
+            new(SWSH) { Species = 379, Level = 70, Location = 240, ScriptedNoMarks = true, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = OnlyFirst }, // Registeel
+            new(SWSH) { Species = 894, Level = 70, Location = 242, ScriptedNoMarks = true, Moves = new[] {819,527,245,393}, FlawlessIVCount = 3, Ability = OnlyFirst }, // Regieleki
+            new(SWSH) { Species = 895, Level = 70, Location = 242, ScriptedNoMarks = true, Moves = new[] {820,337,359,673}, FlawlessIVCount = 3, Ability = OnlyFirst }, // Regidrago
+            new(SWSH) { Species = 486, Level =100, Location = 210, ScriptedNoMarks = true, Moves = new[] {416,428,359,462}, FlawlessIVCount = 3, Ability = OnlyFirst,  DynamaxLevel = 10 }, // Regigigas in the Giant’s Bed
+            new(SWSH) { Species = 638, Level = 70, Location = 226, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = No_Sun_Sand }, // Cobalion at the Frigid Sea
+            new(SWSH) { Species = 639, Level = 70, Location = 232, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = Overcast }, // Terrakion in Lakeside Cavern
+            new(SWSH) { Species = 640, Level = 70, Location = 210, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = All_CT }, // Virizion at Giant's Bed
+            new(SWSH) { Species = 647, Level = 65, Location = 230, Moves = new[] {548,533,014,056}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, Fateful = true, Weather = All_Ballimere }, // Keldeo-1 at Ballimere Lake
+          //new(SWSH) { Species = 896, Level = 75, Location = -1, Moves = new[] {556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Glastrier
+          //new(SWSH) { Species = 897, Level = 75, Location = -1, Moves = new[] {247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Spectrier
+            new(SWSH) { Species = 898, Level = 80, Location = 220, Moves = new[] {202,094,473,505}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  ScriptedNoMarks = true }, // Calyrex
+            new(SWSH) { Species = 442, Level = 72, Location = 230, FlawlessIVCount = 3, Ability = OnlyHidden, Weather = All_Ballimere }, // Spiritomb at Ballimere Lake
 
             // suspected unused or uncatchable
-          //new(SWSH) { Species = 803, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Poipole
-          //new(SWSH) { Species = 789, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
-          //new(SWSH) { Species = 494, Level = 70, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Victini
+          //new(SWSH) { Species = 803, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Poipole
+          //new(SWSH) { Species = 789, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Cosmog
+          //new(SWSH) { Species = 494, Level = 70, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Victini
 
             new(SWSH) { Species = 473, Level = 65, Location = 204, Weather = Normal | Overcast | Intense_Sun | Icy }, // Mamoswine on Slippery Slope
             new(SWSH) { Species = 460, Level = 65, Location = 204, Weather = Snowing }, // Abomasnow on Slippery Slope
@@ -767,32 +768,32 @@ namespace PKHeX.Core
 
         private static readonly EncounterTrade8[] TradeGift_Regular =
         {
-            new(SWSH, 052,18,08,000,04,5) { Ability = 2, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Timid, Relearn = new[] {387,000,000,000}   }, // Meowth
-            new(SWSH, 819,10,01,044,01,2) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Mild                                       }, // Skwovet
-            new(SWSH, 546,23,11,000,09,5) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 1, Nature = Nature.Modest                                     }, // Cottonee
-            new(SWSH, 175,25,02,010,10,6) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Timid, Relearn = new[] {791,000,000,000}   }, // Togepi
-            new(SW  , 856,30,09,859,08,3) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 1, Nature = Nature.Quiet                                      }, // Hatenna
-            new(  SH, 859,30,43,000,07,6) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Brave, Relearn = new[] {252,000,000,000}   }, // Impidimp
-            new(SWSH, 562,35,16,310,15,5) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Gender = 0, Nature = Nature.Bold, Relearn = new[] {261,000,000,000}    }, // Yamask
-            new(SW  , 538,37,17,129,20,7) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                                    }, // Throh
-            new(  SH, 539,37,17,129,14,6) { Ability = 1, TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                                    }, // Sawk
-            new(SWSH, 122,40,56,000,12,4) { Ability = 1, TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Calm                                       }, // Mr. Mime
-            new(SWSH, 884,50,15,038,06,2) { Ability = 2, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3, OTGender = 0, Gender = 0, Nature = Nature.Adamant, Relearn = new[] {400,000,000,000} }, // Duraludon
+            new(SWSH, 052,18,08,000,04,5) { Ability = OnlySecond, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Timid, Relearn = new[] {387,000,000,000}   }, // Meowth
+            new(SWSH, 819,10,01,044,01,2) { Ability = OnlyFirst,  TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Mild                                       }, // Skwovet
+            new(SWSH, 546,23,11,000,09,5) { Ability = OnlyFirst,  TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 1, Nature = Nature.Modest                                     }, // Cottonee
+            new(SWSH, 175,25,02,010,10,6) { Ability = OnlySecond, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Timid, Relearn = new[] {791,000,000,000}   }, // Togepi
+            new(SW  , 856,30,09,859,08,3) { Ability = OnlySecond, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 1, Nature = Nature.Quiet                                      }, // Hatenna
+            new(  SH, 859,30,43,000,07,6) { Ability = OnlyFirst,  TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Brave, Relearn = new[] {252,000,000,000}   }, // Impidimp
+            new(SWSH, 562,35,16,310,15,5) { Ability = OnlyFirst,  TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Gender = 0, Nature = Nature.Bold, Relearn = new[] {261,000,000,000}    }, // Yamask
+            new(SW  , 538,37,17,129,20,7) { Ability = OnlySecond, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                                    }, // Throh
+            new(  SH, 539,37,17,129,14,6) { Ability = OnlyFirst,  TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant                                    }, // Sawk
+            new(SWSH, 122,40,56,000,12,4) { Ability = OnlyFirst,  TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Calm                                       }, // Mr. Mime
+            new(SWSH, 884,50,15,038,06,2) { Ability = OnlySecond, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3, OTGender = 0, Gender = 0, Nature = Nature.Adamant, Relearn = new[] {400,000,000,000} }, // Duraludon
         };
 
         private static readonly EncounterTrade8[] TradeGift_R1 =
         {
-            new(SWSH, 052,15,01,033,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
-            new(SW  , 083,15,01,013,10,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {098,000,000,000}               }, // Farfetch’d
-            new(  SH, 222,15,01,069,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {457,000,000,000}               }, // Corsola
-            new(  SH, 077,15,01,047,06,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {234,000,000,000}               }, // Ponyta
-            new(SWSH, 122,15,01,005,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
-            new(SW  , 554,15,01,040,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {326,000,000,000}               }, // Darumaka
-            new(SWSH, 263,15,01,045,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
-            new(SWSH, 618,15,01,050,05,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
-            new(SWSH, 110,15,01,040,12,2) { Ability =-1, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
-            new(SWSH, 103,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
-            new(SWSH, 105,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
+            new(SWSH, 052,15,01,033,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
+            new(SW  , 083,15,01,013,10,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {098,000,000,000}               }, // Farfetch’d
+            new(  SH, 222,15,01,069,12,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {457,000,000,000}               }, // Corsola
+            new(  SH, 077,15,01,047,06,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {234,000,000,000}               }, // Ponyta
+            new(SWSH, 122,15,01,005,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
+            new(SW  , 554,15,01,040,12,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {326,000,000,000}               }, // Darumaka
+            new(SWSH, 263,15,01,045,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
+            new(SWSH, 618,15,01,050,05,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
+            new(SWSH, 110,15,01,040,12,2) { Ability = Any12H,     TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
+            new(SWSH, 103,15,01,038,06,2) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
+            new(SWSH, 105,15,01,038,06,2) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
         };
 
         internal static readonly EncounterTrade8[] TradeGift_SWSH = ArrayUtil.ConcatAll(TradeGift_Regular, TradeGift_R1);

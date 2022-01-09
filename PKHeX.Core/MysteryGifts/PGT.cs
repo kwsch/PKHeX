@@ -25,7 +25,7 @@ namespace PKHeX.Core
             set { if (IsPokémon) PK.Ball = value; }
         }
 
-        public override int Ability => IsManaphyEgg ? 0 : 1 + (int)(PK.PID & 1);
+        public override AbilityPermission Ability => IsManaphyEgg ? AbilityPermission.Any12 : (int)(PK.PID & 1) == 1 ? AbilityPermission.OnlySecond : AbilityPermission.OnlyFirst;
 
         private enum GiftType
         {

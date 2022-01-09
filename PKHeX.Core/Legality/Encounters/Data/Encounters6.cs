@@ -1,5 +1,6 @@
 ﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core
 {
@@ -53,8 +54,8 @@ namespace PKHeX.Core
             new(XY) { Gift = true, Species = 698, Level = 20, Location = 44 }, // Amaura
 
             // Gift
-            new(XY) { Gift = true, Species = 448, Level = 32, Location = 60, Ability = 1, IVs = new[] {06,25,16,31,25,19}, Nature = Nature.Hasty, Gender = 0, Shiny = Shiny.Never }, // Lucario
-            new(XY) { Gift = true, Species = 131, Level = 30, Location = 62, Ability = 1, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Docile }, // Lapras
+            new(XY) { Gift = true, Species = 448, Level = 32, Location = 60, Ability = OnlyFirst,  IVs = new[] {06,25,16,31,25,19}, Nature = Nature.Hasty, Gender = 0, Shiny = Shiny.Never }, // Lucario
+            new(XY) { Gift = true, Species = 131, Level = 30, Location = 62, Ability = OnlyFirst,  IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Docile }, // Lapras
 
             // Stationary
             new(XY) { Species = 143, Level = 15, Location = 038, Shiny = Shiny.Never }, // Snorlax
@@ -79,13 +80,13 @@ namespace PKHeX.Core
             new(XY) { Species = 354, Level = 50, Location = 98 }, // Banette
 
             // Stationary Legendary
-            new(X ) { Species = 716, Level = 50, Location = 138, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Xerneas
-            new( Y) { Species = 717, Level = 50, Location = 138, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Yveltal
-            new(XY) { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-            new(XY) { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mewtwo
-            new(XY) { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Articuno
-            new(XY) { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zapdos
-            new(XY) { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
+            new(X ) { Species = 716, Level = 50, Location = 138, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Xerneas
+            new( Y) { Species = 717, Level = 50, Location = 138, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Yveltal
+            new(XY) { Species = 718, Level = 70, Location = 140, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+            new(XY) { Species = 150, Level = 70, Location = 168, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mewtwo
+            new(XY) { Species = 144, Level = 70, Location = 146, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Articuno
+            new(XY) { Species = 145, Level = 70, Location = 146, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zapdos
+            new(XY) { Species = 146, Level = 70, Location = 146, Ability = OnlyFirst,  Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
         };
 
         private static readonly EncounterStatic6 BaseCosplay = new(ORAS)
@@ -95,7 +96,7 @@ namespace PKHeX.Core
             Form = 6,
             Level = 20,
             Gender = 1,
-            Ability = 4,
+            Ability = OnlyHidden,
             FlawlessIVCount = 3,
             CNT_Cool = 70,
             CNT_Beauty = 70,
@@ -139,16 +140,16 @@ namespace PKHeX.Core
             new(ORAS) { Gift = true, Species = 698, Level = 20, Location = 190 }, // Amaura
 
             // Hot Springs Eggs
-            new(ORAS) { Gift = true, Species = 360, Level = 1, EggLocation = 60004, Ability = 1, EggCycles = 70 }, // Wynaut
-            new(ORAS) { Gift = true, Species = 175, Level = 1, EggLocation = 60004, Ability = 1, EggCycles = 70 }, // Togepi
+            new(ORAS) { Gift = true, Species = 360, Level = 1, EggLocation = 60004, Ability = OnlyFirst,  EggCycles = 70 }, // Wynaut
+            new(ORAS) { Gift = true, Species = 175, Level = 1, EggLocation = 60004, Ability = OnlyFirst,  EggCycles = 70 }, // Togepi
 
             // Gift
-            new(ORAS) { Species = 374, Level = 01, Location = 196, Ability = 1, Gift = true, IVs = new[] {-1,-1,31,-1,-1,31} }, // Beldum
-            new(ORAS) { Species = 351, Level = 30, Location = 240, Ability = 1, Gift = true, IVs = new[] {-1,-1,-1,-1,31,-1}, CNT_Beauty = 100, Gender = 1, Nature = Nature.Lax }, // Castform
-            new(ORAS) { Species = 319, Level = 40, Location = 318, Ability = 1, Gift = true, Gender = 1, Nature = Nature.Adamant }, // Sharpedo
-            new(ORAS) { Species = 323, Level = 40, Location = 318, Ability = 1, Gift = true, Gender = 1, Nature = Nature.Quiet }, // Camerupt
-            new(  AS) { Species = 380, Level = 30, Location = 320, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latias
-            new(OR  ) { Species = 381, Level = 30, Location = 320, Ability = 1, Gift = true, FlawlessIVCount = 3 }, // Latios
+            new(ORAS) { Species = 374, Level = 01, Location = 196, Ability = OnlyFirst,  Gift = true, IVs = new[] {-1,-1,31,-1,-1,31} }, // Beldum
+            new(ORAS) { Species = 351, Level = 30, Location = 240, Ability = OnlyFirst,  Gift = true, IVs = new[] {-1,-1,-1,-1,31,-1}, CNT_Beauty = 100, Gender = 1, Nature = Nature.Lax }, // Castform
+            new(ORAS) { Species = 319, Level = 40, Location = 318, Ability = OnlyFirst,  Gift = true, Gender = 1, Nature = Nature.Adamant }, // Sharpedo
+            new(ORAS) { Species = 323, Level = 40, Location = 318, Ability = OnlyFirst,  Gift = true, Gender = 1, Nature = Nature.Quiet }, // Camerupt
+            new(  AS) { Species = 380, Level = 30, Location = 320, Ability = OnlyFirst,  Gift = true, FlawlessIVCount = 3 }, // Latias
+            new(OR  ) { Species = 381, Level = 30, Location = 320, Ability = OnlyFirst,  Gift = true, FlawlessIVCount = 3 }, // Latios
 
             // Stationary Legendary
             new(ORAS) { Species = 377, Level = 40, Location = 278, FlawlessIVCount = 3 }, // Regirock
@@ -188,7 +189,7 @@ namespace PKHeX.Core
             //new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
             //new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
             new(ORAS) { Species = 352, Level = 40, Location = 176, Gender = 1 }, // Kecleon @ Lavaridge
-            new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = 4 }, // Kecleon @ Mossdeep City
+            new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = OnlyHidden }, // Kecleon @ Mossdeep City
 
             // Eon Ticket Lati@s
             new(  AS) { Species = 381, Level = 30, Location = 320, FlawlessIVCount = 3 }, // Latios
@@ -223,24 +224,24 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade6[] TradeGift_XY =
         {
-            new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = 1, TID = 44285, IVs = new[] {-1,31,-1,-1,31,-1}, Gender = 0, Nature = Nature.Adamant }, // Magikarp
-            new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = 1, TID = 29294, Gender = 1, Nature = Nature.Docile }, // Eevee
+            new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = OnlyFirst,  TID = 44285, IVs = new[] {-1,31,-1,-1,31,-1}, Gender = 0, Nature = Nature.Adamant }, // Magikarp
+            new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = OnlyFirst,  TID = 29294, Gender = 1, Nature = Nature.Docile }, // Eevee
 
-            new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = 1, TID = 00185, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 0, Nature = Nature.Jolly }, // Farfetch'd
-            new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = 1, TID = 19250, IVs = new[] {-1,-1,31,-1,-1,-1}, Gender = 1, Nature = Nature.Impish }, // Steelix
-            new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = 1, TID = 03447, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Adamant }, // Bisharp
+            new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = OnlyFirst,  TID = 00185, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 0, Nature = Nature.Jolly }, // Farfetch'd
+            new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = OnlyFirst,  TID = 19250, IVs = new[] {-1,-1,31,-1,-1,-1}, Gender = 1, Nature = Nature.Impish }, // Steelix
+            new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = OnlyFirst,  TID = 03447, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Adamant }, // Bisharp
 
-            new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,31,20,20}, Gender = 0, Nature = Nature.Jolly }, // Froakie
-            new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,31,20,20,20,20}, Gender = 0, Nature = Nature.Adamant }, // Chespin
-            new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = 1, TID = 00037, IVs = new[] {20,20,20,20,31,20}, Gender = 0, Nature = Nature.Modest }, // Fennekin
-            new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = 1, TID = 37110, IVs = new[] {20,20,20,31,31,20}, Gender = 1, Nature = Nature.Modest, IsNicknamed = false }, // Ralts
+            new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new[] {20,20,20,31,20,20}, Gender = 0, Nature = Nature.Jolly }, // Froakie
+            new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new[] {20,31,20,20,20,20}, Gender = 0, Nature = Nature.Adamant }, // Chespin
+            new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new[] {20,20,20,20,31,20}, Gender = 0, Nature = Nature.Modest }, // Fennekin
+            new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = OnlyFirst,  TID = 37110, IVs = new[] {20,20,20,31,31,20}, Gender = 1, Nature = Nature.Modest, IsNicknamed = false }, // Ralts
         };
 
         internal static readonly EncounterTrade6[] TradeGift_AO =
         {
-            new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = 2, TID = 30724, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Brave }, // Makuhita
-            new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = 1, TID = 03239, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 1, Nature = Nature.Naughty }, // Skitty
-            new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = 4, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm }, // Corsola
+            new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID = 30724, IVs = new[] {-1,31,-1,-1,-1,-1}, Gender = 0, Nature = Nature.Brave }, // Makuhita
+            new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID = 03239, IVs = new[] {-1,-1,-1,31,-1,-1}, Gender = 1, Nature = Nature.Naughty }, // Skitty
+            new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm }, // Corsola
         };
         #endregion
 
