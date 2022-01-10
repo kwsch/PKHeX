@@ -22,7 +22,7 @@ namespace PKHeX.Core
                 items[i] = new InventoryItem
                 {
                     Index = ReadUInt16LittleEndian(entry),
-                    Count = ReadUInt16LittleEndian(entry[..2]) ^ (ushort) SecurityKey,
+                    Count = ReadUInt16LittleEndian(entry[2..]) ^ (ushort) SecurityKey,
                 };
             }
             Items = items;
