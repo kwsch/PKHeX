@@ -74,15 +74,15 @@ namespace PKHeX.Core
         {
             new(245, 40, C) { Location = 023 }, // Suicune @ Tin Tower
 
-            new EncounterStatic2Odd(172), // Pichu Dizzy Punch
-            new EncounterStatic2Odd(173), // Cleffa Dizzy Punch
-            new EncounterStatic2Odd(174), // Igglybuff Dizzy Punch
-            new EncounterStatic2Odd(236), // Tyrogue Dizzy Punch
-            new EncounterStatic2Odd(238), // Smoochum Dizzy Punch
-            new EncounterStatic2Odd(239), // Elekid Dizzy Punch
-            new EncounterStatic2Odd(240), // Magby Dizzy Punch
+            new EncounterStatic2Odd(172) {Moves = new[] {(int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch}}, // Pichu
+            new EncounterStatic2Odd(173) {Moves = new[] {(int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch}}, // Cleffa
+            new EncounterStatic2Odd(174) {Moves = new[] {(int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch}}, // Igglybuff
+            new EncounterStatic2Odd(236) {Moves = new[] {(int)Move.Tackle,                       (int)Move.DizzyPunch}}, // Tyrogue
+            new EncounterStatic2Odd(238) {Moves = new[] {(int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch}}, // Smoochum
+            new EncounterStatic2Odd(239) {Moves = new[] {(int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch}}, // Elekid
+            new EncounterStatic2Odd(240) {Moves = new[] {(int)Move.Ember,                        (int)Move.DizzyPunch}}, // Magby
 
-            new(147, 15, C) { Location = 042, Moves = new [] {245} }, // Dratini ExtremeSpeed
+            new(147, 15, C) { Location = 042, Moves = new[] {(int)Move.ExtremeSpeed, (int)Move.Wrap, (int)Move.ThunderWave, (int)Move.Twister} }, // Dratini ExtremeSpeed
 
             new(249, 60, C) { Location = 031 }, // Lugia @ Whirl Islands
             new(250, 60, C) { Location = 023 }, // Ho-Oh @ Tin Tower

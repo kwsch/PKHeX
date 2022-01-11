@@ -98,12 +98,8 @@ namespace PKHeX.Core
 
     public sealed record EncounterStatic2Odd : EncounterStatic2
     {
-        private const int Dizzy = 146;
-        private static readonly int[] _dizzy = { Dizzy };
-
         public EncounterStatic2Odd(int species) : base(species, 5, GameVersion.C)
         {
-            Moves = _dizzy;
             EggLocation = 256;
             EggCycles = 20;
         }
@@ -113,7 +109,7 @@ namespace PKHeX.Core
             // Let it get picked up as regular EncounterEgg under other conditions.
             if (pkm.Format > 2)
                 return false;
-            if (!pkm.HasMove(Dizzy))
+            if (!pkm.HasMove((int)Move.DizzyPunch))
                 return false;
             if (pkm.IsEgg && pkm.EXP != 125)
                 return false;
