@@ -11,6 +11,18 @@ public ref struct XorShift128
 {
     private uint x, y, z, w;
 
+    public XorShift128(uint seed)
+    {
+        x = seed << 13;
+        y = (seed >> 9) ^ (x << 6);
+        z = y >> 7;
+        w = seed;
+    }
+
+    public XorShift128(ulong s0, ulong s1) : this((uint)s0, (uint)(s0 >> 32), (uint)s1, (uint)(s1 >> 32))
+    {
+    }
+
     public XorShift128(uint x, uint y, uint z, uint w)
     {
         this.x = x;
