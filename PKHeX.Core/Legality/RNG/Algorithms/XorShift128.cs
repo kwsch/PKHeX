@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -7,23 +8,38 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Xorshift</remarks>
 /// <seealso cref="Xoroshiro128Plus"/>
+[StructLayout(LayoutKind.Explicit)]
 public ref struct XorShift128
 {
-    private uint x, y, z, w;
+    [FieldOffset(0x0)] private uint x;
+    [FieldOffset(0x4)] private uint y;
+    [FieldOffset(0x8)] private uint z;
+    [FieldOffset(0xC)] private uint w;
 
-    public XorShift128(uint seed)
+    // not really readonly! just prevents future updates from touching this.
+    [FieldOffset(0x0)] private readonly ulong s0;
+    [FieldOffset(0x8)] private readonly ulong s1;
+
+    /// <summary>
+    /// Uses the <see cref="RNG.ARNG"/> to advance the seed for each 32-bit input.
+    /// </summary>
+    /// <param name="seed">32 bit seed</param>
+    /// <remarks>sub_E0F5E0 in v1.1.3</remarks>
+    public XorShift128(uint seed) : this()
     {
-        x = seed << 13;
-        y = (seed >> 9) ^ (x << 6);
-        z = y >> 7;
-        w = seed;
+        x = seed;
+        y = (0x6C078965 * x) + 1;
+        z = (0x6C078965 * y) + 1;
+        w = (0x6C078965 * z) + 1;
     }
 
-    public XorShift128(ulong s0, ulong s1) : this((uint)s0, (uint)(s0 >> 32), (uint)s1, (uint)(s1 >> 32))
+    public XorShift128(ulong s0, ulong s1) : this()
     {
+        this.s0 = s0;
+        this.s1 = s1;
     }
 
-    public XorShift128(uint x, uint y, uint z, uint w)
+    public XorShift128(uint x, uint y, uint z, uint w) : this()
     {
         this.x = x;
         this.y = y;
@@ -32,8 +48,8 @@ public ref struct XorShift128
     }
 
     public (uint x, uint y, uint z, uint w) GetState32() => (x, y, z, w);
-    public (ulong s0, ulong s1) GetState64() => (((ulong)y << 32) | x, ((ulong)w << 32) | z);
-    public string GetState128 => $"{w:X8}{z:X8}{y:X8}{x:X8}";
+    public (ulong s0, ulong s1) GetState64() => (s0, s1);
+    public string GetState128 => $"{s1:X16}{s0:X16}";
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.
