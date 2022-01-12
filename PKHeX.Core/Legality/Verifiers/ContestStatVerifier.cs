@@ -41,13 +41,13 @@ public sealed class ContestStatVerifier : Verifier
         else if (correlation == CorrelateSheen)
         {
             bool gen3 = data.Info.Generation == 3;
+            bool bdsp = pkm.HasVisitedBDSP(data.Info.EncounterOriginal.Species);
+            var method = gen3 ? ContestStatGrantingSheen.Gen3 :
+                bdsp ? ContestStatGrantingSheen.Gen8b : ContestStatGrantingSheen.Gen4;
 
             // Check for stat values that exceed a valid sheen value.
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
-            bool bdsp = pkm.HasVisitedBDSP(data.Info.EncounterOriginal.Species);
-            var minSheen = bdsp
-                ? CalculateMinimumSheen8b(s, pkm.Nature, initial)
-                : CalculateMinimumSheen(s, pkm.Nature, initial, gen3);
+            var minSheen = CalculateMinimumSheen(s, initial, pkm, method);
 
             if (s.CNT_Sheen < minSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooLow_0, minSheen)));

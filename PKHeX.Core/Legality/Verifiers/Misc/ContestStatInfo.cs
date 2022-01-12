@@ -5,11 +5,26 @@ namespace PKHeX.Core;
 
 public static class ContestStatInfo
 {
-    private const int LowestFeelBlock3 = 3;
-    private const int LowestFeelPoffin4 = 17;
-    private const int LowestFeelPoffin8b = 8;
-    private const int MaxContestStat = 255;
-    private const int BestSheenStat8b = 160; // using optimal poffins in BD/SP, roughly 160-170; be generous.
+    private const int LowestFeelBlock3 = 1; // quad Nutpea
+    private const int LowestFeelPoffin4 = 16;
+    private const int LowestFeelPoffin8b = 7;
+
+    private const byte MaxContestStat = 255;
+
+    /// <summary>
+    /// By giving out all-Nutpea blocks in 3, you can have contest stats all maxed while feel is at 214 if the random stats of the foul blocks line up perfectly.
+    /// </summary>
+    private const int BestSheenStat3 = 214;
+
+    /// <summary>
+    /// Using optimal poffins in BD/SP, roughly 120-140; be generous.
+    /// </summary>
+    /// <remarks>
+    /// Liechi-Pomeg-Qualot-Occa etc. (2 each), which puts sheen at 140 and will max all stats if the cook times are 47.43 or faster
+    /// Leppa-Pomeg-Qualot-Occa etc. (3 each), which puts sheen at 135 and will max all stats if the cook times are 43.32 or faster
+    /// Liechi-Leppa-Pomeg-Qualot etc. (2 each), which puts sheen at 120 and will max all stats if the cook times area 40.40 or faster
+    /// </remarks>
+    private const int BestSheenStat8b = 120;
 
     public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc)
     {
@@ -21,7 +36,7 @@ public static class ContestStatInfo
         if (restrict == None || pk.Species is not (int)Species.Milotic)
             baseStat.CopyContestStatsTo(s); // reset
         else
-            s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : (byte)255);
+            s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : MaxContestStat);
     }
 
     public static void SetMaxContestStats(this PKM pk, IEncounterTemplate enc)
@@ -32,7 +47,7 @@ public static class ContestStatInfo
         var baseStat = GetReferenceTemplate(enc);
         if (restrict == None)
             return;
-        s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : (byte)255);
+        s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : MaxContestStat);
     }
 
     public static ContestStatGranting GetContestStatRestriction(PKM pk, int origin) => origin switch
@@ -65,6 +80,14 @@ public static class ContestStatInfo
         return Math.Min(MaxContestStat, avg * LowestFeelPoffin4);
     }
 
+    public static int CalculateMinimumSheen(IContestStats s, IContestStats initial, INature pkm, ContestStatGrantingSheen method) => method switch
+    {
+        ContestStatGrantingSheen.Gen8b => CalculateMinimumSheen8b(s, pkm.Nature, initial),
+        ContestStatGrantingSheen.Gen3 => CalculateMinimumSheen3(s, pkm.Nature, initial),
+        ContestStatGrantingSheen.Gen4 => CalculateMinimumSheen4(s, pkm.Nature, initial),
+        _ => throw new IndexOutOfRangeException(nameof(method))
+    };
+
     // Slightly better stat:sheen ratio than Gen4; prefer if has visited.
     public static int CalculateMinimumSheen8b(IContestStats s, int nature, IContestStats initial)
     {
@@ -77,12 +100,12 @@ public static class ContestStatInfo
 
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
-        avg = (avg * 8) / 10; // even more generous?? sheen formula undocumented
+        avg = (BestSheenStat8b * avg) / MaxContestStat;
 
         return Math.Min(BestSheenStat8b, Math.Max(LowestFeelPoffin8b, avg));
     }
 
-    public static int CalculateMinimumSheen(IContestStats s, int nature, IContestStats initial, bool pokeBlock3)
+    public static int CalculateMinimumSheen3(IContestStats s, int nature, IContestStats initial)
     {
         if (s.IsContestEqual(initial))
             return initial.CNT_Sheen;
@@ -94,8 +117,23 @@ public static class ContestStatInfo
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
 
-        var worst = pokeBlock3 ? LowestFeelBlock3 : LowestFeelPoffin4;
-        return Math.Min(MaxContestStat, Math.Max(worst, avg));
+        avg = (BestSheenStat3 * avg) / MaxContestStat;
+        return Math.Min(BestSheenStat3, Math.Max(LowestFeelBlock3, avg));
+    }
+
+    public static int CalculateMinimumSheen4(IContestStats s, int nature, IContestStats initial)
+    {
+        if (s.IsContestEqual(initial))
+            return initial.CNT_Sheen;
+
+        var rawAvg = GetAverageFeel(s, 0, initial);
+        if (rawAvg == MaxContestStat)
+            return MaxContestStat;
+
+        var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
+        avg = Math.Min(rawAvg, avg); // be generous
+
+        return Math.Min(MaxContestStat, Math.Max(LowestFeelPoffin4, avg));
     }
 
     private static int CalculateMaximumSheen3(IContestStats s, int nature, IContestStats initial)

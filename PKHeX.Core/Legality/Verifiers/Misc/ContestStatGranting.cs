@@ -11,3 +11,10 @@ public enum ContestStatGranting
     /// <summary> Contest stats are possible to obtain, and has visited a multitude of games such that any value of sheen is possible. </summary>
     Mixed,
 }
+
+public enum ContestStatGrantingSheen
+{
+    Gen3,
+    Gen4,
+    Gen8b,
+}
