@@ -55,14 +55,12 @@ namespace PKHeX.Core
 
         public override bool CanWinLotoID(int item) => LotoPrizeSWSH.Contains((ushort)item);
 
-        public override bool CanBuyItem(int item, GameVersion version)
+        public override bool CanBuyItem(int item, GameVersion version) => item switch
         {
-            if (item is 1085) // Bob's Food Tin
-                return version is GameVersion.SW or GameVersion.Any;
-            if (item is 1086) // Bach's Food Tin
-                return version is GameVersion.SH or GameVersion.Any;
-            return PurchaseableItemSWSH.Contains((ushort)item);
-        }
+            1085 => version is GameVersion.SW or GameVersion.Any, // Bob's Food Tin
+            1086 => version is GameVersion.SH or GameVersion.Any, // Bach's Food Tin
+            _ => PurchaseableItemSWSH.Contains((ushort)item),
+        };
 
         private static bool IsInvalidGenLoc8(int memory, int loc, int egg, int variable, PKM pk, IEncounterTemplate enc)
         {

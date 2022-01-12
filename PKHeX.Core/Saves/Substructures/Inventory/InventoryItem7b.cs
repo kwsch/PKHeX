@@ -10,6 +10,12 @@ namespace PKHeX.Core
 
         /// <summary> Creates a copy of the object. </summary>
         public new InventoryItem7b Clone() => (InventoryItem7b)MemberwiseClone();
+        
+        public override void Clear()
+        {
+            Index = Count = 0;
+            IsFreeSpace = IsNew = false;
+        }
 
         public static InventoryItem7b GetValue(uint value) => new()
         {

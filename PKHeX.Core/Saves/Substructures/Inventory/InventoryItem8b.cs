@@ -6,6 +6,7 @@ namespace PKHeX.Core
     public sealed class InventoryItem8b : InventoryItem, IItemFavorite, IItemNew
     {
         public const int SIZE = 0x10;
+        private const ushort SortOrderNone = 0;
 
         public bool IsFavorite { get; set; }
         public bool IsNew { get; set; }
@@ -16,10 +17,18 @@ namespace PKHeX.Core
         /// <summary> Creates a copy of the object. </summary>
         public new InventoryItem8b Clone() => (InventoryItem8b)MemberwiseClone();
 
+        public override void Clear()
+        {
+            Index = Count = 0;
+            IsFavorite = false;
+            IsNew = true;
+            SortOrder = SortOrderNone;
+        }
+
         /// <summary>
         /// Indicates if the item has been acquired by the player.
         /// </summary>
-        public bool IsValidSaveSortNumberCount => SortOrder != 0;
+        public bool IsValidSaveSortNumberCount => SortOrder != SortOrderNone;
 
         public static InventoryItem8b Read(ushort index, ReadOnlySpan<byte> data) => new()
         {

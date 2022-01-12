@@ -25,6 +25,7 @@ namespace PKHeX.Core
         }
 
         public (ulong s0, ulong s1) GetState() => (s0, s1);
+        public string FullState => $"{s1:X16}{s0:X16}";
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong RotateLeft(ulong x, int k)
