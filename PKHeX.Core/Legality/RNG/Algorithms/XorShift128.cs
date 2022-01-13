@@ -63,6 +63,26 @@ public ref struct XorShift128
         return w = w ^ (w >> 19) ^ t ^ (t >> 8);
     }
 
+    /// <summary>
+    /// Gets the previous random <see cref="ulong"/>.
+    /// </summary>
+    public uint Prev()
+    {
+        var t = w ^ z ^ (z >> 19);
+        t ^= t >> 8;
+        t ^= t >> 16;
+
+        w = z;
+        z = y;
+        y = x;
+
+        t ^= t << 11;
+        t ^= t << 22;
+
+        x = t;
+        return w;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public uint NextUInt() => (uint)NextInt();
 
