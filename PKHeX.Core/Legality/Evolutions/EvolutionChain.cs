@@ -165,14 +165,14 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria> GetEvolutionChain(PKM pkm, IEncounterTemplate enc, int mostEvolvedSpecies, int maxlevel)
         {
-            var chain = GetValidPreEvolutions(pkm, minLevel: enc.LevelMin);
+            var min = enc.LevelMin;
+            if (pkm.HasOriginalMetLocation && pkm.Met_Level != 0)
+                min = pkm.Met_Level;
+            var chain = GetValidPreEvolutions(pkm, minLevel: min);
             if (enc.Species == mostEvolvedSpecies)
             {
                 if (chain.Count != 1)
-                {
                     chain.RemoveAll(z => z.Species != enc.Species);
-                    chain[0].MinLevel = enc.LevelMin;
-                }
                 return chain;
             }
 

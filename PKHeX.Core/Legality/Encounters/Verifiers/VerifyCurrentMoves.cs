@@ -140,7 +140,7 @@ namespace PKHeX.Core
         {
             var res = new CheckMoveResult[4];
             var enc = info.EncounterMatch;
-            var level = pkm.HasOriginalMetLocation ? pkm.Met_Level : enc.LevelMin;
+            var level = info.EvoChainsAllGens[enc.Generation][^1].MinLevel;
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(enc);
             var games = enc.Generation == 1 ? GBRestrictions.GetGen1Versions(enc) : GBRestrictions.GetGen2Versions(enc, pkm.Korean);

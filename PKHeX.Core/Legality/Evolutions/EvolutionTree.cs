@@ -216,7 +216,7 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(2)
                 {
-                    new((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
+                    new((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = Math.Max(minLevel, 20) },
                     new((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
                 };
             }
@@ -360,14 +360,14 @@ namespace PKHeX.Core
                         break; // impossible evolution
 
                     oneValid = true;
-                    UpdateMinValues(dl, evo);
-                    if (evo.RequiresLevelUp)
-                        lvl--;
+                    UpdateMinValues(dl, evo, minLevel);
 
                     species = link.Species;
                     form = link.Form;
                     var detail = evo.GetEvoCriteria(species, form, lvl);
                     dl.Add(detail);
+                    if (evo.RequiresLevelUp)
+                        lvl--;
                     break;
                 }
                 if (!oneValid)
@@ -379,30 +379,39 @@ namespace PKHeX.Core
             if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
                 dl.RemoveAt(dl.Count - 1);
 
-            // Last species is the wild/hatched species, the minimum level is 1 because it has not evolved from previous species
+            // Last species is the wild/hatched species, the minimum level is because it has not evolved from previous species
             last = dl[^1];
-            last.MinLevel = 1;
+            last.MinLevel = minLevel;
             last.RequiresLvlUp = false;
+
+            // Rectify minimum levels
+            for (int i = dl.Count - 2; i >= 0; i--)
+            {
+                var evo = dl[i];
+                var prev = dl[i + 1];
+                evo.MinLevel = Math.Max(prev.MinLevel + (evo.RequiresLvlUp ? 1 : 0), evo.MinLevel);
+            }
+
             return dl;
         }
 
-        private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
+        private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo, int minLevel)
         {
             var last = dl[^1];
             if (!evo.RequiresLevelUp)
             {
                 // Evolutions like elemental stones, trade, etc
-                last.MinLevel = 1;
+                last.MinLevel = minLevel;
                 return;
             }
             if (evo.Level == 0)
             {
-                // Friendship based Evolutions, Pichu -> Pikachu, Eevee -> Umbreon, etc
-                last.MinLevel = 2;
+                // Friendship based Level Up Evolutions, Pichu -> Pikachu, Eevee -> Umbreon, etc
+                last.MinLevel = minLevel + 1;
 
                 var first = dl[0];
                 if (dl.Count > 1 && !first.RequiresLvlUp)
-                    first.MinLevel = 2; // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
+                    first.MinLevel = minLevel + 1; // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
             }
             else // level up evolutions
             {

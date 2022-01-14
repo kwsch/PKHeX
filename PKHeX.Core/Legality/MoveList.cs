@@ -162,10 +162,11 @@ namespace PKHeX.Core
             var min = pkm is IBattleVersion b ? Math.Max(0, b.GetMinGeneration()) : 1;
             for (int i = min; i < evoChains.Length; i++)
             {
-                if (evoChains[i].Count == 0)
+                var evos = evoChains[i];
+                if (evos.Count == 0)
                     continue;
 
-                result[i] = GetValidMoves(pkm, evoChains[i], i, types, RemoveTransferHM).ToList();
+                result[i] = GetValidMoves(pkm, evos, i, types, RemoveTransferHM).ToList();
             }
             return result;
         }
@@ -225,22 +226,21 @@ namespace PKHeX.Core
             for (var i = 0; i < chain.Count; i++)
             {
                 var evo = chain[i];
+                bool encounteredEvo = i == chain.Count - 1;
+
                 if (generation <= 2)
                 {
-                    bool encounteredEvo = i == chain.Count - 1;
                     if (encounteredEvo) // minimum level, otherwise next learnable level
-                        minLvLG1 = (pkm.HasOriginalMetLocation ? pkm.Met_Level : evo.MinLevel) + 1;
-                    else if (evo.RequiresLvlUp) // learns level up moves immediately after evolving
-                        minLvLG1 = evo.MinLevel;
-                    else
                         minLvLG1 = evo.MinLevel + 1;
+                    else // learns level up moves immediately after evolving
+                        minLvLG1 = evo.MinLevel;
 
                     if (!ParseSettings.AllowGen2MoveReminder(pkm))
                         minLvLG2 = minLvLG1;
                 }
 
                 var maxLevel = evo.Level;
-                if (i != 0 && chain[i - 1].RequiresLvlUp) // evolution
+                if (!encounteredEvo) // evolution
                     ++maxLevel; // allow lvlmoves from the level it evolved to the next species
                 var moves = GetMoves(pkm, evo.Species, evo.Form, maxLevel, minLvLG1, minLvLG2, version, types, RemoveTransferHM, generation);
                 r.AddRange(moves);
