@@ -59,6 +59,25 @@ namespace PKHeX.Core
             return result;
         }
 
+        /// <summary>
+        /// Gets the next previous <see cref="ulong"/>.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong Prev()
+        {
+            var _s0 = s0;
+            var _s1 = s1;
+            _s1 = RotateLeft(_s1, 27);
+            _s0 = _s0 ^ _s1 ^ (_s1 << 16);
+            _s0 = RotateLeft(_s0, 40);
+            _s1 ^= _s0;
+            ulong result = _s0 + _s1;
+
+            s0 = _s0;
+            s1 = _s1;
+            return result;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool() => (Next() >> 63) != 0;
 
