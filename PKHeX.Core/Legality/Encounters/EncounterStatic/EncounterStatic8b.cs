@@ -57,13 +57,16 @@ namespace PKHeX.Core
             pk.Met_Location = pk.Egg_Location = Locations.Default8bNone;
             base.ApplyDetails(sav, criteria, pk);
             var req = GetRequirement(pk);
-            if (req != MustHave)
+            if (req == MustHave) // Roamers
             {
-                pk.SetRandomEC();
-                return;
+                var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
+                Roaming8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
             }
-            var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
-            Roaming8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
+            else
+            {
+                var shiny = Shiny == Shiny.Never ? Shiny.Never : Shiny.Random;
+                Wild8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
+            }
         }
 
         protected override void SetMetData(PKM pk, int level, DateTime today)
