@@ -127,6 +127,7 @@ namespace PKHeX.Core
                 5 => VerifyAbility5(data, enc, abilities),
                 6 => VerifyAbility6(data, enc),
                 7 => VerifyAbility7(data, enc),
+                8 when data.pkm.BDSP => VerifyAbility8BDSP(data, enc),
               >=8 => VALID,
                 _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch, enc),
             };
@@ -340,7 +341,6 @@ namespace PKHeX.Core
             // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
             return enc switch
             {
-                EncounterSlot5 w when pkm.AbilityNumber == 4 != w.IsHiddenGrotto => GetInvalid(w.IsHiddenGrotto ? LAbilityMismatchGrotto : LAbilityHiddenFail),
                 EncounterEgg e when pkm.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
                 _ => CheckMatch(data.pkm, abilities, 5, pkm.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc),
             };
@@ -355,12 +355,6 @@ namespace PKHeX.Core
             // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
             return enc switch
             {
-                EncounterSlot6XY {IsFriendSafari: true} => VALID,
-                EncounterSlot6XY {IsHorde: true} => VALID,
-                EncounterSlot6AO {IsHorde: true} => VALID,
-                EncounterSlot6AO {CanDexNav: true} => VALID,
-                EncounterSlot => GetInvalid(LAbilityMismatchHordeSafari),
-
                 EncounterEgg egg when AbilityBreedLegality.BanHidden6.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
                 _ => VALID,
             };
@@ -374,8 +368,20 @@ namespace PKHeX.Core
 
             return enc switch
             {
-                EncounterSlot7 {IsSOS: false} => GetInvalid(LAbilityMismatchSOS),
                 EncounterEgg egg when AbilityBreedLegality.BanHidden7.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
+                _ => VALID,
+            };
+        }
+
+        private CheckResult VerifyAbility8BDSP(LegalityAnalysis data, IEncounterable enc)
+        {
+            var pkm = data.pkm;
+            if (pkm.AbilityNumber != 4)
+                return VALID;
+
+            return enc switch
+            {
+                EncounterEgg egg when AbilityBreedLegality.BanHidden8b.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
                 _ => VALID,
             };
         }
