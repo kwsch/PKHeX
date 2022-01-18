@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using PKHeX.Core;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace PKHeX.Core.Tests.Legality
@@ -12,8 +9,8 @@ namespace PKHeX.Core.Tests.Legality
         public static void TryGenerateLatias()
         {
             PB8 test = new() { Species = (int)Species.Latias};
-            ulong s0 = 0xdf9cf5c73e4a160b;
-            ulong s1 = 0xd0b8383103a7f201;
+            const ulong s0 = 0xdf9cf5c73e4a160b;
+            const ulong s1 = 0xd0b8383103a7f201;
             Wild8bRNG.TryApplyFromSeed(test, EncounterCriteria.Unrestricted, Shiny.Random, 3, new XorShift128(s0, s1));
             test.IV_HP.Should().Be(31);
             test.IV_ATK.Should().Be(4);

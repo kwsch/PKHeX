@@ -78,7 +78,7 @@ namespace PKHeX.Core
             for (var i = 0; i < ivs.Length; i++)
             {
                 if (ivs[i] == UNSET)
-                    ivs[i] = (int)xors.NextInt(0, MAX + 1);
+                    ivs[i] = xors.NextInt(0, MAX + 1);
             }
 
             if (!criteria.IsIVsCompatible(ivs, 8))
@@ -116,11 +116,10 @@ namespace PKHeX.Core
                 pk.Gender = next;
             }
 
-            // Skip nature, assuming Synchronize
-            if (criteria.Nature >= 0 && (int)criteria.Nature < 25)
-                pk.Nature = (int)criteria.Nature;
-            else
+            if (criteria.Nature is Nature.Random)
                 pk.Nature = (int)xors.NextUInt(25);
+            else // Skip nature, assuming Synchronize
+                pk.Nature = (int)criteria.Nature;
             pk.StatNature = pk.Nature;
 
             // Remainder
