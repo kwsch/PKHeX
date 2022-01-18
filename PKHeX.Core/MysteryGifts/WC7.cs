@@ -143,6 +143,9 @@ namespace PKHeX.Core
         {
             get
             {
+                if (IsEgg)
+                    return Shiny.Random;
+
                 var type = PIDType;
                 if (type is not Shiny.FixedValue)
                     return type;

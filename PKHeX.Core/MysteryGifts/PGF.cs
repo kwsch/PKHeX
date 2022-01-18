@@ -331,9 +331,9 @@ namespace PKHeX.Core
 
         public override Shiny Shiny => PIDType switch
         {
-            1 => Shiny.Random,
-            2 => Shiny.Always,
-            _ => Shiny.Never,
+            0 when !IsEgg => Shiny.Never,
+            2 when !IsEgg => Shiny.Always,
+            _ => Shiny.Random, // 1
         };
 
         private void SetIVs(PKM pk)
