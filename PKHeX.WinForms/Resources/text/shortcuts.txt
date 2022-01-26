@@ -32,6 +32,7 @@ Control + Click on...
 - Friendship Label: Set Friendship to 0. (Click = 255 or Base)
 - Level box: Set Level to 100.
 - Shiny Button: Make Star Shiny (Xor1)
+- Stat Label: Pick a neutral nature for this stat
 
 Alt + Click on...
 - Preview Sprite to load from a QR url on your clipboard.
@@ -43,12 +44,14 @@ Alt + Click on...
 - Individual AVs: Set AV to 0.
 - Individual EVs: Set EV to 0.
 - Shiny Button: Set SID instead of PID when making shiny
+- Stat Label: Pick a negative nature for this stat
 
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
 - Individual IVs: Hyper Train the IV (toggles Hyper Training in Gen7 onwards)
 - Shiny Button: Make Square Shiny (Xor0)
 - Moves: Apply random moveset.
+- Stat Label: Pick a positive nature for this stat
 
 Hold Control when dragging to save encrypted (ekx).
 

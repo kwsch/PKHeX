@@ -1295,6 +1295,15 @@ namespace PKHeX.WinForms.Controls
             TB_ExtraByte.Text = Entity.Data[offset].ToString();
         }
 
+        public void ChangeNature(int newNature)
+        {
+            if (Entity.Format < 3)
+                return;
+
+            var cb = Entity.Format >= 8 ? CB_StatNature : CB_Nature;
+            cb.SelectedValue = newNature;
+        }
+
         private void UpdateNatureModification(ComboBox cb, int nature)
         {
             string text = Stats.UpdateNatureModification(nature);

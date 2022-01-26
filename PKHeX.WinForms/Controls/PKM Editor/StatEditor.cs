@@ -284,29 +284,30 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickStatLabel(object sender, MouseEventArgs e)
         {
-            if (sender == Label_SPC)
-                sender = Label_SPA;
+            if (ModifierKeys == Keys.None)
+                return;
 
-            int index = Array.IndexOf(L_Stats, sender as Label);
-            if ((ModifierKeys & Keys.Alt) != 0) // EV
+            int index = Array.IndexOf(L_Stats, sender as Label) - 1;
+            if (index < 0)
+                return;
+
+            if (Entity.Format < 3)
+                return;
+
+            var current = Entity.StatNature;
+            var up = current / 5;
+            var dn = current % 5;
+            switch (ModifierKeys)
             {
-                bool min = e.Button != MouseButtons.Left;
-                if (Entity is IAwakened)
-                {
-                    var value = min ? 0 : 200;
-                    MT_AVs[index].Text = value.ToString();
-                }
-                else
-                {
-                    var value = min ? 0 : Entity.GetMaximumEV(index);
-                    MT_EVs[index].Text = value.ToString();
-                }
+                case Keys.Shift when up != index: up = index; break;
+                case Keys.Alt when dn != index: dn = index; break;
+                case Keys.Control when up != index && dn != index: up = dn = index; break;
+                default:
+                    return;
             }
-            else if ((ModifierKeys & Keys.Control) != 0) // IV
-            {
-                var value = e.Button != MouseButtons.Left ? 0 : Entity.GetMaximumIV(index, true);
-                MT_IVs[index].Text = value.ToString();
-            }
+
+            var newNature = (up * 5) + dn;
+            MainEditor.ChangeNature(newNature);
         }
 
         private void LoadHyperTraining()
