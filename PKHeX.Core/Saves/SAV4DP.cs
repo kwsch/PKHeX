@@ -154,8 +154,8 @@ namespace PKHeX.Core
         public override int Y2 { get => ReadUInt16LittleEndian(General.AsSpan(0x25FE)); set => WriteUInt16LittleEndian(General.AsSpan(0x25FE), (ushort)value); }
         public override int Z { get => ReadUInt16LittleEndian(General.AsSpan(0x2602)); set => WriteUInt16LittleEndian(General.AsSpan(0x2602), (ushort)value); }
 
-        public override uint SafariSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x72D0)); set => WriteUInt32LittleEndian(General.AsSpan(0x72D0), value); }
-        public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x72D4)); set => WriteUInt32LittleEndian(General.AsSpan(0x72D4), value); }
+        public override uint SafariSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x53C4)); set => WriteUInt32LittleEndian(General.AsSpan(0x53C4), value); }
+        public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x53C8)); set => WriteUInt32LittleEndian(General.AsSpan(0x53C8), value); }
         public override uint SwarmMaxCountModulo => 28;
     }
 }
