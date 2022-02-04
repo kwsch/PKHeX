@@ -75,6 +75,9 @@ public static class ContestStatInfo
         var avg = GetAverageFeel(s, nature, initial);
         if (avg <= 0)
             return initial.CNT_Sheen;
+		
+		if (avg <= 2)
+			return 24;
 
         // Can get trash poffins by burning and spilling on purpose.
         return Math.Min(MaxContestStat, avg * LowestFeelPoffin4);
@@ -160,7 +163,7 @@ public static class ContestStatInfo
     private static int GetAverageFeel(IContestStats s, int nature, IContestStats initial)
     {
         var sum = GetGainedSum(s, nature, initial);
-        return sum / 5;
+        return (int)Math.Ceiling(sum / 5f);
     }
 
     private static int GetGainedSum(IContestStats s, int nature, IContestStats initial)
