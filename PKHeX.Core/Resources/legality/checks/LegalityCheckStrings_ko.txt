@@ -194,6 +194,7 @@ LG5PIDShinyGrotto = 은혈에서 포획한 포켓몬은 색이 다를 수 없습
 LG5PIDShinyN = N이 소유한 포켓몬은 색이 다를 수 없습니다.
 LG5SparkleInvalid = 게임 내 특수한 N 전용 반짝임 플래그가 켜져 있지 않아야 합니다.
 LG5SparkleRequired = 게임 내 특수한 N 전용 반짝임 플래그가 켜져 있지 않습니다.
+LGanbaruStatTooHigh = One or more Ganbaru Value is above the natural limit of (10 - IV bonus).
 LGenderInvalidNone = 무성 포켓몬은 성별을 가질 수 없습니다.
 LGeoBadOrder = 지오로케이션 기억: 빈 공간이 존재합니다.
 LGeoHardwareInvalid = 지오로케이션: 국가가 3DS 지역 내에 있지 않습니다.

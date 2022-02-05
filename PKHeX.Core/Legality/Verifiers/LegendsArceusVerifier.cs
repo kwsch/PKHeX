@@ -26,6 +26,21 @@ public sealed class LegendsArceusVerifier : Verifier
             data.AddLine(GetInvalid(LStatAlphaInvalid));
 
         CheckScalars(data, pa);
+        CheckGanbaru(data, pa);
+    }
+
+    private static void CheckGanbaru(LegalityAnalysis data, PA8 pa)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            var gv = pa.GetGV(i);
+            var max = pa.GetMaxGanbaru(i);
+            if (gv <= max)
+                continue;
+
+            data.AddLine(GetInvalid(LGanbaruStatTooHigh, CheckIdentifier.EVs));
+            return;
+        }
     }
 
     private void CheckScalars(LegalityAnalysis data, PA8 pa)

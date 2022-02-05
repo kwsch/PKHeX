@@ -194,6 +194,7 @@ LG5PIDShinyGrotto = Las Capturas en Los Claros Ocultos no pueden ser Variocolor.
 LG5PIDShinyN = Los Pokémon de N no pueden ser Variocolor.
 LG5SparkleInvalid = La marca chispeante especial de N In-Game no debería estar.
 LG5SparkleRequired = Falta la marca chispeante especial de N In-Game.
+LGanbaruStatTooHigh = One or more Ganbaru Value is above the natural limit of (10 - IV bonus).
 LGenderInvalidNone = Pokémon Sin Género no deberían tener Género.
 LGeoBadOrder = Recuerdo de Geolocalización: Presente en blanco.
 LGeoHardwareInvalid = Geolocalización: El país no se encuentra en la región de la 3DS.

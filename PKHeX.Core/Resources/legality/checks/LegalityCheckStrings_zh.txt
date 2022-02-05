@@ -194,6 +194,7 @@ LG5PIDShinyGrotto = 在隐藏洞穴捕获的宝可梦不能为闪。
 LG5PIDShinyN = N的宝可梦不能为闪。
 LG5SparkleInvalid = 特殊游戏内宝可梦N的闪光标记不应勾选。
 LG5SparkleRequired = 特殊游戏内宝可梦N的闪光标记缺失。
+LGanbaruStatTooHigh = One or more Ganbaru Value is above the natural limit of (10 - IV bonus).
 LGenderInvalidNone = 无性别宝可梦不能有性别。
 LGeoBadOrder = 地理位置回忆: 间隔/空白存在。
 LGeoHardwareInvalid = 地理位置: 国家不在3DS区域内。

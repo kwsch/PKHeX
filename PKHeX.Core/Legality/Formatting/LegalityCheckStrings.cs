@@ -257,6 +257,8 @@ namespace PKHeX.Core
         public static string LG5SparkleInvalid { get; set; } = "Special In-game N's Sparkle flag should not be checked.";
         public static string LG5SparkleRequired { get; set; } = "Special In-game N's Sparkle flag missing.";
 
+        public static string LGanbaruStatTooHigh { get; set; } = "One or more Ganbaru Value is above the natural limit of (10 - IV bonus).";
+
         public static string LGenderInvalidNone { get; set; } = "Genderless Pokémon should not have a gender.";
         public static string LGeoBadOrder { get; set; } = "GeoLocation Memory: Gap/Blank present.";
         public static string LGeoHardwareInvalid { get; set; } = "Geolocation: Country is not in 3DS region.";
