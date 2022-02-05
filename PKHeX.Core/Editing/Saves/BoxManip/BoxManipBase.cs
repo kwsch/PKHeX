@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public static readonly IReadOnlyList<BoxManipBase> ClearCommon = new List<BoxManipBase>
         {
             new BoxManipClear(BoxManipType.DeleteAll, _ => true),
-            new BoxManipClear(BoxManipType.DeleteEggs, pk => pk.IsEgg, s => s.Generation >= 2 & s is not SAV8LA),
+            new BoxManipClear(BoxManipType.DeleteEggs, pk => pk.IsEgg, s => s.Generation >= 2 && s is not SAV8LA),
             new BoxManipClearComplex(BoxManipType.DeletePastGen, (pk, sav) => pk.Generation != sav.Generation, s => s.Generation >= 4),
             new BoxManipClearComplex(BoxManipType.DeleteForeign, (pk, sav) => !sav.IsOriginalHandler(pk, pk.Format > 2)),
             new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0, s => s is not SAV8LA),
@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<BoxManipModify> ModifyCommon = new List<BoxManipModify>
         {
-            new(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2 & s is not SAV8LA),
+            new(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2 && s is not SAV8LA),
             new(BoxManipType.ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
             new(BoxManipType.ModifyMaxLevel, pk => pk.MaximizeLevel()),
             new(BoxManipType.ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
