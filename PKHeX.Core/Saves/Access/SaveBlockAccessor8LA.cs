@@ -59,7 +59,12 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KLastSaved = 0x1B1E3D8B; // Last Saved
     private const uint KCoordinates = 0x267DD9DA; // Coordinates
     private const uint KFashionPlayer = 0x6B35BADB; // Player's Current Fashion
-    private const uint KFashionUnlock = 0x3ADB8A98; // Unlocked Fashion Data
+    private const uint KFashionUnlockedHat = 0x3ADB8A98;
+    private const uint KFashionUnlockedTop = 0x82D57F17;
+    private const uint KFashionUnlockedBottoms = 0x11B37EC9;
+    private const uint KFashionUnlockedOverall = 0x45851092;
+    private const uint KFashionUnlockedShoes = 0x636A5ABD;
+    private const uint KFashionUnlockedGlasses = 0x58AB6233;
     private const uint KSwarm = 0x1E0F1BA3; // 5 entries, 0x50 each
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
     private const uint KOverworld = 0x511622B3; // 0x100 entries, 0x880 each
