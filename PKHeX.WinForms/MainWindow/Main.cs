@@ -387,6 +387,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
             SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
+            SpriteBuilderUtil.SpriterPreference = settings.Sprite.SpritePreference;
             SaveFile.SetUpdateDex = settings.SlotWrite.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
             SaveFile.SetUpdatePKM = settings.SlotWrite.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
             C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
