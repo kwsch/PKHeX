@@ -15,18 +15,18 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        public static EncounterArea3[] GetAreas(byte[][] input, GameVersion game)
+        public static EncounterArea3[] GetAreas(BinLinkerAccessor input, GameVersion game)
         {
             var result = new EncounterArea3[input.Length];
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < result.Length; i++)
                 result[i] = new EncounterArea3(input[i], game);
             return result;
         }
 
-        public static EncounterArea3[] GetAreasSwarm(byte[][] input, GameVersion game)
+        public static EncounterArea3[] GetAreasSwarm(BinLinkerAccessor input, GameVersion game)
         {
             var result = new EncounterArea3[input.Length];
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < result.Length; i++)
                 result[i] = new EncounterArea3(input[i], game, SlotType.Swarm | SlotType.Grass);
             return result;
         }

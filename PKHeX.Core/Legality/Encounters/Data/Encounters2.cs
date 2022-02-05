@@ -10,14 +10,12 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters2
     {
-        internal static readonly EncounterArea2[] SlotsGD = Get("gold", "g2", GD);
-        internal static readonly EncounterArea2[] SlotsSV = Get("silver", "g2", SV);
-        internal static readonly EncounterArea2[] SlotsC = Get("crystal", "g2", C);
+        internal static readonly EncounterArea2[] SlotsGD = EncounterArea2.GetAreas(Get("gold", "g2"), GD);
+        internal static readonly EncounterArea2[] SlotsSV = EncounterArea2.GetAreas(Get("silver", "g2"), SV);
+        internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"), C);
 
         internal static readonly EncounterArea2[] SlotsGS = ArrayUtil.ConcatAll(SlotsGD, SlotsSV);
         internal static readonly EncounterArea2[] SlotsGSC = ArrayUtil.ConcatAll(SlotsGS, SlotsC);
-        private static EncounterArea2[] Get(string name, string ident, GameVersion game) =>
-            EncounterArea2.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
         static Encounters2() => MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
 

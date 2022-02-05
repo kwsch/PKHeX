@@ -355,15 +355,15 @@ namespace PKHeX.Core
             _ => false,
         };
 
-        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
+        public static EncounterArea8[] GetAreas(BinLinkerAccessor input, GameVersion game, bool symbol = false)
         {
             var result = new EncounterArea8[input.Length];
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < result.Length; i++)
                 result[i] = new EncounterArea8(input[i], symbol, game);
             return result;
         }
 
-        private EncounterArea8(byte[] areaData, bool symbol, GameVersion game) : base(game)
+        private EncounterArea8(ReadOnlySpan<byte> areaData, bool symbol, GameVersion game) : base(game)
         {
             PermitCrossover = symbol;
             Location = areaData[0];

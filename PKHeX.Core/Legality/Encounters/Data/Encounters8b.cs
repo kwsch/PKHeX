@@ -7,15 +7,13 @@ namespace PKHeX.Core
 {
     internal static class Encounters8b
     {
-        private static readonly EncounterArea8b[] SlotsBD_OW = EncounterArea8b.GetAreas(Get("encounter_bd", "bs"), BD);
-        private static readonly EncounterArea8b[] SlotsSP_OW = EncounterArea8b.GetAreas(Get("encounter_sp", "bs"), SP);
-        private static readonly EncounterArea8b[] SlotsBD_UG = EncounterArea8b.GetAreas(Get("underground_bd", "bs"), BD);
-        private static readonly EncounterArea8b[] SlotsSP_UG = EncounterArea8b.GetAreas(Get("underground_sp", "bs"), SP);
+        private static readonly EncounterArea8b[] SlotsBD_OW = EncounterArea8b.GetAreas(Get("bd", "bs"), BD);
+        private static readonly EncounterArea8b[] SlotsSP_OW = EncounterArea8b.GetAreas(Get("sp", "bs"), SP);
+        private static readonly EncounterArea8b[] SlotsBD_UG = EncounterArea8b.GetAreas(Get("bd_underground", "bs"), BD);
+        private static readonly EncounterArea8b[] SlotsSP_UG = EncounterArea8b.GetAreas(Get("sp_underground", "bs"), SP);
 
         internal static readonly EncounterArea8b[] SlotsBD = ArrayUtil.ConcatAll(SlotsBD_OW, SlotsBD_UG);
         internal static readonly EncounterArea8b[] SlotsSP = ArrayUtil.ConcatAll(SlotsSP_OW, SlotsSP_UG);
-
-        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"{resource}.pkl"), ident);
 
         static Encounters8b() => MarkEncounterTradeStrings(TradeGift_BDSP, TradeBDSP);
 

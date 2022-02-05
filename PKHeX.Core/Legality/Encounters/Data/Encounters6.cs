@@ -14,7 +14,6 @@ namespace PKHeX.Core
         internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), Y, FriendSafari);
         internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("as", "ao"), AS);
         internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("or", "ao"), OR);
-        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters6()
         {

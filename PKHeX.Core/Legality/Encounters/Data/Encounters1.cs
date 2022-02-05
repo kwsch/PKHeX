@@ -1,5 +1,6 @@
 ﻿using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EncounterGBLanguage;
+using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -8,17 +9,14 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters1
     {
-        internal static readonly EncounterArea1[] SlotsRD = Get("red", "g1", RD);
-        internal static readonly EncounterArea1[] SlotsGN = Get("blue", "g1", GN);
-        internal static readonly EncounterArea1[] SlotsYW = Get("yellow", "g1", YW);
-        internal static readonly EncounterArea1[] SlotsBU = Get("blue_jp", "g1", BU);
+        internal static readonly EncounterArea1[] SlotsRD = EncounterArea1.GetAreas(Get("red", "g1"), RD);
+        internal static readonly EncounterArea1[] SlotsGN = EncounterArea1.GetAreas(Get("blue", "g1"), GN);
+        internal static readonly EncounterArea1[] SlotsYW = EncounterArea1.GetAreas(Get("yellow", "g1"), YW);
+        internal static readonly EncounterArea1[] SlotsBU = EncounterArea1.GetAreas(Get("blue_jp", "g1"), BU);
         internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsRD, SlotsGN, SlotsYW);
         internal static readonly EncounterArea1[] SlotsRGBY = ArrayUtil.ConcatAll(SlotsRBY, SlotsBU);
 
-        private static EncounterArea1[] Get(string name, string ident, GameVersion game) =>
-            EncounterArea1.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
-
-        static Encounters1() => EncounterUtil.MarkEncounterTradeNicknames(TradeGift_RBY, TradeGift_RBY_OTs);
+        static Encounters1() => MarkEncounterTradeNicknames(TradeGift_RBY, TradeGift_RBY_OTs);
 
         internal static readonly EncounterStatic1[] StaticRBY =
         {

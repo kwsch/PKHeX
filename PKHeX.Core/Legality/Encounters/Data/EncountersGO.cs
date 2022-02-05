@@ -8,15 +8,8 @@
     {
         internal const int MAX_LEVEL = 50;
 
-        internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"));
-        internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"));
-
-        private static byte[][] Get(string resource, string ident)
-        {
-            var name = $"encounter_{resource}.pkl";
-            var data = Util.GetBinaryResource(name);
-            return BinLinker.Unpack(data, ident);
-        }
+        internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"));
+        internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"));
     }
 #else
     public static class EncountersGO
@@ -32,11 +25,11 @@
             SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"));
         }
 
-        private static byte[][] Get(string resource, string ident)
+        private static BinLinkerAccessor Get(string resource, string ident)
         {
             var name = $"encounter_{resource}.pkl";
             var data = System.IO.File.Exists(name) ? System.IO.File.ReadAllBytes(name) : Util.GetBinaryResource(name);
-            return BinLinker.Unpack(data, ident);
+            return BinLinkerAccessor.Get(data, ident);
         }
     }
 #endif

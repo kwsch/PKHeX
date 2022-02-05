@@ -28,7 +28,7 @@ namespace PKHeX.Core
             Slots = slots;
         }
 
-        internal static EncounterArea7g[] GetArea(byte[][] data)
+        internal static EncounterArea7g[] GetArea(BinLinkerAccessor data)
         {
             var areas = new EncounterArea7g[data.Length];
             for (int i = 0; i < areas.Length; i++)

@@ -14,10 +14,10 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        public static EncounterArea8b[] GetAreas(byte[][] input, GameVersion game)
+        public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, GameVersion game)
         {
             var result = new EncounterArea8b[input.Length];
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < result.Length; i++)
                 result[i] = new EncounterArea8b(input[i], game);
             return result;
         }
@@ -123,27 +123,27 @@ namespace PKHeX.Core
 
         private static readonly ushort[] LocationID_HoneyTree =
         {
-            359, //	00 Route 205 Floaroma
-            361, //	01 Route 205 Eterna
-            362, //	02 Route 206
-            364, //	03 Route 207
-            365, //	04 Route 208
-            367, //	05 Route 209
-            373, //	06 Route 210 Solaceon
-            375, //	07 Route 210 Celestic
-            378, //	08 Route 211
-            379, //	09 Route 212 Hearthome
-            383, //	10 Route 212 Pastoria
-            385, //	11 Route 213
-            392, //	12 Route 214
-            394, //	13 Route 215
-            400, //	14 Route 218
-            404, //	15 Route 221
-            407, //	16 Route 222
-            197, //	17 Valley Windworks
-            199, //	18 Eterna Forest
-            201, //	19 Fuego Ironworks
-            253, //	20 Floaroma Meadow
+            359, // 00 Route 205 Floaroma
+            361, // 01 Route 205 Eterna
+            362, // 02 Route 206
+            364, // 03 Route 207
+            365, // 04 Route 208
+            367, // 05 Route 209
+            373, // 06 Route 210 Solaceon
+            375, // 07 Route 210 Celestic
+            378, // 08 Route 211
+            379, // 09 Route 212 Hearthome
+            383, // 10 Route 212 Pastoria
+            385, // 11 Route 213
+            392, // 12 Route 214
+            394, // 13 Route 215
+            400, // 14 Route 218
+            404, // 15 Route 221
+            407, // 16 Route 222
+            197, // 17 Valley Windworks
+            199, // 18 Eterna Forest
+            201, // 19 Fuego Ironworks
+            253, // 20 Floaroma Meadow
         };
     }
 }
