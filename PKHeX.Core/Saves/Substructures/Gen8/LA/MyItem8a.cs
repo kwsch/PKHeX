@@ -19,7 +19,7 @@ public sealed class MyItem8a : MyItem
         {
             var access = ((SAV8LA)SAV).Accessor;
             var satchel = (uint)access.GetBlock(SaveBlockAccessor8LA.KSatchelUpgrades).GetValue();
-            var regularSize = (int)Math.Min(675, satchel);
+            var regularSize = (int)Math.Min(675, satchel + 20);
 
             var regular = new InventoryPouch8a(InventoryType.Items,    Legal.Pouch_Items_LA , 999, regularSize);
             var key     = new InventoryPouch8a(InventoryType.KeyItems, Legal.Pouch_Key_LA   ,   1, 100);
