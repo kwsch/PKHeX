@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKX
     {
-        internal static readonly PersonalTable Personal = PersonalTable.SWSH;
+        internal static readonly PersonalTable Personal = PersonalTable.LA;
         public const int Generation = 8;
 
         private static readonly HashSet<int> Sizes = new()
@@ -22,6 +22,7 @@ namespace PKHeX.Core
             PokeCrypto.SIZE_5PARTY,
             PokeCrypto.SIZE_6STORED,  PokeCrypto.SIZE_6PARTY,
             PokeCrypto.SIZE_8STORED,  PokeCrypto.SIZE_8PARTY,
+            PokeCrypto.SIZE_8ASTORED, PokeCrypto.SIZE_8APARTY,
         };
 
         /// <summary>
@@ -203,6 +204,7 @@ namespace PKHeX.Core
 
         internal const string ExtensionPB7 = "pb7";
         internal const string ExtensionPB8 = "pb8";
+        internal const string ExtensionPA8 = "pa8";
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -227,6 +229,8 @@ namespace PKHeX.Core
                 result.Add(ExtensionPB7); // let's go
             if (maxGeneration >= 8)
                 result.Add(ExtensionPB8); // Brilliant Diamond & Shining Pearl
+            if (maxGeneration >= 8)
+                result.Add(ExtensionPA8); // Legends: Arceus
 
             return result.ToArray();
         }
