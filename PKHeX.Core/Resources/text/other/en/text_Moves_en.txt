@@ -825,3 +825,27 @@ Thunderous Kick
 Glacial Lance
 Astral Barrage
 Eerie Spell
+Dire Claw
+Psyshield Bash
+Power Shift
+Stone Axe
+Springtide Storm
+Mystical Power
+Raging Fury
+Wave Crash
+Chloroblast
+Mountain Gale
+Victory Dance
+Headlong Rush
+Barb Barrage
+Esper Wing
+Bitter Malice
+Shelter
+Triple Arrows
+Infernal Parade
+Ceaseless Edge
+Bleakwind Storm
+Wildbolt Storm
+Sandsear Storm
+Lunar Blessing
+Take Heart
