@@ -20,10 +20,10 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        public static EncounterArea2[] GetAreas(byte[][] input, GameVersion game)
+        public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
         {
             var result = new EncounterArea2[input.Length];
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < result.Length; i++)
                 result[i] = new EncounterArea2(input[i], game);
             return result;
         }

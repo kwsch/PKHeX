@@ -110,7 +110,7 @@
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(133, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.MainMenuOpen);
             // 
@@ -120,7 +120,7 @@
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(133, 22);
             this.Menu_Save.Text = "&Save PKM...";
             this.Menu_Save.Click += new System.EventHandler(this.MainMenuSave);
             // 
@@ -130,7 +130,7 @@
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
             this.Menu_ExportSAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportSAV.ShowShortcutKeys = false;
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(180, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(133, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             this.Menu_ExportSAV.Click += new System.EventHandler(this.ClickExportSAV);
             // 
@@ -140,7 +140,7 @@
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(180, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(133, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.MainMenuExit);
             // 
@@ -400,7 +400,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.C_SAV);
-            this.splitContainer1.Size = new System.Drawing.Size(761, 356);
+            this.splitContainer1.Size = new System.Drawing.Size(761, 378);
             this.splitContainer1.SplitterDistance = 310;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 105;
@@ -414,7 +414,7 @@
             this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
             this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
             this.PKME_Tabs.Name = "PKME_Tabs";
-            this.PKME_Tabs.Size = new System.Drawing.Size(310, 356);
+            this.PKME_Tabs.Size = new System.Drawing.Size(310, 378);
             this.PKME_Tabs.TabIndex = 103;
             this.PKME_Tabs.Unicode = true;
             this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
@@ -432,7 +432,7 @@
             this.C_SAV.Menu_Redo = null;
             this.C_SAV.Menu_Undo = null;
             this.C_SAV.Name = "C_SAV";
-            this.C_SAV.Size = new System.Drawing.Size(449, 356);
+            this.C_SAV.Size = new System.Drawing.Size(449, 378);
             this.C_SAV.TabIndex = 104;
             this.C_SAV.ViewIndex = -1;
             this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
@@ -454,8 +454,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(761, 382);
-            this.splitContainer2.SplitterDistance = 25;
+            this.splitContainer2.Size = new System.Drawing.Size(761, 405);
+            this.splitContainer2.SplitterDistance = 26;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 106;
             // 
@@ -489,7 +489,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 382);
+            this.ClientSize = new System.Drawing.Size(761, 405);
             this.Controls.Add(this.dragout);
             this.Controls.Add(this.PB_Legal);
             this.Controls.Add(this.splitContainer2);

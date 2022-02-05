@@ -54,23 +54,25 @@ namespace PKHeX.Core
         public static readonly IReadOnlyList<BoxManipBase> ClearCommon = new List<BoxManipBase>
         {
             new BoxManipClear(BoxManipType.DeleteAll, _ => true),
-            new BoxManipClear(BoxManipType.DeleteEggs, pk => pk.IsEgg, s => s.Generation >= 2),
+            new BoxManipClear(BoxManipType.DeleteEggs, pk => pk.IsEgg, s => s.Generation >= 2 & s is not SAV8LA),
             new BoxManipClearComplex(BoxManipType.DeletePastGen, (pk, sav) => pk.Generation != sav.Generation, s => s.Generation >= 4),
             new BoxManipClearComplex(BoxManipType.DeleteForeign, (pk, sav) => !sav.IsOriginalHandler(pk, pk.Format > 2)),
-            new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0),
-            new BoxManipClear(BoxManipType.DeleteItemless, pk => pk.HeldItem == 0),
+            new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0, s => s is not SAV8LA),
+            new BoxManipClear(BoxManipType.DeleteUntrained, pk => !((PA8)pk).IsGanbaruValuesMax(pk), s => s is SAV8LA),
+            new BoxManipClear(BoxManipType.DeleteItemless, pk => pk.HeldItem == 0, s => s is not SAV8LA),
             new BoxManipClear(BoxManipType.DeleteIllegal, pk => !new LegalityAnalysis(pk).Valid),
             new BoxManipClearDuplicate<string>(BoxManipType.DeleteClones, pk => SearchUtil.GetCloneDetectMethod(CloneDetectionMethod.HashDetails)(pk)),
         };
 
         public static readonly IReadOnlyList<BoxManipModify> ModifyCommon = new List<BoxManipModify>
         {
-            new(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2),
+            new(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2 & s is not SAV8LA),
             new(BoxManipType.ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
             new(BoxManipType.ModifyMaxLevel, pk => pk.MaximizeLevel()),
             new(BoxManipType.ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
             new(BoxManipType.ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
-            new(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7),
+            new(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7 && s is not SAV8LA),
+            new(BoxManipType.ModifyGanbaru,pk => ((IGanbaru)pk).SetSuggestedGanbaruValues(pk), s => s is SAV8LA),
             new(BoxManipType.ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
             new(BoxManipType.ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
             new(BoxManipType.ModifyHeal, pk => pk.Heal(), s => s.Generation >= 8 || s is SAV7b),

@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
             row.CreateCells(DGV);
 
             int r = 0;
-            row.Cells[r++].Value = s.ToString("000") + (f > 0 ? "-"+f.ToString("00") :"");
+            row.Cells[r++].Value = s.ToString("000") + (f > 0 ? $"-{f:00}" : "");
             row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = GetIsNative(p, s);
@@ -91,6 +91,7 @@ namespace PKHeX.WinForms
         {
             PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
             PersonalInfoSWSH ss => ss.IsInDex,
+            PersonalInfoBDSP bs => bs.IsInDex,
             _ => true,
         };
     }

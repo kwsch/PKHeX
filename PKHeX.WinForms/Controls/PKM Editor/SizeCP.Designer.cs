@@ -97,7 +97,7 @@
             this.L_Height.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Height.Location = new System.Drawing.Point(3, 0);
             this.L_Height.Name = "L_Height";
-            this.L_Height.Size = new System.Drawing.Size(57, 13);
+            this.L_Height.Size = new System.Drawing.Size(57, 20);
             this.L_Height.TabIndex = 1;
             this.L_Height.Text = "Height:";
             this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

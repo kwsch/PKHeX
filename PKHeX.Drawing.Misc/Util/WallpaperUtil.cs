@@ -35,7 +35,8 @@ public static class WallpaperUtil
         5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
         6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
         7 when !GG.Contains(version) => "xy",
-        8 => BDSP.Contains(version) ? "bdsp" : "swsh",
+        8 when !SWSH.Contains(version) => "bdsp",
+        8 => "swsh",
         _ => string.Empty,
     };
 }

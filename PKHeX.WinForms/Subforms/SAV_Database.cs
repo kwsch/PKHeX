@@ -363,10 +363,13 @@ namespace PKHeX.WinForms
             {
                 static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
                 static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8;//|| ((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                static bool IsPresentInGamePLA (ISpeciesForm pk) => pk is PA8;//|| ((PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
                 if (SAV is SAV8SWSH)
                     result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
                 else if (SAV is SAV8BS)
                     result.RemoveAll(z => !IsPresentInGameBDSP(z.Entity));
+                else if (SAV is SAV8LA)
+                    result.RemoveAll(z => !IsPresentInGamePLA(z.Entity));
             }
 
             var sort = Main.Settings.EntityDb.InitialSortMode;

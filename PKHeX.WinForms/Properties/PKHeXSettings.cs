@@ -217,8 +217,8 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
         public bool AllowIncompatibleConversion { get; set; }
 
-        [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
-        public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
+        [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
+        public string PathBlockKeyList { get; set; } = string.Empty;
 
         [LocalizedDescription("Hide event variables below this event type value. Removes event values from the GUI that the user doesn't care to view.")]
         public NamedEventType HideEventTypeBelow { get; set; }

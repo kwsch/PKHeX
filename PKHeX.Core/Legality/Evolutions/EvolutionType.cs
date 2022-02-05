@@ -54,6 +54,11 @@ namespace PKHeX.Core
         LevelUpNatureLowKey = 47, // Toxtricity
         TowerOfDarkness = 48, // Urshifu
         TowerOfWaters = 49, // Urshifu
+        UseItemFullMoon = 50, // Ursaluna
+        UseAgileStyleMoves = 51, // Wyrdeer
+        UseStrongStyleMoves = 52, // Overqwil
+        RecoilDamageMale = 53, // Basculegion-0
+        RecoilDamageFemale = 54, // Basculegion-1
     }
 
     public static class EvolutionTypeExtensions

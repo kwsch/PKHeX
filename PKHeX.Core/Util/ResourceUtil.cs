@@ -209,7 +209,7 @@ namespace PKHeX.Core
                 return Array.Empty<byte>();
 
             var buffer = new byte[resource.Length];
-            resource.Read(buffer, 0, (int)resource.Length);
+            _ = resource.Read(buffer, 0, (int)resource.Length);
             return buffer;
         }
 

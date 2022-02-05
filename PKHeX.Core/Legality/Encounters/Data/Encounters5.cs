@@ -13,7 +13,6 @@ namespace PKHeX.Core
         internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), W);
         internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"), B2);
         internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"), W2);
-        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters5()
         {

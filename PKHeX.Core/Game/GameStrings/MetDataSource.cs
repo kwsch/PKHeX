@@ -18,6 +18,7 @@ namespace PKHeX.Core
         private readonly List<ComboItem> MetGen7;
         private readonly List<ComboItem> MetGen7GG;
         private readonly List<ComboItem> MetGen8;
+        private readonly List<ComboItem> MetGen8a;
         private readonly List<ComboItem> MetGen8b;
 
         private IReadOnlyList<ComboItem>? MetGen4Transfer;
@@ -34,6 +35,7 @@ namespace PKHeX.Core
             MetGen7 = CreateGen7(s);
             MetGen7GG = CreateGen7GG(s);
             MetGen8 = CreateGen8(s);
+            MetGen8a = CreateGen8a(s);
             MetGen8b = CreateGen8b(s);
         }
 
@@ -152,6 +154,17 @@ namespace PKHeX.Core
             return locations;
         }
 
+        private static List<ComboItem> CreateGen8a(GameStrings s)
+        {
+            var locations = Util.GetCBList(s.metLA_00000, 0);
+            Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Locations.LinkTrade6);
+            Util.AddCBWithOffset(locations, s.metLA_00000, 00000, Legal.Met_LA_0);
+            Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Legal.Met_LA_3);
+            Util.AddCBWithOffset(locations, s.metLA_40000, 40000, Legal.Met_LA_4);
+            Util.AddCBWithOffset(locations, s.metLA_60000, 60000, Legal.Met_LA_6);
+            return locations;
+        }
+
         private static List<ComboItem> CreateGen8b(GameStrings s)
         {
             // Manually add invalid (-1) location from SWSH as ID 65535
@@ -201,6 +214,7 @@ namespace PKHeX.Core
                 GP or GE or GO => Partition2(MetGen7GG, z => z <= 54), // Pokémon League
                 SW or SH => Partition2(MetGen8, z => z < 400),
                 BD or SP => Partition2(MetGen8b, z => z < 628),
+                PLA => Partition2(MetGen8a, z => z < 512),
                 _ => GetLocationListModified(version, currentGen),
             };
 

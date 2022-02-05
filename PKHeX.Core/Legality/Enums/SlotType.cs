@@ -85,6 +85,10 @@ namespace PKHeX.Core
         /// </summary>
         SOS = 15,
 
+        Overworld = 16,
+        Distortion = 17,
+        Landmark = 18,
+
         // Modifiers
 
         /// <summary>

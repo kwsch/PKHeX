@@ -19,10 +19,10 @@ namespace PKHeX.WinForms.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public sealed class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -214,13 +214,14 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///21/10/01 - New Update:
+        ///22/01/01 - New Update:
         /// - Legality:
-        /// - - Added: Gen8 memory checks for unobtainable values. Thanks @Lusamine, @skadiv!
-        /// - - Changed: Ball legality rules updated for Gen7 starters to account for the new Gen8 raids.
-        /// - - Changed: Gen1 Tradeback handling reworked for less overhead.
-        /// - - Fixed more met locations for XD shadow encounters. Thanks @LegoFigure11!
-        /// - - Fixed: Gen4 Cute Charm PIDs correctly emit RNG frames for encounter matching purposes [rest of string was truncated]&quot;;.
+        /// - - Added: Hatch Counter legality checking.
+        /// - - Added: Contest Stat Sheen legality checking (roughly compared to amount of other contest stats gained).
+        /// - - Added: Munchlax encounter slots for DPPt and BDSP are now checked for Trainer ID legality.
+        /// - - Fixed: BDSP Gigantamax is now flagged illegal correctly.
+        /// - - Fixed: BDSP Meister Magikarp now recognized correctly.
+        /// - - Fixed: BDSP bred (egg) ball legali [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -451,6 +452,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap gen_la {
+            get {
+                object obj = ResourceManager.GetObject("gen_la", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap gen_vc {
             get {
                 object obj = ResourceManager.GetObject("gen_vc", resourceCulture);
@@ -595,11 +606,11 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_BlockDump8=Respaldo de bloques
         ///SAV_BoxLayout=Editor de fondos de Cajas
         ///SAV_BoxList=Visor de Almacenamiento
-        ///SAV_Capture7GG=Capture Record Editor
+        ///SAV_Capture7GG=Editor de Récord de Captura
         ///SAV_CGearSkin=Editor de la apariencia C-Gear
         ///SAV_Database=Base de Datos
         ///SAV_Encounters=Base de Datos
-        ///SAV_EventFlags [rest of string was truncated]&quot;;.
+        ///SAV_Even [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_es {
             get {
@@ -680,10 +691,10 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventFlags=イベントフラグ
         ///SAV_EventReset1=イベントリセット
         ///SAV_EventWork=Event Flag Editor
+        ///SAV_FlagWork8b=Event Flag Editor
         ///SAV_FolderList=フォルダリスト
         ///SAV_GameSelect=ゲームバーション
-        ///SAV_HallOfFame=殿堂入りデータ
-        ///SAV_HallOfFa [rest of string was truncated]&quot;;.
+        ///SA [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ja {
             get {
@@ -711,9 +722,9 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventFlags=이벤트 플래그 편집 도구
         ///SAV_EventReset1=이벤트 초기화 도구
         ///SAV_EventWork=이벤트 플래그 편집 도구
+        ///SAV_FlagWork8b=Event Flag Editor
         ///SAV_FolderList=폴더 목록
-        ///SAV_GameSelect=게임 선택
-        ///SAV_HallOfFame=전당등록 편 [rest of string was truncated]&quot;;.
+        ///SAV_GameS [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ko {
             get {
@@ -741,14 +752,13 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventFlags=事件旗标编辑
         ///SAV_EventReset1=事件重置
         ///SAV_EventWork=事件标志编辑器
+        ///SAV_FlagWork8b=Event Flag Editor
         ///SAV_FolderList=文件夹列表
         ///SAV_GameSelect=游戏选择
         ///SAV_HallOfFame=名人堂
         ///SAV_HallOfFame7=名人堂
         ///SAV_HoneyTree=甜甜蜜树编辑
-        ///SAV_Inventory=物品栏
-        ///SAV_Link6=宝可梦连接工具
-        ///SAV_MailBox= [rest of string was truncated]&quot;;.
+        ///SAV_Inventory=物品 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_zh {
             get {
@@ -922,6 +932,16 @@ namespace PKHeX.WinForms.Properties {
         public static System.Drawing.Bitmap report {
             get {
                 object obj = ResourceManager.GetObject("report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap research_bonus_points {
+            get {
+                object obj = ResourceManager.GetObject("research_bonus_points", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

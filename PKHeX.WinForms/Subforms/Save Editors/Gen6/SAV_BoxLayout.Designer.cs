@@ -83,7 +83,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(328, 255);
+            this.B_Save.Location = new System.Drawing.Point(367, 255);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(67, 23);
             this.B_Save.TabIndex = 9;
@@ -94,7 +94,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(328, 284);
+            this.B_Cancel.Location = new System.Drawing.Point(367, 284);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(67, 23);
             this.B_Cancel.TabIndex = 10;
@@ -109,7 +109,7 @@
             this.CB_BG.FormattingEnabled = true;
             this.CB_BG.Location = new System.Drawing.Point(300, 34);
             this.CB_BG.Name = "CB_BG";
-            this.CB_BG.Size = new System.Drawing.Size(98, 21);
+            this.CB_BG.Size = new System.Drawing.Size(137, 21);
             this.CB_BG.TabIndex = 13;
             this.CB_BG.SelectedIndexChanged += new System.EventHandler(this.ChangeBoxBackground);
             // 
@@ -121,7 +121,7 @@
             this.PAN_BG.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_BG.Location = new System.Drawing.Point(126, 61);
             this.PAN_BG.Name = "PAN_BG";
-            this.PAN_BG.Size = new System.Drawing.Size(272, 160);
+            this.PAN_BG.Size = new System.Drawing.Size(311, 160);
             this.PAN_BG.TabIndex = 14;
             // 
             // FLP_Misc
@@ -132,7 +132,7 @@
             this.FLP_Misc.Controls.Add(this.FLP_Flags);
             this.FLP_Misc.Location = new System.Drawing.Point(129, 234);
             this.FLP_Misc.Name = "FLP_Misc";
-            this.FLP_Misc.Size = new System.Drawing.Size(193, 73);
+            this.FLP_Misc.Size = new System.Drawing.Size(232, 73);
             this.FLP_Misc.TabIndex = 15;
             // 
             // FLP_Unlocked
@@ -141,7 +141,7 @@
             this.FLP_Unlocked.Controls.Add(this.CB_Unlocked);
             this.FLP_Unlocked.Location = new System.Drawing.Point(3, 3);
             this.FLP_Unlocked.Name = "FLP_Unlocked";
-            this.FLP_Unlocked.Size = new System.Drawing.Size(185, 25);
+            this.FLP_Unlocked.Size = new System.Drawing.Size(215, 25);
             this.FLP_Unlocked.TabIndex = 16;
             // 
             // L_Unlocked
@@ -168,7 +168,7 @@
             this.FLP_Flags.Controls.Add(this.L_Flag);
             this.FLP_Flags.Location = new System.Drawing.Point(3, 34);
             this.FLP_Flags.Name = "FLP_Flags";
-            this.FLP_Flags.Size = new System.Drawing.Size(185, 25);
+            this.FLP_Flags.Size = new System.Drawing.Size(215, 25);
             this.FLP_Flags.TabIndex = 17;
             // 
             // L_Flag
@@ -204,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 321);
+            this.ClientSize = new System.Drawing.Size(448, 321);
             this.Controls.Add(this.B_Down);
             this.Controls.Add(this.B_Up);
             this.Controls.Add(this.FLP_Misc);

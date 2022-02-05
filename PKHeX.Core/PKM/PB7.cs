@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSize, IFavorite, IFormArgument
+    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument
     {
         public static readonly ushort[] Unused =
         {

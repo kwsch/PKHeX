@@ -42,12 +42,6 @@ namespace PKHeX.Core
             if (!PersonalInfo.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
                 return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
-            switch (enc)
-            {
-                case EncounterEgg e when FormInfo.IsTotemForm(species, form, e.Generation):
-                    return GetInvalid(LFormInvalidGame);
-            }
-
             switch ((Species)species)
             {
                 case Pikachu when Info.Generation == 6: // Cosplay
@@ -72,6 +66,8 @@ namespace PKHeX.Core
                     break;
                 case Unown when Info.Generation == 2 && form >= 26:
                     return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
+                case Dialga or Palkia or Giratina or Arceus when form > 0 && pkm.LA: // can change forms with key items
+                    break;
                 case Giratina when form == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
                     return GetInvalid(LFormItemInvalid);
 
@@ -277,6 +273,57 @@ namespace PKHeX.Core
                 Alcremie => arg switch // From Milcery
                 {
                     > (uint) AlcremieDecoration.Ribbon => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Overqwil when enc.Species == (int)Overqwil => arg switch
+                {
+                    not 0 => GetInvalid(LFormArgumentNotAllowed),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Wyrdeer when enc.Species == (int)Wyrdeer => arg switch
+                {
+                    not 0 => GetInvalid(LFormArgumentNotAllowed),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Basculegion when enc.Species == (int)Basculegion => arg switch
+                {
+                    not 0 => GetInvalid(LFormArgumentNotAllowed),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Basculin when pkm.Form is 2 => arg switch
+                {
+                    not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Qwilfish when pkm.Form is 1 => arg switch
+                {
+                    not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Stantler when pkm is PA8 => arg switch
+                {
+                    not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Wyrdeer => arg switch // From Stantler
+                {
+                    < 20 => GetInvalid(LFormArgumentLow),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Overqwil => arg switch // From Qwilfish-1
+                {
+                    < 20 => GetInvalid(LFormArgumentLow),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
+                    _ => GetValid(LFormArgumentValid),
+                },
+                Basculegion => arg switch // From Basculin-2
+                {
+                    < 294 => GetInvalid(LFormArgumentLow),
+                    > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },
                 _ => VerifyFormArgumentNone(pkm, f),

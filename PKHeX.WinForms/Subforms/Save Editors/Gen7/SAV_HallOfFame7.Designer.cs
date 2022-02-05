@@ -54,8 +54,8 @@
             this.L_C2 = new System.Windows.Forms.Label();
             this.CB_C1 = new System.Windows.Forms.ComboBox();
             this.L_C1 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.L_First = new System.Windows.Forms.Label();
+            this.L_Current = new System.Windows.Forms.Label();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.L_EC = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -310,23 +310,23 @@
             this.L_C1.Text = "PKM 1:";
             this.L_C1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // L_First
             // 
-            this.label1.Location = new System.Drawing.Point(65, 1);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 23);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "First";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.L_First.Location = new System.Drawing.Point(65, 1);
+            this.L_First.Name = "L_First";
+            this.L_First.Size = new System.Drawing.Size(124, 23);
+            this.L_First.TabIndex = 0;
+            this.L_First.Text = "First";
+            this.L_First.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // L_Current
             // 
-            this.label2.Location = new System.Drawing.Point(258, 1);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 23);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Current";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.L_Current.Location = new System.Drawing.Point(258, 1);
+            this.L_Current.Name = "L_Current";
+            this.L_Current.Size = new System.Drawing.Size(124, 23);
+            this.L_Current.TabIndex = 0;
+            this.L_Current.Text = "Current";
+            this.L_Current.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TB_EC
             // 
@@ -355,8 +355,8 @@
             this.ClientSize = new System.Drawing.Size(394, 201);
             this.Controls.Add(this.TB_EC);
             this.Controls.Add(this.L_EC);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Current);
+            this.Controls.Add(this.L_First);
             this.Controls.Add(this.CB_C6);
             this.Controls.Add(this.L_C6);
             this.Controls.Add(this.CB_C5);
@@ -422,8 +422,8 @@
         private System.Windows.Forms.Label L_C2;
         private System.Windows.Forms.ComboBox CB_C1;
         private System.Windows.Forms.Label L_C1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_First;
+        private System.Windows.Forms.Label L_Current;
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.Label L_EC;
     }

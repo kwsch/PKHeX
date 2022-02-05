@@ -142,10 +142,18 @@ namespace PKHeX.Core
                     }
                     break;
 
+                case PLA:
+                    if (pkm.InhabitedGeneration(8))
+                    {
+                        int index = PersonalTable.LA.GetFormIndex(species, form);
+                        return LevelUpLA[index].GetMoves(lvl);
+                    }
+                    break;
+
                 case BD or SP or BDSP:
                     if (pkm.InhabitedGeneration(8))
                     {
-                        int index = PersonalTable.SWSH.GetFormIndex(species, form);
+                        int index = PersonalTable.BDSP.GetFormIndex(species, form);
                         return LevelUpBDSP[index].GetMoves(lvl);
                     }
                     break;

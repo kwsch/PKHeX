@@ -15,7 +15,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="input">Raw ROM data containing the contiguous moves</param>
         /// <param name="maxSpecies">Highest species ID for the input game.</param>
-        public static Learnset[] GetArray(byte[] input, int maxSpecies)
+        public static Learnset[] GetArray(ReadOnlySpan<byte> input, int maxSpecies)
         {
             var data = new Learnset[maxSpecies + 1];
 
@@ -30,7 +30,7 @@ namespace PKHeX.Core
         /// Loads a learnset by reading 16-bit move,level pairs.
         /// </summary>
         /// <param name="entries">Entry data</param>
-        public static Learnset[] GetArray(byte[][] entries)
+        public static Learnset[] GetArray(BinLinkerAccessor entries)
         {
             Learnset[] data = new Learnset[entries.Length];
             for (int i = 0; i < data.Length; i++)

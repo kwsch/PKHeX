@@ -94,7 +94,8 @@ namespace PKHeX.Core
         {
             const int count = 4;
             var moves = new int[count];
-            return GetEncounterMoves(level, moves);
+            SetEncounterMoves(level, moves);
+            return moves;
         }
 
         /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
@@ -103,7 +104,7 @@ namespace PKHeX.Core
         /// <param name="moves">Move array to write to</param>
         /// <param name="ctr">Starting index to begin overwriting at</param>
         /// <returns>Array of Move IDs</returns>
-        public int[] GetEncounterMoves(int level, int[] moves, int ctr = 0)
+        public void SetEncounterMoves(int level, Span<int> moves, int ctr = 0)
         {
             for (int i = 0; i < Moves.Length; i++)
             {
@@ -111,14 +112,50 @@ namespace PKHeX.Core
                     break;
 
                 int move = Moves[i];
-                bool alreadyHasMove = Array.IndexOf(moves, move) >= 0;
+                bool alreadyHasMove = moves.IndexOf(move) >= 0;
                 if (alreadyHasMove)
                     continue;
 
                 moves[ctr++] = move;
                 ctr &= 3;
             }
-            return moves;
+        }
+
+        /// <summary>Adds the learned moves by level up to the specified level.</summary>
+        public void SetLevelUpMoves(int startLevel, int endLevel, Span<int> moves, int ctr = 0)
+        {
+            int startIndex = Array.FindIndex(Levels, z => z >= startLevel);
+            int endIndex = Array.FindIndex(Levels, z => z > endLevel);
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                int move = Moves[i];
+                bool alreadyHasMove = moves.IndexOf(move) >= 0;
+                if (alreadyHasMove)
+                    continue;
+
+                moves[ctr++] = move;
+                ctr &= 3;
+            }
+        }
+
+        /// <summary>Adds the moves that are gained upon evolving.</summary>
+        /// <param name="moves">Move array to write to</param>
+        /// <param name="ctr">Starting index to begin overwriting at</param>
+        public void SetEvolutionMoves(Span<int> moves, int ctr = 0)
+        {
+            for (int i = 0; i < Moves.Length; i++)
+            {
+                if (Levels[i] != 0)
+                    break;
+
+                int move = Moves[i];
+                bool alreadyHasMove = moves.IndexOf(move) >= 0;
+                if (alreadyHasMove)
+                    continue;
+
+                moves[ctr++] = move;
+                ctr &= 3;
+            }
         }
 
         public IList<int> GetUniqueMovesLearned(IEnumerable<int> seed, int maxLevel, int minLevel = 0)

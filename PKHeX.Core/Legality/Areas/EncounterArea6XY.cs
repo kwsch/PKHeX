@@ -14,10 +14,11 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        public static EncounterArea6XY[] GetAreas(byte[][] input, GameVersion game, EncounterArea6XY safari)
+        public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, GameVersion game, EncounterArea6XY safari)
         {
-            var result = new EncounterArea6XY[input.Length + 1];
-            for (int i = 0; i < input.Length; i++)
+            int count = input.Length;
+            var result = new EncounterArea6XY[count + 1];
+            for (int i = 0; i < count; i++)
                 result[i] = new EncounterArea6XY(input[i], game);
             result[^1] = safari;
             return result;

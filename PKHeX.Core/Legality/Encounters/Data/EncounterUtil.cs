@@ -8,6 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     internal static class EncounterUtil
     {
+        internal static BinLinkerAccessor Get(string resource, string ident) => BinLinkerAccessor.Get(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+
         /// <summary>
         /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
         /// </summary>

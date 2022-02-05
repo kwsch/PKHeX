@@ -10,15 +10,14 @@ namespace PKHeX.Core
     internal static class Encounters3
     {
         private static readonly EncounterArea3[] SlotsSwarmRSE = GetSwarm("rse_swarm", "rs", RSE);
-        internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(Get("r", "ru", R), SlotsSwarmRSE);
-        internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(Get("s", "sa", S), SlotsSwarmRSE);
-        internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(Get("e", "em", E), SlotsSwarmRSE);
-        internal static readonly EncounterArea3[] SlotsFR = Get("fr", "fr", FR);
-        internal static readonly EncounterArea3[] SlotsLG = Get("lg", "lg", LG);
+        internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(GetRegular("r", "ru", R), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(GetRegular("s", "sa", S), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(GetRegular("e", "em", E), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsFR = GetRegular("fr", "fr", FR);
+        internal static readonly EncounterArea3[] SlotsLG = GetRegular("lg", "lg", LG);
 
-        private static byte[][] ReadUnpack(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
-        private static EncounterArea3[] Get(string resource, string ident, GameVersion game) => EncounterArea3.GetAreas(ReadUnpack(resource, ident), game);
-        private static EncounterArea3[] GetSwarm(string resource, string ident, GameVersion game) => EncounterArea3.GetAreasSwarm(ReadUnpack(resource, ident), game);
+        private static EncounterArea3[] GetRegular(string resource, string ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
+        private static EncounterArea3[] GetSwarm(string resource, string ident, GameVersion game) => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
 
         static Encounters3()
         {

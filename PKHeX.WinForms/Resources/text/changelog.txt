@@ -1,7 +1,32 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/01/01 - New Update:
+22/02/04 - New Update:
+ - Introducing Pokémon Legends: Arceus support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!
+ - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for PLA parsing.
+ - - Save Data is similar to SW/SH; a pokedex, trainer, inventory, and block data editor are provided.
+ - - Encounter legality has been reverse engineered & modeled to pre-compute possible met locations for overworld interactables.
+ - Added:
+ - - Gen8 BDSP wild encounters are now generated with RNG patterns matching the game. Thanks @Lusamine !
+ - - Gen8 BDSP xorshift RNG implemented, now available for PKHeX.Core referencing.
+ - - Gen8 BDSP zone unlock cheat to fly to all locations. Thanks @sora10pls !
+ - - Gen8 BDSP named constant for BDSP swarms for the event editor. Thanks @MewTracker !
+ - Changed:
+ - - Internal asset loading speed has been improved (more friendly to the runtime's garbage collector).
+ - - Internal value read/writes now work correctly for Big Endian runtimes.
+ - - Internal value read/writes are now allocation-free; memory allocation for strings has been reduced drastically too.
+ - - Clicking stat labels now changes nature amplification. Refer to the shortcut list for more info.
+ - Fixed:
+ - - Gen8 BDSP in-game trades are now checked for EC/PID legality.
+ - - Gen4 DPPt Swarm & Safari seeds now read/write correctly. Thanks @edo9300 !
+ - - Gen4 feeding a single low-quality poffin no longer indicates invalid sheen. Thanks Jollygator !
+ - - Gen3 Item quantity reads now behave correctly. Thanks @MichiS97 (dev build bug)!
+ - - Gen3 Shadow Monitor now reads all species correctly. Thanks @Mutty99 !
+ - - Gen2 Odd Eggs and E-Speed Dratini now recognize correctly prior to transfer. Thanks @N-Harmonik !
+ - - Gen1/2 Evolution chains now return a more accurate min/max level for each stage. Thanks @Ninjistix !
+ - - Handled more oddball encounters. Thanks @Skadiv & @Ninjistix !
+ 
+22/01/01 - New Update: (114030) [4461382]
  - Legality:
  - - Added: Hatch Counter legality checking.
  - - Added: Contest Stat Sheen legality checking (roughly compared to amount of other contest stats gained).

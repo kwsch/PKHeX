@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
     public abstract class G8PKM : PKM, ISanityChecksum,
-        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed,
+        IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, ITechRecord8, ISociability,
         IContestStats, IContestStatsMutable, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
     {
         public sealed override int Format => 8;
@@ -28,6 +28,8 @@ namespace PKHeX.Core
         }
 
         // Simple Generated Attributes
+        public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
+        public ReadOnlySpan<int> TechRecordPermitIndexes => Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
         public override int CurrentFriendship
         {
             get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
@@ -458,7 +460,7 @@ namespace PKHeX.Core
             FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
         }
 
-        public bool HasAnyMoveRecordFlag() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
+        public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
 
         // Why did you mis-align this field, GameFreak?
         public ulong Tracker

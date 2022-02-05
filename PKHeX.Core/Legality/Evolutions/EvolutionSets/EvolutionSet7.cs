@@ -32,9 +32,9 @@ namespace PKHeX.Core
             return new EvolutionMethod(method, species, argument: arg, level: level, form: form);
         }
 
-        public static IReadOnlyList<EvolutionMethod[]> GetArray(IReadOnlyList<byte[]> data)
+        public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)
         {
-            var evos = new EvolutionMethod[data.Count][];
+            var evos = new EvolutionMethod[data.Length][];
             for (int i = 0; i < evos.Length; i++)
                 evos[i] = GetMethods(data[i]);
             return evos;

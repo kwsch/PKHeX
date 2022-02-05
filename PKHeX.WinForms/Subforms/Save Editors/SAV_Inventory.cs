@@ -99,7 +99,9 @@ namespace PKHeX.WinForms
             var itemarr = Main.HaX ? itemlist : GetStringsForPouch(pouch.LegalItems);
             item.Items.AddRange(itemarr);
 
-            dgv.Rows.Add(pouch.Items.Length);
+            var items = pouch.Items;
+            if (items.Length != 0)
+                dgv.Rows.Add(items.Length);
             dgv.CancelEdit();
 
             return dgv;

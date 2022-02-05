@@ -825,3 +825,27 @@ Coup Fulgurant
 Lance de Glace
 Éclat Spectral
 Sort Sinistre
+Griffes Funestes
+Sprint Bouclier
+Échange Force
+Hache de Pierre
+Typhon Passionné
+Force Mystique
+Grand Courroux
+Aquatacle
+Herblast
+Bise Glaciaire
+Danse Victoire
+Assaut Frontal
+Multitoxik
+Ailes Psycho
+Cœur de Rancœur
+Mur Fumigène
+Triple Flèche
+Cortège Funèbre
+Vagues à Lames
+Typhon Hivernal
+Typhon Fulgurant
+Typhon Pyrosable
+Prière Lunaire
+Extravaillance

@@ -1,0 +1,5 @@
+Esemplari catturati di mattina
+Esemplari catturati di pomeriggio
+Esemplari catturati di sera
+Esemplari catturati di notte
+Esemplari catturati durante il giorno

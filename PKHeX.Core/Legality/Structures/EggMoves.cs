@@ -61,7 +61,7 @@ namespace PKHeX.Core
             return new EggMoves6(moves);
         }
 
-        public static EggMoves6[] GetArray(byte[][] entries)
+        public static EggMoves6[] GetArray(BinLinkerAccessor entries)
         {
             EggMoves6[] data = new EggMoves6[entries.Length];
             for (int i = 0; i < data.Length; i++)
@@ -92,7 +92,7 @@ namespace PKHeX.Core
             return new EggMoves7(moves, formIndex);
         }
 
-        public static EggMoves7[] GetArray(byte[][] entries)
+        public static EggMoves7[] GetArray(BinLinkerAccessor entries)
         {
             EggMoves7[] data = new EggMoves7[entries.Length];
             for (int i = 0; i < data.Length; i++)

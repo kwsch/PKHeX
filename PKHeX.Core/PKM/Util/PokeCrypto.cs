@@ -45,6 +45,10 @@ namespace PKHeX.Core
         internal const int SIZE_8PARTY = SIZE_8STORED + 0x10; // 0x158
         internal const int SIZE_8BLOCK = 80; // 0x50
 
+        internal const int SIZE_8ASTORED = 8 + (4 * SIZE_8ABLOCK); // 0x168
+        internal const int SIZE_8APARTY = SIZE_8ASTORED + 0x10; // 0x178
+        internal const int SIZE_8ABLOCK = 88; // 0x58
+
         /// <summary>
         /// Positions for shuffling.
         /// </summary>
@@ -134,6 +138,21 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Decrypts a Gen8 pkm byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted Pokémon data.</param>
+        /// <returns>Decrypted Pokémon data.</returns>
+        /// <returns>Encrypted Pokémon data.</returns>
+        public static byte[] DecryptArray8A(Span<byte> ekm)
+        {
+            uint pv = ReadUInt32LittleEndian(ekm);
+            uint sv = pv >> 13 & 31;
+
+            CryptPKM(ekm, pv, SIZE_8ABLOCK);
+            return ShuffleArray(ekm, sv, SIZE_8ABLOCK);
+        }
+
+        /// <summary>
         /// Encrypts a Gen8 pkm byte array.
         /// </summary>
         /// <param name="pkm">Decrypted Pokémon data.</param>
@@ -144,6 +163,20 @@ namespace PKHeX.Core
 
             byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_8BLOCK);
             CryptPKM(ekm, pv, SIZE_8BLOCK);
+            return ekm;
+        }
+
+        /// <summary>
+        /// Encrypts a Gen8 pkm byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted Pokémon data.</param>
+        public static byte[] EncryptArray8A(Span<byte> pkm)
+        {
+            uint pv = ReadUInt32LittleEndian(pkm);
+            uint sv = pv >> 13 & 31;
+
+            byte[] ekm = ShuffleArray(pkm, blockPositionInvert[sv], SIZE_8ABLOCK);
+            CryptPKM(ekm, pv, SIZE_8ABLOCK);
             return ekm;
         }
 
@@ -390,8 +423,19 @@ namespace PKHeX.Core
         public static void DecryptIfEncrypted8(ref byte[] pkm)
         {
             var span = pkm.AsSpan();
-            if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0xC0..]) != 0)
+            if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
                 pkm = DecryptArray8(span);
+        }
+
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 8 Format encryption check</remarks>
+        public static void DecryptIfEncrypted8A(ref byte[] pkm)
+        {
+            var span = pkm.AsSpan();
+            if (ReadUInt16LittleEndian(span[0x78..]) != 0 || ReadUInt16LittleEndian(span[0x128..]) != 0)
+                pkm = DecryptArray8A(span);
         }
     }
 }

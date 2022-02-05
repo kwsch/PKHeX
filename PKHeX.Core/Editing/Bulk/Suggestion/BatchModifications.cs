@@ -14,13 +14,13 @@ namespace PKHeX.Core
         public static ModifyResult SetSuggestedRelearnData(BatchInfo info, string propValue)
         {
             var pk = info.Entity;
-            if (pk.Format >= 8)
+            if (pk is ITechRecord8 t)
             {
-                pk.ClearRecordFlags();
+                t.ClearRecordFlags();
                 if (IsAll(propValue))
-                    pk.SetRecordFlags(); // all
+                    t.SetRecordFlags(); // all
                 else if (!IsNone(propValue))
-                    pk.SetRecordFlags(pk.Moves); // whatever fit the current moves
+                    t.SetRecordFlags(pk.Moves); // whatever fit the current moves
             }
 
             pk.SetRelearnMoves(info.SuggestedRelearn);

@@ -162,7 +162,7 @@ namespace PKHeX.Core
             }
         }
 
-        private Span<byte> OT_Trash =>Data.AsSpan(0xB0, 0x1A);
+        private Span<byte> OT_Trash => Data.AsSpan(0xB0, 0x1A);
 
         public string OT
         {

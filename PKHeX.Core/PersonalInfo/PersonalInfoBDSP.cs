@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class PersonalInfoBDSP : PersonalInfo
     {
         public const int SIZE = 0x44;
-        private const int CountTM = 100;
+        internal const int CountTM = 100;
 
         public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
         public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }

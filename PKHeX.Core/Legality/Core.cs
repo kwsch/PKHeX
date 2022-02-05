@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static PKHeX.Core.BinLinkerAccessor;
 
 namespace PKHeX.Core
 {
@@ -16,50 +17,50 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpC = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
 
         // Gen 3
-        internal static readonly Learnset[] LevelUpE = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
-        internal static readonly Learnset[] LevelUpRS = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
-        internal static readonly Learnset[] LevelUpFR = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
-        internal static readonly Learnset[] LevelUpLG = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
-        internal static readonly EggMoves6[] EggMovesRS = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
+        internal static readonly Learnset[] LevelUpE = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
+        internal static readonly Learnset[] LevelUpRS = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
+        internal static readonly Learnset[] LevelUpFR = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
+        internal static readonly Learnset[] LevelUpLG = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
+        internal static readonly EggMoves6[] EggMovesRS = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
 
         // Gen 4
-        internal static readonly Learnset[] LevelUpDP = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
-        internal static readonly Learnset[] LevelUpPt = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
-        internal static readonly Learnset[] LevelUpHGSS = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
-        internal static readonly EggMoves6[] EggMovesDPPt = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
-        internal static readonly EggMoves6[] EggMovesHGSS = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
+        internal static readonly Learnset[] LevelUpDP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
+        internal static readonly Learnset[] LevelUpPt = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
+        internal static readonly Learnset[] LevelUpHGSS = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
+        internal static readonly EggMoves6[] EggMovesDPPt = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
+        internal static readonly EggMoves6[] EggMovesHGSS = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
 
         // Gen 5
-        internal static readonly Learnset[] LevelUpBW = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
-        internal static readonly Learnset[] LevelUpB2W2 = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
-        internal static readonly EggMoves6[] EggMovesBW = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
+        internal static readonly Learnset[] LevelUpBW = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
+        internal static readonly Learnset[] LevelUpB2W2 = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
+        internal static readonly EggMoves6[] EggMovesBW = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
 
         // Gen 6
-        internal static readonly EggMoves6[] EggMovesXY = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
-        internal static readonly Learnset[] LevelUpXY = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
-        internal static readonly EggMoves6[] EggMovesAO = EggMoves6.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
-        internal static readonly Learnset[] LevelUpAO = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
+        internal static readonly EggMoves6[] EggMovesXY = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
+        internal static readonly Learnset[] LevelUpXY = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
+        internal static readonly EggMoves6[] EggMovesAO = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
+        internal static readonly Learnset[] LevelUpAO = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
 
         // Gen 7
-        internal static readonly EggMoves7[] EggMovesSM = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-        internal static readonly Learnset[] LevelUpSM = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
-        internal static readonly EggMoves7[] EggMovesUSUM = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
-        internal static readonly Learnset[] LevelUpUSUM = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
-        internal static readonly Learnset[] LevelUpGG = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
+        internal static readonly EggMoves7[] EggMovesSM = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
+        internal static readonly Learnset[] LevelUpSM = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        internal static readonly EggMoves7[] EggMovesUSUM = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
+        internal static readonly Learnset[] LevelUpUSUM = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
+        internal static readonly Learnset[] LevelUpGG = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
 
         // Gen 8
-        internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
-        internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
-        internal static readonly EggMoves7[] EggMovesBDSP = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
-        internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
+        internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
+        internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
+        internal static readonly EggMoves7[] EggMovesBDSP = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
+        internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
+        internal static readonly Learnset[] LevelUpLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
 
-        public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format)
+        public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format) => format switch
         {
-            if (format != 7)
-                return GetPPTable(format);
-            var lgpe = pkm.Version is (int) GameVersion.GO or (int) GameVersion.GP or (int) GameVersion.GE;
-            return lgpe ? MovePP_GG : MovePP_SM;
-        }
+            7 when pkm is PB7 => MovePP_GG,
+            8 when pkm is PA8 => MovePP_LA,
+            _ => GetPPTable(format),
+        };
 
         public static IReadOnlyList<byte> GetPPTable(int format) => format switch
         {
@@ -78,6 +79,7 @@ namespace PKHeX.Core
         {
             PK8 => DummiedMoves_SWSH,
             PB8 => DummiedMoves_BDSP,
+            PA8 => DummiedMoves_LA,
             _ => Array.Empty<int>(),
         };
 
@@ -99,7 +101,7 @@ namespace PKHeX.Core
             5 => MaxSpeciesID_5,
             6 => MaxSpeciesID_6,
             7 => MaxSpeciesID_7b,
-            8 => MaxSpeciesID_8,
+            8 => MaxSpeciesID_8a,
             _ => -1,
         };
 
@@ -112,7 +114,7 @@ namespace PKHeX.Core
             <= MaxSpeciesID_5 => 5,
             <= MaxSpeciesID_6 => 6,
             <= MaxSpeciesID_7b => 7,
-            <= MaxSpeciesID_8 => 8,
+            <= MaxSpeciesID_8a => 8,
             _ => -1,
         };
 
@@ -138,7 +140,7 @@ namespace PKHeX.Core
             5 => MaxMoveID_5,
             6 => MaxMoveID_6_AO,
             7 => MaxMoveID_7b,
-            8 => MaxMoveID_8,
+            8 => MaxMoveID_8a,
             _ => -1,
         };
 
@@ -161,6 +163,18 @@ namespace PKHeX.Core
             return pi.IsPresentInGame;
         }
 
+        internal static bool HasVisitedLA(this PKM pkm, int species)
+        {
+            if (!pkm.InhabitedGeneration(8, species))
+                return false;
+            if (pkm.LA)
+                return true;
+            if (pkm.IsUntraded)
+                return false;
+            var pi = (PersonalInfoLA)PersonalTable.LA[species];
+            return pi.IsPresentInGame;
+        }
+
         /// <summary>
         /// Indicates if the moveset is restricted to only the original version.
         /// </summary>
@@ -171,6 +185,8 @@ namespace PKHeX.Core
             if (pkm.IsUntraded)
                 return true;
             if (pkm.BDSP)
+                return true;
+            if (pkm.LA)
                 return true;
             return false;
         }

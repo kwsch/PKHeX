@@ -67,7 +67,7 @@ namespace PKHeX.Core
                     return 3;
                 case PokeCrypto.SIZE_4PARTY or PokeCrypto.SIZE_4STORED:
                 case PokeCrypto.SIZE_5PARTY:
-                    if ((ReadUInt16LittleEndian(data[0x4..]) == 0) && (ReadUInt16LittleEndian(data.Slice(0x80)) >= 0x3333 || data[0x5F] >= 0x10) && ReadUInt16LittleEndian(data[0x46..]) == 0) // PK5
+                    if ((ReadUInt16LittleEndian(data[0x4..]) == 0) && (ReadUInt16LittleEndian(data[0x80..]) >= 0x3333 || data[0x5F] >= 0x10) && ReadUInt16LittleEndian(data[0x46..]) == 0) // PK5
                         return 5;
                     return 4;
                 case PokeCrypto.SIZE_6STORED:
@@ -89,6 +89,8 @@ namespace PKHeX.Core
                     }
                     return 6;
                 case PokeCrypto.SIZE_8PARTY or PokeCrypto.SIZE_8STORED:
+                    return 8;
+                case PokeCrypto.SIZE_8APARTY or PokeCrypto.SIZE_8ASTORED:
                     return 8;
 
                 default:
@@ -125,9 +127,14 @@ namespace PKHeX.Core
 
         private static PKM CheckPKMFormat8(byte[] data)
         {
+            if (data.Length is PokeCrypto.SIZE_8ASTORED or PokeCrypto.SIZE_8APARTY)
+                return new PA8(data);
+
             var pk8 = new PB8(data);
-            if (GameVersion.BDSP.Contains(pk8.Version))
+            var ver = pk8.Version;
+            if (GameVersion.BDSP.Contains(ver))
                 return pk8;
+
             return new PK8(data);
         }
 
@@ -447,6 +454,7 @@ namespace PKHeX.Core
             1 when ver == GameVersion.BU => new PK1(true),
             7 when GameVersion.Gen7b.Contains(ver) => new PB7(),
             8 when GameVersion.BDSP.Contains(ver) => new PB8(),
+            8 when GameVersion.PLA == ver => new PA8(),
             _ => GetBlank(gen),
         };
 

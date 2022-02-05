@@ -15,6 +15,8 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
+        public const int SIZE_G8LA = 0x136DDE;
+
         public const int SIZE_G8BDSP = 0xE9828;
         public const int SIZE_G8BDSP_1 = 0xEDC20;
 
@@ -97,7 +99,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
         {
-            SIZE_G8BDSP, SIZE_G8BDSP_1,
+            SIZE_G8LA, SIZE_G8BDSP, SIZE_G8BDSP_1,
             // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
@@ -160,6 +162,8 @@ namespace PKHeX.Core
             if ((ver = GetIsG8SAV(data)) != Invalid)
                 return ver;
             if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
+                return ver;
+            if ((ver = GetIsG8SAV_LA(data)) != Invalid)
                 return ver;
 
             return Invalid;
@@ -503,6 +507,14 @@ namespace PKHeX.Core
             return BDSP;
         }
 
+        private static GameVersion GetIsG8SAV_LA(byte[] data)
+        {
+            if (data.Length is not SIZE_G8LA)
+                return Invalid;
+
+            return SwishCrypto.GetIsHashValidLA(data) ? PLA : Invalid;
+        }
+
         private static bool GetIsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
         private static bool GetIsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
@@ -601,6 +613,7 @@ namespace PKHeX.Core
 
                 SWSH => new SAV8SWSH(data),
                 BDSP => new SAV8BS(data),
+                PLA => new SAV8LA(data),
 
                 // Side Games
                 COLO => new SAV3Colosseum(data),
@@ -746,6 +759,7 @@ namespace PKHeX.Core
 
             SW or SH or SWSH => new SAV8SWSH(),
             BD or SP or BDSP => new SAV8BS(),
+            PLA => new SAV8LA(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(game)),
         };
@@ -783,7 +797,7 @@ namespace PKHeX.Core
                 // force evaluation so that an invalid path will throw before we return true/false.
                 // EnumerateFiles throws an exception while iterating, which won't be caught by the try-catch here.
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                result = files.Where(f => IsSizeValid(FileUtil.GetFileSize(f)));
+                result = files.Where(f => !IsBackup(f) && IsSizeValid(FileUtil.GetFileSize(f)));
                 return true;
             }
             catch (Exception ex)
@@ -797,6 +811,8 @@ namespace PKHeX.Core
                 return false;
             }
         }
+
+        public static bool IsBackup(string path) => Path.GetFileName(path) is "backup" || Path.GetExtension(path) is ".bak";
 
         /// <summary>
         /// Determines whether the save data size is valid for automatically detecting saves.

@@ -17,5 +17,15 @@ namespace PKHeX.Core
             base.SetPINGA(pk, criteria);
             pk.SetRandomEC();
         }
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (pk is IScaledSizeValue v)
+            {
+                v.ResetHeight();
+                v.ResetWeight();
+            }
+        }
     }
 }

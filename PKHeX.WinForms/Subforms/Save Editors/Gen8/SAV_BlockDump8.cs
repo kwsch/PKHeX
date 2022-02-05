@@ -11,22 +11,22 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_BlockDump8 : Form
     {
-        private readonly SAV8SWSH SAV;
+        private readonly ISCBlockArray SAV;
         private readonly SCBlockMetadata Metadata;
 
         private SCBlock CurrentBlock = null!;
 
-        public SAV_BlockDump8(SaveFile sav)
+        public SAV_BlockDump8(ISCBlockArray sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV8SWSH)sav;
+            SAV = sav;
 
             PG_BlockView.Size = RTB_Hex.Size;
 
             // Get an external source of names if available.
-            var extra = GetExtraKeyNames();
-            Metadata = new SCBlockMetadata(SAV.Blocks, extra, Main.Settings.Advanced.GetExclusionList8());
+            var extra = GetExtraKeyNames(sav);
+            Metadata = new SCBlockMetadata(SAV.Accessor, extra, Main.Settings.Advanced.GetExclusionList8());
 
             CB_Key.InitializeBinding();
             CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
@@ -42,16 +42,24 @@ namespace PKHeX.WinForms
             CB_Key.SelectedIndex = 0;
         }
 
-        private static IEnumerable<string> GetExtraKeyNames()
+        private static IEnumerable<string> GetExtraKeyNames(ISCBlockArray obj)
         {
-            var extra = Main.Settings.Advanced.PathBlockKeyListSWSH;
-            return File.Exists(extra) ? File.ReadLines(extra) : Array.Empty<string>();
+            var extra = Main.Settings.Advanced.PathBlockKeyList;
+            if (extra.Length != 0 && !Directory.Exists(extra))
+                return Array.Empty<string>();
+
+            var file = Path.Combine(extra, obj.GetType().Name);
+            file = $"{file}.txt";
+            if (!File.Exists(file))
+                return Array.Empty<string>();
+
+            return File.ReadLines(file);
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
         {
             var key = (uint)WinFormsUtil.GetIndex(CB_Key);
-            CurrentBlock = SAV.Blocks.GetBlock(key);
+            CurrentBlock = SAV.Accessor.GetBlock(key);
             UpdateBlockSummaryControls();
             if (CurrentBlock.Type.IsBoolean())
             {
@@ -158,7 +166,7 @@ namespace PKHeX.WinForms
 
             var path = sfd.FileName;
 
-            var blocks = SAV.Blocks.BlockInfo;
+            var blocks = SAV.Accessor.BlockInfo;
             var option = SCBlockExportOption.None;
             if (CHK_DataOnly.Checked)
                 option |= SCBlockExportOption.DataOnly;
@@ -205,15 +213,15 @@ namespace PKHeX.WinForms
                 return;
 
             var s1 = SaveUtil.GetVariantSAV(p1);
-            if (s1 is not SAV8SWSH w1)
+            if (s1 is not ISCBlockArray w1)
                 return;
             var s2 = SaveUtil.GetVariantSAV(p2);
-            if (s2 is not SAV8SWSH w2)
+            if (s2 is not ISCBlockArray w2)
                 return;
 
             // Get an external source of names if available.
-            var extra = GetExtraKeyNames();
-            var compare = new SCBlockCompare(w1.Blocks, w2.Blocks, extra);
+            var extra = GetExtraKeyNames(w1);
+            var compare = new SCBlockCompare(w1.Accessor, w2.Accessor, extra);
             richTextBox1.Lines = compare.Summary().ToArray();
         }
 

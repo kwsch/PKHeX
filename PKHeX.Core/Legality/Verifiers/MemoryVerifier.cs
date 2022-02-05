@@ -14,10 +14,11 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            if (data.pkm.BDSP)
+            var pkm = data.pkm;
+            if (pkm.BDSP || pkm.LA)
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
-                VerifyHTMemoryNone(data, (ITrainerMemories)data.pkm);
+                VerifyHTMemoryNone(data, (ITrainerMemories)pkm);
                 return;
             }
             VerifyOTMemory(data);
@@ -259,6 +260,7 @@ namespace PKHeX.Core
                 case 8 when pkm.GO_HOME: // HOME does not set memories.
                 case 8 when pkm.Met_Location == Locations.HOME8: // HOME does not set memories.
                 case 8 when pkm.BDSP: // BDSP does not set memories.
+                case 8 when pkm.LA: // LA does not set memories.
                     return false;
 
                 // Eggs cannot have memories

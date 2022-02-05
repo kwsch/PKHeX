@@ -34,8 +34,8 @@ namespace PKHeX.Core
                 <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
                 <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
                 <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
-                <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders),
-                <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms),
+                <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation),
+                <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
                 _ => GetFormsGen8(species, types, forms, genders),
             };
         }
@@ -62,6 +62,8 @@ namespace PKHeX.Core
                 Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd
                 or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
 
+                Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, types, forms),
+
                 _ => GetFormsAlolan(generation, types, forms, species),
             };
         }
@@ -72,6 +74,7 @@ namespace PKHeX.Core
             {
                 Pichu when generation == 4 => GetFormsPichu(types, forms),
                 Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
+                Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, types, forms),
                 Unown => GetFormsUnown(generation),
                 _ => EMPTY,
             };
@@ -131,6 +134,10 @@ namespace PKHeX.Core
                     forms[920], // Fan
                     forms[921], // Mow
                 },
+                Dialga or Palkia when generation >= 8 => new[] {
+                    types[000], // Normal
+                    forms[922], // Origin
+                },
                 Giratina => new[] {
                     forms[487], // Altered
                     forms[922], // Origin
@@ -139,7 +146,7 @@ namespace PKHeX.Core
                     forms[492], // Land
                     forms[923], // Sky
                 },
-                Arceus => GetFormsArceus(generation, types),
+                Arceus => GetFormsArceus(species, generation, types, forms),
                 _ => EMPTY,
             };
         }
@@ -148,6 +155,12 @@ namespace PKHeX.Core
         {
             return (Species)species switch
             {
+                Samurott or Lilligant or Zorua or Zoroark or Braviary when generation >= 8 => GetFormsHisui(species, types, forms),
+                Basculin when generation >= 8 => new[] {
+                    forms[550], // Red
+                    forms[942], // Blue
+                    forms[989], // White
+                },
                 Basculin => new[] {
                     forms[550], // Red
                     forms[942], // Blue
@@ -197,7 +210,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
+        private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
         {
             return (Species)species switch
             {
@@ -263,6 +276,7 @@ namespace PKHeX.Core
                     forms[681], // Shield
                     forms[1005], // Blade
                 },
+                Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, types, forms),
                 Pumpkaboo or Gourgeist => new[] {
                     forms[710], // Average
                     forms[1006], // Small
@@ -288,10 +302,11 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             return (Species)species switch
             {
+                Decidueye when generation >= 8 => GetFormsHisui(species, types, forms),
                 Oricorio => new[] {
                     forms[741], // "RED" - Baile
                     forms[1021], // "YLW" - Pom-Pom
@@ -311,7 +326,7 @@ namespace PKHeX.Core
                     forms[746],
                     forms[1025], // School
                 },
-                Silvally => GetFormsArceus(7, types),
+                Silvally => GetFormsArceus(species, 7, types, forms),
                 Minior => new[] {
                     forms[774], // "R-Meteor", // Meteor Red
                     forms[1045], // "O-Meteor", // Meteor Orange
@@ -359,7 +374,7 @@ namespace PKHeX.Core
                     forms[(int)Toxtricity], // Amped
                     forms[LowKey],
                 },
-                Indeedee => new[] {
+                Indeedee or Basculegion => new[] {
                     genders[000], // Male
                     genders[001], // Female
                 },
@@ -406,6 +421,14 @@ namespace PKHeX.Core
                     types[0], // Normal
                     forms[CalyIce],
                     forms[CalyGhost],
+                },
+                Kleavor => new[] {
+                    types[000],
+                    forms[Lord],
+                },
+                Enamorus => new[] {
+                    forms[641], // Incarnate
+                    forms[952], // Therian
                 },
                 _ => EMPTY,
             };
@@ -501,7 +524,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsArceus(int generation, IReadOnlyList<string> types)
+        private static string[] GetFormsArceus(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             return generation switch
             {
@@ -543,6 +566,28 @@ namespace PKHeX.Core
                     types[14],
                     types[15],
                     types[16], // No Fairy type
+                },
+                8 when (Species)species is Arceus => new[]
+                {
+                    types[00], // Normal
+                    types[01], // Fighting
+                    types[02], // Flying
+                    types[03], // Poison
+                    types[04], // etc
+                    types[05],
+                    types[06],
+                    types[07],
+                    types[08],
+                    types[09],
+                    types[10],
+                    types[11],
+                    types[12],
+                    types[13],
+                    types[14],
+                    types[15],
+                    types[16],
+                    types[17],
+                    forms[Legend],
                 },
                 _ => new[] {
                     types[00], // Normal
@@ -664,6 +709,30 @@ namespace PKHeX.Core
             };
         }
 
+        private static string[] GetFormsHisui(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return (Species)species switch
+            {
+                Lilligant => new[]
+                {
+                    types[000], // Normal
+                    forms[Hisuian],
+                    forms[Lady],
+                },
+                Arcanine or Electrode or Avalugg => new[]
+                {
+                    types[000], // Normal
+                    forms[Hisuian],
+                    forms[Lord],
+                },
+                _ => new[]
+                {
+                    types[000], // Normal
+                    forms[Hisuian],
+                }
+            };
+        }
+
         private static string[] GetFormsGalarSlowbro(IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             return new[]
@@ -703,6 +772,11 @@ namespace PKHeX.Core
         private const int Dada = 1088;
         private const int CalyIce = 1089; // Ice
         private const int CalyGhost = 1090; // Shadow
+
+        private const int Hisuian = 1094;
+        private const int Lord = 1095;
+        private const int Lady = 1096;
+        private const int Legend = 1097;
 
         public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 

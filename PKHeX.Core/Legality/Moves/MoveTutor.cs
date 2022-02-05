@@ -153,6 +153,17 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor8(PKM pkm, int species, int form, bool specialTutors, int move)
         {
+            if (pkm.LA)
+            {
+                var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
+                if (!pi.IsPresentInGame)
+                    return NONE;
+                var index = Array.IndexOf(MoveShop8_LA, move);
+                if (index != -1 && pi.SpecialTutors[0][index])
+                    return GameVersion.PLA;
+
+                return NONE;
+            }
             if (pkm.BDSP)
             {
                 var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
@@ -267,6 +278,13 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
+            if (pkm.LA)
+            {
+                var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
+                if (!pi.IsPresentInGame)
+                    return;
+                moves.AddRange(MoveShop8_LA.Where((_, i) => pi.SpecialTutors[0][i]));
+            }
             if (pkm.BDSP)
             {
                 var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);

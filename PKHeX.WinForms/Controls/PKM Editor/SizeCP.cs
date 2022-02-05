@@ -8,7 +8,8 @@ namespace PKHeX.WinForms.Controls
     public partial class SizeCP : UserControl
     {
         private IScaledSize? ss;
-        private PB7? pkm;
+        private IScaledSizeValue? sv;
+        private ICombatPower? pkm;
         private bool Loading;
 
         public SizeCP()
@@ -22,8 +23,9 @@ namespace PKHeX.WinForms.Controls
 
         public void LoadPKM(PKM pk)
         {
-            pkm = pk as PB7;
+            pkm = pk as ICombatPower;
             ss = pk as IScaledSize;
+            sv = pk as IScaledSizeValue;
             if (ss == null)
                 return;
             TryResetStats();
@@ -34,9 +36,16 @@ namespace PKHeX.WinForms.Controls
             if (!Initialized)
                 return;
 
-            if (pkm != null && CHK_Auto.Checked)
-                pkm.ResetCalculatedValues();
+            if (CHK_Auto.Checked)
+                ResetCalculatedStats();
             LoadStoredValues();
+        }
+
+        private void ResetCalculatedStats()
+        {
+            sv?.ResetHeight();
+            sv?.ResetWeight();
+            pkm?.ResetCP();
         }
 
         private void LoadStoredValues()
@@ -47,11 +56,14 @@ namespace PKHeX.WinForms.Controls
                 NUD_HeightScalar.Value = ss.HeightScalar;
                 NUD_WeightScalar.Value = ss.WeightScalar;
             }
+            if (sv != null)
+            {
+                TB_HeightAbs.Text = sv.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
+                TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
+            }
             if (pkm != null)
             {
                 MT_CP.Text = Math.Min(65535, pkm.Stat_CP).ToString();
-                TB_HeightAbs.Text = pkm.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
-                TB_WeightAbs.Text = pkm.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
             }
             Loading = false;
         }
@@ -61,13 +73,13 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_Auto.Checked)
                 return;
 
-            pkm?.ResetCalculatedValues();
+            ResetCalculatedStats();
             LoadStoredValues();
         }
 
         private void MT_CP_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(MT_CP.Text, out var cp) && pkm != null)
+            if (pkm != null && int.TryParse(MT_CP.Text, out var cp))
                 pkm.Stat_CP = Math.Min(65535, cp);
         }
 
@@ -79,10 +91,10 @@ namespace PKHeX.WinForms.Controls
                 L_SizeH.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.HeightScalar)];
             }
 
-            if (!CHK_Auto.Checked || Loading || pkm == null)
+            if (!CHK_Auto.Checked || Loading || sv == null)
                 return;
-            pkm.ResetHeight();
-            TB_HeightAbs.Text = pkm.HeightAbsolute.ToString("F8");
+            sv.ResetHeight();
+            TB_HeightAbs.Text = sv.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
         }
 
         private void NUD_WeightScalar_ValueChanged(object sender, EventArgs e)
@@ -93,36 +105,39 @@ namespace PKHeX.WinForms.Controls
                 L_SizeW.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.WeightScalar)];
             }
 
-            if (!CHK_Auto.Checked || Loading || pkm == null)
+            if (!CHK_Auto.Checked || Loading || sv == null)
                 return;
-            pkm.ResetWeight();
-            TB_WeightAbs.Text = pkm.WeightAbsolute.ToString("F8");
+            sv.ResetWeight();
+            TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
         }
 
         private void TB_HeightAbs_TextChanged(object sender, EventArgs e)
         {
-            if (pkm == null)
+            if (sv == null)
                 return;
             if (CHK_Auto.Checked)
-                pkm.ResetHeight();
+                sv.ResetHeight();
             else if (float.TryParse(TB_HeightAbs.Text, out var result))
-                pkm.HeightAbsolute = result;
+                sv.HeightAbsolute = result;
         }
 
         private void TB_WeightAbs_TextChanged(object sender, EventArgs e)
         {
-            if (pkm == null)
+            if (sv == null)
                 return;
             if (CHK_Auto.Checked)
-                pkm.ResetWeight();
+                sv.ResetWeight();
             else if (float.TryParse(TB_WeightAbs.Text, out var result))
-                pkm.WeightAbsolute = result;
+                sv.WeightAbsolute = result;
         }
 
         public void ToggleVisibility(PKM pk)
         {
-            var pb7 = pk is PB7;
-            FLP_CP.Visible = L_CP.Visible = TB_HeightAbs.Visible = TB_WeightAbs.Visible = pb7;
+            bool isCP = pk is PB7;
+            bool isAbsolute = pk is IScaledSizeValue;
+            MT_CP.Visible = L_CP.Visible = isCP;
+            TB_HeightAbs.Visible = TB_WeightAbs.Visible = isAbsolute;
+            FLP_CP.Visible = isCP || isAbsolute; // Auto checkbox
         }
 
         private void ClickScalarEntry(object sender, EventArgs e)

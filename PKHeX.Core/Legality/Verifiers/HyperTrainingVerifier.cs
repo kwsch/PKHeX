@@ -18,6 +18,12 @@ namespace PKHeX.Core
             if (!t.IsHyperTrained())
                 return;
 
+            if (!t.IsHyperTrainingAvailable())
+            {
+                data.AddLine(GetInvalid(LHyperPerfectUnavailable));
+                return;
+            }
+
             if (pkm.CurrentLevel != 100)
             {
                 data.AddLine(GetInvalid(LHyperBelow100));

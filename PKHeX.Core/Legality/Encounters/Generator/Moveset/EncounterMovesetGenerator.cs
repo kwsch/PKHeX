@@ -202,7 +202,7 @@ namespace PKHeX.Core
                 moves = moves.Concat(MoveEgg.GetSharedEggMoves(pk, generation));
 
                 // TR moves -- default logic checks the TR flags, so we need to add all possible ones here.
-                if (!pk.BDSP)
+                if (!(pk.BDSP || pk.LA))
                     moves = moves.Concat(MoveTechnicalMachine.GetAllPossibleRecords(pk.Species, pk.Form));
             }
             if (pk.Species == (int)Species.Shedinja)

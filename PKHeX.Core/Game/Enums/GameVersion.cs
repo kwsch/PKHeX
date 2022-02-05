@@ -204,7 +204,7 @@
         SH = 45,
 
         // HOME = 46,
-        // PLA = 47,
+        PLA = 47,
 
         /// <summary>
         /// Pokémon Brilliant Diamond (NX)
@@ -459,6 +459,7 @@
         /// </summary>
         /// <see cref="SWSH"/>
         /// <see cref="BDSP"/>
+        /// <see cref="PLA"/>
         Gen8,
 
         /// <summary>

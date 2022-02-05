@@ -7,7 +7,6 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gp", "gg"), GP);
         internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("ge", "gg"), GE);
-        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         private static readonly EncounterStatic7b[] Encounter_GG =
         {

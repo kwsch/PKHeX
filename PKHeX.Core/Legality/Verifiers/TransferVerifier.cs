@@ -125,16 +125,21 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG8(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+            if (pkm is PA8 pa8)
+            {
+                VerifyTransferLegalityG8a(data, pa8);
+                return;
+            }
             if (pkm is PB8 pb8)
             {
-                VerifyTransferLegalityG8(data, pb8);
+                VerifyTransferLegalityG8b(data, pb8);
                 return;
             }
 
             // PK8
             int species = pkm.Species;
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, pkm.Form);
-            if (!pi.IsPresentInGame || pkm.BDSP) // Can't transfer
+            if (!pi.IsPresentInGame || pkm.BDSP || pkm.LA) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
                 return;
@@ -159,9 +164,20 @@ namespace PKHeX.Core
                 VerifyHOMETracker(data, pkm);
             }
         }
+        private void VerifyTransferLegalityG8a(LegalityAnalysis data, PA8 pk)
+        {
+            // Tracker value is set via Transfer across HOME.
+            // No HOME access yet.
+            if (pk is IHomeTrack { Tracker: not 0 })
+                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
+
+            var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
+            if (!pi.IsPresentInGame || !pk.LA) // Can't transfer
+                data.AddLine(GetInvalid(LTransferBad));
+        }
 
         // bdsp logic
-        private void VerifyTransferLegalityG8(LegalityAnalysis data, PB8 pk)
+        private void VerifyTransferLegalityG8b(LegalityAnalysis data, PB8 pk)
         {
             // Tracker value is set via Transfer across HOME.
             // No HOME access yet.

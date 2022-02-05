@@ -54,6 +54,11 @@ public static class SpriteUtil
             var gm = Resources.dyna;
             return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
         }
+        if (pk is IAlpha {IsAlpha: true})
+        {
+            var alpha = Resources.alpha;
+            return ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
+        }
         return img;
     }
 
@@ -184,6 +189,11 @@ public static class SpriteUtil
         {
             var gm = Resources.dyna;
             img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+        }
+        if (enc is IAlpha { IsAlpha: true })
+        {
+            var alpha = Resources.alpha;
+            img = ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
         }
         if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
             img = ApplyEncounterColor(enc, img, SpriteBuilder.ShowEncounterColor);
