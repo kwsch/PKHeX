@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
             var indexes = Entity.TechRecordPermitIndexes;
             var lines = new string[indexes.Length];
             for (int i = 0; i < lines.Length; i++)
-                lines[i] = $"{i:00} - {names[i]}";
+                lines[i] = $"{i:00} - {names[indexes[i]]}";
             CLB_Flags.Items.AddRange(lines);
         }
 
