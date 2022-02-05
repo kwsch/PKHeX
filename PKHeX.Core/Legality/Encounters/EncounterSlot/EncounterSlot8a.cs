@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8a : EncounterSlot, IAlpha
 {
     public override int Generation => 8;
+    public SlotType Type => Area.Type;
 
     public bool IsAlpha { get => AlphaType is not 0; set => throw new InvalidOperationException("Do not mutate this field."); }
     public byte FlawlessIVCount { get; }
@@ -35,7 +36,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
                 a.IsAlpha = true;
             if (pk is IScaledSize s)
                 s.HeightScalar = s.WeightScalar = byte.MaxValue;
-            if (pk is PA8 pa)
+            if (Type is not SlotType.Landmark && pk is PA8 pa)
                 pa.SetMasteryFlagMove(pa.AlphaMove = pa.GetRandomAlphaMove());
         }
         if (pk is IScaledSizeValue v)
@@ -75,8 +76,11 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
             return EncounterMatchRating.Match;
 
         var alphaMove = pa.AlphaMove;
+        bool hasAlphaMove = alphaMove != 0;
         if (!pa.IsAlpha)
-            return alphaMove == 0 ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
+            return !hasAlphaMove ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
+        if (Type is SlotType.Landmark == hasAlphaMove)
+            return EncounterMatchRating.DeferredErrors;
 
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
         var tutors = pi.SpecialTutors[0];
