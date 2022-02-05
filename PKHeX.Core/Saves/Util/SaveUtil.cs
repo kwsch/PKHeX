@@ -783,8 +783,9 @@ namespace PKHeX.Core
         /// <param name="folderPath">Folder to look within</param>
         /// <param name="deep">Search all subfolders</param>
         /// <param name="result">If this function returns true, full path of all <see cref="SaveFile"/> that match criteria. If this function returns false, the error message, or null if the directory could not be found</param>
+        /// <param name="ignoreBackups">Option to ignore files with backup names and extensions</param>
         /// <returns>Boolean indicating whether or not operation was successful.</returns>
-        public static bool GetSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
+        public static bool GetSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result, bool ignoreBackups = true)
         {
             if (!Directory.Exists(folderPath))
             {
@@ -797,7 +798,7 @@ namespace PKHeX.Core
                 // force evaluation so that an invalid path will throw before we return true/false.
                 // EnumerateFiles throws an exception while iterating, which won't be caught by the try-catch here.
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                result = files.Where(f => !IsBackup(f) && IsSizeValid(FileUtil.GetFileSize(f)));
+                result = files.Where(f => !(ignoreBackups && IsBackup(f)) && IsSizeValid(FileUtil.GetFileSize(f)));
                 return true;
             }
             catch (Exception ex)

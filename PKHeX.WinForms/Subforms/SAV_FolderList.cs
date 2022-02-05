@@ -32,13 +32,13 @@ namespace PKHeX.WinForms
             dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
             var extra = Paths.Select(z => z.Path).Where(z => z != Main.BackupPath).Distinct();
-            var recent = SaveFinder.GetSaveFiles(drives, false, extra).ToList();
+            var recent = SaveFinder.GetSaveFiles(drives, false, extra, true).ToList();
             var loaded = Main.Settings.Startup.RecentlyLoaded
                 .Where(z => recent.All(x => x.Metadata.FilePath != z))
                 .Where(File.Exists).Select(SaveUtil.GetVariantSAV).Where(z => z is not null);
             recent.InsertRange(0, loaded!);
             Recent = PopulateData(dgDataRecent, recent);
-            var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath});
+            var backup = SaveFinder.GetSaveFiles(drives, false, new [] {Main.BackupPath}, false);
             Backup = PopulateData(dgDataBackup, backup);
 
             CB_FilterColumn.Items.Add(MsgAny);
