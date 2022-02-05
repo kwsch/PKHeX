@@ -22,8 +22,8 @@ public sealed class InventoryPouch8a : InventoryPouch
     {
         var items = new InventoryItem8a[MaxSize];
 
-        for (int i = 0; i < data.Length; i += 4)
-            items[i/4] = GetItem(data, i);
+        for (int i = 0; i < items.Length; i++)
+            items[i] = GetItem(data, i << 2);
 
         Items = items;
     }
