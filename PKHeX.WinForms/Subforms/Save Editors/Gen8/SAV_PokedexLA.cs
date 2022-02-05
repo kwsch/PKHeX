@@ -411,7 +411,7 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            SetEntry(lastIndex, LB_Forms.SelectedIndex);
+            SetEntry(lastIndex, lastForm);
             Origin.CopyChangesFrom(SAV);
             Close();
         }
