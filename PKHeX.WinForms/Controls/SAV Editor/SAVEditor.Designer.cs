@@ -94,6 +94,7 @@
             this.B_Blocks = new System.Windows.Forms.Button();
             this.B_OtherSlots = new System.Windows.Forms.Button();
             this.B_OpenSealStickers = new System.Windows.Forms.Button();
+            this.B_Poffins = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -101,7 +102,6 @@
             this.TB_Secure1 = new System.Windows.Forms.TextBox();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
-            this.B_Poffins = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -477,7 +477,7 @@
             // 
             this.B_OpenTrainerInfo.Location = new System.Drawing.Point(3, 3);
             this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
-            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenTrainerInfo.Size = new System.Drawing.Size(95, 30);
             this.B_OpenTrainerInfo.TabIndex = 1;
             this.B_OpenTrainerInfo.Text = "Trainer Info";
             this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
@@ -485,9 +485,9 @@
             // 
             // B_OpenItemPouch
             // 
-            this.B_OpenItemPouch.Location = new System.Drawing.Point(96, 3);
+            this.B_OpenItemPouch.Location = new System.Drawing.Point(104, 3);
             this.B_OpenItemPouch.Name = "B_OpenItemPouch";
-            this.B_OpenItemPouch.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenItemPouch.Size = new System.Drawing.Size(95, 30);
             this.B_OpenItemPouch.TabIndex = 1;
             this.B_OpenItemPouch.Text = "Items";
             this.B_OpenItemPouch.UseVisualStyleBackColor = true;
@@ -495,9 +495,9 @@
             // 
             // B_OpenBoxLayout
             // 
-            this.B_OpenBoxLayout.Location = new System.Drawing.Point(189, 3);
+            this.B_OpenBoxLayout.Location = new System.Drawing.Point(205, 3);
             this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
-            this.B_OpenBoxLayout.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenBoxLayout.Size = new System.Drawing.Size(95, 30);
             this.B_OpenBoxLayout.TabIndex = 1;
             this.B_OpenBoxLayout.Text = "Box Layout";
             this.B_OpenBoxLayout.UseVisualStyleBackColor = true;
@@ -505,9 +505,9 @@
             // 
             // B_OpenWondercards
             // 
-            this.B_OpenWondercards.Location = new System.Drawing.Point(282, 3);
+            this.B_OpenWondercards.Location = new System.Drawing.Point(306, 3);
             this.B_OpenWondercards.Name = "B_OpenWondercards";
-            this.B_OpenWondercards.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenWondercards.Size = new System.Drawing.Size(95, 30);
             this.B_OpenWondercards.TabIndex = 1;
             this.B_OpenWondercards.Text = "Wondercard";
             this.B_OpenWondercards.UseVisualStyleBackColor = true;
@@ -515,9 +515,9 @@
             // 
             // B_OpenOPowers
             // 
-            this.B_OpenOPowers.Location = new System.Drawing.Point(3, 32);
+            this.B_OpenOPowers.Location = new System.Drawing.Point(3, 39);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
-            this.B_OpenOPowers.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenOPowers.Size = new System.Drawing.Size(95, 30);
             this.B_OpenOPowers.TabIndex = 1;
             this.B_OpenOPowers.Text = "O-Powers";
             this.B_OpenOPowers.UseVisualStyleBackColor = true;
@@ -525,9 +525,9 @@
             // 
             // B_OpenEventFlags
             // 
-            this.B_OpenEventFlags.Location = new System.Drawing.Point(96, 32);
+            this.B_OpenEventFlags.Location = new System.Drawing.Point(104, 39);
             this.B_OpenEventFlags.Name = "B_OpenEventFlags";
-            this.B_OpenEventFlags.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenEventFlags.Size = new System.Drawing.Size(95, 30);
             this.B_OpenEventFlags.TabIndex = 1;
             this.B_OpenEventFlags.Text = "Event Flags";
             this.B_OpenEventFlags.UseVisualStyleBackColor = true;
@@ -535,9 +535,9 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(189, 32);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(205, 39);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
-            this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokedex.Size = new System.Drawing.Size(95, 30);
             this.B_OpenPokedex.TabIndex = 1;
             this.B_OpenPokedex.Text = "Pokédex";
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
@@ -545,9 +545,9 @@
             // 
             // B_OpenLinkInfo
             // 
-            this.B_OpenLinkInfo.Location = new System.Drawing.Point(282, 32);
+            this.B_OpenLinkInfo.Location = new System.Drawing.Point(306, 39);
             this.B_OpenLinkInfo.Name = "B_OpenLinkInfo";
-            this.B_OpenLinkInfo.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenLinkInfo.Size = new System.Drawing.Size(95, 30);
             this.B_OpenLinkInfo.TabIndex = 1;
             this.B_OpenLinkInfo.Text = "Link Data";
             this.B_OpenLinkInfo.UseVisualStyleBackColor = true;
@@ -555,9 +555,9 @@
             // 
             // B_OpenBerryField
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(3, 61);
+            this.B_OpenBerryField.Location = new System.Drawing.Point(3, 75);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
-            this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenBerryField.Size = new System.Drawing.Size(95, 30);
             this.B_OpenBerryField.TabIndex = 1;
             this.B_OpenBerryField.Text = "Berry Field";
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
@@ -565,9 +565,9 @@
             // 
             // B_OpenPokeblocks
             // 
-            this.B_OpenPokeblocks.Location = new System.Drawing.Point(96, 61);
+            this.B_OpenPokeblocks.Location = new System.Drawing.Point(104, 75);
             this.B_OpenPokeblocks.Name = "B_OpenPokeblocks";
-            this.B_OpenPokeblocks.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokeblocks.Size = new System.Drawing.Size(95, 30);
             this.B_OpenPokeblocks.TabIndex = 1;
             this.B_OpenPokeblocks.Text = "Pokéblocks";
             this.B_OpenPokeblocks.UseVisualStyleBackColor = true;
@@ -576,9 +576,9 @@
             // 
             // B_OpenSecretBase
             // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(189, 61);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(205, 75);
             this.B_OpenSecretBase.Name = "B_OpenSecretBase";
-            this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSecretBase.Size = new System.Drawing.Size(95, 30);
             this.B_OpenSecretBase.TabIndex = 1;
             this.B_OpenSecretBase.Text = "Secret Base";
             this.B_OpenSecretBase.UseVisualStyleBackColor = true;
@@ -587,9 +587,9 @@
             // 
             // B_OpenPokepuffs
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(282, 61);
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(306, 75);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
-            this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokepuffs.Size = new System.Drawing.Size(95, 30);
             this.B_OpenPokepuffs.TabIndex = 1;
             this.B_OpenPokepuffs.Text = "‎Poké Puffs";
             this.B_OpenPokepuffs.UseVisualStyleBackColor = true;
@@ -598,9 +598,9 @@
             // B_OpenSuperTraining
             // 
             this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 111);
             this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
-            this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSuperTraining.Size = new System.Drawing.Size(95, 30);
             this.B_OpenSuperTraining.TabIndex = 1;
             this.B_OpenSuperTraining.Text = "Super Train";
             this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
@@ -608,9 +608,9 @@
             // 
             // B_OpenHallofFame
             // 
-            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(104, 111);
             this.B_OpenHallofFame.Name = "B_OpenHallofFame";
-            this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHallofFame.Size = new System.Drawing.Size(95, 30);
             this.B_OpenHallofFame.TabIndex = 1;
             this.B_OpenHallofFame.Text = "Hall of Fame";
             this.B_OpenHallofFame.UseVisualStyleBackColor = true;
@@ -618,9 +618,9 @@
             // 
             // B_OUTPasserby
             // 
-            this.B_OUTPasserby.Location = new System.Drawing.Point(189, 90);
+            this.B_OUTPasserby.Location = new System.Drawing.Point(205, 111);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
-            this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
+            this.B_OUTPasserby.Size = new System.Drawing.Size(95, 30);
             this.B_OUTPasserby.TabIndex = 1;
             this.B_OUTPasserby.Text = "Passerby";
             this.B_OUTPasserby.UseVisualStyleBackColor = true;
@@ -628,9 +628,9 @@
             // 
             // B_CGearSkin
             // 
-            this.B_CGearSkin.Location = new System.Drawing.Point(282, 90);
+            this.B_CGearSkin.Location = new System.Drawing.Point(306, 111);
             this.B_CGearSkin.Name = "B_CGearSkin";
-            this.B_CGearSkin.Size = new System.Drawing.Size(87, 23);
+            this.B_CGearSkin.Size = new System.Drawing.Size(95, 30);
             this.B_CGearSkin.TabIndex = 1;
             this.B_CGearSkin.Text = "C-Gear Skin";
             this.B_CGearSkin.UseVisualStyleBackColor = true;
@@ -638,9 +638,9 @@
             // 
             // B_OpenPokeBeans
             // 
-            this.B_OpenPokeBeans.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenPokeBeans.Location = new System.Drawing.Point(3, 147);
             this.B_OpenPokeBeans.Name = "B_OpenPokeBeans";
-            this.B_OpenPokeBeans.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokeBeans.Size = new System.Drawing.Size(95, 30);
             this.B_OpenPokeBeans.TabIndex = 1;
             this.B_OpenPokeBeans.Text = "‎Poké Beans";
             this.B_OpenPokeBeans.UseVisualStyleBackColor = true;
@@ -648,9 +648,9 @@
             // 
             // B_CellsStickers
             // 
-            this.B_CellsStickers.Location = new System.Drawing.Point(96, 119);
+            this.B_CellsStickers.Location = new System.Drawing.Point(104, 147);
             this.B_CellsStickers.Name = "B_CellsStickers";
-            this.B_CellsStickers.Size = new System.Drawing.Size(87, 23);
+            this.B_CellsStickers.Size = new System.Drawing.Size(95, 30);
             this.B_CellsStickers.TabIndex = 1;
             this.B_CellsStickers.Text = "Cells/Stickers";
             this.B_CellsStickers.UseVisualStyleBackColor = true;
@@ -658,9 +658,9 @@
             // 
             // B_OpenMiscEditor
             // 
-            this.B_OpenMiscEditor.Location = new System.Drawing.Point(189, 119);
+            this.B_OpenMiscEditor.Location = new System.Drawing.Point(205, 147);
             this.B_OpenMiscEditor.Name = "B_OpenMiscEditor";
-            this.B_OpenMiscEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenMiscEditor.Size = new System.Drawing.Size(95, 30);
             this.B_OpenMiscEditor.TabIndex = 1;
             this.B_OpenMiscEditor.Text = "Misc Edits";
             this.B_OpenMiscEditor.UseVisualStyleBackColor = true;
@@ -668,9 +668,9 @@
             // 
             // B_OpenHoneyTreeEditor
             // 
-            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(282, 119);
+            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(306, 147);
             this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
-            this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(95, 30);
             this.B_OpenHoneyTreeEditor.TabIndex = 1;
             this.B_OpenHoneyTreeEditor.Text = "Honey Tree";
             this.B_OpenHoneyTreeEditor.UseVisualStyleBackColor = true;
@@ -678,9 +678,9 @@
             // 
             // B_OpenFriendSafari
             // 
-            this.B_OpenFriendSafari.Location = new System.Drawing.Point(3, 148);
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(3, 183);
             this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
-            this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenFriendSafari.Size = new System.Drawing.Size(95, 30);
             this.B_OpenFriendSafari.TabIndex = 1;
             this.B_OpenFriendSafari.Text = "Friend Safari";
             this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
@@ -688,9 +688,9 @@
             // 
             // B_OpenRTCEditor
             // 
-            this.B_OpenRTCEditor.Location = new System.Drawing.Point(96, 148);
+            this.B_OpenRTCEditor.Location = new System.Drawing.Point(104, 183);
             this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
-            this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenRTCEditor.Size = new System.Drawing.Size(95, 30);
             this.B_OpenRTCEditor.TabIndex = 1;
             this.B_OpenRTCEditor.Text = "Clock (RTC)";
             this.B_OpenRTCEditor.UseVisualStyleBackColor = true;
@@ -698,9 +698,9 @@
             // 
             // B_OpenUGSEditor
             // 
-            this.B_OpenUGSEditor.Location = new System.Drawing.Point(189, 148);
+            this.B_OpenUGSEditor.Location = new System.Drawing.Point(205, 183);
             this.B_OpenUGSEditor.Name = "B_OpenUGSEditor";
-            this.B_OpenUGSEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenUGSEditor.Size = new System.Drawing.Size(95, 30);
             this.B_OpenUGSEditor.TabIndex = 1;
             this.B_OpenUGSEditor.Text = "Underground";
             this.B_OpenUGSEditor.UseVisualStyleBackColor = true;
@@ -708,9 +708,9 @@
             // 
             // B_Roamer
             // 
-            this.B_Roamer.Location = new System.Drawing.Point(282, 148);
+            this.B_Roamer.Location = new System.Drawing.Point(306, 183);
             this.B_Roamer.Name = "B_Roamer";
-            this.B_Roamer.Size = new System.Drawing.Size(87, 23);
+            this.B_Roamer.Size = new System.Drawing.Size(95, 30);
             this.B_Roamer.TabIndex = 1;
             this.B_Roamer.Text = "Roamer";
             this.B_Roamer.UseVisualStyleBackColor = true;
@@ -718,9 +718,9 @@
             // 
             // B_FestivalPlaza
             // 
-            this.B_FestivalPlaza.Location = new System.Drawing.Point(3, 177);
+            this.B_FestivalPlaza.Location = new System.Drawing.Point(3, 219);
             this.B_FestivalPlaza.Name = "B_FestivalPlaza";
-            this.B_FestivalPlaza.Size = new System.Drawing.Size(87, 23);
+            this.B_FestivalPlaza.Size = new System.Drawing.Size(95, 30);
             this.B_FestivalPlaza.TabIndex = 1;
             this.B_FestivalPlaza.Text = "Festival Plaza";
             this.B_FestivalPlaza.UseVisualStyleBackColor = true;
@@ -728,9 +728,9 @@
             // 
             // B_MailBox
             // 
-            this.B_MailBox.Location = new System.Drawing.Point(96, 177);
+            this.B_MailBox.Location = new System.Drawing.Point(104, 219);
             this.B_MailBox.Name = "B_MailBox";
-            this.B_MailBox.Size = new System.Drawing.Size(87, 23);
+            this.B_MailBox.Size = new System.Drawing.Size(95, 30);
             this.B_MailBox.TabIndex = 1;
             this.B_MailBox.Text = "Mail Box";
             this.B_MailBox.UseVisualStyleBackColor = true;
@@ -738,9 +738,9 @@
             // 
             // B_OpenApricorn
             // 
-            this.B_OpenApricorn.Location = new System.Drawing.Point(189, 177);
+            this.B_OpenApricorn.Location = new System.Drawing.Point(205, 219);
             this.B_OpenApricorn.Name = "B_OpenApricorn";
-            this.B_OpenApricorn.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenApricorn.Size = new System.Drawing.Size(95, 30);
             this.B_OpenApricorn.TabIndex = 1;
             this.B_OpenApricorn.Text = "Apricorns";
             this.B_OpenApricorn.UseVisualStyleBackColor = true;
@@ -748,9 +748,9 @@
             // 
             // B_Raids
             // 
-            this.B_Raids.Location = new System.Drawing.Point(282, 177);
+            this.B_Raids.Location = new System.Drawing.Point(306, 219);
             this.B_Raids.Name = "B_Raids";
-            this.B_Raids.Size = new System.Drawing.Size(87, 23);
+            this.B_Raids.Size = new System.Drawing.Size(95, 30);
             this.B_Raids.TabIndex = 1;
             this.B_Raids.Text = "Raids";
             this.B_Raids.UseVisualStyleBackColor = true;
@@ -758,9 +758,9 @@
             // 
             // B_RaidArmor
             // 
-            this.B_RaidArmor.Location = new System.Drawing.Point(3, 206);
+            this.B_RaidArmor.Location = new System.Drawing.Point(3, 255);
             this.B_RaidArmor.Name = "B_RaidArmor";
-            this.B_RaidArmor.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidArmor.Size = new System.Drawing.Size(95, 30);
             this.B_RaidArmor.TabIndex = 2;
             this.B_RaidArmor.Text = "Raids (DLC 1)";
             this.B_RaidArmor.UseVisualStyleBackColor = true;
@@ -768,9 +768,9 @@
             // 
             // B_RaidCrown
             // 
-            this.B_RaidCrown.Location = new System.Drawing.Point(96, 206);
+            this.B_RaidCrown.Location = new System.Drawing.Point(104, 255);
             this.B_RaidCrown.Name = "B_RaidCrown";
-            this.B_RaidCrown.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidCrown.Size = new System.Drawing.Size(95, 30);
             this.B_RaidCrown.TabIndex = 4;
             this.B_RaidCrown.Text = "Raids (DLC 2)";
             this.B_RaidCrown.UseVisualStyleBackColor = true;
@@ -778,9 +778,9 @@
             // 
             // B_Blocks
             // 
-            this.B_Blocks.Location = new System.Drawing.Point(189, 206);
+            this.B_Blocks.Location = new System.Drawing.Point(205, 255);
             this.B_Blocks.Name = "B_Blocks";
-            this.B_Blocks.Size = new System.Drawing.Size(87, 23);
+            this.B_Blocks.Size = new System.Drawing.Size(95, 30);
             this.B_Blocks.TabIndex = 1;
             this.B_Blocks.Text = "Block Data";
             this.B_Blocks.UseVisualStyleBackColor = true;
@@ -788,9 +788,9 @@
             // 
             // B_OtherSlots
             // 
-            this.B_OtherSlots.Location = new System.Drawing.Point(282, 206);
+            this.B_OtherSlots.Location = new System.Drawing.Point(306, 255);
             this.B_OtherSlots.Name = "B_OtherSlots";
-            this.B_OtherSlots.Size = new System.Drawing.Size(87, 23);
+            this.B_OtherSlots.Size = new System.Drawing.Size(95, 30);
             this.B_OtherSlots.TabIndex = 3;
             this.B_OtherSlots.Text = "Other Slots";
             this.B_OtherSlots.UseVisualStyleBackColor = true;
@@ -798,13 +798,23 @@
             // 
             // B_OpenSealStickers
             // 
-            this.B_OpenSealStickers.Location = new System.Drawing.Point(3, 235);
+            this.B_OpenSealStickers.Location = new System.Drawing.Point(3, 291);
             this.B_OpenSealStickers.Name = "B_OpenSealStickers";
-            this.B_OpenSealStickers.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenSealStickers.Size = new System.Drawing.Size(95, 30);
             this.B_OpenSealStickers.TabIndex = 5;
             this.B_OpenSealStickers.Text = "Seal Stickers";
             this.B_OpenSealStickers.UseVisualStyleBackColor = true;
             this.B_OpenSealStickers.Click += new System.EventHandler(this.B_OpenSealStickers_Click);
+            // 
+            // B_Poffins
+            // 
+            this.B_Poffins.Location = new System.Drawing.Point(104, 291);
+            this.B_Poffins.Name = "B_Poffins";
+            this.B_Poffins.Size = new System.Drawing.Size(95, 30);
+            this.B_Poffins.TabIndex = 6;
+            this.B_Poffins.Text = "Poffins";
+            this.B_Poffins.UseVisualStyleBackColor = true;
+            this.B_Poffins.Click += new System.EventHandler(this.B_Poffins_Click);
             // 
             // L_SaveSlot
             // 
@@ -877,16 +887,6 @@
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
-            // 
-            // B_Poffins
-            // 
-            this.B_Poffins.Location = new System.Drawing.Point(96, 235);
-            this.B_Poffins.Name = "B_Poffins";
-            this.B_Poffins.Size = new System.Drawing.Size(87, 23);
-            this.B_Poffins.TabIndex = 6;
-            this.B_Poffins.Text = "Poffins";
-            this.B_Poffins.UseVisualStyleBackColor = true;
-            this.B_Poffins.Click += new System.EventHandler(this.B_Poffins_Click);
             // 
             // SAVEditor
             // 
