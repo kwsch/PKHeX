@@ -227,6 +227,7 @@ namespace PKHeX.Core
                     l.Ability2 = s.Ability2;
                     l.AbilityH = s.AbilityH;
                     l.Gender = s.Gender;
+                    l.EXPGrowth = s.EXPGrowth;
                 }
             }
         }

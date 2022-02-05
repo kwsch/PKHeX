@@ -86,6 +86,7 @@ namespace PKHeX.Core
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID) sav.Language, version);
             int level = LevelMin;
             pk.Species = Species;
+            pk.Form = GetWildForm(pk, Form, sav);
             pk.Language = lang;
             pk.CurrentLevel = level;
             pk.Version = (int)version;
@@ -93,7 +94,6 @@ namespace PKHeX.Core
 
             ApplyDetailsBall(pk);
             pk.Language = lang;
-            pk.Form = GetWildForm(pk, Form, sav);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             SetMetData(pk, level, Location);
