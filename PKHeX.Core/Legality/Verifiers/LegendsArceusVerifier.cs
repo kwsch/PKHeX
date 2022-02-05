@@ -216,7 +216,7 @@ public sealed class LegendsArceusVerifier : Verifier
     private void VerifyAlphaMoveZero(LegalityAnalysis data)
     {
         var enc = data.Info.EncounterMatch;
-        if (enc is IAlpha { IsAlpha: false })
+        if (enc is not IAlpha { IsAlpha: true })
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);
