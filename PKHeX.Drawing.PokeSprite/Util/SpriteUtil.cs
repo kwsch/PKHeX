@@ -8,8 +8,16 @@ namespace PKHeX.Drawing.PokeSprite;
 
 public static class SpriteUtil
 {
-    public static readonly SpriteBuilder5668 SB8 = new();
-    public static SpriteBuilder Spriter { get; set; } = SB8;
+    public static readonly SpriteBuilder5668s SB8s = new();
+    public static readonly SpriteBuilder5668c SB8c = new();
+    public static SpriteBuilder Spriter { get; private set; } = SB8s;
+
+    public static void ChangeMode(SpriteBuilderMode mode) => Spriter = mode switch
+    {
+        SpriteBuilderMode.CircleMugshot5668 => SB8c,
+        SpriteBuilderMode.SpritesClassic5668 => SB8s,
+        _ => Spriter,
+    };
 
     private const int MaxSlotCount = 30; // slots in a box
     private static int SpriteWidth => Spriter.Width;
@@ -19,7 +27,11 @@ public static class SpriteUtil
     private static int SlotTeamShiftX => SpriteWidth - 19;
     private static int FlagIllegalShiftY => SpriteHeight - 16;
 
-    public static void Initialize(SaveFile sav) => Spriter.Initialize(sav);
+    public static void Initialize(SaveFile sav)
+    {
+        ChangeMode(SpriteBuilderUtil.GetSuggestedMode(sav));
+        Spriter.Initialize(sav);
+    }
 
     public static Image GetBallSprite(int ball)
     {

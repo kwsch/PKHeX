@@ -5,9 +5,9 @@ using PKHeX.Drawing.PokeSprite.Properties;
 namespace PKHeX.Drawing.PokeSprite;
 
 /// <summary>
-/// 56 high, 68 wide sprite builder
+/// 56 high, 68 wide sprite builder using Circular Sprites
 /// </summary>
-public sealed class SpriteBuilder5668s : SpriteBuilder
+public sealed class SpriteBuilder5668c : SpriteBuilder
 {
     public override int Height => 56;
     public override int Width => 68;
@@ -19,9 +19,9 @@ public sealed class SpriteBuilder5668s : SpriteBuilder
     protected override int EggItemShiftY => 1;
     public override bool HasFallbackMethod => true;
 
-    protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
-    protected override string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
-    protected override string GetSpriteAllSecondary(int species, int form, int gender, uint formarg, bool shiny, int generation) => 'c' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
+    protected override string GetSpriteStringSpeciesOnly(int species) => 'c' + $"_{species}";
+    protected override string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation) => 'c' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
+    protected override string GetSpriteAllSecondary(int species, int form, int gender, uint formarg, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
     protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
     protected override Bitmap Unknown => Resources.b_unknown;
     protected override Bitmap GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources.b_490_e : Resources.b_egg;
