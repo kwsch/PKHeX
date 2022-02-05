@@ -60,7 +60,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
             return EncounterMatchRating.DeferredErrors;
         if (Gender is not Gender.Random && pkm.Gender != (int)Gender)
             return EncounterMatchRating.DeferredErrors;
-        if (FlawlessIVCount is not 0 && pkm.FlawlessIVCount != FlawlessIVCount)
+        if (FlawlessIVCount is not 0 && pkm.FlawlessIVCount < FlawlessIVCount)
             return EncounterMatchRating.DeferredErrors;
 
         var result = GetAlphaMoveCompatibility(pkm);
