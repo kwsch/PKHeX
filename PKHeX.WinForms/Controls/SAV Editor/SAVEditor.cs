@@ -544,6 +544,7 @@ namespace PKHeX.WinForms.Controls
             SAV7b b7 => new SAV_Trainer7GG(b7),
             SAV8SWSH swsh => new SAV_Trainer8(swsh),
             SAV8BS bs => new SAV_Trainer8b(bs),
+            SAV8LA la => new SAV_Trainer8a(la),
             _ => new SAV_SimpleTrainer(sav),
         };
 
@@ -593,7 +594,7 @@ namespace PKHeX.WinForms.Controls
             SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s, s.Blocks),
             SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s, s.Blocks),
             SAV7b s => new SAV_Accessor<SaveBlockAccessor7b>(s, s.Blocks),
-            SAV8SWSH s => new SAV_BlockDump8(s),
+            ISCBlockArray s => new SAV_BlockDump8(s),
             _ => GetPropertyForm(sav),
         };
 
@@ -638,6 +639,7 @@ namespace PKHeX.WinForms.Controls
                 SAV7b b7 => new SAV_PokedexGG(b7),
                 SAV8SWSH swsh => new SAV_PokedexSWSH(swsh),
                 SAV8BS bs => new SAV_PokedexBDSP(bs),
+                SAV8LA la => new SAV_PokedexLA(la),
                 _ => (Form?)null,
             };
             form?.ShowDialog();

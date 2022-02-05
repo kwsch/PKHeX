@@ -42,6 +42,15 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Subforms\Save Editors\Gen8\SAV_PokedexResearchEditorLA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Subforms\Save Editors\Gen8\SAV_PokedexLA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Subforms\Save Editors\Gen8\PokedexResearchTask8aPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

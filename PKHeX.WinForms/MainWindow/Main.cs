@@ -333,6 +333,9 @@ namespace PKHeX.WinForms
             var sav = C_SAV.SAV;
             Task.Run(() =>
             {
+                var dir = TrainerPath;
+                if (!Directory.Exists(dir))
+                    return;
                 var files = Directory.EnumerateFiles(TrainerPath, "*.*", SearchOption.AllDirectories);
                 var pkm = BoxUtil.GetPKMsFromPaths(files, sav.Generation);
                 foreach (var f in pkm)
@@ -1183,7 +1186,9 @@ namespace PKHeX.WinForms
                     return;
 
                 var path = sav.Metadata.FilePath!;
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
+                var time = new FileInfo(path).CreationTime;
+                var timeStamp = time.ToString(CultureInfo.CurrentCulture);
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path, timeStamp) == DialogResult.Yes)
                     LoadFile(sav, path); // load save
             }
             catch (Exception ex)

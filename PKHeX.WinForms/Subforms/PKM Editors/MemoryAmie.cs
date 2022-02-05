@@ -70,8 +70,8 @@ namespace PKHeX.WinForms
                 M_CT_Affection.Text = a.HT_Affection.ToString();
             }
 
-            if (pkm is G8PKM pk8)
-                MT_Sociability.Text = Math.Min(byte.MaxValue, pk8.Sociability).ToString();
+            if (pkm is ISociability s)
+                MT_Sociability.Text = Math.Min(byte.MaxValue, s.Sociability).ToString();
 
             if (pkm is ITrainerMemories m)
             {

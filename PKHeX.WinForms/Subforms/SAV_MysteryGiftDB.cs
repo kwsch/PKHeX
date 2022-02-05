@@ -216,6 +216,8 @@ namespace PKHeX.WinForms
             {
                 db = SAV switch
                 {
+                    SAV8LA => db.Where(z => z is WA8),
+                    SAV8BS => db.Where(z => z is WB8),
                     SAV8SWSH => db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame),
                     SAV7b => db.Where(z => z is WB7),
                     SAV7 => db.Where(z => z.Generation < 7 || z is WC7),

@@ -52,6 +52,7 @@ namespace PKHeX.WinForms.Controls
                 new(new[] {CB_Country, CB_SubRegion}, pk => pk is PK6 or PK7, Criteria),
                 new(Relearn, pk => pk.Format >= 6, Criteria),
                 new(new[] {CB_StatNature}, pk => pk.Format >= 8, Criteria),
+                new(new[] {CB_AlphaMastered}, pk => pk is PA8, Criteria),
             };
 
             foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
@@ -94,6 +95,7 @@ namespace PKHeX.WinForms.Controls
                 CB_Nature, CB_StatNature,
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
                 CB_GroundTile, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
+                CB_AlphaMastered,
             };
             foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
                 cb.InitializeBinding();
@@ -254,6 +256,7 @@ namespace PKHeX.WinForms.Controls
             7 when pk is PK7 => (PopulateFieldsPK7, PreparePK7),
             7 when pk is PB7 => (PopulateFieldsPB7, PreparePB7),
             8 when pk is PK8 => (PopulateFieldsPK8, PreparePK8),
+            8 when pk is PA8 => (PopulateFieldsPA8, PreparePA8),
             8 when pk is PB8 => (PopulateFieldsPB8, PreparePB8),
             _ => throw new FormatException($"Unrecognized Type: {pk.GetType()}"),
         };
@@ -554,6 +557,8 @@ namespace PKHeX.WinForms.Controls
                 return Properties.Resources.gen_8;
             if (pkm.BDSP)
                 return Properties.Resources.gen_bs;
+            if (pkm.LA)
+                return Properties.Resources.gen_la;
 
             return null;
         }
@@ -1706,6 +1711,8 @@ namespace PKHeX.WinForms.Controls
                 Entity.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
                 Entity.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
             }
+            if (Entity is PA8 pa8)
+                pa8.AlphaMove = WinFormsUtil.GetIndex(CB_AlphaMastered);
             UpdateLegality(skipMoveRepop: true);
         }
 
@@ -1793,14 +1800,36 @@ namespace PKHeX.WinForms.Controls
 
         private void B_Records_Click(object sender, EventArgs e)
         {
+            if (Entity is not ITechRecord8 t)
+                return;
+
             if (ModifierKeys == Keys.Shift)
             {
-                Entity.SetRecordFlags(Entity.Moves);
+                t.SetRecordFlags(Entity.Moves);
                 UpdateLegality();
                 return;
             }
 
-            using var form = new TechRecordEditor(Entity);
+            using var form = new TechRecordEditor(t, Entity);
+            form.ShowDialog();
+            UpdateLegality();
+        }
+
+        private void B_MoveShop_Click(object sender, EventArgs e)
+        {
+            if (Entity is not IMoveShop8Mastery m)
+                return;
+
+            if (ModifierKeys == Keys.Shift)
+            {
+                m.ClearMoveShopFlags();
+                m.SetMoveShopFlags(Entity.Moves);
+                m.SetMoveShopFlagsMastered();
+                UpdateLegality();
+                return;
+            }
+
+            using var form = new MoveShopEditor(m, m, Entity);
             form.ShowDialog();
             UpdateLegality();
         }
@@ -1833,8 +1862,10 @@ namespace PKHeX.WinForms.Controls
             BTN_Medals.Visible = gen is 6 or 7 && !pb7;
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
             FLP_OriginalNature.Visible = gen >= 8;
-            B_Records.Visible = gen >= 8;
+            B_Records.Visible = t is ITechRecord8;
+            B_MoveShop.Visible = t is IMoveShop8Mastery;
             CB_HTLanguage.Visible = gen >= 8;
+            L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
 
             ToggleInterface(Entity.Format);
         }
@@ -1936,6 +1967,7 @@ namespace PKHeX.WinForms.Controls
         {
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((tabMain.TabPages[0].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
+            FLP_MoveFlags.Location = new Point((tabMain.TabPages[0].Width - FLP_MoveFlags.Width) / 2, FLP_MoveFlags.Location.Y);
         }
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
@@ -2063,6 +2095,8 @@ namespace PKHeX.WinForms.Controls
             LegalMoveSource.ReloadMoves(source.Moves);
             foreach (var cb in Moves.Concat(Relearn))
                 SetIfDifferentCount(source.Moves, cb, force);
+            if (sav is SAV8LA)
+                SetIfDifferentCount(source.Moves, CB_AlphaMastered, force);
         }
     }
 }

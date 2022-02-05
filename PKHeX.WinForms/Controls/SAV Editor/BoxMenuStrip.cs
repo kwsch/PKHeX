@@ -79,6 +79,7 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.ModifyResetMoves] = Resources.date,
             [BoxManipType.ModifyRandomMoves] = Resources.wand,
             [BoxManipType.ModifyHyperTrain] = Resources.vallohi,
+            [BoxManipType.ModifyGanbaru] = Resources.vallohi,
             [BoxManipType.ModifyRemoveNicknames] = Resources.alphaAZ,
             [BoxManipType.ModifyRemoveItem] = Resources.gift,
             [BoxManipType.ModifyHeal] = Resources.heart,

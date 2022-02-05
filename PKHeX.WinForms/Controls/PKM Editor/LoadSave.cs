@@ -72,6 +72,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
         private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
         private void LoadAVs(IAwakened pk) => Stats.LoadAVs(pk);
+        private void LoadGVs(IGanbaru pk) => Stats.LoadGVs(pk);
 
         private void LoadMoves(PKM pk)
         {
@@ -433,6 +434,31 @@ namespace PKHeX.WinForms.Controls
             pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
             pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
             pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+        }
+
+        private void LoadMisc8(PA8 pk8)
+        {
+            CB_StatNature.SelectedValue = pk8.StatNature;
+            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
+            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
+            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
+            Stats.CHK_IsAlpha.Checked = pk8.IsAlpha;
+            Stats.CHK_IsNoble.Checked = pk8.IsNoble;
+            CB_AlphaMastered.SelectedValue = pk8.AlphaMove;
+        }
+
+        private void SaveMisc8(PA8 pk8)
+        {
+            pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+            pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
+            pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
+            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+            pk8.IsAlpha = Stats.CHK_IsAlpha.Checked;
+            pk8.IsNoble = Stats.CHK_IsNoble.Checked;
+            pk8.AlphaMove = WinFormsUtil.GetIndex(CB_AlphaMastered);
         }
     }
 }

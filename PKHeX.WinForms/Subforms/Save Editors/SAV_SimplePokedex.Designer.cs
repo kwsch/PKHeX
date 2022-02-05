@@ -34,7 +34,7 @@
             this.B_CaughtAll = new System.Windows.Forms.Button();
             this.B_SeenNone = new System.Windows.Forms.Button();
             this.B_SeenAll = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.Label_Caught = new System.Windows.Forms.Label();
             this.CLB_Caught = new System.Windows.Forms.CheckedListBox();
             this.Label_Seen = new System.Windows.Forms.Label();
             this.CLB_Seen = new System.Windows.Forms.CheckedListBox();
@@ -100,14 +100,14 @@
             this.B_SeenAll.UseVisualStyleBackColor = true;
             this.B_SeenAll.Click += new System.EventHandler(this.B_SeenAll_Click);
             // 
-            // label2
+            // Label_Caught
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(151, 13);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Caught:";
+            this.Label_Caught.AutoSize = true;
+            this.Label_Caught.Location = new System.Drawing.Point(151, 13);
+            this.Label_Caught.Name = "Label_Caught";
+            this.Label_Caught.Size = new System.Drawing.Size(44, 13);
+            this.Label_Caught.TabIndex = 13;
+            this.Label_Caught.Text = "Caught:";
             // 
             // CLB_Caught
             // 
@@ -147,7 +147,7 @@
             this.Controls.Add(this.B_CaughtAll);
             this.Controls.Add(this.B_SeenNone);
             this.Controls.Add(this.B_SeenAll);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.Label_Caught);
             this.Controls.Add(this.CLB_Caught);
             this.Controls.Add(this.Label_Seen);
             this.Controls.Add(this.CLB_Seen);
@@ -170,7 +170,7 @@
         private System.Windows.Forms.Button B_CaughtAll;
         private System.Windows.Forms.Button B_SeenNone;
         private System.Windows.Forms.Button B_SeenAll;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Label_Caught;
         private System.Windows.Forms.CheckedListBox CLB_Caught;
         private System.Windows.Forms.Label Label_Seen;
         private System.Windows.Forms.CheckedListBox CLB_Seen;
