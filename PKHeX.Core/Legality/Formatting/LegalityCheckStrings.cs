@@ -368,11 +368,11 @@ namespace PKHeX.Core
         public static string LMoveRelearnNone { get; set; } = "Expected no Relearn Move in slot.";
 
         public static string LMoveShopAlphaMoveShouldBeMastered { get; set; } = "Alpha Move should be marked as mastered.";
-        public static string LMoveShopAlphaMoveShouldBeOther { get; set; } = "Alpha encounter can not be found with this Alpha Move.";
+        public static string LMoveShopAlphaMoveShouldBeOther { get; set; } = "Alpha encounter cannot be found with this Alpha Move.";
         public static string LMoveShopAlphaMoveShouldBeZero { get; set; } = "Only Alphas may have an Alpha Move set.";
         public static string LMoveShopMasterInvalid_0 { get; set; } = "Cannot manually master {0}: not permitted to master.";
         public static string LMoveShopMasterNotLearned_0 { get; set; } = "Cannot manually master {0}: not in possible learned level up moves.";
-        public static string LMoveShopPurchaseInvalid_0 { get; set; } = "Can not purchase {0} from the move shop.";
+        public static string LMoveShopPurchaseInvalid_0 { get; set; } = "Cannot purchase {0} from the move shop.";
 
         public static string LMoveSourceDefault { get; set; } = "Default move.";
         public static string LMoveSourceDuplicate { get; set; } = "Duplicate Move.";
@@ -424,7 +424,7 @@ namespace PKHeX.Core
         public static string LPIDZero { get; set; } = "PID is not set.";
 
         public static string LPokerusDaysTooHigh_0 { get; set; } = "Pokérus Days Remaining value is too high; expected <= {0}.";
-        public static string LPokerusStrainUnobtainable_0 { get; set; } = "Pokérus Strain {0} can not be obtained.";
+        public static string LPokerusStrainUnobtainable_0 { get; set; } = "Pokérus Strain {0} cannot be obtained.";
 
         public static string LRibbonAllValid { get; set; } = "All ribbons accounted for.";
         public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
