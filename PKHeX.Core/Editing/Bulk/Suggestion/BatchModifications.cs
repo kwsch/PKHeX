@@ -27,6 +27,31 @@ namespace PKHeX.Core
             return ModifyResult.Modified;
         }
 
+        public static ModifyResult SetSuggestedMasteryData(BatchInfo info, string propValue)
+        {
+            var pk = info.Entity;
+            if (pk is IMoveShop8Mastery t)
+            {
+                if (IsAll(propValue))
+                {
+                    t.SetMoveShopFlags();
+                    t.SetMoveShopFlagsMastered();
+                }
+                else if (!IsNone(propValue))
+                {
+                    // whatever fit the current moves
+                    t.SetMoveShopFlags(pk.Moves);
+                    t.SetMoveShopFlagsMastered();
+                }
+                else
+                {
+                    t.ClearMoveShopFlags();
+                }
+                return ModifyResult.Modified;
+            }
+            return ModifyResult.Invalid;
+        }
+
         public static ModifyResult SetSuggestedRibbons(BatchInfo info, string value)
         {
             var pk = info.Entity;

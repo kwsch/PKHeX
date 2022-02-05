@@ -237,7 +237,6 @@ namespace PKHeX.Core
             return form - 1;
         }
 
-
         public static bool IsLordForm(int species, int form, int generation)
         {
             if (generation != 8)
