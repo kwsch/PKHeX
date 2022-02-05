@@ -106,6 +106,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KWispsFoundArea05 = 0x8B18A566; // U32 Wisps obtained in Alabaster Icelands (0-20)
     private const uint KWispsFoundTotal = 0xB79EF1FE; // U32 total Wisps obtained (0-107)
     private const uint KWispsReported = 0x8F0D8720; // U32 Wisps reported to Vessa (0-107)
+    private const uint KTargetPracticeRecord = 0xA69E079B; // High score for Target Practice minigame (Practice Field)
+    private const uint KStarterChoice = 0x6960C6EF; // 0=Rowlet, 1=Cyndaquil, 2=Oshawott
 
     // Flags
     private const uint KEnableSpawnerSpiritomb = 0x2DC7E4CC; // FSYS_MKRG_100_SPAWN
