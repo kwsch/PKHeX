@@ -32,5 +32,6 @@
         public static readonly MiscVerifier MiscValues = new();
         public static readonly TransferVerifier Transfer = new();
         public static readonly MarkVerifier Mark = new();
+        public static readonly LegendsArceusVerifier Arceus = new();
     }
 }

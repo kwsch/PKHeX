@@ -289,6 +289,7 @@ namespace PKHeX.Core
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
         public bool BDSP => Version is (int)BD or (int)SP;
+        public bool LA => Version is (int)PLA;
 
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;

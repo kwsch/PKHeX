@@ -269,6 +269,7 @@ namespace PKHeX.Core
         public static string LHyperBelow100 { get; set; } = "Can't Hyper Train a Pokémon that isn't level 100.";
         public static string LHyperPerfectAll { get; set; } = "Can't Hyper Train a Pokémon with perfect IVs.";
         public static string LHyperPerfectOne { get; set; } = "Can't Hyper Train a perfect IV.";
+        public static string LHyperPerfectUnavailable { get; set; } = "Can't Hyper Train any IV(s).";
 
         public static string LItemEgg { get; set; } = "Eggs cannot hold items.";
         public static string LItemUnreleased { get; set; } = "Held item is unreleased.";
@@ -353,6 +354,7 @@ namespace PKHeX.Core
         public static string LMoveNincadaEvo { get; set; } = "Learned by evolving Nincada into Ninjask.";
         public static string LMoveNincadaEvoF_0 { get; set; } = "Learned by evolving Nincada into Ninjask in Generation {0}.";
         public static string LMovePPTooHigh_0 { get; set; } = "Move {0} PP is above the amount allowed.";
+        public static string LMovePPUpsTooHigh_0 { get; set; } = "Move {0} PP Ups is above the amount allowed.";
         public static string LMoveSourceShared { get; set; } = "Shared Non-Relearn Move.";
         public static string LMoveSourceSharedF { get; set; } = "Shared Non-Relearn Move in Generation {0}.";
 
@@ -364,6 +366,13 @@ namespace PKHeX.Core
         public static string LMoveRelearnFMiss_0 { get; set; } = "Relearn Moves missing: {0}";
         public static string LMoveRelearnInvalid { get; set; } = "Not an expected Relearnable move.";
         public static string LMoveRelearnNone { get; set; } = "Expected no Relearn Move in slot.";
+
+        public static string LMoveShopAlphaMoveShouldBeMastered { get; set; } = "Alpha Move should be marked as mastered.";
+        public static string LMoveShopAlphaMoveShouldBeOther { get; set; } = "Alpha encounter can not be found with this Alpha Move.";
+        public static string LMoveShopAlphaMoveShouldBeZero { get; set; } = "Only Alphas may have an Alpha Move set.";
+        public static string LMoveShopMasterInvalid_0 { get; set; } = "Cannot manually master {0}: not permitted to master.";
+        public static string LMoveShopMasterNotLearned_0 { get; set; } = "Cannot manually master {0}: not in possible learned level up moves.";
+        public static string LMoveShopPurchaseInvalid_0 { get; set; } = "Can not purchase {0} from the move shop.";
 
         public static string LMoveSourceDefault { get; set; } = "Default move.";
         public static string LMoveSourceDuplicate { get; set; } = "Duplicate Move.";
@@ -414,6 +423,9 @@ namespace PKHeX.Core
         public static string LPIDTypeMismatch { get; set; } = "Encounter Type PID mismatch.";
         public static string LPIDZero { get; set; } = "PID is not set.";
 
+        public static string LPokerusDaysTooHigh_0 { get; set; } = "Pokérus Days Remaining value is too high; expected <= {0}.";
+        public static string LPokerusStrainUnobtainable_0 { get; set; } = "Pokérus Strain {0} can not be obtained.";
+
         public static string LRibbonAllValid { get; set; } = "All ribbons accounted for.";
         public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
         public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
@@ -423,13 +435,18 @@ namespace PKHeX.Core
 
         public static string LStatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
         public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
+        public static string LStatIncorrectHeightCopy { get; set; } = "Copy Height does not match the original value.";
+        public static string LStatIncorrectHeightValue { get; set; } = "Height does not match the expected value.";
         public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
+        public static string LStatIncorrectWeightValue { get; set; } = "Weight does not match the expected value.";
         public static string LStatInvalidHeightWeight { get; set; } = "Height / Weight values are statistically improbable.";
         public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
         public static string LStatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
         public static string LStatGigantamaxValid { get; set; } = "Gigantamax Flag was changed via Max Soup.";
         public static string LStatNatureInvalid { get; set; } = "Stat Nature is not within the expected range.";
         public static string LStatBattleVersionInvalid { get; set; } = "Battle Version is not within the expected range.";
+        public static string LStatNobleInvalid { get; set; } = "Noble Flag mismatch.";
+        public static string LStatAlphaInvalid { get; set; } = "Alpha Flag mismatch.";
 
         public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
         public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";

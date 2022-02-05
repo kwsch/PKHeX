@@ -904,6 +904,13 @@
         Glastrier,
         Spectrier,
         Calyrex,
+        Wyrdeer,
+        Kleavor,
+        Ursaluna,
+        Basculegion,
+        Sneasler,
+        Overqwil,
+        Enamorus,
         MAX_COUNT,
     }
 }

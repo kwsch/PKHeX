@@ -555,5 +555,3 @@ namespace PKHeX.Core
         public const uint KGSTVictoriesOpal = 0xDBE374D7; // U32 Galarian Star Tournament victories with Opal
     }
 }
-#pragma warning restore IDE0051 // Remove unused private members
-#pragma warning restore RCS1213 // Remove unused member declaration.

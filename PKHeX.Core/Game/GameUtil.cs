@@ -76,6 +76,7 @@ namespace PKHeX.Core
             // Gen8
             SW or SH => SWSH,
             BD or SP => BDSP,
+            PLA => PLA,
             _ => Invalid,
         };
 
@@ -138,6 +139,7 @@ namespace PKHeX.Core
                     return Legal.MaxSpeciesID_7_USUM;
                 return Legal.MaxSpeciesID_7_USUM;
             }
+            if (PLA == game) return Legal.MaxSpeciesID_8a;
             if (BDSP.Contains(game)) return Legal.MaxSpeciesID_8b;
             if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
             return -1;
@@ -200,7 +202,7 @@ namespace PKHeX.Core
 
                 SWSH => g2 is SW or SH,
                 BDSP => g2 is BD or SP,
-                Gen8 => SWSH.Contains(g2) || BDSP.Contains(g2),
+                Gen8 => SWSH.Contains(g2) || BDSP.Contains(g2) || PLA == g2,
                 _ => false,
             };
         }

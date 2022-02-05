@@ -61,7 +61,7 @@ namespace PKHeX.Core
         {
             if (pkm is not IHyperTrain t)
                 return;
-            if (pkm.CurrentLevel < 100)
+            if (!pkm.IsHyperTrainingAvailable())
             {
                 t.HyperTrainFlags = 0;
                 return;
@@ -81,6 +81,33 @@ namespace PKHeX.Core
 
             if (pkm is PB7 pb)
                 pb.ResetCP();
+        }
+
+        /// <summary>
+        /// Indicates if Hyper Training is available for toggling.
+        /// </summary>
+        /// <param name="t">Entity to train</param>
+        /// <returns>True if available, otherwise false.</returns>
+        public static bool IsHyperTrainingAvailable(this IHyperTrain t)
+        {
+            // Check for game formats where training is unavailable:
+            if (t is PA8)
+                return false;
+
+            return true;
+        }
+
+        /// <inheritdoc cref="IsHyperTrainingAvailable(IHyperTrain)"/>
+        /// <param name="pk">Entity data</param>
+        public static bool IsHyperTrainingAvailable(this PKM pk)
+        {
+            if (pk is not IHyperTrain t)
+                return false;
+            if (!t.IsHyperTrainingAvailable())
+                return false;
+
+            // Gated behind level 100.
+            return pk.CurrentLevel == 100;
         }
     }
 }

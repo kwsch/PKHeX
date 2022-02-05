@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public static class MoveLevelUp
     {
         private static readonly LearnLookup
+            LearnLA   = new(PersonalTable.LA,   LevelUpLA,   PLA),
             LearnBDSP = new(PersonalTable.BDSP, LevelUpBDSP, BDSP),
             LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH, SWSH),
             LearnSM   = new(PersonalTable.SM,   LevelUpSM,   SM),
@@ -214,6 +215,11 @@ namespace PKHeX.Core
                     if (species > MaxSpeciesID_8)
                         return LearnNONE;
                     return LearnSWSH.GetIsLevelUp(species, form, move, maxLevel);
+
+                case PLA:
+                    if (species > MaxSpeciesID_8a)
+                        return LearnNONE;
+                    return LearnLA.GetIsLevelUp(species, form, move, maxLevel);
 
                 case BD or SP or BDSP:
                     if (species > MaxSpeciesID_8b)
@@ -478,6 +484,11 @@ namespace PKHeX.Core
                         return moves;
                     return LearnSWSH.AddMoves(moves, species, form, maxLevel);
 
+                case PLA:
+                    if (species > MaxSpeciesID_8a)
+                        return moves;
+                    return LearnLA.AddMoves(moves, species, form, maxLevel);
+
                 case BD or SP or BDSP:
                     if (species > MaxSpeciesID_8b)
                         return moves;
@@ -501,7 +512,8 @@ namespace PKHeX.Core
             var lvl0 = (int[])((PersonalInfoG1) table[index]).Moves.Clone();
             int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
-            return learn[index].GetEncounterMoves(level, lvl0, start);
+            learn[index].SetEncounterMoves(level, lvl0, start);
+            return lvl0;
         }
 
         private static int[] GetEncounterMoves2(int species, int level, GameVersion version)
@@ -512,7 +524,8 @@ namespace PKHeX.Core
             var lvl0 = learn[species].GetEncounterMoves(1);
             int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
-            return learn[index].GetEncounterMoves(level, lvl0, start);
+            learn[index].SetEncounterMoves(level, lvl0, start);
+            return lvl0;
         }
 
         public static int[] GetEncounterMoves(int species, int form, int level, GameVersion version)

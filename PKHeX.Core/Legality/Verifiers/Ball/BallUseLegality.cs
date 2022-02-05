@@ -16,6 +16,7 @@ namespace PKHeX.Core
             6 => WildPokeballs6,
             7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
             8 when GameVersion.BDSP.Contains(game) => WildPokeBalls4_HGSS,
+            8 when GameVersion.PLA == game => WildPokeBalls8a,
             8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
             _ => Array.Empty<int>(),
         };
@@ -65,6 +66,21 @@ namespace PKHeX.Core
             (int)Safari,
             (int)Sport,
             // no cherish ball
+        };
+
+        private static readonly HashSet<int> WildPokeBalls8a = new()
+        {
+            (int)LAPoke,
+            (int)LAGreat,
+            (int)LAUltra,
+
+            (int)LAFeather,
+            (int)LAWing,
+            (int)LAJet,
+
+            (int)LAHeavy,
+            (int)LALeaden,
+            (int)LAGigaton,
         };
     }
 }

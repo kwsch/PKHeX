@@ -77,7 +77,7 @@ namespace PKHeX.Core
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
             pk.CurrentLevel = level;
-            pk.Ball = Ball;
+            ApplyDetailsBall(pk);
             pk.HeldItem = HeldItem;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
@@ -110,6 +110,8 @@ namespace PKHeX.Core
             if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)
                 pd.DynamaxLevel = d.DynamaxLevel;
         }
+
+        protected virtual void ApplyDetailsBall(PKM pk) => pk.Ball = Ball;
 
         protected virtual int GetMinimalLevel() => LevelMin;
 

@@ -13,6 +13,7 @@ using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
+using static PKHeX.Core.Encounters8a;
 using static PKHeX.Core.Encounters8b;
 using static PKHeX.Core.EncountersGO;
 
@@ -153,6 +154,7 @@ namespace PKHeX.Core
             SH => SlotsSH,
             BD => SlotsBD,
             SP => SlotsSP,
+            PLA => SlotsLA,
             _ => Array.Empty<EncounterArea>(),
         };
 

@@ -14,25 +14,27 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class EvolutionTree
     {
-        private static readonly EvolutionTree Evolves1 = new(new[] { Get("rby") }, Gen1, PersonalTable.Y, MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves2 = new(new[] { Get("gsc") }, Gen2, PersonalTable.C, MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves3 = new(new[] { Get("g3") }, Gen3, PersonalTable.RS, MaxSpeciesID_3);
-        private static readonly EvolutionTree Evolves4 = new(new[] { Get("g4") }, Gen4, PersonalTable.DP, MaxSpeciesID_4);
-        private static readonly EvolutionTree Evolves5 = new(new[] { Get("g5") }, Gen5, PersonalTable.BW, MaxSpeciesID_5);
-        private static readonly EvolutionTree Evolves6 = new(Unpack("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-        private static readonly EvolutionTree Evolves7 = new(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-        private static readonly EvolutionTree Evolves7b = new(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-        private static readonly EvolutionTree Evolves8 = new(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-        private static readonly EvolutionTree Evolves8b = new(Unpack("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
+        private static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
+        private static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
+        private static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
+        private static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
+        private static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
+        private static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
+        private static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
+        private static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
+        private static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        private static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
+        private static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
 
-        private static byte[] Get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-        private static byte[][] Unpack(string resource) => BinLinker.Unpack(Get(resource), resource);
+        private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
+        private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
 
         static EvolutionTree()
         {
             // Add in banned evolution data!
             Evolves7.FixEvoTreeSM();
             Evolves8.FixEvoTreeSS();
+            Evolves8a.FixEvoTreeLA();
             Evolves8b.FixEvoTreeBS();
         }
 
@@ -57,7 +59,12 @@ namespace PKHeX.Core
             5 => Evolves5,
             6 => Evolves6,
             7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-            _ => pkm.Version is (int)BD or (int)SP ? Evolves8b : Evolves8,
+            _ => pkm.Version switch
+            {
+                (int)PLA => Evolves8a,
+                (int)BD or (int)SP => Evolves8b,
+                _ => Evolves8,
+            },
         };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
@@ -69,7 +76,22 @@ namespace PKHeX.Core
 
         #region Constructor
 
-        private EvolutionTree(IReadOnlyList<byte[]> data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
+        private EvolutionTree(ReadOnlySpan<byte> data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
+        {
+            Game = game;
+            Personal = personal;
+            MaxSpeciesTree = maxSpeciesTree;
+            Entries = GetEntries(data, game);
+
+            // Starting in Generation 7, forms have separate evolution data.
+            int format = Game - Gen1 + 1;
+            var oldStyle = format < 7;
+            var connections = oldStyle ? CreateTreeOld() : CreateTree();
+
+            Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
+        }
+
+        private EvolutionTree(BinLinkerAccessor data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
         {
             Game = game;
             Personal = personal;
@@ -134,13 +156,18 @@ namespace PKHeX.Core
             }
         }
 
-        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data, GameVersion game) => game switch
+        private IReadOnlyList<EvolutionMethod[]> GetEntries(ReadOnlySpan<byte> data, GameVersion game) => game switch
         {
-            Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-            Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-            Gen3 => EvolutionSet3.GetArray(data[0]),
-            Gen4 => EvolutionSet4.GetArray(data[0]),
-            Gen5 => EvolutionSet5.GetArray(data[0]),
+            Gen1 => EvolutionSet1.GetArray(data, MaxSpeciesTree),
+            Gen2 => EvolutionSet1.GetArray(data, MaxSpeciesTree),
+            Gen3 => EvolutionSet3.GetArray(data),
+            Gen4 => EvolutionSet4.GetArray(data),
+            Gen5 => EvolutionSet5.GetArray(data),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+
+        private IReadOnlyList<EvolutionMethod[]> GetEntries(BinLinkerAccessor data, GameVersion game) => game switch
+        {
             Gen6 => EvolutionSet6.GetArray(data),
             Gen7 => EvolutionSet7.GetArray(data),
             Gen8 => EvolutionSet7.GetArray(data),
@@ -172,6 +199,10 @@ namespace PKHeX.Core
 
             foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
                 BanEvo(s, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
+        }
+
+        private void FixEvoTreeLA()
+        {
         }
 
         private void FixEvoTreeBS()

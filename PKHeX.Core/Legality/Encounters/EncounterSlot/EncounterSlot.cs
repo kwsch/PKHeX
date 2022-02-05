@@ -91,8 +91,7 @@ namespace PKHeX.Core
             pk.Version = (int)version;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
-            var ball = FixedBall;
-            pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
+            ApplyDetailsBall(pk);
             pk.Language = lang;
             pk.Form = GetWildForm(pk, Form, sav);
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
@@ -112,6 +111,12 @@ namespace PKHeX.Core
                 s.HeightScalar = PokeSizeUtil.GetRandomScalar();
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
+        }
+
+        protected virtual void ApplyDetailsBall(PKM pk)
+        {
+            var ball = FixedBall;
+            pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
         }
 
         protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)

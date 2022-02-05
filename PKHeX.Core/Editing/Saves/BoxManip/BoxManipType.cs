@@ -42,6 +42,7 @@ public enum BoxManipType
     ModifyResetMoves,
     ModifyRandomMoves,
     ModifyHyperTrain,
+    ModifyGanbaru,
     ModifyRemoveNicknames,
     ModifyRemoveItem,
     ModifyHeal,

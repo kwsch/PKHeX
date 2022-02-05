@@ -61,6 +61,7 @@ namespace PKHeX.Core
                 US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
                 SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
                 BD or SP => getMoves(LevelUpBDSP, PersonalTable.BDSP),
+                PLA => getMoves(LevelUpLA, PersonalTable.LA),
                 _ => Array.Empty<int>(),
             };
 
@@ -79,6 +80,7 @@ namespace PKHeX.Core
         {
             if (gen < 8 || pkm.IsEgg)
                 return Array.Empty<int>();
+
             if (pkm.BDSP)
             {
                 var table = PersonalTable.BDSP;

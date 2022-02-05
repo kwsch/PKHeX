@@ -245,7 +245,7 @@ namespace PKHeX.Core
 
             if (GameVersion.BDSP.Contains(ver))
             {
-                for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
+                for (int i = 0; i < PersonalInfoBDSP.CountTM; i++)
                 {
                     if (Legal.TMHM_BDSP[i] != move)
                         continue;
@@ -272,7 +272,7 @@ namespace PKHeX.Core
                         break;
                     if (allowBit)
                         return GameVersion.SWSH;
-                    if (((G8PKM)pkm).GetMoveRecordFlag(i))
+                    if (((ITechRecord8)pkm).GetMoveRecordFlag(i))
                         return GameVersion.SWSH;
                     if (i == 12 && species == (int)Species.Calyrex && form == 0) // TR12
                         return GameVersion.SWSH; // Agility Calyrex without TR glitch.
@@ -421,7 +421,7 @@ namespace PKHeX.Core
                 case GameVersion.Any:
                 case GameVersion.SW or GameVersion.SH or GameVersion.SWSH:
                     AddMachineSWSH(r, species, form);
-                    break;
+                    return;
                 case GameVersion.BD or GameVersion.SP or GameVersion.BDSP:
                     AddMachineBDSP(r, species, form);
                     return;

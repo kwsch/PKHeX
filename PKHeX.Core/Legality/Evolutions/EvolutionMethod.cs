@@ -74,13 +74,14 @@ namespace PKHeX.Core
             RequiresLevelUp = false;
             switch ((EvolutionType)Method)
             {
-                case UseItem or UseItemWormhole:
+                case UseItem or UseItemWormhole or UseItemFullMoon:
                 case CriticalHitsInBattle or HitPointsLostInBattle or Spin:
+                case UseAgileStyleMoves or UseStrongStyleMoves:
                 case TowerOfDarkness or TowerOfWaters:
                     return true;
-                case UseItemMale:
+                case UseItemMale or RecoilDamageMale:
                     return pkm.Gender == 0;
-                case UseItemFemale:
+                case UseItemFemale or RecoilDamageFemale:
                     return pkm.Gender == 1;
 
                 case Trade or TradeHeldItem or TradeShelmetKarrablast:
@@ -104,6 +105,9 @@ namespace PKHeX.Core
 
                 // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
                 default:
+                    if (IsThresholdCheckMode(pkm))
+                        return lvl >= Level;
+
                     if (Level == 0 && lvl < 2)
                         return false;
                     if (lvl < Level)
@@ -116,6 +120,13 @@ namespace PKHeX.Core
                     // Check Met Level for extra validity
                     return HasMetLevelIncreased(pkm, lvl);
             }
+        }
+
+        private static bool IsThresholdCheckMode(PKM pkm)
+        {
+            // Starting in Legends: Arceus, level-up evolutions can be triggered if the current level is >= criteria.
+            // This allows for evolving over-leveled captures immediately without leveling up from capture level.
+            return pkm is PA8;
         }
 
         private bool HasMetLevelIncreased(PKM pkm, int lvl)

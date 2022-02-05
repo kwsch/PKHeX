@@ -467,8 +467,8 @@ namespace PKHeX.Core
                 yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
             }
 
-            // new ribbon likely from Legends: Arceus; inaccessible until then
-            if (s8.RibbonPioneer)
+            // received when capturing photos with Pokémon in the Photography Studio
+            if (s8.RibbonPioneer && !pkm.LA)
             {
                 yield return new RibbonResult(nameof(s8.RibbonPioneer));
             }

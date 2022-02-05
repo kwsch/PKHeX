@@ -13,6 +13,11 @@ namespace PKHeX.Core
     public sealed class PersonalTable
     {
         /// <summary>
+        /// Personal Table used in <see cref="GameVersion.PLA"/>.
+        /// </summary>
+        public static readonly PersonalTable LA = GetTable("la", GameVersion.PLA);
+
+        /// <summary>
         /// Personal Table used in <see cref="GameVersion.BDSP"/>.
         /// </summary>
         public static readonly PersonalTable BDSP = GetTable("bdsp", GameVersion.BDSP);
@@ -127,6 +132,7 @@ namespace PKHeX.Core
             GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
             GameVersion.GG => z => new PersonalInfoGG(z),
             GameVersion.SWSH => z => new PersonalInfoSWSH(z),
+            GameVersion.PLA => z => new PersonalInfoLA(z),
             _ => z => new PersonalInfoBDSP(z),
         };
 
@@ -143,6 +149,7 @@ namespace PKHeX.Core
             GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
             GameVersion.SWSH => PersonalInfoSWSH.SIZE,
             GameVersion.BDSP => PersonalInfoBDSP.SIZE,
+            GameVersion.PLA => PersonalInfoLA.SIZE,
             _ => -1,
         };
 
@@ -165,8 +172,8 @@ namespace PKHeX.Core
         private static void PopulateGen3Tutors()
         {
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
-            var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
-            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            var machine = BinLinkerAccessor.Get(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
             var table = E.Table;
             for (int i = Legal.MaxSpeciesID_3; i >= 0; i--)
             {
@@ -182,9 +189,10 @@ namespace PKHeX.Core
 
         private static void PopulateGen4Tutors()
         {
-            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
             var table = HGSS.Table;
-            for (int i = 0; i < tutors.Length; i++)
+            var count = tutors.Length;
+            for (int i = 0; i < count; i++)
                 table[i].AddTypeTutors(tutors[i]);
         }
 
@@ -203,16 +211,34 @@ namespace PKHeX.Core
                 if (ss.HP == 0)
                     ss.Gender = usum[i].Gender;
             }
+
+            var la = LA;
+            for (int i = 1; i <= Legal.MaxSpeciesID_8_R2; i++)
+            {
+                var e = la.Table[i];
+                var fc = e.FormCount;
+                for (int f = 0; f < fc; f++)
+                {
+                    var l = (PersonalInfoLA)la.GetFormEntry(i, f);
+                    if (l.HP != 0)
+                        continue;
+                    var s = (PersonalInfoSWSH)SWSH.GetFormEntry(i, f);
+                    l.Ability1 = s.Ability1;
+                    l.Ability2 = s.Ability2;
+                    l.AbilityH = s.AbilityH;
+                    l.Gender = s.Gender;
+                }
+            }
         }
 
         public PersonalTable(ReadOnlySpan<byte> data, GameVersion format)
         {
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
-            byte[][] entries = data.Split(size);
-            var table = new PersonalInfo[entries.Length];
+            var count = data.Length / size;
+            var table = new PersonalInfo[count];
             for (int i = 0; i < table.Length; i++)
-                table[i] = get(entries[i]);
+                table[i] = get(data.Slice(size * i, size).ToArray());
 
             Table = table;
             MaxSpeciesID = format.GetMaxSpeciesID();

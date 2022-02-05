@@ -248,14 +248,19 @@ namespace PKHeX.Core
                     b.ResetCalculatedValues();
                 }
             }
+            if (pk is IGanbaru g)
+                g.SetSuggestedGanbaruValues(pk);
 
             if (pk is IGigantamax c)
                 c.CanGigantamax = Set.CanGigantamax;
             if (pk is IDynamaxLevel d)
                 d.DynamaxLevel = d.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
 
-            pk.ClearRecordFlags();
-            pk.SetRecordFlags(Set.Moves);
+            if (pk is ITechRecord8 t)
+            {
+                t.ClearRecordFlags();
+                t.SetRecordFlags(Set.Moves);
+            }
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)
                 pk.Nature = pk.StatNature;

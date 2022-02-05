@@ -1,7 +1,12 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+/// <summary>
+/// Specifies that a single ribbon index is prominently selected.
+/// </summary>
+/// <remarks>
+/// <see cref="RibbonIndex"/> values.
+/// </remarks>
+public interface IRibbonSetAffixed
 {
-    public interface IRibbonSetAffixed
-    {
-        sbyte AffixedRibbon { get; set; }
-    }
+    sbyte AffixedRibbon { get; set; }
 }

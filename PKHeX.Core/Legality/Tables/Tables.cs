@@ -32,6 +32,7 @@ namespace PKHeX.Core
             {(int)Thundurus,(g, _) => g >= 6},
             {(int)Landorus, (g, _) => g >= 6},
             {(int)Urshifu,  (g, _) => g >= 8},
+            {(int)Enamorus, (g, _) => g >= 8},
 
             // Fused
             {(int)Kyurem,   (g, _) => g >= 6},
@@ -127,8 +128,14 @@ namespace PKHeX.Core
                 return false;
             if (generation is 6 && move is ((int)ThousandArrows or (int)ThousandWaves))
                 return false;
-            if (generation is 8 && (SignatureSketch_BDSP.Contains(move) || DummiedMoves_BDSP.Contains(move))) // can't Sketch unusable moves in BDSP
-                return false;
+            if (generation is 8) // can't Sketch unusable moves in BDSP, no Sketch in PLA
+            {
+                if (SignatureSketch_BDSP.Contains(move) || DummiedMoves_BDSP.Contains(move))
+                    return false;
+                if (move > MaxMoveID_8)
+                    return false;
+            }
+
             return move <= GetMaxMoveID(generation);
         }
 
@@ -177,7 +184,7 @@ namespace PKHeX.Core
             (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
             (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord,
             (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon,
-            (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier,
+            (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
         };
 
         /// <summary>

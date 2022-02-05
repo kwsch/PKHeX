@@ -161,7 +161,7 @@ namespace PKHeX.Core
                     for (int i = 0; i < arr.Length; i++)
                         arr[i] ^= (byte)xk.Next();
 #if DEBUG
-                    Debug.Assert(sub > SCTypeCode.Array || Array.TrueForAll(arr, z => z <= 1));
+                    Debug.Assert(sub > SCTypeCode.Array || (sub == SCTypeCode.Bool3 && Array.TrueForAll(arr, z => z <= 2)) || Array.TrueForAll(arr, z => z <= 1));
 #endif
                     return new SCBlock(key, arr, sub);
                 }

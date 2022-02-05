@@ -111,6 +111,9 @@ namespace PKHeX.Core
             if (FormInfo.IsTotemForm(species, form, generation))
                 return false;
 
+            if (FormInfo.IsLordForm(species, form, generation))
+                return false;
+
             return IsBreedableForm(species, form);
         }
 
@@ -199,6 +202,7 @@ namespace PKHeX.Core
             (int)Kubfu, (int)Urshifu, (int)Zarude,
             (int)Regieleki, (int)Regidrago,
             (int)Glastrier, (int)Spectrier, (int)Calyrex,
+            (int)Enamorus,
         };
     }
 }

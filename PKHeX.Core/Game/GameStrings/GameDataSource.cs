@@ -74,8 +74,8 @@ namespace PKHeX.Core
         private static IReadOnlyList<ComboItem> GetBalls(string[] itemList)
         {
             // ignores Poke/Great/Ultra
-            ReadOnlySpan<ushort> ball_nums = stackalloc ushort[] { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
-            ReadOnlySpan<byte>   ball_vals = stackalloc   byte[] { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
+            ReadOnlySpan<ushort> ball_nums = stackalloc ushort[] { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 };
+            ReadOnlySpan<byte>   ball_vals = stackalloc   byte[] { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026, 0027, 0028, 0029, 0030, 0031, 0032, 0033, 0034, 0035, 0036, 0037 };
             return Util.GetVariedCBListBall(itemList, ball_nums, ball_vals);
         }
 
@@ -84,6 +84,7 @@ namespace PKHeX.Core
             var list = s.gamelist;
             ReadOnlySpan<byte> games = stackalloc byte[]
             {
+                47,     // 8 legends arceus
                 48, 49, // 8 bdsp
                 44, 45, // 8 swsh
                 42, 43, // 7 gg

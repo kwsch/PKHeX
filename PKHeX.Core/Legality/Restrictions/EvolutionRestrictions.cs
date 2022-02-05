@@ -85,6 +85,20 @@ namespace PKHeX.Core
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
         };
 
+        private static readonly byte[] MinLevelEvolutionWithMove_8LA =
+        {
+            00, // Sylveon (Eevee with Fairy Move)
+            25, // Mr. Mime (Mime Jr with Mimic)
+            29, // Sudowoodo (Bonsly with Mimic)
+            25, // Ambipom (Aipom with Double Hit)
+            34, // Lickilicky (Lickitung with Rollout)
+            34, // Tangrowth (Tangela with Ancient Power)
+            34, // Yanmega (Yanma with Ancient Power)
+            34, // Mamoswine (Piloswine with Ancient Power)
+            99, // Tsareena (Steenee with Stomp)
+            99, // Grapploct (Clobbopus with Taunt)
+        };
+
         private static readonly bool[][] CanEggHatchWithEvolveMove =
         {
             new [] { false, false,  true,  true,  true,  true,  true,  true,  true }, // Sylveon (Eevee with Fairy Move)
@@ -153,6 +167,9 @@ namespace PKHeX.Core
 
         private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index)
         {
+            if (gen == 8 && pkm.LA) // No Level Up required, and different levels than mainline SW/SH.
+                return MinLevelEvolutionWithMove_8LA[index];
+
             var lvl = GetLevelLearnMove(pkm, gen, index);
 
             // If has original met location the minimum evolution level is one level after met level

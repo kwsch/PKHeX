@@ -1,4 +1,4 @@
-﻿#define SUPPRESS
+﻿//#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -311,6 +311,7 @@ namespace PKHeX.Core
                 return;
 
             Mark.Verify(this);
+            Arceus.Verify(this);
         }
     }
 }

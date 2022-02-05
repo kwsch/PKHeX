@@ -14,38 +14,37 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="value">Value to set for the record.</param>
         /// <param name="max">Max record to set.</param>
-        public static void SetRecordFlags(this PKM pk, bool value, int max = 100)
+        public static void SetRecordFlags(this ITechRecord8 pk, bool value, int max = 100)
         {
-            if (pk is not PK8 pk8)
-                return;
             for (int i = 0; i < max; i++)
-                pk8.SetMoveRecordFlag(i, value);
+                pk.SetMoveRecordFlag(i, value);
         }
 
         /// <summary>
         /// Clears the Technical Record flags for the <see cref="pk"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        public static void ClearRecordFlags(this PKM pk) => pk.SetRecordFlags(false, 112);
+        public static void ClearRecordFlags(this ITechRecord8 pk) => pk.SetRecordFlags(false, 112);
 
         /// <summary>
         /// Sets the Technical Record flags for the <see cref="pk"/> based on the current moves.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
-        public static void SetRecordFlags(this PKM pk, IEnumerable<int> moves)
+        public static void SetRecordFlags(this ITechRecord8 pk, IEnumerable<int> moves)
         {
-            if (pk is not PK8 pk8)
+            if (pk is PA8)
                 return;
-            var permit = pk8.PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
-            var moveIDs = Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
+
+            var permit = pk.TechRecordPermitFlags;
+            var moveIDs = pk.TechRecordPermitIndexes;
             foreach (var m in moves)
             {
                 var index = moveIDs.IndexOf(m);
                 if (index == -1)
                     continue;
                 if (permit[index])
-                    pk8.SetMoveRecordFlag(index, true);
+                    pk.SetMoveRecordFlag(index, true);
             }
         }
 
@@ -53,15 +52,13 @@ namespace PKHeX.Core
         /// Sets all the Technical Record flags for the <see cref="pk"/> if they are permitted to be learned in-game.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        public static void SetRecordFlags(this PKM pk)
+        public static void SetRecordFlags(this ITechRecord8 pk)
         {
-            if (pk is not PK8 pk8)
-                return;
-            var permit = pk8.PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM); // tm[100], tr[100]
+            var permit = pk.TechRecordPermitFlags;
             for (int i = 0; i < permit.Length; i++)
             {
                 if (permit[i])
-                    pk8.SetMoveRecordFlag(i, true);
+                    pk.SetMoveRecordFlag(i, true);
             }
         }
     }

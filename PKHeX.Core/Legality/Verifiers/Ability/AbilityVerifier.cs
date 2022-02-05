@@ -68,7 +68,7 @@ namespace PKHeX.Core
 
             if (format >= 8) // Ability Patch
             {
-                if (pkm.AbilityNumber == 4)
+                if (pkm.AbilityNumber == 4 && !pkm.LA)
                 {
                     if (CanAbilityPatch(format, abilities, pkm.Species))
                         return GetValid(LAbilityPatchUsed);
@@ -446,6 +446,8 @@ namespace PKHeX.Core
                 return false;
             if (pkm.AbilityNumber == 4)
                 return false; // Cannot alter to hidden ability.
+            if (pkm.LA)
+                return false; // Not available.
             if (encounterAbility == AbilityPermission.OnlyHidden)
                 return false; // Cannot alter from hidden ability.
             return true;
@@ -475,6 +477,7 @@ namespace PKHeX.Core
                 (int)Species.Tornadus => true, // Form-0 is a/a/h
                 (int)Species.Thundurus => true, // Form-0 is a/a/h
                 (int)Species.Landorus => true, // Form-0 is a/a/h
+                (int)Species.Enamorus => true, // Form-0 is a/a/h
                 _ => false,
             };
         }

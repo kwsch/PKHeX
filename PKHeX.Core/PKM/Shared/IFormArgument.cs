@@ -53,6 +53,9 @@ namespace PKHeX.Core
                 var suggest = originalSpecies switch
                 {
                     (int) Yamask when pkm.Species == (int) Runerigus => 49u,
+                    (int) Qwilfish when pkm.Species == (int) Overqwil => 20u,
+                    (int) Stantler when pkm.Species == (int) Wyrdeer => 20u,
+                    (int) Basculin when pkm.Species == (int) Basculegion => 294u,
                     _ => 0u,
                 };
                 pkm.ChangeFormArgument(suggest);
@@ -114,6 +117,10 @@ namespace PKHeX.Core
                 (int)Yamask when form == 1 => 9999,
                 (int)Runerigus when form == 0 => 9999,
                 (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
+                ((int)Qwilfish or (int)Overqwil) when generation == 8 => 9999, // 20
+                ((int)Stantler or (int)Wyrdeer) when generation == 8 => 9999, // 20
+                (int)Basculin when form == 2 => 9999,
+                (int)Basculegion => 9999,
                 _ => 0,
             };
         }

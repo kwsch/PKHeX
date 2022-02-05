@@ -45,6 +45,7 @@ namespace PKHeX.Core
             5 => ReleasedHeldItems_5,
             6 => ReleasedHeldItems_6,
             7 => ReleasedHeldItems_7,
+            8 when pk is PA8 => Array.Empty<bool>(),
             8 when pk is PB8 => ReleasedHeldItems_8b,
             8 => ReleasedHeldItems_8,
             _ => Array.Empty<bool>(),

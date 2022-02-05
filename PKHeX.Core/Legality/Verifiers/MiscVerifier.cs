@@ -62,6 +62,9 @@ namespace PKHeX.Core
                 case PB8 pb8:
                     VerifyBDSPStats(data, pb8);
                     break;
+                case PA8 pa8:
+                    VerifyPLAStats(data, pa8);
+                    break;
             }
 
             if (pkm.Format >= 6)
@@ -113,7 +116,33 @@ namespace PKHeX.Core
             }
 
             VerifyMiscFatefulEncounter(data);
+            VerifyMiscPokerus(data);
         }
+
+        private void VerifyMiscPokerus(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.Format == 1)
+                return;
+
+            var strain = pkm.PKRS_Strain;
+            var days = pkm.PKRS_Days;
+            bool strainValid = IsPokerusStrainValid(pkm, strain, days);
+            if (!strainValid)
+                data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
+
+            var expect = (strain % 4) + 1;
+            if (days > expect)
+                data.AddLine(GetInvalid(string.Format(LPokerusDaysTooHigh_0, expect)));
+        }
+
+        private static bool IsPokerusStrainValid(PKM pkm, int strain, int days) => strain switch
+        {
+            0 when days is not 0 => false,
+            8 => false,
+            not 0 when pkm is PA8 => false,
+            _ => true,
+        };
 
         public void VerifyMiscG1(LegalityAnalysis data)
         {
@@ -246,6 +275,19 @@ namespace PKHeX.Core
         private static void VerifyMiscMovePP(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+
+            if (pkm is PA8) // No PP Ups
+            {
+                if (pkm.Move1_PPUps is not 0)
+                    data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
+                if (pkm.Move2_PPUps is not 0)
+                    data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 2), CurrentMove));
+                if (pkm.Move3_PPUps is not 0)
+                    data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 3), CurrentMove));
+                if (pkm.Move4_PPUps is not 0)
+                    data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 4), CurrentMove));
+            }
+
             if (pkm.Move1_PP > pkm.GetMovePP(pkm.Move1, pkm.Move1_PPUps))
                 data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), CurrentMove));
             if (pkm.Move2_PP > pkm.GetMovePP(pkm.Move2, pkm.Move2_PPUps))
@@ -275,11 +317,11 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(msg, Egg));
             }
 
-            if (pkm is G8PKM pk8)
+            if (pkm is ITechRecord8 pk8)
             {
-                if (pk8.HasAnyMoveRecordFlag())
+                if (pk8.GetMoveRecordFlagAny())
                     data.AddLine(GetInvalid(LEggRelearnFlags, Egg));
-                if (pk8.StatNature != pk8.Nature)
+                if (pkm.StatNature != pkm.Nature)
                     data.AddLine(GetInvalid(LEggNature, Egg));
             }
         }
@@ -331,6 +373,7 @@ namespace PKHeX.Core
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version):
                 case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version):
+                case WA8 wa8 when !wa8.CanBeReceivedByVersion(pkm.Version):
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && pkm.Language != wc6.RestrictLanguage:
@@ -424,14 +467,19 @@ namespace PKHeX.Core
 
         private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
         {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(pb7.HeightAbsolute, pb7.CalcHeightAbsolute))
-                data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
-            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(pb7.WeightAbsolute, pb7.CalcWeightAbsolute))
-                data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
+            VerifyAbsoluteSizes(data, pb7);
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarterLGPE(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
+        }
+
+        private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
+        {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+            if (!IsCloseEnough(obj.HeightAbsolute, obj.CalcHeightAbsolute))
+                data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
+            // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+            if (!IsCloseEnough(obj.WeightAbsolute, obj.CalcWeightAbsolute))
+                data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
         }
 
         private static bool IsCloseEnough(float a, float b)
@@ -518,6 +566,40 @@ namespace PKHeX.Core
                 data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
         }
 
+        private void VerifyPLAStats(LegalityAnalysis data, PA8 pa8)
+        {
+            VerifyAbsoluteSizes(data, pa8);
+
+            if (pa8.Favorite)
+                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
+
+            var affix = pa8.AffixedRibbon;
+            if (affix != -1) // None
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+
+            var social = pa8.Sociability;
+            if (social != 0)
+                data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
+
+            VerifyStatNature(data, pa8);
+
+            var bv = pa8.BattleVersion;
+            if (bv != 0)
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+
+            if (pa8.CanGigantamax)
+                data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+
+            if (pa8.DynamaxLevel != 0)
+                data.AddLine(GetInvalid(LStatDynamaxInvalid));
+
+            if (pa8.GetMoveRecordFlagAny() && !pa8.IsEgg) // already checked for eggs
+                data.AddLine(GetInvalid(LEggRelearnFlags));
+
+            if (CheckHeightWeightOdds(data.EncounterMatch) && pa8.HeightScalar == 0 && pa8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        }
+
         private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
         {
             if (pb8.Favorite)
@@ -543,7 +625,7 @@ namespace PKHeX.Core
             if (pb8.DynamaxLevel != 0)
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
 
-            if (pb8.HasAnyMoveRecordFlag() && !pb8.IsEgg) // already checked for eggs
+            if (pb8.GetMoveRecordFlagAny() && !pb8.IsEgg) // already checked for eggs
                 data.AddLine(GetInvalid(LEggRelearnFlags));
 
             if (CheckHeightWeightOdds(data.EncounterMatch) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
@@ -555,7 +637,7 @@ namespace PKHeX.Core
             if (enc.Generation < 8)
                 return false;
 
-            if (GameVersion.BDSP.Contains(enc.Version))
+            if (GameVersion.BDSP.Contains(enc.Version) || GameVersion.PLA == enc.Version)
                 return true;
 
             if (enc is WC8 { IsHOMEGift: true })

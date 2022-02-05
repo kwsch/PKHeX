@@ -100,25 +100,28 @@ namespace PKHeX.Core
         private static readonly HashSet<int> FormChange = new()
         {
             // Sometimes considered for wild encounters
-            412, // Burmy
-            479, // Rotom
-            676, // Furfrou
-            741, // Oricorio
+            (int)Burmy,
+            (int)Rotom,
+            (int)Furfrou,
+            (int)Oricorio,
 
-            386, // Deoxys
-            487, // Giratina
-            492, // Shaymin
-            493, // Arceus
-            641, // Tornadus
-            642, // Thundurus
-            645, // Landorus
-            646, // Kyurem
-            647, // Keldeo
-            649, // Genesect
-            720, // Hoopa
-            773, // Silvally
-            800, // Necrozma
-            898, // Calyrex
+            (int)Deoxys,
+            (int)Dialga,
+            (int)Palkia,
+            (int)Giratina,
+            (int)Shaymin,
+            (int)Arceus,
+            (int)Tornadus,
+            (int)Thundurus,
+            (int)Landorus,
+            (int)Kyurem,
+            (int)Keldeo,
+            (int)Genesect,
+            (int)Hoopa,
+            (int)Silvally,
+            (int)Necrozma,
+            (int)Calyrex,
+            (int)Enamorus,
         };
 
         /// <summary>
@@ -233,6 +236,24 @@ namespace PKHeX.Core
                 return form - 2;
             return form - 1;
         }
+
+
+        public static bool IsLordForm(int species, int form, int generation)
+        {
+            if (generation != 8)
+                return false;
+            return IsLordForm(species, form);
+        }
+
+        private static bool IsLordForm(int species, int form) => form != 0 && species switch
+        {
+            (int)Arcanine when form == 2 => true,
+            (int)Electrode when form == 2 => true,
+            (int)Lilligant when form == 2 => true,
+            (int)Avalugg when form == 2 => true,
+            (int)Kleavor when form == 1 => true,
+            _ => false,
+        };
 
         /// <summary>
         /// Checks if the <see cref="form"/> exists for the <see cref="species"/> without having an associated <see cref="PersonalInfo"/> index.

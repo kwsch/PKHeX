@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// MemeCrypto V2 - The Next Generation
     /// </summary>
     /// <remarks>
-    /// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.SWSH"/>.
+    /// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.SWSH"/> and <see cref="GameVersion.PLA"/>.
     /// <br> Individual save blocks are stored in a hash map, with some object-type details prefixing the block's raw data. </br>
     /// <br> Once the raw save file data is dumped, the binary is hashed with SHA256 using a static Intro salt and static Outro salt. </br>
     /// <br> With the hash computed, the data is encrypted with a repeating irregular-sized static xor cipher. </br>
@@ -82,6 +82,21 @@ namespace PKHeX.Core
         public static bool GetIsHashValid(byte[] data)
         {
             if (!SaveUtil.SizesSWSH.Contains(data.Length))
+                return false;
+
+            var hash = ComputeHash(data);
+            var span = data.AsSpan()[^hash.Length..];
+            return span.SequenceEqual(hash);
+        }
+
+        /// <summary>
+        /// Checks if the file is a rough example of a save file.
+        /// </summary>
+        /// <param name="data">Encrypted save data</param>
+        /// <returns>True if hash matches</returns>
+        public static bool GetIsHashValidLA(byte[] data)
+        {
+            if (data.Length != SaveUtil.SIZE_G8LA)
                 return false;
 
             var hash = ComputeHash(data);

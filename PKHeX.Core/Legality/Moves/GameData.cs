@@ -44,6 +44,7 @@ namespace PKHeX.Core
 
             SW or SH or SWSH => Legal.LevelUpSWSH,
             BD or SP or BDSP => Legal.LevelUpBDSP,
+            PLA => Legal.LevelUpLA,
 
             Gen1 => Legal.LevelUpY,
             Gen2 => Legal.LevelUpC,
@@ -88,6 +89,7 @@ namespace PKHeX.Core
 
             SW or SH or SWSH => PersonalTable.SWSH,
             BD or SP or BDSP => PersonalTable.BDSP,
+            PLA => PersonalTable.LA,
 
             Gen1 => PersonalTable.Y,
             Gen2 => PersonalTable.C,

@@ -55,6 +55,7 @@ namespace PKHeX.Core
             SAV7b lgpe => GetExtraSlots7b(lgpe),
             SAV8SWSH ss => GetExtraSlots8(ss),
             SAV8BS bs => GetExtraSlots8b(bs),
+            SAV8LA la => GetExtraSlots8a(la),
             _ => None,
         };
 
@@ -217,6 +218,11 @@ namespace PKHeX.Core
                 new(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
                 new(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
             };
+        }
+
+        private static List<SlotInfoMisc> GetExtraSlots8a(SAV8LA sav)
+        {
+            return new List<SlotInfoMisc>();
         }
     }
 }
