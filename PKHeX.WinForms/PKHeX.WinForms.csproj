@@ -12,7 +12,7 @@
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
     <AssemblyName>PKHeX</AssemblyName>
-    <Version>22.01.01</Version>
+    <Version>22.02.04</Version>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -41,15 +41,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Subforms\Save Editors\Gen8\SAV_PokedexResearchEditorLA.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Subforms\Save Editors\Gen8\SAV_PokedexLA.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Subforms\Save Editors\Gen8\PokedexResearchTask8aPanel.cs">
-      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
 
