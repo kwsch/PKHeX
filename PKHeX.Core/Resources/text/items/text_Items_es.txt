@@ -1,4 +1,4 @@
-Ningún
+Ningún objeto
 Master Ball
 Ultra Ball
 Super Ball
@@ -37,9 +37,9 @@ Raíz Energía
 Polvo Curación
 Hierba Revivir
 Éter
-Éter Máximo
+Píldora Éter
 Elixir
-Elixir Máximo
+Píldora Elixir
 Galleta Lava
 Zumo de Baya
 Ceniza Sagrada
@@ -54,7 +54,7 @@ Zinc
 PP Máximos
 Barrita Plus
 Protección X
-Crítico X
+Gragea Crítica
 Ataque X
 Defensa X
 Velocidad X
@@ -1606,206 +1606,206 @@ Maxinium
 Sem. Zanahoria
 Parche Habilidad
 Riendas Unión
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Calmasfera Tiempo
+Calmasfera Espacio
+Calmasfera
+Cordón Unión
+Bizcocho Clásico
+Bonguri
+Bizcocho Jubileo
+Gragea Multi
+Gragea Crítica
+Aperitivo Elección
+Encurtidoble
+Bocadito Inversión
+Helecho Rizado
+Semilla Dominio
+Poké Ball
+(?)
+Hielo Eterno
+Garra de Uxie
+Diente de Azelf
+Pluma de Mesprit
+Guijarro Rojo
+Flauta Celestial
+Remedio
+Superremedio
+Miel Brillante
+Espiga Vivaz
+Haba Suculenta
+Seta Esponjosa
+Mineral Crocante
+Madera
+Hierba Regia
+Calmasfera Pantano
+Poké Ball
+Super Ball
+Ultra Ball
+Pluma Ball
+Poké Muñeca
+(?)
+Bola Humareda
+Bola Ruidosa
+Bola Pegajosa
+Trozo Estrella
+Cebo de Setas
+Hierba Repelente
+Cebo Meloso
+Cebo de Grano
+Cebo de Habas
+Cebo Mineral
+Poción
+Superpoción
+Hiperpoción
+Poción Máxima
+Restaurar Todo
+Remedio
+Superremedio
+Hiperremedio
+Barrita Plus
+Bizcocho Jubileo
+Cura Total
+Revivir
+Revivir Máximo
+Píldora Éter
+Píldora Elixir
+Aerosol Sigilo
+(?)
+Gragea Ofensiva
+Gragea Defensiva
+Gragea Crítica
+Gragea Evasiva
+Gragea Multi
+Calmasfera Bosque
+Pepita de Hierro
+(?)
+Guijarro Negro
+Guijarro Celeste
+(?)
+Bola de Lodo
+(?)
+Marimo Ruidoso
+Fumibulbo
+Bonguri Pocho
+Bola de Nieve
+Bola Pegajosa
+Mineral Negro
+Bloque de Turba
+Aerosol Sigilo
+Puerro Medicinal
+Revibrote
+Hierba Éter
+(?)
+(?)
+Amuleto Sustituto 2
+Amuleto Sustituto 3
+Seta Espada
+Seta Férrea
+Seta Evasiva
+Seta Crítica
+Rábano Arenero
+Amuleto Sustituto 4
+Amuleto Sustituto 5
+Trufa Dulce
+Masa para Cebo
+Poké Ball
+Super Ball
+Ultra Ball
+Pluma Ball
+(?)
+(?)
+Bola Ruidosa
+Bola Humareda
+(?)
+(?)
+Poké Muñeca
+Calmasfera Volcán
+Calmasfera Montaña
+Calmasfera Nieve
+Cebo Meloso
+Cebo de Grano
+Cebo de Habas
+Cebo de Setas
+Cebo Mineral
+Bocadito Inversión
+Aperitivo Elección
+Encurtidoble
+Amuleto Protector 1
+Amuleto Protector 2
+Amuleto Protector 3
+Amuleto Protector 4
+Amuleto Protector 5
+Diario Rasgado
+Amuleto Salud 1
+Amuleto Salud 2
+Amuleto Salud 3
+Amuleto Salud 4
+Amuleto Salud 5
+Trozo de Losa
+Cebo Basculegion
+Diario Antiguo
+Ala Ball
+Aero Ball
+Peso Ball
+Kilo Ball
+Quintal Ball
+Ala Ball
+Aero Ball
+Peso Ball
+Baya Lupu
+Hiperremedio
+Gragea Ofensiva
+Gragea Defensiva
+Gragea Evasiva
+Polvo Esfuerzo
+Grava Esfuerzo
+Piedra Esfuerzo
+Roca Esfuerzo
+Medicina Secreta
+Amuleto Sustituto 1
+Objeto perdido
+Objeto perdido
+Objeto perdido
+Objeto perdido
+Objeto perdido
+(?)
+Origen Ball
+(?)
+(?)
+(?)
+(?)
+Mena Origen
+Gran Diamansfera
+Gran Lustresfera
+Gran Griseosfera
+Tabla Neutra
+(?)
+Kit de Artesanía
+Kilo Ball
+Quintal Ball
+Extraña Ball
+Pokédex
+Poema Antiguo 1
+Poema Antiguo 2
+Poema Antiguo 3
+Poema Antiguo 4
+(?)
+Poema Antiguo 5
+Poema Antiguo 6
+Poema Antiguo 7
+Poema Antiguo 8
+Poema Antiguo 9
+Poema Antiguo 10
+Poema Antiguo 11
+Poema Antiguo 12
+Poema Antiguo 13
+Poema Antiguo 14
+Poema Antiguo 15
+Poema Antiguo 16
+Poema Antiguo 17
+Poema Antiguo 18
+Poema Antiguo 19
+Poema Antiguo 20
 Esquirla Extraña S
 Esquirla Extraña L
 Taladro
@@ -1821,3 +1821,9 @@ Losa Genética
 Losa Inicio
 Losa Distorsión
 Reproductor DS
+
+
+
+
+
+Tabla Legendaria

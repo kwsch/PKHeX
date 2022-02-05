@@ -1606,206 +1606,206 @@ Rocciamax
 Semi di carota
 Cerotto abilità
 Briglie legame
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Sferazen tempo
+Sferazen spazio
+Sferazen
+Filo dell’unione
+Muffin classico
+Bacca ghicocca
+Muffin Giubilo
+Multi extra
+Supercolpo
+Involtoscelta
+Doppiaceto
+Invertigratin
+Felcetonda
+Seme padronanza
+Poké Ball
+???
+Ghiaccio perenne
+Artiglio di Uxie
+Zanna di Azelf
+Piuma di Mesprit
+Ciottolo
+Flauto memordei
+Preparato
+Preparato buono
+Miele luccicante
+Spiga rigogliosa
+Fagiolo paffuto
+Fungo gommoso
+Minerale duro
+Legno
+Foglia regina
+Sferazen palude
+Poké Ball
+Mega Ball
+Ultra Ball
+Piuma Ball
+Pokékokeshi
+???
+Palla orba
+Scoppiosfera
+Sfera viscosa
+Pezzo Stella
+Polpetta funghi
+Erba repellente
+Polpetta miele
+Polpetta spighe
+Polpetta fagioli
+Polpetta minerale
+Pozione
+Superpozione
+Iperpozione
+Pozione Max
+Ricarica totale
+Preparato
+Preparato buono
+Preparato ottimo
+Dolce Gateau
+Muffin Giubilo
+Cura totale
+Revitalizzante
+Revitalizz. Max
+Tonico PP
+Tonico PP Max
+Furtivizzante
+???
+Offensiva extra
+Difensiva extra
+Supercolpo
+Elusione X
+Multi extra
+Sferazen foresta
+Pezzo di ferro
+???
+Ciottolo nero
+Ciottolo celeste
+???
+Palla di fango
+???
+Scoppiettalga
+Patata fumosa
+Ghicocca bacata
+Palla di neve
+Sfera viscosa
+Augite nera
+Blocco di torba
+Furtivizzante
+Porro officinale
+Revitalboccio
+Erba PP
+???
+???
+Amuleto Sostituto 2
+Amuleto Sostituto 3
+Danzaspaditola
+Ferroscudino
+Doppioteamillo
+Colpogone
+Rafano costiero
+Amuleto Sostituto 4
+Amuleto Sostituto 5
+Tartufo dolce
+Polpetta base
+Poké Ball
+Mega Ball
+Ultra Ball
+Piuma Ball
+???
+???
+Scoppiosfera
+Palla orba
+???
+???
+Pokékokeshi
+Sferazen vulcano
+Sferazen monte
+Sferazen neve
+Polpetta miele
+Polpetta spighe
+Polpetta fagioli
+Polpetta funghi
+Polpetta minerale
+Invertigratin
+Involtoscelta
+Doppiaceto
+Amuleto tutela 1
+Amuleto tutela 2
+Amuleto tutela 3
+Amuleto tutela 4
+Amuleto tutela 5
+Diario rovinato
+Amuleto salute 1
+Amuleto salute 2
+Amuleto salute 3
+Amuleto salute 4
+Amuleto salute 5
+Pezzo di lastra
+Esca Basculegion
+Vecchio diario
+Wing Ball
+Jet Ball
+Peso Ball
+Megaton Ball
+Gigaton Ball
+Wing Ball
+Jet Ball
+Peso Ball
+Baccaluppo
+Preparato ottimo
+Offensiva extra
+Difensiva extra
+Elusione X
+Sabbia impegno
+Ghiaia impegno
+Pietra impegno
+Roccia impegno
+Rimedio segreto
+Amuleto Sostituto 1
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+???
+Origin Ball
+???
+???
+???
+???
+Rocciorigine
+Adamasferoide
+Splendisferoide
+Grigiosferoide
+Lastraripristino
+???
+Kit faidaté
+Megaton Ball
+Gigaton Ball
+Strange Ball
+Pokédex
+Antica poesia 1
+Antica poesia 2
+Antica poesia 3
+Antica poesia 4
+???
+Antica poesia 5
+Antica poesia 6
+Antica poesia 7
+Antica poesia 8
+Antica poesia 9
+Antica poesia 10
+Antica poesia 11
+Antica poesia 12
+Antica poesia 13
+Antica poesia 14
+Antica poesia 15
+Antica poesia 16
+Antica poesia 17
+Antica poesia 18
+Antica poesia 19
+Antica poesia 20
 Frammento insolito S
 Frammento insolito L
 Trivella
@@ -1821,3 +1821,9 @@ Piastra del gene
 Piastra degli esordi
 Piastra distorta
 Lettore DS
+
+
+
+
+
+Lastraleggenda

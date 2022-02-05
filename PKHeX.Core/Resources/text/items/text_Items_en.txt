@@ -431,7 +431,7 @@ Loot Sack
 Rule Book
 Poké Radar
 Point Card
-Guidebook
+Journal
 Seal Case
 Fashion Case
 Seal Bag
@@ -1606,206 +1606,206 @@ Dynite Ore
 Carrot Seeds
 Ability Patch
 Reins of Unity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Time Balm
+Space Balm
+Mysterious Balm
+Linking Cord
+Hometown Muffin
+Apricorn
+Jubilife Muffin
+Aux Powerguard
+Dire Hit
+Choice Dumpling
+Twice-Spiced Radish
+Swap Snack
+Caster Fern
+Seed of Mastery
+Poké Ball
+???
+Eternal Ice
+Uxie’s Claw
+Azelf’s Fang
+Mesprit’s Plume
+Tumblestone
+Celestica Flute
+Remedy
+Fine Remedy
+Dazzling Honey
+Hearty Grains
+Plump Beans
+Springy Mushroom
+Crunchy Salt
+Wood
+King’s Leaf
+Marsh Balm
+Poké Ball
+Great Ball
+Ultra Ball
+Feather Ball
+Pokéshi Doll
+???
+Smoke Bomb
+Scatter Bang
+Sticky Glob
+Star Piece
+Mushroom Cake
+Bugwort
+Honey Cake
+Grain Cake
+Bean Cake
+Salt Cake
+Potion
+Super Potion
+Hyper Potion
+Max Potion
+Full Restore
+Remedy
+Fine Remedy
+Superb Remedy
+Old Gateau
+Jubilife Muffin
+Full Heal
+Revive
+Max Revive
+Max Ether
+Max Elixir
+Stealth Spray
+???
+Aux Power
+Aux Guard
+Dire Hit
+Aux Evasion
+Aux Powerguard
+Forest Balm
+Iron Chunk
+???
+Black Tumblestone
+Sky Tumblestone
+???
+Ball of Mud
+???
+Pop Pod
+Sootfoot Root
+Spoiled Apricorn
+Snowball
+Sticky Glob
+Black Augurite
+Peat Block
+Stealth Spray
+Medicinal Leek
+Vivichoke
+Pep-Up Plant
+???
+???
+Tempting Charm B
+Tempting Charm P
+Swordcap
+Iron Barktongue
+Doppel Bonnets
+Direshroom
+Sand Radish
+Tempting Charm T
+Tempting Charm Y
+Candy Truffle
+Cake-Lure Base
+Poké Ball
+Great Ball
+Ultra Ball
+Feather Ball
+???
+???
+Scatter Bang
+Smoke Bomb
+???
+???
+Pokéshi Doll
+Volcano Balm
+Mountain Balm
+Snow Balm
+Honey Cake
+Grain Cake
+Bean Cake
+Mushroom Cake
+Salt Cake
+Swap Snack
+Choice Dumpling
+Twice-Spiced Radish
+Survival Charm R
+Survival Charm B
+Survival Charm P
+Survival Charm T
+Survival Charm Y
+Torn Journal
+Warding Charm R
+Warding Charm B
+Warding Charm P
+Warding Charm T
+Warding Charm Y
+Wall Fragment
+Basculegion Food
+Old Journal
+Wing Ball
+Jet Ball
+Heavy Ball
+Leaden Ball
+Gigaton Ball
+Wing Ball
+Jet Ball
+Heavy Ball
+Hopo Berry
+Superb Remedy
+Aux Power
+Aux Guard
+Aux Evasion
+Grit Dust
+Grit Gravel
+Grit Pebble
+Grit Rock
+Secret Medicine
+Tempting Charm R
+Lost Satchel
+Lost Satchel
+Lost Satchel
+Lost Satchel
+Lost Satchel
+???
+Origin Ball
+???
+???
+???
+???
+Origin Ore
+Adamant Crystal
+Lustrous Globe
+Griseous Core
+Blank Plate
+???
+Crafting Kit
+Leaden Ball
+Gigaton Ball
+Strange Ball
+Pokédex
+Old Verse 1
+Old Verse 2
+Old Verse 3
+Old Verse 4
+???
+Old Verse 5
+Old Verse 6
+Old Verse 7
+Old Verse 8
+Old Verse 9
+Old Verse 10
+Old Verse 11
+Old Verse 12
+Old Verse 13
+Old Verse 14
+Old Verse 15
+Old Verse 16
+Old Verse 17
+Old Verse 18
+Old Verse 19
+Old Verse 20
 Mysterious Shard S
 Mysterious Shard L
 Digger Drill
@@ -1821,3 +1821,9 @@ Genome Slate
 Discovery Slate
 Distortion Slate
 DS Sounds
+
+
+
+
+
+Legend Plate

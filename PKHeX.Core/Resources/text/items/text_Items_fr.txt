@@ -1606,206 +1606,206 @@ Dynamaxium
 Graines Carotte
 Patch Talent
 Rênes de l’Unité
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Pacifi-Temps
+Pacifi-Espace
+Pacifisphère
+Fil de Liaison
+Muffin Tradition
+Noigrume
+Rusti-Muffin
+Double Extra
+Muscle +
+Papillote Choix
+Bouchée Double
+En-cas Contraire
+Feuille Ronde
+Graine Maîtrise
+Poké Ball
+???
+Glaçon Éternel
+Griffe de Créhelf
+Croc de Créfadet
+Aile de Créfollet
+Galet
+Flûte Céleste
+Remède
+Super Remède
+Miel Kibrille
+Riz Zélé
+Fève Dodue
+Champi Toumou
+Sel Rochedur
+Bois
+Herbe Souveraine
+Pacifi-Marais
+Poké Ball
+Super Ball
+Hyper Ball
+Plume Ball
+Poupée Pokéshi
+???
+Bombe Aveuglante
+Sachet Pétarade
+Boule Gluante
+Morceau d’Étoile
+Appât Toumou
+Plante Répulsive
+Appât Kibrille
+Appât Zélé
+Appât Dodu
+Appât Rochedur
+Potion
+Super Potion
+Hyper Potion
+Potion Max
+Guérison
+Remède
+Super Remède
+Hyper Remède
+Vieux Gâteau
+Rusti-Muffin
+Total Soin
+Rappel
+Rappel Max
+Soin PP
+Maxi Soin PP
+Solution Furtive
+???
+Offensive Extra
+Défense Extra
+Muscle +
+Esquive Extra
+Double Extra
+Pacifi-Forêt
+Fragment de Fer
+???
+Galet Noir
+Galet Azur
+???
+Boule de Boue
+???
+Pétaralgue
+Rutabagaz
+Noigrume Rongé
+Boule de Neige
+Boule Gluante
+Obsidienne
+Bloc de Tourbe
+Solution Furtive
+Soignon
+Bourgeon Vivace
+Plante PP
+???
+???
+Remplamulette 2
+Remplamulette 3
+Fortichampi
+Carapachampi
+Champinja
+Champiscoto
+Radis des Plages
+Remplamulette 4
+Remplamulette 5
+Truffe Sucrée
+Appâte
+Poké Ball
+Super Ball
+Hyper Ball
+Plume Ball
+???
+???
+Sachet Pétarade
+Bombe Aveuglante
+???
+???
+Poupée Pokéshi
+Pacifi-Volcan
+Pacifi-Montagne
+Pacifi-Neige
+Appât Kibrille
+Appât Zélé
+Appât Dodu
+Appât Toumou
+Appât Rochedur
+En-cas Contraire
+Papillote Choix
+Bouchée Double
+Enduramulette 1
+Enduramulette 2
+Enduramulette 3
+Enduramulette 4
+Enduramulette 5
+Journal Déchiré
+Zenamulette 1
+Zenamulette 2
+Zenamulette 3
+Zenamulette 4
+Zenamulette 5
+Fragment de Mur
+Appâragruel
+Vieux Journal
+Envol Ball
+Propulse Ball
+Masse Ball
+Mégamasse Ball
+Gigamasse Ball
+Envol Ball
+Propulse Ball
+Masse Ball
+Baie Bouhlon
+Hyper Remède
+Offensive Extra
+Défense Extra
+Esquive Extra
+Sable Effort
+Cailloux Effort
+Pierre Effort
+Rocher Effort
+Remède Secret
+Remplamulette 1
+Objet Perdu
+Objet Perdu
+Objet Perdu
+Objet Perdu
+Objet Perdu
+???
+Origine Ball
+???
+???
+???
+???
+Minerai Origine
+Globe Adamant
+Globe Perlé
+Globe Platiné
+Plaque Renouveau
+???
+Boîte à Outils
+Mégamasse Ball
+Gigamasse Ball
+Étrange Ball
+Pokédex
+Vieux Poème (1)
+Vieux Poème (2)
+Vieux Poème (3)
+Vieux Poème (4)
+???
+Vieux Poème (5)
+Vieux Poème (6)
+Vieux Poème (7)
+Vieux Poème (8)
+Vieux Poème (9)
+Vieux Poème (10)
+Vieux Poème (11)
+Vieux Poème (12)
+Vieux Poème (13)
+Vieux Poème (14)
+Vieux Poème (15)
+Vieux Poème (16)
+Vieux Poème (17)
+Vieux Poème (18)
+Vieux Poème (19)
+Vieux Poème (20)
 Éclat Étrange S
 Éclat Étrange L
 Foreuse
@@ -1821,3 +1821,9 @@ Tablette Génétique
 Tablette Guides
 Tablette Distorsion
 Lecteur DS
+
+
+
+
+
+Plaque Légende

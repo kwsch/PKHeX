@@ -1606,206 +1606,206 @@ Dyna-Erz
 Karottensamen
 Fähigk.-Pflaster
 Zügel des Bundes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Zeitruhegabe
+Raumruhegabe
+Ruhegabe
+Verbindungsschnur
+Heimatmuffin
+Aprikoko
+Jubelmuffin
+Kombivitamine
+Treffervitamine
+Wahlreishappen
+Doppelrettich
+Umkehrbratling
+Rundblatt
+Meistersamen
+Pokéball
+???
+Perma-Eis
+Selfe-Kralle
+Tobutz-Fangzahn
+Vesprit-Feder
+Glanzstein
+Elysien-Flöte
+Arznei
+Superarznei
+Funkelhonig
+Munterreis
+Kullerbohne
+Zähpilz
+Knirschmineral
+Holz
+Königsblatt
+Moorruhegabe
+Pokéball
+Superball
+Hyperball
+Federball
+Pokémon-Kokeshi
+???
+Rauchkugel
+Knallkugel
+Klebkugel
+Sternenstück
+Pilzköder
+Schutzblume
+Honigköder
+Reisköder
+Bohnenköder
+Mineralköder
+Trank
+Supertrank
+Hypertrank
+Top-Trank
+Top-Genesung
+Arznei
+Superarznei
+Hyperarznei
+Spezialität
+Jubelmuffin
+Hyperheiler
+Beleber
+Top-Beleber
+Ätherpillen
+Elixierpillen
+Schleichspray
+???
+Offensivvitamine
+Defensivvitamine
+Treffervitamine
+Ausweichvitamine
+Kombivitamine
+Waldruhegabe
+Eisenbrocken
+???
+Schwarzglanzstein
+Azurglanzstein
+???
+Lehmball
+???
+Knallmoos
+Rauchknolle
+Löchrige Aprikoko
+Schneeball
+Klebkugel
+Schwarzaugit
+Torfblock
+Schleichspray
+Fitlauch
+Vitalknospe
+Ätherkraut
+???
+???
+Wahrungstalisman 2
+Wahrungstalisman 3
+Schwertling
+Schildling
+Flinkling
+Volltrefferling
+Strandrettich
+Wahrungstalisman 4
+Wahrungstalisman 5
+Süßtrüffel
+Köderteig
+Pokéball
+Superball
+Hyperball
+Federball
+???
+???
+Knallkugel
+Rauchkugel
+???
+???
+Pokémon-Kokeshi
+Vulkanruhegabe
+Bergruhegabe
+Schneeruhegabe
+Honigköder
+Reisköder
+Bohnenköder
+Pilzköder
+Mineralköder
+Umkehrbratling
+Wahlreishappen
+Doppelrettich
+Schutztalisman 1
+Schutztalisman 2
+Schutztalisman 3
+Schutztalisman 4
+Schutztalisman 5
+Kaputtes Journal
+Statustalisman 1
+Statustalisman 2
+Statustalisman 3
+Statustalisman 4
+Statustalisman 5
+Plattenfragment
+Salmagnis-Kloß
+Altes Journal
+Flügelball
+Düsenball
+Schwerball
+Zentnerball
+Tonnenball
+Flügelball
+Düsenball
+Schwerball
+Pfohbeere
+Hyperarznei
+Offensivvitamine
+Defensivvitamine
+Ausweichvitamine
+Leistungssand
+Leistungskies
+Leistungsstein
+Leistungsfels
+Geheimmedizin
+Wahrungstalisman 1
+Verlorene Items
+Verlorene Items
+Verlorene Items
+Verlorene Items
+Verlorene Items
+???
+Urball
+???
+???
+???
+???
+Urerz
+Adamantkristall
+Weißkristall
+Platinumkristall
+Neutraltafel
+???
+Handwerkskiste
+Zentnerball
+Tonnenball
+Rätselball
+Pokédex
+Altes Gedicht 1
+Altes Gedicht 2
+Altes Gedicht 3
+Altes Gedicht 4
+???
+Altes Gedicht 5
+Altes Gedicht 6
+Altes Gedicht 7
+Altes Gedicht 8
+Altes Gedicht 9
+Altes Gedicht 10
+Altes Gedicht 11
+Altes Gedicht 12
+Altes Gedicht 13
+Altes Gedicht 14
+Altes Gedicht 15
+Altes Gedicht 16
+Altes Gedicht 17
+Altes Gedicht 18
+Altes Gedicht 19
+Altes Gedicht 20
 Enigmafragment S
 Enigmafragment L
 Einwegbohrer
@@ -1821,3 +1821,9 @@ Genplatte
 Weisungsplatte
 Zerrplatte
 DS-Player
+
+
+
+
+
+Legendentafel
