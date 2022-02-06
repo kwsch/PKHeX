@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public static class ContestStatInfo
 {
     private const int LowestFeelBlock3 = 1; // quad Nutpea
-    private const int LowestFeelPoffin4 = 16;
+    private const int LowestFeelPoffin4 = 11; // Beauty Haircut
     private const int LowestFeelPoffin8b = 7;
 
     private const byte MaxContestStat = 255;
