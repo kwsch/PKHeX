@@ -46,10 +46,10 @@
             this.TB_IsSet = new System.Windows.Forms.TextBox();
             this.B_LoadNew = new System.Windows.Forms.Button();
             this.B_LoadOld = new System.Windows.Forms.Button();
-            this.TLP_Flags = new System.Windows.Forms.TableLayoutPanel();
             this.L_EventFlagWarn = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.GB_Flags = new System.Windows.Forms.TabPage();
+            this.dgv = new System.Windows.Forms.DataGridView();
             this.GB_Constants = new System.Windows.Forms.TabPage();
             this.TLP_Const = new System.Windows.Forms.TableLayoutPanel();
             this.GB_Research = new System.Windows.Forms.TabPage();
@@ -58,6 +58,7 @@
             this.GB_Researcher.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.GB_Flags.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.GB_Constants.SuspendLayout();
             this.GB_Research.SuspendLayout();
             this.SuspendLayout();
@@ -264,23 +265,6 @@
             this.B_LoadOld.UseVisualStyleBackColor = true;
             this.B_LoadOld.Click += new System.EventHandler(this.OpenSAV);
             // 
-            // TLP_Flags
-            // 
-            this.TLP_Flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TLP_Flags.AutoScroll = true;
-            this.TLP_Flags.ColumnCount = 2;
-            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Flags.Location = new System.Drawing.Point(3, 3);
-            this.TLP_Flags.Name = "TLP_Flags";
-            this.TLP_Flags.RowCount = 2;
-            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Flags.Size = new System.Drawing.Size(416, 277);
-            this.TLP_Flags.TabIndex = 0;
-            // 
             // L_EventFlagWarn
             // 
             this.L_EventFlagWarn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -309,14 +293,36 @@
             // 
             // GB_Flags
             // 
-            this.GB_Flags.Controls.Add(this.TLP_Flags);
+            this.GB_Flags.Controls.Add(this.dgv);
             this.GB_Flags.Location = new System.Drawing.Point(4, 22);
             this.GB_Flags.Name = "GB_Flags";
-            this.GB_Flags.Padding = new System.Windows.Forms.Padding(3);
             this.GB_Flags.Size = new System.Drawing.Size(422, 283);
             this.GB_Flags.TabIndex = 0;
             this.GB_Flags.Text = "Event Flags";
             this.GB_Flags.UseVisualStyleBackColor = true;
+            // 
+            // dgv
+            // 
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeColumns = false;
+            this.dgv.AllowUserToResizeRows = false;
+            this.dgv.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.ColumnHeadersVisible = false;
+            this.dgv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgv.Location = new System.Drawing.Point(0, 0);
+            this.dgv.Margin = new System.Windows.Forms.Padding(0);
+            this.dgv.MultiSelect = false;
+            this.dgv.Name = "dgv";
+            this.dgv.RowHeadersVisible = false;
+            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgv.ShowEditingIcon = false;
+            this.dgv.Size = new System.Drawing.Size(422, 283);
+            this.dgv.TabIndex = 12;
             // 
             // GB_Constants
             // 
@@ -383,6 +389,7 @@
             this.GB_Researcher.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.GB_Flags.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.GB_Constants.ResumeLayout(false);
             this.GB_Research.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -409,12 +416,12 @@
         private System.Windows.Forms.Label L_Stats;
         private System.Windows.Forms.ComboBox CB_Stats;
         private System.Windows.Forms.MaskedTextBox MT_Stat;
-        private System.Windows.Forms.TableLayoutPanel TLP_Flags;
         private System.Windows.Forms.Label L_EventFlagWarn;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage GB_Flags;
         private System.Windows.Forms.TabPage GB_Constants;
         private System.Windows.Forms.TabPage GB_Research;
         private System.Windows.Forms.TableLayoutPanel TLP_Const;
+        private System.Windows.Forms.DataGridView dgv;
     }
 }
