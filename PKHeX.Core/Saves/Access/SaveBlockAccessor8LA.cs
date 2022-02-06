@@ -68,7 +68,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KSwarm = 0x1E0F1BA3; // 5 entries, 0x50 each
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
     private const uint KOverworld = 0x511622B3; // 0x100 entries, 0x880 each
-    private const uint KOtherPlayersSatchel = 0x05E7EBEB;
+    private const uint KOtherPlayerSatchels = 0x05E7EBEB;
     private const uint KMyLostSatchels = 0xC5D7112B;
 
     // Values
