@@ -380,5 +380,21 @@ namespace PKHeX.Core
         {
             return Table.Any(p => p.IsValidTypeCombination(type1, type2));
         }
+
+        public bool IsSpeciesInGame(int species)
+        {
+            if ((uint)species > MaxSpeciesID)
+                return false;
+            var form0 = Table[species];
+            if (form0.HP != 0)
+                return true;
+            var fc = form0.FormCount;
+            for (int i = 1; i < fc; i++)
+            {
+                if (GetFormEntry(species, i).HP != 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }
