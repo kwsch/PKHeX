@@ -92,8 +92,12 @@ public sealed class LegendsArceusVerifier : Verifier
         if ((uint)count >= 4)
             return 4;
 
+        var purchasedCount = pa.GetPurchasedCount();
+        Span<int> purchased = stackalloc int[purchasedCount];
+        LoadPurchasedMoves(pa, purchased);
+
         // Level up to current level
-        moveset.SetLevelUpMoves(pa.Met_Level, pa.CurrentLevel, moves, count);
+        moveset.SetLevelUpMoves(pa.Met_Level, pa.CurrentLevel, moves, purchased, count);
         count = moves.IndexOf(0);
         if ((uint)count >= 4)
             return 4;
@@ -104,7 +108,7 @@ public sealed class LegendsArceusVerifier : Verifier
             var (species, form) = evos[i];
             index = pt.GetFormIndex(species, form);
             moveset = Legal.LevelUpLA[index];
-            moveset.SetEvolutionMoves(moves, count);
+            moveset.SetEvolutionMoves(moves, purchased, count);
             count = moves.IndexOf(0);
             if ((uint)count >= 4)
                 return 4;
@@ -112,6 +116,17 @@ public sealed class LegendsArceusVerifier : Verifier
 
         // Any tutored moves we don't know about??
         return AddMasteredMissing(pa, moves, count);
+    }
+
+    private static void LoadPurchasedMoves(IMoveShop8 pa, Span<int> result)
+    {
+        int ctr = 0;
+        var purchased = pa.MoveShopPermitIndexes;
+        for (int i = 0; i < purchased.Length; i++)
+        {
+            if (pa.GetPurchasedRecordFlag(i))
+                result[ctr++] = purchased[i];
+        }
     }
 
     private static int AddMasteredMissing(PA8 pa, Span<int> current, int ctr)

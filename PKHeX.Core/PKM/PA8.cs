@@ -524,6 +524,15 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     public bool GetPurchasedRecordFlagAny() => Array.FindIndex(Data, 0x155, 8, z => z != 0) >= 0;
 
+    public int GetPurchasedCount()
+    {
+        var value = ReadUInt64LittleEndian(Data.AsSpan(0x155));
+        ulong result = 0;
+        for (int i = 0; i < 64; i++)
+            result += ((value >> i) & 1);
+        return (int)result;
+    }
+
     public bool GetMasteredRecordFlag(int index)
     {
         if ((uint)index > 63) // 8 bytes, 8 bits
