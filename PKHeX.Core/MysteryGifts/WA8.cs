@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Mystery Gift Template File, same as <see cref="WC8"/> with <see cref="IGanbaru"/> fields at the end.
     /// </summary>
-    public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IGanbaru,
+    public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IGanbaru, IAlpha,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2C8;
@@ -367,6 +367,8 @@ namespace PKHeX.Core
             get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.PLA;
             set { }
         }
+
+        public bool IsAlpha { get => false; set { } }
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {

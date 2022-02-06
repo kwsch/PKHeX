@@ -89,7 +89,7 @@ namespace PKHeX.Core
         public static SaveFile? FindMostRecentSaveFile(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
             var foldersToCheck = GetFoldersToCheck(drives, extra);
-            var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
+            var result = GetSaveFilePathsFromFolders(foldersToCheck, true, out var possiblePaths);
             if (!result)
                 throw new Exception(string.Join(Environment.NewLine, possiblePaths)); // `possiblePaths` contains the error message
 
@@ -105,11 +105,12 @@ namespace PKHeX.Core
         /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="detect">Detect save files stored in common SD card homebrew locations.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <param name="ignoreBackups">Option to ignore backup files.</param>
         /// <returns>Valid save files, if any.</returns>
-        public static IEnumerable<SaveFile> GetSaveFiles(IReadOnlyList<string> drives, bool detect, IEnumerable<string> extra)
+        public static IEnumerable<SaveFile> GetSaveFiles(IReadOnlyList<string> drives, bool detect, IEnumerable<string> extra, bool ignoreBackups)
         {
             var paths = detect ? GetFoldersToCheck(drives, extra) : extra;
-            var result = GetSaveFilePathsFromFolders(paths, out var possiblePaths);
+            var result = GetSaveFilePathsFromFolders(paths, ignoreBackups, out var possiblePaths);
             if (!result)
                 yield break;
 
@@ -137,12 +138,12 @@ namespace PKHeX.Core
             return foldersToCheck;
         }
 
-        private static bool GetSaveFilePathsFromFolders(IEnumerable<string> foldersToCheck, out IEnumerable<string> possible)
+        private static bool GetSaveFilePathsFromFolders(IEnumerable<string> foldersToCheck, bool ignoreBackups, out IEnumerable<string> possible)
         {
             var possiblePaths = new List<string>();
             foreach (var folder in foldersToCheck)
             {
-                if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files))
+                if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files, ignoreBackups))
                 {
                     if (files is not string[] msg) // should always return string[]
                         continue;
@@ -161,7 +162,7 @@ namespace PKHeX.Core
         public static SaveFile? FindMostRecentSaveFile() => FindMostRecentSaveFile(Environment.GetLogicalDrives(), CustomBackupPaths);
 
         /// <inheritdoc cref="GetSaveFiles"/>
-        public static IEnumerable<SaveFile> DetectSaveFiles() => GetSaveFiles(Environment.GetLogicalDrives(), true, CustomBackupPaths);
+        public static IEnumerable<SaveFile> DetectSaveFiles() => GetSaveFiles(Environment.GetLogicalDrives(), true, CustomBackupPaths, true);
 
         /// <inheritdoc cref="TryDetectSaveFile(out PKHeX.Core.SaveFile?)"/>
         public static bool TryDetectSaveFile([NotNullWhen(true)] out SaveFile? sav) => TryDetectSaveFile(Environment.GetLogicalDrives(), out sav);

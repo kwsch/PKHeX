@@ -59,6 +59,18 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         pk.SetRandomEC();
     }
 
+    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+    {
+        var pi = pk.PersonalInfo;
+        int gender = criteria.GetGender(Gender, pi);
+        int nature = (int)criteria.GetNature(Nature);
+        int ability = criteria.GetAbilityFromNumber(Ability);
+        PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
+        pk.PID = Overworld8aRNG.AdaptPID(pk, Shiny, pk.PID);
+        SetIVs(pk);
+        pk.StatNature = pk.Nature;
+    }
+
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = Gift ? Ball : (int)Core.Ball.LAPoke;
 
     public override bool IsMatchExact(PKM pkm, DexLevel evo)

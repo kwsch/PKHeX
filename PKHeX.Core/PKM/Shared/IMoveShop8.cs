@@ -9,6 +9,7 @@ public interface IMoveShop8
     bool GetPurchasedRecordFlag(int index);
     void SetPurchasedRecordFlag(int index, bool value);
     bool GetPurchasedRecordFlagAny();
+    int GetPurchasedCount();
 }
 
 public interface IMoveShop8Mastery : IMoveShop8

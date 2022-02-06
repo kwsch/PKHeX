@@ -143,5 +143,10 @@
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="IRibbonSetMark8"/>.
         /// </summary>
         RibbonMark,
+
+        /// <summary>
+        /// The <see cref="CheckResult"/> pertains to the <see cref="IGanbaru"/> values.
+        /// </summary>
+        GVs,
     }
 }

@@ -158,6 +158,50 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>Adds the learned moves by level up to the specified level.</summary>
+        public void SetLevelUpMoves(int startLevel, int endLevel, Span<int> moves, ReadOnlySpan<int> ignore, int ctr = 0)
+        {
+            int startIndex = Array.FindIndex(Levels, z => z >= startLevel);
+            int endIndex = Array.FindIndex(Levels, z => z > endLevel);
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                int move = Moves[i];
+                if (ignore.IndexOf(move) >= 0)
+                    continue;
+
+                bool alreadyHasMove = moves.IndexOf(move) >= 0;
+                if (alreadyHasMove)
+                    continue;
+
+                moves[ctr++] = move;
+                ctr &= 3;
+            }
+        }
+
+        /// <summary>Adds the moves that are gained upon evolving.</summary>
+        /// <param name="moves">Move array to write to</param>
+        /// <param name="ignore">Ignored moves</param>
+        /// <param name="ctr">Starting index to begin overwriting at</param>
+        public void SetEvolutionMoves(Span<int> moves, ReadOnlySpan<int> ignore, int ctr = 0)
+        {
+            for (int i = 0; i < Moves.Length; i++)
+            {
+                if (Levels[i] != 0)
+                    break;
+
+                int move = Moves[i];
+                if (ignore.IndexOf(move) >= 0)
+                    continue;
+
+                bool alreadyHasMove = moves.IndexOf(move) >= 0;
+                if (alreadyHasMove)
+                    continue;
+
+                moves[ctr++] = move;
+                ctr &= 3;
+            }
+        }
+
         public IList<int> GetUniqueMovesLearned(IEnumerable<int> seed, int maxLevel, int minLevel = 0)
         {
             int start = Array.FindIndex(Levels, z => z >= minLevel);

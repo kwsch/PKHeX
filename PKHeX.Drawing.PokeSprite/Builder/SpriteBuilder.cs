@@ -31,6 +31,8 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     protected abstract int EggItemShiftX { get; }
     protected abstract int EggItemShiftY { get; }
 
+    public abstract bool HasFallbackMethod { get; }
+
     public abstract Bitmap Hover { get; }
     public abstract Bitmap View { get; }
     public abstract Bitmap Set { get; }
@@ -49,6 +51,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     protected abstract string GetSpriteStringSpeciesOnly(int species);
 
     protected abstract string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation);
+    protected abstract string GetSpriteAllSecondary(int species, int form, int gender, uint formarg, bool shiny, int generation);
     protected abstract string GetItemResourceName(int item);
     protected abstract Bitmap Unknown { get; }
     protected abstract Bitmap GetEggSprite(int species);
@@ -126,7 +129,13 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     private Image? GetBaseImageDefault(int species, int form, int gender, uint formarg, bool shiny, int generation)
     {
         var file = GetSpriteAll(species, form, gender, formarg, shiny, generation);
-        return (Image?)Resources.ResourceManager.GetObject(file);
+        var resource = (Image?)Resources.ResourceManager.GetObject(file);
+        if (resource is null && HasFallbackMethod)
+        {
+            file = GetSpriteAllSecondary(species, form, gender, formarg, shiny, generation);
+            resource = (Image?)Resources.ResourceManager.GetObject(file);
+        }
+        return resource;
     }
 
     private Image GetBaseImageFallback(int species, int form, int gender, uint formarg, bool shiny, int generation)

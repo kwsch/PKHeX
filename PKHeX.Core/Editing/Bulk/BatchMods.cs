@@ -35,7 +35,8 @@ namespace PKHeX.Core
             new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => BatchModifications.SetSuggestedRelearnData(info, value)),
             new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => BatchModifications.SetSuggestedRibbons(info, value)),
             new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => BatchModifications.SetSuggestedMetData(info)),
-            new ComplexSuggestion("ContestStats", p => p is IContestStatsMutable, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality.EncounterMatch, value)),
+            new ComplexSuggestion(PROP_CONTESTSTATS, p => p is IContestStatsMutable, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality.EncounterMatch, value)),
+            new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
         };
 
         private static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);

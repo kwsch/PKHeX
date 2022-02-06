@@ -26,6 +26,21 @@ public sealed class LegendsArceusVerifier : Verifier
             data.AddLine(GetInvalid(LStatAlphaInvalid));
 
         CheckScalars(data, pa);
+        CheckGanbaru(data, pa);
+    }
+
+    private static void CheckGanbaru(LegalityAnalysis data, PA8 pa)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            var gv = pa.GetGV(i);
+            var max = pa.GetMaxGanbaru(i);
+            if (gv <= max)
+                continue;
+
+            data.AddLine(GetInvalid(LGanbaruStatTooHigh, CheckIdentifier.EVs));
+            return;
+        }
     }
 
     private void CheckScalars(LegalityAnalysis data, PA8 pa)
@@ -77,8 +92,12 @@ public sealed class LegendsArceusVerifier : Verifier
         if ((uint)count >= 4)
             return 4;
 
+        var purchasedCount = pa.GetPurchasedCount();
+        Span<int> purchased = stackalloc int[purchasedCount];
+        LoadPurchasedMoves(pa, purchased);
+
         // Level up to current level
-        moveset.SetLevelUpMoves(pa.Met_Level, pa.CurrentLevel, moves, count);
+        moveset.SetLevelUpMoves(pa.Met_Level, pa.CurrentLevel, moves, purchased, count);
         count = moves.IndexOf(0);
         if ((uint)count >= 4)
             return 4;
@@ -89,7 +108,7 @@ public sealed class LegendsArceusVerifier : Verifier
             var (species, form) = evos[i];
             index = pt.GetFormIndex(species, form);
             moveset = Legal.LevelUpLA[index];
-            moveset.SetEvolutionMoves(moves, count);
+            moveset.SetEvolutionMoves(moves, purchased, count);
             count = moves.IndexOf(0);
             if ((uint)count >= 4)
                 return 4;
@@ -97,6 +116,17 @@ public sealed class LegendsArceusVerifier : Verifier
 
         // Any tutored moves we don't know about??
         return AddMasteredMissing(pa, moves, count);
+    }
+
+    private static void LoadPurchasedMoves(IMoveShop8 pa, Span<int> result)
+    {
+        int ctr = 0;
+        var purchased = pa.MoveShopPermitIndexes;
+        for (int i = 0; i < purchased.Length; i++)
+        {
+            if (pa.GetPurchasedRecordFlag(i))
+                result[ctr++] = purchased[i];
+        }
     }
 
     private static int AddMasteredMissing(PA8 pa, Span<int> current, int ctr)
@@ -195,7 +225,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, int alphaMove, ReadOnlySpan<int> moves, ReadOnlySpan<bool> bits)
     {
-        if (!pa.IsAlpha)
+        if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType.Landmark })
         {
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeZero));
             return;
@@ -216,7 +246,10 @@ public sealed class LegendsArceusVerifier : Verifier
     private void VerifyAlphaMoveZero(LegalityAnalysis data)
     {
         var enc = data.Info.EncounterMatch;
-        if (enc is IAlpha { IsAlpha: false })
+        if (enc is not IAlpha { IsAlpha: true })
+            return; // okay
+
+        if (enc is EncounterSlot8a { Type: SlotType.Landmark })
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);

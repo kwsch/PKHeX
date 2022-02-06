@@ -127,7 +127,7 @@ namespace PKHeX.WinForms
         public List<string> RecentlyLoaded { get; set; } = new(MaxRecentCount);
 
         // Don't let invalid values slip into the startup version.
-        private GameVersion _defaultSaveVersion = GameVersion.BD;
+        private GameVersion _defaultSaveVersion = GameVersion.PLA;
         private string _language = GameLanguage.DefaultLanguage;
 
         [Browsable(false)]
@@ -346,6 +346,9 @@ namespace PKHeX.WinForms
     [Serializable]
     public sealed class SpriteSettings : ISpriteSettings
     {
+        [LocalizedDescription("Choice for which sprite building mode to use.")]
+        public SpriteBuilderPreference SpritePreference { get; set; } = SpriteBuilderPreference.UseSuggested;
+
         [LocalizedDescription("Show fan-made shiny sprites when the PKM is shiny.")]
         public bool ShinySprites { get; set; } = true;
 

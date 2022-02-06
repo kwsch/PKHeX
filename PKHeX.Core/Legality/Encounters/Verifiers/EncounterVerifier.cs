@@ -211,7 +211,7 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, ICollection<int> MetLocations)
         {
-            return VerifyEncounterEggLevelLoc(pkm, eggLevel, (location, version) => MetLocations.Contains(location));
+            return VerifyEncounterEggLevelLoc(pkm, eggLevel, (location, _) => MetLocations.Contains(location));
         }
 
         // (hatch location, hatch version, bool result)

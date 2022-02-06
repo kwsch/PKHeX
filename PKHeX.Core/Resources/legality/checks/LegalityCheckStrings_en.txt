@@ -194,6 +194,7 @@ LG5PIDShinyGrotto = Hidden Grotto captures cannot be shiny.
 LG5PIDShinyN = N's Pokémon cannot be shiny.
 LG5SparkleInvalid = Special in-game N's Sparkle flag should not be checked.
 LG5SparkleRequired = Special in-game N's Sparkle flag missing.
+LGanbaruStatTooHigh = One or more Ganbaru Value is above the natural limit of (10 - IV bonus).
 LGenderInvalidNone = Genderless Pokémon should not have a gender.
 LGeoBadOrder = GeoLocation Memory: Gap/Blank present.
 LGeoHardwareInvalid = Geolocation: Country is not in 3DS region.

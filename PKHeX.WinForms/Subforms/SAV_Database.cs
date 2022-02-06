@@ -311,15 +311,26 @@ namespace PKHeX.WinForms
             reportGrid.PopulateData(Results);
         }
 
+        private sealed class SearchFolderDetail
+        {
+            public string Path { get; }
+            public bool IgnoreBackupFiles { get; }
+
+            public SearchFolderDetail(string path, bool ignoreBackupFiles)
+            {
+                Path = path;
+                IgnoreBackupFiles = ignoreBackupFiles;
+            }
+        }
+
         private void LoadDatabase()
         {
             var settings = Main.Settings;
-            var otherPaths = new List<string>();
-            if (settings.EntityDb.SearchBackups)
-                otherPaths.Add(Main.BackupPath);
-
+            var otherPaths = new List<SearchFolderDetail>();
             if (settings.EntityDb.SearchExtraSaves)
-                otherPaths.AddRange(settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+                otherPaths.AddRange(settings.Backup.OtherBackupPaths.Where(Directory.Exists).Select(z => new SearchFolderDetail(z, true)));
+            if (settings.EntityDb.SearchBackups)
+                otherPaths.Add(new SearchFolderDetail(Main.BackupPath, false));
 
             RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths, settings.EntityDb.SearchExtraSavesDeep);
 
@@ -338,7 +349,7 @@ namespace PKHeX.WinForms
             catch { /* Window Closed? */ }
         }
 
-        private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths, bool otherDeep)
+        private static List<SlotCache> LoadPKMSaves(string pkmdb, SaveFile SAV, List<SearchFolderDetail> otherPaths, bool otherDeep)
         {
             var dbTemp = new ConcurrentBag<SlotCache>();
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
@@ -348,7 +359,7 @@ namespace PKHeX.WinForms
 
             foreach (var folder in otherPaths)
             {
-                if (!SaveUtil.GetSavesFromFolder(folder, otherDeep, out IEnumerable<string> paths))
+                if (!SaveUtil.GetSavesFromFolder(folder.Path, otherDeep, out IEnumerable<string> paths, folder.IgnoreBackupFiles))
                     continue;
 
                 Parallel.ForEach(paths, file => TryAddPKMsFromSaveFilePath(dbTemp, file));

@@ -30,7 +30,7 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly List<string> CustomProperties = new()
         {
-            PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS,
+            PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY,
             IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
         };
 
@@ -69,6 +69,8 @@ namespace PKHeX.Core
         internal const string PROP_LEGAL = "Legal";
         internal const string PROP_TYPENAME = "ObjectType";
         internal const string PROP_RIBBONS = "Ribbons";
+        internal const string PROP_CONTESTSTATS = "ContestStats";
+        internal const string PROP_MOVEMASTERY = "MoveMastery";
         internal const string IdentifierContains = nameof(IdentifierContains);
 
         private static string[][] GetPropArray()

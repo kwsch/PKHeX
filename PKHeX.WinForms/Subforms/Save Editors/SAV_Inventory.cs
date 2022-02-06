@@ -246,7 +246,7 @@ namespace PKHeX.WinForms
             var pouch = Pouches[index];
             NUD_Count.Maximum = GetMax(SAV, pouch, Main.HaX);
 
-            bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace;
+            bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace && SAV is not SAV8LA;
             NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = !disable;
             if (disable && !Main.HaX)
             {
