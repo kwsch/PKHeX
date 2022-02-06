@@ -53,6 +53,8 @@ namespace PKHeX.WinForms.Controls
             Loading = true;
             if (ss != null)
             {
+                if (NUD_HeightScalar.Focused || NUD_WeightScalar.Focused)
+                    CHK_Auto.Focus();
                 NUD_HeightScalar.Value = ss.HeightScalar;
                 NUD_WeightScalar.Value = ss.WeightScalar;
             }
@@ -87,21 +89,27 @@ namespace PKHeX.WinForms.Controls
         {
             if (ss != null)
             {
-                ss.HeightScalar = (byte) NUD_HeightScalar.Value;
+                if (!Loading)
+                    ss.HeightScalar = (byte) NUD_HeightScalar.Value;
                 L_SizeH.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.HeightScalar)];
             }
 
             if (!CHK_Auto.Checked || Loading || sv == null)
                 return;
             sv.ResetHeight();
+            sv.ResetWeight();
             TB_HeightAbs.Text = sv.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
+            TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
+            if (sv is PA8 a)
+                a.HeightScalarCopy = a.HeightScalar;
         }
 
         private void NUD_WeightScalar_ValueChanged(object sender, EventArgs e)
         {
             if (ss != null)
             {
-                ss.WeightScalar = (byte) NUD_WeightScalar.Value;
+                if (!Loading)
+                    ss.WeightScalar = (byte) NUD_WeightScalar.Value;
                 L_SizeW.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.WeightScalar)];
             }
 
