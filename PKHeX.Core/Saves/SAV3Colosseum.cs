@@ -201,12 +201,13 @@ namespace PKHeX.Core
         protected override void SetChecksums()
         {
             // Clear Header Checksum
-            WriteInt32BigEndian(Data.AsSpan(12), 0);
+            var headerCHK = Data.AsSpan(12);
+            WriteInt32BigEndian(headerCHK, 0);
             // Compute checksum of data
             using var sha1 = SHA1.Create();
             byte[] checksum = sha1.ComputeHash(Data, 0, 0x1DFD8);
             // Set Checksum to end
-            var checkSpan = checksum.AsSpan(20);
+            var checkSpan = checksum.AsSpan();
             checkSpan.CopyTo(Data.AsSpan(Data.Length - checkSpan.Length));
 
             // Compute new header checksum
@@ -218,7 +219,7 @@ namespace PKHeX.Core
             newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
 
             // Set Header Checksum
-            WriteInt32BigEndian(Data.AsSpan(12), newHC);
+            WriteInt32BigEndian(headerCHK, newHC);
         }
 
         public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -234,7 +235,7 @@ namespace PKHeX.Core
                 WriteUInt32BigEndian(hc, 0);
                 using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
-                var checkSpan = checksum.AsSpan(20);
+                var checkSpan = checksum.AsSpan();
 
                 // Compute new header checksum
                 var header = data.AsSpan(0, 0x20);
