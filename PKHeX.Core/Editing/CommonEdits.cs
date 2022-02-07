@@ -227,7 +227,9 @@ namespace PKHeX.Core
             pk.SetNickname(Set.Nickname);
             pk.SetForm(Set.Form);
             pk.SetSaneGender(Set.Gender);
-            pk.SetMaximumPPUps(Set.Moves);
+
+            if (Legal.IsPPUpAvailable(pk))
+                pk.SetMaximumPPUps(Set.Moves);
 
             if (pk.Format >= 3)
             {
@@ -260,6 +262,11 @@ namespace PKHeX.Core
             {
                 t.ClearRecordFlags();
                 t.SetRecordFlags(Set.Moves);
+            }
+            if (pk is IMoveShop8 m)
+            {
+                m.ClearMoveShopFlags();
+                m.SetMoveShopFlags(Set.Moves);
             }
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)

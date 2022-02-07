@@ -191,6 +191,16 @@ namespace PKHeX.Core
             return false;
         }
 
+
+        /// <summary>
+        /// Indicates if PP Ups are available for use.
+        /// </summary>
+        /// <param name="pkm">Entity to check</param>
+        public static bool IsPPUpAvailable(PKM pkm)
+        {
+            return pkm is not PA8;
+        }
+
         /// <summary>
         /// Indicates if the moveset is restricted to only the original version.
         /// </summary>

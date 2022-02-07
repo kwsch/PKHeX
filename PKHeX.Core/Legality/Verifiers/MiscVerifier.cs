@@ -276,7 +276,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
 
-            if (pkm is PA8) // No PP Ups
+            if (!Legal.IsPPUpAvailable(pkm)) // No PP Ups
             {
                 if (pkm.Move1_PPUps is not 0)
                     data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
