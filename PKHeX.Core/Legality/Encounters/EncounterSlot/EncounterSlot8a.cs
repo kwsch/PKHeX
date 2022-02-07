@@ -57,16 +57,22 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
 
     public override EncounterMatchRating GetMatchRating(PKM pkm)
     {
-        if (pkm is IAlpha a && a.IsAlpha != IsAlpha)
-            return EncounterMatchRating.DeferredErrors;
         if (Gender is not Gender.Random && pkm.Gender != (int)Gender)
+            return EncounterMatchRating.PartialMatch;
+
+        var result = GetMatchRatingInternal(pkm);
+        var orig = base.GetMatchRating(pkm);
+        return result > orig ? result : orig;
+    }
+
+    private EncounterMatchRating GetMatchRatingInternal(PKM pkm)
+    {
+        if (pkm is IAlpha a && a.IsAlpha != IsAlpha)
             return EncounterMatchRating.DeferredErrors;
         if (FlawlessIVCount is not 0 && pkm.FlawlessIVCount < FlawlessIVCount)
             return EncounterMatchRating.DeferredErrors;
 
-        var result = GetAlphaMoveCompatibility(pkm);
-        var orig = base.GetMatchRating(pkm);
-        return result > orig ? result : orig;
+        return GetAlphaMoveCompatibility(pkm);
     }
 
     private EncounterMatchRating GetAlphaMoveCompatibility(PKM pkm)

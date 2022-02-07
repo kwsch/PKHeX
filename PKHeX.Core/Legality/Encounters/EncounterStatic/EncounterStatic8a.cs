@@ -94,13 +94,20 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     public override EncounterMatchRating GetMatchRating(PKM pkm)
     {
+        if (!IsForcedMasteryCorrect(pkm))
+            return EncounterMatchRating.PartialMatch;
+
+        var result = GetMatchRatingInternal(pkm);
+        var orig = base.GetMatchRating(pkm);
+        return result > orig ? result : orig;
+    }
+
+    private EncounterMatchRating GetMatchRatingInternal(PKM pkm)
+    {
         if (Shiny != Shiny.Random && !Shiny.IsValid(pkm))
             return EncounterMatchRating.DeferredErrors;
         if (Gift && pkm.Ball != Ball)
             return EncounterMatchRating.DeferredErrors;
-
-        if (!IsForcedMasteryCorrect(pkm))
-            return EncounterMatchRating.PartialMatch;
 
         var orig = base.GetMatchRating(pkm);
         if (orig is not EncounterMatchRating.Match)
