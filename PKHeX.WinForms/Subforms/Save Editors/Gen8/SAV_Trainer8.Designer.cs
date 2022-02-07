@@ -215,7 +215,6 @@
             this.MT_Money.Location = new System.Drawing.Point(119, 29);
             this.MT_Money.Mask = "0000000";
             this.MT_Money.Name = "MT_Money";
-            this.MT_Money.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Money.Size = new System.Drawing.Size(52, 20);
             this.MT_Money.TabIndex = 4;
             this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -726,7 +725,6 @@
             this.MT_RotoRally.Location = new System.Drawing.Point(331, 100);
             this.MT_RotoRally.Mask = "00000";
             this.MT_RotoRally.Name = "MT_RotoRally";
-            this.MT_RotoRally.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_RotoRally.Size = new System.Drawing.Size(43, 20);
             this.MT_RotoRally.TabIndex = 77;
             this.MT_RotoRally.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -745,7 +743,6 @@
             this.MT_Watt.Location = new System.Drawing.Point(119, 53);
             this.MT_Watt.Mask = "0000000";
             this.MT_Watt.Name = "MT_Watt";
-            this.MT_Watt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Watt.Size = new System.Drawing.Size(52, 20);
             this.MT_Watt.TabIndex = 74;
             this.MT_Watt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -773,7 +770,6 @@
             this.MT_TrainerCardID.Location = new System.Drawing.Point(331, 59);
             this.MT_TrainerCardID.Mask = "000000";
             this.MT_TrainerCardID.Name = "MT_TrainerCardID";
-            this.MT_TrainerCardID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_TrainerCardID.Size = new System.Drawing.Size(43, 20);
             this.MT_TrainerCardID.TabIndex = 72;
             this.MT_TrainerCardID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1177,7 +1173,6 @@
             this.MT_BattleTowerDoublesStreak.Location = new System.Drawing.Point(145, 61);
             this.MT_BattleTowerDoublesStreak.Mask = "000";
             this.MT_BattleTowerDoublesStreak.Name = "MT_BattleTowerDoublesStreak";
-            this.MT_BattleTowerDoublesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_BattleTowerDoublesStreak.Size = new System.Drawing.Size(43, 20);
             this.MT_BattleTowerDoublesStreak.TabIndex = 83;
             this.MT_BattleTowerDoublesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1196,7 +1191,6 @@
             this.MT_BattleTowerDoublesWin.Location = new System.Drawing.Point(88, 60);
             this.MT_BattleTowerDoublesWin.Mask = "0000000";
             this.MT_BattleTowerDoublesWin.Name = "MT_BattleTowerDoublesWin";
-            this.MT_BattleTowerDoublesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_BattleTowerDoublesWin.Size = new System.Drawing.Size(51, 20);
             this.MT_BattleTowerDoublesWin.TabIndex = 81;
             this.MT_BattleTowerDoublesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1215,7 +1209,6 @@
             this.MT_BattleTowerSinglesStreak.Location = new System.Drawing.Point(145, 35);
             this.MT_BattleTowerSinglesStreak.Mask = "000";
             this.MT_BattleTowerSinglesStreak.Name = "MT_BattleTowerSinglesStreak";
-            this.MT_BattleTowerSinglesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_BattleTowerSinglesStreak.Size = new System.Drawing.Size(43, 20);
             this.MT_BattleTowerSinglesStreak.TabIndex = 79;
             this.MT_BattleTowerSinglesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1243,7 +1236,6 @@
             this.MT_BattleTowerSinglesWin.Location = new System.Drawing.Point(88, 34);
             this.MT_BattleTowerSinglesWin.Mask = "0000000";
             this.MT_BattleTowerSinglesWin.Name = "MT_BattleTowerSinglesWin";
-            this.MT_BattleTowerSinglesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_BattleTowerSinglesWin.Size = new System.Drawing.Size(51, 20);
             this.MT_BattleTowerSinglesWin.TabIndex = 76;
             this.MT_BattleTowerSinglesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

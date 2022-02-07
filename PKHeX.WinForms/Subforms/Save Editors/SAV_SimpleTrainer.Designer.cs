@@ -146,7 +146,6 @@
             this.MT_PikaBeach.Location = new System.Drawing.Point(111, 64);
             this.MT_PikaBeach.Mask = "0000";
             this.MT_PikaBeach.Name = "MT_PikaBeach";
-            this.MT_PikaBeach.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_PikaBeach.Size = new System.Drawing.Size(39, 20);
             this.MT_PikaBeach.TabIndex = 74;
             this.MT_PikaBeach.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -167,7 +166,6 @@
             this.MT_PikaFriend.Location = new System.Drawing.Point(111, 40);
             this.MT_PikaFriend.Mask = "000";
             this.MT_PikaFriend.Name = "MT_PikaFriend";
-            this.MT_PikaFriend.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_PikaFriend.Size = new System.Drawing.Size(39, 20);
             this.MT_PikaFriend.TabIndex = 72;
             this.MT_PikaFriend.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -339,7 +337,6 @@
             this.MT_Money.Location = new System.Drawing.Point(119, 33);
             this.MT_Money.Mask = "0000000";
             this.MT_Money.Name = "MT_Money";
-            this.MT_Money.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Money.Size = new System.Drawing.Size(52, 20);
             this.MT_Money.TabIndex = 59;
             this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -367,7 +364,6 @@
             this.MT_TID.Location = new System.Drawing.Point(53, 34);
             this.MT_TID.Mask = "00000";
             this.MT_TID.Name = "MT_TID";
-            this.MT_TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 63;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -378,7 +374,6 @@
             this.MT_SID.Location = new System.Drawing.Point(53, 55);
             this.MT_SID.Mask = "00000";
             this.MT_SID.Name = "MT_SID";
-            this.MT_SID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 64;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -570,7 +565,6 @@
             this.MT_Coins.Location = new System.Drawing.Point(53, 55);
             this.MT_Coins.Mask = "00000";
             this.MT_Coins.Name = "MT_Coins";
-            this.MT_Coins.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Coins.Size = new System.Drawing.Size(39, 20);
             this.MT_Coins.TabIndex = 69;
             this.MT_Coins.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

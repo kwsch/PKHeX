@@ -165,7 +165,6 @@
             this.MT_Money.Location = new System.Drawing.Point(119, 29);
             this.MT_Money.Mask = "0000000";
             this.MT_Money.Name = "MT_Money";
-            this.MT_Money.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Money.Size = new System.Drawing.Size(52, 20);
             this.MT_Money.TabIndex = 4;
             this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

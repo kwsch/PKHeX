@@ -221,7 +221,6 @@ namespace PKHeX.WinForms
             this.MT_Money.Location = new System.Drawing.Point(119, 29);
             this.MT_Money.Mask = "0000000";
             this.MT_Money.Name = "MT_Money";
-            this.MT_Money.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_Money.Size = new System.Drawing.Size(52, 20);
             this.MT_Money.TabIndex = 4;
             this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -258,7 +257,6 @@ namespace PKHeX.WinForms
             this.MT_TID.Location = new System.Drawing.Point(53, 30);
             this.MT_TID.Mask = "00000";
             this.MT_TID.Name = "MT_TID";
-            this.MT_TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 8;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -270,7 +268,6 @@ namespace PKHeX.WinForms
             this.MT_SID.Location = new System.Drawing.Point(53, 51);
             this.MT_SID.Mask = "00000";
             this.MT_SID.Name = "MT_SID";
-            this.MT_SID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 9;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -555,7 +552,6 @@ namespace PKHeX.WinForms
             this.TB_PM.Location = new System.Drawing.Point(96, 38);
             this.TB_PM.Mask = "0000000";
             this.TB_PM.Name = "TB_PM";
-            this.TB_PM.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TB_PM.Size = new System.Drawing.Size(50, 20);
             this.TB_PM.TabIndex = 5;
             this.TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -565,7 +561,6 @@ namespace PKHeX.WinForms
             this.TB_BP.Location = new System.Drawing.Point(96, 16);
             this.TB_BP.Mask = "0000";
             this.TB_BP.Name = "TB_BP";
-            this.TB_BP.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TB_BP.Size = new System.Drawing.Size(37, 20);
             this.TB_BP.TabIndex = 6;
             this.TB_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -694,7 +689,6 @@ namespace PKHeX.WinForms
             this.TB_Style.Location = new System.Drawing.Point(96, 60);
             this.TB_Style.Mask = "000";
             this.TB_Style.Name = "TB_Style";
-            this.TB_Style.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.TB_Style.Size = new System.Drawing.Size(26, 20);
             this.TB_Style.TabIndex = 8;
             this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
