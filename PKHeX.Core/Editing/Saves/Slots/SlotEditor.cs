@@ -36,14 +36,15 @@
         /// </summary>
         /// <param name="slot">Slot to be set to.</param>
         /// <param name="pkm">Data to set.</param>
+        /// <param name="type">Type of slot action</param>
         /// <returns>Operation succeeded or not via enum value.</returns>
-        public SlotTouchResult Set(ISlotInfo slot, PKM pkm)
+        public SlotTouchResult Set(ISlotInfo slot, PKM pkm, SlotTouchType type = SlotTouchType.Set)
         {
             if (!slot.CanWriteTo(SAV))
                 return SlotTouchResult.FailWrite;
 
-            WriteSlot(slot, pkm);
-            NotifySlotChanged(slot, SlotTouchType.Set, pkm);
+            WriteSlot(slot, pkm, type);
+            NotifySlotChanged(slot, type, pkm);
 
             return SlotTouchResult.Success;
         }
@@ -86,7 +87,8 @@
         private void WriteSlot(ISlotInfo slot, PKM pkm, SlotTouchType type = SlotTouchType.Set)
         {
             Changelog.AddNewChange(slot);
-            var result = slot.WriteTo(SAV, pkm);
+            var setDetail = type is SlotTouchType.Swap ? PKMImportSetting.Skip : PKMImportSetting.UseDefault;
+            var result = slot.WriteTo(SAV, pkm, setDetail);
             if (result)
                 NotifySlotChanged(slot, type, pkm);
         }

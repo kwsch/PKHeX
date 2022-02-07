@@ -29,5 +29,7 @@ namespace PKHeX.WinForms.Controls
         /// Used to indicate if the changes will alter the player's party data state.
         /// </summary>
         public bool DragIsParty => SourceIsParty || DestinationIsParty;
+
+        public bool DragIsSwap => Source is not null && Destination is not null;
     }
 }
