@@ -1,7 +1,33 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/02/04 - New Update:
+22/02/08 - New Update:
+ - Legality:
+ - - Added: GVs are now checked for legality.
+ - - Fixed: Min Move Count now considers purchased moves as able to skip as level up moves. Thanks CC6174 !
+ - - Fixed: Alphas now check flawless IV count correctly. Thanks @Atrius & @Lusamine !
+ - - Fixed: Alphas from Landmarks are now correctly checked for their Alpha Move (or lack thereof).
+ - - Fixed: Gen4 Minimum Sheen check now allows Haircut to give less sheen. Thanks @edo9300 !
+ - - Fixed: Gen1 Catch Rate now matches better for special Static Encounters that vary across games. Thanks @MrPerson0 !
+ - Added: Sprites for PLA are now all shown with the circular mugshot style instead of partial old & new sprites.
+ - Added: MoveMastery can now be suggested via the batch editor commands.
+ - Fixed: Gen8 SWSH TR flag move names now display correctly. @sora10pls !
+ - Fixed: Gen8 PLA clothing blocks are now labeled. Thanks @sora10pls !
+ - Fixed: Gen8 PLA showdown set imports no longer set PP Ups, and now set mastery flags.
+ - Fixed: Gen7 TID format display for past gen origin now shows the G7ID correctly. Thanks @NotaInutilis !
+ - Fixed: Gen4 Pt Event Flags now load correctly for Spanish. Thanks CJ009 !
+ - Fixed: Gen3 Colosseum saves now load correctly. Thanks Solarc !
+ - Fixed: Folder Browser for backup saves now loads files correctly.
+ - Changed: Gen8 PLA species that are unavailable in-game no longer show up in the species dropdown (similar to LGP/E, BDSP).
+ - Changed: Gen8 PLA Height & Weight values now update cleanly, and set the HeightCopy value if Auto is checked. Thanks @sercho80 !
+ - Changed: Gen8 PLA inventory edits now only show the amount of unlocked inventory slots. Thanks @NinFanBoyFTW !
+ - Changed: Gen8 PLA inventory storage now can Give All. Thanks Kiki.Z !
+ - Changed: SAV Editor buttons are now taller & wider to be more friendly for translations. Thanks @sercho80 !
+ - Changed: Event Flag editors for Gen7+below now display the event flags in a datagrid instead of separate controls (performance). Thanks @edo9300 !
+ - Changed: Default startup game version is now Legends: Arceus if no save is opened (changed from BD/SP).
+ - Changed: Updated Chinese translation files. Thanks @easyworld !
+
+22/02/04 - New Update: (32948) [4494330]
  - Introducing Pokémon Legends: Arceus support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!
  - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for PLA parsing.
  - - Save Data is similar to SW/SH; a pokedex, trainer, inventory, and block data editor are provided.
