@@ -126,6 +126,11 @@ namespace PKHeX.Core
                         return false;
                 }
             }
+            else if (pkm is PK1 pk1)
+            {
+                if (info.Moves.Any(z => z.Generation is not 1) && !PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
+                    return false;
+            }
 
             info.Parse.Add(evo);
             return true;
