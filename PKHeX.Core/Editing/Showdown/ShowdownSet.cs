@@ -181,8 +181,8 @@ namespace PKHeX.Core
             switch (identifier)
             {
                 case "Ability" or "Trait": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
-                case "Shiny": return Shiny = value.Trim() == "Yes";
-                case "Gigantamax": return CanGigantamax = value.Trim() == "Yes";
+                case "Shiny": return Shiny = StringUtil.IsMatchIgnoreCase("Yes", value);
+                case "Gigantamax": return CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value);
                 case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
                 case "EV" or "EVs": ParseLineEVs(value); return true;
                 case "IV" or "IVs": ParseLineIVs(value); return true;

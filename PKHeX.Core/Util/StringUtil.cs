@@ -45,7 +45,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static bool IsMatchIgnoreCase(string string1, string string2)
+        public static bool IsMatchIgnoreCase(string string1, string string2)
         {
             if (string1.Length != string2.Length)
                 return false;
