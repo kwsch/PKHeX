@@ -83,6 +83,9 @@ namespace PKHeX.Core
             new byte[] { 00, 00, 00, 00, 02, 02, 02, 02, 02 }, // Mamoswine (Piloswine with Ancient Power)
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 02, 28 }, // Tsareena (Steenee with Stomp)
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
+            new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
+            new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Overqwil (Qwilfish with STRONG Barb Barrage)
+            new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         private static readonly byte[] MinLevelEvolutionWithMove_8LA =
@@ -97,6 +100,9 @@ namespace PKHeX.Core
             34, // Mamoswine (Piloswine with Ancient Power)
             99, // Tsareena (Steenee with Stomp)
             99, // Grapploct (Clobbopus with Taunt)
+            31, // Wyrdeer (Stantler with AGILE Psyshield Bash) 
+            25, // Overqwil (Qwilfish with STRONG Barb Barrage)
+            34, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         private static readonly bool[][] CanEggHatchWithEvolveMove =
@@ -111,6 +117,9 @@ namespace PKHeX.Core
             new [] { false, false,  true,  true,  true,  true,  true,  true,  true }, // Mamoswine (Piloswine with Ancient Power)
             new [] { false, false, false, false, false, false, false, false, false }, // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false,  true }, // Grapploct (Clobbopus with Taunt)
+            new [] { false, false, false, false, false, false, false, false, false }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
+            new [] { false, false, false, false, false, false, false, false, false }, // Overqwil (Qwilfish with STRONG Barb Barrage)
+            new [] { false, false, false, false, false, false, false, false, false }, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         /// <summary>
