@@ -475,10 +475,10 @@ namespace PKHeX.Core
         private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(obj.HeightAbsolute, obj.CalcHeightAbsolute))
+            if (obj.HeightAbsolute != obj.CalcHeightAbsolute)
                 data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(obj.WeightAbsolute, obj.CalcWeightAbsolute))
+            if (obj.WeightAbsolute != obj.CalcWeightAbsolute)
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
         }
 
