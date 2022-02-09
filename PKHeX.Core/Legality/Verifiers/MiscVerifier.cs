@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -475,22 +474,11 @@ namespace PKHeX.Core
         private static void VerifyAbsoluteSizes(LegalityAnalysis data, IScaledSizeValue obj)
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(obj.HeightAbsolute, obj.CalcHeightAbsolute))
+            if (obj.HeightAbsolute != obj.CalcHeightAbsolute)
                 data.AddLine(GetInvalid(LStatIncorrectHeight, Encounter));
             // ReSharper disable once CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
-            if (!IsCloseEnough(obj.WeightAbsolute, obj.CalcWeightAbsolute))
+            if (obj.WeightAbsolute != obj.CalcWeightAbsolute)
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
-        }
-
-        private static bool IsCloseEnough(float a, float b)
-        {
-            // since we don't have access to SingleToInt32Bits on net46, just do a temp write-read.
-            Span<byte> ta = stackalloc byte[4];
-            WriteSingleLittleEndian(ta, a);
-            var ia = ReadInt32LittleEndian(ta);
-            WriteSingleLittleEndian(ta, b);
-            var ib = ReadInt32LittleEndian(ta);
-            return Math.Abs(ia - ib) <= 7;
         }
 
         private static bool IsStarterLGPE(ISpeciesForm pk) => pk.Species switch

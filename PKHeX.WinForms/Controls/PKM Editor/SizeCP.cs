@@ -48,6 +48,8 @@ namespace PKHeX.WinForms.Controls
             pkm?.ResetCP();
         }
 
+        private static string GetString(float value) => value.ToString("F6", CultureInfo.InvariantCulture);
+
         private void LoadStoredValues()
         {
             Loading = true;
@@ -60,8 +62,8 @@ namespace PKHeX.WinForms.Controls
             }
             if (sv != null)
             {
-                TB_HeightAbs.Text = sv.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
-                TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
+                TB_HeightAbs.Text = GetString(sv.HeightAbsolute);
+                TB_WeightAbs.Text = GetString(sv.WeightAbsolute);
             }
             if (pkm != null)
             {
@@ -98,8 +100,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             sv.ResetHeight();
             sv.ResetWeight();
-            TB_HeightAbs.Text = sv.HeightAbsolute.ToString(CultureInfo.InvariantCulture);
-            TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
+            TB_HeightAbs.Text = GetString(sv.HeightAbsolute);
+            TB_WeightAbs.Text = GetString(sv.WeightAbsolute);
             if (sv is PA8 a)
                 a.HeightScalarCopy = a.HeightScalar;
         }
@@ -116,12 +118,12 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_Auto.Checked || Loading || sv == null)
                 return;
             sv.ResetWeight();
-            TB_WeightAbs.Text = sv.WeightAbsolute.ToString(CultureInfo.InvariantCulture);
+            TB_WeightAbs.Text = GetString(sv.WeightAbsolute);
         }
 
         private void TB_HeightAbs_TextChanged(object sender, EventArgs e)
         {
-            if (sv == null)
+            if (sv == null || Loading)
                 return;
             if (CHK_Auto.Checked)
                 sv.ResetHeight();
@@ -131,7 +133,7 @@ namespace PKHeX.WinForms.Controls
 
         private void TB_WeightAbs_TextChanged(object sender, EventArgs e)
         {
-            if (sv == null)
+            if (sv == null || Loading)
                 return;
             if (CHK_Auto.Checked)
                 sv.ResetWeight();

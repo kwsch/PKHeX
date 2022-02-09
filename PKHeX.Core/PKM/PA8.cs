@@ -785,9 +785,9 @@ public sealed class PA8 : PKM, ISanityChecksum,
     private static float GetHeightRatio(int heightScalar)
     {
         // +/- 20% (down from +/- 40% in LGP/E)
-        float result = (byte)heightScalar / 255f;
-        result *= 0.4f;
-        result += 0.8f;
+        float result = heightScalar / 255f; // 0x437F0000
+        result *= 0.40000004f; // 0x3ECCCCCE
+        result += 0.8f; // 0x3F4CCCCD
         return result;
     }
 
@@ -795,9 +795,9 @@ public sealed class PA8 : PKM, ISanityChecksum,
     private static float GetWeightRatio(int weightScalar)
     {
         // +/- 20%
-        float result = (byte)weightScalar / 255f;
-        result *= 0.4f;
-        result += 0.8f;
+        float result = weightScalar / 255f; // 0x437F0000
+        result *= 0.40000004f; // 0x3ECCCCCE
+        result += 0.8f; // 0x3F4CCCCD
         return result;
     }
 
@@ -814,8 +814,8 @@ public sealed class PA8 : PKM, ISanityChecksum,
         float HeightRatio = GetHeightRatio(heightScalar);
         float WeightRatio = GetWeightRatio(weightScalar);
 
-        float weight = WeightRatio * p.Weight;
-        return HeightRatio * weight;
+        float ratio = (WeightRatio * HeightRatio);
+        return ratio * p.Weight;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
@@ -823,7 +823,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     {
         // height is already *100
         float biasH = avgHeight * -0.8f;
-        float biasL = avgHeight * 0.4f;
+        float biasL = avgHeight * 0.40000004f;
         float numerator = biasH + height;
         float result = numerator / biasL;
         result *= 255f;
@@ -841,7 +841,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         float weightComponent = heightRatio * weight;
         float top = avgWeight * -0.8f;
         top += weightComponent;
-        float bot = avgWeight * 0.4f;
+        float bot = avgWeight * 0.40000004f;
         float result = top / bot;
         result *= 255f;
         int value = (int)result;
