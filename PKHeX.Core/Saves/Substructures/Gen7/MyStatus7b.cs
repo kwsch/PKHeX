@@ -71,6 +71,12 @@ namespace PKHeX.Core
             set => Data[Offset + 0x076] = value;
         }
 
+        public StarterChoice7b StarterChoice
+        {
+            get => (StarterChoice7b)Data[Offset + 0x0B8];
+            set => Data[Offset + 0x0B8] = (byte)value;
+        }
+
         public byte StarterGender
         {
             get => Data[Offset + 0x0B9];
@@ -81,6 +87,13 @@ namespace PKHeX.Core
         {
             get => Data[Offset + 0x108];
             set => Data[Offset + 0x108] = value;
+        }
+
+        public enum StarterChoice7b : byte
+        {
+            None = 0,
+            Pikachu = 1,
+            Eevee = 2,
         }
     }
 }
