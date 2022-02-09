@@ -68,6 +68,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KSwarm = 0x1E0F1BA3; // 5 entries, 0x50 each
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
     private const uint KOverworld = 0x511622B3; // 0x100 entries, 0x880 each
+    private const uint KOtherPlayerSatchels = 0x05E7EBEB;
+    private const uint KMyLostSatchels = 0xC5D7112B;
 
     // Values
     public const uint KCurrentBox = 0x017C3CBB; // U8 Box Index
@@ -106,6 +108,10 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KWispsFoundArea05 = 0x8B18A566; // U32 Wisps obtained in Alabaster Icelands (0-20)
     private const uint KWispsFoundTotal = 0xB79EF1FE; // U32 total Wisps obtained (0-107)
     private const uint KWispsReported = 0x8F0D8720; // U32 Wisps reported to Vessa (0-107)
+    private const uint KRecordTargetPractice = 0xA69E079B; // U32 High score for Target Practice minigame (Practice Field)
+    private const uint KRecordLostSatchelsFound = 0x4AAF7FBE; // U32 Satchels retrieved for NPCs and other players
+    private const uint KRecordOwnSatchelRetrieved = 0x8C46768E; // U32 Satchels other players retrieved for you
+    private const uint KStarterChoice = 0x6960C6EF; // U32 0=Rowlet, 1=Cyndaquil, 2=Oshawott
 
     // Flags
     private const uint KEnableSpawnerSpiritomb = 0x2DC7E4CC; // FSYS_MKRG_100_SPAWN
