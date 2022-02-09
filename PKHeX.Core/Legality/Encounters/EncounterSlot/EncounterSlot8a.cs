@@ -85,7 +85,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         bool hasAlphaMove = alphaMove != 0;
         if (!pa.IsAlpha)
             return !hasAlphaMove ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
-        if (Type is SlotType.Landmark == hasAlphaMove)
+        if (Type is SlotType.Landmark && hasAlphaMove)
             return EncounterMatchRating.DeferredErrors;
 
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
