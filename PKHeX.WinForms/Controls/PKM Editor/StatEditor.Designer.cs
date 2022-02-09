@@ -107,8 +107,6 @@
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
             this.CB_HPType = new System.Windows.Forms.ComboBox();
-            this.FLP_HPPower = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_HiddenPowerPowerPrefix = new System.Windows.Forms.Label();
             this.Label_HiddenPowerPower = new System.Windows.Forms.Label();
             this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
@@ -145,7 +143,6 @@
             this.FLP_StatsTotal.SuspendLayout();
             this.FLP_StatsTotalRight.SuspendLayout();
             this.FLP_HPType.SuspendLayout();
-            this.FLP_HPPower.SuspendLayout();
             this.FLP_Characteristic.SuspendLayout();
             this.PAN_BTN.SuspendLayout();
             this.FLP_DynamaxLevel.SuspendLayout();
@@ -163,7 +160,6 @@
             this.FLP_Stats.Controls.Add(this.FLP_Spe);
             this.FLP_Stats.Controls.Add(this.FLP_StatsTotal);
             this.FLP_Stats.Controls.Add(this.FLP_HPType);
-            this.FLP_Stats.Controls.Add(this.FLP_HPPower);
             this.FLP_Stats.Controls.Add(this.FLP_Characteristic);
             this.FLP_Stats.Controls.Add(this.PAN_BTN);
             this.FLP_Stats.Controls.Add(this.FLP_DynamaxLevel);
@@ -1118,10 +1114,11 @@
             this.FLP_HPType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_HPType.Controls.Add(this.Label_HiddenPowerPrefix);
             this.FLP_HPType.Controls.Add(this.CB_HPType);
+            this.FLP_HPType.Controls.Add(this.Label_HiddenPowerPower);
             this.FLP_HPType.Location = new System.Drawing.Point(0, 169);
             this.FLP_HPType.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HPType.Name = "FLP_HPType";
-            this.FLP_HPType.Size = new System.Drawing.Size(272, 21);
+            this.FLP_HPType.Size = new System.Drawing.Size(279, 21);
             this.FLP_HPType.TabIndex = 130;
             // 
             // Label_HiddenPowerPrefix
@@ -1147,35 +1144,14 @@
             this.CB_HPType.TabIndex = 44;
             this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.UpdateHPType);
             // 
-            // FLP_HPPower
-            // 
-            this.FLP_HPPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPowerPrefix);
-            this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPower);
-            this.FLP_HPPower.Location = new System.Drawing.Point(0, 190);
-            this.FLP_HPPower.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_HPPower.Name = "FLP_HPPower";
-            this.FLP_HPPower.Size = new System.Drawing.Size(272, 21);
-            this.FLP_HPPower.TabIndex = 130;
-            // 
-            // Label_HiddenPowerPowerPrefix
-            // 
-            this.Label_HiddenPowerPowerPrefix.Location = new System.Drawing.Point(0, 0);
-            this.Label_HiddenPowerPowerPrefix.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_HiddenPowerPowerPrefix.Name = "Label_HiddenPowerPowerPrefix";
-            this.Label_HiddenPowerPowerPrefix.Size = new System.Drawing.Size(174, 21);
-            this.Label_HiddenPowerPowerPrefix.TabIndex = 29;
-            this.Label_HiddenPowerPowerPrefix.Text = "Hidden Power Power:";
-            this.Label_HiddenPowerPowerPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // Label_HiddenPowerPower
             // 
             this.Label_HiddenPowerPower.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(174, 0);
+            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(244, 0);
             this.Label_HiddenPowerPower.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HiddenPowerPower.Name = "Label_HiddenPowerPower";
-            this.Label_HiddenPowerPower.Size = new System.Drawing.Size(98, 21);
+            this.Label_HiddenPowerPower.Size = new System.Drawing.Size(28, 21);
             this.Label_HiddenPowerPower.TabIndex = 29;
             this.Label_HiddenPowerPower.Text = "60";
             this.Label_HiddenPowerPower.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1185,7 +1161,7 @@
             this.FLP_Characteristic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Characteristic.Controls.Add(this.Label_CharacteristicPrefix);
             this.FLP_Characteristic.Controls.Add(this.L_Characteristic);
-            this.FLP_Characteristic.Location = new System.Drawing.Point(0, 211);
+            this.FLP_Characteristic.Location = new System.Drawing.Point(0, 190);
             this.FLP_Characteristic.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Characteristic.Name = "FLP_Characteristic";
             this.FLP_Characteristic.Size = new System.Drawing.Size(272, 21);
@@ -1217,7 +1193,7 @@
             this.PAN_BTN.Controls.Add(this.BTN_RandomAVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
-            this.PAN_BTN.Location = new System.Drawing.Point(3, 235);
+            this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
             this.PAN_BTN.Name = "PAN_BTN";
             this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
             this.PAN_BTN.TabIndex = 132;
@@ -1258,7 +1234,7 @@
             this.FLP_DynamaxLevel.Controls.Add(this.L_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CB_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CHK_Gigantamax);
-            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 269);
+            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 248);
             this.FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
             this.FLP_DynamaxLevel.Size = new System.Drawing.Size(272, 21);
@@ -1312,7 +1288,7 @@
             this.FLP_AlphaNoble.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_AlphaNoble.Controls.Add(this.CHK_IsAlpha);
             this.FLP_AlphaNoble.Controls.Add(this.CHK_IsNoble);
-            this.FLP_AlphaNoble.Location = new System.Drawing.Point(0, 285);
+            this.FLP_AlphaNoble.Location = new System.Drawing.Point(0, 269);
             this.FLP_AlphaNoble.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_AlphaNoble.Name = "FLP_AlphaNoble";
             this.FLP_AlphaNoble.Size = new System.Drawing.Size(270, 31);
@@ -1321,10 +1297,10 @@
             // CHK_IsAlpha
             // 
             this.CHK_IsAlpha.AutoSize = true;
-            this.CHK_IsAlpha.Location = new System.Drawing.Point(55, 3);
+            this.CHK_IsAlpha.Location = new System.Drawing.Point(95, 8);
             this.CHK_IsAlpha.Margin = new System.Windows.Forms.Padding(95, 8, 3, 3);
             this.CHK_IsAlpha.Name = "CHK_IsAlpha";
-            this.CHK_IsAlpha.Size = new System.Drawing.Size(64, 17);
+            this.CHK_IsAlpha.Size = new System.Drawing.Size(53, 17);
             this.CHK_IsAlpha.TabIndex = 44;
             this.CHK_IsAlpha.Text = "Alpha";
             this.CHK_IsAlpha.UseVisualStyleBackColor = true;
@@ -1333,10 +1309,10 @@
             // CHK_IsNoble
             // 
             this.CHK_IsNoble.AutoSize = true;
-            this.CHK_IsNoble.Location = new System.Drawing.Point(55, 3);
+            this.CHK_IsNoble.Location = new System.Drawing.Point(154, 8);
             this.CHK_IsNoble.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.CHK_IsNoble.Name = "CHK_IsNoble";
-            this.CHK_IsNoble.Size = new System.Drawing.Size(64, 17);
+            this.CHK_IsNoble.Size = new System.Drawing.Size(54, 17);
             this.CHK_IsNoble.TabIndex = 44;
             this.CHK_IsNoble.Text = "Noble";
             this.CHK_IsNoble.UseVisualStyleBackColor = true;
@@ -1374,7 +1350,6 @@
             this.FLP_StatsTotalRight.ResumeLayout(false);
             this.FLP_StatsTotalRight.PerformLayout();
             this.FLP_HPType.ResumeLayout(false);
-            this.FLP_HPPower.ResumeLayout(false);
             this.FLP_Characteristic.ResumeLayout(false);
             this.PAN_BTN.ResumeLayout(false);
             this.FLP_DynamaxLevel.ResumeLayout(false);
@@ -1440,9 +1415,7 @@
         private System.Windows.Forms.TextBox TB_EVTotal;
         private System.Windows.Forms.Label L_Potential;
         private System.Windows.Forms.FlowLayoutPanel FLP_HPType;
-        private System.Windows.Forms.FlowLayoutPanel FLP_HPPower;
         private System.Windows.Forms.Label Label_HiddenPowerPrefix;
-        private System.Windows.Forms.Label Label_HiddenPowerPowerPrefix;
         private System.Windows.Forms.Label Label_HiddenPowerPower;
         private System.Windows.Forms.ComboBox CB_HPType;
         private System.Windows.Forms.FlowLayoutPanel FLP_Characteristic;

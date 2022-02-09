@@ -580,7 +580,7 @@ namespace PKHeX.WinForms.Controls
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
             FLP_HPType.Visible = gen <= 7;
-            FLP_HPPower.Visible = gen <= 5;
+            Label_HiddenPowerPower.Visible = gen <= 5;
             FLP_DynamaxLevel.Visible = gen >= 8;
             FLP_AlphaNoble.Visible = pk is PA8;
 
