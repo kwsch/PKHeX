@@ -817,8 +817,11 @@ namespace PKHeX.WinForms
             // If backup folder exists, save a backup.
             string backupName = Path.Combine(BackupPath, Util.CleanFileName(sav.Metadata.BAKName));
             if (sav.State.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
-                File.WriteAllBytes(backupName, sav.State.BAK);
-
+            {
+                var src = sav.Metadata.FilePath;
+                if (src is { } x && File.Exists(x))
+                    File.Copy(x, backupName);
+            }
             if (!FileUtil.IsFileLocked(path))
                 return true;
 
@@ -842,18 +845,17 @@ namespace PKHeX.WinForms
                     if (dialog.Result is GameVersion.Invalid)
                         return false;
 
-                    var s = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
-                    var origin = s3.Metadata.FilePath;
-                    if (origin is not null)
-                        s.Metadata.SetExtraInfo(origin);
-
-                    sav = s;
-                    if (sav is SAV3FRLG frlg)
+                    var s = s3.ForceLoad(dialog.Result);
+                    if (s is SAV3FRLG frlg)
                     {
                         bool result = frlg.ResetPersonal(dialog.Result);
                         if (!result)
                             return false;
                     }
+                    var origin = sav.Metadata.FilePath;
+                    if (origin is not null)
+                        s.Metadata.SetExtraInfo(origin);
+                    sav = s;
                 }
                 else if (s3 is SAV3FRLG frlg) // IndeterminateSubVersion
                 {

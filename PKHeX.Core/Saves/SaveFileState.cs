@@ -18,14 +18,8 @@
         /// </remarks>
         public readonly bool Exportable;
 
-        /// <summary>
-        /// Original Binary Data the save file was loaded with.
-        /// </summary>
-        public readonly byte[] BAK;
-
-        public SaveFileState(byte[] bak, bool exportable = true)
+        public SaveFileState(bool exportable = true)
         {
-            BAK = bak;
             Exportable = exportable;
         }
     }

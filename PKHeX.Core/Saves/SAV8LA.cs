@@ -19,9 +19,8 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
         Initialize();
     }
 
-    private SAV8LA(byte[] data, IReadOnlyList<SCBlock> blocks) : base(data)
+    private SAV8LA(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
     {
-        Data = Array.Empty<byte>();
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8LA(this);
         Initialize();
@@ -112,7 +111,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV8LA(State.BAK, blockCopy);
+        return new SAV8LA(blockCopy);
     }
 
     public override int MaxMoveID => Legal.MaxMoveID_8a;

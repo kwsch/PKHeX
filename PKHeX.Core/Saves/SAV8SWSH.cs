@@ -17,7 +17,7 @@ namespace PKHeX.Core
             Initialize();
         }
 
-        private SAV8SWSH(byte[] data, IReadOnlyList<SCBlock> blocks) : base(data)
+        private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
         {
             Data = Array.Empty<byte>();
             AllBlocks = blocks;
@@ -109,7 +109,7 @@ namespace PKHeX.Core
             var blockCopy = new SCBlock[AllBlocks.Count];
             for (int i = 0; i < AllBlocks.Count; i++)
                 blockCopy[i] = AllBlocks[i].Clone();
-            return new SAV8SWSH(State.BAK, blockCopy);
+            return new SAV8SWSH(blockCopy);
         }
 
         private int m_spec, m_item, m_move, m_abil;

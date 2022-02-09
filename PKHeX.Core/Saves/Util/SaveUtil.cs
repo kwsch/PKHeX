@@ -650,9 +650,9 @@ namespace PKHeX.Core
             switch (memCard.SelectedGameVersion)
             {
                 // Side Games
-                case COLO: sav = new SAV3Colosseum(data, memCard); break;
-                case XD: sav = new SAV3XD(data, memCard); break;
-                case RSBOX: sav = new SAV3RSBox(data, memCard); break;
+                case COLO: sav = new SAV3Colosseum(data) { MemoryCard = memCard }; break;
+                case XD: sav = new SAV3XD(data) { MemoryCard = memCard }; break;
+                case RSBOX: sav = new SAV3RSBox(data, memCard) { MemoryCard = memCard }; break;
 
                 // No pattern matched
                 default: return null;
@@ -821,19 +821,5 @@ namespace PKHeX.Core
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
         public static bool IsSizeValid(int size) => Sizes.Contains(size) || Handlers.Any(z => z.IsRecognized(size));
-
-        /// <summary>
-        /// Force loads the provided <see cref="sav"/> to the requested <see cref="version"/>.
-        /// </summary>
-        /// <param name="sav">SaveFile data to force</param>
-        /// <param name="version"> Version to retrieve for</param>
-        /// <returns>New <see cref="SaveFile"/> object.</returns>
-        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion version) => version switch // Reset save file info
-        {
-            R or S or RS => new SAV3RS(sav.State.BAK),
-            E => new SAV3E(sav.State.BAK),
-            FR or LG or FRLG => new SAV3FRLG(sav.State.BAK),
-            _ => throw new ArgumentOutOfRangeException(nameof(version)),
-        };
     }
 }

@@ -778,14 +778,14 @@ namespace PKHeX.WinForms.Controls
 
         public bool ExportBackup()
         {
-            if (!SAV.State.Exportable)
+            if (!SAV.State.Exportable || SAV.Metadata.FilePath is not { } file)
                 return false;
             using var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.Metadata.BAKName)};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
             string path = sfd.FileName;
-            File.WriteAllBytes(path, SAV.State.BAK);
+            File.Copy(file, path);
             WinFormsUtil.Alert(MsgSaveBackup, path);
 
             return true;
