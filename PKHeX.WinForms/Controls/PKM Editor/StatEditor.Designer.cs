@@ -1315,14 +1315,14 @@
             this.FLP_AlphaNoble.Location = new System.Drawing.Point(0, 285);
             this.FLP_AlphaNoble.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_AlphaNoble.Name = "FLP_AlphaNoble";
-            this.FLP_AlphaNoble.Size = new System.Drawing.Size(270, 21);
+            this.FLP_AlphaNoble.Size = new System.Drawing.Size(270, 31);
             this.FLP_AlphaNoble.TabIndex = 134;
             // 
             // CHK_IsAlpha
             // 
             this.CHK_IsAlpha.AutoSize = true;
             this.CHK_IsAlpha.Location = new System.Drawing.Point(55, 3);
-            this.CHK_IsAlpha.Margin = new System.Windows.Forms.Padding(95, 2, 3, 3);
+            this.CHK_IsAlpha.Margin = new System.Windows.Forms.Padding(95, 8, 3, 3);
             this.CHK_IsAlpha.Name = "CHK_IsAlpha";
             this.CHK_IsAlpha.Size = new System.Drawing.Size(64, 17);
             this.CHK_IsAlpha.TabIndex = 44;
@@ -1334,7 +1334,7 @@
             // 
             this.CHK_IsNoble.AutoSize = true;
             this.CHK_IsNoble.Location = new System.Drawing.Point(55, 3);
-            this.CHK_IsNoble.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
+            this.CHK_IsNoble.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.CHK_IsNoble.Name = "CHK_IsNoble";
             this.CHK_IsNoble.Size = new System.Drawing.Size(64, 17);
             this.CHK_IsNoble.TabIndex = 44;

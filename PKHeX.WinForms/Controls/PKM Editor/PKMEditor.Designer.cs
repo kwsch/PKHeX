@@ -2771,7 +2771,7 @@
             this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
             this.Stats.Location = new System.Drawing.Point(0, 0);
             this.Stats.Name = "Stats";
-            this.Stats.Size = new System.Drawing.Size(270, 264);
+            this.Stats.Size = new System.Drawing.Size(270, 280);
             this.Stats.StatDecreased = System.Drawing.Color.Blue;
             this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
             this.Stats.StatIncreased = System.Drawing.Color.Red;
@@ -2785,7 +2785,7 @@
             this.Contest.CNT_Sheen = ((byte)(0));
             this.Contest.CNT_Smart = ((byte)(0));
             this.Contest.CNT_Tough = ((byte)(0));
-            this.Contest.Location = new System.Drawing.Point(21, 265);
+            this.Contest.Location = new System.Drawing.Point(32, 290);
             this.Contest.Margin = new System.Windows.Forms.Padding(0);
             this.Contest.Name = "Contest";
             this.Contest.Size = new System.Drawing.Size(230, 50);

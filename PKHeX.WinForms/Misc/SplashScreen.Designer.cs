@@ -75,6 +75,7 @@
             this.Name = "SplashScreen";
             this.Opacity = 0.5D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SplashScreen_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
