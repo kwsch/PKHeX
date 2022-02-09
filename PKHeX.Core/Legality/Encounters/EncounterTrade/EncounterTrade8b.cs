@@ -53,7 +53,6 @@
             pb8.HT_Language = sav.Language;
             pb8.HeightScalar = HeightScalar;
             pb8.WeightScalar = WeightScalar;
-            pb8.SetRandomEC();
         }
     }
 }
