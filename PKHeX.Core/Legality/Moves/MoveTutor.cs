@@ -284,6 +284,7 @@ namespace PKHeX.Core
                 if (!pi.IsPresentInGame)
                     return;
                 moves.AddRange(MoveShop8_LA.Where((_, i) => pi.SpecialTutors[0][i]));
+                return;
             }
             if (pkm.BDSP)
             {
