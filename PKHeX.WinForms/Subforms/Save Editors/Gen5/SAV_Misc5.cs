@@ -387,7 +387,7 @@ namespace PKHeX.WinForms
         {
             FestaBlock5 block = ((SAV5B2W2) SAV).Festa;
             int mission = LB_FunfestMissions.SelectedIndex;
-            if ((uint) mission >= FestaBlock5.MaxMissionIndex)
+            if ((uint) mission > FestaBlock5.MaxMissionIndex)
                 return;
             bool unlocked = block.IsFunfestMissionUnlocked(mission);
             L_FMUnlocked.Visible = unlocked;
@@ -407,7 +407,7 @@ namespace PKHeX.WinForms
 
             FestaBlock5 block = ((SAV5B2W2)SAV).Festa;
             int mission = LB_FunfestMissions.SelectedIndex;
-            if ((uint)mission >= FestaBlock5.MaxMissionIndex)
+            if ((uint)mission > FestaBlock5.MaxMissionIndex)
                 return;
 
             var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, CB_FMLevel.SelectedIndex & 3, CHK_FMNew.Checked);

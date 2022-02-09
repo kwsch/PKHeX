@@ -81,7 +81,7 @@ namespace PKHeX.Core
 
         public bool IsFunfestMissionUnlocked(int mission)
         {
-            if ((uint) mission >= MaxMissionIndex)
+            if ((uint) mission > MaxMissionIndex)
                 throw new ArgumentOutOfRangeException(nameof(mission));
 
             if (mission == 0)
@@ -98,7 +98,7 @@ namespace PKHeX.Core
 
         public void UnlockFunfestMission(int mission)
         {
-            if ((uint)mission >= MaxMissionIndex)
+            if ((uint)mission > MaxMissionIndex)
                 throw new ArgumentOutOfRangeException(nameof(mission));
 
             IsFunfestMissionsUnlocked = true;
