@@ -179,8 +179,7 @@ namespace PKHeX.WinForms
 
         private void FormLoadCheckForUpdates()
         {
-            L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 Version? latestVersion;
                 // User might not be connected to the internet or with a flaky connection.
@@ -190,16 +189,21 @@ namespace PKHeX.WinForms
                     Debug.WriteLine($"Exception while checking for latest version: {ex}");
                     return;
                 }
-                if (latestVersion is not null && latestVersion > CurrentProgramVersion)
-                    Invoke((MethodInvoker)(() => NotifyNewVersionAvailable(latestVersion)));
+                if (latestVersion is null || latestVersion <= CurrentProgramVersion)
+                    return;
+
+                while (!IsHandleCreated) // Wait for form to be ready
+                    await Task.Delay(2_000).ConfigureAwait(false);
+                Invoke(() => NotifyNewVersionAvailable(latestVersion)); // invoke on GUI thread
             });
         }
 
         private void NotifyNewVersionAvailable(Version ver)
         {
-            L_UpdateAvailable.Visible = true;
             var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
             L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {date}";
+            L_UpdateAvailable.Click += (_, _) => Process.Start(ThreadPath);
+            L_UpdateAvailable.Visible = true;
         }
 
         private static void FormLoadConfig(out bool BAKprompt, out bool showChangelog)
