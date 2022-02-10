@@ -981,6 +981,8 @@ namespace PKHeX.Core
             }
             if (VC)
                 return Species is (int)Core.Species.Mew or (int)Core.Species.Celebi ? 5 : 3;
+            if (this is IAlpha {IsAlpha: true})
+                return 3;
             return 0;
         }
 
