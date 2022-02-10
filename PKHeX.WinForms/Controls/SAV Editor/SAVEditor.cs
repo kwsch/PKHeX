@@ -1110,7 +1110,8 @@ namespace PKHeX.WinForms.Controls
         {
             // Generational Interface
             ToggleSecrets(sav, HideSecretDetails);
-            B_VerifyCHK.Visible = Menu_ExportBAK.Visible = SAV.State.Exportable;
+            B_VerifyCHK.Visible = SAV.State.Exportable;
+            Menu_ExportBAK.Visible = SAV.State.Exportable && SAV.Metadata.FilePath is not null;
 
             if (sav is SAV4BR br)
             {
