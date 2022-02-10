@@ -53,7 +53,11 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             pa.SetMasteryFlags();
             pa.HeightScalarCopy = pa.HeightScalar;
             if (IsAlpha)
-                pa.SetMasteryFlagMove(pa.AlphaMove = pa.GetRandomAlphaMove());
+            {
+                var extra = pa.AlphaMove = pa.GetRandomAlphaMove();
+                pa.SetMasteryFlagMove(extra);
+                pk.PushMove(extra);
+            }
         }
 
         pk.SetRandomEC();
