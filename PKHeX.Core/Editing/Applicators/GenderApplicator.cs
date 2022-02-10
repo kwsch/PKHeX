@@ -24,6 +24,9 @@ namespace PKHeX.Core
         public static void SetGender(this PKM pk, int gender)
         {
             gender = Math.Min(2, Math.Max(0, gender));
+            if (pk.Gender == gender)
+                return;
+
             if (pk.Format <= 2)
             {
                 pk.SetAttackIVFromGender(gender);
