@@ -54,10 +54,21 @@ namespace PKHeX.Core
             value.CopyTo(Data);
         }
 
+        /// <summary>
+        /// Creates a new block reference to indicate a boolean value via the <see cref="type"/> (no data).
+        /// </summary>
+        /// <param name="key">Hash key</param>
+        /// <param name="type">Value the block has</param>
         internal SCBlock(uint key, SCTypeCode type) : this(key, type, Array.Empty<byte>())
         {
         }
 
+        /// <summary>
+        /// Creates a new block reference to indicate an object or single primitive value.
+        /// </summary>
+        /// <param name="key">Hash key</param>
+        /// <param name="type">Type of data that can be read</param>
+        /// <param name="arr">Backing byte array to interpret as a typed value</param>
         internal SCBlock(uint key, SCTypeCode type, byte[] arr)
         {
             Key = key;
@@ -65,6 +76,12 @@ namespace PKHeX.Core
             Data = arr;
         }
 
+        /// <summary>
+        /// Creates a new block reference to indicate an array of primitive values.
+        /// </summary>
+        /// <param name="key">Hash key</param>
+        /// <param name="arr">Backing byte array to read primitives from</param>
+        /// <param name="subType">Primitive value type</param>
         internal SCBlock(uint key, byte[] arr, SCTypeCode subType)
         {
             Key = key;
@@ -73,10 +90,19 @@ namespace PKHeX.Core
             SubType = subType;
         }
 
+        /// <summary> Indiciates if the block represents a single primitive value. </summary>
         public bool HasValue() => Type > SCTypeCode.Array;
+
+        /// <summary> Returns a boxed reference to a single primitive value. Throws an exception if the block does not represent a single primitive value. </summary>
         public object GetValue() => Type.GetValue(Data);
+
+        /// <summary> Sets a boxed primitive value to the block data. Throws an exception if the block does not represent a single primitive value, or if the primitive type does not match. </summary>
+        /// <param name="value">Boxed primitive value to be set to the block</param>
         public void SetValue(object value) => Type.SetValue(Data, value);
 
+        /// <summary>
+        /// Creates a deep copy of the block.
+        /// </summary>
         public SCBlock Clone()
         {
             if (Data.Length == 0)
@@ -119,13 +145,12 @@ namespace PKHeX.Core
         /// <returns>New object containing all info for the block.</returns>
         public static SCBlock ReadFromOffset(ReadOnlySpan<byte> data, ref int offset)
         {
-            // Create block, parse its key.
+            // Get key, initialize xorshift to decrypt
             var key = ReadUInt32LittleEndian(data[offset..]);
             offset += 4;
             var xk = new SCXorShift32(key);
 
             // Parse the block's type
-            //var block = 
             var type = (SCTypeCode)(data[offset++] ^ xk.Next());
 
             switch (type)
