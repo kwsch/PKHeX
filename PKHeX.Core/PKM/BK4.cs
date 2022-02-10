@@ -48,9 +48,9 @@ namespace PKHeX.Core
         public override PKM Clone() => new BK4((byte[])Data.Clone());
 
         // Structure
-        public override uint PID { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
-        public override ushort Sanity { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
-        public override ushort Checksum { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt32BigEndian(Data.AsSpan(0x06), value); }
+        public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
+        public override ushort Sanity { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt16BigEndian(Data.AsSpan(0x04), value); }
+        public override ushort Checksum { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), value); }
 
         #region Block A
         public override int Species { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), (ushort)value); }
