@@ -11,7 +11,7 @@ namespace PKHeX.Core
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) #{SaveCount:0000}";
         public override string Extension => this.GCExtension();
-        public SAV3GCMemoryCard? MemoryCard { get; }
+        public SAV3GCMemoryCard? MemoryCard { get; init; }
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -27,11 +27,11 @@ namespace PKHeX.Core
         public int MaxShadowID => ShadowInfo.Count;
         private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        public SAV3XD(byte[] data, SAV3GCMemoryCard memCard) : this(data, memCard.Data) => MemoryCard = memCard;
-        public SAV3XD(byte[] data) : this(data, (byte[])data.Clone()) { }
+        private readonly byte[] BAK;
 
         public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
+            BAK = Array.Empty<byte>();
             // create fake objects
             StrategyMemo = new StrategyMemo();
             ShadowInfo = new ShadowInfoTableXD(false);
@@ -39,8 +39,9 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        private SAV3XD(byte[] data, byte[] bak) : base(data, bak)
+        public SAV3XD(byte[] data) : base(data)
         {
+            BAK = data;
             InitializeData(out StrategyMemo, out ShadowInfo);
             Initialize();
         }
@@ -141,7 +142,7 @@ namespace PKHeX.Core
             byte[] newSAV = GeniusCrypto.Encrypt(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
-            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) State.BAK.Clone();
+            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
             return newFile;
         }
@@ -150,8 +151,7 @@ namespace PKHeX.Core
         protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
-            var sav = MemoryCard is not null ? new SAV3XD(data, MemoryCard) : new SAV3XD(data);
-            return sav;
+            return new SAV3XD(data) { MemoryCard = MemoryCard };
         }
 
         protected override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;

@@ -16,21 +16,17 @@ namespace PKHeX.Core
         public SaveFileState State { get; }
         public SaveFileMetadata Metadata { get; private set; }
 
-        protected SaveFile(byte[] data, byte[] bak, bool exportable = true)
+        protected SaveFile(byte[] data, bool exportable = true)
         {
             Data = data;
-            State = new SaveFileState(bak, exportable);
+            State = new SaveFileState(exportable);
             Metadata = new SaveFileMetadata(this);
-        }
-
-        protected SaveFile(byte[] data, bool exportable = true) : this(data, (byte[])data.Clone(), exportable)
-        {
         }
 
         protected SaveFile(int size = 0)
         {
             Data = size == 0 ? Array.Empty<byte>() : new byte[size];
-            State = new SaveFileState(Array.Empty<byte>(), false);
+            State = new SaveFileState(false);
             Metadata = new SaveFileMetadata(this);
         }
 

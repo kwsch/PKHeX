@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
-        public SAV3GCMemoryCard? MemoryCard { get; }
+        public SAV3GCMemoryCard? MemoryCard { get; init; }
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -33,17 +33,19 @@ namespace PKHeX.Core
         private readonly StrategyMemo StrategyMemo;
         public const int MaxShadowID = 0x80; // 128
         private int Memo;
-        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard memCard) : this(data, memCard.Data) => MemoryCard = memCard;
-        public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }
+
+        private readonly byte[] BAK;
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
         {
+            BAK = Array.Empty<byte>();
             StrategyMemo = Initialize();
             ClearBoxes();
         }
 
-        private SAV3Colosseum(byte[] data, byte[] bak) : base(data, bak)
+        public SAV3Colosseum(byte[] data) : base(data)
         {
+            BAK = data;
             InitializeData();
             StrategyMemo = Initialize();
         }
@@ -119,7 +121,7 @@ namespace PKHeX.Core
             byte[] newSAV = EncryptColosseum(slot, digest);
 
             // Put save slot back in original save data
-            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) State.BAK.Clone();
+            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
             return newFile;
         }
@@ -128,8 +130,7 @@ namespace PKHeX.Core
         protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
-            var sav = MemoryCard is not null ? new SAV3Colosseum(data, MemoryCard) : new SAV3Colosseum(data);
-            return sav;
+            return new SAV3Colosseum(data) { MemoryCard = MemoryCard };
         }
 
         protected override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;

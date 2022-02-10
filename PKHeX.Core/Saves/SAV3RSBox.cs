@@ -14,11 +14,10 @@ namespace PKHeX.Core
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
-        public SAV3GCMemoryCard? MemoryCard { get; }
+        public SAV3GCMemoryCard? MemoryCard { get; init; }
         public readonly bool Japanese = false; // todo?
 
-        public SAV3RSBox(byte[] data, SAV3GCMemoryCard memCard) : this(data, memCard.Data) => MemoryCard = memCard;
-        public SAV3RSBox(byte[] data) : this(data, (byte[])data.Clone()) { }
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard memCard) : this(data) => MemoryCard = memCard;
 
         public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
         {
@@ -27,7 +26,7 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        private SAV3RSBox(byte[] data, byte[] bak) : base(data, bak)
+        public SAV3RSBox(byte[] data) : base(data)
         {
             Blocks = ReadBlocks(data);
             InitializeData();
