@@ -10,6 +10,9 @@ namespace PKHeX.Core
     /// </summary>
     public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
     {
+        /// <summary>
+        /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
+        /// </summary>
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
