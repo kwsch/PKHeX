@@ -13,6 +13,10 @@ namespace PKHeX.Core
             new TypeSuggestion<PB7>(nameof(PB7.Stat_CP), p => p.ResetCP()),
             new TypeSuggestion<PB7>(nameof(PB7.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
             new TypeSuggestion<PB7>(nameof(PB7.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
+            
+            // PA8 Specific
+            new TypeSuggestion<PA8>(nameof(PA8.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
+            new TypeSuggestion<PA8>(nameof(PA8.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
 
             // Date Copy
             new TypeSuggestion<PKM>(nameof(PKM.EggMetDate), p => p.EggMetDate = p.MetDate),
