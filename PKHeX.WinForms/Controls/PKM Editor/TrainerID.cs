@@ -19,18 +19,19 @@ namespace PKHeX.WinForms.Controls
             if (tsv < 0)
                 return;
 
-            string IDstr = $"TSV: {tsv:d4}";
-            var repack = (uint)((Trainer.SID * 1_000_000) + Trainer.TID);
-
-            string supplement = Format < 7
-                ? $"G7ID: ({repack / 1_000_000:D4}){repack % 1_000_000:D6}"
-                : $"ID: {Trainer.TID:D5}/{Trainer.SID:D5}";
-
-            IDstr += Environment.NewLine + supplement;
+            string IDstr = $"TSV: {tsv:d4}{Environment.NewLine}{GetAlternateRepresentation(Trainer, Format)}";
             TSVTooltip.SetToolTip(TB_TID, IDstr);
             TSVTooltip.SetToolTip(TB_SID, IDstr);
             TSVTooltip.SetToolTip(TB_TID7, IDstr);
             TSVTooltip.SetToolTip(TB_SID7, IDstr);
+        }
+
+        private static string GetAlternateRepresentation(ITrainerID tr, int format)
+        {
+            if (format >= 7)
+                return $"ID: {tr.TID:D5}/{tr.SID:D5}";
+            var repack = (uint)((tr.SID << 16) | tr.TID); // 32bit
+            return $"G7ID: ({repack / 1_000_000:D4}){repack % 1_000_000:D6}";
         }
 
         private int GetTSV()

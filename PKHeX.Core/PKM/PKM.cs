@@ -10,6 +10,9 @@ namespace PKHeX.Core
     /// </summary>
     public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
     {
+        /// <summary>
+        /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
+        /// </summary>
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
@@ -415,6 +418,20 @@ namespace PKHeX.Core
             set => SetMoves(value);
         }
 
+        public void PushMove(int move)
+        {
+            if (move == 0 || (uint)move >= MaxMoveID)
+                return;
+
+            var ct = MoveCount;
+            if (ct == 4)
+                ct = 0;
+            SetMove(ct, move);
+            HealPPIndex(ct);
+        }
+
+        public int MoveCount => Convert.ToInt32(Move1 != 0) + Convert.ToInt32(Move2 != 0) + Convert.ToInt32(Move3 != 0) + Convert.ToInt32(Move4 != 0);
+
         public void SetMoves(IReadOnlyList<int> value)
         {
             Move1 = value.Count > 0 ? value[0] : 0;
@@ -740,6 +757,15 @@ namespace PKHeX.Core
             Move4_PP = GetMovePP(Move4, Move4_PPUps);
         }
 
+        public int HealPPIndex(int index) => index switch
+        {
+            0 => Move1_PP = GetMovePP(Move1, Move1_PPUps),
+            1 => Move2_PP = GetMovePP(Move2, Move2_PPUps),
+            2 => Move3_PP = GetMovePP(Move3, Move3_PPUps),
+            3 => Move4_PP = GetMovePP(Move4, Move4_PPUps),
+            _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        };
+
         /// <summary>
         /// Enforces that Party Stat values are present.
         /// </summary>
@@ -958,6 +984,8 @@ namespace PKHeX.Core
             }
             if (VC)
                 return Species is (int)Core.Species.Mew or (int)Core.Species.Celebi ? 5 : 3;
+            if (this is IAlpha {IsAlpha: true})
+                return 3;
             return 0;
         }
 

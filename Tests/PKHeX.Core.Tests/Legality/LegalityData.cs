@@ -26,6 +26,8 @@ namespace PKHeX.Tests.Legality
                 if (fEntries.GetValue(fTree) is not IReadOnlyList<EvolutionMethod[]> entries)
                     throw new ArgumentException(nameof(entries));
                 var feebas = entries[(int)Species.Feebas];
+                if (feebas.Length == 0)
+                    continue;
 
                 var t1 = (EvolutionType)feebas[0].Method;
                 var t2 = (EvolutionType)feebas[1].Method;

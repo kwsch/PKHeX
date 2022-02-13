@@ -145,7 +145,13 @@ namespace PKHeX.Core
                 formeVal |= (uint)((IV_SPC & 0x6) >> 1);
                 return (int)(formeVal / 10);
             }
-            set { }
+            set
+            {
+                if (Species != 201) // Unown
+                    return;
+                while (Form != value)
+                    SetRandomIVs(0);
+            }
         }
 
         public abstract int EV_SPC { get; set; }

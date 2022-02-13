@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public string GetBoxName(int box)
         {
             var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
-            if (span.Count((byte)0) == span.Length)
+            if (ReadUInt16LittleEndian(span) == 0)
                 return $"Box {box + 1}";
             return SAV.GetString(span);
         }
@@ -38,7 +38,7 @@ namespace PKHeX.Core
         {
             var offset = Offset + GetTeamNameOffset(team);
             var span = Data.AsSpan(offset, TeamNameLength);
-            if (span.Count((byte)0) == span.Length)
+            if (ReadUInt16LittleEndian(span) == 0)
                 return $"Team {team + 1}";
             return SAV.GetString(span);
         }

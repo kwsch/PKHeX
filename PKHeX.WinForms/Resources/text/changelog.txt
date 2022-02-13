@@ -1,7 +1,55 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/02/04 - New Update:
+22/02/14 - New Update:
+ - Legality:
+ - - Changed: Height & Weight calculated values now match the game calculation perfectly. Values not matching expected values exactly are flagged.
+ - - Fixed: SWSH tutor moves are now illegal on PA8 entities.
+ - - Fixed: Gen3 Colosseum E-Reader entities now correctly generate PID/IV from the encounter database. Thanks @Dani88alv !
+ - - Fixed: Gen8 BDSP trade encounters now generate correct ECs from the encounter database. Thanks @architdate !
+ - - Fixed: Gen8 PLA evolution levels are checked for Basculegion/Wyrdeer/Overqwil (must learn suitable move). Thanks @Lusamine !
+ - Added: Randomizing an Alpha Pokémon's IVs now sets 3 flawless IVs.
+ - Added: Gen7 LGPE starter choice can now be changed in MyStatus7b. Thanks @GiftedK !
+ - Fixed: Startup checking for if an update is available now correctly waits for the form to be ready for the label to appear. Thanks @jdearden1 !
+ - Fixed: Auto Height/Weight calc checkbox now behaves better when loading and toggling state. Thanks @joeymavity !
+ - Fixed: Gen8 PLA showdown set imports will no longer error trying to set record flags.
+ - Fixed: Gen8 BDSP box names that are uninitialized will show placeholder "Box #" values in the dropdown.
+ - Fixed: Gen5 Funfest mission record flags for the last funfest mission type now save correctly. Thanks @Dani88alv !
+ - Fixed: Gen5 Battle Subway progress flags now save correctly. Thanks @Dani88alv !
+ - Fixed: Gen4 DP Met/Egg Location now sets correctly. Thanks @twinbee321 !
+ - Fixed: Gen3 Colosseum inventory now saves correctly. Thanks @Dani88alv !
+ - Changed: Save File memory allocation reduced; original data for backups is no longer stored in RAM. Exporting a backup will copy the original file loaded.
+ - Changed: Gen2-5's Hidden Power's base power is now indicated next to the type rather than on a separate line.
+ - Changed: Contest Stats now appear a little lower in the stats tab; same for Is Alpha / Is Noble checkboxes.
+ - Changed: Showdown Set parsing now accepts "Yes" for Shiny / Gigantamax regardless of case ("yEs" is valid for true). Useful for manually typed SysBot.NET users' sets :)
+
+22/02/08 - New Update: (35837) [4530167]
+ - Legality:
+ - - Added: GVs are now checked for legality.
+ - - Fixed: Min Move Count now considers purchased moves as able to skip as level up moves. Thanks CC6174 !
+ - - Fixed: Alphas now check flawless IV count correctly. Thanks @Atrius & @Lusamine !
+ - - Fixed: Alphas from Landmarks are now correctly checked for their Alpha Move (or lack thereof).
+ - - Fixed: Gen4 Minimum Sheen check now allows Haircut to give less sheen. Thanks @edo9300 !
+ - - Fixed: Gen1 Catch Rate now matches better for special Static Encounters that vary across games. Thanks @MrPerson0 !
+ - Added: Sprites for PLA are now all shown with the circular mugshot style instead of partial old & new sprites.
+ - Added: MoveMastery can now be suggested via the batch editor commands.
+ - Fixed: Gen8 SWSH TR flag move names now display correctly. @sora10pls !
+ - Fixed: Gen8 PLA clothing blocks are now labeled. Thanks @sora10pls !
+ - Fixed: Gen8 PLA showdown set imports no longer set PP Ups, and now set mastery flags.
+ - Fixed: Gen7 TID format display for past gen origin now shows the G7ID correctly. Thanks @NotaInutilis !
+ - Fixed: Gen4 Pt Event Flags now load correctly for Spanish. Thanks CJ009 !
+ - Fixed: Gen3 Colosseum saves now load correctly. Thanks Solarc !
+ - Fixed: Folder Browser for backup saves now loads files correctly.
+ - Changed: Gen8 PLA species that are unavailable in-game no longer show up in the species dropdown (similar to LGP/E, BDSP).
+ - Changed: Gen8 PLA Height & Weight values now update cleanly, and set the HeightCopy value if Auto is checked. Thanks @sercho80 !
+ - Changed: Gen8 PLA inventory edits now only show the amount of unlocked inventory slots. Thanks @NinFanBoyFTW !
+ - Changed: Gen8 PLA inventory storage now can Give All. Thanks Kiki.Z !
+ - Changed: SAV Editor buttons are now taller & wider to be more friendly for translations. Thanks @sercho80 !
+ - Changed: Event Flag editors for Gen7+below now display the event flags in a datagrid instead of separate controls (performance). Thanks @edo9300 !
+ - Changed: Default startup game version is now Legends: Arceus if no save is opened (changed from BD/SP).
+ - Changed: Updated Chinese translation files. Thanks @easyworld !
+
+22/02/04 - New Update: (32948) [4494330]
  - Introducing Pokémon Legends: Arceus support! Thanks @SciresM, @sora10pls, @Lusamine, @architdate, @ReignOfComputer for troubleshooting!
  - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for PLA parsing.
  - - Save Data is similar to SW/SH; a pokedex, trainer, inventory, and block data editor are provided.

@@ -36,9 +36,10 @@ namespace PKHeX.Core
             var span = data[Offset..];
             for (int i = 0; i < Items.Length; i++)
             {
-                var item = span.Slice(i * 4, 4);
-                WriteUInt32BigEndian(item,      (ushort)Items[i].Index);
-                WriteUInt32BigEndian(item[2..], (ushort)Items[i].Count);
+                var item = Items[i];
+                var slice = span.Slice(i * 4, 4);
+                WriteUInt16BigEndian(slice,      (ushort)item.Index);
+                WriteUInt16BigEndian(slice[2..], (ushort)item.Count);
             }
         }
     }

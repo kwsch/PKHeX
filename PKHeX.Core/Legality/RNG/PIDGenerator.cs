@@ -104,6 +104,16 @@ namespace PKHeX.Core
             pk.IVs = MethodFinder.GetIVsInt32(A >> 16, B >> 16);
         }
 
+        public static void SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
+        {
+            var rng = RNG.XDRNG;
+            var A = rng.Reverse(seed, 4);
+            var D = rng.Next(A); // PID
+            var E = rng.Next(D); // PID
+
+            pk.PID = (D & 0xFFFF0000) | E >> 16;
+        }
+
         private static void SetValuesFromSeedChannel(PKM pk, uint seed)
         {
             var rng = RNG.XDRNG;

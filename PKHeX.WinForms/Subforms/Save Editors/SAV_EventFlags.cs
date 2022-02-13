@@ -12,7 +12,7 @@ namespace PKHeX.WinForms
     {
         private readonly EventWorkspace Editor;
         private readonly Dictionary<int, NumericUpDown> WorkDict = new();
-        private readonly Dictionary<int, CheckBox> FlagDict = new();
+        private readonly Dictionary<int, int> FlagDict = new();
 
         private bool editing;
 
@@ -30,16 +30,14 @@ namespace PKHeX.WinForms
             for (int i = 0; i < editor.Values.Length; i++)
                 CB_Stats.Items.Add(i.ToString());
 
-            TLP_Flags.SuspendLayout();
+            dgv.SuspendLayout();
             TLP_Const.SuspendLayout();
-            TLP_Flags.Scroll += WinFormsUtil.PanelScroll;
             TLP_Const.Scroll += WinFormsUtil.PanelScroll;
-            TLP_Flags.Controls.Clear();
             TLP_Const.Controls.Clear();
             AddFlagList(editor.Labels, editor.Flags);
             AddConstList(editor.Labels, editor.Values);
 
-            TLP_Flags.ResumeLayout();
+            dgv.ResumeLayout();
             TLP_Const.ResumeLayout();
 
             Text = $"{Text} ({sav.Version})";
@@ -75,38 +73,79 @@ namespace PKHeX.WinForms
             var labels = list.Flag;
             if (labels.Count == 0)
             {
-                TLP_Flags.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+                dgv.Visible = false;
+                var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true, Location = new Point(20, 20) };
+                GB_Flags.Controls.Add(research);
                 return;
             }
 
-            var hide = Main.Settings.Advanced.HideEventTypeBelow;
-            labels = labels.OrderByDescending(z => z.Type).ToList();
+            var cFlag = new DataGridViewCheckBoxColumn
+            {
+                DisplayIndex = 0,
+                Width = 20,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+            };
+
+            var cLabel = new DataGridViewTextBoxColumn
+            {
+                DisplayIndex = 1,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                ReadOnly = true,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+            };
+
+            cFlag.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            cLabel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            dgv.Columns.Add(cFlag);
+            dgv.Columns.Add(cLabel);
+
+            var hideBelow = Main.Settings.Advanced.HideEventTypeBelow;
+            labels = labels.Where(z => z.Type >= hideBelow).OrderByDescending(z => z.Type).ToList();
+            dgv.Rows.Add(labels.Count);
+
+            for (int i = 0; i < labels.Count; i++)
+                FlagDict[labels[i].Index] = i;
+
             for (int i = 0; i < labels.Count; i++)
             {
-                var (name, index, type) = labels[i];
-                if (type < hide)
-                    break;
-
-                var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
-                var chk = new CheckBox
-                {
-                    CheckAlign = ContentAlignment.MiddleLeft,
-                    Margin = Padding.Empty,
-                    Checked = values[index],
-                    AutoSize = true,
-                };
-                lbl.Click += (sender, e) => chk.Checked ^= true;
-                chk.CheckedChanged += (o, args) =>
-                {
-                    values[index] = chk.Checked;
-                    if (NUD_Flag.Value == index)
-                        c_CustomFlag.Checked = chk.Checked;
-                };
-                TLP_Flags.Controls.Add(chk, 0, i);
-                TLP_Flags.Controls.Add(lbl, 1, i);
-
-                FlagDict.Add(index, chk);
+                var (name, index, _) = labels[i];
+                var cells = dgv.Rows[i].Cells;
+                cells[0].Value = values[index];
+                cells[1].Value = name;
             }
+            dgv.CellValueChanged += (s, e) =>
+            {
+                if (e.ColumnIndex != 0 || e.RowIndex == -1)
+                    return;
+
+                bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+                var index = labels[e.RowIndex].Index;
+                values[index] = chk;
+                if (NUD_Flag.Value == index)
+                    c_CustomFlag.Checked = chk;
+            };
+            dgv.CellMouseUp += (s, e) =>
+            {
+                if (e.RowIndex == -1)
+                    return;
+
+                if (e.ColumnIndex == 0)
+                {
+                    dgv.EndEdit();
+                    return;
+                }
+
+                if (e.ColumnIndex != 1)
+                    return;
+
+                bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
+                dgv.Rows[e.RowIndex].Cells[0].Value = !chk;
+                var index = labels[e.RowIndex].Index;
+                values[index] = chk;
+                if (NUD_Flag.Value == index)
+                    c_CustomFlag.Checked = !chk;
+            };
         }
 
         private void AddConstList(EventLabelCollection list, ushort[] values)
@@ -192,8 +231,8 @@ namespace PKHeX.WinForms
             editing = true;
             var index = (int) NUD_Flag.Value;
             Editor.Flags[index] = c_CustomFlag.Checked;
-            if (FlagDict.TryGetValue(index, out var chk))
-                chk.Checked = c_CustomFlag.Checked;
+            if (FlagDict.TryGetValue(index, out var rowIndex))
+                dgv.Rows[rowIndex].Cells[0].Value = c_CustomFlag.Checked;
             editing = false;
         }
 

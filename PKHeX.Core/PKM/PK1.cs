@@ -80,7 +80,7 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
-        private static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
+        public static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
 
         private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, int rate)
         {

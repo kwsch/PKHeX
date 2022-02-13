@@ -38,6 +38,9 @@ namespace PKHeX.Core
 
             var permit = pk.TechRecordPermitFlags;
             var moveIDs = pk.TechRecordPermitIndexes;
+            if (permit.Length != moveIDs.Length)
+                return;
+
             foreach (var m in moves)
             {
                 var index = moveIDs.IndexOf(m);

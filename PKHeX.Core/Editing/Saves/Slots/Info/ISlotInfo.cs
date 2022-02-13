@@ -38,6 +38,11 @@ namespace PKHeX.Core
         /// <param name="setting">Setting to use when importing the <see cref="pkm"/> data</param>
         /// <returns>Returns false if it did not succeed.</returns>
         bool WriteTo(SaveFile sav, PKM pkm, PKMImportSetting setting = PKMImportSetting.UseDefault);
+
+        /// <summary>
+        /// Reads a <see cref="PKM"/> from the <see cref="sav"/>.
+        /// </summary>
+        /// <param name="sav">Save file to read from.</param>
         PKM Read(SaveFile sav);
     }
 }

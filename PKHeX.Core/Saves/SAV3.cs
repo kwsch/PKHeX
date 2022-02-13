@@ -148,6 +148,19 @@ namespace PKHeX.Core
         public sealed override int MaxBallID => Legal.MaxBallID_3;
         public sealed override int MaxGameID => Legal.MaxGameID_3;
 
+        /// <summary>
+        /// Force loads a new <see cref="SAV3"/> object to the requested <see cref="version"/>.
+        /// </summary>
+        /// <param name="version"> Version to retrieve for</param>
+        /// <returns>New <see cref="SaveFile"/> object.</returns>
+        public SAV3 ForceLoad(GameVersion version) => version switch
+        {
+            GameVersion.R or GameVersion.S or GameVersion.RS     => new SAV3RS(Data),
+            GameVersion.E                                        => new SAV3E(Data),
+            GameVersion.FR or GameVersion.LG or GameVersion.FRLG => new SAV3FRLG(Data),
+            _ => throw new ArgumentOutOfRangeException(nameof(version)),
+        };
+
         public sealed override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
 
         public sealed override int BoxCount => 14;
@@ -182,7 +195,7 @@ namespace PKHeX.Core
                 WriteUInt16LittleEndian(sector[0xFF6..], chk);
             }
 
-            if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
+            if (Data.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
                 return;
 
             // Hall of Fame Checksums
@@ -208,7 +221,7 @@ namespace PKHeX.Core
                         return false;
                 }
 
-                if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                if (Data.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                     return true;
 
                 if (!IsSectorValidExtra(0x1C000))
@@ -246,7 +259,7 @@ namespace PKHeX.Core
                         list.Add($"Sector {i} @ {i*SIZE_SECTOR:X5} invalid.");
                 }
 
-                if (State.BAK.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                if (Data.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                 {
                     if (!IsSectorValidExtra(0x1C000))
                         list.Add("HoF first sector invalid.");

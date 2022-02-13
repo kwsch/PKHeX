@@ -325,7 +325,8 @@ namespace PKHeX.WinForms.Controls
 
         private bool TrySetPKMDestination(PictureBox pb, DropModifier mod)
         {
-            var pk = Drag.Info.Source!.ReadCurrent();
+            var info = Drag.Info;
+            var pk = info.Source!.ReadCurrent();
             var msg = Drag.Info.Destination!.CanWriteTo(pk);
             if (msg != WriteBlockedMessage.None)
                 return false;
@@ -334,24 +335,27 @@ namespace PKHeX.WinForms.Controls
                 TrySetPKMSource(pb, mod);
 
             // Copy from temp to destination slot.
-            Env.Slots.Set(Drag.Info.Destination!.Slot, pk);
+            var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
+            Env.Slots.Set(info.Destination!.Slot, pk, type);
             Drag.ResetCursor(pb.FindForm());
             return true;
         }
 
         private bool TrySetPKMSource(PictureBox sender, DropModifier mod)
         {
-            if (Drag.Info.Destination == null || mod == DropModifier.Clone)
+            var info = Drag.Info;
+            if (info.Destination == null || mod == DropModifier.Clone)
                 return false;
 
             if (sender.Image == null || mod == DropModifier.Overwrite)
             {
-                Env.Slots.Delete(Drag.Info.Source!.Slot);
+                Env.Slots.Delete(info.Source!.Slot);
                 return true;
             }
 
-            var pk = Drag.Info.Destination.ReadCurrent();
-            Env.Slots.Set(Drag.Info.Source!.Slot, pk);
+            var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
+            var pk = info.Destination.ReadCurrent();
+            Env.Slots.Set(Drag.Info.Source!.Slot, pk, type);
             return true;
         }
 

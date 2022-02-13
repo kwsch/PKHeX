@@ -205,7 +205,7 @@ namespace PKHeX.Core
 
             int ofs = BoxName + (box * BoxNameLength);
             var span = Data.AsSpan(ofs, BoxNameLength);
-            if (span.Count((byte)0) == span.Length)
+            if (ReadUInt16BigEndian(span) == 0)
                 return $"BOX {box + 1}";
             return GetString(ofs, BoxNameLength);
         }
@@ -217,7 +217,7 @@ namespace PKHeX.Core
 
             int ofs = BoxName + (box * BoxNameLength);
             var span = Data.AsSpan(ofs, BoxNameLength);
-            if (span.Count((byte)0) == span.Length)
+            if (ReadUInt16BigEndian(span) == 0)
                 return;
 
             SetString(span, value.AsSpan(), BoxNameLength / 2, StringConverterOption.ClearZero);

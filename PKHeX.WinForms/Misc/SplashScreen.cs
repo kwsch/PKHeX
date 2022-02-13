@@ -1,9 +1,22 @@
 ﻿using System.Windows.Forms;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class SplashScreen : Form
 {
-    public partial class SplashScreen : Form
+    public SplashScreen() => InitializeComponent();
+
+    private bool CanClose;
+
+    private void SplashScreen_FormClosing(object sender, FormClosingEventArgs e)
     {
-        public SplashScreen() => InitializeComponent();
+        if (!CanClose)
+            e.Cancel = true;
+    }
+
+    public void ForceClose()
+    {
+        CanClose = true;
+        Close();
     }
 }

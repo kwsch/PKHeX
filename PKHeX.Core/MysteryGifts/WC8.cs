@@ -88,6 +88,8 @@ namespace PKHeX.Core
                 var type = PIDType;
                 if (type is not Shiny.FixedValue)
                     return type;
+                if (IsHOMEGift && IsHOMEShinyPossible())
+                    return Shiny.Random;
                 return GetShinyXor() switch
                 {
                     0 => Shiny.AlwaysSquare,
@@ -605,9 +607,9 @@ namespace PKHeX.Core
                         if (!pkm.IsShiny)
                             return false;
                     }
-                    else
+                    else // Never or Random (HOME ID specific)
                     {
-                        if (pkm.IsShiny && !(TID == 0 && SID == 0 && PID != 0))
+                        if (pkm.IsShiny && !IsHOMEShinyPossible())
                             return false;
                     }
                 }
@@ -671,6 +673,12 @@ namespace PKHeX.Core
             if (type <= 1)
                 return true;
             return pkm.PID == GetPID(pkm, type);
+        }
+
+        private bool IsHOMEShinyPossible()
+        {
+            // no defined TID/SID and having a fixed PID can cause the player's TID/SID to match the PID's shiny calc.
+            return TID == 0 && SID == 0 && PID != 0;
         }
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;

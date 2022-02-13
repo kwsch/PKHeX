@@ -84,6 +84,9 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.GO)
                 VerifyIVsGoTransfer(data);
+
+            if (data.EncounterMatch is EncounterSlot8a s)
+                VerifyIVsFlawless(data, s.FlawlessIVCount);
         }
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)

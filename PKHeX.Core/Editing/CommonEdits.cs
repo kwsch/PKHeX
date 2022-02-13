@@ -49,28 +49,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM.Form"/> value, with special consideration for <see cref="PKM.Format"/> values which derive the <see cref="PKM.Form"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="form">Desired <see cref="PKM.Form"/> value to set.</param>
-        public static void SetForm(this PKM pk, int form)
-        {
-            switch (pk.Format)
-            {
-                case 2:
-                    while (pk.Form != form)
-                        pk.SetRandomIVs();
-                    break;
-                case 3:
-                    pk.SetPIDUnown3(form);
-                    break;
-                default:
-                    pk.Form = form;
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
@@ -191,6 +169,7 @@ namespace PKHeX.Core
         public static void ApplySetDetails(this PKM pk, IBattleTemplate Set)
         {
             pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
+            pk.Form = Set.Form;
             pk.SetMoves(Set.Moves, true);
             pk.ApplyHeldItem(Set.HeldItem, Set.Format);
             pk.CurrentLevel = Set.Level;
@@ -225,9 +204,10 @@ namespace PKHeX.Core
                 pk.SetMarkings();
 
             pk.SetNickname(Set.Nickname);
-            pk.SetForm(Set.Form);
             pk.SetSaneGender(Set.Gender);
-            pk.SetMaximumPPUps(Set.Moves);
+
+            if (Legal.IsPPUpAvailable(pk))
+                pk.SetMaximumPPUps(Set.Moves);
 
             if (pk.Format >= 3)
             {
@@ -260,6 +240,11 @@ namespace PKHeX.Core
             {
                 t.ClearRecordFlags();
                 t.SetRecordFlags(Set.Moves);
+            }
+            if (pk is IMoveShop8 m)
+            {
+                m.ClearMoveShopFlags();
+                m.SetMoveShopFlags(Set.Moves);
             }
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)

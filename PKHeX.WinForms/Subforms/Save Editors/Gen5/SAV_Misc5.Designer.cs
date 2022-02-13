@@ -33,6 +33,7 @@ namespace PKHeX.WinForms
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.B_UnlockAllMusicalProps = new System.Windows.Forms.Button();
             this.GB_KeySystem = new System.Windows.Forms.GroupBox();
             this.B_AllKeys = new System.Windows.Forms.Button();
             this.CLB_KeySystem = new System.Windows.Forms.CheckedListBox();
@@ -99,7 +100,7 @@ namespace PKHeX.WinForms
             this.CB_Areas = new System.Windows.Forms.ComboBox();
             this.LB_Slots = new System.Windows.Forms.ListBox();
             this.TAB_Subway = new System.Windows.Forms.TabPage();
-            this.GB_SuperChecks = new System.Windows.Forms.GroupBox();
+            this.GB_SubwayChecks = new System.Windows.Forms.GroupBox();
             this.CHK_SuperMulti = new System.Windows.Forms.CheckBox();
             this.CHK_SuperDouble = new System.Windows.Forms.CheckBox();
             this.CHK_SuperSingle = new System.Windows.Forms.CheckBox();
@@ -147,7 +148,11 @@ namespace PKHeX.WinForms
             this.L_SingleRecord = new System.Windows.Forms.Label();
             this.TipExpB = new System.Windows.Forms.ToolTip(this.components);
             this.TipExpW = new System.Windows.Forms.ToolTip(this.components);
-            this.B_UnlockAllMusicalProps = new System.Windows.Forms.Button();
+            this.CHK_Subway2 = new System.Windows.Forms.CheckBox();
+            this.CHK_Subway1 = new System.Windows.Forms.CheckBox();
+            this.CHK_Subway0 = new System.Windows.Forms.CheckBox();
+            this.CHK_Subway3 = new System.Windows.Forms.CheckBox();
+            this.CHK_Subway7 = new System.Windows.Forms.CheckBox();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -174,7 +179,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).BeginInit();
             this.TAB_Subway.SuspendLayout();
-            this.GB_SuperChecks.SuspendLayout();
+            this.GB_SubwayChecks.SuspendLayout();
             this.GB_SuperMulti.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMultiFriendsRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMultiFriendsPast)).BeginInit();
@@ -250,6 +255,16 @@ namespace PKHeX.WinForms
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
+            // 
+            // B_UnlockAllMusicalProps
+            // 
+            this.B_UnlockAllMusicalProps.Location = new System.Drawing.Point(175, 243);
+            this.B_UnlockAllMusicalProps.Name = "B_UnlockAllMusicalProps";
+            this.B_UnlockAllMusicalProps.Size = new System.Drawing.Size(144, 42);
+            this.B_UnlockAllMusicalProps.TabIndex = 5;
+            this.B_UnlockAllMusicalProps.Text = "Unlock All Musical Props";
+            this.B_UnlockAllMusicalProps.UseVisualStyleBackColor = true;
+            this.B_UnlockAllMusicalProps.Click += new System.EventHandler(this.B_UnlockAllMusicalProps_Click);
             // 
             // GB_KeySystem
             // 
@@ -1078,7 +1093,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_Subway
             // 
-            this.TAB_Subway.Controls.Add(this.GB_SuperChecks);
+            this.TAB_Subway.Controls.Add(this.GB_SubwayChecks);
             this.TAB_Subway.Controls.Add(this.GB_SuperMulti);
             this.TAB_Subway.Controls.Add(this.GB_SuperDoubles);
             this.TAB_Subway.Controls.Add(this.GB_SuperSingles);
@@ -1094,50 +1109,55 @@ namespace PKHeX.WinForms
             this.TAB_Subway.Text = "Subway";
             this.TAB_Subway.UseVisualStyleBackColor = true;
             // 
-            // GB_SuperChecks
+            // GB_SubwayChecks
             // 
-            this.GB_SuperChecks.Controls.Add(this.CHK_SuperMulti);
-            this.GB_SuperChecks.Controls.Add(this.CHK_SuperDouble);
-            this.GB_SuperChecks.Controls.Add(this.CHK_SuperSingle);
-            this.GB_SuperChecks.Location = new System.Drawing.Point(212, 6);
-            this.GB_SuperChecks.Margin = new System.Windows.Forms.Padding(2);
-            this.GB_SuperChecks.Name = "GB_SuperChecks";
-            this.GB_SuperChecks.Padding = new System.Windows.Forms.Padding(2);
-            this.GB_SuperChecks.Size = new System.Drawing.Size(118, 87);
-            this.GB_SuperChecks.TabIndex = 3;
-            this.GB_SuperChecks.TabStop = false;
-            this.GB_SuperChecks.Text = "Super Checks";
+            this.GB_SubwayChecks.Controls.Add(this.CHK_Subway7);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_Subway3);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_Subway2);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_Subway1);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_Subway0);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_SuperMulti);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_SuperDouble);
+            this.GB_SubwayChecks.Controls.Add(this.CHK_SuperSingle);
+            this.GB_SubwayChecks.Location = new System.Drawing.Point(212, 6);
+            this.GB_SubwayChecks.Margin = new System.Windows.Forms.Padding(2);
+            this.GB_SubwayChecks.Name = "GB_SubwayChecks";
+            this.GB_SubwayChecks.Padding = new System.Windows.Forms.Padding(2);
+            this.GB_SubwayChecks.Size = new System.Drawing.Size(118, 151);
+            this.GB_SubwayChecks.TabIndex = 3;
+            this.GB_SubwayChecks.TabStop = false;
+            this.GB_SubwayChecks.Text = "Subway Flags";
             // 
             // CHK_SuperMulti
             // 
             this.CHK_SuperMulti.AutoSize = true;
-            this.CHK_SuperMulti.Location = new System.Drawing.Point(9, 63);
+            this.CHK_SuperMulti.Location = new System.Drawing.Point(9, 112);
             this.CHK_SuperMulti.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperMulti.Name = "CHK_SuperMulti";
             this.CHK_SuperMulti.Size = new System.Drawing.Size(85, 17);
-            this.CHK_SuperMulti.TabIndex = 2;
+            this.CHK_SuperMulti.TabIndex = 7;
             this.CHK_SuperMulti.Text = "Super Multi?";
             this.CHK_SuperMulti.UseVisualStyleBackColor = true;
             // 
             // CHK_SuperDouble
             // 
             this.CHK_SuperDouble.AutoSize = true;
-            this.CHK_SuperDouble.Location = new System.Drawing.Point(9, 41);
+            this.CHK_SuperDouble.Location = new System.Drawing.Point(9, 97);
             this.CHK_SuperDouble.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperDouble.Name = "CHK_SuperDouble";
             this.CHK_SuperDouble.Size = new System.Drawing.Size(102, 17);
-            this.CHK_SuperDouble.TabIndex = 1;
+            this.CHK_SuperDouble.TabIndex = 6;
             this.CHK_SuperDouble.Text = "Super Doubles?";
             this.CHK_SuperDouble.UseVisualStyleBackColor = true;
             // 
             // CHK_SuperSingle
             // 
             this.CHK_SuperSingle.AutoSize = true;
-            this.CHK_SuperSingle.Location = new System.Drawing.Point(9, 20);
+            this.CHK_SuperSingle.Location = new System.Drawing.Point(9, 82);
             this.CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperSingle.Name = "CHK_SuperSingle";
             this.CHK_SuperSingle.Size = new System.Drawing.Size(97, 17);
-            this.CHK_SuperSingle.TabIndex = 0;
+            this.CHK_SuperSingle.TabIndex = 5;
             this.CHK_SuperSingle.Text = "Super Singles?";
             this.CHK_SuperSingle.UseVisualStyleBackColor = true;
             // 
@@ -1687,15 +1707,60 @@ namespace PKHeX.WinForms
             this.L_SingleRecord.Text = "Record";
             this.L_SingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // B_UnlockAllMusicalProps
+            // CHK_Subway2
             // 
-            this.B_UnlockAllMusicalProps.Location = new System.Drawing.Point(175, 243);
-            this.B_UnlockAllMusicalProps.Name = "B_UnlockAllMusicalProps";
-            this.B_UnlockAllMusicalProps.Size = new System.Drawing.Size(144, 42);
-            this.B_UnlockAllMusicalProps.TabIndex = 5;
-            this.B_UnlockAllMusicalProps.Text = "Unlock All Musical Props";
-            this.B_UnlockAllMusicalProps.UseVisualStyleBackColor = true;
-            this.B_UnlockAllMusicalProps.Click += new System.EventHandler(this.B_UnlockAllMusicalProps_Click);
+            this.CHK_Subway2.AutoSize = true;
+            this.CHK_Subway2.Location = new System.Drawing.Point(9, 47);
+            this.CHK_Subway2.Margin = new System.Windows.Forms.Padding(2);
+            this.CHK_Subway2.Name = "CHK_Subway2";
+            this.CHK_Subway2.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Subway2.TabIndex = 3;
+            this.CHK_Subway2.Text = "Flag2";
+            this.CHK_Subway2.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway1
+            // 
+            this.CHK_Subway1.AutoSize = true;
+            this.CHK_Subway1.Location = new System.Drawing.Point(9, 32);
+            this.CHK_Subway1.Margin = new System.Windows.Forms.Padding(2);
+            this.CHK_Subway1.Name = "CHK_Subway1";
+            this.CHK_Subway1.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Subway1.TabIndex = 2;
+            this.CHK_Subway1.Text = "Flag1";
+            this.CHK_Subway1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway0
+            // 
+            this.CHK_Subway0.AutoSize = true;
+            this.CHK_Subway0.Location = new System.Drawing.Point(9, 17);
+            this.CHK_Subway0.Margin = new System.Windows.Forms.Padding(2);
+            this.CHK_Subway0.Name = "CHK_Subway0";
+            this.CHK_Subway0.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Subway0.TabIndex = 1;
+            this.CHK_Subway0.Text = "Flag0";
+            this.CHK_Subway0.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway3
+            // 
+            this.CHK_Subway3.AutoSize = true;
+            this.CHK_Subway3.Location = new System.Drawing.Point(9, 62);
+            this.CHK_Subway3.Margin = new System.Windows.Forms.Padding(2);
+            this.CHK_Subway3.Name = "CHK_Subway3";
+            this.CHK_Subway3.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Subway3.TabIndex = 4;
+            this.CHK_Subway3.Text = "Flag3";
+            this.CHK_Subway3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Subway7
+            // 
+            this.CHK_Subway7.AutoSize = true;
+            this.CHK_Subway7.Location = new System.Drawing.Point(9, 127);
+            this.CHK_Subway7.Margin = new System.Windows.Forms.Padding(2);
+            this.CHK_Subway7.Name = "CHK_Subway7";
+            this.CHK_Subway7.Size = new System.Drawing.Size(52, 17);
+            this.CHK_Subway7.TabIndex = 8;
+            this.CHK_Subway7.Text = "Flag7";
+            this.CHK_Subway7.UseVisualStyleBackColor = true;
             // 
             // SAV_Misc5
             // 
@@ -1738,8 +1803,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.PB_SlotPreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Animation)).EndInit();
             this.TAB_Subway.ResumeLayout(false);
-            this.GB_SuperChecks.ResumeLayout(false);
-            this.GB_SuperChecks.PerformLayout();
+            this.GB_SubwayChecks.ResumeLayout(false);
+            this.GB_SubwayChecks.PerformLayout();
             this.GB_SuperMulti.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMultiFriendsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMultiFriendsPast)).EndInit();
@@ -1881,11 +1946,16 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_SSingleRecord;
         private System.Windows.Forms.Label L_SSinglePast;
         private System.Windows.Forms.NumericUpDown NUD_SSinglePast;
-        private System.Windows.Forms.GroupBox GB_SuperChecks;
+        private System.Windows.Forms.GroupBox GB_SubwayChecks;
         private System.Windows.Forms.CheckBox CHK_SuperMulti;
         private System.Windows.Forms.CheckBox CHK_SuperDouble;
         private System.Windows.Forms.CheckBox CHK_SuperSingle;
         private System.Windows.Forms.Panel PAN_MissionMeta;
         private System.Windows.Forms.Button B_UnlockAllMusicalProps;
+        private System.Windows.Forms.CheckBox CHK_Subway7;
+        private System.Windows.Forms.CheckBox CHK_Subway3;
+        private System.Windows.Forms.CheckBox CHK_Subway2;
+        private System.Windows.Forms.CheckBox CHK_Subway1;
+        private System.Windows.Forms.CheckBox CHK_Subway0;
     }
 }

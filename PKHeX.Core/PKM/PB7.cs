@@ -525,29 +525,16 @@ namespace PKHeX.Core
         public float CalcHeightAbsolute => GetHeightAbsolute(PersonalInfo, HeightScalar);
         public float CalcWeightAbsolute => GetWeightAbsolute(PersonalInfo, HeightScalar, WeightScalar);
 
-        public void ResetHeight()
-        {
-            var current = HeightAbsolute;
-            var updated = CalcHeightAbsolute;
-            if (Math.Abs(current - updated) > 0.0001f)
-                HeightAbsolute = updated;
-        }
-
-        public void ResetWeight()
-        {
-            var current = WeightAbsolute;
-            var updated = CalcWeightAbsolute;
-            if (Math.Abs(current - updated) > 0.0001f)
-                WeightAbsolute = updated;
-        }
+        public void ResetHeight() => HeightAbsolute = CalcHeightAbsolute;
+        public void ResetWeight() => WeightAbsolute = CalcWeightAbsolute;
 
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         private static float GetHeightRatio(int heightScalar)
         {
-            // +/- 40%
-            float result = (byte)heightScalar / 255f;
-            result *= 0.8f;
-            result += 0.6f;
+            // + 40%, -20
+            float result = heightScalar / 255f; // 0x437F0000
+            result *= 0.79999995f; // 0x3F4CCCCC
+            result += 0.6f; // 0x3F19999A
             return result;
         }
 
@@ -555,9 +542,9 @@ namespace PKHeX.Core
         private static float GetWeightRatio(int weightScalar)
         {
             // +/- 20%
-            float result = (byte)weightScalar / 255f;
-            result *= 0.4f;
-            result += 0.8f;
+            float result = weightScalar / 255f; // 0x437F0000
+            result *= 0.40000004f; // 0x3ECCCCCE
+            result += 0.8f; // 0x3F4CCCCD
             return result;
         }
 
@@ -583,7 +570,7 @@ namespace PKHeX.Core
         {
             // height is already *100
             float biasH = avgHeight * -0.6f;
-            float biasL = avgHeight * 0.8f;
+            float biasL = avgHeight * 0.79999995f;
             float numerator = biasH + height;
             float result = numerator / biasL;
             result *= 255f;
@@ -601,7 +588,7 @@ namespace PKHeX.Core
             float weightComponent = heightRatio * weight;
             float top = avgWeight * -0.8f;
             top += weightComponent;
-            float bot = avgWeight * 0.4f;
+            float bot = avgWeight * 0.40000004f;
             float result = top / bot;
             result *= 255f;
             int value = (int)result;

@@ -52,6 +52,14 @@ namespace PKHeX.Core
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
+            if (!EReader)
+                SetPINGA_Regular(pk, criteria);
+            else
+                SetPINGA_EReader(pk);
+        }
+
+        private void SetPINGA_Regular(PKM pk, EncounterCriteria criteria)
+        {
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(-1, pi);
             int nature = (int)criteria.GetNature(Nature.Random);
@@ -75,13 +83,39 @@ namespace PKHeX.Core
 #if DEBUG
             System.Diagnostics.Debug.Assert(ctr < 100_000);
 #endif
+        }
 
+        private void SetPINGA_EReader(PKM pk)
+        {
             // E-Reader have all IVs == 0
-            if (EReader)
+            for (int i = 0; i < IVs.Count; i++)
+                pk.SetIV(i, 0);
+
+            // All E-Reader shadows are actually nature/gender locked.
+            var locked = Locks[0].Locks[^1];
+            var (nature, gender) = locked.GetLock;
+
+            // Ensure that any generated specimen has valid Shadow Locks
+            // This can be kinda slow, depending on how many locks / how strict they are.
+            // Cancel this operation if too many attempts are made to prevent infinite loops.
+            int ctr = 0;
+            const int max = 100_000;
+            do
             {
-                for (int i = 0; i < IVs.Count; i++)
-                    pk.SetIV(i, 0);
+                var seed = Util.Rand32();
+                PIDGenerator.SetValuesFromSeedXDRNG_EReader(pk, seed);
+                if (pk.Nature != nature || pk.Gender != gender)
+                    continue;
+                var pidiv = new PIDIV(PIDType.CXD, seed);
+                var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
+                if (result)
+                    break;
             }
+            while (++ctr <= max);
+
+#if DEBUG
+            System.Diagnostics.Debug.Assert(ctr < 100_000);
+#endif
         }
     }
 }

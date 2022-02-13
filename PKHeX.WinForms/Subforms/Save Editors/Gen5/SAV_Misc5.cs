@@ -387,7 +387,7 @@ namespace PKHeX.WinForms
         {
             FestaBlock5 block = ((SAV5B2W2) SAV).Festa;
             int mission = LB_FunfestMissions.SelectedIndex;
-            if ((uint) mission >= FestaBlock5.MaxMissionIndex)
+            if ((uint) mission > FestaBlock5.MaxMissionIndex)
                 return;
             bool unlocked = block.IsFunfestMissionUnlocked(mission);
             L_FMUnlocked.Visible = unlocked;
@@ -407,7 +407,7 @@ namespace PKHeX.WinForms
 
             FestaBlock5 block = ((SAV5B2W2)SAV).Festa;
             int mission = LB_FunfestMissions.SelectedIndex;
-            if ((uint)mission >= FestaBlock5.MaxMissionIndex)
+            if ((uint)mission > FestaBlock5.MaxMissionIndex)
                 return;
 
             var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, CB_FMLevel.SelectedIndex & 3, CHK_FMNew.Checked);
@@ -607,22 +607,17 @@ namespace PKHeX.WinForms
 
         private void ReadSubway()
         {
-            // Figure out the Super Checks
-            var swSuperCheck = sw.SuperCheck;
-            if (swSuperCheck == 0x00)
-            {
-                CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = false;
-            }
-            else if (swSuperCheck >= 0x70) // 0x70 or anything else means all super enabled
-            {
-                CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = true;
-            }
-            else
-            {
-                if (swSuperCheck is 0x10 or 0x30 or 0x50) CHK_SuperSingle.Checked = true;
-                if (swSuperCheck is 0x20 or 0x30 or 0x60) CHK_SuperDouble.Checked = true;
-                if (swSuperCheck is 0x40 or 0x50 or 0x60) CHK_SuperMulti.Checked = true;
-            }
+            // Save Normal Checks
+            CHK_Subway0.Checked = sw.Flag0;
+            CHK_Subway1.Checked = sw.Flag1;
+            CHK_Subway2.Checked = sw.Flag2;
+            CHK_Subway7.Checked = sw.Flag3;
+
+            // Save Super Checks
+            CHK_SuperSingle.Checked = sw.SuperSingle;
+            CHK_SuperDouble.Checked = sw.SuperDouble;
+            CHK_SuperMulti.Checked = sw.SuperMulti;
+            CHK_Subway7.Checked = sw.Flag7;
 
             // Normal
             // Single
@@ -661,8 +656,17 @@ namespace PKHeX.WinForms
 
         private void SaveSubway()
         {
+            // Save Normal Checks
+            sw.Flag0 = CHK_Subway0.Checked;
+            sw.Flag1 = CHK_Subway1.Checked;
+            sw.Flag2 = CHK_Subway2.Checked;
+            sw.Flag3 = CHK_Subway7.Checked;
+
             // Save Super Checks
-            sw.SuperCheck = ((CHK_SuperSingle.Checked ? 0x10 : 0x00) + (CHK_SuperDouble.Checked ? 0x20 : 0x00) + (CHK_SuperMulti.Checked ? 0x40 : 0x00));
+            sw.SuperSingle = CHK_SuperSingle.Checked;
+            sw.SuperDouble = CHK_SuperDouble.Checked;
+            sw.SuperMulti = CHK_SuperMulti.Checked;
+            sw.Flag7 = CHK_Subway7.Checked;
 
             // Normal
             // Single

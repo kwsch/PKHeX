@@ -205,8 +205,8 @@ namespace PKHeX.Core
                 else
                 {
                     int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    Egg_LocationDP = (ushort)pthgss;
-                    Egg_LocationExtended = (ushort)value;
+                    Egg_LocationDP = (ushort)value;
+                    Egg_LocationExtended = (ushort)pthgss;
                 }
             }
         }
@@ -235,8 +235,8 @@ namespace PKHeX.Core
                 else
                 {
                     int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
-                    Met_LocationDP = (ushort)pthgss;
-                    Met_LocationExtended = (ushort)value;
+                    Met_LocationDP = (ushort)value;
+                    Met_LocationExtended = (ushort)pthgss;
                 }
             }
         }

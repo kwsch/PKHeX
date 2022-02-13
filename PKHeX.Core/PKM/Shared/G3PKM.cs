@@ -28,13 +28,25 @@
         public sealed override int Ability { get => ((PersonalInfoG3)PersonalInfo).GetAbility(AbilityBit); set { } }
         public sealed override uint EncryptionConstant { get => PID; set { } }
         public sealed override int Nature { get => (int)(PID % 25); set { } }
-        public sealed override int Form { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
         public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
         public sealed override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
         public sealed override int Characteristic => -1;
         public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public sealed override int CurrentHandler { get => 0; set { } }
         public sealed override int Egg_Location { get => 0; set { } }
+
+        public sealed override int Form
+        {
+            get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0;
+            set
+            {
+                if (Species != (int)Core.Species.Unown)
+                    return;
+                var rnd = Util.Rand;
+                while (PKX.GetUnownForm(PID) != value)
+                    PID = Util.Rand32(rnd);
+            }
+        }
 
         public sealed override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // [0,1]->[1,2] ; [1,x]->[0,1]
         public abstract bool AbilityBit { get; set; }
