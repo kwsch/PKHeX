@@ -58,7 +58,8 @@ namespace PKHeX.Core
 
             Stadium => Legal.LevelUpY,
             Stadium2 => Legal.LevelUpGS,
-            _ => throw new ArgumentOutOfRangeException(nameof(game)),
+
+            _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
         };
 
         private static PersonalTable Personal(GameVersion game) => game switch
@@ -104,7 +105,7 @@ namespace PKHeX.Core
             Stadium => PersonalTable.Y,
             Stadium2 => PersonalTable.GS,
 
-            _ => throw new ArgumentOutOfRangeException(nameof(game)),
+            _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
         };
     }
 }

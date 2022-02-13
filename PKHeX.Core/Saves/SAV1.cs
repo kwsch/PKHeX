@@ -121,13 +121,12 @@ namespace PKHeX.Core
             PokeDex = 0;
         }
 
+        private const int SIZE_RESERVED = 0x8000; // unpacked box data
         private readonly SAV1Offsets Offsets;
 
         // Event Flags
         protected override int EventFlagMax => 0xA00; // 320 * 8
         protected override int EventConstMax => 0;
-
-        private const int SIZE_RESERVED = 0x8000; // unpacked box data
 
         protected override byte[] GetFinalData()
         {

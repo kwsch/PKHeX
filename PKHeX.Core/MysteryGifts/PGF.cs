@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => StringConverter5.GetString(Data.AsSpan( 0x1E, 11 * 2));
+            get => StringConverter5.GetString(Data.AsSpan(0x1E, 11 * 2));
             set => StringConverter5.SetString(Data.AsSpan(0x1E, 11 * 2), value.AsSpan(), 11, StringConverterOption.ClearFF);
         }
 
