@@ -196,7 +196,8 @@ namespace PKHeX.Core
         private static int GetBaseFriendship(IEncounterTemplate enc, int generation) => enc switch
         {
             IFixedOTFriendship f => f.OT_Friendship,
-            { Version: GameVersion.BD or GameVersion.SP } => PersonalTable.SWSH.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
+            { Version: GameVersion.BD or GameVersion.SP } => PersonalTable.BDSP.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
+            { Version: GameVersion.PLA } => PersonalTable.LA.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
             _ => GetBaseFriendship(generation, enc.Species, enc.Form),
         };
 
