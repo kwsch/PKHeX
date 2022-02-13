@@ -9,14 +9,16 @@ namespace PKHeX.Core
     {
         public static readonly List<ISuggestModification> SuggestionMods = new()
         {
-            // PB7 Specific
-            new TypeSuggestion<PB7>(nameof(PB7.Stat_CP), p => p.ResetCP()),
-            new TypeSuggestion<PB7>(nameof(PB7.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
-            new TypeSuggestion<PB7>(nameof(PB7.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
-            
-            // PA8 Specific
-            new TypeSuggestion<PA8>(nameof(PA8.HeightAbsolute), p => p.HeightAbsolute = p.CalcHeightAbsolute),
-            new TypeSuggestion<PA8>(nameof(PA8.WeightAbsolute), p => p.WeightAbsolute = p.CalcWeightAbsolute),
+            // Interface Specific
+            new TypeSuggestion<ICombatPower>(nameof(ICombatPower.Stat_CP), p => p.ResetCP()),
+            new TypeSuggestion<IScaledSizeValue>(nameof(IScaledSizeValue.HeightAbsolute), p => p.ResetHeight()),
+            new TypeSuggestion<IScaledSizeValue>(nameof(IScaledSizeValue.WeightAbsolute), p => p.ResetWeight()),
+            new TypeSuggestion<IHyperTrain>(nameof(Extensions.HyperTrainClear), p => p.HyperTrainClear()),
+            new TypeSuggestion<IGeoTrack>(nameof(Extensions.ClearGeoLocationData), p => p.ClearGeoLocationData()),
+            new TypeSuggestion<IAwakened>(nameof(Extensions.AwakeningClear), p => p.AwakeningClear()),
+            new TypeSuggestion<IAwakened>(nameof(Extensions.AwakeningMax), p => p.AwakeningMax()),
+            new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.ClearGanbaruValues), p => p.ClearGanbaruValues()),
+            new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.SetSuggestedGanbaruValues), p => p.SetSuggestedGanbaruValues((PKM)p)),
 
             // Date Copy
             new TypeSuggestion<PKM>(nameof(PKM.EggMetDate), p => p.EggMetDate = p.MetDate),

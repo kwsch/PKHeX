@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     /// <inheritdoc cref="ISuggestModification"/>
     /// <typeparam name="T">Specific (or not) type</typeparam>
-    public sealed class TypeSuggestion<T> : ISuggestModification where T : PKM
+    public sealed class TypeSuggestion<T> : ISuggestModification
     {
         public readonly string Keyword;
         public readonly Action<T, string> Action;
@@ -28,10 +28,12 @@ namespace PKHeX.Core
 
         public ModifyResult Modify(string name, string value, BatchInfo info)
         {
-            var pk = (T) info.Entity;
-            if (!Criteria(pk))
+            var pk = info.Entity;
+            if (pk is not T x)
                 return ModifyResult.Invalid;
-            Action(pk, value);
+            if (!Criteria(x))
+                return ModifyResult.Invalid;
+            Action(x, value);
             return ModifyResult.Modified;
         }
     }
