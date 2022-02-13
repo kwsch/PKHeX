@@ -1,7 +1,29 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/02/08 - New Update:
+22/02/14 - New Update:
+ - Legality:
+ - - Changed: Height & Weight calculated values now match the game calculation perfectly. Values not matching expected values exactly are flagged.
+ - - Fixed: SWSH tutor moves are now illegal on PA8 entities.
+ - - Fixed: Gen3 Colosseum E-Reader entities now correctly generate PID/IV from the encounter database. Thanks @Dani88alv !
+ - - Fixed: Gen8 BDSP trade encounters now generate correct ECs from the encounter database. Thanks @architdate !
+ - - Fixed: Gen8 PLA evolution levels are checked for Basculegion/Wyrdeer/Overqwil (must learn suitable move). Thanks @Lusamine !
+ - Added: Randomizing an Alpha Pokémon's IVs now sets 3 flawless IVs.
+ - Added: Gen7 LGPE starter choice can now be changed in MyStatus7b. Thanks @GiftedK !
+ - Fixed: Startup checking for if an update is available now correctly waits for the form to be ready for the label to appear. Thanks @jdearden1 !
+ - Fixed: Auto Height/Weight calc checkbox now behaves better when loading and toggling state. Thanks @joeymavity !
+ - Fixed: Gen8 PLA showdown set imports will no longer error trying to set record flags.
+ - Fixed: Gen8 BDSP box names that are uninitialized will show placeholder "Box #" values in the dropdown.
+ - Fixed: Gen5 Funfest mission record flags for the last funfest mission type now save correctly. Thanks @Dani88alv !
+ - Fixed: Gen5 Battle Subway progress flags now save correctly. Thanks @Dani88alv !
+ - Fixed: Gen4 DP Met/Egg Location now sets correctly. Thanks @twinbee321 !
+ - Fixed: Gen3 Colosseum inventory now saves correctly. Thanks @Dani88alv !
+ - Changed: Save File memory allocation reduced; original data for backups is no longer stored in RAM. Exporting a backup will copy the original file loaded.
+ - Changed: Gen2-5's Hidden Power's base power is now indicated next to the type rather than on a separate line.
+ - Changed: Contest Stats now appear a little lower in the stats tab; same for Is Alpha / Is Noble checkboxes.
+ - Changed: Showdown Set parsing now accepts "Yes" for Shiny / Gigantamax regardless of case ("yEs" is valid for true). Useful for manually typed SysBot.NET users' sets :)
+
+22/02/08 - New Update: (35837) [4530167]
  - Legality:
  - - Added: GVs are now checked for legality.
  - - Fixed: Min Move Count now considers purchased moves as able to skip as level up moves. Thanks CC6174 !

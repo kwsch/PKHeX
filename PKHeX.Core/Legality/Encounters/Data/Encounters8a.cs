@@ -74,8 +74,15 @@ internal static class Encounters8a
         new(201,024,25,U) { Location = 097 }, // Unown Y
         new(201,025,25,U) { Location = 051 }, // Unown Z
         new(201,026,25,U) { Location = 142 }, // Unown ! at Snowfall Hot Spring
-        new(201,026,25,U) { Location = 099 }, // Unown ! along the Arena’s Approach (crossover)
         new(201,027,25,U) { Location = 006 }, // Unown ?
+
+        // Future updates will handle crossovers better.
+        new(201,017,25,U) { Location = 009 }, // Unown R (Cobalt Coastlands)
+        new(201,026,25,U) { Location = 099 }, // Unown ! (Arena’s Approach)
+        new(201,026,25,U) { Location = 141 }, // Unown ! (Icepeak Arena)
+        new(201,023,25,U) { Location = 007 }, // Unown X
+        new(201,024,25,U) { Location = 097 }, // Unown Y
+        new(201,006,25,U) { Location = 007 }, // Unown G
 
         // Static Encounters
         new(046,000,50,M,M) { Location = 019 }, // paras01: Paras
@@ -96,33 +103,5 @@ internal static class Encounters8a
         new(571,001,58,M,M) { Location = 111, IsAlpha = true,                                  Moves = new[] {555,421,841,417}, Mastery = new[] {true,true,true ,true } }, // zoroark01: Zoroark-1
         new(706,001,58,M,M) { Location = 104, IsAlpha = true,                                  Moves = new[] {231,406,842,056}, Mastery = new[] {true,true,true ,true } }, // numelgon01: Goodra-1
         new(904,000,58,M,M) { Location = 105, IsAlpha = true,                                  Moves = new[] {301,398,401,038}, Mastery = new[] {true,true,true ,false} }, // harysen01: Overqwil
-
-        // Uncatchable
-        // new(901,000,26,M,M) { Location = -01, Gender = 0, Nature = Adamant, FlawlessIVCount = 3, GVs = new[]{2,3,0,2,2,0} }, // ringuma01: Ursaluna
-        // new(190,000,30,M,M) { Location = -01, Gender = 0 }, // aipom01: Aipom
-        // new(190,000,30,M,M) { Location = -01, Gender = 1 }, // aipom01: Aipom
-        // new(185,000,26,S,S) { Location = -01, Gender = 0 }, // usokkie01: Sudowoodo
-        // new(460,000,55,M,M) { Location = -01, Gender = 0 }, // yukinooh01: Abomasnow
-        // new(478,000,55,M,M) { Location = -01, Gender = 1 }, // yukimenoko01: Froslass
-        // new(448,000,62,M,M) { Location = -01, Gender = 0, FlawlessIVCount = 3 }, // lucario01: Lucario
-        // new(628,001,54,M,M) { Location = -01, Gender = 0, Nature = Adamant }, // warrgle01: Braviary-1
-        // new(217,000,30,M,M) { Location = -01, Gender = 0, Nature = Modest }, // ringuma02: Ursaring
-        // new(483,001,65,M,M) { Location = -01, FlawlessIVCount = 3 }, // nsi_ex_07: Dialga-1
-        // new(484,001,65,M,M) { Location = -01, FlawlessIVCount = 3 }, // nsi_ex_08: Palkia-1
-        // new(900,001,18,M,M) { Location = -01, Gender = 0, Nature = Adamant }, // ns001: Kleavor-1
-        // new(900,001,18,M,M) { Location = -01, Gender = 0, Nature = Adamant, FlawlessIVCount = 3                                                                                     }, // nsi_ex_01: Kleavor-1
-        // new(549,002,30,M,M) { Location = -01, Gender = 1, Nature = Adamant, FlawlessIVCount = 3,            Moves = new[] {078,077,412,249}, Mastery = new[] {true,true,true,true } }, // dredear01: Lilligant-2
-        // new(059,002,36,M,M) { Location = -01, Gender = 0, Nature = Adamant, FlawlessIVCount = 3                                                                                     }, // nsi_ex_06: Arcanine-2
-        // new(101,002,46,M,M) { Location = -01, Gender = 0, Nature = Modest,  FlawlessIVCount = 3,            Moves = new[] {086,412,085,087}, Mastery = new[] {true,true,true,false} }, // nsi_ex_04: Electrode-2
-        // new(713,002,56,M,M) { Location = -01, Gender = 0, Nature = Relaxed, FlawlessIVCount = 3                                                                                     }, // nsi_ex_03: Avalugg-2
-        // new(493,000,75,M,M) { Location = -01,                               FlawlessIVCount = 3,            Moves = new[] {347,326,449,063}, Mastery = new[] {true,true,true,true } }, // nsi_ex_09: Arceus
-        // new(483,001,85,M,M) { Location = -01, GVs = new[]{10,10,10,10,10,10} }, // nsi_ex_07_r: Dialga-1
-        // new(484,001,85,M,M) { Location = -01, GVs = new[]{10,10,10,10,10,10} }, // nsi_ex_08_r: Palkia-1
-        // new(900,001,70,M,M) { Location = -01, Gender = 0, Nature = Adamant, GVs = new[]{10,10,10,10,10,10}, Moves = new[] {830,403,404,370}, Mastery = new[] {true,true,true,true} }, // nsi_ex_01_r: Kleavor-1
-        // new(549,002,70,M,M) { Location = -01, Gender = 1, Nature = Adamant, GVs = new[]{10,10,10,10,10,10}, Moves = new[] {837,080,409,416}, Mastery = new[] {true,true,true,true} }, // dredear01_r: Lilligant-2
-        // new(059,002,70,M,M) { Location = -01, Gender = 0, Nature = Adamant, GVs = new[]{10,10,10,10,10,10}, Moves = new[] {833,444,242,528}, Mastery = new[] {true,true,true,true} }, // nsi_ex_06_r: Arcanine-2
-        // new(101,002,70,M,M) { Location = -01, Gender = 0, Nature = Modest,  GVs = new[]{10,10,10,10,10,10}, Moves = new[] {835,087,063,086}, Mastery = new[] {true,true,true,true} }, // nsi_ex_04_r: Electrode-2
-        // new(713,002,70,M,M) { Location = -01, Gender = 0, Nature = Relaxed, GVs = new[]{10,10,10,10,10,10}, Moves = new[] {836,667,444,442}, Mastery = new[] {true,true,true,true} }, // nsi_ex_03_r: Avalugg-2
-        // new(493,000,100,M,M){ Location = -01,                               GVs = new[]{10,10,10,10,10,10}, Moves = new[] {347,326,449,063}, Mastery = new[] {true,true,true,true} }, // nsi_ex_09_r: Arceus
     };
 }
