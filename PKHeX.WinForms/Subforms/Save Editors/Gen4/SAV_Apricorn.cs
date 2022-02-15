@@ -33,31 +33,24 @@ namespace PKHeX.WinForms
                 dgvApricorn.ReadOnly = true;
                 dgvApricorn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvCount = new()
+            DataGridViewTextBoxColumn dgvCount = new()
             {
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
-                DisplayIndex = 0,
-                Width = 135,
-                FlatStyle = FlatStyle.Flat,
-                ValueType = typeof(int),
+                DisplayIndex = 1,
+                Width = 45,
             };
-            {
-                for (var i = 0; i <= 99; i++)
-                    dgvCount.Items.Add(i);
-
-                dgvCount.DisplayIndex = 1;
-                dgvCount.Width = 45;
-                dgvCount.FlatStyle = FlatStyle.Flat;
-            }
             dgv.Columns.Add(dgvApricorn);
             dgv.Columns.Add(dgvCount);
 
             dgv.Rows.Add(Count);
             for (int i = 0; i < Count; i++)
-            {
                 dgv.Rows[i].Cells[0].Value = itemlist[i];
-                dgv.Rows[i].Cells[1].Value = SAV.GetApricornCount(i);
-            }
+            LoadCount();
+        }
+
+        private void LoadCount()
+        {
+            for (int i = 0; i < Count; i++)
+                dgv.Rows[i].Cells[1].Value = SAV.GetApricornCount(i).ToString();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -69,20 +62,24 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < Count; i++)
                 SAV.SetApricornCount(i, 99);
-            Setup();
+            LoadCount();
         }
 
         private void B_None_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < Count; i++)
                 SAV.SetApricornCount(i, 0);
-            Setup();
+            LoadCount();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < Count; i++)
-                SAV.SetApricornCount(i, (int)dgv.Rows[i].Cells[1].Value);
+            {
+                var cells = dgv.Rows[i].Cells;
+                var count = int.TryParse(cells[1].Value?.ToString() ?? "0", out var val) ? val : 0;
+                SAV.SetApricornCount(i, Math.Min(byte.MaxValue, count));
+            }
             Origin.CopyChangesFrom(SAV);
             Close();
         }
