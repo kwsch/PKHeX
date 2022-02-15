@@ -243,11 +243,9 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
-            if (GameVersion.CXD.Contains(version) || GameVersion.Gen7b.Contains(version))
+            if (!Breeding.CanGameGenerateEggs(version))
                 yield break; // no eggs from these games
             int gen = version.GetGeneration();
-            if (gen < 2)
-                yield break;
             var eggs = gen == 2
                 ? EncounterEggGenerator2.GenerateEggs(pk, chain, all: true)
                 : EncounterEggGenerator.GenerateEggs(pk, chain, gen, all: true);
@@ -262,7 +260,7 @@ namespace PKHeX.Core
                 IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
                 if (egg.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
-                else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && (egg.Generation > 3 || version is GameVersion.E))
+                else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && egg.CanHaveVoltTackle)
                     em = em.Concat(new[] { (int)Move.VoltTackle });
 
                 if (!needs.Except(em).Any())
@@ -322,7 +320,7 @@ namespace PKHeX.Core
 
                 // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
                 IEnumerable<int> em = enc.Moves;
-                if (enc is IRelearn r)
+                if (enc is IRelearn { Relearn.Count: not 0 } r)
                     em = em.Concat(r.Relearn);
                 if (enc.Generation <= 2)
                     em = em.Concat(MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version));

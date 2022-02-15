@@ -729,7 +729,7 @@ namespace PKHeX.Core
                 {
                     types[000], // Normal
                     forms[Hisuian],
-                }
+                },
             };
         }
 

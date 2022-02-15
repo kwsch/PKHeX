@@ -88,7 +88,7 @@ public static class ContestStatInfo
         ContestStatGrantingSheen.Gen8b => CalculateMinimumSheen8b(s, pkm.Nature, initial),
         ContestStatGrantingSheen.Gen3 => CalculateMinimumSheen3(s, pkm.Nature, initial),
         ContestStatGrantingSheen.Gen4 => CalculateMinimumSheen4(s, pkm.Nature, initial),
-        _ => throw new IndexOutOfRangeException(nameof(method))
+        _ => throw new IndexOutOfRangeException(nameof(method)),
     };
 
     // Slightly better stat:sheen ratio than Gen4; prefer if has visited.

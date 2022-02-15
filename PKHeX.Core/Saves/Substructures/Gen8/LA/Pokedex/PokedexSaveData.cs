@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -44,7 +45,7 @@ public class PokedexSaveData
 
     public PokedexSaveResearchEntry GetResearchEntry(int species) => ResearchEntries[species];
 
-    public bool TryGetStatisticsEntry(int species, int form, out PokedexSaveStatisticsEntry entry)
+    public bool TryGetStatisticsEntry(int species, int form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
     {
         var fstIdIndex = Array.BinarySearch(PokedexConstants8a.FormStorageIndexIds, (ushort)(species | (form << 11)));
         if (fstIdIndex >= 0)
@@ -52,14 +53,12 @@ public class PokedexSaveData
             entry = StatisticsEntries[PokedexConstants8a.FormStorageIndexValues[fstIdIndex]];
             return true;
         }
-        else
-        {
-            entry = new PokedexSaveStatisticsEntry(new byte[0x18], 0);
-            return false;
-        }
+
+        entry = null;
+        return false;
     }
 
-    public bool TryGetStatisticsEntry(PKM pk, out PokedexSaveStatisticsEntry entry, out int shift)
+    public bool TryGetStatisticsEntry(PKM pk, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry, out int shift)
     {
         shift = 0;
         if (pk.IsShiny)

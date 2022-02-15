@@ -171,10 +171,10 @@ namespace PKHeX.WinForms
 
         private void ClickSet(object sender, EventArgs e)
         {
-            if (mg == null)
+            if (mg is not { } gift)
                 return;
 
-            if (!mg.IsCardCompatible(SAV, out var msg))
+            if (!gift.IsCardCompatible(SAV, out var msg))
             {
                 WinFormsUtil.Alert(MsgMysteryGiftSlotFail, msg);
                 return;
@@ -186,23 +186,23 @@ namespace PKHeX.WinForms
             int index = pba.IndexOf(pb);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
-            int lastUnfilled = GetLastUnfilledByType(mg, mga);
+            int lastUnfilled = GetLastUnfilledByType(gift, mga);
             if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
 
-            if (mg is PCD pcd && mga.Gifts[index] is PGT)
+            if (gift is PCD pcd && mga.Gifts[index] is PGT)
             {
-                mg = pcd.Gift;
+                gift = pcd.Gift;
             }
-            else if (mg.Type != mga.Gifts[index].Type)
+            else if (gift.Type != mga.Gifts[index].Type)
             {
-                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{mg.Type} != {mga.Gifts[index].Type}");
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");
                 return;
             }
             SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
-            mga.Gifts[index] = (DataMysteryGift)mg.Clone();
+            mga.Gifts[index] = (DataMysteryGift)gift.Clone();
             SetGiftBoxes();
-            SetCardID(mg.CardID);
+            SetCardID(gift.CardID);
         }
 
         private void ClickDelete(object sender, EventArgs e)

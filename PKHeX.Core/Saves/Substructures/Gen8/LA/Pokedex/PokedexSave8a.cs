@@ -1242,8 +1242,7 @@ public sealed class PokedexSave8a
     {
         if (IsLocalDex(which))
             return SaveData.GetLocalField03(GetLocalDexIndex(which));
-        else
-            return 0;
+        return 0;
     }
 
     public void GetLocalParameters(PokedexType8a which, out byte outField02, out ushort outField00, out uint outField04, out uint outField08, out ushort outField0C)
