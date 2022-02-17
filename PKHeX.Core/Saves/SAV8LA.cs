@@ -130,6 +130,8 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
     public AdventureStart8a AdventureStart => Blocks.AdventureStart;
     public LastSaved8a LastSaved => Blocks.LastSaved;
     public PlayTime8a Played => Blocks.Played;
+    public AreaSpawnerSet8a AreaSpawners => Blocks.AreaSpawners;
+
     public override uint SecondsToStart { get => (uint)AdventureStart.Seconds; set => AdventureStart.Seconds = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor8LA.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor8LA.KMoney, value); }
     public override int MaxMoney => 9_999_999;
