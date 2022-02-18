@@ -63,11 +63,11 @@ namespace PKHeX.Core
             return data;
         }
 
-        private void SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.None)
+        private int SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.None)
         {
             if (Korean)
-                StringConverter2KOR.SetString(value, destBuffer, maxLength, option);
-            StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
+                return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+            return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 
         public sealed override string Nickname

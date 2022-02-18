@@ -738,7 +738,7 @@ namespace PKHeX.Core
         public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         {
             if (Korean)
-                return StringConverter2KOR.SetString(value, destBuffer, maxLength, option);
+                return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
             return StringConverter12.SetString(destBuffer, value, maxLength, Japanese, option);
         }
 

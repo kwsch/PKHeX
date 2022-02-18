@@ -65,12 +65,13 @@ public static class StringConverter2KOR
     /// <summary>
     /// Converts a string to Generation 1 encoded data.
     /// </summary>
-    /// <param name="value">Decoded string.</param>
     /// <param name="destBuffer">Span of bytes to write encoded string data</param>
+    /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="option">Buffer pre-formatting option</param>
     /// <returns>Encoded data.</returns>
-    public static int SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.Clear50)
+    public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength,
+        StringConverterOption option = StringConverterOption.Clear50)
     {
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
@@ -116,7 +117,7 @@ public static class StringConverter2KOR
             }
         }
 
-        if (destBuffer.Length != value.Length)
+        if (ctr < value.Length)
             destBuffer[ctr++] = G1TerminatorCode;
         return ctr;
     }
