@@ -420,7 +420,7 @@ namespace PKHeX.Core
 
         public void PushMove(int move)
         {
-            if (move == 0 || (uint)move >= MaxMoveID)
+            if (move == 0 || (uint)move >= MaxMoveID || HasMove(move))
                 return;
 
             var ct = MoveCount;
