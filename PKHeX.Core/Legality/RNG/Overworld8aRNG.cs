@@ -107,12 +107,6 @@ public static class Overworld8aRNG
         }
         pk.PID = pid;
 
-        var level = para.LevelMin;
-        var delta = para.LevelMax - level;
-        if (delta != 0)
-            level += (int)rand.NextInt((ulong)delta + 1);
-        pk.Met_Level = level;
-
         Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
         const int MAX = 31;
         for (int i = 0; i < para.FlawlessIVs; i++)
@@ -149,26 +143,29 @@ public static class Overworld8aRNG
             PersonalInfo.RatioMagicMale => 0,
             _ => (int)rand.NextInt(252) + 1 < para.GenderRatio ? 1 : 0,
         };
-        if (gender != criteria.Gender && criteria.Gender != 2)
+        if (gender != criteria.Gender && criteria.Gender != -1)
             return false;
         pk.Gender = gender;
 
         int nature = (int)rand.NextInt(25);
         pk.StatNature = pk.Nature = nature;
 
+        var (height, weight) = para.IsAlpha
+            ? (byte.MaxValue, byte.MaxValue)
+            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
+               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+
         if (pk is IScaledSize s)
         {
-            var height = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
-            var weight = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
             s.HeightScalar = height;
             s.WeightScalar = weight;
-
             if (pk is IScaledSizeValue a)
             {
                 a.ResetHeight();
                 a.ResetWeight();
             }
         }
+
         return true;
     }
 
@@ -202,14 +199,6 @@ public static class Overworld8aRNG
 
         if (pk.PID != pid)
             return false;
-
-        var level = para.LevelMin;
-        var delta = para.LevelMax - level;
-        if (delta != 0)
-            level += (int)rand.NextInt((ulong)delta + 1ul);
-        if (pk.Met_Level != level)
-            return false;
-
         const int MAX = 31;
         for (int i = ivs.Count(MAX); i < para.Rerolls; i++)
         {
@@ -260,12 +249,15 @@ public static class Overworld8aRNG
         if (pk.Nature != nature)
             return false;
 
+        var (height, weight) = para.IsAlpha
+            ? (byte.MaxValue, byte.MaxValue)
+            : ((byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)),
+               (byte)((int)rand.NextInt(0x81) + (int)rand.NextInt(0x80)));
+
         if (pk is IScaledSize s)
         {
-            var height = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
             if (s.HeightScalar != height)
                 return false;
-            var weight = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
             if (s.WeightScalar != weight)
                 return false;
         }
@@ -291,11 +283,12 @@ public static class Overworld8aRNG
 
 public readonly record struct OverworldParam8a
 {
-    public int FlawlessIVs { get; init; }
-    public int GenderRatio { get; init; }
-    public int Rerolls { get; init; }
+    public byte GenderRatio { get; init; }
+    public bool IsAlpha { get; init; }
+    public byte LevelMin { get; init; }
+    public byte LevelMax { get; init; }
 
     public Shiny Shiny { get; init; } = Shiny.Random;
-    public int LevelMin { get; init; }
-    public int LevelMax { get; init; }
+    public byte Rerolls { get; init; }
+    public byte FlawlessIVs { get; init; }
 }
