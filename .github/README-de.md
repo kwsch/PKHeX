@@ -42,6 +42,8 @@ PKHeXs QR Code Generierung stammt von [QRCoder](https://github.com/codebude/QRCo
 
 PKHeX nutzt Shiny Sprites von [pokesprite](https://github.com/msikma/pokesprite), diese sind unter [der MIT Lizenz](https://github.com/msikma/pokesprite/blob/master/LICENSE) lizensiert.
 
+PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project and its abundance of collaborators and contributors.
+
 ### IDE
 
 PKHeX kann mit IDEs wie [Visual Studio](https://visualstudio.microsoft.com/downloads/) durch das Öffnen der .sln oder .csproj Dateien geöffnet werden.
