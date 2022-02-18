@@ -1962,6 +1962,11 @@ namespace PKHeX.WinForms.Controls
                 FLP_3DSRegion.Visible = false;
             }
 
+            if (!HaX && sav is SAV8LA)
+            {
+                FLP_HeldItem.Visible = false;
+            }
+
             // Common HaX Interface
             MT_Level.Enabled = MT_Level.Visible = HaX;
             TB_Level.Visible = !HaX;
