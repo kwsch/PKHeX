@@ -26,16 +26,16 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {
         base.ApplyDetails(sav, criteria, pk);
-        pk.SetRandomEC();
         if (Gender != Gender.Random)
             pk.Gender = (int)Gender;
+
+        var para = GetParams(criteria);
+        Overworld8aRNG.ApplyDetails(pk, criteria, para);
 
         if (IsAlpha)
         {
             if (pk is IAlpha a)
                 a.IsAlpha = true;
-            if (pk is IScaledSize s)
-                s.HeightScalar = s.WeightScalar = byte.MaxValue;
             if (Type is not SlotType.Landmark && pk is PA8 pa)
             {
                 var extra = pa.AlphaMove = pa.GetRandomAlphaMove();
@@ -43,18 +43,12 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
                 pk.PushMove(extra);
             }
         }
-        if (pk is IScaledSizeValue v)
-        {
-            v.ResetHeight();
-            v.ResetWeight();
-        }
+
         if (pk is PA8 pa8)
         {
             pa8.HeightScalarCopy = pa8.HeightScalar;
             pa8.SetMasteryFlags();
         }
-        if (FlawlessIVCount > 0)
-            pk.SetRandomIVs(flawless: FlawlessIVCount);
     }
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = (int)Ball.LAPoke;
@@ -109,5 +103,20 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
                 return EncounterMatchRating.Deferred;
         }
         return EncounterMatchRating.Match;
+    }
+
+    private OverworldParam8a GetParams(EncounterCriteria criteria)
+    {
+        var pt = PersonalTable.LA;
+        var entry = pt.GetFormEntry(Species, Form);
+        var gender = (byte)entry.Gender;
+        return new OverworldParam8a
+        {
+            IsAlpha = IsAlpha,
+            FlawlessIVs = FlawlessIVCount,
+            Shiny = Shiny,
+            RollCount = criteria.Shiny.IsShiny() ? Type is SlotType.Swarm ? (byte)32 : (byte)7 : (byte)1,
+            GenderRatio = gender,
+        };
     }
 }

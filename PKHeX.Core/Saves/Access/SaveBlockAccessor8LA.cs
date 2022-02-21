@@ -19,6 +19,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     public LastSaved8a LastSaved { get; }
     public PlayerFashion8a FashionPlayer { get; }
     public PlayTime8a Played { get; }
+    public AreaSpawnerSet8a AreaSpawners { get; }
 
     public SaveBlockAccessor8LA(SAV8LA sav)
     {
@@ -34,9 +35,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
         Played = new PlayTime8a(sav, GetBlock(KPlayTime));
         Coordinates = new Coordinates8a(sav, GetBlock(KCoordinates));
         FashionPlayer = new PlayerFashion8a(sav, GetBlock(KFashionPlayer));
-        // Misc = new Misc8(sav, GetBlock(KMisc));
-        // TrainerCard = new TrainerCard8(sav, GetBlock(KTrainerCard));
-        // Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
+        AreaSpawners = new AreaSpawnerSet8a(GetBlock(KSpawners));
     }
 
     // Arrays (Blocks)
@@ -58,6 +57,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KMyStatus = 0xf25c070e; // Trainer Details
     private const uint KLastSaved = 0x1B1E3D8B; // Last Saved
     private const uint KCoordinates = 0x267DD9DA; // Coordinates
+    private const uint KSpawners = 0x511622B3; // Spawner data
     private const uint KFashionPlayer = 0x6B35BADB; // Player's Current Fashion
     private const uint KFashionUnlockedHat = 0x3ADB8A98;
     private const uint KFashionUnlockedTop = 0x82D57F17;
@@ -67,7 +67,6 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KFashionUnlockedGlasses = 0x58AB6233;
     private const uint KSwarm = 0x1E0F1BA3; // 5 entries, 0x50 each
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
-    private const uint KOverworld = 0x511622B3; // 0x100 entries, 0x880 each
     private const uint KOtherPlayerSatchels = 0x05E7EBEB;
     private const uint KMyLostSatchels = 0xC5D7112B;
 
