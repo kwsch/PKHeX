@@ -74,7 +74,7 @@ public static class Overworld8aRNG
         bool isShiny = false;
         if (para.Shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
-            for (int i = 0; i < para.Rerolls; i++)
+            for (int i = 1; i < para.RollCount; i++)
             {
                 isShiny = GetShinyXor(pid, fakeTID) < 16;
                 if (isShiny)
@@ -169,7 +169,7 @@ public static class Overworld8aRNG
         return true;
     }
 
-    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, in OverworldParam8a para)
+    public static bool Verify(PKM pk, ulong seed, in OverworldParam8a para)
     {
         var rand = new Xoroshiro128Plus(seed);
         var ec = (uint)rand.NextInt();
@@ -181,7 +181,7 @@ public static class Overworld8aRNG
         bool isShiny = false;
         if (para.Shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
-            for (int i = 0; i <= para.Rerolls; i++)
+            for (int i = 1; i < para.RollCount; i++)
             {
                 isShiny = GetShinyXor(pid, fakeTID) < 16;
                 if (isShiny)
@@ -199,12 +199,14 @@ public static class Overworld8aRNG
 
         if (pk.PID != pid)
             return false;
+        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
         const int MAX = 31;
-        for (int i = ivs.Count(MAX); i < para.Rerolls; i++)
+        for (int i = 0; i < para.FlawlessIVs; i++)
         {
-            int index = (int)rand.NextInt(6);
-            while (ivs[index] != UNSET)
-                index = (int)rand.NextInt(6);
+            int index;
+            do { index = (int)rand.NextInt(6); }
+            while (ivs[index] != UNSET);
+
             ivs[index] = MAX;
         }
 
@@ -287,6 +289,6 @@ public readonly record struct OverworldParam8a
     public bool IsAlpha { get; init; }
 
     public Shiny Shiny { get; init; } = Shiny.Random;
-    public byte Rerolls { get; init; }
+    public byte RollCount { get; init; }
     public byte FlawlessIVs { get; init; }
 }

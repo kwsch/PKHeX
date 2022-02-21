@@ -15,7 +15,7 @@ public static class Wild8aRNGTests
         var param = new OverworldParam8a
         {
             FlawlessIVs = 0, IsAlpha = false,
-            Shiny = Shiny.Random, Rerolls = 29,
+            Shiny = Shiny.Random, RollCount = 30,
             GenderRatio = 0x7F,
         };
 
@@ -30,5 +30,8 @@ public static class Wild8aRNGTests
         test.IV_SPE.Should().Be(25);
         test.HeightScalar.Should().Be(99);
         test.WeightScalar.Should().Be(153);
+
+        var verify = Overworld8aRNG.Verify(test, s0, param);
+        verify.Should().BeTrue();
     }
 }
