@@ -285,8 +285,6 @@ public readonly record struct OverworldParam8a
 {
     public byte GenderRatio { get; init; }
     public bool IsAlpha { get; init; }
-    public byte LevelMin { get; init; }
-    public byte LevelMax { get; init; }
 
     public Shiny Shiny { get; init; } = Shiny.Random;
     public byte Rerolls { get; init; }
