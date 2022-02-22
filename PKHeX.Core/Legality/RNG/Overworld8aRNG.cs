@@ -283,12 +283,4 @@ public static class Overworld8aRNG
     }
 }
 
-public readonly record struct OverworldParam8a
-{
-    public byte GenderRatio { get; init; }
-    public bool IsAlpha { get; init; }
-
-    public Shiny Shiny { get; init; } = Shiny.Random;
-    public byte RollCount { get; init; }
-    public byte FlawlessIVs { get; init; }
-}
+public readonly record struct OverworldParam8a(bool IsAlpha, byte GenderRatio, byte FlawlessIVs, byte RollCount, Shiny Shiny = Shiny.Random);
