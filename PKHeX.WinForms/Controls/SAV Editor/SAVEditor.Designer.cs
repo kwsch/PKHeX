@@ -102,6 +102,7 @@
             this.TB_Secure1 = new System.Windows.Forms.TextBox();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
+            this.B_VerifySaveEntities = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -361,6 +362,7 @@
             // 
             this.FLP_SAVToolsMisc.Controls.Add(this.B_SaveBoxBin);
             this.FLP_SAVToolsMisc.Controls.Add(this.B_VerifyCHK);
+            this.FLP_SAVToolsMisc.Controls.Add(this.B_VerifySaveEntities);
             this.FLP_SAVToolsMisc.Controls.Add(this.Menu_ExportBAK);
             this.FLP_SAVToolsMisc.Controls.Add(this.B_JPEG);
             this.FLP_SAVToolsMisc.Location = new System.Drawing.Point(3, 5);
@@ -372,7 +374,7 @@
             // 
             this.B_SaveBoxBin.Location = new System.Drawing.Point(3, 3);
             this.B_SaveBoxBin.Name = "B_SaveBoxBin";
-            this.B_SaveBoxBin.Size = new System.Drawing.Size(87, 45);
+            this.B_SaveBoxBin.Size = new System.Drawing.Size(80, 45);
             this.B_SaveBoxBin.TabIndex = 8;
             this.B_SaveBoxBin.Text = "Save Box Data++";
             this.B_SaveBoxBin.UseVisualStyleBackColor = true;
@@ -380,9 +382,9 @@
             // 
             // B_VerifyCHK
             // 
-            this.B_VerifyCHK.Location = new System.Drawing.Point(96, 3);
+            this.B_VerifyCHK.Location = new System.Drawing.Point(89, 3);
             this.B_VerifyCHK.Name = "B_VerifyCHK";
-            this.B_VerifyCHK.Size = new System.Drawing.Size(87, 45);
+            this.B_VerifyCHK.Size = new System.Drawing.Size(80, 45);
             this.B_VerifyCHK.TabIndex = 2;
             this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
@@ -390,9 +392,9 @@
             // 
             // Menu_ExportBAK
             // 
-            this.Menu_ExportBAK.Location = new System.Drawing.Point(189, 3);
+            this.Menu_ExportBAK.Location = new System.Drawing.Point(261, 3);
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
-            this.Menu_ExportBAK.Size = new System.Drawing.Size(87, 45);
+            this.Menu_ExportBAK.Size = new System.Drawing.Size(80, 45);
             this.Menu_ExportBAK.TabIndex = 103;
             this.Menu_ExportBAK.Text = "Export Backup";
             this.Menu_ExportBAK.UseVisualStyleBackColor = true;
@@ -400,9 +402,9 @@
             // 
             // B_JPEG
             // 
-            this.B_JPEG.Location = new System.Drawing.Point(282, 3);
+            this.B_JPEG.Location = new System.Drawing.Point(347, 3);
             this.B_JPEG.Name = "B_JPEG";
-            this.B_JPEG.Size = new System.Drawing.Size(87, 45);
+            this.B_JPEG.Size = new System.Drawing.Size(80, 45);
             this.B_JPEG.TabIndex = 12;
             this.B_JPEG.Text = "Save PGL .JPEG";
             this.B_JPEG.UseVisualStyleBackColor = true;
@@ -888,6 +890,16 @@
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
+            // B_VerifySaveEntities
+            // 
+            this.B_VerifySaveEntities.Location = new System.Drawing.Point(175, 3);
+            this.B_VerifySaveEntities.Name = "B_VerifySaveEntities";
+            this.B_VerifySaveEntities.Size = new System.Drawing.Size(80, 45);
+            this.B_VerifySaveEntities.TabIndex = 104;
+            this.B_VerifySaveEntities.Text = "Verify All PKMs";
+            this.B_VerifySaveEntities.UseVisualStyleBackColor = true;
+            this.B_VerifySaveEntities.Click += new System.EventHandler(this.ClickVerifyStoredEntities);
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -985,5 +997,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
         private System.Windows.Forms.Button B_OpenSealStickers;
         private System.Windows.Forms.Button B_Poffins;
+        private System.Windows.Forms.Button B_VerifySaveEntities;
     }
 }

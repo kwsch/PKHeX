@@ -74,6 +74,8 @@ namespace PKHeX.Core
             for (int i = 0; i < AllData.Count; i++)
             {
                 var cs = AllData[i];
+                if (cs.Entity.Species == 0)
+                    continue;
                 var ca = AllAnalysis[i];
                 Debug.Assert(cs.Entity.Format == Trainer.Generation);
 
@@ -88,7 +90,7 @@ namespace PKHeX.Core
                         else
                             Trackers.Add(tracker, cs);
                     }
-                    else if (ca.Info.Generation < 8)
+                    else if (ca.Info.Generation is (< 8 and not -1))
                     {
                         AddLine(cs, "Missing tracker.", Encounter);
                     }
@@ -140,6 +142,9 @@ namespace PKHeX.Core
                 if (CloneFlags[i])
                     continue; // already flagged
                 var cp = AllData[i];
+                if (cp.Entity.Species == 0)
+                    continue;
+
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Entity.Format >= 6);
                 var id = cp.Entity.EncryptionConstant;
@@ -277,6 +282,9 @@ namespace PKHeX.Core
             var ps = pr.Slot;
             var pa = pr.Analysis;
             var cs = cr.Slot;
+            if (cs.Entity.Species == 0)
+                return;
+
             var ca = cr.Analysis;
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;

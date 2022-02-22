@@ -716,21 +716,6 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickVerifyCHK(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
-            {
-                var bulk = new BulkAnalysis(SAV);
-                if (bulk.Parse.Count == 0)
-                {
-                    WinFormsUtil.Alert("Clean!");
-                    return;
-                }
-                var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
-                var msg = string.Join(Environment.NewLine, lines);
-                WinFormsUtil.SetClipboardText(msg);
-                SystemSounds.Asterisk.Play();
-                return;
-            }
-
             if (SAV.State.Edited)
             {
                 WinFormsUtil.Alert(MsgSaveChecksumFailEdited);
@@ -744,6 +729,24 @@ namespace PKHeX.WinForms.Controls
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveChecksumFailExport))
                 WinFormsUtil.SetClipboardText(SAV.ChecksumInfo);
+        }
+
+        private void ClickVerifyStoredEntities(object sender, EventArgs e)
+        {
+            var bulk = new BulkAnalysis(SAV);
+            if (bulk.Parse.Count == 0)
+            {
+                WinFormsUtil.Alert("Clean!");
+                return;
+            }
+
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgClipboardLegalityExport) != DialogResult.Yes)
+                return;
+
+            var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
+            var msg = string.Join(Environment.NewLine, lines);
+            WinFormsUtil.SetClipboardText(msg);
+            SystemSounds.Asterisk.Play();
         }
 
         // File I/O
