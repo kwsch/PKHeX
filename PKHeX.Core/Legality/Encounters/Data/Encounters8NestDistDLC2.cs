@@ -8,6 +8,13 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(50,08,4) { Species = 003, Ability = A4, Moves = new[]{ 572, 188, 414, 200 }, Index = 98, CanGigantamax = true }, // Venusaur
+            new(50,08,4) { Species = 006, Ability = A4, Moves = new[]{ 257, 076, 542, 406 }, Index = 98, CanGigantamax = true }, // Charizard
+            new(50,08,4) { Species = 009, Ability = A4, Moves = new[]{ 057, 059, 430, 089 }, Index = 98, CanGigantamax = true }, // Blastoise
+            new(80,10,5) { Species = 003, Ability = A4, Moves = new[]{ 572, 188, 414, 200 }, Index = 98, CanGigantamax = true }, // Venusaur
+            new(80,10,5) { Species = 006, Ability = A4, Moves = new[]{ 257, 076, 542, 406 }, Index = 98, CanGigantamax = true }, // Charizard
+            new(80,10,5) { Species = 009, Ability = A4, Moves = new[]{ 057, 059, 430, 089 }, Index = 98, CanGigantamax = true }, // Blastoise
+
             new(17,01,1) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 000, 000 }, Index = 95 }, // Magikarp
             new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 95 }, // Meowth
             new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 95 }, // Meowth
