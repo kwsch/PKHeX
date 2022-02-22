@@ -813,7 +813,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsBackup(string path) => Path.GetFileName(path) is "backup" || Path.GetExtension(path) is ".bak";
+        public static bool IsBackup(string path) => Path.GetFileNameWithoutExtension(path).Equals("backup", StringComparison.InvariantCultureIgnoreCase) || Path.GetExtension(path) is ".bak";
 
         /// <summary>
         /// Determines whether the save data size is valid for automatically detecting saves.
