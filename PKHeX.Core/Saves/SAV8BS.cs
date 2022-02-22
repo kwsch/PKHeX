@@ -77,10 +77,15 @@ namespace PKHeX.Core
             // MT_DATA mtData; -- 0x400 bytes
             // DENDOU_SAVE_ADD -- language tracking of members (hall of fame?); ADD_POKE_MEMBER[30], ADD_POKE[6]
 
-            Initialize();
+            // v1.2 additions
+            // ReBuffnameData reBuffNameDat -- RE_DENDOU_RECORD[], RE_DENDOU_RECORD is an RE_DENDOU_POKEMON_DATA_INSIDE[] with nicknames
+            // PLAYREPORT_DATA playReportData    sizeof(0xF8)
+            // PLAYREPORT_DATA playReportDataRef sizeof(0xF8)
+
+        Initialize();
         }
 
-        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_1], false) => SaveRevision = (int)Gem8Version.V1_1;
+        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_2], false) => SaveRevision = (int)Gem8Version.V1_2;
 
         private void Initialize()
         {
@@ -118,6 +123,7 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_8b;
 
         public bool HasFirstSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_1;
+        public bool HasSecondSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_2;
 
         public int SaveRevision
         {

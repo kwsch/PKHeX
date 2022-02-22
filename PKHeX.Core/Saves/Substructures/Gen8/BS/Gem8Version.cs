@@ -19,6 +19,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks><see cref="SaveUtil.SIZE_G8BDSP_1"/></remarks>
         V1_1 = 0x2C, // 44
+
+        /// <summary>
+        /// February patch.
+        /// </summary>
+        /// <remarks><see cref="SaveUtil.SIZE_G8BDSP_2"/></remarks>
+        V1_2 = 0x32, // 50
     }
 
     public static class Gem8VersionExtensions
@@ -31,6 +37,7 @@ namespace PKHeX.Core
         {
             V1_0 => "-1.0.0", // Launch Revision
             V1_1 => "-1.1.0", // 1.1.0
+            V1_2 => "-1.2.0", // 1.2.0
             _ => throw new ArgumentOutOfRangeException(nameof(version)),
         };
     }
