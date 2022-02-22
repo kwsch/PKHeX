@@ -27,11 +27,23 @@ namespace PKHeX.Core
             Trainer = sav;
             var list = new List<SlotCache>(sav.BoxSlotCount + (sav.HasParty ? 6 : 0) + 5);
             SlotInfoLoader.AddFromSaveFile(sav, list);
+            list.RemoveAll(IsEmptyData);
             AllData = list;
             AllAnalysis = GetIndividualAnalysis(AllData);
             CloneFlags = new bool[AllData.Count];
 
             Valid = ScanAll();
+        }
+
+        // Remove things that aren't actual stored data, or already flagged by legality checks.
+        private static bool IsEmptyData(SlotCache obj)
+        {
+            var pkm = obj.Entity;
+            if ((uint)(pkm.Species - 1) >= pkm.MaxSpeciesID)
+                return true;
+            if (!pkm.ChecksumValid)
+                return true;
+            return false;
         }
 
         private bool ScanAll()
@@ -74,8 +86,6 @@ namespace PKHeX.Core
             for (int i = 0; i < AllData.Count; i++)
             {
                 var cs = AllData[i];
-                if (cs.Entity.Species == 0)
-                    continue;
                 var ca = AllAnalysis[i];
                 Debug.Assert(cs.Entity.Format == Trainer.Generation);
 
@@ -142,9 +152,6 @@ namespace PKHeX.Core
                 if (CloneFlags[i])
                     continue; // already flagged
                 var cp = AllData[i];
-                if (cp.Entity.Species == 0)
-                    continue;
-
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Entity.Format >= 6);
                 var id = cp.Entity.EncryptionConstant;
@@ -282,9 +289,6 @@ namespace PKHeX.Core
             var ps = pr.Slot;
             var pa = pr.Analysis;
             var cs = cr.Slot;
-            if (cs.Entity.Species == 0)
-                return;
-
             var ca = cr.Analysis;
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;

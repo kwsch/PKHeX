@@ -367,10 +367,10 @@ namespace PKHeX.Core
 
         public byte DynamaxLevel { get => Data[0x90]; set => Data[0x90] = value; }
 
-        // 0x90-0x93 unused
+        // 0x91-0x93 unused
 
         public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x94)); set => WriteInt32LittleEndian(Data.AsSpan(0x94), value); }
-        public int Unk98 { get => ReadInt32LittleEndian(Data.AsSpan(0x98)); set => WriteInt32LittleEndian(Data.AsSpan(0x98), value); }
+        public int Palma { get => ReadInt32LittleEndian(Data.AsSpan(0x98)); set => WriteInt32LittleEndian(Data.AsSpan(0x98), value); }
 
         // 0x9C-0xA7 unused
 
