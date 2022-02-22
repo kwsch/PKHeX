@@ -462,6 +462,7 @@ namespace PKHeX.Core
         public static string LTransferEgg { get; set; } = "Can't transfer Eggs between Generations.";
         public static string LTransferEggLocationTransporter { get; set; } = "Invalid Met Location, expected Poké Transfer.";
         public static string LTransferEggMetLevel { get; set; } = "Invalid Met Level for transfer.";
+        public static string LTransferFlagIllegal { get; set; } = "Flagged as illegal by the game (glitch abuse).";
         public static string LTransferHTFlagRequired { get; set; } = "Current handler cannot be past gen OT for transferred specimen.";
         public static string LTransferMet { get; set; } = "Invalid Met Location, expected Poké Transfer or Crown.";
         public static string LTransferMetLocation { get; set; } = "Invalid Transfer Met Location.";

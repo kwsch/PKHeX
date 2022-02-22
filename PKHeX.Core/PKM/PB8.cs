@@ -37,6 +37,12 @@ public sealed class PB8 : G8PKM
     public PB8(byte[] data) : base(data) { }
     public override PKM Clone() => new PB8((byte[])Data.Clone());
 
+    public bool IsDprIllegal
+    {
+        get => Data[0x52] != 0;
+        set => Data[0x52] = (byte)((Data[0x52] & 0xFE) | (value ? 1 : 0));
+    }
+
     public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
     {
         if (IsEgg)

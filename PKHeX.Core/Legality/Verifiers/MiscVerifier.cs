@@ -601,6 +601,9 @@ namespace PKHeX.Core
             if (social != 0)
                 data.AddLine(GetInvalid(LMemorySocialZero, Encounter));
 
+            if (pb8.IsDprIllegal)
+                data.AddLine(GetInvalid(LTransferFlagIllegal));
+
             VerifyStatNature(data, pb8);
 
             var bv = pb8.BattleVersion;
