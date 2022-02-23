@@ -32,6 +32,18 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {
         base.ApplyDetails(sav, criteria, pk);
+        if (pk is IScaledSize s)
+        {
+            if (HasFixedHeight)
+                s.HeightScalar = HeightScalar;
+            if (HasFixedWeight)
+                s.WeightScalar = WeightScalar;
+            if (pk is IScaledSizeValue v)
+            {
+                v.ResetHeight();
+                v.ResetWeight();
+            }
+        }
 
         if (IsAlpha && pk is IAlpha a)
             a.IsAlpha = true;
