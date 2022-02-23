@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/02/14 - New Update:
+22/02/22 - New Update:
+ - Added support for BDSP v1.2 save data format.
+ - Legality:
+ - - Added: BDSP glitch abuse flag is now flagged by PKHeX's legality check.
+ - - Added: PLA RNG correlation for encounters now added; things generated from the Encounter Database are a little bit more legal.
+ - - Fixed: Low level alphas now generate their moveset correctly (no duplicated moves).
+ - Added: Bulk Analysis (previously hidden behind the Verify Checksums button) now has its own button, and can detect clones and other value reuse.
+ - Added: Batch Editor can now $suggest for HeightAbsolute & WeightAbsolute. Thanks @easyworld!
+ - Added: Batch Editor can now $suggest certain methods by type (read BatchMods.cs). Try .SetSuggestedGanbaruValues=$suggest
+ - Changed: Held item combobox is now hidden for PLA format, similar to LGPE. No held items in these games even though the data field exists.
+ - Fixed: BDSP backup save files are now correctly detected as backups when detecting latest saves.
+ - Fixed: Gen2 Korean strings now save correctly.
+
+22/02/14 - New Update: (46234) [4576401]
  - Legality:
  - - Changed: Height & Weight calculated values now match the game calculation perfectly. Values not matching expected values exactly are flagged.
  - - Fixed: SWSH tutor moves are now illegal on PA8 entities.
