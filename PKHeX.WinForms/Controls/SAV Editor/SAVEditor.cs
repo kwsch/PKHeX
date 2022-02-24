@@ -783,11 +783,24 @@ namespace PKHeX.WinForms.Controls
         {
             if (!SAV.State.Exportable || SAV.Metadata.FilePath is not { } file)
                 return false;
-            using var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.Metadata.BAKName)};
+
+            if (!File.Exists(file))
+            {
+                WinFormsUtil.Error(MsgSaveBackupNotFound, file);
+                return false;
+            }
+
+            var suggestion = Util.CleanFileName(SAV.Metadata.BAKName);
+            using var sfd = new SaveFileDialog {FileName = suggestion};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
             string path = sfd.FileName;
+            if (!File.Exists(file)) // did they move it again?
+            {
+                WinFormsUtil.Error(MsgSaveBackupNotFound, file);
+                return false;
+            }
             File.Copy(file, path);
             WinFormsUtil.Alert(MsgSaveBackup, path);
 
