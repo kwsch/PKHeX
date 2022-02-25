@@ -204,20 +204,12 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
         };
         set
         {
-            if (value.Length != 1)
+            if (value.Length != 3)
                 return;
 
-            var blocks = new[]
-            {
-                Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox01),
-                Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox02),
-                Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox03),
-            };
-
-            foreach (var block in blocks)
-            {
-                block.ChangeBooleanType((SCTypeCode)(value[0] & 1) + 1);
-            }
+            Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox01).ChangeBooleanType((SCTypeCode)(value[0] & 1) + 1);
+            Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox02).ChangeBooleanType((SCTypeCode)(value[1] & 1) + 1);
+            Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox03).ChangeBooleanType((SCTypeCode)(value[2] & 1) + 1);
         }
     }
 
