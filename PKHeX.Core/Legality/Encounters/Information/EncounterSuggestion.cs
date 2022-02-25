@@ -21,15 +21,18 @@ namespace PKHeX.Core
             if (pkm.WasEgg)
                 return GetSuggestedEncounterEgg(pkm, loc);
 
-            var w = EncounterSlotGenerator.GetCaptureLocation(pkm);
-            if (w != null)
-                return GetSuggestedEncounterWild(pkm, w, loc);
+            var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
+            var w = EncounterSlotGenerator.GetCaptureLocation(pkm, chain);
+            var s = EncounterStaticGenerator.GetStaticLocation(pkm, chain);
+            if (w is null)
+                return s is null ? null : GetSuggestedEncounter(pkm, s, loc);
+            if (s is null)
+                return GetSuggestedEncounter(pkm, w, loc);
 
-            var s = EncounterStaticGenerator.GetStaticLocation(pkm);
-            if (s != null)
-                return GetSuggestedEncounterStatic(pkm, s, loc);
-
-            return null;
+            bool isDefinitelySlot = chain.Any(z => z.Species == w.Species && z.Form == w.Form);
+            bool isDefinitelyStatic = chain.Any(z => z.Species == s.Species && z.Form == s.Form);
+            IEncounterable obj = (isDefinitelySlot || !isDefinitelyStatic) ? w : s;
+            return GetSuggestedEncounter(pkm, obj, loc);
         }
 
         private static EncounterSuggestionData GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
@@ -62,16 +65,10 @@ namespace PKHeX.Core
             _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
         };
 
-        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterSlot first, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounter(PKM pkm, IEncounterable enc, int loc = -1)
         {
-            var met = loc != -1 ? loc : first.Location;
-            return new EncounterSuggestionData(pkm, first, met);
-        }
-
-        private static EncounterSuggestionData GetSuggestedEncounterStatic(PKM pkm, EncounterStatic s, int loc = -1)
-        {
-            var met = loc != -1 ? loc : s.Location;
-            return new EncounterSuggestionData(pkm, s, met);
+            var met = loc != -1 ? loc : enc.Location;
+            return new EncounterSuggestionData(pkm, enc, met);
         }
 
         /// <summary>

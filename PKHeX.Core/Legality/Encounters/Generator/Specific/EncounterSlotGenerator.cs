@@ -104,9 +104,8 @@ namespace PKHeX.Core
             return slots.Where(z => z.IsMatchLocation(metLocation));
         }
 
-        internal static EncounterSlot? GetCaptureLocation(PKM pkm)
+        internal static EncounterSlot? GetCaptureLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
             return GetPossible(pkm, chain)
                 .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
                 .ThenBy(z => z.LevelMin)

@@ -118,7 +118,7 @@ namespace PKHeX.Core
             }
         }
 
-        internal static EncounterStatic? GetStaticLocation(PKM pkm)
+        internal static EncounterStatic? GetStaticLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             switch (pkm.Generation)
             {
@@ -127,7 +127,6 @@ namespace PKHeX.Core
                 case 2:
                     return EncounterStatic7.GetVC2(MaxSpeciesID_2, pkm.Met_Level);
                 default:
-                    var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
                     return GetPossible(pkm, chain)
                         .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
                         .ThenBy(z => z.LevelMin)
