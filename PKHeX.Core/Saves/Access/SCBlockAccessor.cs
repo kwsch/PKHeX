@@ -21,11 +21,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="key">Block Key</param>
         /// <returns>Block if exists, dummy if not. Dummy key will not match requested key.</returns>
-        public SCBlock GetBlockSafe(uint key)
-        {
-            try { return GetBlock(key); }
-            catch (KeyNotFoundException) { return new SCBlock(0, SCTypeCode.None); }
-        }
+        public SCBlock GetBlockSafe(uint key) => BinarySearchSafe(BlockInfo, key);
 
         private static SCBlock BinarySearch(IReadOnlyList<SCBlock> arr, uint key)
         {
@@ -45,6 +41,26 @@ namespace PKHeX.Core
                     min = mid + 1;
             } while (min <= max);
             throw new KeyNotFoundException(nameof(key));
+        }
+
+        private static SCBlock BinarySearchSafe(IReadOnlyList<SCBlock> arr, uint key)
+        {
+            int min = 0;
+            int max = arr.Count - 1;
+            do
+            {
+                int mid = (min + max) / 2;
+                var entry = arr[mid];
+                var ek = entry.Key;
+                if (key == ek)
+                    return entry;
+
+                if (key < ek)
+                    max = mid - 1;
+                else
+                    min = mid + 1;
+            } while (min <= max);
+            return new SCBlock(0, SCTypeCode.None);
         }
     }
 }

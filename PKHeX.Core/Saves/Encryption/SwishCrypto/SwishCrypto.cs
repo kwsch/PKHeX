@@ -49,8 +49,9 @@ namespace PKHeX.Core
         public static void CryptStaticXorpadBytes(Span<byte> data)
         {
             var xp = StaticXorpad;
-            for (var i = 0; i < data.Length - SIZE_HASH; i++)
-                data[i] ^= xp[i % xp.Length];
+            var region = data[..^SIZE_HASH];
+            for (var i = 0; i < region.Length; i++)
+                region[i] ^= xp[i % xp.Length];
         }
 
         private static byte[] ComputeHash(byte[] data)
