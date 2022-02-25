@@ -7,6 +7,7 @@ namespace PKHeX.Core
     public sealed record EncounterSlot7GO : EncounterSlotGO
     {
         public override int Generation => 7;
+        public override Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
 
         public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type)
             : base(area, species, form, start, end, shiny, gender, type)
@@ -21,6 +22,9 @@ namespace PKHeX.Core
             pk.SetRandomEC();
             pb.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pb.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            pb.ResetHeight();
+            pb.ResetWeight();
+            pb.ResetCP();
         }
 
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)

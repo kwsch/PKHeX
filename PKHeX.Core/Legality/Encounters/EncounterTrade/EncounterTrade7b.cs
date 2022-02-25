@@ -18,11 +18,11 @@
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
-            if (pk is IScaledSizeValue v)
-            {
-                v.ResetHeight();
-                v.ResetWeight();
-            }
+            pk.SetRandomEC();
+            var pb = (PB7)pk;
+            pb.ResetHeight();
+            pb.ResetWeight();
+            pb.ResetCP();
         }
     }
 }
