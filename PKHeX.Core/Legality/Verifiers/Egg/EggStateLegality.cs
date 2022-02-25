@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.GameVersion;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Provides information for what values an Egg can have, while it still is an egg.
@@ -64,6 +66,18 @@
         public static int GetEggLevel(int generation) => generation >= 4 ? 1 : 5;
 
         /// <summary>
+        /// Met Level which eggs are given to the player. May change if transferred to future games.
+        /// </summary>
+        /// <param name="version">Game the egg is obtained in</param>
+        /// <param name="generation">Generation the egg is given in</param>
+        public static int GetEggLevelMet(GameVersion version, int generation) => generation switch
+        {
+            2 => version is C ? 1 : 0, // GS do not store met data
+            3 or 4 => 0,
+            _ => 1,
+        };
+
+        /// <summary>
         /// Checks if the <see cref="PKM.HT_Name"/> and associated details can be set for the provided egg <see cref="pk"/>.
         /// </summary>
         /// <param name="pk">Egg Entity</param>
@@ -90,5 +104,35 @@
 
         /// <inheritdoc cref="IsNicknameFlagSet(IEncounterTemplate,PKM)"/>
         public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch, pk);
+
+        /// <summary>
+        /// Gets a valid Egg hatch location for the origin game, permitting future format transfers.
+        /// </summary>
+        public static int GetEggHatchLocation(GameVersion game, int format) => game switch
+        {
+            R or S or E or FR or LG => format switch
+            {
+                3 => game is FR or LG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE,
+                4 => Locations.Transfer3, // Pal Park
+                _ => Locations.Transfer4,
+            },
+
+            D or P or Pt => format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
+            HG or SS => format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
+
+            B or W or B2 or W2 => Locations.HatchLocation5,
+
+            X or Y => Locations.HatchLocation6XY,
+            AS or OR => Locations.HatchLocation6AO,
+            SN or MN or US or UM => Locations.HatchLocation7,
+
+            GSC or C when format <= 2 => Locations.HatchLocationC,
+            RD or BU or GN or YW => Locations.Transfer1,
+            GD or SV or C => Locations.Transfer2,
+
+            SW or SH => Locations.HatchLocation8,
+            BD or SP => Locations.HatchLocation8b,
+            _ => -1,
+        };
     }
 }

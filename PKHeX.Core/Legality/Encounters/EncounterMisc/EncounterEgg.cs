@@ -130,10 +130,10 @@ namespace PKHeX.Core
             pk.StatNature = nature;
         }
 
-        private static void SetMetData(PKM pk)
+        private void SetMetData(PKM pk)
         {
-            pk.Met_Level = EncounterSuggestion.GetSuggestedEncounterEggMetLevel(pk);
-            pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
+            pk.Met_Level = EggStateLegality.GetEggLevelMet(Version, Generation);
+            pk.Met_Location = Math.Max(0, EggStateLegality.GetEggHatchLocation(Version, Generation));
         }
 
         private void SetEncounterMoves(PKM pk, GameVersion version)

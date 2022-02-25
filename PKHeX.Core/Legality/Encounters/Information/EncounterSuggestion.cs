@@ -71,36 +71,8 @@ namespace PKHeX.Core
             return new EncounterSuggestionData(pkm, enc, met);
         }
 
-        /// <summary>
-        /// Gets a valid Egg hatch location for the origin game.
-        /// </summary>
-        /// <param name="pkm">Pokémon data to suggest for</param>
-        public static int GetSuggestedEggMetLocation(PKM pkm) => (GameVersion)pkm.Version switch
-        {
-            R or S or E or FR or LG => pkm.Format switch
-            {
-                3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
-                4 => Locations.Transfer3, // Pal Park
-                _ => Locations.Transfer4,
-            },
-
-            D or P or Pt => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
-            HG or SS => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
-
-            B or W or B2 or W2 => Locations.HatchLocation5,
-
-            X or Y => Locations.HatchLocation6XY,
-            AS or OR => Locations.HatchLocation6AO,
-
-            SN or MN or US or UM => Locations.HatchLocation7,
-            RD or BU or GN or YW => Locations.Transfer1,
-            GD or SV or C => Locations.Transfer2,
-            GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
-
-            SW or SH => Locations.HatchLocation8,
-            BD or SP => Locations.HatchLocation8b,
-            _ => -1,
-        };
+        /// <inheritdoc cref="EggStateLegality.GetEggHatchLocation"/>
+        public static int GetSuggestedEggMetLocation(PKM pkm) => EggStateLegality.GetEggHatchLocation((GameVersion)pkm.Version, pkm.Format);
 
         /// <summary>
         /// Gets the correct Transfer Met location for the origin game.
