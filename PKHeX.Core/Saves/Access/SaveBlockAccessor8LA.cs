@@ -179,7 +179,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KHasPlayRecordsBDSP = 0x52CE2052; // FSYS_SAVEDATA_LINKAGE_DEL_01
     private const uint KHasPlayRecordsSWSH = 0x530EF0B9; // FSYS_SAVEDATA_LINKAGE_ORI_01
     private const uint KHasPlayRecordsLGPE = 0x6CFA9468; // FSYS_SAVEDATA_LINKAGE_BEL_01
-    
+
     private const uint KChoseDiamondClanLeader = 0x669B325F; // Choice of Adaman over Irida
     private const uint KHasElectricFan = 0xC734C80F; // Access to Fan-Rotom
     private const uint KHasWashingMachine = 0x62872639; // Access to Wash-Rotom

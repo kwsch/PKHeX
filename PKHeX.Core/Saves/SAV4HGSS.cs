@@ -152,7 +152,7 @@ namespace PKHeX.Core
         public override int M { get => ReadUInt16LittleEndian(General.AsSpan(0x1234)); set => WriteUInt16LittleEndian(General.AsSpan(0x1234), (ushort)value); }
         public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x123C)); set => WriteUInt16LittleEndian(General.AsSpan(0x123C), (ushort)(X2 = value)); }
         public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x1240)); set => WriteUInt16LittleEndian(General.AsSpan(0x1240), (ushort)(Y2 = value)); }
-        
+
         public override Span<byte> Rival_Trash
         {
             get => General.AsSpan(0x22D4, OTLength * 2);

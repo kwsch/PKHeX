@@ -75,7 +75,7 @@ public static class ContestStatInfo
         var avg = GetAverageFeel(s, nature, initial);
         if (avg <= 0)
             return initial.CNT_Sheen;
-		
+
 		if (avg <= 2)
 			return 24;
 

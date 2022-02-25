@@ -10,7 +10,6 @@ namespace PKHeX.Core
     /// </remarks>
     public static class Roaming8bRNG
     {
-        private const int NoMatchIVs = -1;
         private const int UNSET = -1;
 
         public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
