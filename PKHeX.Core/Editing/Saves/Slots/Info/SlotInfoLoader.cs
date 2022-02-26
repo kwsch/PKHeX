@@ -137,7 +137,7 @@ namespace PKHeX.Core
                 if (pk.Species == 0)
                     continue;
 
-                var ident = new SlotInfoParty(index + 1);
+                var ident = new SlotInfoParty(index);
                 var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }

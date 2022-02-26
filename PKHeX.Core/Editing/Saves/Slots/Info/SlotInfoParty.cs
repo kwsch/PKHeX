@@ -20,7 +20,7 @@ namespace PKHeX.Core
             if (pkm.Species == 0)
             {
                 sav.DeletePartySlot(Slot);
-                Slot = sav.PartyCount;
+                Slot = Math.Max(0, sav.PartyCount - 1);
                 return true;
             }
             Slot = Math.Min(Slot, sav.PartyCount); // realign if necessary
