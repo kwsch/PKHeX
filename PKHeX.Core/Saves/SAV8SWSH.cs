@@ -42,7 +42,7 @@ namespace PKHeX.Core
             var mine = AllBlocks;
             var newB = z.AllBlocks;
             for (int i = 0; i < mine.Count; i++)
-                newB[i].Data.CopyTo(mine[i].Data, 0);
+                mine[i].CopyFrom(newB[i]);
             State.Edited = true;
         }
 

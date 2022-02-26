@@ -44,7 +44,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
         var mine = AllBlocks;
         var newB = z.AllBlocks;
         for (int i = 0; i < mine.Count; i++)
-            newB[i].Data.CopyTo(mine[i].Data, 0);
+            mine[i].CopyFrom(newB[i]);
         State.Edited = true;
     }
 

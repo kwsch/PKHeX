@@ -202,5 +202,13 @@ namespace PKHeX.Core
                 }
             }
         }
+
+        public void CopyFrom(SCBlock other)
+        {
+            if (Type.IsBoolean())
+                ChangeBooleanType(other.Type);
+            else
+                ChangeData(other.Data);
+        }
     }
 }
