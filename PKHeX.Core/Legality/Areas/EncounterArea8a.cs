@@ -11,20 +11,13 @@ namespace PKHeX.Core;
 public sealed record EncounterArea8a : EncounterArea
 {
     public readonly EncounterSlot8a[] Slots;
-    public readonly int ParentLocation;
+    private readonly byte[] Locations;
 
     protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
     public override bool IsMatchLocation(int location)
     {
-        if (base.IsMatchLocation(location))
-            return true;
-        return CanCrossoverTo(location);
-    }
-
-    private bool CanCrossoverTo(int location)
-    {
-        return location == ParentLocation;
+        return Array.IndexOf(Locations, (byte)location) != -1;
     }
 
     public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain) => GetMatches(chain, pkm.Met_Level);
@@ -61,12 +54,18 @@ public sealed record EncounterArea8a : EncounterArea
     private EncounterArea8a(ReadOnlySpan<byte> areaData, GameVersion game) : base(game)
     {
         // Area Metadata
-        Location = areaData[0];
-        ParentLocation = areaData[1];
-        Type = areaData[2] + SlotType.Overworld;
-        var count = areaData[3];
+        int locationCount = areaData[0];
+        Locations = areaData.Slice(1, locationCount).ToArray();
+        Location = Locations[0];
 
-        var slots = areaData[4..];
+        int align = (locationCount + 1);
+        if ((align & 1) == 1)
+            align++;
+        areaData = areaData[align..];
+        Type = areaData[0] + SlotType.Overworld;
+        var count = areaData[1];
+
+        var slots = areaData[2..];
         Slots = ReadSlots(slots, count);
     }
 

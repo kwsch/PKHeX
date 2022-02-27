@@ -88,6 +88,7 @@ namespace PKHeX.Core
         Overworld = 16,
         Distortion = 17,
         Landmark = 18,
+        OverworldMMO = 19,
 
         // Modifiers
 
