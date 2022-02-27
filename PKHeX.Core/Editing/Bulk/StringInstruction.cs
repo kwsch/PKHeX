@@ -76,20 +76,46 @@ namespace PKHeX.Core
         public static IEnumerable<StringInstruction> GetFilters(IEnumerable<string> lines)
         {
             var raw = GetRelevantStrings(lines, Exclude, Require);
-            return from line in raw
-                let eval = line[0] == Require
-                let split = line[1..].Split(SplitInstruction)
-                where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                select new StringInstruction(split[0], split[1]) { Evaluator = eval };
+            foreach (var line in raw)
+            {
+                const int start = 1;
+                var splitIndex = line.IndexOf(SplitInstruction, start);
+                if (splitIndex == -1)
+                    continue;
+                var noExtra = line.IndexOf(SplitInstruction, splitIndex + 1);
+                if (noExtra != -1)
+                    continue;
+
+                var name = line.AsSpan(start, splitIndex - start);
+                if (name.IsWhiteSpace())
+                    continue;
+
+                bool eval = line[0] == Require;
+                var value = line[(splitIndex + 1)..];
+                yield return new StringInstruction(name.ToString(), value) { Evaluator = eval };
+            }
         }
 
         public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
         {
-            var raw = GetRelevantStrings(lines, Apply).Select(line => line[1..]);
-            return from line in raw
-                select line.Split(SplitInstruction) into split
-                where split.Length == 2
-                select new StringInstruction(split[0], split[1]);
+            var raw = GetRelevantStrings(lines, Apply);
+            foreach (var line in raw)
+            {
+                const int start = 1;
+                var splitIndex = line.IndexOf(SplitInstruction, start);
+                if (splitIndex == -1)
+                    continue;
+                var noExtra = line.IndexOf(SplitInstruction, splitIndex + 1);
+                if (noExtra != -1)
+                    continue;
+
+                var name = line.AsSpan(start, splitIndex - start);
+                if (name.IsWhiteSpace())
+                    continue;
+
+                var value = line[(splitIndex + 1)..];
+                yield return new StringInstruction(name.ToString(), value);
+            }
         }
 
         /// <summary>
