@@ -43,7 +43,7 @@ namespace PKHeX.Core
             E => "e",
             FR or LG or FRLG => "frlg",
             C => "c",
-            GD or SV or GS => "gs",
+            GD or SI or GS => "gs",
             _ => throw new ArgumentOutOfRangeException(nameof(GameVersion)),
         };
     }

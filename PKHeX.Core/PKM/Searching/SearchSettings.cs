@@ -189,11 +189,11 @@ namespace PKHeX.Core.Searching
             return Generation switch
             {
                 1 when !ParseSettings.AllowGen1Tradeback => new[] {GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW},
-                2 when sav is SAV2 {Korean: true} => new[] {GameVersion.GD, GameVersion.SV},
+                2 when sav is SAV2 {Korean: true} => new[] {GameVersion.GD, GameVersion.SI},
                 1 or 2 => new[]
                 {
                     GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW,
-                    GameVersion.GD, GameVersion.SV, GameVersion.C,
+                    GameVersion.GD, GameVersion.SI, GameVersion.C,
                 },
 
                 _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),

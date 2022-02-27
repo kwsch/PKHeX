@@ -128,7 +128,7 @@ namespace PKHeX.Core
 
             GSC or C when format <= 2 => Locations.HatchLocationC,
             RD or BU or GN or YW => Locations.Transfer1,
-            GD or SV or C => Locations.Transfer2,
+            GD or SI or C => Locations.Transfer2,
 
             SW or SH => Locations.HatchLocation8,
             BD or SP => Locations.HatchLocation8b,

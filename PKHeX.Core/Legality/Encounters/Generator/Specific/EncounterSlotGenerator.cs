@@ -37,7 +37,7 @@ namespace PKHeX.Core
             YW => SlotsYW,
 
             GD => SlotsGD,
-            SV => SlotsSV,
+            SI => SlotsSV,
             C => SlotsC,
 
             _ => GetEncounterSlots(pkm, gameSource),
@@ -116,7 +116,7 @@ namespace PKHeX.Core
         {
             RBY or RD or BU or GN or YW => pkm.Japanese ? SlotsRGBY : SlotsRBY,
 
-            GSC or GD or SV or C => GetEncounterTableGSC(pkm),
+            GSC or GD or SI or C => GetEncounterTableGSC(pkm),
 
             R => SlotsR,
             S => SlotsS,

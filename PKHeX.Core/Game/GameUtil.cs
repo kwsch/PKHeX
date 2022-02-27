@@ -45,7 +45,7 @@ namespace PKHeX.Core
             GO => GO,
 
             // VC Transfers
-            RD or BU or YW or GN or GD or SV or C => USUM,
+            RD or BU or YW or GN or GD or SI or C => USUM,
 
             // Gen2 -- PK2
             GS or GSC => GSC,
@@ -168,7 +168,7 @@ namespace PKHeX.Core
                 RBY or Stadium => RB.Contains(g2) || g2 == YW,
                 Gen1 => RBY.Contains(g2) || g2 == Stadium,
 
-                GS => g2 is GD or SV,
+                GS => g2 is GD or SI,
                 GSC or Stadium2 => GS.Contains(g2) || g2 == C,
                 Gen2 => GSC.Contains(g2) || g2 == Stadium2,
 

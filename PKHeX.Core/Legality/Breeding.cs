@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<GameVersion> GamesWithEggs = new()
         {
-            GD, SV, C,
+            GD, SI, C,
             R, S, E, FR, LG,
             D, P, Pt, HG, SS,
             B, W, B2, W2,

@@ -21,7 +21,7 @@ namespace PKHeX.Tests.Legality
 
         [Theory]
         [InlineData(GD, Bulbasaur, 0, Tackle, Growl)]
-        [InlineData(SV, Igglybuff, 0, FeintAttack, Pound, Curse, ZapCannon)]
+        [InlineData(SI, Igglybuff, 0, FeintAttack, Pound, Curse, ZapCannon)]
         [InlineData( C, Igglybuff, 0, FeintAttack, Pound, Flamethrower, Sing)]
         [InlineData( B, Heracross, 0, Megahorn, NightSlash, CloseCombat, StoneEdge)]
         [InlineData( B, Heracross, 0, Bide, Megahorn, Counter, Reversal)]

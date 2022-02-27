@@ -210,7 +210,7 @@ namespace PKHeX.Core
                 SN or MN => Partition2(MetGen7, z => z    < 200), // Outer Cape
                 US or UM
                    or RD or BU or GN or YW
-                   or GD or SV or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
+                   or GD or SI or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
                 GP or GE or GO => Partition2(MetGen7GG, z => z <= 54), // Pokémon League
                 SW or SH => Partition2(MetGen8, z => z < 400),
                 BD or SP => Partition2(MetGen8b, z => z < 628),

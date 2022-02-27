@@ -85,7 +85,7 @@ namespace PKHeX.Core
                         return first;
                     return LearnC.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
 
-                case GD or SV or GS:
+                case GD or SI or GS:
                     return LearnGS.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
                 case C when !korean:
                     return LearnC.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
@@ -354,7 +354,7 @@ namespace PKHeX.Core
                         return moves;
                     return LearnC.AddMoves(moves, species, form, max, min);
 
-                case GD or SV or GS:
+                case GD or SI or GS:
                     return LearnGS.AddMoves(moves, species, form, max, min);
                 case C when !korean:
                     return LearnC.AddMoves(moves, species, form, max, min);

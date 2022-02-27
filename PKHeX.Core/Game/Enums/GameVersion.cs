@@ -174,7 +174,7 @@
         /// <summary>
         /// Pokémon Silver (3DS Virtual Console)
         /// </summary>
-        SV = 40,
+        SI = 40,
 
         /// <summary>
         /// Pokémon Crystal (3DS Virtual Console)
@@ -242,14 +242,14 @@
         /// Pokémon Gold &amp; Silver [<see cref="SAV2"/>] identifier.
         /// </summary>
         /// <see cref="GD"/>
-        /// <see cref="SV"/>
+        /// <see cref="SI"/>
         GS,
 
         /// <summary>
         /// Pokémon Gold/Silver/Crystal [<see cref="SAV2"/>] identifier.
         /// </summary>
         /// <see cref="GD"/>
-        /// <see cref="SV"/>
+        /// <see cref="SI"/>
         /// <see cref="C"/>
         GSC,
 

@@ -20,7 +20,7 @@ namespace PKHeX.Core
         {
             RD or GN or BU or RB => Legal.LevelUpRB,
             YW or RBY => Legal.LevelUpY,
-            GD or SV or GS => Legal.LevelUpGS,
+            GD or SI or GS => Legal.LevelUpGS,
             C or GSC => Legal.LevelUpC,
 
             R or S or RS or RSE => Legal.LevelUpRS,
@@ -66,7 +66,7 @@ namespace PKHeX.Core
         {
             RD or GN or BU or RB => PersonalTable.RB,
             YW or RBY => PersonalTable.Y,
-            GD or SV or GS => PersonalTable.GS,
+            GD or SI or GS => PersonalTable.GS,
             C or GSC => PersonalTable.C,
 
             R or S or RS or RSE => PersonalTable.RS,

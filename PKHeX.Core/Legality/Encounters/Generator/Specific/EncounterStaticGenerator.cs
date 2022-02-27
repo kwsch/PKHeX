@@ -30,7 +30,7 @@ namespace PKHeX.Core
             var table = gameSource switch
             {
                 RD or GN or BU or YW => StaticRBY.Where(z => z.Version.Contains(gameSource)),
-                GD or SV => StaticGS.Where(z => z.Version.Contains(gameSource)),
+                GD or SI => StaticGS.Where(z => z.Version.Contains(gameSource)),
                 C => StaticC,
                 _ => GetEncounterStaticTable(pkm, gameSource),
             };
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         {
             RBY or RD or BU or GN or YW => StaticRBY,
 
-            GSC or GD or SV or C => GetEncounterStaticTableGSC(pkm),
+            GSC or GD or SI or C => GetEncounterStaticTableGSC(pkm),
 
             R => StaticR,
             S => StaticS,

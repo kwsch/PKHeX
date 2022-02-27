@@ -731,7 +731,7 @@ namespace PKHeX.Core
             StadiumJ => new SAV1StadiumJ(),
             Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
-            GD or SV or GS => new SAV2(version: GS, lang: language),
+            GD or SI or GS => new SAV2(version: GS, lang: language),
             C or GSC => new SAV2(version: C, lang: language),
             Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
 

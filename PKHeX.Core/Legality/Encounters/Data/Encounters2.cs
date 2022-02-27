@@ -11,7 +11,7 @@ namespace PKHeX.Core
     internal static class Encounters2
     {
         internal static readonly EncounterArea2[] SlotsGD = EncounterArea2.GetAreas(Get("gold", "g2"), GD);
-        internal static readonly EncounterArea2[] SlotsSV = EncounterArea2.GetAreas(Get("silver", "g2"), SV);
+        internal static readonly EncounterArea2[] SlotsSV = EncounterArea2.GetAreas(Get("silver", "g2"), SI);
         internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"), C);
 
         internal static readonly EncounterArea2[] SlotsGS = ArrayUtil.ConcatAll(SlotsGD, SlotsSV);
@@ -49,10 +49,10 @@ namespace PKHeX.Core
             new(245, 40, GS), // Suicune
 
             new(249, 70, GD), // Lugia @ Whirl Islands
-            new(249, 40, SV), // Lugia @ Whirl Islands
+            new(249, 40, SI), // Lugia @ Whirl Islands
 
             new(250, 40, GD), // Ho-Oh @ Tin Tower
-            new(250, 70, SV), // Ho-Oh @ Tin Tower
+            new(250, 70, SI), // Ho-Oh @ Tin Tower
 
             new(137, 15, GS), // Porygon @ Celadon Game Corner
             new(133, 15, GS), // Eevee @ Celadon Game Corner

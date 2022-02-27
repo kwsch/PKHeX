@@ -143,7 +143,7 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
-                Version = HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.SV,
+                Version = HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.SI,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
