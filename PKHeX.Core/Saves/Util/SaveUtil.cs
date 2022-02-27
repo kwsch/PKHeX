@@ -16,6 +16,7 @@ namespace PKHeX.Core
         public const int BEEF = 0x42454546;
 
         public const int SIZE_G8LA = 0x136DDE;
+        public const int SIZE_G8LA_1 = 0x13AD06;
 
         public const int SIZE_G8BDSP = 0xE9828;
         public const int SIZE_G8BDSP_1 = 0xEDC20;
@@ -100,7 +101,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
         {
-            SIZE_G8LA, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2,
+            SIZE_G8LA, SIZE_G8LA_1, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2,
             // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
@@ -510,7 +511,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsG8SAV_LA(byte[] data)
         {
-            if (data.Length is not SIZE_G8LA)
+            if (data.Length is not (SIZE_G8LA or SIZE_G8LA_1))
                 return Invalid;
 
             return SwishCrypto.GetIsHashValidLA(data) ? PLA : Invalid;

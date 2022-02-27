@@ -11,6 +11,7 @@ namespace PKHeX.Core
 
         public object GetBlockValue(uint key) => GetBlock(key).GetValue();
         public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
+        public bool HasBlock(uint key) => FindIndex(BlockInfo, key) != -1;
 
         // Rather than storing a dictionary of keys, we can abuse the fact that the SCBlock[] is stored in order of ascending block key.
         // Binary Search doesn't require extra memory like a Dictionary would; also, we only need to find a few blocks.
@@ -61,6 +62,26 @@ namespace PKHeX.Core
                     min = mid + 1;
             } while (min <= max);
             return new SCBlock(0, SCTypeCode.None);
+        }
+
+        private static int FindIndex(IReadOnlyList<SCBlock> arr, uint key)
+        {
+            int min = 0;
+            int max = arr.Count - 1;
+            do
+            {
+                int mid = (min + max) / 2;
+                var entry = arr[mid];
+                var ek = entry.Key;
+                if (key == ek)
+                    return mid;
+
+                if (key < ek)
+                    max = mid - 1;
+                else
+                    min = mid + 1;
+            } while (min <= max);
+            return -1;
         }
     }
 }

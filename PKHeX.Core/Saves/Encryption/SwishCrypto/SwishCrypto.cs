@@ -97,7 +97,7 @@ namespace PKHeX.Core
         /// <returns>True if hash matches</returns>
         public static bool GetIsHashValidLA(byte[] data)
         {
-            if (data.Length != SaveUtil.SIZE_G8LA)
+            if (data.Length is not (SaveUtil.SIZE_G8LA or SaveUtil.SIZE_G8LA_1))
                 return false;
 
             var hash = ComputeHash(data);

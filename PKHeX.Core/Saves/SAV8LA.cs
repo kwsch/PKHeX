@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
+public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRevision
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.LastSavedTime}";
     public override string Extension => string.Empty;
@@ -16,6 +16,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
         Data = Array.Empty<byte>();
         AllBlocks = SwishCrypto.Decrypt(data);
         Blocks = new SaveBlockAccessor8LA(this);
+        SaveRevision = Blocks.DetectRevision();
         Initialize();
     }
 
@@ -23,6 +24,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8LA(this);
+        SaveRevision = Blocks.DetectRevision();
         Initialize();
     }
 
@@ -30,9 +32,18 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray
     {
         AllBlocks = Meta8.GetBlankDataLA();
         Blocks = new SaveBlockAccessor8LA(this);
+        SaveRevision = Blocks.DetectRevision();
         Initialize();
         ClearBoxes();
     }
+
+    public int SaveRevision { get; }
+    public string SaveRevisionString => SaveRevision switch
+    {
+        0 => "-Base", // Vanilla
+        1 => "-DB", // DLC 1: Daybreak
+        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+    };
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => StringConverter8.SetString(destBuffer, value, maxLength, option);

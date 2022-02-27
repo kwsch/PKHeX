@@ -38,6 +38,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
         AreaSpawners = new AreaSpawnerSet8a(GetBlock(KSpawners));
     }
 
+    public int DetectRevision() => HasBlock(0x8184EFB4) ? 1 : 0;
+
     // Arrays (Blocks)
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapersUnused = 0x2EB1B190; // Box Wallpapers
