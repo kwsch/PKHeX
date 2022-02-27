@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -31,28 +30,35 @@ namespace PKHeX.WinForms
         private static void TranslateForm(Control form, TranslationContext context)
         {
             form.SuspendLayout();
-            var formname = form.Name;
+
             // Translate Title
-            form.Text = context.GetTranslatedText(formname, form.Text);
+            var formName = form.Name;
+            form.Text = context.GetTranslatedText(formName, form.Text);
+
+            // Translate Controls
             var translatable = GetTranslatableControls(form);
             foreach (var c in translatable)
-            {
-                if (c is Control r)
-                {
-                    var current = r.Text;
-                    var updated = context.GetTranslatedText($"{formname}.{r.Name}", current);
-                    if (!ReferenceEquals(current, updated))
-                        r.Text = updated;
-                }
-                else if (c is ToolStripItem t)
-                {
-                    var current = t.Text;
-                    var updated = context.GetTranslatedText($"{formname}.{t.Name}", current);
-                    if (!ReferenceEquals(current, updated))
-                        t.Text = updated;
-                }
-            }
+                TranslateControl(c, context, formName);
+
             form.ResumeLayout();
+        }
+
+        private static void TranslateControl(object c, TranslationContext context, string formname)
+        {
+            if (c is Control r)
+            {
+                var current = r.Text;
+                var updated = context.GetTranslatedText($"{formname}.{r.Name}", current);
+                if (!ReferenceEquals(current, updated))
+                    r.Text = updated;
+            }
+            else if (c is ToolStripItem t)
+            {
+                var current = t.Text;
+                var updated = context.GetTranslatedText($"{formname}.{t.Name}", current);
+                if (!ReferenceEquals(current, updated))
+                    t.Text = updated;
+            }
         }
 
         private static IEnumerable<string> GetTranslationFile(string lang)
@@ -132,12 +138,14 @@ namespace PKHeX.WinForms
             foreach (var dropDownItem in item.DropDownItems.OfType<ToolStripMenuItem>())
             {
                 yield return dropDownItem;
-                if (!dropDownItem.HasDropDownItems) continue;
+                if (!dropDownItem.HasDropDownItems)
+                    continue;
                 foreach (ToolStripMenuItem subItem in GetToolsStripDropDownItems(dropDownItem))
                     yield return subItem;
             }
         }
 
+#if DEBUG
         public static void UpdateAll(string baseLanguage, IEnumerable<string> others)
         {
             var baseContext = GetContext(baseLanguage);
@@ -161,16 +169,14 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static void LoadAllForms(params string[] banlist)
+        public static void LoadAllForms(IEnumerable<System.Type> types, params string[] banlist)
         {
-            var q = from t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
-                where t.BaseType == typeof(Form) && !banlist.Contains(t.Name)
-                select t;
-            foreach (var t in q)
+            types = types.Where(t => t.BaseType == typeof(Form) && !banlist.Contains(t.Name));
+            foreach (var t in types)
             {
                 var constructors = t.GetConstructors();
                 if (constructors.Length == 0)
-                { Debug.WriteLine($"No constructors: {t.Name}"); continue; }
+                { System.Diagnostics.Debug.WriteLine($"No constructors: {t.Name}"); continue; }
                 var argCount = constructors[0].GetParameters().Length;
                 try
                 {
@@ -179,7 +185,7 @@ namespace PKHeX.WinForms
                 // This is a debug utility method, will always be logging. Shouldn't ever fail.
                 catch
                 {
-                    Debug.Write($"Failed to create a new form {t}");
+                    System.Diagnostics.Debug.Write($"Failed to create a new form {t}");
                 }
             }
         }
@@ -235,6 +241,7 @@ namespace PKHeX.WinForms
                 }
             }
         }
+#endif
     }
 
     public sealed class TranslationContext
@@ -277,12 +284,6 @@ namespace PKHeX.WinForms
             foreach (var kvp in other.Translation)
                 GetTranslatedText(kvp.Key, kvp.Value);
             AddNew = oldAdd;
-        }
-
-        public void RemoveKeys(TranslationContext other)
-        {
-            foreach (var kvp in other.Translation)
-                Translation.Remove(kvp.Key);
         }
     }
 }

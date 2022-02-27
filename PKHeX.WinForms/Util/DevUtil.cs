@@ -46,17 +46,19 @@ namespace PKHeX.WinForms
 
         private static void UpdateTranslations()
         {
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var types = assembly.GetTypes();
             // add mode
             WinFormsTranslator.SetRemovalMode(false);
             WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
-            WinFormsTranslator.LoadAllForms(LoadBanlist); // populate with every possible control
+            WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
             WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
             WinFormsTranslator.DumpAll(Banlist); // dump current to file
 
             // de-populate
             WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
             WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage, false);
-            WinFormsTranslator.LoadAllForms(LoadBanlist);
+            WinFormsTranslator.LoadAllForms(types, LoadBanlist);
             WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
 
             // Move translated files from the debug exe loc to their project location

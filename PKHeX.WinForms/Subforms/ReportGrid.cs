@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
             var headers = dgData.Columns.Cast<DataGridViewColumn>();
             await s.WriteLineAsync(string.Join(",", headers.Skip(1).Select(column => $"\"{column.HeaderText}\""))).ConfigureAwait(false);
 
-            foreach (var cells in from DataGridViewRow row in dgData.Rows select row.Cells.Cast<DataGridViewCell>())
+            foreach (var cells in dgData.Rows.Cast<DataGridViewRow>().Select(row => row.Cells.Cast<DataGridViewCell>()))
                 await s.WriteLineAsync(string.Join(",", cells.Skip(1).Select(cell => $"\"{cell.Value}\""))).ConfigureAwait(false);
         }
 
