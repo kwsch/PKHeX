@@ -74,17 +74,15 @@ namespace PKHeX.Core
         internal byte[] AesDecrypt(ReadOnlySpan<byte> input)
         {
             var key = GetAesKey(input);
-            var data = input[^0x60..].ToArray();
-            var temp = new byte[0x10];
+            var data = input[^0x60..];
             var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
-            for (var i = 0; i < data.Length / 0x10; i++) // Reverse Phase 2
+            for (var i = data.Length - 0x10; i >= 0; i -= 0x10) // Reverse Phase 2
             {
-                var ofs = ((data.Length / 0x10) - 1 - i) * 0x10;
-                Array.Copy(data, ofs, curblock, 0, 0x10);
-                var temp1 = Xor(temp, curblock);
-                temp = AesEcbDecrypt(key, temp1);
-                temp.CopyTo(outdata, ofs);
+                var slice = data.Slice(i, 0x10);
+                Xor(curblock, slice, curblock);
+                curblock = AesEcbDecrypt(key, curblock);
+                curblock.CopyTo(outdata, i);
             }
 
             // At this point we have Phase1(buf) ^ subkey.
@@ -94,29 +92,27 @@ namespace PKHeX.Core
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
             var last = outdata.AsSpan(((data.Length / 0x10) - 1) * 0x10, 0x10);
-            last.CopyTo(temp);
-            temp = Xor(temp, outdata.AsSpan(0, 0x10));
+            var first = outdata.AsSpan(0, 0x10);
 
             Span<byte> subkey = stackalloc byte[0x10];
-            GetSubKey(temp, subkey);
-            for (var i = 0; i < data.Length / 0x10; i++)
+            Xor(last, first, curblock);
+            GetSubKey(curblock, subkey);
+            for (var i = 0; i < data.Length; i += 0x10)
             {
-                var slice = outdata.AsSpan(0x10 * i, 0x10);
-                slice.CopyTo(curblock);
-                var temp1 = Xor(curblock, subkey);
-                temp1.AsSpan(0, 0x10).CopyTo(slice);
+                var slice = outdata.AsSpan(i, 0x10);
+                Xor(slice, subkey, slice);
             }
 
             // Now we have Phase1Encrypt(buf).
-            temp.AsSpan().Clear(); // Clear to all zero
-            for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
+            curblock.AsSpan().Clear(); // Clear to all zero
+            Span<byte> temp = stackalloc byte[0x10];
+            for (var i = 0; i < data.Length; i += 0x10) // Phase 1: CBC Encryption.
             {
-                var slice = outdata.AsSpan(0x10 * i, 0x10);
+                var slice = outdata.AsSpan(i, 0x10);
                 slice.CopyTo(curblock);
                 var temp1 = AesEcbDecrypt(key, curblock);
-                var temp2 = Xor(temp1, temp);
-                temp2.CopyTo(slice);
-                curblock.CopyTo(temp, 0);
+                Xor(temp1, temp, slice);
+                curblock.CopyTo(temp);
             }
 
             var outbuf = input.ToArray();
@@ -131,35 +127,32 @@ namespace PKHeX.Core
         {
             var key = GetAesKey(input);
             var data = input[^0x60..];
-            var temp = new byte[0x10];
             var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
-            for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
+            for (var i = 0; i < data.Length; i += 0x10) // Phase 1: CBC Encryption.
             {
-                data.Slice(i * 0x10, 0x10).CopyTo(curblock);
-                var temp1 = Xor(temp, curblock);
-                temp = AesEcbEncrypt(key, temp1);
-                temp.CopyTo(outdata, i * 0x10);
+                var slice = data.Slice(i, 0x10);
+                Xor(curblock, slice, curblock);
+                curblock = AesEcbEncrypt(key, curblock);
+                curblock.CopyTo(outdata, i);
             }
 
             // In between - CMAC stuff
             var inbet = outdata.AsSpan(0, 0x10);
-            temp = Xor(temp, inbet);
+            Xor(curblock, inbet, curblock);
 
             Span<byte> subkey = stackalloc byte[0x10];
-            GetSubKey(temp, subkey);
+            GetSubKey(curblock, subkey);
 
-            temp.AsSpan().Clear(); // Memcpy from an all-zero buffer
-            for (var i = 0; i < data.Length / 0x10; i++)
+            Span<byte> temp = stackalloc byte[0x10];
+            curblock.AsSpan().Clear(); // Memcpy from an all-zero buffer
+            for (var i = data.Length - 0x10; i >= 0; i -= 0x10)
             {
-                var ofs = ((data.Length / 0x10) - 1 - i) * 0x10;
-                var slice = outdata.AsSpan(ofs, 0x10);
-                slice.CopyTo(curblock);
-                byte[] temp2 = Xor(curblock, subkey);
-                byte[] temp3 = AesEcbEncrypt(key, temp2);
-                byte[] temp4 = Xor(temp3, temp);
-                temp4.CopyTo(slice);
-                temp = temp2;
+                var slice = outdata.AsSpan(i, 0x10);
+                Xor(slice, subkey, curblock);
+                byte[] temp1 = AesEcbEncrypt(key, curblock);
+                Xor(temp1, temp, slice);
+                curblock.CopyTo(temp);
             }
 
             var outbuf = input.ToArray();
@@ -182,13 +175,11 @@ namespace PKHeX.Core
                 subkey[0xF] ^= 0x87;
         }
 
-        private static byte[] Xor(byte[] b1, ReadOnlySpan<byte> b2)
+        private static void Xor(ReadOnlySpan<byte> b1, ReadOnlySpan<byte> b2, Span<byte> x)
         {
             Debug.Assert(b1.Length == b2.Length);
-            var x = new byte[b1.Length];
             for (var i = 0; i < b1.Length; i++)
                 x[i] = (byte)(b1[i] ^ b2[i]);
-            return x;
         }
 
         /// <summary>
@@ -261,7 +252,7 @@ namespace PKHeX.Core
         // Helper Method to perform AES ECB Encryption
         private static byte[] AesEcbEncrypt(byte[] key, byte[] data)
         {
-            using var ms = new MemoryStream();
+            using var ms = new MemoryStream(data.Length);
             using var aes = Aes.Create();
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.None;
@@ -276,7 +267,7 @@ namespace PKHeX.Core
         // Helper Method to perform AES ECB Decryption
         private static byte[] AesEcbDecrypt(byte[] key, byte[] data)
         {
-            using var ms = new MemoryStream();
+            using var ms = new MemoryStream(data.Length);
             using var aes = Aes.Create();
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.None;
