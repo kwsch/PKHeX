@@ -223,7 +223,6 @@ namespace PKHeX.Core
         public static readonly HashSet<int> SignatureSketch_BDSP = new()
         {
             (int)Move.PsychoBoost, // Deoxys
-            (int)Move.SeedFlare, // Shaymin
             (int)Move.DarkVoid, // Darkrai
             (int)Move.Judgment, // Arceus
         };
@@ -346,7 +345,6 @@ namespace PKHeX.Core
             154, 155, 158,                // Sunyshore City
             181, 182, 183,                // Pokémon League
             218,                          // Hall of Origin (Diamond)
-            285,                          // Flower Paradise
             329,                          // Lake Acuity
             332, 333,                     // Newmoon Island
             337, 338,                     // Battle Park
@@ -354,7 +352,6 @@ namespace PKHeX.Core
             345, 353, 421,                // Mystery Zone
             474,                          // Resort Area
             483, 484,                     // Mystery Zone
-            490,                          // Seabreak Path
             491, 492, 493,                // Mystery Zone
             495,                          // Ramanas Park
             618,                          // Hall of Origin (Pearl)
