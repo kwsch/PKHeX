@@ -60,7 +60,7 @@ namespace PKHeX.Core
 
             // Mythical
           //new (BDSP) { Species = 491, Level = 50, Location = 333, FlawlessIVCount = 3, Fateful = true }, // Darkrai
-          //new (BDSP) { Species = 492, Level = 30, Location = 285, FlawlessIVCount = 3, Fateful = true }, // Shaymin
+            new (BDSP) { Species = 492, Level = 30, Location = 285, FlawlessIVCount = 3, Fateful = true }, // Shaymin
           //new (BDSP) { Species = 493, Level = 80, Location = 218, FlawlessIVCount = 3, Fateful = true }, // Arceus
 
             // Ramanas Park (Pure Space)
