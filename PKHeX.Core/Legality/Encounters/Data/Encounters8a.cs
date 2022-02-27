@@ -37,6 +37,9 @@ internal static class Encounters8a
 
         new(077,000,15    ) { Location = 014, Shiny = Always}, // Ponyta*
         new(442,000,60,M,M) { Location = 043, FlawlessIVCount = 3 }, // Spiritomb
+        new(570,001,27    ) { Location = 027, FlawlessIVCount = 3 }, // Zorua
+        new(570,001,28    ) { Location = 027, FlawlessIVCount = 3 }, // Zorua
+        new(570,001,29    ) { Location = 027, FlawlessIVCount = 3 }, // Zorua
 
         new(489,000,33    ) { Location = 064, Fateful = true }, // Phione
         new(489,000,34    ) { Location = 064, Fateful = true }, // Phione
