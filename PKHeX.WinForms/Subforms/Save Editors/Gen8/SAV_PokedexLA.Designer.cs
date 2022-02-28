@@ -39,6 +39,7 @@
             this.CHK_A = new System.Windows.Forms.CheckBox();
             this.LB_Forms = new System.Windows.Forms.ListBox();
             this.GB_SeenInWild = new System.Windows.Forms.GroupBox();
+            this.CHK_Solitude = new System.Windows.Forms.CheckBox();
             this.CHK_S7 = new System.Windows.Forms.CheckBox();
             this.CHK_S6 = new System.Windows.Forms.CheckBox();
             this.CHK_S5 = new System.Windows.Forms.CheckBox();
@@ -81,16 +82,6 @@
             this.GB_ResearchTasks = new System.Windows.Forms.GroupBox();
             this.MTB_UpdateIndex = new System.Windows.Forms.MaskedTextBox();
             this.L_UpdateIndex = new System.Windows.Forms.Label();
-            this.PRT_10 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_9 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_8 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_7 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_6 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_5 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_4 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_3 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_2 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
-            this.PRT_1 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
             this.CHK_Seen = new System.Windows.Forms.CheckBox();
             this.B_Report = new System.Windows.Forms.Button();
             this.CHK_Perfect = new System.Windows.Forms.CheckBox();
@@ -101,6 +92,16 @@
             this.L_ResearchLevelReported = new System.Windows.Forms.Label();
             this.B_AdvancedResearch = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
+            this.PRT_10 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_9 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_8 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_7 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_6 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_5 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_4 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_3 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_2 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            this.PRT_1 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
             this.GB_Displayed.SuspendLayout();
             this.GB_SeenInWild.SuspendLayout();
             this.GB_Obtained.SuspendLayout();
@@ -235,6 +236,16 @@
             this.GB_SeenInWild.TabIndex = 38;
             this.GB_SeenInWild.TabStop = false;
             this.GB_SeenInWild.Text = "Seen in the Wild";
+            // 
+            // CHK_Solitude
+            // 
+            this.CHK_Solitude.AutoSize = true;
+            this.CHK_Solitude.Location = new System.Drawing.Point(143, 9);
+            this.CHK_Solitude.Name = "CHK_Solitude";
+            this.CHK_Solitude.Size = new System.Drawing.Size(111, 17);
+            this.CHK_Solitude.TabIndex = 12;
+            this.CHK_Solitude.Text = "Solitude Complete";
+            this.CHK_Solitude.UseVisualStyleBackColor = true;
             // 
             // CHK_S7
             // 
@@ -708,86 +719,6 @@
             this.L_UpdateIndex.Text = "Index:";
             this.L_UpdateIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // PRT_10
-            // 
-            this.PRT_10.CurrentValue = 0;
-            this.PRT_10.Location = new System.Drawing.Point(3, 213);
-            this.PRT_10.Name = "PRT_10";
-            this.PRT_10.Size = new System.Drawing.Size(646, 22);
-            this.PRT_10.TabIndex = 148;
-            // 
-            // PRT_9
-            // 
-            this.PRT_9.CurrentValue = 0;
-            this.PRT_9.Location = new System.Drawing.Point(3, 191);
-            this.PRT_9.Name = "PRT_9";
-            this.PRT_9.Size = new System.Drawing.Size(646, 22);
-            this.PRT_9.TabIndex = 147;
-            // 
-            // PRT_8
-            // 
-            this.PRT_8.CurrentValue = 0;
-            this.PRT_8.Location = new System.Drawing.Point(3, 169);
-            this.PRT_8.Name = "PRT_8";
-            this.PRT_8.Size = new System.Drawing.Size(646, 22);
-            this.PRT_8.TabIndex = 146;
-            // 
-            // PRT_7
-            // 
-            this.PRT_7.CurrentValue = 0;
-            this.PRT_7.Location = new System.Drawing.Point(3, 147);
-            this.PRT_7.Name = "PRT_7";
-            this.PRT_7.Size = new System.Drawing.Size(646, 22);
-            this.PRT_7.TabIndex = 145;
-            // 
-            // PRT_6
-            // 
-            this.PRT_6.CurrentValue = 0;
-            this.PRT_6.Location = new System.Drawing.Point(3, 125);
-            this.PRT_6.Name = "PRT_6";
-            this.PRT_6.Size = new System.Drawing.Size(646, 22);
-            this.PRT_6.TabIndex = 144;
-            // 
-            // PRT_5
-            // 
-            this.PRT_5.CurrentValue = 0;
-            this.PRT_5.Location = new System.Drawing.Point(3, 103);
-            this.PRT_5.Name = "PRT_5";
-            this.PRT_5.Size = new System.Drawing.Size(646, 22);
-            this.PRT_5.TabIndex = 143;
-            // 
-            // PRT_4
-            // 
-            this.PRT_4.CurrentValue = 0;
-            this.PRT_4.Location = new System.Drawing.Point(3, 81);
-            this.PRT_4.Name = "PRT_4";
-            this.PRT_4.Size = new System.Drawing.Size(646, 22);
-            this.PRT_4.TabIndex = 142;
-            // 
-            // PRT_3
-            // 
-            this.PRT_3.CurrentValue = 0;
-            this.PRT_3.Location = new System.Drawing.Point(3, 59);
-            this.PRT_3.Name = "PRT_3";
-            this.PRT_3.Size = new System.Drawing.Size(646, 22);
-            this.PRT_3.TabIndex = 141;
-            // 
-            // PRT_2
-            // 
-            this.PRT_2.CurrentValue = 0;
-            this.PRT_2.Location = new System.Drawing.Point(3, 37);
-            this.PRT_2.Name = "PRT_2";
-            this.PRT_2.Size = new System.Drawing.Size(646, 22);
-            this.PRT_2.TabIndex = 140;
-            // 
-            // PRT_1
-            // 
-            this.PRT_1.CurrentValue = 0;
-            this.PRT_1.Location = new System.Drawing.Point(3, 15);
-            this.PRT_1.Name = "PRT_1";
-            this.PRT_1.Size = new System.Drawing.Size(646, 22);
-            this.PRT_1.TabIndex = 139;
-            // 
             // CHK_Seen
             // 
             this.CHK_Seen.AutoSize = true;
@@ -900,11 +831,92 @@
             this.LB_Species.TabIndex = 2;
             this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeLBSpecies);
             // 
+            // PRT_10
+            // 
+            this.PRT_10.CurrentValue = 0;
+            this.PRT_10.Location = new System.Drawing.Point(3, 213);
+            this.PRT_10.Name = "PRT_10";
+            this.PRT_10.Size = new System.Drawing.Size(646, 22);
+            this.PRT_10.TabIndex = 148;
+            // 
+            // PRT_9
+            // 
+            this.PRT_9.CurrentValue = 0;
+            this.PRT_9.Location = new System.Drawing.Point(3, 191);
+            this.PRT_9.Name = "PRT_9";
+            this.PRT_9.Size = new System.Drawing.Size(646, 22);
+            this.PRT_9.TabIndex = 147;
+            // 
+            // PRT_8
+            // 
+            this.PRT_8.CurrentValue = 0;
+            this.PRT_8.Location = new System.Drawing.Point(3, 169);
+            this.PRT_8.Name = "PRT_8";
+            this.PRT_8.Size = new System.Drawing.Size(646, 22);
+            this.PRT_8.TabIndex = 146;
+            // 
+            // PRT_7
+            // 
+            this.PRT_7.CurrentValue = 0;
+            this.PRT_7.Location = new System.Drawing.Point(3, 147);
+            this.PRT_7.Name = "PRT_7";
+            this.PRT_7.Size = new System.Drawing.Size(646, 22);
+            this.PRT_7.TabIndex = 145;
+            // 
+            // PRT_6
+            // 
+            this.PRT_6.CurrentValue = 0;
+            this.PRT_6.Location = new System.Drawing.Point(3, 125);
+            this.PRT_6.Name = "PRT_6";
+            this.PRT_6.Size = new System.Drawing.Size(646, 22);
+            this.PRT_6.TabIndex = 144;
+            // 
+            // PRT_5
+            // 
+            this.PRT_5.CurrentValue = 0;
+            this.PRT_5.Location = new System.Drawing.Point(3, 103);
+            this.PRT_5.Name = "PRT_5";
+            this.PRT_5.Size = new System.Drawing.Size(646, 22);
+            this.PRT_5.TabIndex = 143;
+            // 
+            // PRT_4
+            // 
+            this.PRT_4.CurrentValue = 0;
+            this.PRT_4.Location = new System.Drawing.Point(3, 81);
+            this.PRT_4.Name = "PRT_4";
+            this.PRT_4.Size = new System.Drawing.Size(646, 22);
+            this.PRT_4.TabIndex = 142;
+            // 
+            // PRT_3
+            // 
+            this.PRT_3.CurrentValue = 0;
+            this.PRT_3.Location = new System.Drawing.Point(3, 59);
+            this.PRT_3.Name = "PRT_3";
+            this.PRT_3.Size = new System.Drawing.Size(646, 22);
+            this.PRT_3.TabIndex = 141;
+            // 
+            // PRT_2
+            // 
+            this.PRT_2.CurrentValue = 0;
+            this.PRT_2.Location = new System.Drawing.Point(3, 37);
+            this.PRT_2.Name = "PRT_2";
+            this.PRT_2.Size = new System.Drawing.Size(646, 22);
+            this.PRT_2.TabIndex = 140;
+            // 
+            // PRT_1
+            // 
+            this.PRT_1.CurrentValue = 0;
+            this.PRT_1.Location = new System.Drawing.Point(3, 15);
+            this.PRT_1.Name = "PRT_1";
+            this.PRT_1.Size = new System.Drawing.Size(646, 22);
+            this.PRT_1.TabIndex = 139;
+            // 
             // SAV_PokedexLA
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(809, 471);
+            this.Controls.Add(this.CHK_Solitude);
             this.Controls.Add(this.GB_Statistics);
             this.Controls.Add(this.GB_ResearchTasks);
             this.Controls.Add(this.CB_DisplayForm);
@@ -1023,5 +1035,6 @@
         private System.Windows.Forms.Label L_TheoryWeight;
         private System.Windows.Forms.MaskedTextBox MTB_UpdateIndex;
         private System.Windows.Forms.Label L_UpdateIndex;
+        private System.Windows.Forms.CheckBox CHK_Solitude;
     }
 }

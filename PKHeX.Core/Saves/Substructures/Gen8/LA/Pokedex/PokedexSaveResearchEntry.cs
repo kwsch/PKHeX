@@ -22,6 +22,7 @@ public class PokedexSaveResearchEntry
     public bool SelectedGender1    { get => (Flags & (1u << 3)) != 0; set => Flags = (Flags & ~(1u << 3)) | ((value ? 1u : 0u) << 3); }
     public bool SelectedShiny      { get => (Flags & (1u << 4)) != 0; set => Flags = (Flags & ~(1u << 4)) | ((value ? 1u : 0u) << 4); }
     public bool SelectedAlpha      { get => (Flags & (1u << 5)) != 0; set => Flags = (Flags & ~(1u << 5)) | ((value ? 1u : 0u) << 5); }
+    public bool IsSolitudeComplete { get => (Flags & (1u << 6)) != 0; set => Flags = (Flags & ~(1u << 6)) | ((value ? 1u : 0u) << 6); }
 
     private uint ReportedResearchProgress { get => ReadUInt32LittleEndian(Data[0x04..]); set => WriteUInt32LittleEndian(Data[0x04..], value); }
 

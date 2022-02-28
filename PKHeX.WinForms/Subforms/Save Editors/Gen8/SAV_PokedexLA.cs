@@ -222,6 +222,7 @@ namespace PKHeX.WinForms
             var seenWild = Dex.GetPokeSeenInWildFlags(species, form);
             var obtain = Dex.GetPokeObtainFlags(species, form);
             var caughtWild = Dex.GetPokeCaughtInWildFlags(species, form);
+            CHK_Solitude.Checked = Dex.GetSolitudeComplete(species);
             for (var i = 0; i < CHK_SeenWild.Length; ++i)
             {
                 CHK_SeenWild[i].Checked = (seenWild & (1 << i)) != 0;
@@ -371,6 +372,7 @@ namespace PKHeX.WinForms
             Dex.SetPokeSeenInWildFlags(species, form, (byte)seenWild);
             Dex.SetPokeObtainFlags(species, form, (byte)obtain);
             Dex.SetPokeCaughtInWildFlags(species, form, (byte)caughtWild);
+            Dex.SetSolitudeComplete(species, CHK_Solitude.Checked);
 
             // Display
             var dispForm = form;

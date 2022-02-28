@@ -771,11 +771,42 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).SelectedGender1;
     }
 
+    public bool GetSolitudeComplete(int species)
+    {
+        if ((uint)species >= MAX_SPECIES)
+            return false;
+
+        return SaveData.GetResearchEntry(species).IsSolitudeComplete;
+    }
+
+    public void SetSolitudeComplete(int species, bool value)
+    {
+        if ((uint)species >= MAX_SPECIES)
+            return;
+
+        SaveData.GetResearchEntry(species).IsSolitudeComplete = value;
+    }
+
+    public void SetSolitudeAll(bool value = true)
+    {
+        var pt = Personal;
+        for (int i = pt.MaxSpeciesID; i >= 1; i--)
+        {
+            // Set only species captures with dex indexes.
+            var index = GetDexIndex(Hisui, i);
+            if (index == -1)
+                continue;
+
+            SaveData.GetResearchEntry(i).IsSolitudeComplete = value;
+        }
+    }
+
     public void OnPokeEvolve(PKM pk, int fromSpecies)
     {
         OnPokeEvolved(fromSpecies, pk.Species);
         OnPokeGet_NoSpecialCatch(pk);
     }
+
     public void OnPokeGet_Caller1(PKM pk)
     {
         // 1.0.1: sub_7101283760
