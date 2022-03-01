@@ -1,7 +1,17 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/02/22 - New Update:
+22/03/01 - New Update:
+ - Added support for PLA v1.1 save data format.
+ - Legality:
+ - - Added: PLA Massive Mass Outbreak encounter slot data recognition.
+ - - Changed: BDSP underground area6 now permits lower levels. Thanks @Meta7122 !
+ - - Fixed: BDSP Piplup mystery gift now verifies friendship correctly.
+ - Fixed: Swapping 5th party slot to boxes now behaves correctly. Thanks Burning Justice !
+ - Fixed: PLA/SWSH copying savedata changes now saves boolean value toggles (Box Flags). Thanks @sora10pls !
+ - Changed: Minor memory allocation performance improvements.
+
+22/02/22 - New Update: (28530) [4604931]
  - Added support for BDSP v1.2 save data format.
  - Legality:
  - - Added: BDSP glitch abuse flag is now flagged by PKHeX's legality check.
