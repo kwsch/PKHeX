@@ -114,6 +114,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KRecordLostSatchelsFound = 0x4AAF7FBE; // U32 Satchels retrieved for NPCs and other players
     private const uint KRecordOwnSatchelRetrieved = 0x8C46768E; // U32 Satchels other players retrieved for you
     private const uint KStarterChoice = 0x6960C6EF; // U32 0=Rowlet, 1=Cyndaquil, 2=Oshawott
+    
+    private const uint KRecordEternalBattleReverie = 0xEB550C12; // U32 Highest streak for Eternal Battle Reverie
 
     // Flags
     private const uint KEnableSpawnerSpiritomb = 0x2DC7E4CC; // FSYS_MKRG_100_SPAWN
