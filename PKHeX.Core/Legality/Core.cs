@@ -92,6 +92,23 @@ namespace PKHeX.Core
             return GetMaxSpeciesOrigin(pkm.Generation);
         }
 
+        internal static int GetMaxSpeciesOrigin(int generation, GameVersion version) => generation switch
+        {
+            1 => MaxSpeciesID_1,
+            2 => MaxSpeciesID_2,
+            3 => MaxSpeciesID_3,
+            4 => MaxSpeciesID_4,
+            5 => MaxSpeciesID_5,
+            6 => MaxSpeciesID_6,
+            7 when GameVersion.GG.Contains(version) => MaxSpeciesID_7b,
+            7 when GameVersion.USUM.Contains(version) => MaxSpeciesID_7_USUM,
+            7 => MaxSpeciesID_7,
+            8 when version is GameVersion.PLA => MaxSpeciesID_8a,
+            8 when GameVersion.BDSP.Contains(version) => MaxSpeciesID_8b,
+            8 => MaxSpeciesID_8_R2,
+            _ => -1,
+        };
+
         internal static int GetMaxSpeciesOrigin(int generation) => generation switch
         {
             1 => MaxSpeciesID_1,

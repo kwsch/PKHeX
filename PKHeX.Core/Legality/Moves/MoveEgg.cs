@@ -9,7 +9,7 @@ namespace PKHeX.Core
     {
         public static int[] GetEggMoves(PersonalInfo pi, int species, int form, GameVersion version, int generation)
         {
-            if (species > GetMaxSpeciesOrigin(generation))
+            if (species > GetMaxSpeciesOrigin(generation, version))
                 return Array.Empty<int>();
 
             if (pi.Genderless && !FixedGenderFromBiGender.Contains(species))
@@ -23,14 +23,14 @@ namespace PKHeX.Core
 
         public static int[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
         {
-            1 or 2 => (version == C ? EggMovesC : EggMovesGS)[species].Moves,
-            3 => EggMovesRS[species].Moves,
-            4 when version is D or P or Pt => EggMovesDPPt[species].Moves,
-            4 when version is HG or SS => EggMovesHGSS[species].Moves,
-            5 => EggMovesBW[species].Moves,
+            1 or 2 => GetMovesSafe(version == C ? EggMovesC : EggMovesGS, species),
+            3 => GetMovesSafe(EggMovesRS, species),
+            4 when version is D or P or Pt => GetMovesSafe(EggMovesDPPt, species),
+            4 when version is HG or SS => GetMovesSafe(EggMovesHGSS, species),
+            5 => GetMovesSafe(EggMovesBW, species),
 
-            6 when version is X or Y => EggMovesXY[species].Moves,
-            6 when version is OR or AS => EggMovesAO[species].Moves,
+            6 when version is X or Y => GetMovesSafe(EggMovesXY, species),
+            6 when version is OR or AS => GetMovesSafe(EggMovesAO, species),
 
             7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
             7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
@@ -39,11 +39,27 @@ namespace PKHeX.Core
             _ => Array.Empty<int>(),
         };
 
+        private static int[] GetMovesSafe<T>(IReadOnlyList<T> moves, int species) where T : EggMoves
+        {
+            if ((uint)species >= moves.Count)
+                return Array.Empty<int>();
+            return moves[species].Moves;
+        }
+
         private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
         {
+            if ((uint)species >= table.Count)
+                return Array.Empty<int>();
+
             var entry = table[species];
-            if (form > 0 && entry.FormTableIndex > species)
-                entry = table[entry.FormTableIndex + form - 1];
+            if (form <= 0 || entry.FormTableIndex <= species)
+                return entry.Moves;
+
+            // Sanity check form in the event it is out of range.
+            var index = entry.FormTableIndex + form - 1;
+            if ((uint)index >= table.Count)
+                return Array.Empty<int>();
+            entry = table[index];
             return entry.Moves;
         }
 
@@ -79,6 +95,9 @@ namespace PKHeX.Core
         public static int[] GetSharedEggMoves(PKM pkm, int gen)
         {
             if (gen < 8 || pkm.IsEgg)
+                return Array.Empty<int>();
+
+            if (pkm.LA)
                 return Array.Empty<int>();
 
             if (pkm.BDSP)
