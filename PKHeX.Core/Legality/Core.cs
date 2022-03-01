@@ -51,7 +51,7 @@ namespace PKHeX.Core
         // Gen 8
         internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
         internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
-        internal static readonly EggMoves7[] EggMovesBDSP = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
+        internal static readonly EggMoves6[] EggMovesBDSP = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
         internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
         internal static readonly Learnset[] LevelUpLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
 
@@ -207,7 +207,6 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-
 
         /// <summary>
         /// Indicates if PP Ups are available for use.

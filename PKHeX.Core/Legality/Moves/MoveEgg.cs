@@ -35,7 +35,7 @@ namespace PKHeX.Core
             7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
             7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
             8 when version is SW or SH => GetFormEggMoves(species, form, EggMovesSWSH),
-            8 when version is BD or SP => GetFormEggMoves(species, form, EggMovesBDSP),
+            8 when version is BD or SP => GetMovesSafe(EggMovesBDSP, species),
             _ => Array.Empty<int>(),
         };
 
@@ -56,10 +56,14 @@ namespace PKHeX.Core
                 return entry.Moves;
 
             // Sanity check form in the event it is out of range.
-            var index = entry.FormTableIndex + form - 1;
+            var baseIndex = entry.FormTableIndex;
+            var index = baseIndex + form - 1;
             if ((uint)index >= table.Count)
                 return Array.Empty<int>();
             entry = table[index];
+            if (entry.FormTableIndex != baseIndex)
+                return Array.Empty<int>();
+
             return entry.Moves;
         }
 
