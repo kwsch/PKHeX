@@ -8,7 +8,7 @@
     {
         public override int Generation => 4;
 
-        public EncounterStatic4Pokewalker(int species, int gender, int level) : base(GameVersion.HGSS)
+        public EncounterStatic4Pokewalker(int species, sbyte gender, int level) : base(GameVersion.HGSS)
         {
             Species = species;
             Gender = gender;

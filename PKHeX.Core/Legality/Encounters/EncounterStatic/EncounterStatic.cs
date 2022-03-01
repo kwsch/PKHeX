@@ -21,22 +21,24 @@ namespace PKHeX.Core
         public virtual int Location { get; init; }
         public AbilityPermission Ability { get; init; }
         public Shiny Shiny { get; init; } = Shiny.Random;
-        public int Gender { get; init; } = -1;
-        public int EggLocation { get; init; }
         public Nature Nature { get; init; } = Nature.Random;
+        public sbyte Gender { get; init; } = -1;
+
+        public ushort HeldItem { get; init; }
         public bool Gift { get; init; }
-        public int Ball { get; init; } = 4; // Only checked when is Gift
+        public bool Fateful { get; init; }
+
+        public byte EggCycles { get; init; }
+        public byte FlawlessIVCount { get; init; }
+        public byte Ball { get; init; } = 4; // Only checked when is Gift
+
+        public int EggLocation { get; init; }
 
         public Ball FixedBall => Gift ? (Ball)Ball : Core.Ball.None;
 
         public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
-        public int FlawlessIVCount { get; init; }
 
-        public int HeldItem { get; init; }
-        public int EggCycles { get; init; }
-
-        public bool Fateful { get; init; }
         public bool EggEncounter => EggLocation > 0;
 
         private const string _name = "Static Encounter";

@@ -152,7 +152,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         return new OverworldParam8a
         {
             IsAlpha = IsAlpha,
-            FlawlessIVs = (byte)FlawlessIVCount,
+            FlawlessIVs = FlawlessIVCount,
             Shiny = Shiny,
             RollCount = 1, // Everything is shiny locked anyways
             GenderRatio = gender,

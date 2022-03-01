@@ -70,7 +70,7 @@ namespace PKHeX.Core
                 Fateful = mew,
                 Location = Locations.Transfer1,
                 Level = metLevel,
-                FlawlessIVCount = mew ? 5 : 3,
+                FlawlessIVCount = mew ? (byte)5 : (byte)3,
             };
         }
 
@@ -87,7 +87,7 @@ namespace PKHeX.Core
                 Fateful = fateful,
                 Location = Locations.Transfer2,
                 Level = metLevel,
-                FlawlessIVCount = fateful ? 5 : 3,
+                FlawlessIVCount = fateful ? (byte)5 : (byte)3,
             };
         }
     }

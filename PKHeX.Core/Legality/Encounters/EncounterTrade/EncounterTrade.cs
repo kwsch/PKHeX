@@ -17,42 +17,44 @@ namespace PKHeX.Core
         public int Level { get; init; }
         public virtual int LevelMin => Level;
         public int LevelMax => 100;
-        public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public abstract int Generation { get; }
 
         public int CurrentLevel { get; init; } = -1;
         public abstract int Location { get; }
+
         public AbilityPermission Ability { get; init; }
-        public int Gender { get; init; } = -1;
         public Nature Nature { get; init; } = Nature.Random;
         public Shiny Shiny { get; init; } = Shiny.Never;
-        public int Ball { get; init; } = 4;
+        public sbyte Gender { get; init; } = -1;
 
-        public Ball FixedBall => (Ball)Ball;
+        public sbyte OTGender { get; init; } = -1;
+        public bool IsNicknamed { get; init; } = true;
+        public bool EvolveOnTrade { get; init; }
+        public byte Ball { get; init; } = 4;
 
-        public int TID { get; init; }
-        public int SID { get; init; }
-        public int OTGender { get; init; } = -1;
+        public int EggLocation { get; init; }
 
+        public ushort TID { get; init; }
+        public ushort SID { get; init; }
+
+        public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
 
+        public Ball FixedBall => (Ball)Ball;
         public bool EggEncounter => false;
-        public int EggLocation { get; init; }
-        public bool EvolveOnTrade { get; init; }
 
         public int TID7
         {
             init
             {
                 TID = (ushort) value;
-                SID = value >> 16;
+                SID = (ushort)(value >> 16);
             }
         }
 
         private const string _name = "In-game Trade";
         public string Name => _name;
         public string LongName => _name;
-        public bool IsNicknamed { get; init; } = true;
         public bool IsShiny => Shiny.IsShiny();
 
         public IReadOnlyList<string> Nicknames { get; internal set; } = Array.Empty<string>();
@@ -90,7 +92,7 @@ namespace PKHeX.Core
             pk.Form = Form;
             pk.Language = lang;
             pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : HasTrainerName ? GetOT(lang) : sav.OT;
-            pk.OT_Gender = HasTrainerName ? Math.Max(0, OTGender) : sav.Gender;
+            pk.OT_Gender = HasTrainerName ? Math.Max(0, (int)OTGender) : sav.Gender;
             pk.SetNickname(HasNickname ? GetNickname(lang) : string.Empty);
 
             pk.CurrentLevel = level;

@@ -11,10 +11,10 @@ namespace PKHeX.Core
     {
         public override int Generation => 8;
         public override int Location => Locations.LinkTrade6NPC;
+        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         public byte DynamaxLevel { get; set; }
-        public int FlawlessIVCount { get; init; }
-        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
+        public byte FlawlessIVCount { get; init; }
 
         public int OT_Memory { get; set; }
         public int OT_TextVar { get; set; }
