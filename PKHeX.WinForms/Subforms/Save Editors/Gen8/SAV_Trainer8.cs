@@ -39,6 +39,9 @@ namespace PKHeX.WinForms
             ChangeTitleScreenIndex(this, EventArgs.Empty);
             ChangeTrainerCardIndex(this, EventArgs.Empty);
 
+            if (SAV.SaveRevision == 0)
+                B_CollectDiglett.Visible = false;
+
             //Loading = false;
         }
 
@@ -238,16 +241,10 @@ namespace PKHeX.WinForms
             ChangeTitleScreenIndex(this, EventArgs.Empty);
         }
 
-        //private string UpdateTip(int index)
-        //{
-        //    switch (index)
-        //    {
-        //        case 2: // Storyline Completed Time
-        //            var seconds = DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-        //            return DateUtil.ConvertDateValueToString(SAV.GetRecord(index), seconds);
-        //        default:
-        //            return null;
-        //    }
-        //}
+        private void B_GetAllDiglett_Click(object sender, EventArgs e)
+        {
+            SAV.UnlockAllDiglett();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }

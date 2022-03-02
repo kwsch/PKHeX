@@ -203,5 +203,59 @@ namespace PKHeX.Core
             var b = Blocks.GetBlock(SaveBlockAccessor8SWSH.KBoxWallpapers);
             b.Data[box] = (byte)value;
         }
+
+        public void UnlockAllDiglett()
+        {
+            if (SaveRevision == 0)
+                return; // no blocks
+
+            (int Zone, int Max)[] zones =
+            {
+                (0201, 16), // Fields of Honor
+                (0202, 18), // Soothing Wetlands
+                (0203, 6), // Forest of Focus
+                (0204, 7), // Challenge Beach
+                (0205, 5), // Brawlers' Cave
+                (0206, 6), // Challenge Road
+                (0207, 5), // Courageous Cavern
+                (0208, 5), // Loop Lagoon
+                (0209, 13), // Training Lowlands
+                (0210, 1), // Warm-Up Tunnel
+                (0211, 8), // Potbottom Desert
+                (0221, 9), // Workout Sea
+                (0222, 5), // Stepping-Stone Sea
+                (0223, 3), // Insular Sea
+                (0224, 1), // Honeycalm Sea
+                (0231, 9), // Honeycalm Island
+            };
+            var s = Blocks;
+            static uint Hash(string str) => (uint)FnvHash.HashFnv1a_64(str);
+            foreach (var (zone, max) in zones)
+            {
+                var baseName = $"z_wr{zone:0000}_F_DHIGUDA";
+                s.GetBlock(Hash(baseName)).ChangeBooleanType(SCTypeCode.Bool2);
+                for (int i = 0; i <= max; i++)
+                {
+                    var otherName = $"{baseName}_{i}";
+                    s.GetBlock(Hash(otherName)).ChangeBooleanType(SCTypeCode.Bool2);
+                }
+
+                var countName = $"WK_EV_R1_DHIG_WR{zone:0000}";
+                var value = max + 2;
+                if (zone == 0223) // trio
+                    value++;
+                s.GetBlock(Hash(countName)).SetValue((uint)value);
+            }
+
+            const string TRIO = "z_wr0223_F_TRIO";
+            s.GetBlock(Hash(TRIO)).ChangeBooleanType(SCTypeCode.Bool2);
+
+            const string unreported = "WK_EV_R1_DHIGUDA_ADD";
+            const string totalCount = "WK_EV_R1_DHIGUDA_COUNT";
+            const string progressCt = "WK_EV_R1_DHIGUDA_PROGRESS";
+            s.GetBlock(Hash(unreported)).SetValue((uint)0); // none unreported
+            s.GetBlock(Hash(totalCount)).SetValue((uint)150); // all obtained count
+            s.GetBlock(Hash(progressCt)).SetValue((uint)11); // all obtained progress value
+        }
     }
 }

@@ -107,7 +107,7 @@
             this.GB_Stats = new System.Windows.Forms.GroupBox();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_BP = new System.Windows.Forms.Label();
-            this.TrainerStats = new Controls.TrainerStat();
+            this.TrainerStats = new PKHeX.WinForms.Controls.TrainerStat();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Fame = new System.Windows.Forms.Label();
@@ -130,6 +130,7 @@
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
             this.Tab_MiscValues = new System.Windows.Forms.TabPage();
+            this.B_CollectDiglett = new System.Windows.Forms.Button();
             this.GB_BattleTower = new System.Windows.Forms.GroupBox();
             this.MT_BattleTowerDoublesStreak = new System.Windows.Forms.MaskedTextBox();
             this.L_Doubles = new System.Windows.Forms.Label();
@@ -140,14 +141,14 @@
             this.L_Singles = new System.Windows.Forms.Label();
             this.MT_BattleTowerSinglesWin = new System.Windows.Forms.MaskedTextBox();
             this.Tab_Team = new System.Windows.Forms.TabPage();
+            this.B_CopyFromPartyToTrainerCard = new System.Windows.Forms.Button();
+            this.B_CopyFromPartyToTitleScreen = new System.Windows.Forms.Button();
             this.NUD_ShowTrainerCard = new System.Windows.Forms.NumericUpDown();
             this.L_ShowTrainerCard = new System.Windows.Forms.Label();
             this.PG_ShowTrainerCard = new System.Windows.Forms.PropertyGrid();
             this.NUD_ShowTitleScreen = new System.Windows.Forms.NumericUpDown();
             this.L_ShowTitleScreen = new System.Windows.Forms.Label();
             this.PG_ShowTitleScreen = new System.Windows.Forms.PropertyGrid();
-            this.B_CopyFromPartyToTitleScreen = new System.Windows.Forms.Button();
-            this.B_CopyFromPartyToTrainerCard = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1142,6 +1143,7 @@
             // 
             // Tab_MiscValues
             // 
+            this.Tab_MiscValues.Controls.Add(this.B_CollectDiglett);
             this.Tab_MiscValues.Controls.Add(this.GB_BattleTower);
             this.Tab_MiscValues.Location = new System.Drawing.Point(4, 22);
             this.Tab_MiscValues.Name = "Tab_MiscValues";
@@ -1150,6 +1152,16 @@
             this.Tab_MiscValues.TabIndex = 4;
             this.Tab_MiscValues.Text = "Misc";
             this.Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // B_CollectDiglett
+            // 
+            this.B_CollectDiglett.Location = new System.Drawing.Point(232, 26);
+            this.B_CollectDiglett.Name = "B_CollectDiglett";
+            this.B_CollectDiglett.Size = new System.Drawing.Size(121, 60);
+            this.B_CollectDiglett.TabIndex = 1;
+            this.B_CollectDiglett.Text = "Collect All Diglett";
+            this.B_CollectDiglett.UseVisualStyleBackColor = true;
+            this.B_CollectDiglett.Click += new System.EventHandler(this.B_GetAllDiglett_Click);
             // 
             // GB_BattleTower
             // 
@@ -1258,6 +1270,26 @@
             this.Tab_Team.Text = "Team";
             this.Tab_Team.UseVisualStyleBackColor = true;
             // 
+            // B_CopyFromPartyToTrainerCard
+            // 
+            this.B_CopyFromPartyToTrainerCard.Location = new System.Drawing.Point(88, 258);
+            this.B_CopyFromPartyToTrainerCard.Name = "B_CopyFromPartyToTrainerCard";
+            this.B_CopyFromPartyToTrainerCard.Size = new System.Drawing.Size(115, 23);
+            this.B_CopyFromPartyToTrainerCard.TabIndex = 4;
+            this.B_CopyFromPartyToTrainerCard.Text = "Copy From Party";
+            this.B_CopyFromPartyToTrainerCard.UseVisualStyleBackColor = true;
+            this.B_CopyFromPartyToTrainerCard.Click += new System.EventHandler(this.B_CopyFromPartyToTrainerCard_Click);
+            // 
+            // B_CopyFromPartyToTitleScreen
+            // 
+            this.B_CopyFromPartyToTitleScreen.Location = new System.Drawing.Point(309, 258);
+            this.B_CopyFromPartyToTitleScreen.Name = "B_CopyFromPartyToTitleScreen";
+            this.B_CopyFromPartyToTitleScreen.Size = new System.Drawing.Size(115, 23);
+            this.B_CopyFromPartyToTitleScreen.TabIndex = 8;
+            this.B_CopyFromPartyToTitleScreen.Text = "Copy From Party";
+            this.B_CopyFromPartyToTitleScreen.UseVisualStyleBackColor = true;
+            this.B_CopyFromPartyToTitleScreen.Click += new System.EventHandler(this.B_CopyFromPartyToTitleScreen_Click);
+            // 
             // NUD_ShowTrainerCard
             // 
             this.NUD_ShowTrainerCard.Location = new System.Drawing.Point(138, 9);
@@ -1339,26 +1371,6 @@
             this.PG_ShowTitleScreen.Size = new System.Drawing.Size(200, 222);
             this.PG_ShowTitleScreen.TabIndex = 7;
             this.PG_ShowTitleScreen.ToolbarVisible = false;
-            // 
-            // B_CopyFromPartyToTitleScreen
-            // 
-            this.B_CopyFromPartyToTitleScreen.Location = new System.Drawing.Point(309, 258);
-            this.B_CopyFromPartyToTitleScreen.Name = "B_CopyFromPartyToTitleScreen";
-            this.B_CopyFromPartyToTitleScreen.Size = new System.Drawing.Size(115, 23);
-            this.B_CopyFromPartyToTitleScreen.TabIndex = 8;
-            this.B_CopyFromPartyToTitleScreen.Text = "Copy From Party";
-            this.B_CopyFromPartyToTitleScreen.UseVisualStyleBackColor = true;
-            this.B_CopyFromPartyToTitleScreen.Click += new System.EventHandler(this.B_CopyFromPartyToTitleScreen_Click);
-            // 
-            // B_CopyFromPartyToTrainerCard
-            // 
-            this.B_CopyFromPartyToTrainerCard.Location = new System.Drawing.Point(88, 258);
-            this.B_CopyFromPartyToTrainerCard.Name = "B_CopyFromPartyToTrainerCard";
-            this.B_CopyFromPartyToTrainerCard.Size = new System.Drawing.Size(115, 23);
-            this.B_CopyFromPartyToTrainerCard.TabIndex = 4;
-            this.B_CopyFromPartyToTrainerCard.Text = "Copy From Party";
-            this.B_CopyFromPartyToTrainerCard.UseVisualStyleBackColor = true;
-            this.B_CopyFromPartyToTrainerCard.Click += new System.EventHandler(this.B_CopyFromPartyToTrainerCard_Click);
             // 
             // SAV_Trainer8
             // 
@@ -1522,5 +1534,6 @@
         private System.Windows.Forms.NumericUpDown NUD_ShowTitleScreen;
         private System.Windows.Forms.Button B_CopyFromPartyToTrainerCard;
         private System.Windows.Forms.Button B_CopyFromPartyToTitleScreen;
+        private System.Windows.Forms.Button B_CollectDiglett;
     }
 }
