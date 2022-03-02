@@ -112,7 +112,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KWispsReported = 0x8F0D8720; // U32 Wisps reported to Vessa (0-107)
     private const uint KRecordTargetPractice = 0xA69E079B; // U32 High score for Target Practice minigame (Practice Field)
     private const uint KRecordLostSatchelsFound = 0x4AAF7FBE; // U32 Satchels retrieved for NPCs and other players
-    private const uint KRecordOwnSatchelRetrieved = 0x8C46768E; // U32 Satchels other players retrieved for you
+    private const uint KRecordOwnSatchelsRetrieved = 0x8C46768E; // U32 Satchels other players retrieved for you
     private const uint KStarterChoice = 0x6960C6EF; // U32 0=Rowlet, 1=Cyndaquil, 2=Oshawott
     
     private const uint KRecordEternalBattleReverie = 0xEB550C12; // U32 Highest streak for Eternal Battle Reverie
@@ -179,17 +179,18 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KUnlockedArea05 = 0xC08D4C69; // FSYS_AREA_05_OPEN
     private const uint KUnlockedArea06 = 0x76350E52; // FSYS_AREA_06_OPEN
     private const uint KAutoConnectInternet = 0xAFA034A5;
+    private const uint KCompletedEternalBattleReverie = 0xD6BD5654; // Mark displayed on save card; achieved by a 50 streak
 
     private const uint KHasPlayRecordsBDSP = 0x52CE2052; // FSYS_SAVEDATA_LINKAGE_DEL_01
     private const uint KHasPlayRecordsSWSH = 0x530EF0B9; // FSYS_SAVEDATA_LINKAGE_ORI_01
     private const uint KHasPlayRecordsLGPE = 0x6CFA9468; // FSYS_SAVEDATA_LINKAGE_BEL_01
 
     private const uint KChoseDiamondClanLeader = 0x669B325F; // Choice of Adaman over Irida
-    private const uint KHasElectricFan = 0xC734C80F; // Access to Fan-Rotom
-    private const uint KHasWashingMachine = 0x62872639; // Access to Wash-Rotom
-    private const uint KHasLawnMower = 0xFB87E941; // Access to Mow-Rotom
-    private const uint KHasMicrowaveOven = 0xD9A315A0; // Access to Heat-Rotom
-    private const uint KHasRefrigerator = 0xAE868040; // Access to Frost-Rotom
+    private const uint KHasApplianceElectricFan = 0xC734C80F; // Access to Fan-Rotom
+    private const uint KHasApplianceWashingMachine = 0x62872639; // Access to Wash-Rotom
+    private const uint KHasApplianceLawnMower = 0xFB87E941; // Access to Mow-Rotom
+    private const uint KHasApplianceMicrowaveOven = 0xD9A315A0; // Access to Heat-Rotom
+    private const uint KHasApplianceRefrigerator = 0xAE868040; // Access to Frost-Rotom
     private const uint KReceivedRemainderStarters = 0x8D45EB90; // Got Starters that weren't chosen
     private const uint KReceivedRemainderStarterRowlet = 0x4570A16B; // Combine with other 2 and KReceivedRemainderStarers to re-activate
     private const uint KReceivedRemainderStarterCyndaquil = 0x602C2CD6; // Combine with other 2 and KReceivedRemainderStarers to re-activate
