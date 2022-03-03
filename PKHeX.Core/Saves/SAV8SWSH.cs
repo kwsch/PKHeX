@@ -253,9 +253,9 @@ namespace PKHeX.Core
             const string unreported = "WK_EV_R1_DHIGUDA_ADD";
             const string totalCount = "WK_EV_R1_DHIGUDA_COUNT";
             const string progressCt = "WK_EV_R1_DHIGUDA_PROGRESS";
-            s.GetBlock(Hash(unreported)).SetValue((uint)0); // none unreported
-            s.GetBlock(Hash(totalCount)).SetValue((uint)150); // all obtained count
-            s.GetBlock(Hash(progressCt)).SetValue((uint)11); // all obtained progress value
+            s.GetBlock(Hash(unreported)).SetValue((uint)150); // all unreported
+            s.GetBlock(Hash(totalCount)).SetValue((uint)1); // obtained count after bridge Diglett
+            s.GetBlock(Hash(progressCt)).SetValue((uint)1); // obtained progress value
         }
     }
 }
