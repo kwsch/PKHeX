@@ -209,6 +209,7 @@ namespace PKHeX.Core
             if (SaveRevision == 0)
                 return; // no blocks
 
+            // Zone specific values
             (int Zone, int Max)[] zones =
             {
                 (0201, 16), // Fields of Honor
@@ -229,33 +230,36 @@ namespace PKHeX.Core
                 (0231, 9), // Honeycalm Island
             };
             var s = Blocks;
-            static uint Hash(string str) => (uint)FnvHash.HashFnv1a_64(str);
             foreach (var (zone, max) in zones)
             {
                 var baseName = $"z_wr{zone:0000}_F_DHIGUDA";
-                s.GetBlock(Hash(baseName)).ChangeBooleanType(SCTypeCode.Bool2);
+                s.GetBlock(baseName).ChangeBooleanType(SCTypeCode.Bool2);
                 for (int i = 0; i <= max; i++)
                 {
                     var otherName = $"{baseName}_{i}";
-                    s.GetBlock(Hash(otherName)).ChangeBooleanType(SCTypeCode.Bool2);
+                    s.GetBlock(otherName).ChangeBooleanType(SCTypeCode.Bool2);
                 }
 
                 var countName = $"WK_EV_R1_DHIG_WR{zone:0000}";
                 var value = max + 2;
                 if (zone == 0223) // trio
-                    value++;
-                s.GetBlock(Hash(countName)).SetValue((uint)value);
+                    value += 2;
+                s.GetBlock(countName).SetValue((uint)value);
             }
 
-            const string TRIO = "z_wr0223_F_TRIO";
-            s.GetBlock(Hash(TRIO)).ChangeBooleanType(SCTypeCode.Bool2);
+            // Atypical named values
+            const string TRIO1 = "z_wr0223_F_TRIO";
+            const string TRIO2 = "FE_R1_DHIGUDA_TRIO";
+            s.GetBlock(TRIO1).ChangeBooleanType(SCTypeCode.Bool2);
+            s.GetBlock(TRIO2).ChangeBooleanType(SCTypeCode.Bool2);
 
+            // Overall named values
             const string unreported = "WK_EV_R1_DHIGUDA_ADD";
             const string totalCount = "WK_EV_R1_DHIGUDA_COUNT";
             const string progressCt = "WK_EV_R1_DHIGUDA_PROGRESS";
-            s.GetBlock(Hash(unreported)).SetValue((uint)0); // none unreported
-            s.GetBlock(Hash(totalCount)).SetValue((uint)150); // all obtained count
-            s.GetBlock(Hash(progressCt)).SetValue((uint)11); // all obtained progress value
+            s.GetBlock(unreported).SetValue((uint)150); // 150 unreported
+            s.GetBlock(totalCount).SetValue((uint)1); // obtained count
+            s.GetBlock(progressCt).SetValue((uint)1); // none obtained progress value
         }
     }
 }
