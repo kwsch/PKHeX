@@ -56,6 +56,13 @@ namespace PKHeX.Core
             }
 
             int lvl = pkm.CurrentLevel;
+            if (lvl >= 100)
+            {
+                var expect = Experience.GetEXP(100, pkm.PersonalInfo.EXPGrowth);
+                if (pkm.EXP != expect)
+                    data.AddLine(GetInvalid(LLevelEXPTooHigh));
+            }
+
             if (lvl < pkm.Met_Level)
                 data.AddLine(GetInvalid(LLevelMetBelow));
             else if (!enc.IsWithinEncounterRange(pkm) && lvl != 100 && pkm.EXP == Experience.GetEXP(lvl, pkm.PersonalInfo.EXPGrowth))

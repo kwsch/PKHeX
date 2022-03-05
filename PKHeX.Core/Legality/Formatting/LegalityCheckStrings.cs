@@ -281,6 +281,7 @@ namespace PKHeX.Core
         public static string LIVF_COUNT0_31 { get; set; } = "Should have at least {0} IVs = 31.";
 
         public static string LLevelEXPThreshold { get; set; } = "Current experience matches level threshold.";
+        public static string LLevelEXPTooHigh { get; set; } = "Current experience exceeds maximum amount for level 100.";
         public static string LLevelMetBelow { get; set; } = "Current level is below met level.";
         public static string LLevelMetGift { get; set; } = "Met Level does not match Mystery Gift level.";
         public static string LLevelMetGiftFail { get; set; } = "Current Level below Mystery Gift level.";
