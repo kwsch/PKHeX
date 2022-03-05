@@ -22,16 +22,6 @@
 
     public static partial class Extensions
     {
-        public static byte[] GetContestStats(this IContestStats stats) => new[]
-        {
-            stats.CNT_Cool,
-            stats.CNT_Beauty,
-            stats.CNT_Cute,
-            stats.CNT_Smart,
-            stats.CNT_Tough,
-            stats.CNT_Sheen,
-        };
-
         /// <summary>
         /// Checks if any contest stat value is nonzero.
         /// </summary>

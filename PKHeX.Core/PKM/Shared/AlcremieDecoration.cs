@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Secondary Form Argument to indicate which decoration is used for <see cref="Species.Alcremie"/>
+    /// </summary>
     public enum AlcremieDecoration
     {
         Strawberry = 0,

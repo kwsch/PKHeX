@@ -30,7 +30,7 @@ namespace PKHeX.Core
         /// Gets the minimum hatch counter value allowed for an Egg Entity.
         /// </summary>
         /// <param name="pk">Egg Entity</param>
-        /// <returns>Usually 1...</returns>
+        /// <returns>Usually 0...</returns>
         public static int GetMinimumEggHatchCycles(PKM pk) => pk switch
         {
             PK2 or PB8 => 1, // no grace period between 1 step remaining and hatch
@@ -106,7 +106,7 @@ namespace PKHeX.Core
         public static bool IsNicknameFlagSet(PKM pk) => IsNicknameFlagSet(new LegalityAnalysis(pk).EncounterMatch, pk);
 
         /// <summary>
-        /// Gets a valid Egg hatch location for the origin game, permitting future format transfers.
+        /// Gets a valid <see cref="PKM.Met_Location"/> for an egg hatched in the origin game, accounting for future format transfers altering the data.
         /// </summary>
         public static int GetEggHatchLocation(GameVersion game, int format) => game switch
         {

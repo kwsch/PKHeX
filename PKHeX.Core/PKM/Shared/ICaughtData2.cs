@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 2 met data interface for details introduced by <see cref="GameVersion.C"/>
+    /// </summary>
     public interface ICaughtData2
     {
         int CaughtData { get; set; }
