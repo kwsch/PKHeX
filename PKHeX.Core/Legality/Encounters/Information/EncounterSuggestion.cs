@@ -115,6 +115,38 @@ namespace PKHeX.Core
             return startLevel;
         }
 
+        public static bool IterateMinimumCurrentLevel(PKM pk, bool isLegal, int max = 100)
+        {
+            var original = pk.CurrentLevel;
+            var originalEXP = pk.EXP;
+            if (isLegal)
+            {
+                if (original == 1)
+                    return false;
+                max = original - 1;
+            }
+
+            for (int i = max; i != 0; i--)
+            {
+                pk.CurrentLevel = i;
+                var la = new LegalityAnalysis(pk);
+                var valid = la.Valid;
+                if (valid)
+                    continue;
+
+                var revert = Math.Min(100, i + 1);
+                if (revert == original)
+                {
+                    pk.EXP = originalEXP;
+                    return false;
+                }
+
+                pk.CurrentLevel = revert;
+                return true;
+            }
+            return true; // 1
+        }
+
         /// <summary>
         /// Gets the suggested <see cref="PKM.Met_Level"/> based on a baseline <see cref="minLevel"/> and the <see cref="pkm"/>'s current moves.
         /// </summary>

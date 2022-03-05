@@ -80,6 +80,12 @@ namespace PKHeX.Core
             return ModifyResult.Modified;
         }
 
+        public static ModifyResult SetMinimumCurrentLevel(BatchInfo info)
+        {
+            var result = EncounterSuggestion.IterateMinimumCurrentLevel(info.Entity, info.Legal);
+            return result ? ModifyResult.Modified : ModifyResult.Filtered;
+        }
+
         /// <summary>
         /// Sets the provided moves in a random order.
         /// </summary>
