@@ -65,6 +65,7 @@ namespace PKHeX.Core
         internal const string CONST_SHINY = "$shiny";
         internal const string CONST_SUGGEST = "$suggest";
         private const string CONST_BYTES = "$[]";
+        private const string CONST_POINTER = "*";
 
         internal const string PROP_LEGAL = "Legal";
         internal const string PROP_TYPENAME = "ObjectType";
@@ -360,7 +361,14 @@ namespace PKHeX.Core
             if (!pi.CanWrite)
                 return ModifyResult.Error;
 
-            object val = cmd.Random ? cmd.RandomValue : cmd.PropertyValue;
+            object val;
+            if (cmd.Random)
+                val = cmd.RandomValue;
+            else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue[1..], out var opi))
+                val = opi.GetValue(pk);
+            else
+                val = cmd.PropertyValue;
+
             ReflectUtil.SetValue(pi, pk, val);
             return ModifyResult.Modified;
         }
