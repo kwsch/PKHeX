@@ -2,37 +2,55 @@
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Effort Level stat values gained via applied Grit items.
+/// </summary>
 public interface IGanbaru
 {
-    int GV_HP { get; set; }
-    int GV_ATK { get; set; }
-    int GV_DEF { get; set; }
-    int GV_SPE { get; set; }
-    int GV_SPA { get; set; }
-    int GV_SPD { get; set; }
+    byte GV_HP { get; set; }
+    byte GV_ATK { get; set; }
+    byte GV_DEF { get; set; }
+    byte GV_SPE { get; set; }
+    byte GV_SPA { get; set; }
+    byte GV_SPD { get; set; }
 }
 
 public static class GanbaruExtensions
 {
-    public const int TrueMax = 10;
+    /// <summary>
+    /// Overall maximum value permitted (adding the base factor and gained value).
+    /// </summary>
+    public const byte TrueMax = 10;
 
-    private static readonly ushort[] GanbaruMultiplier = { 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25 };
+    private static readonly byte[] GanbaruMultiplier = { 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25 };
 
-    public static int GetMax(this IGanbaru _, PKM pk, int index) => GetMaxGanbaru(pk, index);
+    /// <summary>
+    /// Gets the max possible value that can be legally stored for the specific stat <see cref="index"/>.
+    /// </summary>
+    public static byte GetMax(this IGanbaru _, PKM pk, int index) => GetMaxGanbaru(pk, index);
 
-    public static int GetMaxGanbaru(this PKM pk, int index)
+    /// <summary>
+    /// Gets the max possible value that can be legally stored for the specific stat <see cref="index"/>.
+    /// </summary>
+    public static byte GetMaxGanbaru(this PKM pk, int index)
     {
         var iv = pk.GetIV(index);
         return GetMaxGanbaru(iv);
     }
 
-    private static int GetMaxGanbaru(int iv)
+    /// <summary>
+    /// Gets the max possible value that can be legally stored for a stat with value <see cref="iv"/>.
+    /// </summary>
+    private static byte GetMaxGanbaru(int iv)
     {
         var bias = GetBias(iv);
-        return TrueMax - bias;
+        return (byte)(TrueMax - bias);
     }
 
-    public static int GetBias(int iv) => iv switch
+    /// <summary>
+    /// Gets the added boost for a stat with a base potential <see cref="iv"/>.
+    /// </summary>
+    public static byte GetBias(int iv) => iv switch
     {
         >= 31 => 3,
         >= 26 => 2,
@@ -40,16 +58,22 @@ public static class GanbaruExtensions
             _ => 0,
     };
 
+    /// <summary>
+    /// Sets all values to the maximum. Attack and Speed are set to 0 if the corresponding IV is zero.
+    /// </summary>
     public static void SetSuggestedGanbaruValues(this IGanbaru g, PKM pk)
     {
         g.GV_HP  = GetMaxGanbaru(pk.IV_HP);
-        g.GV_ATK = pk.IV_ATK == 0 ? 0 : GetMaxGanbaru(pk.IV_ATK);
+        g.GV_ATK = pk.IV_ATK == 0 ? (byte)0: GetMaxGanbaru(pk.IV_ATK);
         g.GV_DEF = GetMaxGanbaru(pk.IV_DEF);
-        g.GV_SPE = pk.IV_SPE == 0 ? 0 : GetMaxGanbaru(pk.IV_SPE);
+        g.GV_SPE = pk.IV_SPE == 0 ? (byte)0 : GetMaxGanbaru(pk.IV_SPE);
         g.GV_SPA = GetMaxGanbaru(pk.IV_SPA);
         g.GV_SPD = GetMaxGanbaru(pk.IV_SPD);
     }
 
+    /// <summary>
+    /// Checks if the values are at the favorable maximum per <see cref="SetSuggestedGanbaruValues"/>.
+    /// </summary>
     public static bool IsGanbaruValuesMax(this IGanbaru g, PKM pk)
     {
         var result = true;
@@ -62,6 +86,9 @@ public static class GanbaruExtensions
         return result;
     }
 
+    /// <summary>
+    /// Sets all values to 0.
+    /// </summary>
     public static void ClearGanbaruValues(this IGanbaru g)
     {
         g.GV_HP  = 0;
@@ -72,7 +99,10 @@ public static class GanbaruExtensions
         g.GV_SPD = 0;
     }
 
-    public static int GetGanbaruMultiplier(int gv, int iv) => GanbaruMultiplier[Math.Min(gv + GetBias(iv), 10)];
+    /// <summary>
+    /// Gets the stat calculation modifier using the saved <see cref="gv"/> and base <see cref="iv"/>.
+    /// </summary>
+    public static byte GetGanbaruMultiplier(byte gv, int iv) => GanbaruMultiplier[Math.Min(gv + GetBias(iv), TrueMax)];
 
     /// <summary>
     /// Sets one of the <see cref="IAwakened"/> values based on its index within the array.
@@ -80,9 +110,9 @@ public static class GanbaruExtensions
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="index">Index to set to</param>
     /// <param name="value">Value to set</param>
-    public static int SetGV(this IGanbaru pk, int index, int value) => index switch
+    public static byte SetGV(this IGanbaru pk, int index, byte value) => index switch
     {
-        0 => pk.GV_HP = value,
+        0 => pk.GV_HP  = value,
         1 => pk.GV_ATK = value,
         2 => pk.GV_DEF = value,
         3 => pk.GV_SPE = value,
@@ -96,7 +126,7 @@ public static class GanbaruExtensions
     /// </summary>
     /// <param name="pk">Pokémon to check.</param>
     /// <param name="index">Index to get</param>
-    public static int GetGV(this IGanbaru pk, int index) => index switch
+    public static byte GetGV(this IGanbaru pk, int index) => index switch
     {
         0 => pk.GV_HP,
         1 => pk.GV_ATK,

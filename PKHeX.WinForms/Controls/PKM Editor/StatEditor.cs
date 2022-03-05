@@ -244,7 +244,7 @@ namespace PKHeX.WinForms.Controls
                 }
 
                 int index = Array.IndexOf(MT_GVs, m);
-                g.SetGV(index, value);
+                g.SetGV(index, (byte)value);
                 RefreshGanbaru(Entity, g, index);
             }
 

@@ -236,12 +236,12 @@ namespace PKHeX.Core
         public int OT_TextVar   { get => ReadUInt16LittleEndian(Data.AsSpan(0x274)); set => WriteUInt16LittleEndian(Data.AsSpan(0x274), (ushort)value); }
 
         // Only derivations to WC8
-        public int GV_HP  { get => Data[0x27E]; set => Data[0x27E] = (byte)value; }
-        public int GV_ATK { get => Data[0x27F]; set => Data[0x27F] = (byte)value; }
-        public int GV_DEF { get => Data[0x280]; set => Data[0x280] = (byte)value; }
-        public int GV_SPE { get => Data[0x281]; set => Data[0x281] = (byte)value; }
-        public int GV_SPA { get => Data[0x282]; set => Data[0x282] = (byte)value; }
-        public int GV_SPD { get => Data[0x283]; set => Data[0x283] = (byte)value; }
+        public byte GV_HP  { get => Data[0x27E]; set => Data[0x27E] = value; }
+        public byte GV_ATK { get => Data[0x27F]; set => Data[0x27F] = value; }
+        public byte GV_DEF { get => Data[0x280]; set => Data[0x280] = value; }
+        public byte GV_SPE { get => Data[0x281]; set => Data[0x281] = value; }
+        public byte GV_SPA { get => Data[0x282]; set => Data[0x282] = value; }
+        public byte GV_SPD { get => Data[0x283]; set => Data[0x283] = value; }
 
         // Meta Accessible Properties
         public override int[] IVs

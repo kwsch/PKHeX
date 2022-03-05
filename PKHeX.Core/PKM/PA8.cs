@@ -398,12 +398,12 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x9C)); set => WriteInt32LittleEndian(Data.AsSpan(0x9C), value); }
     public int UnkA0 { get => ReadInt32LittleEndian(Data.AsSpan(0xA0)); set => WriteInt32LittleEndian(Data.AsSpan(0xA0), value); }
-    public int GV_HP  { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-    public int GV_ATK { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-    public int GV_DEF { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
-    public int GV_SPE { get => Data[0xA7]; set => Data[0xA7] = (byte)value; }
-    public int GV_SPA { get => Data[0xA8]; set => Data[0xA8] = (byte)value; }
-    public int GV_SPD { get => Data[0xA9]; set => Data[0xA9] = (byte)value; }
+    public byte GV_HP  { get => Data[0xA4]; set => Data[0xA4] = value; }
+    public byte GV_ATK { get => Data[0xA5]; set => Data[0xA5] = value; }
+    public byte GV_DEF { get => Data[0xA6]; set => Data[0xA6] = value; }
+    public byte GV_SPE { get => Data[0xA7]; set => Data[0xA7] = value; }
+    public byte GV_SPA { get => Data[0xA8]; set => Data[0xA8] = value; }
+    public byte GV_SPD { get => Data[0xA9]; set => Data[0xA9] = value; }
 
     // 0xAA-0xAB unused
 
@@ -581,7 +581,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         };
     }
 
-    public static int GetGanbaruStat(int baseStat, int iv, int gv, int level)
+    public static int GetGanbaruStat(int baseStat, int iv, byte gv, int level)
     {
         int mul = GanbaruExtensions.GetGanbaruMultiplier(gv, iv);
         double step1 = Math.Abs(Math.Sqrt((float)baseStat)) * mul; // The game does abs after sqrt; should be before. It's fine because baseStat is never negative.
