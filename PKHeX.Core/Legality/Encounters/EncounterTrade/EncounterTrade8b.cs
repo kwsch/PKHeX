@@ -16,12 +16,12 @@
         public byte CNT_Smart => BaseContest;
         public byte CNT_Tough => BaseContest;
         public byte CNT_Sheen => 0;
-        public int OT_Friendship => Species == (int)Core.Species.Chatot ? 35 : 50;
+        public byte HeightScalar { get; set; }
+        public byte WeightScalar { get; set; }
+        public byte OT_Friendship => Species == (int)Core.Species.Chatot ? (byte)35 : (byte)50;
         private byte BaseContest => Species == (int)Core.Species.Chatot ? (byte)20 : (byte)0;
         public uint PID { get; init; }
         public uint EncryptionConstant { get; init; }
-        public int HeightScalar { get; set; }
-        public int WeightScalar { get; set; }
 
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {

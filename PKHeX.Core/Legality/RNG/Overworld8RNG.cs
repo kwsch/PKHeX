@@ -86,8 +86,8 @@ namespace PKHeX.Core
 
             // Remainder
             var scale = (IScaledSize) pk;
-            scale.HeightScalar = (int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80);
-            scale.WeightScalar = (int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80);
+            scale.HeightScalar = (byte)((int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80));
+            scale.WeightScalar = (byte)((int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80));
 
             return true;
         }

@@ -126,8 +126,8 @@ namespace PKHeX.Core
         public float HeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(0x2C)); set => WriteSingleLittleEndian(Data.AsSpan(0x2C), value); }
         // 0x38 Unused
         // 0x39 Unused
-        public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
-        public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
+        public byte HeightScalar { get => Data[0x3A]; set => Data[0x3A] = value; }
+        public byte WeightScalar { get => Data[0x3B]; set => Data[0x3B] = value; }
         public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3C), value); }
         public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
         public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }

@@ -319,8 +319,8 @@ namespace PKHeX.Core
 
         // 0x4C-0x4F unused
 
-        public int HeightScalar { get => Data[0x50]; set => Data[0x50] = (byte)value; }
-        public int WeightScalar { get => Data[0x51]; set => Data[0x51] = (byte)value; }
+        public byte HeightScalar { get => Data[0x50]; set => Data[0x50] = value; }
+        public byte WeightScalar { get => Data[0x51]; set => Data[0x51] = value; }
 
         // 0x52-0x57 unused
 

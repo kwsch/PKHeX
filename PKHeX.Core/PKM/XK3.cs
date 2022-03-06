@@ -189,7 +189,7 @@ namespace PKHeX.Core
         public override int RibbonCountG3Smart { get => Data[0xB6]; set => Data[0xB6] = (byte)value; }
         public override int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
 
-        public int ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xBA)); set => WriteUInt16BigEndian(Data.AsSpan(0xBA), (ushort)value); }
+        public ushort ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xBA)); set => WriteUInt16BigEndian(Data.AsSpan(0xBA), value); }
 
         // Purification information is stored in the save file and accessed based on the Shadow ID.
         public int Purification { get; set; }

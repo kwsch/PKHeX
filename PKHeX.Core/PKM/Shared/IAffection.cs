@@ -5,7 +5,7 @@
     /// </summary>
     public interface IAffection
     {
-        int OT_Affection { get; set; }
-        int HT_Affection { get; set; }
+        byte OT_Affection { get; set; }
+        byte HT_Affection { get; set; }
     }
 }

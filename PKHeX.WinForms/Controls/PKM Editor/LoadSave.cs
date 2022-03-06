@@ -119,7 +119,7 @@ namespace PKHeX.WinForms.Controls
                 NUD_Purification.Value = value;
                 CHK_Shadow.Checked = pk.IsShadow;
 
-                NUD_ShadowID.Value = Math.Max(pk.ShadowID, 0);
+                NUD_ShadowID.Value = Math.Max(pk.ShadowID, (ushort)0);
             }
             else
             {
@@ -131,7 +131,7 @@ namespace PKHeX.WinForms.Controls
 
         private void SaveShadow3(IShadowPKM pk)
         {
-            pk.ShadowID = (int)NUD_ShadowID.Value;
+            pk.ShadowID = (ushort)NUD_ShadowID.Value;
             if (pk.ShadowID > 0)
                 pk.Purification = (int)NUD_Purification.Value;
         }

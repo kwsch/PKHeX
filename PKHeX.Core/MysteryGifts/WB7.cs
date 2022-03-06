@@ -394,8 +394,8 @@ namespace PKHeX.Core
                 SetEggMetData(pk);
             pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-            pk.HeightScalar = rnd.Next(0x100);
-            pk.WeightScalar = rnd.Next(0x100);
+            pk.HeightScalar = (byte)rnd.Next(0x100);
+            pk.WeightScalar = (byte)rnd.Next(0x100);
             pk.ResetCalculatedValues(); // cp & dimensions
 
             pk.RefreshChecksum();

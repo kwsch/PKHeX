@@ -316,7 +316,7 @@ namespace PKHeX.Core
         // 0xA0 Unused
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
-        public int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
+        public byte HT_Affection { get => Data[0xA3]; set => Data[0xA3] = value; }
         public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
         public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
@@ -336,7 +336,7 @@ namespace PKHeX.Core
             set => StringConverter6.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
         }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
+        public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
         public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
         public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
         public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), (ushort)value); }
@@ -402,8 +402,8 @@ namespace PKHeX.Core
             {
                 Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
                 Geo1_Region = Geo2_Region = Geo3_Region = Geo4_Region = Geo5_Region = 0;
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
-                /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = OT_Affection = HT_Affection = 0;
 
                 // Clear Handler
                 HT_Trash.Clear();
@@ -411,7 +411,7 @@ namespace PKHeX.Core
             }
 
             if (IsUntraded)
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Affection = 0;
             if (!Gen6)
                 OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0; // Don't clear OT affection; OR/AS Contest Glitch
 

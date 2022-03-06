@@ -177,17 +177,14 @@ namespace PKHeX.Core
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
 
         public int PartySlot { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // or not; only really used while in party?
-        public int ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xD8)); set => WriteUInt16BigEndian(Data.AsSpan(0xD8), (ushort)value); }
+        public ushort ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xD8)); set => WriteUInt16BigEndian(Data.AsSpan(0xD8), value); }
         public int Purification { get => ReadInt32BigEndian(Data.AsSpan(0xDC)); set => WriteInt32BigEndian(Data.AsSpan(0xDC), value); }
         public uint EXP_Shadow { get => ReadUInt32BigEndian(Data.AsSpan(0xC0)); set => WriteUInt32BigEndian(Data.AsSpan(0xC0), value); }
 
         public const int Purified = -100;
         public bool IsShadow => ShadowID != 0 && Purification != Purified;
 
-        protected override byte[] Encrypt()
-        {
-            return (byte[])Data.Clone();
-        }
+        protected override byte[] Encrypt() => (byte[])Data.Clone();
 
         public PK3 ConvertToPK3()
         {

@@ -2,8 +2,8 @@
 
 public interface IScaledSize
 {
-    int WeightScalar { get; set; }
-    int HeightScalar { get; set; }
+    byte WeightScalar { get; set; }
+    byte HeightScalar { get; set; }
 }
 
 public interface IScaledSizeAbsolute

@@ -304,8 +304,8 @@ namespace PKHeX.Core
             {
                 var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
                 var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-                s.HeightScalar = height;
-                s.WeightScalar = weight;
+                s.HeightScalar = (byte)height;
+                s.WeightScalar = (byte)weight;
             }
 
             return true;

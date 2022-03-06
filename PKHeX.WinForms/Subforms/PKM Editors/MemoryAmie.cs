@@ -175,8 +175,8 @@ namespace PKHeX.WinForms
 
             if (pkm is IAffection a)
             {
-                a.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
-                a.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
+                a.OT_Affection = (byte)Util.ToInt32(M_OT_Affection.Text);
+                a.HT_Affection = (byte)Util.ToInt32(M_CT_Affection.Text);
             }
             pkm.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
             pkm.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);

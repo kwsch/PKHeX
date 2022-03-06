@@ -124,8 +124,8 @@ namespace PKHeX.Core
 
             // Remainder
             var scale = (IScaledSize)pk;
-            scale.HeightScalar = (int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80);
-            scale.WeightScalar = (int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80);
+            scale.HeightScalar = (byte)((int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80));
+            scale.WeightScalar = (byte)((int)xors.NextUInt(0x81) + (int)xors.NextUInt(0x80));
 
             // Item, don't care
             return true;

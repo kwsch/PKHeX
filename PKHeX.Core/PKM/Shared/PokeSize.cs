@@ -38,10 +38,10 @@
         /// <summary>
         /// Gets a random size scalar with a triangular distribution (copying official implementation).
         /// </summary>
-        public static int GetRandomScalar()
+        public static byte GetRandomScalar()
         {
             var rnd = Util.Rand;
-            return rnd.Next(0x81) + rnd.Next(0x80);
+            return (byte)(rnd.Next(0x81) + rnd.Next(0x80));
         }
     }
 }
