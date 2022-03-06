@@ -65,8 +65,6 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override int OTLength => 12;
     public override int NickLength => 12;
 
-    public SCBlockAccessor Accessor => Blocks;
-    public IReadOnlyList<SCBlock> AllBlocks { get; }
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
     public override int BoxCount => BoxLayout8a.BoxCount; // 32
@@ -89,24 +87,6 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override PersonalTable Personal => PersonalTable.LA;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SWSH;
 
-    #region Blocks
-    public SaveBlockAccessor8LA Blocks { get; }
-
-    public T GetValue<T>(uint key) where T : struct
-    {
-        if (!State.Exportable)
-            return default;
-        return Blocks.GetBlockValue<T>(key);
-    }
-
-    public void SetValue<T>(uint key, T value) where T : struct
-    {
-        if (!State.Exportable)
-            return;
-        Blocks.SetBlockValue(key, value);
-    }
-
-    #endregion
     protected override SaveFile CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
@@ -122,6 +102,12 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override int MaxGameID => Legal.MaxGameID_8a;
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
 
+    #region Blocks
+    public SCBlockAccessor Accessor => Blocks;
+    public SaveBlockAccessor8LA Blocks { get; }
+    public IReadOnlyList<SCBlock> AllBlocks { get; }
+    public T GetValue<T>(uint key) where T : struct => Blocks.GetBlockValueSafe<T>(key);
+    public void SetValue<T>(uint key, T value) where T : struct => Blocks.SetBlockValueSafe(key, value);
     public Box8 BoxInfo => Blocks.BoxInfo;
     public Party8a PartyInfo => Blocks.PartyInfo;
     public MyStatus8a MyStatus => Blocks.MyStatus;
@@ -132,6 +118,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public LastSaved8a LastSaved => Blocks.LastSaved;
     public PlayTime8a Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => Blocks.AreaSpawners;
+    #endregion
 
     public override uint SecondsToStart { get => (uint)AdventureStart.Seconds; set => AdventureStart.Seconds = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor8LA.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor8LA.KMoney, value); }

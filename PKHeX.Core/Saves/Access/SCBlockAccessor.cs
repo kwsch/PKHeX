@@ -70,8 +70,11 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     public void SetBlockValueSafe(uint key, object value)
     {
         var index = FindIndex(BlockInfo, key);
-        if (index != -1)
-            BlockInfo[index].SetValue(value);
+        if (index == -1)
+            return;
+        var block = BlockInfo[index];
+        if (block.Type != SCTypeCode.None) // not fake block
+            block.SetValue(value);
     }
     #endregion
 

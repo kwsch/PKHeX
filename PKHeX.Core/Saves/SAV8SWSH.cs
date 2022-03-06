@@ -48,7 +48,6 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
 
-    public IReadOnlyList<SCBlock> AllBlocks { get; }
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
     protected override void SetChecksums() { } // None!
@@ -60,6 +59,9 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     #region Blocks
     public SCBlockAccessor Accessor => Blocks;
     public SaveBlockAccessor8SWSH Blocks { get; }
+    public IReadOnlyList<SCBlock> AllBlocks { get; }
+    public T GetValue<T>(uint key) where T : struct => Blocks.GetBlockValueSafe<T>(key);
+    public void SetValue<T>(uint key, T value) where T : struct => Blocks.SetBlockValueSafe(key, value);
     public Box8 BoxInfo => Blocks.BoxInfo;
     public Party8 PartyInfo => Blocks.PartyInfo;
     public MyItem Items => Blocks.Items;
@@ -77,22 +79,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public RaidSpawnList8 RaidCrown => Blocks.RaidCrown;
     public TitleScreen8 TitleScreen => Blocks.TitleScreen;
     public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
-
-    public T GetValue<T>(uint key) where T : struct
-    {
-        if (!State.Exportable)
-            return default;
-        return Blocks.GetBlockValue<T>(key);
-    }
-
-    public void SetValue<T>(uint key, T value) where T : struct
-    {
-        if (!State.Exportable)
-            return;
-        Blocks.SetBlockValue(key, value);
-    }
-
     #endregion
+
     protected override SaveFile CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
