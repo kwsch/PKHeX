@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (flagArr.Length > 0)
-                SAV.BoxFlags = flagArr.Select(i => (byte) i.Value).ToArray();
+                SAV.BoxFlags = Array.ConvertAll(flagArr, i => (byte) i.Value);
             if (CB_Unlocked.Visible)
                 SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 

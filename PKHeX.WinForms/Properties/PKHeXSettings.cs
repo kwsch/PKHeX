@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
@@ -227,7 +226,7 @@ namespace PKHeX.WinForms
         public string HideEvent8Contains { get; set; } = string.Empty;
 
         [Browsable(false)]
-        public string[] GetExclusionList8() => HideEvent8Contains.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(z => z.Trim()).ToArray();
+        public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
     }
 
     [Serializable]

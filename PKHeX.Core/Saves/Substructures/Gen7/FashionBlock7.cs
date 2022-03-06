@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -15,13 +14,14 @@ namespace PKHeX.Core
             get
             {
                 var data = SAV.GetData(Offset, 0x5A8);
-                return data.Select(b => new FashionItem7(b)).ToArray();
+                return Array.ConvertAll(data, b => new FashionItem7(b));
             }
             set
             {
                 if (value.Length != 0x5A8)
                     throw new ArgumentOutOfRangeException($"Unexpected size: 0x{value.Length:X}");
-                SAV.SetData(value.Select(z => z.Value).ToArray(), Offset);
+                var arr = Array.ConvertAll(value, z => z.Value);
+                SAV.SetData(arr, Offset);
             }
         }
 

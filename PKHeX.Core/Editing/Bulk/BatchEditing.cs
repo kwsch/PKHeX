@@ -448,7 +448,11 @@ namespace PKHeX.Core
                 default:
                     return ModifyResult.Error;
             }
-            static byte[] ConvertToBytes(string str) => str[CONST_BYTES.Length..].Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
+            static byte[] ConvertToBytes(string str)
+            {
+                var arr = str[CONST_BYTES.Length..].Split(',');
+                return Array.ConvertAll(arr, z => Convert.ToByte(z.Trim(), 16));
+            }
         }
 
         /// <summary>

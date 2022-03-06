@@ -35,7 +35,7 @@ namespace PKHeX.Core
         private void InitializeData()
         {
             // Detect active save
-            int[] SaveCounts = Blocks.Select(block => (int) block.SaveCount).ToArray();
+            int[] SaveCounts = Array.ConvertAll(Blocks, block => (int)block.SaveCount);
             SaveCount = SaveCounts.Max();
             int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
             Blocks = Blocks.Skip(ActiveSAV * BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();

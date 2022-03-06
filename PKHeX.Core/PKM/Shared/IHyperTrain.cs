@@ -88,14 +88,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Entity to train</param>
         /// <returns>True if available, otherwise false.</returns>
-        public static bool IsHyperTrainingAvailable(this IHyperTrain t)
+        public static bool IsHyperTrainingAvailable(this IHyperTrain t) => t switch
         {
             // Check for game formats where training is unavailable:
-            if (t is PA8)
-                return false;
-
-            return true;
-        }
+            PA8 => false,
+            _ => true,
+        };
 
         /// <inheritdoc cref="IsHyperTrainingAvailable(IHyperTrain)"/>
         /// <param name="pk">Entity data</param>

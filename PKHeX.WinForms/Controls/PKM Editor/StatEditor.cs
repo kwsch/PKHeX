@@ -317,7 +317,7 @@ namespace PKHeX.WinForms.Controls
             var ivs = Entity.IVs;
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
             if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
-                ivs = ivs.Select(_ => Entity.MaxIV).ToArray();
+                ivs.AsSpan().Fill(Entity.MaxIV);
             int[] newIVs = HiddenPower.SetIVs(hpower, ivs, Entity.Format);
             LoadIVs(newIVs);
         }
