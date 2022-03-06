@@ -8,14 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord, ISaveFileRevision, ISCBlockArray
     {
-        public SAV8SWSH(byte[] data) : base(data)
-        {
-            Data = Array.Empty<byte>();
-            AllBlocks = SwishCrypto.Decrypt(data);
-            Blocks = new SaveBlockAccessor8SWSH(this);
-            SaveRevision = Zukan.GetRevision();
-            Initialize();
-        }
+        public SAV8SWSH(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
 
         private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
         {

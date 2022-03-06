@@ -23,12 +23,7 @@ namespace PKHeX.Core
             Metadata = new SaveFileMetadata(this);
         }
 
-        protected SaveFile(int size = 0)
-        {
-            Data = size == 0 ? Array.Empty<byte>() : new byte[size];
-            State = new SaveFileState(false);
-            Metadata = new SaveFileMetadata(this);
-        }
+        protected SaveFile(int size = 0) : this(size == 0 ? Array.Empty<byte>() : new byte[size], false) { }
 
         protected internal abstract string ShortSummary { get; }
         public abstract string Extension { get; }

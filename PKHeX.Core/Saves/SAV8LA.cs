@@ -11,14 +11,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected internal override string ShortSummary => $"{OT} ({Version}) - {LastSaved.LastSavedTime}";
     public override string Extension => string.Empty;
 
-    public SAV8LA(byte[] data) : base(data)
-    {
-        Data = Array.Empty<byte>();
-        AllBlocks = SwishCrypto.Decrypt(data);
-        Blocks = new SaveBlockAccessor8LA(this);
-        SaveRevision = Blocks.DetectRevision();
-        Initialize();
-    }
+    public SAV8LA(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
 
     private SAV8LA(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
     {
