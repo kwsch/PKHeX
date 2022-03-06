@@ -3,15 +3,12 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public class InventoryItem
+    public record InventoryItem
     {
         /// <summary> Item ID </summary>
         public int Index { get; set; }
         /// <summary> Quantity </summary>
         public int Count { get; set; }
-
-        /// <summary> Creates a copy of the object. </summary>
-        public InventoryItem Clone() => (InventoryItem) MemberwiseClone();
 
         /// <summary>
         /// Checks if the item is compatible with a pouch.

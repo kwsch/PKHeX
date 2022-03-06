@@ -1,16 +1,12 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public sealed class InventoryItem8 : InventoryItem, IItemFavorite, IItemNew
+    public sealed record InventoryItem8 : InventoryItem, IItemFavorite, IItemNew
     {
         public bool IsFavorite { get; set; }
         public bool IsNew { get; set; }
 
-        /// <summary> Creates a copy of the object. </summary>
-        public new InventoryItem8 Clone() => (InventoryItem8)MemberwiseClone();
-        
         public override void Clear()
         {
             Index = Count = 0;
@@ -29,7 +25,7 @@ namespace PKHeX.Core
             IsFavorite = (value & 0x80000000) != 0, // 31th bit is "FAVORITE"
         };
 
-        public uint GetValue(bool setNew, IReadOnlyList<InventoryItem8> original)
+        public uint GetValue(bool setNew, ICollection<int> original)
         {
             // 15bit itemID
             // 15bit count
@@ -39,7 +35,7 @@ namespace PKHeX.Core
             val |= (uint)(Index & 0x7FF);
             val |= (uint)(Count & 0x3FF) << 15; // clamped to sane limit
 
-            bool isNew = IsNew || (setNew && original.All(z => z.Index != Index));
+            bool isNew = IsNew || (setNew && !original.Contains(Index));
             if (isNew)
                 val |= 0x40000000;
             if (IsFavorite)

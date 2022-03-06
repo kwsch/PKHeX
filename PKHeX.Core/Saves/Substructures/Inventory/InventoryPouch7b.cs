@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -10,7 +9,7 @@ namespace PKHeX.Core
     public sealed class InventoryPouch7b : InventoryPouch
     {
         public bool SetNew { get; set; }
-        private InventoryItem7b[] OriginalItems = Array.Empty<InventoryItem7b>();
+        private int[] OriginalItems = Array.Empty<int>();
 
         public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem7b { Index = itemID, Count = count };
 
@@ -28,7 +27,7 @@ namespace PKHeX.Core
                 items[i] = InventoryItem7b.GetValue(val);
             }
             Items = items;
-            OriginalItems = items.Select(i => i.Clone()).ToArray();
+            OriginalItems = Array.ConvertAll(items, z => z.Index);
         }
 
         public override void SetPouch(Span<byte> data)
@@ -65,7 +64,7 @@ namespace PKHeX.Core
                 // mixed regular battle items & mega stones
                 case InventoryType.BattleItems when item > 100:
                 // mixed regular items & key items
-                case InventoryType.Items when Legal.Pouch_Regular_GG_Key.Contains((ushort)item):
+                case InventoryType.Items when Array.IndexOf(Legal.Pouch_Regular_GG_Key, (ushort)item) != -1:
                     return Math.Min(1, requestVal);
 
                 default:

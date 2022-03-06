@@ -3,15 +3,12 @@ using System.Buffers.Binary;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryItem8a : InventoryItem, IItemFavorite
+public sealed record InventoryItem8a : InventoryItem, IItemFavorite
 {
     public const int SIZE = 0x10;
 
     public override string ToString() => $"{Index:000} x{Count}";
     public bool IsFavorite { get; set; }
-
-    /// <summary> Creates a copy of the object. </summary>
-    public new InventoryItem8a Clone() => (InventoryItem8a)MemberwiseClone();
 
     public override void Clear()
     {

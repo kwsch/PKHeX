@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class InventoryItem8b : InventoryItem, IItemFavorite, IItemNew
+    public sealed record InventoryItem8b : InventoryItem, IItemFavorite, IItemNew
     {
         public const int SIZE = 0x10;
         private const ushort SortOrderNone = 0;
@@ -13,9 +13,6 @@ namespace PKHeX.Core
         public ushort SortOrder { get; set; }
 
         public override string ToString() => $"{SortOrder:00} - {Index:000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")}";
-
-        /// <summary> Creates a copy of the object. </summary>
-        public new InventoryItem8b Clone() => (InventoryItem8b)MemberwiseClone();
 
         public override void Clear()
         {

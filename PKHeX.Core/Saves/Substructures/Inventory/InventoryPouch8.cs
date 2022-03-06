@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -10,7 +9,7 @@ namespace PKHeX.Core
     public sealed class InventoryPouch8 : InventoryPouch
     {
         public bool SetNew { get; set; }
-        private InventoryItem8[] OriginalItems = Array.Empty<InventoryItem8>();
+        private int[] OriginalItems = Array.Empty<int>();
 
         public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size, Func<ushort, bool>? isLegal = null)
             : base(type, legal, maxCount, offset, size, isLegal) { }
@@ -28,7 +27,7 @@ namespace PKHeX.Core
                 items[i] = InventoryItem8.GetValue(value);
             }
             Items = items;
-            OriginalItems = items.Select(i => i.Clone()).ToArray();
+            OriginalItems = Array.ConvertAll(items, z => z.Index);
         }
 
         public override void SetPouch(Span<byte> data)
