@@ -7,11 +7,11 @@ namespace PKHeX.Core
     /// Alternate form data has an associated value.
     /// </summary>
     /// <remarks>
-    /// <see cref="Species.Furfrou"/> How long (days) the form can last before reverting to Form-0 (5 days max)
-    /// <see cref="Species.Hoopa"/>: How long (days) the form can last before reverting to Form-0 (3 days max)
-    /// <see cref="Species.Alcremie"/>: Topping (Strawberry, Star, etc); [0,7]
-    /// <see cref="Species.Yamask"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
-    /// <see cref="Species.Runerigus"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
+    /// <see cref="Furfrou"/> How long (days) the form can last before reverting to Form-0 (5 days max)
+    /// <see cref="Hoopa"/>: How long (days) the form can last before reverting to Form-0 (3 days max)
+    /// <see cref="Alcremie"/>: Topping (Strawberry, Star, etc); [0,7]
+    /// <see cref="Yamask"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
+    /// <see cref="Runerigus"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
     /// </remarks>
     public interface IFormArgument
     {
@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 return;
             if (!IsFormArgumentTypeDatePair(pkm.Species, pkm.Form))
             {
-                var suggest = originalSpecies switch
+                uint suggest = originalSpecies switch
                 {
                     (int) Yamask when pkm.Species == (int) Runerigus => 49u,
                     (int) Qwilfish when pkm.Species == (int) Overqwil => 20u,
@@ -117,22 +117,19 @@ namespace PKHeX.Core
                 (int)Yamask when form == 1 => 9999,
                 (int)Runerigus when form == 0 => 9999,
                 (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
-                ((int)Qwilfish or (int)Overqwil) when generation == 8 => 9999, // 20
-                ((int)Stantler or (int)Wyrdeer) when generation == 8 => 9999, // 20
+                (int)Qwilfish or (int)Overqwil when generation == 8 => 9999, // 20
+                (int)Stantler or (int)Wyrdeer when generation == 8 => 9999, // 20
                 (int)Basculin when form == 2 => 9999,
                 (int)Basculegion => 9999,
                 _ => 0,
             };
         }
 
-        public static bool IsFormArgumentTypeDatePair(int species, int form)
+        public static bool IsFormArgumentTypeDatePair(int species, int form) => species switch
         {
-            return species switch
-            {
-                (int)Furfrou when form != 0 => true,
-                (int)Hoopa when form == 1 => true,
-                _ => false,
-            };
-        }
+            (int)Furfrou when form != 0 => true,
+            (int)Hoopa when form == 1 => true,
+            _ => false,
+        };
     }
 }

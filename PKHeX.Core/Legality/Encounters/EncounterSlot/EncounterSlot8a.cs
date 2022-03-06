@@ -69,9 +69,19 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
             return EncounterMatchRating.DeferredErrors;
         if (FlawlessIVCount is not 0 && pkm.FlawlessIVCount < FlawlessIVCount)
             return EncounterMatchRating.DeferredErrors;
+        if (IsFormArgMismatch(pkm))
+            return EncounterMatchRating.DeferredErrors;
 
         return GetAlphaMoveCompatibility(pkm);
     }
+
+    private bool IsFormArgMismatch(PKM pkm) => pkm.Species switch
+    {
+        (int)Core.Species.Wyrdeer     when Species is not (int)Core.Species.Wyrdeer     && pkm is IFormArgument { FormArgument: 0 } => true,
+        (int)Core.Species.Overqwil    when Species is not (int)Core.Species.Overqwil    && pkm is IFormArgument { FormArgument: 0 } => true,
+        (int)Core.Species.Basculegion when Species is not (int)Core.Species.Basculegion && pkm is IFormArgument { FormArgument: 0 } => true,
+        _ => false,
+    };
 
     private EncounterMatchRating GetAlphaMoveCompatibility(PKM pkm)
     {
