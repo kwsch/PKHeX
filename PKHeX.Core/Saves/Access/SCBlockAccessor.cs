@@ -60,7 +60,10 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     public T GetBlockValueSafe<T>(uint key) where T : struct
     {
         var index = FindIndex(BlockInfo, key);
-        if (index != -1)
+        if (index == -1)
+            return default;
+        var block = BlockInfo[index];
+        if (block.Type != SCTypeCode.None) // not fake block
             BlockInfo[index].GetValue();
         return default;
     }
