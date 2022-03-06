@@ -7,8 +7,15 @@ namespace PKHeX.Core
     {
         // Multithread safe rand, ha
         public static Random Rand => _local.Value;
+        private static int randomSeed = Environment.TickCount;
 
-        private static readonly ThreadLocal<Random> _local = new(() => new Random());
+        private static readonly ThreadLocal<Random> _local = new(() =>
+        {
+            // threads should never really step on each other when starting, but we'll play it safe.
+            var seed = Interlocked.Increment(ref randomSeed);
+            var mix = (0x41C64E6D * seed) + 0x00006073; // why not
+            return new Random(mix);
+        });
 
         public static uint Rand32() => Rand32(Rand);
         public static uint Rand32(Random rnd) => (uint)rnd.Next(1 << 30) << 2 | (uint)rnd.Next(1 << 2);
