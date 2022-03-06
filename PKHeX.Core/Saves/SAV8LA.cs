@@ -96,10 +96,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     {
         if (!State.Exportable)
             return default;
-        var value = Blocks.GetBlockValue(key);
-        if (value is T v)
-            return v;
-        throw new ArgumentException($"Incorrect type request! Expected {typeof(T).Name}, received {value.GetType().Name}", nameof(T));
+        return Blocks.GetBlockValue<T>(key);
     }
 
     public void SetValue<T>(uint key, T value) where T : struct

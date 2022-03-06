@@ -2,7 +2,7 @@
 {
     public sealed class Party8 : SaveBlock
     {
-        public Party8(SAV8 sav, SCBlock block) : base(sav, block.Data) { }
+        public Party8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         public int PartyCount
         {
