@@ -542,7 +542,7 @@ namespace PKHeX.Core
             }
             else if (hpVal >= 0)
             {
-                IVs = HiddenPower.SetIVs(hpVal, IVs, Format); // Get IVs
+                HiddenPower.SetIVs(hpVal, IVs, Format); // Alter IVs
             }
             else
             {

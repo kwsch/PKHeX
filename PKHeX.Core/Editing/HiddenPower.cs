@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -15,7 +14,7 @@ namespace PKHeX.Core
         /// <param name="IVs">Current IVs</param>
         /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
         /// <param name="format">Generation format</param>
-        public static int GetType(IReadOnlyList<int> IVs, int format)
+        public static int GetType(ReadOnlySpan<int> IVs, int format)
         {
             if (format <= 2)
                 return GetTypeGB(IVs);
@@ -27,7 +26,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="IVs">Current IVs</param>
         /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
-        public static int GetType(IReadOnlyList<int> IVs)
+        public static int GetType(ReadOnlySpan<int> IVs)
         {
             int hp = 0;
             for (int i = 0; i < 6; i++)
@@ -42,7 +41,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="IVs">Current IVs</param>
         /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
-        public static int GetTypeGB(IReadOnlyList<int> IVs)
+        public static int GetTypeGB(ReadOnlySpan<int> IVs)
         {
             var atk = IVs[1];
             var def = IVs[2];
@@ -55,7 +54,7 @@ namespace PKHeX.Core
         /// <param name="hiddenPowerType">Hidden Power Type</param>
         /// <param name="IVs">Current IVs</param>
         /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
-        public static bool SetTypeGB(int hiddenPowerType, int[] IVs)
+        public static bool SetTypeGB(int hiddenPowerType, Span<int> IVs)
         {
             IVs[1] = (IVs[1] & ~3) | (hiddenPowerType >> 2);
             IVs[2] = (IVs[2] & ~3) | (hiddenPowerType & 3);
@@ -69,7 +68,7 @@ namespace PKHeX.Core
         /// <param name="IVs">Current IVs (6 total)</param>
         /// <param name="format">Generation format</param>
         /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
-        public static bool SetIVsForType(int hiddenPowerType, int[] IVs, int format)
+        public static bool SetIVsForType(int hiddenPowerType, Span<int> IVs, int format)
         {
             if (format <= 2)
                 return SetTypeGB(hiddenPowerType, IVs);
@@ -82,9 +81,13 @@ namespace PKHeX.Core
         /// <param name="hpVal">Hidden Power Type</param>
         /// <param name="IVs">Current IVs (6 total)</param>
         /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
-        public static bool SetIVsForType(int hpVal, int[] IVs)
+        public static bool SetIVsForType(int hpVal, Span<int> IVs)
         {
-            if (Array.TrueForAll(IVs, z => z == 31))
+            int flawlessCount = IVs.Count(31);
+            if (flawlessCount == 0)
+                return false;
+
+            if (flawlessCount == IVs.Length)
             {
                 SetIVs(hpVal, IVs); // Get IVs
                 return true;
@@ -95,81 +98,92 @@ namespace PKHeX.Core
                 return true; // no mods necessary
 
             // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
-            int[]? best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
-            if (best == null)
+            Span<int> scratch = stackalloc int[IVs.Length];
+            Span<int> result = stackalloc int[IVs.Length];
+            var success = GetSuggestedHiddenPowerIVs(hpVal, IVs, scratch, result);
+            if (!success)
                 return false; // can't force hidden power?
 
             // set IVs back to array
-            for (int i = 0; i < IVs.Length; i++)
-                IVs[i] = best[i];
+            result.CopyTo(IVs);
             return true;
         }
 
-        private static int[]? GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
+        // Non-recursive https://en.wikipedia.org/wiki/Heap%27s_algorithm
+        private static bool GetSuggestedHiddenPowerIVs(int hpVal, ReadOnlySpan<int> original, Span<int> ivs, Span<int> best)
         {
             const int max = 31;
-            var flawless = new int[IVs.Length]; // future: stackalloc
-            int flawlessCount = 0;
-            for (int i = 0; i < IVs.Length; i++)
-            {
-                if (IVs[i] == max)
-                    flawless[++flawlessCount] = i;
-            }
 
-            var permutations = GetPermutations(flawless, flawlessCount);
-            int flawedCount = 0; // result tracking
-            int[]? best = null; // result tracking
-            int[] ivs = (int[])IVs.Clone();
-            foreach (var permute in permutations)
+            // Get a list of indexes that can be mutated
+            Span<int> indexes = stackalloc int[original.Length];
+            int flaw = 0;
+            for (int i = 0; i < original.Length; i++)
             {
-                foreach (var index in permute)
+                if (original[i] == max)
+                    indexes[flaw++] = i;
+            }
+            indexes = indexes[..flaw];
+            Span<int> c = stackalloc int[indexes.Length];
+
+            int mutated = c.Length + 1; // result tracking
+            for (int i = 1; i < c.Length;)
+            {
+                if (c[i] >= i) // Reset the state and simulate popping the stack by incrementing the pointer.
                 {
-                    ivs[index] ^= 1;
+                    c[i++] = 0;
+                    continue;
+                }
+
+                var x = (i & 1) == 1 ? c[i] : 0;
+                Swap(ref indexes[i], ref indexes[x]);
+
+                // Inlined continuance check
+                original.CopyTo(ivs);
+                var q = Math.Min(indexes.Length, mutated);
+                for (var j = 0; j < q; j++)
+                {
+                    ivs[indexes[j]] ^= 1;
                     if (hpVal != GetType(ivs))
                         continue;
 
-                    int ct = ivs.Count(z => z == 31);
-                    if (ct <= flawedCount)
+                    var ct = j + 1;
+                    if (ct >= mutated)
                         break; // any further flaws are always worse
 
-                    flawedCount = ct;
-                    best = (int[])ivs.Clone();
+                    mutated = ct;
+                    ivs.CopyTo(best);
+                    if (j == 0) // nothing will be better than only 1 flaw
+                        return true;
                     break; // any further flaws are always worse
                 }
-                // Restore IVs for another iteration
-                Buffer.BlockCopy(IVs, 0, ivs, 0, ivs.Length);
+
+                c[i]++;
+                i = 1;
             }
-            return best;
+
+            return mutated <= c.Length; // did we actually find a suitable result?
         }
 
-        private static IEnumerable<IEnumerable<T>> GetPermutations<T>(ICollection<T> list, int length)
-        {
-            // https://stackoverflow.com/a/10630026
-            if ((uint)length <= 1)
-                return list.Select(t => new[] { t });
-
-            return GetPermutations(list, length - 1)
-                .SelectMany(list.Except, (t1, t2) => t1.Concat(new[] { t2 }));
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
 
         /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
         /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
         /// <param name="format">Generation specific format</param>
-        /// <returns>Hidden Power Type</returns>
-        public static int[] SetIVs(int type, int[] ivs, int format = PKX.Generation)
+        public static void SetIVs(int type, Span<int> ivs, int format = PKX.Generation)
         {
             if (format <= 2)
             {
                 ivs[1] = (ivs[1] & ~3) | (type >> 2);
                 ivs[2] = (ivs[2] & ~3) | (type & 3);
-                return ivs;
             }
-
-            var bits = DefaultLowBits[type];
-            for (int i = 0; i < 6; i++)
-                ivs[i] = (ivs[i] & 0x1E) + ((bits >> i) & 1);
-            return ivs;
+            else
+            {
+                var bits = DefaultLowBits[type];
+                for (int i = 0; i < 6; i++)
+                    ivs[i] = (ivs[i] & 0x1E) + ((bits >> i) & 1);
+            }
         }
 
         /// <summary>

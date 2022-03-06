@@ -318,8 +318,8 @@ namespace PKHeX.WinForms.Controls
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
             if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
                 ivs.AsSpan().Fill(Entity.MaxIV);
-            int[] newIVs = HiddenPower.SetIVs(hpower, ivs, Entity.Format);
-            LoadIVs(newIVs);
+            HiddenPower.SetIVs(hpower, ivs, Entity.Format);
+            LoadIVs(ivs);
         }
 
         private void ClickStatLabel(object sender, MouseEventArgs e)
