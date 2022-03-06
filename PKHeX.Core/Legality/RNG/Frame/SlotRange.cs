@@ -85,7 +85,7 @@ namespace PKHeX.Core
 
         private readonly record struct Range(uint Min, uint Max);
 
-        private static Range[] GetRanges(params uint[] rates)
+        private static Range[] GetRanges(params byte[] rates)
         {
             var len = rates.Length;
             var arr = new Range[len];

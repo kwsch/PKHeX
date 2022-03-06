@@ -327,7 +327,7 @@ namespace PKHeX.Core
             return (xor ^ (xor >> 16)) & 0xFFFF;
         }
 
-        private static readonly int[] Nature0 = {3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24};
-        private static readonly int[] Nature1 = {1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23};
+        private static readonly byte[] Nature0 = {3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24};
+        private static readonly byte[] Nature1 = {1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23};
     }
 }

@@ -601,10 +601,11 @@ public sealed class PokedexSave8a
 
     public static int GetResearchPoint(int rank)
     {
-        if ((uint)rank >= PokedexConstants8a.ResearchPointsForRank.Length)
+        var table = PokedexConstants8a.ResearchPointsForRank;
+        if ((uint)rank >= table.Length)
             return 0;
 
-        return PokedexConstants8a.ResearchPointsForRank[rank];
+        return table[rank];
     }
 
     public int GetCurrentReportCounter() => SaveData.GetReportCounter();

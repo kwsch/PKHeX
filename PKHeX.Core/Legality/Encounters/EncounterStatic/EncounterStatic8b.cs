@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using static PKHeX.Core.StaticCorrelation8bRequirement;
 
 namespace PKHeX.Core
@@ -23,7 +22,18 @@ namespace PKHeX.Core
         {
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
-            return Roaming_MetLocation_BDSP.Contains(pkm.Met_Location);
+            return IsRoamingLocation(pkm);
+        }
+
+        private static bool IsRoamingLocation(PKM pkm)
+        {
+            var location = pkm.Met_Location;
+            foreach (var value in Roaming_MetLocation_BDSP)
+            {
+                if (value == location)
+                    return true;
+            }
+            return false;
         }
 
         public StaticCorrelation8bRequirement GetRequirement(PKM pk) => Roaming
@@ -77,7 +87,7 @@ namespace PKHeX.Core
         }
 
         // defined by mvpoke in encounter data
-        private static readonly int[] Roaming_MetLocation_BDSP =
+        private static readonly ushort[] Roaming_MetLocation_BDSP =
         {
             197, 201, 354, 355, 356, 357, 358, 359, 361, 362, 364, 365, 367, 373, 375, 377,
             378, 379, 383, 385, 392, 394, 395, 397, 400, 403, 404, 407,

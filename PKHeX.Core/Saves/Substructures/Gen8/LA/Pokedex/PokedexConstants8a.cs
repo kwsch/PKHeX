@@ -7,7 +7,7 @@ public static class PokedexConstants8a
 {
     public const int MaxPokedexResearchPoints = 60000;
 
-    public static readonly int[] ResearchPointsForRank =
+    public static readonly ushort[] ResearchPointsForRank =
     {
         0, 500, 1800, 3500, 6000, 8500, 11000, 15000, 20000, 30000, 60000,
     };

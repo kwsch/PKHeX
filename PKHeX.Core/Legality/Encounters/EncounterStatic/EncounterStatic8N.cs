@@ -29,7 +29,7 @@ namespace PKHeX.Core
             FlawlessIVCount = val;
         }
 
-        private static readonly int[] LevelCaps =
+        private static readonly byte[] LevelCaps =
         {
             15, 20, // 0
             25, 30, // 1
