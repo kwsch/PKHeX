@@ -17,13 +17,11 @@ namespace PKHeX.Core
         /// <param name="maxSpecies">Highest species ID for the input game.</param>
         public static Learnset[] GetArray(ReadOnlySpan<byte> input, int maxSpecies)
         {
-            var data = new Learnset[maxSpecies + 1];
-
             int offset = 0;
-            for (int s = 0; s < data.Length; s++)
-                data[s] = ReadLearnset8(input, ref offset);
-
-            return data;
+            var result = new Learnset[maxSpecies + 1];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = ReadLearnset8(input, ref offset);
+            return result;
         }
 
         /// <summary>
@@ -32,10 +30,10 @@ namespace PKHeX.Core
         /// <param name="entries">Entry data</param>
         public static Learnset[] GetArray(BinLinkerAccessor entries)
         {
-            Learnset[] data = new Learnset[entries.Length];
-            for (int i = 0; i < data.Length; i++)
-                data[i] = ReadLearnset16(entries[i]);
-            return data;
+            var result = new Learnset[entries.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = ReadLearnset16(entries[i]);
+            return result;
         }
 
         /// <summary>
@@ -52,16 +50,16 @@ namespace PKHeX.Core
             }
             do { end += 2; } while (data[end] != 0);
 
-            var Count = (end - offset) / 2;
-            var Moves = new int[Count];
-            var Levels = new int[Count];
-            for (int i = 0; i < Moves.Length; i++)
+            var count = (end - offset) / 2;
+            var moves = new int[count];
+            var levels = new int[count];
+            for (int i = 0; i < moves.Length; i++)
             {
-                Levels[i] = data[offset++];
-                Moves[i] = data[offset++];
+                levels[i] = data[offset++];
+                moves[i] = data[offset++];
             }
             ++offset;
-            return new Learnset(Moves, Levels);
+            return new Learnset(moves, levels);
         }
 
         /// <summary>
@@ -72,16 +70,16 @@ namespace PKHeX.Core
         {
             if (data.Length == 0)
                 return EMPTY;
-            var Count = (data.Length / 4) - 1;
-            var Moves = new int[Count];
-            var Levels = new int[Count];
-            for (int i = 0; i < Count; i++)
+            var count = (data.Length / 4) - 1;
+            var moves = new int[count];
+            var levels = new int[count];
+            for (int i = 0; i < count; i++)
             {
                 var move = data.Slice(i * 4, 4);
-                Moves[i] = ReadInt16LittleEndian(move);
-                Levels[i] = ReadInt16LittleEndian(move[2..]);
+                levels[i] = ReadInt16LittleEndian(move[2..]);
+                moves[i] = ReadInt16LittleEndian(move);
             }
-            return new Learnset(Moves, Levels);
+            return new Learnset(moves, levels);
         }
     }
 }

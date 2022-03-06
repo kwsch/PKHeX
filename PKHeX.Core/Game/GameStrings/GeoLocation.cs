@@ -2,17 +2,20 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Geolocation Utility for Generation 6/7 (3DS) Earth location values.
+    /// </summary>
     public static class GeoLocation
     {
         private static readonly string[]?[] CountryList = GetCountryList();
         internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
         private static readonly string[]?[]?[] RegionList = new string[CountryList.Length][][];
 
-        public static string[]? GetCountryList(string language)
-        {
-            int index = GetLanguageIndex(language);
-            return CountryList[index];
-        }
+        /// <summary>
+        /// Returns the index of which the <see cref="language"/> is in the country/region list.
+        /// </summary>
+        public static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);
+        private static int GetLanguageIndex(LanguageID language) => GetLanguageIndex(language.GetLanguage2CharName());
 
         private const string INVALID = nameof(INVALID);
 
@@ -76,6 +79,15 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets an array of all country names for the requested <see cref="language"/>.
+        /// </summary>
+        public static string[]? GetCountryList(string language)
+        {
+            int index = GetLanguageIndex(language);
+            return CountryList[index];
+        }
+
+        /// <summary>
         /// Gets the Country string for a given Country ID
         /// </summary>
         /// <param name="language">Language ID</param>
@@ -124,8 +136,5 @@ namespace PKHeX.Core
             var regionName = GetRegionName(country, region, lang);
             return (countryName, regionName);
         }
-
-        public static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);
-        private static int GetLanguageIndex(LanguageID language) => GetLanguageIndex(language.GetLanguage2CharName());
     }
 }

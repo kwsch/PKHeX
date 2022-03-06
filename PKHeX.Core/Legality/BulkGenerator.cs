@@ -57,9 +57,9 @@ namespace PKHeX.Core
             if (result == null)
                 return null;
 
-            result.CurrentLevel = 100;
             result.Species = species;
             result.Form = form;
+            result.CurrentLevel = 100;
 
             result.Heal();
             return result;

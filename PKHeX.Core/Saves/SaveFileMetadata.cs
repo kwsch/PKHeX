@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public sealed class SaveFileMetadata
     {
         private readonly SaveFile SAV;
+        public SaveFileMetadata(SaveFile sav) => SAV = sav;
 
         /// <summary>
         /// Full path where the <see cref="SAV"/> originated from.
@@ -35,8 +36,6 @@ namespace PKHeX.Core
         /// Simple summary of the save file, to help differentiate it from other save files with the same filename.
         /// </summary>
         public string BAKName => FileName + BAKSuffix;
-
-        public SaveFileMetadata(SaveFile sav) => SAV = sav;
 
         public bool HasHeader => Header.Length != 0;
         public bool HasFooter => Footer.Length != 0;
