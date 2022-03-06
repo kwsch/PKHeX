@@ -33,25 +33,17 @@ namespace PKHeX.Core
         }
 
         public const int BEANS_MAX = 14;
+        public Span<byte> GetBeans() => Data.AsSpan(Offset + 0x564C, BEANS_MAX);
 
-        public int GetPokebeanCount(int bean_id)
-        {
-            if ((uint)bean_id > 14)
-                throw new ArgumentOutOfRangeException(nameof(bean_id));
-            return Data[Offset + 0x564C + bean_id];
-        }
-
-        public Span<byte> GetBeans() => Data.AsSpan(Offset, BEANS_MAX);
+        public int GetPokebeanCount(int bean_id) => GetBeans()[bean_id];
 
         public void SetPokebeanCount(int bean_id, int count)
         {
-            if ((uint)bean_id > 14)
-                throw new ArgumentOutOfRangeException(nameof(bean_id));
             if (count < 0)
                 count = 0;
             if (count > 255)
                 count = 255;
-            Data[Offset + 0x564C + bean_id] = (byte)count;
+            GetBeans()[bean_id] = (byte)count;
         }
     }
 }
