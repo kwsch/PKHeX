@@ -20,11 +20,13 @@ namespace PKHeX.Core
         public int OT_TextVar { get; set; }
         public int OT_Feeling { get; set; }
         public int OT_Intensity { get; set; }
+        public override Shiny Shiny { get; }
 
-        public EncounterTrade8(GameVersion game, int species, int level, int memory, int arg, int feel, int intensity) : base(game)
+        public EncounterTrade8(GameVersion game, int species, int level, int memory, int arg, int feel, int intensity, Shiny shiny = Shiny.Never) : base(game)
         {
             Species = species;
             Level = level;
+            Shiny = shiny;
 
             OT_Memory = memory;
             OT_TextVar = arg;

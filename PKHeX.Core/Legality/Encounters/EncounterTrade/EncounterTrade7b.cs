@@ -8,12 +8,9 @@
     {
         public override int Generation => 7;
         public override int Location => Locations.LinkTrade6NPC;
+        public override Shiny Shiny => Shiny.Random;
 
-        public EncounterTrade7b(GameVersion game) : base(game)
-        {
-            Shiny = Shiny.Random;
-            IsNicknamed = false;
-        }
+        public EncounterTrade7b(GameVersion game) : base(game) => IsNicknamed = false;
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

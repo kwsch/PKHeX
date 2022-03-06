@@ -10,21 +10,14 @@
         public override int Location => Locations.LinkTrade5NPC;
     }
 
-    public sealed record EncounterTrade5PID : EncounterTrade
+    /// <summary>Generation 5 Trade with Fixed PID</summary>
+    /// <param name="PID"> Fixed <see cref="PKM.PID"/> value the encounter must have.</param>
+    public sealed record EncounterTrade5PID(GameVersion Version, uint PID) : EncounterTrade(Version)
     {
         public override int Generation => 5;
         public override int Location => Locations.LinkTrade5NPC;
 
-        /// <summary>
-        /// Fixed <see cref="PKM.PID"/> value the encounter must have.
-        /// </summary>
-        public readonly uint PID;
-
-        public EncounterTrade5PID(GameVersion game, uint pid) : base(game)
-        {
-            PID = pid;
-            Shiny = Shiny.FixedValue;
-        }
+        public override Shiny Shiny => Shiny.FixedValue;
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

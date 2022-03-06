@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
         public AbilityPermission Ability { get; init; }
         public Nature Nature { get; init; } = Nature.Random;
-        public Shiny Shiny { get; init; } = Shiny.Never;
+        public virtual Shiny Shiny => Shiny.Never;
         public sbyte Gender { get; init; } = -1;
 
         public sbyte OTGender { get; init; } = -1;

@@ -16,6 +16,8 @@ namespace PKHeX.Core
         /// </summary>
         public readonly uint PID;
 
+        public override Shiny Shiny => Shiny.FixedValue;
+
         public byte CNT_Cool   { get; private init; }
         public byte CNT_Beauty { get; private init; }
         public byte CNT_Cute   { get; private init; }
@@ -39,7 +41,6 @@ namespace PKHeX.Core
         public EncounterTrade3(GameVersion game, uint pid, int species, int level) : base(game)
         {
             PID = pid;
-            Shiny = Shiny.FixedValue;
             Species = species;
             Level = level;
         }

@@ -17,6 +17,7 @@ namespace PKHeX.Core
         private readonly int LevelMinRBY;
         private readonly int LevelMinGSC;
         public override int Location => 0;
+        public override Shiny Shiny => Shiny.Random;
 
         public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc, game)
         {

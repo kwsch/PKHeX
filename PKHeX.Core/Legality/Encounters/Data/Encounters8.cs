@@ -782,17 +782,17 @@ namespace PKHeX.Core
 
         private static readonly EncounterTrade8[] TradeGift_R1 =
         {
-            new(SWSH, 052,15,01,033,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
-            new(SW  , 083,15,01,013,10,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {098,000,000,000}               }, // Farfetch’d
-            new(  SH, 222,15,01,069,12,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {457,000,000,000}               }, // Corsola
-            new(  SH, 077,15,01,047,06,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {234,000,000,000}               }, // Ponyta
-            new(SWSH, 122,15,01,005,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
-            new(SW  , 554,15,01,040,12,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {326,000,000,000}               }, // Darumaka
-            new(SWSH, 263,15,01,045,04,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
-            new(SWSH, 618,15,01,050,05,2) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
-            new(SWSH, 110,15,01,040,12,2) { Ability = Any12H,     TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
-            new(SWSH, 103,15,01,038,06,2) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
-            new(SWSH, 105,15,01,038,06,2) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
+            new(SWSH, 052,15,01,033,04,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
+            new(SW  , 083,15,01,013,10,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {098,000,000,000}               }, // Farfetch’d
+            new(  SH, 222,15,01,069,12,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {457,000,000,000}               }, // Corsola
+            new(  SH, 077,15,01,047,06,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {234,000,000,000}               }, // Ponyta
+            new(SWSH, 122,15,01,005,04,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
+            new(SW  , 554,15,01,040,12,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {326,000,000,000}               }, // Darumaka
+            new(SWSH, 263,15,01,045,04,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
+            new(SWSH, 618,15,01,050,05,2, Random) { Ability = OnlyHidden, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
+            new(SWSH, 110,15,01,040,12,2, Random) { Ability = Any12H,     TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
+            new(SWSH, 103,15,01,038,06,2, Random) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
+            new(SWSH, 105,15,01,038,06,2, Random) {                       TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
         };
 
         internal static readonly EncounterTrade8[] TradeGift_SWSH = ArrayUtil.ConcatAll(TradeGift_Regular, TradeGift_R1);

@@ -22,10 +22,11 @@
         /// </summary>
         public readonly uint PID;
 
+        public override Shiny Shiny => Shiny.FixedValue;
+
         public EncounterTrade4PID(GameVersion game, uint pid, int species, int level) : base(game)
         {
             PID = pid;
-            Shiny = Shiny.FixedValue;
             Species = species;
             Level = level;
         }
@@ -116,11 +117,11 @@
 
         public int MetLocation { private get; init; }
         public override int Location => MetLocation;
+        public override Shiny Shiny => Shiny.FixedValue;
 
         public EncounterTrade4RanchGift(uint pid, int species, int level) : base(GameVersion.D)
         {
             PID = pid;
-            Shiny = Shiny.FixedValue;
             Species = species;
             Level = level;
             TrainerNames = RanchOTNames;
