@@ -10,17 +10,28 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
 {
     public abstract IReadOnlyList<SCBlock> BlockInfo { get; }
 
-    /// <inheritdoc cref="SCBlock.GetValue"/>
-    public object GetBlockValue(uint key) => GetBlock(key).GetValue();
-
-    /// <inheritdoc cref="SCBlock.SetValue"/>
-    public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
-
     /// <summary> Checks if there is any <see cref="SCBlock"/> with the requested <see cref="key"/>. </summary>
     public bool HasBlock(uint key) => FindIndex(BlockInfo, key) != -1;
 
+    #region Direct Block Accessing
     /// <summary> Returns the <see cref="SCBlock"/> reference with the corresponding <see cref="key"/>. </summary>
     public SCBlock GetBlock(uint key) => Find(BlockInfo, key);
+
+    /// <inheritdoc cref="SCBlock.GetValue"/>
+    public object GetBlockValue(uint key) => GetBlock(key).GetValue();
+
+    /// <inheritdoc cref="SCBlock.GetValue"/>
+    public T GetBlockValue<T>(uint key) where T : struct
+    {
+        var value = GetBlockValue(key);
+        if (value is T v)
+            return v;
+        throw new ArgumentException($"Incorrect type request! Expected {typeof(T).Name}, received {value.GetType().Name}", nameof(T));
+    }
+
+    /// <inheritdoc cref="SCBlock.SetValue"/>
+    public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
+    #endregion
 
     #region Ease of Use Overloads
     /// <inheritdoc cref="GetBlock(string)"/>
@@ -36,6 +47,7 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     private static uint Hash(ReadOnlySpan<byte> name) => (uint)FnvHash.HashFnv1a_64(name);
     #endregion
 
+    #region Safe Block Operations (no exceptions thrown)
     /// <summary>
     /// Tries to grab the actual block, and returns a new dummy if the block does not exist.
     /// </summary>
@@ -43,6 +55,27 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     /// <returns>Block if exists, dummy if not. Dummy key will not match requested key.</returns>
     public SCBlock GetBlockSafe(uint key) => FindOrDefault(BlockInfo, key);
 
+    /// <remarks> If the block does not exist, the method will return the default value. </remarks>
+    /// <inheritdoc cref="SCBlock.GetValue"/>
+    public T GetBlockValueSafe<T>(uint key) where T : struct
+    {
+        var index = FindIndex(BlockInfo, key);
+        if (index != -1)
+            BlockInfo[index].GetValue();
+        return default;
+    }
+
+    /// <remarks> If the block does not exist, the method will do nothing. </remarks>
+    /// <inheritdoc cref="SCBlock.SetValue"/>
+    public void SetBlockValueSafe(uint key, object value)
+    {
+        var index = FindIndex(BlockInfo, key);
+        if (index != -1)
+            BlockInfo[index].SetValue(value);
+    }
+    #endregion
+
+    #region Block Fetching
     private static SCBlock Find(IReadOnlyList<SCBlock> array, uint key)
     {
         var index = FindIndex(array, key);
@@ -89,4 +122,5 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
         } while (min <= max);
         return -1;
     }
+    #endregion
 }

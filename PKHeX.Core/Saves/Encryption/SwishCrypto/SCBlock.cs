@@ -90,13 +90,15 @@ namespace PKHeX.Core
             SubType = subType;
         }
 
-        /// <summary> Indiciates if the block represents a single primitive value. </summary>
+        /// <summary> Indicates if the block represents a single primitive value. </summary>
         public bool HasValue() => Type > SCTypeCode.Array;
 
-        /// <summary> Returns a boxed reference to a single primitive value. Throws an exception if the block does not represent a single primitive value. </summary>
+        /// <summary> Returns a boxed reference to a single primitive value. </summary>
+        /// <remarks> Throws an exception if the block does not represent a single primitive value. </remarks>
         public object GetValue() => Type.GetValue(Data);
 
-        /// <summary> Sets a boxed primitive value to the block data. Throws an exception if the block does not represent a single primitive value, or if the primitive type does not match. </summary>
+        /// <summary> Sets a boxed primitive value to the block data. </summary>
+        /// <remarks> Throws an exception if the block does not represent a single primitive value, or if the primitive type does not match. </remarks>
         /// <param name="value">Boxed primitive value to be set to the block</param>
         public void SetValue(object value) => Type.SetValue(Data, value);
 
