@@ -4,12 +4,12 @@ namespace PKHeX.Core
 {
     public interface IAwakened
     {
-        int AV_HP { get; set; }
-        int AV_ATK { get; set; }
-        int AV_DEF { get; set; }
-        int AV_SPE { get; set; }
-        int AV_SPA { get; set; }
-        int AV_SPD { get; set; }
+        byte AV_HP { get; set; }
+        byte AV_ATK { get; set; }
+        byte AV_DEF { get; set; }
+        byte AV_SPE { get; set; }
+        byte AV_SPA { get; set; }
+        byte AV_SPD { get; set; }
     }
 
     public static partial class Extensions
@@ -37,7 +37,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Data to set values for</param>
         /// <param name="value">Value to set all to</param>
-        public static void AwakeningSetAllTo(this IAwakened pk, int value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
+        public static void AwakeningSetAllTo(this IAwakened pk, byte value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
 
         /// <summary>
         /// Sets all values to the specified value.
@@ -45,12 +45,12 @@ namespace PKHeX.Core
         /// <param name="pk">Data to set values for</param>
         /// <param name="min">Minimum value to set</param>
         /// <param name="max">Maximum value to set</param>
-        public static void AwakeningSetRandom(this IAwakened pk, int min = 0, int max = Legal.AwakeningMax)
+        public static void AwakeningSetRandom(this IAwakened pk, byte min = 0, int max = Legal.AwakeningMax)
         {
             var rnd = Util.Rand;
             int randClamp = max + 1;
             for (int index = 0; index < 6; index++)
-                pk.SetAV(index, rnd.Next(min, randClamp));
+                pk.SetAV(index, (byte)rnd.Next(min, randClamp));
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to set to</param>
         /// <param name="value">Value to set</param>
-        public static int SetAV(this IAwakened pk, int index, int value) => index switch
+        public static byte SetAV(this IAwakened pk, int index, byte value) => index switch
         {
             0 => pk.AV_HP = value,
             1 => pk.AV_ATK = value,
@@ -115,9 +115,9 @@ namespace PKHeX.Core
         public static void SetSuggestedAwakenedValues(this IAwakened a, PKM pk)
         {
             a.AV_HP  = Legal.AwakeningMax;
-            a.AV_ATK = pk.IV_ATK == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_ATK = pk.IV_ATK == 0 ? (byte)0 : Legal.AwakeningMax;
             a.AV_DEF = Legal.AwakeningMax;
-            a.AV_SPE = pk.IV_SPE == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_SPE = pk.IV_SPE == 0 ? (byte)0 : Legal.AwakeningMax;
             a.AV_SPA = Legal.AwakeningMax;
             a.AV_SPD = Legal.AwakeningMax;
         }

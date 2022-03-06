@@ -113,12 +113,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x21]; set => Data[0x21] = (byte)value; }
         public override int EV_SPA { get => Data[0x22]; set => Data[0x22] = (byte)value; }
         public override int EV_SPD { get => Data[0x23]; set => Data[0x23] = (byte)value; }
-        public int AV_HP { get => Data[0x24]; set => Data[0x24] = (byte)value; }
-        public int AV_ATK { get => Data[0x25]; set => Data[0x25] = (byte)value; }
-        public int AV_DEF { get => Data[0x26]; set => Data[0x26] = (byte)value; }
-        public int AV_SPE { get => Data[0x27]; set => Data[0x27] = (byte)value; }
-        public int AV_SPA { get => Data[0x28]; set => Data[0x28] = (byte)value; }
-        public int AV_SPD { get => Data[0x29]; set => Data[0x29] = (byte)value; }
+        public byte AV_HP  { get => Data[0x24]; set => Data[0x24] = value; }
+        public byte AV_ATK { get => Data[0x25]; set => Data[0x25] = value; }
+        public byte AV_DEF { get => Data[0x26]; set => Data[0x26] = value; }
+        public byte AV_SPE { get => Data[0x27]; set => Data[0x27] = value; }
+        public byte AV_SPA { get => Data[0x28]; set => Data[0x28] = value; }
+        public byte AV_SPD { get => Data[0x29]; set => Data[0x29] = value; }
         // 0x2A Unused
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }

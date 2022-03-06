@@ -217,12 +217,12 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC), (ushort)value); }
         public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE), (ushort)value); }
 
-        public int AV_HP  { get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = (byte)value; }
-        public int AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = (byte)value; }
-        public int AV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = (byte)value; }
-        public int AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = (byte)value; }
-        public int AV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = (byte)value; }
-        public int AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = (byte)value; }
+        public byte AV_HP  { get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = value; }
+        public byte AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = value; }
+        public byte AV_DEF { get => Data[CardStart + 0xE7]; set => Data[CardStart + 0xE7] = value; }
+        public byte AV_SPE { get => Data[CardStart + 0xE8]; set => Data[CardStart + 0xE8] = value; }
+        public byte AV_SPA { get => Data[CardStart + 0xE9]; set => Data[CardStart + 0xE9] = value; }
+        public byte AV_SPD { get => Data[CardStart + 0xEA]; set => Data[CardStart + 0xEA] = value; }
 
         // Meta Accessible Properties
         public override int[] IVs

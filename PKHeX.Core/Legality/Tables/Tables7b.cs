@@ -12,7 +12,7 @@ namespace PKHeX.Core
         internal const int MaxGameID_7b = (int)GameVersion.GE;
         internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
         internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
-        public const int AwakeningMax = 200;
+        public const byte AwakeningMax = 200;
 
         #region Met Locations
 
