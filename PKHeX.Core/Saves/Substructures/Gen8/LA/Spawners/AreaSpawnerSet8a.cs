@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Data structure containing all the spawner objects for the area.
 /// </summary>
-public class AreaSpawnerSet8a
+public sealed class AreaSpawnerSet8a
 {
     public const int EntryCount = 0x200;
     private const int MetaSize = 0x40;

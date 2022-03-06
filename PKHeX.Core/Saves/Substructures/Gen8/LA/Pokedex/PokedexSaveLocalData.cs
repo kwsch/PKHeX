@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Local region (within Hisui) <see cref="GameVersion.PLA"/> Pokédex structure.
 /// </summary>
-public class PokedexSaveLocalData
+public sealed class PokedexSaveLocalData
 {
     private readonly byte[] _data;
     private readonly int Offset;

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Per-species/form research logs used for <see cref="GameVersion.PLA"/> Pokédex entries.
 /// </summary>
-public class PokedexSaveStatisticsEntry
+public sealed class PokedexSaveStatisticsEntry
 {
     private readonly byte[] _data;
     private readonly int Offset;

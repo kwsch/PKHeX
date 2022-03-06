@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Represents direct manipulation and access for <see cref="GameVersion.PLA"/> Pokédex entries.
 /// </summary>
-public class PokedexSaveData
+public sealed class PokedexSaveData
 {
     private readonly PokedexSaveGlobalData GlobalData;
     private readonly PokedexSaveLocalData[] LocalData;

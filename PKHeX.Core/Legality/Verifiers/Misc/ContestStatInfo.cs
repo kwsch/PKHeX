@@ -3,6 +3,9 @@ using static PKHeX.Core.ContestStatGranting;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for checking and applying <see cref="IContestStats"/>.
+/// </summary>
 public static class ContestStatInfo
 {
     private const int LowestFeelBlock3 = 1; // quad Nutpea
@@ -208,7 +211,7 @@ public static class ContestStatInfo
 
     public static IContestStats GetReferenceTemplate(IEncounterTemplate initial) => initial is IContestStats s ? s : DummyNone;
 
-    private class DummyContestNone : IContestStats
+    private sealed class DummyContestNone : IContestStats
     {
         public byte CNT_Cool => 0;
         public byte CNT_Beauty => 0;

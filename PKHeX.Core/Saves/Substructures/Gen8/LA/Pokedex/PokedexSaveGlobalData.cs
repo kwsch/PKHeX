@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Revision details for the <see cref="GameVersion.PLA"/> Pokédex.
 /// </summary>
-public class PokedexSaveGlobalData
+public sealed class PokedexSaveGlobalData
 {
     private readonly byte[] _data;
     private readonly int Offset;
