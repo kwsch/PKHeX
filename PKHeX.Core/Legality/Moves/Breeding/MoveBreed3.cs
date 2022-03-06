@@ -13,9 +13,9 @@ namespace PKHeX.Core
     {
         private const int level = 5;
 
-        public static EggSource34[] Validate(int species, GameVersion version, int[] moves, out bool valid)
+        public static EggSource34[] Validate(int species, GameVersion version, ReadOnlySpan<int> moves, out bool valid)
         {
-            var count = Array.IndexOf(moves, 0);
+            var count = moves.IndexOf(0);
             if (count == 0)
             {
                 valid = false; // empty moveset
@@ -30,9 +30,11 @@ namespace PKHeX.Core
             var pi = table[species];
             var egg = Legal.EggMovesRS[species].Moves;
 
-            var value = new BreedInfo<EggSource34>(count, learnset, moves, level);
+            var actual = new EggSource34[count];
+            Span<byte> possible = stackalloc byte[count];
+            var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, level);
             if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle && version == GameVersion.E)
-                value.Actual[--count] = VoltTackle;
+                actual[--count] = VoltTackle;
 
             if (count == 0)
             {
@@ -46,11 +48,11 @@ namespace PKHeX.Core
             }
 
             if (!valid)
-                CleanResult(value.Actual, value.Possible);
+                CleanResult(actual, possible);
             return value.Actual;
         }
 
-        private static void CleanResult(EggSource34[] valueActual, byte[] valuePossible)
+        private static void CleanResult(EggSource34[] valueActual, Span<byte> valuePossible)
         {
             for (int i = 0; i < valueActual.Length; i++)
             {

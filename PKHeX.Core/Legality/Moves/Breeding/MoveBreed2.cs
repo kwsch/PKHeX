@@ -9,9 +9,9 @@ namespace PKHeX.Core
     {
         private const int level = 5;
 
-        public static EggSource2[] Validate(int species, GameVersion version, int[] moves, out bool valid)
+        public static EggSource2[] Validate(int species, GameVersion version, ReadOnlySpan<int> moves, out bool valid)
         {
-            var count = Array.IndexOf(moves, 0);
+            var count = moves.IndexOf(0);
             if (count == 0)
             {
                 valid = false; // empty moveset
@@ -26,7 +26,9 @@ namespace PKHeX.Core
             var pi = table[species];
             var egg = (version == GameVersion.C ? Legal.EggMovesC : Legal.EggMovesGS)[species].Moves;
 
-            var value = new BreedInfo<EggSource2>(count, learnset, moves, level);
+            var actual = new EggSource2[count];
+            Span<byte> possible = stackalloc byte[count];
+            var value = new BreedInfo<EggSource2>(actual, possible, learnset, moves, level);
             {
                 bool inherit = Breeding.GetCanInheritMoves(species);
                 MarkMovesForOrigin(value, egg, count, inherit, pi, version);
@@ -34,11 +36,11 @@ namespace PKHeX.Core
             }
 
             if (!valid)
-                CleanResult(value.Actual, value.Possible);
-            return value.Actual;
+                CleanResult(actual, possible);
+            return actual;
         }
 
-        private static void CleanResult(EggSource2[] valueActual, byte[] valuePossible)
+        private static void CleanResult(EggSource2[] valueActual, Span<byte> valuePossible)
         {
             for (int i = 0; i < valueActual.Length; i++)
             {

@@ -12,21 +12,21 @@ namespace PKHeX.Core
         public readonly T[] Actual;
 
         /// <summary> Indicates all possible sources of each move. </summary>
-        public readonly byte[] Possible;
+        public readonly Span<byte> Possible;
 
         /// <summary> Level Up entry for the egg. </summary>
         public readonly Learnset Learnset;
 
         /// <summary> Moves the egg knows after it is finalized. </summary>
-        public readonly int[] Moves;
+        public readonly ReadOnlySpan<int> Moves;
 
         /// <summary> Level the egg originated at. </summary>
         public readonly int Level;
 
-        public BreedInfo(int count, Learnset learnset, int[] moves, int level)
+        public BreedInfo(T[] actual, Span<byte> possible, Learnset learnset, ReadOnlySpan<int> moves, int level)
         {
-            Possible = new byte[count];
-            Actual = new T[count];
+            Actual = actual;
+            Possible = possible;
             Learnset = learnset;
             Moves = moves;
             Level = level;

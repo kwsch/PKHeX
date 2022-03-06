@@ -655,7 +655,7 @@ namespace PKHeX.Core
         private static bool IsCheckInvalid(CheckResult? chk) => !(chk?.Valid ?? false);
         private static bool IsCheckValid(CheckResult? chk) => chk?.Valid ?? false;
 
-        private static void FlagIncompatibleTransferHMs45(CheckMoveResult[] res, IReadOnlyList<int> currentMoves, int gen, IReadOnlyList<bool> HMLearned, bool KnowDefogWhirlpool)
+        private static void FlagIncompatibleTransferHMs45(CheckMoveResult[] res, IReadOnlyList<int> currentMoves, int gen, ReadOnlySpan<bool> HMLearned, bool KnowDefogWhirlpool)
         {
             // After all the moves from the generations 3 and 4,
             // including egg moves if is the origin generation because some hidden moves are also special egg moves in gen 3
@@ -675,7 +675,7 @@ namespace PKHeX.Core
             }
 
             // Flag moves that are only legal when learned from a past-gen HM source
-            for (int i = 0; i < HMLearned.Count; i++)
+            for (int i = 0; i < HMLearned.Length; i++)
             {
                 if (HMLearned[i] && IsCheckValid(res[i]))
                     res[i] = new CheckMoveResult(res[i], Invalid, string.Format(LTransferMoveHM, gen, gen + 1), CurrentMove);
@@ -689,7 +689,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static void VerifyNoEmptyDuplicates(IReadOnlyList<int> moves, CheckMoveResult[] res)
+        private static void VerifyNoEmptyDuplicates(ReadOnlySpan<int> moves, CheckMoveResult[] res)
         {
             bool emptySlot = false;
             for (int i = 0; i < 4; i++)
@@ -714,7 +714,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void FlagDuplicateMovesAfterIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int index, int move)
+        private static void FlagDuplicateMovesAfterIndex(ReadOnlySpan<int> moves, CheckMoveResult[] res, int index, int move)
         {
             for (int i = index + 1; i < 4; i++)
             {
@@ -725,7 +725,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void FlagEmptySlotsBeforeIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int index)
+        private static void FlagEmptySlotsBeforeIndex(ReadOnlySpan<int> moves, CheckMoveResult[] res, int index)
         {
             for (int i = index - 1; i >= 0; i--)
             {

@@ -12,7 +12,7 @@ namespace PKHeX.Core
             return valid;
         }
 
-        public static object Process(int generation, int species, int form, GameVersion version, int[] moves, out bool valid) => generation switch
+        public static object Process(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, out bool valid) => generation switch
         {
             2 => MoveBreed2.Validate(species, version, moves, out valid),
             3 => MoveBreed3.Validate(species, version, moves, out valid),
@@ -29,7 +29,7 @@ namespace PKHeX.Core
             return GetExpectedMoves(enc.Generation, enc.Species, enc.Form, enc.Version, moves, parse);
         }
 
-        public static int[] GetExpectedMoves(int generation, int species, int form, GameVersion version, int[] moves, object parse)
+        public static int[] GetExpectedMoves(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, object parse)
         {
             // Try rearranging the order of the moves.
             // Build an info table
