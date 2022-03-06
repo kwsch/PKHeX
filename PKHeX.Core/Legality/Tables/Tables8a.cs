@@ -142,7 +142,7 @@ namespace PKHeX.Core
 
         #region Moves
 
-        internal static readonly int[] MoveShop8_LA =
+        internal static readonly ushort[] MoveShop8_LA =
         {
             (int)Move.FalseSwipe,
             (int)Move.FireFang,

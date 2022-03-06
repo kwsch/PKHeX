@@ -8,7 +8,7 @@
         /// <summary>
         /// Indicates which <see cref="GameVersion"/> the Pokémon's moves were reset on.
         /// </summary>
-        int BattleVersion { get; set; }
+        byte BattleVersion { get; set; }
     }
 
     public static class BattleVersionExtensions
@@ -26,7 +26,7 @@
             pk.RelearnMove1 = pk.RelearnMove2 = pk.RelearnMove3 = pk.RelearnMove4 = 0;
             pk.SetMoves(moves);
             pk.FixMoves();
-            v.BattleVersion = (int) version;
+            v.BattleVersion = (byte) version;
         }
 
         public static int GetMinGeneration(this IBattleVersion v)

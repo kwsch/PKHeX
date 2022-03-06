@@ -61,7 +61,7 @@ public static class MoveShopRecordApplicator
         var moveIDs = shop.MoveShopPermitIndexes;
         foreach (var m in moves)
         {
-            var index = moveIDs.IndexOf(m);
+            var index = moveIDs.IndexOf((ushort)m);
             if (index == -1)
                 continue;
             if (permit[index])

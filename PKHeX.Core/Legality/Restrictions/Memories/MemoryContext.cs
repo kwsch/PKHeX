@@ -15,16 +15,16 @@ namespace PKHeX.Core
         public virtual bool CanPlantBerry(int item) => false;
         public abstract bool CanHoldItem(int item);
 
-        public abstract bool CanObtainMemory(int memory);
-        public abstract bool CanObtainMemoryOT(GameVersion pkmVersion, int memory);
-        public abstract bool CanObtainMemoryHT(GameVersion pkmVersion, int memory);
+        public abstract bool CanObtainMemory(byte memory);
+        public abstract bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory);
+        public abstract bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory);
 
         public abstract bool HasPokeCenter(GameVersion version, int location);
-        public abstract bool IsInvalidGeneralLocationMemoryValue(int memory, int variable, IEncounterTemplate enc, PKM pk);
-        public abstract bool IsInvalidMiscMemory(int memory, int variable);
+        public abstract bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk);
+        public abstract bool IsInvalidMiscMemory(byte memory, ushort variable);
 
-        public abstract bool CanHaveIntensity(int memory, int intensity);
-        public abstract bool CanHaveFeeling(int memory, int feeling, int argument);
-        public abstract int GetMinimumIntensity(int memory);
+        public abstract bool CanHaveIntensity(byte memory, byte intensity);
+        public abstract bool CanHaveFeeling(byte memory, byte feeling, ushort argument);
+        public abstract int GetMinimumIntensity(byte memory);
     }
 }

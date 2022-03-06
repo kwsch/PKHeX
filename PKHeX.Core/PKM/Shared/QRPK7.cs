@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public QRPK7(byte[] d) => Data = (byte[])d.Clone();
 
         public uint EncryptionConstant => ReadUInt32LittleEndian(Data.AsSpan(0));
-        public int HT_Flags => Data[4];
+        public byte HT_Flags => Data[4];
         public int Unk_5 => Data[5];
         public int Unk_6 => Data[6];
         public int Unk_7 => Data[7];

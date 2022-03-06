@@ -30,7 +30,7 @@
                 o.OT_Memory = 2;
                 o.OT_Feeling = MemoryContext6.GetRandomFeeling6(2);
                 o.OT_Intensity = 1;
-                o.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
+                o.OT_TextVar = pk.XY ? (ushort)43 : (ushort)27; // riverside road : battling spot
             }
             if (pk is IAffection a)
                 a.OT_Affection = 0;

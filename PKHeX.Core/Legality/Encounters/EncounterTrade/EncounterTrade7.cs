@@ -11,10 +11,10 @@ namespace PKHeX.Core
         public override int Generation => 7;
         public override int Location => Locations.LinkTrade6NPC;
         // immutable setters
-        public int OT_Memory { get => 1; set => throw new InvalidOperationException(); }
-        public int OT_Intensity { get => 3; set => throw new InvalidOperationException(); }
-        public int OT_Feeling { get => 5; set => throw new InvalidOperationException(); }
-        public int OT_TextVar { get => 40; set => throw new InvalidOperationException(); }
+        public byte OT_Memory { get => 1; set => throw new InvalidOperationException(); }
+        public byte OT_Intensity { get => 3; set => throw new InvalidOperationException(); }
+        public byte OT_Feeling { get => 5; set => throw new InvalidOperationException(); }
+        public ushort OT_TextVar { get => 40; set => throw new InvalidOperationException(); }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

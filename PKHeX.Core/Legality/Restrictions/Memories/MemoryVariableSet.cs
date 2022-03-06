@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core;
 
-public readonly record struct MemoryVariableSet(string Handler, int MemoryID, int Variable, int Intensity, int Feeling)
+public readonly record struct MemoryVariableSet(string Handler, byte MemoryID, ushort Variable, byte Intensity, byte Feeling)
 {
     public static MemoryVariableSet Read(ITrainerMemories pkm, int handler) => handler switch
     {

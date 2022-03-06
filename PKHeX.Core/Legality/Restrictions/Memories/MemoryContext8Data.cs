@@ -266,6 +266,7 @@ namespace PKHeX.Core
             3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
         };
 
+#if FALSE
         // [0,99]+1 >= CHANCE -> abort
         // this silly +1 causes:
         // 100% memories to fail 1% of the time
@@ -283,6 +284,7 @@ namespace PKHeX.Core
             005, 010, 010, 020, 020, 010, 100, 010, 005, 010,
             010, 010, 010, 010, 010, 010, 010, 001, 001, 001,
         };
+#endif
 
         /// <summary>
         /// 24bits of flags allowing certain feelings for a given memory index.

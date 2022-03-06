@@ -230,10 +230,10 @@ namespace PKHeX.Core
         public int EV_SPA { get => Data[0x26F]; set => Data[0x26F] = (byte)value; }
         public int EV_SPD { get => Data[0x270]; set => Data[0x270] = (byte)value; }
 
-        public int OT_Intensity { get => Data[0x271]; set => Data[0x271] = (byte)value; }
-        public int OT_Memory    { get => Data[0x272]; set => Data[0x272] = (byte)value; }
-        public int OT_Feeling   { get => Data[0x273]; set => Data[0x273] = (byte)value; }
-        public int OT_TextVar   { get => ReadUInt16LittleEndian(Data.AsSpan(0x274)); set => WriteUInt16LittleEndian(Data.AsSpan(0x274), (ushort)value); }
+        public byte OT_Intensity { get => Data[0x271]; set => Data[0x271] = value; }
+        public byte OT_Memory    { get => Data[0x272]; set => Data[0x272] = value; }
+        public byte OT_Feeling   { get => Data[0x273]; set => Data[0x273] = value; }
+        public ushort OT_TextVar   { get => ReadUInt16LittleEndian(Data.AsSpan(0x274)); set => WriteUInt16LittleEndian(Data.AsSpan(0x274), value); }
 
         // Only derivations to WC8
         public byte GV_HP  { get => Data[0x27E]; set => Data[0x27E] = value; }
@@ -411,7 +411,7 @@ namespace PKHeX.Core
                 OT_Gender = OTGender < 2 ? OTGender : sav.Gender,
                 HT_Name = hasOT ? sav.OT : string.Empty,
                 HT_Gender = hasOT ? sav.Gender : 0,
-                HT_Language = hasOT ? language : 0,
+                HT_Language = hasOT ? (byte)language : (byte)0,
                 CurrentHandler = hasOT ? 1 : 0,
                 OT_Friendship = pi.BaseFriendship,
 

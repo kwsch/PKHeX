@@ -77,14 +77,14 @@ public sealed class PB8 : G8PKM
             // Clear Handler
             if (!IsTradedEgg)
             {
-                HT_Friendship = HT_Language = HT_Gender = 0;
+                HT_Friendship = HT_Gender = HT_Language = 0;
                 HT_Trash.Clear();
             }
             return;
         }
 
         if (IsUntraded)
-            HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Gender = 0;
+            HT_Gender = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
 
         int gen = Generation;
         if (gen < 6)
@@ -112,7 +112,7 @@ public sealed class PB8 : G8PKM
         }
         CurrentHandler = 1;
         HT_Gender = tr.Gender;
-        HT_Language = tr.Language;
+        HT_Language = (byte)tr.Language;
         //this.SetTradeMemoryHT8();
     }
 

@@ -77,14 +77,14 @@ namespace PKHeX.WinForms
             {
                 // Load the OT Memories
                 CB_OTQual.SelectedIndex = Math.Max(0, m.OT_Intensity - 1);
-                CB_OTMemory.SelectedValue = m.OT_Memory;
-                CB_OTVar.SelectedValue = m.OT_TextVar;
+                CB_OTMemory.SelectedValue = (int)m.OT_Memory;
+                CB_OTVar.SelectedValue = (int)m.OT_TextVar;
                 CB_OTFeel.SelectedIndex = m.OT_Feeling;
 
                 // Load the HT Memories
                 CB_CTQual.SelectedIndex = Math.Max(0, m.HT_Intensity - 1);
-                CB_CTMemory.SelectedValue = m.HT_Memory;
-                CB_CTVar.SelectedValue = m.HT_TextVar;
+                CB_CTMemory.SelectedValue = (int)m.HT_Memory;
+                CB_CTVar.SelectedValue = (int)m.HT_TextVar;
                 CB_CTFeel.SelectedIndex = m.HT_Feeling;
             }
 
@@ -184,15 +184,15 @@ namespace PKHeX.WinForms
             // Save Memories
             if (pkm is ITrainerMemories m)
             {
-                m.OT_Memory = WinFormsUtil.GetIndex(CB_OTMemory);
-                m.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.GetIndex(CB_OTVar) : 0;
-                m.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
-                m.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
+                m.OT_Memory = (byte)WinFormsUtil.GetIndex(CB_OTMemory);
+                m.OT_TextVar = CB_OTVar.Enabled ? (ushort)WinFormsUtil.GetIndex(CB_OTVar) : (ushort)0;
+                m.OT_Intensity = CB_OTFeel.Enabled ? (byte)(CB_OTQual.SelectedIndex + 1) : (byte)0;
+                m.OT_Feeling = CB_OTFeel.Enabled ? (byte)CB_OTFeel.SelectedIndex : (byte)0;
 
-                m.HT_Memory = WinFormsUtil.GetIndex(CB_CTMemory);
-                m.HT_TextVar = CB_CTVar.Enabled ? WinFormsUtil.GetIndex(CB_CTVar) : 0;
-                m.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
-                m.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
+                m.HT_Memory = (byte)WinFormsUtil.GetIndex(CB_CTMemory);
+                m.HT_TextVar = CB_CTVar.Enabled ? (ushort)WinFormsUtil.GetIndex(CB_CTVar) : (ushort)0;
+                m.HT_Intensity = CB_CTFeel.Enabled ? (byte)(CB_CTQual.SelectedIndex + 1) : (byte)0;
+                m.HT_Feeling = CB_CTFeel.Enabled ? (byte)CB_CTFeel.SelectedIndex : (byte)0;
             }
 
             if (pkm is G8PKM pk8)

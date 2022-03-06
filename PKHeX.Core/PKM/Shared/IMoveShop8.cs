@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 public interface IMoveShop8
 {
     ReadOnlySpan<bool> MoveShopPermitFlags { get; }
-    ReadOnlySpan<int> MoveShopPermitIndexes { get; }
+    ReadOnlySpan<ushort> MoveShopPermitIndexes { get; }
     bool GetPurchasedRecordFlag(int index);
     void SetPurchasedRecordFlag(int index, bool value);
     bool GetPurchasedRecordFlagAny();

@@ -176,7 +176,7 @@ public sealed class LegendsArceusVerifier : Verifier
             VerifyTutorMoveIndex(data, pa, i, bits, moves);
     }
 
-    private void VerifyTutorMoveIndex(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<bool> bits, ReadOnlySpan<int> moves)
+    private void VerifyTutorMoveIndex(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<bool> bits, ReadOnlySpan<ushort> moves)
     {
         bool isPurchased = pa.GetPurchasedRecordFlag(i);
         if (isPurchased)
@@ -204,7 +204,7 @@ public sealed class LegendsArceusVerifier : Verifier
             data.AddLine(GetInvalid(string.Format(LMoveShopMasterNotLearned_0, ParseSettings.MoveStrings[moves[i]])));
     }
 
-    private static bool CanLearnMoveByLevelUp(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<int> moves)
+    private static bool CanLearnMoveByLevelUp(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<ushort> moves)
     {
         // Check if the move can be learned in the learnset...
         // Changing forms do not have separate tutor permissions, so we don't need to bother with form changes.
@@ -223,7 +223,7 @@ public sealed class LegendsArceusVerifier : Verifier
         return pa.CurrentLevel >= level;
     }
 
-    private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, int alphaMove, ReadOnlySpan<int> moves, ReadOnlySpan<bool> bits)
+    private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, ReadOnlySpan<ushort> moves, ReadOnlySpan<bool> bits)
     {
         if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType.Landmark })
         {
@@ -259,7 +259,7 @@ public sealed class LegendsArceusVerifier : Verifier
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
     }
 
-    private static bool CanMasterMoveFromMoveShop(int move, ReadOnlySpan<int> moves, ReadOnlySpan<bool> bits)
+    private static bool CanMasterMoveFromMoveShop(ushort move, ReadOnlySpan<ushort> moves, ReadOnlySpan<bool> bits)
     {
         var index = moves.IndexOf(move);
         if (index == -1)

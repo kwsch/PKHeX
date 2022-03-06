@@ -1,7 +1,6 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface IHandlerLanguage
 {
-    public interface IHandlerLanguage
-    {
-        int HT_Language { get; set; }
-    }
+    byte HT_Language { get; set; }
 }

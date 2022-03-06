@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public interface IHyperTrain
     {
-        int HyperTrainFlags { get; set; }
+        byte HyperTrainFlags { get; set; }
         bool HT_HP { get; set; }
         bool HT_ATK { get; set; }
         bool HT_DEF { get; set; }

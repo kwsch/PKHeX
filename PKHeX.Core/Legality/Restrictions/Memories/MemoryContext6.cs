@@ -46,29 +46,29 @@ namespace PKHeX.Core
         public override bool CanPlantBerry(int item) => Legal.Pouch_Berry_XY.Contains((ushort)item);
         public override bool CanHoldItem(int item) => Legal.HeldItem_AO.Contains((ushort)item);
 
-        public override bool CanObtainMemoryOT(GameVersion pkmVersion, int memory) => pkmVersion switch
+        public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
         {
             GameVersion.X or GameVersion.Y => CanObtainMemoryXY(memory),
             GameVersion.OR or GameVersion.AS => CanObtainMemoryAO(memory),
             _ => false,
         };
 
-        public override bool CanObtainMemory(int memory) => memory <= MAX_MEMORY_ID_AO;
+        public override bool CanObtainMemory(byte memory) => memory <= MAX_MEMORY_ID_AO;
         public override bool HasPokeCenter(GameVersion version, int location) => GetHasPokeCenterLocation(version, location);
 
-        public override bool IsInvalidGeneralLocationMemoryValue(int memory, int variable, IEncounterTemplate enc, PKM pk)
+        public override bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk)
         {
             return false; // todo
         }
 
-        public override bool IsInvalidMiscMemory(int memory, int variable)
+        public override bool IsInvalidMiscMemory(byte memory, ushort variable)
         {
             return false; // todo
         }
 
         private static bool CanObtainMemoryAO(int memory) => memory <= MAX_MEMORY_ID_AO && !Memory_NotAO.Contains(memory);
         private static bool CanObtainMemoryXY(int memory) => memory <= MAX_MEMORY_ID_XY && !Memory_NotXY.Contains(memory);
-        public override bool CanObtainMemoryHT(GameVersion pkmVersion, int memory) => CanObtainMemory(memory);
+        public override bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory) => CanObtainMemory(memory);
 
         public override bool CanWinLotoID(int item) => LotoPrizeXYAO.Contains((ushort)item);
 
@@ -99,7 +99,7 @@ namespace PKHeX.Core
             return MemoryMinIntensity[memory] <= intensity;
         }
 
-        public static int GetRandomFeeling6(int memory, int max = 24)
+        public static byte GetRandomFeeling6(int memory, int max = 24)
         {
             var bits = MemoryFeelings[memory];
             var rnd = Util.Rand;
@@ -107,7 +107,7 @@ namespace PKHeX.Core
             {
                 int feel = rnd.Next(max);
                 if ((bits & (1 << feel)) != 0)
-                    return feel;
+                    return (byte)feel;
             }
         }
 
@@ -118,8 +118,8 @@ namespace PKHeX.Core
             return MemoryMinIntensity[memory];
         }
 
-        public override bool CanHaveIntensity(int memory, int intensity) => CanHaveIntensity6(memory, intensity);
-        public override bool CanHaveFeeling(int memory, int feeling, int argument) => CanHaveFeeling6(memory, feeling, argument);
-        public override int GetMinimumIntensity(int memory) => GetMinimumIntensity6(memory);
+        public override bool CanHaveIntensity(byte memory, byte intensity) => CanHaveIntensity6(memory, intensity);
+        public override bool CanHaveFeeling(byte memory, byte feeling, ushort argument) => CanHaveFeeling6(memory, feeling, argument);
+        public override int GetMinimumIntensity(byte memory) => GetMinimumIntensity6(memory);
     }
 }

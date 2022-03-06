@@ -412,7 +412,7 @@ namespace PKHeX.Core
                 OT_Gender = OTGender < 2 ? OTGender : sav.Gender,
                 HT_Name = hasOT ? sav.OT : string.Empty,
                 HT_Gender = hasOT ? sav.Gender : 0,
-                HT_Language = hasOT ? language : 0,
+                HT_Language = (byte)(hasOT ? language : 0),
                 CurrentHandler = hasOT ? 1 : 0,
                 OT_Friendship = pi.BaseFriendship,
 

@@ -20,18 +20,18 @@ namespace PKHeX.Core
         public override bool IsUsedKeyItemSpecific(int item, int species) => KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort)item);
         public override bool CanHoldItem(int item) => Legal.HeldItems_SWSH.Contains((ushort)item);
 
-        public override bool CanObtainMemoryOT(GameVersion pkmVersion, int memory) => pkmVersion switch
+        public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
         {
             GameVersion.SW or GameVersion.SH => CanObtainMemorySWSH(memory),
             _ => false,
         };
 
-        public override bool CanObtainMemoryHT(GameVersion pkmVersion, int memory) => CanObtainMemorySWSH(memory);
+        public override bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory) => CanObtainMemorySWSH(memory);
 
-        public override bool CanObtainMemory(int memory) => CanObtainMemorySWSH(memory);
+        public override bool CanObtainMemory(byte memory) => CanObtainMemorySWSH(memory);
         public override bool HasPokeCenter(GameVersion version, int location) => location == 9; // in a Pokémon Center
 
-        public override bool IsInvalidGeneralLocationMemoryValue(int memory, int variable, IEncounterTemplate enc, PKM pk)
+        public override bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk)
         {
             if (!Memories.MemoryGeneral.Contains(memory))
                 return false;
@@ -41,7 +41,7 @@ namespace PKHeX.Core
             return IsInvalidGenLoc8Other(memory, variable);
         }
 
-        public override bool IsInvalidMiscMemory(int memory, int variable)
+        public override bool IsInvalidMiscMemory(byte memory, ushort variable)
         {
             return memory switch
             {
@@ -62,7 +62,7 @@ namespace PKHeX.Core
             _ => PurchaseableItemSWSH.Contains((ushort)item),
         };
 
-        private static bool IsInvalidGenLoc8(int memory, int loc, int egg, int variable, PKM pk, IEncounterTemplate enc)
+        private static bool IsInvalidGenLoc8(byte memory, int loc, int egg, ushort variable, PKM pk, IEncounterTemplate enc)
         {
             if (variable > 255)
                 return true;
@@ -116,7 +116,7 @@ namespace PKHeX.Core
             return pk is IRibbonSetMark8 { RibbonMarkCurry: true } || pk.Species == (int)Species.Shedinja;
         }
 
-        private static bool IsInvalidGenLoc8Other(int memory, int variable)
+        private static bool IsInvalidGenLoc8Other(byte memory, ushort variable)
         {
             if (variable > byte.MaxValue)
                 return true;
@@ -142,7 +142,7 @@ namespace PKHeX.Core
             };
         }
 
-        public static bool CanHaveFeeling8(int memory, int feeling, int argument)
+        public static bool CanHaveFeeling8(byte memory, byte feeling, ushort argument)
         {
             if (memory >= MemoryFeelings.Length)
                 return false;
@@ -151,14 +151,14 @@ namespace PKHeX.Core
             return (MemoryFeelings[memory] & (1 << --feeling)) != 0;
         }
 
-        public static bool CanHaveIntensity8(int memory, int intensity)
+        public static bool CanHaveIntensity8(byte memory, byte intensity)
         {
             if (memory >= MemoryFeelings.Length)
                 return false;
             return MemoryMinIntensity[memory] <= intensity;
         }
 
-        public static int GetRandomFeeling8(int memory, int max = 24)
+        public static byte GetRandomFeeling8(int memory, int max = 24)
         {
             var bits = MemoryFeelings[memory];
             var rnd = Util.Rand;
@@ -166,7 +166,7 @@ namespace PKHeX.Core
             {
                 int feel = rnd.Next(max);
                 if ((bits & (1 << feel)) != 0)
-                    return feel + 1; // Different from Gen6; this +1 is to match them treating 0 as empty
+                    return (byte)(feel + 1); // Different from Gen6; this +1 is to match them treating 0 as empty
             }
         }
 
@@ -177,8 +177,8 @@ namespace PKHeX.Core
             return MemoryMinIntensity[memory];
         }
 
-        public override bool CanHaveIntensity(int memory, int intensity) => CanHaveIntensity8(memory, intensity);
-        public override bool CanHaveFeeling(int memory, int feeling, int argument) => CanHaveFeeling8(memory, feeling, argument);
-        public override int GetMinimumIntensity(int memory) => GetMinimumIntensity8(memory);
+        public override bool CanHaveIntensity(byte memory, byte intensity) => CanHaveIntensity8(memory, intensity);
+        public override bool CanHaveFeeling(byte memory, byte feeling, ushort argument) => CanHaveFeeling8(memory, feeling, argument);
+        public override int GetMinimumIntensity(byte memory) => GetMinimumIntensity8(memory);
     }
 }

@@ -383,22 +383,22 @@ namespace PKHeX.Core
         }
 
         public override int HT_Gender { get => Data[0xC2]; set => Data[0xC2] = (byte)value; }
-        public int HT_Language { get => Data[0xC3]; set => Data[0xC3] = (byte)value; }
+        public byte HT_Language { get => Data[0xC3]; set => Data[0xC3] = value; }
         public override int CurrentHandler { get => Data[0xC4]; set => Data[0xC4] = (byte)value; }
         // 0xC5 unused (alignment)
         public int HT_TrainerID { get => ReadUInt16LittleEndian(Data.AsSpan(0xC6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xC6), (ushort)value); } // unused?
         public override int HT_Friendship { get => Data[0xC8]; set => Data[0xC8] = (byte)value; }
-        public int HT_Intensity { get => Data[0xC9]; set => Data[0xC9] = (byte)value; }
-        public int HT_Memory { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public int HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
-        public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCC), (ushort)value); }
+        public byte HT_Intensity { get => Data[0xC9]; set => Data[0xC9] = value; }
+        public byte HT_Memory { get => Data[0xCA]; set => Data[0xCA] = value; }
+        public byte HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = value; }
+        public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCC), value); }
 
         // 0xCE-0xDB unused
 
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
         public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
-        public int BattleVersion { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
+        public byte BattleVersion { get => Data[0xDF]; set => Data[0xDF] = value; }
         // public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
         // public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
         public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
@@ -419,11 +419,11 @@ namespace PKHeX.Core
         }
 
         public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }
-        public int OT_Intensity { get => Data[0x113]; set => Data[0x113] = (byte)value; }
-        public int OT_Memory { get => Data[0x114]; set => Data[0x114] = (byte)value; }
+        public byte OT_Intensity { get => Data[0x113]; set => Data[0x113] = value; }
+        public byte OT_Memory { get => Data[0x114]; set => Data[0x114] = value; }
         // 0x115 unused align
-        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x116)); set => WriteUInt16LittleEndian(Data.AsSpan(0x116), (ushort)value); }
-        public int OT_Feeling { get => Data[0x118]; set => Data[0x118] = (byte)value; }
+        public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x116)); set => WriteUInt16LittleEndian(Data.AsSpan(0x116), value); }
+        public byte OT_Feeling { get => Data[0x118]; set => Data[0x118] = value; }
         public override int Egg_Year { get => Data[0x119]; set => Data[0x119] = (byte)value; }
         public override int Egg_Month { get => Data[0x11A]; set => Data[0x11A] = (byte)value; }
         public override int Egg_Day { get => Data[0x11B]; set => Data[0x11B] = (byte)value; }
@@ -436,13 +436,13 @@ namespace PKHeX.Core
         public override int Ball { get => Data[0x124]; set => Data[0x124] = (byte)value; }
         public override int Met_Level { get => Data[0x125] & ~0x80; set => Data[0x125] = (byte)((Data[0x125] & 0x80) | value); }
         public override int OT_Gender { get => Data[0x125] >> 7; set => Data[0x125] = (byte)((Data[0x125] & ~0x80) | (value << 7)); }
-        public int HyperTrainFlags { get => Data[0x126]; set => Data[0x126] = (byte)value; }
-        public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0); }
-        public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1); }
-        public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2); }
-        public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3); }
-        public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
-        public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
+        public byte HyperTrainFlags { get => Data[0x126]; set => Data[0x126] = value; }
+        public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
+        public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
+        public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
+        public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
+        public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
+        public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
         public bool GetMoveRecordFlag(int index)
         {

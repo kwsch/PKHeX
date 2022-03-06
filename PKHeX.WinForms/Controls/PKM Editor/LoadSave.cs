@@ -403,9 +403,9 @@ namespace PKHeX.WinForms.Controls
             CB_StatNature.SelectedValue = pk8.StatNature;
             Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
-            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
+            CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
         }
 
         private void SaveMisc8(PK8 pk8)
@@ -413,8 +413,8 @@ namespace PKHeX.WinForms.Controls
             pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
             pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
             pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
-            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
-            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+            pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
         }
 
         private void LoadMisc8(PB8 pk8)
@@ -422,9 +422,9 @@ namespace PKHeX.WinForms.Controls
             CB_StatNature.SelectedValue = pk8.StatNature;
             Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
-            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
+            CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
         }
 
         private void SaveMisc8(PB8 pk8)
@@ -432,8 +432,8 @@ namespace PKHeX.WinForms.Controls
             pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
             pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
             pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
-            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
-            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+            pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
         }
 
         private void LoadMisc8(PA8 pk8)
@@ -441,12 +441,12 @@ namespace PKHeX.WinForms.Controls
             CB_StatNature.SelectedValue = pk8.StatNature;
             Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
-            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
+            CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
             Stats.CHK_IsAlpha.Checked = pk8.IsAlpha;
             Stats.CHK_IsNoble.Checked = pk8.IsNoble;
-            CB_AlphaMastered.SelectedValue = pk8.AlphaMove;
+            CB_AlphaMastered.SelectedValue = (int)pk8.AlphaMove;
         }
 
         private void SaveMisc8(PA8 pk8)
@@ -454,11 +454,11 @@ namespace PKHeX.WinForms.Controls
             pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
             pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
             pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
-            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
-            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+            pk8.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
             pk8.IsAlpha = Stats.CHK_IsAlpha.Checked;
             pk8.IsNoble = Stats.CHK_IsNoble.Checked;
-            pk8.AlphaMove = WinFormsUtil.GetIndex(CB_AlphaMastered);
+            pk8.AlphaMove = (ushort)WinFormsUtil.GetIndex(CB_AlphaMastered);
         }
     }
 }

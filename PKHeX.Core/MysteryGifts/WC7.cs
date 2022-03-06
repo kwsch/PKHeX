@@ -257,10 +257,10 @@ namespace PKHeX.Core
         public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDC), (ushort)value); }
         public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDE), (ushort)value); }
 
-        public int OT_Intensity { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public int OT_Memory { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xE2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xE2), (ushort)value); }
-        public int OT_Feeling { get => Data[0xE4]; set => Data[0xE4] = (byte)value; }
+        public byte OT_Intensity { get => Data[0xE0]; set => Data[0xE0] = value; }
+        public byte OT_Memory { get => Data[0xE1]; set => Data[0xE1] = value; }
+        public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xE2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xE2), value); }
+        public byte OT_Feeling { get => Data[0xE4]; set => Data[0xE4] = value; }
 
         public int EV_HP { get => Data[0xE5]; set => Data[0xE5] = (byte)value; }
         public int EV_ATK { get => Data[0xE6]; set => Data[0xE6] = (byte)value; }

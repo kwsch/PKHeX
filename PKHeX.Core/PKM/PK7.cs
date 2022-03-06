@@ -342,11 +342,11 @@ namespace PKHeX.Core
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public byte HT_Affection { get => Data[0xA3]; set => Data[0xA3] = value; }
-        public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-        public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-        public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+        public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
+        public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
+        public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
         // 0xA7 Unused
-        public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), (ushort)value); }
+        public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
         // 0xAA Unused
         // 0xAB Unused
         // 0xAC Unused
@@ -363,10 +363,10 @@ namespace PKHeX.Core
 
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
         public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
-        public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
-        public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), (ushort)value); }
-        public int OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        public byte OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = value; }
+        public byte OT_Memory { get => Data[0xCD]; set => Data[0xCD] = value; }
+        public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), value); }
+        public byte OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = value; }
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
         public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
@@ -379,13 +379,13 @@ namespace PKHeX.Core
         public override int Ball { get => Data[0xDC]; set => Data[0xDC] = (byte)value; }
         public override int Met_Level { get => Data[0xDD] & ~0x80; set => Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); }
         public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
-        public int HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
-        public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0); }
-        public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1); }
-        public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2); }
-        public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3); }
-        public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
-        public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
+        public byte HyperTrainFlags { get => Data[0xDE]; set => Data[0xDE] = value; }
+        public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
+        public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
+        public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
+        public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
+        public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
+        public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
         public byte Country { get => Data[0xE0]; set => Data[0xE0] = value; }
         public byte Region { get => Data[0xE1]; set => Data[0xE1] = value; }
@@ -454,7 +454,7 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
                 /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = HT_Affection = OT_Affection = 0;
                 this.ClearGeoLocationData();
 

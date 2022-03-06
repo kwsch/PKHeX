@@ -13,16 +13,15 @@ namespace PKHeX.Core
         public override int Location => Locations.LinkTrade6NPC;
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
+        public ushort OT_TextVar { get; set; }
+        public byte OT_Memory { get; set; }
+        public byte OT_Feeling { get; set; }
+        public byte OT_Intensity { get; set; }
         public byte DynamaxLevel { get; set; }
         public byte FlawlessIVCount { get; init; }
-
-        public int OT_Memory { get; set; }
-        public int OT_TextVar { get; set; }
-        public int OT_Feeling { get; set; }
-        public int OT_Intensity { get; set; }
         public override Shiny Shiny { get; }
 
-        public EncounterTrade8(GameVersion game, int species, int level, int memory, int arg, int feel, int intensity, Shiny shiny = Shiny.Never) : base(game)
+        public EncounterTrade8(GameVersion game, int species, int level, byte memory, ushort arg, byte feel, byte intensity, Shiny shiny = Shiny.Never) : base(game)
         {
             Species = species;
             Level = level;
@@ -50,7 +49,7 @@ namespace PKHeX.Core
 
             var pk8 = (PK8)pk;
             pk8.DynamaxLevel = DynamaxLevel;
-            pk8.HT_Language = sav.Language;
+            pk8.HT_Language = (byte)sav.Language;
             pk8.OT_Memory = OT_Memory;
             pk8.OT_TextVar = OT_TextVar;
             pk8.OT_Feeling = OT_Feeling;

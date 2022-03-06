@@ -317,11 +317,11 @@ namespace PKHeX.Core
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public byte HT_Affection { get => Data[0xA3]; set => Data[0xA3] = value; }
-        public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-        public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-        public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+        public byte HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = value; }
+        public byte HT_Memory { get => Data[0xA5]; set => Data[0xA5] = value; }
+        public byte HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = value; }
         // 0xA7 Unused
-        public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), (ushort)value); }
+        public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xA8)); set => WriteUInt16LittleEndian(Data.AsSpan(0xA8), value); }
         // 0xAA Unused
         // 0xAB Unused
         // 0xAC Unused
@@ -337,10 +337,10 @@ namespace PKHeX.Core
         }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
         public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
-        public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
-        public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), (ushort)value); }
-        public int OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        public byte OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = value; }
+        public byte OT_Memory { get => Data[0xCD]; set => Data[0xCD] = value; }
+        public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCE)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCE), value); }
+        public byte OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = value; }
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
         public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
@@ -402,7 +402,7 @@ namespace PKHeX.Core
             {
                 Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
                 Geo1_Region = Geo2_Region = Geo3_Region = Geo4_Region = Geo5_Region = 0;
-                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
                 /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = OT_Affection = HT_Affection = 0;
 
                 // Clear Handler

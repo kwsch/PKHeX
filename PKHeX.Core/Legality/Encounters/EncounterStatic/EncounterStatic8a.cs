@@ -122,7 +122,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         if (Species == (int)Core.Species.Kricketune && Level == 12)
         {
-            if (pkm is PA8 { AlphaMove: not (int)Move.FalseSwipe })
+            if (pkm is PA8 { AlphaMove: not (ushort)Move.FalseSwipe })
                 return false;
         }
 
@@ -134,7 +134,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             if (!m[i])
                 continue;
             var move = Moves[i];
-            var index = p.MoveShopPermitIndexes.IndexOf(move);
+            var index = p.MoveShopPermitIndexes.IndexOf((ushort)move);
             if (index == -1)
                 continue; // manually mastered for encounter, not a tutor
             if (!p.GetMasteredRecordFlag(index))

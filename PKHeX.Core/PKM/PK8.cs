@@ -56,7 +56,7 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
                 /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
@@ -65,7 +65,7 @@ namespace PKHeX.Core
             }
 
             if (IsUntraded)
-                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
 
             int gen = Generation;
             if (gen < 6)
@@ -93,7 +93,7 @@ namespace PKHeX.Core
             }
             CurrentHandler = 1;
             HT_Gender = tr.Gender;
-            HT_Language = tr.Language;
+            HT_Language = (byte)tr.Language;
             this.SetTradeMemoryHT8();
         }
 

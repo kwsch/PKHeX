@@ -116,7 +116,7 @@ namespace PKHeX.Core
                 case 51 when !CanWinLotoID(gen, memory.Variable):
                 // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
                 // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
-                case 84 or 88 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable) || pkm.IsEgg:
+                case 84 or 88 when !Legal.HeldItems_SWSH.Contains(memory.Variable) || pkm.IsEgg:
                     return GetInvalid(string.Format(LMemoryArgBadItem, memory.Handler));
             }
 
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         /// <param name="i">Intensity</param>
         /// <param name="t">Text Variable</param>
         /// <param name="f">Feeling</param>
-        private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
+        private void VerifyOTMemoryIs(LegalityAnalysis data, byte m, byte i, ushort t, byte f)
         {
             var pkm = (ITrainerMemories)data.pkm;
             if (pkm.OT_Memory != m)
@@ -189,7 +189,7 @@ namespace PKHeX.Core
             }
 
             int memoryGen = Info.Generation;
-            int memory = mem.OT_Memory;
+            var memory = mem.OT_Memory;
 
             if (pkm.IsEgg)
             {

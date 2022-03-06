@@ -59,7 +59,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
     public ReadOnlySpan<int> TechRecordPermitIndexes => Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
     public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
-    public ReadOnlySpan<int> MoveShopPermitIndexes => Legal.MoveShop8_LA;
+    public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;
 
     public override int CurrentFriendship
     {
@@ -258,7 +258,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public int RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = (byte)value) != 0; }
     public int RibbonCountMemoryBattle { get => Data[0x3D]; set => HasBattleMemoryRibbon = (Data[0x3D] = (byte)value) != 0; }
 
-    public int AlphaMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), (ushort)value); }
+    public ushort AlphaMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), value); }
 
     // 0x40 Ribbon 1
     public bool RibbonMarkMisty { get => FlagUtil.GetFlag(Data, 0x40, 0); set => FlagUtil.SetFlag(Data, 0x40, 0, value); }
@@ -421,22 +421,22 @@ public sealed class PA8 : PKM, ISanityChecksum,
     }
 
     public override int HT_Gender { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
-    public int HT_Language { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
+    public byte HT_Language { get => Data[0xD3]; set => Data[0xD3] = value; }
     public override int CurrentHandler { get => Data[0xD4]; set => Data[0xD4] = (byte)value; }
     // 0xD5 unused (alignment)
     public int HT_TrainerID { get => ReadUInt16LittleEndian(Data.AsSpan(0xD6)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD6), (ushort)value); } // unused?
     public override int HT_Friendship { get => Data[0xD8]; set => Data[0xD8] = (byte)value; }
-    public int HT_Intensity { get => Data[0xD9]; set => Data[0xD9] = (byte)value; }
-    public int HT_Memory { get => Data[0xDA]; set => Data[0xDA] = (byte)value; }
-    public int HT_Feeling { get => Data[0xDB]; set => Data[0xDB] = (byte)value; }
-    public int HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDC), (ushort)value); }
+    public byte HT_Intensity { get => Data[0xD9]; set => Data[0xD9] = value; }
+    public byte HT_Memory { get => Data[0xDA]; set => Data[0xDA] = value; }
+    public byte HT_Feeling { get => Data[0xDB]; set => Data[0xDB] = value; }
+    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xDC), value); }
 
     // 0xDE-0xEB unused
 
     public override byte Fullness { get => Data[0xEC]; set => Data[0xEC] = value; }
     public override byte Enjoyment { get => Data[0xED]; set => Data[0xED] = value; }
     public override int Version { get => Data[0xEE]; set => Data[0xEE] = (byte)value; }
-    public int BattleVersion { get => Data[0xEF]; set => Data[0xEF] = (byte)value; }
+    public byte BattleVersion { get => Data[0xEF]; set => Data[0xEF] = value; }
     // public override int Region { get => Data[0xF0]; set => Data[0xF0] = (byte)value; }
     // public override int ConsoleRegion { get => Data[0xF1]; set => Data[0xF1] = (byte)value; }
     public override int Language { get => Data[0xF2]; set => Data[0xF2] = (byte)value; }
@@ -456,11 +456,11 @@ public sealed class PA8 : PKM, ISanityChecksum,
     }
 
     public override int OT_Friendship { get => Data[0x12A]; set => Data[0x12A] = (byte)value; }
-    public int OT_Intensity { get => Data[0x12B]; set => Data[0x12B] = (byte)value; }
-    public int OT_Memory { get => Data[0x12C]; set => Data[0x12C] = (byte)value; }
+    public byte OT_Intensity { get => Data[0x12B]; set => Data[0x12B] = value; }
+    public byte OT_Memory { get => Data[0x12C]; set => Data[0x12C] = value; }
     // 0x12D unused align
-    public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x12E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12E), (ushort)value); }
-    public int OT_Feeling { get => Data[0x130]; set => Data[0x130] = (byte)value; }
+    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x12E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12E), value); }
+    public byte OT_Feeling { get => Data[0x130]; set => Data[0x130] = value; }
     public override int Egg_Year { get => Data[0x131]; set => Data[0x131] = (byte)value; }
     public override int Egg_Month { get => Data[0x132]; set => Data[0x132] = (byte)value; }
     public override int Egg_Day { get => Data[0x133]; set => Data[0x133] = (byte)value; }
@@ -473,13 +473,13 @@ public sealed class PA8 : PKM, ISanityChecksum,
     // 0x13C unused align
     public override int Met_Level { get => Data[0x13D] & ~0x80; set => Data[0x13D] = (byte)((Data[0x13D] & 0x80) | value); }
     public override int OT_Gender { get => Data[0x13D] >> 7; set => Data[0x13D] = (byte)((Data[0x13D] & ~0x80) | (value << 7)); }
-    public int HyperTrainFlags { get => Data[0x13E]; set => Data[0x13E] = (byte)value; }
-    public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0); }
-    public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1); }
-    public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2); }
-    public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3); }
-    public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
-    public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
+    public byte HyperTrainFlags { get => Data[0x13E]; set => Data[0x13E] = value; }
+    public bool HT_HP  { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
+    public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
+    public bool HT_DEF { get => ((HyperTrainFlags >> 2) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2)); }
+    public bool HT_SPA { get => ((HyperTrainFlags >> 3) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3)); }
+    public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
+    public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
     public bool GetMoveRecordFlag(int index)
     {
@@ -710,14 +710,14 @@ public sealed class PA8 : PKM, ISanityChecksum,
             // Clear Handler
             if (!IsTradedEgg)
             {
-                HT_Friendship = HT_Language = HT_Gender = 0;
+                HT_Friendship = HT_Gender = HT_Language = 0;
                 HT_Trash.Clear();
             }
             return;
         }
 
         if (IsUntraded)
-            HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Gender = 0;
+            HT_Gender = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = HT_Language = 0;
 
         int gen = Generation;
         if (gen < 6)
@@ -745,7 +745,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         }
         CurrentHandler = 1;
         HT_Gender = tr.Gender;
-        HT_Language = tr.Language;
+        HT_Language = (byte)tr.Language;
     }
 
     // Maximums
@@ -836,7 +836,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return (byte)Math.Min(255, unsigned);
     }
 
-    public int GetRandomAlphaMove()
+    public ushort GetRandomAlphaMove()
     {
         var index = MoveShopPermitFlags.IndexOf(true);
         if (index == -1)
@@ -853,7 +853,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public void SetMasteryFlagMove(int move)
     {
         var moves = MoveShopPermitIndexes;
-        int flagIndex = moves.IndexOf(move);
+        int flagIndex = moves.IndexOf((ushort)move);
         if (flagIndex == -1)
             return;
         if (MoveShopPermitFlags[flagIndex])

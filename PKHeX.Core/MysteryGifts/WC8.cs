@@ -237,10 +237,10 @@ namespace PKHeX.Core
         public int EV_SPA { get => Data[CardStart + 0x277]; set => Data[CardStart + 0x277] = (byte)value; }
         public int EV_SPD { get => Data[CardStart + 0x278]; set => Data[CardStart + 0x278] = (byte)value; }
 
-        public int OT_Intensity { get => Data[CardStart + 0x279]; set => Data[CardStart + 0x279] = (byte)value; }
-        public int OT_Memory { get => Data[CardStart + 0x27A]; set => Data[CardStart + 0x27A] = (byte)value; }
-        public int OT_Feeling { get => Data[CardStart + 0x27B]; set => Data[CardStart + 0x27B] = (byte)value; }
-        public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), (ushort)value); }
+        public byte OT_Intensity { get => Data[CardStart + 0x279]; set => Data[CardStart + 0x279] = value; }
+        public byte OT_Memory { get => Data[CardStart + 0x27A]; set => Data[CardStart + 0x27A] = value; }
+        public byte OT_Feeling { get => Data[CardStart + 0x27B]; set => Data[CardStart + 0x27B] = value; }
+        public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), value); }
 
         // Meta Accessible Properties
         public override int[] IVs
@@ -410,7 +410,7 @@ namespace PKHeX.Core
                 OT_Gender = OTGender < 2 ? OTGender : sav.Gender,
                 HT_Name = hasOT ? sav.OT : string.Empty,
                 HT_Gender = hasOT ? sav.Gender : 0,
-                HT_Language = hasOT ? language : 0,
+                HT_Language = (byte)(hasOT ? language : 0),
                 CurrentHandler = hasOT ? 1 : 0,
                 OT_Friendship = pi.BaseFriendship,
 

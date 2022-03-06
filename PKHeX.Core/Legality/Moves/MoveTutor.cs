@@ -283,7 +283,13 @@ namespace PKHeX.Core
                 var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)
                     return;
-                moves.AddRange(MoveShop8_LA.Where((_, i) => pi.SpecialTutors[0][i]));
+                var shop = MoveShop8_LA;
+                var tutors = pi.SpecialTutors[0];
+                for (int i = 0; i < shop.Length; i++)
+                {
+                    if (tutors[i])
+                        moves.Add(shop[i]);
+                }
                 return;
             }
             if (pkm.BDSP)

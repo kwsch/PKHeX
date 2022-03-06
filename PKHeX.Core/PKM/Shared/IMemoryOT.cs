@@ -5,10 +5,10 @@
     /// </summary>
     public interface IMemoryOT
     {
-        int OT_Memory { get; set; }
-        int OT_Intensity { get; set; }
-        int OT_Feeling { get; set; }
-        int OT_TextVar { get; set; }
+        byte OT_Memory { get; set; }
+        byte OT_Intensity { get; set; }
+        byte OT_Feeling { get; set; }
+        ushort OT_TextVar { get; set; }
     }
 
     public static partial class Extensions
@@ -18,7 +18,7 @@
         /// </summary>
         public static void ClearMemoriesOT(this IMemoryOT ot)
         {
-            ot.OT_Memory = ot.OT_Feeling = ot.OT_Intensity = ot.OT_TextVar = 0;
+            ot.OT_TextVar = ot.OT_Memory = ot.OT_Feeling = ot.OT_Intensity = 0;
         }
     }
 }

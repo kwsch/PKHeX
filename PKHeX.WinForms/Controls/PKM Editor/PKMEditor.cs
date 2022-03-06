@@ -1721,7 +1721,7 @@ namespace PKHeX.WinForms.Controls
                 Entity.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
             }
             if (Entity is PA8 pa8)
-                pa8.AlphaMove = WinFormsUtil.GetIndex(CB_AlphaMastered);
+                pa8.AlphaMove = (ushort)WinFormsUtil.GetIndex(CB_AlphaMastered);
             UpdateLegality(skipMoveRepop: true);
         }
 
@@ -2010,8 +2010,9 @@ namespace PKHeX.WinForms.Controls
         {
             if (Entity is not IBattleVersion b)
                 return;
-            b.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
-            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, b.BattleVersion != 0);
+            var value = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+            b.BattleVersion = value;
+            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, value != 0);
         }
 
         private static Image GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)

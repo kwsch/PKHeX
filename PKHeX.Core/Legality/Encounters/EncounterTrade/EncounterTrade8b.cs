@@ -50,7 +50,7 @@
                 pb8.Language = (int)(pb8.Language == (int)LanguageID.German ? LanguageID.Japanese : LanguageID.German);
 
             this.CopyContestStatsTo(pb8);
-            pb8.HT_Language = sav.Language;
+            pb8.HT_Language = (byte)sav.Language;
             pb8.HeightScalar = HeightScalar;
             pb8.WeightScalar = WeightScalar;
         }
