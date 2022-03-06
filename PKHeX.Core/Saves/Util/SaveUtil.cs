@@ -428,16 +428,20 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G5RAW)
                 return Invalid;
 
-            // check the checksum block validity; nobody would normally modify this region
-            ushort chk1 = ReadUInt16LittleEndian(data[(SIZE_G5BW - 0x100 + 0x8C + 0xE)..]);
-            ushort actual1 = Checksums.CRC16_CCITT(data.Slice(SIZE_G5BW - 0x100, 0x8C));
-            if (chk1 == actual1)
+            // check the checksum footer block validity; nobody would normally modify this region
+            if (IsValidFooter(data, SIZE_G5BW, 0x8C))
                 return BW;
-            ushort chk2 = ReadUInt16LittleEndian(data[(SIZE_G5B2W2 - 0x100 + 0x94 + 0xE)..]);
-            ushort actual2 = Checksums.CRC16_CCITT(data.Slice(SIZE_G5B2W2 - 0x100, 0x94));
-            if (chk2 == actual2)
+            if (IsValidFooter(data, SIZE_G5B2W2, 0x94))
                 return B2W2;
             return Invalid;
+
+            static bool IsValidFooter(ReadOnlySpan<byte> data, int mainSize, int infoLength)
+            {
+                var footer = data.Slice(mainSize - 0x100, infoLength + 0x10);
+                ushort stored = ReadUInt16LittleEndian(footer[^2..]);
+                ushort actual = Checksums.CRC16_CCITT(footer[..infoLength]);
+                return stored == actual;
+            }
         }
 
         /// <summary>Checks to see if the data belongs to a Gen6 save</summary>
@@ -514,7 +518,7 @@ namespace PKHeX.Core
             if (data.Length is not (SIZE_G8LA or SIZE_G8LA_1))
                 return Invalid;
 
-            return SwishCrypto.GetIsHashValidLA(data) ? PLA : Invalid;
+            return SwishCrypto.GetIsHashValid(data) ? PLA : Invalid;
         }
 
         private static bool GetIsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;

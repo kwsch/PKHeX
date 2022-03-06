@@ -82,24 +82,6 @@ namespace PKHeX.Core
         /// <returns>True if hash matches</returns>
         public static bool GetIsHashValid(byte[] data)
         {
-            if (!SaveUtil.SizesSWSH.Contains(data.Length))
-                return false;
-
-            var hash = ComputeHash(data);
-            var span = data.AsSpan()[^hash.Length..];
-            return span.SequenceEqual(hash);
-        }
-
-        /// <summary>
-        /// Checks if the file is a rough example of a save file.
-        /// </summary>
-        /// <param name="data">Encrypted save data</param>
-        /// <returns>True if hash matches</returns>
-        public static bool GetIsHashValidLA(byte[] data)
-        {
-            if (data.Length is not (SaveUtil.SIZE_G8LA or SaveUtil.SIZE_G8LA_1))
-                return false;
-
             var hash = ComputeHash(data);
             var span = data.AsSpan()[^hash.Length..];
             return span.SequenceEqual(hash);

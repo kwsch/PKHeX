@@ -203,6 +203,10 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Merges the properties from <see cref="other"/> into this object.
+        /// </summary>
+        /// <param name="other">Block to copy all values from.</param>
         public void CopyFrom(SCBlock other)
         {
             if (Type.IsBoolean())
