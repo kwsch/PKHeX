@@ -8,9 +8,9 @@ namespace PKHeX.Core
     {
         public override int Generation => 3;
 
-        public int SlotNumber { get; }
+        public byte SlotNumber { get; }
 
-        public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, int min, int max, int slot) : base(area, species, 0, min, max)
+        public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, int min, int max, byte slot) : base(area, species, 0, min, max)
         {
             SlotNumber = slot;
         }

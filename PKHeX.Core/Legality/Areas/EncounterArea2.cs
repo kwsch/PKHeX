@@ -14,7 +14,7 @@ namespace PKHeX.Core
         private static readonly byte[] RatesSurf = { 60, 30, 10 };
 
         internal readonly EncounterTime Time;
-        public readonly int Rate;
+        public readonly byte Rate;
         public readonly IReadOnlyList<byte> Rates;
         public readonly EncounterSlot2[] Slots;
 
@@ -33,61 +33,49 @@ namespace PKHeX.Core
             Location = data[0];
             Time = (EncounterTime)data[1];
             var type = (Type = (SlotType)data[2]) & (SlotType)0xF;
-            var rate = data[3];
+            Rate = data[3];
 
+            var next = data[4..];
             if (type is > SlotType.Surf and not SlotType.BugContest) // Not Grass/Surf
             {
                 const int size = 5;
-                int count = (data.Length - 4) / size;
-
-                var rates = new byte[count];
-                for (int i = 0; i < rates.Length; i++)
-                    rates[i] = data[4 + i];
-
-                Rates = rates;
-                Slots = ReadSlots(data, count, 4 + count);
+                int count = next.Length / size;
+                Rates = next[..count].ToArray();
+                Slots = ReadSlots(next[count..], count);
             }
             else
             {
-                Rate = rate;
-
                 const int size = 4;
-                int count = (data.Length - 4) / size;
+                int count = next.Length / size;
                 Rates = type switch
                 {
                     SlotType.BugContest => BCC_SlotRates,
                     SlotType.Grass => RatesGrass,
                     _ => RatesSurf,
                 };
-                Slots = ReadSlots(data, count, 4);
+                Slots = ReadSlots(next, count);
             }
         }
 
-        private EncounterSlot2[] ReadSlots(ReadOnlySpan<byte> data, int count, int start)
+        private EncounterSlot2[] ReadSlots(ReadOnlySpan<byte> data, int count)
         {
+            const int size = 4;
             var slots = new EncounterSlot2[count];
             for (int i = 0; i < slots.Length; i++)
             {
-                int offset = start + (4 * i);
-                var entry = data.Slice(offset, 4);
-                slots[i] = ReadSlot(entry);
+                var entry = data.Slice(i * size, size);
+                int max = entry[3];
+                int min = entry[2];
+                byte slotNum = entry[1];
+                int species = entry[0];
+                slots[i] = new EncounterSlot2(this, species, min, max, slotNum);
             }
-
             return slots;
-        }
-
-        private EncounterSlot2 ReadSlot(ReadOnlySpan<byte> entry)
-        {
-            int species = entry[0];
-            int slotNum = entry[1];
-            int min = entry[2];
-            int max = entry[3];
-            return new EncounterSlot2(this, species, min, max, slotNum);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (pkm is not ICaughtData2 pk2 || pk2.CaughtData == 0)
+            if (pkm is not ICaughtData2 {CaughtData: not 0} pk2)
                 return GetSlotsFuzzy(chain);
 
             if (pk2.Met_Location != Location)

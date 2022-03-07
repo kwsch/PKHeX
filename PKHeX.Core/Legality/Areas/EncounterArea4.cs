@@ -54,13 +54,13 @@ namespace PKHeX.Core
         {
             int species = ReadUInt16LittleEndian(entry);
             int form = entry[2];
-            int slotNum = entry[3];
+            byte slotNum = entry[3];
             int min = entry[4];
             int max = entry[5];
-            int mpi = entry[6];
-            int mpc = entry[7];
-            int sti = entry[8];
-            int stc = entry[9];
+            byte mpi = entry[6];
+            byte mpc = entry[7];
+            byte sti = entry[8];
+            byte stc = entry[9];
             return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
         }
 

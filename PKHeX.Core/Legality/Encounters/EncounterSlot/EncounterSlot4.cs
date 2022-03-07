@@ -9,17 +9,17 @@ namespace PKHeX.Core
         public override int Generation => 4;
         public GroundTilePermission GroundTile => ((EncounterArea4)Area).GroundTile;
 
-        public int StaticIndex { get; }
-        public int MagnetPullIndex { get; }
-        public int StaticCount { get; }
-        public int MagnetPullCount { get; }
+        public byte StaticIndex { get; }
+        public byte MagnetPullIndex { get; }
+        public byte StaticCount { get; }
+        public byte MagnetPullCount { get; }
         public SlotType Type => Area.Type;
 
-        public int SlotNumber { get; }
+        public byte SlotNumber { get; }
         public override Ball FixedBall => GetRequiredBallValue();
         public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTilePermission.Grass);
 
-        public EncounterSlot4(EncounterArea4 area, int species, int form, int min, int max, int slot, int mpi, int mpc, int sti, int stc) : base(area, species, form, min, max)
+        public EncounterSlot4(EncounterArea4 area, int species, int form, int min, int max, byte slot, byte mpi, byte mpc, byte sti, byte stc) : base(area, species, form, min, max)
         {
             SlotNumber = slot;
 

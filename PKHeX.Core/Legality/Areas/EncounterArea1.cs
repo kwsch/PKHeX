@@ -29,24 +29,20 @@ namespace PKHeX.Core
             Type = (SlotType)data[2];
             Rate = data[3];
 
-            int count = (data.Length - 4) / 4;
+            var next = data[4..];
+            int count = next.Length / 4;
             var slots = new EncounterSlot1[count];
             for (int i = 0; i < slots.Length; i++)
             {
-                int offset = 4 + (4 * i);
-                var entry = data.Slice(offset, 4);
-                slots[i] = ReadSlot(entry);
+                const int size = 4;
+                var entry = data.Slice(i * size, size);
+                int max = entry[3];
+                int min = entry[2];
+                byte slotNum = entry[1];
+                int species = entry[0];
+                slots[i] = new EncounterSlot1(this, species, min, max, slotNum);
             }
             Slots = slots;
-        }
-
-        private EncounterSlot1 ReadSlot(ReadOnlySpan<byte> entry)
-        {
-            int species = entry[0];
-            int slotNum = entry[1];
-            int min = entry[2];
-            int max = entry[3];
-            return new EncounterSlot1(this, species, min, max, slotNum);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

@@ -12,10 +12,10 @@ namespace PKHeX.Core
     public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
     {
         public override int Generation => 2;
-        public int SlotNumber { get; }
+        public byte SlotNumber { get; }
         public override Ball FixedBall => Ball.Poke;
 
-        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, int slot) : base(area, species, species == 201 ? FormRandom : 0, min, max)
+        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, byte slot) : base(area, species, species == 201 ? FormRandom : 0, min, max)
         {
             SlotNumber = slot;
         }
