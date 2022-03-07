@@ -392,9 +392,9 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += bpe)
                 {
                     var entry = areaData.Slice(ofs, bpe);
-                    var specForm = ReadUInt16LittleEndian(entry);
-                    var species = specForm & 0x7FF;
-                    var form = specForm >> 11;
+                    var species = ReadUInt16LittleEndian(entry);
+                    byte form = (byte)(species >> 11);
+                    species &= 0x3FF;
                     slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags, slotType);
                 }
             } while (ctr != slots.Length);

@@ -30,7 +30,7 @@ namespace PKHeX.Core
             if (!Breeding.CanGameGenerateEggs(ver))
                 yield break;
 
-            int lvl = EggStateLegality.GetEggLevel(generation);
+            var lvl = EggStateLegality.GetEggLevel(generation);
             int max = GetMaxSpeciesOrigin(generation);
 
             var (species, form) = GetBaseSpecies(chain, 0);

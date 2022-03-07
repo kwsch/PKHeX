@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public readonly bool IsBCAT;
         public override Ball FixedBall => IsMarsh ? Ball.Safari : Ball.None;
 
-        public EncounterSlot8b(EncounterArea area, int species, int form, int min, int max, bool isBCAT = false) : base(area, species, form, min, max)
+        public EncounterSlot8b(EncounterArea area, ushort species, byte form, byte min, byte max, bool isBCAT = false) : base(area, species, form, min, max)
         {
             IsBCAT = isBCAT;
         }

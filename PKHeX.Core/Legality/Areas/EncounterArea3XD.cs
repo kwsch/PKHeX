@@ -13,7 +13,7 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        public EncounterArea3XD(int loc, int s0, int l0, int s1, int l1, int s2, int l2) : base(GameVersion.XD)
+        public EncounterArea3XD(int loc, ushort s0, byte l0, ushort s1, byte l1, ushort s2, byte l2) : base(GameVersion.XD)
         {
             Location = loc;
             Type = SlotType.Grass;

@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
-        private EncounterArea7g(int species, int form, EncounterSlot7GO[] slots) : base(GameVersion.GO)
+        private EncounterArea7g(ushort species, byte form, EncounterSlot7GO[] slots) : base(GameVersion.GO)
         {
             Species = species;
             Form = form;
@@ -40,9 +40,9 @@ namespace PKHeX.Core
 
         private static EncounterArea7g GetArea(ReadOnlySpan<byte> data)
         {
-            var sf = ReadUInt16LittleEndian(data);
-            int species = sf & 0x7FF;
-            int form = sf >> 11;
+            var species = ReadUInt16LittleEndian(data);
+            byte form = (byte)(species >> 11);
+            species &= 0x3FF;
 
             var result = new EncounterSlot7GO[(data.Length - 2) / entrySize];
             var area = new EncounterArea7g(species, form, result);
@@ -56,7 +56,7 @@ namespace PKHeX.Core
             return area;
         }
 
-        private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea7g area, int species, int form)
+        private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea7g area, ushort species, byte form)
         {
             int start = ReadInt32LittleEndian(entry);
             int end = ReadInt32LittleEndian(entry[4..]);

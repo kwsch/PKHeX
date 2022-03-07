@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public byte SlotNumber { get; }
         public override Ball FixedBall => Ball.Poke;
 
-        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, byte slot) : base(area, species, species == 201 ? FormRandom : 0, min, max)
+        public EncounterSlot2(EncounterArea2 area, byte species, byte min, byte max, byte slot) : base(area, species, species == 201 ? FormRandom : 0, min, max)
         {
             SlotNumber = slot;
         }

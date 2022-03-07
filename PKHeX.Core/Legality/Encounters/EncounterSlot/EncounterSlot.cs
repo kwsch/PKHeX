@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Wild Encounter Slot data
     /// </summary>
     /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-    public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, int LevelMin, int LevelMax) : IEncounterable, IEncounterMatch
+    public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch
     {
         public abstract int Generation { get; }
         public bool EggEncounter => false;
@@ -39,7 +39,7 @@ namespace PKHeX.Core
         /// <param name="min">Highest value the low end of levels can be</param>
         /// <param name="max">Lowest value the high end of levels can be</param>
         /// <returns>True if within slot's range, false if impossible.</returns>
-        public bool IsLevelWithinRange(int min, int max) => LevelMin <= max && min <= LevelMax;
+        public bool IsLevelWithinRange(byte min, byte max) => LevelMin <= max && min <= LevelMax;
 
         /// <summary>
         /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
@@ -58,7 +58,7 @@ namespace PKHeX.Core
         /// <param name="minDecrease">Highest value the low end of levels can be</param>
         /// <param name="maxIncrease">Lowest value the high end of levels can be</param>
         /// <returns>True if within slot's range, false if impossible.</returns>
-        public bool IsLevelWithinRange(int min, int max, int minDecrease, int maxIncrease) => LevelMin - minDecrease <= max && min <= LevelMax + maxIncrease;
+        public bool IsLevelWithinRange(byte min, byte max, int minDecrease, int maxIncrease) => LevelMin - minDecrease <= max && min <= LevelMax + maxIncrease;
 
         public virtual string LongName
         {

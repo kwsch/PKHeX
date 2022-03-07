@@ -48,7 +48,7 @@ namespace PKHeX.Core
         /// Gets the minimum level (relative to GO's 1-<see cref="EncountersGO.MAX_LEVEL"/>) the <see cref="encounterType"/> must have.
         /// </summary>
         /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-        public static int GetMinLevel(this PogoType encounterType) => encounterType switch
+        public static byte GetMinLevel(this PogoType encounterType) => encounterType switch
         {
             PogoType.EggS => 8,
             PogoType.Raid => 20,

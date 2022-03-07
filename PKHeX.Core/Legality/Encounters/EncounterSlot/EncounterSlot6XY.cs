@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public bool IsFriendSafari => Area.Type == SlotType.FriendSafari;
         public bool IsHorde => Area.Type == SlotType.Horde;
 
-        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max) : base(area, species, form, min, max)
+        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, byte min, byte max) : base(area, species, form, min, max)
         {
         }
 

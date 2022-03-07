@@ -24,7 +24,7 @@
 
         public override Shiny Shiny => Shiny.FixedValue;
 
-        public EncounterTrade4PID(GameVersion game, uint pid, int species, int level) : base(game)
+        public EncounterTrade4PID(GameVersion game, uint pid, ushort species, byte level) : base(game)
         {
             PID = pid;
             Species = species;
@@ -119,7 +119,7 @@
         public override int Location => MetLocation;
         public override Shiny Shiny => Shiny.FixedValue;
 
-        public EncounterTrade4RanchGift(uint pid, int species, int level) : base(GameVersion.D)
+        public EncounterTrade4RanchGift(uint pid, ushort species, byte level) : base(GameVersion.D)
         {
             PID = pid;
             Species = species;
@@ -150,7 +150,7 @@
     {
         public override int Location => 3000;
 
-        public EncounterTrade4RanchSpecial(int species, int level) : base(GameVersion.D)
+        public EncounterTrade4RanchSpecial(ushort species, byte level) : base(GameVersion.D)
         {
             Species = species;
             Level = level;

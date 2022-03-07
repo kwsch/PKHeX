@@ -100,7 +100,7 @@ namespace PKHeX.Core
         internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> chain)
         {
             // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
-            var met = pkm.Met_Level;
+            var met = (byte)pkm.Met_Level;
             if (pkm.VC1)
             {
                 // Only yield a VC1 template if it could originate in VC1.
@@ -123,9 +123,9 @@ namespace PKHeX.Core
             switch (pkm.Generation)
             {
                 case 1:
-                    return EncounterStatic7.GetVC1(MaxSpeciesID_1, pkm.Met_Level);
+                    return EncounterStatic7.GetVC1(MaxSpeciesID_1, (byte)pkm.Met_Level);
                 case 2:
-                    return EncounterStatic7.GetVC2(MaxSpeciesID_2, pkm.Met_Level);
+                    return EncounterStatic7.GetVC2(MaxSpeciesID_2, (byte)pkm.Met_Level);
                 default:
                     return GetPossible(pkm, chain)
                         .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))

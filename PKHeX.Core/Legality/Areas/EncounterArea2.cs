@@ -64,10 +64,10 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 var entry = data.Slice(i * size, size);
-                int max = entry[3];
-                int min = entry[2];
+                byte max = entry[3];
+                byte min = entry[2];
                 byte slotNum = entry[1];
-                int species = entry[0];
+                byte species = entry[0];
                 slots[i] = new EncounterSlot2(this, species, min, max, slotNum);
             }
             return slots;

@@ -46,8 +46,8 @@ namespace PKHeX.Core
         {
             int species = entry[0]; // always < 255; only original 151
             // form is always 0
-            int min = entry[2];
-            int max = entry[3];
+            byte min = entry[2];
+            byte max = entry[3];
             return new EncounterSlot7b(this, species, min, max);
         }
 

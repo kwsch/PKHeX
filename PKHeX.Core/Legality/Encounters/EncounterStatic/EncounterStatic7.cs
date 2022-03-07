@@ -58,7 +58,7 @@ namespace PKHeX.Core
             pk.SetRandomEC();
         }
 
-        internal static EncounterStatic7 GetVC1(int species, int metLevel)
+        internal static EncounterStatic7 GetVC1(int species, byte metLevel)
         {
             bool mew = species == (int)Core.Species.Mew;
             return new EncounterStatic7(GameVersion.RBY)
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             };
         }
 
-        internal static EncounterStatic7 GetVC2(int species, int metLevel)
+        internal static EncounterStatic7 GetVC2(int species, byte metLevel)
         {
             bool mew = species == (int)Core.Species.Mew;
             bool fateful = mew || species == (int)Core.Species.Celebi;

@@ -152,9 +152,9 @@ namespace PKHeX.Core
         public abstract string OT_Name { get; set; }
         public abstract int Location { get; set; }
 
-        public abstract int Level { get; set; }
-        public int LevelMin => Level;
-        public int LevelMax => Level;
+        public abstract byte Level { get; set; }
+        public byte LevelMin => Level;
+        public byte LevelMax => Level;
         public abstract int Ball { get; set; }
         public virtual bool EggEncounter => IsEgg;
         public abstract int EggLocation { get; set; }

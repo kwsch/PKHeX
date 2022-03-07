@@ -16,7 +16,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
     public Gender Gender { get; }
     public byte AlphaType { get; } // 0=Never, 1=Random, 2=Guaranteed
 
-    public EncounterSlot8a(EncounterArea8a area, int species, int form, int min, int max, byte alphaType, byte flawlessIVs, Gender gender) : base(area, species, form, min, max)
+    public EncounterSlot8a(EncounterArea8a area, ushort species, byte form, byte min, byte max, byte alphaType, byte flawlessIVs, Gender gender) : base(area, species, form, min, max)
     {
         AlphaType = alphaType;
         FlawlessIVCount = flawlessIVs;

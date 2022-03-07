@@ -19,7 +19,7 @@ namespace PKHeX.Core
         public override Ball FixedBall => GetRequiredBallValue();
         public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTilePermission.Grass);
 
-        public EncounterSlot4(EncounterArea4 area, int species, int form, int min, int max, byte slot, byte mpi, byte mpc, byte sti, byte stc) : base(area, species, form, min, max)
+        public EncounterSlot4(EncounterArea4 area, ushort species, byte form, byte min, byte max, byte slot, byte mpi, byte mpc, byte sti, byte stc) : base(area, species, form, min, max)
         {
             SlotNumber = slot;
 

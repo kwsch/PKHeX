@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public byte FlawlessIVCount { get; init; }
         public override Shiny Shiny { get; }
 
-        public EncounterTrade8(GameVersion game, int species, int level, byte memory, ushort arg, byte feel, byte intensity, Shiny shiny = Shiny.Never) : base(game)
+        public EncounterTrade8(GameVersion game, int species, byte level, byte memory, ushort arg, byte feel, byte intensity, Shiny shiny = Shiny.Never) : base(game)
         {
             Species = species;
             Level = level;

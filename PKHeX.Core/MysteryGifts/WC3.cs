@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
         // Mystery Gift Properties
         public override int Generation => 3;
-        public override int Level { get; set; }
+        public override byte Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
         public bool RibbonEarth { get; set; }

@@ -7,8 +7,8 @@ namespace PKHeX.Core
     {
         public GameVersion Version => (GameVersion)CassetteVersion;
         public bool EggEncounter => false;
-        public int LevelMin => Level;
-        public int LevelMax => Level;
+        public byte LevelMin => Level;
+        public byte LevelMax => Level;
         public int Generation => Version.GetGeneration();
         public bool IsShiny => false;
 
@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public int Unk_2A => Data[0x2A];
         public int Friendship => Data[0x2B];
         public int Ball => Data[0x2C];
-        public int Level => Data[0x2D];
+        public byte Level => Data[0x2D];
         public int CassetteVersion => Data[0x2E];
         public int Language => Data[0x2F];
 

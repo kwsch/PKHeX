@@ -206,7 +206,7 @@ namespace PKHeX.Core
             set => StringConverter6.SetString(Data.AsSpan(0xB6, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
         }
 
-        public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
         public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
         public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
 

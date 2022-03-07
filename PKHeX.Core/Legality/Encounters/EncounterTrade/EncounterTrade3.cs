@@ -38,7 +38,7 @@ namespace PKHeX.Core
             }
         }
 
-        public EncounterTrade3(GameVersion game, uint pid, int species, int level) : base(game)
+        public EncounterTrade3(GameVersion game, uint pid, ushort species, byte level) : base(game)
         {
             PID = pid;
             Species = species;

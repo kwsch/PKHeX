@@ -247,7 +247,7 @@ namespace PKHeX.Core
             set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero);
         }
 
-        public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }
         public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
         public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(0xD2), value); }
 

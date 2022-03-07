@@ -46,11 +46,11 @@ namespace PKHeX.Core
 
         private EncounterSlot8b ReadSlot(ReadOnlySpan<byte> data)
         {
-            ushort SpecForm = ReadUInt16LittleEndian(data);
-            int species = SpecForm & 0x3FF;
-            int form = SpecForm >> 11;
-            int min = data[2];
-            int max = data[3];
+            ushort species = ReadUInt16LittleEndian(data);
+            byte form = (byte)(species >> 11);
+            species &= 0x3FF;
+            byte min = data[2];
+            byte max = data[3];
             return new EncounterSlot8b(this, species, form, min, max);
         }
 

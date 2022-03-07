@@ -36,10 +36,10 @@ namespace PKHeX.Core
             {
                 const int size = 4;
                 var entry = data.Slice(i * size, size);
-                int max = entry[3];
-                int min = entry[2];
+                byte max = entry[3];
+                byte min = entry[2];
                 byte slotNum = entry[1];
-                int species = entry[0];
+                byte species = entry[0];
                 slots[i] = new EncounterSlot1(this, species, min, max, slotNum);
             }
             Slots = slots;

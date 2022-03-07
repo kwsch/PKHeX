@@ -14,9 +14,9 @@ namespace PKHeX.Core
     {
         public int Species { get; init; }
         public int Form { get; init; }
-        public int Level { get; init; }
-        public virtual int LevelMin => Level;
-        public int LevelMax => 100;
+        public byte Level { get; init; }
+        public virtual byte LevelMin => Level;
+        public byte LevelMax => 100;
         public abstract int Generation { get; }
 
         public int CurrentLevel { get; init; } = -1;
@@ -81,7 +81,7 @@ namespace PKHeX.Core
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language, version);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
-                level = Math.Max(1, LevelMin);
+                level = Math.Max((byte)1, LevelMin);
 
             int species = Species;
             if (EvolveOnTrade)

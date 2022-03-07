@@ -113,7 +113,7 @@ namespace PKHeX.Core
         public int PIDType { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
         public int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), (ushort)value); }
         public int MetLocation  { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), (ushort)value); }
-        public int MetLevel  { get => Data[0x40]; set => Data[0x40] = (byte)value; }
+        public byte MetLevel  { get => Data[0x40]; set => Data[0x40] = value; }
 
         public int CNT_Cool { get => Data[0x41]; set => Data[0x41] = (byte)value; }
         public int CNT_Beauty { get => Data[0x42]; set => Data[0x42] = (byte)value; }
@@ -169,8 +169,8 @@ namespace PKHeX.Core
         public bool RibbonPremier          { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)((RIB1 & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool RIB1_7                 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)((RIB1 & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
 
-        public int LevelMin => MetLevel;
-        public int LevelMax => MetLevel;
+        public byte LevelMin => MetLevel;
+        public byte LevelMax => MetLevel;
 
         public IReadOnlyList<int> Moves
         {

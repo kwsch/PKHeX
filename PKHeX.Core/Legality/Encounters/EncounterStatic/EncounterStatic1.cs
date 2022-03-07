@@ -7,11 +7,11 @@
     public record EncounterStatic1 : EncounterStatic
     {
         public override int Generation => 1;
-        public sealed override int Level { get; init; }
+        public sealed override byte Level { get; init; }
 
         private const int LightBallPikachuCatchRate = 0xA3; // 163
 
-        public EncounterStatic1(int species, int level, GameVersion game) : base(game)
+        public EncounterStatic1(byte species, byte level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;

@@ -11,8 +11,8 @@ namespace PKHeX.Core
 
         public int Species { get; }
         public int Form { get; }
-        public int LevelMin { get; }
-        public int LevelMax { get; }
+        public byte LevelMin { get; }
+        public byte LevelMax { get; }
         public bool EggEncounter { get; }
         public int Generation { get; }
         public GameVersion Version { get; }
@@ -32,8 +32,8 @@ namespace PKHeX.Core
         {
             Species = pkm.Species;
             Form = pkm.Form;
-            LevelMin = pkm.Met_Level;
-            LevelMax = pkm.CurrentLevel;
+            LevelMin = (byte)pkm.Met_Level;
+            LevelMax = (byte)pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
             Generation = pkm.Generation;
             Version = (GameVersion)pkm.Version;

@@ -83,7 +83,7 @@ namespace PKHeX.Core
         }
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
-        public override int Level { get => Data[0x5B]; set => Data[0x5C] = (byte)value; }
+        public override byte Level { get => Data[0x5B]; set => Data[0x5C] = value; }
         public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = value ? (byte)1 : (byte)0; }
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle

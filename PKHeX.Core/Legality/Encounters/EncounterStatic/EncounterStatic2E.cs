@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
         public int CurrentLevel { get; init; } = -1;
 
-        public EncounterStatic2E(int species, int level, GameVersion ver) : base(species, level, ver)
+        public EncounterStatic2E(byte species, byte level, GameVersion ver) : base(species, level, ver)
         {
         }
 

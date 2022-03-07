@@ -10,7 +10,7 @@ namespace PKHeX.Core
 
         public byte SlotNumber { get; }
 
-        public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, int min, int max, byte slot) : base(area, species, 0, min, max)
+        public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, byte min, byte max, byte slot) : base(area, species, 0, min, max)
         {
             SlotNumber = slot;
         }

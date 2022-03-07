@@ -5,14 +5,14 @@ namespace PKHeX.Core
     /// <summary>
     /// Egg Encounter Data
     /// </summary>
-    public sealed record EncounterEgg(int Species, int Form, int Level, int Generation, GameVersion Version) : IEncounterable
+    public sealed record EncounterEgg(int Species, int Form, byte Level, int Generation, GameVersion Version) : IEncounterable
     {
         public string Name => "Egg";
         public string LongName => "Egg";
 
         public bool EggEncounter => true;
-        public int LevelMin => Level;
-        public int LevelMax => Level;
+        public byte LevelMin => Level;
+        public byte LevelMax => Level;
         public bool IsShiny => false;
         public int Location => 0;
         public int EggLocation => Locations.GetDaycareLocation(Generation, Version);

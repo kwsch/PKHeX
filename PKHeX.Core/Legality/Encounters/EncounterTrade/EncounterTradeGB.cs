@@ -3,7 +3,7 @@
     /// <inheritdoc cref="EncounterTrade"/>
     public abstract record EncounterTradeGB : EncounterTrade
     {
-        protected EncounterTradeGB(int species, int level, GameVersion game) : base(game)
+        protected EncounterTradeGB(int species, byte level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;

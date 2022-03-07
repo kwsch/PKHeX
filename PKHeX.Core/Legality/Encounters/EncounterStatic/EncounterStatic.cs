@@ -13,9 +13,9 @@ namespace PKHeX.Core
     {
         public int Species { get; init; }
         public int Form { get; init; }
-        public virtual int Level { get; init; }
-        public virtual int LevelMin => Level;
-        public virtual int LevelMax => Level;
+        public virtual byte Level { get; init; }
+        public virtual byte LevelMin => Level;
+        public virtual byte LevelMax => Level;
         public abstract int Generation { get; }
 
         public virtual int Location { get; init; }

@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
+        public EncounterSlot8(EncounterArea8 area, ushort species, byte form, byte min, byte max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
         {
             Weather = weather;
             SlotType = slotType;

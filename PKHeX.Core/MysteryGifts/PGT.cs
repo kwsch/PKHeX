@@ -13,9 +13,9 @@ namespace PKHeX.Core
         public const int Size = 0x104; // 260
         public override int Generation => 4;
 
-        public override int Level
+        public override byte Level
         {
-            get => IsManaphyEgg ? 1 : IsPokémon ? PK.Met_Level : 0;
+            get => IsManaphyEgg ? (byte)1 : IsPokémon ? (byte)PK.Met_Level : (byte)0;
             set { if (IsPokémon) PK.Met_Level = value; }
         }
 

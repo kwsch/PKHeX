@@ -10,8 +10,8 @@
         /// <summary>
         /// Minimum level for the encounter.
         /// </summary>
-        int LevelMin { get; }
-        int LevelMax { get; }
+        byte LevelMin { get; }
+        byte LevelMax { get; }
     }
 
     public static partial class Extensions

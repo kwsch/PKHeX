@@ -9,7 +9,7 @@ namespace PKHeX.Core
         public override int Generation => 7;
         public bool IsSOS => Area.Type == SlotType.SOS;
 
-        public EncounterSlot7(EncounterArea7 area, int species, int form, int min, int max) : base(area, species, form, min, max)
+        public EncounterSlot7(EncounterArea7 area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
         {
         }
 

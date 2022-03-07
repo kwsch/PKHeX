@@ -9,9 +9,9 @@ namespace PKHeX.Core
     public record EncounterStatic2 : EncounterStatic
     {
         public sealed override int Generation => 2;
-        public sealed override int Level { get; init; }
+        public sealed override byte Level { get; init; }
 
-        public EncounterStatic2(int species, int level, GameVersion game) : base(game)
+        public EncounterStatic2(byte species, byte level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;
@@ -98,7 +98,7 @@ namespace PKHeX.Core
 
     public sealed record EncounterStatic2Odd : EncounterStatic2
     {
-        public EncounterStatic2Odd(int species) : base(species, 5, GameVersion.C)
+        public EncounterStatic2Odd(byte species) : base(species, 5, GameVersion.C)
         {
             EggLocation = 256;
             EggCycles = 20;
@@ -125,7 +125,7 @@ namespace PKHeX.Core
         private const ulong RoamLocations = 0b10_1000_1010_0100_0000_0110_0011_0100_1000_1001_0011_0100;
         public override int Location => 2;
 
-        public EncounterStatic2Roam(int species, int level, GameVersion ver) : base(species, level, ver) { }
+        public EncounterStatic2Roam(byte species, byte level, GameVersion ver) : base(species, level, ver) { }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

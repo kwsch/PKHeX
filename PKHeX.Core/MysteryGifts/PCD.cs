@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public const int Size = 0x358; // 856
         public override int Generation => 4;
 
-        public override int Level
+        public override byte Level
         {
             get => Gift.Level;
             set => Gift.Level = value;

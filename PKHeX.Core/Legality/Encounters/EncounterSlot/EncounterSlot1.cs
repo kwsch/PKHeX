@@ -10,7 +10,7 @@
         public byte SlotNumber { get; }
         public override Ball FixedBall => Ball.Poke;
 
-        public EncounterSlot1(EncounterArea1 area, int species, int min, int max, byte slot) : base(area, species, 0, min, max)
+        public EncounterSlot1(EncounterArea1 area, byte species, byte min, byte max, byte slot) : base(area, species, 0, min, max)
         {
             SlotNumber = slot;
         }

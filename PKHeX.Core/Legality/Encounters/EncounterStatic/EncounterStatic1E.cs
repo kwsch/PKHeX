@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <summary> Trainer ID for the event. </summary>
         public int TID { get; init; } = -1;
 
-        public EncounterStatic1E(int species, int level, GameVersion game) : base(species, level, game)
+        public EncounterStatic1E(byte species, byte level, GameVersion game) : base(species, level, game)
         {
         }
 

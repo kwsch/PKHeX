@@ -64,10 +64,10 @@ namespace PKHeX.Core
 
         public override bool GiftUsed { get; set; }
 
-        public override int Level // are moves stored? mew has '1' but this could be move
+        public override byte Level // are moves stored? mew has '1' but this could be move
         {
-            get => ReadUInt16LittleEndian(Data.AsSpan(0x10E));
-            set => WriteUInt16LittleEndian(Data.AsSpan(0x10E), (ushort)value);
+            get => Data[0x10E];
+            set => Data[0x10E] = value;
         }
 
         public override int ItemID { get => ReadUInt16LittleEndian(Data.AsSpan(0x110)); set => WriteUInt16LittleEndian(Data.AsSpan(0x110), (ushort)value); }

@@ -52,11 +52,11 @@ namespace PKHeX.Core
 
         private EncounterSlot4 ReadRegularSlot(ReadOnlySpan<byte> entry)
         {
-            int species = ReadUInt16LittleEndian(entry);
-            int form = entry[2];
+            ushort species = ReadUInt16LittleEndian(entry);
+            byte form = entry[2];
             byte slotNum = entry[3];
-            int min = entry[4];
-            int max = entry[5];
+            byte min = entry[4];
+            byte max = entry[5];
             byte mpi = entry[6];
             byte mpc = entry[7];
             byte sti = entry[8];

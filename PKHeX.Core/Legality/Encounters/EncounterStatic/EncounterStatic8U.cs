@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         public override int Location { get => MaxLair; init { } }
 
-        public EncounterStatic8U(int species, int form, int level) : base(GameVersion.SWSH) // no difference in met location for hosted raids
+        public EncounterStatic8U(ushort species, byte form, byte level) : base(GameVersion.SWSH) // no difference in met location for hosted raids
         {
             Species = species;
             Form = form;

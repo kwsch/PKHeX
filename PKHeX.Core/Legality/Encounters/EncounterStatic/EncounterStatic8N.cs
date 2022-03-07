@@ -16,9 +16,9 @@ namespace PKHeX.Core
 
         private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
 
-        public override int Level { get => LevelMin; init { } }
-        public override int LevelMin => LevelCaps[MinRank * 2];
-        public override int LevelMax => LevelCaps[(MaxRank * 2) + 1];
+        public override byte Level { get => LevelMin; init { } }
+        public override byte LevelMin => LevelCaps[MinRank * 2];
+        public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
         public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val, GameVersion game) : base(game)
         {

@@ -63,7 +63,7 @@ namespace PKHeX.Core
         /// Level which eggs are given to the player.
         /// </summary>
         /// <param name="generation">Generation the egg is given in</param>
-        public static int GetEggLevel(int generation) => generation >= 4 ? 1 : 5;
+        public static byte GetEggLevel(int generation) => generation >= 4 ? (byte)1 : (byte)5;
 
         /// <summary>
         /// Met Level which eggs are given to the player. May change if transferred to future games.

@@ -161,7 +161,7 @@ namespace PKHeX.Core
         public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x238)); set => WriteUInt16LittleEndian(Data.AsSpan(0x238), (ushort)value); }
         public override int Form   { get => Data[0x23A]; set => Data[0x23A] = (byte)value; }
         public override int Gender { get => Data[0x23B]; set => Data[0x23B] = (byte)value; }
-        public override int Level  { get => Data[0x23C]; set => Data[0x23C] = (byte)value; }
+        public override byte Level  { get => Data[0x23C]; set => Data[0x23C] = value; }
         public override bool IsEgg { get => Data[0x23D] == 1; set => Data[0x23D] = value ? (byte)1 : (byte)0; }
         public int Nature          { get => (sbyte)Data[0x23E]; set => Data[0x23E] = (byte)value; }
         public override int AbilityType { get => Data[0x23F]; set => Data[0x23F] = (byte)value; }

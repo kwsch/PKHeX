@@ -15,8 +15,8 @@ namespace PKHeX.Core
 
         public GameVersion Version => GameVersion.GO;
         public bool EggEncounter => false;
-        public int LevelMin => Level;
-        public int LevelMax => Level;
+        public byte LevelMin => Level;
+        public byte LevelMax => Level;
         public int Generation => 7;
         public AbilityPermission Ability => AbilityPermission.Any12;
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPB7(sav);
@@ -65,7 +65,7 @@ namespace PKHeX.Core
         public int Species => ReadInt32LittleEndian(Data.AsSpan(0x28));
         public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));
         public float LevelF => ReadSingleLittleEndian(Data.AsSpan(0x30));
-        public int Level => Math.Max(1, (int)Math.Round(LevelF));
+        public byte Level => Math.Max((byte)1, (byte)Math.Round(LevelF));
         public int Stat_HP => ReadInt32LittleEndian(Data.AsSpan(0x34));
         // geolocation data 0x38-0x47?
         public float HeightF => ReadSingleLittleEndian(Data.AsSpan(0x48));

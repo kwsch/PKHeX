@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public byte SlotNumber { get; }
         public override Ball FixedBall => Locations.IsSafariZoneLocation3(Location) ? Ball.Safari : Ball.None;
 
-        public EncounterSlot3(EncounterArea3 area, int species, int form, int min, int max, byte slot, byte mpi, byte mpc, byte sti, byte stc) : base(area, species, form, min, max)
+        public EncounterSlot3(EncounterArea3 area, ushort species, byte form, byte min, byte max, byte slot, byte mpi, byte mpc, byte sti, byte stc) : base(area, species, form, min, max)
         {
             SlotNumber = slot;
 

@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public bool WhiteFlute { get; init; }
         public bool BlackFlute { get; init; }
 
-        public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max) : base(area, species, form, min, max)
+        public EncounterSlot6AO(EncounterArea6AO area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
         {
         }
 

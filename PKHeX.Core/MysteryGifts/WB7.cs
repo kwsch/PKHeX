@@ -207,7 +207,7 @@ namespace PKHeX.Core
         //     set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, CardStart + 0xB6);
         // }
 
-        public override int Level { get => Data[CardStart + 0xD0]; set => Data[CardStart + 0xD0] = (byte)value; }
+        public override byte Level { get => Data[CardStart + 0xD0]; set => Data[CardStart + 0xD0] = value; }
         public override bool IsEgg { get => Data[CardStart + 0xD1] == 1; set => Data[CardStart + 0xD1] = value ? (byte)1 : (byte)0; }
         public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2), value); }
 

@@ -45,7 +45,7 @@ namespace PKHeX.Core
             const int SpeciesFormSlots = 4;
 
             // Single form species
-            ushort[] species =
+            Span<ushort> species = stackalloc ushort[]
             {
                 002, 005, 008, 012, 014, 016, 021, 025, 027, 035,
                 038, 039, 043, 044, 046, 049, 049, 051, 056, 058,
@@ -93,11 +93,11 @@ namespace PKHeX.Core
             {
                 int offset = 4 + (size * i);
                 var entry = data.Slice(offset, size);
-                ushort SpecForm = ReadUInt16LittleEndian(entry);
-                int species = SpecForm & 0x3FF;
-                int form = SpecForm >> 11;
-                int min = entry[2];
-                int max = entry[3];
+                ushort species = ReadUInt16LittleEndian(entry);
+                byte form = (byte)(species >> 11);
+                species &= 0x3FF;
+                byte min = entry[2];
+                byte max = entry[3];
                 slots[i] = new EncounterSlot6XY(this, species, form, min, max);
             }
 
@@ -139,7 +139,7 @@ namespace PKHeX.Core
             }
         }
 
-        private bool ExistsPressureSlot(DexLevel evo, ref int level)
+        private bool ExistsPressureSlot(DexLevel evo, ref byte level)
         {
             bool existsForm = false;
             foreach (var z in Slots)

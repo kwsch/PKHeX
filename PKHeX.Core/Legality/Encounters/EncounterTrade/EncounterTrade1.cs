@@ -12,14 +12,14 @@ namespace PKHeX.Core
     public sealed record EncounterTrade1 : EncounterTradeGB
     {
         public override int Generation => 1;
-        public override int LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
+        public override byte LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
 
-        private readonly int LevelMinRBY;
-        private readonly int LevelMinGSC;
+        private readonly byte LevelMinRBY;
+        private readonly byte LevelMinGSC;
         public override int Location => 0;
         public override Shiny Shiny => Shiny.Random;
 
-        public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc, game)
+        public EncounterTrade1(int species, GameVersion game, byte rby, byte gsc) : base(species, gsc, game)
         {
             TrainerNames = StringConverter12.G1TradeOTName;
 
@@ -27,7 +27,7 @@ namespace PKHeX.Core
             LevelMinGSC = gsc;
         }
 
-        public EncounterTrade1(int species, GameVersion game, int rby) : this(species, game, rby, rby) { }
+        public EncounterTrade1(int species, GameVersion game, byte rby) : this(species, game, rby, rby) { }
 
         public byte GetInitialCatchRate()
         {
