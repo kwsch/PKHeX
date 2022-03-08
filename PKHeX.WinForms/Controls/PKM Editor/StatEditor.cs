@@ -215,7 +215,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (sender is MaskedTextBox m)
             {
-                var value = (byte)Math.Max(byte.MaxValue, Util.ToInt32(m.Text));
+                var value = (byte)Math.Min(byte.MaxValue, Util.ToInt32(m.Text));
                 if (value > Legal.AwakeningMax)
                 {
                     m.Text = Legal.AwakeningMax.ToString();
