@@ -9,7 +9,10 @@ namespace PKHeX.Core
     {
         private const int UNSET = -1;
 
-        public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
+        public static void ApplyDetails(PKM pk, EncounterCriteria criteria,
+            Shiny shiny = Shiny.FixedValue,
+            int flawless = -1,
+            AbilityPermission ability = AbilityPermission.Any12)
         {
             if (shiny == Shiny.FixedValue)
                 shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : Shiny.Always;
@@ -24,7 +27,7 @@ namespace PKHeX.Core
                 ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
                 ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
                 var xors = new XorShift128(s0, s1);
-                if (TryApplyFromSeed(pk, criteria, shiny, flawless, xors))
+                if (TryApplyFromSeed(pk, criteria, shiny, flawless, xors, ability))
                     return;
             } while (++ctr != maxAttempts);
 
@@ -32,11 +35,11 @@ namespace PKHeX.Core
                 ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
                 ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
                 var xors = new XorShift128(s0, s1);
-                TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, xors);
+                TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, xors, ability);
             }
         }
 
-        public static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, XorShift128 xors)
+        public static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, XorShift128 xors, AbilityPermission ability)
         {
             // Encryption Constant
             pk.EncryptionConstant = xors.NextUInt();
@@ -92,7 +95,13 @@ namespace PKHeX.Core
             pk.IV_SPE = ivs[5];
 
             // Ability
-            pk.SetAbilityIndex((int)xors.NextUInt(2));
+            var n = ability switch
+            {
+                AbilityPermission.Any12  => (int)xors.NextUInt(2),
+                AbilityPermission.Any12H => (int)xors.NextUInt(3),
+                _ => (int)ability >> 1,
+            };
+            pk.SetAbilityIndex(n);
 
             // Gender (skip this if gender is fixed)
             var genderRatio = PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form).Gender;

@@ -75,7 +75,7 @@ namespace PKHeX.Core
             else
             {
                 var shiny = Shiny == Shiny.Never ? Shiny.Never : Shiny.Random;
-                Wild8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
+                Wild8bRNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount, Ability);
             }
         }
 

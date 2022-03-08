@@ -11,7 +11,7 @@ namespace PKHeX.Core.Tests.Legality
             PB8 test = new() { Species = (int)Species.Latias};
             const ulong s0 = 0xdf9cf5c73e4a160b;
             const ulong s1 = 0xd0b8383103a7f201;
-            Wild8bRNG.TryApplyFromSeed(test, EncounterCriteria.Unrestricted, Shiny.Random, 3, new XorShift128(s0, s1));
+            Wild8bRNG.TryApplyFromSeed(test, EncounterCriteria.Unrestricted, Shiny.Random, 3, new XorShift128(s0, s1), AbilityPermission.Any12);
             test.IV_HP.Should().Be(31);
             test.IV_ATK.Should().Be(4);
             test.IV_DEF.Should().Be(31);
