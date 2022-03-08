@@ -44,7 +44,7 @@ namespace PKHeX.Core
                 Array.Resize(ref moves, 4);
 
             pk.Moves = moves;
-            if (maxPP)
+            if (maxPP && Legal.IsPPUpAvailable(pk))
                 pk.SetMaximumPPUps(moves);
             else
                 pk.SetMaximumPPCurrent(moves);
