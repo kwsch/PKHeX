@@ -93,6 +93,9 @@ public static class SpriteUtil
 
             if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
                 sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
+
+            if (SpriteBuilder.ShowExperiencePercent)
+                sprite = ApplyExperience(pk, sprite, la.EncounterMatch);
         }
         if (inBox) // in box
         {
@@ -113,7 +116,7 @@ public static class SpriteUtil
                 sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
         }
 
-        if (SpriteBuilder.ShowExperiencePercent)
+        if (SpriteBuilder.ShowExperiencePercent && !flagIllegal)
             sprite = ApplyExperience(pk, sprite);
 
         return sprite;
@@ -136,7 +139,7 @@ public static class SpriteUtil
         }
     }
 
-    private static Image ApplyExperience(PKM pk, Image img)
+    private static Image ApplyExperience(PKM pk, Image img, IEncounterTemplate? enc = null)
     {
         const int bpp = 4;
         int start = bpp * SpriteWidth * (SpriteHeight - 1);
@@ -145,9 +148,12 @@ public static class SpriteUtil
             return ImageUtil.WritePixels(img, Color.Lime, start, start + (SpriteWidth * bpp));
 
         var pct = Experience.GetEXPToLevelUpPercentage(level, pk.EXP, pk.PersonalInfo.EXPGrowth);
-        if (pct is 0)
-            return ImageUtil.WritePixels(img, Color.Yellow, start, start + (SpriteWidth * bpp));
-        return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
+        if (pct is not 0)
+            return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
+
+        var encLevel = enc is { EggEncounter: true } x ? x.LevelMin : pk.Met_Level;
+        var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
+        return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
     }
 
     private static readonly Bitmap[] PartyMarks =
