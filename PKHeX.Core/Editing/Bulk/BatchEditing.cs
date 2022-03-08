@@ -37,7 +37,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Property names, indexed by <see cref="Types"/>.
         /// </summary>
-        public static readonly string[][] Properties = GetPropArray();
+        public static string[][] Properties => GetProperties.Value;
+
+        private static readonly Lazy<string[][]> GetProperties = new(() => GetPropArray(Types, CustomProperties));
 
         private static readonly Dictionary<string, PropertyInfo>[] Props = GetPropertyDictionaries(Types);
 
@@ -74,26 +76,31 @@ namespace PKHeX.Core
         internal const string PROP_MOVEMASTERY = "MoveMastery";
         internal const string IdentifierContains = nameof(IdentifierContains);
 
-        private static string[][] GetPropArray()
+        private static string[][] GetPropArray(IReadOnlyList<Type> types, IReadOnlyList<string> extra)
         {
-            var p = new string[Types.Length][];
+            var result = new string[types.Count + 2][];
+            var p = result.AsSpan(1, types.Count);
+
             for (int i = 0; i < p.Length; i++)
             {
-                var pz = ReflectUtil.GetPropertiesPublic(Types[i]);
-                p[i] = pz.Concat(CustomProperties).OrderBy(a => a).ToArray();
+                var props = ReflectUtil.GetPropertiesPublic(types[i]);
+                p[i] = props.Concat(extra).OrderBy(a => a).ToArray();
             }
 
             // Properties for any PKM
-            var any = ReflectUtil.GetPropertiesPublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
             // Properties shared by all PKM
-            var all = p.Aggregate(new HashSet<string>(p[0]), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
+            var first = p[0];
+            var any = new HashSet<string>(first);
+            var all = new HashSet<string>(first);
+            for (int i = 1; i < p.Length; i++)
+            {
+                any.UnionWith(p[i]);
+                all.IntersectWith(p[i]);
+            }
 
-            var p1 = new string[Types.Length + 2][];
-            Array.Copy(p, 0, p1, 1, p.Length);
-            p1[0] = any;
-            p1[^1] = all;
-
-            return p1;
+            result[0] = any.OrderBy(z => z).ToArray();
+            result[^1] = all.OrderBy(z => z).ToArray();
+            return result;
         }
 
         /// <summary>
