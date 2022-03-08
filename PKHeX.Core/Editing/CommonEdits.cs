@@ -245,6 +245,8 @@ namespace PKHeX.Core
             {
                 m.ClearMoveShopFlags();
                 m.SetMoveShopFlags(Set.Moves);
+                if (pk is IMoveShop8Mastery s)
+                    s.SetMoveShopFlagsMastered();
             }
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)
