@@ -10,11 +10,11 @@ namespace PKHeX.Core
         public const int ResortCount = 93;
         public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * PokeCrypto.SIZE_6STORED);
 
-        public PKM[] ResortPKM
+        public PK7[] ResortPKM
         {
             get
             {
-                PKM[] data = new PKM[ResortCount];
+                PK7[] data = new PK7[ResortCount];
                 for (int i = 0; i < data.Length; i++)
                 {
                     var bytes = SAV.GetData(GetResortSlotOffset(i), PokeCrypto.SIZE_6STORED);
@@ -32,8 +32,10 @@ namespace PKHeX.Core
             }
         }
 
-        public const int BEANS_MAX = 14;
+        public const int BEANS_MAX = 15;
         public Span<byte> GetBeans() => Data.AsSpan(Offset + 0x564C, BEANS_MAX);
+        public void ClearBeans() => GetBeans().Fill(0);
+        public void FillBeans(byte value = 255) => GetBeans().Fill(value);
 
         public int GetPokebeanCount(int bean_id) => GetBeans()[bean_id];
 
@@ -45,5 +47,39 @@ namespace PKHeX.Core
                 count = 255;
             GetBeans()[bean_id] = (byte)count;
         }
+
+        /// <summary>
+        /// Utility to indicate the bean pouch indexes.
+        /// </summary>
+        public static string[] GetBeanIndexNames()
+        {
+            var colors = Enum.GetNames(typeof(BeanColor7));
+            return GetBeanIndexNames(colors);
+        }
+
+        private static string[] GetBeanIndexNames(string[] colors)
+        {
+            // 7 regular, 7 patterned, one rainbow
+            var beans = new string[(colors.Length * 2) + 1];
+            for (int i = 0; i < colors.Length; i++)
+            {
+                var z = colors[i];
+                beans[i] = $"{z} Bean";
+                beans[i + colors.Length] = $"{z} Patterned Bean";
+            }
+            beans[^1] = "Rainbow Bean";
+            return beans;
+        }
+    }
+
+    public enum BeanColor7 : byte
+    {
+        Red,
+        Blue,
+        LightBlue,
+        Green,
+        Yellow,
+        Purple,
+        Orange,
     }
 }

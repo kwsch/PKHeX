@@ -13,11 +13,8 @@ namespace PKHeX.WinForms
             SAV = (SAV7)(Origin = sav).Clone();
 
             InitializeGrid();
-            Pouch = new BeanPouch(SAV);
             LoadValues();
         }
-
-        private readonly BeanPouch Pouch;
 
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
@@ -26,11 +23,12 @@ namespace PKHeX.WinForms
         {
             dgv.Rows.Clear();
 
-            var beans = Pouch.Beans;
+            var names = ResortSave7.GetBeanIndexNames();
+            var beans = SAV.ResortSave.GetBeans();
             dgv.Rows.Add(beans.Length);
             for (int i = 0; i < beans.Length; i++)
             {
-                dgv.Rows[i].Cells[0].Value = BeanPouch.BeanIndexNames[i];
+                dgv.Rows[i].Cells[0].Value = names[i];
                 dgv.Rows[i].Cells[1].Value = beans[i].ToString();
             }
         }
@@ -62,21 +60,21 @@ namespace PKHeX.WinForms
 
         private void B_All_Click(object sender, EventArgs e)
         {
-            Pouch.SetCountAll(255);
+            SAV.ResortSave.FillBeans();
             LoadValues();
             System.Media.SystemSounds.Asterisk.Play();
         }
 
         private void B_None_Click(object sender, EventArgs e)
         {
-            Pouch.SetCountAll(0);
+            SAV.ResortSave.ClearBeans();
             LoadValues();
             System.Media.SystemSounds.Asterisk.Play();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            var beans = Pouch.Beans;
+            var beans = SAV.ResortSave.GetBeans();
             for (int i = 0; i < beans.Length; i++)
             {
                 var cells = dgv.Rows[i].Cells;
