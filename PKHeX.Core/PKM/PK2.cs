@@ -122,7 +122,7 @@ namespace PKHeX.Core
             }
             // Status = 0
             OT_Trash.CopyTo(pk1.OT_Trash);
-            Nickname_Trash.CopyTo(pk1.OT_Trash);
+            Nickname_Trash.CopyTo(pk1.Nickname_Trash);
 
             pk1.ClearInvalidMoves();
 
