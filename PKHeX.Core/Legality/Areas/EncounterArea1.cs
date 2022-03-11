@@ -35,7 +35,7 @@ namespace PKHeX.Core
             for (int i = 0; i < slots.Length; i++)
             {
                 const int size = 4;
-                var entry = data.Slice(i * size, size);
+                var entry = next.Slice(i * size, size);
                 byte max = entry[3];
                 byte min = entry[2];
                 byte slotNum = entry[1];
