@@ -21,7 +21,7 @@ namespace PKHeX.Core
             {
                 IRelearn s when s.Relearn.Count != 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn, result),
                 EncounterEgg e => VerifyEggMoveset(e, result, pkm.RelearnMoves),
-                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result, z),
+                EncounterSlot6AO {CanDexNav:true} z when pkm.RelearnMove1 != 0 => VerifyRelearnDexNav(pkm, result, z),
                 EncounterSlot8b {IsUnderground:true} u => VerifyRelearnUnderground(pkm, result, u),
                 _ => VerifyRelearnNone(pkm, result),
             };
