@@ -41,8 +41,8 @@ namespace PKHeX.Core
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
         internal readonly List<CheckResult> Parse;
 
-        public readonly CheckResult[] Relearn = new CheckResult[4];
-        public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
+        public readonly CheckMoveResult[] Relearn = new CheckMoveResult[4];
+        public readonly CheckMoveResult[] Moves = new CheckMoveResult[4];
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;

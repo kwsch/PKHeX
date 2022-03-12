@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Severity == <see cref="Fishy"/> is yellow
     /// Severity &lt;= <see cref="Invalid"/> is red
     /// </remarks>
-    public enum Severity
+    public enum Severity : sbyte
     {
         /// <summary>
         /// Cannot determine validity; not valid.

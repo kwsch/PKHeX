@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary> Identification flair for what properties a <see cref="CheckResult"/> pertains to </summary>
-    public enum CheckIdentifier
+    public enum CheckIdentifier : byte
     {
         /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Moves"/>.

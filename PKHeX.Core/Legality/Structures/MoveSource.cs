@@ -3,7 +3,7 @@
     /// <summary>
     /// Indicates the method of learning a move
     /// </summary>
-    public enum MoveSource
+    public enum MoveSource : byte
     {
         Unknown,
         None,

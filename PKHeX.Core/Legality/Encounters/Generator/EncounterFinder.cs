@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -90,7 +90,7 @@ namespace PKHeX.Core
             if (pkm.Format >= 6)
             {
                 VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, relearn);
-                if (relearn.Any(z => !z.Valid) && iterator.PeekIsNext())
+                if (!Array.TrueForAll(relearn, z => z.Valid) && iterator.PeekIsNext())
                     return false;
             }
             else
@@ -99,11 +99,11 @@ namespace PKHeX.Core
                     relearn[i] = VerifyRelearnMoves.DummyValid;
             }
 
-            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
-            if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
+            VerifyCurrentMoves.VerifyMoves(pkm, info);
+            if (!Array.TrueForAll(info.Moves, z => z.Valid) && iterator.PeekIsNext())
                 return false;
 
-            if (info.Parse.Any(z => !z.Valid) && iterator.PeekIsNext())
+            if (!info.Parse.TrueForAll(z => z.Valid) && iterator.PeekIsNext())
                 return false;
 
             var evo = EvolutionVerifier.VerifyEvolution(pkm, info);
@@ -128,7 +128,7 @@ namespace PKHeX.Core
             }
             else if (pkm is PK1 pk1)
             {
-                if (info.Moves.Any(z => z.Generation is not 1) && !PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
+                if (!Array.TrueForAll(info.Moves, z => z.Generation is 1) && !PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
                     return false;
             }
 
@@ -149,7 +149,7 @@ namespace PKHeX.Core
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, info.Relearn);
-            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            VerifyCurrentMoves.VerifyMoves(pkm, info);
         }
 
         private static string GetHintWhyNotFound(PKM pkm, int gen)

@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityAnalyzers;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -101,9 +100,9 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
                 GetParseMethod()();
 
-                Valid = Parse.All(chk => chk.Valid)
-                    && Info.Moves.All(m => m.Valid)
-                    && Info.Relearn.All(m => m.Valid);
+                Valid = Parse.TrueForAll(chk => chk.Valid)
+                    && Array.TrueForAll(Info.Moves, m => m.Valid)
+                    && Array.TrueForAll(Info.Relearn, m => m.Valid);
 
                 if (!Valid && IsPotentiallyMysteryGift(Info, pkm))
                     AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
@@ -125,7 +124,7 @@ namespace PKHeX.Core
                 var relearn = Info.Relearn;
                 // ReSharper disable once ConstantNullCoalescingCondition
                 for (int i = 0; i < relearn.Length; i++)
-                    relearn[i] ??= new CheckResult(Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
+                    relearn[i] ??= new CheckMoveResult(MoveSource.None, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
 
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
             }
@@ -142,7 +141,7 @@ namespace PKHeX.Core
                 return false;
             if (enc.Generation < 6)
                 return true;
-            if (info.Relearn.Any(chk => !chk.Valid))
+            if (Array.TrueForAll(info.Relearn, chk => !chk.Valid))
                 return true;
             return false;
         }

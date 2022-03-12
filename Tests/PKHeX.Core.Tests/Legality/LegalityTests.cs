@@ -89,7 +89,7 @@ namespace PKHeX.Tests.Legality
                 if (isValid)
                 {
                     var info = legality.Info;
-                    var result = legality.Results.Concat(info.Moves).Concat(info.Relearn);
+                    var result = legality.Results.Cast<ICheckResult>().Concat(info.Moves).Concat(info.Relearn);
                     // ReSharper disable once ConstantConditionalAccessQualifier
                     var invalid = result.Where(z => z?.Valid == false);
                     var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));

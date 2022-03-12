@@ -10,10 +10,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
-        internal static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
-        private static readonly CheckResult DummyNone = new(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
+        internal static readonly CheckMoveResult DummyValid = new(MoveSource.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
+        private static readonly CheckMoveResult DummyNone = new(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
 
-        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterTemplate enc, CheckResult[] result)
+        public static CheckMoveResult[] VerifyRelearn(PKM pkm, IEncounterTemplate enc, CheckMoveResult[] result)
         {
             if (ShouldNotHaveRelearnMoves(enc, pkm))
                 return VerifyRelearnNone(pkm, result);
@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm is IBattleVersion {BattleVersion: not 0};
 
-        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckResult[] result)
+        private static CheckMoveResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckMoveResult[] result)
         {
             result[3] = CheckResult(pkm.RelearnMove4, required[3]);
             result[2] = CheckResult(pkm.RelearnMove3, required[2]);
@@ -38,34 +38,35 @@ namespace PKHeX.Core
             result[0] = CheckResult(pkm.RelearnMove1, required[0]);
             return result;
 
-            static CheckResult CheckResult(int move, int require)
+            static CheckMoveResult CheckResult(int move, int require)
             {
                 if (move == require)
                     return DummyValid;
-                return new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[require]), CheckIdentifier.RelearnMove);
+                var c = string.Format(LMoveFExpect_0, MoveStrings[require]);
+                return new CheckMoveResult(MoveSource.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
             }
         }
 
-        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, CheckResult[] result, EncounterSlot6AO slot)
+        private static CheckMoveResult[] VerifyRelearnDexNav(PKM pkm, CheckMoveResult[] result, EncounterSlot6AO slot)
         {
-            // DexNav Pokémon can have 1 random egg move as a relearn move.
-            result[0] = !slot.CanBeDexNavMove(pkm.RelearnMove1) // not found
-                ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
-                : DummyValid;
-
             // All other relearn moves must be empty.
             result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
             result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
             result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
 
+            // DexNav Pokémon can have 1 random egg move as a relearn move.
+            result[0] = !slot.CanBeDexNavMove(pkm.RelearnMove1) // not found
+                ? new CheckMoveResult(MoveSource.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
+                : DummyValid;
+
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnUnderground(PKM pkm, CheckResult[] result, EncounterSlot8b slot)
+        private static CheckMoveResult[] VerifyRelearnUnderground(PKM pkm, CheckMoveResult[] result, EncounterSlot8b slot)
         {
             // Underground Pokémon can have 1 random egg move as a relearn move.
             result[0] = !slot.CanBeUndergroundMove(pkm.RelearnMove1) // not found
-                ? new CheckResult(Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove)
+                ? new CheckMoveResult(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove)
                 : DummyValid;
 
             // All other relearn moves must be empty.
@@ -76,7 +77,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnNone(PKM pkm, CheckResult[] result)
+        private static CheckMoveResult[] VerifyRelearnNone(PKM pkm, CheckMoveResult[] result)
         {
             // No relearn moves should be present.
             result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
@@ -86,7 +87,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal static CheckResult[] VerifyEggMoveset(EncounterEgg e, CheckResult[] result, int[] moves, CheckIdentifier type = CheckIdentifier.RelearnMove)
+        internal static CheckMoveResult[] VerifyEggMoveset(EncounterEgg e, CheckMoveResult[] result, int[] moves, CheckIdentifier type = CheckIdentifier.RelearnMove)
         {
             int gen = e.Generation;
             var origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, moves, out var valid);

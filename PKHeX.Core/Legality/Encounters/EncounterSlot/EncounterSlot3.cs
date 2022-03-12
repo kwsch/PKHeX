@@ -36,6 +36,5 @@ namespace PKHeX.Core
         }
 
         private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
-
     }
 }
