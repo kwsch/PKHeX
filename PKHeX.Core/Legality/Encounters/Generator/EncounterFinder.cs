@@ -95,8 +95,8 @@ namespace PKHeX.Core
             }
             else
             {
-                for (int i = 0; i < 4; i++)
-                    relearn[i] = VerifyRelearnMoves.DummyValid;
+                foreach (var p in relearn)
+                    VerifyRelearnMoves.DummyValid(p);
             }
 
             VerifyCurrentMoves.VerifyMoves(pkm, info);

@@ -10,8 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
-        internal static readonly CheckMoveResult DummyValid = new(MoveSource.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
-        private static readonly CheckMoveResult DummyNone = new(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
+        internal static void DummyValid(CheckMoveResult p) => p.Set(MoveSource.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
 
         public static CheckMoveResult[] VerifyRelearn(PKM pkm, IEncounterTemplate enc, CheckMoveResult[] result)
         {
@@ -32,47 +31,62 @@ namespace PKHeX.Core
 
         private static CheckMoveResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckMoveResult[] result)
         {
-            result[3] = CheckResult(pkm.RelearnMove4, required[3]);
-            result[2] = CheckResult(pkm.RelearnMove3, required[2]);
-            result[1] = CheckResult(pkm.RelearnMove2, required[1]);
-            result[0] = CheckResult(pkm.RelearnMove1, required[0]);
+            CheckResult(pkm.RelearnMove4, required[3], result[3]);
+            CheckResult(pkm.RelearnMove3, required[2], result[2]);
+            CheckResult(pkm.RelearnMove2, required[1], result[1]);
+            CheckResult(pkm.RelearnMove1, required[0], result[0]);
             return result;
 
-            static CheckMoveResult CheckResult(int move, int require)
+            static void CheckResult(int move, int require, CheckMoveResult p)
             {
                 if (move == require)
-                    return DummyValid;
+                {
+                    DummyValid(p);
+                    return;
+                }
                 var c = string.Format(LMoveFExpect_0, MoveStrings[require]);
-                return new CheckMoveResult(MoveSource.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
+                p.Set(MoveSource.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
             }
+        }
+
+        private static void ParseExpectEmpty(CheckMoveResult p, int move)
+        {
+            if (move == 0)
+                DummyValid(p);
+            else
+                p.Set(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
         }
 
         private static CheckMoveResult[] VerifyRelearnDexNav(PKM pkm, CheckMoveResult[] result, EncounterSlot6AO slot)
         {
             // All other relearn moves must be empty.
-            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
-            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
-            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
+            ParseExpectEmpty(result[3], pkm.RelearnMove4);
+            ParseExpectEmpty(result[2], pkm.RelearnMove3);
+            ParseExpectEmpty(result[1], pkm.RelearnMove2);
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            result[0] = !slot.CanBeDexNavMove(pkm.RelearnMove1) // not found
-                ? new CheckMoveResult(MoveSource.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
-                : DummyValid;
+            var p = result[0];
+            if (!slot.CanBeDexNavMove(pkm.RelearnMove1)) // not found
+                p.Set(MoveSource.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove);
+            else
+                DummyValid(p);
 
             return result;
         }
 
         private static CheckMoveResult[] VerifyRelearnUnderground(PKM pkm, CheckMoveResult[] result, EncounterSlot8b slot)
         {
-            // Underground Pokémon can have 1 random egg move as a relearn move.
-            result[0] = !slot.CanBeUndergroundMove(pkm.RelearnMove1) // not found
-                ? new CheckMoveResult(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove)
-                : DummyValid;
-
             // All other relearn moves must be empty.
-            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
-            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
-            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
+            ParseExpectEmpty(result[3], pkm.RelearnMove4);
+            ParseExpectEmpty(result[2], pkm.RelearnMove3);
+            ParseExpectEmpty(result[1], pkm.RelearnMove2);
+
+            // Underground Pokémon can have 1 random egg move as a relearn move.
+            var p = result[0];
+            if (!slot.CanBeUndergroundMove(pkm.RelearnMove1)) // not found
+                p.Set(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove);
+            else
+                DummyValid(p);
 
             return result;
         }
@@ -80,10 +94,10 @@ namespace PKHeX.Core
         private static CheckMoveResult[] VerifyRelearnNone(PKM pkm, CheckMoveResult[] result)
         {
             // No relearn moves should be present.
-            result[3] = pkm.RelearnMove4 == 0 ? DummyValid : DummyNone;
-            result[2] = pkm.RelearnMove3 == 0 ? DummyValid : DummyNone;
-            result[1] = pkm.RelearnMove2 == 0 ? DummyValid : DummyNone;
-            result[0] = pkm.RelearnMove1 == 0 ? DummyValid : DummyNone;
+            ParseExpectEmpty(result[3], pkm.RelearnMove4);
+            ParseExpectEmpty(result[2], pkm.RelearnMove3);
+            ParseExpectEmpty(result[1], pkm.RelearnMove2);
+            ParseExpectEmpty(result[0], pkm.RelearnMove1);
             return result;
         }
 
@@ -96,7 +110,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < result.Length; i++)
                 {
                     var msg = EggSourceUtil.GetSource(origins, gen, i);
-                    result[i] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Valid, msg, type);
+                    result[i].Set(MoveSource.EggMove, gen, Severity.Valid, msg, type);
                 }
             }
             else
@@ -107,23 +121,22 @@ namespace PKHeX.Core
                 {
                     var msg = EggSourceUtil.GetSource(origins, gen, i);
                     var expect = expected[i];
-                    CheckMoveResult line;
+                    var p = result[i];
                     if (moves[i] == expect)
                     {
-                        line = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Valid, msg, type);
+                        p.Set(MoveSource.EggMove, gen, Severity.Valid, msg, type);
                     }
                     else
                     {
                         msg = string.Format(LMoveRelearnFExpect_0, MoveStrings[expect], msg);
-                        line = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, msg, type);
+                        p.Set(MoveSource.EggMove, gen, Severity.Invalid, msg, type);
                     }
-                    result[i] = line;
                 }
             }
 
             var dupe = IsAnyMoveDuplicate(moves);
             if (dupe != NO_DUPE)
-                result[dupe] = new CheckMoveResult(MoveSource.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
+                result[dupe].Set(MoveSource.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
             return result;
         }
 

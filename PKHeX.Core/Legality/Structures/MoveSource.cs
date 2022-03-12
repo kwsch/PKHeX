@@ -5,6 +5,7 @@
     /// </summary>
     public enum MoveSource : byte
     {
+        NotParsed,
         Unknown,
         None,
         Relearn,

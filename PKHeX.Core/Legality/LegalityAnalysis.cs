@@ -115,17 +115,17 @@ namespace PKHeX.Core
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
 
-                var moves = Info.Moves;
                 // Moves and Relearn arrays can potentially be empty on error.
-                // ReSharper disable once ConstantNullCoalescingCondition
-                for (int i = 0; i < moves.Length; i++)
-                    moves[i] ??= new CheckMoveResult(MoveSource.None, pkm.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
-
-                var relearn = Info.Relearn;
-                // ReSharper disable once ConstantNullCoalescingCondition
-                for (int i = 0; i < relearn.Length; i++)
-                    relearn[i] ??= new CheckMoveResult(MoveSource.None, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
-
+                foreach (var p in Info.Moves)
+                {
+                    if (!p.IsParsed)
+                        p.Set(MoveSource.Unknown, pkm.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                }
+                foreach (var p in Info.Relearn)
+                {
+                    if (!p.IsParsed)
+                        p.Set(MoveSource.Unknown, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
+                }
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
             }
 #endif
