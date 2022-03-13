@@ -81,23 +81,20 @@ namespace PKHeX.Core
 
         public override bool IsShiny => Shiny.IsShiny();
 
-        public override Shiny Shiny
+        public override Shiny Shiny => PIDType switch
         {
-            get
+            ShinyType8.FixedValue => IsHOMEGift && IsHOMEShinyPossible() ? Shiny.Random : GetShinyXor() switch
             {
-                var type = PIDType;
-                if (type is not Shiny.FixedValue)
-                    return type;
-                if (IsHOMEGift && IsHOMEShinyPossible())
-                    return Shiny.Random;
-                return GetShinyXor() switch
-                {
-                    0 => Shiny.AlwaysSquare,
-                    <= 15 => Shiny.AlwaysStar,
-                    _ => Shiny.Never,
-                };
-            }
-        }
+                0 => Shiny.AlwaysSquare,
+                <= 15 => Shiny.AlwaysStar,
+                _ => Shiny.Never,
+            },
+            ShinyType8.Random => Shiny.Random,
+            ShinyType8.Never => Shiny.Never,
+            ShinyType8.AlwaysStar => Shiny.AlwaysStar,
+            ShinyType8.AlwaysSquare => Shiny.AlwaysSquare,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
         private int GetShinyXor()
         {
@@ -173,17 +170,7 @@ namespace PKHeX.Core
         public int Nature { get => (sbyte)Data[CardStart + 0x246]; set => Data[CardStart + 0x246] = (byte)value; }
         public override int AbilityType { get => Data[CardStart + 0x247]; set => Data[CardStart + 0x247] = (byte)value; }
 
-        private byte PIDTypeValue => Data[CardStart + 0x248];
-
-        public Shiny PIDType => PIDTypeValue switch
-        {
-            0 => Shiny.Never,
-            1 => Shiny.Random,
-            2 => Shiny.AlwaysStar,
-            3 => Shiny.AlwaysSquare,
-            4 => Shiny.FixedValue,
-            _ => throw new ArgumentOutOfRangeException(nameof(PIDType)),
-        };
+        public ShinyType8 PIDType { get => (ShinyType8)Data[CardStart + 0x248]; set => Data[CardStart + 0x248] = (byte)value; }
 
         public int MetLevel { get => Data[CardStart + 0x249]; set => Data[CardStart + 0x249] = (byte)value; }
         public byte DynamaxLevel { get => Data[CardStart + 0x24A]; set => Data[CardStart + 0x24A] = value; }
@@ -524,15 +511,15 @@ namespace PKHeX.Core
             _ => AbilityPermission.Any12H,
         };
 
-        private uint GetPID(ITrainerID tr, byte type)
+        private uint GetPID(ITrainerID tr, ShinyType8 type)
         {
             return type switch
             {
-                0 => GetAntishiny(tr), // Random, Never Shiny
-                1 => Util.Rand32(), // Random, Any
-                2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-                3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-                4 => PID, // Fixed, Force Value
+                ShinyType8.Never => GetAntishiny(tr), // Random, Never Shiny
+                ShinyType8.Random => Util.Rand32(), // Random, Any
+                ShinyType8.AlwaysStar => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
+                ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+                ShinyType8.FixedValue => PID, // Fixed, Force Value
                 _ => throw new ArgumentOutOfRangeException(nameof(type)),
             };
 
@@ -547,7 +534,7 @@ namespace PKHeX.Core
 
         private void SetPID(PKM pk)
         {
-            pk.PID = GetPID(pk, PIDTypeValue);
+            pk.PID = GetPID(pk, PIDType);
         }
 
         private void SetIVs(PKM pk)
@@ -624,10 +611,10 @@ namespace PKHeX.Core
                 {
                     if (pkm.Egg_Location != Locations.LinkTrade6)
                         return false;
-                    if (PIDType == Shiny.Random && pkm.IsShiny && pkm.ShinyXor > 1)
+                    if (PIDType == ShinyType8.Random && pkm.IsShiny && pkm.ShinyXor > 1)
                         return false; // shiny traded egg will always have xor0/1.
                 }
-                if (!PIDType.IsValid(pkm))
+                if (!Shiny.IsValid(pkm))
                 {
                     return false; // can't be traded away for unshiny
                 }
@@ -637,7 +624,7 @@ namespace PKHeX.Core
             }
             else
             {
-                if (!PIDType.IsValid(pkm)) return false;
+                if (!Shiny.IsValid(pkm)) return false;
                 if (EggLocation != pkm.Egg_Location) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
@@ -669,8 +656,8 @@ namespace PKHeX.Core
             // PID Types 0 and 1 do not use the fixed PID value.
             // Values 2,3 are specific shiny states, and 4 is fixed value.
             // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
-            var type = PIDTypeValue;
-            if (type <= 1)
+            var type = PIDType;
+            if (type is ShinyType8.Never or ShinyType8.Random)
                 return true;
             return pkm.PID == GetPID(pkm, type);
         }

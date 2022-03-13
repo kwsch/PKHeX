@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public virtual int Location { get; init; }
         public AbilityPermission Ability { get; init; }
-        public Shiny Shiny { get; init; } = Shiny.Random;
+        public Shiny Shiny { get; init; }
         public Nature Nature { get; init; } = Nature.Random;
         public sbyte Gender { get; init; } = -1;
 

@@ -28,7 +28,7 @@ namespace PKHeX.Core
 
         /// <summary> End result's nature. </summary>
         /// <remarks> Leave as <see cref="Core.Shiny.Random"/> to not restrict shininess. </remarks>
-        public Shiny Shiny { get; init; } = Shiny.Random;
+        public Shiny Shiny { get; init; }
 
         public int IV_HP  { get; init; } = RandomIV;
         public int IV_ATK { get; init; } = RandomIV;

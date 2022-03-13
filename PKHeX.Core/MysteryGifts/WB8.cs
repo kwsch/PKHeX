@@ -87,21 +87,20 @@ namespace PKHeX.Core
 
         public override bool IsShiny => Shiny.IsShiny();
 
-        public override Shiny Shiny
+        public override Shiny Shiny => PIDType switch
         {
-            get
+            ShinyType8.FixedValue => GetShinyXor() switch
             {
-                var type = PIDType;
-                if (type is not Shiny.FixedValue)
-                    return type;
-                return GetShinyXor() switch
-                {
-                    0 => Shiny.AlwaysSquare,
-                    <= 15 => Shiny.AlwaysStar,
-                    _ => Shiny.Never,
-                };
-            }
-        }
+                0 => Shiny.AlwaysSquare,
+                <= 15 => Shiny.AlwaysStar,
+                _ => Shiny.Never,
+            },
+            ShinyType8.Random => Shiny.Random,
+            ShinyType8.Never => Shiny.Never,
+            ShinyType8.AlwaysStar => Shiny.AlwaysStar,
+            ShinyType8.AlwaysSquare => Shiny.AlwaysSquare,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
         private int GetShinyXor()
         {
@@ -179,15 +178,7 @@ namespace PKHeX.Core
 
         private byte PIDTypeValue => Data[CardStart + 0x290];
 
-        public Shiny PIDType => PIDTypeValue switch
-        {
-            0 => Shiny.Never,
-            1 => Shiny.Random,
-            2 => Shiny.AlwaysStar,
-            3 => Shiny.AlwaysSquare,
-            4 => Shiny.FixedValue,
-            _ => throw new ArgumentOutOfRangeException(nameof(PIDType)),
-        };
+        public ShinyType8 PIDType => (ShinyType8)PIDTypeValue;
 
         public int MetLevel { get => Data[CardStart + 0x291]; set => Data[CardStart + 0x291] = (byte)value; }
 
@@ -598,10 +589,10 @@ namespace PKHeX.Core
                 {
                     if (pkm.Egg_Location != Locations.LinkTrade6NPC)
                         return false;
-                    if (PIDType == Shiny.Random && pkm.IsShiny && pkm.ShinyXor > 1)
+                    if (PIDType == ShinyType8.Random && pkm.IsShiny && pkm.ShinyXor > 1)
                         return false; // shiny traded egg will always have xor0/1.
                 }
-                if (!PIDType.IsValid(pkm))
+                if (!Shiny.IsValid(pkm))
                 {
                     return false; // can't be traded away for unshiny
                 }
@@ -611,7 +602,7 @@ namespace PKHeX.Core
             }
             else
             {
-                if (!PIDType.IsValid(pkm)) return false;
+                if (!Shiny.IsValid(pkm)) return false;
                 if (EggLocation != pkm.Egg_Location) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
