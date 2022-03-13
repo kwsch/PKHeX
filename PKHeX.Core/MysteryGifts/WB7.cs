@@ -133,8 +133,16 @@ namespace PKHeX.Core
 
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
-        public override bool IsShiny => PIDType == Shiny.Always;
-        public override Shiny Shiny => PIDType;
+        public override bool IsShiny => PIDType == ShinyType6.Always;
+
+        public override Shiny Shiny => PIDType switch
+        {
+            ShinyType6.FixedValue => Shiny.FixedValue,
+            ShinyType6.Random => Shiny.Random,
+            ShinyType6.Always => Shiny.Always,
+            ShinyType6.Never => Shiny.Never,
+            _ => throw new ArgumentOutOfRangeException(),
+        };
 
         public override int TID
         {
@@ -187,7 +195,7 @@ namespace PKHeX.Core
         public int Nature { get => (sbyte)Data[CardStart + 0xA0]; set => Data[CardStart + 0xA0] = (byte)value; }
         public override int Gender { get => Data[CardStart + 0xA1]; set => Data[CardStart + 0xA1] = (byte)value; }
         public override int AbilityType { get => 3; set => Data[CardStart + 0xA2] = (byte)value; } // no references, always ability 0/1
-        public Shiny PIDType { get => (Shiny)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
+        public ShinyType6 PIDType { get => (ShinyType6)Data[CardStart + 0xA3]; set => Data[CardStart + 0xA3] = (byte)value; }
         public override int EggLocation { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA4), (ushort)value); }
         public int MetLocation  { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xA6), (ushort)value); }
         public int MetLevel { get => Data[CardStart + 0xA8]; set => Data[CardStart + 0xA8] = (byte)value; }
@@ -441,17 +449,17 @@ namespace PKHeX.Core
         {
             switch (PIDType)
             {
-                case Shiny.FixedValue: // Specified
+                case ShinyType6.FixedValue: // Specified
                     pk.PID = PID;
                     break;
-                case Shiny.Random: // Random
+                case ShinyType6.Random: // Random
                     pk.PID = Util.Rand32();
                     break;
-                case Shiny.Always: // Random Shiny
+                case ShinyType6.Always: // Random Shiny
                     pk.PID = Util.Rand32();
                     pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
                     break;
-                case Shiny.Never: // Random Nonshiny
+                case ShinyType6.Never: // Random Nonshiny
                     pk.PID = Util.Rand32();
                     if (pk.IsShiny) pk.PID ^= 0x10000000;
                     break;
@@ -541,7 +549,7 @@ namespace PKHeX.Core
             }
             else
             {
-                if (!PIDType.IsValid(pkm)) return false;
+                if (!Shiny.IsValid(pkm)) return false;
                 if (EggLocation != pkm.Egg_Location) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }

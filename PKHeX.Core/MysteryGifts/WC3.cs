@@ -32,7 +32,7 @@ namespace PKHeX.Core
         public override bool IsEgg { get; set; }
         public override IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
         public bool NotDistributed { get; init; }
-        public override Shiny Shiny { get; init; } = Shiny.Random;
+        public override Shiny Shiny { get; init; }
         public bool Fateful { get; init; } // Obedience Flag
 
         // Mystery Gift Properties
