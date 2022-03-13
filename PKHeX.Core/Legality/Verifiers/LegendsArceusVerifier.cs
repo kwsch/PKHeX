@@ -74,7 +74,7 @@ public sealed class LegendsArceusVerifier : Verifier
         {
             // Expected move should never be empty, but just future-proof against any revisions.
             var msg = expect[i] != 0 ? string.Format(LMoveFExpect_0, ParseSettings.MoveStrings[expect[i]]) : LMoveSourceEmpty;
-            data.Info.Moves[i] = new CheckMoveResult(data.Info.Moves[i], Severity.Invalid, msg, CheckIdentifier.CurrentMove);
+            data.Info.Moves[i].FlagIllegal(msg, CheckIdentifier.CurrentMove);
         }
     }
 

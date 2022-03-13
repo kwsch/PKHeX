@@ -41,7 +41,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static void AddRelearn(CheckResult[] relearn, List<string> lines, bool state)
+        public static void AddRelearn(CheckMoveResult[] relearn, List<string> lines, bool state)
         {
             for (int i = 0; i < relearn.Length; i++)
             {

@@ -365,7 +365,7 @@ namespace PKHeX.Core
         public static string LMoveRelearnUnderground { get; set; } = "Not an expected Underground egg move.";
         public static string LMoveRelearnEgg { get; set; } = "Base Egg move.";
         public static string LMoveRelearnEggMissing { get; set; } = "Base Egg move missing.";
-        public static string LMoveRelearnFExpect_0 { get; set; } = "Expected the following Relearn Moves: {0} ({1}";
+        public static string LMoveRelearnFExpect_0 { get; set; } = "Expected the following Relearn Moves: {0} ({1})";
         public static string LMoveRelearnFMiss_0 { get; set; } = "Relearn Moves missing: {0}";
         public static string LMoveRelearnInvalid { get; set; } = "Not an expected Relearnable move.";
         public static string LMoveRelearnNone { get; set; } = "Expected no Relearn Move in slot.";

@@ -432,6 +432,14 @@ namespace PKHeX.Core
 
         public int MoveCount => Convert.ToInt32(Move1 != 0) + Convert.ToInt32(Move2 != 0) + Convert.ToInt32(Move3 != 0) + Convert.ToInt32(Move4 != 0);
 
+        public void GetMoves(Span<int> value)
+        {
+            value[3] = Move4;
+            value[2] = Move3;
+            value[1] = Move2;
+            value[0] = Move1;
+        }
+
         public void SetMoves(IReadOnlyList<int> value)
         {
             Move1 = value.Count > 0 ? value[0] : 0;

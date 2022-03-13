@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Value passing object to simplify some initialization.
     /// </summary>
     /// <typeparam name="T">Egg Move source type enumeration.</typeparam>
-    internal readonly ref struct BreedInfo<T> where T : Enum
+    internal readonly ref struct BreedInfo<T> where T : unmanaged
     {
         /// <summary> Indicates the analyzed source of each move. </summary>
         public readonly T[] Actual;

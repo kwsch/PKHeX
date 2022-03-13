@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -270,7 +269,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
-                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMoves.Any(m => m != 0)) // Eevee gift egg
+                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMove1 != 0) // Eevee gift egg
                         return new CheckResult(Severity.Invalid, LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }
@@ -286,13 +285,14 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterTrade(ISpeciesForm pkm, EncounterTrade trade)
         {
-            if (trade.EvolveOnTrade && trade.Species == pkm.Species)
+            var species = pkm.Species;
+            if (trade.EvolveOnTrade && trade.Species == species)
             {
                 // Pokemon that evolve on trade can not be in the phase evolution after the trade
                 // If the trade holds an everstone EvolveOnTrade will be false for the encounter
-                var species = ParseSettings.SpeciesStrings;
-                var unevolved = species[pkm.Species];
-                var evolved = species[pkm.Species + 1];
+                var names = ParseSettings.SpeciesStrings;
+                var evolved = names[species + 1];
+                var unevolved = names[species];
                 return new CheckResult(Severity.Invalid, string.Format(LEvoTradeReq, unevolved, evolved), CheckIdentifier.Encounter);
             }
             return new CheckResult(Severity.Valid, LEncTradeMatch, CheckIdentifier.Encounter);
