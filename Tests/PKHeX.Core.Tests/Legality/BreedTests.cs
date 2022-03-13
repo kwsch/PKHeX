@@ -32,6 +32,9 @@ namespace PKHeX.Tests.Legality
         [InlineData(OR, Growlithe, 0, MorningSun, IronTail, Crunch, HeatWave)]
         [InlineData(OR, Dratini, 0, Wrap, Leer, DragonDance, ExtremeSpeed)]
         [InlineData(OR, Rotom, 0, Astonish, ThunderWave, ThunderShock, ConfuseRay)]
+        [InlineData(BD, Gible, 0, IronHead, BodySlam, SandTomb, Outrage)]
+        [InlineData(BD, Gible, 0, IronHead, BodySlam, Outrage, SandTomb)]
+        [InlineData(BD, Gible, 0, BodySlam, Outrage, SandTomb, DragonBreath)]
         public void VerifyBreed(GameVersion game, Species species, int form, params Move[] movelist)
         {
             var gen = game.GetGeneration();
@@ -63,6 +66,7 @@ namespace PKHeX.Tests.Legality
         [Theory]
         [InlineData(GD, Bulbasaur, 0, Growl, Tackle)] // swap order, two base moves
         [InlineData(UM, Charmander, 0, Ember, BellyDrum, Scratch, Growl)] // swap order, inherit + egg moves
+        [InlineData(BD, Gible, 0, BodySlam, SandTomb, Outrage, DragonBreath)]
         public void CheckFix(GameVersion game, Species species, int form, params Move[] movelist)
         {
             var gen = game.GetGeneration();
