@@ -46,6 +46,18 @@
             return true;
         }
 
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        {
+            if (!base.IsMatchExact(pkm, evo))
+                return false;
+
+            // Encounters with this version have to originate from the Japanese Blue game.
+            if (!pkm.Japanese && Version == GameVersion.BU)
+                return false;
+
+            return true;
+        }
+
         protected override bool IsMatchPartial(PKM pkm)
         {
             if (ParseSettings.AllowGen1Tradeback)
