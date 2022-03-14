@@ -376,6 +376,18 @@ namespace PKHeX.Core
             set => SetIVs(value);
         }
 
+        public void GetIVs(Span<int> value)
+        {
+            if (value.Length != 6)
+                return;
+            value[0] = IV_HP;
+            value[1] = IV_ATK;
+            value[2] = IV_DEF;
+            value[3] = IV_SPE;
+            value[4] = IV_SPA;
+            value[5] = IV_SPD;
+        }
+
         public void SetIVs(ReadOnlySpan<int> value)
         {
             if (value.Length != 6)

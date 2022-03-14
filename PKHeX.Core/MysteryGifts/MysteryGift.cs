@@ -134,6 +134,8 @@ namespace PKHeX.Core
         public virtual IReadOnlyList<int> Moves { get => Array.Empty<int>(); set { } }
         public virtual IReadOnlyList<int> Relearn { get => Array.Empty<int>(); set { } }
         public virtual int[] IVs { get => Array.Empty<int>(); set { } }
+        public virtual bool HasFixedIVs => true;
+        public virtual void GetIVs(Span<int> value) { }
         public virtual bool IsShiny => false;
 
         public virtual Shiny Shiny

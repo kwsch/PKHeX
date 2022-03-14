@@ -27,7 +27,7 @@ namespace PKHeX.Core
             {
                 if (Gender >= 0 && Gender != pkm.Gender)
                     return false;
-                if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand((int[])IVs, pkm))
                     return false;
                 if (pkm.Format == 2 && pkm.Met_Location is not (0 or 126))
                     return false;

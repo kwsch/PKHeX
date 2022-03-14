@@ -88,6 +88,8 @@ namespace PKHeX.Core
         public override int SID { get => Gift.SID; set => Gift.SID = value; }
         public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
         public override AbilityPermission Ability => Gift.Ability;
+        public override bool HasFixedIVs => Gift.HasFixedIVs;
+        public override void GetIVs(Span<int> value) => Gift.GetIVs(value);
 
         // ILocation overrides
         public override int Location { get => IsEgg ? 0 : Gift.EggLocation + 3000; set { } }

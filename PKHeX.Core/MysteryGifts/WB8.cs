@@ -249,6 +249,18 @@ namespace PKHeX.Core
             }
         }
 
+        public override void GetIVs(Span<int> value)
+        {
+            if (value.Length != 6)
+                return;
+            value[0] = IV_HP;
+            value[1] = IV_ATK;
+            value[2] = IV_DEF;
+            value[3] = IV_SPE;
+            value[4] = IV_SPA;
+            value[5] = IV_SPD;
+        }
+
         public int[] EVs
         {
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
@@ -537,20 +549,27 @@ namespace PKHeX.Core
         private void SetIVs(PKM pk)
         {
             Span<int> finalIVs = stackalloc int[6];
-            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            GetIVs(finalIVs);
+            var ivflag = finalIVs.Find(iv => (byte)(iv - 0xFC) < 3);
             var rng = Util.Rand;
             if (ivflag == 0) // Random IVs
             {
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > 31 ? rng.Next(32) : IVs[i];
+                for (int i = 0; i < finalIVs.Length; i++)
+                {
+                    if (finalIVs[i] > 31)
+                        finalIVs[i] = rng.Next(32);
+                }
             }
             else // 1/2/3 perfect IVs
             {
                 int IVCount = ivflag - 0xFB;
                 do { finalIVs[rng.Next(6)] = 31; }
                 while (finalIVs.Count(31) < IVCount);
-                for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? 31 : rng.Next(32);
+                for (int i = 0; i < finalIVs.Length; i++)
+                {
+                    if (finalIVs[i] != 31)
+                        finalIVs[i] = rng.Next(32);
+                }
             }
             pk.SetIVs(finalIVs);
         }

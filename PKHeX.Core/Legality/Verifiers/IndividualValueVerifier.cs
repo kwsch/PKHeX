@@ -42,11 +42,12 @@ namespace PKHeX.Core
 
         private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
         {
-            var IVs = g.IVs;
-            if (IVs.Length == 0)
-                return;
+            if (!g.HasFixedIVs)
+                return; // PID/IV style instead of fixed IVs.
 
-            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            Span<int> IVs = stackalloc int[6];
+            g.GetIVs(IVs);
+            var ivflag = IVs.Find(iv => (byte)(iv - 0xFC) < 3);
             if (ivflag == 0) // Random IVs
             {
                 bool valid = Legal.GetIsFixedIVSequenceValidSkipRand(IVs, data.pkm);

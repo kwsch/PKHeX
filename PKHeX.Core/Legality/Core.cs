@@ -248,7 +248,7 @@ namespace PKHeX.Core
             _ => generation >= 6 ? 12 : 10,
         };
 
-        public static bool GetIsFixedIVSequenceValidSkipRand(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
+        public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pkm, int max = 31)
         {
             for (int i = 0; i < 6; i++)
             {
@@ -260,7 +260,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static bool GetIsFixedIVSequenceValidNoRand(IReadOnlyList<int> IVs, PKM pkm)
+        public static bool GetIsFixedIVSequenceValidNoRand(ReadOnlySpan<int> IVs, PKM pkm)
         {
             for (int i = 0; i < 6; i++)
             {

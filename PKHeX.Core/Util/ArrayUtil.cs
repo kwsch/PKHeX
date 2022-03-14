@@ -23,6 +23,16 @@ namespace PKHeX.Core
             return ((ReadOnlySpan<T>)data).Count(value);
         }
 
+        public static T Find<T>(this Span<T> data, Func<T, bool> value) where T : unmanaged
+        {
+            foreach (var x in data)
+            {
+                if (value(x))
+                    return x;
+            }
+            return default;
+        }
+
         public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
         {
             int count = 0;

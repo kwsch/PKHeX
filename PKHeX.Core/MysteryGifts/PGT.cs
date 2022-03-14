@@ -119,6 +119,12 @@ namespace PKHeX.Core
         public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
         public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
         public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
+        public override bool HasFixedIVs => PK.IV32 != 0;
+        public override void GetIVs(Span<int> value)
+        {
+            if (HasFixedIVs)
+                PK.GetIVs(value);
+        }
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {

@@ -253,7 +253,7 @@ namespace PKHeX.Core
             if (Generation <= 2 && pkm.Format > 2)
                 return true; // IVs are regenerated on VC transfer upward
 
-            return Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm);
+            return Legal.GetIsFixedIVSequenceValidSkipRand((int[])IVs, pkm);
         }
 
         protected virtual bool IsMatchForm(PKM pkm, DexLevel evo)

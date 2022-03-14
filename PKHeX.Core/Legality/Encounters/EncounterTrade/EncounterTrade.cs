@@ -182,7 +182,7 @@ namespace PKHeX.Core
         {
             if (IVs.Count != 0)
             {
-                if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
+                if (!Legal.GetIsFixedIVSequenceValidSkipRand((int[])IVs, pkm))
                     return false;
             }
 

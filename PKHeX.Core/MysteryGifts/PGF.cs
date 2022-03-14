@@ -155,6 +155,18 @@ namespace PKHeX.Core
             }
         }
 
+        public override void GetIVs(Span<int> value)
+        {
+            if (value.Length != 6)
+                return;
+            value[0] = IV_HP;
+            value[1] = IV_ATK;
+            value[2] = IV_DEF;
+            value[3] = IV_SPE;
+            value[4] = IV_SPA;
+            value[5] = IV_SPD;
+        }
+
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
         public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
@@ -339,9 +351,10 @@ namespace PKHeX.Core
         private void SetIVs(PKM pk)
         {
             Span<int> finalIVs = stackalloc int[6];
+            GetIVs(finalIVs);
             var rnd = Util.Rand;
-            for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = IVs[i] == 0xFF ? rnd.Next(32) : IVs[i];
+            for (int i = 0; i < finalIVs.Length; i++)
+                finalIVs[i] = finalIVs[i] == 0xFF ? rnd.Next(32) : finalIVs[i];
             pk.SetIVs(finalIVs);
         }
 
