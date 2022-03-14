@@ -35,6 +35,8 @@
         public sealed override int CurrentHandler { get => 0; set { } }
         public sealed override int Egg_Location { get => 0; set { } }
 
+        public abstract ushort SpeciesID3 { get; set; } // raw access
+
         public sealed override int Form
         {
             get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0;
@@ -118,7 +120,7 @@
         /// <returns>New object with transferred properties.</returns>
         protected T ConvertTo<T>() where T : G3PKM, new() => new()
         {
-            Species = Species,
+            SpeciesID3 = SpeciesID3,
             Language = Language,
             PID = PID,
             TID = TID,
