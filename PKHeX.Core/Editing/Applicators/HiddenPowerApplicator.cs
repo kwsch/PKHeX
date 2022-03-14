@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public static class HiddenPowerApplicator
     {
@@ -9,9 +11,10 @@
         /// <param name="hiddenPowerType">Desired Hidden Power typing.</param>
         public static void SetHiddenPower(this PKM pk, int hiddenPowerType)
         {
-            var IVs = pk.IVs;
+            Span<int> IVs = stackalloc int[6];
+            pk.GetIVs(IVs);
             HiddenPower.SetIVsForType(hiddenPowerType, IVs, pk.Format);
-            pk.IVs = IVs;
+            pk.SetIVs(IVs);
         }
 
         /// <summary>

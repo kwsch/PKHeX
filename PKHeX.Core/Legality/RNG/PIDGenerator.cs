@@ -32,7 +32,8 @@ namespace PKHeX.Core
             if (skipIV2Frame) // VBlank skip between IVs
                 D = rng.Next(D);
 
-            var IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
+            Span<int> IVs = stackalloc int[6];
+            MethodFinder.GetIVsInt32(IVs, C >> 16, D >> 16);
             if (type == PIDType.Method_1_Roamer)
             {
                 // Only store lowest 8 bits of IV data; zero out the other bits.
@@ -40,7 +41,7 @@ namespace PKHeX.Core
                 for (int i = 2; i < 6; i++)
                     IVs[i] = 0;
             }
-            pk.IVs = IVs;
+            pk.SetIVs(IVs);
         }
 
         private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
@@ -71,7 +72,9 @@ namespace PKHeX.Core
                 pk.PID = (A & 0xFFFF0000) | B >> 16;
             }
 
-            pk.IVs = MethodFinder.GetIVsInt32(C >> 16, D >> 16);
+            Span<int> IVs = stackalloc int[6];
+            MethodFinder.GetIVsInt32(IVs, C >> 16, D >> 16);
+            pk.SetIVs(IVs);
 
             bool antishiny = type is PIDType.BACD_R_A or PIDType.BACD_U_A;
             while (antishiny && pk.IsShiny)
@@ -101,7 +104,9 @@ namespace PKHeX.Core
             var E = rng.Next(D); // PID
 
             pk.PID = (D & 0xFFFF0000) | E >> 16;
-            pk.IVs = MethodFinder.GetIVsInt32(A >> 16, B >> 16);
+            Span<int> IVs = stackalloc int[6];
+            MethodFinder.GetIVsInt32(IVs, A >> 16, B >> 16);
+            pk.SetIVs(IVs);
         }
 
         public static void SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
@@ -207,7 +212,9 @@ namespace PKHeX.Core
 
             upper = ((uint)(lower ^ pk.TID ^ pk.SID) & 0xFFF8) | (upper & 0x7);
             pk.PID = upper << 16 | lower;
-            pk.IVs = MethodFinder.GetIVsInt32(Next(), Next());
+            Span<int> IVs = stackalloc int[6];
+            MethodFinder.GetIVsInt32(IVs, Next(), Next());
+            pk.SetIVs(IVs);
         }
 
         public static void SetRandomPokeSpotPID(PKM pk, int nature, int gender, int ability, int slot)

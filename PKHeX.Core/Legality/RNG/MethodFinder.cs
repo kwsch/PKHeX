@@ -722,33 +722,18 @@ namespace PKHeX.Core
         /// <summary>
         /// Generates IVs from 2 RNG calls using 15 bits of each to generate 6 IVs (5bits each).
         /// </summary>
+        /// <param name="result">Result storage</param>
         /// <param name="r1">First rand frame</param>
         /// <param name="r2">Second rand frame</param>
         /// <returns>Array of 6 IVs</returns>
-        internal static uint[] GetIVs(uint r1, uint r2)
+        internal static void GetIVsInt32(Span<int> result, uint r1, uint r2)
         {
-            return new[]
-            {
-                r1 & 31,
-                r1 >> 5 & 31,
-                r1 >> 10 & 31,
-                r2 & 31,
-                r2 >> 5 & 31,
-                r2 >> 10 & 31,
-            };
-        }
-
-        internal static int[] GetIVsInt32(uint r1, uint r2)
-        {
-            return new[]
-            {
-                (int)r1 & 31,
-                (int)r1 >> 5 & 31,
-                (int)r1 >> 10 & 31,
-                (int)r2 & 31,
-                (int)r2 >> 5 & 31,
-                (int)r2 >> 10 & 31,
-            };
+            result[5] = (int)r2 >> 10 & 31;
+            result[4] = (int)r2 >> 5 & 31;
+            result[3] = (int)r2 & 31;
+            result[2] = (int)r1 >> 10 & 31;
+            result[1] = (int)r1 >> 5 & 31;
+            result[0] = (int)r1 & 31;
         }
 
         private static uint GetIVChunk(ReadOnlySpan<uint> IVs, int start)

@@ -972,7 +972,7 @@ namespace PKHeX.Core
         /// <param name="template">IV template to generate from</param>
         /// <param name="flawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
         /// <returns>Randomized IVs if desired.</returns>
-        public int[] SetRandomIVs(IReadOnlyList<int> template, int? flawless = null)
+        public int[] SetRandomIVs(ReadOnlySpan<int> template, int? flawless = null)
         {
             int count = flawless ?? GetFlawlessIVCount();
             int[] ivs = new int[6];

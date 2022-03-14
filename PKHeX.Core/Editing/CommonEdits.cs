@@ -174,7 +174,7 @@ namespace PKHeX.Core
             pk.ApplyHeldItem(Set.HeldItem, Set.Format);
             pk.CurrentLevel = Set.Level;
             pk.CurrentFriendship = Set.Friendship;
-            pk.IVs = Set.IVs;
+            pk.SetIVs(Set.IVs);
 
             if (pk is GBPKM gb)
             {

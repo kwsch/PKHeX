@@ -166,7 +166,7 @@ namespace PKHeX.Core
         protected void SetIVs(PKM pk)
         {
             if (IVs.Count != 0)
-                pk.SetRandomIVs(IVs, FlawlessIVCount);
+                pk.SetRandomIVs((int[])IVs, FlawlessIVCount);
             else if (FlawlessIVCount > 0)
                 pk.SetRandomIVs(flawless: FlawlessIVCount);
         }

@@ -40,7 +40,9 @@ namespace PKHeX.Core
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
 
-            pk.SetMarkings(pk.IVs);
+            Span<int> IVs = stackalloc int[6];
+            pk.GetIVs(IVs);
+            pk.SetMarkings(IVs);
         }
 
         /// <summary>
