@@ -108,6 +108,21 @@ namespace PKHeX.Core
         };
 
         /// <summary>
+        /// Loads the <see cref="IAwakened"/> values to the input span.
+        /// </summary>
+        public static void GetAVs(this IAwakened pk, Span<byte> value)
+        {
+            if (value.Length != 6)
+                return;
+            value[0] = pk.AV_HP;
+            value[1] = pk.AV_ATK;
+            value[2] = pk.AV_DEF;
+            value[3] = pk.AV_SPE;
+            value[4] = pk.AV_SPA;
+            value[5] = pk.AV_SPD;
+        }
+
+        /// <summary>
         /// Sets the values based on the current <see cref="PKM.IVs"/>.
         /// </summary>
         /// <param name="a">Accessor for setting the values</param>

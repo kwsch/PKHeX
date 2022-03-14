@@ -416,7 +416,12 @@ namespace PKHeX.Core
                 OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
 
-                EVs = EVs,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPE = EV_SPE,
+                EV_SPA = EV_SPA,
+                EV_SPD = EV_SPD,
             };
 
             if (sav is IRegionOrigin o)

@@ -412,6 +412,18 @@ namespace PKHeX.Core
             }
         }
 
+        public void GetEVs(Span<int> value)
+        {
+            if (value.Length != 6)
+                return;
+            value[0] = EV_HP;
+            value[1] = EV_ATK;
+            value[2] = EV_DEF;
+            value[3] = EV_SPE;
+            value[4] = EV_SPA;
+            value[5] = EV_SPD;
+        }
+
         public int[] Stats
         {
             get => new[] { Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD };

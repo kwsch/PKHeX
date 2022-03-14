@@ -421,7 +421,12 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
 
-                EVs = EVs,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPE = EV_SPE,
+                EV_SPA = EV_SPA,
+                EV_SPD = EV_SPD,
 
                 CNT_Cool = CNT_Cool,
                 CNT_Beauty = CNT_Beauty,

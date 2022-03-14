@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -19,19 +19,24 @@ namespace PKHeX.Core
                 return;
             }
             var enc = data.EncounterMatch;
-            int sum = pkm.EVTotal;
-            if (sum > 0 && pkm.IsEgg)
-                data.AddLine(GetInvalid(LEffortEgg));
+            if (pkm.IsEgg)
+            {
+                if (pkm.EVTotal is not 0)
+                    data.AddLine(GetInvalid(LEffortEgg));
+                return;
+            }
 
             // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
             int format = pkm.Format;
             if (format < 3) // can abuse daycare for EV training without EXP gain
                 return;
 
+            int sum = pkm.EVTotal;
             if (sum > 510) // format >= 3
                 data.AddLine(GetInvalid(LEffortAbove510));
-            var evs = pkm.EVs;
-            if (format >= 6 && evs.Any(ev => ev > 252))
+            Span<int> evs = stackalloc int[6];
+            pkm.GetEVs(evs);
+            if (format >= 6 && evs.Find(ev => ev > 252) != default)
                 data.AddLine(GetInvalid(LEffortAbove252));
 
             const int vitaMax = 100; // Vitamin Max
@@ -40,14 +45,14 @@ namespace PKHeX.Core
                 if (enc.LevelMin == 100) // only true for Gen4 and Format=4
                 {
                     // Cannot EV train at level 100 -- Certain events are distributed at level 100.
-                    if (evs.Any(ev => ev > vitaMax)) // EVs can only be increased by vitamins to a max of 100.
+                    if (evs.Find(ev => ev > vitaMax) != default) // EVs can only be increased by vitamins to a max of 100.
                         data.AddLine(GetInvalid(LEffortCap100));
                 }
                 else // check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
                 {
                     var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
                     var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
-                    if (baseEXP == pkm.EXP && evs.Any(ev => ev > vitaMax))
+                    if (baseEXP == pkm.EXP && evs.Find(ev => ev > vitaMax) != default)
                         data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
                 }
             }
@@ -57,7 +62,7 @@ namespace PKHeX.Core
                 data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
             else if (sum == 508)
                 data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
-            else if (evs[0] != 0 && evs.All(ev => evs[0] == ev))
+            else if (evs[0] != 0 && evs.Count(evs[0]) == evs.Length)
                 data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
         }
 
@@ -72,9 +77,24 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LAwakenedCap));
 
             var enc = data.EncounterMatch;
-            if (enc is EncounterSlot7GO && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
-                data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2))); // go park transfers have 2 AVs for all stats.
-            else if (awakened.AwakeningSum() == 0 && !enc.IsWithinEncounterRange(pkm))
+
+            // go park transfers have 2 AVs for all stats.
+            if (enc is EncounterSlot7GO)
+            {
+                Span<byte> avs = stackalloc byte[6];
+                awakened.GetAVs(avs);
+                foreach (var av in avs)
+                {
+                    if (av >= 2)
+                        continue;
+
+                    data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2)));
+                    break;
+                }
+                return;
+            }
+
+            if (awakened.AwakeningSum() == 0 && !enc.IsWithinEncounterRange(pkm))
                 data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
         }
     }
