@@ -60,9 +60,9 @@
 
         protected override bool IsMatchPartial(PKM pkm)
         {
-            if (ParseSettings.AllowGen1Tradeback)
-                return false;
             if (pkm is not PK1 pk1)
+                return false;
+            if (PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
                 return false;
             if (IsCatchRateValid(pk1))
                 return false;
