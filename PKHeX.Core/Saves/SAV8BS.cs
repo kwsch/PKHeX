@@ -85,7 +85,7 @@ namespace PKHeX.Core
         Initialize();
         }
 
-        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_2], false) => SaveRevision = (int)Gem8Version.V1_2;
+        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
 
         private void Initialize()
         {
