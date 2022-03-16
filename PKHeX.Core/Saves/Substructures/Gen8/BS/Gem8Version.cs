@@ -44,7 +44,7 @@ namespace PKHeX.Core
             V1_0 => "-1.0.0", // Launch Revision
             V1_1 => "-1.1.0", // 1.1.0
             V1_2 => "-1.2.0", // 1.2.0
-            V1_3 => "-1.2.0", // 1.3.0
+            V1_3 => "-1.3.0", // 1.3.0
             _ => throw new ArgumentOutOfRangeException(nameof(version)),
         };
     }
