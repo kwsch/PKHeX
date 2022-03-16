@@ -224,7 +224,6 @@ namespace PKHeX.Core
         {
             (int)Move.PsychoBoost, // Deoxys
             (int)Move.DarkVoid, // Darkrai
-            (int)Move.Judgment, // Arceus
         };
 
         /// <summary>
@@ -322,6 +321,7 @@ namespace PKHeX.Core
         private static readonly HashSet<int> LocationsExclusiveBD = new()
         {
             216, // Spear Pillar
+            218, // Hall of Origin
             498, // Ramanas Park (Johto Room)
             503, // Ramanas Park (Rainbow Room)
             650, // Ramanas Park (Johto Room)
@@ -333,18 +333,17 @@ namespace PKHeX.Core
             217, // Spear Pillar
             497, // Ramanas Park (Kanto Room)
             504, // Ramanas Park (Squall Room)
+            618, // Hall of Origin
             649, // Ramanas Park (Kanto Room)
             656, // Ramanas Park (Squall Room)
         };
 
         private static readonly HashSet<int> LocationsNoHatchBDSP = new()
         {
-            020, 022, 023,                // Jubilife City
             035,                          // Canalave City
             094, 103, 107,                // Hearthome City
             154, 155, 158,                // Sunyshore City
             181, 182, 183,                // Pokémon League
-            218,                          // Hall of Origin (Diamond)
             329,                          // Lake Acuity
             332, 333,                     // Newmoon Island
             337, 338,                     // Battle Park
@@ -354,7 +353,6 @@ namespace PKHeX.Core
             483, 484,                     // Mystery Zone
             491, 492, 493,                // Mystery Zone
             495,                          // Ramanas Park
-            618,                          // Hall of Origin (Pearl)
             620, 621, 622, 623,           // Grand Underground (Secret Base)
             625,                          // Sea (sailing animation)
             627, 628, 629, 630, 631, 632, // Grand Underground (Secret Base)
