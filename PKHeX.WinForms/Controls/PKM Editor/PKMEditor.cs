@@ -41,7 +41,7 @@ namespace PKHeX.WinForms.Controls
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
 
             // Validation of incompletely entered data fields
-            bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox x && x.Items.Count is not 0;
+            bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox { Items.Count: not 0 };
             ValidatedControls = new ValidationRequiredSet[]
             {
                 new(Moves, _ => true, Criteria),

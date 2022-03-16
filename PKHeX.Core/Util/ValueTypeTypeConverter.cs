@@ -42,8 +42,8 @@ namespace PKHeX.Core
 
         public override object? ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
-            if (destinationType == typeof(string) && value is ulong)
-                return $"{value:X16}"; // no 0x prefix
+            if (destinationType == typeof(string) && value is ulong u)
+                return $"{u:X16}"; // no 0x prefix
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
