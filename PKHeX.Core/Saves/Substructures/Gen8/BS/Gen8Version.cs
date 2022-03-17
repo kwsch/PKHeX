@@ -1,12 +1,12 @@
 ﻿using System;
-using static PKHeX.Core.Gem8Version;
+using static PKHeX.Core.Gen8Version;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Indicates various <see cref="SAV8BS"/> revision values which change on each major patch update, updating the structure of the stored player save data.
     /// </summary>
-    public enum Gem8Version
+    public enum Gen8Version
     {
         /// <summary>
         /// Initial cartridge version shipped.
@@ -33,13 +33,13 @@ namespace PKHeX.Core
         V1_3 = 0x34, // 52
     }
 
-    public static class Gem8VersionExtensions
+    public static class Gen8VersionExtensions
     {
         /// <summary>
         /// Returns a string to append to the savedata type info, indicating the revision of the player save data.
         /// </summary>
         /// <param name="version">Stored version value in the save data.</param>
-        public static string GetSuffixString(this Gem8Version version) => version switch
+        public static string GetSuffixString(this Gen8Version version) => version switch
         {
             V1_0 => "-1.0.0", // Launch Revision
             V1_1 => "-1.1.0", // 1.1.0

@@ -85,7 +85,7 @@ namespace PKHeX.Core
         Initialize();
         }
 
-        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gem8Version.V1_3;
+        public SAV8BS() : this(new byte[SaveUtil.SIZE_G8BDSP_3], false) => SaveRevision = (int)Gen8Version.V1_3;
 
         private void Initialize()
         {
@@ -122,8 +122,8 @@ namespace PKHeX.Core
         public override int MaxGameID => Legal.MaxGameID_8b;
         public override int MaxAbilityID => Legal.MaxAbilityID_8b;
 
-        public bool HasFirstSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_1;
-        public bool HasSecondSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_2;
+        public bool HasFirstSaveFileExpansion => (Gen8Version)SaveRevision >= Gen8Version.V1_1;
+        public bool HasSecondSaveFileExpansion => (Gen8Version)SaveRevision >= Gen8Version.V1_2;
 
         public int SaveRevision
         {
@@ -131,7 +131,7 @@ namespace PKHeX.Core
             init => WriteInt32LittleEndian(Data.AsSpan(0), value);
         }
 
-        public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
+        public string SaveRevisionString => ((Gen8Version)SaveRevision).GetSuffixString();
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BS;
         protected override SaveFile CloneInternal() => new SAV8BS((byte[])(Data.Clone()));
