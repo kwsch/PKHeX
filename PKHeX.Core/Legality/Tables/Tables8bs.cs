@@ -142,11 +142,9 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Key_BS =
         {
             428, 431, 432, 433, 438, 439, 440, 443, 445, 446, 447, 448, 449, 450, 451, 452,
-            453, 454, 459, 460, 461, 462, 463, 464, 466, 467, 631, 632,
+            453, 454, 455, 459, 460, 461, 462, 463, 464, 466, 467, 631, 632,
 
             1267, 1278, 1822,
-
-            // 455 Azure Flute (nonfunctional as of 1.1.0)
         };
 
         internal static readonly ushort[] Pouch_Medicine_BS =
@@ -270,6 +268,7 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, new ushort[]
         {
+            044, // Sacred Ash
             537, // Prism Scale
             565, // Health Feather
             566, // Muscle Feather
