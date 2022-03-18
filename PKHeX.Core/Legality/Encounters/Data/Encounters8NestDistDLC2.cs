@@ -8,6 +8,28 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 696, Ability = A4, Moves = new[]{ 246, 033, 525, 046 }, Index = 100 }, // Tyrunt
+            new(17,01,1) { Species = 564, Ability = A4, Moves = new[]{ 453, 414, 246, 044 }, Index = 100 }, // Tirtouga
+            new(17,01,1) { Species = 566, Ability = A4, Moves = new[]{ 017, 246, 225, 414 }, Index = 100 }, // Archen
+            new(17,01,1) { Species = 698, Ability = A4, Moves = new[]{ 181, 086, 246, 196 }, Index = 100 }, // Amaura
+            new(30,03,2) { Species = 696, Ability = A4, Moves = new[]{ 246, 523, 525, 044 }, Index = 100 }, // Tyrunt
+            new(30,03,2) { Species = 564, Ability = A4, Moves = new[]{ 453, 414, 246, 242 }, Index = 100 }, // Tirtouga
+            new(30,03,2) { Species = 566, Ability = A4, Moves = new[]{ 017, 246, 225, 414 }, Index = 100 }, // Archen
+            new(30,03,2) { Species = 698, Ability = A4, Moves = new[]{ 062, 086, 246, 196 }, Index = 100 }, // Amaura
+            new(40,05,3) { Species = 697, Ability = A4, Moves = new[]{ 444, 523, 337, 231 }, Index = 100 }, // Tyrantrum
+            new(40,05,3) { Species = 565, Ability = A4, Moves = new[]{ 453, 414, 246, 231 }, Index = 100 }, // Carracosta
+            new(40,05,3) { Species = 567, Ability = A4, Moves = new[]{ 403, 157, 337, 414 }, Index = 100 }, // Archeops
+            new(40,05,3) { Species = 699, Ability = A4, Moves = new[]{ 059, 086, 444, 304 }, Index = 100 }, // Aurorus
+            new(50,08,4) { Species = 697, Ability = A4, Moves = new[]{ 444, 089, 337, 231 }, Index = 100 }, // Tyrantrum
+            new(50,08,4) { Species = 565, Ability = A4, Moves = new[]{ 056, 414, 246, 231 }, Index = 100 }, // Carracosta
+            new(50,08,4) { Species = 567, Ability = A4, Moves = new[]{ 403, 444, 337, 414 }, Index = 100 }, // Archeops
+            new(50,08,4) { Species = 699, Ability = A4, Moves = new[]{ 059, 094, 444, 304 }, Index = 100 }, // Aurorus
+            new(60,10,5) { Species = 697, Ability = A4, Moves = new[]{ 457, 089, 406, 231 }, Index = 100, Shiny = Shiny.Always }, // Tyrantrum
+            new(60,10,5) { Species = 697, Ability = A4, Moves = new[]{ 444, 089, 406, 231 }, Index = 100 }, // Tyrantrum
+            new(60,10,5) { Species = 565, Ability = A4, Moves = new[]{ 056, 444, 089, 231 }, Index = 100 }, // Carracosta
+            new(60,10,5) { Species = 567, Ability = A4, Moves = new[]{ 403, 444, 406, 414 }, Index = 100 }, // Archeops
+            new(60,10,5) { Species = 699, Ability = A4, Moves = new[]{ 059, 573, 444, 304 }, Index = 100 }, // Aurorus
+
             new(50,08,4) { Species = 003, Ability = A4, Moves = new[]{ 572, 188, 414, 200 }, Index = 98, CanGigantamax = true }, // Venusaur
             new(50,08,4) { Species = 006, Ability = A4, Moves = new[]{ 257, 076, 542, 406 }, Index = 98, CanGigantamax = true }, // Charizard
             new(50,08,4) { Species = 009, Ability = A4, Moves = new[]{ 057, 059, 430, 089 }, Index = 98, CanGigantamax = true }, // Blastoise
