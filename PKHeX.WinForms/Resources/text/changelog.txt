@@ -7,7 +7,7 @@ http://projectpokemon.org/pkhex/
  - - Added: Experience above level 100 is now checked.
  - - Fixed: PLA Massive Mass Outbreak now correctly identify Overqwil/etc evolutions captured directly in the wild.
  - Added: Batch editor can now copy properties using * -- for example, .PID=*EncryptionConstant will copy the EC to PID.
- - Added: Sprites now 
+ - Added: Sprites now show an orange-colored line (instead of yellow) if the Pokémon has gained an exact level amount of EXP (setting not on by default).
  - Added: SWSH Trainer Editor button to unlock all Isle of Armor Diglett.
  - Fixed: Gen7 Poké Bean editor now reads data correctly.
  - Fixed: Showdown Set imports no longer max PP Ups for PLA imports.

@@ -14,5 +14,4 @@ public interface ISaveBlock8LA
     AdventureStart8a AdventureStart { get; }
     LastSaved8a LastSaved { get; }
     PlayTime8a Played { get; }
-    AreaSpawnerSet8a AreaSpawners { get; }
 }

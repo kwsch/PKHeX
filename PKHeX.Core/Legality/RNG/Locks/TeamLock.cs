@@ -2,16 +2,11 @@ namespace PKHeX.Core
 {
     public sealed class TeamLock
     {
-        public readonly int Species;
-        public readonly string Comment;
         public readonly NPCLock[] Locks;
+        public readonly string Comment;
+        public readonly int Species;
 
-        public TeamLock(int species, NPCLock[] locks)
-        {
-            Species = species;
-            Locks = locks;
-            Comment = string.Empty;
-        }
+        public TeamLock(int species, NPCLock[] locks) : this(species, string.Empty, locks) { }
 
         public TeamLock(int species, string comment, NPCLock[] locks)
         {

@@ -117,7 +117,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public AdventureStart8a AdventureStart => Blocks.AdventureStart;
     public LastSaved8a LastSaved => Blocks.LastSaved;
     public PlayTime8a Played => Blocks.Played;
-    public AreaSpawnerSet8a AreaSpawners => Blocks.AreaSpawners;
+    public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));
     #endregion
 
     public override uint SecondsToStart { get => (uint)AdventureStart.Seconds; set => AdventureStart.Seconds = value; }

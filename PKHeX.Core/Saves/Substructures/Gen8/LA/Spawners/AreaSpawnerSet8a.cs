@@ -6,23 +6,23 @@ namespace PKHeX.Core;
 /// <summary>
 /// Data structure containing all the spawner objects for the area.
 /// </summary>
-public sealed class AreaSpawnerSet8a
+public readonly ref struct AreaSpawnerSet8a
 {
     public const int EntryCount = 0x200;
     private const int MetaSize = 0x40;
     private const int MetaOffset = EntryCount * Spawner8a.SIZE;
     public const int SIZE = MetaOffset + MetaSize; // 0x88040
 
-    public readonly byte[] Data;
+    public readonly Span<byte> Data;
 
     // Layout:
     // spawner[512]
     // metadata (count)
 
-    public AreaSpawnerSet8a(SCBlock block) => Data = block.Data;
-    public AreaSpawnerSet8a(byte[] data) => Data = data;
+    public AreaSpawnerSet8a(SCBlock block) : this(block.Data) { }
+    public AreaSpawnerSet8a(Span<byte> data) => Data = data;
 
-    private Span<byte> Meta => Data.AsSpan(MetaOffset);
+    private Span<byte> Meta => Data[MetaOffset..];
 
     public int SpawnerCount => ReadInt32LittleEndian(Meta);
 
@@ -33,7 +33,7 @@ public sealed class AreaSpawnerSet8a
         if ((uint)index >= EntryCount)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        return new Spawner8a(Data.AsSpan(Spawner8a.SIZE * index));
+        return new Spawner8a(Data[(Spawner8a.SIZE * index)..]);
     }
 
     /// <summary>
