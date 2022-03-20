@@ -32,13 +32,13 @@ namespace PKHeX.Core
         public EntreeForest(byte[] data)
         {
             Data = data;
-            PokeCrypto.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
+            PokeCrypto.CryptArray(data.AsSpan(0, EncryptionSeedOffset), EncryptionSeed);
         }
 
         public byte[] Write()
         {
             byte[] data = (byte[])Data.Clone();
-            PokeCrypto.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
+            PokeCrypto.CryptArray(data.AsSpan(0, EncryptionSeedOffset), EncryptionSeedOffset);
             return data;
         }
 

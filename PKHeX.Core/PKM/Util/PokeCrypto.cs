@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -245,9 +246,9 @@ namespace PKHeX.Core
         {
             const int start = 8;
             int end = (4 * blockSize) + start;
-            CryptArray(data, pv, start, end); // Blocks
+            CryptArray(data[start..end], pv); // Blocks
             if (data.Length > end)
-                CryptArray(data, pv, end, data.Length); // Party Stats
+                CryptArray(data[end..], pv); // Party Stats
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -255,33 +256,23 @@ namespace PKHeX.Core
         {
             const int start = 8;
             int end = (4 * blockSize) + start;
-            CryptArray(data, chk, start, end); // Blocks
+            CryptArray(data[start..end], chk); // Blocks
             if (data.Length > end)
-                CryptArray(data, pv, end, data.Length); // Party Stats
+                CryptArray(data[end..], pv); // Party Stats
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CryptArray(Span<byte> data, uint seed, int start, int end)
+        public static void CryptArray(Span<byte> data, uint seed)
         {
-            int i = start;
-            do // all block sizes are multiples of 4
+            var reinterpret = MemoryMarshal.Cast<byte, ushort>(data);
+            for (int i = 0; i < reinterpret.Length; i++)
             {
-                Crypt(data[i..], ref seed); i += 2;
-                Crypt(data[i..], ref seed); i += 2;
+                seed = (0x41C64E6D * seed) + 0x00006073;
+                var xor = (ushort)(seed >> 16);
+                if (!BitConverter.IsLittleEndian)
+                    xor = (ushort)((xor >> 8) + (xor << 8));
+                reinterpret[i] ^= xor;
             }
-            while (i < end);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void CryptArray(Span<byte> data, uint seed) => CryptArray(data, seed, 0, data.Length);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void Crypt(Span<byte> data, ref uint seed)
-        {
-            seed = (0x41C64E6D * seed) + 0x00006073;
-            var current = ReadUInt16LittleEndian(data);
-            current ^= (ushort)(seed >> 16);
-            WriteUInt16LittleEndian(data, current);
         }
 
         /// <summary>
