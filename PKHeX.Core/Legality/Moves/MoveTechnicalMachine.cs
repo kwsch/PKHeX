@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,37 +41,31 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine1(int species, int move)
         {
-            for (int i = 0; i < Legal.TMHM_RBY.Length; i++)
-            {
-                if (Legal.TMHM_RBY[i] != move)
-                    continue;
-                if (PersonalTable.RB[species].TMHM[i])
-                    return GameVersion.RB;
-                if (PersonalTable.Y[species].TMHM[i])
-                    return GameVersion.YW;
-            }
+            var index = Array.IndexOf(Legal.TMHM_RBY, move);
+            if (index == -1)
+                return Legal.NONE;
+            if (PersonalTable.RB.GetFormEntry(species, 0).TMHM[index])
+                return GameVersion.RB;
+            if (PersonalTable.Y.GetFormEntry(species, 0).TMHM[index])
+                return GameVersion.YW;
 
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine2(int species, int move)
         {
-            for (int i = 0; i < Legal.TMHM_GSC.Length; i++)
-            {
-                if (Legal.TMHM_GSC[i] == move && PersonalTable.C[species].TMHM[i])
-                    return GameVersion.GS;
-            }
+            var index = Array.IndexOf(Legal.TMHM_GSC, move);
+            if (index != -1 && PersonalTable.C.GetFormEntry(species, 0).TMHM[index])
+                return GameVersion.GS;
 
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine3(int species, int move, int format, bool RemoveTransfer)
         {
-            for (int i = 0; i < Legal.TM_3.Length; i++)
-            {
-                if (Legal.TM_3[i] == move && PersonalTable.E[species].TMHM[i])
-                    return GameVersion.Gen3;
-            }
+            var index = Array.IndexOf(Legal.TM_3, move);
+            if (index != -1 && PersonalTable.E.GetFormEntry(species, 0).TMHM[index])
+                return GameVersion.Gen3;
 
             if (!RemoveTransfer && format <= 3)
                 return GetIsMachine3HM(species, move);
@@ -80,24 +75,22 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine3HM(int species, int move)
         {
-            int x = 0;
-            foreach (var m in Legal.HM_3)
-            {
-                if (m == move && PersonalTable.E[species].TMHM[x + 50])
-                    return GameVersion.Gen3;
-                x++;
-            }
+            var index = Array.IndexOf(Legal.HM_3, move);
+            if (index == -1)
+                return Legal.NONE;
+            if (PersonalTable.E.GetFormEntry(species, 0).TMHM[index + 50])
+                return GameVersion.Gen3;
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine4(int species, int move, int format, bool RemoveTransfer, int form)
         {
-            for (int i = 0; i < Legal.TM_3.Length; i++)
-            {
-                if (Legal.TM_4[i] == move && PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i])
-                    return GameVersion.Gen4;
-            }
+            // TM
+            var index = Array.IndexOf(Legal.TM_4, move);
+            if (index != -1 && PersonalTable.HGSS.GetFormEntry(species, form).TMHM[index])
+                return GameVersion.Gen4;
 
+            // HM
             if (RemoveTransfer && format > 4)
                 return GetIsMachine4HMTransfer(species, move, form);
 
@@ -124,38 +117,23 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine4HM(int species, int move, int form)
         {
-            var dp = Legal.HM_DPPt;
-            for (var i = 0; i < dp.Length; i++)
-            {
-                var m = dp[i];
-                if (m != move)
-                    continue;
-                if (PersonalTable.Pt.GetFormEntry(species, form).TMHM[i + 92])
-                    return GameVersion.DPPt;
-                break;
-            }
+            var dpi = Array.IndexOf(Legal.HM_DPPt, move);
+            if (dpi != 0 && PersonalTable.Pt.GetFormEntry(species, form).TMHM[92 + dpi])
+                return GameVersion.DPPt;
 
-            var hgss = Legal.HM_HGSS;
-            for (var i = 0; i < hgss.Length; i++)
-            {
-                var m = hgss[i];
-                if (m != move)
-                    continue;
-                if (PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i + 92])
-                    return GameVersion.HGSS;
-                break;
-            }
+            var gsi = Array.IndexOf(Legal.HM_HGSS, move);
+            if (gsi != 0 && PersonalTable.HGSS.GetFormEntry(species, form).TMHM[92 + gsi])
+                return GameVersion.DPPt;
 
             return Legal.NONE;
         }
 
         private static GameVersion GetIsMachine5(int species, int move, int form)
         {
-            for (int i = 0; i < Legal.TMHM_BW.Length; i++)
-            {
-                if (Legal.TMHM_BW[i] == move)
-                    return PersonalTable.B2W2.GetFormEntry(species, form).TMHM[i] ? GameVersion.Gen5 : Legal.NONE;
-            }
+            var index = Array.IndexOf(Legal.TMHM_BW, move);
+            if (index != -1 && PersonalTable.B2W2.GetFormEntry(species, form).TMHM[index])
+                return GameVersion.Gen5;
+
             return Legal.NONE;
         }
 
@@ -163,26 +141,16 @@ namespace PKHeX.Core
         {
             if (GameVersion.XY.Contains(ver))
             {
-                for (int i = 0; i < Legal.TMHM_XY.Length; i++)
-                {
-                    if (Legal.TMHM_XY[i] != move)
-                        continue;
-                    if (PersonalTable.XY.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.XY;
-                    break;
-                }
+                var index = Array.IndexOf(Legal.TMHM_XY, move);
+                if (index != -1 && PersonalTable.XY.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.XY;
             }
 
             if (GameVersion.ORAS.Contains(ver))
             {
-                for (int i = 0; i < Legal.TMHM_AO.Length; i++)
-                {
-                    if (Legal.TMHM_AO[i] != move)
-                        continue;
-                    if (PersonalTable.AO.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.ORAS;
-                    break;
-                }
+                var index = Array.IndexOf(Legal.TMHM_AO, move);
+                if (index != -1 && PersonalTable.AO.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.ORAS;
             }
 
             return Legal.NONE;
@@ -192,38 +160,23 @@ namespace PKHeX.Core
         {
             if (GameVersion.Gen7b.Contains(ver))
             {
-                for (int i = 0; i < Legal.TMHM_GG.Length; i++)
-                {
-                    if (Legal.TMHM_GG[i] != move)
-                        continue;
-                    if (PersonalTable.GG.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.GG;
-                    break;
-                }
+                var index = Array.IndexOf(Legal.TMHM_GG, move);
+                if (index != -1 && PersonalTable.GG.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.GG;
             }
 
             if (GameVersion.SM.Contains(ver) && species <= Legal.MaxSpeciesID_7)
             {
-                for (int i = 0; i < Legal.TMHM_SM.Length; i++)
-                {
-                    if (Legal.TMHM_SM[i] != move)
-                        continue;
-                    if (PersonalTable.SM.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.SM;
-                    break;
-                }
+                var index = Array.IndexOf(Legal.TMHM_SM, move);
+                if (index != -1 && PersonalTable.SM.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.SM;
             }
 
             if (GameVersion.USUM.Contains(ver) && species <= Legal.MaxSpeciesID_7_USUM)
             {
-                for (int i = 0; i < Legal.TMHM_SM.Length; i++)
-                {
-                    if (Legal.TMHM_SM[i] != move)
-                        continue;
-                    if (PersonalTable.USUM.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.USUM;
-                    break;
-                }
+                var index = Array.IndexOf(Legal.TMHM_SM, move);
+                if (index != -1 && PersonalTable.USUM.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.USUM;
             }
 
             return Legal.NONE;
@@ -233,26 +186,16 @@ namespace PKHeX.Core
         {
             if (GameVersion.SWSH.Contains(ver))
             {
-                for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
-                {
-                    if (Legal.TMHM_SWSH[i] != move)
-                        continue;
-                    if (PersonalTable.SWSH.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.SWSH;
-                    break;
-                }
+                var index = Legal.TMHM_SWSH.AsSpan(0, PersonalInfoSWSH.CountTM).IndexOf(move);
+                if (index != -1 && PersonalTable.SWSH.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.SWSH;
             }
 
             if (GameVersion.BDSP.Contains(ver))
             {
-                for (int i = 0; i < PersonalInfoBDSP.CountTM; i++)
-                {
-                    if (Legal.TMHM_BDSP[i] != move)
-                        continue;
-                    if (PersonalTable.BDSP.GetFormEntry(species, form).TMHM[i])
-                        return GameVersion.BDSP;
-                    break;
-                }
+                var index = Legal.TMHM_BDSP.AsSpan(0, PersonalInfoBDSP.CountTM).IndexOf(move);
+                if (index != -1 && PersonalTable.BDSP.GetFormEntry(species, form).TMHM[index])
+                    return GameVersion.BDSP;
             }
 
             return Legal.NONE;
@@ -262,21 +205,15 @@ namespace PKHeX.Core
         {
             if (GameVersion.SWSH.Contains(ver))
             {
-                for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
+                var index = Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM, PersonalInfoSWSH.CountTR).IndexOf(move);
+                if (index != -1)
                 {
-                    var index = i + PersonalInfoSWSH.CountTM;
-                    if (Legal.TMHM_SWSH[index] != move)
-                        continue;
-                    var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-                    if (!pi.TMHM[index])
-                        break;
                     if (allowBit)
                         return GameVersion.SWSH;
-                    if (((ITechRecord8)pkm).GetMoveRecordFlag(i))
+                    if (((ITechRecord8)pkm).GetMoveRecordFlag(index))
                         return GameVersion.SWSH;
-                    if (i == 12 && species == (int)Species.Calyrex && form == 0) // TR12
+                    if (index == 12 && species == (int)Species.Calyrex && form == 0) // TR12
                         return GameVersion.SWSH; // Agility Calyrex without TR glitch.
-                    break;
                 }
             }
 
