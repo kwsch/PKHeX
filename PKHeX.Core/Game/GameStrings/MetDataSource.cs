@@ -66,9 +66,9 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metHGSS_02000, 2000, Locations.Daycare4);
             Util.AddCBWithOffset(locations, s.metHGSS_02000, 2000, Locations.LinkTrade4);
             Util.AddCBWithOffset(locations, s.metHGSS_03000, 3000, Locations.Ranger4);
-            Util.AddCBWithOffset(locations, s.metHGSS_00000, 0000, Legal.Met_HGSS_0);
-            Util.AddCBWithOffset(locations, s.metHGSS_02000, 2000, Legal.Met_HGSS_2);
-            Util.AddCBWithOffset(locations, s.metHGSS_03000, 3000, Legal.Met_HGSS_3);
+            Util.AddCBWithOffset(locations, s.metHGSS_00000, 0000, Locations4.Met0);
+            Util.AddCBWithOffset(locations, s.metHGSS_02000, 2000, Locations4.Met2);
+            Util.AddCBWithOffset(locations, s.metHGSS_03000, 3000, Locations4.Met3);
             return locations;
         }
 
@@ -88,10 +88,10 @@ namespace PKHeX.Core
             var locations = Util.GetCBList(s.metBW2_00000, 0);
             Util.AddCBWithOffset(locations, s.metBW2_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metBW2_30000, 30000, Locations.LinkTrade5);
-            Util.AddCBWithOffset(locations, s.metBW2_00000, 00000, Legal.Met_BW2_0);
-            Util.AddCBWithOffset(locations, s.metBW2_30000, 30000, Legal.Met_BW2_3);
-            Util.AddCBWithOffset(locations, s.metBW2_40000, 40000, Legal.Met_BW2_4);
-            Util.AddCBWithOffset(locations, s.metBW2_60000, 60000, Legal.Met_BW2_6);
+            Util.AddCBWithOffset(locations, s.metBW2_00000, 00000, Locations5.Met0);
+            Util.AddCBWithOffset(locations, s.metBW2_30000, 30000, Locations5.Met3);
+            Util.AddCBWithOffset(locations, s.metBW2_40000, 40000, Locations5.Met4);
+            Util.AddCBWithOffset(locations, s.metBW2_60000, 60000, Locations5.Met6);
             return locations;
         }
 
@@ -111,10 +111,10 @@ namespace PKHeX.Core
             var locations = Util.GetCBList(s.metXY_00000, 0);
             Util.AddCBWithOffset(locations, s.metXY_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metXY_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metXY_00000, 00000, Legal.Met_XY_0);
-            Util.AddCBWithOffset(locations, s.metXY_30000, 30000, Legal.Met_XY_3);
-            Util.AddCBWithOffset(locations, s.metXY_40000, 40000, Legal.Met_XY_4);
-            Util.AddCBWithOffset(locations, s.metXY_60000, 60000, Legal.Met_XY_6);
+            Util.AddCBWithOffset(locations, s.metXY_00000, 00000, Locations6.Met0);
+            Util.AddCBWithOffset(locations, s.metXY_30000, 30000, Locations6.Met3);
+            Util.AddCBWithOffset(locations, s.metXY_40000, 40000, Locations6.Met4);
+            Util.AddCBWithOffset(locations, s.metXY_60000, 60000, Locations6.Met6);
             return locations;
         }
 
@@ -123,10 +123,10 @@ namespace PKHeX.Core
             var locations = Util.GetCBList(s.metSM_00000, 0);
             Util.AddCBWithOffset(locations, s.metSM_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metSM_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metSM_00000, 00000, Legal.Met_SM_0);
-            Util.AddCBWithOffset(locations, s.metSM_30000, 30000, Legal.Met_SM_3);
-            Util.AddCBWithOffset(locations, s.metSM_40000, 40000, Legal.Met_SM_4);
-            Util.AddCBWithOffset(locations, s.metSM_60000, 60000, Legal.Met_SM_6);
+            Util.AddCBWithOffset(locations, s.metSM_00000, 00000, Locations7.Met0);
+            Util.AddCBWithOffset(locations, s.metSM_30000, 30000, Locations7.Met3);
+            Util.AddCBWithOffset(locations, s.metSM_40000, 40000, Locations7.Met4);
+            Util.AddCBWithOffset(locations, s.metSM_60000, 60000, Locations7.Met6);
             return locations;
         }
 
@@ -135,10 +135,10 @@ namespace PKHeX.Core
             var locations = Util.GetCBList(s.metGG_00000, 0);
             Util.AddCBWithOffset(locations, s.metGG_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metGG_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metGG_00000, 00000, Legal.Met_GG_0);
-            Util.AddCBWithOffset(locations, s.metGG_30000, 30000, Legal.Met_GG_3);
-            Util.AddCBWithOffset(locations, s.metGG_40000, 40000, Legal.Met_GG_4);
-            Util.AddCBWithOffset(locations, s.metGG_60000, 60000, Legal.Met_GG_6);
+            Util.AddCBWithOffset(locations, s.metGG_00000, 00000, Locations7b.Met0);
+            Util.AddCBWithOffset(locations, s.metGG_30000, 30000, Locations7b.Met3);
+            Util.AddCBWithOffset(locations, s.metGG_40000, 40000, Locations7b.Met4);
+            Util.AddCBWithOffset(locations, s.metGG_60000, 60000, Locations7b.Met6);
             return locations;
         }
 
@@ -147,10 +147,10 @@ namespace PKHeX.Core
             var locations = Util.GetCBList(s.metSWSH_00000, 0);
             Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
-            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Legal.Met_SWSH_3);
-            Util.AddCBWithOffset(locations, s.metSWSH_40000, 40000, Legal.Met_SWSH_4);
-            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Legal.Met_SWSH_6);
+            Util.AddCBWithOffset(locations, s.metSWSH_00000, 00000, Locations8.Met0);
+            Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Locations8.Met3);
+            Util.AddCBWithOffset(locations, s.metSWSH_40000, 40000, Locations8.Met4);
+            Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations8.Met6);
             return locations;
         }
 
@@ -158,10 +158,10 @@ namespace PKHeX.Core
         {
             var locations = Util.GetCBList(s.metLA_00000, 0);
             Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metLA_00000, 00000, Legal.Met_LA_0);
-            Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Legal.Met_LA_3);
-            Util.AddCBWithOffset(locations, s.metLA_40000, 40000, Legal.Met_LA_4);
-            Util.AddCBWithOffset(locations, s.metLA_60000, 60000, Legal.Met_LA_6);
+            Util.AddCBWithOffset(locations, s.metLA_00000, 00000, Locations8a.Met0);
+            Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Locations8a.Met3);
+            Util.AddCBWithOffset(locations, s.metLA_40000, 40000, Locations8a.Met4);
+            Util.AddCBWithOffset(locations, s.metLA_60000, 60000, Locations8a.Met6);
             return locations;
         }
 
@@ -171,10 +171,10 @@ namespace PKHeX.Core
             var locations = new List<ComboItem> { new(s.metSWSH_00000[0], unchecked((ushort)Locations.Default8bNone)) };
             Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations.LinkTrade6);
-            Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Legal.Met_BS_0);
-            Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Legal.Met_BS_3);
-            Util.AddCBWithOffset(locations, s.metBDSP_40000, 40000, Legal.Met_BS_4);
-            Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Legal.Met_BS_6);
+            Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Locations8b.Met0);
+            Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations8b.Met3);
+            Util.AddCBWithOffset(locations, s.metBDSP_40000, 40000, Locations8b.Met4);
+            Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations8b.Met6);
             return locations;
         }
 

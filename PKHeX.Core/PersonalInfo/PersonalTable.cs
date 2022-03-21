@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -378,7 +377,7 @@ namespace PKHeX.Core
         /// <returns>Indication that the combination exists in the table.</returns>
         public bool IsValidTypeCombination(int type1, int type2)
         {
-            return Table.Any(p => p.IsValidTypeCombination(type1, type2));
+            return Array.Find(Table, p => p.IsValidTypeCombination(type1, type2)) != null;
         }
 
         public bool IsSpeciesInGame(int species)

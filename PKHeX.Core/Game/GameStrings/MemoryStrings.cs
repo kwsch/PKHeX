@@ -24,7 +24,7 @@ namespace PKHeX.Core
             item8 = new Lazy<List<ComboItem>>(() => GetItems(8));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
             moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist));
-            specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
+            specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Locations6.Met0));
         }
 
         private List<ComboItem> GetItems(int memoryGen)

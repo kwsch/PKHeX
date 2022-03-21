@@ -198,7 +198,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species ID that can be originated from Colosseum (using only Generation 3 max Species ID values).
         /// </summary>
-        internal static readonly HashSet<int> ValidSpecies_Colo = new()
+        internal static readonly HashSet<ushort> ValidSpecies_Colo = new()
         {
             025, // Pikachu
             153, // Bayleef
