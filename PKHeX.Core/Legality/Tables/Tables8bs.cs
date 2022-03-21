@@ -13,8 +13,7 @@ namespace PKHeX.Core
 
         #region Met Locations
 
-        // TODO
-        internal static readonly int[] Met_BS_0 =
+        internal static readonly ushort[] Met_BS_0 =
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
             010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
@@ -86,12 +85,12 @@ namespace PKHeX.Core
             648, 649, 650, 651, 652, 653, 654, 655, 656, 657,
         };
 
-        internal static readonly int[] Met_BS_3 =
+        internal static readonly ushort[] Met_BS_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018, 30019, 30020, 30022,
         };
 
-        internal static readonly int[] Met_BS_4 =
+        internal static readonly ushort[] Met_BS_4 =
         {
             40001, 40002, 40003, 40005, 40006, 40007, 40008, 40009,
             40010, 40011, 40012, 40013, 40014, 40016, 40017, 40018, 40019,
@@ -103,7 +102,7 @@ namespace PKHeX.Core
             40070, 40071, 40072, 40074, 40075, 40076, 40077,
         };
 
-        internal static readonly int[] Met_BS_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, /* BDSP */ 60005, 60006, 60007, 60010 };
+        internal static readonly ushort[] Met_BS_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004, /* BDSP */ 60005, 60006, 60007, 60010 };
 
         #endregion
 
@@ -309,15 +308,16 @@ namespace PKHeX.Core
         {
             if ((uint)location > MaxValidHatchLocation8b)
                 return false;
-            if (LocationsNoHatchBDSP.Contains(location))
+            var loc16 = (ushort)location;
+            if (LocationsNoHatchBDSP.Contains(loc16))
                 return false;
 
             // Check if the location isn't an exclusive location that is only accessible in the other game.
             var table = version == GameVersion.BD ? LocationsExclusiveSP : LocationsExclusiveBD;
-            return !table.Contains(location);
+            return !table.Contains(loc16);
         }
 
-        private static readonly HashSet<int> LocationsExclusiveBD = new()
+        private static readonly HashSet<ushort> LocationsExclusiveBD = new()
         {
             216, // Spear Pillar
             218, // Hall of Origin
@@ -327,7 +327,7 @@ namespace PKHeX.Core
             655, // Ramanas Park (Rainbow Room)
         };
 
-        private static readonly HashSet<int> LocationsExclusiveSP = new()
+        private static readonly HashSet<ushort> LocationsExclusiveSP = new()
         {
             217, // Spear Pillar
             497, // Ramanas Park (Kanto Room)
@@ -337,7 +337,7 @@ namespace PKHeX.Core
             656, // Ramanas Park (Squall Room)
         };
 
-        private static readonly HashSet<int> LocationsNoHatchBDSP = new()
+        private static readonly HashSet<ushort> LocationsNoHatchBDSP = new()
         {
             035,                          // Canalave City
             094, 103, 107,                // Hearthome City

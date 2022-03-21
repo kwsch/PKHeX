@@ -15,7 +15,7 @@ namespace PKHeX.Core
         internal const int MaxGameID_6 = 27; // OR
 
         #region Met Locations
-        public static readonly int[] Met_XY_0 =
+        public static readonly ushort[] Met_XY_0 =
         {
    /* XY */ 2, 6, 8, 10, 12, 14, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32,
             34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 82, 84, 86, 88,
@@ -28,12 +28,12 @@ namespace PKHeX.Core
             350, 352, 354,
         };
 
-        internal static readonly int[] Met_XY_3 =
+        internal static readonly ushort[] Met_XY_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011,
         };
 
-        internal static readonly int[] Met_XY_4 =
+        internal static readonly ushort[] Met_XY_4 =
         {
             40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009, 40010,
             40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019, 40020, 40021, 40022, 40023, 40024, 40025,
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
         };
 
-        internal static readonly int[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+        internal static readonly ushort[] Met_XY_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 

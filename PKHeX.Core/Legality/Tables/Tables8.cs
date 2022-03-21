@@ -32,7 +32,7 @@ namespace PKHeX.Core
         internal const int MaxGameID_8 = 45; // Shield
 
         #region Met Locations
-        internal static readonly int[] Met_SWSH_0 =
+        internal static readonly ushort[] Met_SWSH_0 =
         {
                  002, 004, 006, 008,
                  012, 014, 016, 018,
@@ -63,12 +63,12 @@ namespace PKHeX.Core
             240, 242, 244, 246,
         };
 
-        internal static readonly int[] Met_SWSH_3 =
+        internal static readonly ushort[] Met_SWSH_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
         };
 
-        internal static readonly int[] Met_SWSH_4 =
+        internal static readonly ushort[] Met_SWSH_4 =
         {
             40001, 40002, 40003,        40005, 40006, 40007, 40008, 40009, 40010,
             40011, 40012, 40013, 40014,        40016, 40017, 40018, 40019, 40020,
@@ -81,7 +81,7 @@ namespace PKHeX.Core
             40081, 40082, 40083, 40084, 40085, 40086,
         };
 
-        internal static readonly int[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+        internal static readonly ushort[] Met_SWSH_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
         #endregion
 
         internal static readonly ushort[] Pouch_Regular_SWSH =

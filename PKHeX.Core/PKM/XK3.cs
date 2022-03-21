@@ -224,10 +224,10 @@ namespace PKHeX.Core
         {
             if (ShadowID != 0)
                 return true;
-            return IsOriginXD(Species, Met_Level);
+            return IsOriginXD((ushort)Species, Met_Level);
         }
 
-        private static bool IsOriginXD(int species, int metLevel) => species switch
+        private static bool IsOriginXD(ushort species, int metLevel) => species switch
         {
             296 or 297 => metLevel != 30, // Makuhita    30 Colo 18 XD
             175 or 176 => metLevel != 20, // Togepi      20 Colo 25 XD, also 20 as Togetic in Colo

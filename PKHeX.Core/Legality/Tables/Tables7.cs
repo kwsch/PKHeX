@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
         #region Met Locations
 
-        internal static readonly int[] Met_SM_0 =
+        internal static readonly ushort[] Met_SM_0 =
         {
             002, 004, // Invalid
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
@@ -32,12 +32,12 @@ namespace PKHeX.Core
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
-        internal static readonly int[] Met_SM_3 =
+        internal static readonly ushort[] Met_SM_3 =
         {
             30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009, 30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
         };
 
-        internal static readonly int[] Met_SM_4 =
+        internal static readonly ushort[] Met_SM_4 =
         {
             40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009, 40010,
             40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019, 40020, 40021, 40022, 40023, 40024, 40025,
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             40080, 40081, 40082, 40083, 40084, 40085, 40086, 40087, 40088,
         };
 
-        internal static readonly int[] Met_SM_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+        internal static readonly ushort[] Met_SM_6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 
         #endregion
 

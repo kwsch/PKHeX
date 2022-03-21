@@ -30,7 +30,7 @@ namespace PKHeX.Core
         private List<ComboItem> GetItems(int memoryGen)
         {
             var permit = Memories.GetMemoryItemParams(memoryGen);
-            var asInt = permit.Select(z => (int) z).ToArray();
+            var asInt = permit.ToArray();
             return Util.GetCBList(s.itemlist, asInt);
         }
 

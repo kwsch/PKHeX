@@ -14,7 +14,7 @@ namespace PKHeX.Core
         internal const int MaxBallID_4 = 0x18;
         internal const int MaxGameID_4 = 15; // CXD
 
-        internal static readonly int[] Met_HGSS_0 =
+        internal static readonly ushort[] Met_HGSS_0 =
         {
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
             19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
@@ -29,13 +29,13 @@ namespace PKHeX.Core
             232, 233, 234,
         };
 
-        internal static readonly int[] Met_HGSS_2 =
+        internal static readonly ushort[] Met_HGSS_2 =
         {
             2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2011,
             2012, 2013, 2014,
         };
 
-        internal static readonly int[] Met_HGSS_3 =
+        internal static readonly ushort[] Met_HGSS_3 =
         {
             3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010,
             3011, 3012, 3013, 3014, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028,

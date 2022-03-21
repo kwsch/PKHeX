@@ -66,20 +66,13 @@ namespace PKHeX.Core
             return list;
         }
 
-        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, int[] allowed)
-        {
-            var list = new List<ComboItem>(allowed.Length);
-            AddCB(list, inStrings, allowed);
-            return list;
-        }
-
         public static void AddCBWithOffset(List<ComboItem> list, IReadOnlyList<string> inStrings, int offset, int index)
         {
             var item = new ComboItem(inStrings[index - offset], index);
             list.Add(item);
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ushort[] allowed)
         {
             int beginCount = cbList.Count;
             cbList.Capacity += allowed.Length;
@@ -102,18 +95,6 @@ namespace PKHeX.Core
                 cbList.Add(item);
             }
             cbList.Sort(beginCount, inStrings.Length, Comparer);
-        }
-
-        public static void AddCB(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int[] allowed)
-        {
-            int beginCount = cbList.Count;
-            cbList.Capacity += allowed.Length;
-            foreach (var index in allowed)
-            {
-                var item = new ComboItem(inStrings[index], index);
-                cbList.Add(item);
-            }
-            cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
         public static ComboItem[] GetVariedCBListBall(string[] inStrings, ReadOnlySpan<ushort> stringNum, ReadOnlySpan<byte> stringVal)
