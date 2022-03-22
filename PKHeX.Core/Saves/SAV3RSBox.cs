@@ -15,12 +15,13 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
         public SAV3GCMemoryCard? MemoryCard { get; init; }
-        public readonly bool Japanese = false; // todo?
+        private readonly bool Japanese;
 
         public SAV3RSBox(byte[] data, SAV3GCMemoryCard memCard) : this(data) => MemoryCard = memCard;
 
-        public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
+        public SAV3RSBox(bool japanese = false) : base(SaveUtil.SIZE_G3BOX)
         {
+            Japanese = japanese;
             Box = 0;
             Blocks = Array.Empty<BlockInfoRSBOX>();
             ClearBoxes();
@@ -28,6 +29,7 @@ namespace PKHeX.Core
 
         public SAV3RSBox(byte[] data) : base(data)
         {
+            Japanese = data[0] == 0x83; // ポケモンボックス Ｒ＆Ｓ
             Blocks = ReadBlocks(data);
             InitializeData();
         }

@@ -144,7 +144,6 @@ namespace PKHeX.Core
         private int BlockAllocBAK_Checksum_Inv => ReadUInt16BigEndian(Data.AsSpan(BlockAllocBAK + 0x0002));
 
         private int DirectoryBlock_Used;
-        private int NumBlocks => (Data.Length/BLOCK_SIZE) - 5;
 
         private int EntryCOLO = -1;
         private int EntryXD = -1;
@@ -227,10 +226,14 @@ namespace PKHeX.Core
                     continue;
 
                 int FirstBlock = ReadUInt16BigEndian(Data.AsSpan(offset + 0x36));
+                if (FirstBlock < 5)
+                    continue;
+
                 int BlockCount = ReadUInt16BigEndian(Data.AsSpan(offset + 0x38));
+                var dataEnd = (FirstBlock + BlockCount) * BLOCK_SIZE;
 
                 // Memory card directory contains info for deleted files with boundaries beyond memory card size, ignore
-                if (FirstBlock + BlockCount > NumBlocks)
+                if (dataEnd > Data.Length)
                     continue;
 
                 var gameCode = EncodingType.GetString(Data, offset, 4);
