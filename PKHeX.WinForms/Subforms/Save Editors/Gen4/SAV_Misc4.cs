@@ -14,6 +14,7 @@ namespace PKHeX.WinForms
     {
         private readonly SAV4 Origin;
         private readonly SAV4 SAV;
+        private readonly Hall4? Hall;
 
         public SAV_Misc4(SAV4 sav)
         {
@@ -45,7 +46,7 @@ namespace PKHeX.WinForms
                         new[] { 2, 0, 0x696C, 0x10, 0x7F00 },
                         new[] { 0, 0, 0x699C, 0x04, 0x7F04 },
                     };
-                    ofsHallStat = 0x2820;
+                    Hall = FetchHallBlock(SAV, 0x2820);
                     break;
                 case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
                     ofsFlag = 0x10C4;
@@ -62,7 +63,7 @@ namespace PKHeX.WinForms
                         new[] { 2, 0, 0x52F0, 0x10, 0x6884 },
                         new[] { 0, 0, 0x5320, 0x04, 0x6888 },
                     };
-                    ofsHallStat = 0x230C;
+                    Hall = FetchHallBlock(SAV, 0x230C);
                     break;
                 default: return;
             }
@@ -116,13 +117,13 @@ namespace PKHeX.WinForms
             {
                 case SAV4Sinnoh:
                     metLocationList = GameInfo.GetLocationList(GameVersion.Pt, 4, false);
-                    FlyDestD = new[] { 1, 2, 6, 8, 3, 9, 10, 4, 12, 11, 5, 7, 14, 13, 54, 15, 81, 82, 83, 55 };
-                    FlyDestC = new[] { 0, 1, 7, 9, 2, 10, 11, 3, 13, 12, 4, 8, 15, 14, 16, 68, 17, 5, 6, 67 };
+                    FlyDestD = new[] { 001, 002, 006, 008, 003, 009, 010, 004, 012, 011, 005, 007, 014, 013, 054, 015, 081, 082, 083, 055 };
+                    FlyDestC = new[] { 000, 001, 007, 009, 002, 010, 011, 003, 013, 012, 004, 008, 015, 014, 016, 068, 017, 005, 006, 067 };
                     break;
                 case SAV4HGSS:
                     metLocationList = GameInfo.GetLocationList(GameVersion.HG, 4, false);
                     FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225 };
-                    FlyDestC = new[] { 11, 12, 13, 14, 16, 18, 17, 15, 19, 20, 21, 30, 27, 22, 33, 9, 0, 1, 2, 3, 5, 4, 6, 10, 7, 8, 35 };
+                    FlyDestC = new[] { 011, 012, 013, 014, 016, 018, 017, 015, 019, 020, 021, 030, 027, 022, 033, 009, 000, 001, 002, 003, 005, 004, 006, 010, 007, 008, 035 };
                     break;
                 default: return;
             }
@@ -142,7 +143,7 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV4Sinnoh sinnoh)
                 ReadPoketch(sinnoh);
-            if (SAV is SAV4HGSS hgss)
+            else if (SAV is SAV4HGSS hgss)
                 ReadWalker(hgss);
 
             if (ofsUGFlagCount > 0)
@@ -449,7 +450,6 @@ namespace PKHeX.WinForms
         private string[] BFN = null!;
         private NumericUpDown[] HallNUDA = null!;
         private bool HallStatUpdated;
-        private int ofsHallStat = -1;
 
         private void ReadBattleFrontier()
         {
@@ -487,37 +487,8 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < HallNUDA.Length; i++)
                     tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);
             }
-            if (ofsHallStat > 0)
-            {
-                bool f = false;
-                for (int i = 0; i < 2; i++, ofsHallStat += 0x14)
-                {
-                    var h = ReadInt32LittleEndian(SAV.General.AsSpan(ofsHallStat));
-                    if (h == -1) continue;
-                    for (int j = 0; j < 0x20; j++)
-                    {
-                        for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
-                        {
-                            var span = SAV.Data.AsSpan(a);
-                            if (h != ReadInt32LittleEndian(span))
-                                continue;
-                            if (ReadInt16LittleEndian(span[0xBA8..]) != 0xBA0)
-                                continue;
-
-                            f = true;
-                            ofsHallStat = a;
-                            break;
-                        }
-                        if (f) break;
-                    }
-                    if (f) break;
-                }
-                if (!f)
-                {
-                    ofsHallStat = -1;
-                    NUD_HallStreaks.Visible = NUD_HallStreaks.Enabled = false;
-                }
-            }
+            if (Hall is null)
+                NUD_HallStreaks.Visible = NUD_HallStreaks.Enabled = false;
 
             editing = true;
             CB_Stats1.Items.Clear();
@@ -538,6 +509,31 @@ namespace PKHeX.WinForms
             CB_Stats1.SelectedIndex = 0;
         }
 
+        private static Hall4? FetchHallBlock(SAV4 sav, int magicKeyOffset)
+        {
+            for (int i = 0; i < 2; i++, magicKeyOffset += 0x14)
+            {
+                var h = ReadInt32LittleEndian(sav.General.AsSpan(magicKeyOffset));
+                if (h == -1)
+                    continue;
+
+                for (int j = 0; j < 0x20; j++)
+                {
+                    for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
+                    {
+                        var span = sav.Data.AsSpan(a);
+                        if (h != ReadInt32LittleEndian(span))
+                            continue;
+                        if (ReadInt16LittleEndian(span[0xBA8..]) != 0xBA0)
+                            continue;
+                        return new Hall4(sav.Data, a);
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private void SaveBattleFrontier()
         {
             if (ofsPrints > 0)
@@ -552,11 +548,7 @@ namespace PKHeX.WinForms
             }
 
             if (HallStatUpdated)
-            {
-                var span = new ReadOnlySpan<byte>(SAV.Data, ofsHallStat, 0xBAE);
-                var chk = Checksums.CRC16_CCITT(span);
-                WriteUInt16LittleEndian(SAV.Data.AsSpan(ofsHallStat + 0xBAE), chk);
-            }
+                Hall?.RefreshChecksum();
         }
 
         private void SetPrints()
@@ -780,11 +772,10 @@ namespace PKHeX.WinForms
             }
             L_SumHall.Text = s.ToString();
 
-            if (ofsHallStat > 0)
+            if (Hall is not null)
             {
-                var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
-                ushort v = ReadUInt16LittleEndian(SAV.General.AsSpan(offset));
-                NUD_HallStreaks.Value = v > 9999 ? 9999 : v;
+                ushort v = Hall.GetCount(CB_Stats2.SelectedIndex, species);
+                NUD_HallStreaks.Value = Math.Min((ushort)9999, v);
             }
         }
 
@@ -802,9 +793,11 @@ namespace PKHeX.WinForms
 
         private void NUD_HallType_ValueChanged(object sender, EventArgs e)
         {
-            if (editing) return;
+            if (editing)
+                return;
             int i = Array.IndexOf(HallNUDA, sender);
-            if (i < 0) return;
+            if (i < 0)
+                return;
             int ofs = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 6 + (i >> 1 << 1);
             SAV.General[ofs] = (byte)((SAV.General[ofs] & ~(0xF << ((i & 1) << 2))) | (int)HallNUDA[i].Value << ((i & 1) << 2));
             L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString(CultureInfo.InvariantCulture);
@@ -812,10 +805,9 @@ namespace PKHeX.WinForms
 
         private void NUD_HallStreaks_ValueChanged(object sender, EventArgs e)
         {
-            if (editing || ofsHallStat < 0)
+            if (editing || Hall is null)
                 return;
-            var offset = ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1);
-            WriteUInt16LittleEndian(SAV.General.AsSpan(offset), (ushort)NUD_HallStreaks.Value);
+            Hall.SetCount(CB_Stats2.SelectedIndex, species, (ushort)NUD_HallStreaks.Value);
             HallStatUpdated = true;
         }
         #endregion
