@@ -1096,7 +1096,7 @@ namespace PKHeX.WinForms
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void Dragout_MouseDown(object sender, MouseEventArgs e)
+        private async void Dragout_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left)
                 return;
@@ -1123,13 +1123,23 @@ namespace PKHeX.WinForms
                 var pb = (PictureBox)sender;
                 if (pb.Image != null)
                     C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
-                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
+                C_SAV.M.Drag.ResetCursor(this);
+                await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
             }
             // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
             { WinFormsUtil.Error("Drag && Drop Error", x); }
-            C_SAV.M.Drag.ResetCursor(this);
-            File.Delete(newfile);
+        }
+
+        private static async Task DeleteAsync(string path, int delay)
+        {
+            await Task.Delay(delay).ConfigureAwait(true);
+            if (!File.Exists(path))
+                return;
+
+            try { File.Delete(path); }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
         private void Dragout_DragOver(object sender, DragEventArgs e) => e.Effect = DragDropEffects.Move;

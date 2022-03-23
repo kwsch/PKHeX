@@ -1,9 +1,11 @@
 using PKHeX.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Drawing.Misc;
 using PKHeX.WinForms.Controls;
@@ -390,7 +392,7 @@ namespace PKHeX.WinForms
                 ViewGiftData(gift);
         }
 
-        private void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
+        private async void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
         {
             if (sender == null)
                 return;
@@ -417,13 +419,23 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(newfile, gift.Write());
-                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
             }
             // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
             catch (Exception x)
             { WinFormsUtil.Error("Drag & Drop Error", x); }
-            File.Delete(newfile);
             wc_slot = -1;
+            await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+        }
+
+        private static async Task DeleteAsync(string path, int delay)
+        {
+            await Task.Delay(delay).ConfigureAwait(true);
+            if (!File.Exists(path))
+                return;
+
+            try { File.Delete(path); }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
         private void BoxSlot_DragDrop(object? sender, DragEventArgs? e)

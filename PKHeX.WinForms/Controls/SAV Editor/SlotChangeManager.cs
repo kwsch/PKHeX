@@ -163,8 +163,8 @@ namespace PKHeX.WinForms.Controls
 
             // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
             // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
-            // Keep it to 10 seconds; Discord upload only stores the file path until you click Upload.
-            int delay = external ? 10_000 : 0;
+            // Keep it to 20 seconds; Discord upload only stores the file path until you click Upload.
+            int delay = external ? 20_000 : 0;
             DeleteAsync(newfile, delay);
             if (Drag.Info.DragIsParty)
                 SE.SetParty();
@@ -173,8 +173,11 @@ namespace PKHeX.WinForms.Controls
         private async void DeleteAsync(string path, int delay)
         {
             await Task.Delay(delay).ConfigureAwait(true);
-            if (File.Exists(path) && Drag.Info.CurrentPath == null)
-                File.Delete(path);
+            if (!File.Exists(path) || Drag.Info.CurrentPath == path)
+                return;
+
+            try { File.Delete(path); }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
         private string CreateDragDropPKM(PictureBox pb, bool encrypt, out bool external)
@@ -208,7 +211,7 @@ namespace PKHeX.WinForms.Controls
 
             // Thread Blocks on DoDragDrop
             Drag.Info.CurrentPath = newfile;
-            var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+            var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
             var external = Drag.Info.Destination == null || result != DragDropEffects.Link;
             if (external || Drag.Info.SameLocation) // not dropped to another box slot, restore img
             {
