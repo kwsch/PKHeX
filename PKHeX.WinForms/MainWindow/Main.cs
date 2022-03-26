@@ -1062,8 +1062,8 @@ namespace PKHeX.WinForms
             dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
 
             pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, flagIllegal: false);
-            if (pb.BackColor == Color.Red)
-                pb.BackColor = Color.Transparent;
+            if (pb.BackColor == SlotUtil.BadDataColor)
+                pb.BackColor = SlotUtil.GoodDataColor;
         }
 
         private void PKME_Tabs_UpdatePreviewSprite(object sender, EventArgs e) => GetPreview(dragout);
@@ -1120,26 +1120,31 @@ namespace PKHeX.WinForms
             if (!PKME_Tabs.EditsComplete)
                 return;
 
-            // Create Temp File to Drag
+            // Gather data
             var pk = PreparePKM();
             var encrypt = ModifierKeys == Keys.Control;
-            var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
-            // Make file
+
+            // Create Temp File to Drag
+            var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
                 File.WriteAllBytes(newfile, data);
 
                 var pb = (PictureBox)sender;
-                if (pb.Image != null)
-                    C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                if (pb.Image is Bitmap img)
+                    C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(img.GetHicon());
+
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
-                C_SAV.M.Drag.ResetCursor(this);
-                await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
             }
             // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
             { WinFormsUtil.Error("Drag && Drop Error", x); }
+            finally
+            {
+                C_SAV.M.Drag.ResetCursor(this);
+                await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+            }
         }
 
         private static async Task DeleteAsync(string path, int delay)

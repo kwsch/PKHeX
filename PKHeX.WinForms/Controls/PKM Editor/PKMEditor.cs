@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using PKHeX.Drawing.PokeSprite;
 using PKHeX.Drawing.PokeSprite.Properties;
 using static PKHeX.Core.MessageStrings;
@@ -321,29 +322,18 @@ namespace PKHeX.WinForms.Controls
             Legality = la ?? new LegalityAnalysis(Entity, RequestSaveFile.Personal);
             if (!Legality.Parsed || HaX || Entity.Species == 0)
             {
-                PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
-                    PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
+                PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = false;
+                PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
                 LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
                 return;
             }
 
             // Refresh Move Legality
-            var moves = Entity.Moves;
             for (int i = 0; i < 4; i++)
             {
-                bool invalid = !Legality.Info.Moves[i].Valid;
-
-                Bitmap? img;
-                if (invalid)
-                    img = Resources.warn;
-                else if (Entity.Format >= 8 && Legal.GetDummiedMovesHashSet(Entity).Contains(moves[i]))
-                    img = Resources.hint;
-                else
-                    img = null;
-
                 var pb = movePB[i];
                 pb.Visible = true;
-                pb.Image = img;
+                pb.Image = GetMoveImage(!Legality.Info.Moves[i].Valid, Entity, i);
             }
 
             if (Entity.Format >= 6)
@@ -359,6 +349,16 @@ namespace PKHeX.WinForms.Controls
             LegalMoveSource.ReloadMoves(Legality.GetSuggestedMovesAndRelearn());
             FieldsLoaded = true;
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Bitmap? GetMoveImage(bool isIllegal, PKM pkm, int index)
+        {
+            if (isIllegal)
+                return Resources.warn;
+            if (pkm.Format >= 8 && Legal.GetDummiedMovesHashSet(pkm).Contains(pkm.GetMove(index)))
+                return Resources.hint;
+            return null;
         }
 
         public void UpdateUnicode(IReadOnlyList<string> symbols)

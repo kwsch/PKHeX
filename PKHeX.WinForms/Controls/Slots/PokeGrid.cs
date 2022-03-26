@@ -76,7 +76,7 @@ namespace PKHeX.WinForms.Controls
         {
             AutoSize = false,
             SizeMode = PictureBoxSizeMode.CenterImage,
-            BackColor = Color.Transparent,
+            BackColor = SlotUtil.GoodDataColor,
             Width = width + (2 * 1),
             Height = height + (2 * 1),
             Padding = Padding.Empty,

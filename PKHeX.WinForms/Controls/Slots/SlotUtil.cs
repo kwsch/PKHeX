@@ -34,6 +34,9 @@ namespace PKHeX.WinForms.Controls
             _ => DropModifier.None,
         };
 
+        public static readonly Color GoodDataColor = Color.Transparent;
+        public static readonly Color BadDataColor = Color.Red;
+
         /// <summary>
         /// Refreshes a <see cref="PictureBox"/> with the appropriate display content.
         /// </summary>
@@ -43,14 +46,14 @@ namespace PKHeX.WinForms.Controls
             if (p.Species == 0) // Nothing in slot
             {
                 pb.Image = null;
-                pb.BackColor = Color.Transparent;
+                pb.BackColor = GoodDataColor;
                 return;
             }
             if (!p.Valid) // Invalid
             {
                 // Bad Egg present in slot.
                 pb.Image = null;
-                pb.BackColor = Color.Red;
+                pb.BackColor = BadDataColor;
                 return;
             }
 
