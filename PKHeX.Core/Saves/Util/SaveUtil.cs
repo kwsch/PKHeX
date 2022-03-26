@@ -495,7 +495,7 @@ namespace PKHeX.Core
             return GG;
         }
 
-        /// <summary>Checks to see if the data belongs to a Gen7 save</summary>
+        /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG8SAV(byte[] data)
@@ -509,6 +509,10 @@ namespace PKHeX.Core
         private static GameVersion GetIsG8SAV_BDSP(ReadOnlySpan<byte> data)
         {
             if (data.Length is not (SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3))
+                return Invalid;
+
+            var ver = (Gem8Version)ReadUInt32LittleEndian(data);
+            if (ver is not (Gem8Version.V1_0 or Gem8Version.V1_1 or Gem8Version.V1_2 or Gem8Version.V1_3))
                 return Invalid;
 
             return BDSP;
