@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Drawing.Misc;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -406,20 +407,22 @@ namespace PKHeX.WinForms
             if (pb?.Image == null)
                 return;
 
-            if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
+            if (e.Button != MouseButtons.Left || e.Clicks != 1)
+                return;
 
             int index = pba.IndexOf(pb);
-            wc_slot = index;
-            // Create Temp File to Drag
-            Cursor.Current = Cursors.Hand;
-
-            // Make File
             var gift = mga.Gifts[index];
+            if (gift.Empty)
+                return;
+
+            // Create Temp File to Drag
+            wc_slot = index;
+            Cursor.Current = Cursors.Hand;
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(gift.FileName));
             try
             {
                 File.WriteAllBytes(newfile, gift.Write());
-                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
             }
             // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
             catch (Exception x)
@@ -482,44 +485,59 @@ namespace PKHeX.WinForms
             }
             else // Swap Data
             {
-                DataMysteryGift s1 = mga.Gifts[index];
-                DataMysteryGift s2 = mga.Gifts[wc_slot];
-
-                if (s2 is PCD && s1 is PGT)
-                {
-                    // set the PGT to the PGT slot instead
-                    ViewGiftData(s2);
-                    ClickSet(pba[index], EventArgs.Empty);
-                    { WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotAlternate, s2.Type, s1.Type)); return; }
-                }
-                if (s1.Type != s2.Type)
-                { WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotFailSwap, s2.Type, s1.Type)); return; }
-                mga.Gifts[wc_slot] = s1;
-                mga.Gifts[index] = s2;
-
-                if (mga.Gifts[wc_slot].Empty) // empty slot created, slide down
-                {
-                    int i = wc_slot;
-                    while (i < index)
-                    {
-                        if (mga.Gifts[i + 1].Empty)
-                            break;
-                        if (mga.Gifts[i + 1].Type != mga.Gifts[i].Type)
-                            break;
-
-                        i++;
-
-                        var mg1 = mga.Gifts[i];
-                        var mg2 = mga.Gifts[i - 1];
-
-                        mga.Gifts[i - 1] = mg1;
-                        mga.Gifts[i] = mg2;
-                    }
-                    index = i-1;
-                }
+                index = SwapSlots(index, wc_slot);
+                if (index == -1)
+                    return;
             }
             SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotView);
             SetGiftBoxes();
+        }
+
+        private int SwapSlots(int dest, int src)
+        {
+            var gifts = mga.Gifts;
+            var s1 = gifts[dest];
+            var s2 = gifts[src];
+
+            // Double check compatibility of slots
+            if (s1.Type != s2.Type)
+            {
+                if (s2 is PCD && s1 is PGT)
+                {
+                    // Get first empty slot
+                    var firstEmpty = Array.FindIndex(gifts, z => z.Empty);
+                    if ((uint)firstEmpty < dest)
+                        dest = firstEmpty;
+
+                    // set the PGT to the destination PGT slot instead
+                    ViewGiftData(s2);
+                    ClickSet(pba[dest], EventArgs.Empty);
+                    WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotAlternate, s2.Type, s1.Type));
+                }
+                else
+                {
+                    WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotFailSwap, s2.Type, s1.Type));
+                }
+                return -1;
+            }
+
+            // If data is present in both slots, just swap.
+            if (!gifts[dest].Empty)
+            {
+                // Swap
+                gifts[src] = s1;
+                gifts[dest] = s2;
+                return dest;
+            }
+
+            // empty slot created, bubble this slot to the end of its list
+            for (int i = src; i != dest; i++)
+            {
+                if (gifts[i + 1].Empty)
+                    return i; // done bubbling
+                (gifts[i + 1], gifts[i]) = (gifts[i], gifts[i + 1]);
+            }
+            throw new InvalidOperationException(); // shouldn't ever hit here.
         }
 
         private static void BoxSlot_DragEnter(object? sender, DragEventArgs e)
@@ -528,6 +546,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
+            Debug.WriteLine(e.Effect);
         }
 
         private int wc_slot = -1;
@@ -536,13 +555,14 @@ namespace PKHeX.WinForms
         private List<PictureBox> PopulateViewGiftsG4()
         {
             List<PictureBox> pb = new();
+            var spriter = SpriteUtil.Spriter;
 
             // Row 1
             var f1 = GetFlowLayoutPanel();
             f1.Controls.Add(GetLabel($"{nameof(PGT)} 1-6"));
             for (int i = 0; i < 6; i++)
             {
-                var p = GetPictureBox();
+                var p = GetPictureBox(spriter.Width, spriter.Height);
                 f1.Controls.Add(p);
                 pb.Add(p);
             }
@@ -551,7 +571,7 @@ namespace PKHeX.WinForms
             f2.Controls.Add(GetLabel($"{nameof(PGT)} 7-8"));
             for (int i = 6; i < 8; i++)
             {
-                var p = GetPictureBox();
+                var p = GetPictureBox(spriter.Width, spriter.Height);
                 f2.Controls.Add(p);
                 pb.Add(p);
             }
@@ -561,7 +581,7 @@ namespace PKHeX.WinForms
             f3.Controls.Add(GetLabel($"{nameof(PCD)} 1-3"));
             for (int i = 8; i < 11; i++)
             {
-                var p = GetPictureBox();
+                var p = GetPictureBox(spriter.Width, spriter.Height);
                 f3.Controls.Add(p);
                 pb.Add(p);
             }
@@ -579,6 +599,7 @@ namespace PKHeX.WinForms
             const int cellsPerRow = 6;
             int rows = (int)Math.Ceiling(mga.Gifts.Length / (decimal)cellsPerRow);
             int countRemaining = mga.Gifts.Length;
+            var spriter = SpriteUtil.Spriter;
 
             for (int i = 0; i < rows; i++)
             {
@@ -589,7 +610,7 @@ namespace PKHeX.WinForms
                 row.Controls.Add(GetLabel($"{start}-{start + count - 1}"));
                 for (int j = 0; j < count; j++)
                 {
-                    var p = GetPictureBox();
+                    var p = GetPictureBox(spriter.Width, spriter.Height);
                     row.Controls.Add(p);
                     pb.Add(p);
                 }
@@ -616,12 +637,12 @@ namespace PKHeX.WinForms
             Margin = new Padding(0),
         };
 
-        private static PictureBox GetPictureBox() => new()
+        private static PictureBox GetPictureBox(int width, int height) => new()
         {
-            Size = new Size(70, 58),
+            Size = new Size(width + 2, height + 2), // +1 to each side for the FixedSingle border
             SizeMode = PictureBoxSizeMode.CenterImage,
             BorderStyle = BorderStyle.FixedSingle,
-            BackColor = Color.Transparent,
+            BackColor = SlotUtil.GoodDataColor,
             Padding = new Padding(0),
             Margin = new Padding(1),
         };
