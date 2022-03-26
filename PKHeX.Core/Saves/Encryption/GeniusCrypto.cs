@@ -8,50 +8,48 @@ namespace PKHeX.Core
     /// </summary>
     public static class GeniusCrypto
     {
-        public static byte[] Decrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys)
+        public static void ReadKeys(ReadOnlySpan<byte> input, Span<ushort> keys)
         {
-            var output = input.ToArray();
-            Decrypt(input, start, end, keys, output);
-            return output;
+            for (int i = 0; i < keys.Length; i++)
+                keys[i] = ReadUInt16BigEndian(input[(i * 2)..]);
         }
 
-        public static void Decrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys, Span<byte> output)
+        public static void Decrypt(ReadOnlySpan<byte> input, Span<byte> output, Span<ushort> keys)
         {
-            for (int ofs = start; ofs < end; ofs += 8)
+            if (keys.Length != 4)
+                throw new ArgumentOutOfRangeException(nameof(keys));
+
+            int i = 0;
+            do
             {
-                for (int i = 0; i < keys.Length; i++)
+                foreach (var key in keys)
                 {
-                    var index = ofs + (i * 2);
-                    ushort val = ReadUInt16BigEndian(input[index..]);
-                    val -= keys[i];
-                    WriteUInt16BigEndian(output[index..], val);
+                    ushort value = ReadUInt16BigEndian(input[i..]);
+                    value -= key;
+                    WriteUInt16BigEndian(output[i..], value);
+                    i += 2;
                 }
-
                 AdvanceKeys(keys);
-            }
+            } while (i != input.Length);
         }
 
-        public static byte[] Encrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys)
+        public static void Encrypt(ReadOnlySpan<byte> input, Span<byte> output, Span<ushort> keys)
         {
-            var output = input.ToArray();
-            Encrypt(input, start, end, keys, output);
-            return output;
-        }
+            if (keys.Length != 4)
+                throw new ArgumentOutOfRangeException(nameof(keys));
 
-        public static void Encrypt(ReadOnlySpan<byte> input, int start, int end, Span<ushort> keys, Span<byte> output)
-        {
-            for (int ofs = start; ofs < end; ofs += 8)
+            int i = 0;
+            do
             {
-                for (int i = 0; i < keys.Length; i++)
+                foreach (var key in keys)
                 {
-                    var index = ofs + (i * 2);
-                    ushort val = ReadUInt16BigEndian(input[index..]);
-                    val += keys[i];
-                    WriteUInt16BigEndian(output[index..], val);
+                    ushort value = ReadUInt16BigEndian(input[i..]);
+                    value += key;
+                    WriteUInt16BigEndian(output[i..], value);
+                    i += 2;
                 }
-
                 AdvanceKeys(keys);
-            }
+            } while (i != input.Length);
         }
 
         private static void AdvanceKeys(Span<ushort> keys)

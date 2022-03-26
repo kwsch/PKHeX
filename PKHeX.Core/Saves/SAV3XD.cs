@@ -64,16 +64,7 @@ namespace PKHeX.Core
             }
 
             // Decrypt most recent save slot
-            {
-                int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-                ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
-                Span<ushort> keys = stackalloc ushort[4];
-                for (int i = 0; i < keys.Length; i++)
-                    keys[i] = ReadUInt16BigEndian(slot[(8 + (i * 2))..]);
-
-                // Decrypt Slot
-                Data = GeniusCrypto.Decrypt(slot, 0x00010, 0x27FD8, keys);
-            }
+            Data = ReadSlot(Data, SaveIndex);
 
             // Get Offset Info
             Span<ushort> subLength = stackalloc ushort[16];
@@ -95,6 +86,23 @@ namespace PKHeX.Core
             bool jp = subLength[7] == 0x1E00;
             memo = new StrategyMemo(Data, Memo, xd: true);
             info = new ShadowInfoTableXD(Data.AsSpan(Shadow, subLength[7]), jp);
+        }
+
+        private static byte[] ReadSlot(Span<byte> data, int index)
+        {
+            int slotOffset = SLOT_START + (index * SLOT_SIZE);
+            var slot = data.Slice(slotOffset, SLOT_SIZE);
+            var result = new byte[SLOT_SIZE];
+            var destSpan = result.AsSpan();
+
+            // Decrypt Slot
+            Span<ushort> keys = stackalloc ushort[4];
+            GeniusCrypto.ReadKeys(slot.Slice(8, keys.Length * 2), keys);
+            Range r = new(0x10, 0x27FD8);
+            GeniusCrypto.Decrypt(slot[r], destSpan[r], keys); // body
+            slot[..0x10].CopyTo(destSpan[..0x10]); // checksums
+            slot[^0x18..].CopyTo(destSpan[^0x18..]); // tail end
+            return result;
         }
 
         private void Initialize()
@@ -135,16 +143,20 @@ namespace PKHeX.Core
             ShadowInfo.Write().CopyTo(Data, Shadow);
             SetChecksums();
 
-            // Get updated save slot data
-            Span<ushort> keys = stackalloc ushort[4];
-            for (int i = 0; i < keys.Length; i++)
-                keys[i] = ReadUInt16BigEndian(Data.AsSpan(8 + (i * 2)));
-            byte[] newSAV = GeniusCrypto.Encrypt(Data, 0x10, 0x27FD8, keys);
-
             // Put save slot back in original save data
-            byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[]) BAK.Clone();
-            Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
-            return newFile;
+            var destOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
+            byte[] dest = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
+            var destSpan = dest.AsSpan(destOffset, Data.Length);
+
+            // Get updated save slot data
+            Span<byte> slot = Data;
+            Span<ushort> keys = stackalloc ushort[4];
+            GeniusCrypto.ReadKeys(slot.Slice(8, keys.Length * 2), keys);
+            Range r = new(0x10, 0x27FD8);
+            GeniusCrypto.Encrypt(slot[r], destSpan[r], keys);
+            slot[..0x10].CopyTo(destSpan[..0x10]); // checksum/keys
+            slot[^0x18..].CopyTo(destSpan[^0x18..]); // tail end
+            return dest;
         }
 
         // Configuration
@@ -219,7 +231,7 @@ namespace PKHeX.Core
             WriteInt32BigEndian(data.AsSpan(start + subOffset0 + 0x38), newHC);
 
             // Body Checksum
-            data.AsSpan(0x10, 0x10).Fill(0); // Clear old Checksum Data
+            data.AsSpan(0x10, 0x10).Clear(); // Clear old Checksum Data
             Span<uint> checksum = stackalloc uint[4];
             int dt = 8;
             for (int i = 0; i < checksum.Length; i++)
