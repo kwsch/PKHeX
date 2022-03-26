@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -177,16 +178,15 @@ namespace PKHeX.Core
 
         public PokegearNumber[] GetPokeGearRoloDex()
         {
-            var arr = new PokegearNumber[GearMaxCallers];
-            for (int i = 0; i < arr.Length; i++)
-                arr[i] = GetCallerAtIndex(i);
-            return arr;
+            var arr = General.AsSpan(OFS_GearRolodex, GearMaxCallers);
+            return MemoryMarshal.Cast<byte, PokegearNumber>(arr).ToArray();
         }
 
-        public void SetPokeGearRoloDex(IReadOnlyList<PokegearNumber> value)
+        public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value)
         {
-            for (int i = 0; i < value.Count; i++)
-                SetCallerAtIndex(i, value[i]);
+            if (value.Length > GearMaxCallers)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            MemoryMarshal.Cast<PokegearNumber, byte>(value).CopyTo(General.AsSpan(OFS_GearRolodex, GearMaxCallers));
         }
 
         public void PokeGearUnlockAllCallers()

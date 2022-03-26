@@ -10,7 +10,7 @@ namespace PKHeX.Core
         RTC3 ClockInitial { get; set; }
         RTC3 ClockElapsed { get; set; }
         PokeBlock3Case PokeBlocks { get; set; }
-        DecorationInventory3 Decorations { get; set; }
+        DecorationInventory3 Decorations { get; }
         Swarm3 Swarm { get; set; }
 
         IReadOnlyList<Swarm3> DefaultSwarms { get; }

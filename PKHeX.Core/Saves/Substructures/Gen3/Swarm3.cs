@@ -1,6 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
@@ -8,24 +10,27 @@ namespace PKHeX.Core
     public sealed class Swarm3
     {
         public const int SIZE = 0x14;
+        public readonly byte[] Data;
 
-        public ushort Gen3Species { get; set; }
-        public byte MapNum { get; set; }
-        public byte MapGroup { get; set; }
-        public byte Level { get; set; }
-        public byte Unused1 { get; set; }
-        public ushort Unused2 { get; set; }
-        public ushort Move1 { get; set; }
-        public ushort Move2 { get; set; }
-        public ushort Move3 { get; set; }
-        public ushort Move4 { get; set; }
-        public byte Unused3 { get; set; }
-        public byte EncounterProbability { get; set; }
-        public ushort DaysLeft { get; set; }
+        private Span<byte> Raw => Data.AsSpan();
 
-        public Swarm3() {}
+        public ushort Gen3Species { get => ReadUInt16LittleEndian(Raw); set => WriteUInt16LittleEndian(Raw, value); }
+        public byte MapNum    { get => Raw[2]; set => Raw[2] = value; }
+        public byte MapGroup  { get => Raw[3]; set => Raw[3] = value; }
+        public byte Level     { get => Raw[4]; set => Raw[4] = value; }
+        public byte Unused1   { get => Raw[5]; set => Raw[5] = value; }
+        public ushort Unused2 { get => ReadUInt16LittleEndian(Raw[0x6..]); set => WriteUInt16LittleEndian(Raw[0x6..], value); }
+        public ushort Move1   { get => ReadUInt16LittleEndian(Raw[0x8..]); set => WriteUInt16LittleEndian(Raw[0x8..], value); }
+        public ushort Move2   { get => ReadUInt16LittleEndian(Raw[0xA..]); set => WriteUInt16LittleEndian(Raw[0xA..], value); }
+        public ushort Move3   { get => ReadUInt16LittleEndian(Raw[0xC..]); set => WriteUInt16LittleEndian(Raw[0xC..], value); }
+        public ushort Move4   { get => ReadUInt16LittleEndian(Raw[0xE..]); set => WriteUInt16LittleEndian(Raw[0xE..], value); }
+        public byte Unused3 { get => Raw[0x10]; set => Raw[0x10] = value; }
+        public byte EncounterProbability { get => Raw[0x11]; set => Raw[0x11] = value; }
+        public ushort DaysLeft { get => ReadUInt16LittleEndian(Raw[0x12..]); set => WriteUInt16LittleEndian(Raw[0x12..], value); }
 
-        public Swarm3(Species species, byte level, byte map, Move m1, Move m2 = 0, Move m3 = 0, Move m4 = 0)
+        public Swarm3(byte[] data) => Data = data;
+
+        public Swarm3(Species species, byte level, byte map, Move m1, Move m2 = 0, Move m3 = 0, Move m4 = 0) : this(new byte[SIZE])
         {
             Gen3Species = (ushort)SpeciesConverter.GetG3Species((int)species);
             Level = level;

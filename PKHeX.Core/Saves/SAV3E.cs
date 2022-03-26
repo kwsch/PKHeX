@@ -150,17 +150,15 @@ namespace PKHeX.Core
 
         protected override int SeenOffset2 => 0x988;
 
-        public DecorationInventory3 Decorations
-        {
-            get => Large.Slice(0x2734, DecorationInventory3.SIZE).ToStructure<DecorationInventory3>();
-            set => SetData(Large, value.ToBytes(), 0x2734);
-        }
+        public DecorationInventory3 Decorations => new(Large.AsSpan(0x2734, DecorationInventory3.SIZE));
 
         public Swarm3 Swarm
         {
-            get => Large.Slice(0x2B90, Swarm3.SIZE).ToClass<Swarm3>();
-            set => SetData(Large, value.ToBytesClass(), 0x2B90);
+            get => new(Large.Slice(0x2B90, Swarm3.SIZE));
+            set => SetData(Large, value.Data, 0x2B90);
         }
+
+        private void ClearSwarm() => Large.AsSpan(0x2B90, Swarm3.SIZE).Clear();
 
         public IReadOnlyList<Swarm3> DefaultSwarms => Swarm3Details.Swarms_E;
 
@@ -170,7 +168,10 @@ namespace PKHeX.Core
             set
             {
                 var arr = DefaultSwarms;
-                Swarm = (uint)value >= arr.Count ? new Swarm3() : arr[value];
+                if ((uint)value >= arr.Count)
+                    ClearSwarm();
+                else
+                    Swarm = arr[value];
             }
         }
 
