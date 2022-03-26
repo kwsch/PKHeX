@@ -223,7 +223,7 @@ namespace PKHeX.Core
                 yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred
-            if (encounter is EncounterStatic2Odd {Version: GameVersion.C, EggLocation: 256}) // Dizzy Punch Gifts
+            if (encounter is EncounterStatic2Odd) // Dizzy Punch Gifts
                 FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
             bool checkShiny = pkm.VC2 || (pkm.VC1 && GBRestrictions.IsTimeCapsuleTransferred(pkm, Moves, encounter).WasTimeCapsuleTransferred());

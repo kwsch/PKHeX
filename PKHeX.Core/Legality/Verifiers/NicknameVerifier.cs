@@ -350,7 +350,7 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    if (pkm.Version is (int)GameVersion.D or (int)GameVersion.P && t is EncounterTrade4PID) // mainline DP
+                    if (t is EncounterTrade4PID && pkm.Version is ((int)GameVersion.D or (int)GameVersion.P)) // mainline DP
                     {
                         // DP English origin are Japanese lang. Can't have LanguageID 2
                         if (lang == 2)

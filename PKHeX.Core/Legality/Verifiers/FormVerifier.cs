@@ -45,7 +45,7 @@ namespace PKHeX.Core
             switch ((Species)species)
             {
                 case Pikachu when Info.Generation == 6: // Cosplay
-                    bool isStatic = enc is EncounterStatic;
+                    bool isStatic = enc is EncounterStatic6;
                     bool validCosplay = form == (isStatic ? enc.Form : 0);
                     if (!validCosplay)
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
