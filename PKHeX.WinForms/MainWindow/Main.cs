@@ -824,7 +824,17 @@ namespace PKHeX.WinForms
             {
                 var src = sav.Metadata.FilePath;
                 if (src is { } x && File.Exists(x))
-                    File.Copy(x, backupName);
+                {
+                    try
+                    {
+                        File.Copy(x, backupName);
+                    }
+                    catch (Exception ex)
+                    {
+                        WinFormsUtil.Error(MsgBackupUnable, ex);
+                        return false;
+                    }
+                }
             }
             if (!FileUtil.IsFileLocked(path))
                 return true;
