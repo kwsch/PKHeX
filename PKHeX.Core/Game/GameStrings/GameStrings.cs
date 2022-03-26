@@ -348,7 +348,6 @@ namespace PKHeX.Core
             SanitizeMetG6XY();
             SanitizeMetG7SM();
             SanitizeMetG8SWSH();
-            SanitizeMetG8LA();
             SanitizeMetG8BDSP();
             SanitizeMetG8PLA();
 
@@ -482,12 +481,6 @@ namespace PKHeX.Core
             metSWSH_40000[86] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
             // metSWSH_30000[12] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
             // metSWSH_30000[18] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
-        }
-
-        private void SanitizeMetG8LA()
-        {
-            metBDSP_30000[1] += $" ({NPC})";      // Anything from an NPC
-            metBDSP_30000[2] += $" ({EggName})";  // Egg From Link Trade
         }
 
         private void SanitizeMetG8BDSP()
