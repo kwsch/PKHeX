@@ -34,7 +34,7 @@ namespace PKHeX.Core
 
         public const int BEANS_MAX = 15;
         public Span<byte> GetBeans() => Data.AsSpan(Offset + 0x564C, BEANS_MAX);
-        public void ClearBeans() => GetBeans().Fill(0);
+        public void ClearBeans() => GetBeans().Clear();
         public void FillBeans(byte value = 255) => GetBeans().Fill(value);
 
         public int GetPokebeanCount(int bean_id) => GetBeans()[bean_id];

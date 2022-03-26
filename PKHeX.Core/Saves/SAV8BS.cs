@@ -170,7 +170,7 @@ namespace PKHeX.Core
 
         private byte[] ComputeHash()
         {
-            CurrentHash.Fill(0);
+            CurrentHash.Clear();
             using var md5 = new MD5CryptoServiceProvider();
             return md5.ComputeHash(Data);
         }

@@ -105,7 +105,7 @@ namespace PKHeX.Core
         public byte GetNPCSeen(int index) => Data[Offset + OFS_NPC + index];
         public void SetNPCSeen(int index, byte value) => Data[Offset + OFS_NPC + index] = value;
 
-        public void ClearNPC() => GetTrainers().Fill(0);
+        public void ClearNPC() => GetTrainers().Clear();
         public void ClearNPC(int start, int count = COUNT_TRAINERS) => FillNPC(0, start, count);
 
         public int TalkedNPC // Spiritomb Trainer Count (duplicates OK)

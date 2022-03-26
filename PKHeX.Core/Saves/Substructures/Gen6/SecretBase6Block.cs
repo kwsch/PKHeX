@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
             // Ensure Last Entry is Cleared
             int lastBaseOffset = baseOffset + (size * maxBaseIndex);
-            arr.AsSpan(lastBaseOffset, size).Fill(0);
+            arr.AsSpan(lastBaseOffset, size).Clear();
         }
     }
 }
