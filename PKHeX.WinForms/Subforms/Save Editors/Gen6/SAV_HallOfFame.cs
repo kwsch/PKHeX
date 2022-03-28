@@ -246,7 +246,7 @@ namespace PKHeX.WinForms
             WriteUInt16LittleEndian(span[0x10..], Convert.ToUInt16(TB_TID.Text));
             WriteUInt16LittleEndian(span[0x12..], Convert.ToUInt16(TB_SID.Text));
 
-            uint rawslgf = ReadUInt32LittleEndian(span[14..]);
+            uint rawslgf = ReadUInt32LittleEndian(span[0x14..]);
             uint slgf = 0;
             slgf |= (uint)(CB_Form.SelectedIndex & 0x1F);
             slgf |= (uint)((PKX.GetGenderFromString(Label_Gender.Text) & 0x3) << 5);
