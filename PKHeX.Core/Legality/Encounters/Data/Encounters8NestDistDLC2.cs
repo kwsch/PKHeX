@@ -8,6 +8,13 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 438, Ability = A4, Moves = new[]{ 088, 383, 175, 313 }, Index = 102 }, // Bonsly
+            new(30,03,2) { Species = 438, Ability = A4, Moves = new[]{ 088, 317, 175, 313 }, Index = 102 }, // Bonsly
+            new(40,05,3) { Species = 438, Ability = A4, Moves = new[]{ 317, 389, 157, 313 }, Index = 102 }, // Bonsly
+            new(50,08,4) { Species = 185, Ability = A4, Moves = new[]{ 452, 359, 157, 389 }, Index = 102 }, // Sudowoodo
+            new(60,10,5) { Species = 185, Ability = A4, Moves = new[]{ 452, 444, 038, 389 }, Index = 102, Shiny = Shiny.Always }, // Sudowoodo
+            new(60,10,5) { Species = 185, Ability = A4, Moves = new[]{ 452, 444, 038, 389 }, Index = 102 }, // Sudowoodo
+
             new(17,01,1) { Species = 696, Ability = A4, Moves = new[]{ 246, 033, 525, 046 }, Index = 100 }, // Tyrunt
             new(17,01,1) { Species = 564, Ability = A4, Moves = new[]{ 453, 414, 246, 044 }, Index = 100 }, // Tirtouga
             new(17,01,1) { Species = 566, Ability = A4, Moves = new[]{ 017, 246, 225, 414 }, Index = 100 }, // Archen
