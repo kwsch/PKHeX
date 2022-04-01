@@ -125,7 +125,6 @@ namespace PKHeX.Core
         public static readonly HashSet<int> SignatureSketch_BDSP = new()
         {
             (int)Move.PsychoBoost, // Deoxys
-            (int)Move.DarkVoid, // Darkrai
         };
 
         /// <summary>
@@ -244,12 +243,10 @@ namespace PKHeX.Core
 
         private static readonly HashSet<ushort> LocationsNoHatchBDSP = new()
         {
-            035,                          // Canalave City
             094, 103, 107,                // Hearthome City
             154, 155, 158,                // Sunyshore City
             181, 182, 183,                // Pokémon League
             329,                          // Lake Acuity
-            332, 333,                     // Newmoon Island
             337, 338,                     // Battle Park
             339, 340, 341, 342, 343, 344, // Battle Tower
             345, 353, 421,                // Mystery Zone
