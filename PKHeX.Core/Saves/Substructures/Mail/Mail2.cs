@@ -1,69 +1,128 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+// warning: international only
+public sealed class Mail2 : Mail
 {
-    public sealed class Mail2 : Mail
+    private readonly bool US;
+    private bool Japanese => !US;
+    private bool Korean => !US && !Japanese;
+
+    // structure:
+    private const int LINE_LENGTH = 0x10;
+    private const int MESSAGE_LENGTH = LINE_LENGTH + LINE_LENGTH + 1; // each line has a single char at end
+    private const int OFS_AUTHOR = MESSAGE_LENGTH;
+    private const int OFS_AUTHOR_NATION = OFS_AUTHOR + AUTHOR_LENGTH + 1;
+    private const int OFS_AUTHOR_ID = OFS_AUTHOR_NATION + 2;
+    private const int OFS_APPEAR = OFS_AUTHOR_ID + 2;
+    private const int OFS_TYPE = OFS_APPEAR + 1;
+    private const int SIZE = OFS_TYPE + 1;
+
+    private const int COUNT_PARTY = 6;
+    private const int COUNT_MAILBOX = 10;
+
+    private const int AUTHOR_LENGTH = 7;
+
+    public Mail2(SAV2 sav, int index) : base(sav.GetData(GetMailOffset(index), 0x2F), GetMailOffset(index))
     {
-        private readonly bool US;
-
-        public Mail2(SAV2 sav, int index) : base(sav.GetData(GetMailOffset(index), 0x2F), GetMailOffset(index))
-        {
-            US = !sav.Japanese && !sav.Korean;
-        }
-
-        private static int GetMailOffset(int index)
-        {
-            return index < 6 ? (index * 0x2F) + 0x600 : ((index - 6) * 0x2F) + 0x835;
-        }
-
-        public override string GetMessage(bool isLastLine) => US ? StringConverter12.GetString(Data.AsSpan(isLastLine ? 0x11 : 0, 0x10), false) : string.Empty;
-
-        public override void SetMessage(string line1, string line2)
-        {
-            if (US)
-            {
-                StringConverter12.SetString(Data.AsSpan(0x11, 0x10), line2.AsSpan(), 0x10, false, StringConverterOption.Clear50);
-                bool hasLine2 = Data[0x11] != StringConverter12.G1TerminatorCode;
-                var padChar = !hasLine2 ? StringConverterOption.Clear50 : StringConverterOption.Clear7F; // space
-                StringConverter12.SetString(Data.AsSpan(0, 0x10), line1.AsSpan(), 0x10, false, padChar);
-                Data[0x10] = 0x4E;
-            }
-        }
-
-        public override string AuthorName
-        {
-            get => US ? StringConverter12.GetString(Data.AsSpan(0x21, 8), false) : string.Empty;
-            set
-            {
-                if (US)
-                {
-                    StringConverter12.SetString(Data.AsSpan(0x21, 8), value.AsSpan(), 7, false, StringConverterOption.Clear50);
-                    Data[0x29] = Data[0x2A] = 0;
-                }
-            }
-        }
-
-        public override ushort AuthorTID
-        {
-            get => (ushort)(Data[0x2B] << 8 | Data[0x2C]);
-            set
-            {
-                Data[0x2B] = (byte)(value >> 8);
-                Data[0x2C] = (byte)(value & 0xFF);
-            }
-        }
-
-        public override int AppearPKM { get => Data[0x2D]; set => Data[0x2D] = (byte)value; }
-        public override int MailType { get => Data[0x2E]; set => Data[0x2E] = (byte)value; }
-
-        public override bool? IsEmpty => MailType switch
-        {
-            0 => true,
-            0x9E => false,
-            >= 0xB5 and <= 0xBD => false,
-            _ => null,
-        };
-
-        public override void SetBlank() => (new byte[0x2F]).CopyTo(Data, 0);
+        US = !sav.Japanese && !sav.Korean;
     }
+
+    private static int GetMailOffset(int index)
+    {
+        if (index < COUNT_PARTY)
+            return GetPartyMailOffset(index);
+        return GetMailboxMailOffset(index - COUNT_PARTY);
+    }
+
+    private static int GetPartyMailOffset(int index)
+    {
+        if ((uint)index >= COUNT_PARTY)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * SIZE) + 0x600;
+    }
+
+    private static int GetMailboxMailOffset(int index)
+    {
+        if ((uint)index >= COUNT_MAILBOX)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (index * SIZE) + 0x835;
+    }
+
+    private string GetString(Span<byte> asSpan)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(asSpan);
+        return StringConverter12.GetString(asSpan, Japanese);
+    }
+
+    private void SetString(Span<byte> asSpan, ReadOnlySpan<char> value, int maxLength)
+    {
+        if (Korean)
+            StringConverter2KOR.SetString(asSpan, value, maxLength);
+        else
+            StringConverter12.SetString(asSpan, value, maxLength, Japanese);
+    }
+
+    public string Line1
+    {
+        get => GetString(Data.AsSpan(0, LINE_LENGTH - 1));
+        set
+        {
+            var span = Data.AsSpan(0, LINE_LENGTH);
+            SetString(span[..^1], value.AsSpan(), LINE_LENGTH - 1);
+            span[^1] = 0x4E;
+        }
+    }
+
+    public string Line2
+    {
+        get => GetString(Data.AsSpan(LINE_LENGTH, LINE_LENGTH - 1));
+        set
+        {
+            var span = Data.AsSpan(LINE_LENGTH, LINE_LENGTH);
+            SetString(span[..^1], value.AsSpan(), LINE_LENGTH - 1);
+            span[^1] = 0x4E;
+        }
+    }
+
+    public override string GetMessage(bool isLastLine) => isLastLine ? Line2 : Line1;
+    public override void SetMessage(string line1, string line2) => (Line1, Line2) = (line1, line2);
+
+    public override string AuthorName
+    {
+        get => GetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH + 1));
+        set
+        {
+            SetString(Data.AsSpan(OFS_AUTHOR, 8), value.AsSpan(), AUTHOR_LENGTH);
+            Nationality = 0; // ??
+        }
+    }
+
+    public ushort Nationality
+    {
+        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2));
+        set => WriteUInt16LittleEndian(Data.AsSpan(OFS_AUTHOR_NATION, 2), value);
+    }
+
+    public override ushort AuthorTID
+    {
+        get => ReadUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID + 2));
+        set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2), value);
+    }
+
+    public override int AppearPKM { get => Data[OFS_APPEAR]; set => Data[OFS_APPEAR] = (byte)value; }
+    public override int MailType  { get => Data[OFS_TYPE];   set => Data[OFS_TYPE]   = (byte)value; }
+
+    public override bool? IsEmpty => MailType switch
+    {
+        0 => true,
+        0x9E => false,
+        >= 0xB5 and <= 0xBD => false,
+        _ => null,
+    };
+
+    public override void SetBlank() => Data.AsSpan(0, SIZE).Clear();
 }
