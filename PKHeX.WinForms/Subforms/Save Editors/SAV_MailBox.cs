@@ -106,6 +106,7 @@ namespace PKHeX.WinForms
                 CB_AppearPKM1.Items.Clear();
                 CB_AppearPKM1.InitializeBinding();
                 CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
+                B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
             }
             else if (Gen is 4 or 5)
             {
@@ -564,6 +565,34 @@ namespace PKHeX.WinForms
             int index = Array.IndexOf(PKMNUDs, (NumericUpDown)sender);
             if (index < 0 || index >= p.Count) return;
             ((PK3)p[index]).HeldMailID = (sbyte)PKMNUDs[index].Value;
+        }
+
+        private void B_PartyUp_Click(object sender, EventArgs e) => SwapSlots(LB_PartyHeld, false);
+        private void B_PartyDown_Click(object sender, EventArgs e) => SwapSlots(LB_PartyHeld, true);
+        private void B_BoxUp_Click(object sender, EventArgs e) => SwapSlots(LB_PCBOX, false);
+        private void B_BoxDown_Click(object sender, EventArgs e) => SwapSlots(LB_PCBOX, true);
+
+        private void SwapSlots(ListControl lb, bool down)
+        {
+            int index = lb.SelectedIndex;
+            if (index <= 0)
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+                return;
+            }
+
+            bool isBox = lb == LB_PCBOX;
+            if (isBox)
+                index += PartyBoxCount;
+
+            editing = true;
+            var otherIndex = index + (down ? 1 : -1);
+            (m[otherIndex], m[index]) = (m[index], m[otherIndex]); // swap mail objects
+            if (entry >= PartyBoxCount == isBox)
+                entry = otherIndex;
+            LoadList(); // reset labels
+            lb.SelectedIndex = otherIndex; // move selection to new spot
+            editing = false;
         }
     }
 }
