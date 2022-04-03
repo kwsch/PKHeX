@@ -57,9 +57,6 @@ namespace PKHeX.Core
             if (Trainer.Generation >= 6)
                 CheckECReuse();
 
-            if (Trainer.Generation >= 8)
-                CheckHOMETrackerReuse();
-
             CheckDuplicateOwnedGifts();
             return Parse.All(z => z.Valid);
         }
@@ -163,30 +160,6 @@ namespace PKHeX.Core
                     continue;
                 }
                 VerifyECShare(pa, cr);
-            }
-        }
-
-        private void CheckHOMETrackerReuse()
-        {
-            var dict = new Dictionary<ulong, SlotCache>();
-            for (int i = 0; i < AllData.Count; i++)
-            {
-                if (CloneFlags[i])
-                    continue; // already flagged
-                var cp = AllData[i];
-                Debug.Assert(cp.Entity.Format >= 8);
-                Debug.Assert(cp.Entity is IHomeTrack);
-                var id = ((IHomeTrack)cp.Entity).Tracker;
-
-                if (id == 0)
-                    continue;
-
-                if (!dict.TryGetValue(id, out var ps) || ps is null)
-                {
-                    dict.Add(id, cp);
-                    continue;
-                }
-                AddLine(ps, cp, "HOME Tracker sharing detected.", Misc);
             }
         }
 
