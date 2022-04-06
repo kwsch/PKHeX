@@ -225,6 +225,10 @@ namespace PKHeX.Core
             {
                 pk7.FatefulEncounter = true;
             }
+/*          else if (Species == (int)Core.Species.Bad_Egg) // Bad egg recinition
+            {
+                pk7.FatefulEncounter = true;
+            }*/
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
