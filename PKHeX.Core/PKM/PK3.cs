@@ -203,7 +203,10 @@ namespace PKHeX.Core
 
         public override void RefreshChecksum()
         {
+            if FlagIsBadEgg = false then
             FlagIsBadEgg = false;
+            else
+            FlagIsBadEgg = true;
             Checksum = PokeCrypto.GetCHK3(Data);
         }
 
