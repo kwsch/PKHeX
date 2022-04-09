@@ -8,24 +8,17 @@ namespace PKHeX.Core.Searching
     /// </summary>
     public static class SearchUtil
     {
-        public static bool SatisfiesFilterFormat(PKM pk, int format, SearchComparison formatOperand)
+        // Future: Might need to clamp down further for generations that cannot exist in the current format.
+        public static bool SatisfiesFilterFormat(PKM pk, int format, SearchComparison formatOperand) => formatOperand switch
         {
-            switch (formatOperand)
-            {
-                case SearchComparison.GreaterThanEquals when pk.Format < format:
-                case SearchComparison.Equals when pk.Format != format:
-                case SearchComparison.LessThanEquals when pk.Format > format:
-                    return false;
-            }
+            SearchComparison.GreaterThanEquals when pk.Format <  format => false,
+            SearchComparison.Equals            when pk.Format != format => false,
+            SearchComparison.LessThanEquals    when pk.Format >  format => false,
 
-            // Might need to clamp down further for generations that cannot exist in the current format.
-            return format switch
-            {
-                <= 2 => pk.Format <= 2, // 1-2
-                <= 6 => pk.Format >= 3, // 3-6
-                _ => true,
-            };
-        }
+            _ when format <= 2 => pk.Format <= 2, // 1-2
+            _ when format <= 6 => pk.Format >= 3, // 3-6
+            _ => true,
+        };
 
         public static bool SatisfiesFilterGeneration(PKM pk, int generation) => generation switch
         {
