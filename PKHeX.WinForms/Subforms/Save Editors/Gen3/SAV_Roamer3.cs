@@ -38,14 +38,14 @@ namespace PKHeX.WinForms
 
         private void SaveData()
         {
-            int[] IVs = new int[6];
+            Span<int> IVs = stackalloc int[6];
             var iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
             for (int i = 0; i < iv.Length; i++)
                 IVs[i] = Util.ToInt32(iv[i].Text);
 
             Reader.PID = Util.GetHexValue(TB_PID.Text);
             Reader.Species = WinFormsUtil.GetIndex(CB_Species);
-            Reader.IVs = IVs;
+            Reader.SetIVs(IVs);
             Reader.Active = CHK_Active.Checked;
             Reader.CurrentLevel = (int)NUD_Level.Value;
         }
