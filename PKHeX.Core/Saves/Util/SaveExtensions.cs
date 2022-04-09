@@ -129,17 +129,17 @@ namespace PKHeX.Core
 
             foreach (var temp in pks)
             {
-                var pk = EntityConverter.ConvertToType(temp, savtype, out string c);
+                var pk = EntityConverter.ConvertToType(temp, savtype, out var c);
                 if (pk == null)
                 {
-                    Debug.WriteLine(c);
+                    Debug.WriteLine(c.GetDisplayString(temp, savtype));
                     continue;
                 }
 
                 if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
                 {
-                    c = EntityConverter.GetIncompatibleGBMessage(pk, il.Japanese);
-                    Debug.WriteLine(c);
+                    var str = EntityConverterResult.IncompatibleLanguageGB.GetIncompatibleGBMessage(pk, il.Japanese);
+                    Debug.WriteLine(str);
                     continue;
                 }
 

@@ -104,11 +104,11 @@ namespace PKHeX.WinForms
             int index = GetSenderIndex(sender);
             if (index < 0)
                 return;
-            var pk = Results[index].ConvertToPKM(SAV);
-            pk = EntityConverter.ConvertToType(pk, SAV.PKMType, out var c);
+            var temp = Results[index].ConvertToPKM(SAV);
+            var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out var c);
             if (pk == null)
             {
-                WinFormsUtil.Error(c);
+                WinFormsUtil.Error(c.GetDisplayString(temp, SAV.PKMType));
                 return;
             }
             SAV.AdaptPKM(pk);

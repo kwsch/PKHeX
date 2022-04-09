@@ -280,8 +280,12 @@ namespace PKHeX.WinForms.Controls
             if (focus)
                 Tab_Main.Focus();
 
-            if (!skipConversionCheck && !EntityConverter.TryMakePKMCompatible(pk, Entity, out string c, out pk))
-            { WinFormsUtil.Alert(c); return; }
+            if (!skipConversionCheck && !EntityConverter.TryMakePKMCompatible(pk, Entity, out var c, out pk))
+            {
+                var msg = c.GetDisplayString(pk, Entity.GetType());
+                WinFormsUtil.Alert(msg);
+                return;
+            }
 
             FieldsLoaded = false;
 

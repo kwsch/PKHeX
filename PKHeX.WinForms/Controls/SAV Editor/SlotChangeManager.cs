@@ -290,9 +290,10 @@ namespace PKHeX.WinForms.Controls
                 return true; // treat as handled
             }
 
-            var pk = EntityConverter.ConvertToType(temp, sav.PKMType, out string c);
+            var pk = EntityConverter.ConvertToType(temp, sav.PKMType, out var result);
             if (pk == null)
             {
+                var c = result.GetDisplayString(temp, sav.PKMType);
                 WinFormsUtil.Error(c);
                 Debug.WriteLine(c);
                 return false;
@@ -303,9 +304,9 @@ namespace PKHeX.WinForms.Controls
 
             if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
             {
-                c = EntityConverter.GetIncompatibleGBMessage(pk, il.Japanese);
-                WinFormsUtil.Error(c);
-                Debug.WriteLine(c);
+                var str = EntityConverterResult.IncompatibleLanguageGB.GetIncompatibleGBMessage(pk, il.Japanese);
+                WinFormsUtil.Error(str);
+                Debug.WriteLine(str);
                 return false;
             }
 
@@ -315,14 +316,14 @@ namespace PKHeX.WinForms.Controls
                 string concat = string.Join(Environment.NewLine, errata);
                 if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, concat, MessageStrings.MsgContinue))
                 {
-                    Debug.WriteLine(c);
+                    Debug.WriteLine(result.GetDisplayString(temp, sav.PKMType));
                     Debug.WriteLine(concat);
                     return false;
                 }
             }
 
             Env.Slots.Set(Drag.Info.Destination!.Slot, pk);
-            Debug.WriteLine(c);
+            Debug.WriteLine(result.GetDisplayString(temp, sav.PKMType));
             return true;
         }
 

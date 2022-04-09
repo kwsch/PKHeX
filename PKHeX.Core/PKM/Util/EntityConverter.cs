@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using static PKHeX.Core.MessageStrings;
+using static PKHeX.Core.EntityConverterResult;
 
 namespace PKHeX.Core;
 
@@ -34,61 +34,61 @@ public static class EntityConverter
     /// </summary>
     /// <param name="pk">PKM to convert</param>
     /// <param name="destType">Format/Type to convert to</param>
-    /// <param name="comment">Comments regarding the transfer's success/failure</param>
+    /// <param name="result">Comments regarding the transfer's success/failure</param>
     /// <returns>Converted PKM</returns>
-    public static PKM? ConvertToType(PKM pk, Type destType, out string comment)
+    public static PKM? ConvertToType(PKM pk, Type destType, out EntityConverterResult result)
     {
         Type fromType = pk.GetType();
         if (fromType == destType)
         {
-            comment = "No need to convert, current format matches requested format.";
+            result = None;
             return pk;
         }
 
-        var pkm = ConvertPKM(pk, destType, fromType, out comment);
+        var pkm = ConvertPKM(pk, destType, fromType, out result);
         if (!AllowIncompatibleConversion || pkm != null)
             return pkm;
 
         if (pk is PK8 && destType == typeof(PB8))
-            return new PB8(pk.Data);
+        {
+            result = SuccessIncompatibleManual;
+            return new PB8((byte[])pk.Data.Clone());
+        }
+
         if (pk is PB8 && destType == typeof(PK8))
-            return new PK8(pk.Data);
+        {
+            result = SuccessIncompatibleManual;
+            return new PK8((byte[])pk.Data.Clone());
+        }
 
         // Try Incompatible Conversion
         pkm = EntityBlank.GetBlank(destType);
         pk.TransferPropertiesWithReflection(pkm);
         if (!IsCompatibleWithModifications(pkm))
-            return null;
-        comment = "Converted via reflection.";
+            return null; // NoTransferRoute
+        result = SuccessIncompatibleReflection;
         return pkm;
     }
 
-    private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out string comment)
+    private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out EntityConverterResult result)
     {
-        if (IsNotTransferable(pk, out comment))
+        if (IsNotTransferable(pk, out result))
             return null;
 
-        string destName = destType.Name;
-        string srcName = srcType.Name;
-        Debug.WriteLine($"Trying to convert {srcName} to {destName}.");
+        Debug.WriteLine($"Trying to convert {srcType.Name} to {destType.Name}.");
 
         // All types that inherit PKM have the generation specifier as the last char in their class name.
-        int destGeneration = destName[^1] - '0';
-        var pkm = ConvertPKM(pk, destType, destGeneration, ref comment);
-        var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
-        var formatted = string.Format(msg, srcName, destName);
-        comment = comment.Length != 0 ? formatted : string.Concat(formatted, Environment.NewLine, comment);
-        return pkm;
+        return ConvertPKM(pk, destType, ref result);
     }
 
-    private static PKM? ConvertPKM(PKM pk, Type destType, int destGeneration, ref string comment)
+    private static PKM? ConvertPKM(PKM pk, Type destType, ref EntityConverterResult result)
     {
         PKM? pkm = pk.Clone();
         if (pkm.IsEgg)
             pkm.ForceHatchPKM();
         while (true)
         {
-            pkm = IntermediaryConvert(pkm, destType, destGeneration, ref comment);
+            pkm = IntermediaryConvert(pkm, destType, ref result);
             if (pkm == null) // fail convert
                 return null;
             if (pkm.GetType() == destType) // finish convert
@@ -96,55 +96,51 @@ public static class EntityConverter
         }
     }
 
-    private static PKM? IntermediaryConvert(PKM pk, Type destType, int destGeneration, ref string comment)
+    private static PKM? IntermediaryConvert(PKM pk, Type destType, ref EntityConverterResult result) => pk switch
     {
-        switch (pk)
-        {
-            // Non-sequential
-            case PK1 pk1 when destGeneration > 2: return pk1.ConvertToPK7();
-            case PK2 pk2 when destGeneration > 2: return pk2.ConvertToPK7();
-            case PK2 pk2 when destType == typeof(SK2): return pk2.ConvertToSK2();
-            case PK3 pk3 when destType == typeof(CK3): return pk3.ConvertToCK3();
-            case PK3 pk3 when destType == typeof(XK3): return pk3.ConvertToXK3();
-            case PK4 pk4 when destType == typeof(BK4): return pk4.ConvertToBK4();
+        // Non-sequential
+        PK1 pk1 when destType.Name[^1] - '0' > 2 => pk1.ConvertToPK7(),
+        PK2 pk2 when destType.Name[^1] - '0' > 2 => pk2.ConvertToPK7(),
+        PK2 pk2 when destType == typeof(SK2) => pk2.ConvertToSK2(),
+        PK3 pk3 when destType == typeof(CK3) => pk3.ConvertToCK3(),
+        PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
+        PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
 
-            // Invalid
-            case PK2 pk2 when pk.Species > Legal.MaxSpeciesID_1:
-                var lang = pk2.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
-                var name = SpeciesName.GetSpeciesName(pk2.Species, lang);
-                comment = string.Format(MsgPKMConvertFailFormat, name, destType.Name);
-                return null;
+        // Invalid
+        PK2 { Species: > Legal.MaxSpeciesID_1 } => InvalidTransfer(out result, IncompatibleSpecies),
 
-            // Sequential
-            case PK1 pk1: return pk1.ConvertToPK2();
-            case PK2 pk2: return pk2.ConvertToPK1();
-            case PK3 pk3: return pk3.ConvertToPK4();
-            case PK4 pk4: return pk4.ConvertToPK5();
-            case PK5 pk5: return pk5.ConvertToPK6();
-            case PK6 pk6: return pk6.ConvertToPK7();
-            case PK7 pk7: return pk7.ConvertToPK8();
-            case PB7 pb7: return pb7.ConvertToPK8();
+        // Sequential
+        PK1 pk1 => pk1.ConvertToPK2(),
+        PK2 pk2 => pk2.ConvertToPK1(),
+        PK3 pk3 => pk3.ConvertToPK4(),
+        PK4 pk4 => pk4.ConvertToPK5(),
+        PK5 pk5 => pk5.ConvertToPK6(),
+        PK6 pk6 => pk6.ConvertToPK7(),
+        PK7 pk7 => pk7.ConvertToPK8(),
+        PB7 pb7 => pb7.ConvertToPK8(),
 
-            // Side-Formats back to Mainline
-            case SK2 sk2: return sk2.ConvertToPK2();
-            case CK3 ck3: return ck3.ConvertToPK3();
-            case XK3 xk3: return xk3.ConvertToPK3();
-            case BK4 bk4: return bk4.ConvertToPK4();
+        // Side-Formats back to Mainline
+        SK2 sk2 => sk2.ConvertToPK2(),
+        CK3 ck3 => ck3.ConvertToPK3(),
+        XK3 xk3 => xk3.ConvertToPK3(),
+        BK4 bk4 => bk4.ConvertToPK4(),
 
-            // None
-            default:
-                comment = MsgPKMConvertFailNoMethod;
-                return null;
-        }
+        _ => InvalidTransfer(out result, NoTransferRoute),
+    };
+
+    private static PKM? InvalidTransfer(out EntityConverterResult result, EntityConverterResult value)
+    {
+        result = value;
+        return null;
     }
 
     /// <summary>
     /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
     /// </summary>
     /// <param name="pk">PKM to convert</param>
-    /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
+    /// <param name="result">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
     /// <returns>Indication if Not Transferable</returns>
-    private static bool IsNotTransferable(PKM pk, out string comment)
+    private static bool IsNotTransferable(PKM pk, out EntityConverterResult result)
     {
         switch (pk)
         {
@@ -152,10 +148,10 @@ public static class EntityConverter
             case PK6 { Species: (int)Species.Pikachu } pk6   when pk6.Form != 0:
             case PB7 { Species: (int)Species.Pikachu } pika  when pika.Form != 0:
             case PB7 { Species: (int)Species.Eevee   } eevee when eevee.Form != 0:
-                comment = MsgPKMConvertFailForm;
+                result = IncompatibleForm;
                 return true;
             default:
-                comment = string.Empty;
+                result = Success;
                 return false;
         }
     }
@@ -214,44 +210,35 @@ public static class EntityConverter
     /// </summary>
     /// <param name="pk">Input to check -> update/sanitize</param>
     /// <param name="target">Target type PKM with misc properties accessible for checking.</param>
-    /// <param name="c">Comment output</param>
-    /// <param name="pkm">Output compatible PKM</param>
+    /// <param name="result">Comment output</param>
+    /// <param name="converted">Output compatible PKM</param>
     /// <returns>Indication if the input is (now) compatible with the target.</returns>
-    public static bool TryMakePKMCompatible(PKM pk, PKM target, out string c, out PKM pkm)
+    public static bool TryMakePKMCompatible(PKM pk, PKM target, out EntityConverterResult result, out PKM converted)
     {
         if (!IsConvertibleToFormat(pk, target.Format))
         {
-            pkm = target;
-            c = string.Format(MsgPKMConvertFailBackwards, pk.GetType().Name, target.Format);
+            converted = target;
             if (!AllowIncompatibleConversion)
+            {
+                result = NoTransferRoute;
                 return false;
+            }
         }
         if (IsIncompatibleGB(target, target.Japanese, pk.Japanese))
         {
-            pkm = target;
-            c = GetIncompatibleGBMessage(pk, target.Japanese);
+            converted = target;
+            result = IncompatibleLanguageGB;
             return false;
         }
-        var convert = ConvertToType(pk, target.GetType(), out c);
+        var convert = ConvertToType(pk, target.GetType(), out result);
         if (convert == null)
         {
-            pkm = target;
+            converted = target;
             return false;
         }
 
-        pkm = convert;
-        Debug.WriteLine(c);
+        converted = convert;
         return true;
-    }
-
-    /// <summary>
-    /// Returns an error string to indicate that a <see cref="GBPKM"/> is incompatible.
-    /// </summary>
-    public static string GetIncompatibleGBMessage(PKM pk, bool destJapanese)
-    {
-        var src = destJapanese ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
-        var dest = !destJapanese ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
-        return string.Format(MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
     }
 
     /// <summary>

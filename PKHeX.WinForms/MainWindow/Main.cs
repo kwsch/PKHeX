@@ -588,8 +588,9 @@ namespace PKHeX.WinForms
 
         private bool OpenPKM(PKM pk)
         {
-            var tmp = EntityConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
-            Debug.WriteLine(c);
+            var destType = C_SAV.SAV.PKMType;
+            var tmp = EntityConverter.ConvertToType(pk, destType, out var c);
+            Debug.WriteLine(c.GetDisplayString(pk, destType));
             if (tmp == null)
                 return false;
             C_SAV.SAV.AdaptPKM(tmp);
@@ -615,11 +616,12 @@ namespace PKHeX.WinForms
             }
 
             var temp = tg.ConvertToPKM(C_SAV.SAV);
-            var pk = EntityConverter.ConvertToType(temp, C_SAV.SAV.PKMType, out string c);
+            var destType = C_SAV.SAV.PKMType;
+            var pk = EntityConverter.ConvertToType(temp, destType, out var c);
 
             if (pk == null)
             {
-                WinFormsUtil.Alert(MsgPKMConvertFail, c);
+                WinFormsUtil.Alert(c.GetDisplayString(temp, destType));
                 return true;
             }
 
