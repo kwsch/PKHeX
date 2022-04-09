@@ -25,11 +25,11 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<BoxManipBase> SortCommon = new List<BoxManipBase>
         {
-            new BoxManipSort(BoxManipType.SortSpecies, PKMSorting.OrderBySpecies),
-            new BoxManipSort(BoxManipType.SortSpeciesReverse, PKMSorting.OrderByDescendingSpecies),
-            new BoxManipSort(BoxManipType.SortLevel, PKMSorting.OrderByLevel),
-            new BoxManipSort(BoxManipType.SortLevelReverse, PKMSorting.OrderByDescendingLevel),
-            new BoxManipSort(BoxManipType.SortDate, PKMSorting.OrderByDateObtained, s => s.Generation >= 4),
+            new BoxManipSort(BoxManipType.SortSpecies, EntitySorting.OrderBySpecies),
+            new BoxManipSort(BoxManipType.SortSpeciesReverse, EntitySorting.OrderByDescendingSpecies),
+            new BoxManipSort(BoxManipType.SortLevel, EntitySorting.OrderByLevel),
+            new BoxManipSort(BoxManipType.SortLevelReverse, EntitySorting.OrderByDescendingLevel),
+            new BoxManipSort(BoxManipType.SortDate, EntitySorting.OrderByDateObtained, s => s.Generation >= 4),
             new BoxManipSort(BoxManipType.SortName, list => list.OrderBySpeciesName(GameInfo.Strings.Species)),
             new BoxManipSort(BoxManipType.SortFavorite, list => list.OrderByCustom(pk => pk is PB7 {Favorite: true}), s => s is SAV7b),
             new BoxManipSortComplex(BoxManipType.SortParty, (list, sav, start) => list.BubbleUp(sav, i => ((SAV7b)sav).Blocks.Storage.IsParty(i), start), s => s is SAV7b),
@@ -39,7 +39,7 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<BoxManipBase> SortAdvanced = new List<BoxManipBase>
         {
-            new BoxManipSort(BoxManipType.SortUsage, PKMSorting.OrderByUsage, s => s.Generation >= 3),
+            new BoxManipSort(BoxManipType.SortUsage, EntitySorting.OrderByUsage, s => s.Generation >= 3),
             new BoxManipSort(BoxManipType.SortPotential, list => list.OrderByCustom(pk => (pk.MaxIV * 6) - pk.IVTotal)),
             new BoxManipSort(BoxManipType.SortTraining, list => list.OrderByCustom(pk => (pk.MaxEV * 6) - pk.EVTotal)),
             new BoxManipSortComplex(BoxManipType.SortOwner, (list, sav) => list.OrderByOwnership(sav)),

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Sorting methods for <see cref="IEnumerable{PKM}"></see> lists.
     /// </summary>
-    public static class PKMSorting
+    public static class EntitySorting
     {
         /// <summary>
         /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects with ascending <see cref="PKM.Species"/> values.
