@@ -68,7 +68,7 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            var pk = PKMConverter.GetBlank(Generation, Version);
+            var pk = EntityBlank.GetBlank(Generation, Version);
             sav.ApplyTo(pk);
 
             ApplyDetails(sav, criteria, pk);

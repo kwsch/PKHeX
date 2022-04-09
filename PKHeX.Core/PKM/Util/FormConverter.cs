@@ -41,7 +41,7 @@ namespace PKHeX.Core
         }
 
         // this is a hack; depends on currently loaded SaveFile's Game ID
-        private static bool IsGG() => PKMConverter.Game is (int)GameVersion.GP or (int)GameVersion.GE;
+        private static bool IsGG() => RecentTrainerCache.Game is (int)GameVersion.GP or (int)GameVersion.GE;
 
         private static readonly string[] EMPTY = { string.Empty };
         private const string Starter = nameof(Starter);

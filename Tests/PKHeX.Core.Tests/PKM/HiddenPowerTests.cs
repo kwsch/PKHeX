@@ -13,7 +13,7 @@ namespace PKHeX.Tests.PKM
         [InlineData(26, 31, 31, 30, 31, 31, MoveType.Grass, 70, typeof(PK3))]
         public void HiddenPowerTest(int h, int a, int b, int c, int d, int s, MoveType type, int power, Type pkmType)
         {
-            var pkm = PKMConverter.GetBlank(pkmType);
+            var pkm = EntityBlank.GetBlank(pkmType);
             pkm.IV_HP = h;
             pkm.IV_ATK = a;
             pkm.IV_DEF = b;

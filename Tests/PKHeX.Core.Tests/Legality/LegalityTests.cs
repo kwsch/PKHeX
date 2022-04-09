@@ -74,7 +74,7 @@ namespace PKHeX.Tests.Legality
                 var dn = fi.DirectoryName ?? string.Empty;
                 ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");
                 ParseSettings.AllowGen1Tradeback = dn.Contains("1 Tradeback");
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
+                var pkm = EntityFormat.GetFromBytes(data, prefer: format);
                 pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
                 if (pkm == null)
                     continue;

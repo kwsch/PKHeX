@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
 
             if (HaX)
             {
-                PKMConverter.AllowIncompatibleConversion = true;
+                EntityConverter.AllowIncompatibleConversion = true;
                 WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
             }
             else if (showChangelog)
@@ -401,7 +401,7 @@ namespace PKHeX.WinForms
             C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
-            PKMConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
+            EntityConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
             WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
 
             SpriteBuilder.LoadSettings(settings.Sprite);
@@ -588,7 +588,7 @@ namespace PKHeX.WinForms
 
         private bool OpenPKM(PKM pk)
         {
-            var tmp = PKMConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
+            var tmp = EntityConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
             Debug.WriteLine(c);
             if (tmp == null)
                 return false;
@@ -615,7 +615,7 @@ namespace PKHeX.WinForms
             }
 
             var temp = tg.ConvertToPKM(C_SAV.SAV);
-            var pk = PKMConverter.ConvertToType(temp, C_SAV.SAV.PKMType, out string c);
+            var pk = EntityConverter.ConvertToType(temp, C_SAV.SAV.PKMType, out string c);
 
             if (pk == null)
             {
@@ -724,7 +724,7 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.Focus(); // flush any pending changes
             StoreLegalSaveGameData(sav);
-            PKMConverter.SetPrimaryTrainer(sav);
+            RecentTrainerCache.SetRecentTrainer(sav);
             SpriteUtil.Initialize(sav); // refresh sprite generator
             dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
 

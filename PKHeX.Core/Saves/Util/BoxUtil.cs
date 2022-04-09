@@ -176,7 +176,7 @@ namespace PKHeX.Core
             var result = files
                 .Where(file => PKX.IsPKM(new FileInfo(file).Length))
                 .Select(File.ReadAllBytes)
-                .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation));
+                .Select(data => EntityFormat.GetFromBytes(data, prefer: generation));
 
             foreach (var pkm in result)
             {

@@ -61,7 +61,7 @@ namespace PKHeX.Core
             if (moves.Any(z => z < 0))
                 return Array.Empty<IEncounterable>();
 
-            var blank = PKMConverter.GetBlank(PKX.Generation);
+            var blank = EntityBlank.GetBlank(PKX.Generation);
             blank.Species = species;
             blank.Form = form;
 

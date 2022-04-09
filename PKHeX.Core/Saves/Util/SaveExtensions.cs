@@ -33,7 +33,7 @@ namespace PKHeX.Core
             if (sav.PKMType != pk.GetType())
                 return false;
 
-            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
                 return false;
 
             return true;
@@ -129,16 +129,16 @@ namespace PKHeX.Core
 
             foreach (var temp in pks)
             {
-                var pk = PKMConverter.ConvertToType(temp, savtype, out string c);
+                var pk = EntityConverter.ConvertToType(temp, savtype, out string c);
                 if (pk == null)
                 {
                     Debug.WriteLine(c);
                     continue;
                 }
 
-                if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
+                if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
                 {
-                    c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
+                    c = EntityConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                     Debug.WriteLine(c);
                     continue;
                 }
@@ -160,13 +160,13 @@ namespace PKHeX.Core
         public static PKM GetCompatiblePKM(this SaveFile sav, PKM pk)
         {
             if (pk.Format >= 3 || sav.Generation >= 7)
-                return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
+                return EntityConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
             // gen1-2 compatibility check
             if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
                 return sav.BlankPKM;
             if (sav is SAV2 s2 && s2.Korean != pk.Korean)
                 return sav.BlankPKM;
-            return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
+            return EntityConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
         }
 
         /// <summary>
@@ -198,11 +198,11 @@ namespace PKHeX.Core
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
                 return LoadTemplateInternal(sav);
 
-            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
+            var pk = EntityFormat.GetFromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
             if (pk?.Species is not > 0)
                 return LoadTemplateInternal(sav);
 
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplateInternal(sav);
+            return EntityConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplateInternal(sav);
         }
     }
 }

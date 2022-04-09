@@ -444,16 +444,16 @@ namespace PKHeX.Core
 
                 // Write the Memories, Friendship, and Origin!
                 CurrentHandler = 1,
-                HT_Name = PKMConverter.OT_Name,
-                HT_Gender = PKMConverter.OT_Gender,
+                HT_Name = RecentTrainerCache.OT_Name,
+                HT_Gender = RecentTrainerCache.OT_Gender,
                 HT_Intensity = 1,
                 HT_Memory = 4,
                 HT_Feeling = MemoryContext6.GetRandomFeeling6(4, 10),
             };
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
-            PKMConverter.SetConsoleRegionData3DS(pk6);
-            PKMConverter.SetFirstCountryRegion(pk6);
+            RecentTrainerCache.SetConsoleRegionData3DS(pk6);
+            RecentTrainerCache.SetFirstCountryRegion(pk6);
 
             // Apply trash bytes for species name of current app language -- default to PKM's language if no match
             int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, 5);

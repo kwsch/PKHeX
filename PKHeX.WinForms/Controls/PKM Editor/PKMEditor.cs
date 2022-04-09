@@ -280,7 +280,7 @@ namespace PKHeX.WinForms.Controls
             if (focus)
                 Tab_Main.Focus();
 
-            if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, Entity, out string c, out pk))
+            if (!skipConversionCheck && !EntityConverter.TryMakePKMCompatible(pk, Entity, out string c, out pk))
             { WinFormsUtil.Alert(c); return; }
 
             FieldsLoaded = false;

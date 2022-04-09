@@ -111,7 +111,7 @@ namespace PKHeX.Core
                 Met_Level = Level,
                 MetDate = DateTime.Now,
             };
-            PKMConverter.SetConsoleRegionData3DS(pk);
+            RecentTrainerCache.SetConsoleRegionData3DS(pk, sav);
 
             pk.RefreshAbility(AbilityIndex >> 1);
             pk.ForcePartyData();

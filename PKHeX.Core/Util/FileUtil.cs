@@ -173,7 +173,7 @@ namespace PKHeX.Core
                 return false;
             }
             var format = PKX.GetPKMFormatFromExtension(ext, sav?.Generation ?? 6);
-            pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+            pk = EntityFormat.GetFromBytes(data, prefer: format);
             return pk != null;
         }
 

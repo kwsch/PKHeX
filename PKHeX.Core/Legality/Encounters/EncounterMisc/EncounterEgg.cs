@@ -28,7 +28,7 @@ namespace PKHeX.Core
         {
             int gen = Generation;
             var version = Version;
-            var pk = PKMConverter.GetBlank(gen, version);
+            var pk = EntityBlank.GetBlank(gen, version);
 
             sav.ApplyTo(pk);
 

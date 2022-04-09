@@ -486,12 +486,13 @@ namespace PKHeX.Core
             }
 
             pk7.SetTradeMemoryHT6(true); // oh no, memories on gen7 pkm
-            PKMConverter.SetFirstCountryRegion(pk7);
+            RecentTrainerCache.SetFirstCountryRegion(pk7);
 
             // Bank-accurate data zeroing
-            for (var i = 0x94; i < 0x9E; i++) pk7.Data[i] = 0; /* Geolocations. */
-            for (var i = 0xAA; i < 0xB0; i++) pk7.Data[i] = 0; /* Unused/Amie Fullness & Enjoyment. */
-            for (var i = 0xE4; i < 0xE8; i++) pk7.Data[i] = 0; /* Unused. */
+            var span = pk7.Data.AsSpan();
+            span[0x94..0x9E].Clear(); /* Geolocations. */
+            span[0xAA..0xB0].Clear(); /* Unused/Amie Fullness & Enjoyment. */
+            span[0xE4..0xE8].Clear(); /* Unused. */
             pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
             pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
 

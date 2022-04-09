@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public int Species { get; private set; } = -1;
 
         /// <inheritdoc/>
-        public int Format { get; private set; } = PKMConverter.Format;
+        public int Format { get; private set; } = RecentTrainerCache.Format;
 
         /// <inheritdoc/>
         public string Nickname { get; set; } = string.Empty;

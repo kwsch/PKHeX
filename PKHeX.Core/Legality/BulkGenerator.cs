@@ -53,7 +53,7 @@ namespace PKHeX.Core
             if (f == null)
                 return null;
 
-            var result = PKMConverter.ConvertToType(f, destType, out _);
+            var result = EntityConverter.ConvertToType(f, destType, out _);
             if (result == null)
                 return null;
 

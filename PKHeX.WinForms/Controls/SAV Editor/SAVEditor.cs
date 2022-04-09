@@ -872,7 +872,7 @@ namespace PKHeX.WinForms.Controls
                     continue;
                 }
 
-                var convert = PKMConverter.ConvertToType(x, type, out _);
+                var convert = EntityConverter.ConvertToType(x, type, out _);
                 if (convert?.GetType() != type)
                 {
                     slotSkipped++;

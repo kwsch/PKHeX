@@ -12,7 +12,7 @@ namespace PKHeX.Core
             Box = start;
             SlotsPerBox = slotsPerBox;
 
-            blank = PKMConverter.GetBlank(t);
+            blank = EntityBlank.GetBlank(t);
             var slots = (Data.Length - Box) / blank.SIZE_STORED;
             BoxCount = slots / SlotsPerBox;
         }
@@ -28,7 +28,7 @@ namespace PKHeX.Core
         public sealed override Type PKMType => blank.GetType();
         public sealed override PKM BlankPKM => blank.Clone();
 
-        protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation) ?? blank;
+        protected override PKM GetPKM(byte[] data) => EntityFormat.GetFromBytes(data, prefer: Generation) ?? blank;
         protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data;
 
         protected override int SIZE_STORED => blank.SIZE_STORED;

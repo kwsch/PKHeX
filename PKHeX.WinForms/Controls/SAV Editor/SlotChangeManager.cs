@@ -290,7 +290,7 @@ namespace PKHeX.WinForms.Controls
                 return true; // treat as handled
             }
 
-            var pk = PKMConverter.ConvertToType(temp, sav.PKMType, out string c);
+            var pk = EntityConverter.ConvertToType(temp, sav.PKMType, out string c);
             if (pk == null)
             {
                 WinFormsUtil.Error(c);
@@ -301,9 +301,9 @@ namespace PKHeX.WinForms.Controls
             if (badDest && (pk.Species == 0 || pk.IsEgg))
                 return false;
 
-            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && EntityConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
             {
-                c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
+                c = EntityConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                 WinFormsUtil.Error(c);
                 Debug.WriteLine(c);
                 return false;

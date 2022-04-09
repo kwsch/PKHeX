@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             var pk = Results[index].ConvertToPKM(SAV);
-            pk = PKMConverter.ConvertToType(pk, SAV.PKMType, out var c);
+            pk = EntityConverter.ConvertToType(pk, SAV.PKMType, out var c);
             if (pk == null)
             {
                 WinFormsUtil.Error(c);

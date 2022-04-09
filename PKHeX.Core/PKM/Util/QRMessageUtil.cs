@@ -25,7 +25,7 @@ namespace PKHeX.Core
             var data = DecodeMessagePKM(message);
             if (data == null)
                 return null;
-            return PKMConverter.GetPKMfromBytes(data, format);
+            return EntityFormat.GetFromBytes(data, format);
         }
 
         /// <summary>

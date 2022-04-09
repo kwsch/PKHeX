@@ -158,13 +158,13 @@ namespace PKHeX.Core
                 Form = Form,
 
                 CurrentHandler = 1,
-                HT_Name = PKMConverter.OT_Name,
-                HT_Gender = PKMConverter.OT_Gender,
+                HT_Name = RecentTrainerCache.OT_Name,
+                HT_Gender = RecentTrainerCache.OT_Gender,
             };
-            PKMConverter.SetConsoleRegionData3DS(pk7);
-            PKMConverter.SetFirstCountryRegion(pk7);
+            RecentTrainerCache.SetConsoleRegionData3DS(pk7);
+            RecentTrainerCache.SetFirstCountryRegion(pk7);
             pk7.HealPP();
-            var lang = TransferLanguage(PKMConverter.Language);
+            var lang = TransferLanguage(RecentTrainerCache.Language);
             pk7.Language = lang;
             pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
 

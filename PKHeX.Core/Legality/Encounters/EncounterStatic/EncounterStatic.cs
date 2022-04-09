@@ -51,7 +51,7 @@ namespace PKHeX.Core
         internal const int FormVivillon = 30;
       //protected const int FormRandom = 31;
 
-        protected virtual PKM GetBlank(ITrainerInfo tr) => PKMConverter.GetBlank(Generation, Version);
+        protected virtual PKM GetBlank(ITrainerInfo tr) => EntityBlank.GetBlank(Generation, Version);
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
