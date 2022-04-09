@@ -563,22 +563,17 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0x174)); set => WriteUInt16LittleEndian(Data.AsSpan(0x174), (ushort)value); }
     #endregion
 
-    public override ushort[] GetStats(PersonalInfo p) => CalculateStatsArceus(p);
-
-    public ushort[] CalculateStatsArceus(PersonalInfo p)
+    public override void LoadStats(PersonalInfo p, Span<ushort> stats)
     {
         int level = CurrentLevel;
         int nature = StatNature;
 
-        return new[]
-        {
-            (ushort)(GetGanbaruStat(p.HP,  HT_HP  ? 31 : IV_HP,  GV_HP,  level) + GetStatHp(p.HP, level)),
-            (ushort)(GetGanbaruStat(p.ATK, HT_ATK ? 31 : IV_ATK, GV_ATK, level) + GetStat(p.ATK, level, nature, 0)),
-            (ushort)(GetGanbaruStat(p.DEF, HT_DEF ? 31 : IV_DEF, GV_DEF, level) + GetStat(p.DEF, level, nature, 1)),
-            (ushort)(GetGanbaruStat(p.SPE, HT_SPE ? 31 : IV_SPE, GV_SPE, level) + GetStat(p.SPE, level, nature, 4)),
-            (ushort)(GetGanbaruStat(p.SPA, HT_SPA ? 31 : IV_SPA, GV_SPA, level) + GetStat(p.SPA, level, nature, 2)),
-            (ushort)(GetGanbaruStat(p.SPD, HT_SPD ? 31 : IV_SPD, GV_SPD, level) + GetStat(p.SPD, level, nature, 3)),
-        };
+        stats[0] = (ushort)(GetGanbaruStat(p.HP, HT_HP ? 31 : IV_HP, GV_HP, level) + GetStatHp(p.HP, level));
+        stats[1] = (ushort)(GetGanbaruStat(p.ATK, HT_ATK ? 31 : IV_ATK, GV_ATK, level) + GetStat(p.ATK, level, nature, 0));
+        stats[2] = (ushort)(GetGanbaruStat(p.DEF, HT_DEF ? 31 : IV_DEF, GV_DEF, level) + GetStat(p.DEF, level, nature, 1));
+        stats[3] = (ushort)(GetGanbaruStat(p.SPE, HT_SPE ? 31 : IV_SPE, GV_SPE, level) + GetStat(p.SPE, level, nature, 4));
+        stats[4] = (ushort)(GetGanbaruStat(p.SPA, HT_SPA ? 31 : IV_SPA, GV_SPA, level) + GetStat(p.SPA, level, nature, 2));
+        stats[5] = (ushort)(GetGanbaruStat(p.SPD, HT_SPD ? 31 : IV_SPD, GV_SPD, level) + GetStat(p.SPD, level, nature, 3));
     }
 
     public static int GetGanbaruStat(int baseStat, int iv, byte gv, int level)

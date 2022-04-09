@@ -457,8 +457,7 @@ namespace PKHeX.Core
                 return;
             if (pkm.PartyStatsPresent) // Stats already present
                 return;
-            pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
-            pkm.Stat_Level = pkm.CurrentLevel;
+            pkm.ResetPartyStats();
         }
 
         /// <summary>

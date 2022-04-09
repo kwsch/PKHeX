@@ -100,7 +100,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="stats">Current stats to amplify if appropriate</param>
         /// <param name="nature">Nature</param>
-        public static void ModifyStatsForNature(ushort[] stats, int nature)
+        public static void ModifyStatsForNature(Span<ushort> stats, int nature)
         {
             if (GetNatureModification(nature, out int incr, out int decr))
                 return;

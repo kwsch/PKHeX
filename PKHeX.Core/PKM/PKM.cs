@@ -709,45 +709,50 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="p"><see cref="PersonalInfo"/> entry containing Base Stat Info</param>
         /// <returns>Battle Stats (H/A/B/S/C/D)</returns>
-        public virtual ushort[] GetStats(PersonalInfo p)
+        public ushort[] GetStats(PersonalInfo p)
         {
-            int level = CurrentLevel;
-
-            ushort[] stats = this is IHyperTrain t ? GetStats(p, t, level) : GetStats(p, level);
-            // Account for nature
-            PKX.ModifyStatsForNature(stats, StatNature);
+            ushort[] stats = new ushort[6];
+            LoadStats(p, stats);
             return stats;
         }
 
-        private ushort[] GetStats(PersonalInfo p, IHyperTrain t, int level)
+        public virtual void LoadStats(PersonalInfo p, Span<ushort> stats)
         {
-            ushort[] stats = new ushort[6];
+            int level = CurrentLevel; // recalculate instead of checking Stat_Level
+            if (this is IHyperTrain t)
+                LoadStats(stats, p, t, level);
+            else
+                LoadStats(stats, p, level);
+
+            // Account for nature
+            PKX.ModifyStatsForNature(stats, StatNature);
+        }
+
+        private void LoadStats(Span<ushort> stats, PersonalInfo p, IHyperTrain t, int level)
+        {
             stats[0] = (ushort)(p.HP == 1 ? 1 : (((t.HT_HP ? 31 : IV_HP) + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
             stats[1] = (ushort)((((t.HT_ATK ? 31 : IV_ATK) + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
             stats[2] = (ushort)((((t.HT_DEF ? 31 : IV_DEF) + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
             stats[4] = (ushort)((((t.HT_SPA ? 31 : IV_SPA) + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
             stats[5] = (ushort)((((t.HT_SPD ? 31 : IV_SPD) + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
             stats[3] = (ushort)((((t.HT_SPE ? 31 : IV_SPE) + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
-            return stats;
         }
 
-        private ushort[] GetStats(PersonalInfo p, int level)
+        private void LoadStats(Span<ushort> stats, PersonalInfo p, int level)
         {
-            ushort[] stats = new ushort[6];
             stats[0] = (ushort)(p.HP == 1 ? 1 : ((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
             stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
             stats[2] = (ushort)(((IV_DEF + (2 * p.DEF) + (EV_DEF / 4)) * level / 100) + 5);
             stats[4] = (ushort)(((IV_SPA + (2 * p.SPA) + (EV_SPA / 4)) * level / 100) + 5);
             stats[5] = (ushort)(((IV_SPD + (2 * p.SPD) + (EV_SPD / 4)) * level / 100) + 5);
             stats[3] = (ushort)(((IV_SPE + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
-            return stats;
         }
 
         /// <summary>
         /// Applies the specified stats to the <see cref="PKM"/>.
         /// </summary>
         /// <param name="stats">Battle Stats (H/A/B/S/C/D)</param>
-        public void SetStats(ushort[] stats)
+        public void SetStats(ReadOnlySpan<ushort> stats)
         {
             Stat_HPMax = Stat_HPCurrent = stats[0];
             Stat_ATK = stats[1];
@@ -767,7 +772,9 @@ namespace PKHeX.Core
         /// </summary>
         public void ResetPartyStats()
         {
-            SetStats(GetStats(PersonalInfo));
+            Span<ushort> stats = stackalloc ushort[6];
+            LoadStats(PersonalInfo, stats);
+            SetStats(stats);
             Stat_Level = CurrentLevel;
             Status_Condition = 0;
         }

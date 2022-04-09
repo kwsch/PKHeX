@@ -193,26 +193,21 @@ namespace PKHeX.Core
             return GuessedLanguage(destLanguage);
         }
 
-        public sealed override ushort[] GetStats(PersonalInfo p)
+        public override void LoadStats(PersonalInfo p, Span<ushort> stats)
         {
             var lv = Stat_Level;
-            ushort[] stats =
-            {
-                GetStat(p.HP , IV_HP , EV_HP , lv),
-                GetStat(p.ATK, IV_ATK, EV_ATK, lv),
-                GetStat(p.DEF, IV_DEF, EV_DEF, lv),
-                GetStat(p.SPE, IV_SPE, EV_SPE, lv),
-                GetStat(p.SPA, IV_SPA, EV_SPA, lv),
-                GetStat(p.SPD, IV_SPD, EV_SPD, lv),
-            };
-            stats[0] += (ushort)(5 + lv); // HP
-            return stats;
+            stats[0] = (ushort)(GetStat(p.HP, IV_HP, EV_HP, lv) + (5 + lv)); // HP
+            stats[1] = GetStat(p.ATK, IV_ATK, EV_ATK, lv);
+            stats[2] = GetStat(p.DEF, IV_DEF, EV_DEF, lv);
+            stats[3] = GetStat(p.SPE, IV_SPE, EV_SPE, lv);
+            stats[4] = GetStat(p.SPA, IV_SPA, EV_SPA, lv);
+            stats[5] = GetStat(p.SPD, IV_SPD, EV_SPD, lv);
         }
 
-        protected static ushort GetStat(int BV, int IV, int EV, int LV)
+        protected static ushort GetStat(int baseStat, int iv, int effort, int level)
         {
-            EV = (ushort)Math.Min(255, Math.Sqrt(EV) + 1) >> 2;
-            return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
+            effort = (ushort)Math.Min(255, Math.Sqrt(effort) + 1) >> 2;
+            return (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
         }
 
         public sealed override int GetMovePP(int move, int ppUpCount)
