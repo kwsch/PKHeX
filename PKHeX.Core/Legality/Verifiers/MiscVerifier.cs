@@ -126,22 +126,14 @@ namespace PKHeX.Core
 
             var strain = pkm.PKRS_Strain;
             var days = pkm.PKRS_Days;
-            bool strainValid = IsPokerusStrainValid(pkm, strain, days);
+            bool strainValid = Pokerus.IsStrainValid(pkm, strain, days);
             if (!strainValid)
                 data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
 
-            var expect = (strain % 4) + 1;
+            var expect = Pokerus.GetMaxDuration(strain);
             if (days > expect)
                 data.AddLine(GetInvalid(string.Format(LPokerusDaysTooHigh_0, expect)));
         }
-
-        private static bool IsPokerusStrainValid(PKM pkm, int strain, int days) => strain switch
-        {
-            0 when days is not 0 => false,
-            8 => false,
-            not 0 when pkm is PA8 => false,
-            _ => true,
-        };
 
         public void VerifyMiscG1(LegalityAnalysis data)
         {

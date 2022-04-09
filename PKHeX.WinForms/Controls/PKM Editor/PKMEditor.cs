@@ -1091,20 +1091,13 @@ namespace PKHeX.WinForms.Controls
             int currentDuration = CB_PKRSDays.SelectedIndex;
             CB_PKRSDays.Items.Clear();
 
-            int max = (CB_PKRSStrain.SelectedIndex % 4) + 2;
-            foreach (int day in Enumerable.Range(0, max))
-                CB_PKRSDays.Items.Add(day);
+            var strain = CB_PKRSStrain.SelectedIndex;
+            int max = Pokerus.GetMaxDuration(strain);
+            for (int day = 0; day <= max; day++)
+                CB_PKRSDays.Items.Add(day.ToString());
 
-            // Set the days back if they're legal, else set it to 1. (0 always passes).
-            CB_PKRSDays.SelectedIndex = currentDuration < CB_PKRSDays.Items.Count ? currentDuration : 1;
-
-            if (CB_PKRSStrain.SelectedIndex != 0)
-                return;
-
-            // Never Infected
-            CB_PKRSDays.SelectedIndex = 0;
-            CHK_Cured.Checked = false;
-            CHK_Infected.Checked = false;
+            // Set the days back if they're legal
+            CB_PKRSDays.SelectedIndex = strain == 0 ? 0 : Math.Min(max, currentDuration);
         }
 
         private void UpdatePKRSdays(object sender, EventArgs e)
