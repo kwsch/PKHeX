@@ -59,41 +59,31 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">GameCube (C/XD) language ID.</param>
         /// <returns>Main Series language ID.</returns>
-        public static byte GetMainLangIDfromGC(byte value)
+        /// <remarks>If no conversion is possible or maps to the same value, the input <see cref="value"/> is returned.</remarks>
+        public static byte GetMainLangIDfromGC(byte value) => (LanguageGC)value switch
         {
-            if (value is <= 2 or > 7)
-                return value;
-            return (byte) GCtoMainSeries[(LanguageGC)value];
-        }
+            LanguageGC.German =>   (byte)German,
+            LanguageGC.French =>   (byte)French,
+            LanguageGC.Italian =>  (byte)Italian,
+            LanguageGC.Spanish =>  (byte)Spanish,
+            LanguageGC.UNUSED_6 => (byte)UNUSED_6,
+            _ => value,
+        };
 
         /// <summary>
         /// Gets the GameCube (C/XD) language ID from a Main Series language ID.
         /// </summary>
         /// <param name="value">Main Series language ID.</param>
         /// <returns>GameCube (C/XD) language ID.</returns>
-        public static byte GetGCLangIDfromMain(byte value)
+        /// <remarks>If no conversion is possible or maps to the same value, the input <see cref="value"/> is returned.</remarks>
+        public static byte GetGCLangIDfromMain(byte value) => (LanguageID)value switch
         {
-            if (value is <= 2 or > 7)
-                return value;
-            return (byte) MainSeriesToGC[(LanguageID)value];
-        }
-
-        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new()
-        {
-            {German, LanguageGC.German},
-            {French, LanguageGC.French},
-            {Italian, LanguageGC.Italian},
-            {Spanish, LanguageGC.Spanish},
-            {UNUSED_6, LanguageGC.UNUSED_6},
-        };
-
-        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new()
-        {
-            {LanguageGC.German, German},
-            {LanguageGC.French, French},
-            {LanguageGC.Italian, Italian},
-            {LanguageGC.Spanish, Spanish},
-            {LanguageGC.UNUSED_6, UNUSED_6},
+            French =>   (byte)LanguageGC.French,
+            Italian =>  (byte)LanguageGC.Italian,
+            German =>   (byte)LanguageGC.German,
+            UNUSED_6 => (byte)LanguageGC.UNUSED_6,
+            Spanish =>  (byte)LanguageGC.Spanish,
+            _ => value,
         };
     }
 }
