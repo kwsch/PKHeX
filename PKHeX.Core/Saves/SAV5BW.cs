@@ -23,15 +23,15 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.BW;
         public SaveBlockAccessor5BW Blocks { get; }
         protected override SaveFile CloneInternal() => new SAV5BW((byte[])Data.Clone());
-        protected override int EventConstMax => 0x13E;
-        protected override int EventFlagMax => 0xB60;
+        public override int EventWorkCount => 0x13E;
+        public override int EventFlagCount => 0xB60;
+        protected override int EventWork => 0x20100;
+        protected override int EventFlag => EventWork + 0x27C;
         public override int MaxItemID => Legal.MaxItemID_5_BW;
 
         private void Initialize()
         {
             BattleBoxOffset = 0x20A00;
-            EventConst = 0x20100;
-            EventFlag = EventConst + 0x27C;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52000;
             EntreeForestOffset = 0x22C00;

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync
+    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync, IEventFlag37
     {
         // Save Data Attributes
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -74,7 +75,10 @@ namespace PKHeX.Core
         public override int Generation => 7;
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventConstMax => 1000;
+        public abstract int EventFlagCount { get; }
+        public int EventWorkCount => 1000;
+        private int EventWork => AllBlocks[05].Offset;
+        private int EventFlag => EventWork + (EventWorkCount * 2); // After Event Const (u16)*n
         public override int OTLength => 12;
         public override int NickLength => 12;
 
@@ -253,5 +257,21 @@ namespace PKHeX.Core
 
         protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
         protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }
+        public bool GetEventFlag(int flagNumber)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
+        }
+
+        public void SetEventFlag(int flagNumber, bool value)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+        }
+
+        public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWork + (index * 2)));
+        public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWork)[(index * 2)..], value);
     }
 }

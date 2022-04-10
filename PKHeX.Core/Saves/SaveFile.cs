@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
-    public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName, IGeneration
+    public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName, IGeneration, IVersion
     {
         // General Object Properties
         public byte[] Data;
@@ -99,86 +98,6 @@ namespace PKHeX.Core
         public virtual int MinGameID => 0;
         #endregion
 
-        #region Event Work
-        public virtual bool HasEvents => GetEventFlags().Length != 0;
-        protected virtual int EventFlagMax { get; } = int.MinValue;
-        protected virtual int EventConstMax { get; } = int.MinValue;
-        protected int EventFlag { get; set; } = int.MinValue;
-        protected int EventConst { get; set; } = int.MinValue;
-
-        /// <summary> All Event Flag values for the savegame </summary>
-        public bool[] GetEventFlags()
-        {
-            if (EventFlagMax < 0)
-                return Array.Empty<bool>();
-
-            bool[] result = new bool[EventFlagMax];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = GetEventFlag(i);
-            return result;
-        }
-
-        /// <summary> All Event Flag values for the savegame </summary>
-        public void SetEventFlags(bool[] value)
-        {
-            if (EventFlagMax < 0)
-                return;
-            if (value.Length != EventFlagMax)
-                return;
-            for (int i = 0; i < value.Length; i++)
-                SetEventFlag(i, value[i]);
-        }
-
-        /// <summary> All Event Constant values for the savegame </summary>
-        public virtual ushort[] GetEventConsts()
-        {
-            if (EventConstMax <= 0 || Data.Length == 0)
-                return Array.Empty<ushort>();
-
-            ushort[] Constants = new ushort[EventConstMax];
-            for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = ReadUInt16LittleEndian(Data.AsSpan(EventConst + (i * 2)));
-            return Constants;
-        }
-
-        /// <summary> All Event Constant values for the savegame </summary>
-        public virtual void SetEventConsts(ReadOnlySpan<ushort> value)
-        {
-            if (EventConstMax <= 0)
-                return;
-            if (value.Length != EventConstMax)
-                return;
-
-            var span = Data.AsSpan(EventConst);
-            for (int i = 0; i < value.Length; i++)
-                WriteUInt16LittleEndian(span[(i*2)..], value[i]);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="bool"/> status of a desired Event Flag
-        /// </summary>
-        /// <param name="flagNumber">Event Flag to check</param>
-        /// <returns>Flag is Set (true) or not Set (false)</returns>
-        public virtual bool GetEventFlag(int flagNumber)
-        {
-            if ((uint)flagNumber >= EventFlagMax)
-                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
-            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="bool"/> status of a desired Event Flag
-        /// </summary>
-        /// <param name="flagNumber">Event Flag to check</param>
-        /// <param name="value">Event Flag status to set</param>
-        /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-        public virtual void SetEventFlag(int flagNumber, bool value)
-        {
-            if ((uint)flagNumber >= EventFlagMax)
-                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
-            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
-        }
-
         /// <summary>
         /// Gets the <see cref="bool"/> status of the Flag at the specified offset and index.
         /// </summary>
@@ -195,7 +114,6 @@ namespace PKHeX.Core
         /// <param name="value">Flag status to set</param>
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
-        #endregion
 
         public virtual IReadOnlyList<InventoryPouch> Inventory { get => Array.Empty<InventoryPouch>(); set { } }
 

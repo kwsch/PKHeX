@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync
+    public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
@@ -44,7 +44,6 @@ namespace PKHeX.Core
         {
             Box = Blocks.GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
             Party = Blocks.GetBlockOffset(BelugaBlockIndex.PokeListPokemon);
-            EventFlag = Blocks.GetBlockOffset(BelugaBlockIndex.EventWork);
             PokeDex = Blocks.GetBlockOffset(BelugaBlockIndex.Zukan);
 
             WondercardData = Blocks.GiftRecords.Offset;
@@ -79,11 +78,9 @@ namespace PKHeX.Core
         public override int NickLength => 12;
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventFlagMax => 4160; // 0xDC0 (true max may be up to 0x7F less. 23A8 starts u64 hashvals)
-        protected override int EventConstMax => 1000;
+        public int EventFlagCount => 4160; // 0xDC0 (true max may be up to 0x7F less. 23A8 starts u64 hashvals)
 
         public override bool HasParty => false; // handled via team slots
-        public override bool HasEvents => true; // advanced!
 
         // BoxSlotCount => 1000 -- why couldn't this be a multiple of 30...
         public override int BoxSlotCount => 25;
@@ -160,7 +157,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="flagNumber">Event Flag to check</param>
         /// <returns>Flag is Set (true) or not Set (false)</returns>
-        public override bool GetEventFlag(int flagNumber) => Blocks.EventWork.GetFlag(flagNumber);
+        public bool GetEventFlag(int flagNumber) => Blocks.EventWork.GetFlag(flagNumber);
 
         /// <summary>
         /// Sets the <see cref="bool"/> status of a desired Event Flag
@@ -168,7 +165,7 @@ namespace PKHeX.Core
         /// <param name="flagNumber">Event Flag to check</param>
         /// <param name="value">Event Flag status to set</param>
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
-        public override void SetEventFlag(int flagNumber, bool value) => Blocks.EventWork.SetFlag(flagNumber, value);
+        public void SetEventFlag(int flagNumber, bool value) => Blocks.EventWork.SetFlag(flagNumber, value);
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.GetFlags(); set => Blocks.GiftRecords.SetFlags(value); }
         protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.GetRecords(); set => Blocks.GiftRecords.SetRecords((WR7[])value); }

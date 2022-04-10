@@ -524,7 +524,9 @@ namespace PKHeX.WinForms.Controls
                 SAV1 s => (Form) new SAV_EventReset1(s),
                 SAV7b s => new SAV_EventWork(s),
                 SAV8BS s => new SAV_FlagWork8b(s),
-                _ => new SAV_EventFlags(SAV),
+                IEventFlag37 g37 => new SAV_EventFlags(g37),
+                SAV2 s => new SAV_EventFlags2(s),
+                _ => throw new Exception(),
             };
             form.ShowDialog();
         }
@@ -1093,7 +1095,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenPokedex.Visible = sav.HasPokeDex;
             B_OpenBerryField.Visible = sav is SAV6XY; // oras undocumented
             B_OpenFriendSafari.Visible = sav is SAV6XY;
-            B_OpenEventFlags.Visible = sav.HasEvents;
+            B_OpenEventFlags.Visible = sav is IEventFlag37 or (SAV1 or SAV2 or SAV8BS or SAV7b);
             B_CGearSkin.Visible = sav.Generation == 5;
             B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 

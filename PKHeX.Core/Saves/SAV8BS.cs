@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
     /// </summary>
-    public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord
+    public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>
     {
         // Save Data Attributes
         protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -98,8 +98,6 @@ namespace PKHeX.Core
             TeamSlots = BoxLayout.TeamSlots;
         }
 
-        public override bool HasEvents => true;
-
         // Configuration
         protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
@@ -111,7 +109,6 @@ namespace PKHeX.Core
         public override int MaxEV => 252;
 
         public override int Generation => 8;
-        protected override int EventConstMax => 500;
         public override PersonalTable Personal => PersonalTable.BDSP;
         public override int OTLength => 12;
         public override int NickLength => 12;
@@ -252,8 +249,9 @@ namespace PKHeX.Core
             return StringConverter8.SetString(destBuffer, value, maxLength, option);
         }
 
-        public override bool GetEventFlag(int flagNumber) => Work.GetFlag(flagNumber);
-        public override void SetEventFlag(int flagNumber, bool value) => Work.SetFlag(flagNumber, value);
+        public int EventFlagCount => FlagWork8b.COUNT_FLAG;
+        public bool GetEventFlag(int flagNumber) => Work.GetFlag(flagNumber);
+        public void SetEventFlag(int flagNumber, bool value) => Work.SetFlag(flagNumber, value);
 
         // Player Information
         public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
@@ -367,5 +365,9 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc) => Daycare.DaycareSeed.ToString("X16");
         public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.DaycareSeed = Util.GetHexValue64(seed);
         #endregion
+
+        public int EventWorkCount => FlagWork8b.COUNT_WORK;
+        public int GetWork(int index) => Work.GetWork(index);
+        public void SetWork(int index, int value = default) => Work.SetWork(index, value);
     }
 }

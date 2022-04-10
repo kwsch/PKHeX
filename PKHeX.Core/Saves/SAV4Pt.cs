@@ -37,6 +37,9 @@ namespace PKHeX.Core
             GetSAVOffsets();
         }
 
+        protected override int EventWork => 0xDAC;
+        protected override int EventFlag => 0xFEC;
+
         private void GetSAVOffsets()
         {
             AdventureInfo = 0;
@@ -46,8 +49,6 @@ namespace PKHeX.Core
             WondercardFlags = 0xB4C0;
             WondercardData = 0xB5C0;
 
-            EventConst = 0xDAC;
-            EventFlag = 0xFEC;
             DaycareOffset = 0x1654;
             OFS_HONEY = 0x7F38;
 

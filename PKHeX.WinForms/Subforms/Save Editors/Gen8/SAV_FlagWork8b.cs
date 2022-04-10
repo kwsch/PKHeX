@@ -257,9 +257,9 @@ namespace PKHeX.WinForms
         private void DiffSaves()
         {
             var diff = new EventWorkDiff8b(TB_OldSAV.Text, TB_NewSAV.Text);
-            if (diff.Message.Length != 0)
+            if (diff.Message != EventWorkDiffCompatibility.Valid)
             {
-                WinFormsUtil.Alert(diff.Message);
+                WinFormsUtil.Alert(diff.Message.GetMessage());
                 return;
             }
 

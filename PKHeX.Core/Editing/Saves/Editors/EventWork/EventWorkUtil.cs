@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
@@ -119,19 +121,31 @@ namespace PKHeX.Core
         /// <param name="after">Data after the event was triggered</param>
         /// <param name="changed"><see cref="EventVar.RawIndex"/> values that changed</param>
         /// <param name="changes">Summary of the <see cref="EventWork{T}"/> value change</param>
-        public static void DiffSavesWork<T>(IEventWork<T> before, IEventWork<T> after, List<int> changed, List<string> changes)
+        public static void DiffSavesWork<T>(IEventWork<T> before, IEventWork<T> after, List<int> changed, List<string> changes) where T : unmanaged, IEquatable<T>
         {
             int max = before.CountWork;
             for (int i = 0; i < max; i++)
             {
                 var b = before.GetWork(i);
                 var a = after.GetWork(i);
-                if (b is null || b.Equals(a))
+                if (b.Equals(a))
                     continue;
 
                 changed.Add(i);
                 changes.Add($"{b} => {a}");
             }
+        }
+
+        public static bool SanityCheckSaveInfo<T>(T s1, T s2, [NotNullWhen(false)] out string? Message) where T : SaveFile
+        {
+            if (s1.GetType() != s2.GetType())
+            { Message = string.Format(MsgSaveDifferentTypes, $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return false; }
+
+            if (s1.Version != s2.Version)
+            { Message = string.Format(MsgSaveDifferentVersions, $"S1: {s1.Version}", $"S2: {s2.Version}"); return false; }
+
+            Message = null;
+            return true;
         }
     }
 }

@@ -148,7 +148,6 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override int BoxCount => BoxLayout8.BoxCount;
     public override int MaxEV => 252;
     public override int Generation => 8;
-    protected override int EventConstMax => 1000;
     public override int OTLength => 12;
     public override int NickLength => 12;
     protected override PKM GetPKM(byte[] data) => new PK8(data);

@@ -16,7 +16,7 @@ namespace PKHeX.Core
             else
                 LoadOffsetsInternational(sav.Version);
             Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first unown seen
-            EventConst = EventFlag - 0x100;
+            EventWork = EventFlag - 0x100;
         }
 
         public int RTCFlags { get; private set; } = -1;
@@ -41,7 +41,7 @@ namespace PKHeX.Core
         public int AccumulatedChecksumEnd { get; private set; } = -1;
         public int OverallChecksumPosition { get; private set; } = -1;
         public int EventFlag { get; private set; } = -1;
-        public int EventConst { get; }
+        public int EventWork { get; }
         public int Daycare { get; }
 
         public int BlueCardPoints { get; private set; } = -1;

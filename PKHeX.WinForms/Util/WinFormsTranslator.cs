@@ -33,6 +33,7 @@ namespace PKHeX.WinForms
 
             // Translate Title
             var formName = form.Name;
+            formName = GetSaneFormName(formName);
             form.Text = context.GetTranslatedText(formName, form.Text);
 
             // Translate Controls
@@ -41,6 +42,20 @@ namespace PKHeX.WinForms
                 TranslateControl(c, context, formName);
 
             form.ResumeLayout();
+        }
+
+        private static string GetSaneFormName(string formName)
+        {
+            // Strip out generic form names
+            var degen = formName.IndexOf('`');
+            if (degen != -1)
+                formName = formName[..degen];
+
+            return formName switch
+            {
+                nameof(SAV_EventFlags2) => nameof(SAV_EventFlags),
+                _ => formName,
+            };
         }
 
         private static void TranslateControl(object c, TranslationContext context, string formname)

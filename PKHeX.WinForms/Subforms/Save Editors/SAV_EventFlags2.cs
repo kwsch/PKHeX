@@ -8,20 +8,20 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
 {
-    public sealed partial class SAV_EventFlags : Form
+    public sealed partial class SAV_EventFlags2 : Form
     {
-        private readonly EventWorkspace<IEventFlag37, ushort> Editor;
+        private readonly EventWorkspace<SAV2, byte> Editor;
         private readonly Dictionary<int, NumericUpDown> WorkDict = new();
         private readonly Dictionary<int, int> FlagDict = new();
 
         private bool editing;
 
-        public SAV_EventFlags(IEventFlag37 sav)
+        public SAV_EventFlags2(SAV2 sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
-            var editor = Editor = new EventWorkspace<IEventFlag37, ushort>(sav);
+            var editor = Editor = new EventWorkspace<SAV2, byte>(sav);
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
 
@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             dgv.ResumeLayout();
             TLP_Const.ResumeLayout();
 
-            Text = $"{Text} ({((IVersion)sav).Version})";
+            Text = $"{Text} ({sav.Version})";
 
             if (CB_Stats.Items.Count > 0)
             {
@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
             };
         }
 
-        private void AddConstList(EventLabelCollection list, ushort[] values)
+        private void AddConstList(EventLabelCollection list, byte[] values)
         {
             var labels = list.Work;
             if (labels.Count == 0)
@@ -194,7 +194,7 @@ namespace PKHeX.WinForms
                         return;
 
                     updating = true;
-                    var value = (ushort) mtb.Value;
+                    var value = (byte)mtb.Value;
                     var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
                     if (WinFormsUtil.GetIndex(cb) != valueID)
                         cb.SelectedValue = valueID;
@@ -257,7 +257,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             var index = CB_Stats.SelectedIndex;
-            var parse = ushort.TryParse(MT_Stat.Text, out var value) ? value : (ushort)0;
+            var parse = byte.TryParse(MT_Stat.Text, out var value) ? value : (byte)0;
             Editor.Values[index] = parse;
             if (WorkDict.TryGetValue(index, out var mtb))
                 mtb.Value = parse;
@@ -285,7 +285,7 @@ namespace PKHeX.WinForms
 
         private void DiffSaves()
         {
-            var diff = new EventBlockDiff<IEventFlag37, ushort>(TB_OldSAV.Text, TB_NewSAV.Text);
+            var diff = new EventBlockDiff<SAV2, byte>(TB_OldSAV.Text, TB_NewSAV.Text);
             if (diff.Message != EventWorkDiffCompatibility.Valid)
             {
                 WinFormsUtil.Alert(diff.Message.GetMessage());

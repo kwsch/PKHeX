@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV3 : SaveFile, ILangDeviantSave
+    public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     {
         protected internal sealed override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public sealed override string Extension => ".sav";
@@ -147,6 +147,11 @@ namespace PKHeX.Core
         public sealed override int MaxItemID => Legal.MaxItemID_3;
         public sealed override int MaxBallID => Legal.MaxBallID_3;
         public sealed override int MaxGameID => Legal.MaxGameID_3;
+
+        public abstract int EventFlagCount { get; }
+        public abstract int EventWorkCount { get; }
+        protected abstract int EventFlag { get; }
+        protected abstract int EventWork { get; }
 
         /// <summary>
         /// Force loads a new <see cref="SAV3"/> object to the requested <see cref="version"/>.
@@ -324,46 +329,27 @@ namespace PKHeX.Core
             set => Small[0x12] = (byte)value;
         }
 
-        public sealed override bool GetEventFlag(int flagNumber)
+        #region Event Flag/Event Work
+        public bool GetEventFlag(int flagNumber)
         {
-            if (flagNumber >= EventFlagMax)
-                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
-
-            var start = EventFlag;
-            return GetFlag(start + (flagNumber >> 3), flagNumber & 7);
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
 
-        public sealed override void SetEventFlag(int flagNumber, bool value)
+        public void SetEventFlag(int flagNumber, bool value)
         {
-            if (flagNumber >= EventFlagMax)
-                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
-
-            var start = EventFlag;
-            SetFlag(start + (flagNumber >> 3), flagNumber & 7, value);
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
+
+        public ushort GetWork(int index) => ReadUInt16LittleEndian(Large.AsSpan(EventWork + (index * 2)));
+        public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Large.AsSpan(EventWork)[(index * 2)..], value);
+        #endregion
 
         public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(Large, offset, bitIndex);
         public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Large, offset, bitIndex, value);
-
-        public ushort GetEventConst(int index) => ReadUInt16LittleEndian(Large.AsSpan(EventConst + (index * 2)));
-        public void SetEventConst(int index, ushort value) => WriteUInt16LittleEndian(Large.AsSpan(EventConst + (index * 2)), value);
-
-        public sealed override ushort[] GetEventConsts()
-        {
-            ushort[] Constants = new ushort[EventConstMax];
-            for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = GetEventConst(i);
-            return Constants;
-        }
-
-        public sealed override void SetEventConsts(ReadOnlySpan<ushort> value)
-        {
-            if (value.Length != EventConstMax)
-                return;
-
-            for (int i = 0; i < value.Length; i++)
-                SetEventConst(i, value[i]);
-        }
 
         protected abstract int BadgeFlagStart { get; }
         public abstract uint Coin { get; set; }

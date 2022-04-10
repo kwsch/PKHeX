@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class FestaBlock5 : SaveBlock
+    public sealed class FestaBlock5 : SaveBlock<SAV5B2W2>
     {
         public FestaBlock5(SAV5B2W2 SAV, int offset) : base(SAV) => Offset = offset;
 

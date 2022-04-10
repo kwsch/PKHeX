@@ -23,9 +23,7 @@ namespace PKHeX.Core
         private void Initialize()
         {
             Party = Blocks.BlockInfo[04].Offset;
-            EventConst = Blocks.BlockInfo[05].Offset;
             PokeDex = Blocks.BlockInfo[06].Offset;
-            EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
 
             TeamSlots = Blocks.BoxLayout.TeamSlots;
             Box = Blocks.BlockInfo[14].Offset;
@@ -64,7 +62,7 @@ namespace PKHeX.Core
         public override HallOfFame7 Fame => Blocks.Fame;
         #endregion
 
-        protected override int EventFlagMax => 4000;
+        public override int EventFlagCount => 4000;
         public override int MaxMoveID => Legal.MaxMoveID_7;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
         public override int MaxItemID => Legal.MaxItemID_7;

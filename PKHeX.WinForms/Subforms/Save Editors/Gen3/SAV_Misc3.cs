@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
                     cba[i].Items.Clear();
                     cba[i].InitializeBinding();
                     cba[i].DataSource = new BindingSource(legal, null);
-                    var g3Species = SAV.GetEventConst(0x43 + i);
+                    var g3Species = SAV.GetWork(0x43 + i);
                     var species = SpeciesConverter.GetG4Species(g3Species);
                     cba[i].SelectedValue = species;
                 }
@@ -75,7 +75,7 @@ namespace PKHeX.WinForms
                 {
                     var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
                     var g3Species = SpeciesConverter.GetG3Species(species);
-                    SAV.SetEventConst(0x43 + i, (ushort)g3Species);
+                    SAV.SetWork(0x43 + i, (ushort)g3Species);
                 }
             }
 
@@ -238,9 +238,7 @@ namespace PKHeX.WinForms
             else
             {
                 CB_Stats2.Visible = true;
-                foreach (var t in bft)
-                    CB_Stats2.Items.Add(t);
-
+                CB_Stats2.Items.AddRange(bft);
                 CB_Stats2.SelectedIndex = 0;
             }
 
@@ -377,8 +375,7 @@ namespace PKHeX.WinForms
             SetFrontierSymbols();
 
             CB_Stats1.Items.Clear();
-            foreach (string t in BFN)
-                CB_Stats1.Items.Add(t);
+            CB_Stats1.Items.AddRange(BFN);
 
             loading = false;
             CB_Stats1.SelectedIndex = 0;

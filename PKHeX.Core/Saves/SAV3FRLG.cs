@@ -15,8 +15,8 @@ namespace PKHeX.Core
         private PersonalTable _personal = PersonalTable.FR;
         public override PersonalTable Personal => _personal;
 
-        protected override int EventFlagMax => 8 * 288;
-        protected override int EventConstMax => 0x100;
+        public override int EventFlagCount => 8 * 288;
+        public override int EventWorkCount => 0x100;
         protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
         public override int DaycareSeedSize => 4; // 16bit
         protected override int EggEventFlag => 0x266;
@@ -34,14 +34,15 @@ namespace PKHeX.Core
                 WriteUInt32LittleEndian(Small.AsSpan(0xAC), 1);
         }
 
+        protected override int EventFlag => 0xEE0;
+        protected override int EventWork => 0x1000;
+
         private void Initialize()
         {
             // small
             PokeDex = 0x18;
 
             // large
-            EventFlag = 0xEE0;
-            EventConst = 0x1000;
             DaycareOffset = 0x2F80;
 
             // storage
@@ -65,7 +66,7 @@ namespace PKHeX.Core
             {
                 PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : (byte)0; // magic
                 SetEventFlag(0x840, value);
-                SetEventConst(0x4E, PokedexNationalUnlockWorkFRLG);
+                SetWork(0x4E, PokedexNationalUnlockWorkFRLG);
             }
         }
 

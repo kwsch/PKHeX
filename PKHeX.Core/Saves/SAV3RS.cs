@@ -15,8 +15,8 @@ namespace PKHeX.Core
         public override GameVersion Version { get => GameVersion.RS; protected set { } }
         public override PersonalTable Personal => PersonalTable.RS;
 
-        protected override int EventFlagMax => 8 * 288;
-        protected override int EventConstMax => 0x100;
+        public override int EventFlagCount => 8 * 288;
+        public override int EventWorkCount => 0x100;
         protected override int DaycareSlotSize => SIZE_STORED;
         public override int DaycareSeedSize => 4; // 16bit
         protected override int EggEventFlag => 0x86;
@@ -25,14 +25,15 @@ namespace PKHeX.Core
         public SAV3RS(byte[] data) : base(data) => Initialize();
         public SAV3RS(bool japanese = false) : base(japanese) => Initialize();
 
+        protected override int EventFlag => 0x1220;
+        protected override int EventWork => 0x1340;
+
         private void Initialize()
         {
             // small
             PokeDex = 0x18;
 
             // large
-            EventFlag = 0x1220;
-            EventConst = 0x1340;
             DaycareOffset = 0x2F9C;
 
             // storage
@@ -48,7 +49,7 @@ namespace PKHeX.Core
                 PokedexMode = value ? (byte)1 : (byte)0; // mode
                 PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : (byte)0; // magic
                 SetEventFlag(0x836, value);
-                SetEventConst(0x46, PokedexNationalUnlockWorkRSE);
+                SetWork(0x46, PokedexNationalUnlockWorkRSE);
             }
         }
 

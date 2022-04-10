@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
             // Constants @ 0x1C00
             // Cell Data @ 0x1D8C
             // Use constants 0x18C/2 = 198 thru +95
-            ushort[] constants = SAV.GetEventConsts();
+            ushort[] constants = SAV.GetAllEventWork();
             var cells = constants.AsSpan(celloffset, CellCount);
 
             int cellCount = constants[cellstotal];
@@ -28,8 +28,7 @@ namespace PKHeX.WinForms
             NUD_Collected.Value = cellCollected;
 
             var combo = (DataGridViewComboBoxColumn)dgv.Columns[2];
-            foreach (string t in states)
-                combo.Items.Add(t); // add only the Names
+            combo.Items.AddRange(states); // add only the Names
             dgv.Columns[0].ValueType = typeof(int);
 
             // Populate Grid
@@ -54,7 +53,7 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            ushort[] constants = SAV.GetEventConsts();
+            ushort[] constants = SAV.GetAllEventWork();
             for (int i = 0; i < CellCount; i++)
             {
                 string str = (string)dgv.Rows[i].Cells[2].Value;
@@ -70,7 +69,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV7USUM)
                 SAV.SetRecord(72, (int)NUD_Collected.Value);
 
-            SAV.SetEventConsts(constants);
+            SAV.SetAllEventWork(constants);
             Origin.CopyChangesFrom(SAV);
 
             Close();

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 2 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV2 : SaveFile, ILangDeviantSave
+    public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => ".sav";
@@ -140,9 +140,10 @@ namespace PKHeX.Core
 
             // Enable Pokedex editing
             PokeDex = 0;
-            EventFlag = Offsets.EventFlag;
-            EventConst = Offsets.EventConst;
         }
+
+        private int EventFlag => Offsets.EventFlag;
+        private int EventWork => Offsets.EventWork;
 
         private PK2 ReadPKMFromOffset(int offset)
         {
@@ -272,8 +273,8 @@ namespace PKHeX.Core
 
         public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGB(data);
 
-        protected override int EventConstMax => 0x100;
-        protected override int EventFlagMax => 2000;
+        public int EventWorkCount => 0x100;
+        public int EventFlagCount => 2000;
 
         public override int BoxCount => Japanese ? 9 : 14;
         public override int MaxEV => 65535;
@@ -679,25 +680,20 @@ namespace PKHeX.Core
             SetFlag(region + ofs, bit & 7, value);
         }
 
-        /// <summary>All Event Constant values for the save file</summary>
-        /// <remarks>These are all bytes</remarks>
-        public override ushort[] GetEventConsts()
+        public byte GetWork(int index) => Data[EventWork + index];
+        public void SetWork(int index, byte value) => Data[EventWork + index] = value;
+        public bool GetEventFlag(int flagNumber)
         {
-            ushort[] Constants = new ushort[EventConstMax];
-            for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = Data[EventConst + i];
-            return Constants;
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
 
-        /// <summary>All Event Constant values for the save file</summary>
-        /// <remarks>These are all bytes</remarks>
-        public override void SetEventConsts(ReadOnlySpan<ushort> value)
+        public void SetEventFlag(int flagNumber, bool value)
         {
-            if (value.Length != EventConstMax)
-                return;
-
-            for (int i = 0; i < value.Length; i++)
-                Data[EventConst + i] = Math.Min(byte.MaxValue, (byte)value[i]);
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
 
         // Misc

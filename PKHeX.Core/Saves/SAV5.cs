@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV5 : SaveFile, ISaveBlock5BW
+    public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     {
         protected override PKM GetPKM(byte[] data) => new PK5(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
@@ -27,6 +27,10 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         protected override int GiftCountMax => 12;
+        public abstract int EventFlagCount { get; }
+        public abstract int EventWorkCount { get; }
+        protected abstract int EventFlag { get; }
+        protected abstract int EventWork { get; }
 
         public override int MaxMoveID => Legal.MaxMoveID_5;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
@@ -141,6 +145,23 @@ namespace PKHeX.Core
         {
             return StringConverter5.SetString(destBuffer, value, maxLength, option);
         }
+
+        public bool GetEventFlag(int flagNumber)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
+        }
+
+        public void SetEventFlag(int flagNumber, bool value)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+        }
+
+        public ushort GetWork(int index) => ReadUInt16LittleEndian(Data.AsSpan(EventWork + (index * 2)));
+        public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(EventWork)[(index * 2)..], value);
 
         // DLC
         private int CGearSkinInfoOffset => CGearInfoOffset + (this is SAV5B2W2 ? 0x10 : 0) + 0x24;

@@ -31,6 +31,9 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_6_XY;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
 
+        protected override int EventWork => 0x14A00;
+        protected override int EventFlag => EventWork + 0x2F0;
+
         private void Initialize()
         {
             // Enable Features
@@ -38,7 +41,6 @@ namespace PKHeX.Core
             PCLayout = 0x4400;
             BattleBoxOffset = 0x04A00;
             PSS = 0x05000;
-            EventConst = 0x14A00;
             PokeDex = 0x15000;
             HoF = 0x19400;
             DaycareOffset = 0x1B200;
@@ -47,7 +49,6 @@ namespace PKHeX.Core
             Box = 0x22600;
             JPEG = 0x57200;
 
-            EventFlag = EventConst + 0x2F0;
             WondercardData = WondercardFlags + 0x100;
 
             // Extra Viewable Slots

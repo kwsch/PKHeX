@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Storage data is stored in one contiguous block, and the remaining data is stored in another block.
     /// </remarks>
-    public abstract class SAV4 : SaveFile
+    public abstract class SAV4 : SaveFile, IEventFlag37
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public sealed override string Extension => ".sav";
@@ -29,6 +29,8 @@ namespace PKHeX.Core
         protected abstract int StorageStart { get; }
         public abstract Zukan4 Dex { get; }
 
+        protected abstract int EventFlag { get; }
+        protected abstract int EventWork { get; }
         public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
         public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
 
@@ -77,8 +79,8 @@ namespace PKHeX.Core
         public sealed override int BoxCount => 18;
         public sealed override int MaxEV => 255;
         public sealed override int Generation => 4;
-        protected sealed override int EventFlagMax => 0xB60; // 2912
-        protected sealed override int EventConstMax => (EventFlag - EventConst) >> 1;
+        public int EventFlagCount => 0xB60; // 2912
+        public int EventWorkCount => (EventFlag - EventWork) >> 1;
         protected sealed override int GiftCountMax => 11;
         public sealed override int OTLength => 7;
         public sealed override int NickLength => 10;
@@ -481,30 +483,24 @@ namespace PKHeX.Core
             return StringConverter4.SetString(destBuffer, value, maxLength, option);
         }
 
-        /// <summary> All Event Constant values for the savegame </summary>
-        public sealed override ushort[] GetEventConsts()
+        #region Event Flag/Event Work
+        public bool GetEventFlag(int flagNumber)
         {
-            if (EventConstMax <= 0)
-                return Array.Empty<ushort>();
-
-            ushort[] Constants = new ushort[EventConstMax];
-            for (int i = 0; i < Constants.Length; i++)
-                Constants[i] = ReadUInt16LittleEndian(General.AsSpan(EventConst + (i * 2)));
-            return Constants;
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
 
-        /// <summary> All Event Constant values for the savegame </summary>
-        public sealed override void SetEventConsts(ReadOnlySpan<ushort> value)
+        public void SetEventFlag(int flagNumber, bool value)
         {
-            if (EventConstMax <= 0)
-                return;
-            if (value.Length != EventConstMax)
-                return;
-
-            var span = General.AsSpan(EventConst);
-            for (int i = 0; i < value.Length; i++)
-                WriteUInt16LittleEndian(span[(i * 2)..], value[i]);
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
+
+        public ushort GetWork(int index) => ReadUInt16LittleEndian(General.AsSpan(EventWork + (index * 2)));
+        public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(General.AsSpan(EventWork)[(index * 2)..], value);
+        #endregion
 
         // Seals
         private const byte SealMaxCount = 99;

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 1 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV1 : SaveFile, ILangDeviantSave
+    public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => ".sav";
@@ -115,8 +115,6 @@ namespace PKHeX.Core
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             DaycareOffset = GetPartyOffset(7);
 
-            EventFlag = Offsets.EventFlag;
-
             // Enable Pokedex editing
             PokeDex = 0;
         }
@@ -125,8 +123,20 @@ namespace PKHeX.Core
         private readonly SAV1Offsets Offsets;
 
         // Event Flags
-        protected override int EventFlagMax => 0xA00; // 320 * 8
-        protected override int EventConstMax => 0;
+        public int EventFlagCount => 0xA00; // 320 * 8
+        public bool GetEventFlag(int flagNumber)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+            return GetFlag(Offsets.EventFlag + (flagNumber >> 3), flagNumber & 7);
+        }
+
+        public void SetEventFlag(int flagNumber, bool value)
+        {
+            if ((uint)flagNumber >= EventFlagCount)
+                throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+            SetFlag(Offsets.EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+        }
 
         protected override byte[] GetFinalData()
         {

@@ -26,14 +26,13 @@ namespace PKHeX.Core
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+        protected override int EventWork => 0x04600;
+        protected override int EventFlag => EventWork + 0x2F0;
         public SaveBlockAccessor6AODemo Blocks { get; }
 
         private void Initialize()
         {
             Party            = 0x03E00;
-            EventConst       = 0x04600;
-
-            EventFlag = EventConst + 0x2F0;
         }
 
         public override GameVersion Version => Game switch
