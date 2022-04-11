@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
                 bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value;
                 dgv.Rows[e.RowIndex].Cells[0].Value = !chk;
                 var index = labels[e.RowIndex].Index;
-                values[index] = chk;
+                values[index] = !chk;
                 if (NUD_Flag.Value == index)
                     c_CustomFlag.Checked = !chk;
             };
