@@ -25,6 +25,7 @@ Control + Click on...
 - Individual IVs: Set IV to max (or max-1 if already max).
 - Individual AVs: Set AV to max (or 0 if already max).
 - Individual EVs: Set EV to max.
+- Individual Contest Stats: Set to max.
 - Randomize IVs: Set all IVs to max.
 - Randomize AVs: Set all AVs to max.
 - Randomize EVs: Set all EVs to max (if appropriate).
@@ -43,6 +44,7 @@ Alt + Click on...
 - Individual IVs: Set IV to 0.
 - Individual AVs: Set AV to 0.
 - Individual EVs: Set EV to 0.
+- Individual Contest Stats: Set to 0.
 - Shiny Button: Set SID instead of PID when making shiny
 - Stat Label: Pick a negative nature for this stat
 
