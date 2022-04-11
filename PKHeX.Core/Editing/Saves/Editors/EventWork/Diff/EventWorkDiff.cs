@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Calculates differences in the Event Blocks between two <see cref="SaveFile"/>.
 /// </summary>
-public class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagArray, IEventWorkArray<T2> where T2 : unmanaged, IEquatable<T2>
+public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagArray, IEventWorkArray<T2> where T2 : unmanaged, IEquatable<T2>
 {
     public List<int> SetFlags { get; } = new();
     public List<int> ClearedFlags { get; } = new();
@@ -36,7 +36,7 @@ public class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagArray, I
         Diff(t1, t2);
     }
 
-    protected EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
+    private EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
     {
         if (s1.GetType() != s2.GetType())
             return DifferentGameGroup;
@@ -47,7 +47,7 @@ public class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagArray, I
         return Valid;
     }
 
-    protected void Diff(T s1, T s2)
+    private void Diff(T s1, T s2)
     {
         Message = SanityCheckSaveInfo(s1, s2);
         if (Message != Valid)
