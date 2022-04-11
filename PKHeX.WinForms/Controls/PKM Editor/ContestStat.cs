@@ -67,5 +67,20 @@ namespace PKHeX.WinForms.Controls
             Label_Smart.Visible = smart; // show smart gen3-5
             Label_Clever.Visible = !smart; // show clever gen6+
         }
+
+        private void ClickTextBox(object sender, EventArgs e)
+        {
+            var keys = ModifierKeys;
+            if (keys == Keys.None)
+                return;
+
+            if (sender is not MaskedTextBox tb)
+                return;
+
+            if (keys == Keys.Control)
+                tb.Text = "255";
+            else if (keys == Keys.Alt)
+                tb.Text = "0";
+        }
     }
 }

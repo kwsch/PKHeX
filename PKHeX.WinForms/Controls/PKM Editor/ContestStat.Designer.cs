@@ -53,6 +53,7 @@
             this.TB_Sheen.Size = new System.Drawing.Size(31, 20);
             this.TB_Sheen.TabIndex = 58;
             this.TB_Sheen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Sheen.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Sheen.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Tough
@@ -64,6 +65,7 @@
             this.TB_Tough.Size = new System.Drawing.Size(31, 20);
             this.TB_Tough.TabIndex = 57;
             this.TB_Tough.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Tough.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Tough.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Smart
@@ -75,6 +77,7 @@
             this.TB_Smart.Size = new System.Drawing.Size(31, 20);
             this.TB_Smart.TabIndex = 56;
             this.TB_Smart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Smart.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Smart.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Cute
@@ -86,6 +89,7 @@
             this.TB_Cute.Size = new System.Drawing.Size(31, 20);
             this.TB_Cute.TabIndex = 55;
             this.TB_Cute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Cute.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Cute.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Beauty
@@ -97,6 +101,7 @@
             this.TB_Beauty.Size = new System.Drawing.Size(31, 20);
             this.TB_Beauty.TabIndex = 54;
             this.TB_Beauty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Beauty.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Beauty.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Cool
@@ -108,6 +113,7 @@
             this.TB_Cool.Size = new System.Drawing.Size(31, 20);
             this.TB_Cool.TabIndex = 53;
             this.TB_Cool.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Cool.Click += new System.EventHandler(this.ClickTextBox);
             this.TB_Cool.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_Sheen
