@@ -270,7 +270,7 @@ namespace PKHeX.Core
 
         public static bool IsStadium(ReadOnlySpan<byte> data)
         {
-            if (data.Length != SaveUtil.SIZE_G1STAD)
+            if (data.Length is not (SaveUtil.SIZE_G1STAD or SaveUtil.SIZE_G1STADF))
                 return false;
             if (IsStadiumU(data))
                 return true;
