@@ -130,9 +130,9 @@ namespace PKHeX.Core
             if (!strainValid)
                 data.AddLine(GetInvalid(string.Format(LPokerusStrainUnobtainable_0, strain)));
 
-            var expect = Pokerus.GetMaxDuration(strain);
-            if (days > expect)
-                data.AddLine(GetInvalid(string.Format(LPokerusDaysTooHigh_0, expect)));
+            bool daysValid = Pokerus.IsDurationValid(strain, days, out var max);
+            if (!daysValid)
+                data.AddLine(GetInvalid(string.Format(LPokerusDaysTooHigh_0, max)));
         }
 
         public void VerifyMiscG1(LegalityAnalysis data)

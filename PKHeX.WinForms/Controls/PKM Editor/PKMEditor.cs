@@ -1102,13 +1102,16 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSdays(object sender, EventArgs e)
         {
-            if (CB_PKRSDays.SelectedIndex != 0)
+            var days = CB_PKRSDays.SelectedIndex;
+            if (days != 0)
                 return;
 
             // If no days are selected
-            if (CB_PKRSStrain.SelectedIndex == 0)
+            var strain = CB_PKRSStrain.SelectedIndex;
+            if (Pokerus.IsSusceptible(strain, days))
                 CHK_Cured.Checked = CHK_Infected.Checked = false; // No Strain = Never Cured / Infected, triggers Strain update
-            else CHK_Cured.Checked = true; // Any Strain = Cured
+            else if (Pokerus.IsImmune(strain, days))
+                CHK_Cured.Checked = true; // Any Strain = Cured
         }
 
         private void UpdatePKRSCured(object sender, EventArgs e)
@@ -1141,7 +1144,7 @@ namespace PKHeX.WinForms.Controls
             }
             // if not cured yet, days > 0
             if (!CHK_Cured.Checked && CHK_Infected.Checked && CB_PKRSDays.SelectedIndex == 0)
-                CB_PKRSDays.SelectedIndex++;
+                CB_PKRSDays.SelectedIndex = 1;
 
             SetMarkings();
         }
