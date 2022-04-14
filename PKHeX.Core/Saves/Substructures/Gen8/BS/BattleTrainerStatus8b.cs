@@ -39,7 +39,7 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < COUNT_TRAINER; i++)
             {
-                SetIsWin(i, true);
+                SetIsWin(i, false);
                 SetIsBattleSearcher(i, true);
             }
         }
