@@ -165,7 +165,8 @@ namespace PKHeX.WinForms
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
             // Load PSS Sprite
-            CB_MultiplayerSprite.SelectedValue = SAV.MultiplayerSpriteID;
+            if (SAV is IMultiplayerSprite ms)
+                CB_MultiplayerSprite.SelectedValue = ms.MultiplayerSpriteID;
             PB_Sprite.Image = SAV.Sprite();
 
             if (SAV is SAV6XY xy)
@@ -253,7 +254,8 @@ namespace PKHeX.WinForms
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
             // Sprite
-            SAV.MultiplayerSpriteID = Convert.ToByte(CB_MultiplayerSprite.SelectedValue);
+            if (SAV is IMultiplayerSprite ms)
+                ms.MultiplayerSpriteID = Convert.ToByte(CB_MultiplayerSprite.SelectedValue);
 
             // Appearance
             if (SAV is SAV6XY xy)
@@ -348,7 +350,9 @@ namespace PKHeX.WinForms
         {
             if (editing)
                 return;
-            SAV.MultiplayerSpriteID = WinFormsUtil.GetIndex(CB_MultiplayerSprite);
+
+            if (SAV is IMultiplayerSprite ms)
+                ms.MultiplayerSpriteID = WinFormsUtil.GetIndex(CB_MultiplayerSprite);
             PB_Sprite.Image = SAV.Sprite();
         }
 

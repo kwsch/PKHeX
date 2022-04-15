@@ -10,9 +10,10 @@ public static class PlayerSpriteUtil
 
     private static Image? GetSprite(SaveFile sav)
     {
-        if (sav is SAV6XY or SAV6AO)
+        if (sav is IMultiplayerSprite ms)
         {
-            string file = $"tr_{sav.MultiplayerSpriteID:00}";
+            // Gen6 only
+            string file = $"tr_{ms.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image ?? Resources.tr_00;
         }
         return null;

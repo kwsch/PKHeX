@@ -151,7 +151,6 @@ namespace PKHeX.Core
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int SlotCount => BoxCount * BoxSlotCount;
-        public virtual int MultiplayerSpriteID { get => 0; set { } }
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
         public virtual int MaxMoney => 9999999;
@@ -836,7 +835,7 @@ namespace PKHeX.Core
             if (IsRegionOverwriteProtected(0, SlotCount))
                 return false;
 
-            int expectLength = SlotCount * GetDataForBox(BlankPKM).Length;
+            int expectLength = SlotCount * SIZE_BOXSLOT;
             return SetConcatenatedBinary(data, expectLength);
         }
 
@@ -848,7 +847,7 @@ namespace PKHeX.Core
             if (IsRegionOverwriteProtected(start, end))
                 return false;
 
-            int expectLength = BoxSlotCount * GetDataForBox(BlankPKM).Length;
+            int expectLength = BoxSlotCount * SIZE_BOXSLOT;
             return SetConcatenatedBinary(data, expectLength, start);
         }
 
@@ -858,7 +857,7 @@ namespace PKHeX.Core
                 return false;
 
             var BD = BoxData;
-            var entryLength = GetDataForBox(BlankPKM).Length;
+            var entryLength = SIZE_BOXSLOT;
             var pkdata = ArrayUtil.EnumerateSplit(data, entryLength);
 
             pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected, start);

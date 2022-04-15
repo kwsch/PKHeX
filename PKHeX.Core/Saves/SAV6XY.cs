@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.XY"/>.
     /// </summary>
     /// <inheritdoc cref="SAV6" />
-    public sealed class SAV6XY : SAV6, ISaveBlock6XY
+    public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
     {
         public SAV6XY(byte[] data) : base(data, SaveBlockAccessor6XY.BlockMetadataOffset)
         {
@@ -161,7 +161,7 @@ namespace PKHeX.Core
         public override int Badges { get => Blocks.Misc.Badges; set => Blocks.Misc.Badges = value; }
         public override int BP { get => Blocks.Misc.BP; set => Blocks.Misc.BP = value; }
 
-        public override int MultiplayerSpriteID
+        public int MultiplayerSpriteID
         {
             get => Blocks.Status.MultiplayerSpriteID_1;
             set => Blocks.Status.MultiplayerSpriteID_1 = Blocks.Status.MultiplayerSpriteID_2 = value;

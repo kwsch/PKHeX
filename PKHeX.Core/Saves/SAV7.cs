@@ -134,7 +134,7 @@ namespace PKHeX.Core
         public byte ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
-        public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
+        public int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
         public override uint Money { get => Misc.Money; set => Misc.Money = value; }
 
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }

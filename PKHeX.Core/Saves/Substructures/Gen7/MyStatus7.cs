@@ -104,7 +104,7 @@ namespace PKHeX.Core
             set => Data[Offset + 0x54] = (byte)((Data[Offset + 0x54] & ~(7 << 2)) | (value << 2));
         }
 
-        public int MultiplayerSpriteID
+        public int MultiplayerSpriteID // holdover from Gen6
         {
             get => Data[Offset + 0x58];
             set => Data[Offset + 0x58] = (byte)value;
