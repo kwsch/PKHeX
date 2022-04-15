@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Buffers.Binary;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -14,14 +14,14 @@ public sealed class MyStatus8a : SaveBlock
 
     public int TID
     {
-        get => BinaryPrimitives.ReadUInt16LittleEndian(Data.AsSpan(0x10));
-        set => BinaryPrimitives.WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value);
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x10));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value);
     }
 
     public int SID
     {
-        get => BinaryPrimitives.ReadUInt16LittleEndian(Data.AsSpan(0x12));
-        set => BinaryPrimitives.WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value);
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x12));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value);
     }
 
     public int Game

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Buffers.Binary;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -17,8 +17,8 @@ public sealed class AdventureStart8a : SaveBlock
     /// </summary>
     public ulong Seconds
     {
-        get => BinaryPrimitives.ReadUInt64LittleEndian(Data.AsSpan(Offset));
-        set => BinaryPrimitives.WriteUInt64LittleEndian(Data.AsSpan(Offset), value);
+        get => ReadUInt64LittleEndian(Data.AsSpan(Offset));
+        set => WriteUInt64LittleEndian(Data.AsSpan(Offset), value);
     }
 
     private static DateTime Epoch => new(1970, 1, 1);

@@ -65,7 +65,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KFashionUnlockedOverall = 0x45851092;
     private const uint KFashionUnlockedShoes = 0x636A5ABD;
     private const uint KFashionUnlockedGlasses = 0x58AB6233;
-    private const uint KSwarm = 0x1E0F1BA3; // 5 entries, 0x50 each
+    public const uint KMassOutbreak = 0x1E0F1BA3;
+    public const uint KMassiveMassOutbreak = 0x7799EB86;
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
     private const uint KOtherPlayerLostSatchels = 0x05E7EBEB;
     private const uint KMyLostSatchels = 0xC5D7112B;
