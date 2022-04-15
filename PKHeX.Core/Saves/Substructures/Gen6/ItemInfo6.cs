@@ -3,9 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class ItemInfo6 : SaveBlock
+    public sealed class ItemInfo6 : SaveBlock<SAV6>
     {
-        public ItemInfo6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public ItemInfo6(SAV6 sav, int offset) : base(sav) => Offset = offset;
 
         private const int BoundItemCount = 4;
         private const int RecentItemCount = 12;

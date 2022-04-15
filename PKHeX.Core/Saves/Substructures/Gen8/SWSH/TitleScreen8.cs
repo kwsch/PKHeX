@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Pokémon Team that shows up at the title screen.
     /// </summary>
-    public sealed class TitleScreen8 : SaveBlock
+    public sealed class TitleScreen8 : SaveBlock<SAV8SWSH>
     {
         public TitleScreen8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public sealed class UndergroundItemList8b : SaveBlock
+    public sealed class UndergroundItemList8b : SaveBlock<SAV8BS>
     {
         public const int ItemSaveSize = 999;
         public const int ItemMaxCount = 999;

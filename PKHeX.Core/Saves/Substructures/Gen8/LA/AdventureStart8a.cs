@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 /// Stores the <see cref="Timestamp"/> when the player created their save data.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class AdventureStart8a : SaveBlock
+public sealed class AdventureStart8a : SaveBlock<SAV8LA>
 {
-    public AdventureStart8a(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
+    public AdventureStart8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
 
     /// <summary>
     /// time_t (seconds since 1970 Epoch)

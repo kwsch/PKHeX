@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x138</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class SystemData8b : SaveBlock
+    public sealed class SystemData8b : SaveBlock<SAV8BS>
     {
         // Structure:
         // (u32 count, u64 FILETIME) Start Time

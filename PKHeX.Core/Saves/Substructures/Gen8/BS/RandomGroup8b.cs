@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x630</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class RandomGroup8b : SaveBlock
+    public sealed class RandomGroup8b : SaveBlock<SAV8BS>
     {
         public const int COUNT_GROUP = 12;
 

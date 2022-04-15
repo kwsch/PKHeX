@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class BoxLayout7 : SaveBlock, IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
+    public sealed class BoxLayout7 : SaveBlock<SAV7>, IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
     {
         private const int BoxCount = 32;
 
@@ -37,7 +37,6 @@ namespace PKHeX.Core
                 return;
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
-
 
         private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
         private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);

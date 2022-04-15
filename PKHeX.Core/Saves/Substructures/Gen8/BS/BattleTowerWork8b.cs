@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x1B8</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class BattleTowerWork8b : SaveBlock
+    public sealed class BattleTowerWork8b : SaveBlock<SAV8BS>
     {
         private const int OFS_ClassData = 20;
         private const int COUNT_CLASSDATA = 4;
@@ -53,7 +53,6 @@ namespace PKHeX.Core
             // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
         }
     }
-
 
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public sealed class BattleTowerClassData8b

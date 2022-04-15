@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public sealed class FashionUnlock8 : SaveBlock
+    public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
     {
         private const int SIZE_ENTRY = 0x80;
         private const int REGIONS = 15;
 
-        public FashionUnlock8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
+        public FashionUnlock8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         public bool[] GetArrayOwned(int region) => ArrayUtil.GitBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), SIZE_ENTRY * 8);
         public bool[] GetArrayNew(int region) => ArrayUtil.GitBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), SIZE_ENTRY * 8);

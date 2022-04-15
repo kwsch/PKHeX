@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x20, struct_name UgCountRecord</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class UgCountRecord8b : SaveBlock
+    public sealed class UgCountRecord8b : SaveBlock<SAV8BS>
     {
         public UgCountRecord8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class MyStatus8 : SaveBlock
+    public sealed class MyStatus8 : SaveBlock<SAV8SWSH>
     {
         public const uint MaxWatt = 9999999;
 
@@ -158,7 +158,7 @@ namespace PKHeX.Core
                 // For runtime language, the game shifts all languages above Language 6 (unused) down one.
                 if (value >= 6)
                     value--;
-                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KGameLanguage, (uint)value);
+                SAV.SetValue(SaveBlockAccessor8SWSH.KGameLanguage, (uint)value);
             }
         }
 

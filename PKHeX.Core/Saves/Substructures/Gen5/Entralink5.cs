@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public abstract class Entralink5 : SaveBlock
+    public abstract class Entralink5 : SaveBlock<SAV5>
     {
         protected Entralink5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
 

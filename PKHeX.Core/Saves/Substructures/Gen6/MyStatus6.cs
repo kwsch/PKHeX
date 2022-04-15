@@ -3,9 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public class MyStatus6 : SaveBlock, IRegionOrigin
+    public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
     {
-        public MyStatus6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
 
         public int TID
         {

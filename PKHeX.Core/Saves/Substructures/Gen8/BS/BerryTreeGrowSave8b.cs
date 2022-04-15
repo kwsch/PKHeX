@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x808</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class BerryTreeGrowSave8b : SaveBlock
+    public sealed class BerryTreeGrowSave8b : SaveBlock<SAV8BS>
     {
         public BerryTreeGrowSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

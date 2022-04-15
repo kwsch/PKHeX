@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Tracks the 4 select bound item slots. Size: 0x8 (4 * u16)
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class SaveItemShortcut8b : SaveBlock
+    public sealed class SaveItemShortcut8b : SaveBlock<SAV8BS>
     {
         public SaveItemShortcut8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

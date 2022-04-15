@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class BattleAgency7 : SaveBlock
+    public sealed class BattleAgency7 : SaveBlock<SAV7USUM>
     {
         public BattleAgency7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 

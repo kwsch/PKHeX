@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Daycare5 : SaveBlock
+    public sealed class Daycare5 : SaveBlock<SAV5>
     {
         // struct daycareSlot 
         // bool32 occupied
@@ -17,7 +17,7 @@ namespace PKHeX.Core
 
         public const int DaycareSeedSize = 16; // 8 bytes, b2w2 only
 
-        public Daycare5(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public Daycare5(SAV5 sav, int offset) : base(sav) => Offset = offset;
 
         public ulong? GetSeed()
         {

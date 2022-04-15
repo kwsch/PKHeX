@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x720, struct_name CONTEST_DATA</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class Contest8b : SaveBlock
+    public sealed class Contest8b : SaveBlock<SAV8BS>
     {
         public const int SIZE_CONTEST_PHOTO = 0x16C;
         public const int PHOTO_MAX = 5;

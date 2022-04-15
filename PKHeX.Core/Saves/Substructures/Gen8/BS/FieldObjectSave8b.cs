@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x109A0 (1000 * 4*17)</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class FieldObjectSave8b : SaveBlock
+    public sealed class FieldObjectSave8b : SaveBlock<SAV8BS>
     {
         private const int COUNT_OBJECTS = 1_000;
 

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class PlayTime7b : SaveBlock
+    public sealed class PlayTime7b : SaveBlock<SAV7b>
     {
         public PlayTime7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 

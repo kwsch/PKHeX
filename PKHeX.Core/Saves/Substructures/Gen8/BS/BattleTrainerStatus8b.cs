@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Defeated Status for all trainers (Dpr.Trainer.TrainerID)
     /// </summary>
     /// <remarks>size: 0x1618</remarks>
-    public sealed class BattleTrainerStatus8b : SaveBlock
+    public sealed class BattleTrainerStatus8b : SaveBlock<SAV8BS>
     {
         public BattleTrainerStatus8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

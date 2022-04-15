@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class FashionBlock7 : SaveBlock
+    public sealed class FashionBlock7 : SaveBlock<SAV7>
     {
         public FashionBlock7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
         public FashionBlock7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;

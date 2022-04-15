@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class FieldMoveModelSave7 : SaveBlock
+    public sealed class FieldMoveModelSave7 : SaveBlock<SAV7>
     {
         public FieldMoveModelSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
         public FieldMoveModelSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;

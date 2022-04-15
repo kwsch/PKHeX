@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class EventWork7b : SaveBlock, IEventVar<int>
+    public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
     {
         public EventWork7b(SAV7b sav, int offset) : base(sav)
         {

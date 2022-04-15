@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Playtime storage
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class PlayTime8b : SaveBlock
+    public sealed class PlayTime8b : SaveBlock<SAV8BS>
     {
         public PlayTime8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

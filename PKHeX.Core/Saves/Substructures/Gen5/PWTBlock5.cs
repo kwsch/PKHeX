@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class PWTBlock5 : SaveBlock
+    public sealed class PWTBlock5 : SaveBlock<SAV5B2W2>
     {
         public PWTBlock5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 

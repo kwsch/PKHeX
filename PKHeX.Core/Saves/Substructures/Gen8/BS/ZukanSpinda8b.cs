@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Tracks <see cref="Species.Spinda"/> data for the game.
 /// </summary>
 /// <remarks>ZUKAN_PERSONAL_RND_DATA size: 0x64 (100)</remarks>
-public sealed class ZukanSpinda8b : SaveBlock
+public sealed class ZukanSpinda8b : SaveBlock<SAV8BS>
 {
     public ZukanSpinda8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

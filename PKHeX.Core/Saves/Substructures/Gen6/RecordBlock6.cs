@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class RecordBlock6 : RecordBlock
+    public sealed class RecordBlock6 : RecordBlock<SaveFile> // 6 or 7
     {
         public const int RecordCount = 200;
         protected override IReadOnlyList<byte> RecordMax { get; }

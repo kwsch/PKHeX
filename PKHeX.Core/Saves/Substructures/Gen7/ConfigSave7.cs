@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class ConfigSave7 : SaveBlock
+    public sealed class ConfigSave7 : SaveBlock<SAV7>
     {
         /* ===32 bits===
          * talkSpeed:2      0,1

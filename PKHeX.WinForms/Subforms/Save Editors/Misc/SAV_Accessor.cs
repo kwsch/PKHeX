@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             UpdateBlockSummaryControls(block);
         }
 
-        private void UpdateBlockSummaryControls(SaveBlock obj)
+        private void UpdateBlockSummaryControls(IDataIndirect obj)
         {
             PG_BlockView.SelectedObject = obj;
         }

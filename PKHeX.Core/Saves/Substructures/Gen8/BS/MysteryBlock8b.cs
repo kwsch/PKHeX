@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size ???, struct_name CONTEST_DATA</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class MysteryBlock8b : SaveBlock
+    public sealed class MysteryBlock8b : SaveBlock<SAV8BS>
     {
         public MysteryBlock8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

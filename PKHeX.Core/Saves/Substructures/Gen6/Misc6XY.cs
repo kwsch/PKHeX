@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Misc6XY : SaveBlock, IMisc6
+    public sealed class Misc6XY : SaveBlock<SAV6XY>, IMisc6
     {
         public Misc6XY(SAV6XY sav, int offset) : base(sav) => Offset = offset;
 

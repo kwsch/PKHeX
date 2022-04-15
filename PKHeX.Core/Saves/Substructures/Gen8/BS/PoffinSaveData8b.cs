@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x644</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class PoffinSaveData8b : SaveBlock
+    public sealed class PoffinSaveData8b : SaveBlock<SAV8BS>
     {
         public PoffinSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

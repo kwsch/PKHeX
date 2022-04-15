@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x188, struct_name ENC_SV_DATA</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class EncounterSave8b : SaveBlock
+    public sealed class EncounterSave8b : SaveBlock<SAV8BS>
     {
         public const int COUNT_HONEYTREE = 21;
         private const int SIZE_HillBackData = 0x8;

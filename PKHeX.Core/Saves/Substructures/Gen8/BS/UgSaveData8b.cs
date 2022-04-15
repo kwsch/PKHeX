@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x27A0</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class UgSaveData8b : SaveBlock
+    public sealed class UgSaveData8b : SaveBlock<SAV8BS>
     {
         public const int COUNT_DIGPOINTS = 10;
         public const int COUNT_ENCOUNTERS = 15;

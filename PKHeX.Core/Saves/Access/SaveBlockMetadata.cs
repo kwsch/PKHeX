@@ -9,12 +9,12 @@ namespace PKHeX.Core
     /// <typeparam name="T">Type of accessor</typeparam>
     public sealed class SaveBlockMetadata<T>
     {
-        private readonly Dictionary<SaveBlock, string> BlockList;
+        private readonly Dictionary<IDataIndirect, string> BlockList;
 
         public SaveBlockMetadata(ISaveBlockAccessor<T> accessor)
         {
             var aType = accessor.GetType();
-            BlockList = aType.GetAllPropertiesOfType<SaveBlock>(accessor);
+            BlockList = aType.GetAllPropertiesOfType<IDataIndirect>(accessor);
         }
 
         public IEnumerable<string> GetSortedBlockList()
@@ -22,6 +22,6 @@ namespace PKHeX.Core
             return BlockList.Select(z => z.Value).OrderBy(z => z);
         }
 
-        public SaveBlock GetBlock(string name) => BlockList.First(z => z.Value == name).Key;
+        public IDataIndirect GetBlock(string name) => BlockList.First(z => z.Value == name).Key;
     }
 }

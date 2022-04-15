@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class BoxLayout6 : SaveBlock, IBoxDetailName, IBoxDetailWallpaper
+    public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWallpaper
     {
         // gfstr5[31] boxNames;
         // byte[31] wallpapers;

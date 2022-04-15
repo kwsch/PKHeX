@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public abstract class RecordBlock : SaveBlock, IRecordStatStorage
+    public abstract class RecordBlock<T> : SaveBlock<T>, IRecordStatStorage where T : SaveFile
     {
         protected abstract IReadOnlyList<byte> RecordMax { get; }
         public abstract int GetRecord(int recordID);
@@ -12,11 +12,11 @@ namespace PKHeX.Core
         public int GetRecordOffset(int recordID) => Records.GetOffset(Offset, recordID);
         public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);
 
-        protected RecordBlock(SaveFile sav) : base(sav)
+        protected RecordBlock(T sav) : base(sav)
         {
         }
 
-        protected RecordBlock(SaveFile sav, byte[] data) : base(sav, data)
+        protected RecordBlock(T sav, byte[] data) : base(sav, data)
         {
         }
     }

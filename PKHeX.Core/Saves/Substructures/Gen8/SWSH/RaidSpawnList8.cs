@@ -4,12 +4,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class RaidSpawnList8 : SaveBlock
+    public sealed class RaidSpawnList8 : SaveBlock<SAV8SWSH>
     {
         public readonly int CountAll;
         public readonly int CountUsed;
 
-        public RaidSpawnList8(SaveFile sav, SCBlock block, int legal) : base(sav, block.Data)
+        public RaidSpawnList8(SAV8SWSH sav, SCBlock block, int legal) : base(sav, block.Data)
         {
             CountAll = block.Data.Length / RaidSpawnDetail.SIZE;
             CountUsed = legal;

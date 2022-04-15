@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class TrainerCard8 : SaveBlock
+    public sealed class TrainerCard8 : SaveBlock<SAV8SWSH>
     {
         public TrainerCard8(SAV8SWSH sav, SCBlock block) : base (sav, block.Data) { }
 
@@ -70,7 +70,7 @@ namespace PKHeX.Core
                     value = RotoRallyScoreMax;
                 WriteInt32LittleEndian(Data.AsSpan(0x28), value);
                 // set to the other block since it doesn't have an accessor
-                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KRotoRally, (uint)value);
+                SAV.SetValue(SaveBlockAccessor8SWSH.KRotoRally, (uint)value);
             }
         }
 

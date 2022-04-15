@@ -3,9 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class PlayTime6 : SaveBlock
+    public sealed class PlayTime6 : SaveBlock<SaveFile>
     {
-        public PlayTime6(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public PlayTime6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+        public PlayTime6(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
         public int PlayedHours
         {

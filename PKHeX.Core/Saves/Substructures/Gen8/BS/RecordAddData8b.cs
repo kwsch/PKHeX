@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Stores additional record data.
     /// </summary>
     /// <remarks>size: 0x3C0</remarks>
-    public sealed class RecordAddData8b : SaveBlock
+    public sealed class RecordAddData8b : SaveBlock<SAV8BS>
     {
         // RECORD_ADD_DATA: 0x30-sized[12] (0x240 bytes), and 12*byte[32] (0x180), total 0x3C0
         public RecordAddData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;

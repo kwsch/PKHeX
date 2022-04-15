@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Array storing all the seal sticker counts the player has collected.
     /// </summary>
     /// <remarks>size: 0x960</remarks>
-    public sealed class SealList8b : SaveBlock
+    public sealed class SealList8b : SaveBlock<SAV8BS>
     {
         public const int SealSaveSize = 200;
         public const int SealMaxCount = 99;

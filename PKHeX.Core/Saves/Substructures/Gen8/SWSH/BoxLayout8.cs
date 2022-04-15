@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class BoxLayout8 : SaveBlock, IBoxDetailName
+    public sealed class BoxLayout8 : SaveBlock<SAV8SWSH>, IBoxDetailName
     {
         public const int BoxCount = 32;
 
@@ -23,8 +23,8 @@ namespace PKHeX.Core
 
         public int CurrentBox
         {
-            get => ((SAV8SWSH)SAV).GetValue<byte>(SaveBlockAccessor8SWSH.KCurrentBox);
-            set => ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KCurrentBox, (byte)value);
+            get => SAV.GetValue<byte>(SaveBlockAccessor8SWSH.KCurrentBox);
+            set => SAV.SetValue(SaveBlockAccessor8SWSH.KCurrentBox, (byte)value);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Player status and info about the trainer
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class MyStatus8b : SaveBlock
+    public sealed class MyStatus8b : SaveBlock<SAV8BS>
     {
         public const int MAX_MONEY = 999_999;
         public const byte MAX_BADGE = 8;

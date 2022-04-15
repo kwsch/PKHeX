@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x40, struct_name CONFIG</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class ConfigSave8b : SaveBlock
+    public sealed class ConfigSave8b : SaveBlock<SAV8BS>
     {
         public ConfigSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

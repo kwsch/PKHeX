@@ -3,9 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class GameTime7 : SaveBlock
+    public sealed class GameTime7 : SaveBlock<SAV7>
     {
-        public GameTime7(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public GameTime7(SAV7 sav, int offset) : base(sav) => Offset = offset;
         public int ResumeYear { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
         public int ResumeMonth { get => Data[Offset + 0x8]; set => Data[Offset + 0x8] = (byte)value; }
         public int ResumeDay { get => Data[Offset + 0x9]; set => Data[Offset + 0x9] = (byte)value; }

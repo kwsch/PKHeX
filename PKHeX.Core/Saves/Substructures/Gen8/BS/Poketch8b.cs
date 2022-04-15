@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size: 0x19C</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class Poketch8b : SaveBlock
+    public sealed class Poketch8b : SaveBlock<SAV8BS>
     {
         public const int APP_REGIST_MAX = 20; // bool array unlock flags
         public const int POKETCH_MAP_MARK_MAX = 6; // mark_map_pos[6]

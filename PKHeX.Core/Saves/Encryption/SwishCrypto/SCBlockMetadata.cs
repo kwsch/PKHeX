@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SCBlockMetadata
     {
-        private readonly Dictionary<SaveBlock, string> BlockList;
+        private readonly Dictionary<IDataIndirect, string> BlockList;
         private readonly Dictionary<uint, string> ValueList;
         private readonly SCBlockAccessor Accessor;
 
@@ -22,7 +22,7 @@ namespace PKHeX.Core
         {
             var aType = accessor.GetType();
 
-            BlockList = aType.GetAllPropertiesOfType<SaveBlock>(accessor);
+            BlockList = aType.GetAllPropertiesOfType<IDataIndirect>(accessor);
             ValueList = aType.GetAllConstantsOfType<uint>();
             AddExtraKeyNames(ValueList, extraKeyNames);
             if (exclusions.Length > 0)
@@ -95,7 +95,7 @@ namespace PKHeX.Core
         /// <param name="block">Block requesting the name of</param>
         /// <param name="saveBlock">Block that shares the same backing byte array; null if none.</param>
         /// <returns>Name of the block indicating the purpose that it serves in-game.</returns>
-        public string? GetBlockName(SCBlock block, out SaveBlock? saveBlock)
+        public string? GetBlockName(SCBlock block, out IDataIndirect? saveBlock)
         {
             // See if we have a Block object for this block
             if (block.Data.Length != 0)

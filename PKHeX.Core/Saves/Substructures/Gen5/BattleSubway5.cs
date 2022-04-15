@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BattleSubway5 : SaveBlock
+public sealed class BattleSubway5 : SaveBlock<SAV5>
 {
     public BattleSubway5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
     public BattleSubway5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;

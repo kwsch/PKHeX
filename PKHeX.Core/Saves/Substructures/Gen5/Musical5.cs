@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class Musical5 : SaveBlock
+    public sealed class Musical5 : SaveBlock<SAV5>
     {
         public Musical5(SAV5BW SAV, int offset) : base(SAV) => Offset = offset;
         public Musical5(SAV5B2W2 SAV, int offset) : base(SAV) => Offset = offset;

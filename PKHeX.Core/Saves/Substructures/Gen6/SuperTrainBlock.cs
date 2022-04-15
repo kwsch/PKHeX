@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class SuperTrainBlock : SaveBlock
+    public sealed class SuperTrainBlock : SaveBlock<SAV6>
     {
         public SuperTrainBlock(SAV6XY sav, int offset) : base(sav) => Offset = offset;
         public SuperTrainBlock(SAV6AO sav, int offset) : base(sav) => Offset = offset;

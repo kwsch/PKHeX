@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Structure that manages the 3 event variable storage arrays.
     /// </summary>
     /// <remarks>Comprised of 3 fixed-sized arrays, we do our read/write in-place. Each element in an array is 4 bytes. Total size: 0x55F0 </remarks>
-    public sealed class FlagWork8b : SaveBlock, IEventFlag, ISystemFlag, IEventWork<int>
+    public sealed class FlagWork8b : SaveBlock<SAV8BS>, IEventFlag, ISystemFlag, IEventWork<int>
     {
         public const int COUNT_WORK = 500;
         public const int COUNT_FLAG = 4000;

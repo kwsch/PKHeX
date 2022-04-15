@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class FieldMoveModelSave8 : SaveBlock
+    public sealed class FieldMoveModelSave8 : SaveBlock<SAV8SWSH>
     {
         public FieldMoveModelSave8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 

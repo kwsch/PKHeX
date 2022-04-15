@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Tracks the main menu items. Size: 0x44
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class MenuSelect8b : SaveBlock
+    public sealed class MenuSelect8b : SaveBlock<SAV8BS>
     {
         // (TopMenuItemTypeInt32, bool IsNew)[8], TopMenuItemTypeInt32 LastSelected
         private const int COUNT_ITEMS = 8;

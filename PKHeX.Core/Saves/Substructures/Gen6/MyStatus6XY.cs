@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>These properties are technically included in OR/AS but they are unused; assumed backwards compatibility for communications with XY</remarks>
     public sealed class MyStatus6XY : MyStatus6
     {
-        public MyStatus6XY(SaveFile sav, int offset) : base(sav, offset) { }
+        public MyStatus6XY(SAV6XY sav, int offset) : base(sav, offset) { }
 
         public TrainerFashion6 Fashion
         {

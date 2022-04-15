@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class Encount5 : SaveBlock
+    public abstract class Encount5 : SaveBlock<SAV5>
     {
         protected Encount5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
 

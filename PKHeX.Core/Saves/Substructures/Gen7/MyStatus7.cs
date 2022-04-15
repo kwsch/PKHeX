@@ -3,13 +3,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class MyStatus7 : SaveBlock, IRegionOrigin
+    public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
     {
         public const int GameSyncIDSize = 16; // 64 bits
         public const int NexUniqueIDSize = 32; // 128 bits
 
-        public MyStatus7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public MyStatus7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
         public int TID
         {

@@ -8,7 +8,7 @@ namespace PKHeX.Core
         uint Money { get; set; }
     }
 
-    public sealed class Misc6AO : SaveBlock, IMisc6
+    public sealed class Misc6AO : SaveBlock<SAV6>, IMisc6
     {
         public Misc6AO(SAV6AO sav, int offset) : base(sav) => Offset = offset;
         public Misc6AO(SAV6AODemo sav, int offset) : base(sav) => Offset = offset;

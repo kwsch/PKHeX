@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Contest photo language data
 /// </summary>
 /// <remarks>CON_PHOTO_LANG_DATA size: 0x18</remarks>
-public sealed class ContestPhotoLanguage8b : SaveBlock
+public sealed class ContestPhotoLanguage8b : SaveBlock<SAV8BS>
 {
     // structure:
     // 5 (Style, Beautiful, Cute, Clever, Strong) bytes of language IDs

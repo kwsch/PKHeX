@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public sealed class GoParkStorage : SaveBlock, IEnumerable<GP1>
+    public sealed class GoParkStorage : SaveBlock<SAV7b>, IEnumerable<GP1>
     {
-        public GoParkStorage(SaveFile sav) : base(sav)
+        public GoParkStorage(SAV7b sav) : base(sav)
         {
-            Offset = ((SAV7b)sav).Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities);
+            Offset = sav.Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities);
         }
 
         public const int SlotsPerArea = 50;

@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x4288</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class SealBallDecoData8b : SaveBlock
+    public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
     {
         public const int COUNT_CAPSULE = 99; // CapsuleData[99]
 

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class JoinFesta7 : SaveBlock
+    public sealed class JoinFesta7 : SaveBlock<SAV7>
     {
         public JoinFesta7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
         public JoinFesta7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
@@ -17,7 +17,7 @@ namespace PKHeX.Core
                     value = 9999999;
                 WriteInt32LittleEndian(Data.AsSpan(Offset + 0x508), value);
 
-                TotalFestaCoins = ((SAV7)SAV).GetRecord(038) + value; // UsedFestaCoins
+                TotalFestaCoins = SAV.GetRecord(038) + value; // UsedFestaCoins
             }
         }
 

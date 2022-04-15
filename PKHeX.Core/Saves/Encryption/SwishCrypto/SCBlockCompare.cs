@@ -90,12 +90,12 @@ namespace PKHeX.Core
         private static Dictionary<uint, string> GetKeyNames(SCBlockAccessor s1, IEnumerable<SCBlock> b1, IEnumerable<SCBlock> b2)
         {
             var aType = s1.GetType();
-            var b1n = aType.GetAllPropertiesOfType<SaveBlock>(s1);
+            var b1n = aType.GetAllPropertiesOfType<IDataIndirect>(s1);
             var names = aType.GetAllConstantsOfType<uint>();
             Add(b1n, b1);
             Add(b1n, b2);
 
-            void Add(Dictionary<SaveBlock, string> list, IEnumerable<SCBlock> blocks)
+            void Add(Dictionary<IDataIndirect, string> list, IEnumerable<SCBlock> blocks)
             {
                 foreach (var b in blocks)
                 {

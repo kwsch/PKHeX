@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>size 0x80, struct_name PLAYER_SAVE_DATA</remarks>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class PlayerData8b : SaveBlock
+    public sealed class PlayerData8b : SaveBlock<SAV8BS>
     {
         private const int SIZE_LOCATION = 4 + (4 * 3) + 4; // 20 (0x14)
 

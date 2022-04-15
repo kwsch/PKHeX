@@ -15,7 +15,7 @@ namespace PKHeX.Core
     /// u16 Starter Pointer: Indicates which index is the starter. <see cref="SLOT_EMPTY"/> if no starter yet.
     /// u16 List Count: Points to the next empty slot, and indicates how many slots are stored in the list.
     /// </remarks>
-    public sealed class PokeListHeader : SaveBlock
+    public sealed class PokeListHeader : SaveBlock<SAV7b>
     {
         /// <summary>
         /// Raw representation of data, casted to ushort[].

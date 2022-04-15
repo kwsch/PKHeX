@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Stores the amount of time the save file has been played.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PlayTime8a : SaveBlock
+public sealed class PlayTime8a : SaveBlock<SAV8LA>
 {
     public PlayTime8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
 

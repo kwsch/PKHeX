@@ -3,12 +3,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Puff6 : SaveBlock
+    public sealed class Puff6 : SaveBlock<SAV6>
     {
         private const int MaxPuffID = 26; // Supreme Winter Poké Puff
         private const int PuffSlots = 100;
 
-        public Puff6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
+        public Puff6(SAV6 SAV, int offset) : base(SAV) => Offset = offset;
 
         public byte[] GetPuffs() => SAV.GetData(Offset, PuffSlots);
         public void SetPuffs(byte[] value) => SAV.SetData(value, Offset);

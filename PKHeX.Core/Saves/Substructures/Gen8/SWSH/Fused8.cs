@@ -3,9 +3,9 @@
     /// <summary>
     /// Storage for the species that was fused into <see cref="Species.Kyurem"/> and <see cref="Species.Necrozma"/>.
     /// </summary>
-    public sealed class Fused8 : SaveBlock
+    public sealed class Fused8 : SaveBlock<SAV8SWSH>
     {
-        public Fused8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
+        public Fused8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         public static int GetFusedSlotOffset(int slot)
         {

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class TeamIndexes8 : SaveBlock, ITeamIndexSet
+    public sealed class TeamIndexes8 : SaveBlock<SAV8SWSH>, ITeamIndexSet
     {
         private const int TeamCount = 6;
         private const int NONE_SELECTED = -1;

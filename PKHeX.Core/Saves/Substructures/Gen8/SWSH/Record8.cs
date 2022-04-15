@@ -5,13 +5,13 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Record8 : RecordBlock
+    public sealed class Record8 : RecordBlock<SAV8SWSH>
     {
         public const int RecordCount = 50;
         public const int WattTotal = 22;
         protected override IReadOnlyList<byte> RecordMax { get; }
 
-        public Record8(SaveFile sav, SCBlock block, IReadOnlyList<byte> maxes) : base(sav, block.Data) =>
+        public Record8(SAV8SWSH sav, SCBlock block, IReadOnlyList<byte> maxes) : base(sav, block.Data) =>
             RecordMax = maxes;
 
         public override int GetRecord(int recordID)

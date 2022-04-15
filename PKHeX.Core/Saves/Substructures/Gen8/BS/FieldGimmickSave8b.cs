@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// size: 0xC
     /// </summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    public sealed class FieldGimmickSave8b : SaveBlock
+    public sealed class FieldGimmickSave8b : SaveBlock<SAV8BS>
     {
         public FieldGimmickSave8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

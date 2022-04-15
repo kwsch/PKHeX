@@ -3,9 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Situation6 : SaveBlock
+    public sealed class Situation6 : SaveBlock<SAV6>
     {
-        public Situation6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
+        public Situation6(SAV6 SAV, int offset) : base(SAV) => Offset = offset;
 
         public int M
         {

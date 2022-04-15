@@ -3,7 +3,7 @@
     /// <summary>
     /// Party data storage and metadata
     /// </summary>
-    public sealed class Party8b : SaveBlock
+    public sealed class Party8b : SaveBlock<SAV8BS>
     {
         public Party8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

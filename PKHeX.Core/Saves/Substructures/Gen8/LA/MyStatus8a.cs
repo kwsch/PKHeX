@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Stores data about the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class MyStatus8a : SaveBlock
+public sealed class MyStatus8a : SaveBlock<SAV8LA>
 {
     public MyStatus8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
 
@@ -49,7 +49,7 @@ public sealed class MyStatus8a : SaveBlock
             // For runtime language, the game shifts all languages above Language 6 (unused) down one.
             if (value >= 6)
                 value--;
-            ((SAV8LA)SAV).SetValue(SaveBlockAccessor8LA.KGameLanguage, (uint)value);
+            SAV.SetValue(SaveBlockAccessor8LA.KGameLanguage, (uint)value);
         }
     }
 

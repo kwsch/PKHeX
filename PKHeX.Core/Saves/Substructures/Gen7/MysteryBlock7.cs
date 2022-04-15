@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class MysteryBlock7 : SaveBlock
+    public sealed class MysteryBlock7 : SaveBlock<SAV7>
     {
         private const int FlagStart = 0;
         private const int MaxReceivedFlag = 2048;
@@ -10,8 +10,7 @@ namespace PKHeX.Core
         // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
         private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-        public MysteryBlock7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public MysteryBlock7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
         // Mystery Gift
         public bool[] MysteryGiftReceivedFlags

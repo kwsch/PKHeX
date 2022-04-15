@@ -3,10 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Misc7 : SaveBlock
+    public sealed class Misc7 : SaveBlock<SAV7>
     {
-        public Misc7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public Misc7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+        public Misc7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
         public uint Money
         {

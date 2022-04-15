@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class MysteryBlock5 : SaveBlock
+    public sealed class MysteryBlock5 : SaveBlock<SAV5>
     {
         private const int FlagStart = 0;
         private const int MaxReceivedFlag = 2048;

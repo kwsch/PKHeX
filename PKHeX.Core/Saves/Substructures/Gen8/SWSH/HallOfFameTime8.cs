@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class HallOfFameTime8 : SaveBlock
+    public sealed class HallOfFameTime8 : SaveBlock<SAV8SWSH>
     {
         public HallOfFameTime8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data)
         {

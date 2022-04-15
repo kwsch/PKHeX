@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Stores 12 different sets of record data, with the earliest entry being called the "head" record index.
     /// </summary>
     /// <remarks>size: 0x5A0 (12 * 4*30)</remarks>
-    public sealed class Record8b : SaveBlock, IRecordStatStorage
+    public sealed class Record8b : SaveBlock<SAV8BS>, IRecordStatStorage
     {
         public const int RecordIndexCount = 12; // There's a total of 12 uint[30] record entries. The head one is used, not sure about the others.
         public const int RecordCount = 30;

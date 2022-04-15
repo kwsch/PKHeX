@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>UnionSaveData size: 0xC</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class UnionSaveData8b : SaveBlock
+public sealed class UnionSaveData8b : SaveBlock<SAV8BS>
 {
     public UnionSaveData8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
 

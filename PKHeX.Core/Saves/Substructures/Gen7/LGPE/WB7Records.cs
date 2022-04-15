@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class WB7Records : SaveBlock
+    public sealed class WB7Records : SaveBlock<SAV7b>
     {
         public WB7Records(SAV7b sav, int offset) : base(sav) => Offset = offset;
 

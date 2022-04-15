@@ -3,10 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
 {
-    public sealed class Situation7 : SaveBlock
+    public sealed class Situation7 : SaveBlock<SAV7>
     {
-        public Situation7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public Situation7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+        public Situation7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
         // "StartLocation"
         public int M { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); }
@@ -17,7 +16,7 @@ namespace PKHeX.Core
 
         public void UpdateOverworldCoordinates()
         {
-            var o = ((SAV7)SAV).Overworld;
+            var o = SAV.Overworld;
             o.M = M;
             o.X = X;
             o.Z = Z;

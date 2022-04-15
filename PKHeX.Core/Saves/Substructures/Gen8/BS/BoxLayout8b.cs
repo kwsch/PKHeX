@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Information about the storage boxes.
     /// </summary>
     /// <remarks>Structure name: SaveBoxData, size: 0x64A</remarks>
-    public sealed class BoxLayout8b : SaveBlock, IBoxDetailName
+    public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
     {
         public const int BoxCount = 40;
 
