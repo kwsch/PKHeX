@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -13,16 +13,16 @@ public readonly ref struct SpawnerMeta8a
 
     public SpawnerMeta8a(Span<byte> data) => Data = data;
 
-    public ulong Seed_00    { get => BinaryPrimitives.ReadUInt64LittleEndian(Data);         set => BinaryPrimitives.WriteUInt64LittleEndian(Data        , value); }
+    public ulong QuantitySeed { get => ReadUInt64LittleEndian(Data);       set => WriteUInt64LittleEndian(Data        , value); }
 
     /// <summary> Seed that regenerates seeds for the entries as a group, regenerating multiple or single entries. </summary>
-    public ulong GroupSeed  { get => BinaryPrimitives.ReadUInt64LittleEndian(Data[0x08..]); set => BinaryPrimitives.WriteUInt64LittleEndian(Data[0x08..], value); }
+    public ulong GroupSeed  { get => ReadUInt64LittleEndian(Data[0x08..]); set => WriteUInt64LittleEndian(Data[0x08..], value); }
 
-    // flatbuffer Field_01 to match
-    public ulong Spawner_01 { get => BinaryPrimitives.ReadUInt64LittleEndian(Data[0x10..]); set => BinaryPrimitives.WriteUInt64LittleEndian(Data[0x10..], value); }
+    // flatbuffer PlacementSpawner8a.Field_01 to match
+    public ulong Spawner_01 { get => ReadUInt64LittleEndian(Data[0x10..]); set => WriteUInt64LittleEndian(Data[0x10..], value); }
 
-    public int Count        { get => BinaryPrimitives.ReadInt32LittleEndian (Data[0x18..]); set => BinaryPrimitives.WriteInt32LittleEndian (Data[0x18..], value); }
-    public int Flags        { get => BinaryPrimitives.ReadInt32LittleEndian (Data[0x1C..]); set => BinaryPrimitives.WriteInt32LittleEndian (Data[0x1C..], value); }
+    public int Count        { get => ReadInt32LittleEndian (Data[0x18..]); set => WriteInt32LittleEndian (Data[0x18..], value); }
+    public int Flags        { get => ReadInt32LittleEndian (Data[0x1C..]); set => WriteInt32LittleEndian (Data[0x1C..], value); }
 
     // Flags?
     public bool IsOutbreak => (Flags & 0x40) != 0; // 0x40
@@ -50,5 +50,23 @@ public readonly ref struct SpawnerMeta8a
         for (int i = 0; i < output.Length; i++)
             output[i] = (rand.Next(), rand.Next());
         GroupSeed = rand.Next();
+    }
+
+    /// <summary>
+    /// Gets the next count of entities to be present for a given appearance cycle.
+    /// </summary>
+    /// <param name="min">Minimum spawn count</param>
+    /// <param name="max">Maximum spawn count</param>
+    /// <returns>Count for the cycle.</returns>
+    /// <remarks>Does not advance the <see cref="QuantitySeed"/> if the input <see cref="min"/> and <see cref="max"/> are equivalent.</remarks>
+    public int GetNextQuantity(int min, int max)
+    {
+        if (min == max)
+            return min;
+        var delta = max - min;
+        var rand = new Xoroshiro128Plus(QuantitySeed);
+        var result = (int)rand.NextInt((uint)delta + 1);
+        QuantitySeed = rand.Next();
+        return result;
     }
 }

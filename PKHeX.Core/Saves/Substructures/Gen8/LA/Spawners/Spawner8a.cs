@@ -37,7 +37,7 @@ public readonly ref struct Spawner8a
     public void Regenerate(int index)
     {
         var entry = this[index];
-        (entry.Seed_00, entry.Seed_01) = Meta.Regenerate();
+        (entry.GenerateSeed, entry.Seed_01) = Meta.Regenerate();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public readonly ref struct Spawner8a
         for (int index = 0; index < output.Length; index++)
         {
             var entry = this[index];
-            (entry.Seed_00, entry.Seed_01) = output[index];
+            (entry.GenerateSeed, entry.Seed_01) = output[index];
         }
     }
 
