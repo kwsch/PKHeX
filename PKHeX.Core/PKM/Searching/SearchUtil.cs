@@ -102,19 +102,30 @@ namespace PKHeX.Core.Searching
             return GetExtraClones(res, method);
         }
 
-        public static IEnumerable<T> GetExtraClones<T>(IEnumerable<T> db, Func<T, string> method)
+        public static IEnumerable<T> GetUniques<T>(IEnumerable<T> db, Func<T, string> method)
         {
             var hs = new HashSet<string>();
-            var result = new List<T>();
             foreach (var t in db)
             {
                 var hash = method(t);
                 if (hs.Contains(hash))
                     continue;
+                yield return t;
                 hs.Add(hash);
-                result.Add(t);
             }
-            return result;
+        }
+
+        public static IEnumerable<T> GetExtraClones<T>(IEnumerable<T> db, Func<T, string> method)
+        {
+            var hs = new HashSet<string>();
+            foreach (var t in db)
+            {
+                var hash = method(t);
+                if (hs.Contains(hash))
+                    yield return t;
+                else
+                    hs.Add(hash);
+            }
         }
     }
 }
