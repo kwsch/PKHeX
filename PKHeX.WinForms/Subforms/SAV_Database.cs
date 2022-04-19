@@ -653,7 +653,8 @@ namespace PKHeX.WinForms
             var db = RawDB.Where(IsIndividualFilePKMDB)
                 .OrderByDescending(GetRevisedTime);
 
-            var hasher = SearchUtil.GetCloneDetectMethod(CloneDetectionMethod.HashDetails);
+            const CloneDetectionMethod method = CloneDetectionMethod.HashDetails;
+            var hasher = SearchUtil.GetCloneDetectMethod(method);
             var duplicates = SearchUtil.GetExtraClones(db, z => hasher(z.Entity));
             foreach (var entry in duplicates)
             {
@@ -666,10 +667,17 @@ namespace PKHeX.WinForms
                 catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + path); }
             }
 
+            var boxClear = new BoxManipClearDuplicate<string>(BoxManipType.DeleteClones, pk => SearchUtil.GetCloneDetectMethod(method)(pk));
+            var param = new BoxManipParam(0, SAV.BoxCount);
+            int count = boxClear.Execute(SAV, param);
+            deleted += count;
+
             if (deleted == 0)
             { WinFormsUtil.Alert(MsgDBDeleteCloneNone); return; }
 
             WinFormsUtil.Alert(string.Format(MsgFileDeleteCount, deleted), MsgWindowClose);
+            BoxView.ReloadSlots();
+
             Close();
         }
 
