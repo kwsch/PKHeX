@@ -42,5 +42,19 @@ public readonly ref struct SpawnerEntry8a
     public byte FixedWeather { get => Data[0x4E]; set => Data[0x4E] = value; } // Weather the player first saw the entity
     public byte FixedShinyRolls { get => Data[0x4F]; set => Data[0x4F] = value; } // Shiny rolls originally generated with
 
-    public ulong Seed_01  { get => ReadUInt64LittleEndian(Data[0x58..]); set => WriteUInt64LittleEndian(Data[0x58..], value); }
+    /// <summary>
+    /// Determines the Alpha move index (from move shop)
+    /// </summary>
+    public ulong AlphaSeed { get => ReadUInt64LittleEndian(Data[0x58..]); set => WriteUInt64LittleEndian(Data[0x58..], value); }
+
+    /// <summary>
+    /// When spawning an <see cref="IAlpha.IsAlpha"/> entity, the game assigns a random alpha move index from the allowed move shop list.
+    /// </summary>
+    /// <param name="countMoveShopCanLearn">Count of move shop moves that the species can learn</param>
+    /// <returns>Learn-able move shop index to set as the <see cref="PA8.AlphaMove"/></returns>
+    public int GetAlphaMoveIndex(int countMoveShopCanLearn)
+    {
+        var rand = new Xoroshiro128Plus(AlphaSeed);
+        return (int)rand.NextInt((ulong)countMoveShopCanLearn);
+    }
 }

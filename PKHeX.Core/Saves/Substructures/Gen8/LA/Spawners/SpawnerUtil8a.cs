@@ -21,7 +21,7 @@ public static class SpawnerUtil8a
 
             if (entry.GenerateSeed != rand.Next())
                 return false;
-            if (entry.Seed_01 != rand.Next())
+            if (entry.AlphaSeed != rand.Next())
                 return false;
         }
 

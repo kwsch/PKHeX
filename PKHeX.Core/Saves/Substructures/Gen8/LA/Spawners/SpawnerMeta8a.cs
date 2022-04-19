@@ -32,7 +32,7 @@ public readonly ref struct SpawnerMeta8a
     /// <summary>
     /// Creates a new entry seed pair and updates the <see cref="GroupSeed"/>.
     /// </summary>
-    public (ulong, ulong) Regenerate()
+    public (ulong GenerateSeed, ulong AlphaSeed) Regenerate()
     {
         var rand = new Xoroshiro128Plus(GroupSeed);
         var result = (rand.Next(), rand.Next());
@@ -44,7 +44,7 @@ public readonly ref struct SpawnerMeta8a
     /// Creates new entry seed pairs and updates the <see cref="GroupSeed"/>.
     /// </summary>
     /// <param name="output">Result buffer</param>
-    public void Regenerate(Span<(ulong, ulong)> output)
+    public void Regenerate(Span<(ulong GenerateSeed, ulong AlphaSeed)> output)
     {
         var rand = new Xoroshiro128Plus(GroupSeed);
         for (int i = 0; i < output.Length; i++)
