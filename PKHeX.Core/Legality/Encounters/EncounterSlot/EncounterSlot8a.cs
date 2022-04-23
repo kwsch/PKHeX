@@ -135,7 +135,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
 
     private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
     {
-        SlotType.OverworldMMO => 10,
+        SlotType.OverworldMMO => 12,
         SlotType.OverworldMass => 25,
         _ => 0,
     });
