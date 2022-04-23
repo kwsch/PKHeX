@@ -13,13 +13,13 @@ public readonly ref struct SpawnerMeta8a
 
     public SpawnerMeta8a(Span<byte> data) => Data = data;
 
-    public ulong QuantitySeed { get => ReadUInt64LittleEndian(Data);       set => WriteUInt64LittleEndian(Data        , value); }
+    public ulong CountSeed { get => ReadUInt64LittleEndian(Data);       set => WriteUInt64LittleEndian(Data        , value); }
 
     /// <summary> Seed that regenerates seeds for the entries as a group, regenerating multiple or single entries. </summary>
     public ulong GroupSeed  { get => ReadUInt64LittleEndian(Data[0x08..]); set => WriteUInt64LittleEndian(Data[0x08..], value); }
 
     // flatbuffer PlacementSpawner8a.Field_01 to match
-    public ulong Spawner_01 { get => ReadUInt64LittleEndian(Data[0x10..]); set => WriteUInt64LittleEndian(Data[0x10..], value); }
+    public ulong SpawnerHash { get => ReadUInt64LittleEndian(Data[0x10..]); set => WriteUInt64LittleEndian(Data[0x10..], value); }
 
     public int Count        { get => ReadInt32LittleEndian (Data[0x18..]); set => WriteInt32LittleEndian (Data[0x18..], value); }
     public int Flags        { get => ReadInt32LittleEndian (Data[0x1C..]); set => WriteInt32LittleEndian (Data[0x1C..], value); }
@@ -58,15 +58,15 @@ public readonly ref struct SpawnerMeta8a
     /// <param name="min">Minimum spawn count</param>
     /// <param name="max">Maximum spawn count</param>
     /// <returns>Count for the cycle.</returns>
-    /// <remarks>Does not advance the <see cref="QuantitySeed"/> if the input <see cref="min"/> and <see cref="max"/> are equivalent.</remarks>
+    /// <remarks>Does not advance the <see cref="CountSeed"/> if the input <see cref="min"/> and <see cref="max"/> are equivalent.</remarks>
     public int GetNextQuantity(int min, int max)
     {
         if (min == max)
             return min;
         var delta = max - min;
-        var rand = new Xoroshiro128Plus(QuantitySeed);
+        var rand = new Xoroshiro128Plus(CountSeed);
         var result = (int)rand.NextInt((uint)delta + 1);
-        QuantitySeed = rand.Next();
+        CountSeed = rand.Next();
         return result;
     }
 }

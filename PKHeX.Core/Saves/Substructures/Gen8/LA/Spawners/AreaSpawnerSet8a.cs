@@ -47,7 +47,7 @@ public readonly ref struct AreaSpawnerSet8a
         for (int i = 0; i < count; i++)
         {
             var spawner = this[i];
-            if (spawner.Meta.Spawner_01 == key)
+            if (spawner.Meta.SpawnerHash == key)
                 return i;
         }
         return -1;

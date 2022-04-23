@@ -8,21 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Overworld8aRNG
 {
-    public static uint AdaptPID(PKM pk, Shiny shiny, uint pid)
-    {
-        if (shiny == Shiny.Never)
-        {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
-                pid ^= 0x1000_0000;
-        }
-        else if (shiny != Shiny.Random)
-        {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
-        }
-        return pid;
-    }
-
     private static uint GetShinyPID(int tid, int sid, uint pid, int type)
     {
         return (uint)(((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
@@ -41,30 +26,84 @@ public static class Overworld8aRNG
 
     private const int UNSET = -1;
 
-    public static void ApplyDetails(PKM pk, EncounterCriteria criteria, in OverworldParam8a para)
+    public static (ulong GroupSeed, ulong SlotSeed) ApplyDetails(PKM pk, EncounterCriteria criteria, in OverworldParam8a para, bool giveAlphaMove)
     {
         int ctr = 0;
         const int maxAttempts = 50_000;
-        var rnd = Util.Rand;
+        var fakeRand = new Xoroshiro128Plus(Util.Rand.Rand64());
+
+        Xoroshiro128Plus groupRand;
+        ulong groupSeed;
+        ulong slotSeed;
         do
         {
-            ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-            ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-            var rand = new Xoroshiro128Plus(s0, s1);
-            if (TryApplyFromSeed(pk, criteria, para, rand))
-                return;
+            groupSeed = fakeRand.Next();
+            groupRand = new Xoroshiro128Plus(groupSeed);
+            slotSeed = groupRand.Next();
+            var slotRand = new Xoroshiro128Plus(slotSeed);
+            _ = slotRand.Next();
+            var entitySeed = slotRand.Next();
+            var result = TryApplyFromSeed(pk, criteria, para, entitySeed);
+            if (result)
+                break;
         } while (++ctr != maxAttempts);
 
+        // Failed, fall back to Unrestricted and just put whatever.
+        if (ctr >= maxAttempts)
         {
-            ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-            ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-            var rand = new Xoroshiro128Plus(s0, s1);
-            TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, para, rand);
+            groupSeed = fakeRand.Next();
+            groupRand = new Xoroshiro128Plus(groupSeed);
+            var slotRand = new Xoroshiro128Plus(slotSeed);
+            _ = slotRand.Next();
+            var entitySeed = slotRand.Next();
+            TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, para, entitySeed);
         }
+
+        if (giveAlphaMove)
+            ApplyRandomAlphaMove(pk, groupRand.Next());
+
+        return (groupSeed, slotSeed);
     }
 
-    public static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, in OverworldParam8a para, Xoroshiro128Plus rand)
+    public static (ulong EntitySeed, ulong SlotRand) ApplyDetails(PKM pk, in OverworldParam8a para, bool giveAlphaMove, ref Xoroshiro128Plus groupRand)
     {
+        var slotSeed = groupRand.Next();
+        var alphaSeed = groupRand.Next();
+
+        var slotRand = new Xoroshiro128Plus(slotSeed);
+        var slotRoll = slotRand.Next();
+        var entitySeed = slotRand.Next();
+        TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, para, entitySeed);
+        if (giveAlphaMove)
+            ApplyRandomAlphaMove(pk, alphaSeed);
+
+        return (entitySeed, slotRoll);
+    }
+
+    private static void ApplyRandomAlphaMove(PKM pk, ulong seed)
+    {
+        var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
+        var count = pi.GetMoveShopCount();
+        if (count == 0 || pk is not PA8 pa8)
+            return;
+
+        var index = GetRandomAlphaMoveIndex(seed, count);
+        var alphaIndex = pi.GetMoveShopIndex(index);
+        var alphaMove = Legal.MoveShop8_LA[alphaIndex];
+
+        pa8.SetMasteryFlagMove(pa8.AlphaMove = alphaMove);
+    }
+
+    private static int GetRandomAlphaMoveIndex(ulong alphaSeed, int count)
+    {
+        var alphaRand = new Xoroshiro128Plus(alphaSeed);
+        return (int)alphaRand.NextInt((uint)count);
+    }
+
+    public static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, in OverworldParam8a para, ulong seed)
+    {
+        var rand = new Xoroshiro128Plus(seed);
+
         // Encryption Constant
         pk.EncryptionConstant = (uint)rand.NextInt();
 
@@ -280,6 +319,16 @@ public static class Overworld8aRNG
             if (GetIsShiny(pk.TID, pk.SID, pid))
                 pid ^= 0x1000_0000;
         }
+    }
+
+    public static int GetRandomLevel(ulong slotSeed, byte LevelMin, byte LevelMax)
+    {
+        var delta = LevelMax - LevelMin;
+        var xoro = new Xoroshiro128Plus(slotSeed);
+        xoro.Next();
+        xoro.Next(); // slot, entitySeed
+        var amp = (int)xoro.NextInt((ulong)delta + 1);
+        return LevelMin + amp;
     }
 }
 

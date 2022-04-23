@@ -14,6 +14,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     public byte HeightScalar { get; }
     public byte WeightScalar { get; }
     public bool IsAlpha { get; set; }
+    public EncounterStatic8aCorrelation Method { get; init; }
 
     public bool HasFixedHeight => HeightScalar != NoScalar;
     public bool HasFixedWeight => WeightScalar != NoScalar;
@@ -50,21 +51,25 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         if (pk is PA8 pa)
         {
+            if (pa.AlphaMove != 0)
+                pk.PushMove(pa.AlphaMove);
             pa.SetMasteryFlags();
             pa.HeightScalarCopy = pa.HeightScalar;
-            if (IsAlpha)
-            {
-                var extra = pa.AlphaMove = pa.GetRandomAlphaMove();
-                pa.SetMasteryFlagMove(extra);
-                pk.PushMove(extra);
-            }
         }
     }
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
         var para = GetParams();
-        Overworld8aRNG.ApplyDetails(pk, criteria, para);
+        var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, IsAlpha);
+        // We don't override LevelMin, so just handle the two species cases.
+        if (Species == (int)Core.Species.Zorua)
+            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, 26, 28);
+        else if (Species == (int)Core.Species.Phione)
+            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, 33, 36);
+
+        if (Method == EncounterStatic8aCorrelation.Fixed)
+            pk.EncryptionConstant = Util.Rand32();
     }
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = Gift ? Ball : (int)Core.Ball.LAPoke;
@@ -158,4 +163,10 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             GenderRatio = gender,
         };
     }
+}
+
+public enum EncounterStatic8aCorrelation : byte
+{
+    WildGroup,
+    Fixed,
 }

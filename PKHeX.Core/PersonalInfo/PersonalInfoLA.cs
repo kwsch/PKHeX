@@ -110,4 +110,32 @@ public sealed class PersonalInfoLA : PersonalInfo
     public int DexIndexLocal3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), (ushort)value); }
     public int DexIndexLocal4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
     public int DexIndexLocal5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
+
+    public int GetMoveShopCount()
+    {
+        // Return a count of true indexes from Tutors
+        var arr = SpecialTutors[0];
+        int count = 0;
+        foreach (var index in arr)
+        {
+            if (index)
+                count++;
+        }
+        return count;
+    }
+
+    public int GetMoveShopIndex(int randIndexFromCount)
+    {
+        // Return a count of true indexes from Tutors
+        var arr = SpecialTutors[0];
+        for (var i = 0; i < arr.Length; i++)
+        {
+            var index = arr[i];
+            if (!index)
+                continue;
+            if (randIndexFromCount-- == 0)
+                return i;
+        }
+        throw new ArgumentOutOfRangeException(nameof(randIndexFromCount));
+    }
 }

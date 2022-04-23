@@ -23,25 +23,25 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         Gender = gender;
     }
 
+    public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
+
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {
         base.ApplyDetails(sav, criteria, pk);
         if (Gender != Gender.Random)
             pk.Gender = (int)Gender;
 
-        var para = GetParams(criteria);
-        Overworld8aRNG.ApplyDetails(pk, criteria, para);
+        var para = GetParams();
+        var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
+        if (LevelMin != LevelMax)
+            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
 
         if (IsAlpha)
         {
             if (pk is IAlpha a)
                 a.IsAlpha = true;
-            if (Type is not SlotType.Landmark && pk is PA8 pa)
-            {
-                var extra = pa.AlphaMove = pa.GetRandomAlphaMove();
-                pa.SetMasteryFlagMove(extra);
-                pk.PushMove(extra);
-            }
+            if (pk is PA8 { AlphaMove: not 0 } pa)
+                pk.PushMove(pa.AlphaMove);
         }
 
         if (pk is PA8 pa8)
@@ -115,7 +115,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         return EncounterMatchRating.Match;
     }
 
-    private OverworldParam8a GetParams(EncounterCriteria criteria)
+    private OverworldParam8a GetParams()
     {
         var pt = PersonalTable.LA;
         var entry = pt.GetFormEntry(Species, Form);
@@ -125,8 +125,18 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
             IsAlpha = IsAlpha,
             FlawlessIVs = FlawlessIVCount,
             Shiny = Shiny,
-            RollCount = criteria.Shiny.IsShiny() ? Type is SlotType.Swarm ? (byte)32 : (byte)7 : (byte)1,
+            RollCount = GetRollCount(Type),
             GenderRatio = gender,
         };
     }
+
+    // hardcoded 7 to assume max dex progress + shiny charm.
+    private const int MaxRollCount = 7;
+
+    private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
+    {
+        SlotType.OverworldMMO => 10,
+        SlotType.OverworldMass => 25,
+        _ => 0,
+    });
 }

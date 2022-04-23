@@ -831,14 +831,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return (byte)Math.Min(255, unsigned);
     }
 
-    public ushort GetRandomAlphaMove()
-    {
-        var index = MoveShopPermitFlags.IndexOf(true);
-        if (index == -1)
-            return 0;
-        return MoveShopPermitIndexes[index];
-    }
-
     public void SetMasteryFlags()
     {
         for (int i = 0; i < 4; i++)
