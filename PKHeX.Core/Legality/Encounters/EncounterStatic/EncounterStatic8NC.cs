@@ -14,7 +14,7 @@ namespace PKHeX.Core
             return loc is SharedNest or Watchtower;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
         {
             var lvl = pkm.Met_Level;
             if (lvl == Level)

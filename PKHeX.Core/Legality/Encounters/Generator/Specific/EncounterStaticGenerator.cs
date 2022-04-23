@@ -22,7 +22,7 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
         {
             if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
             static IEnumerable<EncounterStatic> GetEvents(GameVersion g)
             {
@@ -51,7 +51,7 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
         {
             if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -63,7 +63,7 @@ namespace PKHeX.Core
             return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
             var poss = GetPossibleGBGifts(chain, gameSource: gameSource);
             foreach (EncounterStatic e in poss)
@@ -80,7 +80,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<DexLevel> evos)
+        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<EvoCriteria> evos)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
             foreach (var e in poss)
@@ -105,17 +105,32 @@ namespace PKHeX.Core
             {
                 // Only yield a VC1 template if it could originate in VC1.
                 // Catch anything that can only exist in VC2 (Entei) even if it was "transferred" from VC1.
-                var species = chain.Where(z => z.Species < MaxSpeciesID_1 && z.Form == 0)
-                    .LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
+                var species = GetVCSpecies(chain, pkm, MaxSpeciesID_1);
                 var vc1Species = species > MaxSpeciesID_1 ? enc.Species : species;
                 if (vc1Species <= MaxSpeciesID_1)
                     return EncounterStatic7.GetVC1(vc1Species, met);
             }
             // fall through else
             {
-                var species = chain.LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
+                var species = GetVCSpecies(chain, pkm, MaxSpeciesID_2);
                 return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
             }
+        }
+
+        private static int GetVCSpecies(IReadOnlyList<EvoCriteria> chain, PKM pkm, int max)
+        {
+            int species = pkm.Species;
+            foreach (var z in chain)
+            {
+                if (z.Species > max)
+                    continue;
+                if (z.Form != 0)
+                    continue;
+                if (PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship != pkm.OT_Friendship)
+                    continue;
+                species = z.Species;
+            }
+            return species;
         }
 
         internal static EncounterStatic? GetStaticLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)

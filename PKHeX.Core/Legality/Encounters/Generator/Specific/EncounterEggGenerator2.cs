@@ -100,7 +100,7 @@ namespace PKHeX.Core
         {
             var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: 5);
             var poss = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, minLevel: 5, skipChecks: true);
-            return curr.Count >= poss.Count;
+            return curr.Length >= poss.Length;
         }
     }
 }

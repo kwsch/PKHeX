@@ -25,7 +25,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Conditional Argument (different from <see cref="Argument"/>)
         /// </summary>
-        public readonly int Level;
+        public readonly byte Level;
 
         /// <summary>
         /// Destination Form
@@ -38,7 +38,7 @@ namespace PKHeX.Core
         // Not stored in binary data
         public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
-        public EvolutionMethod(int method, int species, int argument = 0, int level = 0, int form = AnyForm)
+        public EvolutionMethod(int method, int species, int argument = 0, byte level = 0, int form = AnyForm)
         {
             Method = method;
             Species = species;
@@ -147,10 +147,13 @@ namespace PKHeX.Core
             };
         }
 
-        public EvoCriteria GetEvoCriteria(int species, int form, int lvl) => new(species, form)
+        public EvoCriteria GetEvoCriteria(ushort species, byte form, byte lvl) => new()
         {
-            Level = lvl,
-            Method = Method,
+            Species = species,
+            Form = form,
+            LevelMax = lvl,
+            LevelMin = 0,
+            Method = (EvolutionType)Method,
         };
 
         public static int GetAmpLowKeyResult(int n)

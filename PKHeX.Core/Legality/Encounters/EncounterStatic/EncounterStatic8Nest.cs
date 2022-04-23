@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public byte DynamaxLevel { get; set; }
         public override int Location { get => SharedNest; init { } }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;

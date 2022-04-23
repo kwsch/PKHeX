@@ -139,7 +139,7 @@ namespace PKHeX.Core
             }
         }
 
-        private bool ExistsPressureSlot(DexLevel evo, ref byte level)
+        private bool ExistsPressureSlot(IDexLevel evo, ref byte level)
         {
             bool existsForm = false;
             foreach (var z in Slots)

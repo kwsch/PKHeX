@@ -28,6 +28,6 @@ namespace PKHeX.Core
         public virtual bool IsMatchLocation(int location) => Location == location;
 
         public bool HasSpecies(int species) => Raw.Any(z => z.Species == species);
-        public IEnumerable<EncounterSlot> GetSpecies(IReadOnlyList<DexLevel> chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
+        public IEnumerable<EncounterSlot> GetSpecies(IReadOnlyList<EvoCriteria> chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
     }
 }

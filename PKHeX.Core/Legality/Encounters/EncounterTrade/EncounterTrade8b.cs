@@ -23,7 +23,7 @@
         public uint PID { get; init; }
         public uint EncryptionConstant { get; init; }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm.EncryptionConstant != EncryptionConstant)
                 return false;

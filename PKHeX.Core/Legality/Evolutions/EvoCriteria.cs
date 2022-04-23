@@ -1,12 +1,16 @@
 ﻿namespace PKHeX.Core;
 
-public sealed record EvoCriteria(int Species, int Form) : DexLevel(Species, Form)
+public readonly record struct EvoCriteria : IDexLevel
 {
-    public int MinLevel { get; set; }
-    public bool RequiresLvlUp { get; set; }
-    public int Method { get; init; } = -1;
+    public ushort Species { get; init; }
+    public byte Form { get; init; }
+    public byte LevelUpRequired { get; init; }
+    public byte LevelMax { get; init; }
+    public byte LevelMin { get; init; }
 
-    public bool IsTradeRequired => ((EvolutionType) Method).IsTrade();
+    public EvolutionType Method { get; init; }
 
-    public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{MinLevel},{Level}] via {(EvolutionType) Method}";
+    public bool RequiresLvlUp => LevelUpRequired != 0;
+
+    public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{LevelMin},{LevelMax}] via {Method}";
 }

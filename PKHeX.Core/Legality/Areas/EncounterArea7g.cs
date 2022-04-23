@@ -73,11 +73,11 @@ namespace PKHeX.Core
             // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
             // PoGoEncTool has already extrapolated the evolutions to separate encounters!
             var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
-            if (sf == null)
+            if (sf == default)
                 yield break;
 
             var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
-            var met = Math.Max(sf.MinLevel, pkm.Met_Level);
+            var met = Math.Max(sf.LevelMin, pkm.Met_Level);
             EncounterSlot7GO? deferredIV = null;
 
             foreach (var slot in Slots)

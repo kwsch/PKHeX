@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         public AreaWeather8 Weather {get; init; } = AreaWeather8.Normal;
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
         {
             var met = pkm.Met_Level;
             var lvl = Level;
@@ -29,7 +29,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;

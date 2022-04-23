@@ -7,26 +7,26 @@ namespace PKHeX.Core
 {
     public static class EncounterTradeGenerator
     {
-        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
             if (pkm.Format <= 2 || pkm.VC)
                 return GetPossibleVC(chain, gameSource);
             return GetPossible(chain, gameSource);
         }
 
-        private static IEnumerable<EncounterTradeGB> GetPossibleVC(IReadOnlyList<DexLevel> chain, GameVersion game)
+        private static IEnumerable<EncounterTradeGB> GetPossibleVC(IReadOnlyList<EvoCriteria> chain, GameVersion game)
         {
             var table = GetTableVC(game);
             return table.Where(e => chain.Any(c => c.Species == e.Species && c.Form == 0));
         }
 
-        private static IEnumerable<EncounterTrade> GetPossible(IReadOnlyList<DexLevel> chain, GameVersion game)
+        private static IEnumerable<EncounterTrade> GetPossible(IReadOnlyList<EvoCriteria> chain, GameVersion game)
         {
             var table = GetTable(game);
             return table.Where(e => chain.Any(c => c.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game)
+        public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game)
         {
             var table = GetTableVC(game);
             foreach (var p in table)
@@ -42,7 +42,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game = Any)
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game = Any)
         {
             if (game == Any)
                 game = (GameVersion)pkm.Version;
@@ -57,7 +57,7 @@ namespace PKHeX.Core
             return GetValidEncounterTrades(pkm, chain, poss);
         }
 
-        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, IEnumerable<EncounterTrade> poss)
+        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain, IEnumerable<EncounterTrade> poss)
         {
             foreach (var p in poss)
             {

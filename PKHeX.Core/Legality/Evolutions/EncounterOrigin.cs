@@ -15,12 +15,12 @@ namespace PKHeX.Core
         /// <param name="pkm">Current state of the Pokémon</param>
         /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
         /// <remarks>Use <see cref="GetOriginChain12"/> if the <see cref="pkm"/> originated from Generation 1 or 2.</remarks>
-        public static IReadOnlyList<EvoCriteria> GetOriginChain(PKM pkm)
+        public static EvoCriteria[] GetOriginChain(PKM pkm)
         {
             bool hasOriginMet = pkm.HasOriginalMetLocation;
             var maxLevel = GetLevelOriginMax(pkm, hasOriginMet);
             var minLevel = GetLevelOriginMin(pkm, hasOriginMet);
-            return GetOriginChain(pkm, -1, maxLevel, minLevel, hasOriginMet);
+            return GetOriginChain(pkm, -1, (byte)maxLevel, (byte)minLevel, hasOriginMet);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Current state of the Pokémon</param>
         /// <param name="gameSource">Game/group the <see cref="pkm"/> originated from. If <see cref="GameVersion.RBY"/>, it assumes Gen 1, otherwise Gen 2.</param>
         /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
-        public static IReadOnlyList<EvoCriteria> GetOriginChain12(PKM pkm, GameVersion gameSource)
+        public static EvoCriteria[] GetOriginChain12(PKM pkm, GameVersion gameSource)
         {
             bool rby = gameSource == GameVersion.RBY;
             var maxSpecies = rby ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
@@ -61,10 +61,10 @@ namespace PKHeX.Core
                 minLevel = 2;
             }
 
-            return GetOriginChain(pkm, maxSpecies, maxLevel, minLevel, hasOriginMet);
+            return GetOriginChain(pkm, maxSpecies, (byte)maxLevel, (byte)minLevel, hasOriginMet);
         }
 
-        private static IReadOnlyList<EvoCriteria> GetOriginChain(PKM pkm, int maxSpecies, int maxLevel, int minLevel, bool hasOriginMet)
+        private static EvoCriteria[] GetOriginChain(PKM pkm, int maxSpecies, byte maxLevel, byte minLevel, bool hasOriginMet)
         {
             if (maxLevel < minLevel)
                 return Array.Empty<EvoCriteria>();
@@ -76,11 +76,9 @@ namespace PKHeX.Core
             var tempMax = pkm.CurrentLevel;
             var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies, tempMax, minLevel);
 
-            foreach (var evo in chain)
-            {
-                evo.Level = maxLevel;
-                evo.MinLevel = minLevel;
-            }
+            for (var i = 0; i < chain.Length; i++)
+                chain[i] = chain[i] with { LevelMax = maxLevel, LevelMin = minLevel };
+
             return chain;
         }
 

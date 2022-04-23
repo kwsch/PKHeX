@@ -397,7 +397,7 @@ namespace PKHeX.Core
         {
             // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
             var table = EvolutionTree.GetEvolutionTree(1);
-            var chain = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
+            var chain = table.GetValidPreEvolutions(pkm, maxLevel: (byte)pkm.CurrentLevel);
             foreach (var entry in chain)
             {
                 var s = entry.Species;
