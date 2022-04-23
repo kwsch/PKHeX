@@ -12,34 +12,34 @@ namespace PKHeX.Core
         internal static EvoCriteria[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc)
         {
             var chain = GetEvolutionChain(pkm, enc, pkm.Species, (byte)pkm.CurrentLevel);
-            if (enc is EncounterInvalid || pkm.IsEgg || chain.Length == 0)
+            if (chain.Length == 0 || pkm.IsEgg || enc is EncounterInvalid)
                 return GetChainSingle(pkm, chain);
 
             return GetChainAll(pkm, enc, chain);
         }
 
-        private static EvoCriteria[][] GetChainBase(int maxgen)
+        private static EvoCriteria[][] GetAllEmpty(int count)
         {
-            var GensEvoChains = new EvoCriteria[maxgen + 1][];
-            for (int i = 0; i <= maxgen; i++)
-                GensEvoChains[i] = NONE; // default no-evolutions
-            return GensEvoChains;
+            var result = new EvoCriteria[count][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = NONE; // default no-evolutions
+            return result;
         }
 
         private static EvoCriteria[][] GetChainSingle(PKM pkm, EvoCriteria[] fullChain)
         {
-            var chain = GetChainBase(Math.Max(2, pkm.Format));
+            var chain = GetAllEmpty(Math.Max(2, pkm.Format) + 1);
             chain[pkm.Format] = fullChain;
             return chain;
         }
 
-        private static EvoCriteria[][] GetChainAll(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> fullChain)
+        private static EvoCriteria[][] GetChainAll(PKM pkm, IEncounterTemplate enc, EvoCriteria[] fullChain)
         {
             int maxgen = ParseSettings.AllowGen1Tradeback && pkm is PK1 ? 2 : pkm.Format;
-            var GensEvoChains = GetChainBase(maxgen);
+            var GensEvoChains = GetAllEmpty(maxgen + 1);
 
-            var queue = new Queue<EvoCriteria>(fullChain);
-            var mostEvolved = queue.Dequeue();
+            var head = 0; // inlined FIFO queue indexing
+            var mostEvolved = fullChain[head++];
 
             var lvl = (byte)pkm.CurrentLevel;
             var maxLevel = lvl;
@@ -52,12 +52,14 @@ namespace PKHeX.Core
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
                 if (pkGen <= 2 && g == 6)
-                    g = 2;
+                    g = 2; // skip over 6543 as it never existed in these.
 
-                if (g <= 4 && pkm.Format > 2 && pkm.Format > g && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
+                if (g <= 4 && pkm.Format > 2 && pkm.Format > g && !pkm.HasOriginalMetLocation)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
-                    lvl = (byte)pkm.Met_Level;
+                    var met = pkm.Met_Level;
+                    if (lvl > pkm.Met_Level)
+                        lvl = (byte)met;
                 }
 
                 int maxspeciesgen = g == 2 && pkm.VC1 ? MaxSpeciesID_1 : GetMaxSpeciesOrigin(g);
@@ -66,7 +68,7 @@ namespace PKHeX.Core
                 // If the pokemon origin is illegal (e.g. Gen3 Infernape) the list will be emptied -- species lineage did not exist at any evolution stage.
                 while (mostEvolved.Species > maxspeciesgen)
                 {
-                    if (queue.Count == 0)
+                    if (head >= fullChain.Length)
                     {
                         if (g <= 2 && pkm.VC1)
                             GensEvoChains[pkm.Format] = NONE; // invalidate here since we haven't reached the regular invalidation
@@ -84,7 +86,7 @@ namespace PKHeX.Core
                         else if (g == 1 && pkm.Format == 2 && lvl == maxLevel)
                             lvl--;
                     }
-                    mostEvolved = queue.Dequeue();
+                    mostEvolved = fullChain[head++];
                 }
 
                 // Alolan form evolutions, remove from gens 1-6 chains
@@ -92,9 +94,9 @@ namespace PKHeX.Core
                 {
                     if (g < 7 && pkm.Format >= 7 && mostEvolved.Form > 0)
                     {
-                        if (queue.Count == 0)
+                        if (head >= fullChain.Length)
                             break;
-                        mostEvolved = queue.Dequeue();
+                        mostEvolved = fullChain[head++];
                     }
                 }
 
