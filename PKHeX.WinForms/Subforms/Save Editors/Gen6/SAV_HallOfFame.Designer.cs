@@ -69,6 +69,7 @@
             this.B_CopyText = new System.Windows.Forms.Button();
             this.B_Delete = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.Label_OTGender = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bpkx)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUP_PartyIndex)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
@@ -313,6 +314,7 @@
             // 
             // GB_OT
             // 
+            this.GB_OT.Controls.Add(this.Label_OTGender);
             this.GB_OT.Controls.Add(this.TB_OT);
             this.GB_OT.Controls.Add(this.TB_SID);
             this.GB_OT.Controls.Add(this.TB_TID);
@@ -569,6 +571,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Entry";
             // 
+            // Label_OTGender
+            // 
+            this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Label_OTGender.Location = new System.Drawing.Point(136, 48);
+            this.Label_OTGender.Name = "Label_OTGender";
+            this.Label_OTGender.Size = new System.Drawing.Size(18, 13);
+            this.Label_OTGender.TabIndex = 79;
+            this.Label_OTGender.Text = "-";
+            this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_OTGender.Click += new System.EventHandler(this.UpdateOTGender);
+            // 
             // SAV_HallOfFame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -642,5 +655,6 @@
         private System.Windows.Forms.Button B_CopyText;
         private System.Windows.Forms.Button B_Delete;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label Label_OTGender;
     }
 }
