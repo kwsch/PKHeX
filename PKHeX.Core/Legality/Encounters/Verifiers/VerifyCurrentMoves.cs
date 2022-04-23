@@ -146,7 +146,7 @@ namespace PKHeX.Core
         {
             var enc = info.EncounterMatch;
             var evos = info.EvoChainsAllGens[enc.Generation];
-            var level = evos.Count > 0 ? evos[^1].LevelMin : enc.LevelMin;
+            var level = evos.Length > 0 ? evos[^1].LevelMin : enc.LevelMin;
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(enc);
             var games = enc.Generation == 1 ? GBRestrictions.GetGen1Versions(enc) : GBRestrictions.GetGen2Versions(enc, pkm.Korean);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using static PKHeX.Core.Legal;
 
@@ -177,16 +176,6 @@ namespace PKHeX.Core
             var gen1Index = Array.FindIndex(vc7, z => z.Species <= MaxSpeciesID_1);
             if (gen1Index == -1)
                 allChains[pkm.Format] = NONE; // needed a Gen1 species present; invalidate the chain.
-        }
-
-        internal static int GetEvoChainSpeciesIndex(IReadOnlyList<EvoCriteria> chain, int species)
-        {
-            for (int i = 0; i < chain.Count; i++)
-            {
-                if (chain[i].Species == species)
-                    return i;
-            }
-            return -1;
         }
 
         private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterTemplate enc, int mostEvolvedSpecies, byte maxlevel)

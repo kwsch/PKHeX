@@ -232,7 +232,7 @@ namespace PKHeX.Core
 
             // If the species could not exist in Gen3, must match.
             var g3 = info.EvoChainsAllGens[3];
-            if (g3.Count == 0)
+            if (g3.Length == 0)
                 return AbilityState.MustMatch;
 
             // Fall through when gen3 pkm transferred to gen4/5
@@ -251,7 +251,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             var chain = data.Info.EvoChainsAllGens;
-            bool evolved45 = chain[4].Count > 1 || (pkm.Format == 5 && chain[5].Count > 1);
+            bool evolved45 = chain[4].Length > 1 || (pkm.Format == 5 && chain[5].Length > 1);
             if (evolved45)
             {
                 if (pkm.Ability == pers.Ability1) // Could evolve in Gen4/5 and have a Gen3 only ability

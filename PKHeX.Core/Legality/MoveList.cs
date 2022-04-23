@@ -195,18 +195,18 @@ namespace PKHeX.Core
         /// <summary>
         /// ONLY CALL FOR GEN2 EGGS
         /// </summary>
-        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int generation, GameVersion Version)
+        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
-            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, Species);
-            for (int i = 0; i < evoChain.Count; i++)
+            var index = Array.FindIndex(evoChain, z => z.Species == Species);
+            for (int i = 0; i < evoChain.Length; i++)
             {
                 int minLvLG2;
                 var evo = evoChain[i];
                 if (ParseSettings.AllowGen2MoveReminder(pkm))
                     minLvLG2 = 0;
-                else if (i == evoChain.Count - 1) // minimum level, otherwise next learnable level
+                else if (i == evoChain.Length - 1) // minimum level, otherwise next learnable level
                     minLvLG2 = 5;
                 else if (evo.RequiresLvlUp)
                     minLvLG2 = evo.LevelMax + 1;
