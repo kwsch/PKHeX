@@ -85,10 +85,12 @@ namespace PKHeX.Core
         /// </summary>
         SOS = 15,
 
+        // Legends: Arceus
         Overworld = 16,
         Distortion = 17,
         Landmark = 18,
-        OverworldMMO = 19,
+        OverworldMass = 19,
+        OverworldMMO = 20,
 
         // Modifiers
 
