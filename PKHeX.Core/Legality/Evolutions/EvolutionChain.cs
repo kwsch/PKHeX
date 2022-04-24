@@ -206,7 +206,7 @@ namespace PKHeX.Core
                 if (minIndex + 1 == chain.Length)
                     return Array.Empty<EvoCriteria>(); // no species left in chain
 
-                chain = chain.AsSpan(0, minIndex).ToArray();
+                chain = chain.AsSpan(0, minIndex + 1).ToArray();
                 CheckLastEncounterRemoval(enc, chain);
             }
 
