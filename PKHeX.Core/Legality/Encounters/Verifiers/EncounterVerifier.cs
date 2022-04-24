@@ -255,7 +255,7 @@ namespace PKHeX.Core
                     if (s is EncounterStaticShadow {EReader: true} && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
 
-                    switch (pkm.Species)
+                    switch (s.Species)
                     {
                         case (int)Species.Mew when s.Location == 201 && pkm.Language != (int)LanguageID.Japanese: // Non-JP Mew (Old Sea Map)
                             return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
@@ -265,7 +265,7 @@ namespace PKHeX.Core
 
                     break;
                 case 4:
-                    if (pkm.Met_Location == 193 && s is EncounterStatic4 {Roaming: true}) // Roaming pokemon surfing in Johto Route 45
+                    if (s is EncounterStatic4 {Roaming: true} && pkm.Met_Location == 193 && pkm is IGroundTile {GroundTile:GroundTileType.Water}) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
