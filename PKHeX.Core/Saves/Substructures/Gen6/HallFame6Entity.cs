@@ -32,8 +32,8 @@ public readonly ref struct HallFame6Entity
     public bool IsNicknamed { get => Nick == 1; set => Nick = value ? 1u : 0u; }
     public bool IsShiny { get => Shiny == 1; set => Shiny = value ? 1u : 0u; }
 
-    private Span<byte> Nick_Trash => Data.Slice(0x18, 26);
-    private Span<byte> OT_Trash => Data.Slice(0x30, 26);
+    private Span<byte> Nick_Trash => Data.Slice(0x18, 24);
+    private Span<byte> OT_Trash => Data.Slice(0x30, 24);
 
     // Don't mimic in-game behavior of not clearing strings. First entry should always have clean trash.
     private const StringConverterOption Option = StringConverterOption.ClearZero;

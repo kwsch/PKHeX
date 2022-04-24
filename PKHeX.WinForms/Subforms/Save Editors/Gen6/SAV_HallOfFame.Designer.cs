@@ -332,7 +332,7 @@
             // 
             this.TB_OT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_OT.Location = new System.Drawing.Point(36, 46);
-            this.TB_OT.MaxLength = 11;
+            this.TB_OT.MaxLength = 12;
             this.TB_OT.Name = "TB_OT";
             this.TB_OT.Size = new System.Drawing.Size(94, 20);
             this.TB_OT.TabIndex = 3;
