@@ -173,7 +173,7 @@ namespace PKHeX.Core
         private static void TrimVC1Transfer(PKM pkm, EvoCriteria[][] allChains)
         {
             var vc7 = allChains[7];
-            var gen1Index = Array.FindIndex(vc7, z => z.Species <= MaxSpeciesID_1);
+            var gen1Index = Array.FindLastIndex(vc7, z => z.Species <= MaxSpeciesID_1);
             if (gen1Index == -1)
                 allChains[pkm.Format] = NONE; // needed a Gen1 species present; invalidate the chain.
         }
@@ -188,7 +188,7 @@ namespace PKHeX.Core
             {
                 if (chain.Length == 1)
                     return chain;
-                var index = Array.FindIndex(chain, z => z.Species == enc.Species);
+                var index = Array.FindLastIndex(chain, z => z.Species == enc.Species);
                 if (index == -1)
                     return Array.Empty<EvoCriteria>();
                 return new[] { chain[index] };
@@ -196,7 +196,7 @@ namespace PKHeX.Core
 
             // Evolution chain is in reverse order (devolution)
             // Find the index of the minimum species to determine the end of the chain
-            int minIndex = Array.FindIndex(chain, z => z.Species == enc.Species);
+            int minIndex = Array.FindLastIndex(chain, z => z.Species == enc.Species);
             bool last = minIndex < 0 || minIndex == chain.Length - 1;
 
             // If we remove a pre-evolution, update the chain if appropriate.
