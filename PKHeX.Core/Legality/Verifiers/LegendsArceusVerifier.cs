@@ -105,8 +105,8 @@ public sealed class LegendsArceusVerifier : Verifier
         // Evolve and try
         for (int i = 0; i < evos.Count - 1; i++)
         {
-            var (species, form) = evos[i];
-            index = pt.GetFormIndex(species, form);
+            var evo = evos[i];
+            index = pt.GetFormIndex(evo.Species, evo.Form);
             moveset = Legal.LevelUpLA[index];
             moveset.SetEvolutionMoves(moves, purchased, count);
             count = moves.IndexOf(0);
@@ -210,10 +210,10 @@ public sealed class LegendsArceusVerifier : Verifier
         // Changing forms do not have separate tutor permissions, so we don't need to bother with form changes.
         // Level up movepools can grant moves for mastery at lower levels for earlier evolutions... find the minimum.
         int level = 101;
-        foreach (var (species, form) in data.Info.EvoChainsAllGens[8])
+        foreach (var evo in data.Info.EvoChainsAllGens[8])
         {
             var pt = PersonalTable.LA;
-            var index = pt.GetFormIndex(species, form);
+            var index = pt.GetFormIndex(evo.Species, evo.Form);
             var moveset = Legal.LevelUpLA[index];
             var lvl = moveset.GetLevelLearnMove(moves[i]);
             if (lvl == -1)

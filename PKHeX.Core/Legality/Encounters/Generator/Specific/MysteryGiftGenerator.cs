@@ -7,7 +7,7 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftGenerator
     {
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain)
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
             int gen = pkm.Generation;
@@ -20,7 +20,7 @@ namespace PKHeX.Core
                 yield return enc;
         }
 
-        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, IReadOnlyList<DexLevel> chain)
+        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             int gen = pkm.Generation;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             _ => Array.Empty<MysteryGift>(),
         };
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, IReadOnlyList<DexLevel> chain)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, IReadOnlyList<EvoCriteria> chain)
         {
             if (PGT.IsRangerManaphy(pkm))
             {
@@ -55,7 +55,7 @@ namespace PKHeX.Core
                 yield return g;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyCollection<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyCollection<MysteryGift> DB, IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var mg in DB)
             {

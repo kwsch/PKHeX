@@ -33,7 +33,7 @@ namespace PKHeX.Core
             OT_Intensity = intensity;
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;

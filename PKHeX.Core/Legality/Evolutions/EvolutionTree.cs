@@ -229,26 +229,26 @@ namespace PKHeX.Core
         /// <param name="maxSpeciesOrigin">Maximum species ID to permit within the chain.</param>
         /// <param name="skipChecks">Ignores an evolution's criteria, causing the returned list to have all possible evolutions.</param>
         /// <param name="minLevel">Minimum level to permit before the chain breaks.</param>
-        /// <returns></returns>
-        public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
+        public EvoCriteria[] GetValidPreEvolutions(PKM pkm, byte maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, byte minLevel = 1)
         {
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm);
             if (pkm.IsEgg && !skipChecks)
             {
-                return new List<EvoCriteria>(1)
+                return new[]
                 {
-                    new(pkm.Species, pkm.Form) { Level = maxLevel, MinLevel = maxLevel },
+                    new EvoCriteria{ Species = (ushort)pkm.Species, Form = (byte)pkm.Form, LevelMax = maxLevel, LevelMin = maxLevel },
                 };
             }
 
             // Shedinja's evolution case can be a little tricky; hard-code handling.
             if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || minLevel < maxLevel))
             {
-                return new List<EvoCriteria>(2)
+                var min = Math.Max(minLevel, (byte)20);
+                return new[]
                 {
-                    new((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = Math.Max(minLevel, 20) },
-                    new((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
+                    new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = maxLevel, LevelMin = min, Method = EvolutionType.LevelUp },
+                    new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = maxLevel, LevelMin = minLevel },
                 };
             }
 
@@ -353,16 +353,16 @@ namespace PKHeX.Core
         /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
         /// <param name="maxSpeciesOrigin">Clamp for maximum species ID</param>
         /// <param name="minLevel">Minimum level</param>
-        /// <returns></returns>
-        private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
+        private EvoCriteria[] GetExplicitLineage(PKM pkm, byte maxLevel, bool skipChecks, int maxSpeciesOrigin, byte minLevel)
         {
-            int species = pkm.Species;
-            int form = pkm.Form;
-            int lvl = maxLevel;
-            var first = new EvoCriteria(species, form) { Level = lvl };
+            var species = pkm.Species;
+            var form = pkm.Form;
+            var lvl = maxLevel;
+            var first = new EvoCriteria { Species = (ushort)species, Form = (byte)form, LevelMax = lvl };
 
             const int maxEvolutions = 3;
-            var dl = new List<EvoCriteria>(maxEvolutions) { first };
+            Span<EvoCriteria> dl = stackalloc EvoCriteria[maxEvolutions];
+            dl[0] = first;
 
             switch (species)
             {
@@ -372,6 +372,7 @@ namespace PKHeX.Core
 
             // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
             // There aren't any convergent evolution paths, so only yield the first connection.
+            int ctr = 1;
             while (true)
             {
                 var key = GetLookupKey(species, form);
@@ -391,12 +392,11 @@ namespace PKHeX.Core
                         break; // impossible evolution
 
                     oneValid = true;
-                    UpdateMinValues(dl, evo, minLevel);
+                    UpdateMinValues(dl[..ctr], evo, minLevel);
 
                     species = link.Species;
                     form = link.Form;
-                    var detail = evo.GetEvoCriteria(species, form, lvl);
-                    dl.Add(detail);
+                    dl[ctr++] = evo.GetEvoCriteria((ushort)species, (byte)form, lvl);
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;
@@ -406,64 +406,79 @@ namespace PKHeX.Core
             }
 
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
-            var last = dl[^1];
-            if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
-                dl.RemoveAt(dl.Count - 1);
-
-            // Last species is the wild/hatched species, the minimum level is because it has not evolved from previous species
-            last = dl[^1];
-            last.MinLevel = minLevel;
-            last.RequiresLvlUp = false;
-
-            // Rectify minimum levels
-            for (int i = dl.Count - 2; i >= 0; i--)
+            ref var last = ref dl[ctr - 1];
+            if (last.Species > maxSpeciesOrigin)
             {
-                var evo = dl[i];
-                var prev = dl[i + 1];
-                evo.MinLevel = Math.Max(prev.MinLevel + (evo.RequiresLvlUp ? 1 : 0), evo.MinLevel);
+                for (int i = 0; i < ctr; i++)
+                {
+                    if (dl[i].Species > maxSpeciesOrigin)
+                        continue;
+                    ctr--;
+                    break;
+                }
             }
 
-            return dl;
+            // Last species is the wild/hatched species, the minimum level is because it has not evolved from previous species
+            var result = dl[..ctr];
+            last = ref result[^1];
+            last = last with { LevelMin = minLevel, LevelUpRequired = 0 };
+
+            // Rectify minimum levels
+            for (int i = result.Length - 2; i >= 0; i--)
+            {
+                ref var evo = ref result[i];
+                var prev = result[i + 1];
+                var min = (byte)Math.Max(prev.LevelMin + evo.LevelUpRequired, evo.LevelMin);
+                evo = evo with { LevelMin = min };
+            }
+
+            return result.ToArray();
         }
 
-        private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo, int minLevel)
+        private static void UpdateMinValues(Span<EvoCriteria> dl, EvolutionMethod evo, byte minLevel)
         {
-            var last = dl[^1];
+            ref var last = ref dl[^1];
             if (!evo.RequiresLevelUp)
             {
                 // Evolutions like elemental stones, trade, etc
-                last.MinLevel = minLevel;
+                last = last with { LevelMin = minLevel };
                 return;
             }
             if (evo.Level == 0)
             {
                 // Friendship based Level Up Evolutions, Pichu -> Pikachu, Eevee -> Umbreon, etc
-                last.MinLevel = minLevel + 1;
+                last = last with { LevelMin = (byte)(minLevel + 1) };
 
-                var first = dl[0];
-                if (dl.Count > 1 && !first.RequiresLvlUp)
-                    first.MinLevel = minLevel + 1; // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
+                // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
+                if (dl.Length > 1)
+                {
+                    ref var first = ref dl[0];
+                    if (!first.RequiresLvlUp)
+                        first = first with { LevelMin = (byte)(minLevel + 1) };
+                }
             }
             else // level up evolutions
             {
-                last.MinLevel = evo.Level;
+                last = last with { LevelMin = evo.Level };
 
-                var first = dl[0];
-                if (dl.Count > 1)
+                if (dl.Length > 1)
                 {
+                    ref var first = ref dl[0];
                     if (first.RequiresLvlUp)
                     {
-                        if (first.MinLevel <= evo.Level)
-                            first.MinLevel = evo.Level + 1; // Pokemon like Crobat, its minimum level is Golbat minimum level + 1
+                        // Pokemon like Crobat, its minimum level is Golbat minimum level + 1
+                        if (first.LevelMin <= evo.Level)
+                            first = first with {LevelMin = (byte)(evo.Level + 1) };
                     }
                     else
                     {
-                        if (first.MinLevel < evo.Level)
-                            first.MinLevel = evo.Level; // Pokemon like Nidoqueen who evolve with an evolution stone, minimum level is prior evolution minimum level
+                        // Pokemon like Nidoqueen who evolve with an evolution stone, minimum level is prior evolution minimum level
+                        if (first.LevelMin < evo.Level)
+                            first = first with { LevelMin = evo.Level };
                     }
                 }
             }
-            last.RequiresLvlUp = evo.RequiresLevelUp;
+            last = last with { LevelUpRequired = evo.RequiresLevelUp ? (byte)1 : (byte)0 };
         }
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace PKHeX.Core
 
                     if (slot.Form != evo.Form)
                         break;
-                    if (slot.LevelMin > evo.Level)
+                    if (slot.LevelMin > evo.LevelMax)
                         break;
 
                     yield return slot;

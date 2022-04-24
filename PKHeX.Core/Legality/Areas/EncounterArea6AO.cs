@@ -79,9 +79,9 @@ namespace PKHeX.Core
                     // Track some metadata about how this slot was matched.
                     var clone = slot with
                     {
-                        WhiteFlute = evo.MinLevel < slot.LevelMin,
-                        BlackFlute = evo.MinLevel > slot.LevelMax && evo.MinLevel <= slot.LevelMax + FluteBoostMax,
-                        DexNav = slot.CanDexNav && (evo.MinLevel != slot.LevelMax || pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4),
+                        WhiteFlute = evo.LevelMin < slot.LevelMin,
+                        BlackFlute = evo.LevelMin > slot.LevelMax && evo.LevelMin <= slot.LevelMax + FluteBoostMax,
+                        DexNav = slot.CanDexNav && (evo.LevelMin != slot.LevelMax || pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4),
                     };
                     yield return clone;
                     break;

@@ -38,7 +38,7 @@ namespace PKHeX.Core
         private static bool IsValidEvolution(PKM pkm, LegalInfo info)
         {
             var chains = info.EvoChainsAllGens;
-            if (chains[pkm.Format].Count == 0)
+            if (chains[pkm.Format].Length == 0)
                 return false; // Can't exist as current species
 
             // OK if un-evolved from original encounter

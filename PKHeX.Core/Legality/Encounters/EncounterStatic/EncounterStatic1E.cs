@@ -24,7 +24,7 @@ namespace PKHeX.Core
         {
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (!base.IsMatchExact(pkm, evo))
                 return false;

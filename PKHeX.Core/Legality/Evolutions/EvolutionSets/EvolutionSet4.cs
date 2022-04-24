@@ -24,7 +24,7 @@ namespace PKHeX.Core
                 method++;
 
             var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
-            return new EvolutionMethod(method, species, argument: arg, level: lvl);
+            return new EvolutionMethod(method, species, argument: arg, level: (byte)lvl);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)

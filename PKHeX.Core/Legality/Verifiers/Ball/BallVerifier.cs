@@ -49,7 +49,7 @@ namespace PKHeX.Core
                 // The special move verifier has a similar check!
                 if (pkm.HGSS && pkm.Ball == (int)Sport) // Can evolve in DP to retain the HG/SS ball -- not able to be captured in any other ball
                     return VerifyBallEquals(data, (int)Sport);
-                if (Info.Generation != 3 || Info.EvoChainsAllGens[3].Count != 2)
+                if (Info.Generation != 3 || Info.EvoChainsAllGens[3].Length != 2)
                     return VerifyBallEquals(data, (int)Poke); // Pokeball Only
             }
 

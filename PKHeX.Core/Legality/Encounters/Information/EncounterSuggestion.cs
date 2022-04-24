@@ -39,7 +39,7 @@ namespace PKHeX.Core
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
             var met = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm);
-            return new EncounterSuggestionData(pkm, met, lvl);
+            return new EncounterSuggestionData(pkm, met, (byte)lvl);
         }
 
         public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
@@ -98,19 +98,19 @@ namespace PKHeX.Core
             return -1;
         }
 
-        public static int GetLowestLevel(PKM pkm, int startLevel)
+        public static int GetLowestLevel(PKM pkm, byte startLevel)
         {
-            if (startLevel == -1)
+            if (startLevel >= 100)
                 startLevel = 100;
 
             var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
             int count = 1;
-            for (int i = 100; i >= startLevel; i--)
+            for (byte i = 100; i >= startLevel; i--)
             {
                 var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
-                if (evos.Count < count) // lost an evolution, prior level was minimum current level
-                    return evos.Max(evo => evo.Level) + 1;
-                count = evos.Count;
+                if (evos.Length < count) // lost an evolution, prior level was minimum current level
+                    return evos.Max(evo => evo.LevelMax) + 1;
+                count = evos.Length;
             }
             return startLevel;
         }
@@ -188,7 +188,7 @@ namespace PKHeX.Core
             LevelMax = enc.LevelMax;
         }
 
-        public EncounterSuggestionData(PKM pkm, int met, int lvl)
+        public EncounterSuggestionData(PKM pkm, int met, byte lvl)
         {
             Species = pkm.Species;
             Form = pkm.Form;
@@ -202,8 +202,8 @@ namespace PKHeX.Core
         public int Form { get; }
         public int Location { get; }
 
-        public int LevelMin { get; }
-        public int LevelMax { get; }
+        public byte LevelMin { get; }
+        public byte LevelMax { get; }
 
         public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
         public GroundTileType GetSuggestedGroundTile() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;

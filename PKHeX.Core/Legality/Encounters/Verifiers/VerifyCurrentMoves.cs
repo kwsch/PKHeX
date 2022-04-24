@@ -146,20 +146,18 @@ namespace PKHeX.Core
         {
             var enc = info.EncounterMatch;
             var evos = info.EvoChainsAllGens[enc.Generation];
-            var level = evos.Count > 0 ? evos[^1].MinLevel : enc.LevelMin;
+            var level = evos.Length > 0 ? evos[^1].LevelMin : enc.LevelMin;
             var InitialMoves = Array.Empty<int>();
-            var SpecialMoves = GetSpecialMoves(enc);
             var games = enc.Generation == 1 ? GBRestrictions.GetGen1Versions(enc) : GBRestrictions.GetGen2Versions(enc, pkm.Korean);
             foreach (var ver in games)
             {
                 var VerInitialMoves = enc is IMoveset {Moves.Count: not 0 } x ? (int[])x.Moves : MoveLevelUp.GetEncounterMoves(enc.Species, 0, level, ver);
-                if (VerInitialMoves.Intersect(InitialMoves).Count() == VerInitialMoves.Length)
-                    return;
+                if (VerInitialMoves.SequenceEqual(InitialMoves))
+                    return; // Already checked this combination, and it wasn't valid. Don't bother repeating.
 
                 var source = new MoveParseSource
                 {
                     CurrentMoves = currentMoves,
-                    SpecialSource = SpecialMoves,
                     Base = VerInitialMoves,
                 };
                 ParseMoves(pkm, source, info, parse);

@@ -25,10 +25,10 @@ namespace PKHeX.Core
             return pkm.Egg_Location == 0;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
         {
             if (pkm.Format != 3) // Met Level lost on PK3=>PK4
-                return Level <= evo.Level;
+                return Level <= evo.LevelMax;
 
             if (EggEncounter)
                 return pkm.Met_Level == 0 && pkm.CurrentLevel >= 5; // met level 0, origin level 5

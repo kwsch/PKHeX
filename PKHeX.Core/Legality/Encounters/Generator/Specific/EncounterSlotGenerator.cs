@@ -23,7 +23,7 @@ namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
     {
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
         {
             var possibleAreas = GetAreasByGame(pkm, gameSource);
             return possibleAreas.SelectMany(z => z.GetSpecies(chain));

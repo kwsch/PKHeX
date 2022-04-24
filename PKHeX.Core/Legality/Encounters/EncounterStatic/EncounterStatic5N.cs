@@ -29,7 +29,7 @@
             pk.RefreshAbility(ability);
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (PID != pkm.PID)
                 return false;

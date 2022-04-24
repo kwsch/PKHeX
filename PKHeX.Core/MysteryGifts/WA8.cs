@@ -583,7 +583,7 @@ namespace PKHeX.Core
             pk.SetIVs(finalIVs);
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {

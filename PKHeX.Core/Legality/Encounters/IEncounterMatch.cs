@@ -10,7 +10,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the implementing object's details might have been the originator of the current <see cref="pkm"/> data.
         /// </summary>
-        bool IsMatchExact(PKM pkm, DexLevel dl);
+        bool IsMatchExact(PKM pkm, IDexLevel dl);
 
         /// <summary>
         /// Checks if the potential match may not be a perfect match (might be a better match later during iteration).

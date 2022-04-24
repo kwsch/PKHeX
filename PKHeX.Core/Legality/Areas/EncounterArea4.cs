@@ -158,7 +158,7 @@ namespace PKHeX.Core
                         if (!slot.IsRandomUnspecificForm)
                             break;
                     }
-                    if (slot.LevelMin > evo.Level)
+                    if (slot.LevelMin > evo.LevelMax)
                         break;
 
                     yield return slot;

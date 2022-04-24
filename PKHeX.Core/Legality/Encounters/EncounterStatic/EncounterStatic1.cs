@@ -33,11 +33,11 @@
             pk1.Catch_Rate = table[Species].CatchRate;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
         {
             // Met Level is not stored in the PK1 format.
             // Check if it is at or above the encounter level.
-            return Level <= evo.Level;
+            return Level <= evo.LevelMax;
         }
 
         protected override bool IsMatchLocation(PKM pkm)
@@ -46,7 +46,7 @@
             return true;
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (!base.IsMatchExact(pkm, evo))
                 return false;

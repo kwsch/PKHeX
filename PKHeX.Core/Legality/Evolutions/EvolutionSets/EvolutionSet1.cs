@@ -12,7 +12,7 @@ namespace PKHeX.Core
         {
             int method = data[0];
             int species = data[1];
-            int arg = data[2];
+            var arg = data[2];
 
             return (method == 1)
                 ? new EvolutionMethod(method, species, level: arg)

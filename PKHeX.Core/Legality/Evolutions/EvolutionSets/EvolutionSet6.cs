@@ -32,7 +32,7 @@ namespace PKHeX.Core
             // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
             var lvl = EvosWithArg.Contains(method) ? 0 : arg;
 
-            return new EvolutionMethod(method, species, argument: arg, level: lvl);
+            return new EvolutionMethod(method, species, argument: arg, level: (byte)lvl);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)

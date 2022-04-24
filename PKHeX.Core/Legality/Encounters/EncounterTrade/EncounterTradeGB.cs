@@ -9,6 +9,6 @@
             Level = level;
         }
 
-        public abstract override bool IsMatchExact(PKM pkm, DexLevel dl);
+        public abstract override bool IsMatchExact(PKM pkm, IDexLevel dl);
     }
 }

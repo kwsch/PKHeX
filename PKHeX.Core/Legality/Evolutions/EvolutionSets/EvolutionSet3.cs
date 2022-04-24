@@ -25,7 +25,7 @@ namespace PKHeX.Core
                 case 6: /* Trade while holding */
                     return new EvolutionMethod(method, species, argument: arg);
                 case 4: /* Level Up */
-                    return new EvolutionMethod(4, species, argument: arg, level:arg);
+                    return new EvolutionMethod(4, species, argument: arg, level: (byte)arg);
                 case 7: /* Use item */
                 case 15: /* Beauty evolution*/
                     return new EvolutionMethod(method + 1, species, argument: arg);
@@ -36,7 +36,7 @@ namespace PKHeX.Core
                 case 12: /* Wurmple -> Cascoon evolution */
                 case 13: /* Nincada -> Ninjask evolution */
                 case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
-                    return new EvolutionMethod(method + 1, species, argument: arg, level: arg);
+                    return new EvolutionMethod(method + 1, species, argument: arg, level: (byte)arg);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(method));

@@ -74,7 +74,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = Gift ? Ball : (int)Core.Ball.LAPoke;
 
-    public override bool IsMatchExact(PKM pkm, DexLevel evo)
+    public override bool IsMatchExact(PKM pkm, IDexLevel evo)
     {
         if (!base.IsMatchExact(pkm, evo))
             return false;

@@ -277,7 +277,7 @@ namespace PKHeX.Core
         }
 
         // Nothing is stored as a PGT besides Ranger Manaphy. Nothing should trigger these.
-        public override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         protected override bool IsMatchPartial(PKM pkm) => false;
 

@@ -38,7 +38,7 @@ namespace PKHeX.Core
             55, 60, // 4
         };
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
         {
             var met = pkm.Met_Level;
             var metLevel = met - 15;
@@ -87,7 +87,7 @@ namespace PKHeX.Core
             return loc == SharedNest || (loc <= 255 && NestLocations.Contains((byte)loc));
         }
 
-        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;

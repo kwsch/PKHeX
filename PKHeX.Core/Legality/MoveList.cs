@@ -195,25 +195,25 @@ namespace PKHeX.Core
         /// <summary>
         /// ONLY CALL FOR GEN2 EGGS
         /// </summary>
-        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, IReadOnlyList<EvoCriteria> evoChain, int generation, GameVersion Version)
+        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, EvoCriteria[] evoChain, int generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
-            var index = EvolutionChain.GetEvoChainSpeciesIndex(evoChain, Species);
-            for (int i = 0; i < evoChain.Count; i++)
+            var index = Array.FindIndex(evoChain, z => z.Species == Species);
+            for (int i = 0; i < evoChain.Length; i++)
             {
                 int minLvLG2;
                 var evo = evoChain[i];
                 if (ParseSettings.AllowGen2MoveReminder(pkm))
                     minLvLG2 = 0;
-                else if (i == evoChain.Count - 1) // minimum level, otherwise next learnable level
+                else if (i == evoChain.Length - 1) // minimum level, otherwise next learnable level
                     minLvLG2 = 5;
                 else if (evo.RequiresLvlUp)
-                    minLvLG2 = evo.Level + 1;
+                    minLvLG2 = evo.LevelMax + 1;
                 else
-                    minLvLG2 = evo.Level;
+                    minLvLG2 = evo.LevelMax;
 
-                var moves = GetMoves(pkm, evo.Species, evo.Form, evo.Level, 0, minLvLG2, Version: Version, types: MoveSourceType.ExternalSources, RemoveTransferHM: false, generation: generation);
+                var moves = GetMoves(pkm, evo.Species, evo.Form, evo.LevelMax, 0, minLvLG2, Version: Version, types: MoveSourceType.ExternalSources, RemoveTransferHM: false, generation: generation);
                 var list = i >= index ? preevomoves : evomoves;
                 list.AddRange(moves);
             }
@@ -239,15 +239,15 @@ namespace PKHeX.Core
                 if (generation <= 2)
                 {
                     if (encounteredEvo) // minimum level, otherwise next learnable level
-                        minLvLG1 = evo.MinLevel + 1;
+                        minLvLG1 = evo.LevelMin + 1;
                     else // learns level up moves immediately after evolving
-                        minLvLG1 = evo.MinLevel;
+                        minLvLG1 = evo.LevelMin;
 
                     if (!ParseSettings.AllowGen2MoveReminder(pkm))
                         minLvLG2 = minLvLG1;
                 }
 
-                var maxLevel = evo.Level;
+                var maxLevel = evo.LevelMax;
                 if (!encounteredEvo) // evolution
                     ++maxLevel; // allow lvlmoves from the level it evolved to the next species
                 var moves = GetMoves(pkm, evo.Species, evo.Form, maxLevel, minLvLG1, minLvLG2, version, types, RemoveTransferHM, generation);
@@ -278,7 +278,7 @@ namespace PKHeX.Core
                 formCount = pkm.PersonalInfo.FormCount;
 
             for (int form = 0; form < formCount; form++)
-                r.AddRange(GetMoves(pkm, species, form, chain[0].Level, 0, 0, version, types, RemoveTransferHM, generation));
+                r.AddRange(GetMoves(pkm, species, form, chain[0].LevelMax, 0, 0, version, types, RemoveTransferHM, generation));
             if (types.HasFlagFast(MoveSourceType.RelearnMoves))
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();

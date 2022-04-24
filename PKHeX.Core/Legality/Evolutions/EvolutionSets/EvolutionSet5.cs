@@ -19,7 +19,7 @@ namespace PKHeX.Core
                 throw new ArgumentOutOfRangeException(nameof(method));
 
             var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
-            return new EvolutionMethod(method, species, argument: arg, level: lvl);
+            return new EvolutionMethod(method, species, argument: arg, level: (byte)lvl);
         }
 
         private const int bpe = 6; // bytes per evolution entry
@@ -42,7 +42,7 @@ namespace PKHeX.Core
 
                 var set = new EvolutionMethod[count];
                 for (int j = 0; j < set.Length; j++)
-                    set[j] = GetMethod(rawEntries.Slice((j * bpe), bpe));
+                    set[j] = GetMethod(rawEntries.Slice(j * bpe, bpe));
                 evos[i] = set;
             }
             return evos;
