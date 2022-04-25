@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
             GB_RelearnMoves.Click += ClickMoves;
 
             var font = FontUtil.GetPKXFont();
-            TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = font;
+            TB_Nickname.Font = TB_OT.Font = TB_HT.Font = font;
 
             // Commonly reused Control arrays
             Moves = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
@@ -333,17 +333,20 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Refresh Move Legality
+            var info = Legality.Info;
+            var moves = info.Moves;
             for (int i = 0; i < 4; i++)
             {
                 var pb = movePB[i];
                 pb.Visible = true;
-                pb.Image = GetMoveImage(!Legality.Info.Moves[i].Valid, Entity, i);
+                pb.Image = GetMoveImage(!moves[i].Valid, Entity, i);
             }
 
             if (Entity.Format >= 6)
             {
+                var relearn = info.Relearn;
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.Info.Relearn[i].Valid;
+                    relearnPB[i].Visible = !relearn[i].Valid;
             }
 
             if (skipMoveRepop)
@@ -371,18 +374,13 @@ namespace PKHeX.WinForms.Controls
             if (!Unicode)
             {
                 BTN_Shinytize.Text = Draw.ShinyDefault;
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = GB_OT.Font;
+                TB_Nickname.Font = TB_OT.Font = TB_HT.Font = GB_OT.Font;
             }
             else
             {
                 BTN_Shinytize.Text = Draw.ShinyUnicode;
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont();
+                TB_Nickname.Font = TB_OT.Font = TB_HT.Font = FontUtil.GetPKXFont();
             }
-
-            // Switch active gender labels to new if they are active.
-            ReloadGender(Label_Gender, gendersymbols);
-            ReloadGender(Label_OTGender, gendersymbols);
-            ReloadGender(Label_CTGender, gendersymbols);
         }
 
         private static string ReloadGender(string text, IReadOnlyList<string> genders)
@@ -409,8 +407,7 @@ namespace PKHeX.WinForms.Controls
 
             // Get Save Information
             TB_OT.Text = tr.OT;
-            Label_OTGender.Text = gendersymbols[tr.Gender & 1];
-            Label_OTGender.ForeColor = Draw.GetGenderColor(tr.Gender & 1);
+            UC_OTGender.Gender = tr.Gender & 1;
             TID_Trainer.LoadInfo(tr);
 
             if (tr.Game >= 0)
@@ -439,9 +436,9 @@ namespace PKHeX.WinForms.Controls
             if (string.IsNullOrWhiteSpace(tr.OT))
                 return;
 
-            if (TB_OTt2.Text.Length > 0)
+            if (TB_HT.Text.Length > 0)
             {
-                Label_CTGender.Text = gendersymbols[tr.Gender & 1];
+                UC_HTGender.Gender = tr.Gender & 1;
                 if (Entity is IHandlerLanguage)
                     CB_HTLanguage.SelectedValue = tr.Language;
             }
@@ -495,21 +492,11 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateIsShiny()
         {
-            // Recalculate shininiess
-            bool isShiny = Entity.IsShiny;
-
             // Set the Controls
-            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            if (Entity.Format >= 8 && (Entity.ShinyXor == 0 || Entity.FatefulEncounter || Entity.Version == (int)GameVersion.GO))
-            {
-                Label_IsShiny.Visible = false;
-                Label_IsShiny2.Visible = isShiny;
-            }
-            else
-            {
-                Label_IsShiny.Visible = isShiny;
-                Label_IsShiny2.Visible = false;
-            }
+            var type = ShinyExtensions.GetType(Entity);
+            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = type == Shiny.Never;
+            PB_ShinyStar.Visible = type == Shiny.AlwaysStar;
+            PB_ShinySquare.Visible = type == Shiny.AlwaysSquare;
 
             // Refresh Markings (for Shiny Star if applicable)
             SetMarkings();
@@ -534,8 +521,10 @@ namespace PKHeX.WinForms.Controls
 
             for (int i = 0; i < pba.Length; i++)
             {
-                if (Draw.GetMarkingColor(markings[i], out Color c))
-                    pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
+                if (!Draw.GetMarkingColor(markings[i], out Color c))
+                    continue;
+                var pb = pba[i];
+                pb.Image = ImageUtil.ChangeAllColorTo(pb.Image, c);
             }
         }
 
@@ -567,8 +556,6 @@ namespace PKHeX.WinForms.Controls
             return null;
         }
 
-        private void UpdateGender() => UpdateGenderLabel(Label_Gender, Entity.GetSaneGender());
-
         private static void SetCountrySubRegion(ComboBox cb, string type)
         {
             int oldIndex = cb.SelectedIndex;
@@ -592,8 +579,8 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickLevel(object sender, EventArgs e)
         {
-            if (ModifierKeys == Keys.Control)
-                ((MaskedTextBox)sender).Text = "100";
+            if (ModifierKeys == Keys.Control && sender is TextBoxBase tb)
+                tb.Text = "100";
         }
 
         private void ClickGender(object sender, EventArgs e)
@@ -601,10 +588,12 @@ namespace PKHeX.WinForms.Controls
             if (!Entity.PersonalInfo.IsDualGender)
                 return; // can't toggle
 
-            int newGender = (PKX.GetGenderFromString(Label_Gender.Text) & 1) ^ 1;
+            var (canToggle, gender) = UC_Gender.ToggleGender();
+            if (!canToggle)
+                return;
             if (Entity.Format <= 2)
             {
-                Stats.SetATKIVGender(newGender);
+                Stats.SetATKIVGender(gender);
                 UpdateIsShiny();
             }
             else if (Entity.Format <= 4)
@@ -613,16 +602,15 @@ namespace PKHeX.WinForms.Controls
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
                 Entity.Form = CB_Form.SelectedIndex;
 
-                Entity.SetPIDGender(newGender);
+                Entity.SetPIDGender(gender);
                 TB_PID.Text = Entity.PID.ToString("X8");
             }
-            Entity.Gender = newGender;
-            UpdateGenderLabel(Label_Gender, newGender);
+            Entity.Gender = gender;
 
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
-                CB_Form.SelectedIndex = Math.Min(newGender, CB_Form.Items.Count - 1);
+                CB_Form.SelectedIndex = Math.Min(gender, CB_Form.Items.Count - 1);
 
-            UpdatePreviewSprite?.Invoke(Label_Gender, EventArgs.Empty);
+            UpdatePreviewSprite?.Invoke(UC_Gender, EventArgs.Empty);
         }
 
         private void ClickPP(object sender, EventArgs e)
@@ -633,7 +621,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickPPUps(object sender, EventArgs e)
         {
-            bool min = (ModifierKeys & Keys.Control) != 0;
+            bool min = (ModifierKeys & Keys.Control) != 0 || !Legal.IsPPUpAvailable(Entity);
             static int GetValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
             CB_PPu1.SelectedIndex = GetValue(CB_Move1, min);
             CB_PPu2.SelectedIndex = GetValue(CB_Move2, min);
@@ -657,16 +645,6 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickOT(object sender, EventArgs e) => SetDetailsOT(SaveFileRequested.Invoke(this, e));
         private void ClickCT(object sender, EventArgs e) => SetDetailsHT(SaveFileRequested.Invoke(this, e));
-
-        private void ClickTRGender(object sender, EventArgs e)
-        {
-            if (sender is not Label lbl)
-                return;
-            if (string.IsNullOrWhiteSpace(lbl.Text))
-                return;
-
-            InvertGenderLabel(lbl);
-        }
 
         private void ClickBall(object sender, EventArgs e)
         {
@@ -714,7 +692,7 @@ namespace PKHeX.WinForms.Controls
 
             if (sender == GB_OT)
                 Entity.CurrentHandler = 0;
-            else if (TB_OTt2.Text.Length > 0)
+            else if (TB_HT.Text.Length > 0)
                 Entity.CurrentHandler = 1;
             UpadteHandlingTrainerBackground(Entity.CurrentHandler);
 
@@ -756,7 +734,7 @@ namespace PKHeX.WinForms.Controls
         private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
             var m = Entity.GetMoveSet(random);
-            if (m.All(z => z == 0) || m.Length == 0)
+            if (m.Length == 0 || m.All(z => z == 0))
             {
                 if (!silent)
                     WinFormsUtil.Alert(MsgPKMSuggestionFormat);
@@ -862,27 +840,11 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        private void InvertGenderLabel(Label lbl)
-        {
-            int gender = (PKX.GetGenderFromString(lbl.Text) & 1) ^ 1;
-            UpdateGenderLabel(lbl, gender);
-        }
-
-        private void UpdateGenderLabel(Label c, int gender)
-        {
-            var symbols = gendersymbols;
-            if ((uint) gender >= symbols.Count)
-                gender = 0;
-
-            c.Text = gendersymbols[gender];
-            c.ForeColor = Draw.GetGenderColor(gender);
-        }
-
         public void UpdateIVsGB(bool skipForm)
         {
             if (!FieldsLoaded)
                 return;
-            UpdateGenderLabel(Label_Gender, Entity.Gender);
+            UC_Gender.Gender = Entity.Gender;
             if (Entity.Species == (int)Species.Unown && !skipForm)
                 CB_Form.SelectedIndex = Entity.Form;
 
@@ -918,21 +880,21 @@ namespace PKHeX.WinForms.Controls
             else
             {
                 // Change the XP
-                int Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-                if (Level <= 0)
+                int level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
+                if (level <= 0)
                 {
                     TB_Level.Text = "1";
                 }
-                else if (Level > 100)
+                else if (level > 100)
                 {
                     TB_Level.Text = "100";
                     if (!HaX)
-                        Level = 100;
+                        level = 100;
                 }
-                if (Level > byte.MaxValue)
+                if (level > byte.MaxValue)
                     MT_Level.Text = "255";
-                else if (Level <= 100)
-                    TB_EXP.Text = Experience.GetEXP(Level, Entity.PersonalInfo.EXPGrowth).ToString();
+                else if (level <= 100)
+                    TB_EXP.Text = Experience.GetEXP(level, Entity.PersonalInfo.EXPGrowth).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -951,7 +913,7 @@ namespace PKHeX.WinForms.Controls
             if (FieldsLoaded)
                 Entity.PID = Util.GetHexValue(TB_PID.Text);
 
-            if (sender == Label_Gender)
+            if (sender == UC_Gender)
                 Entity.SetPIDGender(Entity.Gender);
             else if (sender == CB_Nature && Entity.Nature != WinFormsUtil.GetIndex(CB_Nature))
                 Entity.SetPIDNature(WinFormsUtil.GetIndex(CB_Nature));
@@ -1032,12 +994,12 @@ namespace PKHeX.WinForms.Controls
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
                 {
                     Entity.Gender = CB_Form.SelectedIndex;
-                    UpdateGender();
+                    UC_Gender.Gender = Entity.Gender;
                 }
             }
             else
             {
-                UpdateGender();
+                UC_Gender.Gender = Entity.Gender;
             }
 
             RefreshFormArguments();
@@ -1198,7 +1160,7 @@ namespace PKHeX.WinForms.Controls
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
-            UpdateGender();
+            UC_Gender.Gender = Entity.Gender;
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
@@ -1397,7 +1359,7 @@ namespace PKHeX.WinForms.Controls
                 tb.Text = d.FinalString;
                 d.FinalBytes.CopyTo(span);
             }
-            else if (tb == TB_OTt2)
+            else if (tb == TB_HT)
             {
                 Entity.HT_Name = tb.Text;
                 var span = Entity.HT_Trash;
@@ -1410,15 +1372,16 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateNotOT(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TB_OTt2.Text))
+            if (string.IsNullOrWhiteSpace(TB_HT.Text))
             {
                 ClickGT(GB_OT, EventArgs.Empty); // Switch CT over to OT.
-                Label_CTGender.Text = string.Empty;
+                UC_HTGender.Visible = false;
+                UC_HTGender.Gender = 0;
                 ReloadToFriendshipTextBox(Entity);
             }
-            else if (string.IsNullOrWhiteSpace(Label_CTGender.Text))
+            else if (!UC_HTGender.Visible)
             {
-                Label_CTGender.Text = gendersymbols[0];
+                UC_HTGender.Visible = true;
             }
         }
 
@@ -1526,7 +1489,7 @@ namespace PKHeX.WinForms.Controls
         {
             Entity.PID = Util.GetHexValue(TB_PID.Text);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            Entity.Gender = PKX.GetGenderFromString(Label_Gender.Text);
+            Entity.Gender = UC_Gender.Gender;
             Entity.Form = CB_Form.SelectedIndex;
             Entity.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
@@ -1596,7 +1559,7 @@ namespace PKHeX.WinForms.Controls
                 FieldsLoaded = false;
                 Entity.PID = Util.GetHexValue(TB_PID.Text);
                 CB_Nature.SelectedValue = Entity.Nature;
-                UpdateGenderLabel(Label_Gender, Entity.Gender);
+                UC_Gender.Gender = Entity.Gender;
                 UpdateNatureModification(CB_Nature, Entity.Nature);
                 FieldsLoaded = true;
             }
@@ -1798,7 +1761,7 @@ namespace PKHeX.WinForms.Controls
         private void OpenHistory(object sender, EventArgs e)
         {
             // Write back current values
-            Entity.HT_Name = TB_OTt2.Text;
+            Entity.HT_Name = TB_HT.Text;
             Entity.OT_Name = TB_OT.Text;
             Entity.IsEgg = CHK_IsEgg.Checked;
             UpdateFromFriendshipTextBox(Entity, Util.ToInt32(TB_Friendship.Text));
@@ -1910,7 +1873,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HeldItem.Visible = gen >= 2;
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
-            Label_OTGender.Visible = gen >= 2;
+            UC_Gender.Visible = gen >= 2;
             FLP_CatchRate.Visible = gen == 1;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
@@ -1940,7 +1903,7 @@ namespace PKHeX.WinForms.Controls
 
             // Save File Specific Limits
             TB_OT.MaxLength = Entity.OTLength;
-            TB_OTt2.MaxLength = Entity.OTLength;
+            TB_HT.MaxLength = Entity.OTLength;
             TB_Nickname.MaxLength = Entity.NickLength;
 
             // Hide Unused Tabs

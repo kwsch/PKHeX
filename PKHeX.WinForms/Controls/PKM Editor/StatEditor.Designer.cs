@@ -1249,6 +1249,7 @@
             this.L_DynamaxLevel.TabIndex = 43;
             this.L_DynamaxLevel.Text = "Dynamax Level:";
             this.L_DynamaxLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_DynamaxLevel.Click += new System.EventHandler(this.L_DynamaxLevel_Click);
             // 
             // CB_DynamaxLevel
             // 

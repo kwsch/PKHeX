@@ -214,14 +214,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///22/01/01 - New Update:
+        ///22/03/18 - New Update:
+        /// - Added support for BDSP v1.3 save data format.
         /// - Legality:
-        /// - - Added: Hatch Counter legality checking.
-        /// - - Added: Contest Stat Sheen legality checking (roughly compared to amount of other contest stats gained).
-        /// - - Added: Munchlax encounter slots for DPPt and BDSP are now checked for Trainer ID legality.
-        /// - - Fixed: BDSP Gigantamax is now flagged illegal correctly.
-        /// - - Fixed: BDSP Meister Magikarp now recognized correctly.
-        /// - - Fixed: BDSP bred (egg) ball legali [rest of string was truncated]&quot;;.
+        /// - - Added: Experience above level 100 is now checked.
+        /// - - Fixed: PLA Massive Mass Outbreak now correctly identify Overqwil/etc evolutions captured directly in the wild.
+        /// - Added: Batch editor can now copy properties using * -- for example, .PID=*EncryptionConstant will copy the EC to PID.
+        /// - Added: Sprites now show an orange-colored line (instead of yellow) i [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -472,6 +471,36 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap gender_0 {
+            get {
+                object obj = ResourceManager.GetObject("gender_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap gender_1 {
+            get {
+                object obj = ResourceManager.GetObject("gender_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap gender_2 {
+            get {
+                object obj = ResourceManager.GetObject("gender_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap gift {
             get {
                 object obj = ResourceManager.GetObject("gift", resourceCulture);
@@ -546,6 +575,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KTabelle
         ///Main=PKHeX
         ///MemoryAmie=Erinnerung / Ami Editor
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=Band Editor
         ///SAV_Apricorn=Aprikoko Editor
         ///SAV_BerryField=Beerenfeld Ansicht
@@ -557,8 +587,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_Database=Datenbank
         ///SAV_Encounters=Datenbank
         ///SAV_EventFlags=Event Flag Editor
-        ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Fl [rest of string was truncated]&quot;;.
+        ///SAV_EventReset1=Event [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_de {
             get {
@@ -573,6 +602,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=Memory / Amie Editor
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=Ribbon Editor
         ///SAV_Apricorn=Apricorn Editor
         ///SAV_BerryField=Berry Field Viewer
@@ -584,8 +614,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_EventFlags=Event Flag Editor
-        ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Flag  [rest of string was truncated]&quot;;.
+        ///SAV_EventReset1=Event Re [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_en {
             get {
@@ -600,6 +629,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=Editor de Memorias / Poké Recreo
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=Editor de Cintas
         ///SAV_Apricorn=Editor de Bonguri
         ///SAV_BerryField=Visor de Campos de Bayas
@@ -609,8 +639,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_Capture7GG=Editor de Récord de Captura
         ///SAV_CGearSkin=Editor de la apariencia C-Gear
         ///SAV_Database=Base de Datos
-        ///SAV_Encounters=Base de Datos
-        ///SAV_Even [rest of string was truncated]&quot;;.
+        ///SAV_E [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_es {
             get {
@@ -625,6 +654,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=Memory / Amie Editor
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=Rubans
         ///SAV_Apricorn=Noigrumes
         ///SAV_BerryField=Champs de Baies
@@ -635,8 +665,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_CGearSkin=Fonds C-Gear
         ///SAV_Database=Base de Données
         ///SAV_Encounters=Base de données
-        ///SAV_EventFlags=Événements dans le Jeu
-        ///SAV_EventReset1=Ré [rest of string was truncated]&quot;;.
+        ///SAV_EventFlags=Événement [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_fr {
             get {
@@ -651,6 +680,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=Memory / Amie Editor
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=Ribbon Editor
         ///SAV_Apricorn=Apricorn Editor
         ///SAV_BerryField=Berry Field Viewer
@@ -662,8 +692,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_Database=Database
         ///SAV_Encounters=Database
         ///SAV_EventFlags=Event Flag Editor
-        ///SAV_EventReset1=Event Resetter
-        ///SAV_EventWork=Event Flag  [rest of string was truncated]&quot;;.
+        ///SAV_EventReset1=Event Re [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_it {
             get {
@@ -678,6 +707,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=おもいで
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=取得リボン
         ///SAV_Apricorn=ぼんぐり
         ///SAV_BerryField=きのみ畑
@@ -692,9 +722,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventReset1=イベントリセット
         ///SAV_EventWork=Event Flag Editor
         ///SAV_FlagWork8b=Event Flag Editor
-        ///SAV_FolderList=フォルダリスト
-        ///SAV_GameSelect=ゲームバーション
-        ///SA [rest of string was truncated]&quot;;.
+        ///SAV_FolderList=フォル [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ja {
             get {
@@ -709,6 +737,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=KChart
         ///Main=PKHeX
         ///MemoryAmie=기억 / 파를레 편집 도구
+        ///MoveShopEditor=Move Shop Editor
         ///RibbonEditor=리본 편집 도구
         ///SAV_Apricorn=규토리 편집 도구
         ///SAV_BerryField=나무열매 밭 뷰어
@@ -722,9 +751,7 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventFlags=이벤트 플래그 편집 도구
         ///SAV_EventReset1=이벤트 초기화 도구
         ///SAV_EventWork=이벤트 플래그 편집 도구
-        ///SAV_FlagWork8b=Event Flag Editor
-        ///SAV_FolderList=폴더 목록
-        ///SAV_GameS [rest of string was truncated]&quot;;.
+        ///SAV_FlagWork8b=Event Flag Editor [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_ko {
             get {
@@ -739,6 +766,7 @@ namespace PKHeX.WinForms.Properties {
         ///KChart=信息列表
         ///Main=PKHeX
         ///MemoryAmie=回忆编辑器
+        ///MoveShopEditor=招式商店编辑器
         ///RibbonEditor=奖章
         ///SAV_Apricorn=球果编辑
         ///SAV_BerryField=树果田查看器
@@ -752,13 +780,13 @@ namespace PKHeX.WinForms.Properties {
         ///SAV_EventFlags=事件旗标编辑
         ///SAV_EventReset1=事件重置
         ///SAV_EventWork=事件标志编辑器
-        ///SAV_FlagWork8b=Event Flag Editor
+        ///SAV_FlagWork8b=事件标志编辑器
         ///SAV_FolderList=文件夹列表
         ///SAV_GameSelect=游戏选择
         ///SAV_HallOfFame=名人堂
         ///SAV_HallOfFame7=名人堂
         ///SAV_HoneyTree=甜甜蜜树编辑
-        ///SAV_Inventory=物品 [rest of string was truncated]&quot;;.
+        ///SA [rest of string was truncated]&quot;;.
         /// </summary>
         public static string lang_zh {
             get {

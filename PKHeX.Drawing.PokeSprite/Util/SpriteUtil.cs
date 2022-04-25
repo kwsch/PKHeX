@@ -49,7 +49,7 @@ public static class SpriteUtil
     private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
     {
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-        bool alt = pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO);
+        bool alt = ShinyExtensions.IsSquareShinyExist(pk);
         var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
         if (pk is IShadowPKM {IsShadow: true})
         {

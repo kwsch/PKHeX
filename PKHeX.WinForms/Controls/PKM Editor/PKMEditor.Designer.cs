@@ -36,11 +36,10 @@
             this.FLP_PIDLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_PID = new System.Windows.Forms.Label();
             this.BTN_Shinytize = new System.Windows.Forms.Button();
-            this.Label_IsShiny = new System.Windows.Forms.PictureBox();
-            this.Label_IsShiny2 = new System.Windows.Forms.PictureBox();
+            this.PB_ShinyStar = new System.Windows.Forms.PictureBox();
+            this.PB_ShinySquare = new System.Windows.Forms.PictureBox();
             this.FLP_PIDRight = new System.Windows.Forms.FlowLayoutPanel();
             this.TB_PID = new System.Windows.Forms.TextBox();
-            this.Label_Gender = new System.Windows.Forms.Label();
             this.BTN_RerollPID = new System.Windows.Forms.Button();
             this.FLP_Species = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Species = new System.Windows.Forms.Label();
@@ -162,6 +161,9 @@
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
+            this.L_AlphaMastered = new System.Windows.Forms.Label();
+            this.CB_AlphaMastered = new System.Windows.Forms.ComboBox();
+            this.FLP_MoveFlags = new System.Windows.Forms.FlowLayoutPanel();
             this.B_Records = new System.Windows.Forms.Button();
             this.B_MoveShop = new System.Windows.Forms.Button();
             this.PB_WarnMove4 = new System.Windows.Forms.PictureBox();
@@ -202,9 +204,8 @@
             this.BTN_History = new System.Windows.Forms.Button();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
-            this.Label_CTGender = new System.Windows.Forms.Label();
             this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
-            this.TB_OTt2 = new System.Windows.Forms.TextBox();
+            this.TB_HT = new System.Windows.Forms.TextBox();
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
@@ -220,30 +221,29 @@
             this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
             this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
             this.GB_OT = new System.Windows.Forms.GroupBox();
-            this.Label_OTGender = new System.Windows.Forms.Label();
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.FLP_MoveFlags = new System.Windows.Forms.FlowLayoutPanel();
+            this.UC_Gender = new PKHeX.WinForms.Controls.GenderToggle();
             this.FA_Form = new PKHeX.WinForms.Controls.FormArgument();
             this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.Stats = new PKHeX.WinForms.Controls.StatEditor();
             this.Contest = new PKHeX.WinForms.Controls.ContestStat();
+            this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
             this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
-            this.CB_AlphaMastered = new System.Windows.Forms.ComboBox();
-            this.L_AlphaMastered = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
             this.FLP_PID.SuspendLayout();
             this.FLP_PIDLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_ShinyStar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_ShinySquare)).BeginInit();
             this.FLP_PIDRight.SuspendLayout();
             this.FLP_Species.SuspendLayout();
             this.FLP_Nickname.SuspendLayout();
@@ -294,6 +294,7 @@
             this.FLP_TimeOfDay.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
             this.Tab_Attacks.SuspendLayout();
+            this.FLP_MoveFlags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).BeginInit();
@@ -321,7 +322,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
             this.GB_ExtraBytes.SuspendLayout();
             this.GB_OT.SuspendLayout();
-            this.FLP_MoveFlags.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -397,8 +397,8 @@
             this.FLP_PIDLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.FLP_PIDLeft.Controls.Add(this.Label_PID);
             this.FLP_PIDLeft.Controls.Add(this.BTN_Shinytize);
-            this.FLP_PIDLeft.Controls.Add(this.Label_IsShiny);
-            this.FLP_PIDLeft.Controls.Add(this.Label_IsShiny2);
+            this.FLP_PIDLeft.Controls.Add(this.PB_ShinyStar);
+            this.FLP_PIDLeft.Controls.Add(this.PB_ShinySquare);
             this.FLP_PIDLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.FLP_PIDLeft.Location = new System.Drawing.Point(0, 0);
             this.FLP_PIDLeft.Margin = new System.Windows.Forms.Padding(0);
@@ -430,39 +430,39 @@
             this.BTN_Shinytize.UseVisualStyleBackColor = true;
             this.BTN_Shinytize.Click += new System.EventHandler(this.UpdateShinyPID);
             // 
-            // Label_IsShiny
+            // PB_ShinyStar
             // 
-            this.Label_IsShiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_IsShiny.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
-            this.Label_IsShiny.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
-            this.Label_IsShiny.Location = new System.Drawing.Point(24, 2);
-            this.Label_IsShiny.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
-            this.Label_IsShiny.Name = "Label_IsShiny";
-            this.Label_IsShiny.Size = new System.Drawing.Size(20, 20);
-            this.Label_IsShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.Label_IsShiny.TabIndex = 62;
-            this.Label_IsShiny.TabStop = false;
-            this.Label_IsShiny.Visible = false;
+            this.PB_ShinyStar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.PB_ShinyStar.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
+            this.PB_ShinyStar.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
+            this.PB_ShinyStar.Location = new System.Drawing.Point(24, 2);
+            this.PB_ShinyStar.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
+            this.PB_ShinyStar.Name = "PB_ShinyStar";
+            this.PB_ShinyStar.Size = new System.Drawing.Size(20, 20);
+            this.PB_ShinyStar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_ShinyStar.TabIndex = 62;
+            this.PB_ShinyStar.TabStop = false;
+            this.PB_ShinyStar.Visible = false;
             // 
-            // Label_IsShiny2
+            // PB_ShinySquare
             // 
-            this.Label_IsShiny2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_IsShiny2.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
-            this.Label_IsShiny2.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
-            this.Label_IsShiny2.Location = new System.Drawing.Point(2, 2);
-            this.Label_IsShiny2.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
-            this.Label_IsShiny2.Name = "Label_IsShiny2";
-            this.Label_IsShiny2.Size = new System.Drawing.Size(20, 20);
-            this.Label_IsShiny2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.Label_IsShiny2.TabIndex = 62;
-            this.Label_IsShiny2.TabStop = false;
-            this.Label_IsShiny2.Visible = false;
+            this.PB_ShinySquare.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.PB_ShinySquare.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
+            this.PB_ShinySquare.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
+            this.PB_ShinySquare.Location = new System.Drawing.Point(2, 2);
+            this.PB_ShinySquare.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
+            this.PB_ShinySquare.Name = "PB_ShinySquare";
+            this.PB_ShinySquare.Size = new System.Drawing.Size(20, 20);
+            this.PB_ShinySquare.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_ShinySquare.TabIndex = 62;
+            this.PB_ShinySquare.TabStop = false;
+            this.PB_ShinySquare.Visible = false;
             // 
             // FLP_PIDRight
             // 
             this.FLP_PIDRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_PIDRight.Controls.Add(this.TB_PID);
-            this.FLP_PIDRight.Controls.Add(this.Label_Gender);
+            this.FLP_PIDRight.Controls.Add(this.UC_Gender);
             this.FLP_PIDRight.Controls.Add(this.BTN_RerollPID);
             this.FLP_PIDRight.Location = new System.Drawing.Point(98, 0);
             this.FLP_PIDRight.Margin = new System.Windows.Forms.Padding(0);
@@ -485,27 +485,14 @@
             this.TB_PID.MouseHover += new System.EventHandler(this.UpdateTSV);
             this.TB_PID.Validated += new System.EventHandler(this.Update_ID);
             // 
-            // Label_Gender
-            // 
-            this.Label_Gender.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.Label_Gender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Gender.Location = new System.Drawing.Point(60, 0);
-            this.Label_Gender.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Gender.Name = "Label_Gender";
-            this.Label_Gender.Size = new System.Drawing.Size(19, 21);
-            this.Label_Gender.TabIndex = 55;
-            this.Label_Gender.Text = "-";
-            this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.ClickGender);
-            // 
             // BTN_RerollPID
             // 
             this.BTN_RerollPID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.BTN_RerollPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BTN_RerollPID.Location = new System.Drawing.Point(79, 1);
+            this.BTN_RerollPID.Location = new System.Drawing.Point(83, 1);
             this.BTN_RerollPID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.BTN_RerollPID.Name = "BTN_RerollPID";
-            this.BTN_RerollPID.Size = new System.Drawing.Size(62, 20);
+            this.BTN_RerollPID.Size = new System.Drawing.Size(58, 20);
             this.BTN_RerollPID.TabIndex = 1;
             this.BTN_RerollPID.Text = "Reroll";
             this.BTN_RerollPID.UseVisualStyleBackColor = true;
@@ -1926,6 +1913,40 @@
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
             // 
+            // L_AlphaMastered
+            // 
+            this.L_AlphaMastered.Location = new System.Drawing.Point(8, 317);
+            this.L_AlphaMastered.Margin = new System.Windows.Forms.Padding(0);
+            this.L_AlphaMastered.Name = "L_AlphaMastered";
+            this.L_AlphaMastered.Size = new System.Drawing.Size(112, 21);
+            this.L_AlphaMastered.TabIndex = 21;
+            this.L_AlphaMastered.Text = "Alpha Mastered:";
+            this.L_AlphaMastered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_AlphaMastered
+            // 
+            this.CB_AlphaMastered.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_AlphaMastered.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_AlphaMastered.FormattingEnabled = true;
+            this.CB_AlphaMastered.Location = new System.Drawing.Point(123, 317);
+            this.CB_AlphaMastered.Name = "CB_AlphaMastered";
+            this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 21);
+            this.CB_AlphaMastered.TabIndex = 20;
+            // 
+            // FLP_MoveFlags
+            // 
+            this.FLP_MoveFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_MoveFlags.AutoSize = true;
+            this.FLP_MoveFlags.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FLP_MoveFlags.Controls.Add(this.B_Records);
+            this.FLP_MoveFlags.Controls.Add(this.B_MoveShop);
+            this.FLP_MoveFlags.Location = new System.Drawing.Point(8, 286);
+            this.FLP_MoveFlags.Name = "FLP_MoveFlags";
+            this.FLP_MoveFlags.Size = new System.Drawing.Size(292, 25);
+            this.FLP_MoveFlags.TabIndex = 11;
+            this.FLP_MoveFlags.WrapContents = false;
+            // 
             // B_Records
             // 
             this.B_Records.Location = new System.Drawing.Point(1, 1);
@@ -2449,9 +2470,9 @@
             // 
             // GB_nOT
             // 
-            this.GB_nOT.Controls.Add(this.Label_CTGender);
+            this.GB_nOT.Controls.Add(this.UC_HTGender);
             this.GB_nOT.Controls.Add(this.CB_HTLanguage);
-            this.GB_nOT.Controls.Add(this.TB_OTt2);
+            this.GB_nOT.Controls.Add(this.TB_HT);
             this.GB_nOT.Controls.Add(this.Label_PrevOT);
             this.GB_nOT.Location = new System.Drawing.Point(40, 85);
             this.GB_nOT.Name = "GB_nOT";
@@ -2459,17 +2480,6 @@
             this.GB_nOT.TabIndex = 2;
             this.GB_nOT.TabStop = false;
             this.GB_nOT.Text = "Latest (not OT) Handler";
-            // 
-            // Label_CTGender
-            // 
-            this.Label_CTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_CTGender.Location = new System.Drawing.Point(144, 23);
-            this.Label_CTGender.Name = "Label_CTGender";
-            this.Label_CTGender.Size = new System.Drawing.Size(16, 13);
-            this.Label_CTGender.TabIndex = 57;
-            this.Label_CTGender.Text = "G";
-            this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // CB_HTLanguage
             // 
@@ -2482,17 +2492,17 @@
             this.CB_HTLanguage.Size = new System.Drawing.Size(126, 21);
             this.CB_HTLanguage.TabIndex = 15;
             // 
-            // TB_OTt2
+            // TB_HT
             // 
-            this.TB_OTt2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_OTt2.Location = new System.Drawing.Point(46, 20);
-            this.TB_OTt2.MaxLength = 12;
-            this.TB_OTt2.Name = "TB_OTt2";
-            this.TB_OTt2.Size = new System.Drawing.Size(94, 20);
-            this.TB_OTt2.TabIndex = 1;
-            this.TB_OTt2.WordWrap = false;
-            this.TB_OTt2.TextChanged += new System.EventHandler(this.UpdateNotOT);
-            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
+            this.TB_HT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_HT.Location = new System.Drawing.Point(46, 20);
+            this.TB_HT.MaxLength = 12;
+            this.TB_HT.Name = "TB_HT";
+            this.TB_HT.Size = new System.Drawing.Size(94, 20);
+            this.TB_HT.TabIndex = 1;
+            this.TB_HT.WordWrap = false;
+            this.TB_HT.TextChanged += new System.EventHandler(this.UpdateNotOT);
+            this.TB_HT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // Label_PrevOT
             // 
@@ -2665,8 +2675,8 @@
             // 
             // GB_OT
             // 
+            this.GB_OT.Controls.Add(this.UC_OTGender);
             this.GB_OT.Controls.Add(this.TID_Trainer);
-            this.GB_OT.Controls.Add(this.Label_OTGender);
             this.GB_OT.Controls.Add(this.TB_OT);
             this.GB_OT.Controls.Add(this.Label_OT);
             this.GB_OT.Location = new System.Drawing.Point(40, 8);
@@ -2675,17 +2685,6 @@
             this.GB_OT.TabIndex = 1;
             this.GB_OT.TabStop = false;
             this.GB_OT.Text = "Trainer Information";
-            // 
-            // Label_OTGender
-            // 
-            this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_OTGender.Location = new System.Drawing.Point(144, 48);
-            this.Label_OTGender.Name = "Label_OTGender";
-            this.Label_OTGender.Size = new System.Drawing.Size(16, 13);
-            this.Label_OTGender.TabIndex = 56;
-            this.Label_OTGender.Text = "G";
-            this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_OTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // TB_OT
             // 
@@ -2716,19 +2715,16 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // FLP_MoveFlags
+            // UC_Gender
             // 
-            this.FLP_MoveFlags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_MoveFlags.AutoSize = true;
-            this.FLP_MoveFlags.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.FLP_MoveFlags.Controls.Add(this.B_Records);
-            this.FLP_MoveFlags.Controls.Add(this.B_MoveShop);
-            this.FLP_MoveFlags.Location = new System.Drawing.Point(8, 286);
-            this.FLP_MoveFlags.Name = "FLP_MoveFlags";
-            this.FLP_MoveFlags.Size = new System.Drawing.Size(292, 25);
-            this.FLP_MoveFlags.TabIndex = 11;
-            this.FLP_MoveFlags.WrapContents = false;
+            this.UC_Gender.AllowClick = false;
+            this.UC_Gender.Gender = 0;
+            this.UC_Gender.Location = new System.Drawing.Point(63, 2);
+            this.UC_Gender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_Gender.Name = "UC_Gender";
+            this.UC_Gender.Size = new System.Drawing.Size(18, 18);
+            this.UC_Gender.TabIndex = 56;
+            this.UC_Gender.Click += new System.EventHandler(this.ClickGender);
             // 
             // FA_Form
             // 
@@ -2791,32 +2787,32 @@
             this.Contest.Size = new System.Drawing.Size(230, 50);
             this.Contest.TabIndex = 2;
             // 
+            // UC_HTGender
+            // 
+            this.UC_HTGender.AllowClick = true;
+            this.UC_HTGender.Gender = 0;
+            this.UC_HTGender.Location = new System.Drawing.Point(142, 22);
+            this.UC_HTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_HTGender.Name = "UC_HTGender";
+            this.UC_HTGender.Size = new System.Drawing.Size(18, 18);
+            this.UC_HTGender.TabIndex = 58;
+            // 
+            // UC_OTGender
+            // 
+            this.UC_OTGender.AllowClick = true;
+            this.UC_OTGender.Gender = 0;
+            this.UC_OTGender.Location = new System.Drawing.Point(142, 48);
+            this.UC_OTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_OTGender.Name = "UC_OTGender";
+            this.UC_OTGender.Size = new System.Drawing.Size(18, 18);
+            this.UC_OTGender.TabIndex = 58;
+            // 
             // TID_Trainer
             // 
             this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
             this.TID_Trainer.Name = "TID_Trainer";
             this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
             this.TID_Trainer.TabIndex = 57;
-            // 
-            // CB_AlphaMastered
-            // 
-            this.CB_AlphaMastered.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_AlphaMastered.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_AlphaMastered.FormattingEnabled = true;
-            this.CB_AlphaMastered.Location = new System.Drawing.Point(123, 317);
-            this.CB_AlphaMastered.Name = "CB_AlphaMastered";
-            this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 21);
-            this.CB_AlphaMastered.TabIndex = 20;
-            // 
-            // L_AlphaMastered
-            // 
-            this.L_AlphaMastered.Location = new System.Drawing.Point(8, 317);
-            this.L_AlphaMastered.Margin = new System.Windows.Forms.Padding(0);
-            this.L_AlphaMastered.Name = "L_AlphaMastered";
-            this.L_AlphaMastered.Size = new System.Drawing.Size(112, 21);
-            this.L_AlphaMastered.TabIndex = 21;
-            this.L_AlphaMastered.Text = "Alpha Mastered:";
-            this.L_AlphaMastered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PKMEditor
             // 
@@ -2830,8 +2826,8 @@
             this.FLP_PID.ResumeLayout(false);
             this.FLP_PIDLeft.ResumeLayout(false);
             this.FLP_PIDLeft.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_ShinyStar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_ShinySquare)).EndInit();
             this.FLP_PIDRight.ResumeLayout(false);
             this.FLP_PIDRight.PerformLayout();
             this.FLP_Species.ResumeLayout(false);
@@ -2897,6 +2893,7 @@
             this.Tab_Stats.ResumeLayout(false);
             this.Tab_Attacks.ResumeLayout(false);
             this.Tab_Attacks.PerformLayout();
+            this.FLP_MoveFlags.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).EndInit();
@@ -2930,7 +2927,6 @@
             this.GB_ExtraBytes.PerformLayout();
             this.GB_OT.ResumeLayout(false);
             this.GB_OT.PerformLayout();
-            this.FLP_MoveFlags.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2944,11 +2940,10 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_PIDLeft;
         private System.Windows.Forms.Label Label_PID;
         private System.Windows.Forms.Button BTN_Shinytize;
-        private System.Windows.Forms.PictureBox Label_IsShiny;
-        private System.Windows.Forms.PictureBox Label_IsShiny2;
+        private System.Windows.Forms.PictureBox PB_ShinyStar;
+        private System.Windows.Forms.PictureBox PB_ShinySquare;
         private System.Windows.Forms.FlowLayoutPanel FLP_PIDRight;
         private System.Windows.Forms.TextBox TB_PID;
-        private System.Windows.Forms.Label Label_Gender;
         private System.Windows.Forms.Button BTN_RerollPID;
         private System.Windows.Forms.FlowLayoutPanel FLP_Species;
         private System.Windows.Forms.Label Label_Species;
@@ -3088,8 +3083,7 @@
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.GroupBox GB_nOT;
-        private System.Windows.Forms.Label Label_CTGender;
-        private System.Windows.Forms.TextBox TB_OTt2;
+        private System.Windows.Forms.TextBox TB_HT;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.GroupBox GB_Markings;
@@ -3105,7 +3099,6 @@
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
         private System.Windows.Forms.GroupBox GB_OT;
-        private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.Label Label_OT;
         private System.Windows.Forms.Label Label_EncryptionConstant;
@@ -3145,5 +3138,8 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_MoveFlags;
         private System.Windows.Forms.Label L_AlphaMastered;
         private System.Windows.Forms.ComboBox CB_AlphaMastered;
+        private GenderToggle UC_Gender;
+        private GenderToggle UC_HTGender;
+        private GenderToggle UC_OTGender;
     }
 }

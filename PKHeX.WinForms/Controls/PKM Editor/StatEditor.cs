@@ -563,6 +563,13 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
+        private void L_DynamaxLevel_Click(object sender, EventArgs e)
+        {
+            var cb = CB_DynamaxLevel;
+            bool isMin = cb.SelectedIndex == 0;
+            cb.SelectedIndex = isMin ? cb.Items.Count - 1 : 0;
+        }
+
         private void RefreshGanbaru(PKM entity, IGanbaru ganbaru, int i)
         {
             int current = ganbaru.GetGV(i);

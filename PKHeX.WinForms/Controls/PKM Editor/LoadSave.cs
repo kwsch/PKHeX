@@ -45,14 +45,13 @@ namespace PKHeX.WinForms.Controls
         {
             GB_OT.BackgroundImage = null; // clear the Current Handler indicator just in case we switched formats.
             TB_OT.Text = pk.OT_Name;
-            Label_OTGender.Text = gendersymbols[pk.OT_Gender];
-            Label_OTGender.ForeColor = Draw.GetGenderColor(pk.OT_Gender);
+            UC_OTGender.Gender = pk.OT_Gender & 1;
         }
 
         private void SaveOT(PKM pk)
         {
             pk.OT_Name = TB_OT.Text;
-            pk.OT_Gender = PKX.GetGenderFromString(Label_OTGender.Text);
+            pk.OT_Gender = UC_OTGender.Gender;
         }
 
         private void LoadPKRS(PKM pk)
@@ -216,8 +215,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc3(PKM pk)
         {
             TB_PID.Text = $"{pk.PID:X8}";
-            Label_Gender.Text = gendersymbols[Math.Min(2, pk.Gender)];
-            Label_Gender.ForeColor = Draw.GetGenderColor(pk.Gender);
+            UC_Gender.Gender = pk.Gender;
             CB_Nature.SelectedValue = pk.Nature;
             CB_Language.SelectedValue = pk.Language;
             CB_GameOrigin.SelectedValue = pk.Version;
@@ -241,7 +239,7 @@ namespace PKHeX.WinForms.Controls
         {
             pk.PID = Util.GetHexValue(TB_PID.Text);
             pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            pk.Gender = PKX.GetGenderFromString(Label_Gender.Text);
+            pk.Gender = UC_Gender.Gender;
 
             if (pk is IContestStatsMutable s)
                 Contest.CopyContestStatsTo(s);
@@ -347,10 +345,10 @@ namespace PKHeX.WinForms.Controls
             var handler = pk.HT_Name;
             int gender = pk.HT_Gender & 1;
 
-            TB_OTt2.Text = handler;
-            // Set CT Gender to None if no CT, else set to gender symbol.
-            Label_CTGender.Text = string.IsNullOrEmpty(handler) ? string.Empty : gendersymbols[gender];
-            Label_CTGender.ForeColor = Draw.GetGenderColor(gender);
+            TB_HT.Text = handler;
+            UC_HTGender.Gender = gender;
+            if (handler.Length == 0)
+                UC_HTGender.Visible = false;
 
             // Indicate who is currently in possession of the PKM
             UpadteHandlingTrainerBackground(pk.CurrentHandler);
@@ -373,8 +371,8 @@ namespace PKHeX.WinForms.Controls
 
         private void SaveHandlingTrainer(PKM pk)
         {
-            pk.HT_Name = TB_OTt2.Text;
-            pk.HT_Gender = PKX.GetGenderFromString(Label_CTGender.Text) & 1;
+            pk.HT_Name = TB_HT.Text;
+            pk.HT_Gender = UC_HTGender.Gender;
         }
 
         private void LoadAbility4(PKM pk)

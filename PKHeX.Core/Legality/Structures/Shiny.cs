@@ -42,4 +42,24 @@ public static class ShinyExtensions
         Shiny.AlwaysStar => true,
         _ => false,
     };
+
+    public static bool ShowSquareBeforeGen8 { get; set; }
+
+    public static Shiny GetType(PKM pk)
+    {
+        bool shiny = pk.IsShiny;
+        if (!shiny)
+            return Shiny.Never;
+
+        if (IsSquareShinyExist(pk))
+            return Shiny.AlwaysSquare;
+        return Shiny.AlwaysStar;
+    }
+
+    public static bool IsSquareShinyExist(PKM pk)
+    {
+        if (pk.Format < 8 && !ShowSquareBeforeGen8)
+            return false;
+        return pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO;
+    }
 }
