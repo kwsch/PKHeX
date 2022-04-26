@@ -960,7 +960,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateForm(object sender, EventArgs e)
         {
-            if (CB_Form == sender && FieldsLoaded)
+            if (FieldsLoaded && sender == CB_Form)
             {
                 Entity.Form = CB_Form.SelectedIndex;
                 uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
@@ -994,12 +994,12 @@ namespace PKHeX.WinForms.Controls
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
                 {
                     Entity.Gender = CB_Form.SelectedIndex;
-                    UC_Gender.Gender = Entity.Gender;
+                    UC_Gender.Gender = Entity.GetSaneGender();
                 }
             }
             else
             {
-                UC_Gender.Gender = Entity.Gender;
+                UC_Gender.Gender = Entity.GetSaneGender();
             }
 
             RefreshFormArguments();
@@ -1160,7 +1160,7 @@ namespace PKHeX.WinForms.Controls
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
-            UC_Gender.Gender = Entity.Gender;
+            UC_Gender.Gender = Entity.GetSaneGender();
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
