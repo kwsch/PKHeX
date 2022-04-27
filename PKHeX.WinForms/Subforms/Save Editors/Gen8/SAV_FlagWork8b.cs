@@ -63,13 +63,13 @@ namespace PKHeX.WinForms
             TLP_Flags.SuspendLayout();
             TLP_Flags.Scroll += WinFormsUtil.PanelScroll;
             TLP_Flags.Controls.Clear();
-            var labels = editor.Flag;
+            IEnumerable<NamedEventValue> labels = editor.Flag;
 
             var hide = Main.Settings.Advanced.HideEventTypeBelow;
-            labels = labels.OrderByDescending(z => z.Type).ToList();
-            for (int i = 0; i < labels.Count; i++)
+            labels = labels.OrderByDescending(z => z.Type);
+            int i = 0;
+            foreach (var (name, index, type) in labels)
             {
-                var (name, index, type) = labels[i];
                 if (type < hide)
                     break;
 
@@ -81,8 +81,8 @@ namespace PKHeX.WinForms
                     Checked = SAV.Work.GetFlag(index),
                     AutoSize = true,
                 };
-                lbl.Click += (_, __) => chk.Checked ^= true;
-                chk.CheckedChanged += (_, __) =>
+                lbl.Click += (_, _) => chk.Checked ^= true;
+                chk.CheckedChanged += (_, _) =>
                 {
                     SAV.Work.SetFlag(index, chk.Checked);
                     if (NUD_Flag.Value == index)
@@ -92,6 +92,7 @@ namespace PKHeX.WinForms
                 TLP_Flags.Controls.Add(lbl, 1, i);
 
                 FlagDict.Add(index, chk);
+                i++;
             }
 
             TLP_Flags.ResumeLayout();
@@ -102,13 +103,13 @@ namespace PKHeX.WinForms
             TLP_System.SuspendLayout();
             TLP_System.Scroll += WinFormsUtil.PanelScroll;
             TLP_System.Controls.Clear();
-            var labels = editor.System;
+            IEnumerable<NamedEventValue> labels = editor.System;
 
             var hide = Main.Settings.Advanced.HideEventTypeBelow;
-            labels = labels.OrderByDescending(z => z.Type).ToList();
-            for (int i = 0; i < labels.Count; i++)
+            labels = labels.OrderByDescending(z => z.Type);
+            int i = 0;
+            foreach (var (name, index, type) in labels)
             {
-                var (name, index, type) = labels[i];
                 if (type < hide)
                     break;
 
@@ -120,8 +121,8 @@ namespace PKHeX.WinForms
                     Checked = SAV.Work.GetSystemFlag(index),
                     AutoSize = true,
                 };
-                lbl.Click += (_, __) => chk.Checked ^= true;
-                chk.CheckedChanged += (_, __) =>
+                lbl.Click += (_, _) => chk.Checked ^= true;
+                chk.CheckedChanged += (_, _) =>
                 {
                     SAV.Work.SetSystemFlag(index, chk.Checked);
                     if (NUD_System.Value == index)
@@ -131,6 +132,7 @@ namespace PKHeX.WinForms
                 TLP_System.Controls.Add(lbl, 1, i);
 
                 SystemDict.Add(index, chk);
+                i++;
             }
 
             TLP_System.ResumeLayout();
@@ -141,12 +143,12 @@ namespace PKHeX.WinForms
             TLP_Work.SuspendLayout();
             TLP_Work.Scroll += WinFormsUtil.PanelScroll;
             TLP_Work.Controls.Clear();
-            var labels = editor.Work;
+            IEnumerable<NamedEventWork> labels = editor.Work;
             var hide = Main.Settings.Advanced.HideEventTypeBelow;
-            labels = labels.OrderByDescending(z => z.Type).ToList();
-            for (var i = 0; i < labels.Count; i++)
+            labels = labels.OrderByDescending(z => z.Type);
+            int i = 0;
+            foreach (var entry in labels)
             {
-                var entry = labels[i];
                 if (entry.Type < hide)
                     break;
                 var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
@@ -170,7 +172,7 @@ namespace PKHeX.WinForms
                 cb.InitializeBinding();
                 cb.DataSource = map;
 
-                lbl.Click += (_, __) => mtb.Value = 0;
+                lbl.Click += (_, _) => mtb.Value = 0;
                 bool updating = false;
                 mtb.ValueChanged += ChangeConstValue;
                 void ChangeConstValue(object? sender, EventArgs e)
@@ -206,6 +208,7 @@ namespace PKHeX.WinForms
                 TLP_Work.Controls.Add(mtb, 2, i);
 
                 WorkDict.Add(entry.Index, mtb);
+                i++;
             }
 
             TLP_Work.ResumeLayout();

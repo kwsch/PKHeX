@@ -45,8 +45,8 @@ namespace PKHeX.WinForms
                 BackgroundImage = legal.Contains(b) ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
                 BackgroundImageLayout = ImageLayout.Tile,
             };
-            pb.MouseEnter += (_, __) => Text = names.First(z => z.Value == (int)b).Text;
-            pb.Click += (_, __) => SelectBall(b);
+            pb.MouseEnter += (_, _) => Text = names.First(z => z.Value == (int)b).Text;
+            pb.Click += (_, _) => SelectBall(b);
             return pb;
         }
 

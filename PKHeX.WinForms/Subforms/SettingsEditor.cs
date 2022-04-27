@@ -22,8 +22,8 @@ namespace PKHeX.WinForms
                 CB_Blank.InitializeBinding();
                 CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !noSelectVersions.Contains((GameVersion)z.Value)).ToList();
                 CB_Blank.SelectedValue = (int) s.Startup.DefaultSaveVersion;
-                CB_Blank.SelectedValueChanged += (_, __) => s.Startup.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
-                CB_Blank.SelectedIndexChanged += (_, __) => BlankChanged = true;
+                CB_Blank.SelectedValueChanged += (_, _) => s.Startup.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
+                CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = true;
                 B_Reset.Click += (x, e) => DeleteSettings();
             }
             else

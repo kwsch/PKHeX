@@ -195,7 +195,7 @@ namespace PKHeX.Core
                 case PIDType.G4MGAntiShiny:
                     break;
             }
-            return (_, __) => { };
+            return (_, _) => { };
         }
 
         public static void SetRandomChainShinyPID(PKM pk, uint seed)
