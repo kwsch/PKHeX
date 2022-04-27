@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -64,7 +63,7 @@ namespace PKHeX.Core
             set
             {
                 _pk = value;
-                var data = value.Data.All(z => z == 0)
+                var data = Array.FindIndex(value.Data, z => z != 0) == -1 // all zero
                     ? value.Data
                     : PokeCrypto.EncryptArray45(value.Data);
                 data.CopyTo(Data, 8);
@@ -87,8 +86,10 @@ namespace PKHeX.Core
         /// <returns>True if data was encrypted, false if the data was not modified.</returns>
         public bool VerifyPKEncryption()
         {
-            if (!IsPokémon || ReadUInt32LittleEndian(Data.AsSpan(0x64 + 8)) != 0)
-                return false;
+            if (PGTGiftType is not (GiftType.Pokémon or GiftType.PokémonEgg))
+                return false; // not encrypted
+            if (ReadUInt32LittleEndian(Data.AsSpan(0x64 + 8)) != 0)
+                return false; // already encrypted (unused PK4 field, zero)
             EncryptPK();
             return true;
         }
