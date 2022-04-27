@@ -46,7 +46,7 @@
                     return;
                 var rnd = Util.Rand;
                 while (PKX.GetUnownForm(PID) != value)
-                    PID = Util.Rand32(rnd);
+                    PID = rnd.Rand32();
             }
         }
 

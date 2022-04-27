@@ -24,16 +24,16 @@ namespace PKHeX.Core
             var rnd = Util.Rand;
             do
             {
-                ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-                ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
+                ulong s0 = rnd.Rand64();
+                ulong s1 = rnd.Rand64();
                 var xors = new XorShift128(s0, s1);
                 if (TryApplyFromSeed(pk, criteria, shiny, flawless, xors, ability))
                     return;
             } while (++ctr != maxAttempts);
 
             {
-                ulong s0 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
-                ulong s1 = Util.Rand32(rnd) | (ulong)Util.Rand32(rnd) << 32;
+                ulong s0 = rnd.Rand64();
+                ulong s1 = rnd.Rand64();
                 var xors = new XorShift128(s0, s1);
                 TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, xors, ability);
             }

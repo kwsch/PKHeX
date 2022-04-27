@@ -318,9 +318,9 @@ namespace PKHeX.Core
                 return;
             }
 
-            pk.PID = Util.Rand32();
-            // Force Gender
             var rnd = Util.Rand;
+            pk.PID = rnd.Rand32();
+            // Force Gender
             do { pk.PID = (pk.PID & 0xFFFFFF00) | (uint)rnd.Next(0x100); }
             while (!pk.IsGenderValid());
 

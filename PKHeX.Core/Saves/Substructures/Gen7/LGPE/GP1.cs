@@ -141,8 +141,11 @@ namespace PKHeX.Core
 
         public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
         {
+            var rnd = Util.Rand;
             var pk = new PB7
             {
+                EncryptionConstant = rnd.Rand32(),
+                PID = rnd.Rand32(),
                 Version = (int) GameVersion.GO,
                 Species = Species,
                 Form = Form,
@@ -157,7 +160,6 @@ namespace PKHeX.Core
                 OT_Name = sav.OT,
                 Ball = 4,
                 Language = sav.Language,
-                PID = Util.Rand32(),
             };
 
             var nick = Nickname;
@@ -198,7 +200,6 @@ namespace PKHeX.Core
             pk.AwakeningSetAllTo(2);
             pk.ResetCalculatedValues();
 
-            pk.SetRandomEC();
             return pk;
         }
     }

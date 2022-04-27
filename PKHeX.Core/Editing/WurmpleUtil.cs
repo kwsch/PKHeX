@@ -38,7 +38,8 @@
         public static uint GetWurmpleEncryptionConstant(int evoVal)
         {
             uint result;
-            do result = Util.Rand32();
+            var rnd = Util.Rand;
+            do result = rnd.Rand32();
             while (evoVal != GetWurmpleEvoVal(result));
             return result;
         }

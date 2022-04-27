@@ -944,7 +944,7 @@ namespace PKHeX.Core
         public void SetPIDUnown3(int form)
         {
             var rnd = Util.Rand;
-            do PID = Util.Rand32(rnd); while (PKX.GetUnownForm(PID) != form);
+            do PID = rnd.Rand32(); while (PKX.GetUnownForm(PID) != form);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }

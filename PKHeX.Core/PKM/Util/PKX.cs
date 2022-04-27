@@ -124,7 +124,7 @@ namespace PKHeX.Core
         {
             // Gen6+ (and VC) PIDs do not tie PID to Nature/Gender/Ability
             if (origin >= 24)
-                return Util.Rand32(rnd);
+                return rnd.Rand32();
 
             // Below logic handles Gen3-5.
 
@@ -136,7 +136,7 @@ namespace PKHeX.Core
             bool singleGender = PersonalInfo.IsSingleGender(gt); // single gender, skip gender check
             while (true) // Loop until we find a suitable PID
             {
-                uint pid = Util.Rand32(rnd);
+                uint pid = rnd.Rand32();
 
                 // Gen 3/4: Nature derived from PID
                 if (g34 && pid%25 != nature)

@@ -22,11 +22,11 @@ namespace PKHeX.Core
             var rnd = Util.Rand;
             do
             {
-                var seed = Util.Rand32(rnd);
+                var seed = rnd.Rand32();
                 if (TryApplyFromSeed(pk, criteria, shiny, flawless, seed))
                     return;
             } while (++ctr != maxAttempts);
-            TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, Util.Rand32(rnd));
+            TryApplyFromSeed(pk, EncounterCriteria.Unrestricted, shiny, flawless, rnd.Rand32());
         }
 
         private static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)

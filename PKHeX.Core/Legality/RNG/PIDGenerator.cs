@@ -219,9 +219,10 @@ namespace PKHeX.Core
 
         public static void SetRandomPokeSpotPID(PKM pk, int nature, int gender, int ability, int slot)
         {
+            var rnd = Util.Rand;
             while (true)
             {
-                var seed = Util.Rand32();
+                var seed = rnd.Rand32();
                 if (!MethodFinder.IsPokeSpotActivation(slot, seed, out _))
                     continue;
 
@@ -341,9 +342,10 @@ namespace PKHeX.Core
             var type = GetPIDType(pk, specific);
             var method = GetGeneratorMethod(type);
 
+            var rnd = Util.Rand;
             while (true)
             {
-                method(pk, Util.Rand32());
+                method(pk, rnd.Rand32());
                 if (!IsValidCriteria4(pk, nature, ability, gender))
                     continue;
                 return;
@@ -393,9 +395,10 @@ namespace PKHeX.Core
             if (ability == 2)
                 ability = 0;
 
+            var rnd = Util.Rand;
             while (true)
             {
-                uint seed = Util.Rand32();
+                uint seed = rnd.Rand32();
                 if (specific == PIDType.G5MGShiny)
                 {
                     SetValuesFromSeedMG5Shiny(pk, seed);
@@ -422,8 +425,7 @@ namespace PKHeX.Core
 
         private static void SetRandomWildPID(PKM pk, int nature, int ability, int gender)
         {
-            uint seed = Util.Rand32();
-            pk.PID = seed;
+            pk.PID = Util.Rand32();
             pk.Nature = nature;
             pk.Gender = gender;
             pk.RefreshAbility(ability);

@@ -131,16 +131,17 @@ namespace PKHeX.Core
 
         public PK7 ConvertToPK7()
         {
+            var rnd = Util.Rand;
             var pk7 = new PK7
             {
-                EncryptionConstant = Util.Rand32(),
+                EncryptionConstant = rnd.Rand32(),
                 Species = Species,
                 TID = TID,
                 CurrentLevel = CurrentLevel,
                 EXP = EXP,
                 Met_Level = CurrentLevel,
                 Nature = Experience.GetNatureVC(EXP),
-                PID = Util.Rand32(),
+                PID = rnd.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
                 Version = HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.SI,
@@ -172,7 +173,6 @@ namespace PKHeX.Core
             var special = Species is 151 or 251;
             Span<int> finalIVs = stackalloc int[6];
             int flawless = special ? 5 : 3;
-            var rnd = Util.Rand;
             for (var i = 0; i < finalIVs.Length; i++)
                 finalIVs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
