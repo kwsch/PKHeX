@@ -31,6 +31,11 @@ namespace PKHeX.WinForms
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
         }
 
+        internal static void CenterWithin(this Control child, Control parent)
+        {
+            child.Location = new Point((parent.Width - child.Width) / 2, child.Location.Y);
+        }
+
         /// <summary>
         /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
         /// </summary>

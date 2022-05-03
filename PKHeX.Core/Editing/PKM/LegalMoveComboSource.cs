@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace PKHeX.Core;
+
+public sealed class LegalMoveComboSource : ILegalMoveDisplaySource<ComboItem>
+{
+    private readonly bool[] IsMoveBoxOrdered = new bool[4];
+    private ComboItem[] MoveDataAllowed = Array.Empty<ComboItem>();
+
+    public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
+
+    /// <summary>
+    /// Resets the <see cref="MoveDataAllowed"/> data source with an updated collection.
+    /// </summary>
+    public void ReloadMoves(IReadOnlyList<ComboItem> moves)
+    {
+        MoveDataAllowed = moves.ToArray();
+        ClearUpdateCheck();
+    }
+
+    public bool GetIsMoveBoxOrdered(int index) => IsMoveBoxOrdered[index];
+    public void SetIsMoveBoxOrdered(int index, bool value) => IsMoveBoxOrdered[index] = value;
+
+    public void ReloadMoves(LegalMoveInfo info)
+    {
+        ClearUpdateCheck();
+        SortMoves(info);
+    }
+
+    private void SortMoves(LegalMoveInfo info) => Array.Sort(MoveDataAllowed, (i1, i2) => Compare(i1, i2, info.CanLearn));
+
+    // defer re-population until dropdown is opened; handled by dropdown event
+    private void ClearUpdateCheck() => Array.Clear(IsMoveBoxOrdered, 0, IsMoveBoxOrdered.Length);
+
+    private static int Compare(ComboItem i1, ComboItem i2, Func<int, bool> check)
+    {
+        // split into 2 groups: Allowed & Not, and sort each sublist
+        var (strA, value1) = i1;
+        var (strB, value2) = i2;
+        var c1 = check(value1);
+        var c2 = check(value2);
+        if (c1)
+            return c2 ? string.CompareOrdinal(strA, strB) : -1;
+        return c2 ? 1 : string.CompareOrdinal(strA, strB);
+    }
+}

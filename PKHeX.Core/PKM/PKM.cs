@@ -1081,6 +1081,24 @@ namespace PKHeX.Core
             _ => throw new IndexOutOfRangeException(nameof(index)),
         };
 
+        public int GetRelearnMove(int index) => index switch
+        {
+            0 => RelearnMove1,
+            1 => RelearnMove2,
+            2 => RelearnMove3,
+            3 => RelearnMove4,
+            _ => throw new IndexOutOfRangeException(nameof(index)),
+        };
+
+        public int SetRelearnMove(int index, int value) => index switch
+        {
+            0 => RelearnMove1 = value,
+            1 => RelearnMove2 = value,
+            2 => RelearnMove3 = value,
+            3 => RelearnMove4 = value,
+            _ => throw new IndexOutOfRangeException(nameof(index)),
+        };
+
         /// <summary>
         /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
         /// </summary>

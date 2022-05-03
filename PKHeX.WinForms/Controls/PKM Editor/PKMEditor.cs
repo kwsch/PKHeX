@@ -170,7 +170,7 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// List of legal moves for the latest <see cref="Legality"/>.
         /// </summary>
-        private readonly LegalMoveSource LegalMoveSource = new();
+        private readonly LegalMoveSource<ComboItem> LegalMoveSource = new(new LegalMoveComboSource());
 
         /// <summary>
         /// Gender Symbols for showing Genders
@@ -390,8 +390,6 @@ namespace PKHeX.WinForms.Controls
                 return text;
             return genders[index];
         }
-
-        private static void ReloadGender(Label l, IReadOnlyList<string> genders) => l.Text = ReloadGender(l.Text, genders);
 
         internal void UpdateSprite()
         {
@@ -1310,14 +1308,12 @@ namespace PKHeX.WinForms.Controls
                 }
             }
 
-            int lang = WinFormsUtil.GetIndex(CB_Language);
-
             if (CHK_Nicknamed.Checked)
                 return;
 
             // Fetch Current Species and set it as Nickname Text
             int species = WinFormsUtil.GetIndex(CB_Species);
-            if (species < 1 || species > Entity.MaxSpeciesID)
+            if ((uint)(species - 1) >= Entity.MaxSpeciesID)
             { TB_Nickname.Text = string.Empty; return; }
 
             if (CHK_IsEgg.Checked)
@@ -1327,6 +1323,7 @@ namespace PKHeX.WinForms.Controls
             if (sender != CB_Language && species != 0 && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
                 return;
 
+            int lang = WinFormsUtil.GetIndex(CB_Language);
             TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, lang, Entity.Format);
             if (Entity is GBPKM pk)
                 pk.SetNotNicknamed();
@@ -1663,28 +1660,32 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateMove(object sender, EventArgs e)
         {
-            if (!FieldsLoaded)
+            if (!FieldsLoaded || sender is not ComboBox cb)
                 return;
 
-            var cb = (ComboBox) sender;
             ValidateComboBox(cb);
-            if (Moves.Contains(cb)) // Move
-                UpdatePP(sender, e);
 
-            // Legality -- set all moves back (why all?)
-            Entity.Move1 = WinFormsUtil.GetIndex(CB_Move1);
-            Entity.Move2 = WinFormsUtil.GetIndex(CB_Move2);
-            Entity.Move3 = WinFormsUtil.GetIndex(CB_Move3);
-            Entity.Move4 = WinFormsUtil.GetIndex(CB_Move4);
-            if (Entity.Format >= 6)
+            // Store value back, repopulate legality.
+            int value = WinFormsUtil.GetIndex(cb);
+            int index = Array.IndexOf(Moves, cb);
+            if (index != -1)
             {
-                Entity.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
-                Entity.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
-                Entity.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
-                Entity.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
+                UpdatePP(sender, e);
+                Entity.SetMove(index, value);
             }
-            if (Entity is PA8 pa8)
-                pa8.AlphaMove = (ushort)WinFormsUtil.GetIndex(CB_AlphaMastered);
+            else if ((index = Array.IndexOf(Relearn, cb)) != -1)
+            {
+                Entity.SetRelearnMove(index, value);
+            }
+            else if (cb == CB_AlphaMastered && Entity is PA8 pa8)
+            {
+                pa8.AlphaMove = (ushort)value;
+            }
+            else
+            {
+                // Shouldn't hit here.
+                throw new ArgumentException(nameof(sender));
+            }
             UpdateLegality(skipMoveRepop: true);
         }
 
@@ -1694,7 +1695,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             var (text, value) = (ComboItem)((ComboBox)sender).Items[e.Index];
-            var valid = LegalMoveSource.CanLearn(value) && !HaX;
+            var valid = LegalMoveSource.Info.CanLearn(value) && !HaX;
 
             var current = (e.State & DrawItemState.Selected) != 0;
             var brush = Draw.Brushes.GetBackground(valid, current);
@@ -1721,16 +1722,16 @@ namespace PKHeX.WinForms.Controls
 
             // Populating the combobox drop-down list is deferred until the dropdown is entered into at least once.
             // Saves some lag delays when viewing a pkm.
-            if (LegalMoveSource.IsMoveBoxOrdered[index])
+            if (LegalMoveSource.Display.GetIsMoveBoxOrdered(index))
                 return;
             SetMoveDataSource(s);
-            LegalMoveSource.IsMoveBoxOrdered[index] = true;
+            LegalMoveSource.Display.SetIsMoveBoxOrdered(index, true);
         }
 
         private void SetMoveDataSource(ComboBox c)
         {
             var index = WinFormsUtil.GetIndex(c);
-            c.DataSource = new BindingSource(LegalMoveSource.DataSource, null);
+            c.DataSource = new BindingSource(LegalMoveSource.Display.DataSource, null);
             c.SelectedValue = index;
         }
 
@@ -1943,8 +1944,9 @@ namespace PKHeX.WinForms.Controls
         private void CenterSubEditors()
         {
             // Recenter PKM SubEditors
-            FLP_PKMEditors.Location = new Point((tabMain.TabPages[0].Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
-            FLP_MoveFlags.Location = new Point((tabMain.TabPages[0].Width - FLP_MoveFlags.Width) / 2, FLP_MoveFlags.Location.Y);
+            var firstTabArea = tabMain.TabPages[0]; // first is always initialized
+            FLP_PKMEditors.CenterWithin(firstTabArea);
+            FLP_MoveFlags.CenterWithin(firstTabArea);
         }
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
@@ -2070,7 +2072,7 @@ namespace PKHeX.WinForms.Controls
             SetIfDifferentCount(source.Species, CB_Species, force);
 
             // Set the Move ComboBoxes too..
-            LegalMoveSource.ReloadMoves(source.Moves);
+            LegalMoveSource.ChangeMoveSource(source.Moves);
             foreach (var cb in Moves.Concat(Relearn))
                 SetIfDifferentCount(source.Moves, cb, force);
             if (sav is SAV8LA)

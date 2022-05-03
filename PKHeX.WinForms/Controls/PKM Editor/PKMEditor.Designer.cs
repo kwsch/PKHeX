@@ -1931,6 +1931,7 @@
             this.CB_AlphaMastered.Location = new System.Drawing.Point(123, 317);
             this.CB_AlphaMastered.Name = "CB_AlphaMastered";
             this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 21);
+            this.CB_AlphaMastered.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_AlphaMastered.TabIndex = 20;
             // 
             // FLP_MoveFlags
