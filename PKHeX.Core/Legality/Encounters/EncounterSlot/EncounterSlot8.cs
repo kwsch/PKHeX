@@ -122,7 +122,7 @@ namespace PKHeX.Core
                     return EncounterMatchRating.DeferredErrors;
 
                 // Galar Mine hidden encounters can only be found via Curry or Fishing.
-                if(Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !SlotType.CanEncounterViaFishing(Weather))
+                if (Location is (30 or 54) && SlotType is AreaSlotType8.HiddenMain && !m.RibbonMarkCurry && !SlotType.CanEncounterViaFishing(Weather))
                     return EncounterMatchRating.DeferredErrors;
             }
 

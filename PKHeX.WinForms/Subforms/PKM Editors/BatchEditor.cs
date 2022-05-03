@@ -264,7 +264,7 @@ namespace PKHeX.WinForms
 
                 if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                     editor.AddSkipped();
-                else if(!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
+                else if (!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
                     editor.AddSkipped();
                 else
                     editor.Process(pk, Filters, Instructions);

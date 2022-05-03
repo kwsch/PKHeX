@@ -30,26 +30,25 @@ namespace PKHeX.Core
         public static ModifyResult SetSuggestedMasteryData(BatchInfo info, string propValue)
         {
             var pk = info.Entity;
-            if (pk is IMoveShop8Mastery t)
+            if (pk is not IMoveShop8Mastery t)
+                return ModifyResult.Invalid;
+
+            if (IsAll(propValue))
             {
-                if (IsAll(propValue))
-                {
-                    t.SetMoveShopFlags();
-                    t.SetMoveShopFlagsMastered();
-                }
-                else if (!IsNone(propValue))
-                {
-                    // whatever fit the current moves
-                    t.SetMoveShopFlags(pk.Moves);
-                    t.SetMoveShopFlagsMastered();
-                }
-                else
-                {
-                    t.ClearMoveShopFlags();
-                }
-                return ModifyResult.Modified;
+                t.SetMoveShopFlags();
+                t.SetMoveShopFlagsMastered();
             }
-            return ModifyResult.Invalid;
+            else if (!IsNone(propValue))
+            {
+                // whatever fit the current moves
+                t.SetMoveShopFlags(pk.Moves);
+                t.SetMoveShopFlagsMastered();
+            }
+            else
+            {
+                t.ClearMoveShopFlags();
+            }
+            return ModifyResult.Modified;
         }
 
         public static ModifyResult SetSuggestedRibbons(BatchInfo info, string value)
