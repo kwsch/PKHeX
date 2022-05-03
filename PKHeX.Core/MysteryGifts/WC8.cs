@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Mystery Gift Template File
     /// </summary>
-    public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate,
+    public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IEncounterServerDate,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2D0;
@@ -461,7 +461,7 @@ namespace PKHeX.Core
             if (pk.Species == (int)Core.Species.Meowstic)
                 pk.Form = pk.Gender;
 
-            pk.MetDate = IsHOMEGift && EncountersHOME.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateTime.Now;
+            pk.MetDate = IsDateRestricted && EncounterServerDate.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateTime.Now;
 
             var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
@@ -691,6 +691,8 @@ namespace PKHeX.Core
             // no defined TID/SID and having a fixed PID can cause the player's TID/SID to match the PID's shiny calc.
             return TID == 0 && SID == 0 && PID != 0;
         }
+
+        public bool IsDateRestricted => IsHOMEGift;
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
         protected override bool IsMatchPartial(PKM pkm) => false; // no version compatibility checks yet.

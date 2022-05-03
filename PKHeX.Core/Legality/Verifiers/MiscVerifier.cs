@@ -70,10 +70,11 @@ namespace PKHeX.Core
                 VerifyFullness(data, pkm);
 
             var enc = data.EncounterMatch;
-            if (enc is WC8 { IsHOMEGift: true } w)
+            if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
             {
                 var date = new DateTime(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
-                if (!EncountersHOME.IsValidDateWC8(w.CardID, date))
+                var result = serverGift.IsValidDate(date);
+                if (result == EncounterServerDateCheck.Invalid)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
             else if (enc is IOverworldCorrelation8 z)

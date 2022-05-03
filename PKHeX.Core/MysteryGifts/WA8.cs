@@ -8,7 +8,8 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Mystery Gift Template File, same as <see cref="WC8"/> with <see cref="IGanbaru"/> fields at the end.
     /// </summary>
-    public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IGanbaru, IAlpha,
+    public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, IEncounterServerDate,
+        ILangNicknamedTemplate, IGanbaru, IAlpha,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2C8;
@@ -26,6 +27,7 @@ namespace PKHeX.Core
         public WA8(byte[] data) : base(data) { }
 
         public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.PLA;
+        public bool IsDateRestricted => true;
 
         // General Card Properties
         public override int CardID
@@ -456,11 +458,7 @@ namespace PKHeX.Core
                 pk.SID = sav.SID;
             }
 
-            // Official code explicitly corrects for Meowstic
-            if (pk.Species == (int)Core.Species.Meowstic)
-                pk.Form = pk.Gender;
-
-            pk.MetDate = DateTime.Now;
+            pk.MetDate = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
 
             var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;

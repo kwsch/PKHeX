@@ -7,6 +7,9 @@ namespace PKHeX.Core;
 public sealed class LegalMoveInfo
 {
     private int LearnCount;
+
+    // Use a bool array instead of a HashSet; we have a limited range of moves.
+    // This implementation is faster (no hashcode or bucket search) with lower memory overhead (1 byte per move ID).
     private readonly bool[] AllowedMoves = new bool[(int)Move.MAX_COUNT];
 
     /// <summary>
