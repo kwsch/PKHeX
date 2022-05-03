@@ -13,6 +13,25 @@ namespace PKHeX.Core
         public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
+        // Fishing are only from the hidden table (not symbol).
+        public bool CanEncounterViaFishing => SlotType.CanEncounterViaFishing(Weather);
+        public bool CanEncounterViaCurry
+        {
+            get
+            {
+                if (!SlotType.CanEncounterViaCurry())
+                    return false;
+
+                if ((Weather & AreaWeather8.All) == 0)
+                    return false;
+
+                if (EncounterArea8.IsWildArea(Location))
+                    return false;
+
+                return true;
+            }
+        }
+
         public EncounterSlot8(EncounterArea8 area, ushort species, byte form, byte min, byte max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
         {
             Weather = weather;
