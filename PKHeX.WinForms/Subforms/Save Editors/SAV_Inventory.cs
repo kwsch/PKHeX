@@ -29,6 +29,7 @@ namespace PKHeX.WinForms
             Pouches = SAV.Inventory;
             var item0 = Pouches[0].Items[0];
             HasFreeSpace = item0 is IItemFreeSpace;
+            HasFreeSpaceIndex = item0 is IItemFreeSpaceIndex;
             HasFavorite = item0 is IItemFavorite;
             HasNew = item0 is IItemNew;
 
@@ -39,6 +40,7 @@ namespace PKHeX.WinForms
 
         private readonly IReadOnlyList<InventoryPouch> Pouches;
         private readonly bool HasFreeSpace;
+        private readonly bool HasFreeSpaceIndex;
         private readonly bool HasFavorite;
         private readonly bool HasNew;
 
@@ -46,6 +48,7 @@ namespace PKHeX.WinForms
         private int ColumnItem;
         private int ColumnCount;
         private int ColumnFreeSpace;
+        private int ColumnFreeSpaceIndex;
         private int ColumnFavorite;
         private int ColumnNEW;
 
@@ -88,12 +91,15 @@ namespace PKHeX.WinForms
             var item = GetItemColumn(ColumnItem = dgv.Columns.Count);
             dgv.Columns.Add(item);
             dgv.Columns.Add(GetCountColumn(pouch, Main.HaX, ColumnCount = dgv.Columns.Count));
-            if (HasFreeSpace)
-                dgv.Columns.Add(GetCheckColumn(ColumnFreeSpace = dgv.Columns.Count, "Free"));
             if (HasFavorite)
                 dgv.Columns.Add(GetCheckColumn(ColumnFavorite = dgv.Columns.Count,"Fav"));
             if (HasNew)
                 dgv.Columns.Add(GetCheckColumn(ColumnNEW = dgv.Columns.Count, "New"));
+
+            if (HasFreeSpace)
+                dgv.Columns.Add(GetCheckColumn(ColumnFreeSpace = dgv.Columns.Count, "Free"));
+            if (HasFreeSpaceIndex)
+                dgv.Columns.Add(GetCountColumn(pouch, true, ColumnFreeSpaceIndex = dgv.Columns.Count, "Free"));
 
             // Populate with rows
             var itemarr = Main.HaX ? itemlist : GetStringsForPouch(pouch.LegalItems);
@@ -200,6 +206,8 @@ namespace PKHeX.WinForms
 
                 if (item is IItemFreeSpace f)
                     cells[ColumnFreeSpace].Value = f.IsFreeSpace;
+                if (item is IItemFreeSpaceIndex fi)
+                    cells[ColumnFreeSpaceIndex].Value = fi.FreeSpaceIndex;
                 if (item is IItemFavorite v)
                     cells[ColumnFavorite].Value = v.IsFavorite;
                 if (item is IItemNew n)
@@ -229,6 +237,8 @@ namespace PKHeX.WinForms
                 var item = pouch.GetEmpty(itemindex, itemcnt);
                 if (item is IItemFreeSpace f)
                     f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value;
+                if (item is IItemFreeSpaceIndex fi)
+                    fi.FreeSpaceIndex = uint.TryParse(cells[ColumnFreeSpaceIndex].Value?.ToString(), out var fsi) ? fsi : 0;
                 if (item is IItemFavorite v)
                     v.IsFavorite = (bool)cells[ColumnFavorite].Value;
                 if (item is IItemNew n)
