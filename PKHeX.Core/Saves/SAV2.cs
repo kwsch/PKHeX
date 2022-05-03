@@ -539,7 +539,14 @@ namespace PKHeX.Core
 
         public override int CurrentBox
         {
-            get => Data[Offsets.CurrentBoxIndex] & 0x7F; set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.OtherCurrentBox] & 0x80) | (value & 0x7F));
+            get => Data[Offsets.CurrentBoxIndex] & 0x7F;
+            set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x80) | (value & 0x7F));
+        }
+
+        public bool CurrentBoxChanged
+        {
+            get => (Data[Offsets.CurrentBoxIndex] & 0x80) != 0;
+            set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
         }
 
         public override string GetBoxName(int box)
