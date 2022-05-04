@@ -26,7 +26,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
         /// </summary>
-        public bool IsBallValid(Ball ball) => Type.IsBallValid(ball);
+        public bool IsBallValid(Ball ball, int currentSpecies)
+        {
+            // GO does not natively produce Shedinja when evolving Nincada, and thus must be evolved in future games.
+            if (currentSpecies == (int)Core.Species.Shedinja && currentSpecies != Species)
+                return ball == Ball.Poke;
+            return Type.IsBallValid(ball);
+        }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

@@ -106,6 +106,7 @@ namespace PKHeX.Core
             if (sf == default)
                 yield break;
 
+            var species = pkm.Species;
             var ball = (Ball)pkm.Ball;
             var met = Math.Max(sf.LevelMin, pkm.Met_Level);
             EncounterSlot8GO? deferredIV = null;
@@ -114,7 +115,7 @@ namespace PKHeX.Core
             {
                 if (!slot.IsLevelWithinRange(met))
                     continue;
-                if (!slot.IsBallValid(ball))
+                if (!slot.IsBallValid(ball, species))
                     continue;
                 if (!slot.Shiny.IsValid(pkm))
                     continue;
