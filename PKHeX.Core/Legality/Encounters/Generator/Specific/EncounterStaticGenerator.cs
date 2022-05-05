@@ -22,11 +22,8 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
             var table = gameSource switch
             {
                 RD or GN or BU or YW => StaticRBY.Where(z => z.Version.Contains(gameSource)),
@@ -51,16 +48,15 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
+            return GetValidStaticEncounter(pkm, chain, (GameVersion)pkm.Version);
+        }
 
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        {
             var table = GetEncounterStaticTable(pkm, gameSource);
-            var poss = table.Where(e => chain.Any(d => d.Species == e.Species));
-
-            // Back Check against pkm
-            return GetMatchingStaticEncounters(pkm, poss, chain);
+            return GetMatchingStaticEncounters(pkm, table, chain);
         }
 
         public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
@@ -142,7 +138,7 @@ namespace PKHeX.Core
                 case 2:
                     return EncounterStatic7.GetVC2(MaxSpeciesID_2, (byte)pkm.Met_Level);
                 default:
-                    return GetPossible(pkm, chain)
+                    return GetPossible(pkm, chain, (GameVersion)pkm.Version)
                         .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
                         .ThenBy(z => z.LevelMin)
                         .FirstOrDefault();

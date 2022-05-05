@@ -23,7 +23,7 @@ namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
     {
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
             var possibleAreas = GetAreasByGame(pkm, gameSource);
             return possibleAreas.SelectMany(z => z.GetSpecies(chain));
@@ -40,7 +40,7 @@ namespace PKHeX.Core
             SI => SlotsSV,
             C => SlotsC,
 
-            _ => GetEncounterSlots(pkm, gameSource),
+            _ => GetEncounterTable(pkm, gameSource),
         };
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
@@ -57,46 +57,20 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            var slots = GetRawEncounterSlots(pkm, chain, gameSource);
-
-            return slots; // defer deferrals to the method consuming this collection
-        }
-
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
-        {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
             return GetRawEncounterSlots(pkm, chain, gameSource);
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
+            var gameSource = (GameVersion)pkm.Version;
             return GetRawEncounterSlots(pkm, chain, gameSource);
         }
 
-        public static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = Any)
+        private static IEnumerable<EncounterArea> GetEncounterAreas(PKM pkm, GameVersion gameSource)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            return GetEncounterTable(pkm, gameSource);
-        }
-
-        private static IEnumerable<EncounterArea> GetEncounterAreas(PKM pkm, GameVersion gameSource = Any)
-        {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            var slots = GetEncounterSlots(pkm, gameSource: gameSource);
+            var slots = GetEncounterTable(pkm, gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || (pkm.Format == 2 && gameSource != C);
             if (noMet)
                 return slots;
@@ -106,7 +80,7 @@ namespace PKHeX.Core
 
         internal static EncounterSlot? GetCaptureLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            return GetPossible(pkm, chain)
+            return GetPossible(pkm, chain, (GameVersion)pkm.Version)
                 .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
                 .ThenBy(z => z.LevelMin)
                 .FirstOrDefault();
@@ -157,7 +131,7 @@ namespace PKHeX.Core
             _ => Array.Empty<EncounterArea>(),
         };
 
-        private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
+        private static EncounterArea[] GetEncounterTableGSC(PKM pkm)
         {
             if (!ParseSettings.AllowGen2Crystal(pkm))
                 return SlotsGS;

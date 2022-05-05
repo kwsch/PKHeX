@@ -42,22 +42,21 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game = Any)
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (game == Any)
-                game = (GameVersion)pkm.Version;
-
+            // Pre-filter for some language scenarios
             int lang = pkm.Language;
             if (lang == (int)LanguageID.UNUSED_6) // invalid language
                 return Array.Empty<EncounterTrade>();
             if (lang == (int)LanguageID.Hacked && !EncounterTrade5PID.IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return Array.Empty<EncounterTrade>();
 
-            var poss = GetPossible(chain, game);
-            return GetValidEncounterTrades(pkm, chain, poss);
+            var game = (GameVersion)pkm.Version;
+            var table = GetTable(game);
+            return GetValidEncounterTrades(pkm, chain, table);
         }
 
-        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain, IEnumerable<EncounterTrade> poss)
+        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<EvoCriteria> chain, EncounterTrade[] poss)
         {
             foreach (var p in poss)
             {
@@ -81,7 +80,7 @@ namespace PKHeX.Core
             return Array.Empty<EncounterTradeGB>();
         }
 
-        private static IEnumerable<EncounterTrade> GetTable(GameVersion game) => game switch
+        private static EncounterTrade[] GetTable(GameVersion game) => game switch
         {
             R or S or E => Encounters3.TradeGift_RSE,
             FR or LG => Encounters3.TradeGift_FRLG,

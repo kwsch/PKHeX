@@ -43,7 +43,7 @@ namespace PKHeX.Core
 
         private const string _name = "Static Encounter";
         public string Name => _name;
-        public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
+        public string LongName => $"{_name} ({Version})";
         public bool IsShiny => Shiny.IsShiny();
 
         public bool IsRandomUnspecificForm => Form >= FormDynamic;

@@ -74,7 +74,7 @@ namespace PKHeX.Core
             }
 
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var slot in GetValidWildEncounters34(pkm, chain))
+            foreach (var slot in GetValidWildEncounters(pkm, chain))
             {
                 var z = (EncounterSlot4)slot;
                 var match = z.GetMatchRating(pkm);

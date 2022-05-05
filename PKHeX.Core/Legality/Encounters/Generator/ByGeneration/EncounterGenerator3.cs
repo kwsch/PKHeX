@@ -110,7 +110,7 @@ namespace PKHeX.Core
             }
 
             // Encounter Slots
-            foreach (var z in GetValidWildEncounters34(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
@@ -167,7 +167,7 @@ namespace PKHeX.Core
 
             // Encounter Slots
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters34(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
