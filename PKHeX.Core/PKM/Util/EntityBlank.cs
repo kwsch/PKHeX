@@ -30,8 +30,20 @@ public static class EntityBlank
         _ => GetBlank(gen),
     };
 
+    /// <summary>
+    /// Gets a Blank <see cref="PKM"/> object compatible with the provided inputs.
+    /// </summary>
+    public static PKM GetBlank(ITrainerInfo tr)
+    {
+        if (tr is SaveFile s)
+            return s.BlankPKM;
+        return GetBlank(tr.Generation, tr.Game);
+    }
+
+    /// <inheritdoc cref="GetBlank(ITrainerInfo)"/>
     public static PKM GetBlank(int gen, int ver) => GetBlank(gen, (GameVersion)ver);
 
+    /// <inheritdoc cref="GetBlank(ITrainerInfo)"/>
     public static PKM GetBlank(int gen)
     {
         var type = Type.GetType($"PKHeX.Core.PK{gen}");
