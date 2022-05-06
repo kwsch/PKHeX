@@ -122,16 +122,17 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (pkm is not IMoveShop8Mastery p)
             return true;
 
-        Span<int> m = stackalloc int[4];
+        Span<int> moves = stackalloc int[4];
         var level = pkm.Met_Level;
         var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var learn = Legal.LevelUpLA[index];
         var mastery = Legal.MasteryLA[index];
         if (Moves.Count != 0)
-            m = (int[])Moves;
+            moves = (int[])Moves;
         else
-            Legal.LevelUpLA[index].SetEncounterMoves(level, m);
+            learn.SetEncounterMoves(level, moves);
 
-        return p.IsValidMasteredEncounter(m, mastery, level, alpha);
+        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha);
     }
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)

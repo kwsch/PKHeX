@@ -21,7 +21,7 @@ public interface IMoveShop8Mastery : IMoveShop8
 
 public static class MoveShop8MasteryExtensions
 {
-    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level, ushort alpha)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset learn, Learnset mastery, int level, ushort alpha)
     {
         foreach (var move in moves)
         {
@@ -38,7 +38,11 @@ public static class MoveShop8MasteryExtensions
             if (masteryLevel > level && move != alpha) // no master flag set
             {
                 if (!p && m)
-                    return false;
+                {
+                    // Check for seed of mastery usage
+                    if (learn.GetMoveLevel(move) > level)
+                        return false;
+                }
             }
             else
             {
@@ -48,22 +52,5 @@ public static class MoveShop8MasteryExtensions
         }
 
         return true;
-    }
-
-    private static bool IsPurchasedEncounterMove(IMoveShop8 p, Span<int> moves)
-    {
-        foreach (var move in moves)
-        {
-            if (move == 0)
-                continue;
-            var index = p.MoveShopPermitIndexes.IndexOf((ushort)move);
-            if (index == -1)
-                continue; // manually mastered for encounter, not a tutor
-
-            if (p.GetPurchasedRecordFlag(index))
-                return true;
-        }
-
-        return false;
     }
 }

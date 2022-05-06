@@ -157,7 +157,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
             learn.SetEncounterMoves(level, moves);
         }
 
-        return p.IsValidMasteredEncounter(moves, mastery, level, alpha);
+        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha);
     }
 
     private OverworldParam8a GetParams()
