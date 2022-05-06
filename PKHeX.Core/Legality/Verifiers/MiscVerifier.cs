@@ -114,6 +114,11 @@ namespace PKHeX.Core
                 if (!valid)
                     data.AddLine(GetInvalid(LPIDTypeMismatch));
             }
+            else if (enc is IMasteryInitialMoveShop8 m)
+            {
+                if (!m.IsForcedMasteryCorrect(pkm))
+                    data.AddLine(GetInvalid(LEncMasteryInitial));
+            }
 
             VerifyMiscFatefulEncounter(data);
             VerifyMiscPokerus(data);

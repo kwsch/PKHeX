@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlpha
+public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlpha, IMasteryInitialMoveShop8
 {
     public override int Generation => 8;
 
@@ -85,9 +85,6 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     public override EncounterMatchRating GetMatchRating(PKM pkm)
     {
-        if (!IsForcedMasteryCorrect(pkm))
-            return EncounterMatchRating.PartialMatch;
-
         var result = GetMatchRatingInternal(pkm);
         var orig = base.GetMatchRating(pkm);
         return result > orig ? result : orig;
@@ -104,13 +101,16 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (orig is not EncounterMatchRating.Match)
             return orig;
 
+        if (!IsForcedMasteryCorrect(pkm))
+            return EncounterMatchRating.DeferredErrors;
+
         if (IsAlpha && pkm is PA8 { AlphaMove: 0 })
             return EncounterMatchRating.Deferred;
 
         return EncounterMatchRating.Match;
     }
 
-    private bool IsForcedMasteryCorrect(PKM pkm)
+    public bool IsForcedMasteryCorrect(PKM pkm)
     {
         ushort alpha = 0;
         if (IsAlpha && Moves.Count != 0)

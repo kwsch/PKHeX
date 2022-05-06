@@ -142,6 +142,7 @@ namespace PKHeX.Core
         public static string LEncGiftVersionNotDistributed { get; set; } = "Mystery Gift cannot be received by this version.";
 
         public static string LEncInvalid { get; set; } = "Unable to match an encounter from origin game.";
+        public static string LEncMasteryInitial { get; set; } = "Initial move mastery flags do not match the encounter's expected state.";
 
         public static string LEncTradeChangedNickname { get; set; } = "In-game Trade Nickname has been altered.";
         public static string LEncTradeChangedOT { get; set; } = "In-game Trade OT has been altered.";
