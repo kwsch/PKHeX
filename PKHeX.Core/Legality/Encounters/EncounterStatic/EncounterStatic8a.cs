@@ -51,6 +51,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         if (pk is PA8 pa)
         {
+            if (IsAlpha && Moves.Count != 0)
+                pa.AlphaMove = (ushort)Moves[0];
             if (pa.AlphaMove != 0)
                 pk.PushMove(pa.AlphaMove);
             pa.SetMasteryFlags();
@@ -125,9 +127,9 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (Mastery is not { } m)
             return true;
 
-        if (Species == (int)Core.Species.Kricketune && Level == 12)
+        if (IsAlpha && Moves.Count != 0)
         {
-            if (pkm is PA8 { AlphaMove: not (ushort)Move.FalseSwipe })
+            if (pkm is PA8 pa && pa.AlphaMove != Moves[0])
                 return false;
         }
 
@@ -151,9 +153,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     private OverworldParam8a GetParams()
     {
-        var pt = PersonalTable.LA;
-        var entry = pt.GetFormEntry(Species, Form);
-        var gender = (byte)entry.Gender;
+        var gender = GetGenderRatio();
         return new OverworldParam8a
         {
             IsAlpha = IsAlpha,
@@ -162,6 +162,21 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             RollCount = 1, // Everything is shiny locked anyways
             GenderRatio = gender,
         };
+    }
+
+    private byte GetGenderRatio() => Gender switch
+    {
+        0 => PersonalInfo.RatioMagicMale,
+        1 => PersonalInfo.RatioMagicFemale,
+        2 => PersonalInfo.RatioMagicGenderless,
+        _ => GetGenderRatioPersonal(),
+    };
+
+    private byte GetGenderRatioPersonal()
+    {
+        var pt = PersonalTable.LA;
+        var entry = pt.GetFormEntry(Species, Form);
+        return (byte)entry.Gender;
     }
 }
 
