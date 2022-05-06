@@ -58,6 +58,14 @@ namespace PKHeX.Core
             Box = 0;
         }
 
+        private Span<byte> LockCapsuleSpan => General.AsSpan(0xB064, PCD.Size);
+
+        public PCD LockCapsuleSlot
+        {
+            get => new(LockCapsuleSpan.ToArray());
+            set => value.Data.CopyTo(LockCapsuleSpan);
+        }
+
         #region Storage
         // box{pk4[30}[18]
         // u32 currentBox

@@ -393,11 +393,14 @@ namespace PKHeX.Core
         {
             get
             {
-                DataMysteryGift[] cards = new DataMysteryGift[8 + 3];
+                int pcd = this is SAV4HGSS ? 4 : 3;
+                DataMysteryGift[] cards = new DataMysteryGift[8 + pcd];
                 for (int i = 0; i < 8; i++) // 8 PGT
                     cards[i] = new PGT(General.Slice(WondercardData + (i * PGT.Size), PGT.Size));
                 for (int i = 8; i < 11; i++) // 3 PCD
                     cards[i] = new PCD(General.Slice(WondercardData + (8 * PGT.Size) + ((i-8) * PCD.Size), PCD.Size));
+                if (this is SAV4HGSS hgss)
+                    cards[^1] = hgss.LockCapsuleSlot;
                 return cards;
             }
             set
@@ -416,6 +419,8 @@ namespace PKHeX.Core
                     if (value[i] is PCD)
                         SetData(General, value[i].Data, WondercardData + (8 *PGT.Size) + ((i - 8)*PCD.Size));
                 }
+                if (this is SAV4HGSS hgss && value.Length >= 11 && value[^1] is PCD capsule)
+                    hgss.LockCapsuleSlot = capsule;
             }
         }
 

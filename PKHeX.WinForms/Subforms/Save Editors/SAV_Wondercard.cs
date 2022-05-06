@@ -192,16 +192,23 @@ namespace PKHeX.WinForms
             int lastUnfilled = GetLastUnfilledByType(gift, mga);
             if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
+            if (gift is PCD { IsLockCapsule: true })
+                index = 11;
 
             var gifts = mga.Gifts;
             var other = gifts[index];
-            if (gift is PCD pcd && other is PGT)
+            if (gift is PCD { CanConvertToPGT: true } pcd && other is PGT)
             {
                 gift = pcd.Gift;
             }
             else if (gift.Type != other.Type)
             {
                 WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {other.Type}");
+                return;
+            }
+            else if (gift is PCD { IsLockCapsule: true } != (index == 11))
+            {
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{GameInfo.Strings.Item[533]} slot not valid.");
                 return;
             }
             gifts[index] = (DataMysteryGift)gift.Clone();
@@ -454,6 +461,8 @@ namespace PKHeX.WinForms
             int lastUnfilled = GetLastUnfilledByType(mg, mga);
             if (lastUnfilled > -1 && lastUnfilled < index && mga.Gifts[lastUnfilled].Type == mga.Gifts[index].Type)
                 index = lastUnfilled;
+            if (mg is PCD { IsLockCapsule: true })
+                index = 11;
 
             if (wc_slot == -1) // dropped
             {
@@ -470,20 +479,21 @@ namespace PKHeX.WinForms
                 if (gift == null)
                 { WinFormsUtil.Alert(MsgFileUnsupported, first); return; }
 
-                if (gift is PCD pcd && mga.Gifts[index] is PGT)
+                ref var dest = ref mga.Gifts[index];
+                if (gift is PCD { CanConvertToPGT: true } pcd && dest is PGT)
                 {
                     gift = pcd.Gift;
                 }
-                else if (gift.Type != mga.Gifts[index].Type)
+                else if (gift.Type != dest.Type)
                 {
-                    WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");
+                    WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {dest.Type}");
                     return;
                 }
                 SetBackground(index, Drawing.PokeSprite.Properties.Resources.slotSet);
-                mga.Gifts[index] = (DataMysteryGift)gift.Clone();
+                dest = (DataMysteryGift)gift.Clone();
 
-                SetCardID(mga.Gifts[index].CardID);
-                ViewGiftData(mga.Gifts[index]);
+                SetCardID(dest.CardID);
+                ViewGiftData(dest);
             }
             else // Swap Data
             {
@@ -504,7 +514,7 @@ namespace PKHeX.WinForms
             // Double check compatibility of slots
             if (s1.Type != s2.Type)
             {
-                if (s2 is PCD && s1 is PGT)
+                if (s2 is PCD { CanConvertToPGT: true } && s1 is PGT)
                 {
                     // Get first empty slot
                     var firstEmpty = Array.FindIndex(gifts, z => z.Empty);
@@ -523,12 +533,17 @@ namespace PKHeX.WinForms
                 return -1;
             }
 
+            if ((s1 is PCD && dest == 11) || (s2 is PCD && src == 11))
+            {
+                WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{GameInfo.Strings.Item[533]} swap not valid.");
+                return -1;
+            }
+
             // If data is present in both slots, just swap.
-            if (!gifts[dest].Empty)
+            if (!s1.Empty)
             {
                 // Swap
-                gifts[src] = s1;
-                gifts[dest] = s2;
+                (gifts[src], gifts[dest]) = (s1, s2);
                 return dest;
             }
 
@@ -579,7 +594,7 @@ namespace PKHeX.WinForms
             }
             // Row 3
             var f3 = GetFlowLayoutPanel();
-            f3.Margin = new Padding(0, f3.Height, 0, 0);
+            f3.Margin = new Padding(0, 12, 0, 0);
             f3.Controls.Add(GetLabel($"{nameof(PCD)} 1-3"));
             for (int i = 8; i < 11; i++)
             {
@@ -591,6 +606,19 @@ namespace PKHeX.WinForms
             FLP_Gifts.Controls.Add(f1);
             FLP_Gifts.Controls.Add(f2);
             FLP_Gifts.Controls.Add(f3);
+
+            if (mga.Gifts.Length == 12) // lock capsule
+            {
+                // Row 4
+                var f4 = GetFlowLayoutPanel();
+                f4.Controls.Add(GetLabel(GameInfo.Strings.Item[533])); // Lock Capsule
+                {
+                    var p = GetPictureBox(spriter.Width, spriter.Height);
+                    f4.Controls.Add(p);
+                    pb.Add(p);
+                }
+                FLP_Gifts.Controls.Add(f4);
+            }
             return pb;
         }
 
@@ -623,7 +651,7 @@ namespace PKHeX.WinForms
 
         private static FlowLayoutPanel GetFlowLayoutPanel() => new()
         {
-            Width = 480,
+            Width = 490,
             Height = 60,
             Padding = new Padding(0),
             Margin = new Padding(0),
@@ -631,7 +659,7 @@ namespace PKHeX.WinForms
 
         private static Label GetLabel(string text) => new()
         {
-            Size = new Size(40, 60),
+            Size = new Size(50, 60),
             AutoSize = false,
             TextAlign = ContentAlignment.MiddleRight,
             Text = text,
