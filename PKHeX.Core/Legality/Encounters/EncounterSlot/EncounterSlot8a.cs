@@ -72,7 +72,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         if (IsFormArgMismatch(pkm))
             return EncounterMatchRating.DeferredErrors;
 
-        return GetAlphaMoveCompatibility(pkm);
+        return GetMoveCompatibility(pkm);
     }
 
     private bool IsFormArgMismatch(PKM pkm) => pkm.Species switch
@@ -83,8 +83,16 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         _ => false,
     };
 
-    private EncounterMatchRating GetAlphaMoveCompatibility(PKM pkm)
+    private EncounterMatchRating GetMoveCompatibility(PKM pkm)
     {
+        if (pkm is IMoveShop8Mastery p)
+        {
+            Span<int> m = stackalloc int[4];
+            Legal.LevelUpLA[PersonalTable.LA.GetFormIndex(Species, Form)].SetEncounterMoves(pkm.Met_Level, m);
+            if (!p.IsValidMasteredEncounterOnly(m))
+                return EncounterMatchRating.DeferredErrors;
+        }
+
         // Check for Alpha move compatibility.
         if (pkm is not PA8 pa)
             return EncounterMatchRating.Match;
