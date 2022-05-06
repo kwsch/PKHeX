@@ -25,16 +25,16 @@ internal static class Encounters8a
         new(493,000,75,M,M) { Location = 109, FlawlessIVCount = 3, Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke, Fateful = true }, // Arceus
 
         // Static Encounters - Scripted Table Slots
-        new(480,000,70,M,M) { Location = 111, FlawlessIVCount = 3 }, // Uxie
-        new(481,000,70,M,M) { Location = 104, FlawlessIVCount = 3 }, // Mesprit
-        new(482,000,70,M,M) { Location = 105, FlawlessIVCount = 3 }, // Azelf
-        new(485,000,70,M,M) { Location = 068, FlawlessIVCount = 3 }, // Heatran
-        new(488,000,70,M,M) { Location = 082, FlawlessIVCount = 3 }, // Cresselia
+        new(480,000,70,M,M) { Location = 111, FlawlessIVCount = 3, Moves = new[] {129,326,832,095} }, // Uxie
+        new(481,000,70,M,M) { Location = 104, FlawlessIVCount = 3, Moves = new[] {129,326,832,105} }, // Mesprit
+        new(482,000,70,M,M) { Location = 105, FlawlessIVCount = 3, Moves = new[] {129,458,326,832} }, // Azelf
+        new(485,000,70,M,M) { Location = 068, FlawlessIVCount = 3, Moves = new[] {442,242,414,463} }, // Heatran
+        new(488,000,70,M,M) { Location = 082, FlawlessIVCount = 3, Moves = new[] {427,094,585,849} }, // Cresselia
 
-        new(641,000,70,M,M) { Location = 090, FlawlessIVCount = 3 }, // Tornadus
-        new(642,000,70,M,M) { Location = 009, FlawlessIVCount = 3 }, // Thundurus
-        new(645,000,70,M,M) { Location = 027, FlawlessIVCount = 3 }, // Landorus
-        new(905,000,70,M,M) { Location = 038, FlawlessIVCount = 3 }, // Enamorus
+        new(641,000,70,M,M) { Location = 090, FlawlessIVCount = 3, Moves = new[] {326,242,542,846} }, // Tornadus
+        new(642,000,70,M,M) { Location = 009, FlawlessIVCount = 3, Moves = new[] {326,242,087,847} }, // Thundurus
+        new(645,000,70,M,M) { Location = 027, FlawlessIVCount = 3, Moves = new[] {326,242,414,848} }, // Landorus
+        new(905,000,70,M,M) { Location = 038, FlawlessIVCount = 3, Moves = new[] {326,242,585,831} }, // Enamorus
 
         new(077,000,15    ) { Location = 014, Shiny = Always}, // Ponyta*
         new(442,000,60,M,M) { Location = 043, FlawlessIVCount = 3 }, // Spiritomb
@@ -42,13 +42,13 @@ internal static class Encounters8a
         new(570,001,28    ) { Location = 027 }, // Zorua
         new(570,001,29    ) { Location = 027 }, // Zorua
 
-        new(489,000,33    ) { Location = 064, Fateful = true }, // Phione
-        new(489,000,34    ) { Location = 064, Fateful = true }, // Phione
-        new(489,000,35    ) { Location = 064, Fateful = true }, // Phione
-        new(489,000,36    ) { Location = 064, Fateful = true }, // Phione
-        new(490,000,50,M,M) { Location = 064, FlawlessIVCount = 3, Fateful = true }, // Manaphy
-        new(491,000,70,M,M) { Location = 010, FlawlessIVCount = 3, Fateful = true }, // Darkrai
-        new(492,000,70,M,M) { Location = 026, FlawlessIVCount = 3, Fateful = true }, // Shaymin
+        new(489,000,33    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
+        new(489,000,34    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
+        new(489,000,35    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
+        new(489,000,36    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
+        new(490,000,50,M,M) { Location = 064, FlawlessIVCount = 3, Fateful = true, Moves = new[] {352,428,585,145} }, // Manaphy
+        new(491,000,70,M,M) { Location = 010, FlawlessIVCount = 3, Fateful = true, Moves = new[] {506,399,094,464} }, // Darkrai
+        new(492,000,70,M,M) { Location = 026, FlawlessIVCount = 3, Fateful = true, Moves = new[] {403,412,414,465} }, // Shaymin
 
         // Unown Notes
         new(201,000,25,U) { Location = 040, Method = Fixed }, // Unown A
