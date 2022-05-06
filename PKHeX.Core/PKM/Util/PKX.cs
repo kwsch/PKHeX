@@ -33,36 +33,6 @@ namespace PKHeX.Core
         public static bool IsPKM(long len) => Sizes.Contains((int)len);
 
         /// <summary>
-        /// Gets randomized EVs for a given generation format
-        /// </summary>
-        /// <param name="generation">Generation specific formatting option</param>
-        /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
-        public static int[] GetRandomEVs(int generation = Generation)
-        {
-            var rnd = Util.Rand;
-            if (generation > 2)
-            {
-                var evs = new int[6];
-                do
-                {
-                    int max = 510;
-                    for (int i = 0; i < evs.Length - 1; i++)
-                        max -= evs[i] = (byte)Math.Min(rnd.Next(Math.Min(300, max)), 252);
-                    evs[5] = max;
-                } while (evs[5] > 252);
-                Util.Shuffle(evs.AsSpan());
-                return evs;
-            }
-            else
-            {
-                var evs = new int[6];
-                for (int i = 0; i < evs.Length; i++)
-                    evs[i] = rnd.Next(ushort.MaxValue + 1);
-                return evs;
-            }
-        }
-
-        /// <summary>
         /// Translates a Gender string to Gender integer.
         /// </summary>
         /// <param name="s">Gender string</param>

@@ -38,6 +38,7 @@ namespace PKHeX.Core
             new TypeSuggestion<PKM>(nameof(PKM.Move4_PP), p => p.SetSuggestedMovePP(3)),
 
             new ComplexSuggestion(nameof(PKM.Moves), (_, _, info) => BatchModifications.SetMoves(info.Entity, info.Legality.GetMoveSet())),
+            new ComplexSuggestion(nameof(PKM.EVs), (_, _, info) => BatchModifications.SetEVs(info.Entity)),
             new ComplexSuggestion(nameof(PKM.RelearnMoves), (_, value, info) => BatchModifications.SetSuggestedRelearnData(info, value)),
             new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => BatchModifications.SetSuggestedRibbons(info, value)),
             new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => BatchModifications.SetSuggestedMetData(info)),
@@ -66,6 +67,7 @@ namespace PKHeX.Core
             new ComplexSet(nameof(PKM.EncryptionConstant), value => value == CONST_RAND, (pk, _) => pk.EncryptionConstant = Util.Rand32()),
             new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
             new ComplexSet(nameof(PKM.Gender), value => value == CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
+            new ComplexSet(nameof(PKM.EVs), value => value == CONST_RAND, (pk, _) => SetRandomEVs(pk)),
 
             // Shiny
             new ComplexSet(nameof(PKM.PID),
@@ -75,6 +77,13 @@ namespace PKHeX.Core
             new ComplexSet(nameof(PKM.Species), value => value == "0", (pk, _) => Array.Clear(pk.Data, 0, pk.Data.Length)),
             new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
         };
+
+        private static void SetRandomEVs(PKM pk)
+        {
+            Span<int> evs = stackalloc int[6];
+            EffortValues.SetRandom(evs, pk.Format);
+            pk.SetEVs(evs);
+        }
 
         private static Shiny GetRequestedShinyState(string text)
         {

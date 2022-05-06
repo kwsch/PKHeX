@@ -7,8 +7,8 @@
     {
         public static readonly LanguageVerifier LanguageIndex = new();
         public static readonly NicknameVerifier Nickname = new();
-        public static readonly EffortValueVerifier EffortValues = new();
-        public static readonly IndividualValueVerifier IndividualValues = new();
+        public static readonly EffortValueVerifier EVs = new();
+        public static readonly IndividualValueVerifier IVs = new();
         public static readonly BallVerifier BallIndex = new();
         public static readonly FormVerifier FormValues = new();
         public static readonly ConsoleRegionVerifier ConsoleRegion = new();

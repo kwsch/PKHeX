@@ -90,10 +90,18 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="moves">Moves to apply.</param>
-        public static ModifyResult SetMoves(PKM pk, int[] moves)
+        public static ModifyResult SetMoves(PKM pk, Span<int> moves)
         {
             pk.SetMoves(moves);
             pk.HealPP();
+            return ModifyResult.Modified;
+        }
+
+        public static ModifyResult SetEVs(PKM pk)
+        {
+            Span<int> evs = stackalloc int[6];
+            EffortValues.SetMax(evs, pk);
+            pk.SetEVs(evs);
             return ModifyResult.Modified;
         }
 

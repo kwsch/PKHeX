@@ -272,8 +272,8 @@ namespace PKHeX.Core
             LanguageIndex.Verify(this);
             Trainer.Verify(this);
             TrainerID.Verify(this);
-            IndividualValues.Verify(this);
-            EffortValues.Verify(this);
+            IVs.Verify(this);
+            EVs.Verify(this);
             Level.Verify(this);
             Ribbon.Verify(this);
             AbilityValues.Verify(this);
