@@ -123,6 +123,27 @@ namespace PKHeX.Core
             }
         }
 
+        public void SetEncounterMovesBackwards(int level, Span<int> moves, int ctr = 0)
+        {
+            int index = Array.FindLastIndex(Levels, z => z <= level);
+
+            while (ctr != 4)
+            {
+                if (index == -1)
+                    return; // no moves to add?
+
+                // If same levels in sequence, take the lowest index.
+                while (index != 0 && Levels[index] == Levels[index - 1])
+                    index--;
+
+                var move = Moves[index];
+                if (moves.IndexOf(move) == -1)
+                    moves[ctr++] = move;
+
+                index--;
+            }
+        }
+
         /// <summary>Adds the learned moves by level up to the specified level.</summary>
         public void SetLevelUpMoves(int startLevel, int endLevel, Span<int> moves, int ctr = 0)
         {

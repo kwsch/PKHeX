@@ -156,9 +156,9 @@ namespace PKHeX.Core
                 pk.MetDate = today;
         }
 
-        private void SetEncounterMoves(PKM pk, GameVersion version, int level)
+        protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = Moves.Count > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            var moves = Moves.Count > 0 ? (int[])Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }

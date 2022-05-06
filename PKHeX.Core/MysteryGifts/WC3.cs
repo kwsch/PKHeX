@@ -168,8 +168,9 @@ namespace PKHeX.Core
                 Moves = moves;
             }
 
-            pk.SetMoves(Moves);
-            pk.SetMaximumPPCurrent(Moves);
+            var m = (int[])Moves;
+            pk.SetMoves(m);
+            pk.SetMaximumPPCurrent(m);
         }
 
         private void SetPINGA(PK3 pk, EncounterCriteria _)

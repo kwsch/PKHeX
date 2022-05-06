@@ -21,7 +21,7 @@ public interface IMoveShop8Mastery : IMoveShop8
 
 public static class MoveShop8MasteryExtensions
 {
-    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level, ushort alpha)
     {
         foreach (var move in moves)
         {
@@ -35,7 +35,7 @@ public static class MoveShop8MasteryExtensions
             bool m = shop.GetMasteredRecordFlag(index);
 
             var masteryLevel = mastery.GetMoveLevel(move);
-            if (masteryLevel > level) // no master flag set
+            if (masteryLevel > level && move != alpha) // no master flag set
             {
                 if (!p && m)
                     return false;

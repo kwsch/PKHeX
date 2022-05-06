@@ -439,7 +439,7 @@ namespace PKHeX.Core
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
-            set => SetMoves(value);
+            set => SetMoves(value.AsSpan());
         }
 
         public void PushMove(int move)
@@ -464,12 +464,12 @@ namespace PKHeX.Core
             value[0] = Move1;
         }
 
-        public void SetMoves(IReadOnlyList<int> value)
+        public void SetMoves(ReadOnlySpan<int> value)
         {
-            Move1 = value.Count > 0 ? value[0] : 0;
-            Move2 = value.Count > 1 ? value[1] : 0;
-            Move3 = value.Count > 2 ? value[2] : 0;
-            Move4 = value.Count > 3 ? value[3] : 0;
+            Move1 = value.Length > 0 ? value[0] : 0;
+            Move2 = value.Length > 1 ? value[1] : 0;
+            Move3 = value.Length > 2 ? value[2] : 0;
+            Move4 = value.Length > 3 ? value[3] : 0;
         }
 
         public int[] RelearnMoves

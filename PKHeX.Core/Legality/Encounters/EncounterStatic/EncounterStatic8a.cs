@@ -32,31 +32,20 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {
         base.ApplyDetails(sav, criteria, pk);
-        if (pk is IScaledSize s)
-        {
-            if (HasFixedHeight)
-                s.HeightScalar = HeightScalar;
-            if (HasFixedWeight)
-                s.WeightScalar = WeightScalar;
-            if (pk is IScaledSizeValue v)
-            {
-                v.ResetHeight();
-                v.ResetWeight();
-            }
-        }
 
-        if (IsAlpha && pk is IAlpha a)
-            a.IsAlpha = true;
+        var pa = (PA8)pk;
 
-        if (pk is PA8 pa)
-        {
-            if (IsAlpha && Moves.Count != 0)
-                pa.AlphaMove = (ushort)Moves[0];
-            if (pa.AlphaMove != 0)
-                pk.PushMove(pa.AlphaMove);
-            pa.SetMasteryFlags();
-            pa.HeightScalarCopy = pa.HeightScalar;
-        }
+        if (IsAlpha)
+            pa.IsAlpha = true;
+
+        if (HasFixedHeight)
+            pa.HeightScalar = HeightScalar;
+        if (HasFixedWeight)
+            pa.WeightScalar = WeightScalar;
+        pa.HeightScalarCopy = pa.HeightScalar;
+
+        pa.ResetHeight();
+        pa.ResetWeight();
     }
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
@@ -123,9 +112,10 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     private bool IsForcedMasteryCorrect(PKM pkm)
     {
+        ushort alpha = 0;
         if (IsAlpha && Moves.Count != 0)
         {
-            if (pkm is PA8 pa && pa.AlphaMove != Moves[0])
+            if (pkm is PA8 pa && (alpha = pa.AlphaMove) != Moves[0])
                 return false;
         }
 
@@ -141,7 +131,31 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         else
             Legal.LevelUpLA[index].SetEncounterMoves(level, m);
 
-        return p.IsValidMasteredEncounter(m, mastery, level);
+        return p.IsValidMasteredEncounter(m, mastery, level, alpha);
+    }
+
+    protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+    {
+        var pa8 = (PA8)pk;
+        Span<int> moves = stackalloc int[4];
+        var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var mastery = Legal.MasteryLA[index];
+        var learn = Legal.LevelUpLA[index];
+        if (IsAlpha && Moves.Count != 0)
+        {
+            moves = (int[])Moves;
+        }
+        else
+        {
+            learn.SetEncounterMoves(level, moves);
+        }
+        pk.SetMoves(moves);
+        pk.SetMaximumPPCurrent(moves);
+        foreach (var move in moves)
+        {
+            if (mastery.GetMoveLevel(move) <= level)
+                pa8.SetMasteryFlagMove(move);
+        }
     }
 
     private OverworldParam8a GetParams()

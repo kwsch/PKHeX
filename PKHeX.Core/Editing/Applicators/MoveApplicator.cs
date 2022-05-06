@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -56,12 +55,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPCurrent(this PKM pk, IReadOnlyList<int> moves)
+        public static void SetMaximumPPCurrent(this PKM pk, ReadOnlySpan<int> moves)
         {
-            pk.Move1_PP = moves.Count == 0 ? 0 : pk.GetMovePP(moves[0], pk.Move1_PPUps);
-            pk.Move2_PP = moves.Count <= 1 ? 0 : pk.GetMovePP(moves[1], pk.Move2_PPUps);
-            pk.Move3_PP = moves.Count <= 2 ? 0 : pk.GetMovePP(moves[2], pk.Move3_PPUps);
-            pk.Move4_PP = moves.Count <= 3 ? 0 : pk.GetMovePP(moves[3], pk.Move4_PPUps);
+            pk.Move1_PP = moves.Length == 0 ? 0 : pk.GetMovePP(moves[0], pk.Move1_PPUps);
+            pk.Move2_PP = moves.Length <= 1 ? 0 : pk.GetMovePP(moves[1], pk.Move2_PPUps);
+            pk.Move3_PP = moves.Length <= 2 ? 0 : pk.GetMovePP(moves[2], pk.Move3_PPUps);
+            pk.Move4_PP = moves.Length <= 3 ? 0 : pk.GetMovePP(moves[3], pk.Move4_PPUps);
         }
 
         /// <summary>
