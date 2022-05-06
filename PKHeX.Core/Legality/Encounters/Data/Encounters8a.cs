@@ -106,11 +106,11 @@ internal static class Encounters8a
         new(486,000,70,M,M) { Location = 095, Method = Fixed, FlawlessIVCount = 3 }, // regigigas01: Regigigas
         new(487,001,70,M,M) { Location = 067, Method = Fixed, FlawlessIVCount = 3 }, // giratina02: Giratina-1
 
-        new(362,000,64,A,A) { Location = 011, Method = Fixed, IsAlpha = true,                                  Moves = new[] {442,059,556,242}, Mastery = new[] {true,true,true, true } }, // onigohri01: Glalie
-        new(402,000,12,A,A) { Location = 007, Method = Fixed, IsAlpha = true, Gender = 0,                      Moves = new[] {206,071,033,332}, Mastery = new[] {true,true,false,false} }, // mev002: Kricketune
-        new(416,000,60,A,A) { Location = 022, Method = Fixed, IsAlpha = true, Gender = 1, FlawlessIVCount = 3, Moves = new[] {188,403,408,405}, Mastery = new[] {true,true,true ,true } }, // beequen01: Vespiquen
-        new(571,001,58,M,M) { Location = 111, Method = Fixed, IsAlpha = true,                                  Moves = new[] {555,421,841,417}, Mastery = new[] {true,true,true ,true } }, // zoroark01: Zoroark-1
-        new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new[] {231,406,842,056}, Mastery = new[] {true,true,true ,true } }, // numelgon01: Goodra-1
-        new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new[] {301,398,401,038}, Mastery = new[] {true,true,true ,false} }, // harysen01: Overqwil
+        new(362,000,64,A,A) { Location = 011, Method = Fixed, IsAlpha = true,                                  Moves = new[] {442,059,556,242} }, // onigohri01: Glalie
+        new(402,000,12,A,A) { Location = 007, Method = Fixed, IsAlpha = true, Gender = 0,                      Moves = new[] {206,071,033,332} }, // mev002: Kricketune
+        new(416,000,60,A,A) { Location = 022, Method = Fixed, IsAlpha = true, Gender = 1, FlawlessIVCount = 3, Moves = new[] {188,403,408,405} }, // beequen01: Vespiquen
+        new(571,001,58,M,M) { Location = 111, Method = Fixed, IsAlpha = true,                                  Moves = new[] {555,421,841,417} }, // zoroark01: Zoroark-1
+        new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new[] {231,406,842,056} }, // numelgon01: Goodra-1
+        new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new[] {301,398,401,038} }, // harysen01: Overqwil
     };
 }

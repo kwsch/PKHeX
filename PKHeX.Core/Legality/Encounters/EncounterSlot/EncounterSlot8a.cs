@@ -88,8 +88,11 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         if (pkm is IMoveShop8Mastery p)
         {
             Span<int> m = stackalloc int[4];
-            Legal.LevelUpLA[PersonalTable.LA.GetFormIndex(Species, Form)].SetEncounterMoves(pkm.Met_Level, m);
-            if (!p.IsValidMasteredEncounterOnly(m))
+            var level = pkm.Met_Level;
+            var index = PersonalTable.LA.GetFormIndex(Species, Form);
+            var mastery = Legal.MasteryLA[index];
+            Legal.LevelUpLA[index].SetEncounterMoves(level, m);
+            if (!p.IsValidMasteredEncounter(m, mastery, level))
                 return EncounterMatchRating.DeferredErrors;
         }
 

@@ -8,7 +8,6 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="EncounterStatic"/>
 public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlpha
 {
-    public bool[]? Mastery;
     public override int Generation => 8;
 
     public byte HeightScalar { get; }
@@ -124,9 +123,6 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     private bool IsForcedMasteryCorrect(PKM pkm)
     {
-        if (Mastery is not { } m)
-            return true;
-
         if (IsAlpha && Moves.Count != 0)
         {
             if (pkm is PA8 pa && pa.AlphaMove != Moves[0])
@@ -136,19 +132,16 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (pkm is not IMoveShop8Mastery p)
             return true;
 
-        for (int i = 0; i < m.Length; i++)
-        {
-            if (!m[i])
-                continue;
-            var move = Moves[i];
-            var index = p.MoveShopPermitIndexes.IndexOf((ushort)move);
-            if (index == -1)
-                continue; // manually mastered for encounter, not a tutor
-            if (!p.GetMasteredRecordFlag(index))
-                return false;
-        }
+        Span<int> m = stackalloc int[4];
+        var level = pkm.Met_Level;
+        var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var mastery = Legal.MasteryLA[index];
+        if (Moves.Count != 0)
+            m = (int[])Moves;
+        else
+            Legal.LevelUpLA[index].SetEncounterMoves(level, m);
 
-        return true;
+        return p.IsValidMasteredEncounter(m, mastery, level);
     }
 
     private OverworldParam8a GetParams()

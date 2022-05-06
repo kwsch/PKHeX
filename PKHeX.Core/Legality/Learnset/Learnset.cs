@@ -42,9 +42,11 @@ namespace PKHeX.Core
             int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
             if (end < 0)
                 return Array.Empty<int>();
-            int[] result = new int[end - start + 1];
-            Array.Copy(Moves, start, result, 0, result.Length);
-            return result;
+
+            var length = end - start + 1;
+            if (length == Moves.Length)
+                return Moves;
+            return Moves.AsSpan(start, length).ToArray();
         }
 
         /// <summary>
@@ -226,6 +228,14 @@ namespace PKHeX.Core
 
             int end = Array.FindLastIndex(Levels, z => z <= level);
             return Math.Max(end - 4, 1);
+        }
+
+        public int GetMoveLevel(int move)
+        {
+            var index = Array.LastIndexOf(Moves, move);
+            if (index == -1)
+                return -1;
+            return Levels[index];
         }
 
         private Dictionary<int, int>? Learn;

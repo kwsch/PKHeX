@@ -21,28 +21,30 @@ public interface IMoveShop8Mastery : IMoveShop8
 
 public static class MoveShop8MasteryExtensions
 {
-    public static bool IsValidMasteredEncounterOnly(this IMoveShop8Mastery p, Span<int> moves)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level)
     {
-        // If any are purchased, all must be purchased if mastered.
-        // If none are purchased, all or none must be mastered.
-        bool purchased = IsPurchasedEncounterMove(p, moves);
-
-        bool any = false;
         foreach (var move in moves)
         {
             if (move == 0)
                 continue;
-            var index = p.MoveShopPermitIndexes.IndexOf((ushort)move);
+            var index = shop.MoveShopPermitIndexes.IndexOf((ushort)move);
             if (index == -1)
                 continue; // manually mastered for encounter, not a tutor
 
-            bool b = p.GetPurchasedRecordFlag(index);
-            bool m = p.GetMasteredRecordFlag(index);
-            if (purchased && m && !b)
-                return false;
-            if (any && !m)
-                return false;
-            any |= m;
+            bool p = shop.GetPurchasedRecordFlag(index);
+            bool m = shop.GetMasteredRecordFlag(index);
+
+            var masteryLevel = mastery.GetMoveLevel(move);
+            if (masteryLevel > level) // no master flag set
+            {
+                if (!p && m)
+                    return false;
+            }
+            else
+            {
+                if (p || !m)
+                    return false;
+            }
         }
 
         return true;
