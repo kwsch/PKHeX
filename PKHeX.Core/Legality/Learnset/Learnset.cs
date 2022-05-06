@@ -127,20 +127,27 @@ namespace PKHeX.Core
         {
             int index = Array.FindLastIndex(Levels, z => z <= level);
 
-            while (ctr != 4)
+            while (true)
             {
                 if (index == -1)
                     return; // no moves to add?
 
-                // If same levels in sequence, take the lowest index.
-                while (index != 0 && Levels[index] == Levels[index - 1])
-                    index--;
+                // In the event we have multiple moves at the same level, insert them in regular descending order.
+                int start = index;
+                while (start != 0 && Levels[start] == Levels[start - 1])
+                    start--;
 
-                var move = Moves[index];
-                if (moves.IndexOf(move) == -1)
-                    moves[ctr++] = move;
+                for (int i = start; i <= index; i++)
+                {
+                    var move = Moves[i];
+                    if (moves.IndexOf(move) == -1)
+                        moves[ctr++] = move;
 
-                index--;
+                    if (ctr == 4)
+                        return;
+                }
+
+                index = start - 1;
             }
         }
 
