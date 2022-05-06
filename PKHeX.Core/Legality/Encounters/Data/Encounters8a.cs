@@ -88,10 +88,10 @@ internal static class Encounters8a
         new(201,024,25,U) { Location = 097, Method = Fixed }, // Unown Y
         new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G
 
-        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3 }, // Thundurus (Lunker’s Lair)
-        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3 }, // Thundurus (Sand’s Reach)
-        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3 }, // Cresselia (Coronet Highlands)
-        new(491,000,70,M,M) { Location = 074, FlawlessIVCount = 3, Fateful = true }, // Darkrai (Lonely Spring)
+        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                 Moves = new[] {326,242,087,847} }, // Thundurus (Lunker’s Lair)
+        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                 Moves = new[] {326,242,087,847} }, // Thundurus (Sand’s Reach)
+        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3,                 Moves = new[] {427,094,585,849} }, // Cresselia (Coronet Highlands)
+        new(491,000,70,M,M) { Location = 074, FlawlessIVCount = 3, Fateful = true, Moves = new[] {506,399,094,464} }, // Darkrai (Lonely Spring)
 
         // Static Encounters
         new(046,000,50,M,M) { Location = 019, Method = Fixed }, // paras01: Paras
