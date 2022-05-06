@@ -75,7 +75,7 @@ public static class EncounterServerDate
     public static readonly Dictionary<int, (DateTime Start, DateTime End)> WA8Gifts = new()
     {
         {0138, (new(2022, 01, 27), new(2022, 11, 01))}, // Poké Center Happiny
-        {0301, (new(2022, 02, 12), new(2022, 02, 24))}, // プロポチャ Piplup
+        {0301, (new(2022, 02, 05), new(2022, 02, 24))}, // プロポチャ Piplup
         {0801, (new(2022, 02, 25), new(2022, 06, 01))}, // Teresa Roca Hisuian Growlithe
     };
 }
