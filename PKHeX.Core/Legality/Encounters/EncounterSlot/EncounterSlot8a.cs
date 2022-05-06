@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot8a : EncounterSlot, IAlpha
+public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMoveShop8
 {
     public override int Generation => 8;
     public SlotType Type => Area.Type;
@@ -25,9 +25,9 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        base.ApplyDetails(sav, criteria, pk);
+        base.SetPINGA(pk, criteria);
         if (Gender != Gender.Random)
             pk.Gender = (int)Gender;
 
@@ -35,20 +35,39 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
         if (LevelMin != LevelMax)
             pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+    }
 
+    protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+    {
+        var pa8 = (PA8)pk;
+        Span<int> moves = stackalloc int[4];
+        var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var mastery = Legal.MasteryLA[index];
+        var learn = Legal.LevelUpLA[index];
+        if (pa8.AlphaMove != 0)
+        {
+            moves[0] = pa8.AlphaMove;
+            learn.SetEncounterMovesBackwards(level, moves, 1);
+        }
+        else
+        {
+            learn.SetEncounterMoves(level, moves);
+        }
+        pk.SetMoves(moves);
+        pk.SetMaximumPPCurrent(moves);
+        foreach (var move in moves)
+        {
+            if (mastery.GetMoveLevel(move) <= level)
+                pa8.SetMasteryFlagMove(move);
+        }
+    }
+
+    protected override void SetFormatSpecificData(PKM pk)
+    {
+        var pa8 = (PA8)pk;
         if (IsAlpha)
-        {
-            if (pk is IAlpha a)
-                a.IsAlpha = true;
-            if (pk is PA8 { AlphaMove: not 0 } pa)
-                pk.PushMove(pa.AlphaMove);
-        }
-
-        if (pk is PA8 pa8)
-        {
-            pa8.HeightScalarCopy = pa8.HeightScalar;
-            pa8.SetMasteryFlags();
-        }
+            pa8.IsAlpha = true;
+        pa8.HeightScalarCopy = pa8.HeightScalar;
     }
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = (int)Ball.LAPoke;
@@ -71,8 +90,10 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
             return EncounterMatchRating.DeferredErrors;
         if (IsFormArgMismatch(pkm))
             return EncounterMatchRating.DeferredErrors;
+        if (!IsForcedMasteryCorrect(pkm))
+            return EncounterMatchRating.DeferredErrors;
 
-        return GetAlphaMoveCompatibility(pkm);
+        return GetMoveCompatibility(pkm);
     }
 
     private bool IsFormArgMismatch(PKM pkm) => pkm.Species switch
@@ -83,7 +104,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
         _ => false,
     };
 
-    private EncounterMatchRating GetAlphaMoveCompatibility(PKM pkm)
+    private EncounterMatchRating GetMoveCompatibility(PKM pkm)
     {
         // Check for Alpha move compatibility.
         if (pkm is not PA8 pa)
@@ -113,6 +134,30 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha
                 return EncounterMatchRating.Deferred;
         }
         return EncounterMatchRating.Match;
+    }
+
+    public bool IsForcedMasteryCorrect(PKM pkm)
+    {
+        if (pkm is not IMoveShop8Mastery p)
+            return true; // Can't check.
+
+        Span<int> moves = stackalloc int[4];
+        var level = pkm.Met_Level;
+        var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var mastery = Legal.MasteryLA[index];
+        var learn = Legal.LevelUpLA[index];
+        ushort alpha = 0;
+        if (pkm is PA8 { AlphaMove: not 0 } pa8)
+        {
+            moves[0] = alpha = pa8.AlphaMove;
+            learn.SetEncounterMovesBackwards(level, moves, 1);
+        }
+        else
+        {
+            learn.SetEncounterMoves(level, moves);
+        }
+
+        return p.IsValidMasteredEncounter(moves, mastery, level, alpha);
     }
 
     private OverworldParam8a GetParams()

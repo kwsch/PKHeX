@@ -42,9 +42,11 @@ namespace PKHeX.Core
             int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
             if (end < 0)
                 return Array.Empty<int>();
-            int[] result = new int[end - start + 1];
-            Array.Copy(Moves, start, result, 0, result.Length);
-            return result;
+
+            var length = end - start + 1;
+            if (length == Moves.Length)
+                return Moves;
+            return Moves.AsSpan(start, length).ToArray();
         }
 
         /// <summary>
@@ -118,6 +120,34 @@ namespace PKHeX.Core
 
                 moves[ctr++] = move;
                 ctr &= 3;
+            }
+        }
+
+        public void SetEncounterMovesBackwards(int level, Span<int> moves, int ctr = 0)
+        {
+            int index = Array.FindLastIndex(Levels, z => z <= level);
+
+            while (true)
+            {
+                if (index == -1)
+                    return; // no moves to add?
+
+                // In the event we have multiple moves at the same level, insert them in regular descending order.
+                int start = index;
+                while (start != 0 && Levels[start] == Levels[start - 1])
+                    start--;
+
+                for (int i = start; i <= index; i++)
+                {
+                    var move = Moves[i];
+                    if (moves.IndexOf(move) == -1)
+                        moves[ctr++] = move;
+
+                    if (ctr == 4)
+                        return;
+                }
+
+                index = start - 1;
             }
         }
 
@@ -226,6 +256,14 @@ namespace PKHeX.Core
 
             int end = Array.FindLastIndex(Levels, z => z <= level);
             return Math.Max(end - 4, 1);
+        }
+
+        public int GetMoveLevel(int move)
+        {
+            var index = Array.LastIndexOf(Moves, move);
+            if (index == -1)
+                return -1;
+            return Levels[index];
         }
 
         private Dictionary<int, int>? Learn;

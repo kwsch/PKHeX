@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = Moves;
+            var moves = (int[])Moves;
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }

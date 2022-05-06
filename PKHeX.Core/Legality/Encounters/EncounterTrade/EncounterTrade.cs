@@ -161,8 +161,8 @@ namespace PKHeX.Core
             var moves = Moves.Count != 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))
                 moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
-            pk.SetMoves(moves);
-            pk.SetMaximumPPCurrent(moves);
+            pk.SetMoves((int[])moves);
+            pk.SetMaximumPPCurrent((int[])moves);
         }
 
         private void SetEggMetData(PKM pk, DateTime time)

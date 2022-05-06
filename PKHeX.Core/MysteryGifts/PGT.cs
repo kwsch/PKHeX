@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -110,7 +111,7 @@ namespace PKHeX.Core
         public override bool IsPokémon { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
 
         public override int Species { get => IsManaphyEgg ? 490 : PK.Species; set => PK.Species = value; }
-        public override IReadOnlyList<int> Moves { get => PK.Moves; set => PK.SetMoves(value); }
+        public override IReadOnlyList<int> Moves { get => PK.Moves; set => PK.SetMoves(value.ToArray()); }
         public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
         public override bool IsShiny => PK.IsShiny;
         public override int Gender { get => PK.Gender; set => PK.Gender = value; }
