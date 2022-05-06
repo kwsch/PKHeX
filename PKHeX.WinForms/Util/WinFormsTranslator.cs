@@ -173,12 +173,11 @@ namespace PKHeX.WinForms
 
         public static void DumpAll(params string[] banlist)
         {
-            var results = Context.Select(z => new {Lang = z.Key, Lines = z.Value.Write()});
-            foreach (var c in results)
+            foreach (var c in Context)
             {
-                var lang = c.Lang;
+                var lang = c.Key;
                 var fn = GetTranslationFileNameExternal(lang);
-                var lines = c.Lines;
+                var lines = c.Value.Write();
                 var result = lines.Where(z => !banlist.Any(z.Contains));
                 File.WriteAllLines(fn, result);
             }

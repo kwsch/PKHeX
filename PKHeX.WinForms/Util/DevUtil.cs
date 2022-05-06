@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -123,9 +124,15 @@ namespace PKHeX.WinForms
             {
                 LocalizationUtil.SetLocalization(t, lang);
                 var entries = LocalizationUtil.GetLocalization(t);
-                var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
-                    .OrderBy(z => z.Variable) // sort by length (V1 = 2, V100 = 4)
-                    .Select(z => z.Line); // sorted lines
+                IEnumerable<string> export = entries.OrderBy(GetName); // sorted lines
+
+                static string GetName(string line)
+                {
+                    var index = line.IndexOf('=');
+                    if (index == -1)
+                        return line;
+                    return line[..index];
+                }
 
                 if (!sorted)
                     export = entries;

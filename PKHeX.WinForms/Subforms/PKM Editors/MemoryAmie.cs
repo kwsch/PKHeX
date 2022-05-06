@@ -315,7 +315,7 @@ namespace PKHeX.WinForms
             }
             else
             {
-                PrevRegions[index].DataSource = new[] { new { Text = "", Value = 0 } };
+                PrevRegions[index].DataSource = new[] { new ComboItem("", 0) };
                 PrevRegions[index].Enabled = false;
                 PrevRegions[index].SelectedValue = 0;
             }
@@ -343,7 +343,7 @@ namespace PKHeX.WinForms
             PrevCountries[index].SelectedValue = 0;
 
             PrevRegions[index].InitializeBinding();
-            PrevRegions[index].DataSource = new[] { new { Text = "", Value = 0 } };
+            PrevRegions[index].DataSource = new[] { new ComboItem("", 0) };
             PrevRegions[index].SelectedValue = 0;
         }
 

@@ -45,7 +45,10 @@ namespace PKHeX.Core
                 this[i] = value[i];
         }
 
-        public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames) => GetAllEntities().Select((z, i) => new {Index = i, Entry = z}).Where(z => z.Entry.Species > 0).Select(z => z.Entry.Dump(speciesNames, z.Index));
+        public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames) => GetAllEntities()
+            .Select((z, i) => (Entry: z, Index: i))
+            .Where(z => z.Entry.Species > 0)
+            .Select(z => z.Entry.Dump(speciesNames, z.Index));
 
         public IEnumerator<GP1> GetEnumerator() => (IEnumerator<GP1>)GetAllEntities().GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetAllEntities().GetEnumerator();
