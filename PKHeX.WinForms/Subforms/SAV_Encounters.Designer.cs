@@ -508,6 +508,7 @@
             this.Name = "SAV_Encounters";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Database";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SAV_Encounters_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.P_Results.ResumeLayout(false);

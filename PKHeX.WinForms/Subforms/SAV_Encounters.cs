@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Drawing.PokeSprite;
@@ -20,6 +21,7 @@ namespace PKHeX.WinForms
         private SaveFile SAV => PKME_Tabs.RequestSaveFile;
         private readonly SummaryPreviewer ShowSet = new();
         private readonly TrainerDatabase Trainers;
+        private readonly CancellationTokenSource TokenSource = new();
 
         public SAV_Encounters(PKMEditor f1, TrainerDatabase db)
         {
@@ -210,7 +212,7 @@ namespace PKHeX.WinForms
         }
 
         // View Updates
-        private IEnumerable<IEncounterInfo> SearchDatabase()
+        private IEnumerable<IEncounterInfo> SearchDatabase(CancellationToken token)
         {
             var settings = GetSearchSettings();
             var moves = settings.Moves.ToArray();
@@ -222,7 +224,7 @@ namespace PKHeX.WinForms
 
             var versions = settings.GetVersions(SAV);
             var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
-            var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk);
+            var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
             if (settings.SearchEgg != null)
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
             if (settings.SearchShiny != null)
@@ -246,6 +248,9 @@ namespace PKHeX.WinForms
                 };
             }
 
+            if (token.IsCancellationRequested)
+                return results;
+
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
                 var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
@@ -256,10 +261,13 @@ namespace PKHeX.WinForms
             return results;
         }
 
-        private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, PersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk)
+        private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, PersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
         {
             foreach (var s in species)
             {
+                if (token.IsCancellationRequested)
+                    break;
+
                 var pi = pt.GetFormEntry(s, 0);
                 var fc = pi.FormCount;
                 if (fc == 0 && !Main.Settings.EncounterDb.FilterUnavailableSpecies) // not present in game
@@ -336,9 +344,15 @@ namespace PKHeX.WinForms
         {
             B_Search.Enabled = false;
             EncounterMovesetGenerator.PriorityList = GetTypes();
-            var search = SearchDatabase();
 
-            var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
+            var token = TokenSource.Token;
+            var search = SearchDatabase(token);
+            if (token.IsCancellationRequested)
+                return;
+
+            var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
+            if (token.IsCancellationRequested)
+                return;
 
             if (results.Count == 0)
                 WinFormsUtil.Alert(MsgDBSearchNone);
@@ -427,5 +441,7 @@ namespace PKHeX.WinForms
 
             ShowSet.Show(pb, Results[index]);
         }
+
+        private void SAV_Encounters_FormClosing(object sender, FormClosingEventArgs e) => TokenSource.Cancel();
     }
 }
