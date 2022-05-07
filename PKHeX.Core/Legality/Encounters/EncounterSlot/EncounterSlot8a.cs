@@ -25,6 +25,17 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
 
+    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    {
+        base.ApplyDetails(sav, criteria, pk);
+
+        var pa = (PA8)pk;
+        if (IsAlpha)
+            pa.HeightScalarCopy = pa.HeightScalar = pa.WeightScalar = 255;
+        pa.ResetHeight();
+        pa.ResetWeight();
+    }
+
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
         base.SetPINGA(pk, criteria);

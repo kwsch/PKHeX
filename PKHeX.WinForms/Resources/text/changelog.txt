@@ -1,7 +1,31 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/03/18 - New Update:
+22/05/08 - New Update:
+ - Legality:
+ - - Added: PLA move mastery/purchased flags are now legality checked thoroughly. Thanks @Lusamine & @Atrius97 !
+ - - Added: PLA event gifts are now checked for their date obtained.
+ - - Added: BDSP Darkrai & Arceus encounter data.
+ - - Fixed: Gen4 Roamers now allowed in Route 45 if the tile it was encountered on is not water.
+ - - Fixed: BDSP/PLA encounters are now flagged if they have a SWSH Mark.
+ - Added: Gen3 RSBox Japanese save files & memory cards are now supported. Thanks @SynapseProperty !
+ - Added: Gen2/3 Mail Editor now allows swapping mail slots if you rearrange party data.
+ - Added: Batch Editor can now $rand & $suggest EVs.
+ - Added: Deleting clones from the PKM Database window now deletes clones in the save file. Box->Delete Clones works fine too.
+ - Fixed: Deleting clones from the PKM Database window now correctly deletes all the extra clones.
+ - Fixed: Gen8 BDSP save files that have an invalid patch revision value can no longer be loaded (bad rom hacks!)
+ - Fixed: Gen7 Inventory editing now retains the Free Space sort index when saving. Thanks @RainThunder !
+ - Fixed: Gen6 Hall of Fame editing now saves the TID/SID correctly.
+ - Fixed: Gen4 Battle Hall editing now works correctly in the Misc Editor.
+ - Fixed: Gen4 SaveFile PCD/PGT collection editing now shows the Lock Capsule PCD slot, resists bad slot swaps, and no longer encrypts item PGTs. Thanks @DeadSkullzJr !
+ - Fixed: Gen2 Mail now edits the caption message correctly. Thanks @WonderSquid !
+ - Changed: Drag & Drop of PKMs out of the program into Discord now works! Hold shift when dropping to immediately send the file.
+ - Changed: Internal refactorings to reduce allocation, increase performance. PokeCrypto, GeniusCrypto, EvoCriteria, PKX.
+ - Changed: Gender sprites in the main window now show colored images instead of colored strings. Looks prettier!
+ - Changed: Gen8 PLA encounters now generate with a more accurate RNG correlation, resulting in valid entity seeds.
+ - Changed: Gen8 PLA noble sprites now show more detail. Still not legal to have in your save file.
+
+22/03/18 - New Update: (144283) [4814091]
  - Added support for BDSP v1.3 save data format.
  - Legality:
  - - Added: Experience above level 100 is now checked.

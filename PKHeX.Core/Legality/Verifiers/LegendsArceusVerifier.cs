@@ -196,8 +196,6 @@ public sealed class LegendsArceusVerifier : Verifier
         // Check if the move can be purchased; using a Mastery Seed checks the permission.
         if (pa.AlphaMove == moves[i])
             return; // Previously checked.
-        if (data.EncounterMatch is IAlpha { IsAlpha: true } && CanMasterMoveFromMoveShop(moves[i], moves, bits))
-            return; // Alpha forced move.
         if (!bits[i])
             data.AddLine(GetInvalid(string.Format(LMoveShopMasterInvalid_0, ParseSettings.MoveStrings[moves[i]])));
         else if (!CanLearnMoveByLevelUp(data, pa, i, moves))

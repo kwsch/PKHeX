@@ -106,7 +106,7 @@ namespace PKHeX.Core
                 return;
 
             sav.ApplyHandlingTrainerInfo(pk);
-            if (pk is IScaledSize s)
+            if (pk is IScaledSize { HeightScalar: 0, WeightScalar: 0 } s)
             {
                 s.HeightScalar = PokeSizeUtil.GetRandomScalar();
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
