@@ -93,7 +93,7 @@ namespace PKHeX.Core
             }
         }
 
-        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterTemplate enc, IReadOnlyList<EvoCriteria> chain)
+        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterTemplate enc, ReadOnlySpan<EvoCriteria> chain)
         {
             // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
             var met = (byte)pkm.Met_Level;
@@ -113,7 +113,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static int GetVCSpecies(IReadOnlyList<EvoCriteria> chain, PKM pkm, int max)
+        private static int GetVCSpecies(ReadOnlySpan<EvoCriteria> chain, PKM pkm, int max)
         {
             int species = pkm.Species;
             foreach (var z in chain)

@@ -141,15 +141,19 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         if (pkm is not IMoveShop8Mastery p)
             return true; // Can't check.
 
-        Span<int> moves = stackalloc int[4];
+        bool allowAlphaPurchaseBug = Area.Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
         var level = pkm.Met_Level;
         var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var mastery = Legal.MasteryLA[index];
         var learn = Legal.LevelUpLA[index];
-        ushort alpha = 0;
+        ushort alpha = pkm is PA8 pa ? pa.AlphaMove : (ushort)0;
+        if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
+            return false;
+
+        Span<int> moves = stackalloc int[4];
+        var mastery = Legal.MasteryLA[index];
         if (pkm is PA8 { AlphaMove: not 0 } pa8)
         {
-            moves[0] = alpha = pa8.AlphaMove;
+            moves[0] = pa8.AlphaMove;
             learn.SetEncounterMovesBackwards(level, moves, 1);
         }
         else
@@ -157,7 +161,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
             learn.SetEncounterMoves(level, moves);
         }
 
-        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha);
+        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
     }
 
     private OverworldParam8a GetParams()
