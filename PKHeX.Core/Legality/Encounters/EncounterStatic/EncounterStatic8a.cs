@@ -145,6 +145,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (IsAlpha && Moves.Count != 0)
         {
             moves = (int[])Moves;
+            pa8.AlphaMove = (ushort)moves[0];
         }
         else
         {
