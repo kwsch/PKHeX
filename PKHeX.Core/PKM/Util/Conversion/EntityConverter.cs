@@ -72,7 +72,8 @@ public static class EntityConverter
 
     private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out EntityConverterResult result)
     {
-        if (IsNotTransferable(pk, out result))
+        result = CheckTransfer(pk);
+        if (result != Success)
             return null;
 
         Debug.WriteLine($"Trying to convert {srcType.Name} to {destType.Name}.");
@@ -138,23 +139,15 @@ public static class EntityConverter
     /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
     /// </summary>
     /// <param name="pk">PKM to convert</param>
-    /// <param name="result">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
     /// <returns>Indication if Not Transferable</returns>
-    private static bool IsNotTransferable(PKM pk, out EntityConverterResult result)
+    private static EntityConverterResult CheckTransfer(PKM pk) => pk switch
     {
-        switch (pk)
-        {
-            case PK4 { Species: (int)Species.Pichu   } pk4   when pk4.Form != 0:
-            case PK6 { Species: (int)Species.Pikachu } pk6   when pk6.Form != 0:
-            case PB7 { Species: (int)Species.Pikachu } pika  when pika.Form != 0:
-            case PB7 { Species: (int)Species.Eevee   } eevee when eevee.Form != 0:
-                result = IncompatibleForm;
-                return true;
-            default:
-                result = Success;
-                return false;
-        }
-    }
+        PK4 { Species: (int)Species.Pichu, Form: not 0 } => IncompatibleForm,
+        PK6 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
+        PB7 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
+        PB7 { Species: (int)Species.Eevee, Form: not 0 } => IncompatibleForm,
+        _ => Success,
+    };
 
     /// <summary>
     /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.

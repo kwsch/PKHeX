@@ -202,17 +202,26 @@ namespace PKHeX.Core
         private static readonly ushort[] Arceus_PlateIDs = { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
         private static readonly ushort[] Arceus_ZCrystal = { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
 
-        public static int GetArceusFormFromHeldItem(int item, int format)
+        public static int GetArceusFormFromHeldItem(int item, int format) => item switch
         {
-            if (item is >= 777 and <= 793)
-                return Array.IndexOf(Arceus_ZCrystal, (ushort)item) + 1;
+            >= 777 and <= 793        => GetArceusFormFromZCrystal(item),
+            >= 298 and <= 313 or 644 => GetArceusFormFromPlate(item, format),
+            _ => 0,
+        };
 
-            int form = 0;
-            if (item is >= 298 and <= 313 or 644)
-                form = Array.IndexOf(Arceus_PlateIDs, (ushort)item) + 1;
-            if (format == 4 && form >= 9)
-                return form + 1; // ??? type Form shifts everything by 1
-            return form;
+        private static int GetArceusFormFromZCrystal(int item)
+        {
+            return Array.IndexOf(Arceus_ZCrystal, (ushort)item) + 1;
+        }
+
+        private static int GetArceusFormFromPlate(int item, int format)
+        {
+            int form = Array.IndexOf(Arceus_PlateIDs, (ushort)item) + 1;
+            if (format != 4) // No need to consider Curse type
+                return form;
+            if (form < 9)
+                return form;
+            return form + 1; // ??? type Form shifts everything by 1
         }
 
         public static int GetSilvallyFormFromHeldItem(int item)

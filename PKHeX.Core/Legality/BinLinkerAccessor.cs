@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,6 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Unpacks a BinLinkerAccessor generated file container into individual arrays.
 /// </summary>
+[DebuggerDisplay($"{{{nameof(Identifier)},nq}}[{{{nameof(Length)},nq}}]")]
 public readonly ref struct BinLinkerAccessor
 {
     /// <summary> Backing data object </summary>
@@ -42,8 +44,8 @@ public readonly ref struct BinLinkerAccessor
     {
         var result = new BinLinkerAccessor(data);
 #if DEBUG
-        System.Diagnostics.Debug.Assert(data.Length > 4);
-        System.Diagnostics.Debug.Assert(identifier[0] == data[0] && identifier[1] == data[1]);
+        Debug.Assert(data.Length > 4);
+        Debug.Assert(identifier[0] == data[0] && identifier[1] == data[1]);
 #endif
         return result;
     }

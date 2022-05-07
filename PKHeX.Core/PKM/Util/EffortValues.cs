@@ -8,15 +8,8 @@ public static class EffortValues
     /// <summary>
     /// Gets randomized EVs for a given generation format
     /// </summary>
+    /// <param name="evs">Array containing randomized EVs (H/A/B/S/C/D)</param>
     /// <param name="generation">Generation specific formatting option</param>
-    /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
-    public static int[] GetRandom(int generation = PKX.Generation)
-    {
-        var evs = new int[6];
-        SetRandom(evs, generation);
-        return evs;
-    }
-
     public static void SetRandom(Span<int> evs, int generation)
     {
         var rnd = Util.Rand;

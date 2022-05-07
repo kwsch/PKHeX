@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using static PKHeX.Core.PokeCrypto;
-using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.EntityFormatDetected;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 

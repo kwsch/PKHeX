@@ -383,14 +383,6 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private static string ReloadGender(string text, IReadOnlyList<string> genders)
-        {
-            var index = EntityGender.GetFromString(text);
-            if (index >= 2)
-                return text;
-            return genders[index];
-        }
-
         internal void UpdateSprite()
         {
             if (FieldsLoaded && !forceValidation)
@@ -1684,7 +1676,7 @@ namespace PKHeX.WinForms.Controls
             else
             {
                 // Shouldn't hit here.
-                throw new ArgumentException(nameof(sender));
+                throw new InvalidOperationException();
             }
             UpdateLegality(skipMoveRepop: true);
         }

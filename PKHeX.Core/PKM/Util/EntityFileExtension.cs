@@ -17,8 +17,9 @@ public static class EntityFileExtension
     /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
     public static string[] GetExtensions(int maxGeneration = PKX.Generation)
     {
-        var result = new List<string>();
         int min = maxGeneration is <= 2 or >= 7 ? 1 : 3;
+        int size = maxGeneration - min + 1 + 6;
+        var result = new List<string>(size);
         for (int i = min; i <= maxGeneration; i++)
             result.Add($"pk{i}");
 
@@ -47,7 +48,7 @@ public static class EntityFileExtension
     /// <returns>Format hint that the file is.</returns>
     public static int GetFormatFromExtension(string ext, int prefer)
     {
-        if (string.IsNullOrEmpty(ext))
+        if (ext.Length == 0)
             return prefer;
         return GetFormatFromExtension(ext[^1], prefer);
     }

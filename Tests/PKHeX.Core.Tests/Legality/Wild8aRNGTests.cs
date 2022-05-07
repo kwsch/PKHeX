@@ -50,7 +50,7 @@ public static class Wild8aRNGTests
         };
 
         var xoro = new Xoroshiro128Plus(s0);
-        var result = Overworld8aRNG.ApplyDetails(test, param, true, ref xoro);
+        var (EntitySeed, _) = Overworld8aRNG.ApplyDetails(test, param, true, ref xoro);
 
         test.IV_HP.Should().Be(31);
         test.IV_ATK.Should().Be(31);
@@ -61,7 +61,7 @@ public static class Wild8aRNGTests
 
         test.AlphaMove.Should().Be((ushort)Move.Flamethrower);
 
-        var verify = Overworld8aRNG.Verify(test, result.EntitySeed, param);
+        var verify = Overworld8aRNG.Verify(test, EntitySeed, param);
         verify.Should().BeTrue();
     }
 }
