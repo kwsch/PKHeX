@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public static void AddFromLocalFile(string file, ConcurrentBag<SlotCache> db, ITrainerInfo dest, ICollection<string> validExtensions)
         {
             var fi = new FileInfo(file);
-            if (!validExtensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length))
+            if (!validExtensions.Contains(fi.Extension) || !EntityDetection.IsSizePlausible(fi.Length))
                 return;
 
             var data = File.ReadAllBytes(file);
@@ -98,7 +98,7 @@ namespace PKHeX.Core
         public static void AddFromLocalFile(string file, ICollection<SlotCache> db, ITrainerInfo dest, ICollection<string> validExtensions)
         {
             var fi = new FileInfo(file);
-            if (!validExtensions.Contains(fi.Extension) || !PKX.IsPKM(fi.Length))
+            if (!validExtensions.Contains(fi.Extension) || !EntityDetection.IsSizePlausible(fi.Length))
                 return;
 
             var data = File.ReadAllBytes(file);

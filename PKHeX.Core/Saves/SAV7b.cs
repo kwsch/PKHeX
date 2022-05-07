@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
-        public override IReadOnlyList<string> PKMExtensions => new[] {PKX.ExtensionPB7};
+        public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.Extensions7b;
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();

@@ -190,7 +190,7 @@ namespace PKHeX.WinForms
             pkm.Ability = WinFormsUtil.GetIndex(CB_Ability);
             pkm.AbilityNumber = CB_Ability.SelectedIndex << 1;
             pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            pkm.Gender = PKX.GetGenderFromString(Label_Gender.Text);
+            pkm.Gender = EntityGender.GetFromString(Label_Gender.Text);
             pkm.Form = CB_Form.SelectedIndex;
             pkm.EV_HP = Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
             pkm.EV_ATK = Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
@@ -347,7 +347,7 @@ namespace PKHeX.WinForms
             // Set a sane gender
             var gender = SAV.Personal[species].FixedGender;
             if (gender == -1)
-                gender = PKX.GetGenderFromString(Label_Gender.Text);
+                gender = EntityGender.GetFromString(Label_Gender.Text);
             SetGenderLabel(gender);
 
             SetAbilityList();
@@ -358,7 +358,7 @@ namespace PKHeX.WinForms
             SetAbilityList();
 
             // If form has a single gender, account for it.
-            if (PKX.GetGenderFromString(CB_Form.Text) < 2)
+            if (EntityGender.GetFromString(CB_Form.Text) < 2)
                 Label_Gender.Text = Main.GenderSymbols[CB_Form.SelectedIndex];
         }
 
@@ -369,7 +369,7 @@ namespace PKHeX.WinForms
             var fg = pi.FixedGender;
             if (fg == -1) // dual gender
             {
-                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                fg = EntityGender.GetFromString(Label_Gender.Text);
                 fg = (fg ^ 1) & 1;
             }
             Label_Gender.Text = Main.GenderSymbols[fg];

@@ -271,7 +271,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
-        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGB(data);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGB(data);
 
         public int EventWorkCount => 0x100;
         public int EventFlagCount => 2000;

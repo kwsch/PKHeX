@@ -21,8 +21,7 @@ namespace PKHeX.WinForms.Controls
             MT_Base  = new[] {TB_BaseHP, TB_BaseATK, TB_BaseDEF, TB_BaseSPE, TB_BaseSPA, TB_BaseSPD};
 
             TB_BST.ResetForeColor();
-            TB_IVTotal.ForeColor = MT_EVs[0].ForeColor;
-            TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
+            TB_IVTotal.ForeColor = TB_EVTotal.ForeColor = MT_EVs[0].ForeColor;
         }
 
         public Color EVsInvalid { get; set; } = Color.Red;
@@ -315,6 +314,9 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickStatLabel(object sender, MouseEventArgs e)
         {
+            if (Entity.Format < 3)
+                return;
+
             if (ModifierKeys == Keys.None)
                 return;
 
@@ -322,22 +324,17 @@ namespace PKHeX.WinForms.Controls
             if (index < 0)
                 return;
 
-            if (Entity.Format < 3)
+            var request = ModifierKeys switch
+            {
+                Keys.Control => NatureAmpRequest.Neutral,
+                Keys.Alt => NatureAmpRequest.Decrease,
+                _ => NatureAmpRequest.Increase,
+            };
+
+            var newNature = request.GetNewNature(index, Entity.StatNature);
+            if (newNature == -1)
                 return;
 
-            var current = Entity.StatNature;
-            var up = current / 5;
-            var dn = current % 5;
-            switch (ModifierKeys)
-            {
-                case Keys.Shift when up != index: up = index; break;
-                case Keys.Alt when dn != index: dn = index; break;
-                case Keys.Control when up != index && dn != index: up = dn = index; break;
-                default:
-                    return;
-            }
-
-            var newNature = (up * 5) + dn;
             MainEditor.ChangeNature(newNature);
         }
 
@@ -459,16 +456,19 @@ namespace PKHeX.WinForms.Controls
         public string UpdateNatureModification(int nature)
         {
             // Reset Label Colors
-            for (var i = 1; i < L_Stats.Length; i++)
-                L_Stats[i].ResetForeColor();
+            foreach (var l in L_Stats)
+                l.ResetForeColor();
 
             // Set Colored StatLabels only if Nature isn't Neutral
-            if (PKX.GetNatureModification(nature, out int incr, out int decr))
+            var (up, dn) = NatureAmp.GetNatureModification(nature);
+            if (NatureAmp.IsNeutralOrInvalid(nature, up, dn))
                 return "-/-";
 
-            L_Stats[incr].ForeColor = StatIncreased;
-            L_Stats[decr].ForeColor = StatDecreased;
-            return $"+{L_Stats[incr].Text} / -{L_Stats[decr].Text}".Replace(":", "");
+            var incr = L_Stats[up];
+            var decr = L_Stats[dn];
+            incr.ForeColor = StatIncreased;
+            decr.ForeColor = StatDecreased;
+            return $"+{incr.Text} / -{decr.Text}".Replace(":", "");
         }
 
         public void SetATKIVGender(int gender)
@@ -565,12 +565,13 @@ namespace PKHeX.WinForms.Controls
         {
             int current = ganbaru.GetGV(i);
             var max = ganbaru.GetMax(entity, i);
+            var tb = MT_GVs[i];
             if (current > max)
-                MT_GVs[i].BackColor = EVsInvalid;
+                tb.BackColor = EVsInvalid;
             else if (current == max)
-                MT_GVs[i].BackColor = StatHyperTrained;
+                tb.BackColor = StatHyperTrained;
             else
-                MT_GVs[i].ResetBackColor();
+                tb.ResetBackColor();
         }
 
         public void ToggleInterface(PKM pk, int gen)
@@ -589,14 +590,14 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = false;
                     Label_SPC.Visible = true;
                     TB_IVHP.Enabled = false;
-                    SetEVMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
                     break;
                 case 2:
                     FLP_SpD.Visible = true;
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_IVHP.Enabled = false;
-                    SetEVMaskSize(Stat_HP.Size, "00000");
+                    SetEVMaskSize(Stat_HP.Size, "00000", MT_EVs);
                     TB_EVSPD.Enabled = TB_IVSPD.Enabled = false;
                     break;
                 default:
@@ -604,7 +605,7 @@ namespace PKHeX.WinForms.Controls
                     Label_SPA.Visible = true;
                     Label_SPC.Visible = false;
                     TB_IVHP.Enabled = true;
-                    SetEVMaskSize(TB_EVTotal.Size, "000");
+                    SetEVMaskSize(TB_EVTotal.Size, "000", MT_EVs);
                     TB_EVSPD.Enabled = TB_IVSPD.Enabled = true;
                     break;
             }
@@ -622,9 +623,9 @@ namespace PKHeX.WinForms.Controls
             foreach (var mtb in MT_GVs)
                 mtb.Visible = showGV;
 
-            void SetEVMaskSize(Size s, string Mask)
+            static void SetEVMaskSize(Size s, string Mask, MaskedTextBox[] arr)
             {
-                foreach (var ctrl in MT_EVs)
+                foreach (var ctrl in arr)
                 {
                     ctrl.Size = s;
                     ctrl.Mask = Mask;

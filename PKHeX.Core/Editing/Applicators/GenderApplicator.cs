@@ -57,7 +57,7 @@ namespace PKHeX.Core
                 case PersonalInfo.RatioMagicMale: return 0;
             }
             if (!pk.IsGenderValid())
-                return PKX.GetGenderFromPIDAndRatio(pk.PID, gt);
+                return EntityGender.GetFromPIDAndRatio(pk.PID, gt);
             return pk.Gender;
         }
 

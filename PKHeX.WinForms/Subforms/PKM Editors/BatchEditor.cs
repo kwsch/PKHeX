@@ -289,7 +289,7 @@ namespace PKHeX.WinForms
         private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
         {
             var fi = new FileInfo(source);
-            if (!PKX.IsPKM(fi.Length))
+            if (!EntityDetection.IsSizePlausible(fi.Length))
                 return;
 
             byte[] data = File.ReadAllBytes(source);

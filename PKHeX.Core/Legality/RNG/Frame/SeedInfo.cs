@@ -82,7 +82,7 @@ namespace PKHeX.Core
                 var pid = a << 16 | b;
 
                 // Process Conditions
-                if (PKX.GetUnownForm(pid) == form) // matches form, does it match nature?
+                if (EntityPID.GetUnownForm3(pid) == form) // matches form, does it match nature?
                 {
                     switch (VerifyPIDCriteria(pid, info))
                     {

@@ -178,7 +178,7 @@ namespace PKHeX.Core
 
         public sealed override bool HasParty => true;
 
-        public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGBA(data);
+        public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
         protected sealed override PKM GetPKM(byte[] data) => new PK3(data);
         protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
@@ -479,7 +479,7 @@ namespace PKHeX.Core
 
         public uint DexPIDUnown  { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x4), value); }
         public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8), value); }
-        public int DexUnownForm => PKX.GetUnownForm(DexPIDUnown);
+        public int DexUnownForm => EntityPID.GetUnownForm3(DexPIDUnown);
 
         public sealed override bool GetCaught(int species)
         {

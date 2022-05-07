@@ -352,7 +352,7 @@ namespace PKHeX.Core
         public abstract IReadOnlyList<ushort> HeldItems { get; }
         protected virtual byte[] BoxBuffer => Data;
         protected virtual byte[] PartyBuffer => Data;
-        public virtual bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresent(data);
+        public virtual bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresent(data);
         public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public virtual PKM GetPartySlot(byte[] data, int offset) => GetDecryptedPKM(GetData(data, offset, SIZE_PARTY));
         public virtual PKM GetStoredSlot(byte[] data, int offset) => GetDecryptedPKM(GetData(data, offset, SIZE_STORED));

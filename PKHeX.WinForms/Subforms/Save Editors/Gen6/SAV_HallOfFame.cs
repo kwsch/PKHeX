@@ -215,13 +215,13 @@ namespace PKHeX.WinForms
                 TID = Convert.ToUInt16(TB_TID.Text),
                 SID = Convert.ToUInt16(TB_SID.Text),
                 Form = (uint)CB_Form.SelectedIndex,
-                Gender = (uint)PKX.GetGenderFromString(Label_Gender.Text) & 0x3,
+                Gender = (uint)EntityGender.GetFromString(Label_Gender.Text) & 0x3,
                 Level = Convert.ToUInt16(TB_Level.Text),
                 IsShiny = CHK_Shiny.Checked,
                 IsNicknamed = CHK_Nicknamed.Checked,
                 Nickname = TB_Nickname.Text,
                 OT_Name = TB_OT.Text,
-                OT_Gender = (uint)PKX.GetGenderFromString(Label_OTGender.Text) & 1,
+                OT_Gender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
             };
 
             offset = index * 0x1B4;
@@ -295,7 +295,7 @@ namespace PKHeX.WinForms
 
             var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;
-            var gender = PKX.GetGenderFromString(Label_Gender.Text);
+            var gender = EntityGender.GetFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
             bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked, 6);
 
@@ -304,7 +304,7 @@ namespace PKHeX.WinForms
 
         private void UpdateOTGender(object sender, EventArgs e)
         {
-            var g = PKX.GetGenderFromString(Label_OTGender.Text);
+            var g = EntityGender.GetFromString(Label_OTGender.Text);
             Label_OTGender.Text = gendersymbols[g ^ 1];
 
             Write_Entry(this, EventArgs.Empty);
@@ -317,7 +317,7 @@ namespace PKHeX.WinForms
             var pi = SAV.Personal[species];
             if (pi.IsDualGender)
             {
-                var fg = PKX.GetGenderFromString(Label_Gender.Text);
+                var fg = EntityGender.GetFromString(Label_Gender.Text);
                 fg = (fg ^ 1) & 1;
                 Label_Gender.Text = gendersymbols[fg];
             }
@@ -328,14 +328,14 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            var g = PKX.GetGenderFromString(CB_Form.Text);
+            var g = EntityGender.GetFromString(CB_Form.Text);
             if (g == 0 && Label_Gender.Text != gendersymbols[0])
                 CB_Form.SelectedIndex = 1;
             else if (g == 1 && Label_Gender.Text != gendersymbols[1])
                 CB_Form.SelectedIndex = 0;
 
             if (species == (int)Species.Pyroar)
-                CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
+                CB_Form.SelectedIndex = EntityGender.GetFromString(Label_Gender.Text);
 
             Write_Entry(this, EventArgs.Empty);
         }

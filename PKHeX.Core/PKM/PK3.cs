@@ -219,7 +219,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 EXP = IsEgg ? Experience.GetEXP(5, PersonalInfo.EXPGrowth) : EXP,
-                Gender = PKX.GetGenderFromPID(Species, PID),
+                Gender = EntityGender.GetFromPID(Species, PID),
                 Form = Form,
                 // IsEgg = false, -- already false
                 OT_Friendship = 70,

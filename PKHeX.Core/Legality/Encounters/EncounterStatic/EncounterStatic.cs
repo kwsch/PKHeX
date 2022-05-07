@@ -272,7 +272,7 @@ namespace PKHeX.Core
                 return true;
 
             if (Species == (int) Core.Species.Azurill && Generation == 4 && Location == 233 && pkm.Gender == 0)
-                return PKX.GetGenderFromPIDAndRatio(pkm.PID, 0xBF) == 1;
+                return EntityGender.GetFromPIDAndRatio(pkm.PID, 0xBF) == 1;
 
             return false;
         }

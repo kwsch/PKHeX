@@ -29,7 +29,7 @@
         public sealed override uint EncryptionConstant { get => PID; set { } }
         public sealed override int Nature { get => (int)(PID % 25); set { } }
         public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
-        public sealed override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
+        public sealed override int Gender { get => EntityGender.GetFromPID(Species, PID); set { } }
         public sealed override int Characteristic => -1;
         public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public sealed override int CurrentHandler { get => 0; set { } }
@@ -39,13 +39,13 @@
 
         public sealed override int Form
         {
-            get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0;
+            get => Species == (int)Core.Species.Unown ? EntityPID.GetUnownForm3(PID) : 0;
             set
             {
                 if (Species != (int)Core.Species.Unown)
                     return;
                 var rnd = Util.Rand;
-                while (PKX.GetUnownForm(PID) != value)
+                while (EntityPID.GetUnownForm3(PID) != value)
                     PID = rnd.Rand32();
             }
         }

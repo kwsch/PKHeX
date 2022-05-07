@@ -72,7 +72,7 @@ namespace PKHeX.Core
             if (pk is PK5 pk5 && index == 2)
                 pk5.HiddenAbility = true;
             else if (pk.Format <= 5)
-                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.Form, (uint)(index * 0x10001));
+                pk.PID = EntityPID.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.Form, (uint)(index * 0x10001));
             pk.RefreshAbility(index);
         }
 

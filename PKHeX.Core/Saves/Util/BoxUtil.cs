@@ -174,7 +174,7 @@ namespace PKHeX.Core
         public static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> files, int generation)
         {
             var result = files
-                .Where(file => PKX.IsPKM(new FileInfo(file).Length))
+                .Where(file => EntityDetection.IsSizePlausible(new FileInfo(file).Length))
                 .Select(File.ReadAllBytes)
                 .Select(data => EntityFormat.GetFromBytes(data, prefer: generation));
 

@@ -153,7 +153,7 @@ namespace PKHeX.Core
         public override int MaxMoney => 9999999;
 
         public override int BoxCount => 3;
-        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGC(data);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGC(data);
 
         private static byte[] EncryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
         {

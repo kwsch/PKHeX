@@ -385,7 +385,7 @@ namespace PKHeX.WinForms.Controls
 
         private static string ReloadGender(string text, IReadOnlyList<string> genders)
         {
-            var index = PKX.GetGenderFromString(text);
+            var index = EntityGender.GetFromString(text);
             if (index >= 2)
                 return text;
             return genders[index];
@@ -605,7 +605,7 @@ namespace PKHeX.WinForms.Controls
             }
             Entity.Gender = gender;
 
-            if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
+            if (EntityGender.GetFromString(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = Math.Min(gender, CB_Form.Items.Count - 1);
 
             UpdatePreviewSprite?.Invoke(UC_Gender, EventArgs.Empty);
@@ -987,7 +987,7 @@ namespace PKHeX.WinForms.Controls
                     }
                 }
             }
-            else if (CB_Form.Enabled && PKX.GetGenderFromString(CB_Form.Text) < 2)
+            else if (CB_Form.Enabled && EntityGender.GetFromString(CB_Form.Text) < 2)
             {
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
                 {

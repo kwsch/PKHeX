@@ -15,7 +15,7 @@ public static class EntityFormat
     /// <returns>An integer indicating the generation of the PKM file, or -1 if the data is invalid.</returns>
     public static EntityFormatDetected GetFormat(ReadOnlySpan<byte> data)
     {
-        if (!PKX.IsPKM(data.Length))
+        if (!EntityDetection.IsSizePlausible(data.Length))
             return None;
 
         return GetFormatInternal(data);

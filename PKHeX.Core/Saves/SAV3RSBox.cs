@@ -124,7 +124,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
-        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => PKX.IsPKMPresentGBA(data);
+        public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
 
         // Checksums
         protected override void SetChecksums() => Blocks.SetChecksums(Data);

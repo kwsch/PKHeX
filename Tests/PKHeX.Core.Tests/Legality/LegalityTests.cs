@@ -65,10 +65,10 @@ namespace PKHeX.Tests.Legality
             {
                 var fi = new FileInfo(file);
                 fi.Should().NotBeNull($"the test file '{file}' should be a valid file");
-                PKX.IsPKM(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
+                EntityDetection.IsSizePlausible(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
 
                 var data = File.ReadAllBytes(file);
-                var format = PKX.GetPKMFormatFromExtension(file[^1], -1);
+                var format = EntityFileExtension.GetFormatFromExtension(file[^1], -1);
                 format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
 
                 var dn = fi.DirectoryName ?? string.Empty;

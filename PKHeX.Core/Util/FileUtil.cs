@@ -172,7 +172,7 @@ namespace PKHeX.Core
                 pk = null;
                 return false;
             }
-            var format = PKX.GetPKMFormatFromExtension(ext, sav?.Generation ?? 6);
+            var format = EntityFileExtension.GetFormatFromExtension(ext, sav?.Generation ?? 6);
             pk = EntityFormat.GetFromBytes(data, prefer: format);
             return pk != null;
         }
@@ -192,7 +192,7 @@ namespace PKHeX.Core
                 return false;
             }
             var length = data.Length;
-            if (PKX.IsPKM(length / sav.SlotCount) || PKX.IsPKM(length / sav.BoxSlotCount))
+            if (EntityDetection.IsSizePlausible(length / sav.SlotCount) || EntityDetection.IsSizePlausible(length / sav.BoxSlotCount))
             {
                 pkms = ArrayUtil.EnumerateSplit(data, length);
                 return true;
@@ -253,7 +253,7 @@ namespace PKHeX.Core
                 return null;
             if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
                 return gp1.ConvertToPB7(sav);
-            if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
+            if (!EntityDetection.IsSizePlausible(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
                 return null;
             var data = File.ReadAllBytes(file);
             var ext = fi.Extension;
