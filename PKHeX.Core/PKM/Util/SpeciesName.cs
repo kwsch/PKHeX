@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -187,7 +186,12 @@ namespace PKHeX.Core
         public static bool IsNicknamedAnyLanguage(int species, string nickname, int generation = PKX.Generation)
         {
             var langs = Language.GetAvailableGameLanguages(generation);
-            return langs.All(language => IsNicknamed(species, nickname, language, generation));
+            foreach (var language in langs)
+            {
+                if (!IsNicknamed(species, nickname, language, generation))
+                    return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -214,8 +218,12 @@ namespace PKHeX.Core
         public static int GetSpeciesNameLanguage(int species, int priorityLanguage, string nickname, int generation = PKX.Generation)
         {
             var langs = Language.GetAvailableGameLanguages(generation);
-            if (langs.Contains(priorityLanguage) && GetSpeciesNameGeneration(species, priorityLanguage, generation) == nickname)
-                return priorityLanguage;
+            var priorityIndex = langs.IndexOf((byte)priorityLanguage);
+            if (priorityIndex != -1)
+            {
+                if (GetSpeciesNameGeneration(species, priorityLanguage, generation) == nickname)
+                    return priorityLanguage;
+            }
 
             return GetSpeciesNameLanguage(species, nickname, generation, langs);
         }
@@ -233,7 +241,7 @@ namespace PKHeX.Core
             return GetSpeciesNameLanguage(species, nickname, generation, langs);
         }
 
-        private static int GetSpeciesNameLanguage(int species, string nickname, int generation, IReadOnlyList<int> langs)
+        private static int GetSpeciesNameLanguage(int species, string nickname, int generation, ReadOnlySpan<byte> langs)
         {
             foreach (var lang in langs)
             {

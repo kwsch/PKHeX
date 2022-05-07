@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core
@@ -9,37 +8,49 @@ namespace PKHeX.Core
     /// </summary>
     public static class Language
     {
-        private static readonly int[] Languages_3 =
+        private static readonly byte[] Languages =
         {
-            (int)Japanese,
-            (int)English,
-            (int)French,
-            (int)German,
-            (int)Spanish,
-            (int)Italian,
+            (byte)Japanese,
+            (byte)English,
+            (byte)French,
+            (byte)German,
+            (byte)Spanish,
+            (byte)Italian,
+
+            (byte)Korean, // GS
+
+            (byte)ChineseS,
+            (byte)ChineseT,
         };
 
         // check Korean for the VC case, never possible to match string outside of this case
-        private static readonly int[] Languages_GB = Languages_3.Concat(new[] {(int)Korean}).ToArray();
-        private static readonly int[] Languages_46 = Languages_GB;
-        private static readonly int[] Languages_7 = Languages_46.Concat(new[] {(int)ChineseS, (int)ChineseT}).ToArray();
+        private static readonly byte[] Languages_GB = Languages.AsSpan(0, 7).ToArray(); // [..KOR]
+        private static readonly byte[] Languages_3  = Languages.AsSpan(0, 6).ToArray(); // [..KOR)
         private const LanguageID SafeLanguage = English;
 
-        public static IReadOnlyList<int> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch
+        public static ReadOnlySpan<byte> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch
         {
-            < 3 => Languages_GB,
-            < 4 => Languages_3,
-            < 7 => Languages_46,
-              _ => Languages_7,
+            1           => Languages_3, // No KOR
+            2           => Languages_GB,
+            3           => Languages_3, // No KOR
+            4 or 5 or 6 => Languages_GB,
+            _           => Languages,
         };
+
+        private static bool HasLanguage(byte[] permitted, byte language)
+        {
+            int index = Array.IndexOf(permitted, language);
+            return index != -1;
+        }
 
         public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
         {
             1 when game == GameVersion.BU => Japanese,
-            1 or 2      => Languages_GB.Contains((int)prefer) && (prefer != Korean || game == GameVersion.C) ? prefer : SafeLanguage,
-            3           => Languages_3 .Contains((int)prefer) ? prefer : SafeLanguage,
-            4 or 5 or 6 => Languages_46.Contains((int)prefer) ? prefer : SafeLanguage,
-            _           => Languages_7 .Contains((int)prefer) ? prefer : SafeLanguage,
+            1           => HasLanguage(Languages_3,  (byte)prefer) ? prefer : SafeLanguage,
+            2           => HasLanguage(Languages_GB, (byte)prefer) && (prefer != Korean || game == GameVersion.C) ? prefer : SafeLanguage,
+            3           => HasLanguage(Languages_3 , (byte)prefer) ? prefer : SafeLanguage,
+            4 or 5 or 6 => HasLanguage(Languages_GB, (byte)prefer) ? prefer : SafeLanguage,
+            _           => HasLanguage(Languages,    (byte)prefer) ? prefer : SafeLanguage,
         };
 
         public static string GetLanguage2CharName(this LanguageID language) => language switch
