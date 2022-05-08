@@ -263,6 +263,7 @@ namespace PKHeX.Core
         #region Battle Stats
         public override int Status_Condition { get => ReadInt32LittleEndian(Data.AsSpan(0x88)); set => WriteInt32LittleEndian(Data.AsSpan(0x88), value); }
         public override int Stat_Level { get => Data[0x8C]; set => Data[0x8C] = (byte)value; }
+        public byte BallCapsuleIndex { get => Data[0x8D]; set => Data[0x8D] = value; }
         public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), (ushort)value); }
         public override int Stat_HPMax { get => ReadUInt16LittleEndian(Data.AsSpan(0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(0x90), (ushort)value); }
         public override int Stat_ATK { get => ReadUInt16LittleEndian(Data.AsSpan(0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(0x92), (ushort)value); }
@@ -271,8 +272,8 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => ReadUInt16LittleEndian(Data.AsSpan(0x98)); set => WriteUInt16LittleEndian(Data.AsSpan(0x98), (ushort)value); }
         public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0x9A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x9A), (ushort)value); }
 
-        public byte[] GetHeldMailData() => Data.Slice(0x9C, 0x38);
-        public void SetHeldMailData(byte[] value) => value.CopyTo(Data, 0x9C);
+        public Span<byte> HeldMail => Data.Slice(0x9C, 0x38);
+        public Span<byte> Seals => Data.Slice(0xD4, 0x18);
 
         #endregion
 
