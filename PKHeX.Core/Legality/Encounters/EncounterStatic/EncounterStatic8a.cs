@@ -143,9 +143,23 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     {
         var pa8 = (PA8)pk;
         Span<int> moves = stackalloc int[4];
+        var (learn, mastery) = GetLevelUpInfo();
+        LoadInitialMoveset(pa8, moves, learn, level);
+        pk.SetMoves(moves);
+        pk.SetMaximumPPCurrent(moves);
+        pa8.SetEncounterMasteryFlags(moves, mastery, level);
+    }
+
+    public (Learnset Learn, Learnset Mastery) GetLevelUpInfo()
+    {
         var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var mastery = Legal.MasteryLA[index];
         var learn = Legal.LevelUpLA[index];
+        var mastery = Legal.MasteryLA[index];
+        return (learn, mastery);
+    }
+
+    public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
+    {
         if (IsAlpha && Moves.Count != 0)
         {
             moves = (int[])Moves;
@@ -155,9 +169,6 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         {
             learn.SetEncounterMoves(level, moves);
         }
-        pk.SetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
-        pa8.SetEncounterMasteryFlags(moves, mastery, level);
     }
 
     private OverworldParam8a GetParams()

@@ -52,9 +52,15 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
     {
         var pa8 = (PA8)pk;
         Span<int> moves = stackalloc int[4];
-        var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var mastery = Legal.MasteryLA[index];
-        var learn = Legal.LevelUpLA[index];
+        var (learn, mastery) = GetLevelUpInfo();
+        LoadInitialMoveset(pa8, moves, learn, level);
+        pk.SetMoves(moves);
+        pk.SetMaximumPPCurrent(moves);
+        pa8.SetEncounterMasteryFlags(moves, mastery, level);
+    }
+
+    public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
+    {
         if (pa8.AlphaMove != 0)
         {
             moves[0] = pa8.AlphaMove;
@@ -64,9 +70,14 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         {
             learn.SetEncounterMoves(level, moves);
         }
-        pk.SetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
-        pa8.SetEncounterMasteryFlags(moves, mastery, level);
+    }
+
+    public (Learnset Learn, Learnset Mastery) GetLevelUpInfo()
+    {
+        var index = PersonalTable.LA.GetFormIndex(Species, Form);
+        var learn = Legal.LevelUpLA[index];
+        var mastery = Legal.MasteryLA[index];
+        return (learn, mastery);
     }
 
     protected override void SetFormatSpecificData(PKM pk)

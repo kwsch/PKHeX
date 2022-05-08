@@ -33,12 +33,17 @@ namespace PKHeX.Core
             if (pk is not IMoveShop8Mastery t)
                 return ModifyResult.Invalid;
 
+            t.ClearMoveShopFlags();
+            if (IsNone(propValue))
+                return ModifyResult.Modified;
+
+            var e = info.Legality.EncounterMatch;
+            if (e is IMasteryInitialMoveShop8 enc)
+                enc.SetInitialMastery(pk);
             if (IsAll(propValue))
                 t.SetMoveShopFlagsAll(pk);
-            else if (!IsNone(propValue))
-                t.SetMoveShopFlags(pk);
             else
-                t.ClearMoveShopFlags();
+                t.SetMoveShopFlags(pk);
             return ModifyResult.Modified;
         }
 

@@ -1787,6 +1787,9 @@ namespace PKHeX.WinForms.Controls
 
             if (ModifierKeys == Keys.Shift)
             {
+                m.ClearMoveShopFlags();
+                if (Legality.EncounterMatch is IMasteryInitialMoveShop8 enc)
+                    enc.SetInitialMastery(Entity);
                 m.SetMoveShopFlags(Entity);
                 UpdateLegality();
                 return;
