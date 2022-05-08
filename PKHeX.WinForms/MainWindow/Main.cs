@@ -1097,7 +1097,7 @@ namespace PKHeX.WinForms
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
-                e.Effect = DragDropEffects.Move;
+                e.Effect = DragDropEffects.Copy;
         }
 
         private void Main_DragDrop(object? sender, DragEventArgs? e)
@@ -1159,7 +1159,7 @@ namespace PKHeX.WinForms
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
         }
 
-        private void Dragout_DragOver(object sender, DragEventArgs e) => e.Effect = DragDropEffects.Move;
+        private void Dragout_DragOver(object sender, DragEventArgs e) => e.Effect = DragDropEffects.Copy;
 
         private void DragoutEnter(object sender, EventArgs e)
         {
