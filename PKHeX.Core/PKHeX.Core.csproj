@@ -2,17 +2,34 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
-    <Description>Pokémon C# Class Library</Description>
-    <Company>Project Pokémon</Company>
-    <Copyright>Kaphotics</Copyright>
-    <NeutralLanguage>en</NeutralLanguage>
-    <PackageLicenseUrl>https://github.com/kwsch/PKHeX/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageIconUrl>https://github.com/kwsch/PKHeX/blob/master/PKHeX.WinForms/icon.ico</PackageIconUrl>
-    <PackageProjectUrl />
-    <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Pokémon C# Class Library</Description>
+    <RootNamespace>PKHeX.Core</RootNamespace>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Company>Project Pokémon</Company>
+    <Copyright>Kaphotics</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackage>true</IsPackage>
+    <PackageId>PKHeX.Core</PackageId>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/kwsch/PKHeX</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
