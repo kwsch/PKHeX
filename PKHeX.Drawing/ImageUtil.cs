@@ -126,14 +126,11 @@ public static class ImageUtil
 
     public static void RemovePixels(Span<byte> pixels, ReadOnlySpan<byte> original)
     {
-        for (int i = 0; i < original.Length; i += 4)
+        var arr = MemoryMarshal.Cast<byte, int>(pixels);
+        for (int i = original.Length - 4; i >= 0; i -= 4)
         {
-            if (original[i + 3] == 0)
-                continue;
-            pixels[i + 0] = 0;
-            pixels[i + 1] = 0;
-            pixels[i + 2] = 0;
-            pixels[i + 3] = 0;
+            if (original[i + 3] != 0)
+                arr[i >> 2] = 0;
         }
     }
 
@@ -145,33 +142,20 @@ public static class ImageUtil
 
     public static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans, int start)
     {
-        byte R = c.R;
-        byte G = c.G;
-        byte B = c.B;
-        for (int i = start; i < data.Length; i += 4)
+        var arr = MemoryMarshal.Cast<byte, int>(data);
+        var value = Color.FromArgb(trans, c.R, c.G, c.G).ToArgb();
+        for (int i = data.Length - 4; i >= start; i -= 4)
         {
-            if (data[i + 3] != 0)
-                continue;
-            data[i + 0] = B;
-            data[i + 1] = G;
-            data[i + 2] = R;
-            data[i + 3] = trans;
+            if (data[i + 3] == 0)
+                arr[i >> 2] = value;
         }
     }
 
     public static void ChangeAllTo(Span<byte> data, Color c, int start, int end)
     {
-        byte R = c.R;
-        byte G = c.G;
-        byte B = c.B;
-        byte A = c.A;
-        for (int i = start; i < end; i += 4)
-        {
-            data[i + 3] = A;
-            data[i + 2] = R;
-            data[i + 1] = G;
-            data[i + 0] = B;
-        }
+        var arr = MemoryMarshal.Cast<byte, int>(data).Slice(start / 4, (end - start) / 4);
+        var value = c.ToArgb();
+        arr.Fill(value);
     }
 
     public static void ChangeAllColorTo(Span<byte> data, Color c)
@@ -208,6 +192,8 @@ public static class ImageUtil
         CleanPollutedPixels(data, blue, green, red);
     }
 
+    private const int PollutePixelColorIndex = 0;
+
     private static void PollutePixels(Span<byte> data, int width, int reach, double amount)
     {
         int stride = width * 4;
@@ -232,7 +218,8 @@ public static class ImageUtil
                         // update one of the color bits
                         // it is expected that a transparent pixel RGBA value is 0.
                         var c = 4 * (ix + (iy * width));
-                        data[c + 0] += (byte)(amount * (0xFF - data[c + 0]));
+                        ref var b = ref data[c + PollutePixelColorIndex];
+                        b += (byte)(amount * (0xFF - b));
                     }
                 }
             }
@@ -248,7 +235,7 @@ public static class ImageUtil
                 continue;
 
             // grab the transparency from the donor byte
-            var transparency = data[i + 0];
+            var transparency = data[i + PollutePixelColorIndex];
             if (transparency == 0)
                 continue;
 
