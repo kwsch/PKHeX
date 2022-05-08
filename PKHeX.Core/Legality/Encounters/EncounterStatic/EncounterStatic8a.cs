@@ -157,11 +157,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         }
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
-        foreach (var move in moves)
-        {
-            if (mastery.GetMoveLevel(move) <= level)
-                pa8.SetMasteryFlagMove(move);
-        }
+        pa8.SetEncounterMasteryFlags(moves, mastery, level);
     }
 
     private OverworldParam8a GetParams()

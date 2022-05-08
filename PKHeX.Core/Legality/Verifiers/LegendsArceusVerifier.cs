@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -193,7 +194,7 @@ public sealed class LegendsArceusVerifier : Verifier
             return; // All good.
 
         // Check if the move can be purchased; using a Mastery Seed checks the permission.
-        if (pa.AlphaMove == moves[i])
+        if (data.EncounterMatch is (IMoveset m and IMasteryInitialMoveShop8) && m.Moves.Contains(moves[i]))
             return; // Previously checked.
         if (!bits[i])
             data.AddLine(GetInvalid(string.Format(LMoveShopMasterInvalid_0, ParseSettings.MoveStrings[moves[i]])));

@@ -81,19 +81,40 @@ public static class MoveShopRecordApplicator
         }
     }
 
-    public static void SetMasteredFlag(IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, int move)
+    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, int move)
     {
         if (shop.GetMasteredRecordFlag(index))
             return;
 
-        if ((uint)learn.GetMoveLevel(move) > level) // Can't learn it yet; must purchase.
+        if (level < (uint)learn.GetMoveLevel(move)) // Can't learn it yet; must purchase.
         {
             shop.SetPurchasedRecordFlag(index, true);
             shop.SetMasteredRecordFlag(index, true);
             return;
         }
 
-        if (mastery.GetMoveLevel(move) < level) // Can't master it yet; must Seed of Mastery
+        if (level < (uint)mastery.GetMoveLevel(move)) // Can't master it yet; must Seed of Mastery
             shop.SetMasteredRecordFlag(index, true);
+    }
+
+    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level)
+    {
+        var possible = shop.MoveShopPermitIndexes;
+        var permit = shop.MoveShopPermitFlags;
+        foreach (var move in moves)
+        {
+            var index = possible.IndexOf((ushort)move);
+            if (index == -1)
+                continue;
+            if (!permit[index])
+                continue;
+
+            // If the Pokémon is caught with any move shop move in its learnset
+            // and it is high enough level to master it, the game will automatically
+            // give it the "Mastered" flag but not the "Purchased" flag
+            // For moves that are not in the learnset, it returns -1 which is true, thus set as mastered.
+            if (level >= mastery.GetMoveLevel(move))
+                shop.SetMasteredRecordFlag(index, true);
+        }
     }
 }
