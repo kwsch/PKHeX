@@ -94,7 +94,7 @@ namespace PKHeX.Core
             throw new ArgumentOutOfRangeException(nameof(species));
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;

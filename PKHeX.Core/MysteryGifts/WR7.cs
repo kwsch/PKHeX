@@ -101,7 +101,7 @@ namespace PKHeX.Core
         }
 
         // Mystery Gift implementation, unused.
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo) => false;
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         protected override bool IsMatchPartial(PKM pkm) => false;
         public override Shiny Shiny => Shiny.Never;

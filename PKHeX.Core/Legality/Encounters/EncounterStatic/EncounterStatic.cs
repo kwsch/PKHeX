@@ -214,7 +214,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public virtual bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (Nature != Nature.Random && pkm.Nature != (int) Nature)
                 return false;
@@ -256,7 +256,7 @@ namespace PKHeX.Core
             return Legal.GetIsFixedIVSequenceValidSkipRand((int[])IVs, pkm);
         }
 
-        protected virtual bool IsMatchForm(PKM pkm, IDexLevel evo)
+        protected virtual bool IsMatchForm(PKM pkm, EvoCriteria evo)
         {
             if (IsRandomUnspecificForm)
                 return true;
@@ -288,7 +288,7 @@ namespace PKHeX.Core
             return Location == pkm.Met_Location;
         }
 
-        protected virtual bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected virtual bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             return pkm.Met_Level == Level;
         }

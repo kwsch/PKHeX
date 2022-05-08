@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
         private const int CatchComboBonus = 1;
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {

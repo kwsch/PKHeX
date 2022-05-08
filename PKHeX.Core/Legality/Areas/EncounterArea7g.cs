@@ -67,7 +67,7 @@ namespace PKHeX.Core
             return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             // Find the first chain that has slots defined.
             // Since it is possible to evolve before transferring, we only need the highest evolution species possible.

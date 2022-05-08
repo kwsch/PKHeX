@@ -72,14 +72,14 @@ namespace PKHeX.Core
             return GetCanLearnMachineMove(pkm, evos, move, generation, version);
         }
 
-        public static bool GetCanLearnMachineMove(PKM pkm, IReadOnlyList<EvoCriteria> evos, int move, int generation, GameVersion version = GameVersion.Any)
+        public static bool GetCanLearnMachineMove(PKM pkm, EvoCriteria[] evos, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.AllMachines))
                 return true;
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
         }
 
-        private static bool IsOtherFormMove(PKM pkm, IReadOnlyList<EvoCriteria> evos, int move, int generation, GameVersion version, MoveSourceType types)
+        private static bool IsOtherFormMove(PKM pkm, EvoCriteria[] evos, int move, int generation, GameVersion version, MoveSourceType types)
         {
             if (!Legal.FormChangeMoves.TryGetValue(pkm.Species, out var criteria))
                 return false;
@@ -152,14 +152,14 @@ namespace PKHeX.Core
             return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
         }
 
-        public static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
+        public static bool GetCanRelearnMove(PKM pkm, int move, int generation, EvoCriteria[] evos, GameVersion version = GameVersion.Any)
         {
             if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.Reminder))
                 return true;
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
-        private static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos, GameVersion version = GameVersion.Any)
+        private static bool GetCanKnowMove(PKM pkm, int move, int generation, EvoCriteria[][] evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Smeargle)
                 return Legal.IsValidSketch(move, generation);
@@ -167,12 +167,12 @@ namespace PKHeX.Core
             if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
                 return true;
 
-            if (evos.Count <= generation)
+            if (evos.Length <= generation)
                 return false;
             for (int i = 1; i <= generation; i++)
             {
                 var chain = evos[i];
-                if (chain.Count == 0)
+                if (chain.Length == 0)
                     continue;
 
                 var moves = MoveList.GetValidMoves(pkm, version, chain, i, types: MoveSourceType.All);

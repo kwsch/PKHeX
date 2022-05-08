@@ -63,7 +63,7 @@ namespace PKHeX.Core
                 yield return deferred;
         }
 
-        private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game)
+        private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pkm, EvoCriteria[] chain, GameVersion game)
         {
             if (pkm.Korean) // only GS; no events
                 yield break;

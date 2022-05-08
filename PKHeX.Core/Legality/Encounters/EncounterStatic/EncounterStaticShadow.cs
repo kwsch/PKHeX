@@ -36,7 +36,7 @@ namespace PKHeX.Core
             return Version == GameVersion.XD && met is (59 or 90 or 91 or 92 or 113);
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             if (pkm.Format != 3) // Met Level lost on PK3=>PK4
                 return Level <= evo.LevelMax;

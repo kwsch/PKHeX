@@ -74,7 +74,7 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
         public abstract PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
 
-        public abstract bool IsMatchExact(PKM pkm, IDexLevel evo);
+        public abstract bool IsMatchExact(PKM pkm, EvoCriteria evo);
         protected abstract bool IsMatchDeferred(PKM pkm);
         protected abstract bool IsMatchPartial(PKM pkm);
 

@@ -217,7 +217,7 @@ namespace PKHeX.Core
             };
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             // Gen3 Version MUST match.
             if (Version != 0 && !Version.Contains((GameVersion)pkm.Version))

@@ -18,7 +18,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Pokémon Data</param>
         /// <param name="chain">Evolution lineage</param>
         /// <returns>Enumerable list of encounters</returns>
-        public abstract IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain);
+        public abstract IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain);
 
         /// <summary>
         /// Checks if the provided met location ID matches the parameters for the area.
@@ -28,6 +28,6 @@ namespace PKHeX.Core
         public virtual bool IsMatchLocation(int location) => Location == location;
 
         public bool HasSpecies(int species) => Raw.Any(z => z.Species == species);
-        public IEnumerable<EncounterSlot> GetSpecies(IReadOnlyList<EvoCriteria> chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
+        public IEnumerable<EncounterSlot> GetSpecies(EvoCriteria[] chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
     }
 }

@@ -11,7 +11,7 @@ namespace PKHeX.Core
 {
     internal static class EncounterGenerator8b
     {
-        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, EvoCriteria[] chain)
         {
             int ctr = 0;
             if (pkm.FatefulEncounter)

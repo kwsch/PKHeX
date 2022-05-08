@@ -22,7 +22,7 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             var table = gameSource switch
             {
@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(EvoCriteria[] chain, GameVersion gameSource)
         {
             static IEnumerable<EncounterStatic> GetEvents(GameVersion g)
             {
@@ -48,27 +48,27 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, EvoCriteria[] chain)
         {
             return GetValidStaticEncounter(pkm, chain, (GameVersion)pkm.Version);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             var table = GetEncounterStaticTable(pkm, gameSource);
             return GetMatchingStaticEncounters(pkm, table, chain);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             var poss = GetPossibleGBGifts(chain, gameSource: gameSource);
             foreach (EncounterStatic e in poss)
             {
-                foreach (var dl in chain)
+                foreach (var evo in chain)
                 {
-                    if (dl.Species != e.Species)
+                    if (evo.Species != e.Species)
                         continue;
-                    if (!e.IsMatchExact(pkm, dl))
+                    if (!e.IsMatchExact(pkm, evo))
                         continue;
 
                     yield return e;
@@ -76,16 +76,16 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<EvoCriteria> evos)
+        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, EvoCriteria[] chain)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
             foreach (var e in poss)
             {
-                foreach (var dl in evos)
+                foreach (var evo in chain)
                 {
-                    if (dl.Species != e.Species)
+                    if (evo.Species != e.Species)
                         continue;
-                    if (!e.IsMatchExact(pkm, dl))
+                    if (!e.IsMatchExact(pkm, evo))
                         continue;
 
                     yield return e;
@@ -129,7 +129,7 @@ namespace PKHeX.Core
             return species;
         }
 
-        internal static EncounterStatic? GetStaticLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        internal static EncounterStatic? GetStaticLocation(PKM pkm, EvoCriteria[] chain)
         {
             switch (pkm.Generation)
             {

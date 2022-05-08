@@ -104,7 +104,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {
@@ -139,7 +139,7 @@ namespace PKHeX.Core
             }
         }
 
-        private bool ExistsPressureSlot(IDexLevel evo, ref byte level)
+        private bool ExistsPressureSlot(EvoCriteria evo, ref byte level)
         {
             bool existsForm = false;
             foreach (var z in Slots)

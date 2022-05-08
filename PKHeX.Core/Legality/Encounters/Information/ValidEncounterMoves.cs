@@ -17,7 +17,7 @@ namespace PKHeX.Core
         private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
         private static readonly IReadOnlyList<int>[] Empty = Enumerable.Repeat((IReadOnlyList<int>)new List<int>(), EmptyCount).ToArray();
 
-        public ValidEncounterMoves(PKM pkm, IEncounterTemplate encounter, IReadOnlyList<EvoCriteria>[] chains)
+        public ValidEncounterMoves(PKM pkm, IEncounterTemplate encounter, EvoCriteria[][] chains)
         {
             var level = MoveList.GetValidMovesAllGens(pkm, chains, types: MoveSourceType.Encounter, RemoveTransferHM: false);
 

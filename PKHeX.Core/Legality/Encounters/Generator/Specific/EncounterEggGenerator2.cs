@@ -15,7 +15,7 @@ namespace PKHeX.Core
             return GenerateEggs(pkm, evos, all);
         }
 
-        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, EvoCriteria[] chain, bool all = false)
         {
             int species = pkm.Species;
             if (!Breeding.CanHatchAsEgg(species))
@@ -29,7 +29,7 @@ namespace PKHeX.Core
             // Species must be < 251
             // Form must be 0 (Unown cannot breed).
             var baseID = chain[^1];
-            if ((baseID.Species >= Legal.MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
+            if ((baseID.Species >= Legal.MaxSpeciesID_2 || baseID.Form != 0) && chain.Length != 1)
                 baseID = chain[^2];
             if (baseID.Form != 0)
                 yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.

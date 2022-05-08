@@ -55,7 +55,7 @@ namespace PKHeX.Core
             return new EncounterSlot7(this, species, form, min, max);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {

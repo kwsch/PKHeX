@@ -161,7 +161,7 @@ namespace PKHeX.Core
             return Array.Empty<int>();
         }
 
-        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             var result = new IReadOnlyList<int>[evoChains.Length];
             for (int i = 0; i < result.Length; i++)
@@ -171,7 +171,7 @@ namespace PKHeX.Core
             for (int i = min; i < evoChains.Length; i++)
             {
                 var evos = evoChains[i];
-                if (evos.Count == 0)
+                if (evos.Length == 0)
                     continue;
 
                 result[i] = GetValidMoves(pkm, evos, i, types, RemoveTransferHM).ToList();
@@ -179,7 +179,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria> evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, EvoCriteria[] evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsMovesetRestricted(generation))
@@ -220,7 +220,7 @@ namespace PKHeX.Core
             return preevomoves.Except(evomoves).Distinct();
         }
 
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<EvoCriteria> chain, int generation, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, EvoCriteria[] chain, int generation, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
         {
             var r = new List<int> { 0 };
             int species = pkm.Species;
@@ -231,10 +231,10 @@ namespace PKHeX.Core
             // Generation 1 & 2 do not always have move relearning capability, so the bottom bound for learnable indexes needs to be determined.
             var minLvLG1 = 0;
             var minLvLG2 = 0;
-            for (var i = 0; i < chain.Count; i++)
+            for (var i = 0; i < chain.Length; i++)
             {
                 var evo = chain[i];
-                bool encounteredEvo = i == chain.Count - 1;
+                bool encounteredEvo = i == chain.Length - 1;
 
                 if (generation <= 2)
                 {
@@ -266,7 +266,7 @@ namespace PKHeX.Core
             return r.Distinct();
         }
 
-        internal static IEnumerable<int> GetValidMovesAllForms(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion version, int generation, MoveSourceType types, bool RemoveTransferHM, int species, List<int> r)
+        internal static IEnumerable<int> GetValidMovesAllForms(PKM pkm, EvoCriteria[] chain, GameVersion version, int generation, MoveSourceType types, bool RemoveTransferHM, int species, List<int> r)
         {
             // These don't evolve, so don't bother iterating for all entries in the evolution chain (should always be count==1).
             int formCount;

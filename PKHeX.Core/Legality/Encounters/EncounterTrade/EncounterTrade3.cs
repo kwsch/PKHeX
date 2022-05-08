@@ -45,7 +45,7 @@ namespace PKHeX.Core
             Level = level;
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (!base.IsMatchExact(pkm, evo))
                 return false;

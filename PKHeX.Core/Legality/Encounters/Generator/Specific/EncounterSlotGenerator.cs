@@ -23,7 +23,7 @@ namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
     {
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             var possibleAreas = GetAreasByGame(pkm, gameSource);
             return possibleAreas.SelectMany(z => z.GetSpecies(chain));
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             _ => GetEncounterTable(pkm, gameSource),
         };
 
-        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             if (!Locations.IsNoneLocation(gameSource, pkm.Egg_Location) || pkm.IsEgg)
                 yield break;
@@ -57,12 +57,12 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             return GetRawEncounterSlots(pkm, chain, gameSource);
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, EvoCriteria[] chain)
         {
             var gameSource = (GameVersion)pkm.Version;
             return GetRawEncounterSlots(pkm, chain, gameSource);
@@ -78,7 +78,7 @@ namespace PKHeX.Core
             return slots.Where(z => z.IsMatchLocation(metLocation));
         }
 
-        internal static EncounterSlot? GetCaptureLocation(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        internal static EncounterSlot? GetCaptureLocation(PKM pkm, EvoCriteria[] chain)
         {
             return GetPossible(pkm, chain, (GameVersion)pkm.Version)
                 .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))

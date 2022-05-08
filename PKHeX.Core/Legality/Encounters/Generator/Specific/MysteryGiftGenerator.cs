@@ -7,7 +7,7 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftGenerator
     {
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, EvoCriteria[] chain)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
             int gen = pkm.Generation;
@@ -15,12 +15,12 @@ namespace PKHeX.Core
                 yield return RangerManaphy;
 
             var table = GetTable(gen, pkm);
-            var possible = table.Where(wc => chain.Any(dl => dl.Species == wc.Species));
+            var possible = table.Where(wc => chain.Any(evo => evo.Species == wc.Species));
             foreach (var enc in possible)
                 yield return enc;
         }
 
-        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, EvoCriteria[] chain)
         {
             int gen = pkm.Generation;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             _ => Array.Empty<MysteryGift>(),
         };
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyCollection<PCD> DB, EvoCriteria[] chain)
         {
             if (PGT.IsRangerManaphy(pkm))
             {
@@ -55,15 +55,15 @@ namespace PKHeX.Core
                 yield return g;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyCollection<MysteryGift> DB, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyCollection<MysteryGift> DB, EvoCriteria[] chain)
         {
             foreach (var mg in DB)
             {
-                foreach (var dl in chain)
+                foreach (var evo in chain)
                 {
-                    if (dl.Species != mg.Species)
+                    if (evo.Species != mg.Species)
                         continue;
-                    if (mg.IsMatchExact(pkm, dl))
+                    if (mg.IsMatchExact(pkm, evo))
                         yield return mg;
                 }
             }

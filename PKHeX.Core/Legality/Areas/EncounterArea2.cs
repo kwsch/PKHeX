@@ -73,7 +73,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             if (pkm is not ICaughtData2 {CaughtData: not 0} pk2)
                 return GetSlotsFuzzy(chain);
@@ -83,7 +83,7 @@ namespace PKHeX.Core
             return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot2> GetSlotsSpecificLevelTime(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
+        private IEnumerable<EncounterSlot2> GetSlotsSpecificLevelTime(EvoCriteria[] chain, int time, int lvl)
         {
             foreach (var slot in Slots)
             {
@@ -110,7 +110,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot2> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot2> GetSlotsFuzzy(EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {

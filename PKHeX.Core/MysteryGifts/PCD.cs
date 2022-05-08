@@ -126,7 +126,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)

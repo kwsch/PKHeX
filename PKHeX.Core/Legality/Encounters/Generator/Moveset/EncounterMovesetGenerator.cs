@@ -152,7 +152,7 @@ namespace PKHeX.Core
             return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
         }
 
-        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> chain)
+        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, EvoCriteria[] chain)
         {
             if (pk.Species == (int)Species.Smeargle)
                 return moves.Where(z => !Legal.IsValidSketch(z, pk.Format)).ToArray(); // Can learn anything
@@ -190,7 +190,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
+        private static IEnumerable<int> GetMovesForGeneration(PKM pk, EvoCriteria[] chain, int generation)
         {
             IEnumerable<int> moves = MoveList.GetValidMoves(pk, chain, generation);
             if (generation <= 2)
@@ -220,7 +220,7 @@ namespace PKHeX.Core
             return moves;
         }
 
-        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyList<int> needs, GameVersion version, EncounterOrder type, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyList<int> needs, GameVersion version, EncounterOrder type, EvoCriteria[] chain)
         {
             return type switch
             {
@@ -241,7 +241,7 @@ namespace PKHeX.Core
         /// <param name="chain">Origin possible evolution chain</param>
         /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
+        private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
         {
             if (!Breeding.CanGameGenerateEggs(version))
                 yield break; // no eggs from these games
@@ -275,7 +275,7 @@ namespace PKHeX.Core
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain)
         {
             var format = pk.Format;
             var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
@@ -304,7 +304,7 @@ namespace PKHeX.Core
         /// <param name="chain">Origin possible evolution chain</param>
         /// <param name="version">Specific version to iterate for.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
+        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
         {
             var format = pk.Format;
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
@@ -356,7 +356,7 @@ namespace PKHeX.Core
         /// <param name="chain">Origin possible evolution chain</param>
         /// <param name="version">Specific version to iterate for.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
+        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
         {
             var format = pk.Format;
             var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
@@ -387,7 +387,7 @@ namespace PKHeX.Core
         /// <param name="chain">Origin possible evolution chain</param>
         /// <param name="version">Origin version</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
+        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, EvoCriteria[] chain, GameVersion version)
         {
             var format = pk.Format;
             var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
@@ -414,7 +414,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsSane(IReadOnlyList<EvoCriteria> chain, IEncounterTemplate enc, int format)
+        private static bool IsSane(EvoCriteria[] chain, IEncounterTemplate enc, int format)
         {
             foreach (var evo in chain)
             {

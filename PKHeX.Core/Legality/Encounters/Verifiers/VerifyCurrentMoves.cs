@@ -578,13 +578,13 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos)
+        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, EvoCriteria[][] evos)
         {
             int shedinjaEvoMoveIndex = 0;
             var format = pkm.Format;
             for (int gen = Math.Min(format, 4); gen >= 3; gen--)
             {
-                if (evos[gen].Count != 2)
+                if (evos[gen].Length != 2)
                     continue; // Was not evolved in this generation
                 if (gen == 4 && pkm.Ball != 4 && !(pkm.Ball == (int)Ball.Sport && pkm.HGSS))
                     continue; // Was definitively evolved in Gen3

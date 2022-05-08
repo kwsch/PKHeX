@@ -22,7 +22,7 @@ namespace PKHeX.Core
             };
         }
 
-        internal static IEnumerable<IEncounterable> GetEncountersGO(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        internal static IEnumerable<IEncounterable> GetEncountersGO(PKM pkm, EvoCriteria[] chain)
         {
             IEncounterable? deferred = null;
             IEncounterable? partial = null;
@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 yield return partial;
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersGG(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetEncountersGG(PKM pkm, EvoCriteria[] chain)
         {
             int ctr = 0;
             if (pkm.FatefulEncounter)
@@ -102,7 +102,7 @@ namespace PKHeX.Core
                 yield return partial;
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, EvoCriteria[] chain)
         {
             int ctr = 0;
             if (pkm.FatefulEncounter)

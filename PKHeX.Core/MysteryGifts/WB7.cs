@@ -529,7 +529,7 @@ namespace PKHeX.Core
 
         public bool CanHandleOT(int language) => string.IsNullOrEmpty(GetOT(language));
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {

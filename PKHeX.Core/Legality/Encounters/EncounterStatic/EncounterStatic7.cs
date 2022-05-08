@@ -38,7 +38,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override bool IsMatchForm(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchForm(PKM pkm, EvoCriteria evo)
         {
             if (IsTotem)
             {

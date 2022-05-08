@@ -38,7 +38,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
+        private static List<string> GetIncorrectRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
         {
             return GetInvalidRibbons(pkm, evos, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IEncounterTemplate enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
         {
             // is a part of Event4, but O3 doesn't have the others
             if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, IRibbonSetCommon4 s4, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, EvoCriteria[][] evos, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
@@ -582,7 +582,7 @@ namespace PKHeX.Core
             return IsAllowedBattleFrontier(species);
         }
 
-        private static bool CanHaveFootprintRibbon(PKM pkm, IReadOnlyList<EvoCriteria>[] evos, int gen)
+        private static bool CanHaveFootprintRibbon(PKM pkm, EvoCriteria[][] evos, int gen)
         {
             if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
                 return true;

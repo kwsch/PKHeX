@@ -24,7 +24,7 @@
             return true; // transfer location verified later
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             if (pkm.Format != 4) // Met Level lost on PK4=>PK5
                 return Level <= evo.LevelMax;

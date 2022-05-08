@@ -6,7 +6,7 @@ namespace PKHeX.Core
 {
     public static class MoveListSuggest
     {
-        private static int[] GetSuggestedMoves(PKM pkm, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, MoveSourceType types, IEncounterTemplate enc)
+        private static int[] GetSuggestedMoves(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types, IEncounterTemplate enc)
         {
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return MoveList.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
@@ -30,7 +30,7 @@ namespace PKHeX.Core
             return GetValidMoves(pkm, evoChains, types).Skip(1).ToArray(); // skip move 0
         }
 
-        private static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsMovesetRestricted())
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             return GetValidMoves(pkm, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
         {
             var r = new List<int> { 0 };
             if (types.HasFlagFast(MoveSourceType.RelearnMoves) && pkm.Format >= 6)
@@ -53,7 +53,7 @@ namespace PKHeX.Core
             for (int generation = start; generation <= pkm.Format; generation++)
             {
                 var chain = evoChains[generation];
-                if (chain.Count == 0)
+                if (chain.Length == 0)
                     continue;
                 r.AddRange(MoveList.GetValidMoves(pkm, version, chain, generation, types: types, RemoveTransferHM: RemoveTransferHM));
             }

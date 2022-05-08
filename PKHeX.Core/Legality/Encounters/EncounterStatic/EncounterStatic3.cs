@@ -25,7 +25,7 @@ namespace PKHeX.Core
             return pkm.Egg_Location == 0;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             if (pkm.Format != 3) // Met Level lost on PK3=>PK4
                 return Level <= evo.LevelMax;

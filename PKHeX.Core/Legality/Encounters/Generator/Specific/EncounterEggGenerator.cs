@@ -14,7 +14,7 @@ namespace PKHeX.Core
             return GenerateEggs(pkm, evos, generation, all);
         }
 
-        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, int generation, bool all = false)
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, EvoCriteria[] chain, int generation, bool all = false)
         {
             System.Diagnostics.Debug.Assert(generation >= 3); // if generating Gen2 eggs, use the other generator.
             int currentSpecies = pkm.Species;
@@ -82,15 +82,15 @@ namespace PKHeX.Core
             return ver < GameVersion.GP; // lgpe and sw/sh don't have a sister pair
         }
 
-        private static (int Species, int Form) GetBaseSpecies(IReadOnlyList<EvoCriteria> evolutions, int skipOption)
+        private static (int Species, int Form) GetBaseSpecies(EvoCriteria[] evolutions, int skipOption)
         {
             int species = evolutions[0].Species;
             if (species == (int)Species.Shedinja) // Shedinja
                 return ((int)Species.Nincada, 0); // Nincada
 
             // skip n from end, return empty if invalid index
-            int index = evolutions.Count - 1 - skipOption;
-            if ((uint)index >= evolutions.Count)
+            int index = evolutions.Length - 1 - skipOption;
+            if ((uint)index >= evolutions.Length)
                 return (-1, 0);
             var evo = evolutions[index];
             return (evo.Species, evo.Form);

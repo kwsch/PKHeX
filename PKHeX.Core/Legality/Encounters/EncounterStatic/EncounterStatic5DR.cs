@@ -18,7 +18,7 @@
             Shiny = Shiny.Never;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             // Level from 5->40 depends on the number of badges
             var met = pkm.Met_Level;

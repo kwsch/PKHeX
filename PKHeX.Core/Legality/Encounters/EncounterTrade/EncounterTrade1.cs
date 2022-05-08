@@ -101,7 +101,7 @@ namespace PKHeX.Core
             return lvl >= LevelMin;
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel dl)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (!IsMatchLevel(pkm, pkm.CurrentLevel)) // minimum required level
                 return false;

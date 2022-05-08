@@ -23,7 +23,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, EvoCriteria[] chain)
         {
             int ctr = 0;
             if (pkm.FatefulEncounter)

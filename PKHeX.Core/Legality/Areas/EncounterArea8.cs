@@ -40,7 +40,7 @@ namespace PKHeX.Core
             return others.Contains((byte)location);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             var metLocation = pkm.Met_Location;
             // wild area gets boosted up to level 60 post-game
@@ -51,7 +51,7 @@ namespace PKHeX.Core
             return GetUnboostedMatches(chain, met, metLocation);
         }
 
-        private IEnumerable<EncounterSlot8> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int metLevel, int metLocation)
+        private IEnumerable<EncounterSlot8> GetUnboostedMatches(EvoCriteria[] chain, int metLevel, int metLocation)
         {
             foreach (var slot in Slots)
             {
@@ -78,7 +78,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot8> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain, int metLocation)
+        private IEnumerable<EncounterSlot8> GetBoostedMatches(EvoCriteria[] chain, int metLocation)
         {
             foreach (var slot in Slots)
             {

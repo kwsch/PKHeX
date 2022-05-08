@@ -20,7 +20,7 @@ namespace PKHeX.Core
             FlawlessIVCount = flawless;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             var lvl = pkm.Met_Level;
 
@@ -62,7 +62,7 @@ namespace PKHeX.Core
             };
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;

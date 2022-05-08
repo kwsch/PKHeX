@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core;
 
-public readonly record struct EvoCriteria : IDexLevel
+public readonly record struct EvoCriteria
 {
     public ushort Species { get; init; }
     public byte Form { get; init; }

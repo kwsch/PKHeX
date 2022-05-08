@@ -554,7 +554,7 @@ namespace PKHeX.Core
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {

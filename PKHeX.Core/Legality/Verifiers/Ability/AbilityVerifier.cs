@@ -93,7 +93,7 @@ namespace PKHeX.Core
 
         public static bool IsValidAbilityBits(int num) => num is 1 or 2 or 4;
 
-        private static bool GetWasDual(IReadOnlyList<EvoCriteria> evos, PersonalTable pt, ISpeciesForm pk)
+        private static bool GetWasDual(EvoCriteria[] evos, PersonalTable pt, ISpeciesForm pk)
         {
             foreach (var evo in evos)
             {

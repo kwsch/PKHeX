@@ -361,8 +361,8 @@ namespace PKHeX.Core
             var first = new EvoCriteria { Species = (ushort)species, Form = (byte)form, LevelMax = lvl };
 
             const int maxEvolutions = 3;
-            Span<EvoCriteria> dl = stackalloc EvoCriteria[maxEvolutions];
-            dl[0] = first;
+            Span<EvoCriteria> evos = stackalloc EvoCriteria[maxEvolutions];
+            evos[0] = first;
 
             switch (species)
             {
@@ -392,11 +392,11 @@ namespace PKHeX.Core
                         break; // impossible evolution
 
                     oneValid = true;
-                    UpdateMinValues(dl[..ctr], evo, minLevel);
+                    UpdateMinValues(evos[..ctr], evo, minLevel);
 
                     species = link.Species;
                     form = link.Form;
-                    dl[ctr++] = evo.GetEvoCriteria((ushort)species, (byte)form, lvl);
+                    evos[ctr++] = evo.GetEvoCriteria((ushort)species, (byte)form, lvl);
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;
@@ -406,12 +406,12 @@ namespace PKHeX.Core
             }
 
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
-            ref var last = ref dl[ctr - 1];
+            ref var last = ref evos[ctr - 1];
             if (last.Species > maxSpeciesOrigin)
             {
                 for (int i = 0; i < ctr; i++)
                 {
-                    if (dl[i].Species > maxSpeciesOrigin)
+                    if (evos[i].Species > maxSpeciesOrigin)
                         continue;
                     ctr--;
                     break;
@@ -419,7 +419,7 @@ namespace PKHeX.Core
             }
 
             // Last species is the wild/hatched species, the minimum level is because it has not evolved from previous species
-            var result = dl[..ctr];
+            var result = evos[..ctr];
             last = ref result[^1];
             last = last with { LevelMin = minLevel, LevelUpRequired = 0 };
 
@@ -435,9 +435,9 @@ namespace PKHeX.Core
             return result.ToArray();
         }
 
-        private static void UpdateMinValues(Span<EvoCriteria> dl, EvolutionMethod evo, byte minLevel)
+        private static void UpdateMinValues(Span<EvoCriteria> evos, EvolutionMethod evo, byte minLevel)
         {
-            ref var last = ref dl[^1];
+            ref var last = ref evos[^1];
             if (!evo.RequiresLevelUp)
             {
                 // Evolutions like elemental stones, trade, etc
@@ -450,9 +450,9 @@ namespace PKHeX.Core
                 last = last with { LevelMin = (byte)(minLevel + 1) };
 
                 // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
-                if (dl.Length > 1)
+                if (evos.Length > 1)
                 {
-                    ref var first = ref dl[0];
+                    ref var first = ref evos[0];
                     if (!first.RequiresLvlUp)
                         first = first with { LevelMin = (byte)(minLevel + 1) };
                 }
@@ -461,9 +461,9 @@ namespace PKHeX.Core
             {
                 last = last with { LevelMin = evo.Level };
 
-                if (dl.Length > 1)
+                if (evos.Length > 1)
                 {
-                    ref var first = ref dl[0];
+                    ref var first = ref evos[0];
                     if (first.RequiresLvlUp)
                     {
                         // Pokemon like Crobat, its minimum level is Golbat minimum level + 1

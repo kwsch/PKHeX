@@ -45,7 +45,7 @@ namespace PKHeX.Core
             Slots = slots;
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             int rate = pkm is PK1 pk1 ? pk1.Catch_Rate : -1;
             foreach (var slot in Slots)

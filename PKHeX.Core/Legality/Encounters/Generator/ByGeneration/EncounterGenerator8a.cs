@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 
 internal static class EncounterGenerator8a
 {
-    public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+    public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, EvoCriteria[] chain)
     {
         if (pkm.IsEgg)
             yield break;

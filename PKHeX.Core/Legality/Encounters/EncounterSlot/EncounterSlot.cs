@@ -196,7 +196,7 @@ namespace PKHeX.Core
             return LegalityCheckStrings.LEncCondition;
         }
 
-        public bool IsMatchExact(PKM pkm, IDexLevel evo) => true; // Matched by Area
+        public bool IsMatchExact(PKM pkm, EvoCriteria evo) => true; // Matched by Area
 
         public virtual EncounterMatchRating GetMatchRating(PKM pkm)
         {

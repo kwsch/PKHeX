@@ -579,7 +579,7 @@ namespace PKHeX.Core
             pk.SetIVs(finalIVs);
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if ((short)pkm.Egg_Location == Locations.Default8bNone) // Not Egg
             {

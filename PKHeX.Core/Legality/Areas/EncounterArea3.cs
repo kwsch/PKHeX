@@ -113,7 +113,7 @@ namespace PKHeX.Core
             return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             if (pkm.Format != 3) // Met Location and Met Level are changed on PK3->PK4
                 return GetSlotsFuzzy(chain);
@@ -122,7 +122,7 @@ namespace PKHeX.Core
             return GetSlotsMatching(chain, pkm.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot3> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        private IEnumerable<EncounterSlot3> GetSlotsMatching(EvoCriteria[] chain, int lvl)
         {
             foreach (var slot in Slots)
             {
@@ -142,7 +142,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot3> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot3> GetSlotsFuzzy(EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {

@@ -17,7 +17,7 @@ namespace PKHeX.Core
             Level = level;
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (Shiny == Shiny.Always && !pkm.IsShiny)
                 return false;
@@ -56,7 +56,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             if (pkm is ICaughtData2 {CaughtData: not 0})
                 return pkm.Met_Level == (EggEncounter ? 1 : Level);
@@ -104,7 +104,7 @@ namespace PKHeX.Core
             EggCycles = 20;
         }
 
-        public override bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             // Let it get picked up as regular EncounterEgg under other conditions.
             if (pkm.Format > 2)

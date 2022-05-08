@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -81,7 +80,7 @@ public sealed class LegendsArceusVerifier : Verifier
     /// <summary>
     /// Gets the expected minimum count of moves, and modifies the input <see cref="moves"/> with the bare minimum move IDs.
     /// </summary>
-    private static int LoadBareMinimumMoveset(ISpeciesForm enc, IReadOnlyList<EvoCriteria> evos, PA8 pa, Span<int> moves)
+    private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvoCriteria[] evos, PA8 pa, Span<int> moves)
     {
         // Get any encounter moves
         var pt = PersonalTable.LA;
@@ -103,7 +102,7 @@ public sealed class LegendsArceusVerifier : Verifier
             return 4;
 
         // Evolve and try
-        for (int i = 0; i < evos.Count - 1; i++)
+        for (int i = 0; i < evos.Length - 1; i++)
         {
             var evo = evos[i];
             index = pt.GetFormIndex(evo.Species, evo.Form);

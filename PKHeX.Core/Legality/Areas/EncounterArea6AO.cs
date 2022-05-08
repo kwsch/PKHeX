@@ -59,7 +59,7 @@ namespace PKHeX.Core
         private const int FluteBoostMax = 4; // Black Flute increases levels.
         private const int DexNavBoost = 30; // Maximum DexNav chain
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)
         {
             foreach (var slot in Slots)
             {

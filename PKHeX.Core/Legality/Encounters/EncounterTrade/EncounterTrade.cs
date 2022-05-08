@@ -178,7 +178,7 @@ namespace PKHeX.Core
             pk.MetDate = time;
         }
 
-        public virtual bool IsMatchExact(PKM pkm, IDexLevel evo)
+        public virtual bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
             if (IVs.Count != 0)
             {
@@ -213,7 +213,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMatchLevel(PKM pkm, IDexLevel evo)
+        private bool IsMatchLevel(PKM pkm, EvoCriteria evo)
         {
             if (!pkm.HasOriginalMetLocation)
                 return evo.LevelMax >= Level;
