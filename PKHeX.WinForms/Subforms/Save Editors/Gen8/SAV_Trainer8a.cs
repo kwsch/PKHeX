@@ -56,10 +56,16 @@ namespace PKHeX.WinForms
 
             CAL_AdventureStartDate.Value = CAL_AdventureStartTime.Value = SAV.AdventureStart.Timestamp;
 
-            NUD_MeritCurrent.Value = (uint)SAV.Blocks.GetBlockValue(SaveBlockAccessor8LA.KMeritCurrent);
-            NUD_MeritEarned.Value = (uint)SAV.Blocks.GetBlockValue(SaveBlockAccessor8LA.KMeritEarnedTotal);
-            NUD_Rank.Value = (uint)SAV.Blocks.GetBlockValue(SaveBlockAccessor8LA.KExpeditionTeamRank);
-            NUD_Satchel.Value = (uint)SAV.Blocks.GetBlockValue(SaveBlockAccessor8LA.KSatchelUpgrades);
+            LoadClamp(NUD_MeritCurrent, SaveBlockAccessor8LA.KMeritCurrent);
+            LoadClamp(NUD_MeritEarned, SaveBlockAccessor8LA.KMeritEarnedTotal);
+            LoadClamp(NUD_Rank, SaveBlockAccessor8LA.KExpeditionTeamRank);
+            LoadClamp(NUD_Satchel, SaveBlockAccessor8LA.KSatchelUpgrades);
+        }
+
+        private void LoadClamp(NumericUpDown nud, uint key)
+        {
+            var actual = (uint)SAV.Blocks.GetBlockValue(key);
+            nud.Value = Math.Min(actual, nud.Maximum);
         }
 
         private void Save()
