@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -25,47 +24,76 @@ public static class MoveShopRecordApplicator
             shop.SetMasteredRecordFlag(i, false);
     }
 
-    public static void SetMoveShopFlags(this IMoveShop8 shop, bool value, int max = 100)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, PKM pk)
     {
-        var bits = shop.MoveShopPermitFlags;
-        max = Math.Min(bits.Length, max);
-        for (int i = 0; i < max; i++)
-            shop.SetPurchasedRecordFlag(i, value);
+        Span<int> moves = stackalloc int[4];
+        pk.GetMoves(moves);
+        shop.SetMoveShopFlags(moves, pk);
     }
 
-    public static void SetMoveShopFlagsMastered(this IMoveShop8Mastery shop)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, PKM pk)
     {
-        var bits = shop.MoveShopPermitFlags;
-        for (int i = 0; i < bits.Length; i++)
-            shop.SetMasteredRecordFlag(i, shop.GetPurchasedRecordFlag(i));
+        var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
+        var learn = Legal.LevelUpLA[index];
+        var mastery = Legal.MasteryLA[index];
+        var level = pk.CurrentLevel;
+
+        shop.SetMoveShopFlags(moves, learn, mastery, level);
     }
 
-    public static void SetMoveShopFlags(this IMoveShop8 shop)
+    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, PKM pk)
     {
+        var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
+        var learn = Legal.LevelUpLA[index];
+        var mastery = Legal.MasteryLA[index];
+        var level = pk.CurrentLevel;
+
+        shop.SetMoveShopFlagsAll(learn, mastery, level);
+    }
+
+    public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level)
+    {
+        var possible = shop.MoveShopPermitIndexes;
         var permit = shop.MoveShopPermitFlags;
-        for (int index = 0; index < permit.Length; index++)
+        for (int index = 0; index < possible.Length; index++)
         {
-            if (permit[index])
-                shop.SetPurchasedRecordFlag(index, true);
+            var move = possible[index];
+            var allowed = permit[index];
+            if (!allowed)
+                continue;
+
+            SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
     }
 
-    /// <summary>
-    /// Sets the Shop Record flags for the <see cref="shop"/> based on the current moves.
-    /// </summary>
-    /// <param name="shop">Pokémon to modify.</param>
-    /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
-    public static void SetMoveShopFlags(this IMoveShop8 shop, IEnumerable<int> moves)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, Learnset learn, Learnset mastery, int level)
     {
+        var possible = shop.MoveShopPermitIndexes;
         var permit = shop.MoveShopPermitFlags;
-        var moveIDs = shop.MoveShopPermitIndexes;
-        foreach (var m in moves)
+        foreach (var move in moves)
         {
-            var index = moveIDs.IndexOf((ushort)m);
+            var index = possible.IndexOf((ushort)move);
             if (index == -1)
                 continue;
-            if (permit[index])
-                shop.SetPurchasedRecordFlag(index, true);
+            if (!permit[index])
+                continue;
+            SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
+    }
+
+    public static void SetMasteredFlag(IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, int move)
+    {
+        if (shop.GetMasteredRecordFlag(index))
+            return;
+
+        if ((uint)learn.GetMoveLevel(move) > level) // Can't learn it yet; must purchase.
+        {
+            shop.SetPurchasedRecordFlag(index, true);
+            shop.SetMasteredRecordFlag(index, true);
+            return;
+        }
+
+        if (mastery.GetMoveLevel(move) < level) // Can't master it yet; must Seed of Mastery
+            shop.SetMasteredRecordFlag(index, true);
     }
 }

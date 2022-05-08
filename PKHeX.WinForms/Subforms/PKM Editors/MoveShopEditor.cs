@@ -152,18 +152,16 @@ public partial class MoveShopEditor : Form
         switch (ModifierKeys)
         {
             case Keys.Shift:
-                Entity.SetMoveShopFlags(true, Entity.MoveShopPermitIndexes.Length);
+                Master.SetMoveShopFlagsAll(pkm);
                 break;
             case Keys.Control:
                 Entity.ClearMoveShopFlags();
-                Entity.SetMoveShopFlags(pkm.Moves);
+                Master.SetMoveShopFlags(pkm);
                 break;
             default:
-                Entity.ClearMoveShopFlags();
-                Entity.SetMoveShopFlags();
+                Master.SetMoveShopFlags(pkm);
                 break;
         }
-        Master.SetMoveShopFlagsMastered();
         Close();
     }
 

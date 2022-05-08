@@ -34,20 +34,11 @@ namespace PKHeX.Core
                 return ModifyResult.Invalid;
 
             if (IsAll(propValue))
-            {
-                t.SetMoveShopFlags();
-                t.SetMoveShopFlagsMastered();
-            }
+                t.SetMoveShopFlagsAll(pk);
             else if (!IsNone(propValue))
-            {
-                // whatever fit the current moves
-                t.SetMoveShopFlags(pk.Moves);
-                t.SetMoveShopFlagsMastered();
-            }
+                t.SetMoveShopFlags(pk);
             else
-            {
                 t.ClearMoveShopFlags();
-            }
             return ModifyResult.Modified;
         }
 

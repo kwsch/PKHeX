@@ -241,13 +241,8 @@ namespace PKHeX.Core
                 t.ClearRecordFlags();
                 t.SetRecordFlags(Set.Moves);
             }
-            if (pk is IMoveShop8 m)
-            {
-                m.ClearMoveShopFlags();
-                m.SetMoveShopFlags(Set.Moves);
-                if (pk is IMoveShop8Mastery s)
-                    s.SetMoveShopFlagsMastered();
-            }
+            if (pk is IMoveShop8Mastery s)
+                s.SetMoveShopFlags(Set.Moves, pk);
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)
                 pk.Nature = pk.StatNature;

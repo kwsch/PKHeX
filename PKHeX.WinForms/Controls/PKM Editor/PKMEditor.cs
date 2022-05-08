@@ -1787,9 +1787,7 @@ namespace PKHeX.WinForms.Controls
 
             if (ModifierKeys == Keys.Shift)
             {
-                m.ClearMoveShopFlags();
-                m.SetMoveShopFlags(Entity.Moves);
-                m.SetMoveShopFlagsMastered();
+                m.SetMoveShopFlags(Entity);
                 UpdateLegality();
                 return;
             }
