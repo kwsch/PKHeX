@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core
@@ -72,7 +71,7 @@ namespace PKHeX.Core
             // Find the first chain that has slots defined.
             // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
             // PoGoEncTool has already extrapolated the evolutions to separate encounters!
-            var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
+            var sf = Array.Find(chain, z => z.Species == Species && z.Form == Form);
             if (sf == default)
                 yield break;
 

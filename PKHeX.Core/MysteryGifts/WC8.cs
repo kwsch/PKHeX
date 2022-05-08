@@ -528,25 +528,22 @@ namespace PKHeX.Core
             _ => AbilityPermission.Any12H,
         };
 
-        private uint GetPID(ITrainerID tr, ShinyType8 type)
+        private uint GetPID(ITrainerID tr, ShinyType8 type) => type switch
         {
-            return type switch
-            {
-                ShinyType8.Never => GetAntishiny(tr), // Random, Never Shiny
-                ShinyType8.Random => Util.Rand32(), // Random, Any
-                ShinyType8.AlwaysStar => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-                ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-                ShinyType8.FixedValue => PID, // Fixed, Force Value
-                _ => throw new ArgumentOutOfRangeException(nameof(type)),
-            };
+            ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
+            ShinyType8.Random       => Util.Rand32(), // Random, Any
+            ShinyType8.AlwaysStar   => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
+            ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+            ShinyType8.FixedValue   => PID, // Fixed, Force Value
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        };
 
-            static uint GetAntishiny(ITrainerID tr)
-            {
-                var pid = Util.Rand32();
-                if (tr.IsShiny(pid, 8))
-                    return pid ^ 0x1000_0000;
-                return pid;
-            }
+        private static uint GetAntishiny(ITrainerID tr)
+        {
+            var pid = Util.Rand32();
+            if (tr.IsShiny(pid, 8))
+                return pid ^ 0x1000_0000;
+            return pid;
         }
 
         private void SetPID(PKM pk)

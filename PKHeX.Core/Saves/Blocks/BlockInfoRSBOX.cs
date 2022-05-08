@@ -9,7 +9,6 @@ namespace PKHeX.Core
     public sealed class BlockInfoRSBOX : BlockInfo
     {
         public readonly uint SaveCount;
-        public readonly uint OriginalChecksum;
         private const int ChecksumRegionSize = 0x1FF8;
 
         public BlockInfoRSBOX(ReadOnlySpan<byte> data, int offset)
@@ -18,7 +17,6 @@ namespace PKHeX.Core
             Length = 4 + ChecksumRegionSize;
 
             // Values stored in Big Endian format
-            OriginalChecksum = ReadUInt32BigEndian(data[Offset..]);
             ID = ReadUInt32BigEndian(data[(Offset + 4)..]);
             SaveCount = ReadUInt32BigEndian(data[(Offset + 8)..]);
         }

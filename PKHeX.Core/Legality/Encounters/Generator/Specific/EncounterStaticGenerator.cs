@@ -129,20 +129,17 @@ namespace PKHeX.Core
             return species;
         }
 
-        internal static EncounterStatic? GetStaticLocation(PKM pkm, EvoCriteria[] chain)
+        internal static EncounterStatic? GetStaticLocation(PKM pkm, EvoCriteria[] chain) => pkm.Generation switch
         {
-            switch (pkm.Generation)
-            {
-                case 1:
-                    return EncounterStatic7.GetVC1(MaxSpeciesID_1, (byte)pkm.Met_Level);
-                case 2:
-                    return EncounterStatic7.GetVC2(MaxSpeciesID_2, (byte)pkm.Met_Level);
-                default:
-                    return GetPossible(pkm, chain, (GameVersion)pkm.Version)
-                        .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
-                        .ThenBy(z => z.LevelMin)
-                        .FirstOrDefault();
-            }
+            1 => EncounterStatic7.GetVC1(MaxSpeciesID_1, (byte)pkm.Met_Level),
+            2 => EncounterStatic7.GetVC2(MaxSpeciesID_2, (byte)pkm.Met_Level),
+            _ => GetStaticMinByLevel(pkm, chain),
+        };
+
+        private static EncounterStatic? GetStaticMinByLevel(PKM pkm, EvoCriteria[] chain)
+        {
+            var possible = GetPossible(pkm, chain, (GameVersion)pkm.Version);
+            return EncounterUtil.GetMinByLevel(chain, possible);
         }
 
         // Generation Specific Fetching

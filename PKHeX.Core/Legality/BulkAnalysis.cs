@@ -225,10 +225,8 @@ namespace PKHeX.Core
 
         private void VerifyECShare(CombinedReference pr, CombinedReference cr)
         {
-            var ps = pr.Slot;
-            var pa = pr.Analysis;
-            var cs = cr.Slot;
-            var ca = cr.Analysis;
+            var (ps, pa) = pr;
+            var (cs, ca) = cr;
 
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;

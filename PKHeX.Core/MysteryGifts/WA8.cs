@@ -478,13 +478,11 @@ namespace PKHeX.Core
                 SetEggMetData(pk);
             pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-            {
-                pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-                pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
-                pk.HeightScalarCopy = pk.HeightScalar;
-                pk.ResetHeight();
-                pk.ResetWeight();
-            }
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            pk.HeightScalarCopy = pk.HeightScalar;
+            pk.ResetHeight();
+            pk.ResetWeight();
 
             pk.ResetPartyStats();
             pk.RefreshChecksum();
@@ -527,30 +525,27 @@ namespace PKHeX.Core
             _ => AbilityPermission.Any12H,
         };
 
-        private uint GetPID(ITrainerID tr, byte type)
+        private uint GetPID(ITrainerID tr, ShinyType8 type) => type switch
         {
-            return type switch
-            {
-                0 => GetAntishiny(tr), // Random, Never Shiny
-                1 => Util.Rand32(), // Random, Any
-                2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-                3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-                4 => PID, // Fixed, Force Value
-                _ => throw new ArgumentOutOfRangeException(nameof(type)),
-            };
+            ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
+            ShinyType8.Random       => Util.Rand32(), // Random, Any
+            ShinyType8.AlwaysStar   => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
+            ShinyType8.AlwaysSquare => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+            ShinyType8.FixedValue   => PID, // Fixed, Force Value
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        };
 
-            static uint GetAntishiny(ITrainerID tr)
-            {
-                var pid = Util.Rand32();
-                if (tr.IsShiny(pid, 8))
-                    return pid ^ 0x1000_0000;
-                return pid;
-            }
+        private static uint GetAntishiny(ITrainerID tr)
+        {
+            var pid = Util.Rand32();
+            if (tr.IsShiny(pid, 8))
+                return pid ^ 0x1000_0000;
+            return pid;
         }
 
         private void SetPID(PKM pk)
         {
-            pk.PID = GetPID(pk, PIDTypeValue);
+            pk.PID = GetPID(pk, PIDType);
         }
 
         private void SetIVs(PKM pk)
@@ -653,8 +648,8 @@ namespace PKHeX.Core
             // PID Types 0 and 1 do not use the fixed PID value.
             // Values 2,3 are specific shiny states, and 4 is fixed value.
             // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
-            var type = PIDTypeValue;
-            if (type <= 1)
+            var type = PIDType;
+            if (type is ShinyType8.Never or ShinyType8.Random)
                 return true;
             return pkm.PID == GetPID(pkm, type);
         }

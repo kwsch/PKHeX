@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -65,7 +64,7 @@ namespace PKHeX.Core
             if (RandomMinimum == RandomMaximum)
             {
                 PropertyValue = RandomMinimum.ToString();
-                Debug.WriteLine(PropertyName + " randomization range Min/Max same?");
+                Debug.WriteLine($"{PropertyName} randomization range Min/Max same?");
             }
             else
             {
@@ -75,9 +74,11 @@ namespace PKHeX.Core
 
         public static IEnumerable<StringInstruction> GetFilters(IEnumerable<string> lines)
         {
-            var raw = GetRelevantStrings(lines, Exclude, Require);
-            foreach (var line in raw)
+            foreach (var line in lines)
             {
+                if (line.Length is 0 || line[0] is not (Exclude or Require))
+                    continue;
+
                 const int start = 1;
                 var splitIndex = line.IndexOf(SplitInstruction, start);
                 if (splitIndex == -1)
@@ -98,9 +99,11 @@ namespace PKHeX.Core
 
         public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
         {
-            var raw = GetRelevantStrings(lines, Apply);
-            foreach (var line in raw)
+            foreach (var line in lines)
             {
+                if (line.Length is 0 || line[0] is not Apply)
+                    continue;
+
                 const int start = 1;
                 var splitIndex = line.IndexOf(SplitInstruction, start);
                 if (splitIndex == -1)
@@ -116,14 +119,6 @@ namespace PKHeX.Core
                 var value = line[(splitIndex + 1)..];
                 yield return new StringInstruction(name.ToString(), value);
             }
-        }
-
-        /// <summary>
-        /// Weeds out invalid lines and only returns those with a valid first character.
-        /// </summary>
-        private static IEnumerable<string> GetRelevantStrings(IEnumerable<string> lines, params char[] pieces)
-        {
-            return lines.Where(line => !string.IsNullOrEmpty(line) && pieces.Any(z => z == line[0]));
         }
     }
 }

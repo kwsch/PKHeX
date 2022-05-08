@@ -32,7 +32,8 @@ public sealed class BoxManipClearDuplicate<T> : BoxManipBase
     public override int Execute(SaveFile sav, BoxManipParam param)
     {
         HashSet.Clear();
-        bool Method(PKM p) => param.Reverse ^ Criteria(p);
-        return sav.ClearBoxes(param.Start, param.Stop, Method);
+        var (start, stop, reverse) = param;
+        bool Method(PKM p) => reverse ^ Criteria(p);
+        return sav.ClearBoxes(start, stop, Method);
     }
 }

@@ -9,6 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Serves as the main object that is accessed for stat data in a particular generation/game format.
     /// </remarks>
+    [DebuggerDisplay($"{{{nameof(Game)},nq}}[{{{nameof(TableLength)},nq}}]")]
     public sealed class PersonalTable
     {
         /// <summary>
