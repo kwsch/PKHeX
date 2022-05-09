@@ -160,15 +160,12 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
     {
-        if (IsAlpha && Moves.Count != 0)
-        {
-            moves = (int[])Moves;
-            pa8.AlphaMove = (ushort)moves[0];
-        }
-        else
-        {
+        if (Moves.Count == 0)
             learn.SetEncounterMoves(level, moves);
-        }
+        else
+            ((int[])Moves).CopyTo(moves);
+        if (IsAlpha)
+            pa8.AlphaMove = (ushort)moves[0];
     }
 
     private OverworldParam8a GetParams()
