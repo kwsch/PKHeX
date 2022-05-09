@@ -272,8 +272,8 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => ReadUInt16LittleEndian(Data.AsSpan(0x98)); set => WriteUInt16LittleEndian(Data.AsSpan(0x98), (ushort)value); }
         public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0x9A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x9A), (ushort)value); }
 
-        public Span<byte> HeldMail => Data.Slice(0x9C, 0x38);
-        public Span<byte> Seals => Data.Slice(0xD4, 0x18);
+        public Span<byte> HeldMail => Data.AsSpan(0x9C, 0x38);
+        public Span<byte> Seals => Data.AsSpan(0xD4, 0x18);
 
         #endregion
 
@@ -305,12 +305,14 @@ namespace PKHeX.Core
 
             DateTime moment = DateTime.Now;
 
-            PK5 pk5 = new((byte[])Data.Clone()) // Convert away!
+            PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
             {
+                JunkByte = 0,
                 OT_Friendship = 70,
                 // Apply new met date
                 MetDate = moment,
             };
+            pk5.HeldMail.Clear();
 
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == (int)Core.Species.Arceus)

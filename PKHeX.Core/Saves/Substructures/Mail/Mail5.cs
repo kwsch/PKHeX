@@ -33,7 +33,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override void CopyTo(PK5 pk5) => pk5.SetHeldMailData(Data);
+        public override void CopyTo(PK5 pk5) => Data.CopyTo(pk5.HeldMail);
         public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data.AsSpan(0)); set => WriteUInt16LittleEndian(Data.AsSpan(0), value); }
         public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data.AsSpan(2)); set => WriteUInt16LittleEndian(Data.AsSpan(2), value); }
         public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }
