@@ -86,8 +86,12 @@ public sealed class LegendsArceusVerifier : Verifier
         // Get any encounter moves
         var pt = PersonalTable.LA;
         var index = pt.GetFormIndex(enc.Species, enc.Form);
-        var moveset = Legal.LevelUpLA[index];
-        moveset.SetEncounterMoves(pa.Met_Level, moves);
+        var learn = Legal.LevelUpLA;
+        var moveset = learn[index];
+        if (enc is IMasteryInitialMoveShop8 ms)
+            ms.LoadInitialMoveset(pa, moves, moveset, pa.Met_Level);
+        else
+            moveset.SetEncounterMoves(pa.Met_Level, moves);
         var count = moves.IndexOf(0);
         if ((uint)count >= 4)
             return 4;
@@ -97,7 +101,8 @@ public sealed class LegendsArceusVerifier : Verifier
         LoadPurchasedMoves(pa, purchased);
 
         // Level up to current level
-        moveset.SetLevelUpMoves(pa.Met_Level, pa.CurrentLevel, moves, purchased, count);
+        var level = pa.CurrentLevel;
+        moveset.SetLevelUpMoves(pa.Met_Level, level, moves, purchased, count);
         count = moves.IndexOf(0);
         if ((uint)count >= 4)
             return 4;
@@ -106,16 +111,18 @@ public sealed class LegendsArceusVerifier : Verifier
         for (int i = 0; i < evos.Length - 1; i++)
         {
             var evo = evos[i];
-            index = pt.GetFormIndex(evo.Species, evo.Form);
-            moveset = Legal.LevelUpLA[index];
-            moveset.SetEvolutionMoves(moves, purchased, count);
+            var x = pt.GetFormIndex(evo.Species, evo.Form);
+            var m = learn[x];
+            m.SetEvolutionMoves(moves, purchased, count);
             count = moves.IndexOf(0);
             if ((uint)count >= 4)
                 return 4;
         }
 
         // Any tutored moves we don't know about??
-        return AddMasteredMissing(pa, moves, count);
+        var currentIndex = pt.GetFormIndex(evos[0].Species, evos[0].Form);
+        var currentLearn = learn[currentIndex];
+        return AddMasteredMissing(pa, moves, count, moveset, currentLearn, level);
     }
 
     private static void LoadPurchasedMoves(IMoveShop8 pa, Span<int> result)
@@ -129,7 +136,7 @@ public sealed class LegendsArceusVerifier : Verifier
         }
     }
 
-    private static int AddMasteredMissing(PA8 pa, Span<int> current, int ctr)
+    private static int AddMasteredMissing(PA8 pa, Span<int> current, int ctr, Learnset baseLearn, Learnset currentLearn, int level)
     {
         for (int i = 0; i < pa.MoveShopPermitIndexes.Length; i++)
         {
@@ -142,7 +149,13 @@ public sealed class LegendsArceusVerifier : Verifier
             if (pa.GetPurchasedRecordFlag(i))
                 continue;
 
+            // Check if we can swap it into the moveset after it evolves.
             var move = pa.MoveShopPermitIndexes[i];
+            var baseLevel = baseLearn.GetMoveLevel(move);
+            var mustKnow = baseLevel is not -1 && baseLevel <= pa.Met_Level;
+            if (!mustKnow && currentLearn.GetMoveLevel(move) != level)
+                continue;
+
             if (current.IndexOf(move) == -1)
                 current[ctr++] = move;
             if (ctr == 4)
