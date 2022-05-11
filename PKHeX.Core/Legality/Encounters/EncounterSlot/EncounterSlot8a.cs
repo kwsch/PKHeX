@@ -184,9 +184,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
 
     private OverworldParam8a GetParams()
     {
-        var pt = PersonalTable.LA;
-        var entry = pt.GetFormEntry(Species, Form);
-        var gender = (byte)entry.Gender;
+        var gender = GetGenderRatio();
         return new OverworldParam8a
         {
             IsAlpha = IsAlpha,
@@ -195,6 +193,21 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
             RollCount = GetRollCount(Type),
             GenderRatio = gender,
         };
+    }
+
+    private byte GetGenderRatio() => Gender switch
+    {
+        Gender.Male => PersonalInfo.RatioMagicMale,
+        Gender.Female => PersonalInfo.RatioMagicFemale,
+        Gender.Genderless => PersonalInfo.RatioMagicGenderless,
+        _ => GetGenderRatioPersonal(),
+    };
+
+    private byte GetGenderRatioPersonal()
+    {
+        var pt = PersonalTable.LA;
+        var entry = pt.GetFormEntry(Species, Form);
+        return (byte)entry.Gender;
     }
 
     // hardcoded 7 to assume max dex progress + shiny charm.
