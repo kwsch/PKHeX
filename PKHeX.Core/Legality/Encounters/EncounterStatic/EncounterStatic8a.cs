@@ -185,7 +185,6 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     {
         0 => PersonalInfo.RatioMagicMale,
         1 => PersonalInfo.RatioMagicFemale,
-        2 => PersonalInfo.RatioMagicGenderless,
         _ => GetGenderRatioPersonal(),
     };
 

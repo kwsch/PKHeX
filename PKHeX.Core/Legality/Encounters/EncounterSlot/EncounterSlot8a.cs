@@ -199,7 +199,6 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
     {
         Gender.Male => PersonalInfo.RatioMagicMale,
         Gender.Female => PersonalInfo.RatioMagicFemale,
-        Gender.Genderless => PersonalInfo.RatioMagicGenderless,
         _ => GetGenderRatioPersonal(),
     };
 
