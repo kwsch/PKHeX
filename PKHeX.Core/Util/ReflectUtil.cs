@@ -80,6 +80,13 @@ namespace PKHeX.Core
                     : null;
             }
 
+            if (type.IsEnum)
+            {
+                var str = value.ToString();
+                if (int.TryParse(str, out var integer))
+                    return Convert.ChangeType(integer, type);
+                return Enum.Parse(type, str, true);
+            }
             // Convert.ChangeType is suitable for most things
             return Convert.ChangeType(value, type);
         }
