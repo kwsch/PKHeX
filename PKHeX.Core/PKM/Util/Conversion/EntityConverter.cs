@@ -99,7 +99,7 @@ public static class EntityConverter
         PK8 pk8 when destType == typeof(PB8) => pk8.ConvertToPB8(),
         G8PKM pk8 when destType == typeof(PA8) => pk8.ConvertToPA8(),
         PA8 pa8 when destType == typeof(PK8) => pa8.ConvertToPK8(),
-        PA8 pa8 when destType == typeof(PA8) => pa8.ConvertToPB8(),
+        PA8 pa8 when destType == typeof(PB8) => pa8.ConvertToPB8(),
 
         // Invalid
         PK2 { Species: > Legal.MaxSpeciesID_1 } => InvalidTransfer(out result, IncompatibleSpecies),
