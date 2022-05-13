@@ -8,7 +8,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
 {
     public bool AllowClick { get; set; } = true;
 
-    private int Value;
+    private int Value = -1; // Initial load will trigger gender to appear (-1 => 0)
 
     public int Gender
     {
