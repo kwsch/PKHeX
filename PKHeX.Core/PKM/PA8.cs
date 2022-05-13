@@ -32,6 +32,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override PersonalInfo PersonalInfo => PersonalTable.LA.GetFormEntry(Species, Form);
 
     public override int Format => 8;
+    public override bool IsNative => LA;
     public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     public PA8(byte[] data) : base(DecryptParty(data)) { }
 

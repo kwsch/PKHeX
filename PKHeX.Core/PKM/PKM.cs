@@ -561,7 +561,7 @@ namespace PKHeX.Core
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, (GameVersion)Version);
 
         public virtual bool IsUntraded => false;
-        public bool IsNative => Generation == Format;
+        public virtual bool IsNative => Generation == Format;
         public bool IsOriginValid => Species <= MaxSpeciesID;
 
         /// <summary>
