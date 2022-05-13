@@ -32,9 +32,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<int> GetValidMoves(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
-            GameVersion version = (GameVersion)pkm.Version;
-            if (!pkm.IsMovesetRestricted())
-                version = GameVersion.Any;
+            var (_, version) = pkm.IsMovesetRestricted();
             return GetValidMoves(pkm, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 

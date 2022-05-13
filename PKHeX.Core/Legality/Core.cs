@@ -194,19 +194,38 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Indicates if the moveset is restricted to only the original version.
+        /// Checks if the moveset is restricted to only a specific version.
         /// </summary>
         /// <param name="pkm">Entity to check</param>
-        /// <returns></returns>
-        internal static bool IsMovesetRestricted(this PKM pkm)
+        internal static (bool IsRestricted, GameVersion Game) IsMovesetRestricted(this PKM pkm) => pkm switch
         {
-            if (pkm.IsUntraded)
+            PB7 => (true, GameVersion.GP),
+            PA8 { IsNative: false } => (true, GameVersion.PLA),
+            PB8 { IsNative: false } => (true, GameVersion.BD),
+            PK8 when pkm.Version > (int)GameVersion.SH => (true, GameVersion.SH), // Permit past generation moves.
+
+            IBattleVersion { BattleVersion: not 0 } bv => (true, (GameVersion)bv.BattleVersion),
+            _ when pkm.IsUntraded => (true, (GameVersion)pkm.Version),
+            _ => (false, GameVersion.Any),
+        };
+
+        /// <summary>
+        /// Checks if the relearn moves should be wiped.
+        /// </summary>
+        /// <remarks>Already checked for generations &lt; 8.</remarks>
+        /// <param name="pkm">Entity to check</param>
+        internal static bool IsRelearnDeleted(this PKM pkm)
+        {
+            if (pkm.IsNative)
+                return false;
+
+            if (pkm is IBattleVersion { BattleVersion: not 0 })
                 return true;
-            if (pkm.BDSP)
-                return true;
-            if (pkm.LA)
-                return true;
-            return false;
+
+            var gen = pkm.Generation;
+            if (gen < 8)
+                return pkm is PK8;
+            return true;
         }
 
         /// <summary>
@@ -216,23 +235,6 @@ namespace PKHeX.Core
         public static bool IsPPUpAvailable(PKM pkm)
         {
             return pkm is not PA8;
-        }
-
-        /// <summary>
-        /// Indicates if the moveset is restricted to only the original version.
-        /// </summary>
-        /// <param name="pkm">Entity to check</param>
-        /// <param name="gen">Generation the move check is for</param>
-        /// <returns></returns>
-        internal static bool IsMovesetRestricted(this PKM pkm, int gen)
-        {
-            if (pkm.IsMovesetRestricted())
-                return true;
-            return gen switch
-            {
-                7 when pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE => true,
-                _ => false,
-            };
         }
 
         public static int GetMaxLengthOT(int generation, LanguageID language) => language switch

@@ -238,9 +238,10 @@ namespace PKHeX.Core
             // Special considerations!
             const int NoMinGeneration = 0;
             int minGeneration = NoMinGeneration;
-            if (pkm is IBattleVersion {BattleVersion: not 0} v)
+            var (isReset, resetGame) = pkm.IsMovesetRestricted();
+            if (isReset && resetGame is not GameVersion.GP)
             {
-                minGeneration = ((GameVersion) v.BattleVersion).GetGeneration();
+                minGeneration = resetGame.GetGeneration();
                 source.ResetSources();
             }
 
