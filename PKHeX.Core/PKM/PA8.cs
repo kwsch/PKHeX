@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
-public sealed class PA8 : PKM, ISanityChecksum,
+public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, IGanbaru, IAlpha, INoble, ITechRecord8, ISociability, IMoveShop8Mastery,
     IContestStats, IContestStatsMutable, IHyperTrain, IScaledSizeValue, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
 {
@@ -845,5 +845,225 @@ public sealed class PA8 : PKM, ISanityChecksum,
             return;
         if (MoveShopPermitFlags[flagIndex])
             SetMasteredRecordFlag(flagIndex, true);
+    }
+
+    private void CopyTo<T>(T pk) where T : G8PKM
+    {
+        pk.EncryptionConstant = EncryptionConstant;
+        pk.PID = PID;
+        pk.Species = Species;
+        pk.Form = Form;
+        pk.FormArgument = FormArgument;
+        pk.Gender = Gender;
+        pk.Nature = Nature;
+        pk.StatNature = StatNature;
+
+        pk.TID = TID;
+        pk.SID = SID;
+        pk.EXP = EXP;
+        pk.Ability = Ability;
+        pk.AbilityNumber = AbilityNumber;
+        pk.Language = Language;
+        pk.Version = Version;
+
+        pk.IV_HP = IV_HP;
+        pk.IV_ATK = IV_ATK;
+        pk.IV_DEF = IV_DEF;
+        pk.IV_SPE = IV_SPE;
+        pk.IV_SPA = IV_SPA;
+        pk.IV_SPD = IV_SPD;
+        pk.IsEgg = IsEgg;
+        pk.EV_HP = EV_HP;
+        pk.EV_ATK = EV_ATK;
+        pk.EV_DEF = EV_DEF;
+        pk.EV_SPE = EV_SPE;
+        pk.EV_SPA = EV_SPA;
+        pk.EV_SPD = EV_SPD;
+
+        pk.OT_Gender = OT_Gender;
+        pk.OT_Friendship = OT_Friendship;
+        pk.OT_Intensity = OT_Intensity;
+        pk.OT_Memory = OT_Memory;
+        pk.OT_TextVar = OT_TextVar;
+        pk.OT_Feeling = OT_Feeling;
+        pk.Egg_Year = Egg_Year;
+        pk.Egg_Month = Egg_Month;
+        pk.Egg_Day = Egg_Day;
+        pk.Met_Year = Met_Year;
+        pk.Met_Month = Met_Month;
+        pk.Met_Day = Met_Day;
+        pk.Ball = Ball;
+        pk.Egg_Location = Egg_Location;
+        pk.Met_Location = Met_Location;
+        pk.Met_Level = Met_Level;
+        pk.Tracker = Tracker;
+
+        pk.IsNicknamed = IsNicknamed;
+        pk.CurrentHandler = CurrentHandler;
+        pk.HT_Gender = HT_Gender;
+        pk.HT_Language = HT_Language;
+        pk.HT_Friendship = HT_Friendship;
+        pk.HT_Intensity = HT_Intensity;
+        pk.HT_Memory = HT_Memory;
+        pk.HT_Feeling = HT_Feeling;
+        pk.HT_TextVar = HT_TextVar;
+
+        pk.FatefulEncounter = FatefulEncounter;
+        pk.CNT_Cool = CNT_Cool;
+        pk.CNT_Beauty = CNT_Beauty;
+        pk.CNT_Cute = CNT_Cute;
+        pk.CNT_Smart = CNT_Smart;
+        pk.CNT_Tough = CNT_Tough;
+        pk.CNT_Sheen = CNT_Sheen;
+
+        pk.RibbonChampionKalos = RibbonChampionKalos;
+        pk.RibbonChampionG3 = RibbonChampionG3;
+        pk.RibbonChampionSinnoh = RibbonChampionSinnoh;
+        pk.RibbonBestFriends = RibbonBestFriends;
+        pk.RibbonTraining = RibbonTraining;
+        pk.RibbonBattlerSkillful = RibbonBattlerSkillful;
+        pk.RibbonBattlerExpert = RibbonBattlerExpert;
+        pk.RibbonEffort = RibbonEffort;
+        pk.RibbonAlert = RibbonAlert;
+        pk.RibbonShock = RibbonShock;
+        pk.RibbonDowncast = RibbonDowncast;
+        pk.RibbonCareless = RibbonCareless;
+        pk.RibbonRelax = RibbonRelax;
+        pk.RibbonSnooze = RibbonSnooze;
+        pk.RibbonSmile = RibbonSmile;
+        pk.RibbonGorgeous = RibbonGorgeous;
+        pk.RibbonRoyal = RibbonRoyal;
+        pk.RibbonGorgeousRoyal = RibbonGorgeousRoyal;
+        pk.RibbonArtist = RibbonArtist;
+        pk.RibbonFootprint = RibbonFootprint;
+        pk.RibbonRecord = RibbonRecord;
+        pk.RibbonLegend = RibbonLegend;
+        pk.RibbonCountry = RibbonCountry;
+        pk.RibbonNational = RibbonNational;
+        pk.RibbonEarth = RibbonEarth;
+        pk.RibbonWorld = RibbonWorld;
+        pk.RibbonClassic = RibbonClassic;
+        pk.RibbonPremier = RibbonPremier;
+        pk.RibbonEvent = RibbonEvent;
+        pk.RibbonBirthday = RibbonBirthday;
+        pk.RibbonSpecial = RibbonSpecial;
+        pk.RibbonSouvenir = RibbonSouvenir;
+        pk.RibbonWishing = RibbonWishing;
+        pk.RibbonChampionBattle = RibbonChampionBattle;
+        pk.RibbonChampionRegional = RibbonChampionRegional;
+        pk.RibbonChampionNational = RibbonChampionNational;
+        pk.RibbonChampionWorld = RibbonChampionWorld;
+        pk.HasContestMemoryRibbon = HasContestMemoryRibbon;
+        pk.HasBattleMemoryRibbon = HasBattleMemoryRibbon;
+        pk.RibbonChampionG6Hoenn = RibbonChampionG6Hoenn;
+        pk.RibbonContestStar = RibbonContestStar;
+        pk.RibbonMasterCoolness = RibbonMasterCoolness;
+        pk.RibbonMasterBeauty = RibbonMasterBeauty;
+        pk.RibbonMasterCuteness = RibbonMasterCuteness;
+        pk.RibbonMasterCleverness = RibbonMasterCleverness;
+        pk.RibbonMasterToughness = RibbonMasterToughness;
+        pk.RibbonChampionAlola = RibbonChampionAlola;
+        pk.RibbonBattleRoyale = RibbonBattleRoyale;
+        pk.RibbonBattleTreeGreat = RibbonBattleTreeGreat;
+        pk.RibbonBattleTreeMaster = RibbonBattleTreeMaster;
+        pk.RibbonChampionGalar = RibbonChampionGalar;
+        pk.RibbonTowerMaster = RibbonTowerMaster;
+        pk.RibbonMasterRank = RibbonMasterRank;
+
+        pk.RibbonMarkLunchtime = RibbonMarkLunchtime;
+        pk.RibbonMarkSleepyTime = RibbonMarkSleepyTime;
+        pk.RibbonMarkDusk = RibbonMarkDusk;
+        pk.RibbonMarkDawn = RibbonMarkDawn;
+        pk.RibbonMarkCloudy = RibbonMarkCloudy;
+        pk.RibbonMarkRainy = RibbonMarkRainy;
+        pk.RibbonMarkStormy = RibbonMarkStormy;
+        pk.RibbonMarkSnowy = RibbonMarkSnowy;
+        pk.RibbonMarkBlizzard = RibbonMarkBlizzard;
+        pk.RibbonMarkDry = RibbonMarkDry;
+        pk.RibbonMarkSandstorm = RibbonMarkSandstorm;
+        pk.RibbonCountMemoryContest = RibbonCountMemoryContest;
+        pk.RibbonCountMemoryBattle = RibbonCountMemoryBattle;
+        pk.RibbonMarkMisty = RibbonMarkMisty;
+        pk.RibbonMarkDestiny = RibbonMarkDestiny;
+        pk.RibbonMarkFishing = RibbonMarkFishing;
+        pk.RibbonMarkCurry = RibbonMarkCurry;
+        pk.RibbonMarkUncommon = RibbonMarkUncommon;
+        pk.RibbonMarkRare = RibbonMarkRare;
+        pk.RibbonMarkRowdy = RibbonMarkRowdy;
+        pk.RibbonMarkAbsentMinded = RibbonMarkAbsentMinded;
+        pk.RibbonMarkJittery = RibbonMarkJittery;
+        pk.RibbonMarkExcited = RibbonMarkExcited;
+        pk.RibbonMarkCharismatic = RibbonMarkCharismatic;
+        pk.RibbonMarkCalmness = RibbonMarkCalmness;
+        pk.RibbonMarkIntense = RibbonMarkIntense;
+        pk.RibbonMarkZonedOut = RibbonMarkZonedOut;
+        pk.RibbonMarkJoyful = RibbonMarkJoyful;
+        pk.RibbonMarkAngry = RibbonMarkAngry;
+        pk.RibbonMarkSmiley = RibbonMarkSmiley;
+        pk.RibbonMarkTeary = RibbonMarkTeary;
+        pk.RibbonMarkUpbeat = RibbonMarkUpbeat;
+        pk.RibbonMarkPeeved = RibbonMarkPeeved;
+        pk.RibbonMarkIntellectual = RibbonMarkIntellectual;
+        pk.RibbonMarkFerocious = RibbonMarkFerocious;
+        pk.RibbonMarkCrafty = RibbonMarkCrafty;
+        pk.RibbonMarkScowling = RibbonMarkScowling;
+        pk.RibbonMarkKindly = RibbonMarkKindly;
+        pk.RibbonMarkFlustered = RibbonMarkFlustered;
+        pk.RibbonMarkPumpedUp = RibbonMarkPumpedUp;
+        pk.RibbonMarkZeroEnergy = RibbonMarkZeroEnergy;
+        pk.RibbonMarkPrideful = RibbonMarkPrideful;
+        pk.RibbonMarkUnsure = RibbonMarkUnsure;
+        pk.RibbonMarkHumble = RibbonMarkHumble;
+        pk.RibbonMarkThorny = RibbonMarkThorny;
+        pk.RibbonMarkVigor = RibbonMarkVigor;
+        pk.RibbonMarkSlump = RibbonMarkSlump;
+        pk.RibbonPioneer = RibbonPioneer;
+        pk.RibbonTwinklingStar = RibbonTwinklingStar;
+
+        pk.AffixedRibbon = AffixedRibbon;
+        pk.HyperTrainFlags = HyperTrainFlags;
+
+        pk.Sociability = Sociability;
+        pk.Fullness = Fullness;
+        pk.Enjoyment = Enjoyment;
+        pk.BattleVersion = BattleVersion;
+        pk.PKRS_Days = PKRS_Days;
+        pk.PKRS_Strain = PKRS_Strain;
+        pk.HeightScalar = HeightScalar;
+        pk.WeightScalar = WeightScalar;
+        pk.CanGigantamax = CanGigantamax;
+        pk.DynamaxLevel = DynamaxLevel;
+
+        Nickname_Trash.CopyTo(pk.Nickname_Trash);
+        OT_Trash.CopyTo(pk.OT_Trash);
+        HT_Trash.CopyTo(pk.HT_Trash);
+    }
+
+    public PK8 ConvertToPK8() => ConvertTo<PK8>();
+    public PB8 ConvertToPB8() => ConvertTo<PB8>();
+
+    private T ConvertTo<T>() where T : G8PKM, new()
+    {
+        var pk = new T();
+        CopyTo(pk);
+
+        pk.ResetMoves();
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
+
+        return pk;
+    }
+
+    public void ResetMoves()
+    {
+        var learnsets = Legal.LevelUpLA;
+        var table = PersonalTable.LA;
+
+        var index = table.GetFormIndex(Species, Form);
+        var learn = learnsets[index];
+        Span<int> moves = stackalloc int[4];
+        learn.SetEncounterMoves(CurrentLevel, moves);
+        SetMoves(moves);
+        this.SetMaximumPPCurrent(moves);
     }
 }

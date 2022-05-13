@@ -104,5 +104,20 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_8;
         public override int MaxBallID => Legal.MaxBallID_8;
         public override int MaxGameID => Legal.MaxGameID_8;
+
+        public PB8 ConvertToPB8() => ConvertTo<PB8>();
+
+        public override void ResetMoves()
+        {
+            var learnsets = Legal.LevelUpSWSH;
+            var table = PersonalTable.SWSH;
+
+            var index = table.GetFormIndex(Species, Form);
+            var learn = learnsets[index];
+            Span<int> moves = stackalloc int[4];
+            learn.SetEncounterMoves(CurrentLevel, moves);
+            SetMoves(moves);
+            this.SetMaximumPPCurrent(moves);
+        }
     }
 }

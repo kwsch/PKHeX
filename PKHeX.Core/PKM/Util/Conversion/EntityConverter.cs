@@ -49,18 +49,6 @@ public static class EntityConverter
         if (!AllowIncompatibleConversion || pkm != null)
             return pkm;
 
-        if (pk is PK8 && destType == typeof(PB8))
-        {
-            result = SuccessIncompatibleManual;
-            return new PB8((byte[])pk.Data.Clone());
-        }
-
-        if (pk is PB8 && destType == typeof(PK8))
-        {
-            result = SuccessIncompatibleManual;
-            return new PK8((byte[])pk.Data.Clone());
-        }
-
         // Try Incompatible Conversion
         pkm = EntityBlank.GetBlank(destType);
         pk.TransferPropertiesWithReflection(pkm);
@@ -106,6 +94,12 @@ public static class EntityConverter
         PK3 pk3 when destType == typeof(CK3) => pk3.ConvertToCK3(),
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
         PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
+
+        PB8 pb8 when destType == typeof(PK8) => pb8.ConvertToPK8(),
+        PK8 pk8 when destType == typeof(PB8) => pk8.ConvertToPB8(),
+        G8PKM pk8 when destType == typeof(PA8) => pk8.ConvertToPA8(),
+        PA8 pa8 when destType == typeof(PK8) => pa8.ConvertToPK8(),
+        PA8 pa8 when destType == typeof(PA8) => pa8.ConvertToPB8(),
 
         // Invalid
         PK2 { Species: > Legal.MaxSpeciesID_1 } => InvalidTransfer(out result, IncompatibleSpecies),
