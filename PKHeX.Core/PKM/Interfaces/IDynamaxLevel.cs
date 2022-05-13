@@ -12,6 +12,18 @@ namespace PKHeX.Core
 
     public static class DynamaxLevelExtensions
     {
+        /// <inheritdoc cref="CanHaveDynamaxLevel(IDynamaxLevel, PKM)"/>
+        public static bool CanHaveDynamaxLevel(this IDynamaxLevel _, PKM pkm, EvoCriteria[] evos)
+        {
+            if (pkm.IsEgg)
+                return false;
+            if (pkm.BDSP && !pkm.HasVisitedSWSH(evos))
+                return false;
+            if (pkm.LA && !pkm.HasVisitedSWSH(evos))
+                return false;
+            return CanHaveDynamaxLevel(pkm.Species);
+        }
+
         /// <summary>
         /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
         /// </summary>
@@ -19,9 +31,7 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
                 return false;
-            if (pkm.BDSP || pkm.LA)
-                return false;
-            return CanHaveDynamaxLevel(pkm.Species);
+            return pkm is PK8 && CanHaveDynamaxLevel(pkm.Species);
         }
 
         /// <summary>

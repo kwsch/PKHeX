@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.BDSP || pkm.LA)
+            if (ShouldHaveNoMemory(data, pkm))
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 VerifyHTMemoryNone(data, (ITrainerMemories)pkm);
@@ -23,6 +23,13 @@ namespace PKHeX.Core
             }
             VerifyOTMemory(data);
             VerifyHTMemory(data);
+        }
+
+        private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm.BDSP || pkm.LA)
+                return data.Info.EvoChainsAllGens.Length <= 8 || !pkm.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]);
+            return false;
         }
 
         private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info, MemoryContext context)
@@ -201,7 +208,7 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            else if (!CanHaveMemoryForOT(pkm, memoryGen, memory))
+            else if (!CanHaveMemoryForOT(pkm, memoryGen, memory, Info.EvoChainsAllGens))
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
                 return;
@@ -248,7 +255,7 @@ namespace PKHeX.Core
             data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info, context));
         }
 
-        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory)
+        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory, EvoCriteria[][] evos)
         {
             switch (origin)
             {
@@ -259,8 +266,8 @@ namespace PKHeX.Core
                 case 7 when pkm.GG: // LGPE does not set memories.
                 case 8 when pkm.GO_HOME: // HOME does not set memories.
                 case 8 when pkm.Met_Location == Locations.HOME8: // HOME does not set memories.
-                case 8 when pkm.BDSP: // BDSP does not set memories.
-                case 8 when pkm.LA: // LA does not set memories.
+                case 8 when pkm.BDSP && !pkm.HasVisitedSWSH(evos[8]): // BDSP does not set memories.
+                case 8 when pkm.LA   && !pkm.HasVisitedSWSH(evos[8]): // LA does not set memories.
                     return false;
 
                 // Eggs cannot have memories

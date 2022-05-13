@@ -14,11 +14,8 @@ public sealed class LegendsArceusVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.pkm;
-        if (!pk.LA || pk is not PA8 pa)
+        if (pk is not PA8 pa)
             return;
-
-        CheckLearnset(data, pa);
-        CheckMastery(data, pa);
 
         if (pa.IsNoble)
             data.AddLine(GetInvalid(LStatNobleInvalid));
@@ -27,6 +24,20 @@ public sealed class LegendsArceusVerifier : Verifier
 
         CheckScalars(data, pa);
         CheckGanbaru(data, pa);
+
+        if (!pk.LA)
+        {
+            CheckLearnsetImport(data, pa);
+            return;
+        }
+
+        CheckLearnset(data, pa);
+        CheckMastery(data, pa);
+    }
+
+    private void CheckLearnsetImport(LegalityAnalysis data, PA8 pa)
+    {
+        // todo
     }
 
     private static void CheckGanbaru(LegalityAnalysis data, PA8 pa)

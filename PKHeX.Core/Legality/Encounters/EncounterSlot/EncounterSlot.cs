@@ -74,11 +74,13 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            var pk = EntityBlank.GetBlank(Generation, Version);
+            var pk = GetBlank();
             sav.ApplyTo(pk);
             ApplyDetails(sav, criteria, pk);
             return pk;
         }
+
+        protected virtual PKM GetBlank() => EntityBlank.GetBlank(Generation, Version);
 
         protected virtual void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

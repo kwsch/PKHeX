@@ -170,13 +170,13 @@ namespace PKHeX.Core
             }
 
             // Current level must be at least the minimum post-evolution level.
-            var lvl = GetMinLevelKnowRequiredMove(pkm, gen, index);
+            var lvl = GetMinLevelKnowRequiredMove(pkm, gen, index, info.EvoChainsAllGens);
             return pkm.CurrentLevel >= lvl;
         }
 
-        private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index)
+        private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index, EvoCriteria[][] evos)
         {
-            if (gen == 8 && pkm.LA) // No Level Up required, and different levels than mainline SW/SH.
+            if (gen == 8 && pkm.HasVisitedLA(evos[8])) // No Level Up required, and different levels than mainline SW/SH.
                 return MinLevelEvolutionWithMove_8LA[index];
 
             var lvl = GetLevelLearnMove(pkm, gen, index);

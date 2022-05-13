@@ -4,7 +4,7 @@ namespace PKHeX.Core
     /// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
     /// <inheritdoc cref="EncounterSlotGO" />
     /// </summary>
-    public sealed record EncounterSlot8GO : EncounterSlotGO
+    public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
     {
         public override int Generation => 8;
 
@@ -34,21 +34,49 @@ namespace PKHeX.Core
             return Type.IsBallValid(ball);
         }
 
+        protected override PKM GetBlank()
+        {
+            if (((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(Species, Form)).IsPresentInGame)
+                return new PK8();
+            if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(Species, Form)).IsPresentInGame)
+                return new PB8();
+            if (((PersonalInfoLA)PersonalTable.LA.GetFormEntry(Species, Form)).IsPresentInGame)
+                return new PA8();
+            return new PK8(); // fallback, still illegal
+        }
+
+        private PersonalInfo GetPersonal()
+        {
+            var entry = PersonalTable.SWSH.GetFormEntry(Species, Form);
+            if (((PersonalInfoSWSH)entry).IsPresentInGame)
+                return entry;
+            entry = PersonalTable.BDSP.GetFormEntry(Species, Form);
+            if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(Species, Form)).IsPresentInGame)
+                return entry;
+            entry = PersonalTable.LA.GetFormEntry(Species, Form);
+            if (((PersonalInfoLA)PersonalTable.LA.GetFormEntry(Species, Form)).IsPresentInGame)
+                return entry;
+            return entry; // fallback, still illegal
+        }
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            var pk8 = (PK8)pk;
-            pk8.HT_Name = "PKHeX";
-            pk8.HT_Language = 2;
-            pk8.CurrentHandler = 1;
+            pk.HT_Name = "PKHeX";
+            pk.CurrentHandler = 1;
+            ((IHandlerLanguage)pk).HT_Language = 2;
 
             base.ApplyDetails(sav, criteria, pk);
             var ball = Type.GetValidBall();
             if (ball != Ball.None)
                 pk.Ball = (int)ball;
 
-            pk8.SetRandomEC();
-            pk8.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            pk8.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            if (pk is IScaledSize s)
+            {
+                s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
+
+            pk.SetRandomEC();
         }
 
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
@@ -65,6 +93,8 @@ namespace PKHeX.Core
             return base.GetMatchRating(pkm) == EncounterMatchRating.PartialMatch ? EncounterMatchRating.PartialMatch : EncounterMatchRating.Match;
         }
 
+        public byte OT_Friendship => (byte)GetPersonal().BaseFriendship;
+
         private bool IsMatchPartial(PKM pk)
         {
             var stamp = GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
@@ -76,7 +106,7 @@ namespace PKHeX.Core
                 return true;
 
             // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
-            if (PersonalTable.SWSH.GetFormEntry(Species, Form).BaseFriendship != pk.OT_Friendship)
+            if (pk.OT_Friendship != OT_Friendship)
                 return true;
 
             return Species switch

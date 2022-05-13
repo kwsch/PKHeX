@@ -66,7 +66,7 @@ namespace PKHeX.Core
                     break;
                 case Unown when Info.Generation == 2 && form >= 26:
                     return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
-                case Dialga or Palkia or Giratina or Arceus when form > 0 && pkm.LA: // can change forms with key items
+                case Dialga or Palkia or Giratina or Arceus when form > 0 && pkm is PA8: // can change forms with key items
                     break;
                 case Giratina when form == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
                     return GetInvalid(LFormItemInvalid);

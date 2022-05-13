@@ -68,7 +68,8 @@ namespace PKHeX.Core
 
             if (format >= 8) // Ability Patch
             {
-                if (pkm.AbilityNumber == 4 && !pkm.LA)
+                var evos = data.Info.EvoChainsAllGens;
+                if (pkm.AbilityNumber == 4 && IsAccessibleAbilityPatch(pkm, evos))
                 {
                     if (CanAbilityPatch(format, abilities, pkm.Species))
                         return GetValid(LAbilityPatchUsed);
@@ -163,7 +164,7 @@ namespace PKHeX.Core
             var enc = data.Info.EncounterMatch;
             if (enc.Generation >= 6)
             {
-                if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility))
+                if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility, data.Info.EvoChainsAllGens))
                     return GetValid(LAbilityCapsuleUsed);
                 if (pkm.AbilityNumber != 1 << encounterAbility.GetSingleValue())
                     return INVALID;
@@ -202,7 +203,7 @@ namespace PKHeX.Core
             if (state == AbilityState.CanMismatch || encounterAbility == 0)
                 return CheckMatch(pkm, abilities, enc.Generation, AbilityState.MustMatch, enc);
 
-            if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility))
+            if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility, data.Info.EvoChainsAllGens))
                 return GetValid(LAbilityCapsuleUsed);
 
             return INVALID;
@@ -445,15 +446,35 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        // Ability Capsule can change between 1/2
-        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility)
+        private static bool IsAccessibleAbilityPatch(PKM pkm, EvoCriteria[][] evosAll)
         {
+            if (evosAll.Length <= 8)
+                return false;
+            if (!pkm.LA)
+                return true;
+            var evos = evosAll[8];
+            return pkm.HasVisitedSWSH(evos) || pkm.HasVisitedBDSP(evos);
+        }
+
+        private static bool IsAccessibleAbilityCapsule(PKM pkm, EvoCriteria[][] evosAll)
+        {
+            if (evosAll.Length <= 8)
+                return false;
+            if (!pkm.LA)
+                return true;
+            var evos = evosAll[8];
+            return pkm.HasVisitedSWSH(evos) || pkm.HasVisitedBDSP(evos);
+        }
+
+        // Ability Capsule can change between 1/2
+        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility, EvoCriteria[][] evos)
+        {
+            if (!IsAccessibleAbilityCapsule(pkm, evos))
+                return false; // Not available.
             if (!CanAbilityCapsule(pkm.Format, abilities))
                 return false;
             if (pkm.AbilityNumber == 4)
                 return false; // Cannot alter to hidden ability.
-            if (pkm.LA)
-                return false; // Not available.
             if (encounterAbility == AbilityPermission.OnlyHidden)
                 return false; // Cannot alter from hidden ability.
             return true;

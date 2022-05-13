@@ -153,12 +153,12 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor8(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            if (pkm.LA)
+            if (pkm is PA8)
             {
                 var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)
                     return NONE;
-                var index = Array.IndexOf(MoveShop8_LA, move);
+                var index = Array.IndexOf(MoveShop8_LA, (ushort)move);
                 if (index != -1 && pi.SpecialTutors[0][index])
                     return GameVersion.PLA;
 

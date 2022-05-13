@@ -169,28 +169,55 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
 
-        internal static bool HasVisitedBDSP(this PKM pkm, int species)
+        internal static bool HasVisitedSWSH(this PKM pkm, EvoCriteria[] evos)
         {
-            if (!pkm.InhabitedGeneration(8, species))
+            if (pkm.SWSH)
+                return true;
+            if (pkm.IsUntraded)
                 return false;
+
+            var pt = PersonalTable.SWSH;
+            foreach (var evo in evos)
+            {
+                var pi = (PersonalInfoSWSH)pt.GetFormEntry(evo.Species, evo.Form);
+                if (pi.IsPresentInGame)
+                    return true;
+            }
+            return false;
+        }
+
+        internal static bool HasVisitedBDSP(this PKM pkm, EvoCriteria[] evos)
+        {
             if (pkm.BDSP)
                 return true;
             if (pkm.IsUntraded)
                 return false;
-            var pi = (PersonalInfoBDSP)PersonalTable.BDSP[species];
-            return pi.IsPresentInGame;
+
+            var pt = PersonalTable.BDSP;
+            foreach (var evo in evos)
+            {
+                var pi = (PersonalInfoBDSP)pt.GetFormEntry(evo.Species, evo.Form);
+                if (pi.IsPresentInGame)
+                    return true;
+            }
+            return false;
         }
 
-        internal static bool HasVisitedLA(this PKM pkm, int species)
+        internal static bool HasVisitedLA(this PKM pkm, EvoCriteria[] evos)
         {
-            if (!pkm.InhabitedGeneration(8, species))
-                return false;
             if (pkm.LA)
                 return true;
             if (pkm.IsUntraded)
                 return false;
-            var pi = (PersonalInfoLA)PersonalTable.LA[species];
-            return pi.IsPresentInGame;
+
+            var pt = PersonalTable.LA;
+            foreach (var evo in evos)
+            {
+                var pi = (PersonalInfoLA)pt.GetFormEntry(evo.Species, evo.Form);
+                if (pi.IsPresentInGame)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
