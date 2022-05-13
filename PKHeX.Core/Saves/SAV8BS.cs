@@ -116,7 +116,7 @@ namespace PKHeX.Core
         public override int MaxSpeciesID => Legal.MaxSpeciesID_8b;
         public override int MaxItemID => Legal.MaxItemID_8b;
         public override int MaxBallID => Legal.MaxBallID_8b;
-        public override int MaxGameID => Legal.MaxGameID_8b;
+        public override int MaxGameID => Legal.MaxGameID_8a;
         public override int MaxAbilityID => Legal.MaxAbilityID_8b;
 
         public bool HasFirstSaveFileExpansion => (Gem8Version)SaveRevision >= Gem8Version.V1_1;
