@@ -96,13 +96,13 @@ namespace PKHeX.Core
         private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
         private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
 
-        // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
+        // Rental Teams - Objects (Blocks)
         private const uint KRentalTeam1 = 0x149A1DD0;
-      //private const uint KRentalTeam2 = 0x159A1F63; // does not exist
+        private const uint KRentalTeam2 = 0x179A2289;
         private const uint KRentalTeam3 = 0x169A20F6;
-        private const uint KRentalTeam4 = 0x179A2289;
+        private const uint KRentalTeam4 = 0x199A25AF;
         private const uint KRentalTeam5 = 0x189A241C;
-        private const uint KRentalTeam6 = 0x199A25AF;
+      //private const uint KRentalTeamUnused = 0x159A1F63; // does not exist
 
         // Download Rules
         private const uint KDownloadRules1 = 0xEEF1B186;
