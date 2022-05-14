@@ -113,11 +113,7 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadPartyStats(PKM pk) => Stats.LoadPartyStats(pk);
 
-        private void SavePartyStats(PKM pk)
-        {
-            Stats.SavePartyStats(pk);
-            pk.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-    }
+        private void SavePartyStats(PKM pk) => Stats.SavePartyStats(pk);
 
         public PKM CurrentPKM { get => PreparePKM(); set => Entity = value; }
         public bool ModifyPKM { private get; set; } = true;
@@ -303,10 +299,8 @@ namespace PKHeX.WinForms.Controls
             UpdatePKRSCured(this, EventArgs.Empty);
             UpdateNatureModification(CB_StatNature, Entity.StatNature);
 
-            if (HaX) // Load original values from pk not pkm
+            if (HaX)
             {
-                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : pk.CurrentLevel).ToString();
-                TB_EXP.Text = pk.EXP.ToString();
                 if (pk.PartyStatsPresent) // stats present
                     Stats.LoadPartyStats(pk);
             }
@@ -855,43 +849,31 @@ namespace PKHeX.WinForms.Controls
             if (sender == TB_EXP)
             {
                 // Change the Level
-                uint EXP = Util.ToUInt32(TB_EXP.Text);
+                var input = Util.ToUInt32(TB_EXP.Text);
+                var exp = input;
                 var gr = Entity.PersonalInfo.EXPGrowth;
-                int Level = Experience.GetLevel(EXP, gr);
-                if (Level == 100)
-                    EXP = Experience.GetEXP(100, gr);
+                int level = Experience.GetLevel(exp, gr);
+                if (level == 100)
+                    exp = Experience.GetEXP(100, gr);
 
-                TB_Level.Text = Level.ToString();
-                if (!HaX)
-                    TB_EXP.Text = EXP.ToString();
-                else if (Level <= 100 && Util.ToInt32(MT_Level.Text) <= 100)
-                    MT_Level.Text = Level.ToString();
+                if (level != Util.ToInt32(TB_Level.Text))
+                    TB_Level.Text = level.ToString();
+                if (input != exp && !HaX)
+                    TB_EXP.Text = exp.ToString();
             }
             else
             {
                 // Change the XP
-                int level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-                if (level <= 0)
-                {
-                    TB_Level.Text = "1";
-                }
-                else if (level > 100)
-                {
-                    TB_Level.Text = "100";
-                    if (!HaX)
-                        level = 100;
-                }
-                if (level > byte.MaxValue)
-                    MT_Level.Text = "255";
-                else if (level <= 100)
-                    TB_EXP.Text = Experience.GetEXP(level, Entity.PersonalInfo.EXPGrowth).ToString();
+                int input = Util.ToInt32(TB_Level.Text);
+                int level = Math.Max(1, Math.Min(input, 100));
+
+                if (input != level)
+                    TB_Level.Text = level.ToString();
+                TB_EXP.Text = Experience.GetEXP(level, Entity.PersonalInfo.EXPGrowth).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
-            {
                 Entity.EXP = Util.ToUInt32(TB_EXP.Text);
-                Entity.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-            }
             UpdateStats();
             UpdateLegality();
         }
@@ -1923,10 +1905,6 @@ namespace PKHeX.WinForms.Controls
             {
                 FLP_HeldItem.Visible = false;
             }
-
-            // Common HaX Interface
-            MT_Level.Enabled = MT_Level.Visible = HaX;
-            TB_Level.Visible = !HaX;
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (Entity.Format == 2)

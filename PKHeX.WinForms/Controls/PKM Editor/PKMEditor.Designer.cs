@@ -40,7 +40,6 @@
             this.PB_ShinySquare = new System.Windows.Forms.PictureBox();
             this.FLP_PIDRight = new System.Windows.Forms.FlowLayoutPanel();
             this.TB_PID = new System.Windows.Forms.TextBox();
-            this.UC_Gender = new PKHeX.WinForms.Controls.GenderToggle();
             this.BTN_RerollPID = new System.Windows.Forms.Button();
             this.FLP_Species = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Species = new System.Windows.Forms.Label();
@@ -55,7 +54,6 @@
             this.TB_EXP = new System.Windows.Forms.MaskedTextBox();
             this.Label_CurLevel = new System.Windows.Forms.Label();
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Level = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Nature = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Nature = new System.Windows.Forms.Label();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -67,7 +65,6 @@
             this.Label_Form = new System.Windows.Forms.Label();
             this.FLP_FormRight = new System.Windows.Forms.FlowLayoutPanel();
             this.CB_Form = new System.Windows.Forms.ComboBox();
-            this.FA_Form = new PKHeX.WinForms.Controls.FormArgument();
             this.FLP_HeldItem = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HeldItem = new System.Windows.Forms.Label();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
@@ -119,12 +116,9 @@
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
             this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             this.L_ShinyLeaf = new System.Windows.Forms.Label();
-            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
             this.L_CatchRate = new System.Windows.Forms.Label();
-            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.FLP_SizeCP = new System.Windows.Forms.FlowLayoutPanel();
-            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.TB_HomeTracker = new System.Windows.Forms.TextBox();
             this.L_HomeTracker = new System.Windows.Forms.Label();
@@ -165,8 +159,6 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
-            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
             this.L_AlphaMastered = new System.Windows.Forms.Label();
             this.CB_AlphaMastered = new System.Windows.Forms.ComboBox();
@@ -211,7 +203,6 @@
             this.BTN_History = new System.Windows.Forms.Button();
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
-            this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
             this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
             this.TB_HT = new System.Windows.Forms.TextBox();
             this.Label_PrevOT = new System.Windows.Forms.Label();
@@ -229,14 +220,22 @@
             this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
             this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
             this.GB_OT = new System.Windows.Forms.GroupBox();
-            this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
-            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.UC_Gender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.FA_Form = new PKHeX.WinForms.Controls.FormArgument();
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
+            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
+            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
+            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
+            this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -485,18 +484,6 @@
             this.TB_PID.MouseHover += new System.EventHandler(this.UpdateTSV);
             this.TB_PID.Validated += new System.EventHandler(this.Update_ID);
             // 
-            // UC_Gender
-            // 
-            this.UC_Gender.AllowClick = false;
-            this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.UC_Gender.Gender = 0;
-            this.UC_Gender.Location = new System.Drawing.Point(63, 2);
-            this.UC_Gender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
-            this.UC_Gender.Name = "UC_Gender";
-            this.UC_Gender.Size = new System.Drawing.Size(18, 18);
-            this.UC_Gender.TabIndex = 56;
-            this.UC_Gender.Click += new System.EventHandler(this.ClickGender);
-            // 
             // BTN_RerollPID
             // 
             this.BTN_RerollPID.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -621,7 +608,6 @@
             this.FLP_EXPLevelRight.Controls.Add(this.TB_EXP);
             this.FLP_EXPLevelRight.Controls.Add(this.Label_CurLevel);
             this.FLP_EXPLevelRight.Controls.Add(this.TB_Level);
-            this.FLP_EXPLevelRight.Controls.Add(this.MT_Level);
             this.FLP_EXPLevelRight.Location = new System.Drawing.Point(98, 0);
             this.FLP_EXPLevelRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EXPLevelRight.Name = "FLP_EXPLevelRight";
@@ -663,20 +649,6 @@
             this.TB_Level.TabIndex = 8;
             this.TB_Level.Click += new System.EventHandler(this.ClickLevel);
             this.TB_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
-            // 
-            // MT_Level
-            // 
-            this.MT_Level.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MT_Level.Enabled = false;
-            this.MT_Level.Location = new System.Drawing.Point(140, 0);
-            this.MT_Level.Margin = new System.Windows.Forms.Padding(0);
-            this.MT_Level.Mask = "000";
-            this.MT_Level.Name = "MT_Level";
-            this.MT_Level.Size = new System.Drawing.Size(22, 20);
-            this.MT_Level.TabIndex = 17;
-            this.MT_Level.Visible = false;
-            this.MT_Level.Click += new System.EventHandler(this.ClickLevel);
-            this.MT_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // FLP_Nature
             // 
@@ -805,15 +777,6 @@
             this.CB_Form.Size = new System.Drawing.Size(123, 21);
             this.CB_Form.TabIndex = 12;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
-            // 
-            // FA_Form
-            // 
-            this.FA_Form.Location = new System.Drawing.Point(123, 0);
-            this.FA_Form.Margin = new System.Windows.Forms.Padding(0);
-            this.FA_Form.Name = "FA_Form";
-            this.FA_Form.Size = new System.Drawing.Size(75, 21);
-            this.FA_Form.TabIndex = 19;
-            this.FA_Form.ValueChanged += new System.EventHandler(this.UpdateFormArgument);
             // 
             // FLP_HeldItem
             // 
@@ -1423,14 +1386,6 @@
             this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
             // 
-            // ShinyLeaf
-            // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(98, 0);
-            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
-            this.ShinyLeaf.Name = "ShinyLeaf";
-            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
-            this.ShinyLeaf.TabIndex = 116;
-            // 
             // FLP_CatchRate
             // 
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1452,14 +1407,6 @@
             this.L_CatchRate.Text = "Catch Rate:";
             this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CR_PK1
-            // 
-            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
-            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
-            this.CR_PK1.Name = "CR_PK1";
-            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
-            this.CR_PK1.TabIndex = 10;
-            // 
             // FLP_SizeCP
             // 
             this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1469,15 +1416,6 @@
             this.FLP_SizeCP.Name = "FLP_SizeCP";
             this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
             this.FLP_SizeCP.TabIndex = 21;
-            // 
-            // SizeCP
-            // 
-            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SizeCP.Location = new System.Drawing.Point(50, 0);
-            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
-            this.SizeCP.Name = "SizeCP";
-            this.SizeCP.Size = new System.Drawing.Size(204, 68);
-            this.SizeCP.TabIndex = 0;
             // 
             // Tab_Met
             // 
@@ -1490,7 +1428,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Met.Size = new System.Drawing.Size(307, 539);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1934,37 +1872,10 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Stats.Size = new System.Drawing.Size(307, 539);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
-            // 
-            // Stats
-            // 
-            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
-            this.Stats.EVsInvalid = System.Drawing.Color.Red;
-            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
-            this.Stats.Location = new System.Drawing.Point(0, 0);
-            this.Stats.Name = "Stats";
-            this.Stats.Size = new System.Drawing.Size(270, 280);
-            this.Stats.StatDecreased = System.Drawing.Color.Blue;
-            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
-            this.Stats.StatIncreased = System.Drawing.Color.Red;
-            this.Stats.TabIndex = 1;
-            // 
-            // Contest
-            // 
-            this.Contest.CNT_Beauty = ((byte)(0));
-            this.Contest.CNT_Cool = ((byte)(0));
-            this.Contest.CNT_Cute = ((byte)(0));
-            this.Contest.CNT_Sheen = ((byte)(0));
-            this.Contest.CNT_Smart = ((byte)(0));
-            this.Contest.CNT_Tough = ((byte)(0));
-            this.Contest.Location = new System.Drawing.Point(32, 290);
-            this.Contest.Margin = new System.Windows.Forms.Padding(0);
-            this.Contest.Name = "Contest";
-            this.Contest.Size = new System.Drawing.Size(230, 50);
-            this.Contest.TabIndex = 2;
             // 
             // Tab_Attacks
             // 
@@ -2555,17 +2466,6 @@
             this.GB_nOT.TabStop = false;
             this.GB_nOT.Text = "Latest (not OT) Handler";
             // 
-            // UC_HTGender
-            // 
-            this.UC_HTGender.AllowClick = true;
-            this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.UC_HTGender.Gender = 0;
-            this.UC_HTGender.Location = new System.Drawing.Point(142, 22);
-            this.UC_HTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
-            this.UC_HTGender.Name = "UC_HTGender";
-            this.UC_HTGender.Size = new System.Drawing.Size(18, 18);
-            this.UC_HTGender.TabIndex = 58;
-            // 
             // CB_HTLanguage
             // 
             this.CB_HTLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -2771,24 +2671,6 @@
             this.GB_OT.TabStop = false;
             this.GB_OT.Text = "Trainer Information";
             // 
-            // UC_OTGender
-            // 
-            this.UC_OTGender.AllowClick = true;
-            this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.UC_OTGender.Gender = 0;
-            this.UC_OTGender.Location = new System.Drawing.Point(142, 48);
-            this.UC_OTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
-            this.UC_OTGender.Name = "UC_OTGender";
-            this.UC_OTGender.Size = new System.Drawing.Size(18, 18);
-            this.UC_OTGender.TabIndex = 58;
-            // 
-            // TID_Trainer
-            // 
-            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
-            this.TID_Trainer.Name = "TID_Trainer";
-            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
-            this.TID_Trainer.TabIndex = 57;
-            // 
             // TB_OT
             // 
             this.TB_OT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -2817,6 +2699,108 @@
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // UC_Gender
+            // 
+            this.UC_Gender.AllowClick = false;
+            this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.UC_Gender.Gender = 0;
+            this.UC_Gender.Location = new System.Drawing.Point(63, 2);
+            this.UC_Gender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_Gender.Name = "UC_Gender";
+            this.UC_Gender.Size = new System.Drawing.Size(18, 18);
+            this.UC_Gender.TabIndex = 56;
+            this.UC_Gender.Click += new System.EventHandler(this.ClickGender);
+            // 
+            // FA_Form
+            // 
+            this.FA_Form.Location = new System.Drawing.Point(123, 0);
+            this.FA_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.FA_Form.Name = "FA_Form";
+            this.FA_Form.Size = new System.Drawing.Size(75, 21);
+            this.FA_Form.TabIndex = 19;
+            this.FA_Form.ValueChanged += new System.EventHandler(this.UpdateFormArgument);
+            // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(98, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            // 
+            // CR_PK1
+            // 
+            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
+            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
+            this.CR_PK1.Name = "CR_PK1";
+            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
+            this.CR_PK1.TabIndex = 10;
+            // 
+            // SizeCP
+            // 
+            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SizeCP.Location = new System.Drawing.Point(50, 0);
+            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
+            this.SizeCP.Name = "SizeCP";
+            this.SizeCP.Size = new System.Drawing.Size(204, 68);
+            this.SizeCP.TabIndex = 0;
+            // 
+            // Stats
+            // 
+            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
+            this.Stats.EVsInvalid = System.Drawing.Color.Red;
+            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
+            this.Stats.Location = new System.Drawing.Point(0, 0);
+            this.Stats.Name = "Stats";
+            this.Stats.Size = new System.Drawing.Size(270, 280);
+            this.Stats.StatDecreased = System.Drawing.Color.Blue;
+            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
+            this.Stats.StatIncreased = System.Drawing.Color.Red;
+            this.Stats.TabIndex = 1;
+            // 
+            // Contest
+            // 
+            this.Contest.CNT_Beauty = ((byte)(0));
+            this.Contest.CNT_Cool = ((byte)(0));
+            this.Contest.CNT_Cute = ((byte)(0));
+            this.Contest.CNT_Sheen = ((byte)(0));
+            this.Contest.CNT_Smart = ((byte)(0));
+            this.Contest.CNT_Tough = ((byte)(0));
+            this.Contest.Location = new System.Drawing.Point(32, 290);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.TabIndex = 2;
+            // 
+            // UC_HTGender
+            // 
+            this.UC_HTGender.AllowClick = true;
+            this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.UC_HTGender.Gender = 0;
+            this.UC_HTGender.Location = new System.Drawing.Point(142, 22);
+            this.UC_HTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_HTGender.Name = "UC_HTGender";
+            this.UC_HTGender.Size = new System.Drawing.Size(18, 18);
+            this.UC_HTGender.TabIndex = 58;
+            // 
+            // UC_OTGender
+            // 
+            this.UC_OTGender.AllowClick = true;
+            this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.UC_OTGender.Gender = 0;
+            this.UC_OTGender.Location = new System.Drawing.Point(142, 48);
+            this.UC_OTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
+            this.UC_OTGender.Name = "UC_OTGender";
+            this.UC_OTGender.Size = new System.Drawing.Size(18, 18);
+            this.UC_OTGender.TabIndex = 58;
+            // 
+            // TID_Trainer
+            // 
+            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
+            this.TID_Trainer.Name = "TID_Trainer";
+            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
+            this.TID_Trainer.TabIndex = 57;
             // 
             // PKMEditor
             // 
@@ -2962,7 +2946,6 @@
         private System.Windows.Forms.MaskedTextBox TB_EXP;
         private System.Windows.Forms.Label Label_CurLevel;
         private System.Windows.Forms.MaskedTextBox TB_Level;
-        private System.Windows.Forms.MaskedTextBox MT_Level;
         private System.Windows.Forms.FlowLayoutPanel FLP_Nature;
         private System.Windows.Forms.Label Label_Nature;
         private System.Windows.Forms.ComboBox CB_Nature;
