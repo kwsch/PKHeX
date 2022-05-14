@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
@@ -97,9 +96,6 @@ namespace PKHeX.Core
 
         private void LoadLines(IEnumerable<string> lines)
         {
-            lines = lines.Select(z => z.Replace('\'', '’').Replace('–', '-').Trim()); // Sanitize apostrophes & dashes
-            lines = lines.Where(z => z.Length > 2);
-
             ParseLines(lines);
 
             FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
@@ -108,6 +104,23 @@ namespace PKHeX.Core
             // Handle edge case with fixed-gender forms.
             if (Species is (int) Meowstic or (int) Indeedee)
                 ReviseGenderedForms();
+        }
+
+        private static IEnumerable<string> GetSanitizedLines(IEnumerable<string> lines)
+        {
+            foreach (var line in lines)
+            {
+                var trim = line.Trim();
+                if (trim.Length <= 2)
+                    continue;
+
+                // Sanitize apostrophes & dashes
+                if (trim.IndexOf('\'') != -1)
+                    trim = trim.Replace('\'', '’');
+                if (trim.IndexOf('–') != -1)
+                    trim = trim.Replace('–', '-');
+                yield return trim;
+            }
         }
 
         private void ReviseGenderedForms()
@@ -128,6 +141,7 @@ namespace PKHeX.Core
 
         private void ParseLines(IEnumerable<string> lines)
         {
+            lines = GetSanitizedLines(lines);
             using var e = lines.GetEnumerator();
             if (!e.MoveNext())
                 return;
@@ -146,7 +160,7 @@ namespace PKHeX.Core
                     int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
                     if (move < 0)
                         InvalidLines.Add($"Unknown Move: {moveString}");
-                    else if (Moves.Contains(move))
+                    else if (Array.IndexOf(Moves, move) != -1)
                         InvalidLines.Add($"Duplicate Move: {moveString}");
                     else
                         Moves[movectr++] = move;
@@ -325,15 +339,19 @@ namespace PKHeX.Core
 
         private IEnumerable<string> GetStringMoves()
         {
-            foreach (int move in Moves.Where(move => move != 0 && move < Strings.Move.Count))
+            var moves = Strings.Move;
+            foreach (int move in Moves)
             {
+                if ((uint)move >= moves.Count)
+                    continue;
+
                 if (move == 237) // Hidden Power
                 {
-                    yield return $"- {Strings.Move[move]} [{Strings.Types[1 + HiddenPowerType]}]";
+                    yield return $"- {moves[move]} [{Strings.Types[1 + HiddenPowerType]}]";
                     continue;
                 }
 
-                yield return $"- {Strings.Move[move]}";
+                yield return $"- {moves[move]}";
             }
         }
 
@@ -431,7 +449,7 @@ namespace PKHeX.Core
             }
 
             // Nickname Detection
-            if (line.Contains('(') && line.Contains(')'))
+            if (line.IndexOf('(') != -1 && line.IndexOf(')') != -1)
                 ParseSpeciesNickname(line);
             else
                 ParseSpeciesForm(line);
@@ -535,7 +553,7 @@ namespace PKHeX.Core
             int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types, type) - 1; // Get HP Type
 
             HiddenPowerType = hpVal;
-            if (IVs.Any(z => z != 31))
+            if (!Array.TrueForAll(IVs, z => z == 31))
             {
                 if (!HiddenPower.SetIVsForType(hpVal, IVs, Format))
                     InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
@@ -585,7 +603,19 @@ namespace PKHeX.Core
             IVs = IVsSpeedFirst;
         }
 
-        private static string RemoveAll(string original, char[] remove) => string.Concat(original.Where(z => !remove.Contains(z)));
+        private static string RemoveAll(string original, char[] remove)
+        {
+            Span<char> result = stackalloc char[original.Length];
+            int ctr = 0;
+            foreach (var c in original)
+            {
+                if (Array.IndexOf(remove, c) == -1)
+                    result[ctr++] = c;
+            }
+            if (ctr == original.Length)
+                return original;
+            return new string(result[..ctr].ToArray());
+        }
 
         private static string[] SplitLineStats(string line)
         {

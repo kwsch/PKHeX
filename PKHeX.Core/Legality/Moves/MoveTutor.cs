@@ -158,7 +158,7 @@ namespace PKHeX.Core
                 var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)
                     return NONE;
-                var index = Array.IndexOf(MoveShop8_LA, move);
+                var index = Array.IndexOf(MoveShop8_LA, (ushort)move);
                 if (index != -1 && pi.SpecialTutors[0][index])
                     return GameVersion.PLA;
 

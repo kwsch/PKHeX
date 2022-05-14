@@ -43,17 +43,16 @@ namespace PKHeX.Core
         public static bool IsMagicPresentSwap(ReadOnlySpan<byte> data, int size, uint magic)
         {
             // Check footers of first few teams to see if the magic value is there.
-            var left = (ushort)magic;
-            var right = (ushort)(magic >> 16);
-            left = (ushort)((left >> 8) | (left << 8));
-            right = (ushort)((right >> 8) | (right << 8));
+            var right = ReverseEndianness((ushort)(magic >> 16));
+            var left = ReverseEndianness((ushort)magic);
 
             for (int i = 0; i < 10; i++)
             {
-                var ofs = size - 6 + (i * size);
-                if (ReadUInt16LittleEndian(data[(ofs - 2)..]) != left) // OP
+                var offset = size - 6 + (i * size);
+
+                if (ReadUInt16LittleEndian(data[(offset + 4)..]) != right) // EK
                     return false;
-                if (ReadUInt16LittleEndian(data[(ofs + 4)..]) != right) // EK
+                if (ReadUInt16LittleEndian(data[(offset - 2)..]) != left) // OP
                     return false;
             }
             return true;
@@ -65,14 +64,11 @@ namespace PKHeX.Core
             if (actual == magic) // POKE
                 return true;
 
-            var left = (ushort)magic;
-            var right = (ushort)(magic >> 16);
-            left = (ushort)((left >> 8) | (left << 8));
-            right = (ushort)((right >> 8) | (right << 8));
-
-            if (ReadUInt16LittleEndian(data[(offset - 2)..]) != left) // OP
-                return false;
+            var right = ReverseEndianness((ushort)(magic >> 16));
             if (ReadUInt16LittleEndian(data[(offset + 4)..]) != right) // EK
+                return false;
+            var left = ReverseEndianness((ushort)magic);
+            if (ReadUInt16LittleEndian(data[(offset - 2)..]) != left) // OP
                 return false;
 
             return true;
