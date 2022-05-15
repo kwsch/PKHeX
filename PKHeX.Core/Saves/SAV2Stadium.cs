@@ -59,7 +59,7 @@ namespace PKHeX.Core
 
         public SAV2Stadium(byte[] data) : this(data, IsStadiumJ(data)) { }
 
-        public SAV2Stadium(byte[] data, bool japanese) : base(data, japanese, StadiumUtil.IsMagicPresentSwap(data, TeamSize, MAGIC_FOOTER))
+        public SAV2Stadium(byte[] data, bool japanese) : base(data, japanese, GetIsSwap(data, japanese))
         {
             Box = BoxStart;
         }
@@ -179,11 +179,25 @@ namespace PKHeX.Core
         {
             if (data.Length is not (SaveUtil.SIZE_G2STAD or SaveUtil.SIZE_G2STADF))
                 return false;
-            return StadiumUtil.IsMagicPresentEither(data, TeamSize, MAGIC_FOOTER);
+            if (IsStadiumJ(data) || IsStadiumU(data))
+                return true;
+            return StadiumUtil.IsMagicPresentEither(data, TeamSize, MAGIC_FOOTER, 1) != StadiumSaveType.None;
         }
 
         // Check Box 1's footer magic.
-        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_FOOTER) != StadiumSaveType.None;
+        private static bool IsStadiumU(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeU - ListFooterSize, MAGIC_FOOTER) != StadiumSaveType.None;
+
+        private static bool GetIsSwap(ReadOnlySpan<byte> data, bool japanese)
+        {
+            var teamSwap = StadiumUtil.IsMagicPresentSwap(data, TeamSize, MAGIC_FOOTER, 1);
+            if (teamSwap)
+                return true;
+            var boxSwap = StadiumUtil.IsMagicPresentSwap(data[BoxStart..], japanese ? BoxSizeJ : BoxSizeU, MAGIC_FOOTER, 1);
+            if (boxSwap)
+                return true;
+            return false;
+        }
     }
 
     public enum Stadium2TeamType

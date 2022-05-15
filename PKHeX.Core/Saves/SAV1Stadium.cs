@@ -51,24 +51,25 @@ namespace PKHeX.Core
         private const int TeamSizeJ = 0x0C + (SIZE_PK1J * 6) + ListFooterSize; // 0x120
         private const int TeamSizeU = 0x10 + (SIZE_PK1U * 6) + ListFooterSize; // 0x160
 
-        private const uint FOOTER_MAGIC = 0x454B4F50; // POKE
+        private const uint MAGIC_FOOTER = 0x454B4F50; // POKE
 
         private int BoxSize => Japanese ? BoxSizeJ : BoxSizeU;
         //private int ListHeaderSizeBox => Japanese ? 0x0C : 0x10;
         private const int BoxSizeJ = 0x0C + (SIZE_PK1J * 30) + ListFooterSize; // 0x558
         private const int BoxSizeU = 0x10 + (SIZE_PK1U * 20) + 6 + ListFooterSize; // 0x468 (6 bytes alignment)
+        private const int BoxStart = 0xC000;
         public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSize);
 
         public SAV1Stadium(byte[] data) : this(data, IsStadiumJ(data)) { }
 
-        public SAV1Stadium(byte[] data, bool japanese) : base(data, japanese, StadiumUtil.IsMagicPresentSwap(data, japanese ? TeamSizeJ : TeamSizeU, FOOTER_MAGIC))
+        public SAV1Stadium(byte[] data, bool japanese) : base(data, japanese, GetIsSwap(data, japanese))
         {
-            Box = 0xC000;
+            Box = BoxStart;
         }
 
         public SAV1Stadium(bool japanese = false) : base(japanese, SaveUtil.SIZE_G1STAD)
         {
-            Box = 0xC000;
+            Box = BoxStart;
             ClearBoxes();
         }
 
@@ -272,15 +273,32 @@ namespace PKHeX.Core
         {
             if (data.Length is not (SaveUtil.SIZE_G1STAD or SaveUtil.SIZE_G1STADF))
                 return false;
-            if (IsStadiumU(data))
-                return true;
             if (IsStadiumJ(data))
+                return true;
+            if (IsStadiumU(data))
                 return true;
             return false;
         }
 
-        private static bool IsStadiumU(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeU, FOOTER_MAGIC);
-        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
+        private static bool IsStadiumJ(ReadOnlySpan<byte> data) => IsStadium(data, TeamSizeJ, BoxSizeJ) != StadiumSaveType.None;
+        private static bool IsStadiumU(ReadOnlySpan<byte> data) => IsStadium(data, TeamSizeU, BoxSizeU) != StadiumSaveType.None;
+
+        private static bool GetIsSwap(ReadOnlySpan<byte> data, bool japanese)
+        {
+            var result = japanese ? IsStadium(data, TeamSizeJ, BoxSizeJ) : IsStadium(data, TeamSizeU, BoxSizeU);
+            return result == StadiumSaveType.Swapped;
+        }
+
+        private static StadiumSaveType IsStadium(ReadOnlySpan<byte> data, int teamSize, int boxSize)
+        {
+            var isTeam = StadiumUtil.IsMagicPresentEither(data, teamSize, MAGIC_FOOTER, 10);
+            if (isTeam != StadiumSaveType.None)
+                return isTeam;
+            var isBox = StadiumUtil.IsMagicPresentEither(data[BoxStart..], boxSize, MAGIC_FOOTER, 5);
+            if (isBox != StadiumSaveType.None)
+                return isBox;
+            return StadiumSaveType.None;
+        }
     }
 
     public enum Stadium1TeamType
