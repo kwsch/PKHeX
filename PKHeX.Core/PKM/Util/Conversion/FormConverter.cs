@@ -36,7 +36,7 @@ namespace PKHeX.Core
                 <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
                 <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation),
                 <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
-                _ => GetFormsGen8(species, types, forms, genders),
+                _ => GetFormsGen8(species, generation, types, forms, genders),
             };
         }
 
@@ -62,7 +62,7 @@ namespace PKHeX.Core
                 Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd
                 or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
 
-                Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, types, forms),
+                Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, generation, types, forms),
 
                 _ => GetFormsAlolan(generation, types, forms, species),
             };
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             {
                 Pichu when generation == 4 => GetFormsPichu(types, forms),
                 Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
-                Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, types, forms),
+                Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, generation, types, forms),
                 Unown => GetFormsUnown(generation),
                 _ => EMPTY,
             };
@@ -91,11 +91,11 @@ namespace PKHeX.Core
                     forms[890], // Rainy
                     forms[891], // Snowy
                 },
-                Kyogre => new[] {
+                Kyogre when generation < 8 => new[] {
                     types[000], // Normal
                     forms[899], // Primal
                 },
-                Groudon => new[] {
+                Groudon when generation < 8 => new[] {
                     types[000], // Normal
                     forms[899], // Primal
                 },
@@ -155,7 +155,7 @@ namespace PKHeX.Core
         {
             return (Species)species switch
             {
-                Samurott or Lilligant or Zorua or Zoroark or Braviary when generation >= 8 => GetFormsHisui(species, types, forms),
+                Samurott or Lilligant or Zorua or Zoroark or Braviary when generation >= 8 => GetFormsHisui(species, generation, types, forms),
                 Basculin when generation >= 8 => new[] {
                     forms[550], // Red
                     forms[942], // Blue
@@ -276,7 +276,7 @@ namespace PKHeX.Core
                     forms[681], // Shield
                     forms[1005], // Blade
                 },
-                Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, types, forms),
+                Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, generation, types, forms),
                 Pumpkaboo or Gourgeist => new[] {
                     forms[710], // Average
                     forms[1006], // Small
@@ -306,7 +306,7 @@ namespace PKHeX.Core
         {
             return (Species)species switch
             {
-                Decidueye when generation >= 8 => GetFormsHisui(species, types, forms),
+                Decidueye when generation >= 8 => GetFormsHisui(species, generation, types, forms),
                 Oricorio => new[] {
                     forms[741], // "RED" - Baile
                     forms[1021], // "YLW" - Pom-Pom
@@ -361,7 +361,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsGen8(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
+        private static string[] GetFormsGen8(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
         {
             return (Species)species switch
             {
@@ -422,7 +422,7 @@ namespace PKHeX.Core
                     forms[CalyIce],
                     forms[CalyGhost],
                 },
-                Kleavor => new[] {
+                Kleavor when generation == 8 => new[] {
                     types[000],
                     forms[Lord],
                 },
@@ -709,9 +709,9 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsHisui(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsHisui(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms) => generation switch
         {
-            return (Species)species switch
+            8 => (Species)species switch
             {
                 Lilligant => new[]
                 {
@@ -730,8 +730,13 @@ namespace PKHeX.Core
                     types[000], // Normal
                     forms[Hisuian],
                 },
-            };
-        }
+            },
+            _ => new[]
+            {
+                types[000], // Normal
+                forms[Hisuian],
+            }
+        };
 
         private static string[] GetFormsGalarSlowbro(IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
