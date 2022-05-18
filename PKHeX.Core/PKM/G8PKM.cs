@@ -393,7 +393,23 @@ namespace PKHeX.Core
         public byte HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = value; }
         public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCC), value); }
 
-        // 0xCE-0xDB unused
+        public bool GetPokeJobFlag(int index)
+        {
+            if ((uint)index > 112) // 14 bytes, 8 bits
+                throw new ArgumentOutOfRangeException(nameof(index));
+            int ofs = index >> 3;
+            return FlagUtil.GetFlag(Data, 0xCE + ofs, index & 7);
+        }
+
+        public void SetPokeJobFlag(int index, bool value)
+        {
+            if ((uint)index > 112) // 14 bytes, 8 bits
+                throw new ArgumentOutOfRangeException(nameof(index));
+            int ofs = index >> 3;
+            FlagUtil.SetFlag(Data, 0xCE + ofs, index & 7, value);
+        }
+
+        public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, z => z != 0) >= 0;
 
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
@@ -402,7 +418,7 @@ namespace PKHeX.Core
         // public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
         // public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
         public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
-        public int UnkE3 { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
+        // 0xE3 alignment
         public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0xE4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xE4), value); }
         public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
         public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
