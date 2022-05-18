@@ -95,6 +95,7 @@ namespace PKHeX.Core
         private const uint KTrainer2EndlessRecordData = 0x78D78638; // Trainer 2's Data of Best Endless Dynamax Adventure Record
         private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
         private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
+        private const uint KPokeJobStorage = 0xB25C772B; // Pokémon storage while they are doing Jobs
 
         // Rental Teams - Objects (Blocks)
         private const uint KRentalTeam1 = 0x149A1DD0;
