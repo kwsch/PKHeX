@@ -32,7 +32,7 @@ namespace PKHeX.WinForms.Controls
         public Color StatHyperTrained { get; set; } = Color.LightGreen;
 
         public IMainEditor MainEditor { private get; set; } = null!;
-        public bool HaX { set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
+        public bool HaX { get => CHK_HackedStats.Enabled; set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
         public bool Valid
         {
@@ -496,6 +496,8 @@ namespace PKHeX.WinForms.Controls
             pk.Stat_SPE = Util.ToInt32(Stat_SPE.Text);
             pk.Stat_SPA = Util.ToInt32(Stat_SPA.Text);
             pk.Stat_SPD = Util.ToInt32(Stat_SPD.Text);
+            if (!HaX)
+                pk.Stat_Level = pk.CurrentLevel;
         }
 
         public void LoadEVs(ReadOnlySpan<int> EVs)

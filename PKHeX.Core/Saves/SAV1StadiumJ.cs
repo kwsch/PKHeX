@@ -40,20 +40,21 @@ namespace PKHeX.Core
 
         private const int ListHeaderSize = 0x14;
         private const int ListFooterSize = 6; // POKE + 2byte checksum
-        private const uint FOOTER_MAGIC = 0x454B4F50; // POKE
+        private const uint MAGIC_FOOTER = 0x454B4F50; // POKE
 
         protected override int TeamCount => 16; // 32 teams stored sequentially; latter 16 are backups
         private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
         private const int BoxSizeJ = 0x560;
+        private const int BoxStart = 0x2500;
 
-        public SAV1StadiumJ(byte[] data) : base(data, true, StadiumUtil.IsMagicPresentSwap(data, TeamSizeJ, FOOTER_MAGIC))
+        public SAV1StadiumJ(byte[] data) : base(data, true, GetIsSwap(data))
         {
-            Box = 0x2500;
+            Box = BoxStart;
         }
 
         public SAV1StadiumJ() : base(true, SaveUtil.SIZE_G1STAD)
         {
-            Box = 0x2500;
+            Box = BoxStart;
             ClearBoxes();
         }
 
@@ -159,7 +160,20 @@ namespace PKHeX.Core
         {
             if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;
-            return StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
+            return GetType(data) != StadiumSaveType.None;
         }
+
+        private static StadiumSaveType GetType(ReadOnlySpan<byte> data)
+        {
+            var team = StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, MAGIC_FOOTER, 10);
+            if (team != StadiumSaveType.None)
+                return team;
+            var box = StadiumUtil.IsMagicPresentEither(data[BoxStart..], BoxSizeJ, MAGIC_FOOTER, 1);
+            if (box != StadiumSaveType.None)
+                return box;
+            return StadiumSaveType.None;
+        }
+
+        private static bool GetIsSwap(ReadOnlySpan<byte> data) => GetType(data) == StadiumSaveType.Swapped;
     }
 }

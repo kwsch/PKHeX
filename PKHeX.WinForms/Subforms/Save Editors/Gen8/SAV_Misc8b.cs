@@ -33,6 +33,7 @@ namespace PKHeX.WinForms
             B_Spiritomb.Enabled = Unlocker.UnlockReadySpiritomb;
             B_Darkrai.Enabled = Unlocker.UnlockReadyDarkrai;
             B_Shaymin.Enabled = Unlocker.UnlockReadyShaymin;
+            B_Arceus.Enabled = Unlocker.UnlockReadyArceus;
             B_DialgaPalkia.Enabled = Unlocker.UnlockReadyBoxLegend;
             B_Roamer.Enabled = Unlocker.ResetReadyRoamerMesprit || Unlocker.ResetReadyRoamerCresselia;
 
@@ -63,6 +64,13 @@ namespace PKHeX.WinForms
             Unlocker.UnlockDarkrai();
             System.Media.SystemSounds.Asterisk.Play();
             B_Darkrai.Enabled = Unlocker.UnlockReadyDarkrai;
+        }
+
+        private void B_Arceus_Click(object sender, EventArgs e)
+        {
+            Unlocker.UnlockArceus();
+            System.Media.SystemSounds.Asterisk.Play();
+            B_Arceus.Enabled = Unlocker.UnlockReadyArceus;
         }
 
         private void B_DialgaPalkia_Click(object sender, EventArgs e)

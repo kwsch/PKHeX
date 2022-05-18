@@ -54,7 +54,6 @@
             this.TB_EXP = new System.Windows.Forms.MaskedTextBox();
             this.Label_CurLevel = new System.Windows.Forms.Label();
             this.TB_Level = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Level = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Nature = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Nature = new System.Windows.Forms.Label();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -609,7 +608,6 @@
             this.FLP_EXPLevelRight.Controls.Add(this.TB_EXP);
             this.FLP_EXPLevelRight.Controls.Add(this.Label_CurLevel);
             this.FLP_EXPLevelRight.Controls.Add(this.TB_Level);
-            this.FLP_EXPLevelRight.Controls.Add(this.MT_Level);
             this.FLP_EXPLevelRight.Location = new System.Drawing.Point(98, 0);
             this.FLP_EXPLevelRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EXPLevelRight.Name = "FLP_EXPLevelRight";
@@ -651,20 +649,6 @@
             this.TB_Level.TabIndex = 8;
             this.TB_Level.Click += new System.EventHandler(this.ClickLevel);
             this.TB_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
-            // 
-            // MT_Level
-            // 
-            this.MT_Level.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MT_Level.Enabled = false;
-            this.MT_Level.Location = new System.Drawing.Point(140, 0);
-            this.MT_Level.Margin = new System.Windows.Forms.Padding(0);
-            this.MT_Level.Mask = "000";
-            this.MT_Level.Name = "MT_Level";
-            this.MT_Level.Size = new System.Drawing.Size(22, 20);
-            this.MT_Level.TabIndex = 17;
-            this.MT_Level.Visible = false;
-            this.MT_Level.Click += new System.EventHandler(this.ClickLevel);
-            this.MT_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // FLP_Nature
             // 
@@ -1931,8 +1915,8 @@
             this.CB_AlphaMastered.Location = new System.Drawing.Point(123, 317);
             this.CB_AlphaMastered.Name = "CB_AlphaMastered";
             this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 21);
-            this.CB_AlphaMastered.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_AlphaMastered.TabIndex = 20;
+            this.CB_AlphaMastered.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             // 
             // FLP_MoveFlags
             // 
@@ -2020,7 +2004,7 @@
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove3);
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove2);
             this.GB_RelearnMoves.Controls.Add(this.CB_RelearnMove1);
-            this.GB_RelearnMoves.Location = new System.Drawing.Point(25, 160);
+            this.GB_RelearnMoves.Location = new System.Drawing.Point(27, 160);
             this.GB_RelearnMoves.Name = "GB_RelearnMoves";
             this.GB_RelearnMoves.Size = new System.Drawing.Size(220, 120);
             this.GB_RelearnMoves.TabIndex = 1;
@@ -2030,7 +2014,7 @@
             // PB_WarnRelearn4
             // 
             this.PB_WarnRelearn4.Image = global::PKHeX.WinForms.Properties.Resources.warn;
-            this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 93);
+            this.PB_WarnRelearn4.Location = new System.Drawing.Point(22, 94);
             this.PB_WarnRelearn4.Name = "PB_WarnRelearn4";
             this.PB_WarnRelearn4.Size = new System.Drawing.Size(16, 16);
             this.PB_WarnRelearn4.TabIndex = 19;
@@ -2040,7 +2024,7 @@
             // PB_WarnRelearn3
             // 
             this.PB_WarnRelearn3.Image = global::PKHeX.WinForms.Properties.Resources.warn;
-            this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 71);
+            this.PB_WarnRelearn3.Location = new System.Drawing.Point(22, 72);
             this.PB_WarnRelearn3.Name = "PB_WarnRelearn3";
             this.PB_WarnRelearn3.Size = new System.Drawing.Size(16, 16);
             this.PB_WarnRelearn3.TabIndex = 18;
@@ -2050,7 +2034,7 @@
             // PB_WarnRelearn2
             // 
             this.PB_WarnRelearn2.Image = global::PKHeX.WinForms.Properties.Resources.warn;
-            this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 49);
+            this.PB_WarnRelearn2.Location = new System.Drawing.Point(22, 50);
             this.PB_WarnRelearn2.Name = "PB_WarnRelearn2";
             this.PB_WarnRelearn2.Size = new System.Drawing.Size(16, 16);
             this.PB_WarnRelearn2.TabIndex = 17;
@@ -2060,7 +2044,7 @@
             // PB_WarnRelearn1
             // 
             this.PB_WarnRelearn1.Image = global::PKHeX.WinForms.Properties.Resources.warn;
-            this.PB_WarnRelearn1.Location = new System.Drawing.Point(22, 27);
+            this.PB_WarnRelearn1.Location = new System.Drawing.Point(22, 28);
             this.PB_WarnRelearn1.Name = "PB_WarnRelearn1";
             this.PB_WarnRelearn1.Size = new System.Drawing.Size(16, 16);
             this.PB_WarnRelearn1.TabIndex = 6;
@@ -2072,7 +2056,7 @@
             this.CB_RelearnMove4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_RelearnMove4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_RelearnMove4.FormattingEnabled = true;
-            this.CB_RelearnMove4.Location = new System.Drawing.Point(48, 91);
+            this.CB_RelearnMove4.Location = new System.Drawing.Point(48, 92);
             this.CB_RelearnMove4.Name = "CB_RelearnMove4";
             this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove4.TabIndex = 16;
@@ -2085,7 +2069,7 @@
             this.CB_RelearnMove3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_RelearnMove3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_RelearnMove3.FormattingEnabled = true;
-            this.CB_RelearnMove3.Location = new System.Drawing.Point(48, 69);
+            this.CB_RelearnMove3.Location = new System.Drawing.Point(48, 70);
             this.CB_RelearnMove3.Name = "CB_RelearnMove3";
             this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove3.TabIndex = 15;
@@ -2098,7 +2082,7 @@
             this.CB_RelearnMove2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_RelearnMove2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_RelearnMove2.FormattingEnabled = true;
-            this.CB_RelearnMove2.Location = new System.Drawing.Point(48, 47);
+            this.CB_RelearnMove2.Location = new System.Drawing.Point(48, 48);
             this.CB_RelearnMove2.Name = "CB_RelearnMove2";
             this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove2.TabIndex = 14;
@@ -2111,7 +2095,7 @@
             this.CB_RelearnMove1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_RelearnMove1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_RelearnMove1.FormattingEnabled = true;
-            this.CB_RelearnMove1.Location = new System.Drawing.Point(48, 25);
+            this.CB_RelearnMove1.Location = new System.Drawing.Point(48, 26);
             this.CB_RelearnMove1.Name = "CB_RelearnMove1";
             this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove1.TabIndex = 13;
@@ -2477,7 +2461,7 @@
             this.GB_nOT.Controls.Add(this.Label_PrevOT);
             this.GB_nOT.Location = new System.Drawing.Point(40, 85);
             this.GB_nOT.Name = "GB_nOT";
-            this.GB_nOT.Size = new System.Drawing.Size(190, 74);
+            this.GB_nOT.Size = new System.Drawing.Size(190, 75);
             this.GB_nOT.TabIndex = 2;
             this.GB_nOT.TabStop = false;
             this.GB_nOT.Text = "Latest (not OT) Handler";
@@ -2719,6 +2703,7 @@
             // UC_Gender
             // 
             this.UC_Gender.AllowClick = false;
+            this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_Gender.Gender = 0;
             this.UC_Gender.Location = new System.Drawing.Point(63, 2);
             this.UC_Gender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
@@ -2791,6 +2776,7 @@
             // UC_HTGender
             // 
             this.UC_HTGender.AllowClick = true;
+            this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_HTGender.Gender = 0;
             this.UC_HTGender.Location = new System.Drawing.Point(142, 22);
             this.UC_HTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
@@ -2801,6 +2787,7 @@
             // UC_OTGender
             // 
             this.UC_OTGender.AllowClick = true;
+            this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_OTGender.Gender = 0;
             this.UC_OTGender.Location = new System.Drawing.Point(142, 48);
             this.UC_OTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
@@ -2959,7 +2946,6 @@
         private System.Windows.Forms.MaskedTextBox TB_EXP;
         private System.Windows.Forms.Label Label_CurLevel;
         private System.Windows.Forms.MaskedTextBox TB_Level;
-        private System.Windows.Forms.MaskedTextBox MT_Level;
         private System.Windows.Forms.FlowLayoutPanel FLP_Nature;
         private System.Windows.Forms.Label Label_Nature;
         private System.Windows.Forms.ComboBox CB_Nature;

@@ -421,7 +421,7 @@ namespace PKHeX.Core
         protected override bool TradeOT(ITrainerInfo tr)
         {
             // Check to see if the OT matches the SAV's OT info.
-            if (!(tr.OT == OT_Name && tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender))
+            if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
                 return false;
 
             CurrentHandler = 0;

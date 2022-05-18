@@ -32,6 +32,7 @@ namespace PKHeX.WinForms
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.B_Arceus = new System.Windows.Forms.Button();
             this.B_Zones = new System.Windows.Forms.Button();
             this.B_RebattleEyecatch = new System.Windows.Forms.Button();
             this.B_DefeatEyecatch = new System.Windows.Forms.Button();
@@ -47,7 +48,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(194, 338);
+            this.B_Cancel.Location = new System.Drawing.Point(194, 378);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 25);
             this.B_Cancel.TabIndex = 1;
@@ -58,7 +59,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(275, 338);
+            this.B_Save.Location = new System.Drawing.Point(275, 378);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 25);
             this.B_Save.TabIndex = 2;
@@ -76,11 +77,12 @@ namespace PKHeX.WinForms
             this.TC_Misc.Margin = new System.Windows.Forms.Padding(0);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
-            this.TC_Misc.Size = new System.Drawing.Size(344, 323);
+            this.TC_Misc.Size = new System.Drawing.Size(344, 363);
             this.TC_Misc.TabIndex = 0;
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.B_Arceus);
             this.TAB_Main.Controls.Add(this.B_Zones);
             this.TAB_Main.Controls.Add(this.B_RebattleEyecatch);
             this.TAB_Main.Controls.Add(this.B_DefeatEyecatch);
@@ -92,14 +94,24 @@ namespace PKHeX.WinForms
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Main.Size = new System.Drawing.Size(336, 297);
+            this.TAB_Main.Size = new System.Drawing.Size(336, 337);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
             // 
+            // B_Arceus
+            // 
+            this.B_Arceus.Location = new System.Drawing.Point(6, 198);
+            this.B_Arceus.Name = "B_Arceus";
+            this.B_Arceus.Size = new System.Drawing.Size(124, 58);
+            this.B_Arceus.TabIndex = 8;
+            this.B_Arceus.Text = "Unlock Arceus Event";
+            this.B_Arceus.UseVisualStyleBackColor = true;
+            this.B_Arceus.Click += new System.EventHandler(this.B_Arceus_Click);
+            // 
             // B_Zones
             // 
-            this.B_Zones.Location = new System.Drawing.Point(6, 198);
+            this.B_Zones.Location = new System.Drawing.Point(6, 262);
             this.B_Zones.Name = "B_Zones";
             this.B_Zones.Size = new System.Drawing.Size(124, 58);
             this.B_Zones.TabIndex = 7;
@@ -181,7 +193,7 @@ namespace PKHeX.WinForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 372);
+            this.ClientSize = new System.Drawing.Size(362, 412);
             this.Controls.Add(this.TC_Misc);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -210,5 +222,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_DefeatEyecatch;
         private System.Windows.Forms.Button B_RebattleEyecatch;
         private System.Windows.Forms.Button B_Zones;
+        private System.Windows.Forms.Button B_Arceus;
     }
 }
