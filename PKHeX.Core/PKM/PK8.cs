@@ -106,7 +106,38 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_8;
         public override int MaxGameID => Legal.MaxGameID_8;
 
-        public PB8 ConvertToPB8() => ConvertTo<PB8>();
+        public PB8 ConvertToPB8()
+        {
+            var pk = ConvertTo<PB8>();
+            UnmapLocation(pk);
+            return pk;
+        }
+
+        public override PA8 ConvertToPA8()
+        {
+            var pk = base.ConvertToPA8();
+            UnmapLocation(pk);
+            return pk;
+        }
+
+        private static void UnmapLocation(PKM pk)
+        {
+            switch (pk.Met_Location)
+            {
+                case Locations.HOME_LA:
+                    pk.Version = (int)GameVersion.PLA;
+                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    break;
+                case Locations.HOME_BD:
+                    pk.Version = (int)GameVersion.BD;
+                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    break;
+                case Locations.HOME_SP:
+                    pk.Version = (int)GameVersion.SP;
+                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    break;
+            }
+        }
 
         public override void ResetMoves()
         {
@@ -119,6 +150,39 @@ namespace PKHeX.Core
             learn.SetEncounterMoves(CurrentLevel, moves);
             SetMoves(moves);
             this.SetMaximumPPCurrent(moves);
+        }
+
+        public void SanitizeImport()
+        {
+            var ver = Version;
+            if (ver is (int)GameVersion.SP)
+            {
+                Met_Location = Locations.HOME_SP;
+                Version = (int)GameVersion.SH;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_SP;
+            }
+            else if (ver is (int)GameVersion.BD)
+            {
+                Met_Location = Locations.HOME_BD;
+                Version = (int)GameVersion.SW;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_BD;
+            }
+            else if (ver is (int)GameVersion.PLA)
+            {
+                Met_Location = Locations.HOME_LA;
+                Version = (int)GameVersion.SW;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_LA;
+            }
+            else if (ver > (int)GameVersion.PLA)
+            {
+                Met_Location = Met_Location <= Locations.HOME_LA ? Locations.HOME_LA : Locations.HOME_INVALID;
+            }
+
+            if (Ball > (int)Core.Ball.Beast)
+                Ball = (int)Core.Ball.Poke;
         }
     }
 }

@@ -413,6 +413,8 @@ namespace PKHeX.Core
 
         public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, z => z != 0) >= 0;
 
+        public void ClearPokeJobFlags() => Data.AsSpan(0xCE, 0x14).Clear();
+
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
         public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
@@ -480,6 +482,8 @@ namespace PKHeX.Core
 
         public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
 
+        public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 0x14).Clear();
+
         // Why did you mis-align this field, GameFreak?
         public ulong Tracker
         {
@@ -541,6 +545,14 @@ namespace PKHeX.Core
             Data.AsSpan().CopyTo(pk.Data);
             pk.Move1_PPUps = pk.Move2_PPUps = pk.Move3_PPUps = pk.Move4_PPUps = 0;
             pk.RelearnMove1 = pk.RelearnMove2 = pk.RelearnMove3 = pk.RelearnMove4 = 0;
+            pk.ClearMoveRecordFlags();
+            pk.ClearPokeJobFlags();
+
+            pk.CanGigantamax = false;
+            pk.DynamaxLevel = 0;
+            pk.Sociability = 0;
+            pk.Fullness = 0;
+            pk.Data[0x52] = 0;
 
             pk.ResetMoves();
             pk.ResetPartyStats();
@@ -549,7 +561,7 @@ namespace PKHeX.Core
             return pk;
         }
 
-        public PA8 ConvertToPA8()
+        public virtual PA8 ConvertToPA8()
         {
             var pk = new PA8
             {
@@ -735,18 +747,15 @@ namespace PKHeX.Core
                 PKRS_Strain = PKRS_Strain,
                 HeightScalar = HeightScalar,
                 WeightScalar = WeightScalar,
-                HeightScalarCopy = HeightScalar,
-                CanGigantamax = CanGigantamax,
-                DynamaxLevel = DynamaxLevel,
             };
 
             Nickname_Trash.CopyTo(pk.Nickname_Trash);
             OT_Trash.CopyTo(pk.OT_Trash);
             HT_Trash.CopyTo(pk.HT_Trash);
 
+            pk.SanitizeImport();
+
             pk.ResetMoves();
-            pk.ResetHeight();
-            pk.ResetWeight();
             pk.ResetPartyStats();
             pk.RefreshChecksum();
 

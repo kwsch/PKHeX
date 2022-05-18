@@ -126,7 +126,12 @@ public sealed class PB8 : G8PKM
     public override int MaxBallID => Legal.MaxBallID_8b;
     public override int MaxGameID => Legal.MaxGameID_8b;
 
-    public PK8 ConvertToPK8() => ConvertTo<PK8>();
+    public PK8 ConvertToPK8()
+    {
+        var pk = ConvertTo<PK8>();
+        pk.SanitizeImport();
+        return pk;
+    }
 
     public override void ResetMoves()
     {
