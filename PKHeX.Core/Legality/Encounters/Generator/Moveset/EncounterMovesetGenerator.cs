@@ -225,7 +225,7 @@ namespace PKHeX.Core
             return type switch
             {
                 EncounterOrder.Egg => GetEggs(pk, needs, chain, version),
-                EncounterOrder.Mystery => GetGifts(pk, needs, chain),
+                EncounterOrder.Mystery => GetGifts(pk, needs, chain, version),
                 EncounterOrder.Static => GetStatic(pk, needs, chain, version),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
                 EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
@@ -274,11 +274,12 @@ namespace PKHeX.Core
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
+        /// <param name="version">Specific version to iterate for.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain)
+        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
         {
             var format = pk.Format;
-            var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
+            var gifts = MysteryGiftGenerator.GetPossible(pk, chain, version);
             foreach (var gift in gifts)
             {
                 if (gift is WC3 {NotDistributed: true})

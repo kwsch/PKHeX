@@ -20,10 +20,21 @@ namespace PKHeX.Core
             data.AddLine(result);
         }
 
+        private static int IsReplacedBall(IVersion enc, PKM pk) => pk switch
+        {
+            PA8 when enc.Version != GameVersion.PLA => (int)LAPoke,
+            PK8 when enc.Version == GameVersion.PLA => (int)Poke,
+            _ => (int)None,
+        };
+
         private CheckResult VerifyBall(LegalityAnalysis data)
         {
             var Info = data.Info;
             var enc = Info.EncounterMatch;
+
+            var ball = IsReplacedBall(enc, data.pkm);
+            if (ball != 0)
+                return VerifyBallEquals(data, ball);
 
             // Fixed ball cases -- can be only one ball ever
             switch (enc)

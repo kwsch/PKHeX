@@ -255,7 +255,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc4(PKM pk)
         {
             CAL_MetDate.Value = pk.MetDate ?? new DateTime(2000, 1, 1);
-            if (Locations.IsNoneLocation((GameVersion)pk.Version, pk.Egg_Location))
+            if (!GetWasMetAsEgg(pk))
             {
                 CHK_AsEgg.Checked = GB_EggConditions.Enabled = false;
                 CAL_EggDate.Value = new DateTime(2000, 01, 01);
@@ -269,13 +269,25 @@ namespace PKHeX.WinForms.Controls
             CB_EggLocation.SelectedValue = pk.Egg_Location;
         }
 
+        private static bool GetWasMetAsEgg(PKM pk)
+        {
+            return pk.Egg_Location != GetNoneLocation(pk);
+        }
+
+        private static int GetNoneLocation(PKM pk) => pk switch
+        {
+            PB8 => Locations.GetNoneLocation(GameVersion.BD),
+            PK8 => 0,
+            _ => Locations.GetNoneLocation((GameVersion)pk.Version)
+        };
+
         private void SaveMisc4(PKM pk)
         {
             pk.MetDate = CAL_MetDate.Value;
 
             // Default Dates
             DateTime? egg_date = null;
-            int egg_location = Locations.GetNoneLocation((GameVersion)pk.Version);
+            int egg_location = GetNoneLocation(pk);
             if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
             {
                 egg_date = CAL_EggDate.Value;

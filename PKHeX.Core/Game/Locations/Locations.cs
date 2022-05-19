@@ -100,8 +100,8 @@
 
         public const int BugCatchingContest4 = 207;
 
-        public const int HOME_BD = 59998;
-        public const int HOME_SP = 59999;
+        public const int HOME_SP = 59998;
+        public const int HOME_BD = 59999;
         public const int HOME_LA = 60000;
         public const int HOME_INVALID = 65534;
 

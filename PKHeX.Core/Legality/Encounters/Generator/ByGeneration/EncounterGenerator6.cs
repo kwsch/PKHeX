@@ -16,13 +16,14 @@ namespace PKHeX.Core
             int ctr = 0;
 
             var chain = EncounterOrigin.GetOriginChain(pkm);
+            var game = (GameVersion)pkm.Version;
 
             IEncounterable? deferred = null;
             IEncounterable? partial = null;
 
             if (pkm.FatefulEncounter || pkm.Met_Location == Locations.LinkGift6)
             {
-                foreach (var z in GetValidGifts(pkm, chain))
+                foreach (var z in GetValidGifts(pkm, chain, game))
                 {
                     var match = z.GetMatchRating(pkm);
                     switch (match)
@@ -53,7 +54,7 @@ namespace PKHeX.Core
                 if (ctr == 0) yield break;
             }
 
-            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 switch (match)
@@ -65,7 +66,7 @@ namespace PKHeX.Core
             }
             if (ctr != 0) yield break;
 
-            foreach (var z in GetValidWildEncounters(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 switch (match)
@@ -77,7 +78,7 @@ namespace PKHeX.Core
             }
             if (ctr != 0) yield break;
 
-            foreach (var z in GetValidEncounterTrades(pkm, chain))
+            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 switch (match)

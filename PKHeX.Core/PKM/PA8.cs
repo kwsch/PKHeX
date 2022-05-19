@@ -1052,6 +1052,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public PB8 ConvertToPB8()
     {
         var pk = ConvertTo<PB8>();
+        if (pk.Egg_Location == 0)
+            pk.Egg_Location = Locations.Default8bNone;
         if (pk.Ball == (int)Core.Ball.Strange)
             pk.Ball = (int)Core.Ball.Poke;
         return pk;

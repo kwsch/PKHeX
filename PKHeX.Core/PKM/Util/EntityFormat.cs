@@ -89,9 +89,9 @@ public static class EntityFormat
     // assumes decrypted state
     private static EntityFormatDetected GetFormat8(ReadOnlySpan<byte> data)
     {
-        if (data[0xDE] is (byte)GameVersion.BD or (byte)GameVersion.SP)
+        if (data[0xDE] >= (byte)GameVersion.PLA)
             return FormatPB8;
-        return FormatPK8;
+        return FormatPB8;
     }
 
     /// <summary>

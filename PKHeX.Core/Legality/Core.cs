@@ -244,7 +244,11 @@ namespace PKHeX.Core
         internal static bool IsRelearnDeleted(this PKM pkm)
         {
             if (pkm.IsNative)
+            {
+                if (pkm is PK8 {LA: true} or PK8 {BDSP: true})
+                    return true;
                 return false;
+            }
 
             if (pkm is IBattleVersion { BattleVersion: not 0 })
                 return true;

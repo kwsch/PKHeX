@@ -109,6 +109,8 @@ namespace PKHeX.Core
         public PB8 ConvertToPB8()
         {
             var pk = ConvertTo<PB8>();
+            if (pk.Egg_Location == 0)
+                pk.Egg_Location = Locations.Default8bNone;
             UnmapLocation(pk);
             return pk;
         }
@@ -151,6 +153,10 @@ namespace PKHeX.Core
             SetMoves(moves);
             this.SetMaximumPPCurrent(moves);
         }
+
+        public override bool BDSP => Met_Location is Locations.HOME_BD or Locations.HOME_SP;
+        public override bool LA => Met_Location is Locations.HOME_LA;
+        public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
 
         public void SanitizeImport()
         {

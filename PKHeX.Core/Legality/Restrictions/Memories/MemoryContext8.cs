@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
         {
             GameVersion.SW or GameVersion.SH => CanObtainMemorySWSH(memory),
-            _ => false,
+            _ => memory is 0,
         };
 
         public override bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory) => CanObtainMemorySWSH(memory);

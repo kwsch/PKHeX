@@ -79,8 +79,9 @@ namespace PKHeX.Core
         {
             var chain = EncounterOrigin.GetOriginChain(pkm);
 
+            var game = (GameVersion)pkm.Version;
             // Mystery Gifts
-            foreach (var z in GetValidGifts(pkm, chain))
+            foreach (var z in GetValidGifts(pkm, chain, game))
             {
                 // Don't bother deferring matches.
                 var match = z.GetMatchRating(pkm);
@@ -89,7 +90,7 @@ namespace PKHeX.Core
             }
 
             // Trades
-            foreach (var z in GetValidEncounterTrades(pkm, chain))
+            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
             {
                 // Don't bother deferring matches.
                 var match = z.GetMatchRating(pkm);
@@ -100,7 +101,7 @@ namespace PKHeX.Core
             IEncounterable? partial = null;
 
             // Static Encounter
-            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
@@ -110,7 +111,7 @@ namespace PKHeX.Core
             }
 
             // Encounter Slots
-            foreach (var z in GetValidWildEncounters(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
@@ -128,9 +129,10 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
             var chain = EncounterOrigin.GetOriginChain(pkm);
+            var game = (GameVersion)pkm.Version;
 
             // Mystery Gifts
-            foreach (var z in GetValidGifts(pkm, chain))
+            foreach (var z in GetValidGifts(pkm, chain, game))
             {
                 // Don't bother deferring matches.
                 var match = z.GetMatchRating(pkm);
@@ -139,7 +141,7 @@ namespace PKHeX.Core
             }
 
             // Trades
-            foreach (var z in GetValidEncounterTrades(pkm, chain))
+            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
             {
                 // Don't bother deferring matches.
                 var match = z.GetMatchRating(pkm);
@@ -155,7 +157,7 @@ namespace PKHeX.Core
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
             {
-                foreach (var z in GetValidStaticEncounter(pkm, chain))
+                foreach (var z in GetValidStaticEncounter(pkm, chain, game))
                 {
                     var match = z.GetMatchRating(pkm);
                     if (match == PartialMatch)
@@ -167,7 +169,7 @@ namespace PKHeX.Core
 
             // Encounter Slots
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)
@@ -208,7 +210,7 @@ namespace PKHeX.Core
 
             partial = null;
 
-            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)

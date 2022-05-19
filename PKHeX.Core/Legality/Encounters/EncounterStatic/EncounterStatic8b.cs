@@ -20,6 +20,8 @@ namespace PKHeX.Core
 
         protected override bool IsMatchLocation(PKM pkm)
         {
+            if (pkm is PK8)
+                return true;
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
             return IsRoamingLocation(pkm);
@@ -47,6 +49,9 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {
+            if (pkm is PK8)
+                return !EggEncounter ? pkm.Egg_Location == 0 : pkm.Egg_Location >= Locations.HOME_SP;
+
             var eggloc = (short)pkm.Egg_Location;
             if (!EggEncounter)
                 return eggloc == (short)EggLocation;

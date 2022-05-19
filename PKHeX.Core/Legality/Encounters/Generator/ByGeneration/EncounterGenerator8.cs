@@ -19,6 +19,9 @@ namespace PKHeX.Core
                 (int)GameVersion.GO => EncounterGenerator7.GetEncountersGO(pkm, chain),
                 (int)GameVersion.PLA => EncounterGenerator8a.GetEncounters(pkm, chain),
                 (int)GameVersion.BD or (int)GameVersion.SP => EncounterGenerator8b.GetEncounters(pkm, chain),
+                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_LA => EncounterGenerator8a.GetEncounters(pkm, chain),
+                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_BD => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.BD),
+                (int)GameVersion.SH when pkm.Met_Location == Locations.HOME_SP => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.SP),
                 _ => GetEncountersMainline(pkm, chain),
             };
         }
@@ -26,9 +29,11 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, EvoCriteria[] chain)
         {
             int ctr = 0;
+            var game = (GameVersion)pkm.Version;
+
             if (pkm.FatefulEncounter)
             {
-                foreach (var z in GetValidGifts(pkm, chain))
+                foreach (var z in GetValidGifts(pkm, chain, game))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
@@ -46,7 +51,7 @@ namespace PKHeX.Core
             // Trades
             if (pkm.Met_Location == Locations.LinkTrade6NPC)
             {
-                foreach (var z in GetValidEncounterTrades(pkm, chain))
+                foreach (var z in GetValidEncounterTrades(pkm, chain, game))
                 {
                     var match = z.GetMatchRating(pkm);
                     if (match == Match)
@@ -66,7 +71,7 @@ namespace PKHeX.Core
             }
 
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
-            var encs = GetValidStaticEncounter(pkm, chain);
+            var encs = GetValidStaticEncounter(pkm, chain, game);
             foreach (var z in encs)
             {
                 var match = z.GetMatchRating(pkm);
@@ -81,7 +86,7 @@ namespace PKHeX.Core
                 }
             }
 
-            foreach (var z in GetValidWildEncounters(pkm, chain))
+            foreach (var z in GetValidWildEncounters(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == Match)
