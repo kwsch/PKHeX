@@ -60,7 +60,10 @@ public static class EntityConverter
 
     private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out EntityConverterResult result)
     {
-        result = CheckTransfer(pk);
+        result = CheckTransferOutbound(pk);
+        if (result != Success)
+            return null;
+        result = CheckTransferInbound(pk, destType);
         if (result != Success)
             return null;
 
@@ -130,11 +133,11 @@ public static class EntityConverter
     }
 
     /// <summary>
-    /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
+    /// Checks to see if a PKM is transferable out of a specific format.
     /// </summary>
     /// <param name="pk">PKM to convert</param>
     /// <returns>Indication if Not Transferable</returns>
-    private static EntityConverterResult CheckTransfer(PKM pk) => pk switch
+    private static EntityConverterResult CheckTransferOutbound(PKM pk) => pk switch
     {
         PK4 { Species: (int)Species.Pichu, Form: not 0 } => IncompatibleForm,
         PK6 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
@@ -144,6 +147,27 @@ public static class EntityConverter
         PB8 { Species: (int)Species.Nincada } => IncompatibleSpecies, // Clone paranoia with Shedinja
         _ => Success,
     };
+
+    /// <summary>
+    /// Checks to see if a PKM is transferable into a specific format.
+    /// </summary>
+    /// <param name="pk">PKM to convert</param>
+    /// <param name="destType">Type to convert to</param>
+    /// <returns>Indication if Not Transferable</returns>
+    private static EntityConverterResult CheckTransferInbound(PKM pk, Type destType)
+    {
+        if (destType == typeof(PB8))
+        {
+            return pk.Species switch
+            {
+                (int)Species.Nincada => IncompatibleSpecies,
+                (int)Species.Spinda => IncompatibleSpecies,
+                _ => Success,
+            };
+        }
+
+        return Success;
+    }
 
     /// <summary>
     /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.
