@@ -27,7 +27,7 @@ namespace PKHeX.Core
             };
         }
 
-        public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm.IsRelearnDeleted();
+        public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm.IsOriginalMovesetDeleted();
 
         private static CheckMoveResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckMoveResult[] result)
         {

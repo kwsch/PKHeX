@@ -91,7 +91,7 @@ public static class EntityFormat
     {
         if (data[0xDE] >= (byte)GameVersion.PLA)
             return FormatPB8;
-        return FormatPB8;
+        return FormatPK8;
     }
 
     /// <summary>

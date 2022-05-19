@@ -241,7 +241,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>Already checked for generations &lt; 8.</remarks>
         /// <param name="pkm">Entity to check</param>
-        internal static bool IsRelearnDeleted(this PKM pkm)
+        internal static bool IsOriginalMovesetDeleted(this PKM pkm)
         {
             if (pkm is PA8 {LA: false} or PB8 {BDSP: false})
                 return true;
@@ -255,10 +255,7 @@ namespace PKHeX.Core
             if (pkm is IBattleVersion { BattleVersion: not 0 })
                 return true;
 
-            var gen = pkm.Generation;
-            if (gen < 8)
-                return pkm is PK8;
-            return true;
+            return false;
         }
 
         /// <summary>
