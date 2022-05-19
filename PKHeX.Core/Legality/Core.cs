@@ -227,8 +227,8 @@ namespace PKHeX.Core
         internal static (bool IsRestricted, GameVersion Game) IsMovesetRestricted(this PKM pkm) => pkm switch
         {
             PB7 => (true, GameVersion.GP),
-            PA8 { IsNative: false } => (true, GameVersion.PLA),
-            PB8 { IsNative: false } => (true, GameVersion.BD),
+            PA8 => (true, GameVersion.PLA),
+            PB8 => (true, GameVersion.BD),
             PK8 when pkm.Version > (int)GameVersion.SH => (true, GameVersion.SH), // Permit past generation moves.
 
             IBattleVersion { BattleVersion: not 0 } bv => (true, (GameVersion)bv.BattleVersion),

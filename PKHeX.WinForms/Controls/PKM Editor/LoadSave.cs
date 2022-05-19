@@ -271,14 +271,14 @@ namespace PKHeX.WinForms.Controls
 
         private static bool GetWasMetAsEgg(PKM pk)
         {
-            return pk.Egg_Location != GetNoneLocation(pk);
+            return pk.Egg_Location != (ushort)GetNoneLocation(pk);
         }
 
         private static int GetNoneLocation(PKM pk) => pk switch
         {
             PB8 => Locations.GetNoneLocation(GameVersion.BD),
             PK8 => 0,
-            _ => Locations.GetNoneLocation((GameVersion)pk.Version)
+            _ => Locations.GetNoneLocation((GameVersion)pk.Version),
         };
 
         private void SaveMisc4(PKM pk)
