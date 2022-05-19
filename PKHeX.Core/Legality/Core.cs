@@ -243,6 +243,8 @@ namespace PKHeX.Core
         /// <param name="pkm">Entity to check</param>
         internal static bool IsRelearnDeleted(this PKM pkm)
         {
+            if (pkm is PA8 {LA: false} or PB8 {BDSP: false})
+                return true;
             if (pkm.IsNative)
             {
                 if (pkm is PK8 {LA: true} or PK8 {BDSP: true})
