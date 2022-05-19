@@ -151,6 +151,13 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Locations8.Met3);
             Util.AddCBWithOffset(locations, s.metSWSH_40000, 40000, Locations8.Met4);
             Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations8.Met6);
+
+            // Add in the BDSP+PLA magic met locations.
+            locations.Add(new ComboItem($"0x{Locations.HOME_INVALID:X}", Locations.HOME_INVALID));
+            locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_BD));
+            locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SP));
+            locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_LA));
+
             return locations;
         }
 
