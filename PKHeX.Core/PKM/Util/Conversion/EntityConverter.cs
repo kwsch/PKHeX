@@ -140,6 +140,8 @@ public static class EntityConverter
         PK6 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
         PB7 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
         PB7 { Species: (int)Species.Eevee, Form: not 0 } => IncompatibleForm,
+        PB8 { Species: (int)Species.Spinda } => IncompatibleSpecies, // Incorrect arrangement of spots (PID endianness)
+        PB8 { Species: (int)Species.Nincada } => IncompatibleSpecies, // Clone paranoia with Shedinja
         _ => Success,
     };
 
