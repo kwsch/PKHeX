@@ -200,14 +200,21 @@ namespace PKHeX.Core
             if (egg && version < W && currentGen >= 5)
                 return MetGen4;
 
-            var list = GetLocationListInternal(version, currentGen);
-            if (currentGen == 8 && !BDSP.Contains(version))
-                list.Insert(1, new ComboItem($"{list[0].Text} (BDSP)", unchecked((ushort)Locations.Default8bNone)));
+            var result = GetLocationListInternal(version, currentGen);
 
-            return list;
+            // Insert the BDSP none location if the format requires it.
+            if (currentGen == 8 && !BDSP.Contains(version))
+            {
+                var list = new List<ComboItem>(result.Count + 1);
+                list.AddRange(result);
+                list.Insert(1, new ComboItem($"{list[0].Text} (BDSP)", unchecked((ushort)Locations.Default8bNone)));
+                result = list;
+            }
+
+            return result;
         }
 
-        private List<ComboItem> GetLocationListInternal(GameVersion version, int currentGen)
+        private IReadOnlyList<ComboItem> GetLocationListInternal(GameVersion version, int currentGen)
         {
             return version switch
             {
@@ -234,13 +241,13 @@ namespace PKHeX.Core
                 _ => new List<ComboItem>(GetLocationListModified(version, currentGen)),
             };
 
-            static List<ComboItem> Partition1(IReadOnlyList<ComboItem> list, Func<int, bool> criteria)
+            static IReadOnlyList<ComboItem> Partition1(IReadOnlyList<ComboItem> list, Func<int, bool> criteria)
             {
                 var result = new ComboItem[list.Count];
                 return GetOrderedList(list, result, criteria);
             }
 
-            static List<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result,
+            static IReadOnlyList<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result,
                 Func<int, bool> criteria, int start = 0)
             {
                 // store values that match criteria at the next available position of the array
@@ -257,10 +264,10 @@ namespace PKHeX.Core
 
                 // since the non-matches are reversed in order, we swap them back since we know where they end up at.
                 Array.Reverse(result, start, list.Count - start);
-                return new List<ComboItem>(result);
+                return result;
             }
 
-            static List<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria,
+            static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria,
                 int keepFirst = 3)
             {
                 var result = new ComboItem[list.Count];
