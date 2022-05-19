@@ -33,10 +33,10 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {
-            var eggloc = pkm.Egg_Location;
             if (!EggEncounter)
-                return eggloc == 0;
+                return base.IsMatchEggLocation(pkm);
 
+            var eggloc = pkm.Egg_Location;
             // Transferring 4->5 clears Pt/HG/SS location value and keeps Faraway Place
             if (pkm is not G4PKM pk4)
             {

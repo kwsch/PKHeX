@@ -41,12 +41,6 @@ namespace PKHeX.Core
             return base.IsMatchExact(pkm, evo);
         }
 
-        protected override bool IsMatchEggLocation(PKM pkm)
-        {
-            var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
-            return pkm.Egg_Location == expect;
-        }
-
         protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)
         {
             if (Ability != Any12H)

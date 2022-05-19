@@ -22,7 +22,7 @@ namespace PKHeX.Core
         {
             if (pkm.Format == 3)
                 return !pkm.IsEgg || EggLocation == 0 || EggLocation == pkm.Met_Location;
-            return pkm.Egg_Location == 0;
+            return base.IsMatchEggLocation(pkm);
         }
 
         protected override bool IsMatchLevel(PKM pkm, EvoCriteria evo)

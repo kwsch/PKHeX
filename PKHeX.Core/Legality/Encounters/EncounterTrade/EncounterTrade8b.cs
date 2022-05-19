@@ -38,6 +38,14 @@
             return base.IsMatchExact(pkm, evo);
         }
 
+        protected override bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = EggLocation;
+            if (pkm is PK8 && expect == unchecked((ushort)Locations.Default8bNone))
+                expect = 0;
+            return pkm.Egg_Location == expect;
+        }
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);

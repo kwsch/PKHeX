@@ -83,12 +83,6 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         return true;
     }
 
-    protected override bool IsMatchEggLocation(PKM pkm)
-    {
-        var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
-        return pkm.Egg_Location == expect;
-    }
-
     public override EncounterMatchRating GetMatchRating(PKM pkm)
     {
         var result = GetMatchRatingInternal(pkm);

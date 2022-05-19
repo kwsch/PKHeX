@@ -23,10 +23,10 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {
-            var eggloc = pkm.Egg_Location;
             if (!EggEncounter)
-                return eggloc == EggLocation;
+                return base.IsMatchEggLocation(pkm);
 
+            var eggloc = pkm.Egg_Location;
             if (!pkm.IsEgg) // hatched
                 return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
 

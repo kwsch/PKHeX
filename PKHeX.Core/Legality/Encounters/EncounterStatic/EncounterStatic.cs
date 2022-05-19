@@ -264,7 +264,11 @@ namespace PKHeX.Core
         }
 
         // override me if the encounter type has any eggs
-        protected virtual bool IsMatchEggLocation(PKM pkm) => pkm.Egg_Location == 0;
+        protected virtual bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            return pkm.Egg_Location == expect;
+        }
 
         private bool IsMatchGender(PKM pkm)
         {
