@@ -278,10 +278,7 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, (int)Poke);
 
             if (species is (int)Species.Cranidos or (int)Species.Shieldon)
-            {
-                var g5balls = BallUseLegality.GetWildBalls(5, GameVersion.BW);
-                return VerifyBallEquals(data, g5balls);
-            }
+                return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
 
             if (data.pkm.Ball == (int)Safari)
             {
