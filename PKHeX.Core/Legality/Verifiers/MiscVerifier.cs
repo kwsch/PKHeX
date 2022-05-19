@@ -571,7 +571,10 @@ namespace PKHeX.Core
 
             var bv = pa8.BattleVersion;
             if (bv != 0)
-                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            {
+                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pa8.Gen8)
+                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            }
 
             if (pa8.CanGigantamax)
                 data.AddLine(GetInvalid(LStatGigantamaxInvalid));
@@ -606,7 +609,10 @@ namespace PKHeX.Core
 
             var bv = pb8.BattleVersion;
             if (bv != 0)
-                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            {
+                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pb8.Gen8)
+                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            }
 
             if (pb8.CanGigantamax)
                 data.AddLine(GetInvalid(LStatGigantamaxInvalid));
