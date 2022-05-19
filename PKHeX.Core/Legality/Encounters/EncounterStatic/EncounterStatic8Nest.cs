@@ -20,11 +20,11 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
+            if (pkm is PK8 d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
             // Required Ability
-            if (Ability == AbilityPermission.OnlyHidden && pkm.AbilityNumber != 4)
+            if (Ability == OnlyHidden && pkm.AbilityNumber != 4)
                 return false; // H
 
             if (Version != GameVersion.SWSH && pkm.Version != (int)Version && pkm.Met_Location != SharedNest)
@@ -39,6 +39,12 @@ namespace PKHeX.Core
                 return false;
 
             return base.IsMatchExact(pkm, evo);
+        }
+
+        protected override bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            return pkm.Egg_Location == expect;
         }
 
         protected sealed override EncounterMatchRating IsMatchDeferred(PKM pkm)

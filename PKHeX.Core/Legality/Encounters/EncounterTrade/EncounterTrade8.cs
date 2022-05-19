@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
+            if (pkm is PK8 d && d.DynamaxLevel < DynamaxLevel)
                 return false;
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;

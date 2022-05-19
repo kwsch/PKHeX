@@ -29,9 +29,15 @@ namespace PKHeX.Core
             return false;
         }
 
+        protected override bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            return pkm.Egg_Location == expect;
+        }
+
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
+            if (pkm is PK8 d && d.DynamaxLevel < DynamaxLevel)
                 return false;
             if (pkm.Met_Level < EncounterArea8.BoostLevel && Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
                 return false;

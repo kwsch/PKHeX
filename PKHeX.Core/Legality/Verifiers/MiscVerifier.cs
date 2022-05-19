@@ -522,7 +522,7 @@ namespace PKHeX.Core
 
             if (pk8.DynamaxLevel != 0)
             {
-                if (!pk8.CanHaveDynamaxLevel(pk8, data.Info.EvoChainsAllGens[8]) || pk8.DynamaxLevel > 10)
+                if (!pk8.CanHaveDynamaxLevel(pk8) || pk8.DynamaxLevel > 10)
                     data.AddLine(GetInvalid(LStatDynamaxInvalid));
             }
 

@@ -107,9 +107,9 @@ namespace PKHeX.Core
                 s.HeightScalar = PokeSizeUtil.GetRandomScalar();
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
-            if (this is IGigantamax g && pk is IGigantamax pg)
+            if (this is IGigantamax g && pk is PK8 pg)
                 pg.CanGigantamax = g.CanGigantamax;
-            if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)
+            if (this is IDynamaxLevel d && pk is PK8 pd)
                 pd.DynamaxLevel = d.DynamaxLevel;
         }
 
