@@ -21,7 +21,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             if (pkm is PK8)
-                return true;
+                return Locations.IsValidMetBDSP(pkm.Met_Location, pkm.Version);
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
             return IsRoamingLocation(pkm);
@@ -50,7 +50,20 @@ namespace PKHeX.Core
         protected override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm is PK8)
-                return !EggEncounter ? pkm.Egg_Location == 0 : pkm.Egg_Location >= Locations.HOME_SHSP;
+            {
+                if (!EggEncounter)
+                    return pkm.Egg_Location == 0;
+                if (EggLocation > 60000)
+                {
+                    if (pkm.Egg_Location == Locations.HOME_SWSHBDSPEgg)
+                        return true; // untraded
+                    // >60000 can be reset to Link Trade (30001), then altered differently.
+                    return Locations.IsValidMetBDSP(pkm.Egg_Location, pkm.Version);
+                }
+                return Locations.IsValidMetBDSP(pkm.Egg_Location, pkm.Version);
+
+
+            }
 
             var eggloc = (short)pkm.Egg_Location;
             if (!EggEncounter)

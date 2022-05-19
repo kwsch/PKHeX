@@ -627,7 +627,7 @@ namespace PKHeX.Core
             else
             {
                 if (!Shiny.IsValid(pkm)) return false;
-                if (EggLocation != pkm.Egg_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
 
@@ -644,6 +644,12 @@ namespace PKHeX.Core
             if (type <= 1)
                 return true;
             return pkm.PID == GetPID(pkm, type);
+        }
+
+        protected override bool IsMatchEggLocation(PKM pk)
+        {
+            var expect = pk is PK8 ? 0 : unchecked((ushort)Locations.Default8bNone);
+            return pk.Egg_Location == expect;
         }
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;

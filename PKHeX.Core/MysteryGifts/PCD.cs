@@ -141,6 +141,8 @@ namespace PKHeX.Core
                 {
                     // met location: deferred to general transfer check
                     if (wc.CurrentLevel > pkm.Met_Level) return false;
+                    if (!IsMatchEggLocation(pkm))
+                        return false;
                 }
                 else
                 {

@@ -105,6 +105,13 @@
         public const int HOME_SWLA = 60000; // PLA traded to SW(SH)
         public const int HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
 
+        public static bool IsValidMetBDSP(int loc, int ver) => loc switch
+        {
+            HOME_SHSP when ver == (int)GameVersion.SH => true,
+            HOME_SWBD when ver == (int)GameVersion.SP => true,
+            _ => false,
+        };
+
         /// <summary>
         /// -1
         /// </summary>

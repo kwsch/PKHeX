@@ -161,6 +161,12 @@ namespace PKHeX.Core
         public virtual bool EggEncounter => IsEgg;
         public abstract int EggLocation { get; set; }
 
+        protected virtual bool IsMatchEggLocation(PKM pk)
+        {
+            var expect = EggEncounter ? EggLocation : pk is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            return pk.Egg_Location == expect;
+        }
+
         public Ball FixedBall => (Ball)Ball;
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);

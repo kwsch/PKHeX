@@ -623,7 +623,7 @@ namespace PKHeX.Core
             else
             {
                 if (!Shiny.IsValid(pkm)) return false;
-                if (EggLocation != pkm.Egg_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
 

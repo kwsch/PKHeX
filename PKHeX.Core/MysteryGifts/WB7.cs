@@ -544,6 +544,7 @@ namespace PKHeX.Core
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
 
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (!CanBeAnyLanguage() && !CanHaveLanguage(pkm.Language))
                     return false;
             }
