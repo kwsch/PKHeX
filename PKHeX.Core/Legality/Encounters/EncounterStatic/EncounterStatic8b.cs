@@ -61,8 +61,6 @@ namespace PKHeX.Core
                     return Locations.IsValidMetBDSP(pkm.Egg_Location, pkm.Version);
                 }
                 return Locations.IsValidMetBDSP(pkm.Egg_Location, pkm.Version);
-
-
             }
 
             var eggloc = (short)pkm.Egg_Location;

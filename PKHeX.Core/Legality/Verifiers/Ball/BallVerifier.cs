@@ -274,10 +274,14 @@ namespace PKHeX.Core
         private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
         {
             int species = data.EncounterMatch.Species;
-            if (BallBreedLegality.BanInheritedBall_BDSP.Contains(species))
+            if (species == (int)Species.Phione)
                 return VerifyBallEquals(data, (int)Poke);
-            if (BallBreedLegality.BanInheritedExceptSafari_BDSP.Contains(species))
-                return VerifyBallEquals(data, (int)Safari);
+
+            if (species is (int)Species.Cranidos or (int)Species.Shieldon)
+            {
+                var g5balls = BallUseLegality.GetWildBalls(5, GameVersion.BW);
+                return VerifyBallEquals(data, g5balls);
+            }
 
             if (data.pkm.Ball == (int)Safari)
             {

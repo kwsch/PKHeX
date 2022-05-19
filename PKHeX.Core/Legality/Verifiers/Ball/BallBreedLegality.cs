@@ -987,56 +987,7 @@ namespace PKHeX.Core
         /// <summary>
         /// All egg species that can inherit a Safari Ball when bred in BD/SP.
         /// </summary>
-        internal static readonly HashSet<int> InheritSafari_BDSP = new()
-        {
-            (int)Ekans,
-            (int)Azurill,
-            (int)Barboach,
-            (int)Bidoof,
-            (int)Budew,
-            (int)Carnivine,
-            (int)Carvanha,
-            (int)Croagunk,
-            (int)Exeggcute,
-            (int)Gulpin,
-            (int)Hoothoot,
-            (int)Kangaskhan,
-            (int)Magikarp,
-            (int)Marill,
-            (int)Paras,
-            (int)Psyduck,
-            (int)Roselia,
-            (int)Shroomish,
-            (int)Skorupi,
-            (int)Starly,
-            (int)Wooper,
-            (int)Yanma,
-        };
-
-        internal static readonly HashSet<int> BanInheritedExceptSafari_BDSP = new()
-        {
-            (int)Exeggcute,
-            (int)Kangaskhan,
-            (int)Yanma,
-            (int)Shroomish,
-            (int)Gulpin,
-            (int)Carnivine,
-        };
-
-        internal static readonly HashSet<int> BanInheritedBall_BDSP = new()
-        {
-            // Gen1 Fossils
-            (int)Aerodactyl, (int)Omanyte, (int)Kabuto,
-            // Gen3 Fossils
-            (int)Lileep, (int)Anorith,
-            // Gen4 Fossils
-            (int)Cranidos, (int)Shieldon,
-
-            // Riolu Egg from Riley
-            (int)Riolu,
-
-            (int)Phione,
-        };
+        internal static readonly HashSet<int> InheritSafari_BDSP = Inherit_Safari; // HOME Transfers include all from DPPt and future changes.
 
         /// <summary>
         /// Gets a legal <see cref="Ball"/> value for a bred egg encounter.
@@ -1045,14 +996,9 @@ namespace PKHeX.Core
         /// <param name="species">Species the egg contained.</param>
         /// <returns>Valid ball to hatch with.</returns>
         /// <remarks>Not all things can hatch with a Poké Ball!</remarks>
+#pragma warning disable RCS1163, IDE0060 // Unused parameter.
         public static Ball GetDefaultBall(GameVersion version, int species)
         {
-            if (version is GameVersion.BD or GameVersion.SP)
-            {
-                if (BanInheritedExceptSafari_BDSP.Contains(species))
-                    return Ball.Safari;
-            }
-
             return Ball.None;
         }
     }
