@@ -1043,8 +1043,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public PK8 ConvertToPK8()
     {
         var pk = ConvertTo<PK8>();
-        if (pk.Ball == (int)Core.Ball.Strange)
-            pk.Ball = (int)Core.Ball.Poke;
         pk.SanitizeImport();
         return pk;
     }
@@ -1054,8 +1052,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         var pk = ConvertTo<PB8>();
         if (pk.Egg_Location == 0)
             pk.Egg_Location = Locations.Default8bNone;
-        if (pk.Ball == (int)Core.Ball.Strange)
-            pk.Ball = (int)Core.Ball.Poke;
         return pk;
     }
 
@@ -1076,8 +1072,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         HeightScalarCopy = HeightScalar;
         ResetHeight();
         ResetWeight();
-        if (Ball <= (int)Core.Ball.Beast)
-            Ball = (int)Core.Ball.Strange;
     }
 
     public void ResetMoves()
