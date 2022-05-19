@@ -413,7 +413,7 @@ namespace PKHeX.Core
 
         public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, z => z != 0) >= 0;
 
-        public void ClearPokeJobFlags() => Data.AsSpan(0xCE, 0x14).Clear();
+        public void ClearPokeJobFlags() => Data.AsSpan(0xCE, 14).Clear();
 
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
