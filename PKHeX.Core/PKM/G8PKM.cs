@@ -482,7 +482,7 @@ namespace PKHeX.Core
 
         public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
 
-        public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 0x14).Clear();
+        public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 14).Clear();
 
         // Why did you mis-align this field, GameFreak?
         public ulong Tracker
