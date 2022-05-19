@@ -130,7 +130,7 @@ namespace PKHeX.Core
                 return false;
             if (generation is 8) // can't Sketch unusable moves in BDSP, no Sketch in PLA
             {
-                if (SignatureSketch_BDSP.Contains(move) || DummiedMoves_BDSP.Contains(move))
+                if (DummiedMoves_BDSP.Contains(move))
                     return false;
                 if (move > MaxMoveID_8)
                     return false;
