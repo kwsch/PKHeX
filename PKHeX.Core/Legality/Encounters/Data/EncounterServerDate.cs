@@ -67,6 +67,12 @@ public static class EncounterServerDate
         {9012, new DateTime(2020, 11, 10)}, // Gigantamax Melmetal
         {9013, new DateTime(2021, 06, 17)}, // Gigantamax Bulbasaur
         {9014, new DateTime(2021, 06, 17)}, // Gigantamax Squirtle
+        {9015, new DateTime(2021, 05, 18)}, // Hidden Ability Turtwig
+        {9016, new DateTime(2021, 05, 18)}, // Hidden Ability Chimchar
+        {9017, new DateTime(2021, 05, 18)}, // Hidden Ability Piplup
+        {9018, new DateTime(2021, 05, 18)}, // Hidden Ability Rowlet
+        {9019, new DateTime(2021, 05, 18)}, // Hidden Ability Cyndaquil
+        {9020, new DateTime(2021, 05, 18)}, // Hidden Ability Oshawott
     };
 
     /// <summary>
