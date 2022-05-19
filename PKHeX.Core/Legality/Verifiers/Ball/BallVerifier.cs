@@ -22,7 +22,6 @@ namespace PKHeX.Core
 
         private static int IsReplacedBall(IVersion enc, PKM pk) => pk switch
         {
-            PA8 when enc.Version != GameVersion.PLA => (int)LAPoke,
             PK8 when enc.Version == GameVersion.PLA => (int)Poke,
             _ => (int)None,
         };
