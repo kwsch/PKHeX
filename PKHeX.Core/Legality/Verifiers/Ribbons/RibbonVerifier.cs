@@ -292,7 +292,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvoCriteria[][] evos)
         {
-            if (HasVisitedBDSP(pkm, evos))
+            if (!HasVisitedBDSP(pkm, evos))
             {
                 var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var x in none)
