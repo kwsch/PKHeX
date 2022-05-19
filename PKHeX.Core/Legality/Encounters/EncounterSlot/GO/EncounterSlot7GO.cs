@@ -14,6 +14,8 @@ namespace PKHeX.Core
         {
         }
 
+        protected override PKM GetBlank() => new PB7();
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);

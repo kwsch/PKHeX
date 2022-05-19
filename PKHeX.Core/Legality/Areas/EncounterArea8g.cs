@@ -35,29 +35,29 @@ namespace PKHeX.Core
             return areas;
         }
 
+        private const int meta = 4;
         private const int entrySize = (2 * sizeof(int)) + 2;
 
         private static EncounterArea8g GetArea(ReadOnlySpan<byte> data)
         {
             var species = ReadUInt16LittleEndian(data);
-            byte form = (byte)(species >> 11);
-            species &= 0x3FF;
+            var form = data[2];
+            var import = (PogoImportFormat)data[3];
 
-            var group = GetGroup(species, form);
-
-            var result = new EncounterSlot8GO[(data.Length - 2) / entrySize];
+            data = data[meta..];
+            var result = new EncounterSlot8GO[data.Length / entrySize];
             var area = new EncounterArea8g(species, form, result);
             for (int i = 0; i < result.Length; i++)
             {
-                var offset = (i * entrySize) + 2;
+                var offset = i * entrySize;
                 var entry = data.Slice(offset, entrySize);
-                result[i] = ReadSlot(entry, area, species, form, group);
+                result[i] = ReadSlot(entry, area, species, form, import);
             }
 
             return area;
         }
 
-        private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea8g area, ushort species, byte form, GameVersion group)
+        private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea8g area, ushort species, byte form, PogoImportFormat format)
         {
             int start = ReadInt32LittleEndian(entry);
             int end = ReadInt32LittleEndian(entry[4..]);
@@ -65,32 +65,7 @@ namespace PKHeX.Core
             var shiny = (Shiny)(sg & 0x3F);
             var gender = (Gender)(sg >> 6);
             var type = (PogoType)entry[9];
-            return new EncounterSlot8GO(area, species, form, start, end, shiny, gender, type, group);
-        }
-
-        private static GameVersion GetGroup(int species, int form)
-        {
-            // Transfer Rules:
-            // If it can exist in LGP/E, it uses LGP/E's move data for the initial moves.
-            // Else, if it can exist in SW/SH, it uses SW/SH's move data for the initial moves.
-            // Else, it must exist in US/UM, thus it uses US/UM's moves.
-
-            var pt8 = PersonalTable.SWSH;
-            var ptGG = PersonalTable.GG;
-
-            var pi8 = (PersonalInfoSWSH)pt8[species];
-            if (pi8.IsPresentInGame)
-            {
-                bool lgpe = (species is (<= 151 or 808 or 809)) && (form == 0 || ptGG[species].HasForm(form));
-                return lgpe ? GameVersion.GG : GameVersion.SWSH;
-            }
-            if (species <= Legal.MaxSpeciesID_7_USUM)
-            {
-                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForm(form));
-                return lgpe ? GameVersion.GG : GameVersion.USUM;
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(species));
+            return new EncounterSlot8GO(area, species, form, start, end, shiny, gender, type, format);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, EvoCriteria[] chain)

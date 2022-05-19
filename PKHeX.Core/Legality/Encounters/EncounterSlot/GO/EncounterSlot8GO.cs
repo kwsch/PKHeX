@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -13,14 +15,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>
         /// Future game releases might change this value.
-        /// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginGroup"/> values.
+        /// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginFormat"/> values.
         /// </remarks>
-        public GameVersion OriginGroup { get; }
+        public PogoImportFormat OriginFormat { get; }
 
-        public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type, GameVersion originGroup)
+        public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type, PogoImportFormat originFormat)
             : base(area, species, form, start, end, shiny, gender, type)
         {
-            OriginGroup = originGroup;
+            OriginFormat = originFormat;
         }
 
         /// <summary>
@@ -34,36 +36,39 @@ namespace PKHeX.Core
             return Type.IsBallValid(ball);
         }
 
-        protected override PKM GetBlank()
+        protected override PKM GetBlank() => OriginFormat switch
         {
-            if (((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(Species, Form)).IsPresentInGame)
-                return new PK8();
-            if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(Species, Form)).IsPresentInGame)
-                return new PB8();
-            if (((PersonalInfoLA)PersonalTable.LA.GetFormEntry(Species, Form)).IsPresentInGame)
-                return new PA8();
-            return new PK8(); // fallback, still illegal
-        }
+            PogoImportFormat.PK7 => new PK7(),
+            PogoImportFormat.PB7 => new PB7(),
+            PogoImportFormat.PK8 => new PK8(),
+            PogoImportFormat.PA8 => new PA8(),
+            _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+        };
 
-        private PersonalInfo GetPersonal()
+        private PersonalInfo GetPersonal() => OriginFormat switch
         {
-            var entry = PersonalTable.SWSH.GetFormEntry(Species, Form);
-            if (((PersonalInfoSWSH)entry).IsPresentInGame)
-                return entry;
-            entry = PersonalTable.BDSP.GetFormEntry(Species, Form);
-            if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(Species, Form)).IsPresentInGame)
-                return entry;
-            entry = PersonalTable.LA.GetFormEntry(Species, Form);
-            if (((PersonalInfoLA)PersonalTable.LA.GetFormEntry(Species, Form)).IsPresentInGame)
-                return entry;
-            return entry; // fallback, still illegal
-        }
+            PogoImportFormat.PK7 => PersonalTable.USUM.GetFormEntry(Species, Form),
+            PogoImportFormat.PB7 => PersonalTable.GG.GetFormEntry(Species, Form),
+            PogoImportFormat.PK8 => PersonalTable.SWSH.GetFormEntry(Species, Form),
+            PogoImportFormat.PA8 => PersonalTable.LA.GetFormEntry(Species, Form),
+            _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+        };
+
+        internal GameVersion OriginGroup => OriginFormat switch
+        {
+            PogoImportFormat.PK7 => GameVersion.USUM,
+            PogoImportFormat.PB7 => GameVersion.GG,
+            PogoImportFormat.PK8 => GameVersion.SWSH,
+            PogoImportFormat.PA8 => GameVersion.PLA,
+            _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+        };
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             pk.HT_Name = "PKHeX";
             pk.CurrentHandler = 1;
-            ((IHandlerLanguage)pk).HT_Language = 2;
+            if (pk is IHandlerLanguage l)
+                l.HT_Language = 2;
 
             base.ApplyDetails(sav, criteria, pk);
             var ball = Type.GetValidBall();
@@ -120,5 +125,13 @@ namespace PKHeX.Core
                 _ => false,
             };
         }
+    }
+
+    public enum PogoImportFormat : byte
+    {
+        PK7 = 0,
+        PB7 = 1,
+        PK8 = 2,
+        PA8 = 3,
     }
 }
