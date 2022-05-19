@@ -195,7 +195,7 @@ namespace PKHeX.Core
             if (pkm.SWSH)
             {
                 if (pkm.BDSP)
-                    VerifyEncounterEggLevelLoc(pkm, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_BD : Locations.HOME_SP));
+                    return VerifyEncounterEggLevelLoc(pkm, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_SWBD : Locations.HOME_SHSP));
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SWSH);
             }
 

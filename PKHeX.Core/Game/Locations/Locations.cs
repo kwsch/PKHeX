@@ -100,10 +100,10 @@
 
         public const int BugCatchingContest4 = 207;
 
-        public const int HOME_SP = 59998;
-        public const int HOME_BD = 59999;
-        public const int HOME_LA = 60000;
-        public const int HOME_INVALID = 65534;
+        public const int HOME_SHSP = 59998; // SP traded to (SW)SH
+        public const int HOME_SWBD = 59999; // BD traded to SW(SH)
+        public const int HOME_SWLA = 60000; // PLA traded to SW(SH)
+        public const int HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
 
         /// <summary>
         /// -1

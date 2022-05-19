@@ -102,7 +102,7 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            if (pkm.Egg_Location == Locations.HOME_INVALID && pkm.Met_Level == 1)
+            if (pkm.Egg_Location == Locations.HOME_SWSHBDSPEgg && pkm.Met_Level == 1)
             {
                 foreach (var z in GenerateEggs(pkm, 8))
                 { yield return z; ++ctr; }

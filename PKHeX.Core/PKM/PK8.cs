@@ -126,15 +126,15 @@ namespace PKHeX.Core
         {
             switch (pk.Met_Location)
             {
-                case Locations.HOME_LA:
+                case Locations.HOME_SWLA:
                     pk.Version = (int)GameVersion.PLA;
                     pk.Met_Location = 0; // Load whatever value from the server. We don't know.
                     break;
-                case Locations.HOME_BD:
+                case Locations.HOME_SWBD:
                     pk.Version = (int)GameVersion.BD;
                     pk.Met_Location = 0; // Load whatever value from the server. We don't know.
                     break;
-                case Locations.HOME_SP:
+                case Locations.HOME_SHSP:
                     pk.Version = (int)GameVersion.SP;
                     pk.Met_Location = 0; // Load whatever value from the server. We don't know.
                     break;
@@ -154,8 +154,8 @@ namespace PKHeX.Core
             this.SetMaximumPPCurrent(moves);
         }
 
-        public override bool BDSP => Met_Location is Locations.HOME_BD or Locations.HOME_SP;
-        public override bool LA => Met_Location is Locations.HOME_LA;
+        public override bool BDSP => Met_Location is Locations.HOME_SWBD or Locations.HOME_SHSP;
+        public override bool LA => Met_Location is Locations.HOME_SWLA;
         public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
 
         public void SanitizeImport()
@@ -163,28 +163,28 @@ namespace PKHeX.Core
             var ver = Version;
             if (ver is (int)GameVersion.SP)
             {
-                Met_Location = Locations.HOME_SP;
+                Met_Location = Locations.HOME_SHSP;
                 Version = (int)GameVersion.SH;
                 if (Egg_Location != 0)
-                    Egg_Location = Locations.HOME_SP;
+                    Egg_Location = Locations.HOME_SHSP;
             }
             else if (ver is (int)GameVersion.BD)
             {
-                Met_Location = Locations.HOME_BD;
+                Met_Location = Locations.HOME_SWBD;
                 Version = (int)GameVersion.SW;
                 if (Egg_Location != 0)
-                    Egg_Location = Locations.HOME_BD;
+                    Egg_Location = Locations.HOME_SWBD;
             }
             else if (ver is (int)GameVersion.PLA)
             {
-                Met_Location = Locations.HOME_LA;
+                Met_Location = Locations.HOME_SWLA;
                 Version = (int)GameVersion.SW;
                 if (Egg_Location != 0)
-                    Egg_Location = Locations.HOME_LA;
+                    Egg_Location = Locations.HOME_SWLA;
             }
             else if (ver > (int)GameVersion.PLA)
             {
-                Met_Location = Met_Location <= Locations.HOME_LA ? Locations.HOME_LA : Locations.HOME_INVALID;
+                Met_Location = Met_Location <= Locations.HOME_SWLA ? Locations.HOME_SWLA : Locations.HOME_SWSHBDSPEgg;
             }
 
             if (Ball > (int)Core.Ball.Beast)

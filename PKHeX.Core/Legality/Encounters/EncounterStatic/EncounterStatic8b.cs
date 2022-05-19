@@ -50,7 +50,7 @@ namespace PKHeX.Core
         protected override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm is PK8)
-                return !EggEncounter ? pkm.Egg_Location == 0 : pkm.Egg_Location >= Locations.HOME_SP;
+                return !EggEncounter ? pkm.Egg_Location == 0 : pkm.Egg_Location >= Locations.HOME_SHSP;
 
             var eggloc = (short)pkm.Egg_Location;
             if (!EggEncounter)

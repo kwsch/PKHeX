@@ -153,10 +153,10 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations8.Met6);
 
             // Add in the BDSP+PLA magic met locations.
-            locations.Add(new ComboItem($"0x{Locations.HOME_INVALID:X}", Locations.HOME_INVALID));
-            locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_BD));
-            locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SP));
-            locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_LA));
+            locations.Add(new ComboItem($"{s.EggName} (BD/SP)", Locations.HOME_SWSHBDSPEgg));
+            locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_SWBD));
+            locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SHSP));
+            locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_SWLA));
 
             return locations;
         }
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             {
                 var list = new List<ComboItem>(result.Count + 1);
                 list.AddRange(result);
-                list.Insert(1, new ComboItem($"{list[0].Text} (BDSP)", unchecked((ushort)Locations.Default8bNone)));
+                list.Insert(1, new ComboItem($"{list[0].Text} (BD/SP)", unchecked((ushort)Locations.Default8bNone)));
                 result = list;
             }
 

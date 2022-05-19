@@ -19,9 +19,9 @@ namespace PKHeX.Core
                 (int)GameVersion.GO => EncounterGenerator7.GetEncountersGO(pkm, chain),
                 (int)GameVersion.PLA => EncounterGenerator8a.GetEncounters(pkm, chain),
                 (int)GameVersion.BD or (int)GameVersion.SP => EncounterGenerator8b.GetEncounters(pkm, chain),
-                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_LA => EncounterGenerator8a.GetEncounters(pkm, chain),
-                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_BD => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.BD),
-                (int)GameVersion.SH when pkm.Met_Location == Locations.HOME_SP => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.SP),
+                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_SWLA => EncounterGenerator8a.GetEncounters(pkm, chain),
+                (int)GameVersion.SW when pkm.Met_Location == Locations.HOME_SWBD => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.BD),
+                (int)GameVersion.SH when pkm.Met_Location == Locations.HOME_SHSP => EncounterGenerator8b.GetEncountersFuzzy(pkm, chain, GameVersion.SP),
                 _ => GetEncountersMainline(pkm, chain),
             };
         }
