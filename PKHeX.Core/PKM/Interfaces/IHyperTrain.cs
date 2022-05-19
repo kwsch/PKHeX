@@ -91,9 +91,20 @@ namespace PKHeX.Core
         public static bool IsHyperTrainingAvailable(this IHyperTrain t) => t switch
         {
             // Check for game formats where training is unavailable:
-            PA8 => false,
+            PA8 pa8 => HasVisitedBDSPorSWSH(pa8),
             _ => true,
         };
+
+        private static bool HasVisitedBDSPorSWSH(PKM pk)
+        {
+            if (pk.IsUntraded)
+                return false;
+            if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame)
+                return true;
+            if (((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame)
+                return true;
+            return false;
+        }
 
         /// <inheritdoc cref="IsHyperTrainingAvailable(IHyperTrain)"/>
         /// <param name="pk">Entity data</param>
