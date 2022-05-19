@@ -193,7 +193,11 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg8(PKM pkm)
         {
             if (pkm.SWSH)
+            {
+                if (pkm.BDSP)
+                    VerifyEncounterEggLevelLoc(pkm, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_BD : Locations.HOME_SP));
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SWSH);
+            }
 
             // no other games
             return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);

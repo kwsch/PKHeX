@@ -133,6 +133,8 @@ public sealed class PB8 : G8PKM
         var pk = ConvertTo<PK8>();
         if (pk.Egg_Location == unchecked((ushort)Locations.Default8bNone))
             pk.Egg_Location = 0;
+        else
+            pk.Egg_Location = Locations.HOME_INVALID;
         pk.SanitizeImport();
         return pk;
     }
