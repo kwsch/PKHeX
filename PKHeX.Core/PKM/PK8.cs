@@ -128,7 +128,7 @@ namespace PKHeX.Core
             {
                 case Locations.HOME_SWLA:
                     pk.Version = (int)GameVersion.PLA;
-                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    // Keep location due to bad transfer logic (official) -- server legal.
                     break;
                 case Locations.HOME_SWBD:
                     pk.Version = (int)GameVersion.BD;

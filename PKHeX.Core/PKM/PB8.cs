@@ -139,6 +139,8 @@ public sealed class PB8 : G8PKM
         return pk;
     }
 
+    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(LA && Met_Location == Locations.HOME_SWLA);
+
     public override void ResetMoves()
     {
         var learnsets = Legal.LevelUpBDSP;
