@@ -122,7 +122,7 @@ namespace PKHeX.Core
 
             // Gen2 stuff can be traded between Gen2 games holding an Everstone, assuming it hasn't been transferred to Gen1 for special moves.
             if (enc.Generation == 2)
-                return data.Info.Moves.All(z => z.Generation == 2);
+                return data.Info.Moves.Any(z => z.Generation != 2);
             // Gen1 stuff can only be un-evolved if it was never traded from the OT.
             if (data.Info.Moves.Any(z => z.Generation != 1))
                 return true; // traded to Gen2 for special moves
