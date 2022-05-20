@@ -133,7 +133,15 @@ namespace PKHeX.Core
             // Gen1-2, Gen6+ should have PID != EC
             if (pkm.PID == pkm.EncryptionConstant)
             {
-                data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                // Check for edge cases
+                if (Info.EncounterMatch is WA8 wa8 && wa8.PID == pkm.PID && wa8.EncryptionConstant == pkm.EncryptionConstant)
+                {
+                    // OK
+                }
+                else
+                {
+                    data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                }
                 return;
             }
 

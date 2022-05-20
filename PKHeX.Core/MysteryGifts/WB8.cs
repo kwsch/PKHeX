@@ -8,13 +8,15 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8b Mystery Gift Template File
     /// </summary>
-    public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, IContestStats, ILangNicknamedTemplate,
+    public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, IContestStats, ILangNicknamedTemplate, IEncounterServerDate,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2DC;
         public const int CardStart = 0x0;
 
         public override int Generation => 8;
+
+        public bool IsDateRestricted => true;
 
         public enum GiftType : byte
         {
@@ -182,7 +184,7 @@ namespace PKHeX.Core
 
         public int MetLevel { get => Data[CardStart + 0x291]; set => Data[CardStart + 0x291] = (byte)value; }
 
-        // Ribbons 0x24C-0x26C
+        // Ribbons 0x292-0x2B2
         private const int RibbonBytesOffset = 0x292;
         private const int RibbonBytesCount = 0x20;
         private const int RibbonByteNone = 0xFF; // signed -1

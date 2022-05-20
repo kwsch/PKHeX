@@ -441,8 +441,15 @@ namespace PKHeX.Core
                 EV_SPA = EV_SPA,
                 EV_SPD = EV_SPD,
 
-                CanGigantamax = CanGigantamax,
-                DynamaxLevel = DynamaxLevel,
+                GV_HP  = GV_HP,
+                GV_ATK = GV_ATK,
+                GV_DEF = GV_DEF,
+                GV_SPE = GV_SPE,
+                GV_SPA = GV_SPA,
+                GV_SPD = GV_SPD,
+
+              //CanGigantamax = CanGigantamax,
+              //DynamaxLevel = DynamaxLevel,
 
                 Met_Location = MetLocation,
                 Egg_Location = EggLocation,
@@ -642,7 +649,10 @@ namespace PKHeX.Core
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return false;
 
-            if (pkm is not IDynamaxLevel dl || dl.DynamaxLevel < DynamaxLevel)
+            if (pkm is IDynamaxLevel dl && dl.DynamaxLevel < DynamaxLevel)
+                return false;
+
+            if (pkm is IGanbaru b && b.IsGanbaruValuesBelow(this))
                 return false;
 
             // PID Types 0 and 1 do not use the fixed PID value.
