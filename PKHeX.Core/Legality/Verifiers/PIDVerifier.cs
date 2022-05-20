@@ -134,14 +134,13 @@ namespace PKHeX.Core
             if (pkm.PID == pkm.EncryptionConstant)
             {
                 // Check for edge cases
-                if (Info.EncounterMatch is WA8 wa8 && wa8.PID == pkm.PID && wa8.EncryptionConstant == pkm.EncryptionConstant)
-                {
-                    // OK
-                }
-                else
-                {
-                    data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
-                }
+                var enc = Info.EncounterMatch;
+                if (enc is WA8 {IsEquivalentFixedECPID: true})
+                    return;
+                if (enc is WB8 {IsEquivalentFixedECPID: true})
+                    return;
+
+                data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
                 return;
             }
 

@@ -41,7 +41,7 @@ public static class EncounterServerDate
     {
         WC8 wc8 => Result(IsValidDateWC8(wc8.CardID, obtained)),
         WA8 wa8 => Result(IsValidDateWA8(wa8.CardID, obtained)),
-        WB8 wa8 => Result(IsValidDateWB8(wa8.CardID, obtained)),
+        WB8 wb8 => Result(IsValidDateWB8(wb8.CardID, obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 

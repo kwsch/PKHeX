@@ -28,6 +28,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.PLA;
         public bool IsDateRestricted => true;
+        public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
 
         // General Card Properties
         public override int CardID

@@ -104,9 +104,6 @@ public static class EntityConverter
         PA8 pa8 when destType == typeof(PK8) => pa8.ConvertToPK8(),
         PA8 pa8 when destType == typeof(PB8) => pa8.ConvertToPB8(),
 
-        // Invalid
-        PK2 { Species: > Legal.MaxSpeciesID_1 } => InvalidTransfer(out result, IncompatibleSpecies),
-
         // Sequential
         PK1 pk1 => pk1.ConvertToPK2(),
         PK2 pk2 => pk2.ConvertToPK1(),
@@ -165,6 +162,9 @@ public static class EntityConverter
                 _ => Success,
             };
         }
+
+        if (destType.Name[^1] == '1' && pk.Species > Legal.MaxSpeciesID_1)
+            return IncompatibleSpecies;
 
         return Success;
     }

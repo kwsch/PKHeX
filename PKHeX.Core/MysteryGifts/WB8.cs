@@ -17,6 +17,7 @@ namespace PKHeX.Core
         public override int Generation => 8;
 
         public bool IsDateRestricted => true;
+        public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
 
         public enum GiftType : byte
         {
