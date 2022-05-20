@@ -8,6 +8,18 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 090, Ability = A4, Moves = new[]{ 420, 056, 033, 250 }, Index = 104 }, // Shellder
+            new(17,01,1) { Species = 090, Ability = A4, Moves = new[]{ 420, 057, 033, 710 }, Index = 104 }, // Shellder
+            new(30,03,2) { Species = 090, Ability = A4, Moves = new[]{ 062, 056, 033, 250 }, Index = 104 }, // Shellder
+            new(30,03,2) { Species = 090, Ability = A4, Moves = new[]{ 062, 057, 033, 710 }, Index = 104 }, // Shellder
+            new(40,05,3) { Species = 090, Ability = A4, Moves = new[]{ 062, 056, 504, 534 }, Index = 104 }, // Shellder
+            new(40,05,3) { Species = 090, Ability = A4, Moves = new[]{ 062, 057, 161, 710 }, Index = 104 }, // Shellder
+            new(50,08,4) { Species = 090, Ability = A4, Moves = new[]{ 058, 057, 504, 534 }, Index = 104 }, // Shellder
+            new(50,08,4) { Species = 090, Ability = A4, Moves = new[]{ 058, 057, 161, 710 }, Index = 104 }, // Shellder
+            new(60,10,5) { Species = 090, Ability = A4, Moves = new[]{ 058, 057, 504, 534 }, Index = 104, Shiny = Shiny.Always }, // Shellder
+            new(60,10,5) { Species = 090, Ability = A4, Moves = new[]{ 058, 057, 161, 710 }, Index = 104 }, // Shellder
+            new(60,10,5) { Species = 090, Ability = A4, Moves = new[]{ 058, 057, 504, 534 }, Index = 104 }, // Shellder
+
             new(17,01,1) { Species = 438, Ability = A4, Moves = new[]{ 088, 383, 175, 313 }, Index = 102 }, // Bonsly
             new(30,03,2) { Species = 438, Ability = A4, Moves = new[]{ 088, 317, 175, 313 }, Index = 102 }, // Bonsly
             new(40,05,3) { Species = 438, Ability = A4, Moves = new[]{ 317, 389, 157, 313 }, Index = 102 }, // Bonsly
