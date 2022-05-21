@@ -73,6 +73,14 @@ namespace PKHeX.Core
             if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
             {
                 var date = new DateTime(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
+
+                // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
+                if (enc is WB8 { CardID: 9015 or 9016 or 9017 } or WA8 { CardID: 9018 or 9019 or 9020 })
+                {
+                    if (date < new DateTime(2022, 5, 20) && pkm.Language != (int)LanguageID.Japanese)
+                        data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
+                }
+
                 var result = serverGift.IsValidDate(date);
                 if (result == EncounterServerDateCheck.Invalid)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
