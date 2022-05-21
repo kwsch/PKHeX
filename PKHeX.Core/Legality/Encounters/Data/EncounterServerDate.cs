@@ -82,9 +82,9 @@ public static class EncounterServerDate
         {0301, (new(2022, 02, 04), new(2022, 02, 24))}, // プロポチャ Piplup
         {0801, (new(2022, 02, 25), new(2022, 06, 01))}, // Teresa Roca Hisuian Growlithe
 
-        {9018, (new(2021, 05, 18), Never)}, // Hidden Ability Rowlet
-        {9019, (new(2021, 05, 18), Never)}, // Hidden Ability Cyndaquil
-        {9020, (new(2021, 05, 18), Never)}, // Hidden Ability Oshawott
+        {9018, (new(2022, 05, 18), Never)}, // Hidden Ability Rowlet
+        {9019, (new(2022, 05, 18), Never)}, // Hidden Ability Cyndaquil
+        {9020, (new(2022, 05, 18), Never)}, // Hidden Ability Oshawott
     };
 
     /// <summary>
@@ -92,8 +92,8 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateTime Start, DateTime End)> WB8Gifts = new()
     {
-        {9015, (new(2021, 05, 18), Never)}, // Hidden Ability Turtwig
-        {9016, (new(2021, 05, 18), Never)}, // Hidden Ability Chimchar
-        {9017, (new(2021, 05, 18), Never)}, // Hidden Ability Piplup
+        {9015, (new(2022, 05, 18), Never)}, // Hidden Ability Turtwig
+        {9016, (new(2022, 05, 18), Never)}, // Hidden Ability Chimchar
+        {9017, (new(2022, 05, 18), Never)}, // Hidden Ability Piplup
     };
 }
