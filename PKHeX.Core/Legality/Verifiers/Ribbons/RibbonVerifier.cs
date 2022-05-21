@@ -493,7 +493,7 @@ namespace PKHeX.Core
                 if (Legal.Mythicals.Contains(species))
                     return false;
 
-                if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
+                if (enc.Version == GameVersion.GO || enc is IEncounterServerDate { IsDateRestricted: true }) // Capture date is global time, and not console changeable.
                 {
                     if (pkm.MetDate > new DateTime(2022, 9, 1)) // Series 12 end date
                         return false;
