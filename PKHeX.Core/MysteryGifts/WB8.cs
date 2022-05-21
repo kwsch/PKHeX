@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public override int Generation => 8;
 
-        public bool IsDateRestricted => true;
+        public bool IsDateRestricted => IsHOMEGift;
         public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
 
         public enum GiftType : byte
@@ -368,6 +368,8 @@ namespace PKHeX.Core
             int index = GetLanguageIndex(language);
             return 0x150 + (index * 0x20);
         }
+
+        public bool IsHOMEGift => CardID >= 9000;
 
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
