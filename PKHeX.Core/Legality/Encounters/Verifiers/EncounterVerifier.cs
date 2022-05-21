@@ -124,7 +124,7 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
             if (pkm.Met_Level < 5)
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
-            if (pkm.Egg_Location != 0)
+            if (pkm.Egg_Location != 0 && pkm is not PB8 { Egg_Location: unchecked((ushort)Locations.Default8bNone) })
                 return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
 
             if (pkm.Format != 4)
@@ -173,7 +173,7 @@ namespace PKHeX.Core
             if (pkm.AO)
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_AO);
 
-            if (pkm.Egg_Location == 318)
+            if (pkm.Egg_Location == Locations.HatchLocation6AO) // Battle Resort Daycare is only OR/AS.
                 return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
 
             return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_XY);

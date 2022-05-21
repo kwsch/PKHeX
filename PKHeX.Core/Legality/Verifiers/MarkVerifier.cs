@@ -177,7 +177,7 @@ namespace PKHeX.Core
             var name = RibbonStrings.GetName(expect);
             bool invalid = parse.FirstOrDefault(z => z.Name == name)?.Invalid == true;
             var severity = invalid ? Severity.Invalid : Severity.Fishy;
-            data.AddLine(Get(string.Format(LRibbonMarkingAffixedF_0, affix), severity));
+            data.AddLine(Get(string.Format(LRibbonMarkingAffixedF_0, name), severity));
         }
 
         private static bool IsMoveSetEvolvedShedinja(PK8 pk8)

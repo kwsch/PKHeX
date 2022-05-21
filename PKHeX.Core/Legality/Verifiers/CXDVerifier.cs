@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (data.EncounterMatch is EncounterStatic3 s3)
                 VerifyCXDStarterCorrelation(data, s3);
-            else if (pkm.Egg_Location != 0) // can't obtain eggs in CXD
+            else if (pkm.Egg_Location != 0 && pkm is not PB8 {Egg_Location: unchecked((ushort)Locations.Default8bNone)}) // can't obtain eggs in CXD
                 data.AddLine(GetInvalid(LEncInvalid, CheckIdentifier.Encounter)); // invalid encounter
 
             if (pkm.OT_Gender == 1)

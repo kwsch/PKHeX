@@ -559,9 +559,12 @@ namespace PKHeX.Core
             if (pa8.Favorite)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            var affix = pa8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
+            {
+                var affix = pa8.AffixedRibbon;
+                if (affix != -1) // None
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            }
 
             var social = pa8.Sociability;
             if (social != 0)
@@ -594,9 +597,12 @@ namespace PKHeX.Core
             if (pb8.Favorite)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            var affix = pb8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
+            {
+                var affix = pb8.AffixedRibbon;
+                if (affix != -1) // None
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            }
 
             var social = pb8.Sociability;
             if (social != 0)
