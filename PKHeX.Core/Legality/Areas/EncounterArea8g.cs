@@ -85,12 +85,11 @@ namespace PKHeX.Core
             var met = Math.Max(sf.LevelMin, pkm.Met_Level);
             EncounterSlot8GO? deferredIV = null;
 
-            bool checkBall = pkm is not PA8;
             foreach (var slot in Slots)
             {
                 if (!slot.IsLevelWithinRange(met))
                     continue;
-                if (checkBall && !slot.IsBallValid(ball, species))
+                if (!slot.IsBallValid(ball, species))
                     continue;
                 if (!slot.Shiny.IsValid(pkm))
                     continue;
