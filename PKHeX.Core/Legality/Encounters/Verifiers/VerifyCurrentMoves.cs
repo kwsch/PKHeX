@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
             var TradebackPreevo = pkm.Format == 2 && e.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
-                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
+                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens.Gen2, 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);

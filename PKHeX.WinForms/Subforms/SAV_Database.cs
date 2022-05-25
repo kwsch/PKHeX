@@ -372,9 +372,9 @@ namespace PKHeX.WinForms
 
             if (Main.Settings.EntityDb.FilterUnavailableSpecies)
             {
-                static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
-                static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || ((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
-                static bool IsPresentInGamePLA (ISpeciesForm pk) => pk is PA8 || ((PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGamePLA (ISpeciesForm pk) => pk is PA8 || PersonalTable.LA  .IsPresentInGame(pk.Species, pk.Form);
                 if (SAV is SAV8SWSH)
                     result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
                 else if (SAV is SAV8BS)

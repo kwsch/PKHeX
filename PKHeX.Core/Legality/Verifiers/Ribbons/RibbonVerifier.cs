@@ -422,7 +422,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
         {
-            if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame || pkm.BDSP)
+            if (!pkm.InhabitedGeneration(8) || !PersonalTable.SWSH.IsPresentInGame(pkm.Species, pkm.Form) || pkm.BDSP)
             {
                 if (s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
@@ -499,8 +499,8 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species];
-            return pi.IsPresentInGame;
+
+            return PersonalTable.SWSH.IsPresentInGame(species, pkm.Form);
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterTemplate enc)

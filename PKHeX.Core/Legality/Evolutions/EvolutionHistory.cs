@@ -7,6 +7,21 @@ namespace PKHeX.Core;
 /// </summary>
 public class EvolutionHistory
 {
+    private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
+
+    public EvoCriteria[] Gen1  = NONE;
+    public EvoCriteria[] Gen2  = NONE;
+    public EvoCriteria[] Gen3  = NONE;
+    public EvoCriteria[] Gen4  = NONE;
+    public EvoCriteria[] Gen5  = NONE;
+    public EvoCriteria[] Gen6  = NONE;
+    public EvoCriteria[] Gen7  = NONE;
+    public EvoCriteria[] Gen7b = NONE;
+    public EvoCriteria[] Gen8  = NONE;
+    public EvoCriteria[] Gen8a = NONE;
+    public EvoCriteria[] Gen8b = NONE;
+
+    public readonly int Length;
     public readonly EvoCriteria[] FullChain;
 
     public EvolutionHistory(EvoCriteria[] fullChain, int count)
@@ -14,8 +29,6 @@ public class EvolutionHistory
         FullChain = fullChain;
         Length = count;
     }
-
-    public readonly int Length;
 
     public ref EvoCriteria[] this[int index]
     {
@@ -33,15 +46,5 @@ public class EvolutionHistory
         }
     }
 
-    public EvoCriteria[] Gen1  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen2  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen3  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen4  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen5  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen6  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen7  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen7b = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen8  = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen8a = Array.Empty<EvoCriteria>();
-    public EvoCriteria[] Gen8b = Array.Empty<EvoCriteria>();
+    internal void Invalidate() => this[Length - 1] = NONE;
 }

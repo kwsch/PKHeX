@@ -6,8 +6,6 @@ namespace PKHeX.Core
 {
     public static class EvolutionChain
     {
-        private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
-
         internal static EvolutionHistory GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc)
         {
             var chain = GetEvolutionChain(pkm, enc, pkm.Species, (byte)pkm.CurrentLevel);
@@ -28,7 +26,7 @@ namespace PKHeX.Core
 
         private static EvolutionHistory GetChainAll(PKM pkm, IEncounterTemplate enc, EvoCriteria[] fullChain)
         {
-            int maxgen = ParseSettings.AllowGen1Tradeback && pkm is PK1 ? 2 : pkm.Format;
+            int maxgen = ParseSettings.AllowGen1Tradeback && pkm.Context == EntityContext.Gen1 ? 2 : pkm.Format;
             var GensEvoChains = new EvolutionHistory(fullChain, maxgen + 1);
 
             var head = 0; // inlined FIFO queue indexing
@@ -64,7 +62,7 @@ namespace PKHeX.Core
                     if (head >= fullChain.Length)
                     {
                         if (g <= 2 && pkm.VC1)
-                            GensEvoChains[pkm.Format] = NONE; // invalidate here since we haven't reached the regular invalidation
+                            GensEvoChains.Invalidate(); // invalidate here since we haven't reached the regular invalidation
                         return GensEvoChains;
                     }
                     if (mostEvolved.RequiresLvlUp)
@@ -98,7 +96,7 @@ namespace PKHeX.Core
                 if (genChain.Length == 0)
                     continue;
 
-                if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
+                if (g >= 3 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
                 {
                     bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, g);
                     if (!isTransferred)
@@ -116,45 +114,65 @@ namespace PKHeX.Core
                 }
                 else if (g == 1)
                 {
-                    // Remove Gen7 pre-evolutions and chain break scenarios
-                    if (pkm.VC1)
-                        TrimVC1Transfer(pkm, GensEvoChains);
-
-                    ref var lastGen = ref GensEvoChains[1];
-                    var g1 = lastGen.AsSpan();
-                    // Remove Gen2 post-evolutions (Scizor, Blissey...)
-                    if (g1[0].Species > MaxSpeciesID_1)
-                    {
-                        if (g1.Length == 1)
-                        {
-                            lastGen = Array.Empty<EvoCriteria>();
-                            continue; // done
-                        }
-                        g1 = g1[1..];
-                    }
-
-                    // Remove Gen2 pre-evolutions (Pichu, Cleffa...)
-                    if (g1[^1].Species > MaxSpeciesID_1)
-                    {
-                        if (g1.Length == 1)
-                        {
-                            lastGen = Array.Empty<EvoCriteria>();
-                            continue; // done
-                        }
-                        g1 = g1[..^1];
-                    }
-
-                    if (g1.Length != lastGen.Length)
-                        lastGen = g1.ToArray();
-                    // Update min level for the encounter to prevent certain level up moves.
-                    if (g1.Length != 0)
-                    {
-                        ref var last = ref g1[^1];
-                        last = last with { LevelMin = enc.LevelMin };
-                    }
+                    CleanGen1(pkm, enc, GensEvoChains);
                 }
             }
             return GensEvoChains;
+        }
+
+        private static void CleanGen1(PKM pkm, IEncounterTemplate enc, EvolutionHistory chains)
+        {
+            // Remove Gen7 pre-evolutions and chain break scenarios
+            if (pkm.VC1)
+            {
+                var index = Array.FindLastIndex(chains.Gen7, z => z.Species <= MaxSpeciesID_1);
+                if (index == -1)
+                {
+                    chains.Invalidate(); // needed a Gen1 species present; invalidate the chain.
+                    return;
+                }
+            }
+
+            TrimSpeciesAbove(enc, MaxSpeciesID_1, ref chains.Gen1);
+        }
+
+        private static void TrimSpeciesAbove(IEncounterTemplate enc, int species, ref EvoCriteria[] chain)
+        {
+            var span = chain.AsSpan();
+
+            // Remove post-evolutions
+            if (span[0].Species > species)
+            {
+                if (span.Length == 1)
+                {
+                    chain = Array.Empty<EvoCriteria>();
+                    return;
+                }
+
+                span = span[1..];
+            }
+
+            // Remove pre-evolutions
+            if (span[^1].Species > species)
+            {
+                if (span.Length == 1)
+                {
+                    chain = Array.Empty<EvoCriteria>();
+                    return;
+                }
+
+                span = span[..^1];
+            }
+
+            if (span.Length != chain.Length)
+                chain = span.ToArray();
+
+            // Update min level for the encounter to prevent certain level up moves.
+            if (span.Length != 0)
+            {
+                ref var last = ref span[^1];
+                last = last with { LevelMin = enc.LevelMin };
+            }
         }
 
         private static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration) => originalGeneration switch
@@ -163,14 +181,6 @@ namespace PKHeX.Core
             <= 4 => currentGeneration != originalGeneration,
             _    => false,
         };
-
-        private static void TrimVC1Transfer(PKM pkm, EvolutionHistory allChains)
-        {
-            var vc7 = allChains[7];
-            var gen1Index = Array.FindLastIndex(vc7, z => z.Species <= MaxSpeciesID_1);
-            if (gen1Index == -1)
-                allChains[pkm.Format] = NONE; // needed a Gen1 species present; invalidate the chain.
-        }
 
         private static EvoCriteria[] GetEvolutionChain(PKM pkm, IEncounterTemplate enc, int mostEvolvedSpecies, byte maxlevel)
         {

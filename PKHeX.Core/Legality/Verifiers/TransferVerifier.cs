@@ -138,8 +138,7 @@ namespace PKHeX.Core
 
             // PK8
             int species = pkm.Species;
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, pkm.Form);
-            if (!pi.IsPresentInGame) // Can't transfer
+            if (!PersonalTable.SWSH.IsPresentInGame(species, pkm.Form)) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
                 return;
@@ -171,8 +170,7 @@ namespace PKHeX.Core
             if (!pk.IsNative)
                 VerifyHOMETracker(data, pk);
 
-            var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
-            if (!pi.IsPresentInGame) // Can't transfer
+            if (!PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
@@ -183,8 +181,7 @@ namespace PKHeX.Core
             if (!pk.IsNative)
                 VerifyHOMETracker(data, pk);
 
-            var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form);
-            if (!pi.IsPresentInGame) // Can't transfer
+            if (!PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
                 data.AddLine(GetInvalid(LTransferBad));
         }
 

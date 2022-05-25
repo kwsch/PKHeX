@@ -278,7 +278,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            if (pkm.LA)
+            if (pkm is PA8)
             {
                 var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)
@@ -292,7 +292,7 @@ namespace PKHeX.Core
                 }
                 return;
             }
-            if (pkm.BDSP)
+            if (pkm is PB8)
             {
                 var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)

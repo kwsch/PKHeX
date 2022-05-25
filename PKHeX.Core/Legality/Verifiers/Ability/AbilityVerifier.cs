@@ -58,7 +58,7 @@ namespace PKHeX.Core
                     if (abilities[0] == abilities[1] && num != 1)
                     {
                         // Check if any pre-evolution could have it flipped.
-                        var evos = data.Info.EvoChainsAllGens[6];
+                        var evos = data.Info.EvoChainsAllGens.Gen6;
                         var pt = GameData.GetPersonal(GameUtil.GetVersion(format));
                         if (!GetWasDual(evos, pt, pkm))
                             return INVALID;
@@ -232,7 +232,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             // If the species could not exist in Gen3, must match.
-            var g3 = info.EvoChainsAllGens[3];
+            var g3 = info.EvoChainsAllGens.Gen3;
             if (g3.Length == 0)
                 return AbilityState.MustMatch;
 
@@ -252,7 +252,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             var chain = data.Info.EvoChainsAllGens;
-            bool evolved45 = chain[4].Length > 1 || (pkm.Format == 5 && chain[5].Length > 1);
+            bool evolved45 = chain.Gen4.Length > 1 || (pkm.Format == 5 && chain.Gen5.Length > 1);
             if (evolved45)
             {
                 if (pkm.Ability == pers.Ability1) // Could evolve in Gen4/5 and have a Gen3 only ability

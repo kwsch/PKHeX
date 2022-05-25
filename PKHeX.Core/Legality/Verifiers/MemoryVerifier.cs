@@ -78,7 +78,7 @@ namespace PKHeX.Core
                 // {0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
                 case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
                 // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
-                case 72 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 72 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // Move
@@ -95,13 +95,13 @@ namespace PKHeX.Core
                 // {0} saw {1} paying attention to {2}. {4} that {3}.
                 // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
                 // {0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
-                case 9 or 60 or 75 when gen == 8 && !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 9 or 60 or 75 when gen == 8 && !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
                 // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
                 // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
-                case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 82 or 83 or 87 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // {0} had a very hard training session with {1}. {4} that {3}.

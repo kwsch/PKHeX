@@ -256,7 +256,7 @@ namespace PKHeX.Core
             var enc = (Info.EncounterOriginalGB = EncounterMatch);
             if (enc is EncounterInvalid)
                 return;
-            var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm, enc, Info.EvoChainsAllGens[7]);
+            var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm, enc, Info.EvoChainsAllGens.Gen7);
             Info.EncounterMatch = vc;
 
             foreach (var z in Transfer.VerifyVCEncounter(pkm, enc, vc, Info.Moves))

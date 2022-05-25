@@ -27,9 +27,9 @@ public static class Pokerus
     {
         if (pk.IsUntraded)
             return false;
-        if (((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame)
+        if (PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form))
             return true;
-        if (((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame)
+        if (PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
             return true;
         return false;
     }
