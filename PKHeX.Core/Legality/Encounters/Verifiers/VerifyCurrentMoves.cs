@@ -579,7 +579,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, EvoCriteria[][] evos)
+        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, EvolutionHistory evos)
         {
             int shedinjaEvoMoveIndex = 0;
             var format = pkm.Format;

@@ -255,7 +255,7 @@ namespace PKHeX.Core
             data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info, context));
         }
 
-        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory, EvoCriteria[][] evos)
+        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory, EvolutionHistory evos)
         {
             switch (origin)
             {

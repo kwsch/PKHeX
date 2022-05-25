@@ -174,7 +174,7 @@ namespace PKHeX.Core
             return pkm.CurrentLevel >= lvl;
         }
 
-        private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index, EvoCriteria[][] evos)
+        private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index, EvolutionHistory evos)
         {
             if (gen == 8 && pkm.HasVisitedLA(evos[8])) // No Level Up required, and different levels than mainline SW/SH.
                 return MinLevelEvolutionWithMove_8LA[index];

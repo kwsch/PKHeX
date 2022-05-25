@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
 
-        internal static EvoCriteria[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc)
+        internal static EvolutionHistory GetEvolutionChainsAllGens(PKM pkm, IEncounterTemplate enc)
         {
             var chain = GetEvolutionChain(pkm, enc, pkm.Species, (byte)pkm.CurrentLevel);
             if (chain.Length == 0 || pkm.IsEgg || enc is EncounterInvalid)
@@ -17,25 +17,19 @@ namespace PKHeX.Core
             return GetChainAll(pkm, enc, chain);
         }
 
-        private static EvoCriteria[][] GetAllEmpty(int count)
+        private static EvolutionHistory GetChainSingle(PKM pkm, EvoCriteria[] fullChain)
         {
-            var result = new EvoCriteria[count][];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = NONE; // default no-evolutions
-            return result;
+            var count = Math.Max(2, pkm.Format) + 1;
+            return new EvolutionHistory(fullChain, count)
+            {
+                [pkm.Format] = fullChain,
+            };
         }
 
-        private static EvoCriteria[][] GetChainSingle(PKM pkm, EvoCriteria[] fullChain)
-        {
-            var chain = GetAllEmpty(Math.Max(2, pkm.Format) + 1);
-            chain[pkm.Format] = fullChain;
-            return chain;
-        }
-
-        private static EvoCriteria[][] GetChainAll(PKM pkm, IEncounterTemplate enc, EvoCriteria[] fullChain)
+        private static EvolutionHistory GetChainAll(PKM pkm, IEncounterTemplate enc, EvoCriteria[] fullChain)
         {
             int maxgen = ParseSettings.AllowGen1Tradeback && pkm is PK1 ? 2 : pkm.Format;
-            var GensEvoChains = GetAllEmpty(maxgen + 1);
+            var GensEvoChains = new EvolutionHistory(fullChain, maxgen + 1);
 
             var head = 0; // inlined FIFO queue indexing
             var mostEvolved = fullChain[head++];
@@ -170,7 +164,7 @@ namespace PKHeX.Core
             _    => false,
         };
 
-        private static void TrimVC1Transfer(PKM pkm, EvoCriteria[][] allChains)
+        private static void TrimVC1Transfer(PKM pkm, EvolutionHistory allChains)
         {
             var vc7 = allChains[7];
             var gen1Index = Array.FindLastIndex(vc7, z => z.Species <= MaxSpeciesID_1);

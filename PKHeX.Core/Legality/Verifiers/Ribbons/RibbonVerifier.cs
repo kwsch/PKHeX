@@ -38,7 +38,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        private static List<string> GetIncorrectRibbons(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             return GetInvalidRibbons(pkm, evos, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             // is a part of Event4, but O3 doesn't have the others
             if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, EvoCriteria[][] evos, IRibbonSetCommon4 s4, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, EvolutionHistory evos, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
@@ -287,10 +287,10 @@ namespace PKHeX.Core
             yield return result;
         }
 
-        private static bool HasVisitedBDSP(PKM pk, EvoCriteria[][] evos) => evos.Length > 8 && pk.HasVisitedBDSP(evos[8]);
-        private static bool HasVisitedPLA(PKM pk, EvoCriteria[][] evos) => evos.Length > 8 && pk.HasVisitedLA(evos[8]);
+        private static bool HasVisitedBDSP(PKM pk, EvolutionHistory evos) => evos.Length > 8 && pk.HasVisitedBDSP(evos[8]);
+        private static bool HasVisitedPLA(PKM pk, EvolutionHistory evos) => evos.Length > 8 && pk.HasVisitedLA(evos[8]);
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvoCriteria[][] evos)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvolutionHistory evos)
         {
             if (!HasVisitedBDSP(pkm, evos))
             {
@@ -420,7 +420,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvoCriteria[][] evos)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame || pkm.BDSP)
             {
@@ -585,7 +585,7 @@ namespace PKHeX.Core
             return IsAllowedBattleFrontier(species);
         }
 
-        private static bool CanHaveFootprintRibbon(PKM pkm, EvoCriteria[][] evos, int gen)
+        private static bool CanHaveFootprintRibbon(PKM pkm, EvolutionHistory evos, int gen)
         {
             if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
                 return true;

@@ -159,7 +159,7 @@ namespace PKHeX.Core
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
-        private static bool GetCanKnowMove(PKM pkm, int move, int generation, EvoCriteria[][] evos, GameVersion version = GameVersion.Any)
+        private static bool GetCanKnowMove(PKM pkm, int move, int generation, EvolutionHistory evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Smeargle)
                 return Legal.IsValidSketch(move, generation);

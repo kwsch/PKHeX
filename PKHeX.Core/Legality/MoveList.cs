@@ -161,7 +161,7 @@ namespace PKHeX.Core
             return Array.Empty<int>();
         }
 
-        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             var result = new IReadOnlyList<int>[evoChains.Length];
             for (int i = 0; i < result.Length; i++)

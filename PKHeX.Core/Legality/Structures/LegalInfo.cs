@@ -55,8 +55,8 @@ namespace PKHeX.Core
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-        public EvoCriteria[][] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
-        private EvoCriteria[][]? _evochains;
+        public EvolutionHistory EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
+        private EvolutionHistory? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
         public PIDIV PIDIV

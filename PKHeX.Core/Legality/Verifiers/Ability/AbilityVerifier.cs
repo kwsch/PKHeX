@@ -446,7 +446,7 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private static bool IsAccessibleAbilityPatch(PKM pkm, EvoCriteria[][] evosAll)
+        private static bool IsAccessibleAbilityPatch(PKM pkm, EvolutionHistory evosAll)
         {
             if (evosAll.Length <= 8)
                 return false;
@@ -456,7 +456,7 @@ namespace PKHeX.Core
             return pkm.HasVisitedSWSH(evos) || pkm.HasVisitedBDSP(evos);
         }
 
-        private static bool IsAccessibleAbilityCapsule(PKM pkm, EvoCriteria[][] evosAll)
+        private static bool IsAccessibleAbilityCapsule(PKM pkm, EvolutionHistory evosAll)
         {
             if (evosAll.Length <= 8)
                 return false;
@@ -467,7 +467,7 @@ namespace PKHeX.Core
         }
 
         // Ability Capsule can change between 1/2
-        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility, EvoCriteria[][] evos)
+        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility, EvolutionHistory evos)
         {
             if (!IsAccessibleAbilityCapsule(pkm, evos))
                 return false; // Not available.
