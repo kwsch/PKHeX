@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
         public override bool Korean => !Japanese && RawOT[0] <= 0xB;
 
-        public override int Format => 2;
+        public override EntityContext Context => EntityContext.Gen2;
 
         public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
         public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }

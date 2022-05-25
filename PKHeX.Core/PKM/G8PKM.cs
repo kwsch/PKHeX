@@ -8,7 +8,6 @@ namespace PKHeX.Core
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, ITechRecord8, ISociability,
         IContestStats, IContestStatsMutable, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
     {
-        public sealed override int Format => 8;
         protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
         protected G8PKM(byte[] data) : base(DecryptParty(data)) { }
 

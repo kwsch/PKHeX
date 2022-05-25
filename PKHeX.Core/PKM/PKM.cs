@@ -42,7 +42,8 @@ namespace PKHeX.Core
         public virtual Span<byte> HT_Trash => Span<byte>.Empty;
 
         protected abstract byte[] Encrypt();
-        public abstract int Format { get; }
+        public abstract EntityContext Context { get; }
+        public int Format => Context.Generation();
 
         private byte[] Write()
         {

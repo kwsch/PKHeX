@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED;
         public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
-        public override int Format => 3;
+        public override EntityContext Context => EntityContext.Gen3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
         public CK3(byte[] data) : base(data) { }
         public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }

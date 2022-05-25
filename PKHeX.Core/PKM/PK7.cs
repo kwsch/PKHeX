@@ -16,7 +16,7 @@ namespace PKHeX.Core
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
-        public override int Format => 7;
+        public override EntityContext Context => EntityContext.Gen7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormEntry(Species, Form);
 
         public PK7() : base(PokeCrypto.SIZE_6PARTY) { }

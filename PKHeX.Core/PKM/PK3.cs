@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
-        public override int Format => 3;
+        public override EntityContext Context => EntityContext.Gen3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;

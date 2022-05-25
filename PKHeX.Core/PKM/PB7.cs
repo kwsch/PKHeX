@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public override int SIZE_PARTY => SIZE;
         public override int SIZE_STORED => SIZE;
         private const int SIZE = 260;
-        public override int Format => 7;
+        public override EntityContext Context => EntityContext.Gen7b;
         public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
 
         public PB7() : base(SIZE) { }

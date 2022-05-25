@@ -23,7 +23,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
-        public override int Format => 5;
+        public override EntityContext Context => EntityContext.Gen5;
         public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
 
         public PK5() : base(PokeCrypto.SIZE_5PARTY) { }

@@ -29,6 +29,7 @@ public sealed class PB8 : G8PKM
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
     public override bool IsNative => BDSP;
+    public override EntityContext Context => EntityContext.Gen8b;
 
     public PB8()
     {

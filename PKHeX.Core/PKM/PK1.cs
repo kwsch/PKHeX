@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PokeCrypto.SIZE_1STORED;
         public override bool Korean => false;
 
-        public override int Format => 1;
+        public override EntityContext Context => EntityContext.Gen1;
 
         public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
         public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }

@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-        public override int Format => 4;
+        public override EntityContext Context => EntityContext.Gen4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
 
         public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
