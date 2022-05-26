@@ -47,4 +47,8 @@ public class EvolutionHistory
     }
 
     internal void Invalidate() => this[Length - 1] = NONE;
+
+    public bool HasVisitedSWSH => Gen8.Length != 0;
+    public bool HasVisitedPLA => Gen8a.Length != 0;
+    public bool HasVisitedBDSP => Gen8b.Length != 0;
 }

@@ -110,6 +110,23 @@ namespace PKHeX.Core
             _ => -1,
         };
 
+        internal static int GetMaxSpeciesOrigin(EntityContext context) => context switch
+        {
+            EntityContext.Gen1 => MaxSpeciesID_1,
+            EntityContext.Gen2 => MaxSpeciesID_2,
+            EntityContext.Gen3 => MaxSpeciesID_3,
+            EntityContext.Gen4 => MaxSpeciesID_4,
+            EntityContext.Gen5 => MaxSpeciesID_5,
+            EntityContext.Gen6 => MaxSpeciesID_6,
+            EntityContext.Gen7 => MaxSpeciesID_7_USUM,
+            EntityContext.Gen8 => MaxSpeciesID_8_R2,
+
+            EntityContext.Gen7b => MaxSpeciesID_7b,
+            EntityContext.Gen8a => MaxSpeciesID_8a,
+            EntityContext.Gen8b => MaxSpeciesID_8b,
+            _ => -1,
+        };
+
         internal static int GetMaxSpeciesOrigin(int generation) => generation switch
         {
             1 => MaxSpeciesID_1,

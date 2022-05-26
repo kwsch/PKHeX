@@ -66,12 +66,6 @@ namespace PKHeX.Core
             return context.CanBuyItem(item, version);
         }
 
-        public static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            var evos = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetCanLearnMachineMove(pkm, evos, move, generation, version);
-        }
-
         public static bool GetCanLearnMachineMove(PKM pkm, EvoCriteria[] evos, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.AllMachines))

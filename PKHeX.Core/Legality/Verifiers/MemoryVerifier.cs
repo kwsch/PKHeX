@@ -63,7 +63,7 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                case 21 when gen != 6 || !GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, (int)Move.Fly, 6):
+                case 21 when gen != 6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).TMHM[101]: // Fly
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.

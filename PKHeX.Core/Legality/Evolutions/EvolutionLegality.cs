@@ -30,6 +30,8 @@ namespace PKHeX.Core
             (int)Species.PorygonZ,
 
             (int)Species.Sylveon,
+
+            (int)Species.Kleavor,
         };
 
         private static readonly HashSet<int> FutureEvolutionsGen2 = new()
@@ -53,6 +55,9 @@ namespace PKHeX.Core
             (int)Species.PorygonZ,
 
             (int)Species.Sylveon,
+
+            (int)Species.Wyrdeer,
+            (int)Species.Ursaluna,
         };
 
         private static readonly HashSet<int> FutureEvolutionsGen3 = new()

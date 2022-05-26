@@ -187,7 +187,13 @@ namespace PKHeX.Core
             int min = enc.LevelMin;
             if (pkm.HasOriginalMetLocation && pkm.Met_Level != 0)
                 min = pkm.Met_Level;
+
             var chain = GetValidPreEvolutions(pkm, minLevel: min);
+            return TrimChain(chain, enc, mostEvolvedSpecies, maxlevel);
+        }
+
+        private static EvoCriteria[] TrimChain(EvoCriteria[] chain, IEncounterTemplate enc, int mostEvolvedSpecies, byte maxlevel)
+        {
             if (enc.Species == mostEvolvedSpecies)
             {
                 if (chain.Length == 1)
