@@ -139,10 +139,10 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterable enc)
+        private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterTemplate enc)
         {
-            if (pkm is IBattleVersion { BattleVersion: not 0 }) // can hide Relearn moves (Gen6+ Eggs, or DexNav)
-                return enc is EncounterEgg { Generation: >= 6 } or EncounterSlot6AO { CanDexNav: true } or EncounterSlot8b { IsUnderground: true };
+            if (pkm.IsOriginalMovesetDeleted())
+                return true;
             return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
         }
 

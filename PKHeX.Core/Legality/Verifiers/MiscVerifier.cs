@@ -431,9 +431,9 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (pkm.Fullness != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
                 if (pkm.Enjoyment != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
                 return;
             }
 
@@ -441,8 +441,11 @@ namespace PKHeX.Core
             {
                 if (pkm.Fullness > 245) // Exiting camp is -10
                     data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "<=245"), Encounter));
+                else if (pkm.Fullness is not 0 && pkm is not PK8)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
+
                 if (pkm.Enjoyment != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
                 return;
             }
 
@@ -456,7 +459,7 @@ namespace PKHeX.Core
                 return; // evolved
 
             if (Unfeedable.Contains(pkm.Species))
-                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
         }
 
         private static readonly HashSet<int> Unfeedable = new()
@@ -512,12 +515,8 @@ namespace PKHeX.Core
 
             VerifyStatNature(data, pk8);
 
-            var bv = pk8.BattleVersion;
-            if (bv != 0)
-            {
-                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pk8.SWSH)
-                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-            }
+            if (!pk8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             var enc = data.EncounterMatch;
             bool originGMax = enc is IGigantamax {CanGigantamax: true};
@@ -580,12 +579,8 @@ namespace PKHeX.Core
 
             VerifyStatNature(data, pa8);
 
-            var bv = pa8.BattleVersion;
-            if (bv != 0)
-            {
-                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pa8.Gen8)
-                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-            }
+            if (!pa8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             if (pa8.CanGigantamax)
                 data.AddLine(GetInvalid(LStatGigantamaxInvalid));
@@ -621,12 +616,8 @@ namespace PKHeX.Core
 
             VerifyStatNature(data, pb8);
 
-            var bv = pb8.BattleVersion;
-            if (bv != 0)
-            {
-                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pb8.Gen8)
-                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-            }
+            if (!pb8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             if (pb8.CanGigantamax)
                 data.AddLine(GetInvalid(LStatGigantamaxInvalid));

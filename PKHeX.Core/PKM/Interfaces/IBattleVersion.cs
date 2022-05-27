@@ -13,6 +13,13 @@
 
     public static class BattleVersionExtensions
     {
+        public static bool IsBattleVersionValid<T>(this T pk, EvolutionHistory h) where T : PKM, IBattleVersion => pk.BattleVersion switch
+        {
+            0 => true,
+            (int)GameVersion.SW or (int)GameVersion.SH => !(pk.SWSH || pk.BDSP || pk.LA) && pk.HasVisitedSWSH(h.Gen8),
+            _ => false,
+        };
+
         /// <summary>
         /// Resets the <see cref="PKM"/>'s moves and sets the requested version.
         /// </summary>
