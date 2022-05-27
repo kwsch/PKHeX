@@ -192,6 +192,8 @@ namespace PKHeX.Core
                 return true;
             if (pkm.IsUntraded)
                 return false;
+            if (pkm.BDSP && pkm.Species is (int)Species.Spinda or (int)Species.Nincada)
+                return false;
 
             var pt = PersonalTable.SWSH;
             foreach (var evo in evos)
@@ -208,6 +210,8 @@ namespace PKHeX.Core
             if (pkm.BDSP)
                 return true;
             if (pkm.IsUntraded)
+                return false;
+            if (pkm.Species is (int)Species.Spinda or (int)Species.Nincada)
                 return false;
 
             var pt = PersonalTable.BDSP;
