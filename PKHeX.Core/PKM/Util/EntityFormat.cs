@@ -136,7 +136,7 @@ public static class EntityFormat
     {
         if (pk.Version > Legal.MaxGameID_6)
         {
-            if (pk.Version is ((int)GameVersion.GP or (int)GameVersion.GE))
+            if (pk.Version is ((int)GameVersion.GP or (int)GameVersion.GE or (int)GameVersion.GO))
                 return FormatPB7;
             return FormatPK7;
         }
