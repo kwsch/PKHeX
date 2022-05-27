@@ -288,6 +288,9 @@ namespace PKHeX.Core
             }
 
             Ball ball = (Ball)pkm.Ball;
+            var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
+            if (balls.Contains((int)ball))
+                return GetValid(LBallSpeciesPass);
 
             if (ball == Safari)
             {
@@ -336,14 +339,12 @@ namespace PKHeX.Core
             {
                 if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                     return GetValid(LBallSpeciesPass);
-                // next statement catches all new alolans
             }
 
             if (ball > Beast)
                 return GetInvalid(LBallUnavailable);
 
-            var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
-            return VerifyBallEquals(data, balls);
+            return GetInvalid(LBallEncMismatch);
         }
 
         private CheckResult VerifyBallEggGen8(LegalityAnalysis data)

@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public WA8() : this(new byte[Size]) { }
         public WA8(byte[] data) : base(data) { }
 
-        public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.PLA;
+        public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.PLA || (pk is PK8 && v is (int)GameVersion.SW);
         public bool IsDateRestricted => true;
         public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
 
@@ -404,7 +404,7 @@ namespace PKHeX.Core
                 Species = Species,
                 Form = Form,
                 CurrentLevel = currentLevel,
-                Ball = Ball != 0 ? Ball : 4, // Default is Pokeball
+                Ball = Ball != 0 ? Ball : (int)Core.Ball.LAPoke, // Default is Pokeball
                 Met_Level = metLevel,
                 HeldItem = HeldItem,
 
@@ -457,7 +457,7 @@ namespace PKHeX.Core
             };
             pk.SetMaximumPPCurrent();
 
-            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
                 pk.Version = (int)GameVersion.PLA;
 
             if (OTGender >= 2)
@@ -632,7 +632,16 @@ namespace PKHeX.Core
             {
                 if (!Shiny.IsValid(pkm)) return false;
                 if (!IsMatchEggLocation(pkm)) return false;
-                if (MetLocation != pkm.Met_Location) return false;
+                if (pkm is PK8)
+                {
+                    if (pkm.Met_Location != Locations.HOME_SWLA)
+                        return false;
+                }
+                else
+                {
+                    if (MetLocation != pkm.Met_Location)
+                        return false;
+                }
             }
 
             if (MetLevel != 0 && MetLevel != pkm.Met_Level) return false;
@@ -644,6 +653,8 @@ namespace PKHeX.Core
             var expectedBall = (Ball == 0 ? poke : Ball);
             if (expectedBall < poke) // Not even Cherish balls are safe! They get set to the proto-Poké ball.
                 expectedBall = poke;
+            if (pkm is PK8)
+                expectedBall = (int)Core.Ball.Poke; // Transferred to SWSH -> Regular Poké ball
             if (expectedBall != pkm.Ball)
                 return false;
 

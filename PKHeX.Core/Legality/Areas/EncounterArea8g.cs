@@ -76,7 +76,7 @@ namespace PKHeX.Core
             // Find the first chain that has slots defined.
             // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
             // PoGoEncTool has already extrapolated the evolutions to separate encounters!
-            var sf = Array.Find(chain, z => z.Species == Species && (z.Form == Form || FormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
+            var sf = FindCriteriaToIterate(pkm, chain);
             if (sf == default)
                 yield break;
 
@@ -107,6 +107,26 @@ namespace PKHeX.Core
 
             if (deferredIV != null)
                 yield return deferredIV;
+        }
+
+        private EvoCriteria FindCriteriaToIterate(PKM pkm, EvoCriteria[] chain)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != Species)
+                    continue;
+
+                if (evo.Form == Form)
+                    return evo;
+
+                // Check for form mismatches
+                if (FormInfo.IsFormChangeable(Species, Form, evo.Form, pkm.Format))
+                    return evo;
+                if (Species == (int)Core.Species.Burmy)
+                    return evo;
+                break;
+            }
+            return default;
         }
     }
 }
