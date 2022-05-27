@@ -615,6 +615,8 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferFlagIllegal));
             if (pb8.Species is (int)Species.Spinda or (int)Species.Nincada && !pb8.BDSP)
                 data.AddLine(GetInvalid(LTransferNotPossible));
+            if (pb8.Species is (int)Species.Spinda && pb8.Tracker != 0)
+                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
 
             VerifyStatNature(data, pb8);
 
