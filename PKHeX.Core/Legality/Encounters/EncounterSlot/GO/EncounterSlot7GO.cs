@@ -29,6 +29,21 @@ namespace PKHeX.Core
             pb.ResetCP();
         }
 
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(-1, pi);
+            int nature = (int)criteria.GetNature(Nature.Random);
+            var ability = criteria.GetAbilityFromNumber(Ability);
+
+            pk.PID = Util.Rand32();
+            pk.Nature = pk.StatNature = nature;
+            pk.Gender = gender;
+            pk.RefreshAbility(ability);
+            pk.SetRandomIVsGO();
+            base.SetPINGA(pk, criteria);
+        }
+
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
             var moves = MoveLevelUp.GetEncounterMoves(pk, level, GameVersion.GG);

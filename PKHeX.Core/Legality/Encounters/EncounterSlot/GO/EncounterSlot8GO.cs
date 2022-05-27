@@ -38,7 +38,7 @@ namespace PKHeX.Core
 
         protected override PKM GetBlank() => OriginFormat switch
         {
-            PogoImportFormat.PK7 => new PK7(),
+            PogoImportFormat.PK7 => new PK8(),
             PogoImportFormat.PB7 => new PB7(),
             PogoImportFormat.PK8 => new PK8(),
             PogoImportFormat.PA8 => new PA8(),
@@ -81,7 +81,31 @@ namespace PKHeX.Core
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
 
+            pk.OT_Friendship = OT_Friendship;
+
             pk.SetRandomEC();
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = GetPersonal();
+            if (OriginFormat is PogoImportFormat.PK7)
+                pk.EXP = Experience.GetEXP(LevelMin, pi.EXPGrowth);
+            int gender = criteria.GetGender(-1, pi);
+            int nature = (int)criteria.GetNature(Nature.Random);
+            var ability = criteria.GetAbilityFromNumber(Ability);
+
+            pk.PID = Util.Rand32();
+            pk.Nature = pk.StatNature = nature;
+            pk.Gender = gender;
+
+            pk.AbilityNumber = 1 << ability;
+            var abilities = pi.Abilities;
+            if ((uint)ability < abilities.Count)
+                pk.Ability = abilities[ability];
+
+            pk.SetRandomIVsGO();
+            base.SetPINGA(pk, criteria);
         }
 
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
