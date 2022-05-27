@@ -142,10 +142,10 @@ namespace PKHeX.Core
             if (pk.Species == 0) // can enter this method after failing to set a species ID that cannot exist in the format
                 return Array.Empty<IEncounterable>();
             pk.Version = (int)version;
-            var format = pk.Format;
-            if (format is 2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
-                format = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
-            var et = EvolutionTree.GetEvolutionTree(pk, format);
+            var context = pk.Context;
+            if (context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
+                context = EntityContext.Gen1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
+            var et = EvolutionTree.GetEvolutionTree(context);
             var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, chain);
 

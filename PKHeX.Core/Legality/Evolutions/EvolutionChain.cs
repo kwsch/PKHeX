@@ -34,15 +34,17 @@ namespace PKHeX.Core
 
             var lvl = (byte)pkm.CurrentLevel;
             var maxLevel = lvl;
-            int pkGen = enc.Generation;
 
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
-            int mingen = pkGen >= 3 ? pkGen : GBRestrictions.GetTradebackStatusInitial(pkm) == PotentialGBOrigin.Gen2Only ? 2 : 1;
+            int mingen = enc.Generation;
+            if (mingen is 1 or 2)
+                mingen = GBRestrictions.GetTradebackStatusInitial(pkm) == PotentialGBOrigin.Gen2Only ? 2 : 1;
+
             bool noxfrDecremented = true;
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
-                if (pkGen <= 2 && g == 6)
+                if (g == 6 && enc.Generation < 3)
                     g = 2; // skip over 6543 as it never existed in these.
 
                 if (g <= 4 && pkm.Format > 2 && pkm.Format > g && !pkm.HasOriginalMetLocation)
@@ -75,7 +77,7 @@ namespace PKHeX.Core
                 if (g < 7 && HasAlolanForm(mostEvolved.Species) && pkm.Format >= 7 && mostEvolved.Form > 0)
                 {
                     if (head >= fullChain.Length)
-                        break;
+                        return GensEvoChains;
                     mostEvolved = fullChain[head++];
                 }
 
@@ -90,13 +92,13 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                if (g >= 3 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
+                if (g >= 3 && !pkm.HasOriginalMetLocation && g >= enc.Generation && noxfrDecremented)
                 {
-                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, g);
+                    bool isTransferred = HasMetLocationUpdatedTransfer(enc.Generation, g);
                     if (!isTransferred)
                         continue;
 
-                    noxfrDecremented = g > (pkGen != 3 ? 4 : 5);
+                    noxfrDecremented = g > (enc.Generation != 3 ? 4 : 5);
 
                     // Remove previous evolutions below transfer level
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
@@ -291,8 +293,10 @@ namespace PKHeX.Core
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.Generation == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
-            int tree = Math.Max(2, pkm.Format);
-            var et = EvolutionTree.GetEvolutionTree(pkm, tree);
+            var context = pkm.Context;
+            if (context < EntityContext.Gen2)
+                context = EntityContext.Gen2;
+            var et = EvolutionTree.GetEvolutionTree(context);
             return et.GetValidPreEvolutions(pkm, maxLevel: (byte)maxLevel, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, minLevel: (byte)minLevel);
         }
 

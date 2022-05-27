@@ -103,7 +103,7 @@ namespace PKHeX.Core
             if (startLevel >= 100)
                 startLevel = 100;
 
-            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
+            var table = EvolutionTree.GetEvolutionTree(pkm.Context);
             int count = 1;
             for (byte i = 100; i >= startLevel; i--)
             {

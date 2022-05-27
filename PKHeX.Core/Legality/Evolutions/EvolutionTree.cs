@@ -14,17 +14,17 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class EvolutionTree
     {
-        private static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
-        private static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
-        private static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
-        private static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-        private static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-        private static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-        private static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-        private static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
-        private static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
+        public static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
+        public static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
+        public static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
+        public static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
+        public static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
+        public static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
+        public static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
+        public static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
+        public static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        public static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
+        public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
 
         private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
@@ -38,33 +38,20 @@ namespace PKHeX.Core
             Evolves8b.FixEvoTreeBS();
         }
 
-        public static EvolutionTree GetEvolutionTree(int generation) => generation switch
+        public static EvolutionTree GetEvolutionTree(EntityContext context) => context switch
         {
-            1 => Evolves1,
-            2 => Evolves2,
-            3 => Evolves3,
-            4 => Evolves4,
-            5 => Evolves5,
-            6 => Evolves6,
-            7 => Evolves7,
-            _ => Evolves8,
-        };
-
-        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation) => generation switch
-        {
-            1 => Evolves1,
-            2 => Evolves2,
-            3 => Evolves3,
-            4 => Evolves4,
-            5 => Evolves5,
-            6 => Evolves6,
-            7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-            _ => pkm.Version switch
-            {
-                (int)PLA => Evolves8a,
-                (int)BD or (int)SP => Evolves8b,
-                _ => Evolves8,
-            },
+            EntityContext.Gen1 => Evolves1,
+            EntityContext.Gen2 => Evolves2,
+            EntityContext.Gen3 => Evolves3,
+            EntityContext.Gen4 => Evolves4,
+            EntityContext.Gen5 => Evolves5,
+            EntityContext.Gen6 => Evolves6,
+            EntityContext.Gen7 => Evolves7,
+            EntityContext.Gen8 => Evolves8,
+            EntityContext.Gen7b => Evolves7b,
+            EntityContext.Gen8a => Evolves8a,
+            EntityContext.Gen8b => Evolves8b,
+            _ => throw new ArgumentOutOfRangeException(nameof(context), context, null)
         };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;

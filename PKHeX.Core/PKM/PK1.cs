@@ -104,20 +104,23 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            int rate = Catch_Rate;
-            if (rate is 0 || IsCatchRateHeldItem(rate))
-                return;
-            if (value == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
-                return;
-
-            var table = EvolutionTree.GetEvolutionTree(1);
-            var evos = table.GetValidPreEvolutions(this, maxLevel: 100, maxSpeciesOrigin: Legal.MaxSpeciesID_1, skipChecks: true);
-            var baseSpecies = evos[^1].Species;
-            if (IsCatchRatePreEvolutionRate(baseSpecies, value, rate))
+            if (IsValidCatchRateAnyPreEvo(value, Catch_Rate))
                 return;
 
             // Matches nothing possible; just reset to current Species' rate.
             Catch_Rate = PersonalTable.RB[value].CatchRate;
+        }
+
+        private static bool IsValidCatchRateAnyPreEvo(int species, int rate)
+        {
+            if (rate is 0 || IsCatchRateHeldItem(rate))
+                return true;
+            if (species == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
+                return true;
+
+            var table = EvolutionTree.Evolves1;
+            var baby = table.GetBaseSpeciesForm(species, 0);
+            return IsCatchRatePreEvolutionRate(baby, species, rate);
         }
 
         public override int Version { get => (int)GameVersion.RBY; set { } }

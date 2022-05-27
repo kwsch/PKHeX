@@ -151,7 +151,7 @@ namespace PKHeX.WinForms
                 return EncounterCriteria.Unrestricted;
 
             var editor = PKME_Tabs.Data;
-            var tree = EvolutionTree.GetEvolutionTree(editor, editor.Format);
+            var tree = EvolutionTree.GetEvolutionTree(editor.Context);
             bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
 
             if (!settings.UseTabsAsCriteriaAnySpecies)

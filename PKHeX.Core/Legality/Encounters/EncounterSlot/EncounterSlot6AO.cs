@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
         private int[] GetDexNavMoves()
         {
-            var et = EvolutionTree.GetEvolutionTree(6);
+            var et = EvolutionTree.Evolves6;
             var sf = et.GetBaseSpeciesForm(Species, Form);
             return MoveEgg.GetEggMoves(6, sf & 0x7FF, sf >> 11, Version);
         }

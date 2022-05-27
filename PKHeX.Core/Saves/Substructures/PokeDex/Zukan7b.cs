@@ -102,7 +102,7 @@ namespace PKHeX.Core
 
         private void SetSizeData(PB7 pkm, DexSizeType group)
         {
-            var tree = EvolutionTree.GetEvolutionTree(pkm, 7);
+            var tree = EvolutionTree.Evolves7b;
             int species = pkm.Species;
             int form = pkm.Form;
 
