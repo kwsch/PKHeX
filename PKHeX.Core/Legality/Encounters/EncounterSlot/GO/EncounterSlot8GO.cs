@@ -98,7 +98,21 @@ namespace PKHeX.Core
             return base.GetMatchRating(pkm) == EncounterMatchRating.PartialMatch ? EncounterMatchRating.PartialMatch : EncounterMatchRating.Match;
         }
 
-        public byte OT_Friendship => (byte)GetPersonal().BaseFriendship;
+        public byte OT_Friendship => Species switch
+        {
+            (int)Core.Species.Timburr  when Form == 0 => 70,
+            (int)Core.Species.Stunfisk when Form == 0 => 70,
+            (int)Core.Species.Hoopa    when Form == 1 => 50,
+            _ => GetHOMEFriendship(),
+        };
+
+        private byte GetHOMEFriendship()
+        {
+            var fs = (byte)GetPersonal().BaseFriendship;
+            if (fs == 70)
+                return 50;
+            return fs;
+        }
 
         private bool IsMatchPartial(PKM pk)
         {
