@@ -377,7 +377,7 @@ namespace PKHeX.Core
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version):
-                case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version):
+                case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version, pkm):
                 case WA8 wa8 when !wa8.CanBeReceivedByVersion(pkm.Version, pkm):
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;

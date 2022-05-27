@@ -657,10 +657,7 @@ namespace PKHeX.Core
                 expectedBall = (int)Core.Ball.Poke; // Transferred to SWSH -> Regular Poké ball
             if (expectedBall != pkm.Ball)
                 return false;
-
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
-                return false;
-
+            
             if (pkm is IDynamaxLevel dl && dl.DynamaxLevel < DynamaxLevel)
                 return false;
 

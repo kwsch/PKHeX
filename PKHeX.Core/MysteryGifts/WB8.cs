@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         // TODO: public byte RestrictVersion?
 
-        public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.BD or (int) GameVersion.SP;
+        public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && Locations.IsValidMetBDSP(pk.Met_Location, pk.Version));
 
         // General Card Properties
 
@@ -452,12 +452,12 @@ namespace PKHeX.Core
             }
             pk.SetMaximumPPCurrent();
 
-            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
             {
                 // give random valid game
                 var rnd = Util.Rand;
                 do { pk.Version = (int)GameVersion.BD + rnd.Next(2); }
-                while (!CanBeReceivedByVersion(pk.Version));
+                while (!CanBeReceivedByVersion(pk.Version, pk));
             }
 
             if (pk.TID == 0 && pk.SID == 0)
@@ -586,7 +586,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if ((short)pkm.Egg_Location == Locations.Default8bNone) // Not Egg
+            if ((short)pkm.Egg_Location == Locations.Default8bNone || pkm is PK8 { Egg_Location: 0 }) // Not Egg
             {
                 if (OTGender < 2)
                 {
@@ -633,7 +633,16 @@ namespace PKHeX.Core
             {
                 if (!Shiny.IsValid(pkm)) return false;
                 if (!IsMatchEggLocation(pkm)) return false;
-                if (MetLocation != pkm.Met_Location) return false;
+                if (pkm is PK8)
+                {
+                    if (!Locations.IsValidMetBDSP(pkm.Met_Location, pkm.Version))
+                        return false;
+                }
+                else
+                {
+                    if (MetLocation != pkm.Met_Location)
+                        return false;
+                }
             }
 
             if (MetLevel != 0 && MetLevel != pkm.Met_Level) return false;

@@ -64,7 +64,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchPartial(PKM pkm)
         {
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
+            if (pkm is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return true;
             if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument { FormArgument: not 0 })
                 return true;

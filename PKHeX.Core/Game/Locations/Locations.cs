@@ -108,7 +108,7 @@
         public static bool IsValidMetBDSP(int loc, int ver) => loc switch
         {
             HOME_SHSP when ver == (int)GameVersion.SH => true,
-            HOME_SWBD when ver == (int)GameVersion.SP => true,
+            HOME_SWBD when ver == (int)GameVersion.SW => true,
             _ => false,
         };
 

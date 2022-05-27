@@ -656,7 +656,7 @@ namespace PKHeX.Core
             if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;
 
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
+            if (pkm is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return false;
 
             if (pkm is not IDynamaxLevel dl || dl.DynamaxLevel < DynamaxLevel)
