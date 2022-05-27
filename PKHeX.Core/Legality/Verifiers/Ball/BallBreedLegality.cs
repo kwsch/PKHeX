@@ -985,11 +985,6 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// All egg species that can inherit a Safari Ball when bred in BD/SP.
-        /// </summary>
-        internal static readonly HashSet<int> InheritSafari_BDSP = Inherit_Safari; // HOME Transfers include all from DPPt and future changes.
-
-        /// <summary>
         /// Gets a legal <see cref="Ball"/> value for a bred egg encounter.
         /// </summary>
         /// <param name="version">Version the egg was created on.</param>

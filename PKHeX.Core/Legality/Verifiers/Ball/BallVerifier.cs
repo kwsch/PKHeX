@@ -280,12 +280,67 @@ namespace PKHeX.Core
             if (species is (int)Species.Cranidos or (int)Species.Shieldon)
                 return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
 
-            if (data.pkm.Ball == (int)Safari)
+            var pkm = data.pkm;
+            if (IsGalarCatchAndBreed(species))
             {
-                if (BallBreedLegality.InheritSafari_BDSP.Contains(species))
+                if (BallUseLegality.WildPokeballs8.Contains(pkm.Ball))
+                    return GetValid(LBallSpeciesPass);
+            }
+
+            Ball ball = (Ball)pkm.Ball;
+
+            if (ball == Safari)
+            {
+                if (!(BallBreedLegality.Inherit_Safari.Contains(species) || BallBreedLegality.Inherit_SafariMale.Contains(species)))
+                    return GetInvalid(LBallSpecies);
+                if (BallBreedLegality.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pkm))
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball.IsApricornBall()) // Apricorn Ball
+            {
+                if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
+                    return GetInvalid(LBallSpecies);
+                if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains(species | pkm.Form << 11) && IsHiddenAndNotPossible(pkm)) // lineage is 3->2->origin
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball == Sport) // Sport Ball
+            {
+                if (!BallBreedLegality.Inherit_Sport.Contains(species))
+                    return GetInvalid(LBallSpecies);
+                if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
+                    return GetInvalid(LBallAbility);
+                return GetValid(LBallSpeciesPass);
+            }
+            if (ball == Dream) // Dream Ball
+            {
+                if (BallBreedLegality.Inherit_Dream.Contains(species) || BallBreedLegality.Inherit_DreamMale.Contains(species))
                     return GetValid(LBallSpeciesPass);
                 return GetInvalid(LBallSpecies);
             }
+            if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
+            {
+                if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
+            }
+            if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
+            {
+                if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                return GetInvalid(LBallSpecies);
+            }
+
+            if (ball == Beast)
+            {
+                if (BallBreedLegality.PastGenAlolanScans.Contains(species))
+                    return GetValid(LBallSpeciesPass);
+                // next statement catches all new alolans
+            }
+
+            if (ball > Beast)
+                return GetInvalid(LBallUnavailable);
 
             var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
             return VerifyBallEquals(data, balls);
