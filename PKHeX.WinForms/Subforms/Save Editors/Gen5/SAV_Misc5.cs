@@ -253,8 +253,8 @@ namespace PKHeX.WinForms
             var entree = SAV.Entralink;
             editing = true;
 
-            NUD_EntreeWhiteLV.Value = entree.WhiteForestLevel;
-            NUD_EntreeBlackLV.Value = entree.BlackCityLevel;
+            NUD_EntreeWhiteLV.SetValueClamped(entree.WhiteForestLevel);
+            NUD_EntreeBlackLV.SetValueClamped(entree.BlackCityLevel);
 
             if (SAV is SAV5B2W2 b2w2)
             {
@@ -275,13 +275,13 @@ namespace PKHeX.WinForms
                 CB_PassPower3.SelectedValue = (int)pass.PassPower3;
 
                 var block = b2w2.Festa;
-                NUD_FMHosted.Value = Math.Min((ushort)9999, block.Hosted);
-                NUD_FMParticipated.Value = Math.Min((ushort)9999, block.Participated);
-                NUD_FMCompleted.Value = Math.Min((ushort)9999, block.Completed);
-                NUD_FMTopScores.Value = Math.Min((ushort)9999, block.TopScores);
-                NUD_FMMostParticipants.Value = block.Participants;
-                NUD_EntreeWhiteEXP.Value = block.WhiteEXP;
-                NUD_EntreeBlackEXP.Value = block.BlackEXP;
+                NUD_FMHosted.SetValueClamped(block.Hosted);
+                NUD_FMParticipated.SetValueClamped(block.Participated);
+                NUD_FMCompleted.SetValueClamped(block.Completed);
+                NUD_FMTopScores.SetValueClamped(block.TopScores);
+                NUD_FMMostParticipants.SetValueClamped(block.Participants);
+                NUD_EntreeWhiteEXP.SetValueClamped(block.WhiteEXP);
+                NUD_EntreeBlackEXP.SetValueClamped(block.BlackEXP);
 
                 string[] FMTitles = Enum.GetNames(typeof(Funfest5Mission));
                 LB_FunfestMissions.Items.Clear();
@@ -396,8 +396,8 @@ namespace PKHeX.WinForms
             var record = block.GetMissionRecord(mission);
             CHK_FMNew.Checked = record.IsNew;
             CB_FMLevel.SelectedIndex = record.Level;
-            NUD_FMBestScore.Value = Math.Min(record.Score, 9999);
-            NUD_FMBestTotal.Value = Math.Min(record.Total, 9999);
+            NUD_FMBestScore.SetValueClamped(record.Score);
+            NUD_FMBestTotal.SetValueClamped(record.Total);
         }
 
         private void ChangeFestaMissionValue(object sender, EventArgs e)
@@ -455,7 +455,7 @@ namespace PKHeX.WinForms
         {
             Forest = SAV.EntreeData;
             AllSlots = Forest.Slots;
-            NUD_Unlocked.Value = Forest.Unlock38Areas + 2;
+            NUD_Unlocked.SetValueClamped(Forest.Unlock38Areas + 2);
             CHK_Area9.Checked = Forest.Unlock9thArea;
 
             var areas = AllSlots.Select(z => z.Area).Distinct()
@@ -505,6 +505,7 @@ namespace PKHeX.WinForms
             CB_Move.SelectedValue = current.Move;
             CB_Gender.SelectedValue = current.Gender;
             CB_Form.SelectedIndex = CB_Form.Items.Count <= current.Form ? 0 : current.Form;
+            NUD_Animation.SetValueClamped(current.Animation);
             CurrentSlot = current;
             SetSprite(current);
         }
@@ -629,37 +630,37 @@ namespace PKHeX.WinForms
 
             // Normal
             // Single
-            NUD_SinglePast.Value = sw.SinglePast;
-            NUD_SingleRecord.Value = sw.SingleRecord;
+            NUD_SinglePast.SetValueClamped(sw.SinglePast);
+            NUD_SingleRecord.SetValueClamped(sw.SingleRecord);
 
             // Double
-            NUD_DoublePast.Value = sw.DoublePast;
-            NUD_DoubleRecord.Value = sw.DoubleRecord;
+            NUD_DoublePast.SetValueClamped(sw.DoublePast);
+            NUD_DoubleRecord.SetValueClamped(sw.DoubleRecord);
 
             // Multi NPC
-            NUD_MultiNpcPast.Value = sw.MultiNPCPast;
-            NUD_MultiNpcRecord.Value = sw.MultiNPCRecord;
+            NUD_MultiNpcPast.SetValueClamped(sw.MultiNPCPast);
+            NUD_MultiNpcRecord.SetValueClamped(sw.MultiNPCRecord);
 
             // Multi Friends
-            NUD_MultiFriendsPast.Value = sw.MultiFriendsPast;
-            NUD_MultiFriendsRecord.Value = sw.MultiFriendsRecord;
+            NUD_MultiFriendsPast.SetValueClamped(sw.MultiFriendsPast);
+            NUD_MultiFriendsRecord.SetValueClamped(sw.MultiFriendsRecord);
 
             // Super
             // Single
-            NUD_SSinglePast.Value = sw.SuperSinglePast;
-            NUD_SSingleRecord.Value = sw.SuperSingleRecord;
+            NUD_SSinglePast.SetValueClamped(sw.SuperSinglePast);
+            NUD_SSingleRecord.SetValueClamped(sw.SuperSingleRecord);
 
             // Double
-            NUD_SDoublePast.Value = sw.SuperDoublePast;
-            NUD_SDoubleRecord.Value = sw.SuperDoubleRecord;
+            NUD_SDoublePast.SetValueClamped(sw.SuperDoublePast);
+            NUD_SDoubleRecord.SetValueClamped(sw.SuperDoubleRecord);
 
             // Multi NPC
-            NUD_SMultiNpcPast.Value = sw.SuperMultiNPCPast;
-            NUD_SMultiNpcRecord.Value = sw.SuperMultiNPCRecord;
+            NUD_SMultiNpcPast.SetValueClamped(sw.SuperMultiNPCPast);
+            NUD_SMultiNpcRecord.SetValueClamped(sw.SuperMultiNPCRecord);
 
             // Multi Friends
-            NUD_SMultiFriendsPast.Value = sw.SuperMultiFriendsPast;
-            NUD_SMultiFriendsRecord.Value = sw.SuperMultiFriendsRecord;
+            NUD_SMultiFriendsPast.SetValueClamped(sw.SuperMultiFriendsPast);
+            NUD_SMultiFriendsRecord.SetValueClamped(sw.SuperMultiFriendsRecord);
         }
 
         private void SaveSubway()
