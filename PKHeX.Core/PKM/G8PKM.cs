@@ -738,9 +738,6 @@ namespace PKHeX.Core
                 AffixedRibbon = AffixedRibbon,
                 HyperTrainFlags = HyperTrainFlags,
 
-                Sociability = Sociability,
-                Fullness = Fullness,
-                Enjoyment = Enjoyment,
                 BattleVersion = BattleVersion,
                 PKRS_Days = PKRS_Days,
                 PKRS_Strain = PKRS_Strain,
