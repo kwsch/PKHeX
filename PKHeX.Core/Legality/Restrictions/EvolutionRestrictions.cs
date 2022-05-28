@@ -19,16 +19,18 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
         {
-            {(int)Eevee,      new(0, 0)}, // FairyMoves
-            {(int)MimeJr,     new(1, (int)Mimic)},
-            {(int)Bonsly,     new(2, (int)Mimic)},
-            {(int)Aipom,      new(3, (int)Mimic)},
-            {(int)Lickitung,  new(4, (int)Rollout)},
-            {(int)Tangela,    new(5, (int)AncientPower)},
-            {(int)Yanma,      new(6, (int)AncientPower)},
-            {(int)Piloswine,  new(7, (int)AncientPower)},
-            {(int)Steenee,    new(8, (int)Stomp)},
-            {(int)Clobbopus,  new(9, (int)Taunt)},
+            {(int)Eevee,      new(00, 0)}, // FairyMoves
+            {(int)MimeJr,     new(01, (int)Mimic)},
+            {(int)Bonsly,     new(02, (int)Mimic)},
+            {(int)Aipom,      new(03, (int)Mimic)},
+            {(int)Lickitung,  new(04, (int)Rollout)},
+            {(int)Tangela,    new(05, (int)AncientPower)},
+            {(int)Yanma,      new(06, (int)AncientPower)},
+            {(int)Piloswine,  new(07, (int)AncientPower)},
+            {(int)Steenee,    new(08, (int)Stomp)},
+            {(int)Clobbopus,  new(09, (int)Taunt)},
+            {(int)Stantler,   new(10, (int)PsyshieldBash)},
+            {(int)Qwilfish,   new(11, (int)BarbBarrage)},
         };
 
         private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
@@ -65,6 +67,7 @@ namespace PKHeX.Core
             (int)SpiritBreak,
             (int)StrangeSteam,
             (int)MistyExplosion,
+            (int)SpringtideStorm,
         };
 
         /// <summary>
@@ -85,7 +88,6 @@ namespace PKHeX.Core
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
             new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Overqwil (Qwilfish with STRONG Barb Barrage)
-            new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         private static readonly byte[] MinLevelEvolutionWithMove_8LA =
@@ -102,7 +104,6 @@ namespace PKHeX.Core
             99, // Grapploct (Clobbopus with Taunt)
             31, // Wyrdeer (Stantler with AGILE Psyshield Bash) 
             25, // Overqwil (Qwilfish with STRONG Barb Barrage)
-            34, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         private static readonly bool[][] CanEggHatchWithEvolveMove =
@@ -119,7 +120,6 @@ namespace PKHeX.Core
             new [] { false, false, false, false, false, false, false, false,  true }, // Grapploct (Clobbopus with Taunt)
             new [] { false, false, false, false, false, false, false, false, false }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
             new [] { false, false, false, false, false, false, false, false, false }, // Overqwil (Qwilfish with STRONG Barb Barrage)
-            new [] { false, false, false, false, false, false, false, false, false }, // Basculegion (Basculin-2 with Recoil Move)
         };
 
         /// <summary>

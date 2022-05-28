@@ -308,12 +308,14 @@ namespace PKHeX.Core
                 Qwilfish when pkm.Form is 1 => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    not 0 when pkm.CurrentLevel < 25 => GetInvalid(LFormArgumentHigh),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },
                 Stantler when pkm is PA8 => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    not 0 when pkm.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },
