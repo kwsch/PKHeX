@@ -81,6 +81,14 @@ namespace PKHeX.Core
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
 
+            if (OriginFormat is PogoImportFormat.PA8)
+            {
+                var pa8 = (PA8)pk;
+                pa8.ResetHeight();
+                pa8.ResetWeight();
+                pa8.HeightScalarCopy = pa8.HeightScalar;
+            }
+
             pk.OT_Friendship = OT_Friendship;
 
             pk.SetRandomEC();
