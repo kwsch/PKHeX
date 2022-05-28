@@ -164,9 +164,15 @@ namespace PKHeX.Core
             {
                 (int)Core.Species.Yamask when pk.Species != Species && Form == 1 => pk is IFormArgument { FormArgument: 0 },
                 (int)Core.Species.Milcery when pk.Species != Species => pk is IFormArgument { FormArgument: 0 },
+                (int)Core.Species.Qwilfish when pk.Species != Species && Form == 1 => pk is IFormArgument { FormArgument: 0 },
+                (int)Core.Species.Basculin when pk.Species != Species && Form == 2 => pk is IFormArgument { FormArgument: 0 },
+                (int)Core.Species.Stantler when pk.Species != Species => pk is IFormArgument { FormArgument: 0 },
 
                 (int)Core.Species.Runerigus => pk is IFormArgument { FormArgument: not 0 },
                 (int)Core.Species.Alcremie => pk is IFormArgument { FormArgument: not 0 },
+                (int)Core.Species.Wyrdeer => pk is IFormArgument { FormArgument: not 0 },
+                (int)Core.Species.Basculegion => pk is IFormArgument { FormArgument: not 0 },
+                (int)Core.Species.Overqwil => pk is IFormArgument { FormArgument: not 0 },
 
                 _ => false,
             };
