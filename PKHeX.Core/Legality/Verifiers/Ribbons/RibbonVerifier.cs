@@ -133,7 +133,7 @@ namespace PKHeX.Core
                 var iterate = GetInvalidRibbons4Any(pkm, evos, s4, gen);
                 if (!inhabited4)
                 {
-                    if (HasVisitedBDSP(pkm, evos)) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
+                    if (pkm.HasVisitedBDSP(evos.Gen8)) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
                         iterate = iterate.Concat(GetInvalidRibbonsNoneSkipIndex(s4.RibbonBitsOnly(), s4.RibbonNamesOnly(), 1));
                     else
                         iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, evos, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            bool visitBDSP = HasVisitedBDSP(pkm, evos);
+            bool visitBDSP = pkm.HasVisitedBDSP(evos.Gen8);
             bool gen34 = gen is 3 or 4;
             bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6 && !visitBDSP;
@@ -287,12 +287,9 @@ namespace PKHeX.Core
             yield return result;
         }
 
-        private static bool HasVisitedBDSP(PKM pk, EvolutionHistory evos) => evos.Length > 8 && pk.HasVisitedBDSP(evos[8]);
-        private static bool HasVisitedPLA(PKM pk, EvolutionHistory evos) => evos.Length > 8 && pk.HasVisitedLA(evos[8]);
-
         private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvolutionHistory evos)
         {
-            if (!HasVisitedBDSP(pkm, evos))
+            if (!pkm.HasVisitedBDSP(evos.Gen8))
             {
                 var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var x in none)
@@ -422,12 +419,19 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
         {
-            if (!pkm.InhabitedGeneration(8) || !PersonalTable.SWSH.IsPresentInGame(pkm.Species, pkm.Form) || pkm.BDSP)
+            bool swsh = pkm.HasVisitedSWSH(evos.Gen8);
+            bool bdsp = pkm.HasVisitedBDSP(evos.Gen8);
+            bool pla = pkm.HasVisitedLA(evos.Gen8);
+
+            if (!swsh && !bdsp)
+            {
+                if (s8.RibbonTowerMaster && !(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
+                    yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
+            }
+            if (!swsh)
             {
                 if (s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
-                if (s8.RibbonTowerMaster && !(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
-                    yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                 if (s8.RibbonMasterRank)
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
             }
@@ -465,13 +469,13 @@ namespace PKHeX.Core
             }
 
             // can be expanded upon if SWSH gets updated with the new ribbon when HOME has BDSP support
-            if (s8.RibbonTwinklingStar && (pkm is IRibbonSetCommon6 {RibbonContestStar:false} || !HasVisitedBDSP(pkm, evos)))
+            if (s8.RibbonTwinklingStar && (!bdsp || pkm is IRibbonSetCommon6 {RibbonContestStar:false}))
             {
                 yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
             }
 
             // received when capturing photos with Pokémon in the Photography Studio
-            if (s8.RibbonPioneer && !HasVisitedPLA(pkm, evos))
+            if (s8.RibbonPioneer && !pla)
             {
                 yield return new RibbonResult(nameof(s8.RibbonPioneer));
             }
