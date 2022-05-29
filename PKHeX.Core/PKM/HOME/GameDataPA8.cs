@@ -115,4 +115,12 @@ public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
     public int Move2_PPUps { get => 0; set { } }
     public int Move3_PPUps { get => 0; set { } }
     public int Move4_PPUps { get => 0; set { } }
+
+    public int CopyTo(Span<byte> result)
+    {
+        result[0] = (byte)Format;
+        WriteUInt16LittleEndian(result[1..], SIZE);
+        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
+        return 3 + SIZE;
+    }
 }

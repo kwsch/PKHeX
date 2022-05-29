@@ -100,4 +100,12 @@ public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISo
 
     // Not stored.
     public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.SWSH.GetFormEntry(species, form);
+
+    public int CopyTo(Span<byte> result)
+    {
+        result[0] = (byte)Format;
+        WriteUInt16LittleEndian(result[1..], SIZE);
+        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
+        return 3 + SIZE;
+    }
 }

@@ -75,4 +75,12 @@ public sealed class GameDataPB8 : IGameDataSide
 
     // Not stored.
     public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.BDSP.GetFormEntry(species, form);
+
+    public int CopyTo(Span<byte> result)
+    {
+        result[0] = (byte)Format;
+        WriteUInt16LittleEndian(result[1..], SIZE);
+        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
+        return 3 + SIZE;
+    }
 }

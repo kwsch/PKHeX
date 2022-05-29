@@ -143,7 +143,7 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        public static uint CRC32Invert(ReadOnlySpan<byte> data) => (ushort)~CRC32(data, unchecked((uint)~0));
+        public static uint CRC32Invert(ReadOnlySpan<byte> data) => ~CRC32(data, unchecked((uint)~0));
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>

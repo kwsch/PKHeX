@@ -13,14 +13,15 @@ public static class HomeCrypto
 {
     internal const int Version = 1;
 
-    // Format 1 Core Data has size 200 bytes
-    internal const int SIZE_1CORE = 200;
+    internal const int SIZE_1HEADER = 0x10; // 16
 
-    internal const int SIZE_1GAME_PB7 = 59;
-    internal const int SIZE_1GAME_PK8 = 68;
-    internal const int SIZE_1GAME_PA8 = 60;
-    internal const int SIZE_1GAME_PB8 = 43;
-    internal const int SIZE_1STORED = 494;
+    internal const int SIZE_1CORE = 0xC8; // 200
+
+    internal const int SIZE_1GAME_PB7 = 0x3B; // 59
+    internal const int SIZE_1GAME_PK8 = 0x44; // 68
+    internal const int SIZE_1GAME_PA8 = 0x3C; // 60
+    internal const int SIZE_1GAME_PB8 = 0x2B; // 43
+    internal const int SIZE_1STORED = 0x1EE; // 494
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void GetFormat1EncryptionKey(Span<byte> key, ulong seed)
@@ -36,13 +37,19 @@ public static class HomeCrypto
         WriteUInt64BigEndian(iv.Slice(8, 8), seed | 0xE3CDA917EA9E489C);
     }
 
-    public static byte[] DecryptFormat1(Span<byte> ekm)
+    /// <summary>
+    /// Encryption and Decryption are symmetrical operations.
+    /// </summary>
+    /// <param name="data">Data to crypt, not in place.</param>
+    /// <returns>New array with result data.</returns>
+    /// <exception cref="ArgumentException"> if the format is not supported.</exception>
+    public static byte[] Crypt1(ReadOnlySpan<byte> data)
     {
-        ushort format = ReadUInt16LittleEndian(ekm);
+        ushort format = ReadUInt16LittleEndian(data);
         if (format != 1)
             throw new ArgumentException($"Invalid format {format} != 1");
 
-        ulong seed = ReadUInt64LittleEndian(ekm.Slice(2, 8));
+        ulong seed = ReadUInt64LittleEndian(data.Slice(2, 8));
 
         var key = new byte[0x10];
         GetFormat1EncryptionKey(key, seed);
@@ -50,39 +57,77 @@ public static class HomeCrypto
         var iv  = new byte[0x10];
         GetFormat1EncryptionIv(iv, seed);
 
-        var dataSize = ReadUInt16LittleEndian(ekm[0xE..0x10]);
+        var dataSize = ReadUInt16LittleEndian(data[0xE..0x10]);
 
         using var ms = new MemoryStream(dataSize);
-        ms.Write(ekm[0x10..].ToArray(), 0, dataSize);
+        ms.Write(data[0x10..].ToArray(), 0, dataSize);
         ms.Seek(0, SeekOrigin.Begin);
 
         using var aes = Aes.Create();
         aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.PKCS7;
+        aes.Padding = PaddingMode.Zeros; // None?
 
         using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, iv), CryptoStreamMode.Read);
 
-        var dec = new byte[0x10 + dataSize];
-        ekm[..0x10].CopyTo(dec);
+        var result = new byte[0x10 + dataSize];
+        data[..0x10].CopyTo(result); // header
 
-        var decSize = cs.Read(dec, 0x10, dataSize);
-        Array.Resize(ref dec, 0x10 + decSize);
+        var size = cs.Read(result, 0x10, dataSize);
+        System.Diagnostics.Debug.Assert(size + 0x10 == data.Length);
 
-        return dec;
+        return result;
     }
 
     /// <summary>
-    /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+    /// Decrypts the input <see cref="data"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
-    /// <remarks>Generation 8 Format encryption check</remarks>
-    public static void DecryptIfEncrypted(ref byte[] pkm)
+    /// <remarks>Format encryption check</remarks>
+    public static void DecryptIfEncrypted(ref byte[] data)
     {
-        var span = pkm.AsSpan();
+        var span = data.AsSpan();
+        var format = ReadUInt16LittleEndian(span);
+        if (format == 1)
+        {
+            if (GetIsEncrypted1(span))
+                data = Crypt1(span);
+        }
+        else
+        {
+            throw new ArgumentException("Invalid format.", nameof(data));
+        }
+    }
 
-        // TODO: This can fail if by chance first two bytes are SIZE_1CORE
-        // How can this detect encryption when there are no padding bytes?
-        if (ReadUInt16LittleEndian(span) == 1 && ReadUInt16LittleEndian(span[0x10..]) != SIZE_1CORE)
-            pkm = DecryptFormat1(span);
+    public static byte[] Encrypt(ReadOnlySpan<byte> pkm)
+    {
+        var result = Crypt1(pkm);
+        RefreshChecksum(result, result);
+        return result;
+    }
+
+    private static void RefreshChecksum(ReadOnlySpan<byte> encrypted, Span<byte> dest)
+    {
+        var chk = GetChecksum1(encrypted);
+        WriteUInt32LittleEndian(dest[0xA..0xE], chk);
+    }
+
+    public static uint GetChecksum1(ReadOnlySpan<byte> encrypted) => GetCHK(encrypted[SIZE_1HEADER..]);
+
+    public static bool GetIsEncrypted1(ReadOnlySpan<byte> data)
+    {
+        if (ReadUInt16LittleEndian(data[SIZE_1HEADER..]) != SIZE_1CORE)
+            return true; // Core length should be constant if decrypted.
+
+        var core = data.Slice(SIZE_1HEADER + 4, SIZE_1CORE);
+        if (ReadUInt16LittleEndian(core[0x9D..]) != 0)
+            return true; // OT_Name final terminator should be 0 if decrypted.
+        if (ReadUInt16LittleEndian(core[0x60..]) != 0)
+            return true; // Nickname final terminator should be 0 if decrypted.
+        if (ReadUInt16LittleEndian(core[0x70..]) != 0)
+            return true; // HT_Name final terminator should be 0 if decrypted.
+
+        //// Fall back to checksum.
+        //return ReadUInt32LittleEndian(data[0xA..0xE]) == GetChecksum1(data);
+        return false; // 64 bits checked is enough to feel safe about this check.
     }
 
     /// <summary>
@@ -93,7 +138,11 @@ public static class HomeCrypto
     {
         uint chk = 0;
         for (var i = 0; i < data.Length; i += 100)
-            chk ^= Checksums.CRC32Invert(data[i..(i + 100)]);
+        {
+            var chunkSize = Math.Min(data.Length - i, 100);
+            var span = data.Slice(i, chunkSize);
+            chk ^= Checksums.CRC32Invert(span);
+        }
         return chk;
     }
 }

@@ -6,7 +6,7 @@ using static PKHeX.Core.Locations;
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
-public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed,
+public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IContestStatsMutable, IScaledSize
 {
     private readonly GameDataCore _coreData;
     private GameDataPB7? _gameDataPB7;
@@ -19,29 +19,34 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public PKH(byte[] data) : base(DecryptHome(data))
     {
         _coreData = new GameDataCore(Data, 0x10);
+        ReadGameData(Data, CoreDataSize, GameDataSize);
+    }
 
-        var baseOfs = 0x14 + CoreDataSize;
-        var gameOfs = 0;
-        while (gameOfs < GameDataSize)
+    private void ReadGameData(byte[] data, int coreSize, int gameSize)
+    {
+        var baseOfs = 0x14 + coreSize;
+        var offset = 0;
+        while (offset < gameSize)
         {
-            var fmt = (HomeGameDataFormat)Data[baseOfs + gameOfs];
+            var fmt = (HomeGameDataFormat)data[baseOfs + offset];
             switch (fmt)
             {
-                case HomeGameDataFormat.PB7: _gameDataPB7 = new GameDataPB7(Data, baseOfs + gameOfs); break;
-                case HomeGameDataFormat.PK8: _gameDataPK8 = new GameDataPK8(Data, baseOfs + gameOfs); break;
-                case HomeGameDataFormat.PA8: _gameDataPA8 = new GameDataPA8(Data, baseOfs + gameOfs); break;
-                case HomeGameDataFormat.PB8: _gameDataPB8 = new GameDataPB8(Data, baseOfs + gameOfs); break;
+                case HomeGameDataFormat.PB7: _gameDataPB7 = new GameDataPB7(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PK8: _gameDataPK8 = new GameDataPK8(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PA8: _gameDataPA8 = new GameDataPA8(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PB8: _gameDataPB8 = new GameDataPB8(data, baseOfs + offset); break;
                 default: throw new ArgumentException($"Unknown GameData {fmt}");
             }
 
-            gameOfs += 3 + ReadUInt16LittleEndian(Data.AsSpan(baseOfs + gameOfs + 1));
+            var len = ReadUInt16LittleEndian(data.AsSpan(baseOfs + offset + 1));
+            offset += 3 + len;
         }
     }
 
     private static byte[] DecryptHome(byte[] data)
     {
         HomeCrypto.DecryptIfEncrypted(ref data);
-        Array.Resize(ref data, HomeCrypto.SIZE_1STORED);
+      //Array.Resize(ref data, HomeCrypto.SIZE_1STORED);
         return data;
     }
 
@@ -220,9 +225,56 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override int SIZE_STORED => HomeCrypto.SIZE_1STORED;
     public override bool Valid { get => true; set { } }
     public override PersonalInfo PersonalInfo => LatestGameData.GetPersonalInfo(Species, Form);
-    protected override byte[] Encrypt() => throw new NotImplementedException();
-    public override void RefreshChecksum() => throw new NotImplementedException();
-    public override bool ChecksumValid => throw new NotImplementedException();
+    public override void RefreshChecksum() => Checksum = 0;
+    public override bool ChecksumValid => true;
+
+    protected override byte[] Encrypt()
+    {
+        var result = Rebuild();
+        return HomeCrypto.Encrypt(result);
+    }
+
+    private const int GameDataStart = HomeCrypto.SIZE_1HEADER + (2 + HomeCrypto.SIZE_1CORE) + 2;
+
+    public byte[] Rebuild()
+    {
+        var length = WriteLength;
+
+        var remainder = length & 0xF;
+        if (remainder != 0) // pad to nearest 0x10, fill remainder bytes with value.
+            remainder = 0x10 - remainder;
+        var result = new byte[length + remainder];
+        result.AsSpan()[^remainder..].Fill((byte)remainder);
+
+        // Header and Core are already in the current byte array. Copy them last.
+
+        int ctr = GameDataStart;
+        Data.AsSpan(0, ctr).CopyTo(result);
+        if (_gameDataPK8 is { } pk8) ctr += pk8.CopyTo(result.AsSpan(ctr));
+        if (_gameDataPB7 is { } pb7) ctr += pb7.CopyTo(result.AsSpan(ctr));
+        if (_gameDataPA8 is { } pa8) ctr += pa8.CopyTo(result.AsSpan(ctr));
+        if (_gameDataPB8 is { } pb8) ctr += pb8.CopyTo(result.AsSpan(ctr));
+
+        DataVersion = 1;
+        EncodedDataSize = (ushort)(result.Length - 0x10);
+        CoreDataSize = HomeCrypto.SIZE_1CORE;
+        GameDataSize = (ushort)(ctr - GameDataStart);
+
+        return result;
+    }
+
+    private int WriteLength
+    {
+        get
+        {
+            var length = GameDataStart;
+            if (_gameDataPK8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PK8;
+            if (_gameDataPB7 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB7;
+            if (_gameDataPA8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PA8;
+            if (_gameDataPB8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB8;
+            return length;
+        }
+    }
 
     public override PKM Clone() => new PKH((byte[])Data.Clone())
     {
