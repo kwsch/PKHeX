@@ -173,18 +173,18 @@ namespace PKHeX.Core
 
         private static bool WasEventEgg(PKM pkm, int gen) => gen switch
         {
-            // Event Egg, indistinguible from normal eggs after hatch
+            // Event Egg, indistinguishable from normal eggs after hatch
             // can't tell after transfer
-            3 => pkm.Format == 3 && pkm.IsEgg && pkm.Met_Location == 255,
+            3 => pkm.Format == 3 && pkm.IsEgg && Locations.IsEventLocation3(pkm.Met_Location),
 
             // Manaphy was the only generation 4 released event egg
-            _ => pkm.FatefulEncounter && (short)pkm.Egg_Location > 0,
+            _ => pkm.FatefulEncounter && pkm.Egg_Day != 0,
         };
 
         private static bool WasEvent(PKM pkm, int gen) => pkm.FatefulEncounter || gen switch
         {
-            3 => (pkm.Met_Location == 255 && pkm.Format == 3),
-            4 => (Locations.IsEventLocation4(pkm.Met_Location) && pkm.Format == 4),
+            3 => Locations.IsEventLocation3(pkm.Met_Location) && pkm.Format == 3,
+            4 => Locations.IsEventLocation4(pkm.Met_Location) && pkm.Format == 4,
           >=5 => Locations.IsEventLocation5(pkm.Met_Location),
             _ => false,
         };

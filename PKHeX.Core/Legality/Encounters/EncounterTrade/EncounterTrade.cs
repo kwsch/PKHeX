@@ -217,7 +217,7 @@ namespace PKHeX.Core
         {
             var expect = EggLocation;
             if (pkm is PB8 && expect is 0)
-                expect = unchecked((ushort)Locations.Default8bNone);
+                expect = Locations.Default8bNone;
             return pkm.Egg_Location == expect;
         }
 

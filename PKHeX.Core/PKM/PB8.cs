@@ -127,16 +127,24 @@ public sealed class PB8 : G8PKM
     public override int MaxBallID => Legal.MaxBallID_8b;
     public override int MaxGameID => Legal.MaxGameID_8b;
 
-    public override bool WasEgg => IsEgg || !Locations.IsNoneLocation(GameVersion.BD, Egg_Location);
+    public override bool WasEgg => IsEgg || Egg_Day != 0;
 
     public PK8 ConvertToPK8()
     {
         var pk = ConvertTo<PK8>();
-        if (pk.Egg_Location == unchecked((ushort)Locations.Default8bNone))
+        if (pk.Egg_Location == Locations.Default8bNone)
             pk.Egg_Location = 0;
         else
             pk.Egg_Location = Locations.HOME_SWSHBDSPEgg;
         pk.SanitizeImport();
+        return pk;
+    }
+
+    public override PA8 ConvertToPA8()
+    {
+        var pk = base.ConvertToPA8();
+        if (pk.Egg_Location == Locations.Default8bNone)
+            pk.Egg_Location = 0;
         return pk;
     }
 

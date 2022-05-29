@@ -47,7 +47,7 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
                 yield break;
-            if (IsMetAsEgg(pkm, gameSource))
+            if (IsMetAsEgg(pkm))
                 yield break;
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
@@ -58,14 +58,6 @@ namespace PKHeX.Core
                     yield return s;
             }
         }
-
-        /// <summary>Encounter Slot iteration doesn't sanity check the <see cref="PKM.Egg_Location"/>; we need to check it now.</summary>
-        private static bool IsMetAsEgg(PKM pkm, GameVersion gameSource) => pkm switch
-        {
-            PK8 pk8 => pk8.Egg_Location is not 0,
-            PB8 pb8 => pb8.Egg_Location is not unchecked((ushort)Locations.Default8bNone),
-            _ => !Locations.IsNoneLocation(gameSource, pkm.Egg_Location),
-        };
 
         public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {

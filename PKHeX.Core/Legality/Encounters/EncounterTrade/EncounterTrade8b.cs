@@ -9,7 +9,7 @@
         public override int Generation => 8;
         public override int Location => Locations.LinkTrade6NPC;
 
-        public EncounterTrade8b(GameVersion game) : base(game) => EggLocation = unchecked((ushort)Locations.Default8bNone);
+        public EncounterTrade8b(GameVersion game) : base(game) => EggLocation = Locations.Default8bNone;
         public byte CNT_Cool => BaseContest;
         public byte CNT_Beauty => BaseContest;
         public byte CNT_Cute => BaseContest;
@@ -41,7 +41,7 @@
         protected override bool IsMatchEggLocation(PKM pkm)
         {
             var expect = EggLocation;
-            if (pkm is PK8 && expect == unchecked((ushort)Locations.Default8bNone))
+            if (pkm is not PB8 && expect == Locations.Default8bNone)
                 expect = 0;
             return pkm.Egg_Location == expect;
         }

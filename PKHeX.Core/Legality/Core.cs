@@ -323,5 +323,12 @@ namespace PKHeX.Core
             }
             return true;
         }
+
+        public static bool IsMetAsEgg(PKM pkm) => pkm switch
+        {
+            PA8 or PK8 => pkm.Egg_Location is not 0 || (pkm.BDSP && pkm.Egg_Day is not 0),
+            PB8 pb8 => pb8.Egg_Location is not Locations.Default8bNone,
+            _ => pkm.Egg_Location is not 0,
+        };
     }
 }

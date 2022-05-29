@@ -182,7 +182,7 @@ namespace PKHeX.Core
         private static List<ComboItem> CreateGen8b(GameStrings s)
         {
             // Manually add invalid (-1) location from SWSH as ID 65535
-            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], unchecked((ushort)Locations.Default8bNone)) };
+            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], Locations.Default8bNone) };
             Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Locations8b.Met0);
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             {
                 var list = new List<ComboItem>(result.Count + 1);
                 list.AddRange(result);
-                list.Insert(1, new ComboItem($"{list[0].Text} (BD/SP)", unchecked((ushort)Locations.Default8bNone)));
+                list.Insert(1, new ComboItem($"{list[0].Text} (BD/SP)", Locations.Default8bNone));
                 result = list;
             }
 

@@ -662,7 +662,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pk)
         {
-            var expect = pk is PK8 ? 0 : unchecked((ushort)Locations.Default8bNone);
+            var expect = pk is PB8 ? Locations.Default8bNone : 0;
             return pk.Egg_Location == expect;
         }
 

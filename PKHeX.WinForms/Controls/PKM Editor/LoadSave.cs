@@ -255,7 +255,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc4(PKM pk)
         {
             CAL_MetDate.Value = pk.MetDate ?? new DateTime(2000, 1, 1);
-            if (!GetWasMetAsEgg(pk))
+            if (!Legal.IsMetAsEgg(pk))
             {
                 CHK_AsEgg.Checked = GB_EggConditions.Enabled = false;
                 CAL_EggDate.Value = new DateTime(2000, 01, 01);
@@ -269,35 +269,24 @@ namespace PKHeX.WinForms.Controls
             CB_EggLocation.SelectedValue = pk.Egg_Location;
         }
 
-        private static bool GetWasMetAsEgg(PKM pk)
-        {
-            return pk.Egg_Location != (ushort)GetNoneLocation(pk);
-        }
-
-        private static int GetNoneLocation(PKM pk) => pk switch
-        {
-            PB8 => Locations.GetNoneLocation(GameVersion.BD),
-            PK8 => 0,
-            _ => Locations.GetNoneLocation((GameVersion)pk.Version),
-        };
-
         private void SaveMisc4(PKM pk)
         {
-            pk.MetDate = CAL_MetDate.Value;
-
-            // Default Dates
-            DateTime? egg_date = null;
-            int egg_location = GetNoneLocation(pk);
             if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
             {
-                egg_date = CAL_EggDate.Value;
-                egg_location = WinFormsUtil.GetIndex(CB_EggLocation);
+                pk.EggMetDate = CAL_EggDate.Value;
+                pk.Egg_Location = WinFormsUtil.GetIndex(CB_EggLocation);
             }
-            // Egg Met Data
-            pk.EggMetDate = egg_date;
-            pk.Egg_Location = egg_location;
-            if (pk.IsEgg && Locations.IsNoneLocation((GameVersion)pk.Version, pk.Met_Location)) // If still an egg, it has no hatch location/date. Zero it!
-                pk.MetDate = null;
+            else // Default Dates
+            {
+                pk.EggMetDate = null; // clear
+                pk.Egg_Location = LocationEdits.GetNoneLocation(pk);
+            }
+
+            // Met Data
+            if (pk.IsEgg && pk.Met_Location == LocationEdits.GetNoneLocation(pk)) // If still an egg, it has no hatch location/date. Zero it!
+                pk.MetDate = null; // clear
+            else
+                pk.MetDate = CAL_MetDate.Value;
 
             pk.Ability = WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
         }

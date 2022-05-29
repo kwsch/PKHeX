@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
 
-        public bool EggEncounter => EggLocation > 0;
+        public virtual bool EggEncounter => EggLocation != 0;
 
         private const string _name = "Static Encounter";
         public string Name => _name;
@@ -266,7 +266,7 @@ namespace PKHeX.Core
         // override me if the encounter type has any eggs
         protected virtual bool IsMatchEggLocation(PKM pkm)
         {
-            var expect = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            var expect = pkm is PB8 ? Locations.Default8bNone : 0;
             return pkm.Egg_Location == expect;
         }
 

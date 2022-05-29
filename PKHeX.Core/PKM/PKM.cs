@@ -556,7 +556,7 @@ namespace PKHeX.Core
         }
 
         // Misc Egg Facts
-        public virtual bool WasEgg => IsEgg || !Locations.IsNoneLocation((GameVersion)Version, Egg_Location);
+        public virtual bool WasEgg => IsEgg || Egg_Day != 0;
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, (GameVersion)Version);

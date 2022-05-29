@@ -163,7 +163,7 @@ namespace PKHeX.Core
 
         protected virtual bool IsMatchEggLocation(PKM pk)
         {
-            var expect = EggEncounter ? EggLocation : pk is PB8 ? unchecked((ushort)Locations.Default8bNone) : 0;
+            var expect = EggEncounter ? EggLocation : pk is PB8 ? Locations.Default8bNone : 0;
             return pk.Egg_Location == expect;
         }
 

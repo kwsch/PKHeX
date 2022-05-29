@@ -104,6 +104,7 @@
         public const int HOME_SWBD = 59999; // BD traded to SW(SH)
         public const int HOME_SWLA = 60000; // PLA traded to SW(SH)
         public const int HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
+        public const int Default8bNone = 65535;
 
         public static bool IsValidMetBDSP(int loc, int ver) => loc switch
         {
@@ -111,11 +112,6 @@
             HOME_SWBD when ver == (int)GameVersion.SW => true,
             _ => false,
         };
-
-        /// <summary>
-        /// -1
-        /// </summary>
-        public const int Default8bNone = -1;
 
         public static int TradedEggLocationNPC(int generation) => generation switch
         {
@@ -137,6 +133,7 @@
 
         public static bool IsPtHGSSLocation(int location) => location is > 111 and < 2000;
         public static bool IsPtHGSSLocationEgg(int location) => location is > 2010 and < 3000;
+        public static bool IsEventLocation3(int location) => location is 255;
         public static bool IsEventLocation4(int location) => location is >= 3000 and <= 3076;
         public static bool IsEventLocation5(int location) => location is > 40000 and < 50000;
 
@@ -157,14 +154,6 @@
         public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
         public static bool IsEggLocationBred6(int loc) => loc is Daycare5 or LinkTrade6;
         public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
-
-        public static bool IsNoneLocation(GameVersion ver, int location) => GetNoneLocation(ver) == (short)location;
-
-        public static int GetNoneLocation(GameVersion ver) => ver switch
-        {
-            GameVersion.BD or GameVersion.SP => Default8bNone,
-            _ => 0,
-        };
 
         public static int GetDaycareLocation(int generation, GameVersion version) => generation switch
         {
