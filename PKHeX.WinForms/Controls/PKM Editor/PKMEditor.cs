@@ -2014,7 +2014,7 @@ namespace PKHeX.WinForms.Controls
             {
                 var game = (GameVersion) sav.Game;
                 if (game <= 0)
-                    game = GameUtil.GetVersion(sav.Generation);
+                    game = Entity.Context.GetSingleGameVersion();
                 CheckMetLocationChange(game, sav.Generation);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
             }

@@ -59,7 +59,7 @@ namespace PKHeX.Core
                     {
                         // Check if any pre-evolution could have it flipped.
                         var evos = data.Info.EvoChainsAllGens.Gen6;
-                        var pt = GameData.GetPersonal(GameUtil.GetVersion(format));
+                        var pt = GameData.GetPersonal(pkm.Context.GetSingleGameVersion());
                         if (!GetWasDual(evos, pt, pkm))
                             return INVALID;
                     }

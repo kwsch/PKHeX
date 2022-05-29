@@ -13,15 +13,15 @@ namespace PKHeX.Core;
 /// </remarks>
 public enum EntityContext
 {
-    Invalid,
-    Gen1,
-    Gen2,
-    Gen3,
-    Gen4,
-    Gen5,
-    Gen6,
-    Gen7,
-    Gen8,
+    Invalid = 0,
+    Gen1 = 1,
+    Gen2 = 2,
+    Gen3 = 3,
+    Gen4 = 4,
+    Gen5 = 5,
+    Gen6 = 6,
+    Gen7 = 7,
+    Gen8 = 8,
 
     SplitInvalid,
     Gen7b,
@@ -31,16 +31,29 @@ public enum EntityContext
 
 public static class EntityContextExtensions
 {
-    public static int Generation(this EntityContext value)
+    public static int Generation(this EntityContext value) => value < SplitInvalid ? (int)value : value switch
     {
-        if (value < SplitInvalid)
-            return (int)value;
-        return value switch
-        {
-            Gen7b => 7,
-            Gen8a => 8,
-            Gen8b => 8,
-            _ => throw new IndexOutOfRangeException(nameof(value)),
-        };
-    }
+        Gen7b => 7,
+        Gen8a => 8,
+        Gen8b => 8,
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+    };
+
+    public static GameVersion GetSingleGameVersion(this EntityContext value) => value switch
+    {
+        Gen1 => GameVersion.RD,
+        Gen2 => GameVersion.C,
+        Gen3 => GameVersion.E,
+        Gen4 => GameVersion.SS,
+        Gen5 => GameVersion.W2,
+        Gen6 => GameVersion.AS,
+        Gen7 => GameVersion.UM,
+        Gen8 => GameVersion.SH,
+
+        Gen7b => GameVersion.GP,
+        Gen8a => GameVersion.PLA,
+        Gen8b => GameVersion.BD,
+
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+    };
 }

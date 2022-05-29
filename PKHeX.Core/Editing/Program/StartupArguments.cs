@@ -91,9 +91,10 @@ namespace PKHeX.Core
         #region Utility
         private static SaveFile GetBlank(PKM pk)
         {
-            var ver = (GameVersion)pk.Version;
-            if (ver.GetGeneration() != pk.Format)
-                ver = GameUtil.GetVersion(pk.Format);
+            var ctx = pk.Context;
+            var ver = ctx.GetSingleGameVersion();
+            if (pk is { Format: 1, Japanese: true })
+                ver = GameVersion.BU;
 
             return SaveUtil.GetBlankSAV(ver, pk.OT_Name, (LanguageID)pk.Language);
         }
