@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class HomeCrypto
 {
-    internal const int Version = 1;
+    internal const int Version1 = 1;
 
     internal const int SIZE_1HEADER = 0x10; // 16
 
@@ -46,43 +46,38 @@ public static class HomeCrypto
     /// <exception cref="ArgumentException"> if the format is not supported.</exception>
     public static byte[] Crypt1(ReadOnlySpan<byte> data, bool decrypt = true)
     {
-        ushort format = ReadUInt16LittleEndian(data);
-        if (format != 1)
-            throw new ArgumentException($"Invalid format {format} != 1");
+        var format = ReadUInt16LittleEndian(data);
+        if (format != Version1)
+            throw new ArgumentException($"Unrecognized format: {format}");
 
         ulong seed = ReadUInt64LittleEndian(data.Slice(2, 8));
 
         var key = new byte[0x10];
         GetFormat1EncryptionKey(key, seed);
-
         var iv  = new byte[0x10];
         GetFormat1EncryptionIv(iv, seed);
 
         var dataSize = ReadUInt16LittleEndian(data[0xE..0x10]);
-
-        var result = new byte[0x10 + dataSize];
-        data[..0x10].CopyTo(result); // header
-
-        var size = Crypt(data, key, iv, dataSize, result, decrypt);
-        System.Diagnostics.Debug.Assert(size + 0x10 == data.Length);
+        var result = new byte[SIZE_1HEADER + dataSize];
+        data[..SIZE_1HEADER].CopyTo(result); // header
+        Crypt1(data, key, iv, result, dataSize, decrypt);
 
         return result;
     }
 
-    private static int Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, ushort dataSize, byte[] result, bool decrypt)
+    private static void Crypt1(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
     {
         using var aes = Aes.Create();
         aes.Mode = CipherMode.CBC;
         aes.Padding = PaddingMode.None; // Handle PKCS7 manually.
+
+        var tmp = data[SIZE_1HEADER..].ToArray();
+        using var ms = new MemoryStream(tmp);
         using var transform = decrypt ? aes.CreateDecryptor(key, iv) : aes.CreateEncryptor(key, iv);
-
-        using var ms = new MemoryStream(dataSize);
-        ms.Write(data[0x10..].ToArray(), 0, dataSize);
-        ms.Seek(0, SeekOrigin.Begin);
-
         using var cs = new CryptoStream(ms, transform, CryptoStreamMode.Read);
 
-        return cs.Read(result, 0x10, dataSize);
+        var size = cs.Read(result, SIZE_1HEADER, dataSize);
+        System.Diagnostics.Debug.Assert(SIZE_1HEADER + size == data.Length);
     }
 
     /// <summary>
@@ -93,14 +88,14 @@ public static class HomeCrypto
     {
         var span = data.AsSpan();
         var format = ReadUInt16LittleEndian(span);
-        if (format == 1)
+        if (format == Version1)
         {
             if (GetIsEncrypted1(span))
                 data = Crypt1(span);
         }
         else
         {
-            throw new ArgumentException("Invalid format.", nameof(data));
+            throw new ArgumentException($"Unrecognized format: {format}");
         }
     }
 

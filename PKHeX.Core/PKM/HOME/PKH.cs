@@ -240,14 +240,15 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     {
         var length = WriteLength;
 
+        // Handle PKCS7 manually
         var remainder = length & 0xF;
         if (remainder != 0) // pad to nearest 0x10, fill remainder bytes with value.
             remainder = 0x10 - remainder;
         var result = new byte[length + remainder];
         result.AsSpan()[^remainder..].Fill((byte)remainder);
 
-        // Header and Core are already in the current byte array. Copy them last.
-
+        // Header and Core are already in the current byte array.
+        // Write each part, starting with header and core.
         int ctr = GameDataStart;
         Data.AsSpan(0, ctr).CopyTo(result);
         if (_gameDataPK8 is { } pk8) ctr += pk8.CopyTo(result.AsSpan(ctr));
@@ -255,8 +256,9 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
         if (_gameDataPA8 is { } pa8) ctr += pa8.CopyTo(result.AsSpan(ctr));
         if (_gameDataPB8 is { } pb8) ctr += pb8.CopyTo(result.AsSpan(ctr));
 
-        DataVersion = 1;
-        EncodedDataSize = (ushort)(result.Length - 0x10);
+        // Update metadata to ensure we're a valid object.
+        DataVersion = HomeCrypto.Version1;
+        EncodedDataSize = (ushort)(result.Length - HomeCrypto.SIZE_1HEADER);
         CoreDataSize = HomeCrypto.SIZE_1CORE;
         GameDataSize = (ushort)(ctr - GameDataStart);
 
