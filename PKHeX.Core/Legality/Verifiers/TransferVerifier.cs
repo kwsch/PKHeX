@@ -215,7 +215,9 @@ namespace PKHeX.Core
         {
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);
-            if (pkm.Egg_Location != transfer.EggLocation)
+
+            var expecteEgg = pkm is PB8 ? unchecked((ushort)Locations.Default8bNone) : transfer.EggLocation;
+            if (pkm.Egg_Location != expecteEgg)
                 yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred

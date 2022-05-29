@@ -178,7 +178,7 @@ namespace PKHeX.Core
             3 => pkm.Format == 3 && pkm.IsEgg && pkm.Met_Location == 255,
 
             // Manaphy was the only generation 4 released event egg
-            _ => pkm.Egg_Location is not 0 && pkm.FatefulEncounter,
+            _ => pkm.FatefulEncounter && (short)pkm.Egg_Location > 0,
         };
 
         private static bool WasEvent(PKM pkm, int gen) => pkm.FatefulEncounter || gen switch

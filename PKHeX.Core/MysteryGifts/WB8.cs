@@ -586,7 +586,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if ((short)pkm.Egg_Location == Locations.Default8bNone || pkm is PK8 { Egg_Location: 0 }) // Not Egg
+            if (!IsEgg)
             {
                 if (OTGender < 2)
                 {

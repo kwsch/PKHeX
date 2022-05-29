@@ -556,7 +556,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm.Egg_Location == 0) // Not Egg
+            if (!IsEgg)
             {
                 if (OTGender != 3)
                 {
