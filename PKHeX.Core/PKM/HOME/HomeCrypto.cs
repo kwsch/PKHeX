@@ -38,12 +38,13 @@ public static class HomeCrypto
     }
 
     /// <summary>
-    /// Encryption and Decryption are symmetrical operations.
+    /// Encryption and Decryption are asymmetrical operations, but we reuse the same method and pivot off the inputs.
     /// </summary>
     /// <param name="data">Data to crypt, not in place.</param>
+    /// <param name="decrypt">Encryption or Decryption mode</param>
     /// <returns>New array with result data.</returns>
     /// <exception cref="ArgumentException"> if the format is not supported.</exception>
-    public static byte[] Crypt1(ReadOnlySpan<byte> data)
+    public static byte[] Crypt1(ReadOnlySpan<byte> data, bool decrypt = true)
     {
         ushort format = ReadUInt16LittleEndian(data);
         if (format != 1)
@@ -59,23 +60,29 @@ public static class HomeCrypto
 
         var dataSize = ReadUInt16LittleEndian(data[0xE..0x10]);
 
+        var result = new byte[0x10 + dataSize];
+        data[..0x10].CopyTo(result); // header
+
+        var size = Crypt(data, key, iv, dataSize, result, decrypt);
+        System.Diagnostics.Debug.Assert(size + 0x10 == data.Length);
+
+        return result;
+    }
+
+    private static int Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, ushort dataSize, byte[] result, bool decrypt)
+    {
+        using var aes = Aes.Create();
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.None; // Handle PKCS7 manually.
+        using var transform = decrypt ? aes.CreateDecryptor(key, iv) : aes.CreateEncryptor(key, iv);
+
         using var ms = new MemoryStream(dataSize);
         ms.Write(data[0x10..].ToArray(), 0, dataSize);
         ms.Seek(0, SeekOrigin.Begin);
 
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.Zeros; // None?
+        using var cs = new CryptoStream(ms, transform, CryptoStreamMode.Read);
 
-        using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, iv), CryptoStreamMode.Read);
-
-        var result = new byte[0x10 + dataSize];
-        data[..0x10].CopyTo(result); // header
-
-        var size = cs.Read(result, 0x10, dataSize);
-        System.Diagnostics.Debug.Assert(size + 0x10 == data.Length);
-
-        return result;
+        return cs.Read(result, 0x10, dataSize);
     }
 
     /// <summary>
@@ -99,7 +106,7 @@ public static class HomeCrypto
 
     public static byte[] Encrypt(ReadOnlySpan<byte> pkm)
     {
-        var result = Crypt1(pkm);
+        var result = Crypt1(pkm, false);
         RefreshChecksum(result, result);
         return result;
     }
