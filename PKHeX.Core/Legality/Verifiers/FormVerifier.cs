@@ -312,7 +312,7 @@ namespace PKHeX.Core
                     > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },
-                Stantler when pkm is PA8 || pkm.HasVisitedLA(data.Info.EvoChainsAllGens.Gen8) => arg switch
+                Stantler when pkm is PA8 || pkm.HasVisitedLA(data.Info.EvoChainsAllGens.Gen8a) => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
                     not 0 when pkm.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),

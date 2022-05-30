@@ -41,8 +41,7 @@ public sealed class ContestStatVerifier : Verifier
         else if (correlation == CorrelateSheen)
         {
             bool gen3 = data.Info.Generation == 3;
-            var evos = data.Info.EvoChainsAllGens;
-            bool bdsp = evos.Length > 8 && pkm.HasVisitedBDSP(evos[8]);
+            bool bdsp = pkm.HasVisitedBDSP(data.Info.EvoChainsAllGens.Gen8b);
             var method = gen3 ? ContestStatGrantingSheen.Gen3 :
                 bdsp ? ContestStatGrantingSheen.Gen8b : ContestStatGrantingSheen.Gen4;
 

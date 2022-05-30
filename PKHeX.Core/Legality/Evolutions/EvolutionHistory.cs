@@ -18,8 +18,9 @@ public class EvolutionHistory
     public EvoCriteria[] Gen7  = NONE;
     public EvoCriteria[] Gen7b = NONE;
     public EvoCriteria[] Gen8  = NONE;
-    public EvoCriteria[] Gen8a = NONE;
-    public EvoCriteria[] Gen8b = NONE;
+
+    public EvoCriteria[] Gen8a => Gen8; // future: separate field instead of copy
+    public EvoCriteria[] Gen8b => Gen8; // future: separate field instead of copy
 
     public readonly int Length;
     public readonly EvoCriteria[] FullChain;

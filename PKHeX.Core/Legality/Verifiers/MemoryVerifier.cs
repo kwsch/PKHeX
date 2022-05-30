@@ -28,7 +28,7 @@ namespace PKHeX.Core
         private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pkm)
         {
             if (pkm.BDSP || pkm.LA)
-                return data.Info.EvoChainsAllGens.Length <= 8 || !pkm.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]);
+                return !pkm.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8);
             return false;
         }
 
@@ -266,8 +266,8 @@ namespace PKHeX.Core
                 case 7 when pkm.GG: // LGPE does not set memories.
                 case 8 when pkm.GO_HOME: // HOME does not set memories.
                 case 8 when pkm.Met_Location == Locations.HOME8: // HOME does not set memories.
-                case 8 when pkm.BDSP && !pkm.HasVisitedSWSH(evos[8]): // BDSP does not set memories.
-                case 8 when pkm.LA   && !pkm.HasVisitedSWSH(evos[8]): // LA does not set memories.
+                case 8 when pkm.BDSP && !pkm.HasVisitedSWSH(evos.Gen8): // BDSP does not set memories.
+                case 8 when pkm.LA   && !pkm.HasVisitedSWSH(evos.Gen8): // LA does not set memories.
                     return false;
 
                 // Eggs cannot have memories

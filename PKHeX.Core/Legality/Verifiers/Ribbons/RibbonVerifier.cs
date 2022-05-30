@@ -133,7 +133,7 @@ namespace PKHeX.Core
                 var iterate = GetInvalidRibbons4Any(pkm, evos, s4, gen);
                 if (!inhabited4)
                 {
-                    if (pkm.HasVisitedBDSP(evos.Gen8)) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
+                    if (pkm.HasVisitedBDSP(evos.Gen8b)) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
                         iterate = iterate.Concat(GetInvalidRibbonsNoneSkipIndex(s4.RibbonBitsOnly(), s4.RibbonNamesOnly(), 1));
                     else
                         iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, evos, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            bool visitBDSP = pkm.HasVisitedBDSP(evos.Gen8);
+            bool visitBDSP = pkm.HasVisitedBDSP(evos.Gen8b);
             bool gen34 = gen is 3 or 4;
             bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6 && !visitBDSP;
@@ -289,7 +289,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvolutionHistory evos)
         {
-            if (!pkm.HasVisitedBDSP(evos.Gen8))
+            if (!pkm.HasVisitedBDSP(evos.Gen8b))
             {
                 var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var x in none)
@@ -420,8 +420,8 @@ namespace PKHeX.Core
         private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
         {
             bool swsh = pkm.HasVisitedSWSH(evos.Gen8);
-            bool bdsp = pkm.HasVisitedBDSP(evos.Gen8);
-            bool pla = pkm.HasVisitedLA(evos.Gen8);
+            bool bdsp = pkm.HasVisitedBDSP(evos.Gen8b);
+            bool pla = pkm.HasVisitedLA(evos.Gen8a);
 
             if (!swsh && !bdsp)
             {
@@ -602,15 +602,16 @@ namespace PKHeX.Core
                 return true;
 
             // Gen8-BDSP: Variable by species Footprint
-            if (pkm.BDSP)
+            var bdspEvos = evos.Gen8b;
+            if (pkm.HasVisitedBDSP(bdspEvos))
             {
-                if (evos[8].Any(z => z.Species <= Legal.MaxSpeciesID_4 && !HasFootprintBDSP[z.Species]))
+                if (bdspEvos.Any(z => PersonalTable.BDSP.IsPresentInGame(z.Species, z.Form) && !HasFootprintBDSP[z.Species]))
                     return true; // no footprint
                 if (pkm.CurrentLevel - pkm.Met_Level >= 30)
                     return true; // traveled well
             }
 
-            // Gen8: Can't obtain
+            // Otherwise: Can't obtain
             return false;
         }
 

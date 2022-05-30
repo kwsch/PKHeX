@@ -101,7 +101,7 @@ public sealed class LegendsArceusVerifier : Verifier
         LoadPurchasedMoves(pa, purchased);
 
         // If it can be leveled up in other games, level it up in other games.
-        if (pa.HasVisitedSWSH(h.Gen8) || pa.HasVisitedBDSP(h.Gen8))
+        if (pa.HasVisitedSWSH(h.Gen8) || pa.HasVisitedBDSP(h.Gen8b))
             return count;
 
         // Level up to current level
@@ -112,7 +112,7 @@ public sealed class LegendsArceusVerifier : Verifier
             return 4;
 
         // Evolve and try
-        var evos = h.Gen8;
+        var evos = h.Gen8a;
         for (int i = 0; i < evos.Length - 1; i++)
         {
             var evo = evos[i];
@@ -228,7 +228,7 @@ public sealed class LegendsArceusVerifier : Verifier
         // Changing forms do not have separate tutor permissions, so we don't need to bother with form changes.
         // Level up movepools can grant moves for mastery at lower levels for earlier evolutions... find the minimum.
         int level = 101;
-        foreach (var evo in data.Info.EvoChainsAllGens[8])
+        foreach (var evo in data.Info.EvoChainsAllGens.Gen8a)
         {
             var pt = PersonalTable.LA;
             var index = pt.GetFormIndex(evo.Species, evo.Form);

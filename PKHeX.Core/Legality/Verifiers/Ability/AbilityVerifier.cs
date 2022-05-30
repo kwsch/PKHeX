@@ -450,20 +450,14 @@ namespace PKHeX.Core
         {
             if (evosAll.Length <= 8)
                 return false;
-            if (!pkm.LA)
-                return true;
-            var evos = evosAll[8];
-            return pkm.HasVisitedSWSH(evos) || pkm.HasVisitedBDSP(evos);
+            return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
         }
 
         private static bool IsAccessibleAbilityCapsule(PKM pkm, EvolutionHistory evosAll)
         {
             if (evosAll.Length <= 8)
                 return false;
-            if (!pkm.LA)
-                return true;
-            var evos = evosAll[8];
-            return pkm.HasVisitedSWSH(evos) || pkm.HasVisitedBDSP(evos);
+            return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
         }
 
         // Ability Capsule can change between 1/2

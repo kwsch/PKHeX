@@ -566,7 +566,7 @@ namespace PKHeX.Core
             if (pa8.Favorite && !pa8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
+            if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
             {
                 var affix = pa8.AffixedRibbon;
                 if (affix != -1) // None
@@ -600,7 +600,7 @@ namespace PKHeX.Core
             if (pb8.Favorite && !pb8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
+            if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
             {
                 var affix = pb8.AffixedRibbon;
                 if (affix != -1) // None

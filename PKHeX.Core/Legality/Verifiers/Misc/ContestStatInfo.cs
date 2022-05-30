@@ -60,7 +60,7 @@ public static class ContestStatInfo
 
         5 => pk.Format >= 6          ? NoSheen : None, // ORAS Contests
         6 => pk.AO || !pk.IsUntraded ? NoSheen : None,
-        8 => pk.HasVisitedBDSP(h.Gen8) ? CorrelateSheen : None, // BDSP Contests
+        8 => pk.HasVisitedBDSP(h.Gen8b) ? CorrelateSheen : None, // BDSP Contests
         _ => None,
     };
 
