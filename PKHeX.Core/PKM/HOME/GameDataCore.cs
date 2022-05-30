@@ -55,154 +55,157 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
     public int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
 
-    public bool RibbonChampionKalos { get => FlagUtil.GetFlag(Data, 0x34, 0); set => FlagUtil.SetFlag(Data, 0x34, 0, value); }
-    public bool RibbonChampionG3 { get => FlagUtil.GetFlag(Data, 0x34, 1); set => FlagUtil.SetFlag(Data, 0x34, 1, value); }
-    public bool RibbonChampionSinnoh { get => FlagUtil.GetFlag(Data, 0x34, 2); set => FlagUtil.SetFlag(Data, 0x34, 2, value); }
-    public bool RibbonBestFriends { get => FlagUtil.GetFlag(Data, 0x34, 3); set => FlagUtil.SetFlag(Data, 0x34, 3, value); }
-    public bool RibbonTraining { get => FlagUtil.GetFlag(Data, 0x34, 4); set => FlagUtil.SetFlag(Data, 0x34, 4, value); }
-    public bool RibbonBattlerSkillful { get => FlagUtil.GetFlag(Data, 0x34, 5); set => FlagUtil.SetFlag(Data, 0x34, 5, value); }
-    public bool RibbonBattlerExpert { get => FlagUtil.GetFlag(Data, 0x34, 6); set => FlagUtil.SetFlag(Data, 0x34, 6, value); }
-    public bool RibbonEffort { get => FlagUtil.GetFlag(Data, 0x34, 7); set => FlagUtil.SetFlag(Data, 0x34, 7, value); }
+    private bool GetFlag(int offset, int bit) => FlagUtil.GetFlag(Data, Offset + offset, bit);
+    private void SetFlag(int offset, int bit, bool value) => FlagUtil.SetFlag(Data, Offset + offset, bit, value);
 
-    public bool RibbonAlert { get => FlagUtil.GetFlag(Data, 0x35, 0); set => FlagUtil.SetFlag(Data, 0x35, 0, value); }
-    public bool RibbonShock { get => FlagUtil.GetFlag(Data, 0x35, 1); set => FlagUtil.SetFlag(Data, 0x35, 1, value); }
-    public bool RibbonDowncast { get => FlagUtil.GetFlag(Data, 0x35, 2); set => FlagUtil.SetFlag(Data, 0x35, 2, value); }
-    public bool RibbonCareless { get => FlagUtil.GetFlag(Data, 0x35, 3); set => FlagUtil.SetFlag(Data, 0x35, 3, value); }
-    public bool RibbonRelax { get => FlagUtil.GetFlag(Data, 0x35, 4); set => FlagUtil.SetFlag(Data, 0x35, 4, value); }
-    public bool RibbonSnooze { get => FlagUtil.GetFlag(Data, 0x35, 5); set => FlagUtil.SetFlag(Data, 0x35, 5, value); }
-    public bool RibbonSmile { get => FlagUtil.GetFlag(Data, 0x35, 6); set => FlagUtil.SetFlag(Data, 0x35, 6, value); }
-    public bool RibbonGorgeous { get => FlagUtil.GetFlag(Data, 0x35, 7); set => FlagUtil.SetFlag(Data, 0x35, 7, value); }
+    public bool RibbonChampionKalos   { get => GetFlag(0x34, 0); set => SetFlag(0x34, 0, value); }
+    public bool RibbonChampionG3      { get => GetFlag(0x34, 1); set => SetFlag(0x34, 1, value); }
+    public bool RibbonChampionSinnoh  { get => GetFlag(0x34, 2); set => SetFlag(0x34, 2, value); }
+    public bool RibbonBestFriends     { get => GetFlag(0x34, 3); set => SetFlag(0x34, 3, value); }
+    public bool RibbonTraining        { get => GetFlag(0x34, 4); set => SetFlag(0x34, 4, value); }
+    public bool RibbonBattlerSkillful { get => GetFlag(0x34, 5); set => SetFlag(0x34, 5, value); }
+    public bool RibbonBattlerExpert   { get => GetFlag(0x34, 6); set => SetFlag(0x34, 6, value); }
+    public bool RibbonEffort          { get => GetFlag(0x34, 7); set => SetFlag(0x34, 7, value); }
 
-    public bool RibbonRoyal { get => FlagUtil.GetFlag(Data, 0x36, 0); set => FlagUtil.SetFlag(Data, 0x36, 0, value); }
-    public bool RibbonGorgeousRoyal { get => FlagUtil.GetFlag(Data, 0x36, 1); set => FlagUtil.SetFlag(Data, 0x36, 1, value); }
-    public bool RibbonArtist { get => FlagUtil.GetFlag(Data, 0x36, 2); set => FlagUtil.SetFlag(Data, 0x36, 2, value); }
-    public bool RibbonFootprint { get => FlagUtil.GetFlag(Data, 0x36, 3); set => FlagUtil.SetFlag(Data, 0x36, 3, value); }
-    public bool RibbonRecord { get => FlagUtil.GetFlag(Data, 0x36, 4); set => FlagUtil.SetFlag(Data, 0x36, 4, value); }
-    public bool RibbonLegend { get => FlagUtil.GetFlag(Data, 0x36, 5); set => FlagUtil.SetFlag(Data, 0x36, 5, value); }
-    public bool RibbonCountry { get => FlagUtil.GetFlag(Data, 0x36, 6); set => FlagUtil.SetFlag(Data, 0x36, 6, value); }
-    public bool RibbonNational { get => FlagUtil.GetFlag(Data, 0x36, 7); set => FlagUtil.SetFlag(Data, 0x36, 7, value); }
+    public bool RibbonAlert    { get => GetFlag(0x35, 0); set => SetFlag(0x35, 0, value); }
+    public bool RibbonShock    { get => GetFlag(0x35, 1); set => SetFlag(0x35, 1, value); }
+    public bool RibbonDowncast { get => GetFlag(0x35, 2); set => SetFlag(0x35, 2, value); }
+    public bool RibbonCareless { get => GetFlag(0x35, 3); set => SetFlag(0x35, 3, value); }
+    public bool RibbonRelax    { get => GetFlag(0x35, 4); set => SetFlag(0x35, 4, value); }
+    public bool RibbonSnooze   { get => GetFlag(0x35, 5); set => SetFlag(0x35, 5, value); }
+    public bool RibbonSmile    { get => GetFlag(0x35, 6); set => SetFlag(0x35, 6, value); }
+    public bool RibbonGorgeous { get => GetFlag(0x35, 7); set => SetFlag(0x35, 7, value); }
 
-    public bool RibbonEarth { get => FlagUtil.GetFlag(Data, 0x37, 0); set => FlagUtil.SetFlag(Data, 0x37, 0, value); }
-    public bool RibbonWorld { get => FlagUtil.GetFlag(Data, 0x37, 1); set => FlagUtil.SetFlag(Data, 0x37, 1, value); }
-    public bool RibbonClassic { get => FlagUtil.GetFlag(Data, 0x37, 2); set => FlagUtil.SetFlag(Data, 0x37, 2, value); }
-    public bool RibbonPremier { get => FlagUtil.GetFlag(Data, 0x37, 3); set => FlagUtil.SetFlag(Data, 0x37, 3, value); }
-    public bool RibbonEvent { get => FlagUtil.GetFlag(Data, 0x37, 4); set => FlagUtil.SetFlag(Data, 0x37, 4, value); }
-    public bool RibbonBirthday { get => FlagUtil.GetFlag(Data, 0x37, 5); set => FlagUtil.SetFlag(Data, 0x37, 5, value); }
-    public bool RibbonSpecial { get => FlagUtil.GetFlag(Data, 0x37, 6); set => FlagUtil.SetFlag(Data, 0x37, 6, value); }
-    public bool RibbonSouvenir { get => FlagUtil.GetFlag(Data, 0x37, 7); set => FlagUtil.SetFlag(Data, 0x37, 7, value); }
+    public bool RibbonRoyal         { get => GetFlag(0x36, 0); set => SetFlag(0x36, 0, value); }
+    public bool RibbonGorgeousRoyal { get => GetFlag(0x36, 1); set => SetFlag(0x36, 1, value); }
+    public bool RibbonArtist        { get => GetFlag(0x36, 2); set => SetFlag(0x36, 2, value); }
+    public bool RibbonFootprint     { get => GetFlag(0x36, 3); set => SetFlag(0x36, 3, value); }
+    public bool RibbonRecord        { get => GetFlag(0x36, 4); set => SetFlag(0x36, 4, value); }
+    public bool RibbonLegend        { get => GetFlag(0x36, 5); set => SetFlag(0x36, 5, value); }
+    public bool RibbonCountry       { get => GetFlag(0x36, 6); set => SetFlag(0x36, 6, value); }
+    public bool RibbonNational      { get => GetFlag(0x36, 7); set => SetFlag(0x36, 7, value); }
+
+    public bool RibbonEarth    { get => GetFlag(0x37, 0); set => SetFlag(0x37, 0, value); }
+    public bool RibbonWorld    { get => GetFlag(0x37, 1); set => SetFlag(0x37, 1, value); }
+    public bool RibbonClassic  { get => GetFlag(0x37, 2); set => SetFlag(0x37, 2, value); }
+    public bool RibbonPremier  { get => GetFlag(0x37, 3); set => SetFlag(0x37, 3, value); }
+    public bool RibbonEvent    { get => GetFlag(0x37, 4); set => SetFlag(0x37, 4, value); }
+    public bool RibbonBirthday { get => GetFlag(0x37, 5); set => SetFlag(0x37, 5, value); }
+    public bool RibbonSpecial  { get => GetFlag(0x37, 6); set => SetFlag(0x37, 6, value); }
+    public bool RibbonSouvenir { get => GetFlag(0x37, 7); set => SetFlag(0x37, 7, value); }
 
     // ribbon u32
-    public bool RibbonWishing { get => FlagUtil.GetFlag(Data, 0x38, 0); set => FlagUtil.SetFlag(Data, 0x38, 0, value); }
-    public bool RibbonChampionBattle { get => FlagUtil.GetFlag(Data, 0x38, 1); set => FlagUtil.SetFlag(Data, 0x38, 1, value); }
-    public bool RibbonChampionRegional { get => FlagUtil.GetFlag(Data, 0x38, 2); set => FlagUtil.SetFlag(Data, 0x38, 2, value); }
-    public bool RibbonChampionNational { get => FlagUtil.GetFlag(Data, 0x38, 3); set => FlagUtil.SetFlag(Data, 0x38, 3, value); }
-    public bool RibbonChampionWorld { get => FlagUtil.GetFlag(Data, 0x38, 4); set => FlagUtil.SetFlag(Data, 0x38, 4, value); }
-    public bool HasContestMemoryRibbon { get => FlagUtil.GetFlag(Data, 0x38, 5); set => FlagUtil.SetFlag(Data, 0x38, 5, value); }
-    public bool HasBattleMemoryRibbon { get => FlagUtil.GetFlag(Data, 0x38, 6); set => FlagUtil.SetFlag(Data, 0x38, 6, value); }
-    public bool RibbonChampionG6Hoenn { get => FlagUtil.GetFlag(Data, 0x38, 7); set => FlagUtil.SetFlag(Data, 0x38, 7, value); }
+    public bool RibbonWishing          { get => GetFlag(0x38, 0); set => SetFlag(0x38, 0, value); }
+    public bool RibbonChampionBattle   { get => GetFlag(0x38, 1); set => SetFlag(0x38, 1, value); }
+    public bool RibbonChampionRegional { get => GetFlag(0x38, 2); set => SetFlag(0x38, 2, value); }
+    public bool RibbonChampionNational { get => GetFlag(0x38, 3); set => SetFlag(0x38, 3, value); }
+    public bool RibbonChampionWorld    { get => GetFlag(0x38, 4); set => SetFlag(0x38, 4, value); }
+    public bool HasContestMemoryRibbon { get => GetFlag(0x38, 5); set => SetFlag(0x38, 5, value); }
+    public bool HasBattleMemoryRibbon  { get => GetFlag(0x38, 6); set => SetFlag(0x38, 6, value); }
+    public bool RibbonChampionG6Hoenn  { get => GetFlag(0x38, 7); set => SetFlag(0x38, 7, value); }
 
-    public bool RibbonContestStar { get => FlagUtil.GetFlag(Data, 0x39, 0); set => FlagUtil.SetFlag(Data, 0x39, 0, value); }
-    public bool RibbonMasterCoolness { get => FlagUtil.GetFlag(Data, 0x39, 1); set => FlagUtil.SetFlag(Data, 0x39, 1, value); }
-    public bool RibbonMasterBeauty { get => FlagUtil.GetFlag(Data, 0x39, 2); set => FlagUtil.SetFlag(Data, 0x39, 2, value); }
-    public bool RibbonMasterCuteness { get => FlagUtil.GetFlag(Data, 0x39, 3); set => FlagUtil.SetFlag(Data, 0x39, 3, value); }
-    public bool RibbonMasterCleverness { get => FlagUtil.GetFlag(Data, 0x39, 4); set => FlagUtil.SetFlag(Data, 0x39, 4, value); }
-    public bool RibbonMasterToughness { get => FlagUtil.GetFlag(Data, 0x39, 5); set => FlagUtil.SetFlag(Data, 0x39, 5, value); }
-    public bool RibbonChampionAlola { get => FlagUtil.GetFlag(Data, 0x39, 6); set => FlagUtil.SetFlag(Data, 0x39, 6, value); }
-    public bool RibbonBattleRoyale { get => FlagUtil.GetFlag(Data, 0x39, 7); set => FlagUtil.SetFlag(Data, 0x39, 7, value); }
+    public bool RibbonContestStar      { get => GetFlag(0x39, 0); set => SetFlag(0x39, 0, value); }
+    public bool RibbonMasterCoolness   { get => GetFlag(0x39, 1); set => SetFlag(0x39, 1, value); }
+    public bool RibbonMasterBeauty     { get => GetFlag(0x39, 2); set => SetFlag(0x39, 2, value); }
+    public bool RibbonMasterCuteness   { get => GetFlag(0x39, 3); set => SetFlag(0x39, 3, value); }
+    public bool RibbonMasterCleverness { get => GetFlag(0x39, 4); set => SetFlag(0x39, 4, value); }
+    public bool RibbonMasterToughness  { get => GetFlag(0x39, 5); set => SetFlag(0x39, 5, value); }
+    public bool RibbonChampionAlola    { get => GetFlag(0x39, 6); set => SetFlag(0x39, 6, value); }
+    public bool RibbonBattleRoyale     { get => GetFlag(0x39, 7); set => SetFlag(0x39, 7, value); }
 
-    public bool RibbonBattleTreeGreat { get => FlagUtil.GetFlag(Data, 0x3A, 0); set => FlagUtil.SetFlag(Data, 0x3A, 0, value); }
-    public bool RibbonBattleTreeMaster { get => FlagUtil.GetFlag(Data, 0x3A, 1); set => FlagUtil.SetFlag(Data, 0x3A, 1, value); }
-    public bool RibbonChampionGalar { get => FlagUtil.GetFlag(Data, 0x3A, 2); set => FlagUtil.SetFlag(Data, 0x3A, 2, value); }
-    public bool RibbonTowerMaster { get => FlagUtil.GetFlag(Data, 0x3A, 3); set => FlagUtil.SetFlag(Data, 0x3A, 3, value); }
-    public bool RibbonMasterRank { get => FlagUtil.GetFlag(Data, 0x3A, 4); set => FlagUtil.SetFlag(Data, 0x3A, 4, value); }
-    public bool RibbonMarkLunchtime { get => FlagUtil.GetFlag(Data, 0x3A, 5); set => FlagUtil.SetFlag(Data, 0x3A, 5, value); }
-    public bool RibbonMarkSleepyTime { get => FlagUtil.GetFlag(Data, 0x3A, 6); set => FlagUtil.SetFlag(Data, 0x3A, 6, value); }
-    public bool RibbonMarkDusk { get => FlagUtil.GetFlag(Data, 0x3A, 7); set => FlagUtil.SetFlag(Data, 0x3A, 7, value); }
+    public bool RibbonBattleTreeGreat  { get => GetFlag(0x3A, 0); set => SetFlag(0x3A, 0, value); }
+    public bool RibbonBattleTreeMaster { get => GetFlag(0x3A, 1); set => SetFlag(0x3A, 1, value); }
+    public bool RibbonChampionGalar    { get => GetFlag(0x3A, 2); set => SetFlag(0x3A, 2, value); }
+    public bool RibbonTowerMaster      { get => GetFlag(0x3A, 3); set => SetFlag(0x3A, 3, value); }
+    public bool RibbonMasterRank       { get => GetFlag(0x3A, 4); set => SetFlag(0x3A, 4, value); }
+    public bool RibbonMarkLunchtime    { get => GetFlag(0x3A, 5); set => SetFlag(0x3A, 5, value); }
+    public bool RibbonMarkSleepyTime   { get => GetFlag(0x3A, 6); set => SetFlag(0x3A, 6, value); }
+    public bool RibbonMarkDusk         { get => GetFlag(0x3A, 7); set => SetFlag(0x3A, 7, value); }
 
-    public bool RibbonMarkDawn          { get => FlagUtil.GetFlag(Data, 0x3B, 0); set => FlagUtil.SetFlag(Data, 0x3B, 0, value); }
-    public bool RibbonMarkCloudy        { get => FlagUtil.GetFlag(Data, 0x3B, 1); set => FlagUtil.SetFlag(Data, 0x3B, 1, value); }
-    public bool RibbonMarkRainy         { get => FlagUtil.GetFlag(Data, 0x3B, 2); set => FlagUtil.SetFlag(Data, 0x3B, 2, value); }
-    public bool RibbonMarkStormy        { get => FlagUtil.GetFlag(Data, 0x3B, 3); set => FlagUtil.SetFlag(Data, 0x3B, 3, value); }
-    public bool RibbonMarkSnowy         { get => FlagUtil.GetFlag(Data, 0x3B, 4); set => FlagUtil.SetFlag(Data, 0x3B, 4, value); }
-    public bool RibbonMarkBlizzard      { get => FlagUtil.GetFlag(Data, 0x3B, 5); set => FlagUtil.SetFlag(Data, 0x3B, 5, value); }
-    public bool RibbonMarkDry           { get => FlagUtil.GetFlag(Data, 0x3B, 6); set => FlagUtil.SetFlag(Data, 0x3B, 6, value); }
-    public bool RibbonMarkSandstorm     { get => FlagUtil.GetFlag(Data, 0x3B, 7); set => FlagUtil.SetFlag(Data, 0x3B, 7, value); }
+    public bool RibbonMarkDawn         { get => GetFlag(0x3B, 0); set => SetFlag(0x3B, 0, value); }
+    public bool RibbonMarkCloudy       { get => GetFlag(0x3B, 1); set => SetFlag(0x3B, 1, value); }
+    public bool RibbonMarkRainy        { get => GetFlag(0x3B, 2); set => SetFlag(0x3B, 2, value); }
+    public bool RibbonMarkStormy       { get => GetFlag(0x3B, 3); set => SetFlag(0x3B, 3, value); }
+    public bool RibbonMarkSnowy        { get => GetFlag(0x3B, 4); set => SetFlag(0x3B, 4, value); }
+    public bool RibbonMarkBlizzard     { get => GetFlag(0x3B, 5); set => SetFlag(0x3B, 5, value); }
+    public bool RibbonMarkDry          { get => GetFlag(0x3B, 6); set => SetFlag(0x3B, 6, value); }
+    public bool RibbonMarkSandstorm    { get => GetFlag(0x3B, 7); set => SetFlag(0x3B, 7, value); }
 
     public int RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = (byte)value) != 0; }
     public int RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon = (Data[0x3D] = (byte)value) != 0; }
 
     // 0x3E Ribbon 3
-    public bool RibbonMarkMisty         { get => FlagUtil.GetFlag(Data, 0x3E, 0); set => FlagUtil.SetFlag(Data, 0x3E, 0, value); }
-    public bool RibbonMarkDestiny       { get => FlagUtil.GetFlag(Data, 0x3E, 1); set => FlagUtil.SetFlag(Data, 0x3E, 1, value); }
-    public bool RibbonMarkFishing       { get => FlagUtil.GetFlag(Data, 0x3E, 2); set => FlagUtil.SetFlag(Data, 0x3E, 2, value); }
-    public bool RibbonMarkCurry         { get => FlagUtil.GetFlag(Data, 0x3E, 3); set => FlagUtil.SetFlag(Data, 0x3E, 3, value); }
-    public bool RibbonMarkUncommon      { get => FlagUtil.GetFlag(Data, 0x3E, 4); set => FlagUtil.SetFlag(Data, 0x3E, 4, value); }
-    public bool RibbonMarkRare          { get => FlagUtil.GetFlag(Data, 0x3E, 5); set => FlagUtil.SetFlag(Data, 0x3E, 5, value); }
-    public bool RibbonMarkRowdy         { get => FlagUtil.GetFlag(Data, 0x3E, 6); set => FlagUtil.SetFlag(Data, 0x3E, 6, value); }
-    public bool RibbonMarkAbsentMinded  { get => FlagUtil.GetFlag(Data, 0x3E, 7); set => FlagUtil.SetFlag(Data, 0x3E, 7, value); }
+    public bool RibbonMarkMisty        { get => GetFlag(0x3E, 0); set => SetFlag(0x3E, 0, value); }
+    public bool RibbonMarkDestiny      { get => GetFlag(0x3E, 1); set => SetFlag(0x3E, 1, value); }
+    public bool RibbonMarkFishing      { get => GetFlag(0x3E, 2); set => SetFlag(0x3E, 2, value); }
+    public bool RibbonMarkCurry        { get => GetFlag(0x3E, 3); set => SetFlag(0x3E, 3, value); }
+    public bool RibbonMarkUncommon     { get => GetFlag(0x3E, 4); set => SetFlag(0x3E, 4, value); }
+    public bool RibbonMarkRare         { get => GetFlag(0x3E, 5); set => SetFlag(0x3E, 5, value); }
+    public bool RibbonMarkRowdy        { get => GetFlag(0x3E, 6); set => SetFlag(0x3E, 6, value); }
+    public bool RibbonMarkAbsentMinded { get => GetFlag(0x3E, 7); set => SetFlag(0x3E, 7, value); }
 
-    public bool RibbonMarkJittery     { get => FlagUtil.GetFlag(Data, 0x3F, 0); set => FlagUtil.SetFlag(Data, 0x3F, 0, value); }
-    public bool RibbonMarkExcited     { get => FlagUtil.GetFlag(Data, 0x3F, 1); set => FlagUtil.SetFlag(Data, 0x3F, 1, value); }
-    public bool RibbonMarkCharismatic { get => FlagUtil.GetFlag(Data, 0x3F, 2); set => FlagUtil.SetFlag(Data, 0x3F, 2, value); }
-    public bool RibbonMarkCalmness    { get => FlagUtil.GetFlag(Data, 0x3F, 3); set => FlagUtil.SetFlag(Data, 0x3F, 3, value); }
-    public bool RibbonMarkIntense     { get => FlagUtil.GetFlag(Data, 0x3F, 4); set => FlagUtil.SetFlag(Data, 0x3F, 4, value); }
-    public bool RibbonMarkZonedOut    { get => FlagUtil.GetFlag(Data, 0x3F, 5); set => FlagUtil.SetFlag(Data, 0x3F, 5, value); }
-    public bool RibbonMarkJoyful      { get => FlagUtil.GetFlag(Data, 0x3F, 6); set => FlagUtil.SetFlag(Data, 0x3F, 6, value); }
-    public bool RibbonMarkAngry       { get => FlagUtil.GetFlag(Data, 0x3F, 7); set => FlagUtil.SetFlag(Data, 0x3F, 7, value); }
+    public bool RibbonMarkJittery     { get => GetFlag(0x3F, 0); set => SetFlag(0x3F, 0, value); }
+    public bool RibbonMarkExcited     { get => GetFlag(0x3F, 1); set => SetFlag(0x3F, 1, value); }
+    public bool RibbonMarkCharismatic { get => GetFlag(0x3F, 2); set => SetFlag(0x3F, 2, value); }
+    public bool RibbonMarkCalmness    { get => GetFlag(0x3F, 3); set => SetFlag(0x3F, 3, value); }
+    public bool RibbonMarkIntense     { get => GetFlag(0x3F, 4); set => SetFlag(0x3F, 4, value); }
+    public bool RibbonMarkZonedOut    { get => GetFlag(0x3F, 5); set => SetFlag(0x3F, 5, value); }
+    public bool RibbonMarkJoyful      { get => GetFlag(0x3F, 6); set => SetFlag(0x3F, 6, value); }
+    public bool RibbonMarkAngry       { get => GetFlag(0x3F, 7); set => SetFlag(0x3F, 7, value); }
 
-    public bool RibbonMarkSmiley       { get => FlagUtil.GetFlag(Data, 0x40, 0); set => FlagUtil.SetFlag(Data, 0x40, 0, value); }
-    public bool RibbonMarkTeary        { get => FlagUtil.GetFlag(Data, 0x40, 1); set => FlagUtil.SetFlag(Data, 0x40, 1, value); }
-    public bool RibbonMarkUpbeat       { get => FlagUtil.GetFlag(Data, 0x40, 2); set => FlagUtil.SetFlag(Data, 0x40, 2, value); }
-    public bool RibbonMarkPeeved       { get => FlagUtil.GetFlag(Data, 0x40, 3); set => FlagUtil.SetFlag(Data, 0x40, 3, value); }
-    public bool RibbonMarkIntellectual { get => FlagUtil.GetFlag(Data, 0x40, 4); set => FlagUtil.SetFlag(Data, 0x40, 4, value); }
-    public bool RibbonMarkFerocious    { get => FlagUtil.GetFlag(Data, 0x40, 5); set => FlagUtil.SetFlag(Data, 0x40, 5, value); }
-    public bool RibbonMarkCrafty       { get => FlagUtil.GetFlag(Data, 0x40, 6); set => FlagUtil.SetFlag(Data, 0x40, 6, value); }
-    public bool RibbonMarkScowling     { get => FlagUtil.GetFlag(Data, 0x40, 7); set => FlagUtil.SetFlag(Data, 0x40, 7, value); }
+    public bool RibbonMarkSmiley       { get => GetFlag(0x40, 0); set => SetFlag(0x40, 0, value); }
+    public bool RibbonMarkTeary        { get => GetFlag(0x40, 1); set => SetFlag(0x40, 1, value); }
+    public bool RibbonMarkUpbeat       { get => GetFlag(0x40, 2); set => SetFlag(0x40, 2, value); }
+    public bool RibbonMarkPeeved       { get => GetFlag(0x40, 3); set => SetFlag(0x40, 3, value); }
+    public bool RibbonMarkIntellectual { get => GetFlag(0x40, 4); set => SetFlag(0x40, 4, value); }
+    public bool RibbonMarkFerocious    { get => GetFlag(0x40, 5); set => SetFlag(0x40, 5, value); }
+    public bool RibbonMarkCrafty       { get => GetFlag(0x40, 6); set => SetFlag(0x40, 6, value); }
+    public bool RibbonMarkScowling     { get => GetFlag(0x40, 7); set => SetFlag(0x40, 7, value); }
 
-    public bool RibbonMarkKindly       { get => FlagUtil.GetFlag(Data, 0x41, 0); set => FlagUtil.SetFlag(Data, 0x41, 0, value); }
-    public bool RibbonMarkFlustered    { get => FlagUtil.GetFlag(Data, 0x41, 1); set => FlagUtil.SetFlag(Data, 0x41, 1, value); }
-    public bool RibbonMarkPumpedUp     { get => FlagUtil.GetFlag(Data, 0x41, 2); set => FlagUtil.SetFlag(Data, 0x41, 2, value); }
-    public bool RibbonMarkZeroEnergy   { get => FlagUtil.GetFlag(Data, 0x41, 3); set => FlagUtil.SetFlag(Data, 0x41, 3, value); }
-    public bool RibbonMarkPrideful     { get => FlagUtil.GetFlag(Data, 0x41, 4); set => FlagUtil.SetFlag(Data, 0x41, 4, value); }
-    public bool RibbonMarkUnsure       { get => FlagUtil.GetFlag(Data, 0x41, 5); set => FlagUtil.SetFlag(Data, 0x41, 5, value); }
-    public bool RibbonMarkHumble       { get => FlagUtil.GetFlag(Data, 0x41, 6); set => FlagUtil.SetFlag(Data, 0x41, 6, value); }
-    public bool RibbonMarkThorny       { get => FlagUtil.GetFlag(Data, 0x41, 7); set => FlagUtil.SetFlag(Data, 0x41, 7, value); }
+    public bool RibbonMarkKindly       { get => GetFlag(0x41, 0); set => SetFlag(0x41, 0, value); }
+    public bool RibbonMarkFlustered    { get => GetFlag(0x41, 1); set => SetFlag(0x41, 1, value); }
+    public bool RibbonMarkPumpedUp     { get => GetFlag(0x41, 2); set => SetFlag(0x41, 2, value); }
+    public bool RibbonMarkZeroEnergy   { get => GetFlag(0x41, 3); set => SetFlag(0x41, 3, value); }
+    public bool RibbonMarkPrideful     { get => GetFlag(0x41, 4); set => SetFlag(0x41, 4, value); }
+    public bool RibbonMarkUnsure       { get => GetFlag(0x41, 5); set => SetFlag(0x41, 5, value); }
+    public bool RibbonMarkHumble       { get => GetFlag(0x41, 6); set => SetFlag(0x41, 6, value); }
+    public bool RibbonMarkThorny       { get => GetFlag(0x41, 7); set => SetFlag(0x41, 7, value); }
 
-    public bool RibbonMarkVigor        { get => FlagUtil.GetFlag(Data, 0x42, 0); set => FlagUtil.SetFlag(Data, 0x42, 0, value); }
-    public bool RibbonMarkSlump        { get => FlagUtil.GetFlag(Data, 0x42, 1); set => FlagUtil.SetFlag(Data, 0x42, 1, value); }
-    public bool RibbonPioneer          { get => FlagUtil.GetFlag(Data, 0x42, 2); set => FlagUtil.SetFlag(Data, 0x42, 2, value); }
-    public bool RibbonTwinklingStar    { get => FlagUtil.GetFlag(Data, 0x42, 3); set => FlagUtil.SetFlag(Data, 0x42, 3, value); }
-    public bool RIB44_4                { get => FlagUtil.GetFlag(Data, 0x42, 4); set => FlagUtil.SetFlag(Data, 0x42, 4, value); }
-    public bool RIB44_5                { get => FlagUtil.GetFlag(Data, 0x42, 5); set => FlagUtil.SetFlag(Data, 0x42, 5, value); }
-    public bool RIB44_6                { get => FlagUtil.GetFlag(Data, 0x42, 6); set => FlagUtil.SetFlag(Data, 0x42, 6, value); }
-    public bool RIB44_7                { get => FlagUtil.GetFlag(Data, 0x42, 7); set => FlagUtil.SetFlag(Data, 0x42, 7, value); }
+    public bool RibbonMarkVigor        { get => GetFlag(0x42, 0); set => SetFlag(0x42, 0, value); }
+    public bool RibbonMarkSlump        { get => GetFlag(0x42, 1); set => SetFlag(0x42, 1, value); }
+    public bool RibbonPioneer          { get => GetFlag(0x42, 2); set => SetFlag(0x42, 2, value); }
+    public bool RibbonTwinklingStar    { get => GetFlag(0x42, 3); set => SetFlag(0x42, 3, value); }
+    public bool RIB44_4                { get => GetFlag(0x42, 4); set => SetFlag(0x42, 4, value); }
+    public bool RIB44_5                { get => GetFlag(0x42, 5); set => SetFlag(0x42, 5, value); }
+    public bool RIB44_6                { get => GetFlag(0x42, 6); set => SetFlag(0x42, 6, value); }
+    public bool RIB44_7                { get => GetFlag(0x42, 7); set => SetFlag(0x42, 7, value); }
 
-    public bool RIB45_0                { get => FlagUtil.GetFlag(Data, 0x43, 0); set => FlagUtil.SetFlag(Data, 0x43, 0, value); }
-    public bool RIB45_1                { get => FlagUtil.GetFlag(Data, 0x43, 1); set => FlagUtil.SetFlag(Data, 0x43, 1, value); }
-    public bool RIB45_2                { get => FlagUtil.GetFlag(Data, 0x43, 2); set => FlagUtil.SetFlag(Data, 0x43, 2, value); }
-    public bool RIB45_3                { get => FlagUtil.GetFlag(Data, 0x43, 3); set => FlagUtil.SetFlag(Data, 0x43, 3, value); }
-    public bool RIB45_4                { get => FlagUtil.GetFlag(Data, 0x43, 4); set => FlagUtil.SetFlag(Data, 0x43, 4, value); }
-    public bool RIB45_5                { get => FlagUtil.GetFlag(Data, 0x43, 5); set => FlagUtil.SetFlag(Data, 0x43, 5, value); }
-    public bool RIB45_6                { get => FlagUtil.GetFlag(Data, 0x43, 6); set => FlagUtil.SetFlag(Data, 0x43, 6, value); }
-    public bool RIB45_7                { get => FlagUtil.GetFlag(Data, 0x43, 7); set => FlagUtil.SetFlag(Data, 0x43, 7, value); }
+    public bool RIB45_0                { get => GetFlag(0x43, 0); set => SetFlag(0x43, 0, value); }
+    public bool RIB45_1                { get => GetFlag(0x43, 1); set => SetFlag(0x43, 1, value); }
+    public bool RIB45_2                { get => GetFlag(0x43, 2); set => SetFlag(0x43, 2, value); }
+    public bool RIB45_3                { get => GetFlag(0x43, 3); set => SetFlag(0x43, 3, value); }
+    public bool RIB45_4                { get => GetFlag(0x43, 4); set => SetFlag(0x43, 4, value); }
+    public bool RIB45_5                { get => GetFlag(0x43, 5); set => SetFlag(0x43, 5, value); }
+    public bool RIB45_6                { get => GetFlag(0x43, 6); set => SetFlag(0x43, 6, value); }
+    public bool RIB45_7                { get => GetFlag(0x43, 7); set => SetFlag(0x43, 7, value); }
 
-    public bool RIB46_0                { get => FlagUtil.GetFlag(Data, 0x44, 0); set => FlagUtil.SetFlag(Data, 0x44, 0, value); }
-    public bool RIB46_1                { get => FlagUtil.GetFlag(Data, 0x44, 1); set => FlagUtil.SetFlag(Data, 0x44, 1, value); }
-    public bool RIB46_2                { get => FlagUtil.GetFlag(Data, 0x44, 2); set => FlagUtil.SetFlag(Data, 0x44, 2, value); }
-    public bool RIB46_3                { get => FlagUtil.GetFlag(Data, 0x44, 3); set => FlagUtil.SetFlag(Data, 0x44, 3, value); }
-    public bool RIB46_4                { get => FlagUtil.GetFlag(Data, 0x44, 4); set => FlagUtil.SetFlag(Data, 0x44, 4, value); }
-    public bool RIB46_5                { get => FlagUtil.GetFlag(Data, 0x44, 5); set => FlagUtil.SetFlag(Data, 0x44, 5, value); }
-    public bool RIB46_6                { get => FlagUtil.GetFlag(Data, 0x44, 6); set => FlagUtil.SetFlag(Data, 0x44, 6, value); }
-    public bool RIB46_7                { get => FlagUtil.GetFlag(Data, 0x44, 7); set => FlagUtil.SetFlag(Data, 0x44, 7, value); }
+    public bool RIB46_0                { get => GetFlag(0x44, 0); set => SetFlag(0x44, 0, value); }
+    public bool RIB46_1                { get => GetFlag(0x44, 1); set => SetFlag(0x44, 1, value); }
+    public bool RIB46_2                { get => GetFlag(0x44, 2); set => SetFlag(0x44, 2, value); }
+    public bool RIB46_3                { get => GetFlag(0x44, 3); set => SetFlag(0x44, 3, value); }
+    public bool RIB46_4                { get => GetFlag(0x44, 4); set => SetFlag(0x44, 4, value); }
+    public bool RIB46_5                { get => GetFlag(0x44, 5); set => SetFlag(0x44, 5, value); }
+    public bool RIB46_6                { get => GetFlag(0x44, 6); set => SetFlag(0x44, 6, value); }
+    public bool RIB46_7                { get => GetFlag(0x44, 7); set => SetFlag(0x44, 7, value); }
 
-    public bool RIB47_0                { get => FlagUtil.GetFlag(Data, 0x45, 0); set => FlagUtil.SetFlag(Data, 0x45, 0, value); }
-    public bool RIB47_1                { get => FlagUtil.GetFlag(Data, 0x45, 1); set => FlagUtil.SetFlag(Data, 0x45, 1, value); }
-    public bool RIB47_2                { get => FlagUtil.GetFlag(Data, 0x45, 2); set => FlagUtil.SetFlag(Data, 0x45, 2, value); }
-    public bool RIB47_3                { get => FlagUtil.GetFlag(Data, 0x45, 3); set => FlagUtil.SetFlag(Data, 0x45, 3, value); }
-    public bool RIB47_4                { get => FlagUtil.GetFlag(Data, 0x45, 4); set => FlagUtil.SetFlag(Data, 0x45, 4, value); }
-    public bool RIB47_5                { get => FlagUtil.GetFlag(Data, 0x45, 5); set => FlagUtil.SetFlag(Data, 0x45, 5, value); }
-    public bool RIB47_6                { get => FlagUtil.GetFlag(Data, 0x45, 6); set => FlagUtil.SetFlag(Data, 0x45, 6, value); }
-    public bool RIB47_7                { get => FlagUtil.GetFlag(Data, 0x45, 7); set => FlagUtil.SetFlag(Data, 0x45, 7, value); }
+    public bool RIB47_0                { get => GetFlag(0x45, 0); set => SetFlag(0x45, 0, value); }
+    public bool RIB47_1                { get => GetFlag(0x45, 1); set => SetFlag(0x45, 1, value); }
+    public bool RIB47_2                { get => GetFlag(0x45, 2); set => SetFlag(0x45, 2, value); }
+    public bool RIB47_3                { get => GetFlag(0x45, 3); set => SetFlag(0x45, 3, value); }
+    public bool RIB47_4                { get => GetFlag(0x45, 4); set => SetFlag(0x45, 4, value); }
+    public bool RIB47_5                { get => GetFlag(0x45, 5); set => SetFlag(0x45, 5, value); }
+    public bool RIB47_6                { get => GetFlag(0x45, 6); set => SetFlag(0x45, 6, value); }
+    public bool RIB47_7                { get => GetFlag(0x45, 7); set => SetFlag(0x45, 7, value); }
 
     public bool HasMark()
     {
