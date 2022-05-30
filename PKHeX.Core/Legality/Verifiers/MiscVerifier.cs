@@ -499,7 +499,7 @@ namespace PKHeX.Core
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
         {
-            if (pk8.Favorite)
+            if (pk8.Favorite && !pk8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
             var social = pk8.Sociability;
@@ -563,7 +563,7 @@ namespace PKHeX.Core
         {
             VerifyAbsoluteSizes(data, pa8);
 
-            if (pa8.Favorite)
+            if (pa8.Favorite && !pa8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
             if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
@@ -597,7 +597,7 @@ namespace PKHeX.Core
 
         private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
         {
-            if (pb8.Favorite)
+            if (pb8.Favorite && !pb8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
             if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens[8]))
