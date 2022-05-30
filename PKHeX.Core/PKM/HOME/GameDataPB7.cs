@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute
+public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute, IMemoryOT
 {
     // Internal Attributes set on creation
     public readonly byte[] Data; // Raw Storage
@@ -87,4 +87,79 @@ public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute
         Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
         return 3 + SIZE;
     }
+
+    public void CopyTo(PB7 pk)
+    {
+        ((IGameDataSide)this).CopyTo(pk);
+        pk.AV_HP = AV_HP;
+        pk.AV_ATK = AV_ATK;
+        pk.AV_DEF = AV_DEF;
+        pk.AV_SPE = AV_SPE;
+        pk.AV_SPA = AV_SPA;
+        pk.AV_SPD = AV_SPD;
+        pk.ResortEventStatus = (ResortEventState)ResortEventState;
+        pk.HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        pk.WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+
+        // Some fields are unused as PB7, don't bother copying.
+        pk.FieldEventFatigue1 = FieldEventFatigue1;
+        pk.FieldEventFatigue2 = FieldEventFatigue2;
+        pk.Fullness = Fullness;
+        // pk.Rank = Rank;
+        // pk.OT_Affection
+        // pk.OT_Intensity
+        // pk.OT_Memory
+        // pk.OT_TextVar
+        // pk.OT_Feeling
+        pk.Enjoyment = Enjoyment;
+        // pk.GeoPadding = GeoPadding;
+    }
+
+    public PKM ConvertToPKM(PKH pkh) => ConvertToPB7(pkh);
+
+    public PB7 ConvertToPB7(PKH pkh)
+    {
+        var pk = new PB7();
+        pkh.CopyTo(pk);
+        CopyTo(pk);
+        return pk;
+    }
+
+    /// <summary> Reconstructive logic to best apply suggested values. </summary>
+    public static GameDataPB7? TryCreate(PKH pkh)
+    {
+        int met = 0;
+        int ball = (int)Core.Ball.Poke;
+        if (pkh.DataPK8 is { } x)
+        {
+            met = x.Met_Location;
+            ball = x.Ball;
+        }
+        else if (pkh.DataPB8 is { } y)
+        {
+            met = y.Met_Location;
+            ball = y.Ball;
+        }
+        else if (pkh.DataPA8 is { } z)
+        {
+            met = z.Met_Location;
+            ball = z.Ball;
+        }
+        if (met == 0)
+            return null;
+
+        if (pkh.Version is (int)GameVersion.GO)
+            return new GameDataPB7 { Ball = ball, Met_Location = Locations.GO7 };
+        if (pkh.Version is (int)GameVersion.GP or (int)GameVersion.GE)
+            return new GameDataPB7 { Ball = ball, Met_Location = met };
+
+        return null;
+    }
+
+    public static T Create<T>(GameDataPB7 data) where T : IGameDataSide, new() => new()
+    {
+        Ball = data.Ball,
+        Met_Location = data.Met_Location,
+        Egg_Location = data.Egg_Location,
+    };
 }

@@ -40,5 +40,18 @@
         }
 
         internal static string[] RibbonNames(this IRibbonSetEvent4 _) => RibbonSetNamesEvent4;
+
+        internal static void CopyRibbonSetEvent4(this IRibbonSetEvent4 set, IRibbonSetEvent4 dest)
+        {
+            dest.RibbonClassic = set.RibbonClassic;
+            dest.RibbonWishing = set.RibbonWishing;
+            dest.RibbonPremier = set.RibbonPremier;
+            dest.RibbonEvent = set.RibbonEvent;
+            dest.RibbonBirthday = set.RibbonBirthday;
+            dest.RibbonSpecial = set.RibbonSpecial;
+            dest.RibbonWorld = set.RibbonWorld;
+            dest.RibbonChampionWorld = set.RibbonChampionWorld;
+            dest.RibbonSouvenir = set.RibbonSouvenir;
+        }
     }
 }

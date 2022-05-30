@@ -8,11 +8,11 @@ namespace PKHeX.Core;
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IContestStatsMutable, IScaledSize
 {
-    private readonly GameDataCore _coreData;
-    private GameDataPB7? _gameDataPB7;
-    private GameDataPK8? _gameDataPK8;
-    private GameDataPA8? _gameDataPA8;
-    private GameDataPB8? _gameDataPB8;
+    public readonly GameDataCore _coreData;
+    public GameDataPB7? DataPB7 { get; private set; }
+    public GameDataPK8? DataPK8 { get; private set; }
+    public GameDataPA8? DataPA8 { get; private set; }
+    public GameDataPB8? DataPB8 { get; private set; }
 
     public override EntityContext Context => EntityContext.Invalid;
 
@@ -31,10 +31,10 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
             var fmt = (HomeGameDataFormat)data[baseOfs + offset];
             switch (fmt)
             {
-                case HomeGameDataFormat.PB7: _gameDataPB7 = new GameDataPB7(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PK8: _gameDataPK8 = new GameDataPK8(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PA8: _gameDataPA8 = new GameDataPA8(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PB8: _gameDataPB8 = new GameDataPB8(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PB7: DataPB7 = new GameDataPB7(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PK8: DataPK8 = new GameDataPK8(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PA8: DataPA8 = new GameDataPA8(data, baseOfs + offset); break;
+                case HomeGameDataFormat.PB8: DataPB8 = new GameDataPB8(data, baseOfs + offset); break;
                 default: throw new ArgumentException($"Unknown GameData {fmt}");
             }
 
@@ -73,7 +73,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override int Ability { get => _coreData.Ability; set => _coreData.Ability = value; }
     public override int AbilityNumber { get => _coreData.AbilityNumber; set => _coreData.AbilityNumber = value; }
     public bool Favorite { get => _coreData.Favorite; set => _coreData.Favorite = value; }
-    public override int MarkValue { get => _coreData.MarkValue; protected set => _coreData.MarkValue = value; }
+    public override int MarkValue { get => _coreData.MarkValue; set => _coreData.MarkValue = value; }
     public override uint PID { get => _coreData.PID; set => _coreData.PID = value; }
     public override int Nature { get => _coreData.Nature; set => _coreData.Nature = value; }
     public override int StatNature { get => _coreData.StatNature; set => _coreData.StatNature = value; }
@@ -251,10 +251,10 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
         // Write each part, starting with header and core.
         int ctr = GameDataStart;
         Data.AsSpan(0, ctr).CopyTo(result);
-        if (_gameDataPK8 is { } pk8) ctr += pk8.CopyTo(result.AsSpan(ctr));
-        if (_gameDataPB7 is { } pb7) ctr += pb7.CopyTo(result.AsSpan(ctr));
-        if (_gameDataPA8 is { } pa8) ctr += pa8.CopyTo(result.AsSpan(ctr));
-        if (_gameDataPB8 is { } pb8) ctr += pb8.CopyTo(result.AsSpan(ctr));
+        if (DataPK8 is { } pk8) ctr += pk8.CopyTo(result.AsSpan(ctr));
+        if (DataPB7 is { } pb7) ctr += pb7.CopyTo(result.AsSpan(ctr));
+        if (DataPA8 is { } pa8) ctr += pa8.CopyTo(result.AsSpan(ctr));
+        if (DataPB8 is { } pb8) ctr += pb8.CopyTo(result.AsSpan(ctr));
 
         // Update metadata to ensure we're a valid object.
         DataVersion = HomeCrypto.Version1;
@@ -270,43 +270,50 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
         get
         {
             var length = GameDataStart;
-            if (_gameDataPK8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PK8;
-            if (_gameDataPB7 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB7;
-            if (_gameDataPA8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PA8;
-            if (_gameDataPB8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB8;
+            if (DataPK8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PK8;
+            if (DataPB7 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB7;
+            if (DataPA8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PA8;
+            if (DataPB8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB8;
             return length;
         }
     }
 
     public override PKM Clone() => new PKH((byte[])Data.Clone())
     {
-        _gameDataPK8 = _gameDataPK8?.Clone(),
-        _gameDataPA8 = _gameDataPA8?.Clone(),
-        _gameDataPB8 = _gameDataPB8?.Clone(),
-        _gameDataPB7 = _gameDataPB7?.Clone(),
+        DataPK8 = DataPK8?.Clone(),
+        DataPA8 = DataPA8?.Clone(),
+        DataPB8 = DataPB8?.Clone(),
+        DataPB7 = DataPB7?.Clone(),
     };
 
     public IGameDataSide LatestGameData => OriginalGameData() ?? GetFallbackGameData();
 
     private IGameDataSide GetFallbackGameData() => Version switch
     {
-        (int)GP or (int)GE => _gameDataPB7 ??= new(),
-        (int)BD or (int)SP => _gameDataPB8 ??= new(),
-        (int)PLA           => _gameDataPA8 ??= new(),
+        (int)GP or (int)GE => DataPB7 ??= new(),
+        (int)BD or (int)SP => DataPB8 ??= new(),
+        (int)PLA           => DataPA8 ??= new(),
 
-        _                  => _gameDataPK8 ??= new(),
+        _                  => DataPK8 ??= new(),
     };
 
     private IGameDataSide? OriginalGameData() => Version switch
     {
-        (int)GP or (int)GE => _gameDataPB7,
-        (int)BD or (int)SP => _gameDataPB8,
-        (int)PLA           => _gameDataPA8,
+        (int)GP or (int)GE => DataPB7,
+        (int)BD or (int)SP => DataPB8,
+        (int)PLA           => DataPA8,
 
-        (int)SW or (int)SH when _gameDataPK8 is { Met_Location: HOME_SWLA }              => _gameDataPA8,
-        (int)SW or (int)SH when _gameDataPK8 is { Met_Location: HOME_SWBD or HOME_SHSP } => _gameDataPB8,
-        (int)SW or (int)SH                                                               => _gameDataPK8,
+        (int)SW or (int)SH when DataPK8 is { Met_Location: HOME_SWLA }              => DataPA8,
+        (int)SW or (int)SH when DataPK8 is { Met_Location: HOME_SWBD or HOME_SHSP } => DataPB8,
+        (int)SW or (int)SH                                                               => DataPK8,
 
-        _ => _gameDataPK8,
+        _ => DataPK8,
     };
+
+    public PKM? ConvertToPB7() => DataPB7 is { } x ? x.ConvertToPB7(this) : (DataPB7 ??= GameDataPB7.TryCreate(this))?.ConvertToPB7(this);
+    public PK8? ConvertToPK8() => DataPK8 is { } x ? x.ConvertToPK8(this) : (DataPK8 ??= GameDataPK8.TryCreate(this))?.ConvertToPK8(this);
+    public PB8? ConvertToPB8() => DataPB8 is { } x ? x.ConvertToPB8(this) : (DataPB8 ??= GameDataPB8.TryCreate(this))?.ConvertToPB8(this);
+    public PA8? ConvertToPA8() => DataPA8 is { } x ? x.ConvertToPA8(this) : (DataPA8 ??= GameDataPA8.TryCreate(this))?.ConvertToPA8(this);
+
+    public void CopyTo(PKM pk) => _coreData.CopyTo(pk);
 }

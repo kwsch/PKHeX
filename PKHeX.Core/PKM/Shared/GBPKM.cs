@@ -109,7 +109,7 @@ namespace PKHeX.Core
         public sealed override int TSV => 0x0000;
         public sealed override int PSV => 0xFFFF;
         public sealed override int Characteristic => -1;
-        public sealed override int MarkValue { get => 0; protected set { } }
+        public sealed override int MarkValue { get => 0; set { } }
         public sealed override int Ability { get => -1; set { } }
         public sealed override int CurrentHandler { get => 0; set { } }
         public sealed override int Egg_Location { get => 0; set { } }

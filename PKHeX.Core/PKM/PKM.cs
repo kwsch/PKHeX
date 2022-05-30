@@ -120,7 +120,7 @@ namespace PKHeX.Core
         public abstract int TSV { get; }
         public abstract int PSV { get; }
         public abstract int Characteristic { get; }
-        public abstract int MarkValue { get; protected set; }
+        public abstract int MarkValue { get; set; }
         public abstract int Met_Location { get; set; }
         public abstract int Egg_Location { get; set; }
         public abstract int OT_Friendship { get; set; }

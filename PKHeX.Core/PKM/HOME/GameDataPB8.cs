@@ -83,4 +83,46 @@ public sealed class GameDataPB8 : IGameDataSide
         Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
         return 3 + SIZE;
     }
+
+    public void CopyTo(PB8 pk)
+    {
+        ((IGameDataSide)this).CopyTo(pk);
+        // Move Records are not settable in PB8; do not copy even if nonzero (illegal).
+    }
+
+    public PKM ConvertToPKM(PKH pkh) => ConvertToPB8(pkh);
+
+    public PB8 ConvertToPB8(PKH pkh)
+    {
+        var pk = new PB8();
+        pkh.CopyTo(pk);
+        CopyTo(pk);
+        return pk;
+    }
+
+    /// <summary> Reconstructive logic to best apply suggested values. </summary>
+    public static GameDataPB8? TryCreate(PKH pkh)
+    {
+        if (pkh.DataPB7 is { } x)
+            return Create(x);
+        if (pkh.DataPK8 is { } b)
+            return Create(b);
+        if (pkh.DataPA8 is { } a)
+            return Create(a);
+        return null;
+    }
+
+    public static T Create<T>(GameDataPB8 data) where T : IGameDataSide, new() => new()
+    {
+        Ball = data.Ball,
+        Met_Location = data.Met_Location == Locations.Default8bNone ? 0 : data.Met_Location,
+        Egg_Location = data.Egg_Location == Locations.Default8bNone ? 0 : data.Egg_Location,
+    };
+
+    public static GameDataPB8 Create(IGameDataSide data) => new()
+    {
+        Ball = data.Ball,
+        Met_Location = data.Met_Location == 0 ? Locations.Default8bNone : data.Met_Location,
+        Egg_Location = data.Egg_Location == 0 ? Locations.Default8bNone : data.Egg_Location,
+    };
 }

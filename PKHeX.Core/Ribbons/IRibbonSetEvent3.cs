@@ -33,5 +33,15 @@
         }
 
         internal static string[] RibbonNames(this IRibbonSetEvent3 _) => RibbonSetNamesEvent3;
+
+        internal static void CopyRibbonSetEvent3(this IRibbonSetEvent3 set, IRibbonSetEvent3 dest)
+        {
+            dest.RibbonEarth            = set.RibbonEarth;
+            dest.RibbonNational         = set.RibbonNational;
+            dest.RibbonCountry          = set.RibbonCountry;
+            dest.RibbonChampionBattle   = set.RibbonChampionBattle;
+            dest.RibbonChampionRegional = set.RibbonChampionRegional;
+            dest.RibbonChampionNational = set.RibbonChampionNational;
+        }
     }
 }

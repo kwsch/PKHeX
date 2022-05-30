@@ -105,7 +105,7 @@ namespace PKHeX.Core
         /// Sets the contests stats as requested.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="enc">Encounter matched to.</param>
+        /// <param name="la">Legality Information matched to.</param>
         /// <param name="option">Option to apply with</param>
         public static ModifyResult SetContestStats(PKM pk, LegalityAnalysis la, string option)
         {

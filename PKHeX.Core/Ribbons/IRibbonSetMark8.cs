@@ -162,5 +162,54 @@
         }
 
         internal static string[] RibbonNames(this IRibbonSetMark8 _) => RibbonSetNamesMark8;
+
+        internal static void CopyRibbonSetMark8(this IRibbonSetMark8 set, IRibbonSetMark8 dest)
+        {
+            dest.RibbonMarkLunchtime = set.RibbonMarkLunchtime;
+            dest.RibbonMarkSleepyTime = set.RibbonMarkSleepyTime;
+            dest.RibbonMarkDusk = set.RibbonMarkDusk;
+            dest.RibbonMarkDawn = set.RibbonMarkDawn;
+            dest.RibbonMarkCloudy = set.RibbonMarkCloudy;
+            dest.RibbonMarkRainy = set.RibbonMarkRainy;
+            dest.RibbonMarkStormy = set.RibbonMarkStormy;
+            dest.RibbonMarkSnowy = set.RibbonMarkSnowy;
+            dest.RibbonMarkBlizzard = set.RibbonMarkBlizzard;
+            dest.RibbonMarkDry = set.RibbonMarkDry;
+            dest.RibbonMarkSandstorm = set.RibbonMarkSandstorm;
+            dest.RibbonMarkMisty = set.RibbonMarkMisty;
+            dest.RibbonMarkDestiny = set.RibbonMarkDestiny;
+            dest.RibbonMarkFishing = set.RibbonMarkFishing;
+            dest.RibbonMarkCurry = set.RibbonMarkCurry;
+            dest.RibbonMarkUncommon = set.RibbonMarkUncommon;
+            dest.RibbonMarkRare = set.RibbonMarkRare;
+            dest.RibbonMarkRowdy = set.RibbonMarkRowdy;
+            dest.RibbonMarkAbsentMinded = set.RibbonMarkAbsentMinded;
+            dest.RibbonMarkJittery = set.RibbonMarkJittery;
+            dest.RibbonMarkExcited = set.RibbonMarkExcited;
+            dest.RibbonMarkCharismatic = set.RibbonMarkCharismatic;
+            dest.RibbonMarkCalmness = set.RibbonMarkCalmness;
+            dest.RibbonMarkIntense = set.RibbonMarkIntense;
+            dest.RibbonMarkZonedOut = set.RibbonMarkZonedOut;
+            dest.RibbonMarkJoyful = set.RibbonMarkJoyful;
+            dest.RibbonMarkAngry = set.RibbonMarkAngry;
+            dest.RibbonMarkSmiley = set.RibbonMarkSmiley;
+            dest.RibbonMarkTeary = set.RibbonMarkTeary;
+            dest.RibbonMarkUpbeat = set.RibbonMarkUpbeat;
+            dest.RibbonMarkPeeved = set.RibbonMarkPeeved;
+            dest.RibbonMarkIntellectual = set.RibbonMarkIntellectual;
+            dest.RibbonMarkFerocious = set.RibbonMarkFerocious;
+            dest.RibbonMarkCrafty = set.RibbonMarkCrafty;
+            dest.RibbonMarkScowling = set.RibbonMarkScowling;
+            dest.RibbonMarkKindly = set.RibbonMarkKindly;
+            dest.RibbonMarkFlustered = set.RibbonMarkFlustered;
+            dest.RibbonMarkPumpedUp = set.RibbonMarkPumpedUp;
+            dest.RibbonMarkZeroEnergy = set.RibbonMarkZeroEnergy;
+            dest.RibbonMarkPrideful = set.RibbonMarkPrideful;
+            dest.RibbonMarkUnsure = set.RibbonMarkUnsure;
+            dest.RibbonMarkHumble = set.RibbonMarkHumble;
+            dest.RibbonMarkThorny = set.RibbonMarkThorny;
+            dest.RibbonMarkVigor = set.RibbonMarkVigor;
+            dest.RibbonMarkSlump = set.RibbonMarkSlump;
+        }
     }
 }

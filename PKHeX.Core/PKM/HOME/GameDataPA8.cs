@@ -123,4 +123,44 @@ public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
         Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
         return 3 + SIZE;
     }
+
+    public void CopyTo(PA8 pk)
+    {
+        ((IGameDataSide)this).CopyTo(pk);
+        pk.IsAlpha = IsAlpha;
+        pk.IsNoble = IsNoble;
+        pk.AlphaMove = AlphaMove;
+        pk.HeightScalarCopy = HeightScalarCopy;
+        pk.HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        pk.WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        pk.GV_HP = GV_HP;
+        pk.GV_ATK = GV_ATK;
+        pk.GV_DEF = GV_DEF;
+        pk.GV_SPE = GV_SPE;
+        pk.GV_SPA = GV_SPA;
+        pk.GV_SPD = GV_SPD;
+        Data.AsSpan(Offset + 0x28, 8 + 8).CopyTo(pk.Data.AsSpan(0x155)); // Copy both bitflag regions
+    }
+
+    public PKM ConvertToPKM(PKH pkh) => ConvertToPA8(pkh);
+
+    public PA8 ConvertToPA8(PKH pkh)
+    {
+        var pk = new PA8();
+        pkh.CopyTo(pk);
+        CopyTo(pk);
+        return pk;
+    }
+
+    /// <summary> Reconstructive logic to best apply suggested values. </summary>
+    public static GameDataPA8? TryCreate(PKH pkh)
+    {
+        if (pkh.DataPB7 is { } x)
+            return GameDataPB7.Create<GameDataPA8>(x);
+        if (pkh.DataPB8 is { } b)
+            return GameDataPB8.Create<GameDataPA8>(b);
+        if (pkh.DataPK8 is { } c)
+            return new GameDataPA8 { Ball = c.Met_Location == Locations.HOME_SWLA ? (int)Core.Ball.LAPoke : c.Ball, Met_Location = c.Met_Location, Egg_Location = c.Egg_Location };
+        return null;
+    }
 }

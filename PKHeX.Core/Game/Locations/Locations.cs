@@ -106,6 +106,22 @@
         public const int HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
         public const int Default8bNone = 65535;
 
+        public static int GetVersionSWSH(int ver) => (GameVersion)ver switch
+        {
+            GameVersion.PLA => (int)GameVersion.SW,
+            GameVersion.BD => (int)GameVersion.SW,
+            GameVersion.SP => (int)GameVersion.SH,
+            _ => ver,
+        };
+
+        public static int GetMetSWSH(int loc, int ver) => (GameVersion)ver switch
+        {
+            GameVersion.PLA => HOME_SWLA,
+            GameVersion.BD => HOME_SWBD,
+            GameVersion.SP => HOME_SHSP,
+            _ => loc,
+        };
+
         public static bool IsValidMetBDSP(int loc, int ver) => loc switch
         {
             HOME_SHSP when ver == (int)GameVersion.SH => true,

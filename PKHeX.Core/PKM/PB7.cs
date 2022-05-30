@@ -95,7 +95,7 @@ namespace PKHeX.Core
         public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
         public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)((Data[0x15] & ~7) | (value & 7)); }
         public bool Favorite { get => (Data[0x15] & 8) != 0; set => Data[0x15] = (byte)((Data[0x15] & ~8) | ((value ? 1 : 0) << 3)); }
-        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); protected set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
+        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
 
         public override uint PID
         {
@@ -119,7 +119,7 @@ namespace PKHeX.Core
         public byte AV_SPE { get => Data[0x27]; set => Data[0x27] = value; }
         public byte AV_SPA { get => Data[0x28]; set => Data[0x28] = value; }
         public byte AV_SPD { get => Data[0x29]; set => Data[0x29] = value; }
-        // 0x2A Unused
+        public ResortEventState ResortEventStatus { get => (ResortEventState)Data[0x2A]; set => Data[0x2A] = (byte)value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }

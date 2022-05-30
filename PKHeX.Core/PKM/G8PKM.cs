@@ -125,7 +125,7 @@ namespace PKHeX.Core
         public bool Favorite { get => (Data[0x16] & 8) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~8) | ((value ? 1 : 0) << 3)); } // unused, was in LGPE but not in SWSH
         public bool CanGigantamax { get => (Data[0x16] & 16) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~16) | (value ? 16 : 0)); }
         // 0x17 alignment unused
-        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); protected set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
+        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
         // 0x1A alignment unused
         // 0x1B alignment unused
         public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x1C), value); }

@@ -77,5 +77,23 @@
         }
 
         internal static string[] RibbonNamesDaily(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Daily;
+
+        internal static void CopyRibbonSetCommon4(this IRibbonSetCommon4 set, IRibbonSetCommon4 dest)
+        {
+            dest.RibbonChampionSinnoh = set.RibbonChampionSinnoh;
+            dest.RibbonAlert = set.RibbonAlert;
+            dest.RibbonShock = set.RibbonShock;
+            dest.RibbonDowncast = set.RibbonDowncast;
+            dest.RibbonCareless = set.RibbonCareless;
+            dest.RibbonRelax = set.RibbonRelax;
+            dest.RibbonSnooze = set.RibbonSnooze;
+            dest.RibbonSmile = set.RibbonSmile;
+            dest.RibbonGorgeous = set.RibbonGorgeous;
+            dest.RibbonRoyal = set.RibbonRoyal;
+            dest.RibbonGorgeousRoyal = set.RibbonGorgeousRoyal;
+            dest.RibbonFootprint = set.RibbonFootprint;
+            dest.RibbonRecord = set.RibbonRecord;
+            dest.RibbonLegend = set.RibbonLegend;
+        }
     }
 }

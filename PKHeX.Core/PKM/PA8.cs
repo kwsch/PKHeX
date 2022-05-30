@@ -154,7 +154,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public bool IsAlpha { get => (Data[0x16] & 32) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~32) | ((value ? 1 : 0) << 5)); }
     public bool IsNoble { get => (Data[0x16] & 64) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~64) | ((value ? 1 : 0) << 6)); }
     // 0x17 alignment unused
-    public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); protected set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
+    public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
     // 0x1A alignment unused
     // 0x1B alignment unused
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x1C), value); }

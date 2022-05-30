@@ -32,5 +32,14 @@
         }
 
         internal static string[] RibbonNames(this IRibbonSetCommon8 _) => RibbonSetNamesCommon8;
+
+        internal static void CopyRibbonSetCommon8(this IRibbonSetCommon8 set, IRibbonSetCommon8 dest)
+        {
+            dest.RibbonChampionGalar = set.RibbonChampionGalar;
+            dest.RibbonTowerMaster = set.RibbonTowerMaster;
+            dest.RibbonMasterRank = set.RibbonMasterRank;
+            dest.RibbonTwinklingStar = set.RibbonTwinklingStar;
+            dest.RibbonPioneer = set.RibbonPioneer;
+        }
     }
 }

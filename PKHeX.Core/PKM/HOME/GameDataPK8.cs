@@ -108,4 +108,56 @@ public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISo
         Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
         return 3 + SIZE;
     }
+
+    public void CopyTo(PK8 pk)
+    {
+        ((IGameDataSide)this).CopyTo(pk);
+        pk.CanGigantamax = CanGigantamax;
+        pk.Sociability = Sociability;
+        pk.DynamaxLevel = DynamaxLevel;
+        pk.Fullness = Fullness;
+        pk.Palma = Palma;
+        Data.AsSpan(Offset + 0xE, 14).CopyTo(pk.Data.AsSpan(0xCE)); // PokeJob
+        Data.AsSpan(Offset + 0x2D, 14).CopyTo(pk.Data.AsSpan(0x127)); // Move Record
+    }
+
+    public PKM ConvertToPKM(PKH pkh) => ConvertToPK8(pkh);
+
+    public PK8 ConvertToPK8(PKH pkh)
+    {
+        var pk = new PK8();
+        pkh.CopyTo(pk);
+        CopyTo(pk);
+        return pk;
+    }
+
+    /// <summary> Reconstructive logic to best apply suggested values. </summary>
+    public static GameDataPK8? TryCreate(PKH pkh)
+    {
+        if (pkh.DataPB7 is { } x)
+            return GameDataPB7.Create<GameDataPK8>(x);
+
+        if (pkh.DataPB8 is { } b)
+        {
+            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && b.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
+                return new GameDataPK8 { Ball = b.Ball, Met_Location = b.Met_Location, Egg_Location = b.Egg_Location is Locations.Default8bNone ? 0 : b.Egg_Location };
+
+            var ball = b.Ball > (int)Core.Ball.Beast ? 4 : b.Ball;
+            var ver = pkh.Version;
+            var loc = Locations.GetMetSWSH(b.Met_Location, ver);
+            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != b.Met_Location ? Locations.HOME_SWSHBDSPEgg : b.Egg_Location };
+        }
+        if (pkh.DataPA8 is { } a)
+        {
+            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && a.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
+                return new GameDataPK8 { Ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball, Met_Location = a.Met_Location, Egg_Location = a.Egg_Location is Locations.Default8bNone ? 0 : a.Egg_Location };
+
+            var ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball;
+            var ver = pkh.Version;
+            var loc = Locations.GetMetSWSH(a.Met_Location, ver);
+            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != a.Met_Location ? Locations.HOME_SWSHBDSPEgg : a.Egg_Location };
+        }
+
+        return null;
+    }
 }

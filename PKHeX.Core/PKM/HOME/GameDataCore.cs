@@ -229,7 +229,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     }
 
     public int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x62), (ushort)value); }
-    public int IV_HP { get => Data[Offset + 0x64]; set => Data[Offset + 0x64] = (byte)value; }
+    public int IV_HP  { get => Data[Offset + 0x64]; set => Data[Offset + 0x64] = (byte)value; }
     public int IV_ATK { get => Data[Offset + 0x65]; set => Data[Offset + 0x65] = (byte)value; }
     public int IV_DEF { get => Data[Offset + 0x66]; set => Data[Offset + 0x66] = (byte)value; }
     public int IV_SPE { get => Data[Offset + 0x67]; set => Data[Offset + 0x67] = (byte)value; }
@@ -244,42 +244,42 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         get => StringConverter8.GetString(HT_Trash);
         set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
     }
-    public int HT_Gender { get => Data[Offset + 0x8A]; set => Data[Offset + 0x8A] = (byte)value; }
-    public byte HT_Language { get => Data[Offset + 0x8B]; set => Data[Offset + 0x8B] = value; }
+    public int HT_Gender      { get => Data[Offset + 0x8A]; set => Data[Offset + 0x8A] = (byte)value; }
+    public byte HT_Language   { get => Data[Offset + 0x8B]; set => Data[Offset + 0x8B] = value; }
     public int CurrentHandler { get => Data[Offset + 0x8C]; set => Data[Offset + 0x8C] = (byte)value; }
-    public int HT_TrainerID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x8D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x8D), (ushort)value); } // unused?
-    public int HT_Friendship { get => Data[Offset + 0x8F]; set => Data[Offset + 0x8F] = (byte)value; }
-    public byte HT_Intensity { get => Data[Offset + 0x90]; set => Data[Offset + 0x90] = value; }
-    public byte HT_Memory { get => Data[Offset + 0x91]; set => Data[Offset + 0x91] = value; }
-    public byte HT_Feeling { get => Data[Offset + 0x92]; set => Data[Offset + 0x92] = value; }
-    public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x93)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x93), value); }
-    public int Version { get => Data[Offset + 0x95]; set => Data[Offset + 0x95] = (byte)value; }
+    public int HT_TrainerID   { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x8D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x8D), (ushort)value); } // unused?
+    public int HT_Friendship  { get => Data[Offset + 0x8F]; set => Data[Offset + 0x8F] = (byte)value; }
+    public byte HT_Intensity  { get => Data[Offset + 0x90]; set => Data[Offset + 0x90] = value; }
+    public byte HT_Memory     { get => Data[Offset + 0x91]; set => Data[Offset + 0x91] = value; }
+    public byte HT_Feeling    { get => Data[Offset + 0x92]; set => Data[Offset + 0x92] = value; }
+    public ushort HT_TextVar  { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x93)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x93), value); }
+    public int Version        { get => Data[Offset + 0x95]; set => Data[Offset + 0x95] = (byte)value; }
     public byte BattleVersion { get => Data[Offset + 0x96]; set => Data[Offset + 0x96] = value; }
-    public int Language { get => Data[Offset + 0x97]; set => Data[Offset + 0x97] = (byte)value; }
-    public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x98)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x98), value); }
-    public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
+    public int Language       { get => Data[Offset + 0x97]; set => Data[Offset + 0x97] = (byte)value; }
+    public uint FormArgument        { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x98)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x98), value); }
+    public byte FormArgumentRemain  { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
     public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
     public byte FormArgumentMaximum { get => (byte)(FormArgument >> 16); set => FormArgument = (FormArgument & ~0xFF0000u) | (uint)(value << 16); }
-    public sbyte AffixedRibbon { get => (sbyte)Data[Offset + 0x9C]; set => Data[Offset + 0x9C] = (byte)value; } // selected ribbon
+    public sbyte AffixedRibbon      { get => (sbyte)Data[Offset + 0x9C]; set => Data[Offset + 0x9C] = (byte)value; } // selected ribbon
     public Span<byte> OT_Trash => Data.AsSpan(Offset + 0x9D, 26);
     public string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
         set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
     }
-    public int OT_Friendship { get => Data[Offset + 0xB7]; set => Data[Offset + 0xB7] = (byte)value; }
-    public byte OT_Intensity { get => Data[Offset + 0xB8]; set => Data[Offset + 0xB8] = value; }
-    public byte OT_Memory { get => Data[Offset + 0xB9]; set => Data[Offset + 0xB9] = value; }
-    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xBA)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xBA), value); }
-    public byte OT_Feeling { get => Data[Offset + 0xBC]; set => Data[Offset + 0xBC] = value; }
-    public int Egg_Year { get => Data[Offset + 0xBD]; set => Data[Offset + 0xBD] = (byte)value; }
-    public int Egg_Month { get => Data[Offset + 0xBE]; set => Data[Offset + 0xBE] = (byte)value; }
-    public int Egg_Day { get => Data[Offset + 0xBF]; set => Data[Offset + 0xBF] = (byte)value; }
-    public int Met_Year { get => Data[Offset + 0xC0]; set => Data[Offset + 0xC0] = (byte)value; }
-    public int Met_Month { get => Data[Offset + 0xC1]; set => Data[Offset + 0xC1] = (byte)value; }
-    public int Met_Day { get => Data[Offset + 0xC2]; set => Data[Offset + 0xC2] = (byte)value; }
-    public int Met_Level { get => Data[Offset + 0xC3]; set => Data[Offset + 0xC3] = (byte)value; }
-    public int OT_Gender { get => Data[Offset + 0xC4]; set => Data[Offset + 0xC4] = (byte)value; }
+    public int OT_Friendship    { get => Data[Offset + 0xB7]; set => Data[Offset + 0xB7] = (byte)value; }
+    public byte OT_Intensity    { get => Data[Offset + 0xB8]; set => Data[Offset + 0xB8] = value; }
+    public byte OT_Memory       { get => Data[Offset + 0xB9]; set => Data[Offset + 0xB9] = value; }
+    public ushort OT_TextVar    { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xBA)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xBA), value); }
+    public byte OT_Feeling      { get => Data[Offset + 0xBC]; set => Data[Offset + 0xBC] = value; }
+    public int Egg_Year         { get => Data[Offset + 0xBD]; set => Data[Offset + 0xBD] = (byte)value; }
+    public int Egg_Month        { get => Data[Offset + 0xBE]; set => Data[Offset + 0xBE] = (byte)value; }
+    public int Egg_Day          { get => Data[Offset + 0xBF]; set => Data[Offset + 0xBF] = (byte)value; }
+    public int Met_Year         { get => Data[Offset + 0xC0]; set => Data[Offset + 0xC0] = (byte)value; }
+    public int Met_Month        { get => Data[Offset + 0xC1]; set => Data[Offset + 0xC1] = (byte)value; }
+    public int Met_Day          { get => Data[Offset + 0xC2]; set => Data[Offset + 0xC2] = (byte)value; }
+    public int Met_Level        { get => Data[Offset + 0xC3]; set => Data[Offset + 0xC3] = (byte)value; }
+    public int OT_Gender        { get => Data[Offset + 0xC4]; set => Data[Offset + 0xC4] = (byte)value; }
     public byte HyperTrainFlags { get => Data[Offset + 0xC5]; set => Data[Offset + 0xC5] = value; }
     public bool HT_HP { get => ((HyperTrainFlags >> 0) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0)); }
     public bool HT_ATK { get => ((HyperTrainFlags >> 1) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1)); }
@@ -289,4 +289,126 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xC6)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xC6), (ushort)value); }
+
+    public void CopyTo(PKM pk)
+    {
+        pk.EncryptionConstant = EncryptionConstant;
+        pk.PID = PID;
+        pk.Species = Species;
+        pk.Form = Form;
+        pk.Gender = Gender;
+        pk.TID = TID;
+        pk.SID = SID;
+        pk.EXP = EXP;
+        pk.Ability = Ability;
+        pk.AbilityNumber = AbilityNumber;
+        pk.MarkValue = MarkValue;
+        pk.Nature = Nature;
+        pk.StatNature = StatNature;
+        pk.FatefulEncounter = FatefulEncounter;
+        pk.HeldItem = HeldItem;
+        pk.IV_HP  = IV_HP;
+        pk.IV_ATK = IV_ATK;
+        pk.IV_DEF = IV_DEF;
+        pk.IV_SPE = IV_SPE;
+        pk.IV_SPA = IV_SPA;
+        pk.IV_SPD = IV_SPD;
+        pk.IsEgg = IsEgg;
+        pk.IsNicknamed = IsNicknamed;
+        pk.EV_HP  = EV_HP;
+        pk.EV_ATK = EV_ATK;
+        pk.EV_DEF = EV_DEF;
+        pk.EV_SPE = EV_SPE;
+        pk.EV_SPA = EV_SPA;
+        pk.EV_SPD = EV_SPD;
+        pk.PKRS_Strain = PKRS_Strain;
+        pk.PKRS_Days = PKRS_Days;
+
+        pk.HT_Gender = HT_Gender;
+        pk.CurrentHandler = CurrentHandler;
+        // pk.HT_TrainerID
+        pk.HT_Friendship = HT_Friendship;
+
+        pk.Version = Version;
+        pk.Language = Language;
+
+        pk.OT_Friendship = OT_Friendship;
+        pk.Egg_Year = Egg_Year;
+        pk.Egg_Month = Egg_Month;
+        pk.Egg_Day = Egg_Day;
+        pk.Met_Year = Met_Year;
+        pk.Met_Month = Met_Month;
+        pk.Met_Day = Met_Day;
+        pk.Met_Level = Met_Level;
+        pk.OT_Gender = OT_Gender;
+
+        CopyConditionalInterface(pk);
+
+        OT_Trash.CopyTo(pk.OT_Trash);
+        Nickname_Trash.CopyTo(pk.Nickname_Trash);
+        HT_Trash.CopyTo(pk.HT_Trash);
+
+        CopyConditionalRibbonMark(pk);
+    }
+
+    private void CopyConditionalInterface(PKM pk)
+    {
+        if (pk is IScaledSize ss)
+        {
+            ss.HeightScalar = HeightScalar;
+            ss.WeightScalar = WeightScalar;
+        }
+
+        if (pk is IMemoryOT ot)
+        {
+            ot.OT_Intensity = OT_Intensity;
+            ot.OT_Memory = OT_Memory;
+            ot.OT_TextVar = OT_TextVar;
+            ot.OT_Feeling = OT_Feeling;
+        }
+        if (pk is IMemoryHT hm)
+        {
+            hm.HT_Intensity = HT_Intensity;
+            hm.HT_Memory = HT_Memory;
+            hm.HT_Feeling = HT_Feeling;
+            hm.HT_TextVar = HT_TextVar;
+        }
+        if (pk is IHandlerLanguage hl)
+            hl.HT_Language = HT_Language;
+
+        if (pk is IContestStatsMutable cm)
+            this.CopyContestStatsTo(cm);
+        if (pk is IRibbonSetAffixed affix)
+            affix.AffixedRibbon = AffixedRibbon;
+        if (pk is IHyperTrain ht)
+            ht.HyperTrainFlags = HyperTrainFlags;
+        if (pk is IFormArgument fa)
+            fa.FormArgument = FormArgument;
+        if (pk is IBattleVersion bv)
+            bv.BattleVersion = BattleVersion;
+        if (pk is IFavorite fav)
+            fav.Favorite = Favorite;
+        if (pk is IHomeTrack home)
+            home.Tracker = Tracker;
+    }
+
+    private void CopyConditionalRibbonMark(PKM pk)
+    {
+        if (pk is IRibbonSetEvent3 e3)
+            this.CopyRibbonSetEvent3(e3);
+        if (pk is IRibbonSetEvent4 e4)
+            this.CopyRibbonSetEvent4(e4);
+        if (pk is IRibbonSetCommon3 c3)
+            this.CopyRibbonSetCommon3(c3);
+        if (pk is IRibbonSetCommon4 c4)
+            this.CopyRibbonSetCommon4(c4);
+        if (pk is IRibbonSetCommon6 c6)
+            this.CopyRibbonSetCommon6(c6);
+        if (pk is IRibbonSetCommon7 c7)
+            this.CopyRibbonSetCommon7(c7);
+        if (pk is IRibbonSetCommon8 c8)
+            this.CopyRibbonSetCommon8(c8);
+        if (pk is IRibbonSetMark8 m8)
+            this.CopyRibbonSetMark8(m8);
+    }
 }

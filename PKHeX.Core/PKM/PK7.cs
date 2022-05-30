@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
         public override int Ability { get => Data[0x14]; set => Data[0x14] = (byte)value; }
         public override int AbilityNumber { get => Data[0x15] & 7; set => Data[0x15] = (byte)((Data[0x15] & ~7) | (value & 7)); }
-        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); protected set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
+        public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
 
         public override uint PID
         {

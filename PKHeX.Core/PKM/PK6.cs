@@ -107,7 +107,7 @@ namespace PKHeX.Core
         public byte CNT_Smart  { get => Data[0x27]; set => Data[0x27] = value; }
         public byte CNT_Tough  { get => Data[0x28]; set => Data[0x28] = value; }
         public byte CNT_Sheen  { get => Data[0x29]; set => Data[0x29] = value; }
-        public override int MarkValue { get => Data[0x2A]; protected set => Data[0x2A] = (byte)value; }
+        public override int MarkValue { get => Data[0x2A]; set => Data[0x2A] = (byte)value; }
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
