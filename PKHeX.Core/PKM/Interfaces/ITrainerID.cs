@@ -27,7 +27,7 @@
 
         public static bool IsShiny(this ITrainerID tr, uint pid, int gen = 7)
         {
-            var xor = tr.SID ^ tr.TID ^ (pid >> 16) ^ pid;
+            var xor = tr.SID ^ tr.TID ^ (pid >> 16) ^ (pid & 0xFFFF);
             return xor < (gen >= 7 ? 16 : 8);
         }
     }

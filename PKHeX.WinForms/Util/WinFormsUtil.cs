@@ -201,6 +201,9 @@ namespace PKHeX.WinForms
             control.ValueMember = nameof(ComboItem.Value);
         }
 
+        public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
+        public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
+
         public static void RemoveDropCB(object? sender, KeyEventArgs e)
         {
             if (sender == null)
