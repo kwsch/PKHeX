@@ -281,16 +281,20 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
 
             var pkm = data.pkm;
+            Ball ball = (Ball)pkm.Ball;
+            var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
+            if (balls.Contains((int)ball))
+                return GetValid(LBallSpeciesPass);
+
+            if (species is (int)Species.Spinda)
+                return GetInvalid(LBallSpecies); // Can't enter or exit, needs to adhere to wild balls.
+
+            // Cross-game inheritance
             if (IsGalarCatchAndBreed(species))
             {
                 if (BallUseLegality.WildPokeballs8.Contains(pkm.Ball))
                     return GetValid(LBallSpeciesPass);
             }
-
-            Ball ball = (Ball)pkm.Ball;
-            var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
-            if (balls.Contains((int)ball))
-                return GetValid(LBallSpeciesPass);
 
             if (ball == Safari)
             {
