@@ -216,6 +216,9 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
         public bool AllowIncompatibleConversion { get; set; }
 
+        [LocalizedDescription("Allow PKM file conversion paths to guess the legal original encounter data that is not stored in the format that it was converted from.")]
+        public EntityRejuvenationSetting AllowGuessRejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
+
         [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
         public string PathBlockKeyList { get; set; } = string.Empty;
 

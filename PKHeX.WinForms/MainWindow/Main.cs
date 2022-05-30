@@ -405,6 +405,7 @@ namespace PKHeX.WinForms
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
             EntityConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
+            EntityConverter.RejuvenateHOME = settings.Advanced.AllowGuessRejuvenateHOME;
             WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
 
             SpriteBuilder.LoadSettings(settings.Sprite);
