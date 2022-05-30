@@ -15,6 +15,16 @@ public static class EntityConverter
     public static bool AllowIncompatibleConversion { get; set; }
 
     /// <summary>
+    /// Toggles rejuvenating lost data if direct transfer does not know how to revert fields like Met Location and Ball.
+    /// </summary>
+    public static EntityRejuvenationSetting RejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
+
+    /// <summary>
+    /// Post-conversion rejuvenation worker to restore lost values.
+    /// </summary>
+    public static IEntityRejuvenator RejuvenatorHOME { get; set; } = new LegalityRejuvenator();
+
+    /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
     /// <param name="pk"></param>
@@ -46,8 +56,15 @@ public static class EntityConverter
         }
 
         var pkm = ConvertPKM(pk, destType, fromType, out result);
-        if (!AllowIncompatibleConversion || pkm != null)
+        if (pkm is not null)
+        {
+            if (RejuvenateHOME != EntityRejuvenationSetting.None)
+                RejuvenatorHOME.Rejuvenate(pkm, pk);
             return pkm;
+        }
+
+        if (!AllowIncompatibleConversion)
+            return null;
 
         // Try Incompatible Conversion
         pkm = EntityBlank.GetBlank(destType);
