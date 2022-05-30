@@ -193,6 +193,8 @@ namespace PKHeX.Core
         {
             int startIndex = Array.FindIndex(Levels, z => z >= startLevel);
             int endIndex = Array.FindIndex(Levels, z => z > endLevel);
+            if (endIndex == -1)
+                endIndex = Levels.Length;
             for (int i = startIndex; i < endIndex; i++)
             {
                 int move = Moves[i];
