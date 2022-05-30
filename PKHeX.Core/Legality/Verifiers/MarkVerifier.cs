@@ -44,19 +44,27 @@ namespace PKHeX.Core
 
                 if (hasOne)
                 {
-                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, mark)));
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
                     return;
                 }
 
                 bool result = IsMarkValid(mark, data.pkm, data.EncounterMatch);
                 if (!result)
                 {
-                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, mark)));
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
                     return;
                 }
 
                 hasOne = true;
             }
+        }
+
+        private static string GetRibbonNameSafe(RibbonIndex index)
+        {
+            if (index >= RibbonIndex.MAX_COUNT)
+                return index.ToString();
+            var expect = $"Ribbon{index}";
+            return RibbonStrings.GetName(expect);
         }
 
         public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterTemplate enc)
@@ -128,28 +136,31 @@ namespace PKHeX.Core
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
         {
-            if (m is not PK8 pk8)
+            if (m is not IRibbonSetAffixed a)
                 return;
 
-            var affix = pk8.AffixedRibbon;
+            var affix = a.AffixedRibbon;
             if (affix == -1) // None
                 return;
 
-            if ((byte)affix > (int)RibbonIndex.MarkSlump)
+            if ((byte)affix > (int)RibbonIndex.MarkSlump) // SW/SH cannot affix anything higher.
             {
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe((RibbonIndex)affix))));
                 return;
             }
 
-            if (pk8.Species == (int)Species.Shedinja && data.EncounterOriginal.Species is not (int)Species.Shedinja)
+            if (m is not PKM pk)
+                return;
+
+            if (pk.Species == (int)Species.Shedinja && data.EncounterOriginal.Species is not (int)Species.Shedinja)
             {
-                VerifyShedinjaAffixed(data, affix, pk8);
+                VerifyShedinjaAffixed(data, affix, pk, m);
                 return;
             }
-            EnsureHasRibbon(data, pk8, affix);
+            EnsureHasRibbon(data, m, affix);
         }
 
-        private void VerifyShedinjaAffixed(LegalityAnalysis data, sbyte affix, PK8 pk8)
+        private void VerifyShedinjaAffixed(LegalityAnalysis data, sbyte affix, PKM pk, IRibbonIndex r)
         {
             // Does not copy ribbons or marks, but retains the Affixed Ribbon value.
             // Try re-verifying to see if it could have had the Ribbon/Mark.
@@ -157,48 +168,47 @@ namespace PKHeX.Core
             var enc = data.EncounterOriginal;
             if ((byte) affix >= (int) RibbonIndex.MarkLunchtime)
             {
-                if (!IsMarkValid((RibbonIndex)affix, pk8, enc))
-                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex) affix)));
+                if (!IsMarkValid((RibbonIndex)affix, pk, enc))
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe((RibbonIndex)affix))));
                 return;
             }
 
-            if (enc.Generation <= 4 && (pk8.Ball != (int)Ball.Poke || IsMoveSetEvolvedShedinja(pk8)))
+            if (enc.Generation <= 4 && (pk.Ball != (int)Ball.Poke || IsMoveSetEvolvedShedinja(pk)))
             {
                 // Evolved in a prior generation.
-                EnsureHasRibbon(data, pk8, affix);
+                EnsureHasRibbon(data, r, affix);
                 return;
             }
 
-            var clone = pk8.Clone();
+            var clone = pk.Clone();
             clone.Species = (int) Species.Nincada;
             ((IRibbonIndex) clone).SetRibbon(affix);
             var parse = RibbonVerifier.GetRibbonResults(clone, data.Info.EvoChainsAllGens, enc);
-            var expect = $"Ribbon{(RibbonIndex) affix}";
-            var name = RibbonStrings.GetName(expect);
+            var name = GetRibbonNameSafe((RibbonIndex)affix);
             bool invalid = parse.FirstOrDefault(z => z.Name == name)?.Invalid == true;
             var severity = invalid ? Severity.Invalid : Severity.Fishy;
             data.AddLine(Get(string.Format(LRibbonMarkingAffixedF_0, name), severity));
         }
 
-        private static bool IsMoveSetEvolvedShedinja(PK8 pk8)
+        private static bool IsMoveSetEvolvedShedinja(PKM pk)
         {
             // Check for gen3/4 exclusive moves that are Ninjask glitch only.
-            if (pk8.HasMove((int) Move.Screech))
+            if (pk.HasMove((int) Move.Screech))
                 return true;
-            if (pk8.HasMove((int) Move.SwordsDance))
+            if (pk.HasMove((int) Move.SwordsDance))
                 return true;
-            if (pk8.HasMove((int) Move.Slash))
+            if (pk.HasMove((int) Move.Slash))
                 return true;
-            if (pk8.HasMove((int) Move.BatonPass))
+            if (pk.HasMove((int) Move.BatonPass))
                 return true;
-            return pk8.HasMove((int)Move.Agility) && !pk8.GetMoveRecordFlag(12); // TR12 (Agility)
+            return pk.HasMove((int)Move.Agility) && pk is PK8 pk8 && !pk8.GetMoveRecordFlag(12); // TR12 (Agility)
         }
 
-        private void EnsureHasRibbon(LegalityAnalysis data, IRibbonIndex pk8, sbyte affix)
+        private void EnsureHasRibbon(LegalityAnalysis data, IRibbonIndex m, sbyte affix)
         {
-            var hasRibbon = pk8.GetRibbonIndex((RibbonIndex) affix);
+            var hasRibbon = m.GetRibbonIndex((RibbonIndex) affix);
             if (!hasRibbon)
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex) affix)));
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe((RibbonIndex) affix))));
         }
     }
 }

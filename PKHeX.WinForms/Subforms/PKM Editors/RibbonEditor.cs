@@ -28,11 +28,12 @@ namespace PKHeX.WinForms
 
             if (pk is IRibbonSetAffixed affixed)
             {
-                var names = Enum.GetNames(typeof(RibbonIndex));
-                var values = (RibbonIndex[])Enum.GetValues(typeof(RibbonIndex));
-                var items = names.Select((z, i) => new ComboItem(RibbonStrings.GetName("Ribbon"+z), (int) values[i])).OrderBy(z => z.Text);
                 var ds = new List<ComboItem> {new(GameInfo.GetStrings(Main.CurrentLanguage).Move[0], -1)};
-                ds.AddRange(items.ToArray());
+                var list = Enumerable.Range(0, (int)RibbonIndex.MAX_COUNT)
+                    .Select(z => new ComboItem(RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}"), z))
+                    .OrderBy(z => z.Text);
+                ds.AddRange(list);
+
                 CB_Affixed.InitializeBinding();
                 CB_Affixed.DataSource = ds;
                 CB_Affixed.SelectedValue = (int)affixed.AffixedRibbon;
