@@ -743,6 +743,8 @@ namespace PKHeX.Core
                 PKRS_Strain = PKRS_Strain,
                 HeightScalar = HeightScalar,
                 WeightScalar = WeightScalar,
+
+                Favorite = Favorite,
             };
 
             Nickname_Trash.CopyTo(pk.Nickname_Trash);

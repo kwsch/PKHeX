@@ -840,198 +840,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
             SetMasteredRecordFlag(flagIndex, true);
     }
 
-    private void CopyTo<T>(T pk) where T : G8PKM
-    {
-        pk.EncryptionConstant = EncryptionConstant;
-        pk.PID = PID;
-        pk.Species = Species;
-        pk.Form = Form;
-        pk.FormArgument = FormArgument;
-        pk.Gender = Gender;
-        pk.Nature = Nature;
-        pk.StatNature = StatNature;
-
-        pk.TID = TID;
-        pk.SID = SID;
-        pk.EXP = EXP;
-        pk.Ability = Ability;
-        pk.AbilityNumber = AbilityNumber;
-        pk.Language = Language;
-        pk.Version = Version;
-
-        pk.IV_HP = IV_HP;
-        pk.IV_ATK = IV_ATK;
-        pk.IV_DEF = IV_DEF;
-        pk.IV_SPE = IV_SPE;
-        pk.IV_SPA = IV_SPA;
-        pk.IV_SPD = IV_SPD;
-        pk.IsEgg = IsEgg;
-        pk.EV_HP = EV_HP;
-        pk.EV_ATK = EV_ATK;
-        pk.EV_DEF = EV_DEF;
-        pk.EV_SPE = EV_SPE;
-        pk.EV_SPA = EV_SPA;
-        pk.EV_SPD = EV_SPD;
-
-        pk.OT_Gender = OT_Gender;
-        pk.OT_Friendship = OT_Friendship;
-        pk.OT_Intensity = OT_Intensity;
-        pk.OT_Memory = OT_Memory;
-        pk.OT_TextVar = OT_TextVar;
-        pk.OT_Feeling = OT_Feeling;
-        pk.Egg_Year = Egg_Year;
-        pk.Egg_Month = Egg_Month;
-        pk.Egg_Day = Egg_Day;
-        pk.Met_Year = Met_Year;
-        pk.Met_Month = Met_Month;
-        pk.Met_Day = Met_Day;
-        pk.Ball = Ball;
-        pk.Egg_Location = Egg_Location;
-        pk.Met_Location = Met_Location;
-        pk.Met_Level = Met_Level;
-        pk.Tracker = Tracker;
-
-        pk.IsNicknamed = IsNicknamed;
-        pk.CurrentHandler = CurrentHandler;
-        pk.HT_Gender = HT_Gender;
-        pk.HT_Language = HT_Language;
-        pk.HT_Friendship = HT_Friendship;
-        pk.HT_Intensity = HT_Intensity;
-        pk.HT_Memory = HT_Memory;
-        pk.HT_Feeling = HT_Feeling;
-        pk.HT_TextVar = HT_TextVar;
-
-        pk.FatefulEncounter = FatefulEncounter;
-        pk.CNT_Cool = CNT_Cool;
-        pk.CNT_Beauty = CNT_Beauty;
-        pk.CNT_Cute = CNT_Cute;
-        pk.CNT_Smart = CNT_Smart;
-        pk.CNT_Tough = CNT_Tough;
-        pk.CNT_Sheen = CNT_Sheen;
-
-        pk.RibbonChampionKalos = RibbonChampionKalos;
-        pk.RibbonChampionG3 = RibbonChampionG3;
-        pk.RibbonChampionSinnoh = RibbonChampionSinnoh;
-        pk.RibbonBestFriends = RibbonBestFriends;
-        pk.RibbonTraining = RibbonTraining;
-        pk.RibbonBattlerSkillful = RibbonBattlerSkillful;
-        pk.RibbonBattlerExpert = RibbonBattlerExpert;
-        pk.RibbonEffort = RibbonEffort;
-        pk.RibbonAlert = RibbonAlert;
-        pk.RibbonShock = RibbonShock;
-        pk.RibbonDowncast = RibbonDowncast;
-        pk.RibbonCareless = RibbonCareless;
-        pk.RibbonRelax = RibbonRelax;
-        pk.RibbonSnooze = RibbonSnooze;
-        pk.RibbonSmile = RibbonSmile;
-        pk.RibbonGorgeous = RibbonGorgeous;
-        pk.RibbonRoyal = RibbonRoyal;
-        pk.RibbonGorgeousRoyal = RibbonGorgeousRoyal;
-        pk.RibbonArtist = RibbonArtist;
-        pk.RibbonFootprint = RibbonFootprint;
-        pk.RibbonRecord = RibbonRecord;
-        pk.RibbonLegend = RibbonLegend;
-        pk.RibbonCountry = RibbonCountry;
-        pk.RibbonNational = RibbonNational;
-        pk.RibbonEarth = RibbonEarth;
-        pk.RibbonWorld = RibbonWorld;
-        pk.RibbonClassic = RibbonClassic;
-        pk.RibbonPremier = RibbonPremier;
-        pk.RibbonEvent = RibbonEvent;
-        pk.RibbonBirthday = RibbonBirthday;
-        pk.RibbonSpecial = RibbonSpecial;
-        pk.RibbonSouvenir = RibbonSouvenir;
-        pk.RibbonWishing = RibbonWishing;
-        pk.RibbonChampionBattle = RibbonChampionBattle;
-        pk.RibbonChampionRegional = RibbonChampionRegional;
-        pk.RibbonChampionNational = RibbonChampionNational;
-        pk.RibbonChampionWorld = RibbonChampionWorld;
-        pk.HasContestMemoryRibbon = HasContestMemoryRibbon;
-        pk.HasBattleMemoryRibbon = HasBattleMemoryRibbon;
-        pk.RibbonChampionG6Hoenn = RibbonChampionG6Hoenn;
-        pk.RibbonContestStar = RibbonContestStar;
-        pk.RibbonMasterCoolness = RibbonMasterCoolness;
-        pk.RibbonMasterBeauty = RibbonMasterBeauty;
-        pk.RibbonMasterCuteness = RibbonMasterCuteness;
-        pk.RibbonMasterCleverness = RibbonMasterCleverness;
-        pk.RibbonMasterToughness = RibbonMasterToughness;
-        pk.RibbonChampionAlola = RibbonChampionAlola;
-        pk.RibbonBattleRoyale = RibbonBattleRoyale;
-        pk.RibbonBattleTreeGreat = RibbonBattleTreeGreat;
-        pk.RibbonBattleTreeMaster = RibbonBattleTreeMaster;
-        pk.RibbonChampionGalar = RibbonChampionGalar;
-        pk.RibbonTowerMaster = RibbonTowerMaster;
-        pk.RibbonMasterRank = RibbonMasterRank;
-
-        pk.RibbonMarkLunchtime = RibbonMarkLunchtime;
-        pk.RibbonMarkSleepyTime = RibbonMarkSleepyTime;
-        pk.RibbonMarkDusk = RibbonMarkDusk;
-        pk.RibbonMarkDawn = RibbonMarkDawn;
-        pk.RibbonMarkCloudy = RibbonMarkCloudy;
-        pk.RibbonMarkRainy = RibbonMarkRainy;
-        pk.RibbonMarkStormy = RibbonMarkStormy;
-        pk.RibbonMarkSnowy = RibbonMarkSnowy;
-        pk.RibbonMarkBlizzard = RibbonMarkBlizzard;
-        pk.RibbonMarkDry = RibbonMarkDry;
-        pk.RibbonMarkSandstorm = RibbonMarkSandstorm;
-        pk.RibbonCountMemoryContest = RibbonCountMemoryContest;
-        pk.RibbonCountMemoryBattle = RibbonCountMemoryBattle;
-        pk.RibbonMarkMisty = RibbonMarkMisty;
-        pk.RibbonMarkDestiny = RibbonMarkDestiny;
-        pk.RibbonMarkFishing = RibbonMarkFishing;
-        pk.RibbonMarkCurry = RibbonMarkCurry;
-        pk.RibbonMarkUncommon = RibbonMarkUncommon;
-        pk.RibbonMarkRare = RibbonMarkRare;
-        pk.RibbonMarkRowdy = RibbonMarkRowdy;
-        pk.RibbonMarkAbsentMinded = RibbonMarkAbsentMinded;
-        pk.RibbonMarkJittery = RibbonMarkJittery;
-        pk.RibbonMarkExcited = RibbonMarkExcited;
-        pk.RibbonMarkCharismatic = RibbonMarkCharismatic;
-        pk.RibbonMarkCalmness = RibbonMarkCalmness;
-        pk.RibbonMarkIntense = RibbonMarkIntense;
-        pk.RibbonMarkZonedOut = RibbonMarkZonedOut;
-        pk.RibbonMarkJoyful = RibbonMarkJoyful;
-        pk.RibbonMarkAngry = RibbonMarkAngry;
-        pk.RibbonMarkSmiley = RibbonMarkSmiley;
-        pk.RibbonMarkTeary = RibbonMarkTeary;
-        pk.RibbonMarkUpbeat = RibbonMarkUpbeat;
-        pk.RibbonMarkPeeved = RibbonMarkPeeved;
-        pk.RibbonMarkIntellectual = RibbonMarkIntellectual;
-        pk.RibbonMarkFerocious = RibbonMarkFerocious;
-        pk.RibbonMarkCrafty = RibbonMarkCrafty;
-        pk.RibbonMarkScowling = RibbonMarkScowling;
-        pk.RibbonMarkKindly = RibbonMarkKindly;
-        pk.RibbonMarkFlustered = RibbonMarkFlustered;
-        pk.RibbonMarkPumpedUp = RibbonMarkPumpedUp;
-        pk.RibbonMarkZeroEnergy = RibbonMarkZeroEnergy;
-        pk.RibbonMarkPrideful = RibbonMarkPrideful;
-        pk.RibbonMarkUnsure = RibbonMarkUnsure;
-        pk.RibbonMarkHumble = RibbonMarkHumble;
-        pk.RibbonMarkThorny = RibbonMarkThorny;
-        pk.RibbonMarkVigor = RibbonMarkVigor;
-        pk.RibbonMarkSlump = RibbonMarkSlump;
-        pk.RibbonPioneer = RibbonPioneer;
-        pk.RibbonTwinklingStar = RibbonTwinklingStar;
-
-        pk.AffixedRibbon = AffixedRibbon;
-        pk.HyperTrainFlags = HyperTrainFlags;
-
-        pk.Sociability = Sociability;
-        pk.Fullness = Fullness;
-        pk.Enjoyment = Enjoyment;
-        pk.BattleVersion = BattleVersion;
-        pk.PKRS_Days = PKRS_Days;
-        pk.PKRS_Strain = PKRS_Strain;
-        pk.HeightScalar = HeightScalar;
-        pk.WeightScalar = WeightScalar;
-        pk.CanGigantamax = CanGigantamax;
-        pk.DynamaxLevel = DynamaxLevel;
-
-        Nickname_Trash.CopyTo(pk.Nickname_Trash);
-        OT_Trash.CopyTo(pk.OT_Trash);
-        HT_Trash.CopyTo(pk.HT_Trash);
-    }
-
     public PK8 ConvertToPK8()
     {
         var pk = ConvertTo<PK8>();
@@ -1049,9 +857,199 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     private T ConvertTo<T>() where T : G8PKM, new()
     {
-        var pk = new T();
-        CopyTo(pk);
+        var pk = new T
+        {
+            EncryptionConstant = EncryptionConstant,
+            PID = PID,
+            Species = Species,
+            Form = Form,
+            FormArgument = FormArgument,
+            Gender = Gender,
+            Nature = Nature,
+            StatNature = StatNature,
 
+            TID = TID,
+            SID = SID,
+            EXP = EXP,
+            Ability = Ability,
+            AbilityNumber = AbilityNumber,
+            Language = Language,
+            Version = Version,
+
+            IV_HP = IV_HP,
+            IV_ATK = IV_ATK,
+            IV_DEF = IV_DEF,
+            IV_SPE = IV_SPE,
+            IV_SPA = IV_SPA,
+            IV_SPD = IV_SPD,
+            IsEgg = IsEgg,
+            EV_HP = EV_HP,
+            EV_ATK = EV_ATK,
+            EV_DEF = EV_DEF,
+            EV_SPE = EV_SPE,
+            EV_SPA = EV_SPA,
+            EV_SPD = EV_SPD,
+
+            OT_Gender = OT_Gender,
+            OT_Friendship = OT_Friendship,
+            OT_Intensity = OT_Intensity,
+            OT_Memory = OT_Memory,
+            OT_TextVar = OT_TextVar,
+            OT_Feeling = OT_Feeling,
+            Egg_Year = Egg_Year,
+            Egg_Month = Egg_Month,
+            Egg_Day = Egg_Day,
+            Met_Year = Met_Year,
+            Met_Month = Met_Month,
+            Met_Day = Met_Day,
+            Ball = Ball,
+            Egg_Location = Egg_Location,
+            Met_Location = Met_Location,
+            Met_Level = Met_Level,
+            Tracker = Tracker,
+
+            IsNicknamed = IsNicknamed,
+            CurrentHandler = CurrentHandler,
+            HT_Gender = HT_Gender,
+            HT_Language = HT_Language,
+            HT_Friendship = HT_Friendship,
+            HT_Intensity = HT_Intensity,
+            HT_Memory = HT_Memory,
+            HT_Feeling = HT_Feeling,
+            HT_TextVar = HT_TextVar,
+
+            FatefulEncounter = FatefulEncounter,
+            CNT_Cool = CNT_Cool,
+            CNT_Beauty = CNT_Beauty,
+            CNT_Cute = CNT_Cute,
+            CNT_Smart = CNT_Smart,
+            CNT_Tough = CNT_Tough,
+            CNT_Sheen = CNT_Sheen,
+
+            RibbonChampionKalos = RibbonChampionKalos,
+            RibbonChampionG3 = RibbonChampionG3,
+            RibbonChampionSinnoh = RibbonChampionSinnoh,
+            RibbonBestFriends = RibbonBestFriends,
+            RibbonTraining = RibbonTraining,
+            RibbonBattlerSkillful = RibbonBattlerSkillful,
+            RibbonBattlerExpert = RibbonBattlerExpert,
+            RibbonEffort = RibbonEffort,
+            RibbonAlert = RibbonAlert,
+            RibbonShock = RibbonShock,
+            RibbonDowncast = RibbonDowncast,
+            RibbonCareless = RibbonCareless,
+            RibbonRelax = RibbonRelax,
+            RibbonSnooze = RibbonSnooze,
+            RibbonSmile = RibbonSmile,
+            RibbonGorgeous = RibbonGorgeous,
+            RibbonRoyal = RibbonRoyal,
+            RibbonGorgeousRoyal = RibbonGorgeousRoyal,
+            RibbonArtist = RibbonArtist,
+            RibbonFootprint = RibbonFootprint,
+            RibbonRecord = RibbonRecord,
+            RibbonLegend = RibbonLegend,
+            RibbonCountry = RibbonCountry,
+            RibbonNational = RibbonNational,
+            RibbonEarth = RibbonEarth,
+            RibbonWorld = RibbonWorld,
+            RibbonClassic = RibbonClassic,
+            RibbonPremier = RibbonPremier,
+            RibbonEvent = RibbonEvent,
+            RibbonBirthday = RibbonBirthday,
+            RibbonSpecial = RibbonSpecial,
+            RibbonSouvenir = RibbonSouvenir,
+            RibbonWishing = RibbonWishing,
+            RibbonChampionBattle = RibbonChampionBattle,
+            RibbonChampionRegional = RibbonChampionRegional,
+            RibbonChampionNational = RibbonChampionNational,
+            RibbonChampionWorld = RibbonChampionWorld,
+            HasContestMemoryRibbon = HasContestMemoryRibbon,
+            HasBattleMemoryRibbon = HasBattleMemoryRibbon,
+            RibbonChampionG6Hoenn = RibbonChampionG6Hoenn,
+            RibbonContestStar = RibbonContestStar,
+            RibbonMasterCoolness = RibbonMasterCoolness,
+            RibbonMasterBeauty = RibbonMasterBeauty,
+            RibbonMasterCuteness = RibbonMasterCuteness,
+            RibbonMasterCleverness = RibbonMasterCleverness,
+            RibbonMasterToughness = RibbonMasterToughness,
+            RibbonChampionAlola = RibbonChampionAlola,
+            RibbonBattleRoyale = RibbonBattleRoyale,
+            RibbonBattleTreeGreat = RibbonBattleTreeGreat,
+            RibbonBattleTreeMaster = RibbonBattleTreeMaster,
+            RibbonChampionGalar = RibbonChampionGalar,
+            RibbonTowerMaster = RibbonTowerMaster,
+            RibbonMasterRank = RibbonMasterRank,
+
+            RibbonMarkLunchtime = RibbonMarkLunchtime,
+            RibbonMarkSleepyTime = RibbonMarkSleepyTime,
+            RibbonMarkDusk = RibbonMarkDusk,
+            RibbonMarkDawn = RibbonMarkDawn,
+            RibbonMarkCloudy = RibbonMarkCloudy,
+            RibbonMarkRainy = RibbonMarkRainy,
+            RibbonMarkStormy = RibbonMarkStormy,
+            RibbonMarkSnowy = RibbonMarkSnowy,
+            RibbonMarkBlizzard = RibbonMarkBlizzard,
+            RibbonMarkDry = RibbonMarkDry,
+            RibbonMarkSandstorm = RibbonMarkSandstorm,
+            RibbonCountMemoryContest = RibbonCountMemoryContest,
+            RibbonCountMemoryBattle = RibbonCountMemoryBattle,
+            RibbonMarkMisty = RibbonMarkMisty,
+            RibbonMarkDestiny = RibbonMarkDestiny,
+            RibbonMarkFishing = RibbonMarkFishing,
+            RibbonMarkCurry = RibbonMarkCurry,
+            RibbonMarkUncommon = RibbonMarkUncommon,
+            RibbonMarkRare = RibbonMarkRare,
+            RibbonMarkRowdy = RibbonMarkRowdy,
+            RibbonMarkAbsentMinded = RibbonMarkAbsentMinded,
+            RibbonMarkJittery = RibbonMarkJittery,
+            RibbonMarkExcited = RibbonMarkExcited,
+            RibbonMarkCharismatic = RibbonMarkCharismatic,
+            RibbonMarkCalmness = RibbonMarkCalmness,
+            RibbonMarkIntense = RibbonMarkIntense,
+            RibbonMarkZonedOut = RibbonMarkZonedOut,
+            RibbonMarkJoyful = RibbonMarkJoyful,
+            RibbonMarkAngry = RibbonMarkAngry,
+            RibbonMarkSmiley = RibbonMarkSmiley,
+            RibbonMarkTeary = RibbonMarkTeary,
+            RibbonMarkUpbeat = RibbonMarkUpbeat,
+            RibbonMarkPeeved = RibbonMarkPeeved,
+            RibbonMarkIntellectual = RibbonMarkIntellectual,
+            RibbonMarkFerocious = RibbonMarkFerocious,
+            RibbonMarkCrafty = RibbonMarkCrafty,
+            RibbonMarkScowling = RibbonMarkScowling,
+            RibbonMarkKindly = RibbonMarkKindly,
+            RibbonMarkFlustered = RibbonMarkFlustered,
+            RibbonMarkPumpedUp = RibbonMarkPumpedUp,
+            RibbonMarkZeroEnergy = RibbonMarkZeroEnergy,
+            RibbonMarkPrideful = RibbonMarkPrideful,
+            RibbonMarkUnsure = RibbonMarkUnsure,
+            RibbonMarkHumble = RibbonMarkHumble,
+            RibbonMarkThorny = RibbonMarkThorny,
+            RibbonMarkVigor = RibbonMarkVigor,
+            RibbonMarkSlump = RibbonMarkSlump,
+            RibbonPioneer = RibbonPioneer,
+            RibbonTwinklingStar = RibbonTwinklingStar,
+
+            AffixedRibbon = AffixedRibbon,
+            HyperTrainFlags = HyperTrainFlags,
+
+            Sociability = Sociability,
+            Fullness = Fullness,
+            Enjoyment = Enjoyment,
+            BattleVersion = BattleVersion,
+            PKRS_Days = PKRS_Days,
+            PKRS_Strain = PKRS_Strain,
+            HeightScalar = HeightScalar,
+            WeightScalar = WeightScalar,
+            CanGigantamax = CanGigantamax,
+            DynamaxLevel = DynamaxLevel,
+
+            Favorite = Favorite,
+        };
+
+        Nickname_Trash.CopyTo(pk.Nickname_Trash);
+        OT_Trash.CopyTo(pk.OT_Trash);
+        HT_Trash.CopyTo(pk.HT_Trash);
         pk.ResetMoves();
         pk.ResetPartyStats();
         pk.RefreshChecksum();

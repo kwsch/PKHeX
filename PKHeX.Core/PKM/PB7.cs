@@ -653,6 +653,8 @@ namespace PKHeX.Core
                 StatNature = Nature,
                 HeightScalar = HeightScalar,
                 WeightScalar = WeightScalar,
+
+                Favorite = Favorite,
             };
 
             // Fix PP and Stats
