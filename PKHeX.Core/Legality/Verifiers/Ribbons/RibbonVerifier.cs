@@ -425,7 +425,7 @@ namespace PKHeX.Core
 
             if (!swsh && !bdsp)
             {
-                if (s8.RibbonTowerMaster && !(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
+                if (s8.RibbonTowerMaster)
                     yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
             }
             if (!swsh)
@@ -447,15 +447,10 @@ namespace PKHeX.Core
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
-                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc))
+                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc, evos))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
 
-                if (s8.RibbonTowerMaster)
-                {
-                    if (!(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
-                        yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
-                }
-                else
+                if (!s8.RibbonTowerMaster)
                 {
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
@@ -468,7 +463,6 @@ namespace PKHeX.Core
                 }
             }
 
-            // can be expanded upon if SWSH gets updated with the new ribbon when HOME has BDSP support
             if (s8.RibbonTwinklingStar && (!bdsp || pkm is IRibbonSetCommon6 {RibbonContestStar:false}))
             {
                 yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
@@ -481,9 +475,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterTemplate enc)
+        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterTemplate enc, EvolutionHistory evos)
         {
-            if (!pkm.SWSH && pkm is IBattleVersion {BattleVersion: 0})
+            bool exist = enc.Generation switch
+            {
+                < 8 => pkm is IBattleVersion { BattleVersion: (int)GameVersion.SW or (int)GameVersion.SH },
+                _ => pkm.HasVisitedSWSH(evos.Gen8),
+            };
+            if (!exist)
                 return false;
 
             // Clamp to permitted species
