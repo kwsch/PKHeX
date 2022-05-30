@@ -675,16 +675,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         return 0x40 + (index >> 3);
     }
 
-    public void Trade(ITrainerInfo tr, int Day = 29, int Month = 1, int Year = 2022)
+    public void Trade(ITrainerInfo tr)
     {
-        if (IsEgg)
-        {
-            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-            if ((tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
-                SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
-            return;
-        }
-
         // Process to the HT if the OT of the Pokémon does not match the SAV's OT info.
         if (!TradeOT(tr))
             TradeHT(tr);
