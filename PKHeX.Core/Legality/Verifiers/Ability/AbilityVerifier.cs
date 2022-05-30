@@ -448,15 +448,13 @@ namespace PKHeX.Core
 
         private static bool IsAccessibleAbilityPatch(PKM pkm, EvolutionHistory evosAll)
         {
-            if (evosAll.Length <= 8)
-                return false;
             return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
         }
 
         private static bool IsAccessibleAbilityCapsule(PKM pkm, EvolutionHistory evosAll)
         {
-            if (evosAll.Length <= 8)
-                return false;
+            if (evosAll.Gen6.Length > 0 || evosAll.Gen7.Length > 0)
+                return true;
             return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
         }
 

@@ -198,8 +198,7 @@ namespace PKHeX.Core
             var pt = PersonalTable.SWSH;
             foreach (var evo in evos)
             {
-                var pi = pt.GetFormEntry(evo.Species, evo.Form);
-                if (pi.IsPresentInGame)
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
                     return true;
             }
             return false;
@@ -217,8 +216,7 @@ namespace PKHeX.Core
             var pt = PersonalTable.BDSP;
             foreach (var evo in evos)
             {
-                var pi = pt.GetFormEntry(evo.Species, evo.Form);
-                if (pi.IsPresentInGame)
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
                     return true;
             }
             return false;
@@ -234,8 +232,7 @@ namespace PKHeX.Core
             var pt = PersonalTable.LA;
             foreach (var evo in evos)
             {
-                var pi = pt.GetFormEntry(evo.Species, evo.Form);
-                if (pi.IsPresentInGame)
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
                     return true;
             }
             return false;
