@@ -126,7 +126,7 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-            else if (pkm is PK1 pk1)
+            else if (pkm is PK1 pk1 && !ParseSettings.AllowGen1Tradeback)
             {
                 if (!Array.TrueForAll(info.Moves, z => z.Generation is 1) && !PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
                     return false;
