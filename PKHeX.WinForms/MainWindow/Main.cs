@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
 
             if (HaX)
             {
-                EntityConverter.AllowIncompatibleConversion = true;
+                EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
                 WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
             }
             else if (showChangelog)
