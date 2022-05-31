@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using PKHeX.Core;
 using PKHeX.Drawing;
 
@@ -21,6 +22,8 @@ namespace PKHeX.WinForms
                 throw new ArgumentException($"Invalid image width. Expected {Width} pixels wide.");
             if (img.Height != Height)
                 throw new ArgumentException($"Invalid image height. Expected {Height} pixels high.");
+            if (img.PixelFormat is not PixelFormat.Format32bppArgb)
+                throw new ArgumentException($"Invalid image format. Expected {PixelFormat.Format32bppArgb}");
 
             // get raw bytes of image
             byte[] data = ImageUtil.GetPixelData(img);

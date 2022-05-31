@@ -1211,7 +1211,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateExtraByteValue(object sender, EventArgs e)
         {
-            if (CB_ExtraBytes.Items.Count == 0 || sender is not MaskedTextBox mtb)
+            if (!FieldsLoaded || CB_ExtraBytes.Items.Count == 0 || sender is not MaskedTextBox mtb)
                 return;
             // Changed Extra Byte's Value
             var value = Util.ToInt32(mtb.Text);
