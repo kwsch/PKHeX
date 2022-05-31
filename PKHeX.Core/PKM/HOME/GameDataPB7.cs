@@ -12,7 +12,7 @@ public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute, IMemoryOT
     private const int SIZE = HomeCrypto.SIZE_1GAME_PB7;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PB7;
 
-    public GameDataPB7 Clone() => new(Data.AsSpan(Offset, SIZE).ToArray());
+    public GameDataPB7 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
 
     public GameDataPB7()
     {

@@ -12,7 +12,7 @@ public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISo
     private const int SIZE = HomeCrypto.SIZE_1GAME_PK8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PK8;
 
-    public GameDataPK8 Clone() => new(Data.AsSpan(Offset, SIZE).ToArray());
+    public GameDataPK8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
 
     public GameDataPK8()
     {

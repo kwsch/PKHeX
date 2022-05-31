@@ -41,6 +41,11 @@ public static class HomeTests
             for (int i = 0; i < decrypted.Length; i++)
                 decrypted[i].Should().Be(ph1.Data[i]);
 
+            bool check = HomeCrypto.GetIsEncrypted1(decrypted);
+            check.Should().BeFalse();
+
+            ph1.Clone().Should().NotBeNull();
+
             var write = ph1.Rebuild();
             write.Length.Should().Be(decrypted.Length);
             for (int i = 0; i < decrypted.Length; i++)

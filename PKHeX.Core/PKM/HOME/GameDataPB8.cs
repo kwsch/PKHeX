@@ -12,7 +12,7 @@ public sealed class GameDataPB8 : IGameDataSide
     private const int SIZE = HomeCrypto.SIZE_1GAME_PB8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PB8;
 
-    public GameDataPB8 Clone() => new(Data.AsSpan(Offset, SIZE).ToArray());
+    public GameDataPB8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
 
     public GameDataPB8()
     {

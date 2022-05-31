@@ -119,12 +119,12 @@ public static class HomeCrypto
         if (ReadUInt16LittleEndian(data[SIZE_1HEADER..]) != SIZE_1CORE)
             return true; // Core length should be constant if decrypted.
 
-        var core = data.Slice(SIZE_1HEADER + 4, SIZE_1CORE);
-        if (ReadUInt16LittleEndian(core[0x9D..]) != 0)
+        var core = data.Slice(SIZE_1HEADER + 2, SIZE_1CORE);
+        if (ReadUInt16LittleEndian(core[0xB5..]) != 0)
             return true; // OT_Name final terminator should be 0 if decrypted.
         if (ReadUInt16LittleEndian(core[0x60..]) != 0)
             return true; // Nickname final terminator should be 0 if decrypted.
-        if (ReadUInt16LittleEndian(core[0x70..]) != 0)
+        if (ReadUInt16LittleEndian(core[0x88..]) != 0)
             return true; // HT_Name final terminator should be 0 if decrypted.
 
         //// Fall back to checksum.

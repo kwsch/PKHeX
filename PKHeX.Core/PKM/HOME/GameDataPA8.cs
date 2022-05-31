@@ -12,7 +12,7 @@ public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
     private const int SIZE = HomeCrypto.SIZE_1GAME_PA8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PA8;
 
-    public GameDataPA8 Clone() => new(Data.AsSpan(Offset, SIZE).ToArray());
+    public GameDataPA8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
 
     public GameDataPA8()
     {
