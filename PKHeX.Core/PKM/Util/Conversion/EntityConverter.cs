@@ -12,7 +12,7 @@ public static class EntityConverter
     /// <summary>
     /// If a conversion method does not officially (legally) exist, then the program can try to convert via other means (illegal).
     /// </summary>
-    public static bool AllowIncompatibleConversion { get; set; }
+    public static EntityCompatibilitySetting AllowIncompatibleConversion { get; set; }
 
     /// <summary>
     /// Toggles rejuvenating lost data if direct transfer does not know how to revert fields like Met Location and Ball.
@@ -63,8 +63,13 @@ public static class EntityConverter
             return pkm;
         }
 
-        if (!AllowIncompatibleConversion)
-            return null;
+        if (AllowIncompatibleConversion != EntityCompatibilitySetting.AllowIncompatibleAll)
+        {
+            if (result is not NoTransferRoute)
+                return null;
+            if (AllowIncompatibleConversion != EntityCompatibilitySetting.AllowIncompatibleSane)
+                return null;
+        }
 
         // Try Incompatible Conversion
         pkm = EntityBlank.GetBlank(destType);
@@ -248,7 +253,7 @@ public static class EntityConverter
         if (!IsConvertibleToFormat(pk, target.Format))
         {
             converted = target;
-            if (!AllowIncompatibleConversion)
+            if (AllowIncompatibleConversion == EntityCompatibilitySetting.DisallowIncompatible)
             {
                 result = NoTransferRoute;
                 return false;

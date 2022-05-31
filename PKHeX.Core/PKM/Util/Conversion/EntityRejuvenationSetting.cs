@@ -2,7 +2,7 @@
 
 public enum EntityRejuvenationSetting
 {
+    Custom = -1,
     None,
-    Custom,
     MissingDataHOME,
 }

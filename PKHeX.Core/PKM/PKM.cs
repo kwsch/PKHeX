@@ -1050,8 +1050,13 @@ namespace PKHeX.Core
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var srcType = GetType();
             var destType = Destination.GetType();
+
             var srcProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType);
             var destProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(destType);
+            while (srcType.BaseType != typeof(PKM))
+                srcProperties = srcProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType = srcType.BaseType));
+            while (destType.BaseType != typeof(PKM))
+                destProperties = destProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(destType = destType.BaseType));
 
             // Transfer properties in the order they are defined in the destination PKM format for best conversion
             var shared = destProperties.Intersect(srcProperties);
