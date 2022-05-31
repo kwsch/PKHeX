@@ -94,7 +94,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override int MaxSpeciesID => m_spec;
     public override int MaxItemID => m_item;
     public override int MaxBallID => Legal.MaxBallID_8;
-    public override int MaxGameID => Legal.MaxGameID_8a;
+    public override int MaxGameID => Legal.MaxGameID_8;
     public override int MaxAbilityID => m_abil;
 
     private void Initialize()
