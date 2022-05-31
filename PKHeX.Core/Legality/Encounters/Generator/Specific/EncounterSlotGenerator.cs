@@ -45,7 +45,9 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
-            if (!Locations.IsNoneLocation(gameSource, pkm.Egg_Location) || pkm.IsEgg)
+            if (pkm.IsEgg)
+                yield break;
+            if (IsMetAsEgg(pkm))
                 yield break;
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
@@ -58,6 +60,11 @@ namespace PKHeX.Core
         }
 
         public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
+        {
+            return GetRawEncounterSlots(pkm, chain, gameSource);
+        }
+
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             return GetRawEncounterSlots(pkm, chain, gameSource);
         }

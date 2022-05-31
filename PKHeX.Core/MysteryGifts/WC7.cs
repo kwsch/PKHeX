@@ -556,7 +556,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm.Egg_Location == 0) // Not Egg
+            if (!IsEgg)
             {
                 if (OTGender != 3)
                 {
@@ -591,7 +591,7 @@ namespace PKHeX.Core
             else
             {
                 if (!Shiny.IsValid(pkm)) return false;
-                if (EggLocation != pkm.Egg_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
 

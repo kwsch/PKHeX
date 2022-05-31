@@ -372,7 +372,7 @@ namespace PKHeX.Core
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
                 if (Language != 0 && Language != pkm.Language) return false;
 
-                if (EggLocation != pkm.Egg_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
             else

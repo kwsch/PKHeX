@@ -8,8 +8,10 @@ namespace PKHeX.Core
     {
         public static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false)
         {
-            if (pkm.IsMovesetRestricted(generation))
-                ver = (GameVersion) pkm.Version;
+            var (isRestricted, game) = pkm.IsMovesetRestricted();
+            if (isRestricted)
+                ver = game;
+
             switch (generation)
             {
                 case 1: return GetIsMachine1(species, move);
@@ -30,8 +32,10 @@ namespace PKHeX.Core
 
         public static GameVersion GetIsRecordMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool allowBit = false)
         {
-            if (pkm.IsMovesetRestricted(generation))
-                ver = (GameVersion)pkm.Version;
+            var (isRestricted, game) = pkm.IsMovesetRestricted();
+            if (isRestricted)
+                ver = game;
+
             return generation switch
             {
                 8 => GetIsRecord8(pkm, species, move, form, ver, allowBit),
@@ -223,8 +227,9 @@ namespace PKHeX.Core
         public static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
         {
             var r = new List<int>();
-            if (pkm.IsMovesetRestricted(generation))
-                ver = (GameVersion)pkm.Version;
+            var (isRestricted, game) = pkm.IsMovesetRestricted();
+            if (isRestricted)
+                ver = game;
 
             switch (generation)
             {
@@ -237,7 +242,7 @@ namespace PKHeX.Core
                 case 4: AddMachine4(r, species, pkm.Format, RemoveTransfer, form); break;
                 case 5: AddMachine5(r, species, form); break;
                 case 6: AddMachine6(r, species, form, ver); break;
-                case 7: AddMachine7(r, species, form, ver); break;
+                case 7: AddMachine7(r, species, form, pkm.GG ? (GameVersion)pkm.Version : ver); break;
                 case 8: AddMachine8(r, species, form, ver); break;
             }
             return r.Distinct();

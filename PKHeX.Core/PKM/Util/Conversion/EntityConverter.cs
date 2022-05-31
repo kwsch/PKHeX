@@ -12,7 +12,17 @@ public static class EntityConverter
     /// <summary>
     /// If a conversion method does not officially (legally) exist, then the program can try to convert via other means (illegal).
     /// </summary>
-    public static bool AllowIncompatibleConversion { get; set; }
+    public static EntityCompatibilitySetting AllowIncompatibleConversion { get; set; }
+
+    /// <summary>
+    /// Toggles rejuvenating lost data if direct transfer does not know how to revert fields like Met Location and Ball.
+    /// </summary>
+    public static EntityRejuvenationSetting RejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
+
+    /// <summary>
+    /// Post-conversion rejuvenation worker to restore lost values.
+    /// </summary>
+    public static IEntityRejuvenator RejuvenatorHOME { get; set; } = new LegalityRejuvenator();
 
     /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
@@ -46,19 +56,19 @@ public static class EntityConverter
         }
 
         var pkm = ConvertPKM(pk, destType, fromType, out result);
-        if (!AllowIncompatibleConversion || pkm != null)
-            return pkm;
-
-        if (pk is PK8 && destType == typeof(PB8))
+        if (pkm is not null)
         {
-            result = SuccessIncompatibleManual;
-            return new PB8((byte[])pk.Data.Clone());
+            if (RejuvenateHOME != EntityRejuvenationSetting.None)
+                RejuvenatorHOME.Rejuvenate(pkm, pk);
+            return pkm;
         }
 
-        if (pk is PB8 && destType == typeof(PK8))
+        if (AllowIncompatibleConversion != EntityCompatibilitySetting.AllowIncompatibleAll)
         {
-            result = SuccessIncompatibleManual;
-            return new PK8((byte[])pk.Data.Clone());
+            if (result is not NoTransferRoute)
+                return null;
+            if (AllowIncompatibleConversion != EntityCompatibilitySetting.AllowIncompatibleSane)
+                return null;
         }
 
         // Try Incompatible Conversion
@@ -72,7 +82,10 @@ public static class EntityConverter
 
     private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out EntityConverterResult result)
     {
-        result = CheckTransfer(pk);
+        result = CheckTransferOutbound(pk);
+        if (result != Success)
+            return null;
+        result = CheckTransferInbound(pk, destType);
         if (result != Success)
             return null;
 
@@ -107,8 +120,11 @@ public static class EntityConverter
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
         PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
 
-        // Invalid
-        PK2 { Species: > Legal.MaxSpeciesID_1 } => InvalidTransfer(out result, IncompatibleSpecies),
+        PB8 pb8 when destType == typeof(PK8) => pb8.ConvertToPK8(),
+        PK8 pk8 when destType == typeof(PB8) => pk8.ConvertToPB8(),
+        G8PKM pk8 when destType == typeof(PA8) => pk8.ConvertToPA8(),
+        PA8 pa8 when destType == typeof(PK8) => pa8.ConvertToPK8(),
+        PA8 pa8 when destType == typeof(PB8) => pa8.ConvertToPB8(),
 
         // Sequential
         PK1 pk1 => pk1.ConvertToPK2(),
@@ -136,18 +152,44 @@ public static class EntityConverter
     }
 
     /// <summary>
-    /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
+    /// Checks to see if a PKM is transferable out of a specific format.
     /// </summary>
     /// <param name="pk">PKM to convert</param>
     /// <returns>Indication if Not Transferable</returns>
-    private static EntityConverterResult CheckTransfer(PKM pk) => pk switch
+    private static EntityConverterResult CheckTransferOutbound(PKM pk) => pk switch
     {
         PK4 { Species: (int)Species.Pichu, Form: not 0 } => IncompatibleForm,
         PK6 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
         PB7 { Species: (int)Species.Pikachu, Form: not 0 } => IncompatibleForm,
         PB7 { Species: (int)Species.Eevee, Form: not 0 } => IncompatibleForm,
+        PB8 { Species: (int)Species.Spinda } => IncompatibleSpecies, // Incorrect arrangement of spots (PID endianness)
+        PB8 { Species: (int)Species.Nincada } => IncompatibleSpecies, // Clone paranoia with Shedinja
         _ => Success,
     };
+
+    /// <summary>
+    /// Checks to see if a PKM is transferable into a specific format.
+    /// </summary>
+    /// <param name="pk">PKM to convert</param>
+    /// <param name="destType">Type to convert to</param>
+    /// <returns>Indication if Not Transferable</returns>
+    private static EntityConverterResult CheckTransferInbound(PKM pk, Type destType)
+    {
+        if (destType == typeof(PB8))
+        {
+            return pk.Species switch
+            {
+                (int)Species.Nincada => IncompatibleSpecies,
+                (int)Species.Spinda => IncompatibleSpecies,
+                _ => Success,
+            };
+        }
+
+        if (destType.Name[^1] == '1' && pk.Species > Legal.MaxSpeciesID_1)
+            return IncompatibleSpecies;
+
+        return Success;
+    }
 
     /// <summary>
     /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="PKM"/>, and makes any necessary modifications to force compatibility.
@@ -211,7 +253,7 @@ public static class EntityConverter
         if (!IsConvertibleToFormat(pk, target.Format))
         {
             converted = target;
-            if (!AllowIncompatibleConversion)
+            if (AllowIncompatibleConversion == EntityCompatibilitySetting.DisallowIncompatible)
             {
                 result = NoTransferRoute;
                 return false;

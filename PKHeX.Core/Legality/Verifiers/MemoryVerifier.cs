@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.BDSP || pkm.LA)
+            if (ShouldHaveNoMemory(data, pkm))
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 VerifyHTMemoryNone(data, (ITrainerMemories)pkm);
@@ -23,6 +23,13 @@ namespace PKHeX.Core
             }
             VerifyOTMemory(data);
             VerifyHTMemory(data);
+        }
+
+        private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm.BDSP || pkm.LA)
+                return !pkm.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8);
+            return false;
         }
 
         private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info, MemoryContext context)
@@ -56,7 +63,7 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                case 21 when gen != 6 || !GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, (int)Move.Fly, 6):
+                case 21 when gen != 6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).TMHM[101]: // Fly
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
@@ -71,7 +78,7 @@ namespace PKHeX.Core
                 // {0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
                 case 71 when !GetCanDynamaxTrainer(memory.Variable, 8, handler == 0 ? (GameVersion)pkm.Version : GameVersion.Any):
                 // {0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
-                case 72 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 72 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // Move
@@ -88,13 +95,13 @@ namespace PKHeX.Core
                 // {0} saw {1} paying attention to {2}. {4} that {3}.
                 // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
                 // {0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
-                case 9 or 60 or 75 when gen == 8 && !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 9 or 60 or 75 when gen == 8 && !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
                 // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
                 // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
-                case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 82 or 83 or 87 when !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
                 // {0} had a very hard training session with {1}. {4} that {3}.
@@ -201,7 +208,7 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            else if (!CanHaveMemoryForOT(pkm, memoryGen, memory))
+            else if (!CanHaveMemoryForOT(pkm, memoryGen, memory, Info.EvoChainsAllGens))
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
                 return;
@@ -248,7 +255,7 @@ namespace PKHeX.Core
             data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info, context));
         }
 
-        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory)
+        private static bool CanHaveMemoryForOT(PKM pkm, int origin, int memory, EvolutionHistory evos)
         {
             switch (origin)
             {
@@ -259,8 +266,8 @@ namespace PKHeX.Core
                 case 7 when pkm.GG: // LGPE does not set memories.
                 case 8 when pkm.GO_HOME: // HOME does not set memories.
                 case 8 when pkm.Met_Location == Locations.HOME8: // HOME does not set memories.
-                case 8 when pkm.BDSP: // BDSP does not set memories.
-                case 8 when pkm.LA: // LA does not set memories.
+                case 8 when pkm.BDSP && !pkm.HasVisitedSWSH(evos.Gen8): // BDSP does not set memories.
+                case 8 when pkm.LA   && !pkm.HasVisitedSWSH(evos.Gen8): // LA does not set memories.
                     return false;
 
                 // Eggs cannot have memories

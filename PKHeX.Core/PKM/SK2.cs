@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public override bool Korean => false;
         private const int StringLength = 12;
 
-        public override int Format => 2;
+        public override EntityContext Context => EntityContext.Gen2;
         public override int OTLength => StringLength;
         public override int NickLength => StringLength;
 

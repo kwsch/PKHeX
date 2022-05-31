@@ -19,9 +19,7 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
                 return false;
-            if (pkm.BDSP || pkm.LA)
-                return false;
-            return CanHaveDynamaxLevel(pkm.Species);
+            return pkm is PK8 && CanHaveDynamaxLevel(pkm.Species);
         }
 
         /// <summary>

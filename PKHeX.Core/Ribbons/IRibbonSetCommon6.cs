@@ -72,5 +72,23 @@
 
         internal static string[] RibbonNamesBool(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Bool;
         internal static string[] RibbonNamesContest(this IRibbonSetCommon6 _) => RibbonSetNamesCommon6Contest;
+
+        internal static void CopyRibbonSetCommon6(this IRibbonSetCommon6 set, IRibbonSetCommon6 dest)
+        {
+            dest.RibbonChampionKalos = set.RibbonChampionKalos;
+            dest.RibbonChampionG6Hoenn = set.RibbonChampionG6Hoenn;
+            dest.RibbonBestFriends = set.RibbonBestFriends;
+            dest.RibbonTraining = set.RibbonTraining;
+            dest.RibbonBattlerSkillful = set.RibbonBattlerSkillful;
+            dest.RibbonBattlerExpert = set.RibbonBattlerExpert;
+            dest.RibbonContestStar = set.RibbonContestStar;
+            dest.RibbonMasterCoolness = set.RibbonMasterCoolness;
+            dest.RibbonMasterBeauty = set.RibbonMasterBeauty;
+            dest.RibbonMasterCuteness = set.RibbonMasterCuteness;
+            dest.RibbonMasterCleverness = set.RibbonMasterCleverness;
+            dest.RibbonMasterToughness = set.RibbonMasterToughness;
+            dest.RibbonCountMemoryContest = set.RibbonCountMemoryContest;
+            dest.RibbonCountMemoryBattle = set.RibbonCountMemoryBattle;
+        }
     }
 }

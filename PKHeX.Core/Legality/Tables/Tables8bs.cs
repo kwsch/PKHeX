@@ -7,7 +7,7 @@ namespace PKHeX.Core
         internal const int MaxSpeciesID_8b = MaxSpeciesID_4; // Arceus-493
         internal const int MaxMoveID_8b = MaxMoveID_8_R2;
         internal const int MaxItemID_8b = 1822; // DS Sounds
-        internal const int MaxBallID_8b = (int)Ball.Beast;
+        internal const int MaxBallID_8b = (int)Ball.LAOrigin;
         internal const int MaxGameID_8b = (int)GameVersion.SP;
         internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
@@ -117,14 +117,6 @@ namespace PKHeX.Core
             (int)Move.BlastBurn,
             (int)Move.HydroCannon,
             (int)Move.DracoMeteor,
-        };
-
-        /// <summary>
-        /// Unavailable Sketch Moves that are only learnable once certain species are distributed / made accessible.
-        /// </summary>
-        public static readonly HashSet<int> SignatureSketch_BDSP = new()
-        {
-            (int)Move.PsychoBoost, // Deoxys
         };
 
         /// <summary>

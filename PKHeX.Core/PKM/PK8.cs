@@ -29,6 +29,8 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
         public override PersonalInfo PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
+        public override bool IsNative => SWSH;
+        public override EntityContext Context => EntityContext.Gen8;
 
         public PK8() => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
         public PK8(byte[] data) : base(data) { }
@@ -104,5 +106,90 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_8;
         public override int MaxBallID => Legal.MaxBallID_8;
         public override int MaxGameID => Legal.MaxGameID_8;
+
+        public PB8 ConvertToPB8()
+        {
+            var pk = ConvertTo<PB8>();
+            if (pk.Egg_Location == 0)
+                pk.Egg_Location = Locations.Default8bNone;
+            UnmapLocation(pk);
+            return pk;
+        }
+
+        public override PA8 ConvertToPA8()
+        {
+            var pk = base.ConvertToPA8();
+            UnmapLocation(pk);
+            return pk;
+        }
+
+        private static void UnmapLocation(PKM pk)
+        {
+            switch (pk.Met_Location)
+            {
+                case Locations.HOME_SWLA:
+                    pk.Version = (int)GameVersion.PLA;
+                    // Keep location due to bad transfer logic (official) -- server legal.
+                    break;
+                case Locations.HOME_SWBD:
+                    pk.Version = (int)GameVersion.BD;
+                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    break;
+                case Locations.HOME_SHSP:
+                    pk.Version = (int)GameVersion.SP;
+                    pk.Met_Location = 0; // Load whatever value from the server. We don't know.
+                    break;
+            }
+        }
+
+        public override void ResetMoves()
+        {
+            var learnsets = Legal.LevelUpSWSH;
+            var table = PersonalTable.SWSH;
+
+            var index = table.GetFormIndex(Species, Form);
+            var learn = learnsets[index];
+            Span<int> moves = stackalloc int[4];
+            learn.SetEncounterMoves(CurrentLevel, moves);
+            SetMoves(moves);
+            this.SetMaximumPPCurrent(moves);
+        }
+
+        public override bool BDSP => Met_Location is Locations.HOME_SWBD or Locations.HOME_SHSP;
+        public override bool LA => Met_Location is Locations.HOME_SWLA;
+        public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
+
+        public void SanitizeImport()
+        {
+            var ver = Version;
+            if (ver is (int)GameVersion.SP)
+            {
+                Met_Location = Locations.HOME_SHSP;
+                Version = (int)GameVersion.SH;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_SHSP;
+            }
+            else if (ver is (int)GameVersion.BD)
+            {
+                Met_Location = Locations.HOME_SWBD;
+                Version = (int)GameVersion.SW;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_SWBD;
+            }
+            else if (ver is (int)GameVersion.PLA)
+            {
+                Met_Location = Locations.HOME_SWLA;
+                Version = (int)GameVersion.SW;
+                if (Egg_Location != 0)
+                    Egg_Location = Locations.HOME_SWLA;
+            }
+            else if (ver > (int)GameVersion.PLA)
+            {
+                Met_Location = Met_Location <= Locations.HOME_SWLA ? Locations.HOME_SWLA : Locations.HOME_SWSHBDSPEgg;
+            }
+
+            if (Ball > (int)Core.Ball.Beast)
+                Ball = (int)Core.Ball.Poke;
+        }
     }
 }

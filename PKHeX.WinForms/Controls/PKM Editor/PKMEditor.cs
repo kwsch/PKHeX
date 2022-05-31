@@ -1198,7 +1198,7 @@ namespace PKHeX.WinForms.Controls
                 int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(Entity);
                 int eggLoc = CHK_AsEgg.Checked
                     ? EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(format, version)
-                    : Locations.GetNoneLocation(version);
+                    : LocationEdits.GetNoneLocation(Entity);
 
                 CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
                 CB_EggLocation.SelectedValue = eggLoc;
@@ -1384,7 +1384,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     var sav = SaveFileRequested.Invoke(this, e);
                     bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, sav.Version) : Locations.GetNoneLocation(sav.Version);
+                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, sav.Version) : LocationEdits.GetNoneLocation(Entity);
                     CB_MetLocation.SelectedValue = loc;
                 }
                 else if (Entity.Format == 3)
@@ -1445,7 +1445,7 @@ namespace PKHeX.WinForms.Controls
             // Remove egg met data
             CHK_IsEgg.Checked = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
-            CB_EggLocation.SelectedValue = Locations.GetNoneLocation((GameVersion)Entity.Version);
+            CB_EggLocation.SelectedValue = LocationEdits.GetNoneLocation(Entity);
 
             UpdateLegality();
         }
@@ -2014,7 +2014,7 @@ namespace PKHeX.WinForms.Controls
             {
                 var game = (GameVersion) sav.Game;
                 if (game <= 0)
-                    game = GameUtil.GetVersion(sav.Generation);
+                    game = Entity.Context.GetSingleGameVersion();
                 CheckMetLocationChange(game, sav.Generation);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
             }

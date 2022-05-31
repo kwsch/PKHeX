@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED;
         public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
-        public override int Format => 3;
+        public override EntityContext Context => EntityContext.Gen3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
         public CK3(byte[] data) : base(data) { }
         public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
@@ -173,7 +173,7 @@ namespace PKHeX.Core
         public override bool AbilityBit { get => Data[0xCC] == 1; set => Data[0xCC] = value ? (byte)1 : (byte)0; }
         public override bool Valid { get => Data[0xCD] == 0; set => Data[0xCD] = !value ? (byte)1 : (byte)0; }
 
-        public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
+        public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
 
         public int PartySlot { get => Data[0xD7]; set => Data[0xD7] = (byte)value; } // or not; only really used while in party?

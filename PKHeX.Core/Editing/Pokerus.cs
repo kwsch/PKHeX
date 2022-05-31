@@ -17,7 +17,22 @@ public static class Pokerus
     /// </summary>
     /// <param name="pk">Entity to check</param>
     /// <returns>True if Pokérus exists in the game format, or can be transmitted to the entity via another game.</returns>
-    public static bool IsObtainable(PKM pk) => pk is not PA8; // don't care about PK1, not stored in the data.
+    public static bool IsObtainable(PKM pk) => pk switch
+    {
+        PA8 pa8 => HasVisitedBDSPorSWSH(pa8),
+        _ => true,
+    };
+
+    private static bool HasVisitedBDSPorSWSH(PA8 pk)
+    {
+        if (pk.IsUntraded)
+            return false;
+        if (PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form))
+            return true;
+        if (PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
+            return true;
+        return false;
+    }
 
     /// <summary>
     /// Checks if the Pokérus value for Strain is possible to have on the input entity.

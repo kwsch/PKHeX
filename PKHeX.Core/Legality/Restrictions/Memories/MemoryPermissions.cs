@@ -66,12 +66,6 @@ namespace PKHeX.Core
             return context.CanBuyItem(item, version);
         }
 
-        public static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            var evos = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetCanLearnMachineMove(pkm, evos, move, generation, version);
-        }
-
         public static bool GetCanLearnMachineMove(PKM pkm, EvoCriteria[] evos, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (IsOtherFormMove(pkm, evos, move, generation, version, types: MoveSourceType.AllMachines))
@@ -145,10 +139,10 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterable enc)
+        private static bool IsSpecialEncounterMoveEggDeleted(PKM pkm, IEncounterTemplate enc)
         {
-            if (pkm is IBattleVersion { BattleVersion: not 0 }) // can hide Relearn moves (Gen6+ Eggs, or DexNav)
-                return enc is EncounterEgg { Generation: >= 6 } or EncounterSlot6AO { CanDexNav: true } or EncounterSlot8b { IsUnderground: true };
+            if (pkm.IsOriginalMovesetDeleted())
+                return true;
             return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
         }
 
@@ -159,7 +153,7 @@ namespace PKHeX.Core
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
-        private static bool GetCanKnowMove(PKM pkm, int move, int generation, EvoCriteria[][] evos, GameVersion version = GameVersion.Any)
+        private static bool GetCanKnowMove(PKM pkm, int move, int generation, EvolutionHistory evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Smeargle)
                 return Legal.IsValidSketch(move, generation);

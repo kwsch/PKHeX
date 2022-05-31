@@ -107,6 +107,8 @@
 
         Pioneer,
         TwinklingStar,
+
+        MAX_COUNT,
     }
 
     public static class RibbonIndexExtensions

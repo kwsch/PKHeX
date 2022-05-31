@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED;
         public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-        public override int Format => 4;
+        public override EntityContext Context => EntityContext.Gen4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS[Species];
 
         public override byte[] DecryptedBoxData => EncryptedBoxData;
@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
         public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
-        public override int MarkValue { get => Data[0x16]; protected set => Data[0x16] = (byte)value; }
+        public override int MarkValue { get => Data[0x16]; set => Data[0x16] = (byte)value; }
         public override int Language { get => Data[0x17]; set => Data[0x17] = (byte)value; }
         public override int EV_HP { get => Data[0x18]; set => Data[0x18] = (byte)value; }
         public override int EV_ATK { get => Data[0x19]; set => Data[0x19] = (byte)value; }

@@ -386,15 +386,23 @@ namespace PKHeX.Core
             if ((uint)species > MaxSpeciesID)
                 return false;
             var form0 = Table[species];
-            if (form0.HP != 0)
+            if (form0.IsPresentInGame)
                 return true;
             var fc = form0.FormCount;
             for (int i = 1; i < fc; i++)
             {
-                if (GetFormEntry(species, i).HP != 0)
+                if (GetFormEntry(species, i).IsPresentInGame)
                     return true;
             }
             return false;
+        }
+
+        public bool IsPresentInGame(int species, int form)
+        {
+            if ((uint)species > MaxSpeciesID)
+                return false;
+            var entry = GetFormEntry(species, form);
+            return entry.IsPresentInGame;
         }
     }
 }

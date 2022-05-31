@@ -138,8 +138,7 @@ namespace PKHeX.Core
 
             // PK8
             int species = pkm.Species;
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, pkm.Form);
-            if (!pi.IsPresentInGame || pkm.BDSP || pkm.LA) // Can't transfer
+            if (!PersonalTable.SWSH.IsPresentInGame(species, pkm.Form)) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
                 return;
@@ -150,7 +149,7 @@ namespace PKHeX.Core
             {
                 VerifyHOMETracker(data, pkm);
             }
-            else if (enc.Generation < 8 && pkm.Format >= 8)
+            else if (pkm.Format >= 8 && !pkm.IsNative)
             {
                 if (enc is EncounterStatic7 {IsTotem: true} s)
                 {
@@ -160,19 +159,18 @@ namespace PKHeX.Core
                         data.AddLine(GetInvalid(LTransferBad));
                 }
 
-                VerifyHOMETransfer(data, pkm);
+                if (enc.Generation < 8)
+                    VerifyHOMETransfer(data, pkm);
                 VerifyHOMETracker(data, pkm);
             }
         }
         private void VerifyTransferLegalityG8a(LegalityAnalysis data, PA8 pk)
         {
             // Tracker value is set via Transfer across HOME.
-            // No HOME access yet.
-            if (pk is IHomeTrack { Tracker: not 0 })
-                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
+            if (!pk.IsNative)
+                VerifyHOMETracker(data, pk);
 
-            var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
-            if (!pi.IsPresentInGame || !pk.LA) // Can't transfer
+            if (!PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
@@ -180,12 +178,10 @@ namespace PKHeX.Core
         private void VerifyTransferLegalityG8b(LegalityAnalysis data, PB8 pk)
         {
             // Tracker value is set via Transfer across HOME.
-            // No HOME access yet.
-            if (pk is IHomeTrack { Tracker: not 0 })
-                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
+            if (!pk.IsNative)
+                VerifyHOMETracker(data, pk);
 
-            var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form);
-            if (!pi.IsPresentInGame || !pk.BDSP) // Can't transfer
+            if (!PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
@@ -219,7 +215,9 @@ namespace PKHeX.Core
         {
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);
-            if (pkm.Egg_Location != transfer.EggLocation)
+
+            var expecteEgg = pkm is PB8 ? Locations.Default8bNone : transfer.EggLocation;
+            if (pkm.Egg_Location != expecteEgg)
                 yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred

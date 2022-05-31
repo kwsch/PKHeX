@@ -14,11 +14,8 @@ public sealed class LegendsArceusVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.pkm;
-        if (!pk.LA || pk is not PA8 pa)
+        if (pk is not PA8 pa)
             return;
-
-        CheckLearnset(data, pa);
-        CheckMastery(data, pa);
 
         if (pa.IsNoble)
             data.AddLine(GetInvalid(LStatNobleInvalid));
@@ -27,6 +24,9 @@ public sealed class LegendsArceusVerifier : Verifier
 
         CheckScalars(data, pa);
         CheckGanbaru(data, pa);
+
+        CheckLearnset(data, pa);
+        CheckMastery(data, pa);
     }
 
     private static void CheckGanbaru(LegalityAnalysis data, PA8 pa)
@@ -67,7 +67,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
         // Get the bare minimum moveset.
         Span<int> expect = stackalloc int[4];
-        var minMoveCount = LoadBareMinimumMoveset(data.EncounterMatch, data.Info.EvoChainsAllGens[8], pa, expect);
+        var minMoveCount = LoadBareMinimumMoveset(data.EncounterMatch, data.Info.EvoChainsAllGens, pa, expect);
 
         // Flag move slots that are empty.
         for (int i = moveCount; i < minMoveCount; i++)
@@ -81,7 +81,7 @@ public sealed class LegendsArceusVerifier : Verifier
     /// <summary>
     /// Gets the expected minimum count of moves, and modifies the input <see cref="moves"/> with the bare minimum move IDs.
     /// </summary>
-    private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvoCriteria[] evos, PA8 pa, Span<int> moves)
+    private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvolutionHistory h, PA8 pa, Span<int> moves)
     {
         // Get any encounter moves
         var pt = PersonalTable.LA;
@@ -100,6 +100,10 @@ public sealed class LegendsArceusVerifier : Verifier
         Span<int> purchased = stackalloc int[purchasedCount];
         LoadPurchasedMoves(pa, purchased);
 
+        // If it can be leveled up in other games, level it up in other games.
+        if (pa.HasVisitedSWSH(h.Gen8) || pa.HasVisitedBDSP(h.Gen8b))
+            return count;
+
         // Level up to current level
         var level = pa.CurrentLevel;
         moveset.SetLevelUpMoves(pa.Met_Level, level, moves, purchased, count);
@@ -108,6 +112,7 @@ public sealed class LegendsArceusVerifier : Verifier
             return 4;
 
         // Evolve and try
+        var evos = h.Gen8a;
         for (int i = 0; i < evos.Length - 1; i++)
         {
             var evo = evos[i];
@@ -223,7 +228,7 @@ public sealed class LegendsArceusVerifier : Verifier
         // Changing forms do not have separate tutor permissions, so we don't need to bother with form changes.
         // Level up movepools can grant moves for mastery at lower levels for earlier evolutions... find the minimum.
         int level = 101;
-        foreach (var evo in data.Info.EvoChainsAllGens[8])
+        foreach (var evo in data.Info.EvoChainsAllGens.Gen8a)
         {
             var pt = PersonalTable.LA;
             var index = pt.GetFormIndex(evo.Species, evo.Form);

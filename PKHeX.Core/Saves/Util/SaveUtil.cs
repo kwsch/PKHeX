@@ -780,13 +780,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
-        /// <param name="generation">Generation of the Save File.</param>
+        /// <param name="context">Context of the Save File.</param>
         /// <param name="trainerName">Trainer Name</param>
         /// <param name="language">Save file language to initialize for</param>
         /// <returns>Save File for that generation.</returns>
-        public static SaveFile GetBlankSAV(int generation, string trainerName, LanguageID language = LanguageID.English)
+        public static SaveFile GetBlankSAV(EntityContext context, string trainerName, LanguageID language = LanguageID.English)
         {
-            var ver = GameUtil.GetVersion(generation);
+            var ver = context.GetSingleGameVersion();
             return GetBlankSAV(ver, trainerName, language);
         }
 

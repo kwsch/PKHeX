@@ -161,7 +161,7 @@ namespace PKHeX.Core
             return Array.Empty<int>();
         }
 
-        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, EvoCriteria[][] evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
             var result = new IReadOnlyList<int>[evoChains.Length];
             for (int i = 0; i < result.Length; i++)
@@ -181,9 +181,7 @@ namespace PKHeX.Core
 
         internal static IEnumerable<int> GetValidMoves(PKM pkm, EvoCriteria[] evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
         {
-            GameVersion version = (GameVersion)pkm.Version;
-            if (!pkm.IsMovesetRestricted(generation))
-                version = Any;
+            var (_, version) = pkm.IsMovesetRestricted();
             return GetValidMoves(pkm, version, evoChain, generation, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 

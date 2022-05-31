@@ -203,7 +203,7 @@ namespace PKHeX.Core
                 return false;
             if (OTGender != -1 && OTGender != pkm.OT_Gender)
                 return false;
-            if (EggLocation != pkm.Egg_Location)
+            if (!IsMatchEggLocation(pkm))
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
             //    continue;
@@ -211,6 +211,14 @@ namespace PKHeX.Core
                 return false;
 
             return true;
+        }
+
+        protected virtual bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = EggLocation;
+            if (pkm is PB8 && expect is 0)
+                expect = Locations.Default8bNone;
+            return pkm.Egg_Location == expect;
         }
 
         private bool IsMatchLevel(PKM pkm, EvoCriteria evo)

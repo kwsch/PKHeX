@@ -73,6 +73,14 @@ namespace PKHeX.Core
             if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
             {
                 var date = new DateTime(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
+
+                // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
+                if (enc is WB8 { CardID: 9015 or 9016 or 9017 } or WA8 { CardID: 9018 or 9019 or 9020 })
+                {
+                    if (date < new DateTime(2022, 5, 20) && pkm.Language != (int)LanguageID.Japanese)
+                        data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
+                }
+
                 var result = serverGift.IsValidDate(date);
                 if (result == EncounterServerDateCheck.Invalid)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
@@ -369,8 +377,8 @@ namespace PKHeX.Core
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version):
-                case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version):
-                case WA8 wa8 when !wa8.CanBeReceivedByVersion(pkm.Version):
+                case WB8 wb8 when !wb8.CanBeReceivedByVersion(pkm.Version, pkm):
+                case WA8 wa8 when !wa8.CanBeReceivedByVersion(pkm.Version, pkm):
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && pkm.Language != wc6.RestrictLanguage:
@@ -423,9 +431,9 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (pkm.Fullness != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
                 if (pkm.Enjoyment != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
                 return;
             }
 
@@ -433,8 +441,11 @@ namespace PKHeX.Core
             {
                 if (pkm.Fullness > 245) // Exiting camp is -10
                     data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "<=245"), Encounter));
+                else if (pkm.Fullness is not 0 && pkm is not PK8)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
+
                 if (pkm.Enjoyment != 0)
-                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, "0"), Encounter));
                 return;
             }
 
@@ -448,7 +459,7 @@ namespace PKHeX.Core
                 return; // evolved
 
             if (Unfeedable.Contains(pkm.Species))
-                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
         }
 
         private static readonly HashSet<int> Unfeedable = new()
@@ -488,7 +499,7 @@ namespace PKHeX.Core
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
         {
-            if (pk8.Favorite)
+            if (pk8.Favorite && !pk8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
             var social = pk8.Sociability;
@@ -504,12 +515,8 @@ namespace PKHeX.Core
 
             VerifyStatNature(data, pk8);
 
-            var bv = pk8.BattleVersion;
-            if (bv != 0)
-            {
-                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pk8.SWSH)
-                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-            }
+            if (!pk8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
+                data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             var enc = data.EncounterMatch;
             bool originGMax = enc is IGigantamax {CanGigantamax: true};
@@ -556,12 +563,15 @@ namespace PKHeX.Core
         {
             VerifyAbsoluteSizes(data, pa8);
 
-            if (pa8.Favorite)
+            if (pa8.Favorite && !pa8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            var affix = pa8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
+            {
+                var affix = pa8.AffixedRibbon;
+                if (affix != -1) // None
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            }
 
             var social = pa8.Sociability;
             if (social != 0)
@@ -569,8 +579,7 @@ namespace PKHeX.Core
 
             VerifyStatNature(data, pa8);
 
-            var bv = pa8.BattleVersion;
-            if (bv != 0)
+            if (!pa8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
                 data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             if (pa8.CanGigantamax)
@@ -588,12 +597,15 @@ namespace PKHeX.Core
 
         private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
         {
-            if (pb8.Favorite)
+            if (pb8.Favorite && !pb8.GG)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            var affix = pb8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
+            {
+                var affix = pb8.AffixedRibbon;
+                if (affix != -1) // None
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            }
 
             var social = pb8.Sociability;
             if (social != 0)
@@ -601,11 +613,14 @@ namespace PKHeX.Core
 
             if (pb8.IsDprIllegal)
                 data.AddLine(GetInvalid(LTransferFlagIllegal));
+            if (pb8.Species is (int)Species.Spinda or (int)Species.Nincada && !pb8.BDSP)
+                data.AddLine(GetInvalid(LTransferNotPossible));
+            if (pb8.Species is (int)Species.Spinda && pb8.Tracker != 0)
+                data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
 
             VerifyStatNature(data, pb8);
 
-            var bv = pb8.BattleVersion;
-            if (bv != 0)
+            if (!pb8.IsBattleVersionValid(data.Info.EvoChainsAllGens))
                 data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
             if (pb8.CanGigantamax)

@@ -62,12 +62,12 @@
         Pt = 12,
 
         /// <summary>
-        /// Pokémon Heart Gold (NDS)
+        /// Pokémon HeartGold (NDS)
         /// </summary>
         HG = 7,
 
         /// <summary>
-        /// Pokémon Soul Silver (NDS)
+        /// Pokémon SoulSilver (NDS)
         /// </summary>
         SS = 8,
         #endregion
@@ -139,7 +139,7 @@
         #endregion
 
         /// <summary>
-        /// Pokémon GO (GO -> Lets Go transfers)
+        /// Pokémon GO (GO -> Let's Go/HOME transfers)
         /// </summary>
         GO = 34,
 
@@ -184,12 +184,12 @@
 
         #region Nintendo Switch
         /// <summary>
-        /// Pokémon Let's Go Pikachu (NX)
+        /// Pokémon: Let's Go, Pikachu! (NX)
         /// </summary>
         GP = 42,
 
         /// <summary>
-        /// Pokémon Let's Go Eevee (NX)
+        /// Pokémon: Let's Go, Eevee! (NX)
         /// </summary>
         GE = 43,
 
@@ -204,6 +204,10 @@
         SH = 45,
 
         // HOME = 46,
+
+        /// <summary>
+        /// Pokémon Legends: Arceus (NX)
+        /// </summary>
         PLA = 47,
 
         /// <summary>
@@ -311,7 +315,7 @@
         DPPt,
 
         /// <summary>
-        /// Pokémon Heart Gold &amp; Soul Silver [<see cref="SAV4"/>] identifier.
+        /// Pokémon HeartGold &amp; SoulSilver [<see cref="SAV4"/>] identifier.
         /// </summary>
         /// <see cref="HG"/>
         /// <see cref="SS"/>

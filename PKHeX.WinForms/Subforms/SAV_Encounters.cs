@@ -151,7 +151,7 @@ namespace PKHeX.WinForms
                 return EncounterCriteria.Unrestricted;
 
             var editor = PKME_Tabs.Data;
-            var tree = EvolutionTree.GetEvolutionTree(editor, editor.Format);
+            var tree = EvolutionTree.GetEvolutionTree(editor.Context);
             bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
 
             if (!settings.UseTabsAsCriteriaAnySpecies)
@@ -236,9 +236,9 @@ namespace PKHeX.WinForms
 
             if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
             {
-                static bool IsPresentInGameSWSH(ISpeciesForm pk) => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
-                static bool IsPresentInGameBDSP(ISpeciesForm pk) => ((PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
-                static bool IsPresentInGameLA  (ISpeciesForm pk) => ((PersonalInfoLA)  PersonalTable.LA  .GetFormEntry(pk.Species, pk.Form)).IsPresentInGame;
+                static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGameLA  (ISpeciesForm pk) => PersonalTable.LA  .IsPresentInGame(pk.Species, pk.Form);
                 results = SAV switch
                 {
                     SAV8SWSH => results.Where(IsPresentInGameSWSH),

@@ -124,7 +124,9 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
             if (pkm.Met_Level < 5)
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
-            if (pkm.Egg_Location != 0)
+
+            var expectEgg = pkm is PB8 ? Locations.Default8bNone : 0;
+            if (pkm.Egg_Location != expectEgg)
                 return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
 
             if (pkm.Format != 4)
@@ -173,7 +175,7 @@ namespace PKHeX.Core
             if (pkm.AO)
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_AO);
 
-            if (pkm.Egg_Location == 318)
+            if (pkm.Egg_Location == Locations.HatchLocation6AO) // Battle Resort Daycare is only OR/AS.
                 return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
 
             return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_XY);
@@ -193,7 +195,11 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg8(PKM pkm)
         {
             if (pkm.SWSH)
+            {
+                if (pkm.BDSP)
+                    return VerifyEncounterEggLevelLoc(pkm, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_SWBD : Locations.HOME_SHSP));
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SWSH);
+            }
 
             // no other games
             return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
@@ -223,7 +229,7 @@ namespace PKHeX.Core
                 : new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
         }
 
-        private static CheckResult VerifyUnhatchedEgg(PKM pkm, int tradeLoc, short noneLoc = 0)
+        private static CheckResult VerifyUnhatchedEgg(PKM pkm, int tradeLoc, int noneLoc = 0)
         {
             var eggLevel = pkm.Format < 5 ? 0 : 1;
             if (pkm.Met_Level != eggLevel)
@@ -234,7 +240,7 @@ namespace PKHeX.Core
             var met = pkm.Met_Location;
             if (met == tradeLoc)
                 return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
-            return (short)met == noneLoc
+            return met == noneLoc
                 ? new CheckResult(Severity.Valid, LEggUnhatched, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
         }

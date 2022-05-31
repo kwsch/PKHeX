@@ -66,7 +66,7 @@ namespace PKHeX.Core
                     break;
                 case Unown when Info.Generation == 2 && form >= 26:
                     return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
-                case Dialga or Palkia or Giratina or Arceus when form > 0 && pkm.LA: // can change forms with key items
+                case Dialga or Palkia or Giratina or Arceus when form > 0 && pkm is PA8: // can change forms with key items
                     break;
                 case Giratina when form == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
                     return GetInvalid(LFormItemInvalid);
@@ -308,12 +308,14 @@ namespace PKHeX.Core
                 Qwilfish when pkm.Form is 1 => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    not 0 when pkm.CurrentLevel < 25 => GetInvalid(LFormArgumentHigh),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },
-                Stantler when pkm is PA8 => arg switch
+                Stantler when pkm is PA8 || pkm.HasVisitedLA(data.Info.EvoChainsAllGens.Gen8a) => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    not 0 when pkm.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),
                     > 9_999 => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid),
                 },

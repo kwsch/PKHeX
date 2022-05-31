@@ -83,6 +83,16 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         return true;
     }
 
+    protected override bool IsMatchLocation(PKM pkm)
+    {
+        if (pkm is PK8)
+            return pkm.Met_Location == Locations.HOME_SWLA;
+        if (pkm is PB8 { Version: (int)GameVersion.PLA, Met_Location: Locations.HOME_SWLA })
+            return true;
+
+        return base.IsMatchLocation(pkm);
+    }
+
     public override EncounterMatchRating GetMatchRating(PKM pkm)
     {
         var result = GetMatchRatingInternal(pkm);

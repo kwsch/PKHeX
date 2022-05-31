@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
-        public override int Format => 3;
+        public override EntityContext Context => EntityContext.Gen3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -64,7 +64,7 @@ namespace PKHeX.Core
             get => StringConverter3.GetString(OT_Trash, Japanese);
             set => StringConverter3.SetString(OT_Trash, value.AsSpan(), 7, Japanese, StringConverterOption.None);
         }
-        public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
+        public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
         public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
         public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
 

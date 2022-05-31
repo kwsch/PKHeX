@@ -42,7 +42,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, EvoCriteria[] chain)
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, EvoCriteria[] chain, GameVersion game)
         {
             // Pre-filter for some language scenarios
             int lang = pkm.Language;
@@ -51,7 +51,6 @@ namespace PKHeX.Core
             if (lang == (int)LanguageID.Hacked && !EncounterTrade5PID.IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return Array.Empty<EncounterTrade>();
 
-            var game = (GameVersion)pkm.Version;
             var table = GetTable(game);
             return GetValidEncounterTrades(pkm, chain, table);
         }

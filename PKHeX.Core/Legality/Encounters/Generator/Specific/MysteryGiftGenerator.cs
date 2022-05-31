@@ -7,20 +7,20 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftGenerator
     {
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, EvoCriteria[] chain)
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, EvoCriteria[] chain, GameVersion game)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
             int gen = pkm.Generation;
             if (gen == 4 && pkm.Species == (int) Species.Manaphy)
                 yield return RangerManaphy;
 
-            var table = GetTable(gen, pkm);
+            var table = GetTable(gen, game);
             var possible = table.Where(wc => chain.Any(evo => evo.Species == wc.Species));
             foreach (var enc in possible)
                 yield return enc;
         }
 
-        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, EvoCriteria[] chain)
+        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, EvoCriteria[] chain, GameVersion game)
         {
             int gen = pkm.Generation;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
@@ -28,18 +28,23 @@ namespace PKHeX.Core
 
             if (gen == 4) // check for Manaphy gift
                 return GetMatchingPCD(pkm, MGDB_G4, chain);
-            var table = GetTable(gen, pkm);
+            var table = GetTable(gen, game);
             return GetMatchingGifts(pkm, table, chain);
         }
 
-        private static IReadOnlyCollection<MysteryGift> GetTable(int generation, PKM pkm) => generation switch
+        private static IReadOnlyCollection<MysteryGift> GetTable(int generation, GameVersion game) => generation switch
         {
             3 => MGDB_G3,
             4 => MGDB_G4,
             5 => MGDB_G5,
             6 => MGDB_G6,
-            7 => pkm.LGPE ? MGDB_G7GG : MGDB_G7,
-            8 => pkm.BDSP ? MGDB_G8B : pkm.LA ? MGDB_G8A : MGDB_G8,
+            7 => game is GameVersion.GP or GameVersion.GE ? MGDB_G7GG : MGDB_G7,
+            8 => game switch
+            {
+                GameVersion.BD or GameVersion.SP => MGDB_G8B,
+                GameVersion.PLA => MGDB_G8A,
+                _ => MGDB_G8,
+            },
             _ => Array.Empty<MysteryGift>(),
         };
 

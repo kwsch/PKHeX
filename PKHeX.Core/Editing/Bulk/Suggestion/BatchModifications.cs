@@ -105,14 +105,14 @@ namespace PKHeX.Core
         /// Sets the contests stats as requested.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="enc">Encounter matched to.</param>
+        /// <param name="la">Legality Information matched to.</param>
         /// <param name="option">Option to apply with</param>
-        public static ModifyResult SetContestStats(PKM pk, IEncounterTemplate enc, string option)
+        public static ModifyResult SetContestStats(PKM pk, LegalityAnalysis la, string option)
         {
             if (option.Length != 0 && option[BatchEditing.CONST_SUGGEST.Length..] is not "0")
-                pk.SetMaxContestStats(enc);
+                pk.SetMaxContestStats(la.EncounterMatch, la.Info.EvoChainsAllGens);
             else
-                pk.SetSuggestedContestStats(enc);
+                pk.SetSuggestedContestStats(la.EncounterMatch, la.Info.EvoChainsAllGens);
             return ModifyResult.Modified;
         }
     }

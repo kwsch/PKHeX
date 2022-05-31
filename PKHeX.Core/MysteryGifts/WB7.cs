@@ -531,7 +531,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm.Egg_Location == 0) // Not Egg
+            if (!IsEgg)
             {
                 if (OTGender != 3)
                 {
@@ -544,6 +544,7 @@ namespace PKHeX.Core
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
 
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (!CanBeAnyLanguage() && !CanHaveLanguage(pkm.Language))
                     return false;
             }
@@ -569,7 +570,7 @@ namespace PKHeX.Core
             else
             {
                 if (!Shiny.IsValid(pkm)) return false;
-                if (EggLocation != pkm.Egg_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
 

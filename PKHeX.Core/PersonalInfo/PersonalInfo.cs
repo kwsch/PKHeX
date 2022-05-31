@@ -208,6 +208,8 @@ namespace PKHeX.Core
         /// </summary>
         public bool[][] SpecialTutors = Array.Empty<bool[]>();
 
+        public virtual bool IsPresentInGame { get => HP != 0; set { } }
+
         protected static bool[] GetBits(ReadOnlySpan<byte> data)
         {
             bool[] result = new bool[data.Length << 3];

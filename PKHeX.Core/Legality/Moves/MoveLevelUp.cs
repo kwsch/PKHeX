@@ -31,8 +31,9 @@ namespace PKHeX.Core
 
         public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int form, int maxLevel, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
         {
-            if (pkm.IsMovesetRestricted(generation))
-                version = (GameVersion)pkm.Version;
+            var restrict = pkm.IsMovesetRestricted();
+            if (restrict.IsRestricted)
+                version = restrict.Game;
 
             return generation switch
             {
@@ -43,7 +44,7 @@ namespace PKHeX.Core
                 4 => GetIsLevelUp4(species, form, move, maxLevel, version),
                 5 => GetIsLevelUp5(species, form, move, maxLevel, version),
                 6 => GetIsLevelUp6(species, form, move, maxLevel, version),
-                7 => GetIsLevelUp7(species, form, move,           version), // move reminder can give any move 1-100
+                7 => GetIsLevelUp7(species, form, move,           pkm.GG ? (GameVersion)pkm.Version : version), // move reminder can give any move 1-100
                 8 => GetIsLevelUp8(species, form, move, maxLevel, version),
                 _ => LearnNONE,
             };
@@ -267,8 +268,10 @@ namespace PKHeX.Core
 
         public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int form, int maxLevel, int minlvlG1, int minlvlG2, GameVersion version, bool MoveReminder, int generation)
         {
-            if (pkm.IsMovesetRestricted(generation))
-                version = (GameVersion)pkm.Version;
+            var restrict = pkm.IsMovesetRestricted();
+            if (restrict.IsRestricted)
+                version = restrict.Game;
+
             return generation switch
             {
                 1 => GetMovesLevelUp1(species, form, maxLevel, minlvlG1, version),
@@ -277,7 +280,7 @@ namespace PKHeX.Core
                 4 => GetMovesLevelUp4(species, form, maxLevel, version),
                 5 => GetMovesLevelUp5(species, form, maxLevel, version),
                 6 => GetMovesLevelUp6(species, form, maxLevel, version),
-                7 => GetMovesLevelUp7(species, form, maxLevel, MoveReminder, version),
+                7 => GetMovesLevelUp7(species, form, maxLevel, MoveReminder, pkm.GG ? (GameVersion)pkm.Version : version),
                 8 => GetMovesLevelUp8(species, form, maxLevel, version),
                 _ => Array.Empty<int>(),
             };

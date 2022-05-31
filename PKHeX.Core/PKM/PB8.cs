@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -27,6 +28,8 @@ public sealed class PB8 : G8PKM
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
+    public override bool IsNative => BDSP;
+    public override EntityContext Context => EntityContext.Gen8b;
 
     public PB8()
     {
@@ -123,4 +126,40 @@ public sealed class PB8 : G8PKM
     public override int MaxItemID => Legal.MaxItemID_8b;
     public override int MaxBallID => Legal.MaxBallID_8b;
     public override int MaxGameID => Legal.MaxGameID_8b;
+
+    public override bool WasEgg => IsEgg || Egg_Day != 0;
+
+    public PK8 ConvertToPK8()
+    {
+        var pk = ConvertTo<PK8>();
+        if (pk.Egg_Location == Locations.Default8bNone)
+            pk.Egg_Location = 0;
+        else
+            pk.Egg_Location = Locations.HOME_SWSHBDSPEgg;
+        pk.SanitizeImport();
+        return pk;
+    }
+
+    public override PA8 ConvertToPA8()
+    {
+        var pk = base.ConvertToPA8();
+        if (pk.Egg_Location == Locations.Default8bNone)
+            pk.Egg_Location = 0;
+        return pk;
+    }
+
+    public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(LA && Met_Location == Locations.HOME_SWLA);
+
+    public override void ResetMoves()
+    {
+        var learnsets = Legal.LevelUpBDSP;
+        var table = PersonalTable.BDSP;
+
+        var index = table.GetFormIndex(Species, Form);
+        var learn = learnsets[index];
+        Span<int> moves = stackalloc int[4];
+        learn.SetEncounterMoves(CurrentLevel, moves);
+        SetMoves(moves);
+        this.SetMaximumPPCurrent(moves);
+    }
 }

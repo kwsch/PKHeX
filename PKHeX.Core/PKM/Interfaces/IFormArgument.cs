@@ -12,6 +12,9 @@ namespace PKHeX.Core
     /// <see cref="Alcremie"/>: Topping (Strawberry, Star, etc); [0,7]
     /// <see cref="Yamask"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
     /// <see cref="Runerigus"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
+    /// <see cref="Stantler"/> How many times the Pokémon has used Psyshield Bash in the Agile Style [0,9999].
+    /// <see cref="Qwilfish"/> How many times the Pokémon has used Barb Barrage in the Strong Style as Qwilfish-1 [0,9999].
+    /// <see cref="Basculin"/> How much damage the Pokémon has taken through recoil as Basculin-2 [0,9999].
     /// </remarks>
     public interface IFormArgument
     {
@@ -117,10 +120,11 @@ namespace PKHeX.Core
                 (int)Yamask when form == 1 => 9999,
                 (int)Runerigus when form == 0 => 9999,
                 (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
-                (int)Qwilfish or (int)Overqwil when generation == 8 => 9999, // 20
+                (int)Qwilfish when form == 1 && generation == 8 => 9999, // 20
+                (int)Overqwil => 9999, // 20
                 (int)Stantler or (int)Wyrdeer when generation == 8 => 9999, // 20
-                (int)Basculin when form == 2 => 9999,
-                (int)Basculegion => 9999,
+                (int)Basculin when form == 2 => 9999, // 294
+                (int)Basculegion => 9999, // 294
                 _ => 0,
             };
         }

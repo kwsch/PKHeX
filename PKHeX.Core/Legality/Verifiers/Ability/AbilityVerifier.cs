@@ -58,8 +58,8 @@ namespace PKHeX.Core
                     if (abilities[0] == abilities[1] && num != 1)
                     {
                         // Check if any pre-evolution could have it flipped.
-                        var evos = data.Info.EvoChainsAllGens[6];
-                        var pt = GameData.GetPersonal(GameUtil.GetVersion(format));
+                        var evos = data.Info.EvoChainsAllGens.Gen6;
+                        var pt = GameData.GetPersonal(pkm.Context.GetSingleGameVersion());
                         if (!GetWasDual(evos, pt, pkm))
                             return INVALID;
                     }
@@ -68,7 +68,8 @@ namespace PKHeX.Core
 
             if (format >= 8) // Ability Patch
             {
-                if (pkm.AbilityNumber == 4 && !pkm.LA)
+                var evos = data.Info.EvoChainsAllGens;
+                if (pkm.AbilityNumber == 4 && IsAccessibleAbilityPatch(pkm, evos))
                 {
                     if (CanAbilityPatch(format, abilities, pkm.Species))
                         return GetValid(LAbilityPatchUsed);
@@ -163,7 +164,7 @@ namespace PKHeX.Core
             var enc = data.Info.EncounterMatch;
             if (enc.Generation >= 6)
             {
-                if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility))
+                if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility, data.Info.EvoChainsAllGens))
                     return GetValid(LAbilityCapsuleUsed);
                 if (pkm.AbilityNumber != 1 << encounterAbility.GetSingleValue())
                     return INVALID;
@@ -202,7 +203,7 @@ namespace PKHeX.Core
             if (state == AbilityState.CanMismatch || encounterAbility == 0)
                 return CheckMatch(pkm, abilities, enc.Generation, AbilityState.MustMatch, enc);
 
-            if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility))
+            if (IsAbilityCapsuleModified(pkm, abilities, encounterAbility, data.Info.EvoChainsAllGens))
                 return GetValid(LAbilityCapsuleUsed);
 
             return INVALID;
@@ -231,7 +232,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             // If the species could not exist in Gen3, must match.
-            var g3 = info.EvoChainsAllGens[3];
+            var g3 = info.EvoChainsAllGens.Gen3;
             if (g3.Length == 0)
                 return AbilityState.MustMatch;
 
@@ -251,7 +252,7 @@ namespace PKHeX.Core
                 return AbilityState.MustMatch;
 
             var chain = data.Info.EvoChainsAllGens;
-            bool evolved45 = chain[4].Length > 1 || (pkm.Format == 5 && chain[5].Length > 1);
+            bool evolved45 = chain.Gen4.Length > 1 || (pkm.Format == 5 && chain.Gen5.Length > 1);
             if (evolved45)
             {
                 if (pkm.Ability == pers.Ability1) // Could evolve in Gen4/5 and have a Gen3 only ability
@@ -445,15 +446,27 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        // Ability Capsule can change between 1/2
-        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility)
+        private static bool IsAccessibleAbilityPatch(PKM pkm, EvolutionHistory evosAll)
         {
+            return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
+        }
+
+        private static bool IsAccessibleAbilityCapsule(PKM pkm, EvolutionHistory evosAll)
+        {
+            if (evosAll.Gen6.Length > 0 || evosAll.Gen7.Length > 0)
+                return true;
+            return pkm.HasVisitedSWSH(evosAll.Gen8) || pkm.HasVisitedBDSP(evosAll.Gen8b);
+        }
+
+        // Ability Capsule can change between 1/2
+        private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, AbilityPermission encounterAbility, EvolutionHistory evos)
+        {
+            if (!IsAccessibleAbilityCapsule(pkm, evos))
+                return false; // Not available.
             if (!CanAbilityCapsule(pkm.Format, abilities))
                 return false;
             if (pkm.AbilityNumber == 4)
                 return false; // Cannot alter to hidden ability.
-            if (pkm.LA)
-                return false; // Not available.
             if (encounterAbility == AbilityPermission.OnlyHidden)
                 return false; // Cannot alter from hidden ability.
             return true;

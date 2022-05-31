@@ -110,6 +110,23 @@ namespace PKHeX.Core
             _ => -1,
         };
 
+        internal static int GetMaxSpeciesOrigin(EntityContext context) => context switch
+        {
+            EntityContext.Gen1 => MaxSpeciesID_1,
+            EntityContext.Gen2 => MaxSpeciesID_2,
+            EntityContext.Gen3 => MaxSpeciesID_3,
+            EntityContext.Gen4 => MaxSpeciesID_4,
+            EntityContext.Gen5 => MaxSpeciesID_5,
+            EntityContext.Gen6 => MaxSpeciesID_6,
+            EntityContext.Gen7 => MaxSpeciesID_7_USUM,
+            EntityContext.Gen8 => MaxSpeciesID_8_R2,
+
+            EntityContext.Gen7b => MaxSpeciesID_7b,
+            EntityContext.Gen8a => MaxSpeciesID_8a,
+            EntityContext.Gen8b => MaxSpeciesID_8b,
+            _ => -1,
+        };
+
         internal static int GetMaxSpeciesOrigin(int generation) => generation switch
         {
             1 => MaxSpeciesID_1,
@@ -169,43 +186,93 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
 
-        internal static bool HasVisitedBDSP(this PKM pkm, int species)
+        internal static bool HasVisitedSWSH(this PKM pkm, EvoCriteria[] evos)
         {
-            if (!pkm.InhabitedGeneration(8, species))
+            if (pkm.SWSH)
+                return true;
+            if (pkm.IsUntraded)
                 return false;
+            if (pkm.BDSP && pkm.Species is (int)Species.Spinda or (int)Species.Nincada)
+                return false;
+
+            var pt = PersonalTable.SWSH;
+            foreach (var evo in evos)
+            {
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
+                    return true;
+            }
+            return false;
+        }
+
+        internal static bool HasVisitedBDSP(this PKM pkm, EvoCriteria[] evos)
+        {
             if (pkm.BDSP)
                 return true;
             if (pkm.IsUntraded)
                 return false;
-            var pi = (PersonalInfoBDSP)PersonalTable.BDSP[species];
-            return pi.IsPresentInGame;
+            if (pkm.Species is (int)Species.Spinda or (int)Species.Nincada)
+                return false;
+
+            var pt = PersonalTable.BDSP;
+            foreach (var evo in evos)
+            {
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
+                    return true;
+            }
+            return false;
         }
 
-        internal static bool HasVisitedLA(this PKM pkm, int species)
+        internal static bool HasVisitedLA(this PKM pkm, EvoCriteria[] evos)
         {
-            if (!pkm.InhabitedGeneration(8, species))
-                return false;
             if (pkm.LA)
                 return true;
             if (pkm.IsUntraded)
                 return false;
-            var pi = (PersonalInfoLA)PersonalTable.LA[species];
-            return pi.IsPresentInGame;
+
+            var pt = PersonalTable.LA;
+            foreach (var evo in evos)
+            {
+                if (pt.IsPresentInGame(evo.Species, evo.Form))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
-        /// Indicates if the moveset is restricted to only the original version.
+        /// Checks if the moveset is restricted to only a specific version.
         /// </summary>
         /// <param name="pkm">Entity to check</param>
-        /// <returns></returns>
-        internal static bool IsMovesetRestricted(this PKM pkm)
+        internal static (bool IsRestricted, GameVersion Game) IsMovesetRestricted(this PKM pkm) => pkm switch
         {
-            if (pkm.IsUntraded)
+            PB7 => (true, GameVersion.GP),
+            PA8 => (true, GameVersion.PLA),
+            PB8 => (true, GameVersion.BD),
+            PK8 when pkm.Version > (int)GameVersion.SH => (true, GameVersion.SH), // Permit past generation moves.
+
+            IBattleVersion { BattleVersion: not 0 } bv => (true, (GameVersion)bv.BattleVersion),
+            _ when pkm.IsUntraded => (true, (GameVersion)pkm.Version),
+            _ => (false, GameVersion.Any),
+        };
+
+        /// <summary>
+        /// Checks if the relearn moves should be wiped.
+        /// </summary>
+        /// <remarks>Already checked for generations &lt; 8.</remarks>
+        /// <param name="pkm">Entity to check</param>
+        internal static bool IsOriginalMovesetDeleted(this PKM pkm)
+        {
+            if (pkm is PA8 {LA: false} or PB8 {BDSP: false})
                 return true;
-            if (pkm.BDSP)
+            if (pkm.IsNative)
+            {
+                if (pkm is PK8 {LA: true} or PK8 {BDSP: true})
+                    return true;
+                return false;
+            }
+
+            if (pkm is IBattleVersion { BattleVersion: not 0 })
                 return true;
-            if (pkm.LA)
-                return true;
+
             return false;
         }
 
@@ -216,23 +283,6 @@ namespace PKHeX.Core
         public static bool IsPPUpAvailable(PKM pkm)
         {
             return pkm is not PA8;
-        }
-
-        /// <summary>
-        /// Indicates if the moveset is restricted to only the original version.
-        /// </summary>
-        /// <param name="pkm">Entity to check</param>
-        /// <param name="gen">Generation the move check is for</param>
-        /// <returns></returns>
-        internal static bool IsMovesetRestricted(this PKM pkm, int gen)
-        {
-            if (pkm.IsMovesetRestricted())
-                return true;
-            return gen switch
-            {
-                7 when pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE => true,
-                _ => false,
-            };
         }
 
         public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
@@ -270,5 +320,12 @@ namespace PKHeX.Core
             }
             return true;
         }
+
+        public static bool IsMetAsEgg(PKM pkm) => pkm switch
+        {
+            PA8 or PK8 => pkm.Egg_Location is not 0 || (pkm.BDSP && pkm.Egg_Day is not 0),
+            PB8 pb8 => pb8.Egg_Location is not Locations.Default8bNone,
+            _ => pkm.Egg_Location is not 0,
+        };
     }
 }

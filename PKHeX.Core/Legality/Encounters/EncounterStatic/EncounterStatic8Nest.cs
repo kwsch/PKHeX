@@ -20,11 +20,11 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
+            if (pkm is PK8 d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
             // Required Ability
-            if (Ability == AbilityPermission.OnlyHidden && pkm.AbilityNumber != 4)
+            if (Ability == OnlyHidden && pkm.AbilityNumber != 4)
                 return false; // H
 
             if (Version != GameVersion.SWSH && pkm.Version != (int)Version && pkm.Met_Location != SharedNest)
@@ -64,7 +64,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchPartial(PKM pkm)
         {
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
+            if (pkm is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return true;
             if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument { FormArgument: not 0 })
                 return true;

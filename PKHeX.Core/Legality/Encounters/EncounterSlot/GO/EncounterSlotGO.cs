@@ -153,7 +153,6 @@ namespace PKHeX.Core
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            base.SetPINGA(pk, criteria);
             switch (Shiny)
             {
                 case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():

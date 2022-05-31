@@ -145,6 +145,14 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
         protected set => PartyInfo.PartyCount = value;
     }
 
+    protected override void SetPKM(PKM pkm, bool isParty = false)
+    {
+        var pk = (PA8)pkm;
+        // Apply to this Save File
+        pk.Trade(this);
+        pkm.RefreshChecksum();
+    }
+
     // Zukan
     protected override void SetDex(PKM pkm)
     {

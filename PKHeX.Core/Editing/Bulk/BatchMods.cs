@@ -43,7 +43,7 @@ namespace PKHeX.Core
             new ComplexSuggestion(PROP_RIBBONS, (_, value, info) => BatchModifications.SetSuggestedRibbons(info, value)),
             new ComplexSuggestion(nameof(PKM.Met_Location), (_, _, info) => BatchModifications.SetSuggestedMetData(info)),
             new ComplexSuggestion(nameof(PKM.CurrentLevel), (_, _, info) => BatchModifications.SetMinimumCurrentLevel(info)),
-            new ComplexSuggestion(PROP_CONTESTSTATS, p => p is IContestStatsMutable, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality.EncounterMatch, value)),
+            new ComplexSuggestion(PROP_CONTESTSTATS, p => p is IContestStatsMutable, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality, value)),
             new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
         };
 

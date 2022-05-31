@@ -105,7 +105,7 @@ public static class GanbaruExtensions
     public static byte GetGanbaruMultiplier(byte gv, int iv) => GanbaruMultiplier[Math.Min(gv + GetBias(iv), TrueMax)];
 
     /// <summary>
-    /// Sets one of the <see cref="IAwakened"/> values based on its index within the array.
+    /// Sets one of the <see cref="IGanbaru"/> values based on its index within the array.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="index">Index to set to</param>
@@ -122,7 +122,7 @@ public static class GanbaruExtensions
     };
 
     /// <summary>
-    /// Sets one of the <see cref="IAwakened"/> values based on its index within the array.
+    /// Sets one of the <see cref="IGanbaru"/> values based on its index within the array.
     /// </summary>
     /// <param name="pk">Pokémon to check.</param>
     /// <param name="index">Index to get</param>
@@ -136,4 +136,26 @@ public static class GanbaruExtensions
         5 => pk.GV_SPD,
         _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
+
+    /// <summary>
+    /// Checks if any of the <see cref="IGanbaru"/> values are below a reference's minimum value.
+    /// </summary>
+    /// <param name="pk">Pokémon to check.</param>
+    /// <param name="obj">Reference to check</param>
+    public static bool IsGanbaruValuesBelow(this IGanbaru pk, IGanbaru obj)
+    {
+        if (pk.GV_HP < obj.GV_HP)
+            return true;
+        if (pk.GV_ATK < obj.GV_ATK)
+            return true;
+        if (pk.GV_DEF < obj.GV_DEF)
+            return true;
+        if (pk.GV_SPA < obj.GV_SPA)
+            return true;
+        if (pk.GV_SPD < obj.GV_SPD)
+            return true;
+        if (pk.GV_SPE < obj.GV_SPE)
+            return true;
+        return false;
+    }
 }

@@ -42,7 +42,8 @@ namespace PKHeX.Core
         public virtual Span<byte> HT_Trash => Span<byte>.Empty;
 
         protected abstract byte[] Encrypt();
-        public abstract int Format { get; }
+        public abstract EntityContext Context { get; }
+        public int Format => Context.Generation();
 
         private byte[] Write()
         {
@@ -119,7 +120,7 @@ namespace PKHeX.Core
         public abstract int TSV { get; }
         public abstract int PSV { get; }
         public abstract int Characteristic { get; }
-        public abstract int MarkValue { get; protected set; }
+        public abstract int MarkValue { get; set; }
         public abstract int Met_Location { get; set; }
         public abstract int Egg_Location { get; set; }
         public abstract int OT_Friendship { get; set; }
@@ -291,8 +292,8 @@ namespace PKHeX.Core
         public bool VC2 => Version is >= (int)GD and <= (int)C;
         public bool LGPE => Version is (int)GP or (int)GE;
         public bool SWSH => Version is (int)SW or (int)SH;
-        public bool BDSP => Version is (int)BD or (int)SP;
-        public bool LA => Version is (int)PLA;
+        public virtual bool BDSP => Version is (int)BD or (int)SP;
+        public virtual bool LA => Version is (int)PLA;
 
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
@@ -555,13 +556,13 @@ namespace PKHeX.Core
         }
 
         // Misc Egg Facts
-        public bool WasEgg => IsEgg || !Locations.IsNoneLocation((GameVersion)Version, Egg_Location);
+        public virtual bool WasEgg => IsEgg || Egg_Day != 0;
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation, (GameVersion)Version);
 
         public virtual bool IsUntraded => false;
-        public bool IsNative => Generation == Format;
+        public virtual bool IsNative => Generation == Format;
         public bool IsOriginValid => Species <= MaxSpeciesID;
 
         /// <summary>
@@ -1049,8 +1050,13 @@ namespace PKHeX.Core
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var srcType = GetType();
             var destType = Destination.GetType();
+
             var srcProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType);
             var destProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(destType);
+            while (srcType.BaseType != typeof(PKM))
+                srcProperties = srcProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType = srcType.BaseType));
+            while (destType.BaseType != typeof(PKM))
+                destProperties = destProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(destType = destType.BaseType));
 
             // Transfer properties in the order they are defined in the destination PKM format for best conversion
             var shared = destProperties.Intersect(srcProperties);

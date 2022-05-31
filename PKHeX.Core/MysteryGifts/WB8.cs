@@ -8,13 +8,16 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8b Mystery Gift Template File
     /// </summary>
-    public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, IContestStats, ILangNicknamedTemplate,
+    public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, IContestStats, ILangNicknamedTemplate, IEncounterServerDate,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2DC;
         public const int CardStart = 0x0;
 
         public override int Generation => 8;
+
+        public bool IsDateRestricted => IsHOMEGift;
+        public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
 
         public enum GiftType : byte
         {
@@ -32,7 +35,7 @@ namespace PKHeX.Core
 
         // TODO: public byte RestrictVersion?
 
-        public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.BD or (int) GameVersion.SP;
+        public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && Locations.IsValidMetBDSP(pk.Met_Location, pk.Version));
 
         // General Card Properties
 
@@ -182,7 +185,7 @@ namespace PKHeX.Core
 
         public int MetLevel { get => Data[CardStart + 0x291]; set => Data[CardStart + 0x291] = (byte)value; }
 
-        // Ribbons 0x24C-0x26C
+        // Ribbons 0x292-0x2B2
         private const int RibbonBytesOffset = 0x292;
         private const int RibbonBytesCount = 0x20;
         private const int RibbonByteNone = 0xFF; // signed -1
@@ -366,6 +369,8 @@ namespace PKHeX.Core
             return 0x150 + (index * 0x20);
         }
 
+        public bool IsHOMEGift => CardID >= 9000;
+
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
         public override GameVersion Version
@@ -447,12 +452,12 @@ namespace PKHeX.Core
             }
             pk.SetMaximumPPCurrent();
 
-            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
             {
                 // give random valid game
                 var rnd = Util.Rand;
                 do { pk.Version = (int)GameVersion.BD + rnd.Next(2); }
-                while (!CanBeReceivedByVersion(pk.Version));
+                while (!CanBeReceivedByVersion(pk.Version, pk));
             }
 
             if (pk.TID == 0 && pk.SID == 0)
@@ -581,7 +586,7 @@ namespace PKHeX.Core
 
         public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
         {
-            if ((short)pkm.Egg_Location == Locations.Default8bNone) // Not Egg
+            if (!IsEgg)
             {
                 if (OTGender < 2)
                 {
@@ -627,8 +632,17 @@ namespace PKHeX.Core
             else
             {
                 if (!Shiny.IsValid(pkm)) return false;
-                if (EggLocation != pkm.Egg_Location) return false;
-                if (MetLocation != pkm.Met_Location) return false;
+                if (!IsMatchEggLocation(pkm)) return false;
+                if (pkm is PK8)
+                {
+                    if (!Locations.IsValidMetBDSP(pkm.Met_Location, pkm.Version))
+                        return false;
+                }
+                else
+                {
+                    if (MetLocation != pkm.Met_Location)
+                        return false;
+                }
             }
 
             if (MetLevel != 0 && MetLevel != pkm.Met_Level) return false;
@@ -644,6 +658,12 @@ namespace PKHeX.Core
             if (type <= 1)
                 return true;
             return pkm.PID == GetPID(pkm, type);
+        }
+
+        protected override bool IsMatchEggLocation(PKM pk)
+        {
+            var expect = pk is PB8 ? Locations.Default8bNone : 0;
+            return pk.Egg_Location == expect;
         }
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;

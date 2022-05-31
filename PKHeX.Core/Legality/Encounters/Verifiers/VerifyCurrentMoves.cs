@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
             var TradebackPreevo = pkm.Format == 2 && e.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
-                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
+                ? MoveList.GetExclusivePreEvolutionMoves(pkm, e.Species, info.EvoChainsAllGens.Gen2, 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
@@ -238,9 +238,10 @@ namespace PKHeX.Core
             // Special considerations!
             const int NoMinGeneration = 0;
             int minGeneration = NoMinGeneration;
-            if (pkm is IBattleVersion {BattleVersion: not 0} v)
+            if (pkm.IsOriginalMovesetDeleted())
             {
-                minGeneration = ((GameVersion) v.BattleVersion).GetGeneration();
+                var (_, resetGame) = pkm.IsMovesetRestricted();
+                minGeneration = resetGame.GetGeneration();
                 source.ResetSources();
             }
 
@@ -578,7 +579,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, EvoCriteria[][] evos)
+        private static void ParseShedinjaEvolveMoves(PKM pkm, CheckMoveResult[] parse, IReadOnlyList<int> currentMoves, EvolutionHistory evos)
         {
             int shedinjaEvoMoveIndex = 0;
             var format = pkm.Format;

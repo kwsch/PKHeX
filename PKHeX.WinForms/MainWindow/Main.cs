@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
 
             if (HaX)
             {
-                EntityConverter.AllowIncompatibleConversion = true;
+                EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
                 WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
             }
             else if (showChangelog)
@@ -172,7 +172,10 @@ namespace PKHeX.WinForms
             var tr = SaveUtil.GetSafeTrainerName(current, lang);
             var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
             if (sav.Version == GameVersion.Invalid) // will fail to load
-                sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), tr, lang);
+            {
+                ver = (GameVersion)GameInfo.VersionDataSource.Max(z => z.Value);
+                sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+            }
             OpenSAV(sav, string.Empty);
             C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
         }
@@ -402,6 +405,7 @@ namespace PKHeX.WinForms
             ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
             EntityConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
+            EntityConverter.RejuvenateHOME = settings.Advanced.AllowGuessRejuvenateHOME;
             WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
 
             SpriteBuilder.LoadSettings(settings.Sprite);

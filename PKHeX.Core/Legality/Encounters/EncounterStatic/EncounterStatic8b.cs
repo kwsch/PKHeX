@@ -12,14 +12,14 @@ namespace PKHeX.Core
         public override int Generation => 8;
 
         public bool Roaming { get; init; }
+        public override bool EggEncounter => EggLocation != Locations.Default8bNone;
 
-        public EncounterStatic8b(GameVersion game) : base(game)
-        {
-            EggLocation = Locations.Default8bNone;
-        }
+        public EncounterStatic8b(GameVersion game) : base(game) => EggLocation = Locations.Default8bNone;
 
         protected override bool IsMatchLocation(PKM pkm)
         {
+            if (pkm is PK8)
+                return Locations.IsValidMetBDSP(pkm.Met_Location, pkm.Version);
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
             return IsRoamingLocation(pkm);
@@ -47,17 +47,34 @@ namespace PKHeX.Core
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {
-            var eggloc = (short)pkm.Egg_Location;
+            if (pkm is not PB8)
+            {
+                if (!EggEncounter)
+                    return pkm.Egg_Location == 0;
+
+                if (pkm is PK8)
+                {
+                    if (EggLocation > 60000 && pkm.Egg_Location == Locations.HOME_SWSHBDSPEgg)
+                        return true;
+                    // >60000 can be reset to Link Trade (30001), then altered differently.
+                    return Locations.IsValidMetBDSP(pkm.Egg_Location, pkm.Version);
+                }
+
+                // Hatched
+                return pkm.Egg_Location == EggLocation || pkm.Egg_Location == Locations.LinkTrade6NPC;
+            }
+
+            var eggloc = pkm.Egg_Location;
             if (!EggEncounter)
-                return eggloc == (short)EggLocation;
+                return eggloc == EggLocation;
 
             if (!pkm.IsEgg) // hatched
-                return eggloc == (short)EggLocation || eggloc == Locations.LinkTrade6NPC;
+                return eggloc == EggLocation || eggloc == Locations.LinkTrade6NPC;
 
             // Unhatched:
-            if (eggloc != (short)EggLocation)
+            if (eggloc != EggLocation)
                 return false;
-            if ((short)pkm.Met_Location is not (Locations.Default8bNone or Locations.LinkTrade6NPC))
+            if (pkm.Met_Location is not (Locations.Default8bNone or Locations.LinkTrade6NPC))
                 return false;
             return true;
         }

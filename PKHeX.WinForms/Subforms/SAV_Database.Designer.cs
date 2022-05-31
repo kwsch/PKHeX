@@ -699,7 +699,7 @@
             "Gen 5 (BW/B2W2)",
             "Gen 6 (XY/ORAS)",
             "Gen 7 (SM/USUM/LGPE)",
-            "Gen 8 (SWSH)"});
+            "Gen 8 (SWSH/BDSP/LA)"});
             this.CB_Generation.Location = new System.Drawing.Point(83, 293);
             this.CB_Generation.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Generation.Name = "CB_Generation";

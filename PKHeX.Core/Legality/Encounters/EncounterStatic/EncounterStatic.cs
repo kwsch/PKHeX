@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
 
-        public bool EggEncounter => EggLocation > 0;
+        public virtual bool EggEncounter => EggLocation != 0;
 
         private const string _name = "Static Encounter";
         public string Name => _name;
@@ -107,9 +107,9 @@ namespace PKHeX.Core
                 s.HeightScalar = PokeSizeUtil.GetRandomScalar();
                 s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
-            if (this is IGigantamax g && pk is IGigantamax pg)
+            if (this is IGigantamax g && pk is PK8 pg)
                 pg.CanGigantamax = g.CanGigantamax;
-            if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)
+            if (this is IDynamaxLevel d && pk is PK8 pd)
                 pd.DynamaxLevel = d.DynamaxLevel;
         }
 
@@ -264,7 +264,11 @@ namespace PKHeX.Core
         }
 
         // override me if the encounter type has any eggs
-        protected virtual bool IsMatchEggLocation(PKM pkm) => pkm.Egg_Location == 0;
+        protected virtual bool IsMatchEggLocation(PKM pkm)
+        {
+            var expect = pkm is PB8 ? Locations.Default8bNone : 0;
+            return pkm.Egg_Location == expect;
+        }
 
         private bool IsMatchGender(PKM pkm)
         {

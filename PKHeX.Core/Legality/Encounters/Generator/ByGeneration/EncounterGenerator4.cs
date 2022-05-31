@@ -42,19 +42,20 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             var chain = EncounterOrigin.GetOriginChain(pkm);
+            var game = (GameVersion)pkm.Version;
             if (pkm.FatefulEncounter)
             {
                 int ctr = 0;
-                foreach (var z in GetValidGifts(pkm, chain))
+                foreach (var z in GetValidGifts(pkm, chain, game))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
-            if (Locations.IsEggLocationBred4(pkm.Egg_Location, (GameVersion)pkm.Version))
+            if (Locations.IsEggLocationBred4(pkm.Egg_Location, game))
             {
                 foreach (var z in GenerateEggs(pkm, 4))
                     yield return z;
             }
-            foreach (var z in GetValidEncounterTrades(pkm, chain))
+            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
                 yield return z;
 
             IEncounterable? deferred = null;
@@ -63,7 +64,7 @@ namespace PKHeX.Core
             bool safariSport = pkm.Ball is (int)Ball.Sport or (int)Ball.Safari; // never static encounters
             if (!safariSport)
             {
-                foreach (var z in GetValidStaticEncounter(pkm, chain))
+                foreach (var z in GetValidStaticEncounter(pkm, chain, game))
                 {
                     var match = z.GetMatchRating(pkm);
                     if (match == PartialMatch)
@@ -74,7 +75,7 @@ namespace PKHeX.Core
             }
 
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var slot in GetValidWildEncounters(pkm, chain))
+            foreach (var slot in GetValidWildEncounters(pkm, chain, game))
             {
                 var z = (EncounterSlot4)slot;
                 var match = z.GetMatchRating(pkm);
@@ -115,7 +116,7 @@ namespace PKHeX.Core
             if (!safariSport)
                 yield break;
 
-            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
             {
                 var match = z.GetMatchRating(pkm);
                 if (match == PartialMatch)

@@ -38,7 +38,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        private static List<string> GetIncorrectRibbons(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             return GetInvalidRibbons(pkm, evos, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, EvoCriteria[][] evos, IEncounterTemplate enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, EvolutionHistory evos, IEncounterTemplate enc)
         {
             // is a part of Event4, but O3 doesn't have the others
             if (pkm is IRibbonSetOnly3 {RibbonWorld: true})
@@ -133,7 +133,7 @@ namespace PKHeX.Core
                 var iterate = GetInvalidRibbons4Any(pkm, evos, s4, gen);
                 if (!inhabited4)
                 {
-                    if (pkm.BDSP) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
+                    if (pkm.HasVisitedBDSP(evos.Gen8b)) // Allow Sinnoh Champion. ILCA reused the Gen4 ribbon for the remake.
                         iterate = iterate.Concat(GetInvalidRibbonsNoneSkipIndex(s4.RibbonBitsOnly(), s4.RibbonNamesOnly(), 1));
                     else
                         iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
@@ -148,7 +148,7 @@ namespace PKHeX.Core
                 var iterate = inhabited6
                     ? GetInvalidRibbons6Any(pkm, s6, gen, enc)
                     : pkm.Format >= 8
-                        ? GetInvalidRibbons6AnyG8(pkm, s6)
+                        ? GetInvalidRibbons6AnyG8(pkm, s6, evos)
                         : GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var z in iterate)
                     yield return z;
@@ -187,7 +187,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon8 s8)
             {
                 bool inhabited8 = gen <= 8;
-                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, enc) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, enc, evos) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -207,14 +207,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, EvoCriteria[][] evos, IRibbonSetCommon4 s4, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, EvolutionHistory evos, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, evos, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            bool visitBDSP = pkm.BDSP;
+            bool visitBDSP = pkm.HasVisitedBDSP(evos.Gen8b);
             bool gen34 = gen is 3 or 4;
             bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6 && !visitBDSP;
@@ -287,9 +287,9 @@ namespace PKHeX.Core
             yield return result;
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons6AnyG8(PKM pkm, IRibbonSetCommon6 s6, EvolutionHistory evos)
         {
-            if (!pkm.BDSP)
+            if (!pkm.HasVisitedBDSP(evos.Gen8b))
             {
                 var none = GetInvalidRibbonsNone(s6.RibbonBits(), s6.RibbonNamesBool());
                 foreach (var x in none)
@@ -417,14 +417,21 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
         {
-            if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame || pkm.BDSP)
+            bool swsh = pkm.HasVisitedSWSH(evos.Gen8);
+            bool bdsp = pkm.HasVisitedBDSP(evos.Gen8b);
+            bool pla = pkm.HasVisitedLA(evos.Gen8a);
+
+            if (!swsh && !bdsp)
+            {
+                if (s8.RibbonTowerMaster)
+                    yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
+            }
+            if (!swsh)
             {
                 if (s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
-                if (s8.RibbonTowerMaster && !(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
-                    yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
                 if (s8.RibbonMasterRank)
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
             }
@@ -440,15 +447,10 @@ namespace PKHeX.Core
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
-                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc))
+                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc, evos))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
 
-                if (s8.RibbonTowerMaster)
-                {
-                    if (!(pkm.SWSH || pkm.BDSP) && pkm.IsUntraded)
-                        yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
-                }
-                else
+                if (!s8.RibbonTowerMaster)
                 {
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
@@ -461,22 +463,26 @@ namespace PKHeX.Core
                 }
             }
 
-            // can be expanded upon if SWSH gets updated with the new ribbon when HOME has BDSP support
-            if (s8.RibbonTwinklingStar && (pkm is IRibbonSetCommon6 {RibbonContestStar:false} || !pkm.BDSP))
+            if (s8.RibbonTwinklingStar && (!bdsp || pkm is IRibbonSetCommon6 {RibbonContestStar:false}))
             {
                 yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
             }
 
             // received when capturing photos with Pokémon in the Photography Studio
-            if (s8.RibbonPioneer && !pkm.LA)
+            if (s8.RibbonPioneer && !pla)
             {
                 yield return new RibbonResult(nameof(s8.RibbonPioneer));
             }
         }
 
-        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterTemplate enc)
+        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterTemplate enc, EvolutionHistory evos)
         {
-            if (!pkm.SWSH && pkm is IBattleVersion {BattleVersion: 0})
+            bool exist = enc.Generation switch
+            {
+                < 8 => pkm is IBattleVersion { BattleVersion: (int)GameVersion.SW or (int)GameVersion.SH },
+                _ => pkm.HasVisitedSWSH(evos.Gen8),
+            };
+            if (!exist)
                 return false;
 
             // Clamp to permitted species
@@ -490,14 +496,14 @@ namespace PKHeX.Core
                 if (Legal.Mythicals.Contains(species))
                     return false;
 
-                if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
+                if (enc.Version == GameVersion.GO || enc is IEncounterServerDate { IsDateRestricted: true }) // Capture date is global time, and not console changeable.
                 {
                     if (pkm.MetDate > new DateTime(2022, 9, 1)) // Series 12 end date
                         return false;
                 }
             }
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species];
-            return pi.IsPresentInGame;
+
+            return PersonalTable.SWSH.IsPresentInGame(species, pkm.Form);
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterTemplate enc)
@@ -582,7 +588,7 @@ namespace PKHeX.Core
             return IsAllowedBattleFrontier(species);
         }
 
-        private static bool CanHaveFootprintRibbon(PKM pkm, EvoCriteria[][] evos, int gen)
+        private static bool CanHaveFootprintRibbon(PKM pkm, EvolutionHistory evos, int gen)
         {
             if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
                 return true;
@@ -595,15 +601,16 @@ namespace PKHeX.Core
                 return true;
 
             // Gen8-BDSP: Variable by species Footprint
-            if (pkm.BDSP)
+            var bdspEvos = evos.Gen8b;
+            if (pkm.HasVisitedBDSP(bdspEvos))
             {
-                if (evos[8].Any(z => z.Species <= Legal.MaxSpeciesID_4 && !HasFootprintBDSP[z.Species]))
+                if (bdspEvos.Any(z => PersonalTable.BDSP.IsPresentInGame(z.Species, z.Form) && !HasFootprintBDSP[z.Species]))
                     return true; // no footprint
                 if (pkm.CurrentLevel - pkm.Met_Level >= 30)
                     return true; // traveled well
             }
 
-            // Gen8: Can't obtain
+            // Otherwise: Can't obtain
             return false;
         }
 

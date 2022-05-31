@@ -14,17 +14,17 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class EvolutionTree
     {
-        private static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
-        private static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
-        private static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
-        private static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-        private static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-        private static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-        private static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-        private static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
-        private static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
+        public static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
+        public static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
+        public static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
+        public static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
+        public static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
+        public static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
+        public static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
+        public static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
+        public static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        public static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
+        public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
 
         private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
@@ -38,33 +38,20 @@ namespace PKHeX.Core
             Evolves8b.FixEvoTreeBS();
         }
 
-        public static EvolutionTree GetEvolutionTree(int generation) => generation switch
+        public static EvolutionTree GetEvolutionTree(EntityContext context) => context switch
         {
-            1 => Evolves1,
-            2 => Evolves2,
-            3 => Evolves3,
-            4 => Evolves4,
-            5 => Evolves5,
-            6 => Evolves6,
-            7 => Evolves7,
-            _ => Evolves8,
-        };
-
-        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation) => generation switch
-        {
-            1 => Evolves1,
-            2 => Evolves2,
-            3 => Evolves3,
-            4 => Evolves4,
-            5 => Evolves5,
-            6 => Evolves6,
-            7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-            _ => pkm.Version switch
-            {
-                (int)PLA => Evolves8a,
-                (int)BD or (int)SP => Evolves8b,
-                _ => Evolves8,
-            },
+            EntityContext.Gen1 => Evolves1,
+            EntityContext.Gen2 => Evolves2,
+            EntityContext.Gen3 => Evolves3,
+            EntityContext.Gen4 => Evolves4,
+            EntityContext.Gen5 => Evolves5,
+            EntityContext.Gen6 => Evolves6,
+            EntityContext.Gen7 => Evolves7,
+            EntityContext.Gen8 => Evolves8,
+            EntityContext.Gen7b => Evolves7b,
+            EntityContext.Gen8a => Evolves8a,
+            EntityContext.Gen8b => Evolves8b,
+            _ => throw new ArgumentOutOfRangeException(nameof(context), context, null)
         };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
@@ -233,26 +220,11 @@ namespace PKHeX.Core
         {
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm);
-            if (pkm.IsEgg && !skipChecks)
-            {
-                return new[]
-                {
-                    new EvoCriteria{ Species = (ushort)pkm.Species, Form = (byte)pkm.Form, LevelMax = maxLevel, LevelMin = maxLevel },
-                };
-            }
 
-            // Shedinja's evolution case can be a little tricky; hard-code handling.
-            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || minLevel < maxLevel))
-            {
-                var min = Math.Max(minLevel, (byte)20);
-                return new[]
-                {
-                    new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = maxLevel, LevelMin = min, Method = EvolutionType.LevelUp },
-                    new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = maxLevel, LevelMin = minLevel },
-                };
-            }
+            ushort species = (ushort)pkm.Species;
+            byte form = (byte)pkm.Form;
 
-            return GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
+            return GetExplicitLineage(species, form, pkm, minLevel, maxLevel, maxSpeciesOrigin, skipChecks);
         }
 
         public bool IsSpeciesDerivedFrom(int species, int form, int otherSpecies, int otherForm, bool ignoreForm = true)
@@ -348,16 +320,39 @@ namespace PKHeX.Core
         /// <summary>
         /// Generates the reverse evolution path for the input <see cref="pkm"/>.
         /// </summary>
+        /// <param name="species">Entity Species to begin the chain</param>
+        /// <param name="form">Entity Form to begin the chain</param>
         /// <param name="pkm">Entity data</param>
-        /// <param name="maxLevel">Maximum level</param>
+        /// <param name="levelMin">Minimum level</param>
+        /// <param name="levelMax">Maximum level</param>
+        /// <param name="maxSpeciesID">Clamp for maximum species ID</param>
         /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
-        /// <param name="maxSpeciesOrigin">Clamp for maximum species ID</param>
-        /// <param name="minLevel">Minimum level</param>
-        private EvoCriteria[] GetExplicitLineage(PKM pkm, byte maxLevel, bool skipChecks, int maxSpeciesOrigin, byte minLevel)
+        private EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pkm, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
         {
-            var species = pkm.Species;
-            var form = pkm.Form;
-            var lvl = maxLevel;
+            if (pkm.IsEgg && !skipChecks)
+            {
+                return new[]
+                {
+                    new EvoCriteria{ Species = species, Form = form, LevelMax = levelMax, LevelMin = levelMax },
+                };
+            }
+
+            // Shedinja's evolution case can be a little tricky; hard-code handling.
+            if (species == (int)Species.Shedinja && levelMax >= 20 && (!pkm.HasOriginalMetLocation || levelMin < levelMax))
+            {
+                var min = Math.Max(levelMin, (byte)20);
+                return new[]
+                {
+                    new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = levelMax, LevelMin = min, Method = EvolutionType.LevelUp },
+                    new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin },
+                };
+            }
+            return GetLineage(species, form, pkm, levelMin, levelMax, maxSpeciesID, skipChecks);
+        }
+
+        private EvoCriteria[] GetLineage(int species, int form, PKM pkm, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
+        {
+            var lvl = levelMax;
             var first = new EvoCriteria { Species = (ushort)species, Form = (byte)form, LevelMax = lvl };
 
             const int maxEvolutions = 3;
@@ -366,7 +361,8 @@ namespace PKHeX.Core
 
             switch (species)
             {
-                case (int)Species.Silvally: form = 0;
+                case (int)Species.Silvally:
+                    form = 0;
                     break;
             }
 
@@ -376,9 +372,9 @@ namespace PKHeX.Core
             while (true)
             {
                 var key = GetLookupKey(species, form);
+                bool oneValid = false;
                 var node = Lineage[key];
 
-                bool oneValid = false;
                 foreach (var link in node)
                 {
                     if (link.IsEvolutionBanned(pkm) && !skipChecks)
@@ -388,17 +384,18 @@ namespace PKHeX.Core
                     if (!evo.Valid(pkm, lvl, skipChecks))
                         continue;
 
-                    if (evo.RequiresLevelUp && minLevel >= lvl)
+                    if (evo.RequiresLevelUp && levelMin >= lvl)
                         break; // impossible evolution
 
-                    oneValid = true;
-                    UpdateMinValues(evos[..ctr], evo, minLevel);
+                    UpdateMinValues(evos[..ctr], evo, levelMin);
 
                     species = link.Species;
                     form = link.Form;
                     evos[ctr++] = evo.GetEvoCriteria((ushort)species, (byte)form, lvl);
                     if (evo.RequiresLevelUp)
                         lvl--;
+
+                    oneValid = true;
                     break;
                 }
                 if (!oneValid)
@@ -407,11 +404,11 @@ namespace PKHeX.Core
 
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
             ref var last = ref evos[ctr - 1];
-            if (last.Species > maxSpeciesOrigin)
+            if (last.Species > maxSpeciesID)
             {
                 for (int i = 0; i < ctr; i++)
                 {
-                    if (evos[i].Species > maxSpeciesOrigin)
+                    if (evos[i].Species > maxSpeciesID)
                         continue;
                     ctr--;
                     break;
@@ -421,9 +418,16 @@ namespace PKHeX.Core
             // Last species is the wild/hatched species, the minimum level is because it has not evolved from previous species
             var result = evos[..ctr];
             last = ref result[^1];
-            last = last with { LevelMin = minLevel, LevelUpRequired = 0 };
+            last = last with { LevelMin = levelMin, LevelUpRequired = 0 };
 
             // Rectify minimum levels
+            RectifyMinimumLevels(result);
+
+            return result.ToArray();
+        }
+
+        private static void RectifyMinimumLevels(Span<EvoCriteria> result)
+        {
             for (int i = result.Length - 2; i >= 0; i--)
             {
                 ref var evo = ref result[i];
@@ -431,8 +435,6 @@ namespace PKHeX.Core
                 var min = (byte)Math.Max(prev.LevelMin + evo.LevelUpRequired, evo.LevelMin);
                 evo = evo with { LevelMin = min };
             }
-
-            return result.ToArray();
         }
 
         private static void UpdateMinValues(Span<EvoCriteria> evos, EvolutionMethod evo, byte minLevel)

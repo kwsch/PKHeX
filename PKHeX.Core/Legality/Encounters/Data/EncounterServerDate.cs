@@ -41,11 +41,13 @@ public static class EncounterServerDate
     {
         WC8 wc8 => Result(IsValidDateWC8(wc8.CardID, obtained)),
         WA8 wa8 => Result(IsValidDateWA8(wa8.CardID, obtained)),
+        WB8 wb8 => Result(IsValidDateWB8(wb8.CardID, obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 
     public static bool IsValidDateWC8(int cardID, DateTime obtained) => WC8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
     public static bool IsValidDateWA8(int cardID, DateTime obtained) => WA8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
+    public static bool IsValidDateWB8(int cardID, DateTime obtained) => WB8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
 
     /// <summary>
     /// Minimum date the gift can be received.
@@ -69,13 +71,31 @@ public static class EncounterServerDate
         {9014, new DateTime(2021, 06, 17)}, // Gigantamax Squirtle
     };
 
+    private static readonly DateTime Never = DateTime.MaxValue;
+
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
     public static readonly Dictionary<int, (DateTime Start, DateTime End)> WA8Gifts = new()
     {
-        {0138, (new(2022, 01, 27), new(2022, 11, 01))}, // Poké Center Happiny
+        {0138, (new(2022, 01, 27), new(2023, 02, 01))}, // Poké Center Happiny
         {0301, (new(2022, 02, 04), new(2022, 02, 24))}, // プロポチャ Piplup
         {0801, (new(2022, 02, 25), new(2022, 06, 01))}, // Teresa Roca Hisuian Growlithe
+        {1201, (new(2022, 05, 31), new(2022, 08, 01))}, // 전이마을 Regigigas
+        {1202, (new(2022, 05, 31), new(2022, 08, 01))}, // 빛나's Piplup
+
+        {9018, (new(2022, 05, 18), Never)}, // Hidden Ability Rowlet
+        {9019, (new(2022, 05, 18), Never)}, // Hidden Ability Cyndaquil
+        {9020, (new(2022, 05, 18), Never)}, // Hidden Ability Oshawott
+    };
+
+    /// <summary>
+    /// Minimum date the gift can be received.
+    /// </summary>
+    public static readonly Dictionary<int, (DateTime Start, DateTime End)> WB8Gifts = new()
+    {
+        {9015, (new(2022, 05, 18), Never)}, // Hidden Ability Turtwig
+        {9016, (new(2022, 05, 18), Never)}, // Hidden Ability Chimchar
+        {9017, (new(2022, 05, 18), Never)}, // Hidden Ability Piplup
     };
 }

@@ -151,6 +151,13 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metSWSH_30000, 30000, Locations8.Met3);
             Util.AddCBWithOffset(locations, s.metSWSH_40000, 40000, Locations8.Met4);
             Util.AddCBWithOffset(locations, s.metSWSH_60000, 60000, Locations8.Met6);
+
+            // Add in the BDSP+PLA magic met locations.
+            locations.Add(new ComboItem($"{s.EggName} (BD/SP)", Locations.HOME_SWSHBDSPEgg));
+            locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_SWBD));
+            locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SHSP));
+            locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_SWLA));
+
             return locations;
         }
 
@@ -162,13 +169,20 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metLA_30000, 30000, Locations8a.Met3);
             Util.AddCBWithOffset(locations, s.metLA_40000, 40000, Locations8a.Met4);
             Util.AddCBWithOffset(locations, s.metLA_60000, 60000, Locations8a.Met6);
+
+            // Add in the BDSP+PLA magic met locations.
+            locations.Add(new ComboItem($"{s.EggName} (BD/SP)", Locations.HOME_SWSHBDSPEgg));
+            locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_SWBD));
+            locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SHSP));
+            locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_SWLA));
+
             return locations;
         }
 
         private static List<ComboItem> CreateGen8b(GameStrings s)
         {
             // Manually add invalid (-1) location from SWSH as ID 65535
-            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], unchecked((ushort)Locations.Default8bNone)) };
+            var locations = new List<ComboItem> { new(s.metSWSH_00000[0], Locations.Default8bNone) };
             Util.AddCBWithOffset(locations, s.metBDSP_60000, 60000, Locations.Daycare5);
             Util.AddCBWithOffset(locations, s.metBDSP_30000, 30000, Locations.LinkTrade6);
             Util.AddCBWithOffset(locations, s.metBDSP_00000, 00000, Locations8b.Met0);
@@ -193,29 +207,45 @@ namespace PKHeX.Core
             if (egg && version < W && currentGen >= 5)
                 return MetGen4;
 
+            var result = GetLocationListInternal(version, currentGen);
+
+            // Insert the BDSP none location if the format requires it.
+            if (currentGen == 8 && !BDSP.Contains(version))
+            {
+                var list = new List<ComboItem>(result.Count + 1);
+                list.AddRange(result);
+                list.Insert(1, new ComboItem($"{list[0].Text} (BD/SP)", Locations.Default8bNone));
+                result = list;
+            }
+
+            return result;
+        }
+
+        private IReadOnlyList<ComboItem> GetLocationListInternal(GameVersion version, int currentGen)
+        {
             return version switch
             {
-                CXD      when currentGen == 3 => MetGen3CXD,
-                R or S   when currentGen == 3 => Partition1(MetGen3, z => z    <= 87), // Ferry
-                E        when currentGen == 3 => Partition1(MetGen3, z => z is <= 87 or >= 197 and <= 212), // Trainer Hill
+                CXD when currentGen == 3 => MetGen3CXD,
+                R or S when currentGen == 3 => Partition1(MetGen3, z => z <= 87), // Ferry
+                E when currentGen == 3 => Partition1(MetGen3, z => z is <= 87 or >= 197 and <= 212), // Trainer Hill
                 FR or LG when currentGen == 3 => Partition1(MetGen3, z => z is > 87 and < 197), // Celadon Dept.
-                D or P   when currentGen == 4 => Partition2(MetGen4, z => z    <= 111, 4), // Battle Park
-                Pt       when currentGen == 4 => Partition2(MetGen4, z => z    <= 125, 4), // Rock Peak Ruins
+                D or P when currentGen == 4 => Partition2(MetGen4, z => z <= 111, 4), // Battle Park
+                Pt when currentGen == 4 => Partition2(MetGen4, z => z <= 125, 4), // Rock Peak Ruins
                 HG or SS when currentGen == 4 => Partition2(MetGen4, z => z is > 125 and < 234, 4), // Celadon Dept.
 
-                B  or W  => MetGen5,
-                B2 or W2 => Partition2(MetGen5, z => z    <= 116), // Abyssal Ruins
-                X  or Y  => Partition2(MetGen6, z => z    <= 168), // Unknown Dungeon
+                B or W => MetGen5,
+                B2 or W2 => Partition2(MetGen5, z => z <= 116), // Abyssal Ruins
+                X or Y => Partition2(MetGen6, z => z <= 168), // Unknown Dungeon
                 OR or AS => Partition2(MetGen6, z => z is > 168 and <= 354), // Secret Base
-                SN or MN => Partition2(MetGen7, z => z    < 200), // Outer Cape
+                SN or MN => Partition2(MetGen7, z => z < 200), // Outer Cape
                 US or UM
-                   or RD or BU or GN or YW
-                   or GD or SI or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
+                    or RD or BU or GN or YW
+                    or GD or SI or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
                 GP or GE or GO => Partition2(MetGen7GG, z => z <= 54), // Pokémon League
                 SW or SH => Partition2(MetGen8, z => z < 400),
                 BD or SP => Partition2(MetGen8b, z => z < 628),
                 PLA => Partition2(MetGen8a, z => z < 512),
-                _ => GetLocationListModified(version, currentGen),
+                _ => new List<ComboItem>(GetLocationListModified(version, currentGen)),
             };
 
             static IReadOnlyList<ComboItem> Partition1(IReadOnlyList<ComboItem> list, Func<int, bool> criteria)
@@ -224,7 +254,8 @@ namespace PKHeX.Core
                 return GetOrderedList(list, result, criteria);
             }
 
-            static IReadOnlyList<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result, Func<int, bool> criteria, int start = 0)
+            static IReadOnlyList<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result,
+                Func<int, bool> criteria, int start = 0)
             {
                 // store values that match criteria at the next available position of the array
                 // store non-matches starting at the end. reverse before returning
@@ -237,12 +268,14 @@ namespace PKHeX.Core
                     else
                         result[end--] = item;
                 }
+
                 // since the non-matches are reversed in order, we swap them back since we know where they end up at.
                 Array.Reverse(result, start, list.Count - start);
                 return result;
             }
 
-            static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria, int keepFirst = 3)
+            static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria,
+                int keepFirst = 3)
             {
                 var result = new ComboItem[list.Count];
                 for (int i = 0; i < keepFirst; i++)

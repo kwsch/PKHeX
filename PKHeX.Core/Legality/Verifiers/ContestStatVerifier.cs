@@ -25,7 +25,7 @@ public sealed class ContestStatVerifier : Verifier
         // In generations 3,4 and BDSP, blocks/poffins have a feel(sheen) equal to sheen=sum(stats)/5, with +/- 10% for a favored stat.
         // In generation 6 (ORAS), they don't award any sheen, so any value is legal.
 
-        var correlation = GetContestStatRestriction(pkm, data.Info.Generation);
+        var correlation = GetContestStatRestriction(pkm, data.Info.Generation, data.Info.EvoChainsAllGens);
         if (correlation == None)
         {
             // We're only here because we have contest stat values. We aren't permitted to have any, so flag it.
@@ -41,7 +41,7 @@ public sealed class ContestStatVerifier : Verifier
         else if (correlation == CorrelateSheen)
         {
             bool gen3 = data.Info.Generation == 3;
-            bool bdsp = pkm.HasVisitedBDSP(data.Info.EncounterOriginal.Species);
+            bool bdsp = pkm.HasVisitedBDSP(data.Info.EvoChainsAllGens.Gen8b);
             var method = gen3 ? ContestStatGrantingSheen.Gen3 :
                 bdsp ? ContestStatGrantingSheen.Gen8b : ContestStatGrantingSheen.Gen4;
 

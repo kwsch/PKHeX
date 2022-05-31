@@ -141,8 +141,11 @@ namespace PKHeX.Core
         {
             // Sanity check form for origin
             var pt = GameData.GetPersonal(game);
+            if ((uint)species > pt.MaxSpeciesID)
+                return false;
+
             var entry = pt.GetFormEntry(species, form);
-            if (entry is PersonalInfoSWSH { IsPresentInGame: false })
+            if (!entry.IsPresentInGame)
                 return false;
             return form < entry.FormCount || (species == (int)Rotom && form <= 5);
         }

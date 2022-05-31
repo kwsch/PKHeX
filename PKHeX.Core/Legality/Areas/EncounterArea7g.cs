@@ -35,19 +35,21 @@ namespace PKHeX.Core
             return areas;
         }
 
+        private const int meta = 4;
         private const int entrySize = (2 * sizeof(int)) + 2;
 
         private static EncounterArea7g GetArea(ReadOnlySpan<byte> data)
         {
             var species = ReadUInt16LittleEndian(data);
-            byte form = (byte)(species >> 11);
-            species &= 0x3FF;
+            var form = data[2];
+            //var import = (EntityFormatDetected)data[3];
 
-            var result = new EncounterSlot7GO[(data.Length - 2) / entrySize];
+            data = data[meta..];
+            var result = new EncounterSlot7GO[data.Length / entrySize];
             var area = new EncounterArea7g(species, form, result);
             for (int i = 0; i < result.Length; i++)
             {
-                var offset = (i * entrySize) + 2;
+                var offset = i * entrySize;
                 var entry = data.Slice(offset, entrySize);
                 result[i] = ReadSlot(entry, area, species, form);
             }

@@ -29,12 +29,12 @@ public static class ContestStatInfo
     /// </remarks>
     private const int BestSheenStat8b = 120;
 
-    public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc)
+    public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc, EvolutionHistory h)
     {
         if (pk is not IContestStatsMutable s)
             return;
 
-        var restrict = GetContestStatRestriction(pk, pk.Generation);
+        var restrict = GetContestStatRestriction(pk, pk.Generation, h);
         var baseStat = GetReferenceTemplate(enc);
         if (restrict == None || pk.Species is not (int)Species.Milotic)
             baseStat.CopyContestStatsTo(s); // reset
@@ -42,25 +42,25 @@ public static class ContestStatInfo
             s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : MaxContestStat);
     }
 
-    public static void SetMaxContestStats(this PKM pk, IEncounterTemplate enc)
+    public static void SetMaxContestStats(this PKM pk, IEncounterTemplate enc, EvolutionHistory h)
     {
         if (pk is not IContestStatsMutable s)
             return;
-        var restrict = GetContestStatRestriction(pk, enc.Generation);
+        var restrict = GetContestStatRestriction(pk, enc.Generation, h);
         var baseStat = GetReferenceTemplate(enc);
         if (restrict == None)
             return;
         s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.CNT_Sheen : MaxContestStat);
     }
 
-    public static ContestStatGranting GetContestStatRestriction(PKM pk, int origin) => origin switch
+    public static ContestStatGranting GetContestStatRestriction(PKM pk, int origin, EvolutionHistory h) => origin switch
     {
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 
         5 => pk.Format >= 6          ? NoSheen : None, // ORAS Contests
         6 => pk.AO || !pk.IsUntraded ? NoSheen : None,
-        8 => pk.BDSP          ? CorrelateSheen : None, // BDSP Contests
+        8 => pk.HasVisitedBDSP(h.Gen8b) ? CorrelateSheen : None, // BDSP Contests
         _ => None,
     };
 

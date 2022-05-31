@@ -48,11 +48,6 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, EvoCriteria[] chain)
-        {
-            return GetValidStaticEncounter(pkm, chain, (GameVersion)pkm.Version);
-        }
-
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, EvoCriteria[] chain, GameVersion gameSource)
         {
             var table = GetEncounterStaticTable(pkm, gameSource);
