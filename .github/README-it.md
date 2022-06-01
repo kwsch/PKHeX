@@ -10,15 +10,15 @@ Supporta i seguenti file:
 * File di Entità Pokémon individuali (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4)
 * File di Dono Segreto (\*.pgt, \*.pcd, \*.pgf, .wc\*) inclusa conversione in .pk\*
 * Importazione di Entità del Go Park (\*.gp1) inclusa conversione in .pb7
-* Importo di squadre da Video Lotta del 3DS decryptati
-* Trasferimento da una generazione all'altra, convertendo i formati propriamente..
+* Importazione di squadre da Video Lotta del 3DS decriptati
+* Trasferimento da una generazione all'altra, convertendo i formati propriamente.
 
 I dati sono mostrati in una finestra che può essere modificata e salvata.
 L'interfaccia può essere tradotta con risorse/file di testo esterni, così che sia possibile supportare diversi linguaggi.
 
 Set di Pokémon Showdown e QR Code possono essere importati/esportati per agevolare la condivisione di file.
 
-PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile usare un gestore di salvataggi per importare ed esportare dati si salvataggio dalla console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
+PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile usare un gestore di salvataggi per importare ed esportare dati di salvataggio dalla console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), o SaveDataFiler).
 
 **Non supportiamo e non perdoniamo l'utilizzo di cheat a scapito di altri giocatori. Non utilizzare Pokémon modificati significativamente in lotte o scambi con giocatori che non ne sono a conoscenza.**
 
@@ -42,7 +42,7 @@ Il codice per la generazione di QR Code è preso da [QRCoder](https://github.com
 
 La collezione di sprite shiny è presa da [pokesprite](https://github.com/msikma/pokesprite), concessa in licenza sotto [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
 
-La collezione di sprite per Leggende Pokémon: Arceus è presa dal [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project grazie all'abbondanza dei collaboratori e contribuenti.
+La collezione di sprite per Leggende Pokémon: Arceus è presa dal [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project grazie all'abbondanza dei collaboratori e dei contribuenti.
 
 ### IDE
 
