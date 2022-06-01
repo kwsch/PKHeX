@@ -79,7 +79,7 @@ public static class EncounterServerDate
     public static readonly Dictionary<int, (DateTime Start, DateTime End)> WA8Gifts = new()
     {
         {0138, (new(2022, 01, 27), new(2023, 02, 01))}, // Poké Center Happiny
-        {0301, (new(2022, 02, 04), new(2022, 02, 24))}, // プロポチャ Piplup
+        {0301, (new(2022, 02, 04), new(2023, 03, 01))}, // プロポチャ Piplup
         {0801, (new(2022, 02, 25), new(2022, 06, 01))}, // Teresa Roca Hisuian Growlithe
         {1201, (new(2022, 05, 31), new(2022, 08, 01))}, // 전이마을 Regigigas
         {1202, (new(2022, 05, 31), new(2022, 08, 01))}, // 빛나's Piplup
