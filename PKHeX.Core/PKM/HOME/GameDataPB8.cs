@@ -3,35 +3,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameDataPB8 : IGameDataSide
+public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
 {
-    // Internal Attributes set on creation
-    public readonly byte[] Data; // Raw Storage
-    public readonly int Offset;
-
     private const int SIZE = HomeCrypto.SIZE_1GAME_PB8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PB8;
 
-    public GameDataPB8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
+    public GameDataPB8() : base(Format, SIZE) { }
+    public GameDataPB8(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
+    public GameDataPB8 Clone() => new(ToArray(SIZE));
+    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
 
-    public GameDataPB8()
-    {
-        Data = new byte[SIZE];
-        Data[0] = (byte)Format;
-        WriteUInt16LittleEndian(Data.AsSpan(1, 2), SIZE);
-    }
-
-    public GameDataPB8(byte[] data, int offset = 0)
-    {
-        if ((HomeGameDataFormat)data[offset] != Format)
-            throw new ArgumentException($"Invalid GameDataFormat for {Format}");
-
-        if (ReadUInt16LittleEndian(data.AsSpan(offset + 1)) != SIZE)
-            throw new ArgumentException($"Invalid GameDataSize for {Format}");
-
-        Data = data;
-        Offset = offset + 3;
-    }
+    #region Structure
 
     public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); }
     public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x02), (ushort)value); }
@@ -73,16 +55,11 @@ public sealed class GameDataPB8 : IGameDataSide
     public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x27)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x27), (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x29)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x29), (ushort)value); }
 
-    // Not stored.
-    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.BDSP.GetFormEntry(species, form);
+    #endregion
 
-    public int CopyTo(Span<byte> result)
-    {
-        result[0] = (byte)Format;
-        WriteUInt16LittleEndian(result[1..], SIZE);
-        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
-        return 3 + SIZE;
-    }
+    #region Conversion
+
+    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.BDSP.GetFormEntry(species, form);
 
     public void CopyTo(PB8 pk)
     {
@@ -99,6 +76,8 @@ public sealed class GameDataPB8 : IGameDataSide
         CopyTo(pk);
         return pk;
     }
+
+    #endregion
 
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPB8? TryCreate(PKH pkh)

@@ -3,35 +3,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute, IMemoryOT
+public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute, IMemoryOT
 {
-    // Internal Attributes set on creation
-    public readonly byte[] Data; // Raw Storage
-    public readonly int Offset;
-
     private const int SIZE = HomeCrypto.SIZE_1GAME_PB7;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PB7;
 
-    public GameDataPB7 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
+    public GameDataPB7() : base(Format, SIZE) { }
+    public GameDataPB7(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
+    public GameDataPB7 Clone() => new(ToArray(SIZE));
+    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
 
-    public GameDataPB7()
-    {
-        Data = new byte[SIZE];
-        Data[0] = (byte)Format;
-        WriteUInt16LittleEndian(Data.AsSpan(1, 2), SIZE);
-    }
-
-    public GameDataPB7(byte[] data, int offset = 0)
-    {
-        if ((HomeGameDataFormat)data[offset] != Format)
-            throw new ArgumentException($"Invalid GameDataFormat for {Format}");
-
-        if (ReadUInt16LittleEndian(data.AsSpan(offset + 1)) != SIZE)
-            throw new ArgumentException($"Invalid GameDataSize for {Format}");
-
-        Data = data;
-        Offset = offset + 3;
-    }
+    #region Structure
 
     public byte AV_HP  { get => Data[Offset + 0x00]; set => Data[Offset + 0x00] = value; }
     public byte AV_ATK { get => Data[Offset + 0x01]; set => Data[Offset + 0x01] = value; }
@@ -77,16 +59,11 @@ public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute, IMemoryOT
     public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x37)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x37), (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x39)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x39), (ushort)value); }
 
-    // Not stored.
-    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.GG.GetFormEntry(species, form);
+    #endregion
 
-    public int CopyTo(Span<byte> result)
-    {
-        result[0] = (byte)Format;
-        WriteUInt16LittleEndian(result[1..], SIZE);
-        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
-        return 3 + SIZE;
-    }
+    #region Conversion
+
+    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.GG.GetFormEntry(species, form);
 
     public void CopyTo(PB7 pk)
     {
@@ -124,6 +101,8 @@ public sealed class GameDataPB7 : IGameDataSide, IScaledSizeAbsolute, IMemoryOT
         CopyTo(pk);
         return pk;
     }
+
+    #endregion
 
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPB7? TryCreate(PKH pkh)

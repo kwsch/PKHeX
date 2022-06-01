@@ -3,35 +3,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
+public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute
 {
-    // Internal Attributes set on creation
-    public readonly byte[] Data; // Raw Storage
-    public readonly int Offset;
-
     private const int SIZE = HomeCrypto.SIZE_1GAME_PA8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PA8;
 
-    public GameDataPA8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
+    public GameDataPA8() : base(Format, SIZE) { }
+    public GameDataPA8(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
+    public GameDataPA8 Clone() => new(ToArray(SIZE));
+    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
 
-    public GameDataPA8()
-    {
-        Data = new byte[SIZE];
-        Data[0] = (byte)Format;
-        WriteUInt16LittleEndian(Data.AsSpan(1, 2), SIZE);
-    }
-
-    public GameDataPA8(byte[] data, int offset = 0)
-    {
-        if ((HomeGameDataFormat)data[offset] != Format)
-            throw new ArgumentException($"Invalid GameDataFormat for {Format}");
-
-        if (ReadUInt16LittleEndian(data.AsSpan(offset + 1)) != SIZE)
-            throw new ArgumentException($"Invalid GameDataSize for {Format}");
-
-        Data = data;
-        Offset = offset + 3;
-    }
+    #region Structure
 
     public bool IsAlpha { get => Data[Offset + 0x00] != 0; set => Data[Offset + 0x00] = (byte)(value ? 1 : 0); }
     public bool IsNoble { get => Data[Offset + 0x01] != 0; set => Data[Offset + 0x01] = (byte)(value ? 1 : 0); }
@@ -116,13 +98,9 @@ public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
     public int Move3_PPUps { get => 0; set { } }
     public int Move4_PPUps { get => 0; set { } }
 
-    public int CopyTo(Span<byte> result)
-    {
-        result[0] = (byte)Format;
-        WriteUInt16LittleEndian(result[1..], SIZE);
-        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
-        return 3 + SIZE;
-    }
+    #endregion
+
+    #region Conversion
 
     public void CopyTo(PA8 pk)
     {
@@ -151,6 +129,8 @@ public sealed class GameDataPA8 : IGameDataSide, IScaledSizeAbsolute
         CopyTo(pk);
         return pk;
     }
+
+    #endregion
 
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPA8? TryCreate(PKH pkh)

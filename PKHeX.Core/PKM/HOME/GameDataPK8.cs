@@ -3,35 +3,17 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISociability
+public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDynamaxLevel, ISociability
 {
-    // Internal Attributes set on creation
-    public readonly byte[] Data; // Raw Storage
-    public readonly int Offset;
-
     private const int SIZE = HomeCrypto.SIZE_1GAME_PK8;
     private const HomeGameDataFormat Format = HomeGameDataFormat.PK8;
 
-    public GameDataPK8 Clone() => new(Data.AsSpan(Offset - 3, SIZE).ToArray());
+    public GameDataPK8() : base(Format, SIZE) { }
+    public GameDataPK8(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
+    public GameDataPK8 Clone() => new(ToArray(SIZE));
+    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
 
-    public GameDataPK8()
-    {
-        Data = new byte[SIZE];
-        Data[0] = (byte)Format;
-        WriteUInt16LittleEndian(Data.AsSpan(1, 2), SIZE);
-    }
-
-    public GameDataPK8(byte[] data, int offset = 0)
-    {
-        if ((HomeGameDataFormat)data[offset] != Format)
-            throw new ArgumentException($"Invalid GameDataFormat for {Format}");
-
-        if (ReadUInt16LittleEndian(data.AsSpan(offset + 1)) != SIZE)
-            throw new ArgumentException($"Invalid GameDataSize for {Format}");
-
-        Data = data;
-        Offset = offset + 3;
-    }
+    #region Structure
 
     public bool CanGigantamax { get => Data[Offset + 0x00] != 0; set => Data[Offset + 0x00] = (byte)(value ? 1 : 0); }
     public uint Sociability { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x01)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x01), value); }
@@ -98,16 +80,11 @@ public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISo
     public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x40), (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x42), (ushort)value); }
 
-    // Not stored.
-    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.SWSH.GetFormEntry(species, form);
+    #endregion
 
-    public int CopyTo(Span<byte> result)
-    {
-        result[0] = (byte)Format;
-        WriteUInt16LittleEndian(result[1..], SIZE);
-        Data.AsSpan(Offset, SIZE).CopyTo(result[3..]);
-        return 3 + SIZE;
-    }
+    #region Conversion
+
+    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.SWSH.GetFormEntry(species, form);
 
     public void CopyTo(PK8 pk)
     {
@@ -130,6 +107,8 @@ public sealed class GameDataPK8 : IGameDataSide, IGigantamax, IDynamaxLevel, ISo
         CopyTo(pk);
         return pk;
     }
+
+    #endregion
 
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPK8? TryCreate(PKH pkh)
