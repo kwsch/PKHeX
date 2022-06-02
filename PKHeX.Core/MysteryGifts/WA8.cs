@@ -374,6 +374,8 @@ namespace PKHeX.Core
             return 0x124 + (index * 0x1C);
         }
 
+        public bool IsHOMEGift => CardID >= 9000;
+
         public bool CanHandleOT(int language) => !GetHasOT(language);
 
         public override GameVersion Version
@@ -468,6 +470,10 @@ namespace PKHeX.Core
 
             pk.MetDate = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
 
+            // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
+            if (CardID is 9018 or 9019 or 9020)
+                pk.Met_Day = 20;
+
             var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
             pk.IsNicknamed = GetIsNicknamed(language);
@@ -539,9 +545,24 @@ namespace PKHeX.Core
             ShinyType8.Random       => Util.Rand32(), // Random, Any
             ShinyType8.AlwaysStar   => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
             ShinyType8.AlwaysSquare => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-            ShinyType8.FixedValue   => PID, // Fixed, Force Value
+            ShinyType8.FixedValue   => GetFixedPID(tr),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
+        private uint GetFixedPID(ITrainerID tr)
+        {
+            var pid = PID;
+            if (!tr.IsShiny(pid, 8))
+                return pid;
+            if (IsHOMEGift)
+                return GetAntishinyFixedHOME(tr);
+            return pid;
+        }
+
+        private static uint GetAntishinyFixedHOME(ITrainerID tr)
+        {
+            var fid = ((uint)(tr.SID << 16) | (uint)tr.TID);
+            return fid ^ 0x10u;
+        }
 
         private static uint GetAntishiny(ITrainerID tr)
         {
@@ -600,7 +621,11 @@ namespace PKHeX.Core
 
                 var OT = GetOT(pkm.Language); // May not be guaranteed to work.
                 if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
-                if (OriginGame != 0 && OriginGame != pkm.Version) return false;
+                if (OriginGame != 0 && OriginGame != pkm.Version)
+                {
+                    if (OriginGame is (int)GameVersion.PLA && !(pkm.Version is (int)GameVersion.SW && pkm.Met_Location == Locations.HOME_SWLA))
+                        return false;
+                }
                 if (EncryptionConstant != 0)
                 {
                     if (EncryptionConstant != pkm.EncryptionConstant)

@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/05/08 - New Update:
+22/06/01 - New Update:
+ - Legality:
+ - - Added: HOME 2.0.0 support. Thanks @SciresM, @sora10pls, @Lusamine, & all contributing via the Discord server!
+ - - Changed: Revises legality checks to account for traveling between the three game islands (PLA/BDSP/SWSH)
+ - - Changed: Evolution History is now tracked in the Legality parse for specific contexts, rather than by generation only.
+ - - Fixed: More Gen1/2 tradeback edge cases are handled correctly.
+ - Added: HOME 2.0.0 conversion mechanisms between the three formats.
+ - Added: HOME 2.0.0 flexible conversion options to backfill missing data when converting from SW/SH back to PLA/BD/SP.
+ - Added: HOME 2.0.0 abstractions for HOME data storage format (EKH/PKH format 1, aka EH1/PH1).
+ - Added: `PKM` now exposes a `Context` to indicate the isolation context for legality purposes.
+ - Added: Gen8 BDSP misc editor can now unlock Arceus encounter same as Darkrai and Shaymin. Thanks @sora10pls!
+ - Fixed: Gen5 C-Gear Skins with incorrect file formats (not 32bit argb) show an error dialog rather than crash-erroring.
+ - Fixed: Gen5 Entree Forest/Misc5 out-of-range values no longer throw an error when the editor opens.
+ - Fixed: Loading a PKM while viewing an extrabyte index now correctly loads the new extrabyte value.
+ - Fixed: Gen8 PLA Initial mastery move flags are now suggested correctly for edge cases.
+ - Fixed: PKM Editor GUI controls now better aligned/sized with similar controls (ex: OT editing).
+ - Fixed: Drag & Drop now works correctly within the program. Still recommended to use ctrl/shift hotkeys!
+ - Removed: HaX mode can no longer change Stat_Level separately from Current Level. Set it via the batch editor instead.
+ - Changed: Enhanced the Gen1/2 Stadium save detection to now detect correctly if no team data has been set.
+ - Changed: Italian translation improved (GUI+Legality). Thanks @Manu098vm !
+
+22/05/08 - New Update: (94641) [4908732]
  - Legality:
  - - Added: PLA move mastery/purchased flags are now legality checked thoroughly. Thanks @Lusamine & @Atrius97 !
  - - Added: PLA event gifts are now checked for their date obtained.

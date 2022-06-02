@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
         public override Shiny Shiny => PIDType switch
         {
-            ShinyType8.FixedValue => IsHOMEGift && IsHOMEShinyPossible() ? Shiny.Random : GetShinyXor() switch
+            ShinyType8.FixedValue => IsHOMEGift && IsHOMEShinyPossible(DateTime.Now) ? Shiny.Random : GetShinyXor() switch
             {
                 0 => Shiny.AlwaysSquare,
                 <= 15 => Shiny.AlwaysStar,
@@ -534,9 +534,25 @@ namespace PKHeX.Core
             ShinyType8.Random       => Util.Rand32(), // Random, Any
             ShinyType8.AlwaysStar   => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
             ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-            ShinyType8.FixedValue   => PID, // Fixed, Force Value
+            ShinyType8.FixedValue   => GetFixedPID(tr),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
+
+        private uint GetFixedPID(ITrainerID tr)
+        {
+            var pid = PID;
+            if (!tr.IsShiny(pid, 8))
+                return pid;
+            if (IsHOMEGift && !IsHOMEShinyPossible(DateTime.Now))
+                return GetAntishinyFixedHOME(tr);
+            return pid;
+        }
+
+        private static uint GetAntishinyFixedHOME(ITrainerID tr)
+        {
+            var fid = ((uint)(tr.SID << 16) | (uint)tr.TID);
+            return fid ^ 0x10u;
+        }
 
         private static uint GetAntishiny(ITrainerID tr)
         {
@@ -617,7 +633,7 @@ namespace PKHeX.Core
                     }
                     else // Never or Random (HOME ID specific)
                     {
-                        if (pkm.IsShiny && !IsHOMEShinyPossible())
+                        if (pkm.IsShiny && !IsHOMEShinyPossible(pkm.MetDate ?? DateTime.Now))
                             return false;
                     }
                 }
@@ -683,10 +699,10 @@ namespace PKHeX.Core
             return pkm.PID == GetPID(pkm, type);
         }
 
-        private bool IsHOMEShinyPossible()
+        private bool IsHOMEShinyPossible(DateTime date)
         {
             // no defined TID/SID and having a fixed PID can cause the player's TID/SID to match the PID's shiny calc.
-            return TID == 0 && SID == 0 && PID != 0;
+            return TID == 0 && SID == 0 && PID != 0 && (CardID < 9015 && date < new DateTime(2022, 5, 18));
         }
 
         public bool IsDateRestricted => IsHOMEGift;
