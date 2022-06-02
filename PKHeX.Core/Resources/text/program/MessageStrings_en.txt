@@ -96,6 +96,7 @@ MsgSaveSlotEmpty = Can't have an empty/egg party.
 MsgSaveSlotLocked = Can't modify a locked slot.
 MsgSaveSlotBadData = Unable to set to this slot.
 MsgSaveBackup = Saved Backup of current SAV to:
+MsgSaveBackupNotFound = Original file has been moved; unable to copy a backup.
 MsgSaveCurrentGeneration = Current SAV Generation: {0}
 MsgSaveBoxCloneFromTabs = Clone Pokemon from Editing Tabs to all slots in {0}?
 MsgSaveBoxSortCurrent = Sort Current Box?
