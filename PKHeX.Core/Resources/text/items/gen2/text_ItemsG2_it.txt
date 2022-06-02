@@ -45,211 +45,211 @@ Repellente Max
 Supercolpo
 Teru-sama (2)
 Acqua Fresca
-Soda Pop
-Lemonade
-X Attack
+Gassosa
+Lemonsucco
+Attacco X
 Teru-sama (3)
-X Defend
-X Speed
-X Special
-Coin Case
-Itemfinder
+Difesa X
+Velocità X
+Special X
+Salvadanaio
+Ricerca Strumenti
 Teru-sama (4)
-Exp Share
-Old Rod
-Good Rod
-Silver Leaf
-Super Rod
-PP Up
-Ether
-Max Ether
-Elixer
-Red Scale
-SecretPotion
-S.S. Ticket
-Mystery Egg
-Clear Bell*
-Silver Wing
-Moomoo Milk
-Quick Claw
-PSNCureBerry
-Gold Leaf
-Soft Sand
-Sharp Beak
-PRZCureBerry
-Burnt Berry
-Ice Berry
-Poison Barb
-King's Rock
-Bitter Berry
-Mint Berry
-Red Apricorn
-TinyMushroom
-Big Mushroom
-SilverPowder
-Blu Apricorn
+Condiv. Esp
+Amo Vecchio
+Amo Buono
+Fogliargento
+Super Amo
+PP-Su
+Etere
+Etere Max
+Elisir
+Squama Rossa
+Poz.Segreta
+Biglietto Nave
+Uovo Mistero
+Campana Chiara*
+Aladargento
+Latte Mumu
+Rapidartigli
+Baccantiveleno
+Fogliadoro
+Sabbiasoffice
+Beccaffilato
+Baccantipar.
+Bacca Bruc.
+Bacca Ghiac.
+Velenaculeo
+Roccia Di Re
+Bacca Amara
+Bacca Menta
+Ghicoc.Rossa
+Minifungo
+Grande Fungo
+Argenpolvere
+Ghicocca Blu
 Teru-sama (5)
-Amulet Coin
-Ylw Apricorn
-Grn Apricorn
-Cleanse Tag
-Mystic Water
-TwistedSpoon
-Wht Apricorn
-Black Belt
-Blk Apricorn
+Monetamuleto
+Ghicoc.Gial.
+Ghicoc.Verde
+Velopuro
+Acquamagica
+Cucchiaiotorto
+Ghicoc.Bnca
+Cinturanera
+Ghicoc.Nera
 Teru-sama (6)
-Pnk Apricorn
-BlackGlasses
-SlowpokeTail
-Pink Bow
-Stick
-Smoke Ball
-NeverMeltIce
-Magnet
-MiracleBerry
-Pearl
-Big Pearl
-Everstone
-Spell Tag
-RageCandyBar
+Ghicoc.Rosa
+Occhialineri
+Codaslowpoke
+Fiocco Rosa
+Gambo
+Palla Fumo
+Gelomai
+Calamita
+Bacca Mirac.
+Perla
+Grande Perla
+Pietrastante
+Spettrotarga
+Iramella
 GS Ball*
-Blue Card*
-Miracle Seed
-Thick Club
-Focus Band
+Carta Blu*
+Miracolseme
+Ossospesso
+Bandana
 Teru-sama (7)
-EnergyPowder
-Energy Root
-Heal Powder
-Revival Herb
-Hard Stone
-Lucky Egg
-Card Key
-Machine Part
-Egg Ticket*
-Lost Item
-Stardust
-Star Piece
-Basement Key
-Pass
+Polvenergia
+Radicenergia
+Polvocura
+Vitalerba
+Pietradura
+Fortunuovo
+Apriporta
+Pezzo macch.
+Bigl.Uovo*
+Strumento Perso
+Polvostella
+Pezzo Stella
+Chiave sotterr.
+Abbonamento
 Teru-sama (8)
 Teru-sama (9)
 Teru-sama (10)
-Charcoal
-Berry Juice
-Scope Lens
+Carbonella
+Succodibacca
+Mirino
 Teru-sama (11)
 Teru-sama (12)
-Metal Coat
-Dragon Fang
+Metalcoperta
+Dentedidrago
 Teru-sama (13)
-Leftovers
+Avanzi
 Teru-sama (14)
 Teru-sama (15)
 Teru-sama (16)
-MysteryBerry
-Dragon Scale
-Berserk Gene
+Bacca Mist. 
+Squama Drago
+Genefurioso
 Teru-sama (17)
 Teru-sama (18)
 Teru-sama (19)
-Sacred Ash
-Heavy Ball
-Flower Mail
+Ceneremagica
+Peso Ball
+Messaggio Fiore
 Level Ball
-Lure Ball
-Fast Ball
+Esca Ball
+Rapid Ball
 Teru-sama (20)
-Light Ball
+Elettropalla
 Friend Ball
-Moon Ball
+Luna Ball
 Love Ball
-Normal Box
-Gorgeous Box
-Sun Stone
-Polkadot Bow
+Scat. Normale 
+Scat. Lusso
+Pietrasolare
+Fiocco Pois
 Teru-sama (21)
-Up-Grade
-Berry
-Gold Berry
-SquirtBottle
+Upgrade
+Bacca
+Bacca Oro
+Annaffiatoio
 Teru-sama (22)
-Park Ball
-Rainbow Wing
+Parco Ball
+Ala d'Iride
 Teru-sama (23)
-Brick Piece
-Surf Mail
-Litebluemail
-Portraitmail
-Lovely Mail
-Eon Mail
-Morph Mail
-Bluesky Mail
-Music Mail
-Mirage Mail
+Mattoncino
+Messaggio Surf
+Messaggio Azzurro
+Messaggio Ritratto
+Messaggio Dolce
+Messaggio Eon
+Messaggio Morph
+Messaggio Cielo
+Messaggio Musica
+Messaggio Visione
 Teru-sama (24)
-TM01
-TM02
-TM03
-TM04
-TM04 (Unused)
-TM05
-TM06
-TM07
-TM08
-TM09
-TM10
-TM11
-TM12
-TM13
-TM14
-TM15
-TM16
-TM17
-TM18
-TM19
-TM20
-TM21
-TM22
-TM23
-TM24
-TM25
-TM26
-TM27
-TM28
-TM28 (Unused)
-TM29
-TM30
-TM31
-TM32
-TM33
-TM34
-TM35
-TM36
-TM37
-TM38
-TM39
-TM40
-TM41
-TM42
-TM43
-TM44
-TM45
-TM46
-TM47
-TM48
-TM49
-TM50
-HM01
-HM02
-HM03
-HM04
-HM05
-HM06
-HM07
-HM08 (Unused)
-HM09 (Unused)
-HM10 (Unused)
-HM11 (Unused)
-HM12 (Unused)
+MT01
+MT02
+MT03
+MT04
+MT04 (Unused)
+MT05
+MT06
+MT07
+MT08
+MT09
+MT10
+MT11
+MT12
+MT13
+MT14
+MT15
+MT16
+MT17
+MT18
+MT19
+MT20
+MT21
+MT22
+MT23
+MT24
+MT25
+MT26
+MT27
+MT28
+MT28 (Unused)
+MT29
+MT30
+MT31
+MT32
+MT33
+MT34
+MT35
+MT36
+MT37
+MT38
+MT39
+MT40
+MT41
+MT42
+MT43
+MT44
+MT45
+MT46
+MT47
+MT48
+MT49
+MT50
+MN01
+MN02
+MN03
+MN04
+MN05
+MN06
+MN07
+MN08 (Unused)
+MN09 (Unused)
+MN10 (Unused)
+MN11 (Unused)
+MN12 (Unused)
