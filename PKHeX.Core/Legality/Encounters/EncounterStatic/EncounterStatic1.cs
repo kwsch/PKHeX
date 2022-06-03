@@ -62,7 +62,7 @@
         {
             if (pkm is not PK1 pk1)
                 return false;
-            if (PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
+            if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
                 return false;
             if (IsCatchRateValid(pk1))
                 return false;

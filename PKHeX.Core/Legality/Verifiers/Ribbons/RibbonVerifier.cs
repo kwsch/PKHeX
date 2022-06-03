@@ -161,12 +161,8 @@ namespace PKHeX.Core
                         yield return new RibbonResult(nameof(s6.RibbonCountMemoryBattle));
                 }
 
-                // Gen8+ replaced with Max Friendship. Gen6/7 uses affection.
-                if (pkm is IAffection a && s6.RibbonBestFriends) // can't lower affection
-                {
-                    if (a.OT_Affection < 255 && pkm.IsUntraded)
-                        yield return new RibbonResult(nameof(s6.RibbonBestFriends));
-                }
+                if (s6.RibbonBestFriends && !IsRibbonValidBestFriend(pkm, evos, gen))
+                    yield return new RibbonResult(nameof(IRibbonSetCommon6.RibbonBestFriends));
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
@@ -181,7 +177,7 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s3.RibbonChampionG3)); // RSE HoF
                 if (s3.RibbonArtist && gen != 3)
                     yield return new RibbonResult(nameof(s3.RibbonArtist)); // RSE Master Rank Portrait
-                if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5
+                if (s3.RibbonEffort && !IsRibbonValidEffort(pkm, evos, gen)) // unobtainable in Gen 5
                     yield return new RibbonResult(nameof(s3.RibbonEffort));
             }
             if (pkm is IRibbonSetCommon8 s8)
@@ -192,6 +188,20 @@ namespace PKHeX.Core
                     yield return z;
             }
         }
+
+        private static bool IsRibbonValidEffort(PKM pkm, EvolutionHistory evos, int gen) => gen switch
+        {
+            5 when pkm.Format == 5 => false,
+            8 when !pkm.HasVisitedSWSH(evos.Gen8) && !pkm.HasVisitedBDSP(evos.Gen8b) => false,
+            _ => true,
+        };
+
+        private static bool IsRibbonValidBestFriend(PKM pkm, EvolutionHistory evos, int gen) => gen switch
+        {
+          < 7 when pkm is { IsUntraded: true } and IAffection { OT_Affection: < 255 } => false, // Gen6/7 uses affection. Can't lower it on OT!
+            8 when !pkm.HasVisitedSWSH(evos.Gen8) && !pkm.HasVisitedBDSP(evos.Gen8b) => false, // Gen8+ replaced with Max Friendship.
+            _ => true,
+        };
 
         private static IEnumerable<RibbonResult> GetMissingContestRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
         {

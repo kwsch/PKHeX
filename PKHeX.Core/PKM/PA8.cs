@@ -57,7 +57,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Simple Generated Attributes
-    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
+    public ReadOnlySpan<bool> TechRecordPermitFlags => Span<bool>.Empty;
     public ReadOnlySpan<int> TechRecordPermitIndexes => Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
     public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
     public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;

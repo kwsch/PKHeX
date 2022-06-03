@@ -540,12 +540,19 @@ namespace PKHeX.Core
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile? GetVariantSAV(string path)
         {
-            var data = File.ReadAllBytes(path);
-            var sav = GetVariantSAV(data, path);
-            if (sav == null)
+            // Many things can go wrong with loading save data (file no longer present toc-tou, or bad save layout).
+            try
+            {
+                var data = File.ReadAllBytes(path);
+                var sav = GetVariantSAV(data, path);
+                sav?.Metadata.SetExtraInfo(path);
+                return sav;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
                 return null;
-            sav.Metadata.SetExtraInfo(path);
-            return sav;
+            }
         }
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>

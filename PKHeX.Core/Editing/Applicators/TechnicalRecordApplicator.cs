@@ -33,9 +33,6 @@ namespace PKHeX.Core
         /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
         public static void SetRecordFlags(this ITechRecord8 pk, IEnumerable<int> moves)
         {
-            if (pk is PA8)
-                return;
-
             var permit = pk.TechRecordPermitFlags;
             var moveIDs = pk.TechRecordPermitIndexes;
             if (permit.Length != moveIDs.Length)

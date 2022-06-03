@@ -37,15 +37,19 @@ namespace PKHeX.Core
             var memory = MemoryVariableSet.Read((ITrainerMemories)pkm, handler);
 
             // Actionable HM moves
-            int matchingMoveMemory = Array.IndexOf(MemoryContext6.MoveSpecificMemories[0], memory.MemoryID);
-            if (matchingMoveMemory != -1)
+            int hmIndex = Array.IndexOf(MemoryContext6.MoveSpecificMemoryHM, memory.MemoryID);
+            if (hmIndex != -1)
             {
                 if (gen != 6) // Gen8 has no HMs, so this memory can never exist.
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 if (pkm.Species != (int)Species.Smeargle)
                 {
-                    if (!GetCanLearnMachineMove(pkm, info.EvoChainsAllGens[gen], MemoryContext6.MoveSpecificMemories[1][matchingMoveMemory], 6))
+                    // All AO hidden machine permissions are super-sets of Gen 3-5 games.
+                    // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
+                    var evos = info.EvoChainsAllGens.Gen6;
+                    var indexLearn = Array.FindIndex(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).TMHM[100 + hmIndex]);
+                    if (indexLearn == -1)
                         return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
                 }
             }

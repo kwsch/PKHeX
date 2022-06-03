@@ -214,11 +214,14 @@ namespace PKHeX.WinForms
 
             if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
             {
+                static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
+                static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
                 db = SAV switch
                 {
-                    SAV8LA   => db.Where(z => PersonalTable.SWSH.IsPresentInGame(z.Species, z.Form)),
-                    SAV8BS   => db.Where(z => PersonalTable.BDSP.IsPresentInGame(z.Species, z.Form)),
-                    SAV8SWSH => db.Where(z => PersonalTable.LA.IsPresentInGame(z.Species, z.Form)),
+                    SAV8SWSH => db.Where(IsPresentInGameSWSH),
+                    SAV8BS => db.Where(IsPresentInGameBDSP),
+                    SAV8LA => db.Where(IsPresentInGameLA),
                     SAV7b => db.Where(z => z is WB7),
                     SAV7 => db.Where(z => z.Generation < 7 || z is WC7),
                     _ => db.Where(z => z.Generation <= SAV.Generation),

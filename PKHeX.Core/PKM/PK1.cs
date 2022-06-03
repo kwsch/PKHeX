@@ -80,7 +80,7 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
-        public static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
+        public static bool IsCatchRateHeldItem(int rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
 
         private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, int rate)
         {
@@ -113,7 +113,7 @@ namespace PKHeX.Core
 
         private static bool IsValidCatchRateAnyPreEvo(int species, int rate)
         {
-            if (rate is 0 || IsCatchRateHeldItem(rate))
+            if (IsCatchRateHeldItem(rate))
                 return true;
             if (species == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
                 return true;

@@ -126,10 +126,16 @@ namespace PKHeX.Core
                         return false;
                 }
             }
-            else if (pkm is PK1 pk1 && !ParseSettings.AllowGen1Tradeback)
+            else if (pkm is PK1 pk1)
             {
-                if (!Array.TrueForAll(info.Moves, z => z.Generation is 1) && !PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
-                    return false;
+                var hasGen2 = Array.Exists(info.Moves, z => z.Generation is not 1);
+                if (hasGen2)
+                {
+                    if (!ParseSettings.AllowGen1Tradeback)
+                        return false;
+                    if (!PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
+                        return false;
+                }
             }
 
             info.Parse.Add(evo);
