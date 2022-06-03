@@ -548,9 +548,13 @@ namespace PKHeX.Core
             ShinyType8.FixedValue   => GetFixedPID(tr),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
+
         private uint GetFixedPID(ITrainerID tr)
         {
             var pid = PID;
+            if (pid != 0 && !(TID == 0 && SID == 0))
+                return pid;
+
             if (!tr.IsShiny(pid, 8))
                 return pid;
             if (IsHOMEGift)
