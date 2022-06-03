@@ -101,25 +101,22 @@ namespace PKHeX.Core
             if (gen < 8 || pkm.IsEgg)
                 return Array.Empty<int>();
 
-            if (pkm.LA)
-                return Array.Empty<int>();
-
-            if (pkm.BDSP)
+            if (pkm is PB8 pb)
             {
-                var table = PersonalTable.BDSP;
-                var entry = (PersonalInfoBDSP)table.GetFormEntry(pkm.Species, pkm.Form);
+                var entry = (PersonalInfoBDSP)pb.PersonalInfo;
                 var baseSpecies = entry.HatchSpecies;
                 var baseForm = entry.HatchFormIndex;
                 return GetEggMoves(8, baseSpecies, baseForm, BD);
             }
-            else
+            if (pkm is PK8 pk)
             {
-                var table = PersonalTable.SWSH;
-                var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
+                var entry = (PersonalInfoSWSH)pk.PersonalInfo;
                 var baseSpecies = entry.HatchSpecies;
                 var baseForm = entry.HatchFormIndexEverstone;
                 return GetEggMoves(8, baseSpecies, baseForm, SW);
             }
+
+            return Array.Empty<int>();
         }
     }
 }
