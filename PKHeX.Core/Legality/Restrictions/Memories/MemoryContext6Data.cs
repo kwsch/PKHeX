@@ -24,18 +24,15 @@ namespace PKHeX.Core
             62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
         };
 
-        internal static readonly int[][] MoveSpecificMemories =
+        internal static readonly byte[] MoveSpecificMemoryHM = // Ordered by HM index for bitflag checks.
         {
-            new[] {
-                20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
-                24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
-                35, // {0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
-                36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
-                37, // {0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
-                38, // {0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
-                69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
-            },
-            new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
+            36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
+            24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
+            20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
+            35, // {0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
+            38, // {0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
+            37, // {0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
+            69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
         };
 
         /// <summary>
