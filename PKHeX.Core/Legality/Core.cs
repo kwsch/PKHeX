@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static PKHeX.Core.BinLinkerAccessor;
 
 namespace PKHeX.Core
@@ -55,34 +54,6 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
         internal static readonly Learnset[] LevelUpLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
         internal static readonly Learnset[] MasteryLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("mastery_la.pkl"), "la"));
-
-        public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format) => format switch
-        {
-            7 when pkm is PB7 => MovePP_GG,
-            8 when pkm is PA8 => MovePP_LA,
-            _ => GetPPTable(format),
-        };
-
-        public static IReadOnlyList<byte> GetPPTable(int format) => format switch
-        {
-            1 => MovePP_RBY,
-            2 => MovePP_GSC,
-            3 => MovePP_RS,
-            4 => MovePP_DP,
-            5 => MovePP_BW,
-            6 => MovePP_XY,
-            7 => MovePP_SM,
-            8 => MovePP_SWSH,
-            _ => Array.Empty<byte>(),
-        };
-
-        public static ICollection<int> GetDummiedMovesHashSet(PKM pkm) => pkm switch
-        {
-            PK8 => DummiedMoves_SWSH,
-            PB8 => DummiedMoves_BDSP,
-            PA8 => DummiedMoves_LA,
-            _ => Array.Empty<int>(),
-        };
 
         internal static int GetMaxSpeciesOrigin(PKM pkm)
         {

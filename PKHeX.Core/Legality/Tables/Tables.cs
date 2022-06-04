@@ -58,64 +58,6 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// Generation 7 Z Moves
-        /// </summary>
-        public static readonly HashSet<int> Z_Moves = new()
-        {
-            (int)BreakneckBlitzP, (int)BreakneckBlitzS,
-            (int)AllOutPummelingP, (int)AllOutPummelingS,
-            (int)SupersonicSkystrikeP, (int)SupersonicSkystrikeS,
-            (int)AcidDownpourP, (int)AcidDownpourS,
-            (int)TectonicRageP, (int)TectonicRageS,
-            (int)ContinentalCrushP, (int)ContinentalCrushS,
-            (int)SavageSpinOutP, (int)SavageSpinOutS,
-            (int)NeverEndingNightmareP, (int)NeverEndingNightmareS,
-            (int)CorkscrewCrashP, (int)CorkscrewCrashS,
-            (int)InfernoOverdriveP, (int)InfernoOverdriveS,
-            (int)HydroVortexP, (int)HydroVortexS,
-            (int)BloomDoomP, (int)BloomDoomS,
-            (int)GigavoltHavocP, (int)GigavoltHavocS,
-            (int)ShatteredPsycheP, (int)ShatteredPsycheS,
-            (int)SubzeroSlammerP, (int)SubzeroSlammerS,
-            (int)DevastatingDrakeP, (int)DevastatingDrakeS,
-            (int)BlackHoleEclipseP, (int)BlackHoleEclipseS,
-            (int)TwinkleTackleP, (int)TwinkleTackleS,
-
-            (int)Catastropika,
-            (int)SinisterArrowRaid,
-            (int)MaliciousMoonsault,
-            (int)OceanicOperetta,
-            (int)GuardianofAlola,
-            (int)SoulStealing7StarStrike,
-            (int)StokedSparksurfer,
-            (int)PulverizingPancake,
-            (int)ExtremeEvoboost,
-            (int)GenesisSupernova,
-            (int)TenMVoltThunderbolt,
-            (int)LightThatBurnstheSky,
-            (int)SearingSunrazeSmash,
-            (int)MenacingMoonrazeMaelstrom,
-            (int)LetsSnuggleForever,
-            (int)SplinteredStormshards,
-            (int)ClangorousSoulblaze,
-        };
-
-        public static bool IsDynamaxMove(int move) => move is >= (int)MaxFlare and <= (int)MaxSteelspike;
-
-        /// <summary>
-        /// Moves that can not be obtained by using Sketch with Smeargle in any game.
-        /// </summary>
-        private static readonly HashSet<int> InvalidSketch = new(Z_Moves)
-        {
-            // Can't Sketch
-            (int)Struggle,
-            (int)Chatter,
-
-            // Unreleased
-            (int)LightofRuin,
-        };
-
-        /// <summary>
         /// Checks if Sketch can obtain the <see cref="move"/> in the requested <see cref="generation"/>
         /// </summary>
         /// <remarks>Doesn't bounds check the <see cref="generation"/> for max move ID.</remarks>
@@ -124,7 +66,7 @@ namespace PKHeX.Core
         /// <returns>True if can be sketched, false if not available.</returns>
         public static bool IsValidSketch(int move, int generation)
         {
-            if (InvalidSketch.Contains(move))
+            if (MoveInfo.InvalidSketch.Contains(move))
                 return false;
             if (generation is 6 && move is ((int)ThousandArrows or (int)ThousandWaves))
                 return false;

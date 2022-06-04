@@ -357,7 +357,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (isIllegal)
                 return Resources.warn;
-            if (pkm.Format >= 8 && Legal.GetDummiedMovesHashSet(pkm).Contains(pkm.GetMove(index)))
+            if (pkm.Format >= 8 && MoveInfo.GetDummiedMovesHashSet(pkm.Context).Contains(pkm.GetMove(index)))
                 return Resources.hint;
             return null;
         }

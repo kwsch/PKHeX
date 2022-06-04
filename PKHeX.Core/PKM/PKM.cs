@@ -847,13 +847,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="move">Move ID</param>
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-        private int GetBasePP(int move)
-        {
-            var table = Legal.GetPPTable(this, Format);
-            if (move >= table.Count)
-                move = 0;
-            return table[move];
-        }
+        private int GetBasePP(int move) => MoveInfo.GetPP(Context, move);
 
         /// <summary>
         /// Applies a shiny <see cref="PID"/> to the <see cref="PKM"/>.

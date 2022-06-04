@@ -43,7 +43,7 @@ namespace PKHeX.Core
             var moves = Util.GetCBList(s.movelist);
             HaXMoveDataSource = moves;
             var legal = new List<ComboItem>(moves);
-            legal.RemoveAll(m => Legal.Z_Moves.Contains(m.Value));
+            legal.RemoveAll(m => MoveInfo.Z_Moves.Contains(m.Value));
             LegalMoveDataSource = legal;
 
             VersionDataSource = GetVersionList(s);

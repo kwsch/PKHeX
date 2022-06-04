@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Properties;
 
@@ -88,7 +87,7 @@ public static class SpriteUtil
             var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
             if (!la.Valid)
                 sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
-            else if (pk.Format >= 8 && pk.Moves.Any(Legal.GetDummiedMovesHashSet(pk).Contains))
+            else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))
                 sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
 
             if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
