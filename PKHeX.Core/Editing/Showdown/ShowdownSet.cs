@@ -342,7 +342,7 @@ namespace PKHeX.Core
             var moves = Strings.Move;
             foreach (int move in Moves)
             {
-                if ((uint)move >= moves.Count)
+                if (move == 0 || (uint)move >= moves.Count)
                     continue;
 
                 if (move == 237) // Hidden Power
