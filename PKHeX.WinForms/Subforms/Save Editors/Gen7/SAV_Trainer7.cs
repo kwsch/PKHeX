@@ -230,7 +230,7 @@ namespace PKHeX.WinForms
 
         private void LoadMapFlyToData()
         {
-            var metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
+            var metLocationList = GameInfo.GetLocationList(GameVersion.US, EntityContext.Gen7, false);
             int[] FlyDestNameIndex = {
                 -1,24,34,8,20,38,12,46,40,30,//Melemele
                 70,68,78,86,74,104,82,58,90,72,76,92,62,//Akala

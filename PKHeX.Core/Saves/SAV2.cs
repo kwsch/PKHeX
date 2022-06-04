@@ -280,6 +280,7 @@ namespace PKHeX.Core
         public override int MaxEV => 65535;
         public override int MaxIV => 15;
         public override int Generation => 2;
+        public override EntityContext Context => EntityContext.Gen2;
         protected override int GiftCountMax => 0;
         public override int OTLength => Japanese || Korean ? 5 : 7;
         public override int NickLength => Japanese || Korean ? 5 : 10;

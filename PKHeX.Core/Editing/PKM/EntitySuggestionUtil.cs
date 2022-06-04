@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var suggestion = new List<string> { MsgPKMSuggestionStart };
             if (pkm.Format >= 3)
             {
-                var metList = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
+                var metList = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Context, egg: false);
                 var locationName = metList.First(loc => loc.Value == location).Text;
                 suggestion.Add($"{MsgPKMSuggestionMetLocation} {locationName}");
                 suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");

@@ -25,6 +25,7 @@ namespace PKHeX.Core
         public override int BoxCount => 31;
         public override int MaxEV => 252;
         public override int Generation => 6;
+        public override EntityContext Context => EntityContext.Gen6;
         protected override int GiftCountMax => 24;
         protected override int GiftFlagMax => 0x100 * 8;
         public int EventFlagCount => 8 * 0x1A0;

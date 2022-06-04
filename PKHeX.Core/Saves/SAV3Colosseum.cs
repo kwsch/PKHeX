@@ -147,6 +147,7 @@ namespace PKHeX.Core
 
         public override int MaxEV => 255;
         public override int Generation => 3;
+        public override EntityContext Context => EntityContext.Gen3;
         protected override int GiftCountMax => 1;
         public override int OTLength => 10; // as evident by Mattle Ho-Oh
         public override int NickLength => 10;

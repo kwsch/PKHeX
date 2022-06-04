@@ -35,6 +35,7 @@ namespace PKHeX.Core
         protected override int SIZE_PARTY => blank.SIZE_PARTY;
         public sealed override int MaxEV => blank.MaxEV;
         public sealed override int Generation => blank.Format;
+        public sealed override EntityContext Context => blank.Context;
         public sealed override int MaxMoveID => blank.MaxMoveID;
         public sealed override int MaxSpeciesID => blank.MaxSpeciesID;
         public sealed override int MaxAbilityID => blank.MaxAbilityID;

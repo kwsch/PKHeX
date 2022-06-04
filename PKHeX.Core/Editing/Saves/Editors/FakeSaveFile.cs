@@ -36,6 +36,7 @@ public sealed class FakeSaveFile : SaveFile
     protected override PKM GetPKM(byte[] data) => BlankPKM;
     protected override byte[] DecryptPKM(byte[] data) => data;
     public override PKM BlankPKM => new PK3();
+    public override EntityContext Context => EntityContext.Gen3;
     protected override int SIZE_STORED => 0;
     protected override int SIZE_PARTY => 0;
 }

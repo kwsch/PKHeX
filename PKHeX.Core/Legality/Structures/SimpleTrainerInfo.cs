@@ -15,6 +15,7 @@
 
         public int Game { get; }
         public int Generation { get; set; } = PKX.Generation;
+        public EntityContext Context { get; set; } = PKX.Context;
 
         public SimpleTrainerInfo(GameVersion game = GameVersion.SW)
         {

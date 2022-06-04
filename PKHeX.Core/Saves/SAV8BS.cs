@@ -109,6 +109,7 @@ namespace PKHeX.Core
         public override int MaxEV => 252;
 
         public override int Generation => 8;
+        public override EntityContext Context => EntityContext.Gen8b;
         public override PersonalTable Personal => PersonalTable.BDSP;
         public override int OTLength => 12;
         public override int NickLength => 12;

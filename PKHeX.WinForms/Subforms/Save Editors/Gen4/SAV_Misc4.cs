@@ -116,12 +116,12 @@ namespace PKHeX.WinForms
             switch (SAV)
             {
                 case SAV4Sinnoh:
-                    metLocationList = GameInfo.GetLocationList(GameVersion.Pt, 4, false);
+                    metLocationList = GameInfo.GetLocationList(GameVersion.Pt, EntityContext.Gen4, false);
                     FlyDestD = new[] { 001, 002, 006, 008, 003, 009, 010, 004, 012, 011, 005, 007, 014, 013, 054, 015, 081, 082, 083, 055 };
                     FlyDestC = new[] { 000, 001, 007, 009, 002, 010, 011, 003, 013, 012, 004, 008, 015, 014, 016, 068, 017, 005, 006, 067 };
                     break;
                 case SAV4HGSS:
-                    metLocationList = GameInfo.GetLocationList(GameVersion.HG, 4, false);
+                    metLocationList = GameInfo.GetLocationList(GameVersion.HG, EntityContext.Gen4, false);
                     FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225 };
                     FlyDestC = new[] { 011, 012, 013, 014, 016, 018, 017, 015, 019, 020, 021, 030, 027, 022, 033, 009, 000, 001, 002, 003, 005, 004, 006, 010, 007, 008, 035 };
                     break;

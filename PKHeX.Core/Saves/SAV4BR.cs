@@ -106,6 +106,7 @@ namespace PKHeX.Core
 
         public override int MaxEV => 255;
         public override int Generation => 4;
+        public override EntityContext Context => EntityContext.Gen4;
         protected override int GiftCountMax => 1;
         public override int OTLength => 7;
         public override int NickLength => 10;

@@ -171,6 +171,7 @@ namespace PKHeX.Core
         public sealed override int BoxCount => 14;
         public sealed override int MaxEV => 255;
         public sealed override int Generation => 3;
+        public sealed override EntityContext Context => EntityContext.Gen3;
         protected sealed override int GiftCountMax => 1;
         public sealed override int OTLength => 7;
         public sealed override int NickLength => 10;

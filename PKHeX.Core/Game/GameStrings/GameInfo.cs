@@ -72,12 +72,12 @@ namespace PKHeX.Core
         /// Gets the location list for a specific version, which can retrieve either met locations or egg locations.
         /// </summary>
         /// <param name="version">Version to retrieve for</param>
-        /// <param name="pkmFormat">Generation to retrieve for</param>
+        /// <param name="context">Current format context</param>
         /// <param name="egg">Egg Locations are to be retrieved instead of regular Met Locations</param>
         /// <returns>Consumable list of met locations</returns>
-        public static IReadOnlyList<ComboItem> GetLocationList(GameVersion version, int pkmFormat, bool egg = false)
+        public static IReadOnlyList<ComboItem> GetLocationList(GameVersion version, EntityContext context, bool egg = false)
         {
-            return Sources.Met.GetLocationList(version, pkmFormat, egg);
+            return Sources.Met.GetLocationList(version, context, egg);
         }
     }
 }

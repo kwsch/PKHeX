@@ -9,6 +9,7 @@ public static class PKX
 {
     internal static readonly PersonalTable Personal = PersonalTable.LA;
     public const int Generation = 8;
+    public const EntityContext Context = EntityContext.Gen8a;
 
     /// <summary>
     /// Reorders (in place) the input array of stats to have the Speed value last rather than before the SpA/SpD stats.

@@ -20,6 +20,7 @@ namespace PKHeX.Core
         protected override SaveFile CloneInternal() => new SAV1Stadium((byte[])Data.Clone(), Japanese);
 
         public override int Generation => 1;
+        public override EntityContext Context => EntityContext.Gen1;
         private int StringLength => Japanese ? StringLengthJ : StringLengthU;
         private const int StringLengthJ = 6;
         private const int StringLengthU = 11;

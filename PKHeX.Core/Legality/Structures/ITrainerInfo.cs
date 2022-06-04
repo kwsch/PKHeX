@@ -11,6 +11,7 @@ namespace PKHeX.Core
         int Language { get; }
 
         int Generation { get; }
+        EntityContext Context { get; }
     }
 
     public static partial class Extensions

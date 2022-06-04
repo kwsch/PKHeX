@@ -63,6 +63,7 @@ namespace PKHeX.Core
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
         public abstract int Generation { get; }
+        public abstract EntityContext Context { get; }
         #endregion
 
         #region Savedata Container Handling

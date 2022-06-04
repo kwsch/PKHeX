@@ -65,6 +65,7 @@ namespace PKHeX.Core
 
         // Feature Overrides
         public override int Generation => 7;
+        public override EntityContext Context => EntityContext.Gen7b;
         public override int MaxMoveID => Legal.MaxMoveID_7b;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_7b;
         public override int MaxItemID => Legal.MaxItemID_7b;

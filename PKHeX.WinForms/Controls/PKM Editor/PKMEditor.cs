@@ -146,7 +146,7 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private GameVersion origintrack;
 
-        private int originFormat = -1;
+        private EntityContext originFormat = EntityContext.Invalid;
 
         /// <summary>
         /// Action to perform when loading a PKM to the editor GUI.
@@ -1146,7 +1146,7 @@ namespace PKHeX.WinForms.Controls
             GameVersion version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
             if (version.IsValidSavedVersion())
             {
-                CheckMetLocationChange(version, Entity.Format);
+                CheckMetLocationChange(version, Entity.Context);
                 if (FieldsLoaded)
                     Entity.Version = (int)version;
             }
@@ -1168,23 +1168,23 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality();
         }
 
-        private void CheckMetLocationChange(GameVersion version, int format)
+        private void CheckMetLocationChange(GameVersion version, EntityContext context)
         {
             // Does the list of locations need to be changed to another group?
             var group = GameUtil.GetMetLocationVersionGroup(version);
-            if (group != origintrack || format != originFormat)
-                ReloadMetLocations(version, format);
+            if (group != origintrack || context != originFormat)
+                ReloadMetLocations(version, context);
             origintrack = group;
-            originFormat = format;
+            originFormat = context;
         }
 
-        private void ReloadMetLocations(GameVersion version, int format)
+        private void ReloadMetLocations(GameVersion version, EntityContext context)
         {
-            var metList = GameInfo.GetLocationList(version, format, egg: false);
+            var metList = GameInfo.GetLocationList(version, context, egg: false);
             CB_MetLocation.DataSource = new BindingSource(metList, null);
             CB_MetLocation.DropDownWidth = GetWidth(metList, CB_MetLocation.Font);
 
-            var eggList = GameInfo.GetLocationList(version, format, egg: true);
+            var eggList = GameInfo.GetLocationList(version, context, egg: true);
             CB_EggLocation.DataSource = new BindingSource(eggList, null);
             CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
 
@@ -1197,7 +1197,7 @@ namespace PKHeX.WinForms.Controls
                 SetMarkings(); // Set/Remove the Nativity marking when gamegroup changes too
                 int metLoc = EncounterSuggestion.GetSuggestedTransferLocation(Entity);
                 int eggLoc = CHK_AsEgg.Checked
-                    ? EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(format, version)
+                    ? EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Entity, true)
                     : LocationEdits.GetNoneLocation(Entity);
 
                 CB_MetLocation.SelectedValue = Math.Max(0, metLoc);
@@ -1908,7 +1908,7 @@ namespace PKHeX.WinForms.Controls
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (Entity.Format == 2)
-                CheckMetLocationChange(GameVersion.C, Entity.Format);
+                CheckMetLocationChange(GameVersion.C, Entity.Context);
             return TranslationRequired;
         }
 
@@ -2015,7 +2015,7 @@ namespace PKHeX.WinForms.Controls
                 var game = (GameVersion) sav.Game;
                 if (game <= 0)
                     game = Entity.Context.GetSingleGameVersion();
-                CheckMetLocationChange(game, sav.Generation);
+                CheckMetLocationChange(game, sav.Context);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
             }
 

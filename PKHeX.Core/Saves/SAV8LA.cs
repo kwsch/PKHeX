@@ -62,6 +62,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override Type PKMType => typeof(PA8);
     public override int MaxEV => 252;
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8a;
     public override int OTLength => 12;
     public override int NickLength => 12;
 
