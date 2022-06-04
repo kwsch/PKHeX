@@ -283,6 +283,7 @@ namespace PKHeX.Core
             GenderValues.Verify(this);
             Item.Verify(this);
             Contest.Verify(this);
+            Marking.Verify(this);
 
             var format = pkm.Format;
             if (format is 4 or 5 or 6) // Gen 6->7 transfer removes this property.

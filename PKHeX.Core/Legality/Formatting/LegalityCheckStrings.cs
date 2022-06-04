@@ -288,6 +288,10 @@ namespace PKHeX.Core
         public static string LLevelMetGiftFail { get; set; } = "Current Level below Mystery Gift level.";
         public static string LLevelMetSane { get; set; } = "Current level is not below met level.";
 
+        public static string LMarkValueOutOfRange_0 { get; set; } = "Individual marking at index {0} is not within the allowed value range.";
+        public static string LMarkValueShouldBeZero { get; set; } = "Marking flags cannot be set.";
+        public static string LMarkValueUnusedBitsPresent { get; set; } = "Marking flags uses bits beyond the accessible range.";
+
         public static string LMemoryArgBadCatch { get; set; } = "{0} Memory: {0} did not catch this.";
         public static string LMemoryArgBadHatch { get; set; } = "{0} Memory: {0} did not hatch this.";
         public static string LMemoryArgBadHT { get; set; } = "Memory: Can't have Handling Trainer Memory as Egg.";

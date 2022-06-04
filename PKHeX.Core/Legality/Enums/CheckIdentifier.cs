@@ -148,5 +148,10 @@
         /// The <see cref="CheckResult"/> pertains to the <see cref="IGanbaru"/> values.
         /// </summary>
         GVs,
+
+        /// <summary>
+        /// The <see cref="CheckResult"/> pertains to <see cref="PKM.MarkValue"/> values.
+        /// </summary>
+        Marking,
     }
 }

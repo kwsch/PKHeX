@@ -499,9 +499,6 @@ namespace PKHeX.Core
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
         {
-            if (pk8.Favorite && !pk8.GG)
-                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
-
             var social = pk8.Sociability;
             if (pk8.IsEgg)
             {
@@ -562,10 +559,6 @@ namespace PKHeX.Core
         private void VerifyPLAStats(LegalityAnalysis data, PA8 pa8)
         {
             VerifyAbsoluteSizes(data, pa8);
-
-            if (pa8.Favorite && !pa8.GG)
-                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
-
             if (!pa8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
             {
                 var affix = pa8.AffixedRibbon;
@@ -597,9 +590,6 @@ namespace PKHeX.Core
 
         private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
         {
-            if (pb8.Favorite && !pb8.GG)
-                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
-
             if (!pb8.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8))
             {
                 var affix = pb8.AffixedRibbon;

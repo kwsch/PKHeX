@@ -13,8 +13,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
-        var pk = data.pkm;
-        if (pk is not PA8 pa)
+        if (data.pkm is not PA8 pa)
             return;
 
         if (pa.IsNoble)
@@ -38,7 +37,7 @@ public sealed class LegendsArceusVerifier : Verifier
             if (gv <= max)
                 continue;
 
-            data.AddLine(GetInvalid(LGanbaruStatTooHigh, CheckIdentifier.EVs));
+            data.AddLine(GetInvalid(LGanbaruStatTooHigh, CheckIdentifier.GVs));
             return;
         }
     }
