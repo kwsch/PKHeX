@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Logic for modifying the <see cref="PKM.Markings"/>.
+    /// Logic for modifying the <see cref="PKM.MarkValue"/>.
     /// </summary>
     public static class MarkingApplicator
     {
@@ -14,35 +14,21 @@ namespace PKHeX.Core
         public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
 
         /// <summary>
-        /// Sets the <see cref="PKM.Markings"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="ivs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetMarkings(this PKM pk, int[] ivs)
-        {
-            if (pk.Format <= 3)
-                return; // no markings (gen3 only has 4; can't mark stats intelligently
-
-            Span<int> markings = stackalloc int[ivs.Length];
-            var method = MarkingMethod(pk);
-            for (int i = 0; i < markings.Length; i++)
-                markings[i] = method(ivs[i], i);
-            PKX.ReorderSpeedLast(markings);
-            pk.SetMarkings(markings);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Markings"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
+        /// Sets the <see cref="PKM.MarkValue"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetMarkings(this PKM pk)
         {
-            if (pk.Format <= 3)
-                return; // no markings (gen3 only has 4; can't mark stats intelligently
+            if (pk.MarkingCount < 6)
+                return; // insufficient marking indexes
 
-            Span<int> IVs = stackalloc int[6];
-            pk.GetIVs(IVs);
-            pk.SetMarkings(IVs);
+            var method = MarkingMethod(pk);
+            pk.SetMarking(0, method(pk.IV_HP , 0));
+            pk.SetMarking(1, method(pk.IV_ATK, 1));
+            pk.SetMarking(2, method(pk.IV_DEF, 2));
+            pk.SetMarking(3, method(pk.IV_SPA, 3));
+            pk.SetMarking(4, method(pk.IV_SPD, 4));
+            pk.SetMarking(5, method(pk.IV_SPE, 5));
         }
 
         /// <summary>
@@ -50,31 +36,20 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Marking index to toggle</param>
-        /// <returns>Current marking values</returns>
-        public static int[] ToggleMarking(this PKM pk, int index) => pk.ToggleMarking(index, pk.Markings);
-
-        /// <summary>
-        /// Toggles the marking at a given index.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Marking index to toggle</param>
-        /// <param name="markings">Current marking values (optional)</param>
-        /// <returns>Current marking values</returns>
-        public static int[] ToggleMarking(this PKM pk, int index, int[] markings)
+        /// <returns>Current marking value</returns>
+        public static int ToggleMarking(this PKM pk, int index)
         {
-            switch (pk.Format)
-            {
-                case 3 or 4 or 5 or 6: // on/off
-                    markings[index] ^= 1; // toggle
-                    pk.Markings = markings;
-                    break;
-                case 7 or 8: // 0 (none) | 1 (blue) | 2 (pink)
-                    markings[index] = (markings[index] + 1) % 3; // cycle 0->1->2->0...
-                    pk.Markings = markings;
-                    break;
-            }
-            return markings;
+            var marking = pk.GetMarking(index);
+            var revised = NextMarking(pk.Format, marking);
+            pk.SetMarking(index, revised);
+            return revised;
         }
+
+        private static int NextMarking(int format, int marking) => format switch
+        {
+            <= 6 => marking ^ 1, // toggle : 0 (off) | 1 (on)
+            _ => (marking + 1) % 3, // cycle 0->1->2->0... : 0 (none) | 1 (blue) | 2 (pink)
+        };
 
         private static Func<int, int, int> FlagHighLow(PKM pk)
         {

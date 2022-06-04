@@ -290,6 +290,23 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0xC6)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0xC6), (ushort)value); }
 
+    public int MarkingCount => 6;
+
+    public int GetMarking(int index)
+    {
+        if ((uint)index >= MarkingCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return (MarkValue >> (index * 2)) & 3;
+    }
+
+    public void SetMarking(int index, int value)
+    {
+        if ((uint)index >= MarkingCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        var shift = index * 2;
+        MarkValue = (MarkValue & ~(0b11 << shift)) | ((value & 3) << shift);
+    }
+
     public void CopyTo(PKM pk)
     {
         pk.EncryptionConstant = EncryptionConstant;

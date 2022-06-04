@@ -463,17 +463,36 @@ namespace PKHeX.Core
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxBallID => Legal.MaxBallID_6;
         public override int MaxGameID => Legal.MaxGameID_6; // OR
+        public override int MarkingCount => 6;
+
+        public override int GetMarking(int index)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return (MarkValue >> index) & 1;
+        }
+
+        public override void SetMarking(int index, int value)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        }
 
         public PK7 ConvertToPK7()
         {
             PK7 pk7 = new((byte[])Data.Clone())
             {
-                Markings = Markings, // Clears old Super Training Bag & Hits Remaining
-                Data = { [0x2A] = 0 }, // Clears old Marking Value
+                ResortEventStatus = 0, // Clears old Marking Value
+                MarkValue = 0, // Clears old Super Training Bag & Hits Remaining
                 FormArgument = 0, // Clears old style Form Argument
                 DirtType = 0, // Clears old Form Argument byte
                 DirtLocation = 0, // Clears old Form Argument byte
             };
+
+            // Remap boolean markings to the dual-bit format -- set 1 if marked.
+            for (int i = 0; i < 6; i++)
+                pk7.SetMarking(i, GetMarking(i));
 
             var an = AbilityNumber;
             switch (an)

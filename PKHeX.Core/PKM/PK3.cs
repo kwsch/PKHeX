@@ -223,7 +223,7 @@ namespace PKHeX.Core
                 Form = Form,
                 // IsEgg = false, -- already false
                 OT_Friendship = 70,
-                Markings = Markings,
+                MarkValue = MarkValue & 0b1111,
                 Language = Language,
                 EV_HP = EV_HP,
                 EV_ATK = EV_ATK,

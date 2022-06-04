@@ -175,6 +175,21 @@ namespace PKHeX.Core
         public abstract byte BallDPPt { get; set; }
         public abstract byte BallHGSS { get; set; }
         public abstract byte PokéathlonStat { get; set; }
+        public override int MarkingCount => 6;
+
+        public override int GetMarking(int index)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return (MarkValue >> index) & 1;
+        }
+
+        public override void SetMarking(int index, int value)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        }
 
         public abstract ushort Egg_LocationDP { get; set; }
         public abstract ushort Egg_LocationExtended { get; set; }

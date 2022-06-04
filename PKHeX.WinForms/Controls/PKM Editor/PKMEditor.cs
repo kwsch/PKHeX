@@ -489,9 +489,9 @@ namespace PKHeX.WinForms.Controls
         private void SetMarkings()
         {
             var pba = Markings;
-            var markings = Entity.Markings;
+            var count = Entity.MarkingCount;
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = GetMarkSprite(pba[i], markings[i] != 0);
+                pba[i].Image = GetMarkSprite(pba[i], i < count && Entity.GetMarking(i) != 0);
 
             PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
             PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
@@ -503,9 +503,9 @@ namespace PKHeX.WinForms.Controls
             if (Entity.Format < 7)
                 return;
 
-            for (int i = 0; i < pba.Length; i++)
+            for (int i = 0; i < count; i++)
             {
-                if (!Draw.GetMarkingColor(markings[i], out Color c))
+                if (!Draw.GetMarkingColor(Entity.GetMarking(i), out Color c))
                     continue;
                 var pb = pba[i];
                 pb.Image = ImageUtil.ChangeAllColorTo(pb.Image, c);

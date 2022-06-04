@@ -149,6 +149,10 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override string OT_Name { get => _coreData.OT_Name; set => _coreData.OT_Name = value; }
     public override string HT_Name { get => _coreData.HT_Name; set => _coreData.HT_Name = value; }
 
+    public override int MarkingCount => _coreData.MarkingCount;
+    public override int GetMarking(int index) => _coreData.GetMarking(index);
+    public override void SetMarking(int index, int value) => _coreData.SetMarking(index, value);
+
     #endregion
 
     #region Calculated

@@ -9,7 +9,7 @@ namespace PKHeX.Core
     public static class CommonEdits
     {
         /// <summary>
-        /// Setting which enables/disables automatic manipulation of <see cref="PKM.Markings"/> when importing from a <see cref="IBattleTemplate"/>.
+        /// Setting which enables/disables automatic manipulation of <see cref="PKM.MarkValue"/> when importing from a <see cref="IBattleTemplate"/>.
         /// </summary>
         public static bool ShowdownSetIVMarkings { get; set; } = true;
 

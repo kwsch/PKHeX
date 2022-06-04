@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 3 Base <see cref="PKM"/> Class
@@ -34,6 +36,21 @@
         public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public sealed override int CurrentHandler { get => 0; set { } }
         public sealed override int Egg_Location { get => 0; set { } }
+        public override int MarkingCount => 4;
+
+        public override int GetMarking(int index)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return (MarkValue >> index) & 1;
+        }
+
+        public override void SetMarking(int index, int value)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        }
 
         public abstract ushort SpeciesID3 { get; set; } // raw access
 

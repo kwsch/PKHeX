@@ -306,27 +306,21 @@ namespace PKHeX.Core
         // 102/103 unused
         #endregion
 
-        public override int[] Markings
+        public override int MarkingCount => 6;
+
+        public override int GetMarking(int index)
         {
-            get
-            {
-                int[] marks = new int[8];
-                int val = MarkValue;
-                for (int i = 0; i < marks.Length; i++)
-                    marks[i] = ((val >> (i * 2)) & 3) % 3;
-                return marks;
-            }
-            set => SetMarkings(value);
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return (MarkValue >> (index * 2)) & 3;
         }
 
-        public override void SetMarkings(ReadOnlySpan<int> value)
+        public override void SetMarking(int index, int value)
         {
-            if (value.Length > 8)
-                return;
-            int v = 0;
-            for (int i = 0; i < value.Length; i++)
-                v |= (value[i] % 3) << (i * 2);
-            MarkValue = v;
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            var shift = index * 2;
+            MarkValue = (MarkValue & ~(0b11 << shift)) | ((value & 3) << shift);
         }
 
         protected override bool TradeOT(ITrainerInfo tr)
@@ -603,7 +597,7 @@ namespace PKHeX.Core
                 PID = PID,
                 Ability = Ability,
                 AbilityNumber = AbilityNumber,
-                Markings = Markings,
+                MarkValue = MarkValue & 0b1111_1111_1111,
                 Language = Language,
                 EV_HP = EV_HP,
                 EV_ATK = EV_ATK,

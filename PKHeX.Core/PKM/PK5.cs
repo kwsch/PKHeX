@@ -320,6 +320,22 @@ namespace PKHeX.Core
             return false;
         }
 
+        public override int MarkingCount => 6;
+
+        public override int GetMarking(int index)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            return (MarkValue >> index) & 1;
+        }
+
+        public override void SetMarking(int index, int value)
+        {
+            if ((uint)index >= MarkingCount)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        }
+
         public override void RefreshAbility(int n)
         {
             base.RefreshAbility(n);
@@ -338,7 +354,7 @@ namespace PKHeX.Core
                 PID = PID,
                 Ability = Ability,
                 AbilityNumber = 1 << CalculateAbilityIndex(),
-                Markings = Markings,
+                MarkValue = MarkValue & 0b_11_1111,
                 Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad IngameTrade (Japanese B/W)
 
                 CNT_Cool = CNT_Cool,

@@ -341,12 +341,6 @@ namespace PKHeX.Core
         }
 
         public int CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
-        public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
-        public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
-        public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
-        public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
-        public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
-        public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public int IVTotal => IV_HP + IV_ATK + IV_DEF + IV_SPA + IV_SPD + IV_SPE;
         public int EVTotal => EV_HP + EV_ATK + EV_DEF + EV_SPA + EV_SPD + EV_SPE;
         public int MaximumIV => Math.Max(Math.Max(Math.Max(Math.Max(Math.Max(IV_HP, IV_ATK), IV_DEF), IV_SPA), IV_SPD), IV_SPE);
@@ -512,27 +506,9 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual int[] Markings
-        {
-            get
-            {
-                int[] mark = new int[8];
-                for (int i = 0; i < 8; i++)
-                    mark[i] = (MarkValue >> i) & 1;
-                return mark;
-            }
-            set => SetMarkings(value);
-        }
-
-        public virtual void SetMarkings(ReadOnlySpan<int> value)
-        {
-            if (value.Length > 8)
-                return;
-            byte b = 0;
-            for (int i = 0; i < value.Length; i++)
-                b |= (byte)(Math.Min(value[i], 1) << i);
-            MarkValue = b;
-        }
+        public abstract int MarkingCount { get; }
+        public abstract int GetMarking(int index);
+        public abstract void SetMarking(int index, int value);
 
         private int HPBitValPower => ((IV_HP & 2) >> 1) | ((IV_ATK & 2) >> 0) | ((IV_DEF & 2) << 1) | ((IV_SPE & 2) << 2) | ((IV_SPA & 2) << 3) | ((IV_SPD & 2) << 4);
         public virtual int HPPower => Format < 6 ? ((40 * HPBitValPower) / 63) + 30 : 60;
