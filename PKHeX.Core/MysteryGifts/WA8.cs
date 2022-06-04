@@ -309,7 +309,7 @@ namespace PKHeX.Core
                 if (lang == language)
                     return true;
             }
-            return false;
+            return GetLanguage(language) == 0;
         }
 
         public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
