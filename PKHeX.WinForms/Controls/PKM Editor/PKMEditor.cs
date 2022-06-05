@@ -107,7 +107,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateStats()
         {
             Stats.UpdateStats();
-            if (Entity is PB7)
+            if (Entity is IScaledSizeAbsolute)
                 SizeCP.TryResetStats();
         }
 
