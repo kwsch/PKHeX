@@ -79,7 +79,7 @@ namespace PKHeX.Core
             t.HT_SPE = IVs[3] != 31 && IVs[3] > 2 &&
                 (IVs[3] > 17 || t.HT_HP || t.HT_ATK || t.HT_DEF || t.HT_SPA || t.HT_SPD);
 
-            if (pkm is PB7 pb)
+            if (pkm is ICombatPower pb)
                 pb.ResetCP();
         }
 

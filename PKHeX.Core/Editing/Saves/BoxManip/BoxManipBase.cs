@@ -31,7 +31,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortLevelReverse, EntitySorting.OrderByDescendingLevel),
             new BoxManipSort(BoxManipType.SortDate, EntitySorting.OrderByDateObtained, s => s.Generation >= 4),
             new BoxManipSort(BoxManipType.SortName, list => list.OrderBySpeciesName(GameInfo.Strings.Species)),
-            new BoxManipSort(BoxManipType.SortFavorite, list => list.OrderByCustom(pk => pk is PB7 {Favorite: true}), s => s.BlankPKM is IFavorite),
+            new BoxManipSort(BoxManipType.SortFavorite, list => list.OrderByCustom(pk => pk is IFavorite {Favorite: true}), s => s.BlankPKM is IFavorite),
             new BoxManipSortComplex(BoxManipType.SortParty, (list, sav, start) => list.BubbleUp(sav, i => ((SAV7b)sav).Blocks.Storage.IsParty(i), start), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortShiny, list => list.OrderByCustom(pk => !pk.IsShiny)),
             new BoxManipSort(BoxManipType.SortRandom, list => list.OrderByCustom(_ => Util.Rand32())),

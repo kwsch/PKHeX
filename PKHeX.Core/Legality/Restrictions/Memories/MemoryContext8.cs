@@ -104,7 +104,7 @@ namespace PKHeX.Core
                 return false;
             if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
                 return false;
-            if (pk.Species == (int)Species.Shedinja && pk is PK8 { AffixedRibbon: (int)RibbonIndex.MarkCurry })
+            if (pk.Species == (int)Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: (int)RibbonIndex.MarkCurry })
                 return false;
             return true;
         }

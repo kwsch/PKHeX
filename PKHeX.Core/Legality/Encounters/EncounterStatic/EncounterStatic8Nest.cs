@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
             if (pkm is IRibbonSetMark8 m8 && m8.HasMark())
                 return false;
-            if (pkm.Species == (int)Core.Species.Shedinja && pkm is PK8 { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime })
+            if (pkm.Species == (int)Core.Species.Shedinja && pkm is IRibbonSetAffixed { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime })
                 return false;
 
             return base.IsMatchExact(pkm, evo);

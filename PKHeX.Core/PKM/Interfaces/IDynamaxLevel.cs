@@ -15,12 +15,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
         /// </summary>
-        public static bool CanHaveDynamaxLevel(this IDynamaxLevel _, PKM pkm)
+        public static bool CanHaveDynamaxLevel(this IDynamaxLevel _, PKM pk)
         {
-            if (pkm.IsEgg)
+            if (pk.IsEgg)
                 return false;
-            return pkm is PK8 && CanHaveDynamaxLevel(pkm.Species);
+            return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
         }
+
+        public static byte GetSuggestedDynamaxLevel(this IDynamaxLevel _, PKM pk) => _.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
 
         /// <summary>
         /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevel.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.

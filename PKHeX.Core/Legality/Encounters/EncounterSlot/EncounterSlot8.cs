@@ -64,7 +64,7 @@ namespace PKHeX.Core
             if (((EncounterArea8)Area).PermitCrossover)
                 return MustHave; // symbol walking overworld
 
-            bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true} || (pk.Species == (int)Core.Species.Shedinja && pk is PK8 {AffixedRibbon:(int)RibbonIndex.MarkCurry});
+            bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true} || (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon:(int)RibbonIndex.MarkCurry});
             if (curry)
                 return MustNotHave;
 

@@ -234,7 +234,7 @@ namespace PKHeX.Core
             if (pk is IGigantamax c)
                 c.CanGigantamax = Set.CanGigantamax;
             if (pk is IDynamaxLevel d)
-                d.DynamaxLevel = d.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
+                d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk);
 
             if (pk is ITechRecord8 t)
             {
@@ -376,7 +376,7 @@ namespace PKHeX.Core
                 pk.OT_Friendship = 1;
             else
                 pk.CurrentFriendship = byte.MaxValue;
-            if (pk is PB7 pb)
+            if (pk is ICombatPower pb)
                 pb.ResetCP();
         }
 
@@ -389,7 +389,7 @@ namespace PKHeX.Core
             if (pk.IsEgg)
                 return;
             pk.CurrentLevel = 100;
-            if (pk is PB7 pb)
+            if (pk is ICombatPower pb)
                 pb.ResetCP();
         }
 

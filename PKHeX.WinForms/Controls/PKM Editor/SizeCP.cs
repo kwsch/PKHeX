@@ -143,7 +143,7 @@ namespace PKHeX.WinForms.Controls
 
         public void ToggleVisibility(PKM pk)
         {
-            bool isCP = pk is PB7;
+            bool isCP = pk is ICombatPower;
             bool isAbsolute = pk is IScaledSizeValue;
             MT_CP.Visible = L_CP.Visible = isCP;
             TB_HeightAbs.Visible = TB_WeightAbs.Visible = isAbsolute;

@@ -164,7 +164,7 @@ namespace PKHeX.Core
 
                 return NONE;
             }
-            if (pkm.BDSP)
+            if (pkm is PB8)
             {
                 var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
                 if (!pi.IsPresentInGame)
