@@ -468,7 +468,7 @@ namespace PKHeX.Core
                 pk.SID = sav.SID;
             }
 
-            pk.MetDate = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
+            pk.MetDate = IsDateRestricted && EncounterServerDate.WB8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
             // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
             if (CardID is 9015 or 9016 or 9017)
                 pk.Met_Day = 20;

@@ -21,18 +21,12 @@ public static class EncounterServerDate
     private static bool IsValidDate(DateTime obtained, DateTime start) => obtained >= start && obtained <= DateTime.UtcNow;
     private static bool IsValidDate(DateTime obtained, DateTime start, DateTime end) => obtained >= start && obtained <= end;
 
-  //private static bool IsValidDate(DateTime obtained, (DateTime Start, DateTime? End) value)
-  //{
-  //    var (start, end) = value;
-  //    if (end is not { } x)
-  //        return IsValidDate(obtained, start);
-  //    return IsValidDate(obtained, start, x);
-  //}
-
-    private static bool IsValidDate(DateTime obtained, (DateTime Start, DateTime End) value)
+    private static bool IsValidDate(DateTime obtained, (DateTime Start, DateTime? End) value)
     {
         var (start, end) = value;
-        return IsValidDate(obtained, start, end);
+        if (end is not { } x)
+            return IsValidDate(obtained, start);
+        return IsValidDate(obtained, start, x);
     }
 
     private static EncounterServerDateCheck Result(bool result) => result ? Valid : Invalid;
@@ -71,12 +65,12 @@ public static class EncounterServerDate
         {9014, new DateTime(2021, 06, 17)}, // Gigantamax Squirtle
     };
 
-    private static readonly DateTime Never = DateTime.MaxValue;
+    private static readonly DateTime? Never = null;
 
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
-    public static readonly Dictionary<int, (DateTime Start, DateTime End)> WA8Gifts = new()
+    public static readonly Dictionary<int, (DateTime Start, DateTime? End)> WA8Gifts = new()
     {
         {0138, (new(2022, 01, 27), new(2023, 02, 01))}, // Poké Center Happiny
         {0301, (new(2022, 02, 04), new(2023, 03, 01))}, // プロポチャ Piplup
@@ -92,7 +86,7 @@ public static class EncounterServerDate
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
-    public static readonly Dictionary<int, (DateTime Start, DateTime End)> WB8Gifts = new()
+    public static readonly Dictionary<int, (DateTime Start, DateTime? End)> WB8Gifts = new()
     {
         {9015, (new(2022, 05, 18), Never)}, // Hidden Ability Turtwig
         {9016, (new(2022, 05, 18), Never)}, // Hidden Ability Chimchar
