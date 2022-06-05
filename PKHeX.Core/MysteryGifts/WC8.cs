@@ -83,17 +83,19 @@ namespace PKHeX.Core
 
         public override Shiny Shiny => PIDType switch
         {
-            ShinyType8.FixedValue => IsHOMEGift && IsHOMEShinyPossible(DateTime.Now) ? Shiny.Random : GetShinyXor() switch
-            {
-                0 => Shiny.AlwaysSquare,
-                <= 15 => Shiny.AlwaysStar,
-                _ => Shiny.Never,
-            },
+            ShinyType8.FixedValue => FixedShinyType(DateTime.UtcNow),
             ShinyType8.Random => Shiny.Random,
             ShinyType8.Never => Shiny.Never,
             ShinyType8.AlwaysStar => Shiny.AlwaysStar,
             ShinyType8.AlwaysSquare => Shiny.AlwaysSquare,
             _ => throw new ArgumentOutOfRangeException(),
+        };
+
+        private Shiny FixedShinyType(DateTime date) => IsHOMEGift && IsHOMEShinyPossible(date) ? Shiny.Random : GetShinyXor() switch
+        {
+            0 => Shiny.AlwaysSquare,
+            <= 15 => Shiny.AlwaysStar,
+            _ => Shiny.Never,
         };
 
         private int GetShinyXor()
@@ -508,7 +510,7 @@ namespace PKHeX.Core
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria);
             pk.RefreshAbility(av);
-            SetPID(pk);
+            SetPID(pk, pk.MetDate ?? DateTime.UtcNow);
             SetIVs(pk);
         }
 
@@ -528,17 +530,17 @@ namespace PKHeX.Core
             _ => AbilityPermission.Any12H,
         };
 
-        private uint GetPID(ITrainerID tr, ShinyType8 type) => type switch
+        private uint GetPID(ITrainerID tr, ShinyType8 type, DateTime date) => type switch
         {
             ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
             ShinyType8.Random       => Util.Rand32(), // Random, Any
             ShinyType8.AlwaysStar   => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
             ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
-            ShinyType8.FixedValue   => GetFixedPID(tr),
+            ShinyType8.FixedValue   => GetFixedPID(tr, date),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
-        private uint GetFixedPID(ITrainerID tr)
+        private uint GetFixedPID(ITrainerID tr, DateTime date)
         {
             var pid = PID;
             if (pid != 0 && !(TID == 0 && SID == 0))
@@ -546,7 +548,7 @@ namespace PKHeX.Core
 
             if (!tr.IsShiny(pid, 8))
                 return pid;
-            if (IsHOMEGift && !IsHOMEShinyPossible(DateTime.Now))
+            if (IsHOMEGift && !IsHOMEShinyPossible(date))
                 return GetAntishinyFixedHOME(tr);
             return pid;
         }
@@ -565,9 +567,9 @@ namespace PKHeX.Core
             return pid;
         }
 
-        private void SetPID(PKM pk)
+        private void SetPID(PKM pk, DateTime date)
         {
-            pk.PID = GetPID(pk, PIDType);
+            pk.PID = GetPID(pk, PIDType, date);
         }
 
         private void SetIVs(PKM pk)
@@ -636,7 +638,7 @@ namespace PKHeX.Core
                     }
                     else // Never or Random (HOME ID specific)
                     {
-                        if (pkm.IsShiny && !IsHOMEShinyPossible(pkm.MetDate ?? DateTime.Now))
+                        if (pkm.IsShiny && !IsHOMEShinyPossible(pkm.MetDate ?? DateTime.UtcNow))
                             return false;
                     }
                 }
@@ -645,6 +647,9 @@ namespace PKHeX.Core
             if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
+            var shinyType = Shiny;
+            if (PIDType == ShinyType8.FixedValue)
+                shinyType = FixedShinyType(pkm.MetDate ?? DateTime.UtcNow);
             if (IsEgg)
             {
                 if (EggLocation != pkm.Egg_Location) // traded
@@ -654,7 +659,7 @@ namespace PKHeX.Core
                     if (PIDType == ShinyType8.Random && pkm.IsShiny && pkm.ShinyXor > 1)
                         return false; // shiny traded egg will always have xor0/1.
                 }
-                if (!Shiny.IsValid(pkm))
+                if (!shinyType.IsValid(pkm))
                 {
                     return false; // can't be traded away for unshiny
                 }
@@ -664,7 +669,7 @@ namespace PKHeX.Core
             }
             else
             {
-                if (!Shiny.IsValid(pkm)) return false;
+                if (!shinyType.IsValid(pkm)) return false;
                 if (!IsMatchEggLocation(pkm)) return false;
                 if (MetLocation != pkm.Met_Location) return false;
             }
@@ -699,7 +704,7 @@ namespace PKHeX.Core
             var type = PIDType;
             if (type is ShinyType8.Never or ShinyType8.Random)
                 return true;
-            return pkm.PID == GetPID(pkm, type);
+            return pkm.PID == GetPID(pkm, type, pkm.MetDate ?? DateTime.UtcNow);
         }
 
         private bool IsHOMEShinyPossible(DateTime date)
