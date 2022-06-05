@@ -465,11 +465,15 @@ namespace PKHeX.Core
         public static string LSuperUnused { get; set; } = "Unused Super Training Flag is flagged.";
 
         public static string LTransferBad { get; set; } = "Incorrectly transferred from previous generation.";
+
+        public static string LTransferCurrentHandlerInvalid { get; set; } = "Invalid Current handler value, trainer details for save file expected another value.";
         public static string LTransferEgg { get; set; } = "Can't transfer Eggs between Generations.";
         public static string LTransferEggLocationTransporter { get; set; } = "Invalid Met Location, expected Poké Transfer.";
         public static string LTransferEggMetLevel { get; set; } = "Invalid Met Level for transfer.";
         public static string LTransferFlagIllegal { get; set; } = "Flagged as illegal by the game (glitch abuse).";
         public static string LTransferHTFlagRequired { get; set; } = "Current handler cannot be past gen OT for transferred specimen.";
+        public static string LTransferHTMismatchName { get; set; } = "Handling trainer does not match the expected trainer name.";
+        public static string LTransferHTMismatchLanguage { get; set; } = "Handling trainer does not match the expected trainer language.";
         public static string LTransferMet { get; set; } = "Invalid Met Location, expected Poké Transfer or Crown.";
         public static string LTransferNotPossible { get; set; } = "Unable to transfer into current format from origin format.";
         public static string LTransferMetLocation { get; set; } = "Invalid Transfer Met Location.";

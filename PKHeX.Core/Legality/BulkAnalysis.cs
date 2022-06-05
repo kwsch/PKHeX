@@ -20,11 +20,13 @@ namespace PKHeX.Core
         public readonly Dictionary<ulong, SlotCache> Trackers = new();
         public readonly bool Valid;
 
+        private readonly IBulkAnalysisSettings Settings;
         private readonly bool[] CloneFlags;
 
-        public BulkAnalysis(SaveFile sav)
+        public BulkAnalysis(SaveFile sav, IBulkAnalysisSettings settings)
         {
             Trainer = sav;
+            Settings = settings;
             var list = new List<SlotCache>(sav.BoxSlotCount + (sav.HasParty ? 6 : 0) + 5);
             SlotInfoLoader.AddFromSaveFile(sav, list);
             list.RemoveAll(IsEmptyData);
@@ -55,7 +57,11 @@ namespace PKHeX.Core
             CheckIDReuse();
             CheckPIDReuse();
             if (Trainer.Generation >= 6)
+            {
                 CheckECReuse();
+                if (Settings.CheckActiveHandler)
+                    CheckHandlerFlag();
+            }
 
             CheckDuplicateOwnedGifts();
             return Parse.All(z => z.Valid);
@@ -182,6 +188,31 @@ namespace PKHeX.Core
                     continue;
                 }
                 VerifyPIDShare(pr, cr);
+            }
+        }
+
+        private void CheckHandlerFlag()
+        {
+            for (var i = 0; i < AllData.Count; i++)
+            {
+                if (!AllAnalysis[i].Valid)
+                    continue;
+                var cs = AllData[i];
+                var pk = cs.Entity;
+                var tr = cs.SAV;
+                var withOT = tr.IsFromTrainer(pk);
+                var flag = pk.CurrentHandler;
+                var expect = withOT ? 0 : 1;
+                if (flag != expect)
+                    AddLine(cs, LegalityCheckStrings.LTransferCurrentHandlerInvalid, CheckIdentifier.Trainer);
+
+                if (flag == 1)
+                {
+                    if (pk.HT_Name != tr.OT)
+                        AddLine(cs, LegalityCheckStrings.LTransferHTMismatchName, CheckIdentifier.Trainer);
+                    if (pk is IHandlerLanguage h && h.HT_Language != tr.Language)
+                        AddLine(cs, LegalityCheckStrings.LTransferHTMismatchLanguage, CheckIdentifier.Trainer);
+                }
             }
         }
 

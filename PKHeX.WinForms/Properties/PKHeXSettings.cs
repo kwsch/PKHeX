@@ -34,6 +34,7 @@ namespace PKHeX.WinForms
         public EntityDatabaseSettings EntityDb { get; set; } = new();
         public EncounterDatabaseSettings EncounterDb { get; set; } = new();
         public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
+        public BulkAnalysisSettings Bulk { get; set; } = new();
 
         public static PKHeXSettings GetSettings(string configPath)
         {
@@ -182,6 +183,9 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
         public bool CheckWordFilter { get; set; } = true;
 
+        [LocalizedDescription("Checks the last loaded player save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
+        public bool CheckActiveHandler { get; set; }
+
         [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
         public bool AllowGen1Tradeback { get; set; } = true;
 
@@ -208,6 +212,9 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a zero value for both Height and Weight.")]
         public Severity ZeroHeightWeight { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if Pokémon's Current Handler does not match the expected value.")]
+        public Severity CurrentHandlerMismatch { get; set; } = Severity.Invalid;
     }
 
     [Serializable]
@@ -387,5 +394,12 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Hide Secret Details in Editors")]
         public bool HideSecretDetails { get; set; }
+    }
+
+    [Serializable]
+    public sealed class BulkAnalysisSettings : IBulkAnalysisSettings
+    {
+        [LocalizedDescription("Checks the save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
+        public bool CheckActiveHandler { get; set; } = true;
     }
 }

@@ -735,7 +735,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickVerifyStoredEntities(object sender, EventArgs e)
         {
-            var bulk = new BulkAnalysis(SAV);
+            var bulk = new BulkAnalysis(SAV, Main.Settings.Bulk);
             if (bulk.Parse.Count == 0)
             {
                 WinFormsUtil.Alert("Clean!");

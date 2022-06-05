@@ -55,6 +55,27 @@ namespace PKHeX.Core
             var Info = data.Info;
 
             // HT Flag
+            if (ParseSettings.CheckActiveHandler)
+            {
+                var tr = ParseSettings.ActiveTrainer;
+                var withOT = tr.IsFromTrainer(pkm);
+                var flag = pkm.CurrentHandler;
+                var expect = withOT ? 0 : 1;
+                if (flag != expect)
+                {
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LTransferCurrentHandlerInvalid));
+                    return;
+                }
+
+                if (flag == 1)
+                {
+                    if (pkm.HT_Name != tr.OT)
+                        data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchName));
+                    if (pkm is IHandlerLanguage h && h.HT_Language != tr.Language)
+                        data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchLanguage));
+                }
+            }
+
             if ((Info.Generation != pkm.Format || neverOT) && pkm.CurrentHandler != 1)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTFlagRequired));
         }
