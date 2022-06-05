@@ -149,9 +149,14 @@ namespace PKHeX.Core
                 }
             }
 
+            // Only yield if Safari and Marsh encounters match.
+            bool safari = pkm is PK8 { Ball: (int)Ball.Safari };
             foreach (var z in GetValidWildEncounters(pkm, chain, game))
             {
+                var marsh = Locations.IsSafariZoneLocation8b(z.Location);
                 var match = z.GetMatchRating(pkm);
+                if (safari != marsh)
+                    match = DeferredErrors;
                 if (match == Match)
                 {
                     yield return z;
