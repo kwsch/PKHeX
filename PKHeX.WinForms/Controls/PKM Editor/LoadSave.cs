@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using PKHeX.Drawing.PokeSprite;
@@ -57,9 +58,9 @@ namespace PKHeX.WinForms.Controls
         private void LoadPKRS(PKM pk)
         {
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk.PKRS_Infected;
-            CB_PKRSStrain.SelectedIndex = pk.PKRS_Strain;
+            LoadClamp(CB_PKRSStrain, pk.PKRS_Strain);
             CHK_Cured.Checked = pk.PKRS_Cured;
-            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk.PKRS_Days); // clamp to valid day values for the current strain
+            LoadClamp(CB_PKRSDays, pk.PKRS_Days); // clamp to valid day values for the current strain
         }
 
         private void SavePKRS(PKM pk)
@@ -73,16 +74,26 @@ namespace PKHeX.WinForms.Controls
         private void LoadAVs(IAwakened pk) => Stats.LoadAVs(pk);
         private void LoadGVs(IGanbaru pk) => Stats.LoadGVs(pk);
 
+        private static void LoadClamp(ComboBox cb, int value)
+        {
+            var max = cb.Items.Count - 1;
+            if (value > max)
+                value = max;
+            else if (value < -1)
+                value = 0;
+            cb.SelectedIndex = value;
+        }
+
         private void LoadMoves(PKM pk)
         {
             CB_Move1.SelectedValue = pk.Move1;
             CB_Move2.SelectedValue = pk.Move2;
             CB_Move3.SelectedValue = pk.Move3;
             CB_Move4.SelectedValue = pk.Move4;
-            CB_PPu1.SelectedIndex = pk.Move1_PPUps;
-            CB_PPu2.SelectedIndex = pk.Move2_PPUps;
-            CB_PPu3.SelectedIndex = pk.Move3_PPUps;
-            CB_PPu4.SelectedIndex = pk.Move4_PPUps;
+            LoadClamp(CB_PPu1, pk.Move1_PPUps);
+            LoadClamp(CB_PPu2, pk.Move2_PPUps);
+            LoadClamp(CB_PPu3, pk.Move3_PPUps);
+            LoadClamp(CB_PPu4, pk.Move4_PPUps);
             TB_PP1.Text = pk.Move1_PP.ToString();
             TB_PP2.Text = pk.Move2_PP.ToString();
             TB_PP3.Text = pk.Move3_PP.ToString();
@@ -174,7 +185,7 @@ namespace PKHeX.WinForms.Controls
             LoadPKRS(pk);
             CHK_IsEgg.Checked = pk.IsEgg;
             CB_HeldItem.SelectedValue = pk.HeldItem;
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk.Form ? pk.Form : CB_Form.Items.Count - 1;
+            LoadClamp(CB_Form, pk.Form);
             if (pk is IFormArgument f)
                 FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Format);
 
@@ -299,10 +310,7 @@ namespace PKHeX.WinForms.Controls
             // with some simple error handling
             var bitNumber = pk.AbilityNumber;
             int abilityIndex = AbilityVerifier.IsValidAbilityBits(bitNumber) ? bitNumber >> 1 : 0;
-            if (abilityIndex >= CB_Ability.Items.Count) // sanity check ability count being possible
-                abilityIndex = CB_Ability.Items.Count - 1; // last possible index, if out of range
-
-            CB_Ability.SelectedIndex = abilityIndex;
+            LoadClamp(CB_Ability, abilityIndex);
             TB_AbilityNumber.Text = bitNumber.ToString();
 
             LoadRelearnMoves(pk);
@@ -379,7 +387,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadAbility4(PKM pk)
         {
             var index = GetAbilityIndex4(pk);
-            CB_Ability.SelectedIndex = Math.Min(CB_Ability.Items.Count - 1, index);
+            LoadClamp(CB_Ability, index);
         }
 
         private static int GetAbilityIndex4(PKM pk)
@@ -400,7 +408,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc8(PK8 pk8)
         {
             CB_StatNature.SelectedValue = pk8.StatNature;
-            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
             CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
@@ -419,7 +427,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc8(PB8 pk8)
         {
             CB_StatNature.SelectedValue = pk8.StatNature;
-            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
             CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
@@ -438,7 +446,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc8(PA8 pk8)
         {
             CB_StatNature.SelectedValue = pk8.StatNature;
-            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
             CB_HTLanguage.SelectedValue = (int)pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
