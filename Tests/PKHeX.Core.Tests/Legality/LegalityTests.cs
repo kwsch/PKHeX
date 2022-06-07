@@ -68,13 +68,13 @@ namespace PKHeX.Tests.Legality
                 EntityDetection.IsSizePlausible(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
 
                 var data = File.ReadAllBytes(file);
-                var format = EntityFileExtension.GetFormatFromExtension(file[^1], -1);
-                format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
+                var prefer = EntityFileExtension.GetContextFromExtension(file, EntityContext.Invalid);
+                (prefer != EntityContext.Invalid && Enum.IsDefined(prefer)).Should().BeTrue("filename is expected to have a valid extension");
 
                 var dn = fi.DirectoryName ?? string.Empty;
                 ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");
                 ParseSettings.AllowGen1Tradeback = dn.Contains("1 Tradeback");
-                var pkm = EntityFormat.GetFromBytes(data, prefer: format);
+                var pkm = EntityFormat.GetFromBytes(data, prefer);
                 pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
                 if (pkm == null)
                     continue;

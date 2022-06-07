@@ -171,15 +171,18 @@ namespace PKHeX.Core
             return ctr;
         }
 
-        public static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> files, int generation)
+        public static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> files, EntityContext generation)
         {
-            var result = files
-                .Where(file => EntityDetection.IsSizePlausible(new FileInfo(file).Length))
-                .Select(File.ReadAllBytes)
-                .Select(data => EntityFormat.GetFromBytes(data, prefer: generation));
-
-            foreach (var pkm in result)
+            foreach (var f in files)
             {
+                var fi = new FileInfo(f);
+                if (!fi.Exists)
+                    continue;
+                if (!EntityDetection.IsSizePlausible(fi.Length))
+                    continue;
+                var data = File.ReadAllBytes(f);
+                var prefer = EntityFileExtension.GetContextFromExtension(fi.Extension, generation);
+                var pkm = EntityFormat.GetFromBytes(data, prefer);
                 if (pkm?.Species is > 0)
                     yield return pkm;
             }

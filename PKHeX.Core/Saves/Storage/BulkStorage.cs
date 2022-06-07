@@ -28,7 +28,7 @@ namespace PKHeX.Core
         public sealed override Type PKMType => blank.GetType();
         public sealed override PKM BlankPKM => blank.Clone();
 
-        protected override PKM GetPKM(byte[] data) => EntityFormat.GetFromBytes(data, prefer: Generation) ?? blank;
+        protected override PKM GetPKM(byte[] data) => EntityFormat.GetFromBytes(data, prefer: Context) ?? blank;
         protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data;
 
         protected override int SIZE_STORED => blank.SIZE_STORED;

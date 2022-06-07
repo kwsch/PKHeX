@@ -172,7 +172,7 @@ namespace PKHeX.Core
                 pk = null;
                 return false;
             }
-            var format = EntityFileExtension.GetFormatFromExtension(ext, sav?.Generation ?? 6);
+            var format = EntityFileExtension.GetContextFromExtension(ext, sav?.Context ?? EntityContext.Gen6);
             pk = EntityFormat.GetFromBytes(data, prefer: format);
             return pk != null;
         }

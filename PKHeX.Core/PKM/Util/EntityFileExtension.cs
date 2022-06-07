@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -46,11 +47,19 @@ public static class EntityFileExtension
     /// <param name="ext">File extension.</param>
     /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
     /// <returns>Format hint that the file is.</returns>
-    public static int GetFormatFromExtension(string ext, int prefer)
+    public static EntityContext GetContextFromExtension(string ext, EntityContext prefer)
     {
         if (ext.Length == 0)
             return prefer;
-        return GetFormatFromExtension(ext[^1], prefer);
+
+        static bool Is(string ext, string str) => ext.EndsWith(str, StringComparison.InvariantCultureIgnoreCase);
+        if (Is(ext, "b8")) return EntityContext.Gen8b;
+        if (Is(ext, "k8")) return EntityContext.Gen8;
+        if (Is(ext, "b7")) return EntityContext.Gen7b;
+        if (Is(ext, "k7")) return EntityContext.Gen7;
+        if (Is(ext, "k6")) return EntityContext.Gen6;
+
+        return (EntityContext)GetFormatFromExtension(ext[^1], prefer);
     }
 
     /// <summary>
@@ -59,10 +68,12 @@ public static class EntityFileExtension
     /// <param name="last">Last character of the file's extension.</param>
     /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
     /// <returns>Format hint that the file is.</returns>
-    public static int GetFormatFromExtension(char last, int prefer)
+    public static int GetFormatFromExtension(char last, EntityContext prefer)
     {
         if (last is >= '1' and <= '9')
             return last - '0';
-        return last == 'x' ? 6 : prefer;
+        if (prefer.Generation() <= 7 && last == 'x')
+            return 6;
+        return (int)prefer;
     }
 }

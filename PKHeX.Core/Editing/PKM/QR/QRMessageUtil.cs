@@ -18,14 +18,14 @@ namespace PKHeX.Core
         /// Gets the <see cref="PKM"/> data from the message that is encoded in a QR.
         /// </summary>
         /// <param name="message">QR Message</param>
-        /// <param name="format">Preferred <see cref="PKM.Format"/> to expect.</param>
+        /// <param name="context">Preferred <see cref="PKM.Context"/> to expect.</param>
         /// <returns>Decoded <see cref="PKM"/> object, null if invalid.</returns>
-        public static PKM? GetPKM(string message, int format)
+        public static PKM? GetPKM(string message, EntityContext context)
         {
             var data = DecodeMessagePKM(message);
             if (data == null)
                 return null;
-            return EntityFormat.GetFromBytes(data, format);
+            return EntityFormat.GetFromBytes(data, context);
         }
 
         /// <summary>

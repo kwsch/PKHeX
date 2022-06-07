@@ -195,10 +195,15 @@ namespace PKHeX.Core
             var di = new DirectoryInfo(templatePath);
             string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLowerInvariant()}");
 
-            if (!File.Exists(path) || !EntityDetection.IsSizePlausible(new FileInfo(path).Length))
+            if (!File.Exists(path))
+                return LoadTemplateInternal(sav);
+            var fi = new FileInfo(path);
+            if (!EntityDetection.IsSizePlausible(fi.Length))
                 return LoadTemplateInternal(sav);
 
-            var pk = EntityFormat.GetFromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
+            var data = File.ReadAllBytes(path);
+            var prefer = EntityFileExtension.GetContextFromExtension(fi.Extension, sav.Context);
+            var pk = EntityFormat.GetFromBytes(data, prefer);
             if (pk?.Species is not > 0)
                 return LoadTemplateInternal(sav);
 

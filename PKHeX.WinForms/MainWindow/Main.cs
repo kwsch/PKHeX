@@ -344,7 +344,7 @@ namespace PKHeX.WinForms
                 if (!Directory.Exists(dir))
                     return;
                 var files = Directory.EnumerateFiles(TrainerPath, "*.*", SearchOption.AllDirectories);
-                var pkm = BoxUtil.GetPKMsFromPaths(files, sav.Generation);
+                var pkm = BoxUtil.GetPKMsFromPaths(files, sav.Context);
                 foreach (var f in pkm)
                     db.RegisterCopy(f);
             });
