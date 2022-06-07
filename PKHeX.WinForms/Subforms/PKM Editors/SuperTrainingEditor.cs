@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_SuperTrain.Padding = TLP_DistSuperTrain.Padding = new Padding(0, 0, vertScrollWidth, 0);
 
-            // Updating a Control display with autosized elements on every row addition is cpu intensive. Disable layout updates while populating.
+            // Updating a Control display with auto-sized elements on every row addition is cpu intensive. Disable layout updates while populating.
             TLP_SuperTrain.SuspendLayout();
             TLP_DistSuperTrain.SuspendLayout();
             TLP_SuperTrain.Scroll += WinFormsUtil.PanelScroll;

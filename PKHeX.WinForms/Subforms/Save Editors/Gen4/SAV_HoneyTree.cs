@@ -44,16 +44,26 @@ namespace PKHeX.WinForms
         private void ChangeGroupSlot(object sender, EventArgs e)
         {
             int species = TreeSpecies;
-            L_Species.Text = species != 266 // silcoon/cascoon
-                ? GameInfo.Strings.specieslist[species]
-                : GameInfo.Strings.specieslist[species + 0] + $" ({GameInfo.Strings.gamelist[10]})" + Environment.NewLine
-                + GameInfo.Strings.specieslist[species + 2] + $" ({GameInfo.Strings.gamelist[11]})";
+            L_Species.Text = GetLabelText(species);
 
             if (loading)
                 return;
 
             if (species == (int)Species.Munchlax && !MunchlaxTrees.Contains(CB_TreeList.SelectedIndex))
                 WinFormsUtil.Alert("Catching Munchlax in this tree will make it illegal for this savegame's TID/SID combination.");
+        }
+
+        private static string GetLabelText(int species)
+        {
+            var str = GameInfo.Strings;
+            var arr = str.specieslist;
+            if (species != (int)Species.Silcoon)
+                return arr[species];
+
+            // Silcoon/Cascoon
+            var games = str.gamelist;
+            return $"{arr[species + 0]} ({games[(int)GameVersion.D]})" + Environment.NewLine +
+                   $"{arr[species + 2]} ({games[(int)GameVersion.P]})";
         }
 
         private void ChangeTree(object sender, EventArgs e)

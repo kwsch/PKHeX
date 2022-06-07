@@ -29,7 +29,7 @@ namespace PKHeX.Core
         {
             lang--;
             if (lang > 5)
-                lang--; // 0-6 language vals
+                lang--; // 0-6 language values
             if ((uint)lang > 5)
                 return -1;
             return lang;

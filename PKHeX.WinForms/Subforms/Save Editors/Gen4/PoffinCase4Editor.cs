@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
 
         private void SaveIndex(int index)
         {
-            // do nothing, propertygrid handles everything
+            // do nothing, PropertyGrid handles everything
             if (index < 0)
                 return;
             Updating = true;

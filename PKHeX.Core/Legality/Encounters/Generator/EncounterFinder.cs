@@ -12,7 +12,7 @@ namespace PKHeX.Core
         /// Iterates through all possible encounters until a sufficient match is found
         /// </summary>
         /// <remarks>
-        /// The iterator lazily finds matching encounters, then verifies secondary checks to weed out any nonexact matches.
+        /// The iterator lazily finds matching encounters, then verifies secondary checks to weed out any non-exact matches.
         /// </remarks>
         /// <param name="pkm">Source data to find a match for</param>
         /// <param name="info">Object to store matched encounter info</param>

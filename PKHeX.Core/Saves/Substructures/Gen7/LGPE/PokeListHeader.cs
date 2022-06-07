@@ -18,7 +18,7 @@ namespace PKHeX.Core
     public sealed class PokeListHeader : SaveBlock<SAV7b>
     {
         /// <summary>
-        /// Raw representation of data, casted to ushort[].
+        /// Raw representation of data, cast to ushort[].
         /// </summary>
         internal readonly int[] PokeListInfo;
 
