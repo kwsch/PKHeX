@@ -54,7 +54,7 @@ namespace PKHeX.WinForms.Controls
                 tb.Text = "255";
         }
 
-        public void ToggleInterface(object o, int gen = PKX.Generation)
+        public void ToggleInterface(object o, EntityContext context)
         {
             if (o is not IContestStats)
             {
@@ -63,7 +63,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             Visible = true;
-            bool smart = gen < 6;
+            bool smart = context.Generation() < 6;
             Label_Smart.Visible = smart; // show smart gen3-5
             Label_Clever.Visible = !smart; // show clever gen6+
         }

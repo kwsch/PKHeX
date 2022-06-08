@@ -146,7 +146,7 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private GameVersion origintrack;
 
-        private EntityContext originFormat = EntityContext.Invalid;
+        private EntityContext originFormat = EntityContext.None;
 
         /// <summary>
         /// Action to perform when loading a PKM to the editor GUI.
@@ -1814,6 +1814,7 @@ namespace PKHeX.WinForms.Controls
             B_MoveShop.Visible = t is IMoveShop8Mastery;
             CB_HTLanguage.Visible = gen >= 8;
             L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
+            Contest.ToggleInterface(Entity, Entity.Context);
 
             ToggleInterface(Entity.Format);
         }
@@ -1863,7 +1864,6 @@ namespace PKHeX.WinForms.Controls
             FLP_GroundTile.Visible = gen is 4 or 5 or 6;
             FLP_TimeOfDay.Visible = gen == 2;
 
-            Contest.ToggleInterface(Entity, gen);
             Stats.ToggleInterface(Entity, gen);
 
             CenterSubEditors();

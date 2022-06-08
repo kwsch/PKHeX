@@ -41,8 +41,14 @@ namespace PKHeX.Core
             }
             else
             {
-                ((int[])raid.IVs).CopyTo(IVs);
-                PKX.ReorderSpeedLast(IVs);
+                // Template stores with speed in middle (standard), convert for generator purpose.
+                var value = raid.IVs;
+                IVs[5] = value[3]; // spe
+                IVs[4] = value[5]; // spd
+                IVs[3] = value[4]; // spa
+                IVs[2] = value[2]; // def
+                IVs[1] = value[1]; // atk
+                IVs[0] = value[0]; // hp
             }
         }
 

@@ -100,7 +100,7 @@ public static class EntityFormat
     /// <param name="data">Raw data of the Pokemon file.</param>
     /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
     /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
-    public static PKM? GetFromBytes(byte[] data, EntityContext prefer)
+    public static PKM? GetFromBytes(byte[] data, EntityContext prefer = EntityContext.None)
     {
         var format = GetFormat(data);
         return GetFromBytes(data, format, prefer);

@@ -68,8 +68,8 @@ namespace PKHeX.Tests.Legality
                 EntityDetection.IsSizePlausible(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
 
                 var data = File.ReadAllBytes(file);
-                var prefer = EntityFileExtension.GetContextFromExtension(file, EntityContext.Invalid);
-                (prefer != EntityContext.Invalid && Enum.IsDefined(prefer)).Should().BeTrue("filename is expected to have a valid extension");
+                var prefer = EntityFileExtension.GetContextFromExtension(file);
+                prefer.IsValid().Should().BeTrue("filename is expected to have a valid extension");
 
                 var dn = fi.DirectoryName ?? string.Empty;
                 ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");

@@ -68,10 +68,6 @@ namespace PKHeX.Core
             return true;
         }
 
-        /// <inheritdoc cref="GetCriteria(IBattleTemplate, PersonalTable)"/>
-        /// <remarks>Uses the latest generation personal table (PKX.Personal); you really should pass the table.</remarks>
-        public static EncounterCriteria GetCriteria(IBattleTemplate s) => GetCriteria(s, PKX.Personal);
-
         /// <inheritdoc cref="GetCriteria(IBattleTemplate, PersonalInfo)"/>
         /// <param name="s">Template data (end result).</param>
         /// <param name="t">Personal table the end result will exist with.</param>

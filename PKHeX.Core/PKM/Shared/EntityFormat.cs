@@ -13,7 +13,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public enum EntityContext
 {
-    Invalid = 0,
+    None = 0,
     Gen1 = 1,
     Gen2 = 2,
     Gen3 = 3,
@@ -27,6 +27,8 @@ public enum EntityContext
     Gen7b,
     Gen8a,
     Gen8b,
+
+    MaxInvalid,
 }
 
 public static class EntityContextExtensions
@@ -38,6 +40,8 @@ public static class EntityContextExtensions
         Gen8b => 8,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
+
+    public static bool IsValid(this EntityContext value) => value is not (0 or SplitInvalid) and < MaxInvalid;
 
     public static GameVersion GetSingleGameVersion(this EntityContext value) => value switch
     {

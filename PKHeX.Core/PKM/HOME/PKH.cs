@@ -14,7 +14,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public GameDataPA8? DataPA8 { get; private set; }
     public GameDataPB8? DataPB8 { get; private set; }
 
-    public override EntityContext Context => EntityContext.Invalid;
+    public override EntityContext Context => EntityContext.None;
 
     public PKH(byte[] data) : base(DecryptHome(data))
     {

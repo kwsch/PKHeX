@@ -47,7 +47,7 @@ public static class EntityFileExtension
     /// <param name="ext">File extension.</param>
     /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
     /// <returns>Format hint that the file is.</returns>
-    public static EntityContext GetContextFromExtension(string ext, EntityContext prefer)
+    public static EntityContext GetContextFromExtension(string ext, EntityContext prefer = EntityContext.None)
     {
         if (ext.Length == 0)
             return prefer;
@@ -68,7 +68,7 @@ public static class EntityFileExtension
     /// <param name="last">Last character of the file's extension.</param>
     /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
     /// <returns>Format hint that the file is.</returns>
-    public static int GetFormatFromExtension(char last, EntityContext prefer)
+    private static int GetFormatFromExtension(char last, EntityContext prefer)
     {
         if (last is >= '1' and <= '9')
             return last - '0';
