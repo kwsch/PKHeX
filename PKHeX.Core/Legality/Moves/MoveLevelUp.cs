@@ -44,7 +44,7 @@ namespace PKHeX.Core
                 4 => GetIsLevelUp4(species, form, move, maxLevel, version),
                 5 => GetIsLevelUp5(species, form, move, maxLevel, version),
                 6 => GetIsLevelUp6(species, form, move, maxLevel, version),
-                7 => GetIsLevelUp7(species, form, move,           pkm.GG ? (GameVersion)pkm.Version : version), // move reminder can give any move 1-100
+                7 => GetIsLevelUp7(species, form, move, (pkm.LGPE || pkm.GO) ? (GameVersion)pkm.Version : version), // move reminder can give any move 1-100
                 8 => GetIsLevelUp8(species, form, move, maxLevel, version),
                 _ => LearnNONE,
             };
@@ -280,7 +280,7 @@ namespace PKHeX.Core
                 4 => GetMovesLevelUp4(species, form, maxLevel, version),
                 5 => GetMovesLevelUp5(species, form, maxLevel, version),
                 6 => GetMovesLevelUp6(species, form, maxLevel, version),
-                7 => GetMovesLevelUp7(species, form, maxLevel, MoveReminder, pkm.GG ? (GameVersion)pkm.Version : version),
+                7 => GetMovesLevelUp7(species, form, maxLevel, MoveReminder, pkm.LGPE || pkm.GO ? (GameVersion)pkm.Version : version),
                 8 => GetMovesLevelUp8(species, form, maxLevel, version),
                 _ => Array.Empty<int>(),
             };

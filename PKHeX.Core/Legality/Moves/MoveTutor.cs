@@ -340,7 +340,7 @@ namespace PKHeX.Core
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case (int)Species.Pikachu or (int)Species.Raichu when Generation == 7 && !pkm.GG:
+                case (int)Species.Pikachu or (int)Species.Raichu when Generation == 7 && !(pkm.LGPE || pkm.GO):
                     r.Add((int)Move.VoltTackle);
                     break;
             }

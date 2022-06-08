@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 case 4: return GetIsMachine4(species, move, pkm.Format, RemoveTransfer, form);
                 case 5: return GetIsMachine5(species, move, form);
                 case 6: return GetIsMachine6(species, move, form, ver);
-                case 7: return GetIsMachine7(species, move, form, ver);
+                case 7: return GetIsMachine7(species, move, form, pkm.LGPE || pkm.GO ? (GameVersion)pkm.Version : ver);
                 case 8: return GetIsMachine8(species, move, form, ver);
                 default:
                     return Legal.NONE;
@@ -242,7 +242,7 @@ namespace PKHeX.Core
                 case 4: AddMachine4(r, species, pkm.Format, RemoveTransfer, form); break;
                 case 5: AddMachine5(r, species, form); break;
                 case 6: AddMachine6(r, species, form, ver); break;
-                case 7: AddMachine7(r, species, form, pkm.GG ? (GameVersion)pkm.Version : ver); break;
+                case 7: AddMachine7(r, species, form, (pkm.LGPE || pkm.GO) ? (GameVersion)pkm.Version : ver); break;
                 case 8: AddMachine8(r, species, form, ver); break;
             }
             return r.Distinct();
