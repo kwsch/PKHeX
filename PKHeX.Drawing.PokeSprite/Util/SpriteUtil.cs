@@ -128,6 +128,9 @@ public static class SpriteUtil
         if (type == SpriteBackgroundType.BottomStripe)
         {
             int stripeHeight = SpriteBuilder.ShowEncounterThicknessStripe; // from bottom
+            if ((uint)stripeHeight > img.Height) // clamp negative & too-high values back to height.
+                stripeHeight = img.Height;
+
             byte opacity = SpriteBuilder.ShowEncounterOpacityStripe;
             return ImageUtil.ChangeTransparentTo(img, color, opacity, img.Width * 4 * (img.Height - stripeHeight));
         }
