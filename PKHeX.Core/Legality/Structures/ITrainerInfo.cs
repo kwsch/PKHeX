@@ -14,7 +14,7 @@ namespace PKHeX.Core
         EntityContext Context { get; }
     }
 
-    public static partial class Extensions
+    public static class TrainerInfoExtensions
     {
         public static void ApplyTo(this ITrainerInfo info, PKM pk)
         {
@@ -76,10 +76,17 @@ namespace PKHeX.Core
 
             if (tr.Gender != pk.OT_Gender)
                 return false;
-            if (tr.Game != pk.Version)
-                return false;
 
-            return true;
+            return IsMatchVersion(tr, pk);
+        }
+
+        private static bool IsMatchVersion(ITrainerInfo tr, PKM pk)
+        {
+            if (tr.Game == pk.Version)
+                return true;
+            if (pk.GO_LGPE)
+                return tr.Game is (int)GameVersion.GP or (int)GameVersion.GE;
+            return false;
         }
     }
 }
