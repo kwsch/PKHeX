@@ -17,8 +17,8 @@ namespace PKHeX.WinForms.Controls
         public readonly List<PictureBox> Entries = new();
         public int Slots { get; private set; }
 
-        private int sizeW = 40;
-        private int sizeH = 30;
+        private int sizeW = 68;
+        private int sizeH = 56;
 
         public bool InitializeGrid(int width, int height, SpriteBuilder info)
         {
@@ -44,6 +44,8 @@ namespace PKHeX.WinForms.Controls
         {
             SuspendLayout();
             Controls.Clear();
+            foreach (var c in Entries)
+                c.Dispose();
             Entries.Clear();
 
             int colWidth = sizeW;
@@ -77,8 +79,8 @@ namespace PKHeX.WinForms.Controls
             AutoSize = false,
             SizeMode = PictureBoxSizeMode.CenterImage,
             BackColor = SlotUtil.GoodDataColor,
-            Width = width + (2 * 1),
-            Height = height + (2 * 1),
+            Width = width + (2 * border),
+            Height = height + (2 * border),
             Padding = Padding.Empty,
             Margin = Padding.Empty,
             BorderStyle = BorderStyle.FixedSingle,
