@@ -767,6 +767,11 @@ namespace PKHeX.Core
         Yellow = 2,
         Green = 3,
         Red = 4,
+        Purple = 5,
+        Black = 6,
+        Pink = 7,
+        Gray = 8,
         Debug = 0x81,
+        Disabled = 0xFF,
     }
 }
