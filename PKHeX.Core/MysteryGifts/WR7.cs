@@ -122,7 +122,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override bool IsPokémon
+        public override bool IsEntity
         {
             get => GiftType == WR7GiftType.Pokemon;
             set
@@ -135,8 +135,8 @@ namespace PKHeX.Core
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             // this method shouldn't really be called, use the WB7 data not the WR7 data.
-            if (!IsPokémon)
-                throw new ArgumentException(nameof(IsPokémon));
+            if (!IsEntity)
+                throw new ArgumentException(nameof(IsEntity));
 
             // we'll just generate something as close as we can, since we must return something!
             var pk = new PB7();

@@ -205,7 +205,7 @@ namespace PKHeX.Core
     {
         Anything_Goes = 0,
         Little_Cup = 1,
-        Poké_Cup = 2,
+        Poke_Cup = 2,
         Prime_Cup = 3,
         GymLeader_Castle = 4,
         Vs_Rival = 5,

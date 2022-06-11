@@ -77,7 +77,7 @@
         Maxie = 72,
         Archie = 73,
 
-        Pokémon_Center = 0x80,
+        Pokemon_Center = 0x80,
         Gift = 0x81,
     }
 }

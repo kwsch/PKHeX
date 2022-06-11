@@ -124,7 +124,7 @@ namespace PKHeX.Core
         public abstract bool IsItem { get; set; }
         public abstract int ItemID { get; set; }
 
-        public abstract bool IsPokémon { get; set; }
+        public abstract bool IsEntity { get; set; }
         public virtual int Quantity { get => 1; set { } }
         public virtual bool Empty => false;
 

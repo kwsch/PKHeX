@@ -174,7 +174,7 @@ namespace PKHeX.Core
         public abstract GroundTileType GroundTile { get; set; }
         public abstract byte BallDPPt { get; set; }
         public abstract byte BallHGSS { get; set; }
-        public abstract byte PokéathlonStat { get; set; }
+        public abstract byte PokeathlonStat { get; set; }
         public override int MarkingCount => 6;
 
         public override int GetMarking(int index)
@@ -352,7 +352,7 @@ namespace PKHeX.Core
                 BallDPPt = BallDPPt,
                 BallHGSS = BallHGSS,
                 GroundTile = GroundTile,
-                PokéathlonStat = PokéathlonStat,
+                PokeathlonStat = PokeathlonStat,
                 FatefulEncounter = FatefulEncounter,
 
                 Met_Level = Met_Level,

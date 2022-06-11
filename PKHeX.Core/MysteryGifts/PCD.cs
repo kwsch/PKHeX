@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public void SetMetadata(ReadOnlySpan<byte> data) => data.CopyTo(Data.AsSpan(PGT.Size));
 
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
-        public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
+        public override bool IsEntity { get => Gift.IsEntity; set => Gift.IsEntity = value; }
         public override bool IsItem { get => Gift.IsItem; set => Gift.IsItem = value; }
         public override int ItemID { get => Gift.ItemID; set => Gift.ItemID = value; }
         public bool IsLockCapsule => IsItem && ItemID == 533; // 0x215

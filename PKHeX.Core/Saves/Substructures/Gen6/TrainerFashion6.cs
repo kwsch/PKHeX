@@ -353,10 +353,10 @@ namespace PKHeX.Core
             Shirt_and_Tie_Gray,
             Shirt_and_Tie_Green,
             Shirt_and_Tie_Blue,
-            Poké_Ball_Baby_Doll_Tee_Aqua,
-            Poké_Ball_Baby_Doll_Tee_Purple,
-            Poké_Ball_Baby_Doll_Tee_Yellow,
-            Poké_Ball_Baby_Doll_Tee_Green,
+            Poke_Ball_Baby_Doll_Tee_Aqua,
+            Poke_Ball_Baby_Doll_Tee_Purple,
+            Poke_Ball_Baby_Doll_Tee_Yellow,
+            Poke_Ball_Baby_Doll_Tee_Green,
         }
 
         public enum F6Socks

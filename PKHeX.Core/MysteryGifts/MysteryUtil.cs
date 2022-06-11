@@ -53,7 +53,7 @@ namespace PKHeX.Core
             {
                 AddLinesItem(gift, strings, result);
             }
-            else if (gift.IsPokémon)
+            else if (gift.IsEntity)
             {
                 try
                 {

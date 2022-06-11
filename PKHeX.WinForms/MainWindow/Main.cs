@@ -626,7 +626,7 @@ namespace PKHeX.WinForms
 
         private bool OpenMysteryGift(MysteryGift tg, string path)
         {
-            if (!tg.IsPokémon)
+            if (!tg.IsEntity)
             {
                 WinFormsUtil.Alert(MsgPKMMysteryGiftFail, path);
                 return true;

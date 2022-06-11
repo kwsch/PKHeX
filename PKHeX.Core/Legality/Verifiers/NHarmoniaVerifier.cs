@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Verifies the <see cref="PK5.NPokémon"/> data.
+    /// Verifies the <see cref="PK5.NSparkle"/> data.
     /// </summary>
     public sealed class NHarmoniaVerifier : Verifier
     {
@@ -15,7 +15,7 @@ namespace PKHeX.Core
             bool checksRequired = data.EncounterMatch is EncounterStatic5N;
             if (pkm is PK5 pk5)
             {
-                bool has = pk5.NPokémon;
+                bool has = pk5.NSparkle;
                 if (checksRequired && !has)
                     data.AddLine(GetInvalid(LG5SparkleRequired, CheckIdentifier.Fateful));
                 if (!checksRequired && has)

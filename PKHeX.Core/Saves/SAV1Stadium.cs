@@ -220,7 +220,7 @@ namespace PKHeX.Core
             {
                 1 => "Unused1",
                 2 => "Unused2",
-                3 => "Poké_Cup",
+                3 => "Poke_Cup",
                 _ => ((Stadium1TeamType)type).ToString(),
             };
         }

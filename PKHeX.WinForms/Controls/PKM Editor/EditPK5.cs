@@ -16,7 +16,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc4(pk5);
             CB_GroundTile.SelectedValue = pk5.Gen4 ? (int)pk5.GroundTile : 0;
             CB_GroundTile.Visible = Label_GroundTile.Visible = pk5.Gen4;
-            CHK_NSparkle.Checked = pk5.NPokémon;
+            CHK_NSparkle.Checked = pk5.NSparkle;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk5.Ability;
@@ -40,7 +40,7 @@ namespace PKHeX.WinForms.Controls
             SaveMisc4(pk5);
 
             pk5.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
-            pk5.NPokémon = CHK_NSparkle.Checked;
+            pk5.NSparkle = CHK_NSparkle.Checked;
             if (!HaX) // specify via extra 0x42 instead
                 pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
 

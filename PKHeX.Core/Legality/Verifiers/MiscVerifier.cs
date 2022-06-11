@@ -31,7 +31,7 @@ namespace PKHeX.Core
                     case PK4 pk4 when pk4.ShinyLeaf != 0:
                         data.AddLine(GetInvalid(LEggShinyLeaf, Egg));
                         break;
-                    case PK4 pk4 when pk4.PokéathlonStat != 0:
+                    case PK4 pk4 when pk4.PokeathlonStat != 0:
                         data.AddLine(GetInvalid(LEggPokeathlon, Egg));
                         break;
                     case PK3 when pkm.Language != 1:  // All Eggs are Japanese and flagged specially for localized string

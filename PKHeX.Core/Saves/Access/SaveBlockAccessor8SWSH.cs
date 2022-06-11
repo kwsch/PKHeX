@@ -240,7 +240,7 @@ namespace PKHeX.Core
 
         public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10
         public const uint KVolumeSoundEffects = 0x62F05895; // U32 0-10
-        public const uint KVolumePokémonCries = 0x1D482A63; // U32 0-10
+        public const uint KVolumePokemonCries = 0x1D482A63; // U32 0-10
 
         public const uint KRecordCramorantRobo = 0xB9C0ECFC; // cormorant_robo (Cram-o-matic uses)
         public const uint KRecordBattleVersion = 0x7A9EF7D9; // battle_rom_mark (Past-gen Pokémon reset for battling in Ranked)

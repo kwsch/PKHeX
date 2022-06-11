@@ -15,14 +15,14 @@ namespace PKHeX.Core
 
         public override byte Level
         {
-            get => IsManaphyEgg ? (byte)1 : IsPokémon ? (byte)PK.Met_Level : (byte)0;
-            set { if (IsPokémon) PK.Met_Level = value; }
+            get => IsManaphyEgg ? (byte)1 : IsEntity ? (byte)PK.Met_Level : (byte)0;
+            set { if (IsEntity) PK.Met_Level = value; }
         }
 
         public override int Ball
         {
-            get => IsPokémon ? PK.Ball : 0;
-            set { if (IsPokémon) PK.Ball = value; }
+            get => IsEntity ? PK.Ball : 0;
+            set { if (IsEntity) PK.Ball = value; }
         }
 
         public override AbilityPermission Ability => IsManaphyEgg ? AbilityPermission.Any12 : (int)(PK.PID & 1) == 1 ? AbilityPermission.OnlySecond : AbilityPermission.OnlyFirst;
@@ -108,7 +108,7 @@ namespace PKHeX.Core
         public bool IsManaphyEgg { get => PGTGiftType == GiftType.ManaphyEgg; set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
         public override bool EggEncounter => IsEgg;
         public override bool IsItem { get => PGTGiftType == GiftType.Item; set { if (value) PGTGiftType = GiftType.Item; } }
-        public override bool IsPokémon { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
+        public override bool IsEntity { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
 
         public override int Species { get => IsManaphyEgg ? 490 : PK.Species; set => PK.Species = value; }
         public override IReadOnlyList<int> Moves { get => PK.Moves; set => PK.SetMoves(value.ToArray()); }
@@ -130,8 +130,8 @@ namespace PKHeX.Core
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            if (!IsPokémon)
-                throw new ArgumentException(nameof(IsPokémon));
+            if (!IsEntity)
+                throw new ArgumentException(nameof(IsEntity));
 
             // template is already filled out, only minor mutations required
             PK4 pk4 = new((byte[])PK.Data.Clone()) { Sanity = 0 };

@@ -86,7 +86,7 @@ namespace PKHeX.Core
         public void SetQuantity(int index, ushort quantity) => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22 + (0x10 * index)), quantity);
 
         // Pokémon Properties
-        public override bool IsPokémon { get => CardType == GiftType.Pokemon; set { if (value) CardType = GiftType.Pokemon; } }
+        public override bool IsEntity { get => CardType == GiftType.Pokemon; set { if (value) CardType = GiftType.Pokemon; } }
 
         public override bool IsShiny => Shiny.IsShiny();
 
@@ -381,8 +381,8 @@ namespace PKHeX.Core
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            if (!IsPokémon)
-                throw new ArgumentException(nameof(IsPokémon));
+            if (!IsEntity)
+                throw new ArgumentException(nameof(IsEntity));
 
             int currentLevel = Level > 0 ? Level : (1 + Util.Rand.Next(100));
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;

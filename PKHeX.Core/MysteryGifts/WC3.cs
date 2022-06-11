@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public override int CardID { get; set; }
         public override bool IsItem { get; set; }
         public override int ItemID { get; set; }
-        public override bool IsPokémon { get; set; } = true;
+        public override bool IsEntity { get; set; } = true;
         public override bool Empty => false;
         public override int Gender { get; set; }
         public override int Form { get; set; }

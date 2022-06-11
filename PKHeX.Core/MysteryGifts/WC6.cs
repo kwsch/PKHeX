@@ -121,7 +121,7 @@ namespace PKHeX.Core
             set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value); }
 
         // Pokémon Properties
-        public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
+        public override bool IsEntity { get => CardType == 0; set { if (value) CardType = 0; } }
         public override bool IsShiny => Shiny.IsShiny();
 
         public override Shiny Shiny => IsEgg ? Shiny.Random : PIDType switch
@@ -295,8 +295,8 @@ namespace PKHeX.Core
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            if (!IsPokémon)
-                throw new ArgumentException(nameof(IsPokémon));
+            if (!IsEntity)
+                throw new ArgumentException(nameof(IsEntity));
 
             var rnd = Util.Rand;
 

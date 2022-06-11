@@ -91,7 +91,7 @@ namespace PKHeX.Core
         public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
         public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
-        public int Pokéball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
+        public int Ball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
         public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value); }
         public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value); }
         public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), (ushort)value); }

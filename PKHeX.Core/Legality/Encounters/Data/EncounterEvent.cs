@@ -131,7 +131,7 @@ namespace PKHeX.Core
                 MGDB_G8A,
                 MGDB_G8B,
             }.SelectMany(z => z);
-            regular = regular.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0);
+            regular = regular.Where(mg => !mg.IsItem && mg.IsEntity && mg.Species > 0);
             var result = MGDB_G3.Concat(regular);
             if (sorted)
                 result = result.OrderBy(mg => mg.Species);

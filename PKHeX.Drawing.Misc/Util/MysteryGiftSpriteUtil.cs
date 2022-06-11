@@ -26,7 +26,7 @@ public static class MysteryGiftSpriteUtil
     {
         if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
             return SpriteUtil.GetMysteryGiftPreviewPoke(gift);
-        if (gift.IsPokémon)
+        if (gift.IsEntity)
             return SpriteUtil.GetMysteryGiftPreviewPoke(gift);
 
         if (gift.IsItem)
