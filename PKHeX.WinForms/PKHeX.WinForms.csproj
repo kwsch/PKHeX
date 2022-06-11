@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
+	<NeutralLanguage>en</NeutralLanguage>
     <PackageId>PKHeX</PackageId>
     <Company>Project Pokémon</Company>
     <Authors>Kaphotics</Authors>

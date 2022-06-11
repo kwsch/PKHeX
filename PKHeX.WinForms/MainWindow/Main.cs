@@ -117,15 +117,28 @@ namespace PKHeX.WinForms
             showChangelog = false;
             BAKprompt = false;
 
-            HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
-                || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule!.FileName!).EndsWith(nameof(HaX));
-
             FormLoadConfig(out BAKprompt, out showChangelog);
-            HaX |= Settings.Startup.ForceHaXOnLaunch;
+            HaX = Settings.Startup.ForceHaXOnLaunch || GetIsHaX(args);
 
             WinFormsUtil.AddSaveFileExtensions(Settings.Backup.OtherSaveFileExtensions);
             SaveFinder.CustomBackupPaths.Clear();
             SaveFinder.CustomBackupPaths.AddRange(Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
+        }
+
+        private static bool GetIsHaX(IEnumerable<string> args)
+        {
+            foreach (var x in args)
+            {
+                if (string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+            }
+
+#if !NET6_0_OR_GREATER
+            var path = Process.GetCurrentProcess().MainModule!.FileName!;
+#else
+            var path = Environment.ProcessPath!;
+#endif
+            return Path.GetFileNameWithoutExtension(path).EndsWith(nameof(HaX));
         }
 
         private void FormLoadAddEvents()

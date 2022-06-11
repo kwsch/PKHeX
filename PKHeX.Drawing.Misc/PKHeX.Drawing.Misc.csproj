@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net46</TargetFrameworks>
+		<NeutralLanguage>en</NeutralLanguage>
 		<LangVersion>10</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
