@@ -145,7 +145,8 @@ public static class ContestStatInfo
     private static int CalculateMaximumSheen3(IContestStats s, int nature, IContestStats initial)
     {
         // By using Enigma and Lansat and a 25 +1/-1, can get a +9/+19s at minimum RPM
-        // By using Enigma, Lansat, and Starf, can get a black +2/2/2 & 21 block (6:21) at minimum RPM.
+        // By using Strib, Chilan, Niniku, or Topo, can get a black +2/2/2 & 83 block (6:83) at minimum RPM.
+        // https://github.com/kwsch/PKHeX/issues/3517
         var sum = GetGainedSum(s, nature, initial);
         if (sum == 0)
             return 0;
@@ -159,7 +160,7 @@ public static class ContestStatInfo
         bool has3 = gained >= 3;
 
         // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
-        var permit = has3 ? (sum * 21 / 6) : (sum * 19 / 9);
+        var permit = has3 ? (sum * 83 / 6) : (sum * 19 / 9);
         return Math.Min(MaxContestStat, Math.Max(LowestFeelBlock3, permit));
     }
 
