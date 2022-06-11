@@ -26,29 +26,30 @@ namespace PKHeX.Core
         internal const int SIZE_3XSTORED = 196;
         internal const int SIZE_3PARTY = 100;
         internal const int SIZE_3STORED = 80;
-        internal const int SIZE_3BLOCK = 12;
+        private const int SIZE_3HEADER = 32;
+        private const int SIZE_3BLOCK = 12;
 
         internal const int SIZE_4PARTY = 236;
         internal const int SIZE_4STORED = 136;
-        internal const int SIZE_4BLOCK = 32;
+        private const int SIZE_4BLOCK = 32;
 
         internal const int SIZE_5PARTY = 220;
         internal const int SIZE_5STORED = 136;
-        internal const int SIZE_5BLOCK = 32;
+      //private const int SIZE_5BLOCK = SIZE_4BLOCK;
 
         internal const int SIZE_6PARTY = 0x104;
         internal const int SIZE_6STORED = 0xE8;
-        internal const int SIZE_6BLOCK = 56;
+        private const int SIZE_6BLOCK = 56;
 
         // Gen7 Format is the same size as Gen6.
 
         internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK); // 0x148
         internal const int SIZE_8PARTY = SIZE_8STORED + 0x10; // 0x158
-        internal const int SIZE_8BLOCK = 80; // 0x50
+        private const int SIZE_8BLOCK = 80; // 0x50
 
         internal const int SIZE_8ASTORED = 8 + (4 * SIZE_8ABLOCK); // 0x168
         internal const int SIZE_8APARTY = SIZE_8ASTORED + 0x10; // 0x178
-        internal const int SIZE_8ABLOCK = 88; // 0x58
+        private const int SIZE_8ABLOCK = 88; // 0x58
 
         /// <summary>
         /// Positions for shuffling.
@@ -241,6 +242,30 @@ namespace PKHeX.Core
             return ekm;
         }
 
+        /// <summary>
+        /// Decrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted Pokémon data.</param>
+        /// <returns>Decrypted Pokémon data.</returns>
+        public static byte[] DecryptArray4BE(ReadOnlySpan<byte> ekm)
+        {
+            uint pv = ReadUInt32BigEndian(ekm);
+            uint sv = pv >> 13 & 31;
+            return ShuffleArray(ekm, sv, SIZE_4BLOCK);
+        }
+
+        /// <summary>
+        /// Encrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted Pokémon data.</param>
+        /// <returns>Encrypted Pokémon data.</returns>
+        public static byte[] EncryptArray4BE(ReadOnlySpan<byte> pkm)
+        {
+            uint pv = ReadUInt32BigEndian(pkm);
+            uint sv = pv >> 13 & 31;
+            return ShuffleArray(pkm, blockPositionInvert[sv], SIZE_4BLOCK);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void CryptPKM(Span<byte> data, uint pv, int blockSize)
         {
@@ -270,7 +295,7 @@ namespace PKHeX.Core
                 seed = (0x41C64E6D * seed) + 0x00006073;
                 var xor = (ushort)(seed >> 16);
                 if (!BitConverter.IsLittleEndian)
-                    xor = (ushort)((xor >> 8) + (xor << 8));
+                    xor = ReverseEndianness(xor);
                 reinterpret[i] ^= xor;
             }
         }
@@ -288,7 +313,7 @@ namespace PKHeX.Core
             uint OID = ReadUInt32LittleEndian(ekm[4..]);
             uint seed = PID ^ OID;
 
-            var toEncrypt = ekm[32..SIZE_3STORED];
+            var toEncrypt = ekm[SIZE_3HEADER..SIZE_3STORED];
             for (int i = 0; i < toEncrypt.Length; i += 4)
             {
                 var span = toEncrypt.Slice(i, 4);
@@ -312,8 +337,8 @@ namespace PKHeX.Core
             for (int block = 0; block < 4; block++)
             {
                 int ofs = BlockPosition[index + block];
-                var src = data.Slice(32 + (12 * ofs), 12);
-                var dest = sdata.AsSpan(32 + (12 * block), 12);
+                var src = data.Slice(SIZE_3HEADER + (SIZE_3BLOCK * ofs), SIZE_3BLOCK);
+                var dest = sdata.AsSpan(SIZE_3HEADER + (SIZE_3BLOCK * block), SIZE_3BLOCK);
                 src.CopyTo(dest);
             }
 
@@ -335,7 +360,7 @@ namespace PKHeX.Core
 
             byte[] ekm = ShuffleArray3(pkm, blockPositionInvert[PID % 24]);
 
-            var toEncrypt = ekm.AsSpan()[32..SIZE_3STORED];
+            var toEncrypt = ekm.AsSpan()[SIZE_3HEADER..SIZE_3STORED];
             for (int i = 0; i < toEncrypt.Length; i += 4)
             {
                 var span = toEncrypt.Slice(i, 4);

@@ -29,9 +29,7 @@ namespace PKHeX.Core
 
         public static BK4 ReadUnshuffle(ReadOnlySpan<byte> data)
         {
-            var PID = ReadUInt32BigEndian(data);
-            uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            var unshuffled = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
+            var unshuffled = PokeCrypto.DecryptArray4BE(data);
             var result = new BK4(unshuffled);
             result.RefreshChecksum();
             return result;
@@ -296,7 +294,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PokeCrypto.ShuffleArray(Data, PokeCrypto.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24], PokeCrypto.SIZE_4BLOCK);
+            return PokeCrypto.EncryptArray4BE(Data);
         }
 
         public PK4 ConvertToPK4()
