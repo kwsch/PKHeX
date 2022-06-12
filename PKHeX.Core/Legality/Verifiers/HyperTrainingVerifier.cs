@@ -18,7 +18,7 @@ namespace PKHeX.Core
             if (!t.IsHyperTrained())
                 return;
 
-            if (!t.IsHyperTrainingAvailable())
+            if (!t.IsHyperTrainingAvailable(data.Info.EvoChainsAllGens))
             {
                 data.AddLine(GetInvalid(LHyperPerfectUnavailable));
                 return;

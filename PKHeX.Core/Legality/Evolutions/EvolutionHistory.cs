@@ -8,6 +8,7 @@ namespace PKHeX.Core;
 public class EvolutionHistory
 {
     private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
+    public static readonly EvolutionHistory Empty = new(NONE, 0);
 
     public EvoCriteria[] Gen1  = NONE;
     public EvoCriteria[] Gen2  = NONE;
