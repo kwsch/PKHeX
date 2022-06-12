@@ -2,7 +2,7 @@ PKHeX
 =====
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
-Éditeur de sauvegarde de la série de base Pokémon, programmé en [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
+Éditeur de sauvegarde de la série de base Pokémon, programmé en [C#](https://fr.wikipedia.org/wiki/C_sharp).
 
 Prend en charge les fichiers suivants :
 * Enregistrer les fichiers ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
@@ -27,7 +27,7 @@ PKHeX attend des fichiers de sauvegarde qui ne sont pas chiffrés avec des clés
 
 ## Construction
 
-PKHeX est une application Windows Forms qui nécessite [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), avec une prise en charge expérimentale de [.NET 6.0.](https://dotnet.microsoft.com/download/dotnet/6.0)
+PKHeX est une application Windows Forms qui nécessite [.NET Framework v4.6](https://www.microsoft.com/fr-fr/download/details.aspx?id=48137), avec une prise en charge expérimentale de [.NET 6.0.](https://dotnet.microsoft.com/download/dotnet/6.0)
 
 L'exécutable peut être construit avec n'importe quel compilateur prenant en charge C# 10.
 
@@ -45,7 +45,7 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 
 ## IDE
 
-PKHeX peut être ouvert avec des IDE tels que [Visual Studio](https://visualstudio.microsoft.com/downloads/) en ouvrant le fichier .sln ou .csproj.
+PKHeX peut être ouvert avec des IDE tels que [Visual Studio](https://visualstudio.microsoft.com/fr/downloads/) en ouvrant le fichier .sln ou .csproj.
 
 ## GNU/Linux
 

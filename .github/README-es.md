@@ -28,7 +28,7 @@ PKHeX espera archivos de guardado que no estén cifrados con las claves específ
 
 ## Building
 
-PKHeX es una aplicación de Windows Forms que requiere [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), con soporte experimental para [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX es una aplicación de Windows Forms que requiere [.NET Framework v4.6](https://www.microsoft.com/es-es/download/details.aspx?id=48137), con soporte experimental para [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
 
 El archivo ejecutable puede ser construido con cualquier compilador que soporte C# 10.
 
@@ -46,7 +46,7 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 
 ### IDE
 
-PKHeX se puede abrir con un IDE como [Visual Studio](https://visualstudio.microsoft.com/downloads/), abriendo los archivos .sln o .csproj.
+PKHeX se puede abrir con un IDE como [Visual Studio](https://visualstudio.microsoft.com/es/downloads/), abriendo los archivos .sln o .csproj.
 
 ### GNU/Linux
 
