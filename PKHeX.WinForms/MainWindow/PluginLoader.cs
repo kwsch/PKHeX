@@ -40,10 +40,20 @@ public static class PluginLoader
     private static IEnumerable<Assembly> GetAssemblies(IEnumerable<string> dllFileNames, PluginLoadSetting loadSetting)
     {
         var loadMethod = GetPluginLoadMethod(loadSetting);
-        var assemblies = dllFileNames.Select(loadMethod);
+        foreach (var file in dllFileNames)
+        {
+            Assembly x;
+            try { x = loadMethod(file); }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Unable to load plugin from file: {file}");
+                Debug.WriteLine(ex.Message);
+                continue;
+            }
+            yield return x;
+        }
         if (loadSetting.IsMerged())
-            assemblies = assemblies.Concat(new[] { Assembly.GetExecutingAssembly() }); // load merged too
-        return assemblies;
+            yield return Assembly.GetExecutingAssembly(); // load merged too
     }
 
     private static Func<string, Assembly> GetPluginLoadMethod(PluginLoadSetting pls) => pls switch
