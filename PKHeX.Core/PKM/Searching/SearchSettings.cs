@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core.Searching
 {
@@ -150,12 +151,12 @@ namespace PKHeX.Core.Searching
         private bool SearchIntermediate(PKM pk)
         {
             if (Generation > 0 && !SearchUtil.SatisfiesFilterGeneration(pk, Generation)) return false;
-            if (Moves.Count > 0 && SearchUtil.SatisfiesFilterMoves(pk, Moves)) return false;
+            if (Moves.Count > 0 && !SearchUtil.SatisfiesFilterMoves(pk, Moves)) return false;
             if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType) return false;
             if (SearchShiny != null && pk.IsShiny != SearchShiny) return false;
 
-            if (IVType > 0 && SearchUtil.SatisfiesFilterIVs(pk, IVType)) return false;
-            if (EVType > 0 && SearchUtil.SatisfiesFilterEVs(pk, EVType)) return false;
+            if (IVType > 0 && !SearchUtil.SatisfiesFilterIVs(pk, IVType)) return false;
+            if (EVType > 0 && !SearchUtil.SatisfiesFilterEVs(pk, EVType)) return false;
 
             return true;
         }
@@ -163,7 +164,7 @@ namespace PKHeX.Core.Searching
         private bool SearchComplex(PKM pk)
         {
             if (SearchEgg != null && !FilterResultEgg(pk)) return false;
-            if (Level is not (null or 0) && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, (int) Level)) return false;
+            if (Level is { } x and not 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, x)) return false;
             if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal) return false;
             if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters)) return false;
 
@@ -188,13 +189,9 @@ namespace PKHeX.Core.Searching
 
             return Generation switch
             {
-                1 when !ParseSettings.AllowGen1Tradeback => new[] {GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW},
-                2 when sav is SAV2 {Korean: true} => new[] {GameVersion.GD, GameVersion.SI},
-                1 or 2 => new[]
-                {
-                    GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW,
-                    GameVersion.GD, GameVersion.SI, GameVersion.C,
-                },
+                1 when !ParseSettings.AllowGen1Tradeback => new[] {RD, BU, GN, YW},
+                2 when sav is SAV2 {Korean: true} => new[] {GD, SI},
+                1 or 2 => new[] {RD, BU, GN, YW, /* */ GD, SI, C},
 
                 _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
                 _ => GameUtil.GameVersions,
@@ -204,7 +201,7 @@ namespace PKHeX.Core.Searching
         private static GameVersion GetFallbackVersion(ITrainerInfo sav)
         {
             var parent = GameUtil.GetMetLocationVersionGroup((GameVersion)sav.Game);
-            if (parent == GameVersion.Invalid)
+            if (parent == Invalid)
                 parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(sav.Generation));
             return parent;
         }
