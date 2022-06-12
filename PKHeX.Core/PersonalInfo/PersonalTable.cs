@@ -273,6 +273,11 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Alternate way of fetching <see cref="GetFormEntry"/>.
+        /// </summary>
+        public PersonalInfo this[int species, int form] => GetFormEntry(species, form);
+
+        /// <summary>
         /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>

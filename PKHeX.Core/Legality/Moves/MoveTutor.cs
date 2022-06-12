@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using static PKHeX.Core.Legal;
 
@@ -62,11 +61,11 @@ namespace PKHeX.Core
 
             // XD
             var xd = Array.IndexOf(SpecialTutors_XD_Exclusive, move);
-            if (xd != -1 && SpecialTutors_Compatibility_XD_Exclusive[xd].Contains(species))
+            if (xd != -1 && SpecialTutors_Compatibility_XD_Exclusive[xd].AsSpan().IndexOf(species) != -1)
                 return GameVersion.XD;
 
             // XD (Mew)
-            if (species == (int)Species.Mew && Tutor_3Mew.Contains(move))
+            if (species == (int)Species.Mew && Tutor_3Mew.AsSpan().IndexOf(move) != -1)
                 return GameVersion.XD;
 
             return NONE;
@@ -74,13 +73,13 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor4(int species, int form, int move)
         {
-            var pi = PersonalTable.HGSS.GetFormEntry(species, form);
+            var pi = PersonalTable.HGSS[species, form];
             var type = Array.IndexOf(Tutors_4, move);
             if (type != -1 && pi.TypeTutors[type])
                 return GameVersion.Gen4;
 
             var special = Array.IndexOf(SpecialTutors_4, move);
-            if (special != -1 && SpecialTutors_Compatibility_4[special].Contains(species))
+            if (special != -1 && SpecialTutors_Compatibility_4[special].AsSpan().IndexOf(species) != -1)
                 return GameVersion.HGSS;
 
             return NONE;
@@ -88,7 +87,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor5(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.B2W2.GetFormEntry(species, form);
+            var pi = PersonalTable.B2W2[species, form];
             var type = Array.IndexOf(TypeTutor6, move);
             if (type != -1 && pi.TypeTutors[type])
                     return GameVersion.Gen5;
@@ -112,7 +111,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor6(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.AO.GetFormEntry(species, form);
+            var pi = PersonalTable.AO[species, form];
             var type = Array.IndexOf(TypeTutor6, move);
             if (type != -1 && pi.TypeTutors[type])
                 return GameVersion.Gen6;
@@ -136,7 +135,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsTutor7(PKM pkm, int species, int form, bool specialTutors, int move)
         {
-            var pi = PersonalTable.USUM.GetFormEntry(species, form);
+            var pi = PersonalTable.USUM[species, form];
             var type = Array.IndexOf(TypeTutor6, move);
             if (type != -1 && pi.TypeTutors[type])
                 return GameVersion.Gen7;
@@ -155,7 +154,7 @@ namespace PKHeX.Core
         {
             if (pkm is PA8)
             {
-                var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
+                var pi = (PersonalInfoLA)PersonalTable.LA[species, form];
                 if (!pi.IsPresentInGame)
                     return NONE;
                 var index = Array.IndexOf(MoveShop8_LA, (ushort)move);
@@ -166,7 +165,7 @@ namespace PKHeX.Core
             }
             if (pkm is PB8)
             {
-                var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
+                var pi = (PersonalInfoBDSP)PersonalTable.BDSP[species, form];
                 if (!pi.IsPresentInGame)
                     return NONE;
                 var type = Array.IndexOf(TypeTutor8b, move);
@@ -177,7 +176,7 @@ namespace PKHeX.Core
             }
             else
             {
-                var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
+                var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species, form];
                 if (!pi.IsPresentInGame)
                     return NONE;
                 var type = Array.IndexOf(TypeTutor8, move);
@@ -209,7 +208,7 @@ namespace PKHeX.Core
                 case 7: AddMovesTutor7(moves, species, form, pkm, specialTutors); break;
                 case 8: AddMovesTutor8(moves, species, form, pkm, specialTutors); break;
             }
-            return moves.Distinct();
+            return moves;
         }
 
         private static void AddMovesTutor1(List<int> moves, int species, int format)
@@ -223,7 +222,12 @@ namespace PKHeX.Core
             if (korean)
                 return;
             var pi = PersonalTable.C[species];
-            moves.AddRange(Tutors_GSC.Where((_, i) => pi.TMHM[57 + i]));
+            var hmBits = pi.TMHM.AsSpan(57, 3);
+            for (int i = 0; i < Tutors_GSC.Length; i++)
+            {
+                if (hmBits[i])
+                    moves.Add(Tutors_GSC[i]);
+            }
             AddMovesTutor1(moves, species, format);
         }
 
@@ -232,12 +236,18 @@ namespace PKHeX.Core
             // E Tutors (Free)
             // E Tutors (BP)
             var pi = PersonalTable.E[species];
-            moves.AddRange(Tutor_E.Where((_, i) => pi.TypeTutors[i]));
+            AddPermittedIndexes(moves, Tutor_E, pi.TypeTutors);
             // FRLG Tutors
             // Only special tutor moves, normal tutor moves are already included in Emerald data
-            moves.AddRange(SpecialTutors_FRLG.Where((_, i) => SpecialTutors_Compatibility_FRLG[i] == species));
+            AddIfPermitted(moves, SpecialTutors_FRLG, SpecialTutors_Compatibility_FRLG, species);
             // XD
-            moves.AddRange(SpecialTutors_XD_Exclusive.Where((_, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
+            for (int i = 0; i < SpecialTutors_XD_Exclusive.Length; i++)
+            {
+                var allowed = SpecialTutors_Compatibility_XD_Exclusive[i].AsSpan();
+                var index = allowed.IndexOf(species);
+                if (index != -1)
+                    moves.Add(SpecialTutors_XD_Exclusive[i]);
+            }
             // XD (Mew)
             if (species == (int)Species.Mew)
                 moves.AddRange(Tutor_3Mew);
@@ -245,42 +255,48 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor4(List<int> moves, int species, int form)
         {
-            var pi = PersonalTable.HGSS.GetFormEntry(species, form);
-            moves.AddRange(Tutors_4.Where((_, i) => pi.TypeTutors[i]));
-            moves.AddRange(SpecialTutors_4.Where((_, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
+            var pi = PersonalTable.HGSS[species, form];
+            AddPermittedIndexes(moves, Tutors_4, pi.TypeTutors);
+            for (int i = 0; i < SpecialTutors_4.Length; i++)
+            {
+                var allowed = SpecialTutors_Compatibility_4[i].AsSpan();
+                var index = allowed.IndexOf(species);
+                if (index != -1)
+                    moves.Add(SpecialTutors_4[i]);
+            }
         }
 
         private static void AddMovesTutor5(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            var pi = PersonalTable.B2W2[species];
-            moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
+            var pi = PersonalTable.B2W2[species, form];
+            AddPermittedIndexes(moves, TypeTutor6, pi.TypeTutors);
             if (pkm.InhabitedGeneration(5) && specialTutors)
-                moves.AddRange(GetTutors(PersonalTable.B2W2.GetFormEntry(species, form), Tutors_B2W2));
+                AddPermittedIndexes(moves, Tutors_B2W2, pi.SpecialTutors);
         }
 
         private static void AddMovesTutor6(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            var pi = PersonalTable.AO[species];
-            moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
+            var pi = PersonalTable.AO[species, form];
+            AddPermittedIndexes(moves, TypeTutor6, pi.TypeTutors);
             if (specialTutors && pkm.HasVisitedORAS(species))
-                moves.AddRange(GetTutors(PersonalTable.AO.GetFormEntry(species, form), Tutors_AO));
+                AddPermittedIndexes(moves, Tutors_AO, pi.SpecialTutors);
         }
 
         private static void AddMovesTutor7(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
             if (pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE)
                 return;
-            var pi = PersonalTable.USUM.GetFormEntry(species, form);
-            moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
+            var pi = PersonalTable.USUM[species, form];
+            AddPermittedIndexes(moves, TypeTutor6, pi.TypeTutors);
             if (specialTutors && pkm.HasVisitedUSUM(species))
-                moves.AddRange(GetTutors(pi, Tutors_USUM));
+                AddPermittedIndexes(moves, Tutors_USUM, pi.SpecialTutors[0]);
         }
 
         private static void AddMovesTutor8(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
             if (pkm is PA8)
             {
-                var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(species, form);
+                var pi = (PersonalInfoLA)PersonalTable.LA[species, form];
                 if (!pi.IsPresentInGame)
                     return;
                 var shop = MoveShop8_LA;
@@ -294,31 +310,44 @@ namespace PKHeX.Core
             }
             if (pkm is PB8)
             {
-                var pi = (PersonalInfoBDSP)PersonalTable.BDSP.GetFormEntry(species, form);
-                if (!pi.IsPresentInGame)
-                    return;
-                moves.AddRange(TypeTutor8b.Where((_, i) => pi.TypeTutors[i]));
+                var pi = (PersonalInfoBDSP)PersonalTable.BDSP[species, form];
+                if (pi.IsPresentInGame)
+                    AddPermittedIndexes(moves, TypeTutor8b, pi.TypeTutors);
             }
             else // SWSH
             {
-                var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, form);
+                var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species, form];
                 if (!pi.IsPresentInGame)
                     return;
-                moves.AddRange(TypeTutor8.Where((_, i) => pi.TypeTutors[i]));
+                AddPermittedIndexes(moves, TypeTutor8, pi.TypeTutors);
                 if (specialTutors)
-                    moves.AddRange(GetTutors(pi, Tutors_SWSH_1));
+                    AddPermittedIndexes(moves, Tutors_SWSH_1, pi.SpecialTutors[0]);
             }
         }
 
-        private static IEnumerable<int> GetTutors(PersonalInfo pi, params int[][] tutors)
+        private static void AddIfPermitted(List<int> moves, ReadOnlySpan<int> arrMoves, ReadOnlySpan<int> arrSpecies, int species)
+        {
+            var index = arrSpecies.IndexOf(species);
+            if (index != -1)
+                moves.Add(arrMoves[index]);
+        }
+
+        private static void AddPermittedIndexes(List<int> moves, int[][] tutors, bool[][] permit)
         {
             for (int i = 0; i < tutors.Length; i++)
             {
-                for (int b = 0; b < tutors[i].Length; b++)
-                {
-                    if (pi.SpecialTutors[i][b])
-                        yield return tutors[i][b];
-                }
+                var arr = tutors[i];
+                var per = permit[i];
+                AddPermittedIndexes(moves, arr, per);
+            }
+        }
+
+        private static void AddPermittedIndexes(List<int> moves, int[] moveIDs, bool[] permit)
+        {
+            for (int i = 0; i < moveIDs.Length; i++)
+            {
+                if (permit[i])
+                    moves.Add(moveIDs[i]);
             }
         }
 
