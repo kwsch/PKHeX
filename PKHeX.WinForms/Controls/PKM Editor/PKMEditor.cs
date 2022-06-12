@@ -417,13 +417,20 @@ namespace PKHeX.WinForms.Controls
 
         private void SetDetailsHT(ITrainerInfo tr)
         {
-            if (string.IsNullOrWhiteSpace(tr.OT))
+            var trainer = tr.OT;
+            if (trainer.Length == 0)
                 return;
 
-            if (TB_HT.Text.Length > 0)
+            if (!tr.IsOriginalHandler(Entity, false))
             {
+                TB_HT.Text = trainer;
                 UC_HTGender.Gender = tr.Gender & 1;
                 if (Entity is IHandlerLanguage)
+                    CB_HTLanguage.SelectedValue = tr.Language;
+            }
+            else if (TB_HT.Text.Length != 0)
+            {
+                if (CB_HTLanguage.SelectedIndex == 0 && Entity is IHandlerLanguage)
                     CB_HTLanguage.SelectedValue = tr.Language;
             }
         }
