@@ -19,9 +19,9 @@ namespace PKHeX.Core
             ChecksumMirror = chkMirror;
         }
 
-        private ushort GetChecksum(Span<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
+        private ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
 
-        protected override bool ChecksumValid(Span<byte> data)
+        protected override bool ChecksumValid(ReadOnlySpan<byte> data)
         {
             ushort chk = GetChecksum(data);
             if (chk != ReadUInt16LittleEndian(data[ChecksumOffset..]))

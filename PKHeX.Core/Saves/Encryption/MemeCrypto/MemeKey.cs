@@ -175,11 +175,11 @@ namespace PKHeX.Core
                 subkey[0xF] ^= 0x87;
         }
 
-        private static void Xor(ReadOnlySpan<byte> b1, ReadOnlySpan<byte> b2, Span<byte> x)
+        private static void Xor(ReadOnlySpan<byte> b1, ReadOnlySpan<byte> b2, Span<byte> result)
         {
             Debug.Assert(b1.Length == b2.Length);
             for (var i = 0; i < b1.Length; i++)
-                x[i] = (byte)(b1[i] ^ b2[i]);
+                result[i] = (byte)(b1[i] ^ b2[i]);
         }
 
         /// <summary>

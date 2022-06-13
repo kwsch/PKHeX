@@ -97,7 +97,7 @@ public static class MoveShopRecordApplicator
             shop.SetMasteredRecordFlag(index, true);
     }
 
-    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, Span<int> moves, Learnset mastery, int level)
+    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, Learnset mastery, int level)
     {
         var possible = shop.MoveShopPermitIndexes;
         var permit = shop.MoveShopPermitFlags;

@@ -84,7 +84,7 @@ namespace PKHeX.Core
             cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, Span<string> inStrings, int offset)
+        public static void AddCBWithOffset(List<ComboItem> cbList, ReadOnlySpan<string> inStrings, int offset)
         {
             int beginCount = cbList.Count;
             cbList.Capacity += inStrings.Length;

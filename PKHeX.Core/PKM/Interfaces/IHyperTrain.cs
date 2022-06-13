@@ -58,7 +58,7 @@ namespace PKHeX.Core
         /// <param name="pk"></param>
         /// <param name="h">History of evolutions present as</param>
         /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetSuggestedHyperTrainingData(this PKM pk, EvolutionHistory h, Span<int> IVs)
+        public static void SetSuggestedHyperTrainingData(this PKM pk, EvolutionHistory h, ReadOnlySpan<int> IVs)
         {
             if (pk is not IHyperTrain t)
                 return;
@@ -83,7 +83,7 @@ namespace PKHeX.Core
                 pb.ResetCP();
         }
 
-        /// <inheritdoc cref="SetSuggestedHyperTrainingData(PKM,EvolutionHistory,Span{int})"/>
+        /// <inheritdoc cref="SetSuggestedHyperTrainingData(PKM,EvolutionHistory,ReadOnlySpan{int})"/>
         public static void SetSuggestedHyperTrainingData(this PKM pk, int[]? IVs = null) => pk.SetSuggestedHyperTrainingData(EvolutionHistory.Empty, IVs ?? pk.IVs);
 
         /// <summary>

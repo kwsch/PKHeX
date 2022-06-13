@@ -86,7 +86,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="moves">Moves to apply.</param>
-        public static ModifyResult SetMoves(PKM pk, Span<int> moves)
+        public static ModifyResult SetMoves(PKM pk, ReadOnlySpan<int> moves)
         {
             pk.SetMoves(moves);
             pk.HealPP();

@@ -21,7 +21,7 @@ namespace PKHeX.Core
             SaveCount = ReadUInt32BigEndian(data[(Offset + 8)..]);
         }
 
-        protected override bool ChecksumValid(Span<byte> data)
+        protected override bool ChecksumValid(ReadOnlySpan<byte> data)
         {
             var chk = GetChecksum(data);
             var old = ReadUInt32BigEndian(data[Offset..]);
@@ -35,7 +35,7 @@ namespace PKHeX.Core
             WriteUInt32BigEndian(span, chk);
         }
 
-        private uint GetChecksum(Span<byte> data)
+        private uint GetChecksum(ReadOnlySpan<byte> data)
         {
             var span = data.Slice(Offset + 4, ChecksumRegionSize);
             return Checksums.CheckSum16BigInvert(span);

@@ -12,7 +12,7 @@ namespace PKHeX.Core
 
         public string Summary => $"{ID:00}: {Offset:X5}-{Offset + Length - 1:X5}, {Length:X5}";
 
-        protected abstract bool ChecksumValid(Span<byte> data);
+        protected abstract bool ChecksumValid(ReadOnlySpan<byte> data);
         protected abstract void SetChecksum(Span<byte> data);
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace PKHeX.Core
         /// <param name="blocks">Block info objects used for offset/length</param>
         /// <param name="data">Complete data array</param>
         /// <returns>True if checksums are valid, false if anything is invalid.</returns>
-        public static bool GetChecksumsValid(IEnumerable<BlockInfo> blocks, Span<byte> data)
+        public static bool GetChecksumsValid(IEnumerable<BlockInfo> blocks, ReadOnlySpan<byte> data)
         {
             foreach (var b in blocks)
             {

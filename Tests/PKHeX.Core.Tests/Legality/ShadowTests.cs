@@ -196,7 +196,7 @@ namespace PKHeX.Tests.Legality.Shadow
             VerifyResultsAntiShiny(Mawile, Encounters3Teams.Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
         }
 
-        private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, Span<int> ivs)
+        private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, ReadOnlySpan<int> ivs)
         {
             var pk3 = new PK3
             {

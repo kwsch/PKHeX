@@ -44,18 +44,18 @@ public sealed class MyItem8a : MyItem
             value[1].SetPouch(access.GetBlock(SaveBlockAccessor8LA.KItemKey).Data);
             value[2].SetPouch(access.GetBlock(SaveBlockAccessor8LA.KItemStored).Data);
             value[3].SetPouch(access.GetBlock(SaveBlockAccessor8LA.KItemRecipe).Data);
-            SaveFavorites(value, access);
+            SaveFavorites((InventoryPouch8a[])value, access);
         }
     }
 
-    private static void LoadFavorites(IEnumerable<InventoryPouch8a> pouches, SCBlockAccessor access)
+    private static void LoadFavorites(ReadOnlySpan<InventoryPouch8a> pouches, SCBlockAccessor access)
     {
         var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data.AsSpan();
         foreach (var arr in pouches)
             LoadFavorites(arr.Items, favorites);
     }
 
-    private static void SaveFavorites(IEnumerable<InventoryPouch> pouches, SCBlockAccessor access)
+    private static void SaveFavorites(ReadOnlySpan<InventoryPouch8a> pouches, SCBlockAccessor access)
     {
         var favorites = access.GetBlock(SaveBlockAccessor8LA.KItemFavorite).Data.AsSpan();
         favorites.Clear();
@@ -63,7 +63,7 @@ public sealed class MyItem8a : MyItem
             SaveFavorites(arr.Items, favorites);
     }
 
-    private static void LoadFavorites(IEnumerable<InventoryItem> items, Span<byte> favorites)
+    private static void LoadFavorites(ReadOnlySpan<InventoryItem> items, ReadOnlySpan<byte> favorites)
     {
         foreach (var z in items)
         {

@@ -189,7 +189,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal static T[] ConcatAll<T>(T[] arr1, T[] arr2, Span<T> arr3)
+        internal static T[] ConcatAll<T>(T[] arr1, T[] arr2, ReadOnlySpan<T> arr3)
         {
             int len = arr1.Length + arr2.Length + arr3.Length;
             var result = new T[len];

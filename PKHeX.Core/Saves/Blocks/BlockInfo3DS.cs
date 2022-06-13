@@ -32,9 +32,9 @@ namespace PKHeX.Core
         }
 
         private int ChecksumOffset => BlockInfoOffset + 0x14 + ((int)ID * 8) + 6;
-        protected abstract ushort GetChecksum(Span<byte> data);
+        protected abstract ushort GetChecksum(ReadOnlySpan<byte> data);
 
-        protected override bool ChecksumValid(Span<byte> data)
+        protected override bool ChecksumValid(ReadOnlySpan<byte> data)
         {
             ushort chk = GetChecksum(data);
             var old = ReadUInt16LittleEndian(data[ChecksumOffset..]);
@@ -51,18 +51,18 @@ namespace PKHeX.Core
     public sealed class BlockInfo6 : BlockInfo3DS
     {
         public BlockInfo6(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
+        protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
     }
 
     public sealed class BlockInfo7 : BlockInfo3DS
     {
         public BlockInfo7(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16Invert(data.Slice(Offset, Length));
+        protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16Invert(data.Slice(Offset, Length));
     }
 
     public sealed class BlockInfo7b : BlockInfo3DS
     {
         public BlockInfo7b(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(Span<byte> data) => Checksums.CRC16NoInvert(data.Slice(Offset, Length));
+        protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16NoInvert(data.Slice(Offset, Length));
     }
 }
