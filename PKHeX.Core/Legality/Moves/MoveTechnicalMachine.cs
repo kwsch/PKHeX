@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -245,7 +244,7 @@ namespace PKHeX.Core
                 case 7: AddMachine7(r, species, form, (pkm.LGPE || pkm.GO) ? (GameVersion)pkm.Version : ver); break;
                 case 8: AddMachine8(r, species, form, ver); break;
             }
-            return r.Distinct();
+            return r;
         }
 
         public static IEnumerable<int> GetRecords(PKM pkm, int species, int form, int generation)
@@ -255,7 +254,16 @@ namespace PKHeX.Core
             {
                 case 8: AddRecordSWSH(r, species, form, pkm); break;
             }
-            return r.Distinct();
+            return r;
+        }
+
+        private static void AddPermittedIndexes(List<int> moves, ReadOnlySpan<int> moveIDs, ReadOnlySpan<bool> permit)
+        {
+            for (int i = 0; i < moveIDs.Length; i++)
+            {
+                if (permit[i])
+                    moves.Add(moveIDs[i]);
+            }
         }
 
         private static void AddMachine1(List<int> r, int species)
@@ -265,8 +273,8 @@ namespace PKHeX.Core
                 return;
             var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
             var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
-            r.AddRange(Legal.TMHM_RBY.Where((_, m) => pi_rb.TMHM[m]));
-            r.AddRange(Legal.TMHM_RBY.Where((_, m) => pi_y.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_RBY, pi_rb.TMHM);
+            AddPermittedIndexes(r, Legal.TMHM_RBY, pi_y.TMHM);
         }
 
         private static void AddMachine2(List<int> r, int species)
@@ -275,7 +283,7 @@ namespace PKHeX.Core
             if (index == 0)
                 return;
             var pi_c = PersonalTable.C[index];
-            r.AddRange(Legal.TMHM_GSC.Where((_, m) => pi_c.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_GSC, pi_c.TMHM);
         }
 
         private static void AddMachine3(List<int> r, int species, int format, bool RemoveTransfer)
@@ -284,19 +292,17 @@ namespace PKHeX.Core
             if (index == 0)
                 return;
             var pi_c = PersonalTable.E[index];
-            r.AddRange(Legal.TM_3.Where((_, m) => pi_c.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TM_3, pi_c.TMHM);
 
             if (!RemoveTransfer || format == 3) // HM moves must be removed for 3->4, only give if current format.
-                r.AddRange(Legal.HM_3.Where((_, m) => pi_c.TMHM[m + 50]));
-            else if (format > 3) //Remove HM
-                r.AddRange(Legal.HM_3.Where((_, m) => pi_c.TMHM[m + 50]).Except(Legal.HM_3));
+                AddPermittedIndexes(r, Legal.HM_3, pi_c.TMHM.AsSpan(50));
         }
 
         private static void AddMachine4(List<int> r, int species, int format, bool RemoveTransfer, int form)
         {
             var pi_hgss = PersonalTable.HGSS.GetFormEntry(species, form);
             var pi_dppt = PersonalTable.Pt.GetFormEntry(species, form);
-            r.AddRange(Legal.TM_4.Where((_, m) => pi_hgss.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TM_4, pi_hgss.TMHM);
 
             if (RemoveTransfer && format > 4)
             {
@@ -309,15 +315,15 @@ namespace PKHeX.Core
             }
             else
             {
-                r.AddRange(Legal.HM_DPPt.Where((_, m) => pi_dppt.TMHM[m + 92]));
-                r.AddRange(Legal.HM_HGSS.Where((_, m) => pi_hgss.TMHM[m + 92]));
+                AddPermittedIndexes(r, Legal.HM_DPPt, pi_dppt.TMHM.AsSpan(92));
+                AddPermittedIndexes(r, Legal.HM_HGSS, pi_hgss.TMHM.AsSpan(92));
             }
         }
 
         private static void AddMachine5(List<int> r, int species, int form)
         {
             var pi = PersonalTable.B2W2.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_BW.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_BW, pi.TMHM);
         }
 
         private static void AddMachine6(List<int> r, int species, int form, GameVersion ver = GameVersion.Any)
@@ -373,13 +379,13 @@ namespace PKHeX.Core
         private static void AddMachine6XY(List<int> r, int species, int form)
         {
             var pi = PersonalTable.XY.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_XY.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_XY, pi.TMHM);
         }
 
         private static void AddMachine6AO(List<int> r, int species, int form)
         {
             var pi = PersonalTable.AO.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_AO.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_AO, pi.TMHM);
         }
 
         private static void AddMachineSM(List<int> r, int species, int form)
@@ -387,13 +393,13 @@ namespace PKHeX.Core
             if (species > Legal.MaxSpeciesID_7)
                 return;
             var pi = PersonalTable.SM.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_SM, pi.TMHM);
         }
 
         private static void AddMachineUSUM(List<int> r, int species, int form)
         {
             var pi = PersonalTable.USUM.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_SM, pi.TMHM);
         }
 
         private static void AddMachineGG(List<int> r, int species, int form)
@@ -401,7 +407,7 @@ namespace PKHeX.Core
             if (species > Legal.MaxSpeciesID_7b)
                 return;
             var pi = PersonalTable.GG.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_GG.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_GG, pi.TMHM);
         }
 
         private static void AddMachineSWSH(List<int> r, int species, int form)
@@ -410,12 +416,8 @@ namespace PKHeX.Core
                 return;
             var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
-            for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
-            {
-                if (!tmhm[i])
-                    continue;
-                r.Add(Legal.TMHM_SWSH[i]);
-            }
+            var arr = Legal.TMHM_SWSH.AsSpan(0, PersonalInfoSWSH.CountTM);
+            AddPermittedIndexes(r, arr, tmhm);
         }
 
         private static void AddMachineBDSP(List<int> r, int species, int form)
@@ -423,7 +425,7 @@ namespace PKHeX.Core
             if (species > Legal.MaxSpeciesID_8b)
                 return;
             var pi = PersonalTable.BDSP.GetFormEntry(species, form);
-            r.AddRange(Legal.TMHM_BDSP.Where((_, m) => pi.TMHM[m]));
+            AddPermittedIndexes(r, Legal.TMHM_BDSP, pi.TMHM);
         }
 
         public static void AddRecordSWSH(List<int> r, int species, int form, PKM pkm)
