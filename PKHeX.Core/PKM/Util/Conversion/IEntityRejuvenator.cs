@@ -1,14 +1,27 @@
 ﻿namespace PKHeX.Core;
 
+/// <summary>
+/// Interface that exposes a method to <see cref="Rejuvenate"/> data after converting.
+/// </summary>
 public interface IEntityRejuvenator
 {
-    public void Rejuvenate(PKM result, PKM original);
+    /// <summary>
+    /// After converting, the method will attempt to auto-fill missing properties.
+    /// </summary>
+    /// <param name="result">Output data after conversion</param>
+    /// <param name="original">Input data prior to conversion</param>
+    void Rejuvenate(PKM result, PKM original);
 }
 
+/// <summary>
+/// Uses <see cref="LegalityAnalysis"/> to auto-fill missing data after conversion.
+/// </summary>
 public class LegalityRejuvenator : IEntityRejuvenator
 {
     public void Rejuvenate(PKM result, PKM original)
     {
+        // HOME transfers from PB8/PA8 => PK8 will sanitize Ball & Met/Egg Location.
+        // Transferring back without a reference PB8/PA8, we need to guess the *original* values.
         if (original is not PK8 pk8)
             return;
 
@@ -86,9 +99,4 @@ public class LegalityRejuvenator : IEntityRejuvenator
                 result.SetRelearnMove(i, relearn[i]);
         }
     }
-}
-
-public sealed class EntityRejuvenatorDummy : IEntityRejuvenator
-{
-    public void Rejuvenate(PKM result, PKM original) { }
 }

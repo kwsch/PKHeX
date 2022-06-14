@@ -48,7 +48,7 @@
         /// </summary>
         /// <param name="level">Current Level</param>
         /// <param name="growth">Growth Rate type</param>
-        /// <returns>Percentage [0,1.00)</returns>
+        /// <returns>EXP to level up</returns>
         public static uint GetEXPToLevelUp(int level, int growth)
         {
             if (level >= 100)

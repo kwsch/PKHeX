@@ -15,6 +15,9 @@
         public static string GetName(PKM pk) => Namer.GetName(pk);
     }
 
+    /// <summary>
+    /// PKHeX's default <see cref="PKM"/> file naming logic.
+    /// </summary>
     public sealed class DefaultEntityNamer : IFileNamer<PKM>
     {
         public string GetName(PKM obj)
@@ -47,6 +50,10 @@
         }
     }
 
+    /// <summary>
+    /// Exposes a method to get a file name (no extension) for the type.
+    /// </summary>
+    /// <typeparam name="T">Type that the implementer can create a file name for.</typeparam>
     public interface IFileNamer<in T>
     {
         string GetName(T obj);

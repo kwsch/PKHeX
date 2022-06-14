@@ -5,7 +5,7 @@ using static PKHeX.Core.LegalityCheckStrings;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Verifies the transfer data for a <see cref="PKM"/> that has been irreversably transferred forward.
+    /// Verifies the transfer data for a <see cref="PKM"/> that has been irreversibly transferred forward.
     /// </summary>
     public sealed class TransferVerifier : Verifier
     {
