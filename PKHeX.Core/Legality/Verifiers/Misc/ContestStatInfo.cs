@@ -11,6 +11,7 @@ public static class ContestStatInfo
     private const int LowestFeelBlock3 = 1; // quad Nutpea
     private const int LowestFeelPoffin4 = 11; // Beauty Haircut
     private const int LowestFeelPoffin8b = 7;
+    private const int HighestFeelPoffin8b = 79;
 
     private const byte MaxContestStat = 255;
 
@@ -80,10 +81,10 @@ public static class ContestStatInfo
             return initial.CNT_Sheen;
 
 		if (avg <= 2)
-			return 24;
+			return 56;
 
         // Can get trash poffins by burning and spilling on purpose.
-        return Math.Min(MaxContestStat, avg * LowestFeelPoffin4);
+        return Math.Min(MaxContestStat, avg * HighestFeelPoffin8b);
     }
 
     public static int CalculateMinimumSheen(IContestStats s, IContestStats initial, INature pkm, ContestStatGrantingSheen method) => method switch
