@@ -125,65 +125,44 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG8(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm is PA8 pa8)
-            {
-                VerifyTransferLegalityG8a(data, pa8);
-                return;
-            }
-            if (pkm is PB8 pb8)
-            {
-                VerifyTransferLegalityG8b(data, pb8);
-                return;
-            }
-
-            // PK8
-            int species = pkm.Species;
-            if (!PersonalTable.SWSH.IsPresentInGame(species, pkm.Form)) // Can't transfer
-            {
-                data.AddLine(GetInvalid(LTransferBad));
-                return;
-            }
-
             var enc = data.EncounterMatch;
-            if (enc.Version == GameVersion.GO || enc is WC8 {IsHOMEGift: true})
-            {
+            bool native = enc.Generation == 8 && pkm.IsNative;
+            if (!native || IsHOMETrackerRequired(enc))
                 VerifyHOMETracker(data, pkm);
-            }
-            else if (pkm.Format >= 8 && !pkm.IsNative)
+
+            if (enc.Generation < 8)
             {
-                if (enc is EncounterStatic7 {IsTotem: true} s)
+                VerifyHOMETransfer(data, pkm);
+                // Check for impossible 7->8 transfers
+                if (enc is EncounterStatic7 { IsTotem: true } s)
                 {
-                    if (Legal.Totem_NoTransfer.Contains(s.Species))
+                    if (s.IsTotemNoTransfer)
                         data.AddLine(GetInvalid(LTransferBad));
-                    if (pkm.Form != FormInfo.GetTotemBaseForm(s.Species, s.Form))
+                    else if (pkm.Form != s.GetTotemBaseForm())
                         data.AddLine(GetInvalid(LTransferBad));
                 }
-
-                if (enc.Generation < 8)
-                    VerifyHOMETransfer(data, pkm);
-                VerifyHOMETracker(data, pkm);
             }
-        }
-        private void VerifyTransferLegalityG8a(LegalityAnalysis data, PA8 pk)
-        {
-            // Tracker value is set via Transfer across HOME.
-            if (!pk.IsNative)
-                VerifyHOMETracker(data, pk);
 
-            if (!PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
+            // Starting in Generation 8, games have a selective amount of species/forms from prior games.
+            var pt = pkm switch
+            {
+                PA8 => PersonalTable.LA,
+                PB8 => PersonalTable.BDSP,
+                _ => PersonalTable.SWSH,
+            };
+            if (!pt.IsPresentInGame(pkm.Species, pkm.Form))
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
-        // bdsp logic
-        private void VerifyTransferLegalityG8b(LegalityAnalysis data, PB8 pk)
+        // Encounters that originate in HOME -> transfer to save data
+        private static bool IsHOMETrackerRequired(IEncounterTemplate enc) => enc switch
         {
-            // Tracker value is set via Transfer across HOME.
-            if (!pk.IsNative)
-                VerifyHOMETracker(data, pk);
-
-            if (!PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form)) // Can't transfer
-                data.AddLine(GetInvalid(LTransferBad));
-        }
+            EncounterSlot8GO => true,
+            WC8 { IsHOMEGift: true } => true,
+            WB8 { IsHOMEGift: true } => true,
+            WA8 { IsHOMEGift: true } => true,
+            _ => enc.Generation < 8,
+        };
 
         private void VerifyHOMETransfer(LegalityAnalysis data, PKM pkm)
         {

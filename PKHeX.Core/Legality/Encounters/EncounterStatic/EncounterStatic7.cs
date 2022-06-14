@@ -13,6 +13,8 @@ namespace PKHeX.Core
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
+        public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains(Species);
+        public int GetTotemBaseForm() => FormInfo.GetTotemBaseForm(Species, Form);
 
         protected override bool IsMatchLocation(PKM pkm)
         {
