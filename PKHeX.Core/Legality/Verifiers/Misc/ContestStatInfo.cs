@@ -81,7 +81,7 @@ public static class ContestStatInfo
             return initial.CNT_Sheen;
 
 		if (avg <= 2)
-			return 56;
+			return 59;
 
         // Can get trash poffins by burning and spilling on purpose.
         return Math.Min(MaxContestStat, avg * HighestFeelPoffin8b);
