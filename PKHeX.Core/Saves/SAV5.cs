@@ -210,7 +210,7 @@ namespace PKHeX.Core
 
         public EntreeForest EntreeData
         {
-            get => new(GetData(EntreeForestOffset, 0x850));
+            get => new(GetData(EntreeForestOffset, EntreeForest.SIZE));
             set => SetData(value.Write(), EntreeForestOffset);
         }
 

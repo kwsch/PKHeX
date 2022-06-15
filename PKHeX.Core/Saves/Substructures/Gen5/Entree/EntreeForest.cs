@@ -25,22 +25,21 @@ namespace PKHeX.Core
         /// </summary>
         private const byte MaxUnlock38Areas = 6;
 
-        private const int EncryptionSeedOffset = 0x84C;
+        private const int EncryptionSeedOffset = SIZE - 4; // 0x84C
+        public const int SIZE = 0x850;
 
         private readonly byte[] Data;
 
-        public EntreeForest(byte[] data)
-        {
-            Data = data;
-            PokeCrypto.CryptArray(data.AsSpan(0, EncryptionSeedOffset), EncryptionSeed);
-        }
+        public EntreeForest(byte[] data) => CryptRegion(Data = data);
 
         public byte[] Write()
         {
             byte[] data = (byte[])Data.Clone();
-            PokeCrypto.CryptArray(data.AsSpan(0, EncryptionSeedOffset), EncryptionSeedOffset);
+            CryptRegion(data);
             return data;
         }
+
+        private void CryptRegion(Span<byte> data) => PokeCrypto.CryptArray(data[..EncryptionSeedOffset], EncryptionSeed);
 
         /// <summary>
         /// Gets all Entree Slot data.
