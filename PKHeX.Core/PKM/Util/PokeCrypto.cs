@@ -158,7 +158,7 @@ namespace PKHeX.Core
         /// Encrypts a Gen8 pkm byte array.
         /// </summary>
         /// <param name="pkm">Decrypted Pokémon data.</param>
-        public static byte[] EncryptArray8(Span<byte> pkm)
+        public static byte[] EncryptArray8(ReadOnlySpan<byte> pkm)
         {
             uint pv = ReadUInt32LittleEndian(pkm);
             uint sv = pv >> 13 & 31;
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         /// Encrypts a Gen8 pkm byte array.
         /// </summary>
         /// <param name="pkm">Decrypted Pokémon data.</param>
-        public static byte[] EncryptArray8A(Span<byte> pkm)
+        public static byte[] EncryptArray8A(ReadOnlySpan<byte> pkm)
         {
             uint pv = ReadUInt32LittleEndian(pkm);
             uint sv = pv >> 13 & 31;
@@ -201,7 +201,7 @@ namespace PKHeX.Core
         /// Encrypts a 232 byte + party stat byte array.
         /// </summary>
         /// <param name="pkm">Decrypted Pokémon data.</param>
-        public static byte[] EncryptArray6(Span<byte> pkm)
+        public static byte[] EncryptArray6(ReadOnlySpan<byte> pkm)
         {
             uint pv = ReadUInt32LittleEndian(pkm);
             uint sv = pv >> 13 & 31;
@@ -231,7 +231,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Decrypted Pokémon data.</param>
         /// <returns>Encrypted Pokémon data.</returns>
-        public static byte[] EncryptArray45(Span<byte> pkm)
+        public static byte[] EncryptArray45(ReadOnlySpan<byte> pkm)
         {
             uint pv = ReadUInt32LittleEndian(pkm);
             uint chk = ReadUInt16LittleEndian(pkm[6..]);
@@ -330,7 +330,7 @@ namespace PKHeX.Core
         /// <param name="data">Un-shuffled data.</param>
         /// <param name="sv">Block order shuffle value</param>
         /// <returns>Un-shuffled  data.</returns>
-        private static byte[] ShuffleArray3(Span<byte> data, uint sv)
+        private static byte[] ShuffleArray3(ReadOnlySpan<byte> data, uint sv)
         {
             byte[] sdata = data.ToArray();
             uint index = sv * 4;
@@ -350,7 +350,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Decrypted data.</param>
         /// <returns>Encrypted data.</returns>
-        public static byte[] EncryptArray3(Span<byte> pkm)
+        public static byte[] EncryptArray3(ReadOnlySpan<byte> pkm)
         {
             Debug.Assert(pkm.Length is SIZE_3PARTY or SIZE_3STORED);
 
