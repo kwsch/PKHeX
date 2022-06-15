@@ -48,11 +48,7 @@ public static class EntityFormat
     private static bool IsFormat67(ReadOnlySpan<byte> data)
     {
         if (ReadUInt16LittleEndian(data[0x04..]) != 0) // Bad Sanity?
-            return false; // non-zero ItemID
-        if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data, SIZE_6STORED))
-            return true;
-        if (ReadUInt16LittleEndian(data[0x58..]) != 0) // Not encrypted terminator
-            return false;
+            return false; // PGT with non-zero ItemID
 
         // PGT files have the last 0x10 bytes 00; PK6/etc will have data here.
         var tail = data[..^0x10];
@@ -61,6 +57,9 @@ public static class EntityFormat
             if (b != 0)
                 return true;
         }
+
+        if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data, SIZE_6STORED))
+            return true; // decrypted
         return false;
     }
 
