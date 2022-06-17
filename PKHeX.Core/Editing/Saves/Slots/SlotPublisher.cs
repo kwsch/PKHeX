@@ -1,50 +1,49 @@
 ﻿using System.Collections.Generic;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Pushes slot update notifications out to all subscribers.
+/// </summary>
+public sealed class SlotPublisher<T>
 {
     /// <summary>
-    /// Pushes slot update notifications out to all subscribers.
+    /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
     /// </summary>
-    public sealed class SlotPublisher<T>
+    public List<ISlotViewer<T>> Subscribers { get; } = new();
+
+    public ISlotInfo? Previous { get; private set; }
+    public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
+    public PKM? PreviousEntity { get; private set; }
+
+    /// <summary>
+    /// Notifies all <see cref="Subscribers"/> with the latest slot change details.
+    /// </summary>
+    /// <param name="slot">Last interacted slot</param>
+    /// <param name="type">Last interacted slot interaction type</param>
+    /// <param name="pk">Last interacted slot interaction data</param>
+    public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pk)
     {
-        /// <summary>
-        /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
-        /// </summary>
-        public List<ISlotViewer<T>> Subscribers { get; } = new();
+        foreach (var sub in Subscribers)
+            ResetView(sub, slot, type, pk);
+        Previous = slot;
+        PreviousType = type;
+        PreviousEntity = pk;
+    }
 
-        public ISlotInfo? Previous { get; private set; }
-        public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
-        public PKM? PreviousEntity { get; private set; }
+    private void ResetView(ISlotViewer<T> sub, ISlotInfo slot, SlotTouchType type, PKM pk)
+    {
+        if (Previous != null)
+            sub.NotifySlotOld(Previous);
 
-        /// <summary>
-        /// Notifies all <see cref="Subscribers"/> with the latest slot change details.
-        /// </summary>
-        /// <param name="slot">Last interacted slot</param>
-        /// <param name="type">Last interacted slot interaction type</param>
-        /// <param name="pkm">Last interacted slot interaction data</param>
-        public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
-        {
-            foreach (var sub in Subscribers)
-                ResetView(sub, slot, type, pkm);
-            Previous = slot;
-            PreviousType = type;
-            PreviousEntity = pkm;
-        }
+        if (slot is not SlotInfoBox b || sub.ViewIndex == b.Box)
+            sub.NotifySlotChanged(slot, type, pk);
+    }
 
-        private void ResetView(ISlotViewer<T> sub, ISlotInfo slot, SlotTouchType type, PKM pkm)
-        {
-            if (Previous != null)
-                sub.NotifySlotOld(Previous);
-
-            if (slot is not SlotInfoBox b || sub.ViewIndex == b.Box)
-                sub.NotifySlotChanged(slot, type, pkm);
-        }
-
-        public void ResetView(ISlotViewer<T> sub)
-        {
-            if (Previous == null || PreviousEntity == null)
-                return;
-            ResetView(sub, Previous, PreviousType, PreviousEntity);
-        }
+    public void ResetView(ISlotViewer<T> sub)
+    {
+        if (Previous == null || PreviousEntity == null)
+            return;
+        ResetView(sub, Previous, PreviousType, PreviousEntity);
     }
 }

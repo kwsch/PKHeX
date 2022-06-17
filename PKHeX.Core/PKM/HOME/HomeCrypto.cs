@@ -99,9 +99,9 @@ public static class HomeCrypto
         }
     }
 
-    public static byte[] Encrypt(ReadOnlySpan<byte> pkm)
+    public static byte[] Encrypt(ReadOnlySpan<byte> pk)
     {
-        var result = Crypt1(pkm, false);
+        var result = Crypt1(pk, false);
         RefreshChecksum(result, result);
         return result;
     }

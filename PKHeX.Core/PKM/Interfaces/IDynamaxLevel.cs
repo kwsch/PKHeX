@@ -1,35 +1,34 @@
 ﻿using static PKHeX.Core.Species;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Dynamax Level used by <see cref="GameVersion.SWSH"/> format entity data.
+/// </summary>
+public interface IDynamaxLevel
+{
+    byte DynamaxLevel { get; set; }
+}
+
+public static class DynamaxLevelExtensions
 {
     /// <summary>
-    /// Dynamax Level used by <see cref="GameVersion.SWSH"/> format entity data.
+    /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
     /// </summary>
-    public interface IDynamaxLevel
+    public static bool CanHaveDynamaxLevel(this IDynamaxLevel _, PKM pk)
     {
-        byte DynamaxLevel { get; set; }
+        if (pk.IsEgg)
+            return false;
+        return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
     }
 
-    public static class DynamaxLevelExtensions
+    public static byte GetSuggestedDynamaxLevel(this IDynamaxLevel _, PKM pk) => _.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
+
+    /// <summary>
+    /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevel.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.
+    /// </summary>
+    private static bool CanHaveDynamaxLevel(int species)
     {
-        /// <summary>
-        /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
-        /// </summary>
-        public static bool CanHaveDynamaxLevel(this IDynamaxLevel _, PKM pk)
-        {
-            if (pk.IsEgg)
-                return false;
-            return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
-        }
-
-        public static byte GetSuggestedDynamaxLevel(this IDynamaxLevel _, PKM pk) => _.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
-
-        /// <summary>
-        /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevel.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.
-        /// </summary>
-        private static bool CanHaveDynamaxLevel(int species)
-        {
-            return species is not ((int)Zacian or (int)Zamazenta or (int)Eternatus);
-        }
+        return species is not ((int)Zacian or (int)Zamazenta or (int)Eternatus);
     }
 }

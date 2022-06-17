@@ -21,7 +21,7 @@ public static class MoveInfo
         return table[move];
     }
 
-    public static ReadOnlySpan<byte> GetPPTable(PKM pkm) => GetPPTable(pkm.Context);
+    public static ReadOnlySpan<byte> GetPPTable(PKM pk) => GetPPTable(pk.Context);
 
     public static ReadOnlySpan<byte> GetPPTable(EntityContext context) => context switch
     {

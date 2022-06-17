@@ -1,9 +1,8 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls;
+
+public enum DropModifier
 {
-    public enum DropModifier
-    {
-        None,
-        Overwrite,
-        Clone,
-    }
+    None,
+    Overwrite,
+    Clone,
 }

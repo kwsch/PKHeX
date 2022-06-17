@@ -7,15 +7,15 @@ namespace PKHeX.WinForms;
 
 public partial class MoveShopEditor : Form
 {
-    private readonly IMoveShop8 Entity;
+    private readonly IMoveShop8 Shop;
     private readonly IMoveShop8Mastery Master;
-    private readonly PKM pkm;
+    private readonly PKM Entity;
 
     public MoveShopEditor(IMoveShop8 s, IMoveShop8Mastery m, PKM pk)
     {
-        Entity = s;
+        Shop = s;
         Master = m;
-        pkm = pk;
+        Entity = pk;
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
@@ -102,7 +102,7 @@ public partial class MoveShopEditor : Form
     private void PopulateRecords()
     {
         var names = GameInfo.Strings.Move;
-        var indexes = Entity.MoveShopPermitIndexes;
+        var indexes = Shop.MoveShopPermitIndexes;
         dgv.Rows.Add(indexes.Length);
         for (int i = 0; i < indexes.Length; i++)
         {
@@ -128,7 +128,7 @@ public partial class MoveShopEditor : Form
             var index = int.Parse((string)row.Cells[0].Value) - Bias;
             var purchased = row.Cells[2];
             var mastered = row.Cells[3];
-            purchased.Value = Entity.GetPurchasedRecordFlag(index);
+            purchased.Value = Shop.GetPurchasedRecordFlag(index);
             mastered.Value = Master.GetMasteredRecordFlag(index);
         }
     }
@@ -141,7 +141,7 @@ public partial class MoveShopEditor : Form
             var index = int.Parse((string)row.Cells[0].Value) - Bias;
             var purchased = row.Cells[2];
             var mastered = row.Cells[3];
-            Entity.SetPurchasedRecordFlag(index, (bool)purchased.Value);
+            Shop.SetPurchasedRecordFlag(index, (bool)purchased.Value);
             Master.SetMasteredRecordFlag(index, (bool)mastered.Value);
         }
     }
@@ -152,14 +152,14 @@ public partial class MoveShopEditor : Form
         switch (ModifierKeys)
         {
             case Keys.Shift:
-                Master.SetMoveShopFlagsAll(pkm);
+                Master.SetMoveShopFlagsAll(Entity);
                 break;
             case Keys.Control:
-                Entity.ClearMoveShopFlags();
-                Master.SetMoveShopFlags(pkm);
+                Shop.ClearMoveShopFlags();
+                Master.SetMoveShopFlags(Entity);
                 break;
             default:
-                Master.SetMoveShopFlags(pkm);
+                Master.SetMoveShopFlags(Entity);
                 break;
         }
         Close();
@@ -168,7 +168,7 @@ public partial class MoveShopEditor : Form
     private void B_None_Click(object sender, EventArgs e)
     {
         Save();
-        Entity.ClearMoveShopFlags();
+        Shop.ClearMoveShopFlags();
         LoadRecords();
         Close();
     }

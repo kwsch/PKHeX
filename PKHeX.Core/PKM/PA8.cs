@@ -82,7 +82,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int OTLength => 12;
     public override int NickLength => 12;
 
-    public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
+    public override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
     public override int TSV => (TID ^ SID) >> 4;
     public override bool IsUntraded => Data[0xB8] == 0 && Data[0xB8 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
@@ -180,7 +180,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public byte CNT_Sheen { get => Data[0x31]; set => Data[0x31] = value; }
     private byte PKRS { get => Data[0x32]; set => Data[0x32] = value; }
     public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
-    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
+    public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
     // 0x33 unused padding
 
     // ribbon u32
@@ -490,7 +490,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         return FlagUtil.GetFlag(Data, 0x13F + ofs, index & 7);
     }
 
-    public void SetMoveRecordFlag(int index, bool value)
+    public void SetMoveRecordFlag(int index, bool value = true)
     {
         if ((uint)index > 112) // 14 bytes, 8 bits
             throw new ArgumentOutOfRangeException(nameof(index));

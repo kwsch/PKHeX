@@ -1,26 +1,25 @@
 ﻿using System;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <inheritdoc cref="IComplexFilter"/>
+public sealed class ComplexFilter : IComplexFilter
 {
-    /// <inheritdoc cref="IComplexFilter"/>
-    public sealed class ComplexFilter : IComplexFilter
+    private readonly string Property;
+    private readonly Func<PKM, StringInstruction, bool> FilterPKM;
+    private readonly Func<BatchInfo, StringInstruction, bool> FilterBulk;
+
+    public ComplexFilter(
+        string property,
+        Func<PKM, StringInstruction, bool> filterPkm,
+        Func<BatchInfo, StringInstruction, bool> filterBulk)
     {
-        private readonly string Property;
-        private readonly Func<PKM, StringInstruction, bool> FilterPKM;
-        private readonly Func<BatchInfo, StringInstruction, bool> FilterBulk;
-
-        public ComplexFilter(
-            string property,
-            Func<PKM, StringInstruction, bool> filterPkm,
-            Func<BatchInfo, StringInstruction, bool> filterBulk)
-        {
-            Property = property;
-            FilterPKM = filterPkm;
-            FilterBulk = filterBulk;
-        }
-
-        public bool IsMatch(string prop) => prop == Property;
-        public bool IsFiltered(PKM pkm, StringInstruction cmd) => FilterPKM(pkm, cmd);
-        public bool IsFiltered(BatchInfo info, StringInstruction cmd) => FilterBulk(info, cmd);
+        Property = property;
+        FilterPKM = filterPkm;
+        FilterBulk = filterBulk;
     }
+
+    public bool IsMatch(string prop) => prop == Property;
+    public bool IsFiltered(PKM pk, StringInstruction value) => FilterPKM(pk, value);
+    public bool IsFiltered(BatchInfo info, StringInstruction value) => FilterBulk(info, value);
 }

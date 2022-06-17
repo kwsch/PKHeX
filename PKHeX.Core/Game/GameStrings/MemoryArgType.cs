@@ -1,12 +1,11 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum MemoryArgType : byte
 {
-    public enum MemoryArgType : byte
-    {
-        None,
-        GeneralLocation,
-        SpecificLocation,
-        Species,
-        Move,
-        Item,
-    }
+    None,
+    GeneralLocation,
+    SpecificLocation,
+    Species,
+    Move,
+    Item,
 }

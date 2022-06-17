@@ -24,7 +24,7 @@ public static class QRDecode
         string data;
         try
         {
-            var str = NetUtil.GetStringFromURL(url);
+            var str = NetUtil.GetStringFromURL(new Uri(url));
             if (str is null)
                 return QRDecodeResult.BadConnection;
 

@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 // warning: international only
-public sealed class Mail2 : Mail
+public sealed class Mail2 : MailDetail
 {
     private readonly bool US;
     private bool Japanese => !US;

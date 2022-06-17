@@ -1,258 +1,257 @@
 ﻿using System;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the Friendship, Affection, and other miscellaneous stats that can be present for OT/HT data.
+/// </summary>
+public sealed class HistoryVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the Friendship, Affection, and other miscellaneous stats that can be present for OT/HT data.
-    /// </summary>
-    public sealed class HistoryVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
+        bool neverOT = !GetCanOTHandle(data.Info.EncounterMatch, data.Entity, data.Info.Generation);
+        VerifyHandlerState(data, neverOT);
+        VerifyTradeState(data);
+        VerifyOTMisc(data, neverOT);
+        VerifyHTMisc(data);
+    }
 
-        public override void Verify(LegalityAnalysis data)
+    private void VerifyTradeState(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+
+        if (data.Entity is IGeoTrack t)
+            VerifyGeoLocationData(data, t, data.Entity);
+
+        if (pk.VC && pk is PK7 {Geo1_Country: 0}) // VC transfers set Geo1 Country
+            data.AddLine(GetInvalid(LegalityCheckStrings.LGeoMemoryMissing));
+
+        if (!pk.IsUntraded)
         {
-            bool neverOT = !GetCanOTHandle(data.Info.EncounterMatch, data.pkm, data.Info.Generation);
-            VerifyHandlerState(data, neverOT);
-            VerifyTradeState(data);
-            VerifyOTMisc(data, neverOT);
-            VerifyHTMisc(data);
+            // Can't have HT details even as a Link Trade egg, except in some games.
+            if (pk.IsEgg && !EggStateLegality.IsValidHTEgg(pk))
+                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryArgBadHT));
+            return;
         }
 
-        private void VerifyTradeState(LegalityAnalysis data)
+        if (pk.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
+        else if (pk.HT_Friendship != 0)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipHT0));
+        else if (pk is IAffection {HT_Affection: not 0})
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionHT0));
+
+        // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
+    }
+
+    /// <summary>
+    /// Checks if the <see cref="PKM.CurrentHandler"/> state is set correctly.
+    /// </summary>
+    private void VerifyHandlerState(LegalityAnalysis data, bool neverOT)
+    {
+        var pk = data.Entity;
+        var Info = data.Info;
+
+        // HT Flag
+        if (ParseSettings.CheckActiveHandler)
         {
-            var pkm = data.pkm;
-
-            if (data.pkm is IGeoTrack t)
-                VerifyGeoLocationData(data, t, data.pkm);
-
-            if (pkm.VC && pkm is PK7 {Geo1_Country: 0}) // VC transfers set Geo1 Country
-                data.AddLine(GetInvalid(LegalityCheckStrings.LGeoMemoryMissing));
-
-            if (!pkm.IsUntraded)
+            var tr = ParseSettings.ActiveTrainer;
+            var withOT = tr.IsFromTrainer(pk);
+            var flag = pk.CurrentHandler;
+            var expect = withOT ? 0 : 1;
+            if (flag != expect)
             {
-                // Can't have HT details even as a Link Trade egg, except in some games.
-                if (pkm.IsEgg && !EggStateLegality.IsValidHTEgg(pkm))
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryArgBadHT));
+                data.AddLine(GetInvalid(LegalityCheckStrings.LTransferCurrentHandlerInvalid));
                 return;
             }
 
-            if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
-            else if (pkm.HT_Friendship != 0)
-                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipHT0));
-            else if (pkm is IAffection {HT_Affection: not 0})
-                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionHT0));
-
-            // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
-        }
-
-        /// <summary>
-        /// Checks if the <see cref="PKM.CurrentHandler"/> state is set correctly.
-        /// </summary>
-        private void VerifyHandlerState(LegalityAnalysis data, bool neverOT)
-        {
-            var pkm = data.pkm;
-            var Info = data.Info;
-
-            // HT Flag
-            if (ParseSettings.CheckActiveHandler)
+            if (flag == 1)
             {
-                var tr = ParseSettings.ActiveTrainer;
-                var withOT = tr.IsFromTrainer(pkm);
-                var flag = pkm.CurrentHandler;
-                var expect = withOT ? 0 : 1;
-                if (flag != expect)
-                {
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LTransferCurrentHandlerInvalid));
-                    return;
-                }
-
-                if (flag == 1)
-                {
-                    if (pkm.HT_Name != tr.OT)
-                        data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchName));
-                    if (pkm is IHandlerLanguage h && h.HT_Language != tr.Language)
-                        data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchLanguage));
-                }
-            }
-
-            if ((Info.Generation != pkm.Format || neverOT) && pkm.CurrentHandler != 1)
-                data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTFlagRequired));
-        }
-
-        /// <summary>
-        /// Checks the non-Memory data for the <see cref="PKM.OT_Name"/> details.
-        /// </summary>
-        private void VerifyOTMisc(LegalityAnalysis data, bool neverOT)
-        {
-            var pkm = data.pkm;
-            var Info = data.Info;
-
-            VerifyOTAffection(data, neverOT, Info.Generation, pkm);
-            VerifyOTFriendship(data, neverOT, Info.Generation, pkm);
-        }
-
-        private void VerifyOTFriendship(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
-        {
-            if (origin < 0)
-                return;
-
-            if (origin <= 2)
-            {
-                VerifyOTFriendshipVC12(data, pkm);
-                return;
-            }
-
-            if (neverOT)
-            {
-                // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
-                // If none match, then it is not a valid OT friendship.
-                var fs = pkm.OT_Friendship;
-                var enc = data.Info.EncounterMatch;
-                if (GetBaseFriendship(enc, origin) != fs)
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
+                if (pk.HT_Name != tr.OT)
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchName));
+                if (pk is IHandlerLanguage h && h.HT_Language != tr.Language)
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchLanguage));
             }
         }
 
-        private void VerifyOTFriendshipVC12(LegalityAnalysis data, PKM pkm)
+        if ((Info.Generation != pk.Format || neverOT) && pk.CurrentHandler != 1)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTFlagRequired));
+    }
+
+    /// <summary>
+    /// Checks the non-Memory data for the <see cref="PKM.OT_Name"/> details.
+    /// </summary>
+    private void VerifyOTMisc(LegalityAnalysis data, bool neverOT)
+    {
+        var pk = data.Entity;
+        var Info = data.Info;
+
+        VerifyOTAffection(data, neverOT, Info.Generation, pk);
+        VerifyOTFriendship(data, neverOT, Info.Generation, pk);
+    }
+
+    private void VerifyOTFriendship(LegalityAnalysis data, bool neverOT, int origin, PKM pk)
+    {
+        if (origin < 0)
+            return;
+
+        if (origin <= 2)
+        {
+            VerifyOTFriendshipVC12(data, pk);
+            return;
+        }
+
+        if (neverOT)
         {
             // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
-            // Since some evolutions have different base friendship values, check all possible evolutions for a match.
             // If none match, then it is not a valid OT friendship.
-            // VC transfers use SM personal info
-            var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, PersonalTable.USUM, pkm.OT_Friendship);
-            if (!any)
+            var fs = pk.OT_Friendship;
+            var enc = data.Info.EncounterMatch;
+            if (GetBaseFriendship(enc, origin) != fs)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
         }
+    }
 
-        private static bool IsMatchFriendship(EvoCriteria[] evos, PersonalTable pt, int fs)
+    private void VerifyOTFriendshipVC12(LegalityAnalysis data, PKM pk)
+    {
+        // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
+        // Since some evolutions have different base friendship values, check all possible evolutions for a match.
+        // If none match, then it is not a valid OT friendship.
+        // VC transfers use SM personal info
+        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, PersonalTable.USUM, pk.OT_Friendship);
+        if (!any)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
+    }
+
+    private static bool IsMatchFriendship(EvoCriteria[] evos, PersonalTable pt, int fs)
+    {
+        foreach (var z in evos)
         {
-            foreach (var z in evos)
-            {
-                if (!pt.IsPresentInGame(z.Species, z.Form))
-                    continue;
-                var entry = pt.GetFormEntry(z.Species, z.Form);
-                if (entry.BaseFriendship == fs)
-                    return true;
-            }
-            return false;
+            if (!pt.IsPresentInGame(z.Species, z.Form))
+                continue;
+            var entry = pt.GetFormEntry(z.Species, z.Form);
+            if (entry.BaseFriendship == fs)
+                return true;
         }
+        return false;
+    }
 
-        private void VerifyOTAffection(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
+    private void VerifyOTAffection(LegalityAnalysis data, bool neverOT, int origin, PKM pk)
+    {
+        if (pk is not IAffection a)
+            return;
+
+        if (origin < 6)
         {
-            if (pkm is not IAffection a)
-                return;
-
-            if (origin < 6)
+            // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
+            // VC encounters cannot obtain OT affection since they can't visit Gen6.
+            if ((origin <= 2 && a.OT_Affection != 0) || IsInvalidContestAffection(a))
+                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
+        }
+        else if (neverOT)
+        {
+            if (origin == 6)
             {
-                // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
-                // VC encounters cannot obtain OT affection since they can't visit Gen6.
-                if ((origin <= 2 && a.OT_Affection != 0) || IsInvalidContestAffection(a))
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
-            }
-            else if (neverOT)
-            {
-                if (origin == 6)
-                {
-                    if (pkm.IsUntraded && pkm.XY)
-                    {
-                        if (a.OT_Affection != 0)
-                            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
-                    }
-                    else if (IsInvalidContestAffection(a))
-                    {
-                        data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
-                    }
-                }
-                else
+                if (pk.IsUntraded && pk.XY)
                 {
                     if (a.OT_Affection != 0)
                         data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                 }
+                else if (IsInvalidContestAffection(a))
+                {
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
+                }
+            }
+            else
+            {
+                if (a.OT_Affection != 0)
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
             }
         }
+    }
 
-        /// <summary>
-        /// Checks the non-Memory data for the <see cref="PKM.HT_Name"/> details.
-        /// </summary>
-        private void VerifyHTMisc(LegalityAnalysis data)
+    /// <summary>
+    /// Checks the non-Memory data for the <see cref="PKM.HT_Name"/> details.
+    /// </summary>
+    private void VerifyHTMisc(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        var htGender = pk.HT_Gender;
+        if (htGender > 1 || (pk.IsUntraded && htGender != 0))
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LMemoryHTGender, htGender)));
+
+        if (pk is IHandlerLanguage h)
+            VerifyHTLanguage(data, h, pk);
+    }
+
+    private void VerifyHTLanguage(LegalityAnalysis data, IHandlerLanguage h, PKM pk)
+    {
+        if (h.HT_Language == 0)
         {
-            var pkm = data.pkm;
-            var htGender = pkm.HT_Gender;
-            if (htGender > 1 || (pkm.IsUntraded && htGender != 0))
-                data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LMemoryHTGender, htGender)));
-
-            if (pkm is IHandlerLanguage h)
-                VerifyHTLanguage(data, h, pkm);
-        }
-
-        private void VerifyHTLanguage(LegalityAnalysis data, IHandlerLanguage h, PKM pkm)
-        {
-            if (h.HT_Language == 0)
-            {
-                if (!string.IsNullOrWhiteSpace(pkm.HT_Name))
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTLanguage));
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(pkm.HT_Name))
+            if (!string.IsNullOrWhiteSpace(pk.HT_Name))
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTLanguage));
-            else if (h.HT_Language > (int)LanguageID.ChineseT)
-                data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTLanguage));
+            return;
         }
 
-        private void VerifyGeoLocationData(LegalityAnalysis data, IGeoTrack t, PKM pkm)
+        if (string.IsNullOrWhiteSpace(pk.HT_Name))
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTLanguage));
+        else if (h.HT_Language > (int)LanguageID.ChineseT)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTLanguage));
+    }
+
+    private void VerifyGeoLocationData(LegalityAnalysis data, IGeoTrack t, PKM pk)
+    {
+        var valid = t.GetValidity();
+        if (valid == GeoValid.CountryAfterPreviousEmpty)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LGeoBadOrder));
+        else if (valid == GeoValid.RegionWithoutCountry)
+            data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoRegion));
+        if (t.Geo1_Country != 0 && pk.IsUntraded) // traded
+            data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoCountryHT));
+    }
+
+    // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
+    private static bool IsInvalidContestAffection(IAffection pk) => pk.OT_Affection != 255 && pk.OT_Affection % 20 != 0;
+
+    public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk, int generation)
+    {
+        // Handlers introduced in Generation 6. OT Handling was always the case for Generation 3-5 data.
+        if (generation < 6)
+            return generation >= 3;
+
+        return enc switch
         {
-            var valid = t.GetValidity();
-            if (valid == GeoValid.CountryAfterPreviousEmpty)
-                data.AddLine(GetInvalid(LegalityCheckStrings.LGeoBadOrder));
-            else if (valid == GeoValid.RegionWithoutCountry)
-                data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoRegion));
-            if (t.Geo1_Country != 0 && pkm.IsUntraded) // traded
-                data.AddLine(GetInvalid(LegalityCheckStrings.LGeoNoCountryHT));
-        }
-
-        // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
-        private static bool IsInvalidContestAffection(IAffection pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
-
-        public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pkm, int generation)
-        {
-            // Handlers introduced in Generation 6. OT Handling was always the case for Generation 3-5 data.
-            if (generation < 6)
-                return generation >= 3;
-
-            return enc switch
-            {
-                EncounterTrade => false,
-                EncounterSlot8GO => false,
-                WC6 wc6 when wc6.OT_Name.Length > 0 => false,
-                WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
-                WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
-                WB8 wb8 when wb8.GetHasOT(pkm.Language) => false,
-                WA8 wa8 when wa8.GetHasOT(pkm.Language) => false,
-                WC8 {IsHOMEGift: true} => false,
-                _ => true,
-            };
-        }
-
-        private static int GetBaseFriendship(IEncounterTemplate enc, int generation) => enc switch
-        {
-            IFixedOTFriendship f => f.OT_Friendship,
-
-            { Version: GameVersion.BDSP or GameVersion.BD or GameVersion.SP }
-                => PersonalTable.BDSP.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
-            { Version: GameVersion.PLA }
-                => PersonalTable.LA  .GetFormEntry(enc.Species, enc.Form).BaseFriendship,
-
-            _ => GetBaseFriendship(generation, enc.Species, enc.Form),
-        };
-
-        private static int GetBaseFriendship(int generation, int species, int form) => generation switch
-        {
-            6 => PersonalTable.AO[species].BaseFriendship,
-            7 => PersonalTable.USUM[species].BaseFriendship,
-            8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
-            _ => throw new ArgumentOutOfRangeException(nameof(generation)),
+            EncounterTrade => false,
+            EncounterSlot8GO => false,
+            WC6 wc6 when wc6.OT_Name.Length > 0 => false,
+            WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
+            WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
+            WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
+            WA8 wa8 when wa8.GetHasOT(pk.Language) => false,
+            WC8 {IsHOMEGift: true} => false,
+            _ => true,
         };
     }
+
+    private static int GetBaseFriendship(IEncounterTemplate enc, int generation) => enc switch
+    {
+        IFixedOTFriendship f => f.OT_Friendship,
+
+        { Version: GameVersion.BDSP or GameVersion.BD or GameVersion.SP }
+            => PersonalTable.BDSP.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
+        { Version: GameVersion.PLA }
+            => PersonalTable.LA  .GetFormEntry(enc.Species, enc.Form).BaseFriendship,
+
+        _ => GetBaseFriendship(generation, enc.Species, enc.Form),
+    };
+
+    private static int GetBaseFriendship(int generation, int species, int form) => generation switch
+    {
+        6 => PersonalTable.AO[species].BaseFriendship,
+        7 => PersonalTable.USUM[species].BaseFriendship,
+        8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
+        _ => throw new ArgumentOutOfRangeException(nameof(generation)),
+    };
 }

@@ -1,13 +1,12 @@
-namespace PKHeX.Core.Searching
+namespace PKHeX.Core.Searching;
+
+/// <summary>
+/// Search comparison operands
+/// </summary>
+public enum SearchComparison
 {
-    /// <summary>
-    /// Search comparison operands
-    /// </summary>
-    public enum SearchComparison
-    {
-        None,
-        Equals,
-        GreaterThanEquals,
-        LessThanEquals,
-    }
+    None,
+    Equals,
+    GreaterThanEquals,
+    LessThanEquals,
 }

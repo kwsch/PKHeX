@@ -1,99 +1,98 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+/// <summary> Common Ribbons introduced in Generation 4 </summary>
+public interface IRibbonSetCommon4
 {
-    /// <summary> Common Ribbons introduced in Generation 4 </summary>
-    public interface IRibbonSetCommon4
+    bool RibbonChampionSinnoh { get; set; }
+    bool RibbonAlert { get; set; }
+    bool RibbonShock { get; set; }
+    bool RibbonDowncast { get; set; }
+    bool RibbonCareless { get; set; }
+    bool RibbonRelax { get; set; }
+    bool RibbonSnooze { get; set; }
+    bool RibbonSmile { get; set; }
+    bool RibbonGorgeous { get; set; }
+    bool RibbonRoyal { get; set; }
+    bool RibbonGorgeousRoyal { get; set; }
+    bool RibbonFootprint { get; set; }
+    bool RibbonRecord { get; set; }
+    bool RibbonLegend { get; set; }
+}
+
+internal static partial class RibbonExtensions
+{
+    private static readonly string[] RibbonSetNamesCommon4 =
     {
-        bool RibbonChampionSinnoh { get; set; }
-        bool RibbonAlert { get; set; }
-        bool RibbonShock { get; set; }
-        bool RibbonDowncast { get; set; }
-        bool RibbonCareless { get; set; }
-        bool RibbonRelax { get; set; }
-        bool RibbonSnooze { get; set; }
-        bool RibbonSmile { get; set; }
-        bool RibbonGorgeous { get; set; }
-        bool RibbonRoyal { get; set; }
-        bool RibbonGorgeousRoyal { get; set; }
-        bool RibbonFootprint { get; set; }
-        bool RibbonRecord { get; set; }
-        bool RibbonLegend { get; set; }
+        nameof(IRibbonSetCommon4.RibbonGorgeous), nameof(IRibbonSetCommon4.RibbonRoyal), nameof(IRibbonSetCommon4.RibbonGorgeousRoyal),
+    };
+
+    internal static bool[] RibbonBitsCosmetic(this IRibbonSetCommon4 set)
+    {
+        return new[]
+        {
+            set.RibbonGorgeous,
+            set.RibbonRoyal,
+            set.RibbonGorgeousRoyal,
+        };
     }
 
-    internal static partial class RibbonExtensions
+    internal static string[] RibbonNamesCosmetic(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4;
+
+    private static readonly string[] RibbonSetNamesCommon4Only =
     {
-        private static readonly string[] RibbonSetNamesCommon4 =
+        nameof(IRibbonSetCommon4.RibbonRecord), nameof(IRibbonSetCommon4.RibbonChampionSinnoh), nameof(IRibbonSetCommon4.RibbonLegend),
+    };
+
+    internal static bool[] RibbonBitsOnly(this IRibbonSetCommon4 set)
+    {
+        return new[]
         {
-            nameof(IRibbonSetCommon4.RibbonGorgeous), nameof(IRibbonSetCommon4.RibbonRoyal), nameof(IRibbonSetCommon4.RibbonGorgeousRoyal),
+            set.RibbonRecord,
+            set.RibbonChampionSinnoh,
+            set.RibbonLegend,
         };
+    }
 
-        internal static bool[] RibbonBitsCosmetic(this IRibbonSetCommon4 set)
+    internal static string[] RibbonNamesOnly(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Only;
+
+    private static readonly string[] RibbonSetNamesCommon4Daily =
+    {
+        nameof(IRibbonSetCommon4.RibbonAlert), nameof(IRibbonSetCommon4.RibbonShock),
+        nameof(IRibbonSetCommon4.RibbonDowncast), nameof(IRibbonSetCommon4.RibbonCareless), nameof(IRibbonSetCommon4.RibbonRelax),
+        nameof(IRibbonSetCommon4.RibbonSnooze), nameof(IRibbonSetCommon4.RibbonSmile),
+    };
+
+    internal static bool[] RibbonBitsDaily(this IRibbonSetCommon4 set)
+    {
+        return new[]
         {
-            return new[]
-            {
-                set.RibbonGorgeous,
-                set.RibbonRoyal,
-                set.RibbonGorgeousRoyal,
-            };
-        }
-
-        internal static string[] RibbonNamesCosmetic(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4;
-
-        private static readonly string[] RibbonSetNamesCommon4Only =
-        {
-            nameof(IRibbonSetCommon4.RibbonRecord), nameof(IRibbonSetCommon4.RibbonChampionSinnoh), nameof(IRibbonSetCommon4.RibbonLegend),
+            set.RibbonAlert,
+            set.RibbonShock,
+            set.RibbonDowncast,
+            set.RibbonCareless,
+            set.RibbonRelax,
+            set.RibbonSnooze,
+            set.RibbonSmile,
         };
+    }
 
-        internal static bool[] RibbonBitsOnly(this IRibbonSetCommon4 set)
-        {
-            return new[]
-            {
-                set.RibbonRecord,
-                set.RibbonChampionSinnoh,
-                set.RibbonLegend,
-            };
-        }
+    internal static string[] RibbonNamesDaily(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Daily;
 
-        internal static string[] RibbonNamesOnly(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Only;
-
-        private static readonly string[] RibbonSetNamesCommon4Daily =
-        {
-            nameof(IRibbonSetCommon4.RibbonAlert), nameof(IRibbonSetCommon4.RibbonShock),
-            nameof(IRibbonSetCommon4.RibbonDowncast), nameof(IRibbonSetCommon4.RibbonCareless), nameof(IRibbonSetCommon4.RibbonRelax),
-            nameof(IRibbonSetCommon4.RibbonSnooze), nameof(IRibbonSetCommon4.RibbonSmile),
-        };
-
-        internal static bool[] RibbonBitsDaily(this IRibbonSetCommon4 set)
-        {
-            return new[]
-            {
-                set.RibbonAlert,
-                set.RibbonShock,
-                set.RibbonDowncast,
-                set.RibbonCareless,
-                set.RibbonRelax,
-                set.RibbonSnooze,
-                set.RibbonSmile,
-            };
-        }
-
-        internal static string[] RibbonNamesDaily(this IRibbonSetCommon4 _) => RibbonSetNamesCommon4Daily;
-
-        internal static void CopyRibbonSetCommon4(this IRibbonSetCommon4 set, IRibbonSetCommon4 dest)
-        {
-            dest.RibbonChampionSinnoh = set.RibbonChampionSinnoh;
-            dest.RibbonAlert = set.RibbonAlert;
-            dest.RibbonShock = set.RibbonShock;
-            dest.RibbonDowncast = set.RibbonDowncast;
-            dest.RibbonCareless = set.RibbonCareless;
-            dest.RibbonRelax = set.RibbonRelax;
-            dest.RibbonSnooze = set.RibbonSnooze;
-            dest.RibbonSmile = set.RibbonSmile;
-            dest.RibbonGorgeous = set.RibbonGorgeous;
-            dest.RibbonRoyal = set.RibbonRoyal;
-            dest.RibbonGorgeousRoyal = set.RibbonGorgeousRoyal;
-            dest.RibbonFootprint = set.RibbonFootprint;
-            dest.RibbonRecord = set.RibbonRecord;
-            dest.RibbonLegend = set.RibbonLegend;
-        }
+    internal static void CopyRibbonSetCommon4(this IRibbonSetCommon4 set, IRibbonSetCommon4 dest)
+    {
+        dest.RibbonChampionSinnoh = set.RibbonChampionSinnoh;
+        dest.RibbonAlert = set.RibbonAlert;
+        dest.RibbonShock = set.RibbonShock;
+        dest.RibbonDowncast = set.RibbonDowncast;
+        dest.RibbonCareless = set.RibbonCareless;
+        dest.RibbonRelax = set.RibbonRelax;
+        dest.RibbonSnooze = set.RibbonSnooze;
+        dest.RibbonSmile = set.RibbonSmile;
+        dest.RibbonGorgeous = set.RibbonGorgeous;
+        dest.RibbonRoyal = set.RibbonRoyal;
+        dest.RibbonGorgeousRoyal = set.RibbonGorgeousRoyal;
+        dest.RibbonFootprint = set.RibbonFootprint;
+        dest.RibbonRecord = set.RibbonRecord;
+        dest.RibbonLegend = set.RibbonLegend;
     }
 }

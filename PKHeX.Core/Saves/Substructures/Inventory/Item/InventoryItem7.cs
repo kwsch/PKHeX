@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed record InventoryItem7 : InventoryItem, IItemFreeSpaceIndex, IItemNew
+public sealed record InventoryItem7 : InventoryItem, IItemFreeSpaceIndex, IItemNewFlag
 {
     public uint FreeSpaceIndex { get; set; }
     public bool IsNew { get; set; }
@@ -22,9 +22,9 @@ public sealed record InventoryItem7 : InventoryItem, IItemFreeSpaceIndex, IItemN
         // 1 bit new flag
         // 1 bit reserved
         Index = (int)(value & 0x3FF),
-        Count = (int)(value >> 10 & 0x3FF),
+        Count = (int)((value >> 10) & 0x3FF),
         IsNew = (value & 0x40000000) != 0, // 30th bit is "NEW"
-        FreeSpaceIndex = (value >> 20 & 0x3FF), // "FREE SPACE" sortIndex
+        FreeSpaceIndex = ((value >> 20) & 0x3FF), // "FREE SPACE" sortIndex
     };
 
     public uint GetValue(bool setNew, ICollection<int> original)

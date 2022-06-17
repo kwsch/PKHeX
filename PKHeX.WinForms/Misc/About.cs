@@ -1,22 +1,21 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class About : Form
 {
-    public partial class About : Form
+    public About(AboutPage index = AboutPage.Changelog)
     {
-        public About(AboutPage index = AboutPage.Changelog)
-        {
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            RTB_Changelog.Text = Properties.Resources.changelog;
-            RTB_Shortcuts.Text = Properties.Resources.shortcuts;
-            TC_About.SelectedIndex = (int)index;
-        }
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        RTB_Changelog.Text = Properties.Resources.changelog;
+        RTB_Shortcuts.Text = Properties.Resources.shortcuts;
+        TC_About.SelectedIndex = (int)index;
     }
+}
 
-    public enum AboutPage
-    {
-        Shortcuts,
-        Changelog,
-    }
+public enum AboutPage
+{
+    Shortcuts,
+    Changelog,
 }

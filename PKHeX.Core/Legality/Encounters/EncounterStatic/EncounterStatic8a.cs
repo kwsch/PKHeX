@@ -29,9 +29,9 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         Shiny = Shiny.Never;
     }
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    protected override void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)
     {
-        base.ApplyDetails(sav, criteria, pk);
+        base.ApplyDetails(tr, criteria, pk);
 
         var pa = (PA8)pk;
 
@@ -64,12 +64,12 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = Gift ? Ball : (int)Core.Ball.LAPoke;
 
-    public override bool IsMatchExact(PKM pkm, EvoCriteria evo)
+    public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!base.IsMatchExact(pkm, evo))
+        if (!base.IsMatchExact(pk, evo))
             return false;
 
-        if (pkm is IScaledSize s)
+        if (pk is IScaledSize s)
         {
             if (HasFixedHeight && s.HeightScalar != HeightScalar)
                 return false;
@@ -77,63 +77,63 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
                 return false;
         }
 
-        if (pkm is IAlpha a && a.IsAlpha != IsAlpha)
+        if (pk is IAlpha a && a.IsAlpha != IsAlpha)
             return false;
 
         return true;
     }
 
-    protected override bool IsMatchLocation(PKM pkm)
+    protected override bool IsMatchLocation(PKM pk)
     {
-        if (pkm is PK8)
-            return pkm.Met_Location == Locations.HOME_SWLA;
-        if (pkm is PB8 { Version: (int)GameVersion.PLA, Met_Location: Locations.HOME_SWLA })
+        if (pk is PK8)
+            return pk.Met_Location == Locations.HOME_SWLA;
+        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: Locations.HOME_SWLA })
             return true;
 
-        return base.IsMatchLocation(pkm);
+        return base.IsMatchLocation(pk);
     }
 
-    public override EncounterMatchRating GetMatchRating(PKM pkm)
+    public override EncounterMatchRating GetMatchRating(PKM pk)
     {
-        var result = GetMatchRatingInternal(pkm);
-        var orig = base.GetMatchRating(pkm);
+        var result = GetMatchRatingInternal(pk);
+        var orig = base.GetMatchRating(pk);
         return result > orig ? result : orig;
     }
 
-    private EncounterMatchRating GetMatchRatingInternal(PKM pkm)
+    private EncounterMatchRating GetMatchRatingInternal(PKM pk)
     {
-        if (Shiny != Shiny.Random && !Shiny.IsValid(pkm))
+        if (Shiny != Shiny.Random && !Shiny.IsValid(pk))
             return EncounterMatchRating.DeferredErrors;
-        if (Gift && pkm.Ball != Ball)
+        if (Gift && pk.Ball != Ball)
             return EncounterMatchRating.DeferredErrors;
 
-        var orig = base.GetMatchRating(pkm);
+        var orig = base.GetMatchRating(pk);
         if (orig is not EncounterMatchRating.Match)
             return orig;
 
-        if (!IsForcedMasteryCorrect(pkm))
+        if (!IsForcedMasteryCorrect(pk))
             return EncounterMatchRating.DeferredErrors;
 
-        if (IsAlpha && pkm is PA8 { AlphaMove: 0 })
+        if (IsAlpha && pk is PA8 { AlphaMove: 0 })
             return EncounterMatchRating.Deferred;
 
         return EncounterMatchRating.Match;
     }
 
-    public bool IsForcedMasteryCorrect(PKM pkm)
+    public bool IsForcedMasteryCorrect(PKM pk)
     {
         ushort alpha = 0;
         if (IsAlpha && Moves.Count != 0)
         {
-            if (pkm is PA8 pa && (alpha = pa.AlphaMove) != Moves[0])
+            if (pk is PA8 pa && (alpha = pa.AlphaMove) != Moves[0])
                 return false;
         }
 
-        if (pkm is not IMoveShop8Mastery p)
+        if (pk is not IMoveShop8Mastery p)
             return true;
 
         const bool allowAlphaPurchaseBug = true; // Everything else Alpha is pre-1.1
-        var level = pkm.Met_Level;
+        var level = pk.Met_Level;
         var index = PersonalTable.LA.GetFormIndex(Species, Form);
         var learn = Legal.LevelUpLA[index];
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))

@@ -1,14 +1,13 @@
-﻿namespace PKHeX.Core
-{
-    /// <inheritdoc cref="EncounterTrade"/>
-    public abstract record EncounterTradeGB : EncounterTrade
-    {
-        protected EncounterTradeGB(int species, byte level, GameVersion game) : base(game)
-        {
-            Species = species;
-            Level = level;
-        }
+﻿namespace PKHeX.Core;
 
-        public abstract override bool IsMatchExact(PKM pkm, EvoCriteria evo);
+/// <inheritdoc cref="EncounterTrade"/>
+public abstract record EncounterTradeGB : EncounterTrade
+{
+    protected EncounterTradeGB(int species, byte level, GameVersion game) : base(game)
+    {
+        Species = species;
+        Level = level;
     }
+
+    public abstract override bool IsMatchExact(PKM pk, EvoCriteria evo);
 }

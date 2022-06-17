@@ -3,204 +3,203 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
+/// </summary>
+public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
 {
-    /// <summary>
-    /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
-    /// </summary>
-    public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
+    public const int SIZE = 0x1B0;
+    public readonly byte[] Data;
+
+    public GameVersion Version => GameVersion.GO;
+    public bool EggEncounter => false;
+    public byte LevelMin => Level;
+    public byte LevelMax => Level;
+    public int Generation => 7;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPB7(tr);
+    public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPB7(tr, criteria);
+
+    public GP1(byte[] data) => Data = data;
+    public GP1() : this((byte[])Blank.Clone()) { }
+    public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+
+    public static GP1 FromData(byte[] data, int offset)
     {
-        public const int SIZE = 0x1B0;
-        public readonly byte[] Data;
+        var span = data.AsSpan(offset);
+        return FromData(span);
+    }
 
-        public GameVersion Version => GameVersion.GO;
-        public bool EggEncounter => false;
-        public byte LevelMin => Level;
-        public byte LevelMax => Level;
-        public int Generation => 7;
-        public AbilityPermission Ability => AbilityPermission.Any12;
-        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPB7(sav);
-        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria) => ConvertToPB7(sav, criteria);
+    private static GP1 FromData(ReadOnlySpan<byte> span)
+    {
+        var gpkm = new GP1();
+        span[..SIZE].CopyTo(gpkm.Data);
+        return gpkm;
+    }
 
-        public GP1(byte[] data) => Data = data;
-        public GP1() : this((byte[])Blank.Clone()) { }
-        public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+    /// <summary>
+    /// First 0x20 bytes of an empty <see cref="GP1"/>, all other bytes are 0.
+    /// </summary>
+    private static readonly byte[] Blank20 =
+    {
+        0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x80, 0x3F, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x80, 0x3F,
+        0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x85, 0xEC, 0x33, 0x01,
+    };
 
-        public static GP1 FromData(byte[] data, int offset)
+    public static readonly byte[] Blank = GetBlank();
+
+    public static byte[] GetBlank()
+    {
+        byte[] data = new byte[SIZE];
+        Blank20.CopyTo(data, 0x20);
+        return data;
+    }
+
+    public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
+    public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
+
+    public int Species => ReadInt32LittleEndian(Data.AsSpan(0x28));
+    public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));
+    public float LevelF => ReadSingleLittleEndian(Data.AsSpan(0x30));
+    public byte Level => Math.Max((byte)1, (byte)Math.Round(LevelF));
+    public int Stat_HP => ReadInt32LittleEndian(Data.AsSpan(0x34));
+    // geolocation data 0x38-0x47?
+    public float HeightF => ReadSingleLittleEndian(Data.AsSpan(0x48));
+    public float WeightF => ReadSingleLittleEndian(Data.AsSpan(0x4C));
+
+    public byte HeightScalar
+    {
+        get
         {
-            var span = data.AsSpan(offset);
-            return FromData(span);
+            var height = HeightF * 100f;
+            var pi = PersonalTable.GG.GetFormEntry(Species, Form);
+            var avgHeight = pi.Height;
+            return PB7.GetHeightScalar(height, avgHeight);
         }
+    }
 
-        private static GP1 FromData(ReadOnlySpan<byte> span)
+    public byte WeightScalar
+    {
+        get
         {
-            var gpkm = new GP1();
-            span[..SIZE].CopyTo(gpkm.Data);
-            return gpkm;
+            var height = HeightF * 100f;
+            var weight = WeightF * 10f;
+            var pi = PersonalTable.GG.GetFormEntry(Species, Form);
+            var avgHeight = pi.Height;
+            var avgWeight = pi.Weight;
+            return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
         }
+    }
 
-        /// <summary>
-        /// First 0x20 bytes of an empty <see cref="GP1"/>, all other bytes are 0.
-        /// </summary>
-        private static readonly byte[] Blank20 =
+    public int IV_HP => ReadInt32LittleEndian(Data.AsSpan(0x50));
+    public int IV_ATK => ReadInt32LittleEndian(Data.AsSpan(0x54));
+    public int IV_DEF => ReadInt32LittleEndian(Data.AsSpan(0x58));
+    public int Date => ReadInt32LittleEndian(Data.AsSpan(0x5C)); // ####.##.## YYYY.MM.DD
+    public int Year => Date / 1_00_00;
+    public int Month => (Date / 1_00) % 1_00;
+    public int Day => Date % 1_00;
+
+    public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
+
+    public int Form => Data[0x72];
+    public bool IsShiny => Data[0x73] == 1;
+
+    // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO
+    public int Move1 => ReadInt32LittleEndian(Data.AsSpan(0x74)); // uses Go Indexes
+    public int Move2 => ReadInt32LittleEndian(Data.AsSpan(0x78)); // uses Go Indexes
+
+    public string GeoCityName => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x7C, 0x60)); // dunno length
+
+    public string Nickname => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x12D, 0x20)); // dunno length
+
+    public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
+    public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
+    public string ShinyString => IsShiny ? "★ " : string.Empty;
+    public string FormString => Form != 0 ? $"-{Form}" : string.Empty;
+    private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
+    public string FileName => $"{FileNameWithoutExtension}.gp1";
+
+    public string FileNameWithoutExtension
+    {
+        get
         {
-            0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
-            0x00, 0x00, 0x80, 0x3F, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F,
-            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x80, 0x3F,
-            0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x85, 0xEC, 0x33, 0x01,
+            string form = Form > 0 ? $"-{Form:00}" : string.Empty;
+            string star = IsShiny ? " ★" : string.Empty;
+            return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+        }
+    }
+
+    public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
+    public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+    public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
+
+    public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
+
+    public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
+    {
+        var rnd = Util.Rand;
+        var pk = new PB7
+        {
+            EncryptionConstant = rnd.Rand32(),
+            PID = rnd.Rand32(),
+            Version = (int) GameVersion.GO,
+            Species = Species,
+            Form = Form,
+            Met_Location = 50, // Go complex
+            Met_Year = Year - 2000,
+            Met_Month = Month,
+            Met_Day = Day,
+            CurrentLevel = Level,
+            Met_Level = Level,
+            TID = sav.TID,
+            SID = sav.SID,
+            OT_Name = sav.OT,
+            Ball = 4,
+            Language = sav.Language,
         };
 
-        public static readonly byte[] Blank = GetBlank();
-
-        public static byte[] GetBlank()
+        var nick = Nickname;
+        if (!string.IsNullOrWhiteSpace(nick))
         {
-            byte[] data = new byte[SIZE];
-            Blank20.CopyTo(data, 0x20);
-            return data;
+            pk.Nickname = nick;
+            pk.IsNicknamed = true;
+        }
+        else
+        {
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
         }
 
-        public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
-        public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
+        pk.IV_DEF = pk.IV_SPD = (IV_DEF * 2) + 1;
+        pk.IV_ATK = pk.IV_SPA = (IV_ATK * 2) + 1;
+        pk.IV_HP = (IV_HP * 2) + 1;
+        pk.IV_SPE = Util.Rand.Next(32);
 
-        public int Species => ReadInt32LittleEndian(Data.AsSpan(0x28));
-        public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));
-        public float LevelF => ReadSingleLittleEndian(Data.AsSpan(0x30));
-        public byte Level => Math.Max((byte)1, (byte)Math.Round(LevelF));
-        public int Stat_HP => ReadInt32LittleEndian(Data.AsSpan(0x34));
-        // geolocation data 0x38-0x47?
-        public float HeightF => ReadSingleLittleEndian(Data.AsSpan(0x48));
-        public float WeightF => ReadSingleLittleEndian(Data.AsSpan(0x4C));
+        var pi = pk.PersonalInfo;
+        pk.Gender = criteria.GetGender(Gender, pi);
+        pk.Nature = (int)criteria.GetNature(Nature.Random);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
-        public byte HeightScalar
-        {
-            get
-            {
-                var height = HeightF * 100f;
-                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
-                var avgHeight = pi.Height;
-                return PB7.GetHeightScalar(height, avgHeight);
-            }
-        }
+        bool isShiny = pk.IsShiny;
+        if (IsShiny && !isShiny) // Force Square
+            pk.PID = (uint)(((sav.TID ^ sav.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+        else if (isShiny)
+            pk.PID ^= 0x1000_0000;
 
-        public byte WeightScalar
-        {
-            get
-            {
-                var height = HeightF * 100f;
-                var weight = WeightF * 10f;
-                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
-                var avgHeight = pi.Height;
-                var avgWeight = pi.Weight;
-                return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
-            }
-        }
+        var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
+        pk.Moves = moves;
+        pk.SetMaximumPPCurrent(moves);
+        pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-        public int IV_HP => ReadInt32LittleEndian(Data.AsSpan(0x50));
-        public int IV_ATK => ReadInt32LittleEndian(Data.AsSpan(0x54));
-        public int IV_DEF => ReadInt32LittleEndian(Data.AsSpan(0x58));
-        public int Date => ReadInt32LittleEndian(Data.AsSpan(0x5C)); // ####.##.## YYYY.MM.DD
-        public int Year => Date / 1_00_00;
-        public int Month => (Date / 1_00) % 1_00;
-        public int Day => Date % 1_00;
+        pk.HeightScalar = HeightScalar;
+        pk.WeightScalar = WeightScalar;
 
-        public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
+        pk.AwakeningSetAllTo(2);
+        pk.ResetCalculatedValues();
 
-        public int Form => Data[0x72];
-        public bool IsShiny => Data[0x73] == 1;
-
-        // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO
-        public int Move1 => ReadInt32LittleEndian(Data.AsSpan(0x74)); // uses Go Indexes
-        public int Move2 => ReadInt32LittleEndian(Data.AsSpan(0x78)); // uses Go Indexes
-
-        public string GeoCityName => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x7C, 0x60)); // dunno length
-
-        public string Nickname => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x12D, 0x20)); // dunno length
-
-        public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
-        public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
-        public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FormString => Form != 0 ? $"-{Form}" : string.Empty;
-        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
-        public string FileName => $"{FileNameWithoutExtension}.gp1";
-
-        public string FileNameWithoutExtension
-        {
-            get
-            {
-                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
-                string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
-            }
-        }
-
-        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
-        public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
-
-        public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
-
-        public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
-        {
-            var rnd = Util.Rand;
-            var pk = new PB7
-            {
-                EncryptionConstant = rnd.Rand32(),
-                PID = rnd.Rand32(),
-                Version = (int) GameVersion.GO,
-                Species = Species,
-                Form = Form,
-                Met_Location = 50, // Go complex
-                Met_Year = Year - 2000,
-                Met_Month = Month,
-                Met_Day = Day,
-                CurrentLevel = Level,
-                Met_Level = Level,
-                TID = sav.TID,
-                SID = sav.SID,
-                OT_Name = sav.OT,
-                Ball = 4,
-                Language = sav.Language,
-            };
-
-            var nick = Nickname;
-            if (!string.IsNullOrWhiteSpace(nick))
-            {
-                pk.Nickname = nick;
-                pk.IsNicknamed = true;
-            }
-            else
-            {
-                pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
-            }
-
-            pk.IV_DEF = pk.IV_SPD = (IV_DEF * 2) + 1;
-            pk.IV_ATK = pk.IV_SPA = (IV_ATK * 2) + 1;
-            pk.IV_HP = (IV_HP * 2) + 1;
-            pk.IV_SPE = Util.Rand.Next(32);
-
-            var pi = pk.PersonalInfo;
-            pk.Gender = criteria.GetGender(Gender, pi);
-            pk.Nature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-
-            bool isShiny = pk.IsShiny;
-            if (IsShiny && !isShiny) // Force Square
-                pk.PID = (uint)(((sav.TID ^ sav.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
-            else if (isShiny)
-                pk.PID ^= 0x1000_0000;
-
-            var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
-
-            pk.HeightScalar = HeightScalar;
-            pk.WeightScalar = WeightScalar;
-
-            pk.AwakeningSetAllTo(2);
-            pk.ResetCalculatedValues();
-
-            return pk;
-        }
+        return pk;
     }
 }

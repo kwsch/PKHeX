@@ -114,11 +114,11 @@ public sealed class TrainerDatabase
     }
 
     /// <summary>
-    /// Adds the trainer details of the <see cref="pkm"/> to the <see cref="Database"/>.
+    /// Adds the trainer details of the <see cref="pk"/> to the <see cref="Database"/>.
     /// </summary>
-    /// <param name="pkm">Pokémon with Trainer details to add.</param>
+    /// <param name="pk">Pokémon with Trainer details to add.</param>
     /// <remarks>A copy of the object will be made to prevent modifications, just in case.</remarks>
-    public void RegisterCopy(PKM pkm) => Register(GetTrainerReference(pkm));
+    public void RegisterCopy(PKM pk) => Register(GetTrainerReference(pk));
 
     /// <summary>
     /// Adds the trainer details of the <see cref="info"/> to the <see cref="Database"/>.
@@ -127,16 +127,16 @@ public sealed class TrainerDatabase
     /// <remarks>A copy of the object will be made to prevent modifications, just in case.</remarks>
     public void RegisterCopy(ITrainerInfo info) => Register(new SimpleTrainerInfo(info));
 
-    private static ITrainerInfo GetTrainerReference(PKM pkm)
+    private static ITrainerInfo GetTrainerReference(PKM pk)
     {
-        var result = new SimpleTrainerInfo((GameVersion)pkm.Version)
+        var result = new SimpleTrainerInfo((GameVersion)pk.Version)
         {
-            TID = pkm.TID, SID = pkm.SID, OT = pkm.OT_Name, Gender = pkm.OT_Gender,
-            Language = pkm.Language,
-            Generation = pkm.Generation,
+            TID = pk.TID, SID = pk.SID, OT = pk.OT_Name, Gender = pk.OT_Gender,
+            Language = pk.Language,
+            Generation = pk.Generation,
         };
 
-        if (pkm is IRegionOrigin r)
+        if (pk is IRegionOrigin r)
             r.CopyRegionOrigin(result);
         else
             result.SetDefaultRegionOrigins();

@@ -12,40 +12,40 @@ public sealed class MarkingVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
-        var pkm = data.pkm;
-        VerifyFavoriteMark(data, pkm);
-        VerifyMarkValue(data, pkm);
+        var pk = data.Entity;
+        VerifyFavoriteMark(data, pk);
+        VerifyMarkValue(data, pk);
     }
 
-    private void VerifyFavoriteMark(LegalityAnalysis data, PKM pkm)
+    private void VerifyFavoriteMark(LegalityAnalysis data, PKM pk)
     {
         // Can only be toggled on in LGP/E, and is retained via transfer to HOME and into other games.
-        if (pkm is IFavorite { Favorite: true } && !pkm.GG)
+        if (pk is IFavorite { Favorite: true } && !pk.GG)
             data.AddLine(GetInvalid(LFavoriteMarkingUnavailable));
     }
 
-    private void VerifyMarkValue(LegalityAnalysis data, PKM pkm)
+    private void VerifyMarkValue(LegalityAnalysis data, PKM pk)
     {
-        var mv = pkm.MarkValue;
+        var mv = pk.MarkValue;
         if (mv == 0)
             return;
 
         // Eggs can have markings applied.
-        //if (pkm.IsEgg)
+        //if (pk.IsEgg)
         //{
         //    data.AddLine(GetInvalid(LMarkValueShouldBeZero));
         //    return;
         //}
 
-        switch (pkm.Format)
+        switch (pk.Format)
         {
             case <= 2:
                 return;
             case <= 6:
-                VerifyMarkValueSingle(data, pkm, mv);
+                VerifyMarkValueSingle(data, pk, mv);
                 return;
             default:
-                VerifyMarkValueDual(data, pkm, mv);
+                VerifyMarkValueDual(data, pk, mv);
                 return;
         }
     }
@@ -54,29 +54,29 @@ public sealed class MarkingVerifier : Verifier
     private const int Single6 = 0b_111111;
     private const int Dual6 = 0b_1111_1111_1111;
 
-    private void VerifyMarkValueDual(LegalityAnalysis data, PKM pkm, int mv)
+    private void VerifyMarkValueDual(LegalityAnalysis data, PKM pk, int mv)
     {
         if (mv > Dual6)
             data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
 
-        var count = pkm.MarkingCount;
+        var count = pk.MarkingCount;
         for (int i = 0; i < count; i++)
         {
-            var value = pkm.GetMarking(i);
+            var value = pk.GetMarking(i);
             if (value is not (0 or 1 or 2))
                 data.AddLine(GetInvalid(string.Format(LMarkValueOutOfRange_0, i)));
         }
     }
 
-    private void VerifyMarkValueSingle(LegalityAnalysis data, PKM pkm, int mv)
+    private void VerifyMarkValueSingle(LegalityAnalysis data, PKM pk, int mv)
     {
-        if (!IsMarkValueValid3456(pkm, mv))
+        if (!IsMarkValueValid3456(pk, mv))
             data.AddLine(GetInvalid(LMarkValueUnusedBitsPresent));
     }
 
-    private static bool IsMarkValueValid3456(PKM pkm, int value)
+    private static bool IsMarkValueValid3456(PKM pk, int value)
     {
-        var max = pkm.Format is 3 ? Single4 : Single6;
+        var max = pk.Format is 3 ? Single4 : Single6;
         return value <= max;
     }
 }

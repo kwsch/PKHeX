@@ -7,7 +7,7 @@ public static class QRImageUtil
 {
     public static Bitmap GetQRImage(Image qr, Image preview)
     {
-        // create a small area with the pkm sprite, with a white background
+        // create a small area with the pk sprite, with a white background
         var foreground = new Bitmap(preview.Width + 4, preview.Height + 4);
         using (Graphics gfx = Graphics.FromImage(foreground))
         {
@@ -25,9 +25,9 @@ public static class QRImageUtil
         }
     }
 
-    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pkm, int width, int height, string[] lines, string extraText)
+    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pk, int width, int height, string[] lines, string extraText)
     {
-        var pic = GetQRImage(qr, pkm);
+        var pic = GetQRImage(qr, pk);
         return ExtendImage(font, qr, width, height, pic, lines, extraText);
     }
 

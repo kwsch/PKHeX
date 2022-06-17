@@ -254,7 +254,7 @@ http://projectpokemon.org/pkhex/
  - Added: More event flag data labels. Thanks @FeralFalcon! Event data can now be filtered via settings if you only want to see rebattle, etc.
  - Added: Rival name changing for all games that didn't yet have it. Thanks @FeralFalcon!
  - Changed: .NET 6 support added for WinForms builds. .NET Framework 4.6 build is still the main build option.
- - Changed: Starting up the program with command line arguments (or opening via an associated file) will more intelligently source a parter sav/pkm.
+ - Changed: Starting up the program with command line arguments (or opening via an associated file) will more intelligently source a parter sav/pk.
  - Changed: Exporting a backup save file has been moved to the SAV tab, and the Export main has been merged in with the parent Export SAV item.
  - Changed: Gen1/2 mainline save files now indicate if they are VC era or GB era in the program title.
  - Changed: Gen2 modifying Hidden Power type now maximizes IVs for that type.
@@ -286,7 +286,7 @@ http://projectpokemon.org/pkhex/
  - Fixed: Gen3 Colosseum Fateful encounter flag is now read correctly.
  - Fixed: Gen5 BW entree forest randomizing now prevents B2W2-only templates from being loaded. Thanks @SunakazeKun!
  - Fixed: Event Const editor loads consts with a current value of zero correctly if it has a defined name. Thanks @CanoeHope!
- - Fixed: Batch Editor no longer processes saved pkm files twice.
+ - Fixed: Batch Editor no longer processes saved pk files twice.
  - Fixed: PKM Database searching a specific format now filters correctly.
  - Updated: Chinese translation updated. Thanks @liketolike!
 
@@ -700,5 +700,5 @@ http://projectpokemon.org/pkhex/
  - Added: Setting to disable sounds on save file load and legality checks (nuisance).
  - Fixed: Gen8 Mimikyu Busted form now shows up in Pokédex editor.
  - Fixed: Gen4 Event Constants are now read correctly.
- - Fixed: Disabled pkm slot glow effect will no longer leave the frosted effect behind.
+ - Fixed: Disabled pk slot glow effect will no longer leave the frosted effect behind.
  - Changed: GUI translation (winforms only) files moved to WinForms project (no longer in PKHeX.Core). Still need translations ;)

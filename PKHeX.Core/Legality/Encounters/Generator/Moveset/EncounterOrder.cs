@@ -1,11 +1,10 @@
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public enum EncounterOrder
 {
-    public enum EncounterOrder
-    {
-        Egg,
-        Mystery,
-        Static,
-        Trade,
-        Slot,
-    }
+    Egg,
+    Mystery,
+    Static,
+    Trade,
+    Slot,
 }

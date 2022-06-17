@@ -26,12 +26,12 @@ public enum Shiny : byte
 
 public static class ShinyExtensions
 {
-    public static bool IsValid(this Shiny s, PKM pkm) => s switch
+    public static bool IsValid(this Shiny s, PKM pk) => s switch
     {
-        Shiny.Always => pkm.IsShiny,
-        Shiny.Never => !pkm.IsShiny,
-        Shiny.AlwaysSquare => pkm.ShinyXor == 0,
-        Shiny.AlwaysStar => pkm.ShinyXor == 1,
+        Shiny.Always => pk.IsShiny,
+        Shiny.Never => !pk.IsShiny,
+        Shiny.AlwaysSquare => pk.ShinyXor == 0,
+        Shiny.AlwaysStar => pk.ShinyXor == 1,
         _ => true,
     };
 

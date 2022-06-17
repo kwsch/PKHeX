@@ -46,9 +46,9 @@ public sealed class EventWorkDiff8b : IEventWorkDiff
             return;
         }
 
-        DiffSavesFlag(s1.Work, s2.Work, SetFlags, ClearedFlags);
-        DiffSavesSystem(s1.Work, s2.Work, SetSystem, ClearedSystem);
-        DiffSavesWork(s1.Work, s2.Work, WorkChanged, WorkDiff);
+        DiffSavesFlag(s1.FlagWork, s2.FlagWork, SetFlags, ClearedFlags);
+        DiffSavesSystem(s1.FlagWork, s2.FlagWork, SetSystem, ClearedSystem);
+        DiffSavesWork(s1.FlagWork, s2.FlagWork, WorkChanged, WorkDiff);
         S1 = s1;
     }
 

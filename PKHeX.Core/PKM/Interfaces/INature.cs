@@ -1,7 +1,6 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface INature
 {
-    public interface INature
-    {
-        int Nature { get; set; }
-    }
+    int Nature { get; set; }
 }

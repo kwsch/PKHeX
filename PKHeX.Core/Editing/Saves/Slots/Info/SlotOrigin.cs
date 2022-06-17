@@ -1,8 +1,7 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum SlotOrigin : byte
 {
-    public enum SlotOrigin : byte
-    {
-        Party = 0,
-        Box = 1,
-    }
+    Party = 0,
+    Box = 1,
 }

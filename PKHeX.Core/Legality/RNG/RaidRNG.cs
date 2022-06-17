@@ -1,339 +1,338 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Logic for Generating and Verifying Gen8 Raid Templates against PKM data.
+/// </summary>
+public static class RaidRNG
 {
-    /// <summary>
-    /// Logic for Generating and Verifying Gen8 Raid Templates against PKM data.
-    /// </summary>
-    public static class RaidRNG
+    public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
     {
-        public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
-        {
-            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-            var ratio = pi.Gender;
-            var abil = RemapAbilityToParam(raid.Ability);
+        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
+        var ratio = pi.Gender;
+        var abil = RemapAbilityToParam(raid.Ability);
 
-            Span<int> IVs = stackalloc int[6];
-            LoadIVs(raid, IVs);
-            return Verify(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+        Span<int> IVs = stackalloc int[6];
+        LoadIVs(raid, IVs);
+        return Verify(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+    }
+
+    public static void ApplyDetailsTo<T>(this T raid, PK8 pk8, ulong seed) where T : EncounterStatic8Nest<T>
+    {
+        // Ensure the species-form is set correctly (nature)
+        pk8.Species = raid.Species;
+        pk8.Form = raid.Form;
+        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
+        var ratio = pi.Gender;
+        var abil = RemapAbilityToParam(raid.Ability);
+
+        Span<int> IVs = stackalloc int[6];
+        LoadIVs(raid, IVs);
+        ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+    }
+
+    private static void LoadIVs<T>(T raid, Span<int> IVs) where T : EncounterStatic8Nest<T>
+    {
+        if (raid.IVs.Count == 0)
+        {
+            IVs.Fill(-1);
+        }
+        else
+        {
+            // Template stores with speed in middle (standard), convert for generator purpose.
+            var value = raid.IVs;
+            IVs[5] = value[3]; // spe
+            IVs[4] = value[5]; // spd
+            IVs[3] = value[4]; // spa
+            IVs[2] = value[2]; // def
+            IVs[1] = value[1]; // atk
+            IVs[0] = value[0]; // hp
+        }
+    }
+
+    private static int RemapAbilityToParam(AbilityPermission a) => a switch
+    {
+        AbilityPermission.Any12H => 254,
+        AbilityPermission.Any12  => 255,
+        _ => a.GetSingleValue(),
+    };
+
+    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    {
+        var rng = new Xoroshiro128Plus(seed);
+        var ec = (uint)rng.NextInt();
+        if (ec != pk.EncryptionConstant)
+            return false;
+
+        uint pid;
+        bool isShiny;
+        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
+        {
+            var trID = (uint)rng.NextInt();
+            pid = (uint)rng.NextInt();
+            isShiny = GetShinyXor(pid, trID) < 16;
+        }
+        else
+        {
+            // no need to calculate a fake trainer
+            pid = (uint)rng.NextInt();
+            isShiny = shiny == Shiny.Always;
         }
 
-        public static void ApplyDetailsTo<T>(this T raid, PK8 pk8, ulong seed) where T : EncounterStatic8Nest<T>
-        {
-            // Ensure the species-form is set correctly (nature)
-            pk8.Species = raid.Species;
-            pk8.Form = raid.Form;
-            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-            var ratio = pi.Gender;
-            var abil = RemapAbilityToParam(raid.Ability);
+        ForceShinyState(pk, isShiny, ref pid);
 
-            Span<int> IVs = stackalloc int[6];
-            LoadIVs(raid, IVs);
-            ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+        if (pk.PID != pid)
+            return false;
+
+        const int UNSET = -1;
+        const int MAX = 31;
+        for (int i = ivs.Count(MAX); i < iv_count; i++)
+        {
+            int index = (int)rng.NextInt(6);
+            while (ivs[index] != UNSET)
+                index = (int)rng.NextInt(6);
+            ivs[index] = MAX;
         }
 
-        private static void LoadIVs<T>(T raid, Span<int> IVs) where T : EncounterStatic8Nest<T>
+        for (int i = 0; i < 6; i++)
         {
-            if (raid.IVs.Count == 0)
+            if (ivs[i] == UNSET)
+                ivs[i] = (int)rng.NextInt(32);
+        }
+
+        if (pk.IV_HP != ivs[0])
+            return false;
+        if (pk.IV_ATK != ivs[1])
+            return false;
+        if (pk.IV_DEF != ivs[2])
+            return false;
+        if (pk.IV_SPA != ivs[3])
+            return false;
+        if (pk.IV_SPD != ivs[4])
+            return false;
+        if (pk.IV_SPE != ivs[5])
+            return false;
+
+        int abil = ability_param switch
+        {
+            254 => (int)rng.NextInt(3),
+            255 => (int)rng.NextInt(2),
+            _ => ability_param,
+        };
+        abil <<= 1; // 1/2/4
+
+        var current = pk.AbilityNumber;
+        if (abil == 4)
+        {
+            if (current != 4)
+                return false;
+        }
+        // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
+
+        switch (gender_ratio)
+        {
+            case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
+                if (pk.Gender != 2)
+                    return false;
+                break;
+            case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
+                if (pk.Gender != 1)
+                    return false;
+                break;
+            case PersonalInfo.RatioMagicMale:
+                if (pk.Gender != 0)
+                    return false;
+                break;
+            default:
+                var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
+                if (pk.Gender != gender)
+                    return false;
+                break;
+        }
+
+        if (nature_param == -1)
+        {
+            if (pk.Species == (int) Species.Toxtricity && pk.Form == 0)
             {
-                IVs.Fill(-1);
+                var table = Nature0;
+                var choice = table[rng.NextInt((uint)table.Length)];
+                if (pk.Nature != choice)
+                    return false;
+            }
+            else if (pk.Species == (int) Species.Toxtricity && pk.Form == 1)
+            {
+                var table = Nature1;
+                var choice = table[rng.NextInt((uint)table.Length)];
+                if (pk.Nature != choice)
+                    return false;
             }
             else
             {
-                // Template stores with speed in middle (standard), convert for generator purpose.
-                var value = raid.IVs;
-                IVs[5] = value[3]; // spe
-                IVs[4] = value[5]; // spd
-                IVs[3] = value[4]; // spa
-                IVs[2] = value[2]; // def
-                IVs[1] = value[1]; // atk
-                IVs[0] = value[0]; // hp
+                var nature = (int)rng.NextInt(25);
+                if (pk.Nature != nature)
+                    return false;
             }
         }
-
-        private static int RemapAbilityToParam(AbilityPermission a) => a switch
+        else
         {
-            AbilityPermission.Any12H => 254,
-            AbilityPermission.Any12  => 255,
-            _ => a.GetSingleValue(),
+            if (pk.Nature != nature_param)
+                return false;
+        }
+
+        if (pk is IScaledSize s)
+        {
+            var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+            if (s.HeightScalar != height)
+                return false;
+            var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+            if (s.WeightScalar != weight)
+                return false;
+        }
+
+        return true;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
+    {
+        if (isShiny)
+        {
+            if (!GetIsShiny(pk.TID, pk.SID, pid))
+                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+        }
+        else
+        {
+            if (GetIsShiny(pk.TID, pk.SID, pid))
+                pid ^= 0x1000_0000;
+        }
+    }
+
+    private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    {
+        var rng = new Xoroshiro128Plus(seed);
+        pk.EncryptionConstant = (uint)rng.NextInt();
+
+        uint pid;
+        bool isShiny;
+        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
+        {
+            var trID = (uint)rng.NextInt();
+            pid = (uint)rng.NextInt();
+            isShiny = GetShinyXor(pid, trID) < 16;
+        }
+        else
+        {
+            // no need to calculate a fake trainer
+            pid = (uint)rng.NextInt();
+            isShiny = shiny == Shiny.Always;
+        }
+
+        if (isShiny)
+        {
+            if (!GetIsShiny(pk.TID, pk.SID, pid))
+                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+        }
+        else
+        {
+            if (GetIsShiny(pk.TID, pk.SID, pid))
+                pid ^= 0x1000_0000;
+        }
+
+        pk.PID = pid;
+
+        const int UNSET = -1;
+        const int MAX = 31;
+        for (int i = ivs.Count(MAX); i < iv_count; i++)
+        {
+            int index = (int)rng.NextInt(6);
+            while (ivs[index] != UNSET)
+                index = (int)rng.NextInt(6);
+            ivs[index] = MAX;
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (ivs[i] == UNSET)
+                ivs[i] = (int)rng.NextInt(32);
+        }
+
+        pk.IV_HP = ivs[0];
+        pk.IV_ATK = ivs[1];
+        pk.IV_DEF = ivs[2];
+        pk.IV_SPA = ivs[3];
+        pk.IV_SPD = ivs[4];
+        pk.IV_SPE = ivs[5];
+
+        int abil = ability_param switch
+        {
+            254 => (int)rng.NextInt(3),
+            255 => (int)rng.NextInt(2),
+            _ => ability_param,
+        };
+        pk.RefreshAbility(abil);
+
+        pk.Gender = gender_ratio switch
+        {
+            PersonalInfo.RatioMagicGenderless => 2,
+            PersonalInfo.RatioMagicFemale => 1,
+            PersonalInfo.RatioMagicMale => 0,
+            _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0,
         };
 
-        private static bool Verify(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+        int nature;
+        if (nature_param == -1)
         {
-            var rng = new Xoroshiro128Plus(seed);
-            var ec = (uint)rng.NextInt();
-            if (ec != pk.EncryptionConstant)
-                return false;
-
-            uint pid;
-            bool isShiny;
-            if (shiny == Shiny.Random) // let's decide if it's shiny or not!
+            if (pk.Species == (int)Species.Toxtricity && pk.Form == 0)
             {
-                var trID = (uint)rng.NextInt();
-                pid = (uint)rng.NextInt();
-                isShiny = GetShinyXor(pid, trID) < 16;
+                var table = Nature0;
+                nature = table[rng.NextInt((uint)table.Length)];
+            }
+            else if (pk.Species == (int)Species.Toxtricity && pk.Form == 1)
+            {
+                var table = Nature1;
+                nature = table[rng.NextInt((uint)table.Length)];
             }
             else
             {
-                // no need to calculate a fake trainer
-                pid = (uint)rng.NextInt();
-                isShiny = shiny == Shiny.Always;
+                nature = (int)rng.NextInt(25);
             }
-
-            ForceShinyState(pk, isShiny, ref pid);
-
-            if (pk.PID != pid)
-                return false;
-
-            const int UNSET = -1;
-            const int MAX = 31;
-            for (int i = ivs.Count(MAX); i < iv_count; i++)
-            {
-                int index = (int)rng.NextInt(6);
-                while (ivs[index] != UNSET)
-                    index = (int)rng.NextInt(6);
-                ivs[index] = MAX;
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                if (ivs[i] == UNSET)
-                    ivs[i] = (int)rng.NextInt(32);
-            }
-
-            if (pk.IV_HP != ivs[0])
-                return false;
-            if (pk.IV_ATK != ivs[1])
-                return false;
-            if (pk.IV_DEF != ivs[2])
-                return false;
-            if (pk.IV_SPA != ivs[3])
-                return false;
-            if (pk.IV_SPD != ivs[4])
-                return false;
-            if (pk.IV_SPE != ivs[5])
-                return false;
-
-            int abil = ability_param switch
-            {
-                254 => (int)rng.NextInt(3),
-                255 => (int)rng.NextInt(2),
-                _ => ability_param,
-            };
-            abil <<= 1; // 1/2/4
-
-            var current = pk.AbilityNumber;
-            if (abil == 4)
-            {
-                if (current != 4)
-                    return false;
-            }
-            // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
-
-            switch (gender_ratio)
-            {
-                case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
-                    if (pk.Gender != 2)
-                        return false;
-                    break;
-                case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
-                    if (pk.Gender != 1)
-                        return false;
-                    break;
-                case PersonalInfo.RatioMagicMale:
-                    if (pk.Gender != 0)
-                        return false;
-                    break;
-                default:
-                    var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
-                    if (pk.Gender != gender)
-                        return false;
-                    break;
-            }
-
-            if (nature_param == -1)
-            {
-                if (pk.Species == (int) Species.Toxtricity && pk.Form == 0)
-                {
-                    var table = Nature0;
-                    var choice = table[rng.NextInt((uint)table.Length)];
-                    if (pk.Nature != choice)
-                        return false;
-                }
-                else if (pk.Species == (int) Species.Toxtricity && pk.Form == 1)
-                {
-                    var table = Nature1;
-                    var choice = table[rng.NextInt((uint)table.Length)];
-                    if (pk.Nature != choice)
-                        return false;
-                }
-                else
-                {
-                    var nature = (int)rng.NextInt(25);
-                    if (pk.Nature != nature)
-                        return false;
-                }
-            }
-            else
-            {
-                if (pk.Nature != nature_param)
-                    return false;
-            }
-
-            if (pk is IScaledSize s)
-            {
-                var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-                if (s.HeightScalar != height)
-                    return false;
-                var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-                if (s.WeightScalar != weight)
-                    return false;
-            }
-
-            return true;
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
+        else
         {
-            if (isShiny)
-            {
-                if (!GetIsShiny(pk.TID, pk.SID, pid))
-                    pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
-            }
-            else
-            {
-                if (GetIsShiny(pk.TID, pk.SID, pid))
-                    pid ^= 0x1000_0000;
-            }
+            nature = nature_param;
         }
 
-        private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+        pk.StatNature = pk.Nature = nature;
+
+        if (pk is IScaledSize s)
         {
-            var rng = new Xoroshiro128Plus(seed);
-            pk.EncryptionConstant = (uint)rng.NextInt();
-
-            uint pid;
-            bool isShiny;
-            if (shiny == Shiny.Random) // let's decide if it's shiny or not!
-            {
-                var trID = (uint)rng.NextInt();
-                pid = (uint)rng.NextInt();
-                isShiny = GetShinyXor(pid, trID) < 16;
-            }
-            else
-            {
-                // no need to calculate a fake trainer
-                pid = (uint)rng.NextInt();
-                isShiny = shiny == Shiny.Always;
-            }
-
-            if (isShiny)
-            {
-                if (!GetIsShiny(pk.TID, pk.SID, pid))
-                    pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
-            }
-            else
-            {
-                if (GetIsShiny(pk.TID, pk.SID, pid))
-                    pid ^= 0x1000_0000;
-            }
-
-            pk.PID = pid;
-
-            const int UNSET = -1;
-            const int MAX = 31;
-            for (int i = ivs.Count(MAX); i < iv_count; i++)
-            {
-                int index = (int)rng.NextInt(6);
-                while (ivs[index] != UNSET)
-                    index = (int)rng.NextInt(6);
-                ivs[index] = MAX;
-            }
-
-            for (int i = 0; i < 6; i++)
-            {
-                if (ivs[i] == UNSET)
-                    ivs[i] = (int)rng.NextInt(32);
-            }
-
-            pk.IV_HP = ivs[0];
-            pk.IV_ATK = ivs[1];
-            pk.IV_DEF = ivs[2];
-            pk.IV_SPA = ivs[3];
-            pk.IV_SPD = ivs[4];
-            pk.IV_SPE = ivs[5];
-
-            int abil = ability_param switch
-            {
-                254 => (int)rng.NextInt(3),
-                255 => (int)rng.NextInt(2),
-                _ => ability_param,
-            };
-            pk.RefreshAbility(abil);
-
-            pk.Gender = gender_ratio switch
-            {
-                PersonalInfo.RatioMagicGenderless => 2,
-                PersonalInfo.RatioMagicFemale => 1,
-                PersonalInfo.RatioMagicMale => 0,
-                _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0,
-            };
-
-            int nature;
-            if (nature_param == -1)
-            {
-                if (pk.Species == (int)Species.Toxtricity && pk.Form == 0)
-                {
-                    var table = Nature0;
-                    nature = table[rng.NextInt((uint)table.Length)];
-                }
-                else if (pk.Species == (int)Species.Toxtricity && pk.Form == 1)
-                {
-                    var table = Nature1;
-                    nature = table[rng.NextInt((uint)table.Length)];
-                }
-                else
-                {
-                    nature = (int)rng.NextInt(25);
-                }
-            }
-            else
-            {
-                nature = nature_param;
-            }
-
-            pk.StatNature = pk.Nature = nature;
-
-            if (pk is IScaledSize s)
-            {
-                var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-                var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-                s.HeightScalar = (byte)height;
-                s.WeightScalar = (byte)weight;
-            }
-
-            return true;
+            var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+            var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+            s.HeightScalar = (byte)height;
+            s.WeightScalar = (byte)weight;
         }
 
-        private static uint GetShinyPID(int tid, int sid, uint pid, int type)
-        {
-            return (uint) (((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
-        }
-
-        private static bool GetIsShiny(int tid, int sid, uint pid)
-        {
-            return GetShinyXor(pid, (uint) ((sid << 16) | tid)) < 16;
-        }
-
-        private static uint GetShinyXor(uint pid, uint oid)
-        {
-            var xor = pid ^ oid;
-            return (xor ^ (xor >> 16)) & 0xFFFF;
-        }
-
-        private static readonly byte[] Nature0 = {3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24};
-        private static readonly byte[] Nature1 = {1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23};
+        return true;
     }
+
+    private static uint GetShinyPID(int tid, int sid, uint pid, int type)
+    {
+        return (uint) (((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
+    }
+
+    private static bool GetIsShiny(int tid, int sid, uint pid)
+    {
+        return GetShinyXor(pid, (uint) ((sid << 16) | tid)) < 16;
+    }
+
+    private static uint GetShinyXor(uint pid, uint oid)
+    {
+        var xor = pid ^ oid;
+        return (xor ^ (xor >> 16)) & 0xFFFF;
+    }
+
+    private static readonly byte[] Nature0 = {3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24};
+    private static readonly byte[] Nature1 = {1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23};
 }

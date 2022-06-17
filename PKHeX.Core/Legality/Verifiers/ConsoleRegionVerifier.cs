@@ -1,36 +1,35 @@
 ﻿using static PKHeX.Core.LegalityCheckStrings;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> of origin values.
+/// </summary>
+public sealed class ConsoleRegionVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> of origin values.
-    /// </summary>
-    public sealed class ConsoleRegionVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.Geography;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Geography;
+        if (data.Entity is not IRegionOrigin tr)
+            return;
+        var result = VerifyConsoleRegion(tr);
+        data.AddLine(result);
+    }
 
-        public override void Verify(LegalityAnalysis data)
-        {
-            if (data.pkm is not IRegionOrigin tr)
-                return;
-            var result = VerifyConsoleRegion(tr);
-            data.AddLine(result);
-        }
+    private CheckResult VerifyConsoleRegion(IRegionOrigin pk)
+    {
+        int consoleRegion = pk.ConsoleRegion;
+        if (consoleRegion >= 7)
+            return GetInvalid(LGeoHardwareRange);
 
-        private CheckResult VerifyConsoleRegion(IRegionOrigin pkm)
-        {
-            int consoleRegion = pkm.ConsoleRegion;
-            if (consoleRegion >= 7)
-                return GetInvalid(LGeoHardwareRange);
+        return Verify3DSDataPresent(pk, consoleRegion);
+    }
 
-            return Verify3DSDataPresent(pkm, consoleRegion);
-        }
-
-        private CheckResult Verify3DSDataPresent(IRegionOrigin pkm, int consoleRegion)
-        {
-            if (!Locale3DS.IsConsoleRegionCountryValid(consoleRegion, pkm.Country))
-                return GetInvalid(LGeoHardwareInvalid);
-            return GetValid(LGeoHardwareValid);
-        }
+    private CheckResult Verify3DSDataPresent(IRegionOrigin pk, int consoleRegion)
+    {
+        if (!Locale3DS.IsConsoleRegionCountryValid(consoleRegion, pk.Country))
+            return GetInvalid(LGeoHardwareInvalid);
+        return GetValid(LGeoHardwareValid);
     }
 }

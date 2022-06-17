@@ -12,8 +12,8 @@ public sealed class ContestStatVerifier : Verifier
     protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
     public override void Verify(LegalityAnalysis data)
     {
-        var pkm = data.pkm;
-        if (pkm is not IContestStats s)
+        var pk = data.Entity;
+        if (pk is not IContestStats s)
             return;
 
         // If no stats have been increased from the initial amount, then we're done here.
@@ -25,7 +25,7 @@ public sealed class ContestStatVerifier : Verifier
         // In generations 3,4 and BDSP, blocks/poffins have a feel(sheen) equal to sheen=sum(stats)/5, with +/- 10% for a favored stat.
         // In generation 6 (ORAS), they don't award any sheen, so any value is legal.
 
-        var correlation = GetContestStatRestriction(pkm, data.Info.Generation, data.Info.EvoChainsAllGens);
+        var correlation = GetContestStatRestriction(pk, data.Info.Generation, data.Info.EvoChainsAllGens);
         if (correlation == None)
         {
             // We're only here because we have contest stat values. We aren't permitted to have any, so flag it.
@@ -41,19 +41,19 @@ public sealed class ContestStatVerifier : Verifier
         else if (correlation == CorrelateSheen)
         {
             bool gen3 = data.Info.Generation == 3;
-            bool bdsp = pkm.HasVisitedBDSP(data.Info.EvoChainsAllGens.Gen8b);
+            bool bdsp = pk.HasVisitedBDSP(data.Info.EvoChainsAllGens.Gen8b);
             var method = gen3 ? ContestStatGrantingSheen.Gen3 :
                 bdsp ? ContestStatGrantingSheen.Gen8b : ContestStatGrantingSheen.Gen4;
 
             // Check for stat values that exceed a valid sheen value.
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
-            var minSheen = CalculateMinimumSheen(s, initial, pkm, method);
+            var minSheen = CalculateMinimumSheen(s, initial, pk, method);
 
             if (s.CNT_Sheen < minSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooLow_0, minSheen)));
 
             // Check for sheen values that are too high.
-            var maxSheen = CalculateMaximumSheen(s, pkm.Nature, initial, gen3);
+            var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
             if (s.CNT_Sheen > maxSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooHigh_0, maxSheen)));
         }
@@ -63,7 +63,7 @@ public sealed class ContestStatVerifier : Verifier
 
             // Check for sheen values that are too high.
             var initial = GetReferenceTemplate(data.Info.EncounterMatch);
-            var maxSheen = CalculateMaximumSheen(s, pkm.Nature, initial, gen3);
+            var maxSheen = CalculateMaximumSheen(s, pk.Nature, initial, gen3);
             if (s.CNT_Sheen > maxSheen)
                 data.AddLine(GetInvalid(string.Format(LContestSheenTooHigh_0, maxSheen)));
         }

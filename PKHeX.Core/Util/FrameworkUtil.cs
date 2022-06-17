@@ -5,6 +5,14 @@ global using static PKHeX.Core.Buffers.Binary.Extra.BinaryPrimitives;
 using System;
 using System.Runtime.InteropServices;
 
+namespace System
+{
+    public static class FutureFeatures
+    {
+        public static bool StartsWith(this string str, char value) => str.Length != 0 && str[0] == value;
+    }
+}
+
 namespace PKHeX.Core.Buffers.Binary.Extra
 {
     internal static class BinaryPrimitives

@@ -146,24 +146,24 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
         protected set => PartyInfo.PartyCount = value;
     }
 
-    protected override void SetPKM(PKM pkm, bool isParty = false)
+    protected override void SetPKM(PKM pk, bool isParty = false)
     {
-        var pk = (PA8)pkm;
+        var pa8 = (PA8)pk;
         // Apply to this Save File
-        pk.Trade(this);
-        pkm.RefreshChecksum();
+        pa8.Trade(this);
+        pa8.RefreshChecksum();
     }
 
     // Zukan
-    protected override void SetDex(PKM pkm)
+    protected override void SetDex(PKM pk)
     {
         // TODO: Seen in wild?
-        // Accessor.SetPokeSeenInWild(pkm);
+        // Accessor.SetPokeSeenInWild(pk);
 
         // TODO: Should this update research? What research should it be updating?
         // TODO: Should this be passing "caught=true" to set caught flags and not just obtain flags?
-        // For now, if we have never obtained the poke, treat this pkm as obtained-via-trade.
-        PokedexSave.OnPokeGet_TradeWithoutEvolution(pkm);
+        // For now, if we have never obtained the poke, treat this pk as obtained-via-trade.
+        PokedexSave.OnPokeGet_TradeWithoutEvolution(pk);
     }
 
     public override bool GetCaught(int species)

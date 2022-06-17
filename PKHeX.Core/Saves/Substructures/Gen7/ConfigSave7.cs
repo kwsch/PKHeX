@@ -1,88 +1,87 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public sealed class ConfigSave7 : SaveBlock<SAV7>
 {
-    public sealed class ConfigSave7 : SaveBlock<SAV7>
+    /* ===32 bits===
+     * talkSpeed:2      0,1
+     * battleAnim:1     2
+     * battleStyle:1    3
+     * unknown:9        4..12
+     * buttonMode:2     13,14
+     * boxStatus:1      15
+     * everything else: unknown
+     */
+
+    public ConfigSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+    public ConfigSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+
+    public int ConfigValue
     {
-        /* ===32 bits===
-         * talkSpeed:2      0,1
-         * battleAnim:1     2
-         * battleStyle:1    3
-         * unknown:9        4..12
-         * buttonMode:2     13,14
-         * boxStatus:1      15
-         * everything else: unknown
-         */
+        get => ReadInt32LittleEndian(Data.AsSpan(Offset));
+        set => WriteInt32LittleEndian(Data.AsSpan(Offset), value);
+    }
 
-        public ConfigSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public ConfigSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+    public int TalkingSpeed
+    {
+        get => ConfigValue & 3;
+        set => ConfigValue = (ConfigValue & ~3) | (value & 3);
+    }
 
-        public int ConfigValue
-        {
-            get => ReadInt32LittleEndian(Data.AsSpan(Offset));
-            set => WriteInt32LittleEndian(Data.AsSpan(Offset), value);
-        }
+    public BattleAnimationSetting BattleAnimation
+    {
+        // Effects OFF = 1, Effects ON = 0
+        get => (BattleAnimationSetting)((ConfigValue >> 2) & 1);
+        set => ConfigValue = (ConfigValue & ~(1 << 2)) | ((byte)value << 2);
+    }
 
-        public int TalkingSpeed
-        {
-            get => ConfigValue & 3;
-            set => ConfigValue = (ConfigValue & ~3) | (value & 3);
-        }
+    public BattleStyleSetting BattleStyle
+    {
+        // SET = 1, SWITCH = 0
+        get => (BattleStyleSetting)((ConfigValue >> 3) & 1);
+        set => ConfigValue = (ConfigValue & ~(1 << 3)) | ((byte)value << 3);
+    }
 
-        public BattleAnimationSetting BattleAnimation
-        {
-            // Effects OFF = 1, Effects ON = 0
-            get => (BattleAnimationSetting)((ConfigValue >> 2) & 1);
-            set => ConfigValue = (ConfigValue & ~(1 << 2)) | ((byte)value << 2);
-        }
+    // UNKNOWN?
 
-        public BattleStyleSetting BattleStyle
-        {
-            // SET = 1, SWITCH = 0
-            get => (BattleStyleSetting)((ConfigValue >> 3) & 1);
-            set => ConfigValue = (ConfigValue & ~(1 << 3)) | ((byte)value << 3);
-        }
+    public int ButtonMode
+    {
+        get => (ConfigValue >> 13) & 3;
+        set => ConfigValue = (ConfigValue & ~(1 << 13)) | (value << 13);
+    }
 
-        // UNKNOWN?
+    public int BoxStatus
+    {
+        // MANUAL = 1, AUTOMATIC = 0
+        get => (ConfigValue >> 15) & 1;
+        set => ConfigValue = (ConfigValue & ~(1 << 15)) | (value << 15);
+    }
 
-        public int ButtonMode
-        {
-            get => (ConfigValue >> 13) & 3;
-            set => ConfigValue = (ConfigValue & ~(1 << 13)) | (value << 13);
-        }
+    // NOTE: BELOW COMES FROM LGPE. MAYBE THIS IS WHAT THEY USE THE FLAGS FOR?
 
-        public int BoxStatus
-        {
-            // MANUAL = 1, AUTOMATIC = 0
-            get => (ConfigValue >> 15) & 1;
-            set => ConfigValue = (ConfigValue & ~(1 << 15)) | (value << 15);
-        }
+    /// <summary>
+    /// <see cref="LanguageID"/> for messages, stored with <see cref="LanguageID.UNUSED_6"/> skipped in the enumeration.
+    /// </summary>
+    public int Language
+    {
+        get => GetLanguageID((ConfigValue >> 4) & 0xF);
+        set => ConfigValue = ((ConfigValue & ~0xF0) | (SetLanguageID(value) << 4));
+    }
 
-        // NOTE: BELOW COMES FROM LGPE. MAYBE THIS IS WHAT THEY USE THE FLAGS FOR?
+    private static int GetLanguageID(int rawValue) => rawValue >= (int)LanguageID.UNUSED_6 ? rawValue + 1 : rawValue; // sets langBank to LanguageID
+    private static int SetLanguageID(int rawValue) => rawValue > (int)LanguageID.UNUSED_6 ? rawValue - 1 : rawValue; // sets LanguageID to langBank
 
-        /// <summary>
-        /// <see cref="LanguageID"/> for messages, stored with <see cref="LanguageID.UNUSED_6"/> skipped in the enumeration.
-        /// </summary>
-        public int Language
-        {
-            get => GetLanguageID((ConfigValue >> 4) & 0xF);
-            set => ConfigValue = ((ConfigValue & ~0xF0) | SetLanguageID(value) << 4);
-        }
+    public enum BattleAnimationSetting
+    {
+        EffectsON,
+        EffectsOFF,
+    }
 
-        private static int GetLanguageID(int rawValue) => rawValue >= (int)LanguageID.UNUSED_6 ? rawValue + 1 : rawValue; // sets langBank to LanguageID
-        private static int SetLanguageID(int rawValue) => rawValue > (int)LanguageID.UNUSED_6 ? rawValue - 1 : rawValue; // sets LanguageID to langBank
-
-        public enum BattleAnimationSetting
-        {
-            EffectsON,
-            EffectsOFF,
-        }
-
-        public enum BattleStyleSetting
-        {
-            SWITCH,
-            SET,
-        }
+    public enum BattleStyleSetting
+    {
+        SWITCH,
+        SET,
     }
 }

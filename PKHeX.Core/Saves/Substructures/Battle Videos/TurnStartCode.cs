@@ -1,8 +1,8 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum TurnStartCode
 {
-    public enum TurnStartCode
-    {
-        Fight = 1,
-        Switch = 9,
-    }
+    None = 0,
+    Fight = 1,
+    Switch = 9,
 }

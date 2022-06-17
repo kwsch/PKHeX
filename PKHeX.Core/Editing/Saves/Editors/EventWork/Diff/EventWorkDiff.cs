@@ -36,7 +36,7 @@ public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagA
         Diff(t1, t2);
     }
 
-    private EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
+    private static EventWorkDiffCompatibility SanityCheckSaveInfo(T s1, T s2)
     {
         if (s1.GetType() != s2.GetType())
             return DifferentGameGroup;
@@ -74,9 +74,9 @@ public sealed class EventBlockDiff<T, T2> : IEventWorkDiff where T : IEventFlagA
 
     public IReadOnlyList<string> Summarize()
     {
-        var fOn = SetFlags.Select(z => z.ToString());
-        var fOff = ClearedFlags.Select(z => z.ToString());
-        var wt = WorkChanged.Select((z, _) => z.ToString());
+        var fOn = SetFlags.Select(z => $"{z}");
+        var fOff = ClearedFlags.Select(z => $"{z}");
+        var wt = WorkChanged.Select((z, _) => $"{z}");
 
         var list = new List<string> { "Flags: ON", "=========" };
         list.AddRange(fOn);

@@ -6,54 +6,53 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class BallBrowser : Form
 {
-    public partial class BallBrowser : Form
+    public BallBrowser() => InitializeComponent();
+
+    public int BallChoice { get; private set; } = -1;
+
+    public void LoadBalls(Ball[] poss, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)
     {
-        public BallBrowser() => InitializeComponent();
-
-        public int BallChoice { get; private set; } = -1;
-
-        public void LoadBalls(Ball[] poss, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)
+        for (int i = 0; i < poss.Length; i++)
         {
-            for (int i = 0; i < poss.Length; i++)
-            {
-                var pb = GetBallView(poss[i], legal, names);
-                flp.Controls.Add(pb);
-                const int width = 5; // balls wide
-                if (i % width == width - 1)
-                    flp.SetFlowBreak(pb, true);
-            }
+            var pb = GetBallView(poss[i], legal, names);
+            flp.Controls.Add(pb);
+            const int width = 5; // balls wide
+            if (i % width == width - 1)
+                flp.SetFlowBreak(pb, true);
         }
+    }
 
-        public void LoadBalls(PKM pkm)
-        {
-            var legal = BallApplicator.GetLegalBalls(pkm).ToArray();
-            var poss = ((Ball[])Enum.GetValues(typeof(Ball))).Skip(1)
-                .TakeWhile(z => (int)z <= pkm.MaxBallID).ToArray();
-            var names = GameInfo.BallDataSource;
-            LoadBalls(poss, legal, names);
-        }
+    public void LoadBalls(PKM pk)
+    {
+        var legal = BallApplicator.GetLegalBalls(pk).ToArray();
+        var poss = ((Ball[])Enum.GetValues(typeof(Ball))).Skip(1)
+            .TakeWhile(z => (int)z <= pk.MaxBallID).ToArray();
+        var names = GameInfo.BallDataSource;
+        LoadBalls(poss, legal, names);
+    }
 
-        private PictureBox GetBallView(Ball b, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)
+    private PictureBox GetBallView(Ball b, ICollection<Ball> legal, IReadOnlyList<ComboItem> names)
+    {
+        var img = SpriteUtil.GetBallSprite((int)b);
+        var pb = new PictureBox
         {
-            var img = SpriteUtil.GetBallSprite((int)b);
-            var pb = new PictureBox
-            {
-                Size = img.Size,
-                Image = img,
-                BackgroundImage = legal.Contains(b) ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
-                BackgroundImageLayout = ImageLayout.Tile,
-            };
-            pb.MouseEnter += (_, _) => Text = names.First(z => z.Value == (int)b).Text;
-            pb.Click += (_, _) => SelectBall(b);
-            return pb;
-        }
+            Size = img.Size,
+            Image = img,
+            BackgroundImage = legal.Contains(b) ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
+            BackgroundImageLayout = ImageLayout.Tile,
+        };
+        pb.MouseEnter += (_, _) => Text = names.First(z => z.Value == (int)b).Text;
+        pb.Click += (_, _) => SelectBall(b);
+        return pb;
+    }
 
-        private void SelectBall(Ball b)
-        {
-            BallChoice = (int)b;
-            Close();
-        }
+    private void SelectBall(Ball b)
+    {
+        BallChoice = (int)b;
+        Close();
     }
 }

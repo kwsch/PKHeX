@@ -1,11 +1,10 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum UgItemType
 {
-    public enum UgItemType
-    {
-        None,
-        Item,
-        Sphere,
-        Statue,
-        Pedestal,
-    }
+    None,
+    Item,
+    Sphere,
+    Statue,
+    Pedestal,
 }

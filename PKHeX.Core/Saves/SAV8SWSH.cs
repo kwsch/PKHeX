@@ -187,30 +187,30 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
     public override string GetBoxName(int box) => BoxLayout[box];
     public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
-    public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
+    public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
-    protected override void SetPKM(PKM pkm, bool isParty = false)
+    protected override void SetPKM(PKM pk, bool isParty = false)
     {
-        PK8 pk = (PK8)pkm;
+        PK8 pk8 = (PK8)pk;
         // Apply to this Save File
         DateTime Date = DateTime.Now;
-        pk.Trade(this, Date.Day, Date.Month, Date.Year);
+        pk8.Trade(this, Date.Day, Date.Month, Date.Year);
 
-        if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk.Species, pk.Form))
+        if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk8.Species, pk8.Form))
         {
-            pk.FormArgumentElapsed = pk.FormArgumentMaximum = 0;
-            pk.FormArgumentRemain = (byte)GetFormArgument(pkm);
+            pk8.FormArgumentElapsed = pk8.FormArgumentMaximum = 0;
+            pk8.FormArgumentRemain = (byte)GetFormArgument(pk8);
         }
 
-        pkm.RefreshChecksum();
-        AddCountAcquired(pkm);
+        pk8.RefreshChecksum();
+        AddCountAcquired(pk8);
     }
 
-    private static uint GetFormArgument(PKM pkm)
+    private static uint GetFormArgument(PKM pk)
     {
-        if (pkm.Form == 0)
+        if (pk.Form == 0)
             return 0;
-        return pkm.Species switch
+        return pk.Species switch
         {
             (int)Species.Furfrou => 5u, // Furfrou
             (int)Species.Hoopa => 3u, // Hoopa
@@ -218,9 +218,9 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         };
     }
 
-    private void AddCountAcquired(PKM pkm)
+    private void AddCountAcquired(PKM pk)
     {
-        if (pkm.WasEgg)
+        if (pk.WasEgg)
         {
             Records.AddRecord(00);
         }
@@ -231,11 +231,11 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
             Records.AddRecord(16); // wild encountered
             Records.AddRecord(23); // total battled
         }
-        if (pkm.CurrentHandler == 1)
+        if (pk.CurrentHandler == 1)
             Records.AddRecord(17, 2); // trade * 2 -- these games count 1 trade as 2 for some reason.
     }
 
-    protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
+    protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
     public override bool GetCaught(int species) => Zukan.GetCaught(species);
     public override bool GetSeen(int species) => Zukan.GetSeen(species);
 
@@ -256,16 +256,16 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
     public int RecordCount => Record8.RecordCount;
 
-    public override StorageSlotFlag GetSlotFlags(int index)
+    public override StorageSlotSource GetSlotFlags(int index)
     {
         int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
         if (team < 0)
-            return StorageSlotFlag.None;
+            return StorageSlotSource.None;
 
         team /= 6;
-        var result = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+        var result = (StorageSlotSource)((int)StorageSlotSource.BattleTeam1 << team);
         if (TeamIndexes.GetIsTeamLocked(team))
-            result |= StorageSlotFlag.Locked;
+            result |= StorageSlotSource.Locked;
         return result;
     }
 
@@ -274,7 +274,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     public override byte[] BoxFlags
     {
-        get => new [] {Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1)};
+        get => new [] {(byte)(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1)};
         set
         {
             if (value.Length != 1)

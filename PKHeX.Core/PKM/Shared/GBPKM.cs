@@ -1,249 +1,248 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Base format for Generation 1 &amp; 2 <see cref="PKM"/> objects.
+/// </summary>
+/// <remarks>
+/// <see cref="SK2"/> store text buffers with the rest of the data.
+/// <see cref="PK1"/> and <see cref="PK2"/> store them separately; see <see cref="GBPKML"/>.
+/// </remarks>
+public abstract class GBPKM : PKM
 {
-    /// <summary>
-    /// Base format for Generation 1 &amp; 2 <see cref="PKM"/> objects.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="SK2"/> store text buffers with the rest of the data.
-    /// <see cref="PK1"/> and <see cref="PK2"/> store them separately; see <see cref="GBPKML"/>.
-    /// </remarks>
-    public abstract class GBPKM : PKM
+    public sealed override int MaxBallID => -1;
+    public sealed override int MinGameID => (int)GameVersion.RD;
+    public sealed override int MaxGameID => (int)GameVersion.C;
+    public sealed override int MaxIV => 15;
+    public sealed override int MaxEV => ushort.MaxValue;
+
+    public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
+
+    protected GBPKM(int size) : base(size) { }
+    protected GBPKM(byte[] data) : base(data) { }
+
+    public sealed override byte[] EncryptedPartyData => Encrypt();
+    public sealed override byte[] EncryptedBoxData => Encrypt();
+    public sealed override byte[] DecryptedBoxData => Encrypt();
+    public sealed override byte[] DecryptedPartyData => Encrypt();
+
+    public override bool Valid { get => true; set { } }
+    public sealed override void RefreshChecksum() { }
+
+    protected abstract byte[] GetNonNickname(int language);
+
+    private bool? _isnicknamed;
+
+    public sealed override bool IsNicknamed
     {
-        public sealed override int MaxBallID => -1;
-        public sealed override int MinGameID => (int)GameVersion.RD;
-        public sealed override int MaxGameID => (int)GameVersion.C;
-        public sealed override int MaxIV => 15;
-        public sealed override int MaxEV => ushort.MaxValue;
-
-        public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
-
-        protected GBPKM(int size) : base(size) { }
-        protected GBPKM(byte[] data) : base(data) { }
-
-        public sealed override byte[] EncryptedPartyData => Encrypt();
-        public sealed override byte[] EncryptedBoxData => Encrypt();
-        public sealed override byte[] DecryptedBoxData => Encrypt();
-        public sealed override byte[] DecryptedPartyData => Encrypt();
-
-        public override bool Valid { get => true; set { } }
-        public sealed override void RefreshChecksum() { }
-
-        protected abstract byte[] GetNonNickname(int language);
-
-        private bool? _isnicknamed;
-
-        public sealed override bool IsNicknamed
+        get => _isnicknamed ??= !Nickname_Trash.SequenceEqual(GetNonNickname(GuessedLanguage()));
+        set
         {
-            get => _isnicknamed ??= !Nickname_Trash.SequenceEqual(GetNonNickname(GuessedLanguage()));
-            set
-            {
-                _isnicknamed = value;
-                if (_isnicknamed == false)
-                    SetNotNicknamed(GuessedLanguage());
-            }
+            _isnicknamed = value;
+            if (_isnicknamed == false)
+                SetNotNicknamed(GuessedLanguage());
         }
+    }
 
-        protected bool IsNicknamedBank
+    protected bool IsNicknamedBank
+    {
+        get
         {
-            get
-            {
-                var spName = SpeciesName.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
-                return Nickname != spName;
-            }
+            var spName = SpeciesName.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
+            return Nickname != spName;
         }
+    }
 
-        public sealed override int Language
+    public sealed override int Language
+    {
+        get
         {
-            get
-            {
-                if (Japanese)
-                    return (int)LanguageID.Japanese;
-                if (Korean)
-                    return (int)LanguageID.Korean;
-                if (StringConverter12.IsG12German(OT_Trash))
-                    return (int)LanguageID.German; // german
-                int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
-                if (lang > 0)
-                    return lang;
-                return 0;
-            }
-            set
-            {
-                if (Japanese)
-                    return;
-                if (Korean)
-                    return;
-
-                if (IsNicknamed)
-                    return;
-                SetNotNicknamed(value);
-            }
-        }
-
-        public sealed override int Gender
-        {
-            get
-            {
-                int gv = PersonalInfo.Gender;
-                return gv switch
-                {
-                    PersonalInfo.RatioMagicGenderless => 2,
-                    PersonalInfo.RatioMagicFemale => 1,
-                    PersonalInfo.RatioMagicMale => 0,
-                    _ => IV_ATK > gv >> 4 ? 0 : 1,
-                };
-            }
-            set { }
-        }
-
-        #region Future, Unused Attributes
-        public sealed override bool IsGenderValid() => true; // not a separate property, derived via IVs
-        public sealed override uint EncryptionConstant { get => 0; set { } }
-        public sealed override uint PID { get => 0; set { } }
-        public sealed override int Nature { get => 0; set { } }
-        public sealed override bool ChecksumValid => true;
-        public sealed override bool FatefulEncounter { get => false; set { } }
-        public sealed override int TSV => 0x0000;
-        public sealed override int PSV => 0xFFFF;
-        public sealed override int Characteristic => -1;
-        public sealed override int MarkValue { get => 0; set { } }
-        public sealed override int Ability { get => -1; set { } }
-        public sealed override int CurrentHandler { get => 0; set { } }
-        public sealed override int Egg_Location { get => 0; set { } }
-        public sealed override int Ball { get => 0; set { } }
-        public sealed override int SID { get => 0; set { } }
-        #endregion
-
-        public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
-        private int HPBitValPower => ((IV_ATK & 8) >> 0) | ((IV_DEF & 8) >> 1) | ((IV_SPE & 8) >> 2) | ((IV_SPC & 8) >> 3);
-        public sealed override int HPPower => (((5 * HPBitValPower) + (IV_SPC & 3)) >> 1) + 31;
-
-        public sealed override int HPType
-        {
-            get => ((IV_ATK & 3) << 2) | (IV_DEF & 3);
-            set
-            {
-                IV_DEF = ((IV_DEF >> 2) << 2) | (value & 3);
-                IV_DEF = ((IV_ATK >> 2) << 2) | ((value >> 2) & 3);
-            }
-        }
-
-        public sealed override int Form
-        {
-            get
-            {
-                if (Species != 201) // Unown
-                    return 0;
-
-                uint formeVal = 0;
-                formeVal |= (uint)((IV_ATK & 0x6) << 5);
-                formeVal |= (uint)((IV_DEF & 0x6) << 3);
-                formeVal |= (uint)((IV_SPE & 0x6) << 1);
-                formeVal |= (uint)((IV_SPC & 0x6) >> 1);
-                return (int)(formeVal / 10);
-            }
-            set
-            {
-                if (Species != 201) // Unown
-                    return;
-                while (Form != value)
-                    SetRandomIVs(0);
-            }
-        }
-
-        public abstract int EV_SPC { get; set; }
-        public sealed override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
-        public sealed override int EV_SPD { get => EV_SPC; set { } }
-        public abstract ushort DV16 { get; set; }
-        public sealed override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
-        public sealed override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
-        public sealed override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
-        public sealed override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
-        public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
-        public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
-        public sealed override int IV_SPD { get => IV_SPC; set { } }
-        public override int MarkingCount => 0;
-        public override int GetMarking(int index) => 0;
-        public override void SetMarking(int index, int value) { }
-
-        public void SetNotNicknamed() => SetNotNicknamed(GuessedLanguage());
-        public abstract void SetNotNicknamed(int language);
-
-        public int GuessedLanguage(int fallback = (int)LanguageID.English)
-        {
-            int lang = Language;
+            if (Japanese)
+                return (int)LanguageID.Japanese;
+            if (Korean)
+                return (int)LanguageID.Korean;
+            if (StringConverter12.IsG12German(OT_Trash))
+                return (int)LanguageID.German; // german
+            int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
             if (lang > 0)
                 return lang;
-            if (fallback is (int)LanguageID.French or (int)LanguageID.German) // only other permitted besides English
-                return fallback;
-            return (int)LanguageID.English;
+            return 0;
         }
-
-        /// <summary>
-        /// Tries to guess the source language ID when transferred to future generations (7+)
-        /// </summary>
-        /// <param name="destLanguage">Destination language ID</param>
-        /// <returns>Source language ID</returns>
-        protected int TransferLanguage(int destLanguage)
+        set
         {
-            // if the Species name of the destination language matches the current nickname, transfer with that language.
-            var expect = SpeciesName.GetSpeciesNameGeneration(Species, destLanguage, 2);
-            if (Nickname == expect)
-                return destLanguage;
-            return GuessedLanguage(destLanguage);
-        }
+            if (Japanese)
+                return;
+            if (Korean)
+                return;
 
-        public override void LoadStats(PersonalInfo p, Span<ushort> stats)
+            if (IsNicknamed)
+                return;
+            SetNotNicknamed(value);
+        }
+    }
+
+    public sealed override int Gender
+    {
+        get
         {
-            var lv = Stat_Level;
-            stats[0] = (ushort)(GetStat(p.HP, IV_HP, EV_HP, lv) + (5 + lv)); // HP
-            stats[1] = GetStat(p.ATK, IV_ATK, EV_ATK, lv);
-            stats[2] = GetStat(p.DEF, IV_DEF, EV_DEF, lv);
-            stats[3] = GetStat(p.SPE, IV_SPE, EV_SPE, lv);
-            stats[4] = GetStat(p.SPA, IV_SPA, EV_SPA, lv);
-            stats[5] = GetStat(p.SPD, IV_SPD, EV_SPD, lv);
+            int gv = PersonalInfo.Gender;
+            return gv switch
+            {
+                PersonalInfo.RatioMagicGenderless => 2,
+                PersonalInfo.RatioMagicFemale => 1,
+                PersonalInfo.RatioMagicMale => 0,
+                _ => IV_ATK > gv >> 4 ? 0 : 1,
+            };
         }
+        set { }
+    }
 
-        protected static ushort GetStat(int baseStat, int iv, int effort, int level)
+    #region Future, Unused Attributes
+    public sealed override bool IsGenderValid() => true; // not a separate property, derived via IVs
+    public sealed override uint EncryptionConstant { get => 0; set { } }
+    public sealed override uint PID { get => 0; set { } }
+    public sealed override int Nature { get => 0; set { } }
+    public sealed override bool ChecksumValid => true;
+    public sealed override bool FatefulEncounter { get => false; set { } }
+    public sealed override int TSV => 0x0000;
+    public sealed override int PSV => 0xFFFF;
+    public sealed override int Characteristic => -1;
+    public sealed override int MarkValue { get => 0; set { } }
+    public sealed override int Ability { get => -1; set { } }
+    public sealed override int CurrentHandler { get => 0; set { } }
+    public sealed override int Egg_Location { get => 0; set { } }
+    public sealed override int Ball { get => 0; set { } }
+    public sealed override int SID { get => 0; set { } }
+    #endregion
+
+    public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
+    private int HPBitValPower => ((IV_ATK & 8) >> 0) | ((IV_DEF & 8) >> 1) | ((IV_SPE & 8) >> 2) | ((IV_SPC & 8) >> 3);
+    public sealed override int HPPower => (((5 * HPBitValPower) + (IV_SPC & 3)) >> 1) + 31;
+
+    public sealed override int HPType
+    {
+        get => ((IV_ATK & 3) << 2) | (IV_DEF & 3);
+        set
         {
-            effort = (ushort)Math.Min(255, Math.Sqrt(effort) + 1) >> 2;
-            return (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
+            IV_DEF = ((IV_DEF >> 2) << 2) | (value & 3);
+            IV_DEF = ((IV_ATK >> 2) << 2) | ((value >> 2) & 3);
         }
+    }
 
-        public sealed override int GetMovePP(int move, int ppUpCount)
+    public sealed override int Form
+    {
+        get
         {
-            var pp = base.GetMovePP(move, 0);
-            return pp + (ppUpCount * Math.Min(7, pp / 5));
+            if (Species != 201) // Unown
+                return 0;
+
+            uint formeVal = 0;
+            formeVal |= (uint)((IV_ATK & 0x6) << 5);
+            formeVal |= (uint)((IV_DEF & 0x6) << 3);
+            formeVal |= (uint)((IV_SPE & 0x6) << 1);
+            formeVal |= (uint)((IV_SPC & 0x6) >> 1);
+            return (int)(formeVal / 10);
         }
-
-        public void MaxEVs() => EV_HP = EV_ATK = EV_DEF = EV_SPC = EV_SPE = MaxEV;
-
-        /// <summary>
-        /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
-        /// </summary>
-        public sealed override void SetShiny()
+        set
         {
-            IV_ATK |= 2;
-            IV_DEF = 10;
-            IV_SPE = 10;
-            IV_SPA = 10;
+            if (Species != 201) // Unown
+                return;
+            while (Form != value)
+                SetRandomIVs(0);
         }
+    }
 
-        internal void ImportFromFuture(PKM pkm)
-        {
-            Nickname = pkm.Nickname;
-            OT_Name = pkm.OT_Name;
-            IV_ATK = pkm.IV_ATK / 2;
-            IV_DEF = pkm.IV_DEF / 2;
-            IV_SPC = pkm.IV_SPA / 2;
-          //IV_SPD = pkm.IV_ATK / 2;
-            IV_SPE = pkm.IV_SPE / 2;
+    public abstract int EV_SPC { get; set; }
+    public sealed override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
+    public sealed override int EV_SPD { get => EV_SPC; set { } }
+    public abstract ushort DV16 { get; set; }
+    public sealed override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
+    public sealed override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
+    public sealed override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
+    public sealed override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
+    public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
+    public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
+    public sealed override int IV_SPD { get => IV_SPC; set { } }
+    public override int MarkingCount => 0;
+    public override int GetMarking(int index) => 0;
+    public override void SetMarking(int index, int value) { }
 
-            if (pkm.HasMove((int)Move.HiddenPower))
-                HPType = pkm.HPType;
-        }
+    public void SetNotNicknamed() => SetNotNicknamed(GuessedLanguage());
+    public abstract void SetNotNicknamed(int language);
+
+    public int GuessedLanguage(int fallback = (int)LanguageID.English)
+    {
+        int lang = Language;
+        if (lang > 0)
+            return lang;
+        if (fallback is (int)LanguageID.French or (int)LanguageID.German) // only other permitted besides English
+            return fallback;
+        return (int)LanguageID.English;
+    }
+
+    /// <summary>
+    /// Tries to guess the source language ID when transferred to future generations (7+)
+    /// </summary>
+    /// <param name="destLanguage">Destination language ID</param>
+    /// <returns>Source language ID</returns>
+    protected int TransferLanguage(int destLanguage)
+    {
+        // if the Species name of the destination language matches the current nickname, transfer with that language.
+        var expect = SpeciesName.GetSpeciesNameGeneration(Species, destLanguage, 2);
+        if (Nickname == expect)
+            return destLanguage;
+        return GuessedLanguage(destLanguage);
+    }
+
+    public override void LoadStats(PersonalInfo p, Span<ushort> stats)
+    {
+        var lv = Stat_Level;
+        stats[0] = (ushort)(GetStat(p.HP, IV_HP, EV_HP, lv) + (5 + lv)); // HP
+        stats[1] = GetStat(p.ATK, IV_ATK, EV_ATK, lv);
+        stats[2] = GetStat(p.DEF, IV_DEF, EV_DEF, lv);
+        stats[3] = GetStat(p.SPE, IV_SPE, EV_SPE, lv);
+        stats[4] = GetStat(p.SPA, IV_SPA, EV_SPA, lv);
+        stats[5] = GetStat(p.SPD, IV_SPD, EV_SPD, lv);
+    }
+
+    protected static ushort GetStat(int baseStat, int iv, int effort, int level)
+    {
+        effort = (ushort)Math.Min(255, Math.Sqrt(effort) + 1) >> 2;
+        return (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
+    }
+
+    public sealed override int GetMovePP(int move, int ppUpCount)
+    {
+        var pp = base.GetMovePP(move, 0);
+        return pp + (ppUpCount * Math.Min(7, pp / 5));
+    }
+
+    public void MaxEVs() => EV_HP = EV_ATK = EV_DEF = EV_SPC = EV_SPE = MaxEV;
+
+    /// <summary>
+    /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
+    /// </summary>
+    public sealed override void SetShiny()
+    {
+        IV_ATK |= 2;
+        IV_DEF = 10;
+        IV_SPE = 10;
+        IV_SPA = 10;
+    }
+
+    internal void ImportFromFuture(PKM pk)
+    {
+        Nickname = pk.Nickname;
+        OT_Name = pk.OT_Name;
+        IV_ATK = pk.IV_ATK / 2;
+        IV_DEF = pk.IV_DEF / 2;
+        IV_SPC = pk.IV_SPA / 2;
+        //IV_SPD = pk.IV_ATK / 2;
+        IV_SPE = pk.IV_SPE / 2;
+
+        if (pk.HasMove((int)Move.HiddenPower))
+            HPType = pk.HPType;
     }
 }

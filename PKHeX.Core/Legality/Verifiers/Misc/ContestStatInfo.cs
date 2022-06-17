@@ -87,12 +87,12 @@ public static class ContestStatInfo
         return Math.Min(MaxContestStat, avg * HighestFeelPoffin8b);
     }
 
-    public static int CalculateMinimumSheen(IContestStats s, IContestStats initial, INature pkm, ContestStatGrantingSheen method) => method switch
+    public static int CalculateMinimumSheen(IContestStats s, IContestStats initial, INature pk, ContestStatGrantingSheen method) => method switch
     {
-        ContestStatGrantingSheen.Gen8b => CalculateMinimumSheen8b(s, pkm.Nature, initial),
-        ContestStatGrantingSheen.Gen3 => CalculateMinimumSheen3(s, pkm.Nature, initial),
-        ContestStatGrantingSheen.Gen4 => CalculateMinimumSheen4(s, pkm.Nature, initial),
-        _ => throw new IndexOutOfRangeException(nameof(method)),
+        ContestStatGrantingSheen.Gen8b => CalculateMinimumSheen8b(s, pk.Nature, initial),
+        ContestStatGrantingSheen.Gen3 => CalculateMinimumSheen3(s, pk.Nature, initial),
+        ContestStatGrantingSheen.Gen4 => CalculateMinimumSheen4(s, pk.Nature, initial),
+        _ => throw new ArgumentOutOfRangeException(nameof(method)),
     };
 
     // Slightly better stat:sheen ratio than Gen4; prefer if has visited.

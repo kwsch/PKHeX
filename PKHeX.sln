@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29324.140
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0137B955-AED7-4769-BDFE-637034CA9F8A}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
@@ -19,9 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Core.Tests", "Tests\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing", "PKHeX.Drawing\PKHeX.Drawing.csproj", "{87976C6C-3E91-42DE-B098-1E97E42C9588}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Drawing.PokeSprite", "PKHeX.Drawing.PokeSprite\PKHeX.Drawing.PokeSprite.csproj", "{990D2FB5-5F3B-44CA-8D13-A2EC99756941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing.PokeSprite", "PKHeX.Drawing.PokeSprite\PKHeX.Drawing.PokeSprite.csproj", "{990D2FB5-5F3B-44CA-8D13-A2EC99756941}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Drawing.Misc", "PKHeX.Drawing.Misc\PKHeX.Drawing.Misc.csproj", "{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing.Misc", "PKHeX.Drawing.Misc\PKHeX.Drawing.Misc.csproj", "{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
