@@ -73,6 +73,8 @@ namespace PKHeX.Core
                         data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchName));
                     if (pkm is IHandlerLanguage h && h.HT_Language != tr.Language)
                         data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTMismatchLanguage));
+                    if (Info.EncounterMatch is EncounterStatic7b { Location: 28 }) // Starter, untradeable
+                        data.AddLine(GetInvalid(LegalityCheckStrings.LTransferCurrentHandlerInvalid));
                 }
             }
 
