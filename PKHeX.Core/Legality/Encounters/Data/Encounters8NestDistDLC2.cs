@@ -8,6 +8,13 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 824, Ability = A4, Moves = new[]{ 522, 000, 000, 000 }, Index = 106 }, // Blipbug
+            new(30,03,2) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 029 }, Index = 106 }, // Chewtle
+            new(40,05,3) { Species = 832, Ability = A4, Moves = new[]{ 036, 024, 428, 086 }, Index = 106 }, // Dubwool
+            new(50,08,4) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 034, 681 }, Index = 106 }, // Corviknight
+          //new(60,10,5) { Species = 892, Ability = A0, Moves = new[]{ 555, 370, 389, 398 }, Index = 106, CanGigantamax = true }, // Urshifu
+          //new(60,10,5) { Species = 892, Ability = A0, Moves = new[]{ 710, 370, 009, 512 }, Index = 106, Form = 1, CanGigantamax = true }, // Urshifu-1
+
             new(17,01,1) { Species = 090, Ability = A4, Moves = new[]{ 420, 056, 033, 250 }, Index = 104 }, // Shellder
             new(17,01,1) { Species = 090, Ability = A4, Moves = new[]{ 420, 057, 033, 710 }, Index = 104 }, // Shellder
             new(30,03,2) { Species = 090, Ability = A4, Moves = new[]{ 062, 056, 033, 250 }, Index = 104 }, // Shellder
