@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -95,7 +95,7 @@ public static partial class Extensions
     public static bool IsHyperTrainingAvailable(this IHyperTrain t, EvolutionHistory h) => t switch
     {
         // Check for game formats where training is unavailable:
-        PA8 pa8 => pa8.HasVisitedSWSH(h.Gen8) || pa8.HasVisitedBDSP(h.Gen8b),
+        PA8 pa8 => h.Gen7.Length > 0 || pa8.HasVisitedSWSH(h.Gen8) || pa8.HasVisitedBDSP(h.Gen8b),
         _ => true,
     };
 

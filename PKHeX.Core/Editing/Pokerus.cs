@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Logic pertaining to Pokérus -- the virus that doubles EVs gained from battle.
@@ -20,6 +20,7 @@ public static class Pokerus
     public static bool IsObtainable(PKM pk) => pk switch
     {
         PA8 pa8 => HasVisitedBDSPorSWSH(pa8),
+        PB7 => false,
         _ => true,
     };
 
