@@ -129,4 +129,5 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override uint SwarmMaxCountModulo => 22;
 
     public Roamer4 Roamer1 => new(General, 0x8008);
+    public Roamer4 Roamer2 => new(General, 0x801C);
 }
