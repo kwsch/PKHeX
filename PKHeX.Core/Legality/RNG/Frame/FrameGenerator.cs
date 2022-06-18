@@ -1,102 +1,101 @@
 ﻿using System;
 using static PKHeX.Core.GameVersion;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Generator class for Gen3/4 Frame patterns
+/// </summary>
+public sealed class FrameGenerator
 {
-    /// <summary>
-    /// Generator class for Gen3/4 Frame patterns
-    /// </summary>
-    public sealed class FrameGenerator
+    public uint Nature { get; init; }
+    public readonly bool Gendered;
+    public readonly int GenderHigh;
+    public readonly int GenderLow;
+    public readonly bool DPPt;
+    public readonly bool AllowLeads;
+    public readonly FrameType FrameType;
+    public readonly RNG RNG = RNG.LCRNG;
+    public readonly bool Safari3;
+
+    public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
+    public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
+
+    public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new(seed, FrameType, lead)
     {
-        public uint Nature { get; init; }
-        public readonly bool Gendered;
-        public readonly int GenderHigh;
-        public readonly int GenderLow;
-        public readonly bool DPPt;
-        public readonly bool AllowLeads;
-        public readonly FrameType FrameType;
-        public readonly RNG RNG = RNG.LCRNG;
-        public readonly bool Safari3;
+        RandESV = esv,
+        RandLevel = lvl,
+        OriginSeed = origin,
+    };
 
-        public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
-
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new(seed, FrameType, lead)
+    /// <summary>
+    /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects for Gen3/4 mainline games.
+    /// </summary>
+    /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
+    /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
+    public FrameGenerator(PKM pk)
+    {
+        var version = (GameVersion)pk.Version;
+        switch (version)
         {
-            RandESV = esv,
-            RandLevel = lvl,
-            OriginSeed = origin,
-        };
+            // Method H
+            case R or S or E or FR or LG:
+                DPPt = false;
+                FrameType = FrameType.MethodH;
+                Safari3 = pk.Ball == 5 && version is not (FR or LG);
 
-        /// <summary>
-        /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects for Gen3/4 mainline games.
-        /// </summary>
-        /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
-        /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
-        public FrameGenerator(PKM pk)
-        {
-            var version = (GameVersion)pk.Version;
-            switch (version)
-            {
-                // Method H
-                case R or S or E or FR or LG:
-                    DPPt = false;
-                    FrameType = FrameType.MethodH;
-                    Safari3 = pk.Ball == 5 && version is not (FR or LG);
-
-                    if (version != E)
-                        return;
-
-                    AllowLeads = true;
-
-                    // Cute Charm waits for gender too!
-                    var gender = pk.Gender;
-                    bool gendered = gender != 2;
-                    if (!gendered)
-                        return;
-
-                    var gr = pk.PersonalInfo.Gender;
-                    Gendered = true;
-                    GenderLow = GetGenderMinMax(gender, gr, false);
-                    GenderHigh = GetGenderMinMax(gender, gr, true);
+                if (version != E)
                     return;
 
-                // Method J
-                case D or P or Pt:
-                    DPPt = true;
-                    AllowLeads = true;
-                    FrameType = FrameType.MethodJ;
+                AllowLeads = true;
+
+                // Cute Charm waits for gender too!
+                var gender = pk.Gender;
+                bool gendered = gender != 2;
+                if (!gendered)
                     return;
 
-                // Method K
-                case HG or SS:
-                    DPPt = false;
-                    AllowLeads = true;
-                    FrameType = FrameType.MethodK;
-                    return;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(version));
-            }
+                var gr = pk.PersonalInfo.Gender;
+                Gendered = true;
+                GenderLow = GetGenderMinMax(gender, gr, false);
+                GenderHigh = GetGenderMinMax(gender, gr, true);
+                return;
+
+            // Method J
+            case D or P or Pt:
+                DPPt = true;
+                AllowLeads = true;
+                FrameType = FrameType.MethodJ;
+                return;
+
+            // Method K
+            case HG or SS:
+                DPPt = false;
+                AllowLeads = true;
+                FrameType = FrameType.MethodK;
+                return;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(version), version, "Unknown version.");
         }
-
-        /// <summary>
-        /// Gets the span of values for a given Gender
-        /// </summary>
-        /// <param name="gender">Gender</param>
-        /// <param name="ratio">Gender Ratio</param>
-        /// <param name="max">Return Max (or Min)</param>
-        /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-        private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
-        {
-            PersonalInfo.RatioMagicMale => max ? 255 : 0,
-            PersonalInfo.RatioMagicFemale => max ? 255 : 0,
-            PersonalInfo.RatioMagicGenderless => max ? 255 : 0,
-            _ => gender switch
-            {
-                0 => max ? 255 : ratio, // male
-                1 => max ? ratio - 1 : 0, // female
-                _ => max ? 255 : 0,
-            },
-        };
     }
+
+    /// <summary>
+    /// Gets the span of values for a given Gender
+    /// </summary>
+    /// <param name="gender">Gender</param>
+    /// <param name="ratio">Gender Ratio</param>
+    /// <param name="max">Return Max (or Min)</param>
+    /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
+    private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
+    {
+        PersonalInfo.RatioMagicMale => max ? 255 : 0,
+        PersonalInfo.RatioMagicFemale => max ? 255 : 0,
+        PersonalInfo.RatioMagicGenderless => max ? 255 : 0,
+        _ => gender switch
+        {
+            0 => max ? 255 : ratio, // male
+            1 => max ? ratio - 1 : 0, // female
+            _ => max ? 255 : 0,
+        },
+    };
 }

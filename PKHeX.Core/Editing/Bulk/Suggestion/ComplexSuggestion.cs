@@ -1,38 +1,37 @@
 ﻿using System;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <inheritdoc cref="ISuggestModification"/>
+public sealed class ComplexSuggestion : ISuggestModification
 {
-    /// <inheritdoc cref="ISuggestModification"/>
-    public sealed class ComplexSuggestion : ISuggestModification
+    public readonly string Keyword;
+    public readonly Func<PKM, bool> Criteria = _ => true;
+    public readonly Func<string, string, BatchInfo, ModifyResult> Action;
+
+    public ComplexSuggestion(
+        string keyword,
+        Func<PKM, bool> criteria,
+        Func<string, string, BatchInfo, ModifyResult> action) : this(keyword, action)
     {
-        public readonly string Keyword;
-        public readonly Func<PKM, bool> Criteria = _ => true;
-        public readonly Func<string, string, BatchInfo, ModifyResult> Action;
+        Criteria = criteria;
+    }
 
-        public ComplexSuggestion(
-            string keyword,
-            Func<PKM, bool> criteria,
-            Func<string, string, BatchInfo, ModifyResult> action) : this(keyword, action)
-        {
-            Criteria = criteria;
-        }
+    public ComplexSuggestion(
+        string keyword,
+        Func<string, string, BatchInfo, ModifyResult> action)
+    {
+        Keyword = keyword;
+        Action = action;
+    }
 
-        public ComplexSuggestion(
-            string keyword,
-            Func<string, string, BatchInfo, ModifyResult> action)
-        {
-            Keyword = keyword;
-            Action = action;
-        }
+    public bool IsMatch(string name, string value, BatchInfo info)
+    {
+        return name == Keyword && Criteria(info.Entity);
+    }
 
-        public bool IsMatch(string name, string value, BatchInfo info)
-        {
-            return name == Keyword && Criteria(info.Entity);
-        }
-
-        public ModifyResult Modify(string name, string value, BatchInfo info)
-        {
-            return Action(name, value, info);
-        }
+    public ModifyResult Modify(string name, string value, BatchInfo info)
+    {
+        return Action(name, value, info);
     }
 }

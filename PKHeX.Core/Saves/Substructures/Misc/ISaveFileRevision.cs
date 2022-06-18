@@ -1,8 +1,7 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface ISaveFileRevision
 {
-    public interface ISaveFileRevision
-    {
-        int SaveRevision { get; }
-        string SaveRevisionString { get; }
-    }
+    int SaveRevision { get; }
+    string SaveRevisionString { get; }
 }

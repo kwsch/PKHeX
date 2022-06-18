@@ -1,8 +1,7 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface ISanityChecksum
 {
-    public interface ISanityChecksum
-    {
-        ushort Sanity { get; set; }
-        ushort Checksum { get; set; }
-    }
+    ushort Sanity { get; set; }
+    ushort Checksum { get; set; }
 }

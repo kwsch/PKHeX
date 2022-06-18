@@ -6,7 +6,7 @@ public interface IMasteryInitialMoveShop8
 {
     (Learnset Learn, Learnset Mastery) GetLevelUpInfo();
     void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level);
-    bool IsForcedMasteryCorrect(PKM pkm);
+    bool IsForcedMasteryCorrect(PKM pk);
 }
 
 public static class MasteryInitialMoveShop8Extensions

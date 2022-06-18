@@ -1,19 +1,18 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+/// <summary>
+/// Common Encounter Properties base interface.
+/// <inheritdoc cref="IEncounterInfo"/>
+/// </summary>
+public interface IEncounterable : IEncounterInfo, ILocation, IFixedAbilityNumber, IFixedBall, IShinyPotential
 {
     /// <summary>
-    /// Common Encounter Properties base interface.
-    /// <inheritdoc cref="IEncounterInfo"/>
+    /// Short name to describe the encounter data, usually just indicating which of the main component encounter types the data is.
     /// </summary>
-    public interface IEncounterable : IEncounterInfo, ILocation, IFixedAbilityNumber, IFixedBall, IShinyPotential
-    {
-        /// <summary>
-        /// Short name to describe the encounter data, usually just indicating which of the main component encounter types the data is.
-        /// </summary>
-        string Name { get; }
+    string Name { get; }
 
-        /// <summary>
-        /// Long name to describe the encounter data, containing more detailed (type-specific) information.
-        /// </summary>
-        string LongName { get; }
-    }
+    /// <summary>
+    /// Long name to describe the encounter data, containing more detailed (type-specific) information.
+    /// </summary>
+    string LongName { get; }
 }

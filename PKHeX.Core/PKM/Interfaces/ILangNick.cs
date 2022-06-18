@@ -1,9 +1,8 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+internal interface ILangNick
 {
-    internal interface ILangNick
-    {
-        string Nickname { get; }
-        bool IsNicknamed { get; }
-        int Language { get; }
-    }
+    string Nickname { get; }
+    bool IsNicknamed { get; }
+    int Language { get; }
 }

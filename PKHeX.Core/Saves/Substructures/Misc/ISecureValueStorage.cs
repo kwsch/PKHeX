@@ -1,8 +1,7 @@
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public interface ISecureValueStorage
 {
-    public interface ISecureValueStorage
-    {
-        ulong TimeStampPrevious { get; set; }
-        ulong TimeStampCurrent { get; set; }
-    }
+    ulong TimeStampPrevious { get; set; }
+    ulong TimeStampCurrent { get; set; }
 }

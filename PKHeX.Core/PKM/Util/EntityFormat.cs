@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.PokeCrypto;
 using static PKHeX.Core.EntityFormatDetected;
@@ -171,7 +171,7 @@ public static class EntityFormat
             return FormatPK6;
         for (int i = 0; i < 6; i++)
         {
-            if ((mb >> (i << 1) & 3) == 3) // markings are 10 or 01 (or 00), never 11
+            if (((mb >> (i << 1)) & 3) == 3) // markings are 10 or 01 (or 00), never 11
                 return FormatPK6;
         }
 

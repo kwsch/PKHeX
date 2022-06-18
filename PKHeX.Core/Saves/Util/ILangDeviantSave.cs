@@ -1,11 +1,10 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+/// <summary>
+/// <see cref="SaveFile"/> behaves differently for different languages (different structure layout).
+/// </summary>
+public interface ILangDeviantSave : ISaveFileRevision
 {
-    /// <summary>
-    /// <see cref="SaveFile"/> behaves differently for different languages (different structure layout).
-    /// </summary>
-    public interface ILangDeviantSave : ISaveFileRevision
-    {
-        bool Japanese { get; }
-        bool Korean { get; }
-    }
+    bool Japanese { get; }
+    bool Korean { get; }
 }

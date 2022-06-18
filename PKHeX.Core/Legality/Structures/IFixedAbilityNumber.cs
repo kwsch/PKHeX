@@ -1,7 +1,6 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface IFixedAbilityNumber
 {
-    public interface IFixedAbilityNumber
-    {
-        AbilityPermission Ability { get; }
-    }
+    AbilityPermission Ability { get; }
 }

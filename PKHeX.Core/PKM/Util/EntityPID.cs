@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -70,10 +70,9 @@ public static class EntityPID
     /// </summary>
     /// <param name="pid">Personality ID</param>
     /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
-    /// <returns></returns>
     public static int GetUnownForm3(uint pid)
     {
-        var value = (pid & 0x3000000) >> 18 | (pid & 0x30000) >> 12 | (pid & 0x300) >> 6 | (pid & 0x3);
+        var value = ((pid & 0x3000000) >> 18) | ((pid & 0x30000) >> 12) | ((pid & 0x300) >> 6) | (pid & 0x3);
         return (int)(value % 28);
     }
 }

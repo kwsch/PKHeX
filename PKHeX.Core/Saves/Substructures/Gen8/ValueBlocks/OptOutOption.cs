@@ -1,8 +1,7 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum OptOutOption : uint
 {
-    public enum OptOutOption : uint
-    {
-        Yes = 0,
-        No = 1,
-    }
+    Yes = 0,
+    No = 1,
 }

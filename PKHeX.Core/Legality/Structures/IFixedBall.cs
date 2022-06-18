@@ -1,7 +1,6 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public interface IFixedBall
 {
-    public interface IFixedBall
-    {
-        Ball FixedBall { get; }
-    }
+    Ball FixedBall { get; }
 }

@@ -4,158 +4,157 @@ using System.Diagnostics;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Header information for the stored <see cref="PKM"/> data.
+/// </summary>
+/// <remarks>
+/// This block simply contains the following:
+/// u16 Party Pointers * 6: Indicates which index occupies this slot. <see cref="SLOT_EMPTY"/> if nothing in slot.
+/// u16 Starter Pointer: Indicates which index is the starter. <see cref="SLOT_EMPTY"/> if no starter yet.
+/// u16 List Count: Points to the next empty slot, and indicates how many slots are stored in the list.
+/// </remarks>
+public sealed class PokeListHeader : SaveBlock<SAV7b>
 {
     /// <summary>
-    /// Header information for the stored <see cref="PKM"/> data.
+    /// Raw representation of data, cast to ushort[].
     /// </summary>
-    /// <remarks>
-    /// This block simply contains the following:
-    /// u16 Party Pointers * 6: Indicates which index occupies this slot. <see cref="SLOT_EMPTY"/> if nothing in slot.
-    /// u16 Starter Pointer: Indicates which index is the starter. <see cref="SLOT_EMPTY"/> if no starter yet.
-    /// u16 List Count: Points to the next empty slot, and indicates how many slots are stored in the list.
-    /// </remarks>
-    public sealed class PokeListHeader : SaveBlock<SAV7b>
+    internal readonly int[] PokeListInfo;
+
+    public const int STARTER = 6;
+    private const int COUNT = 7;
+    private const int MAX_SLOTS = 1000;
+    private const int SLOT_EMPTY = 1001;
+
+    public PokeListHeader(SAV7b sav, int offset) : base(sav)
     {
-        /// <summary>
-        /// Raw representation of data, cast to ushort[].
-        /// </summary>
-        internal readonly int[] PokeListInfo;
-
-        public const int STARTER = 6;
-        private const int COUNT = 7;
-        private const int MAX_SLOTS = 1000;
-        private const int SLOT_EMPTY = 1001;
-
-        public PokeListHeader(SAV7b sav, int offset) : base(sav)
+        Offset = offset;
+        var info = PokeListInfo = LoadPointerData();
+        if (!sav.State.Exportable)
         {
-            Offset = offset;
-            var info = PokeListInfo = LoadPointerData();
-            if (!sav.State.Exportable)
+            for (int i = 0; i < COUNT; i++)
+                info[i] = SLOT_EMPTY;
+        }
+        else
+        {
+            for (int i = 0; i < 6; i++)
             {
-                for (int i = 0; i < COUNT; i++)
-                    info[i] = SLOT_EMPTY;
-            }
-            else
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (info[i] < MAX_SLOTS)
-                        ++_partyCount;
-                }
+                if (info[i] < MAX_SLOTS)
+                    ++_partyCount;
             }
         }
+    }
 
-        private int _partyCount;
+    private int _partyCount;
 
-        public int PartyCount
+    public int PartyCount
+    {
+        get => _partyCount;
+        set
         {
-            get => _partyCount;
-            set
+            if (_partyCount > value)
             {
-                if (_partyCount > value)
-                {
-                    for (int i = _partyCount; i < value; i++)
-                        ClearPartySlot(i);
-                }
-                _partyCount = value;
+                for (int i = _partyCount; i < value; i++)
+                    ClearPartySlot(i);
             }
+            _partyCount = value;
         }
+    }
 
-        public bool ClearPartySlot(int slot)
+    public bool ClearPartySlot(int slot)
+    {
+        if (slot >= 6 || PartyCount <= 1)
+            return false;
+
+        if (slot > PartyCount)
         {
-            if (slot >= 6 || PartyCount <= 1)
-                return false;
-
-            if (slot > PartyCount)
-            {
-                slot = PartyCount;
-            }
-            else if (slot != PartyCount - 1)
-            {
-                int countShiftDown = PartyCount - 1 - slot;
-                Array.Copy(PokeListInfo, slot + 1, PokeListInfo, slot, countShiftDown);
-                slot = PartyCount - 1;
-            }
-            PokeListInfo[slot] = SLOT_EMPTY;
-            PartyCount--;
-            return true;
+            slot = PartyCount;
         }
-
-        public void RemoveStarter() => StarterIndex = SLOT_EMPTY;
-
-        public int StarterIndex
+        else if (slot != PartyCount - 1)
         {
-            get => PokeListInfo[STARTER];
-            set
-            {
-                if ((ushort)value > 1000 && value != SLOT_EMPTY)
-                    throw new ArgumentOutOfRangeException(nameof(value));
-                PokeListInfo[STARTER] = (ushort)value;
-            }
+            int countShiftDown = PartyCount - 1 - slot;
+            Array.Copy(PokeListInfo, slot + 1, PokeListInfo, slot, countShiftDown);
+            slot = PartyCount - 1;
         }
+        PokeListInfo[slot] = SLOT_EMPTY;
+        PartyCount--;
+        return true;
+    }
 
-        public int Count
+    public void RemoveStarter() => StarterIndex = SLOT_EMPTY;
+
+    public int StarterIndex
+    {
+        get => PokeListInfo[STARTER];
+        set
         {
-            get => ReadUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)));
-            set => WriteUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)), (ushort)value);
+            if ((ushort)value > 1000 && value != SLOT_EMPTY)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            PokeListInfo[STARTER] = (ushort)value;
         }
+    }
 
-        private int[] LoadPointerData()
+    public int Count
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + (COUNT * 2)), (ushort)value);
+    }
+
+    private int[] LoadPointerData()
+    {
+        var span = Data.AsSpan(Offset);
+        var list = new int[7];
+        for (int i = 0; i < list.Length; i++)
+            list[i] = ReadUInt16LittleEndian(span[(i * 2)..]);
+        return list;
+    }
+
+    private void SetPointerData(IList<int> vals)
+    {
+        var span = Data.AsSpan(Offset);
+        for (int i = 0; i < vals.Count; i++)
+            WriteUInt16LittleEndian(span[(i*2)..], (ushort)vals[i]);
+        vals.CopyTo(PokeListInfo);
+    }
+
+    public int GetPartyOffset(int slot)
+    {
+        if ((uint)slot >= 6)
+            throw new ArgumentOutOfRangeException(nameof(slot) + " expected to be < 6.");
+        int position = PokeListInfo[slot];
+        return SAV.GetBoxSlotOffset(position);
+    }
+
+    private int GetPartyIndex(int slotIndex)
+    {
+        if ((uint) slotIndex >= MAX_SLOTS)
+            return MAX_SLOTS;
+        var index = Array.IndexOf(PokeListInfo, slotIndex);
+        return index >= 0 ? index : MAX_SLOTS;
+    }
+
+    public bool IsParty(int slotIndex) => GetPartyIndex(slotIndex) != MAX_SLOTS;
+
+    public bool CompressStorage()
+    {
+        // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.
+        // Fix stored slots!
+        var arr = PokeListInfo.Slice(0, 7);
+        var result = SAV.CompressStorage(out int count, arr);
+        Debug.Assert(count <= MAX_SLOTS);
+        Count = count;
+        if (StarterIndex > count && StarterIndex != SLOT_EMPTY)
         {
-            var span = Data.AsSpan(Offset);
-            var list = new int[7];
-            for (int i = 0; i < list.Length; i++)
-                list[i] = ReadUInt16LittleEndian(span[(i * 2)..]);
-            return list;
+            // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
+            var species = SAV.Version == GameVersion.GP ? 25 : 133;
+            int index = Array.FindIndex(SAV.BoxData.ToArray(), z => z.Species == species && z.Form != 0);
+            if (index >= 0)
+                arr[6] = index;
         }
+        arr.CopyTo(PokeListInfo);
 
-        private void SetPointerData(IList<int> vals)
-        {
-            var span = Data.AsSpan(Offset);
-            for (int i = 0; i < vals.Count; i++)
-                WriteUInt16LittleEndian(span[(i*2)..], (ushort)vals[i]);
-            vals.CopyTo(PokeListInfo);
-        }
-
-        public int GetPartyOffset(int slot)
-        {
-            if ((uint)slot >= 6)
-                throw new ArgumentOutOfRangeException(nameof(slot) + " expected to be < 6.");
-            int position = PokeListInfo[slot];
-            return SAV.GetBoxSlotOffset(position);
-        }
-
-        private int GetPartyIndex(int slotIndex)
-        {
-            if ((uint) slotIndex >= MAX_SLOTS)
-                return MAX_SLOTS;
-            var index = Array.IndexOf(PokeListInfo, slotIndex);
-            return index >= 0 ? index : MAX_SLOTS;
-        }
-
-        public bool IsParty(int slotIndex) => GetPartyIndex(slotIndex) != MAX_SLOTS;
-
-        public bool CompressStorage()
-        {
-            // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.
-            // Fix stored slots!
-            var arr = PokeListInfo.Slice(0, 7);
-            var result = SAV.CompressStorage(out int count, arr);
-            Debug.Assert(count <= MAX_SLOTS);
-            Count = count;
-            if (StarterIndex > count && StarterIndex != SLOT_EMPTY)
-            {
-                // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
-                var species = SAV.Version == GameVersion.GP ? 25 : 133;
-                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => z.Species == species && z.Form != 0);
-                if (index >= 0)
-                    arr[6] = index;
-            }
-            arr.CopyTo(PokeListInfo);
-
-            SetPointerData(PokeListInfo);
-            return result;
-        }
+        SetPointerData(PokeListInfo);
+        return result;
     }
 }

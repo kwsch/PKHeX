@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -18,7 +18,7 @@ public static class StringConverter7ZH
     private const char Gen7_ZH_Ofs = '\uE800';
     private const ushort SM_ZHCharTable_Size = 0x30F;
     private const ushort USUM_CHS_Size = 0x4;
-    private static bool GetisG7CHSChar(int idx) => idx is < SM_ZHCharTable_Size or >= SM_ZHCharTable_Size * 2 and < (SM_ZHCharTable_Size * 2) + USUM_CHS_Size;
+    private static bool GetisG7CHSChar(int idx) => idx is < SM_ZHCharTable_Size or (>= SM_ZHCharTable_Size * 2 and < (SM_ZHCharTable_Size * 2) + USUM_CHS_Size);
 
     // Unicode -> u16 conversion
     private static readonly Dictionary<char, char> G7_CHS = GetRemapper(true);

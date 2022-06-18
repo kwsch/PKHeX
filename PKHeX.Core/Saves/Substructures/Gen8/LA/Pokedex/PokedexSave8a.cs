@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -75,7 +75,7 @@ public sealed class PokedexSave8a
 
     public bool IsPokedexPerfect(PokedexType8a which) => SaveData.IsPokedexPerfect(which);
 
-    public int GetDexTotalCount(PokedexType8a which)
+    public static int GetDexTotalCount(PokedexType8a which)
     {
         var count = 0;
         for (var species = 1; species <= Personal.MaxSpeciesID; species++)
@@ -490,7 +490,7 @@ public sealed class PokedexSave8a
     {
         ObtainForms  => GetObtainedFormCounts(species),
         PartOfArceus => GetPartOfArceusValue(task.Hash_08),
-        SpeciesQuest => (GetSpeciesQuestState(task.Hash_06) == 0xFF) ? 1 : 0,
+        SpeciesQuest => GetSpeciesQuestState(task.Hash_06) == 0xFF ? 1 : 0,
         _ => speciesEntry.GetCurrentResearchLevel(task.Task, task.Index),
     };
 
@@ -907,8 +907,8 @@ public sealed class PokedexSave8a
 
     public static bool IsPokeLarge(int species, float height) => TryGetTriggeredTask(species, CatchLarge, out var task) && height >= task.Threshold;
     public static bool IsPokeSmall(int species, float height) => TryGetTriggeredTask(species, CatchSmall, out var task) && height <= task.Threshold;
-    public static bool IsPokeHeavy(int species, float weight) => TryGetTriggeredTask(species, CatchHeavy, out var task) && weight >= (task.Threshold / 10.0);
-    public static bool IsPokeLight(int species, float weight) => TryGetTriggeredTask(species, CatchLight, out var task) && weight <= (task.Threshold / 10.0);
+    public static bool IsPokeHeavy(int species, float weight) => TryGetTriggeredTask(species, CatchHeavy, out var task) && weight >= task.Threshold / 10.0;
+    public static bool IsPokeLight(int species, float weight) => TryGetTriggeredTask(species, CatchLight, out var task) && weight <= task.Threshold / 10.0;
 
     private void OnPokeCaughtSleeping(int species) => IncrementResearchTaskProgress(species, CatchSleeping);
 
@@ -1189,7 +1189,7 @@ public sealed class PokedexSave8a
 
             if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
             {
-                var flags = (speciesEntry.NumObtained > 0) ? statEntry.ObtainFlags : statEntry.SeenInWildFlags;
+                var flags = speciesEntry.NumObtained > 0 ? statEntry.ObtainFlags : statEntry.SeenInWildFlags;
 
                 var ofs = (shiny ? 4 : 0) + (alpha ? 2 : 0);
 

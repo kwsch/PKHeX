@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Information wrapper used for Batch Editing to apply suggested values.
+/// </summary>
+public sealed class BatchInfo
 {
-    /// <summary>
-    /// Information wrapper used for Batch Editing to apply suggested values.
-    /// </summary>
-    public sealed class BatchInfo
-    {
-        internal PKM Entity { get; }
-        internal BatchInfo(PKM pk) => Entity = pk;
+    internal PKM Entity { get; }
+    internal BatchInfo(PKM pk) => Entity = pk;
 
-        private LegalityAnalysis? la;
-        internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
+    private LegalityAnalysis? la;
+    internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
-        public bool Legal => Legality.Valid;
-        internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
-    }
+    public bool Legal => Legality.Valid;
+    internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
 }

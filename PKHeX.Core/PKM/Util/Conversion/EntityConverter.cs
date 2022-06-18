@@ -55,12 +55,12 @@ public static class EntityConverter
             return pk;
         }
 
-        var pkm = ConvertPKM(pk, destType, fromType, out result);
-        if (pkm is not null)
+        var entity = ConvertPKM(pk, destType, fromType, out result);
+        if (entity is not null)
         {
             if (RejuvenateHOME != EntityRejuvenationSetting.None)
-                RejuvenatorHOME.Rejuvenate(pkm, pk);
-            return pkm;
+                RejuvenatorHOME.Rejuvenate(entity, pk);
+            return entity;
         }
 
         if (AllowIncompatibleConversion != EntityCompatibilitySetting.AllowIncompatibleAll)
@@ -72,12 +72,12 @@ public static class EntityConverter
         }
 
         // Try Incompatible Conversion
-        pkm = EntityBlank.GetBlank(destType);
-        pk.TransferPropertiesWithReflection(pkm);
-        if (!IsCompatibleWithModifications(pkm))
+        entity = EntityBlank.GetBlank(destType);
+        pk.TransferPropertiesWithReflection(entity);
+        if (!IsCompatibleWithModifications(entity))
             return null; // NoTransferRoute
         result = SuccessIncompatibleReflection;
-        return pkm;
+        return entity;
     }
 
     private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out EntityConverterResult result)
@@ -97,16 +97,16 @@ public static class EntityConverter
 
     private static PKM? ConvertPKM(PKM pk, Type destType, ref EntityConverterResult result)
     {
-        PKM? pkm = pk.Clone();
-        if (pkm.IsEgg)
-            pkm.ForceHatchPKM();
+        PKM? entity = pk.Clone();
+        if (entity.IsEgg)
+            entity.ForceHatchPKM();
         while (true)
         {
-            pkm = IntermediaryConvert(pkm, destType, ref result);
-            if (pkm == null) // fail convert
+            entity = IntermediaryConvert(entity, destType, ref result);
+            if (entity == null) // fail convert
                 return null;
-            if (pkm.GetType() == destType) // finish convert
-                return pkm;
+            if (entity.GetType() == destType) // finish convert
+                return entity;
         }
     }
 

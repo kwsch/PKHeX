@@ -1,33 +1,32 @@
 ﻿using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public abstract class Gen3MysteryData
 {
-    public abstract class Gen3MysteryData
+    public readonly byte[] Data;
+
+    protected Gen3MysteryData(byte[] data) => Data = data;
+
+    public uint Checksum
     {
-        public readonly byte[] Data;
+        get => ReadUInt32LittleEndian(Data.AsSpan(0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0), value);
+    }
 
-        protected Gen3MysteryData(byte[] data) => Data = data;
+    public bool IsChecksumValid() => Checksum == GetChecksum(Data);
+    public void FixChecksum() => Checksum = GetChecksum(Data);
 
-        public uint Checksum
+    private static uint GetChecksum(ReadOnlySpan<byte> data)
+    {
+        uint sum = 0;
+        for (var i = 4; i < data.Length; i++)
         {
-            get => ReadUInt32LittleEndian(Data.AsSpan(0));
-            set => WriteUInt32LittleEndian(Data.AsSpan(0), value);
+            var b = data[i];
+            sum += b;
         }
 
-        public bool IsChecksumValid() => Checksum == GetChecksum(Data);
-        public void FixChecksum() => Checksum = GetChecksum(Data);
-
-        private static uint GetChecksum(ReadOnlySpan<byte> data)
-        {
-            uint sum = 0;
-            for (var i = 4; i < data.Length; i++)
-            {
-                var b = data[i];
-                sum += b;
-            }
-
-            return sum;
-        }
+        return sum;
     }
 }

@@ -13,7 +13,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
     public override void Verify(LegalityAnalysis data)
     {
-        if (data.pkm is not PA8 pa)
+        if (data.Entity is not PA8 pa)
             return;
 
         if (pa.IsNoble)

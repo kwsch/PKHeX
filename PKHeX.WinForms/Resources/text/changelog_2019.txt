@@ -143,7 +143,7 @@
  - - Changed: Updated GO shiny banlist.
  - - Fixed: Silvally pledge moves are now restricted correctly.
  - - Fixed: Ribbon Missing/Invalid was incorrectly swapped, now indicates correct legality message.
- - Added: New setting can skip the "Legal!" popup if the tab pkm is legal. Sound effect still plays.
+ - Added: New setting can skip the "Legal!" popup if the tab pk is legal. Sound effect still plays.
  - Added: Program Color settings can now be manipulated via settings.
  - Added: Box Sort by IEncounterable type.
  - Added: Box Delete of extra clones.
@@ -180,7 +180,7 @@
  - Fixed: Gen4 Pokédex Give All no longer causes an error. Thanks Nasz, Deadbolt!
  - Fixed: LGPE Box Sorting now no longer behaves incorrectly. Thanks @Ninjistix!
  - Fixed: LGPE pk7 setting to save file now no longer detects handling trainer incorrectly (resetting friendship).
- - Fixed: XK3 pkm with two abilities no longer read incorrectly. Thanks TORNADO!
+ - Fixed: XK3 pk with two abilities no longer read incorrectly. Thanks TORNADO!
  - Fixed: Loading boxes now detects overriden settings correctly. Thanks @bpxhmemcpy!
 
 19/01/02 - New Update: (27034) [1582970]
@@ -205,7 +205,7 @@
  - Fixed: LGPE saves no longer clamp fossils to count=1. Thanks @TheOGMew3!
  - Fixed: B/W Volcarona Event Flag now points to the correct flag ID. Thanks @Kxcii!
  - Changed: Encounter Database/Browser can now filter for certain encounter types, and different versions.
- - Changed: Importing pkms from a folder/dump no longer overwrite slots that already have pkm data.
+ - Changed: Importing pkms from a folder/dump no longer overwrite slots that already have pk data.
  - Changed: SAV4 version detect speed improved by removing checksum checks in favor of block fingerprint detection.
  - Changed: Updated French Translation. Thanks @Ntonio36!
  - Changed: Updated Spanish Translation. Thanks @XxPhoenix1996xX!

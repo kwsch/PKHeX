@@ -44,7 +44,7 @@ public class EvolutionHistory
             if (index == 6) return ref Gen6;
             if (index == 7) return ref Gen7;
             if (index == 8) return ref Gen8;
-            throw new IndexOutOfRangeException(nameof(index));
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
     }
 

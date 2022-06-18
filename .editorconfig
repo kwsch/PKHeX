@@ -1,0 +1,45 @@
+root = true
+
+# All Files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Solution Files
+[*.sln]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# XML Project Files
+[*.csproj]
+indent_style = space
+indent_size = 2
+
+# Code Files
+[*.cs]
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
+csharp_prefer_braces = when_multiline:warning
+dotnet_diagnostic.IDE0047.severity = none
+dotnet_diagnostic.IDE0048.severity = none
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:suggest
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:suggest
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggest
+dotnet_style_parentheses_in_other_operators = always_for_clarity:suggest
+
+[*.{cs,vb}]
+#### Naming styles ####
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case

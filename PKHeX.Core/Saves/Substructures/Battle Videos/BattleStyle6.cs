@@ -1,11 +1,10 @@
-﻿namespace PKHeX.Core
+﻿namespace PKHeX.Core;
+
+public enum BattleStyle6
 {
-    public enum BattleStyle6
-    {
-        Single,
-        Double,
-        Triple,
-        Rotation,
-        Multi,
-    }
+    Single,
+    Double,
+    Triple,
+    Rotation,
+    Multi,
 }

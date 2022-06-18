@@ -1,53 +1,52 @@
 ﻿using static PKHeX.Core.LegalityCheckStrings;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the <see cref="IHyperTrain"/> values.
+/// </summary>
+public sealed class HyperTrainingVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the <see cref="IHyperTrain"/> values.
-    /// </summary>
-    public sealed class HyperTrainingVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.Training;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Training;
+        var pk = data.Entity;
+        if (pk is not IHyperTrain t)
+            return; // No Hyper Training before Gen7
 
-        public override void Verify(LegalityAnalysis data)
+        if (!t.IsHyperTrained())
+            return;
+
+        if (!t.IsHyperTrainingAvailable(data.Info.EvoChainsAllGens))
         {
-            var pkm = data.pkm;
-            if (pkm is not IHyperTrain t)
-                return; // No Hyper Training before Gen7
+            data.AddLine(GetInvalid(LHyperPerfectUnavailable));
+            return;
+        }
 
-            if (!t.IsHyperTrained())
-                return;
+        if (pk.CurrentLevel != 100)
+        {
+            data.AddLine(GetInvalid(LHyperBelow100));
+            return;
+        }
 
-            if (!t.IsHyperTrainingAvailable(data.Info.EvoChainsAllGens))
-            {
-                data.AddLine(GetInvalid(LHyperPerfectUnavailable));
-                return;
-            }
+        int max = pk.MaxIV;
+        if (pk.IVTotal == max * 6)
+        {
+            data.AddLine(GetInvalid(LHyperPerfectAll));
+            return;
+        }
 
-            if (pkm.CurrentLevel != 100)
-            {
-                data.AddLine(GetInvalid(LHyperBelow100));
-                return;
-            }
+        // LGPE gold bottle cap applies to all IVs regardless
+        if (pk.GG && t.IsHyperTrainedAll()) // already checked for 6IV, therefore we're flawed on at least one IV
+            return;
 
-            int max = pkm.MaxIV;
-            if (pkm.IVTotal == max * 6)
-            {
-                data.AddLine(GetInvalid(LHyperPerfectAll));
-                return;
-            }
-
-            // LGPE gold bottle cap applies to all IVs regardless
-            if (pkm.GG && t.IsHyperTrainedAll()) // already checked for 6IV, therefore we're flawed on at least one IV
-                return;
-
-            for (int i = 0; i < 6; i++) // Check individual IVs
-            {
-                if (pkm.GetIV(i) != max || !t.IsHyperTrained(i))
-                    continue;
-                data.AddLine(GetInvalid(LHyperPerfectOne));
-                break;
-            }
+        for (int i = 0; i < 6; i++) // Check individual IVs
+        {
+            if (pk.GetIV(i) != max || !t.IsHyperTrained(i))
+                continue;
+            data.AddLine(GetInvalid(LHyperPerfectOne));
+            break;
         }
     }
 }

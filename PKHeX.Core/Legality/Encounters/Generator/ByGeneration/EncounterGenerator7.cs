@@ -7,166 +7,165 @@ using static PKHeX.Core.EncounterStaticGenerator;
 using static PKHeX.Core.EncounterEggGenerator;
 using static PKHeX.Core.EncounterMatchRating;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+internal static class EncounterGenerator7
 {
-    internal static class EncounterGenerator7
+    public static IEnumerable<IEncounterable> GetEncounters(PKM pk)
     {
-        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm)
+        var chain = EncounterOrigin.GetOriginChain(pk);
+        return pk.Version switch
         {
-            var chain = EncounterOrigin.GetOriginChain(pkm);
-            return pkm.Version switch
+            (int)GameVersion.GO => GetEncountersGO(pk, chain),
+            > (int)GameVersion.GO => GetEncountersGG(pk, chain),
+            _ => GetEncountersMainline(pk, chain),
+        };
+    }
+
+    internal static IEnumerable<IEncounterable> GetEncountersGO(PKM pk, EvoCriteria[] chain)
+    {
+        IEncounterable? deferred = null;
+        IEncounterable? partial = null;
+
+        int ctr = 0;
+        foreach (var z in GetValidWildEncounters(pk, chain, GameVersion.GO))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
             {
-                  (int)GameVersion.GO => GetEncountersGO(pkm, chain),
-                > (int)GameVersion.GO => GetEncountersGG(pkm, chain),
-                _ => GetEncountersMainline(pkm, chain),
-            };
+                case Match: yield return z; ++ctr; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
+        }
+        if (ctr != 0) yield break;
+
+        if (deferred != null)
+            yield return deferred;
+
+        if (partial != null)
+            yield return partial;
+    }
+
+    private static IEnumerable<IEncounterable> GetEncountersGG(PKM pk, EvoCriteria[] chain)
+    {
+        int ctr = 0;
+        var game = (GameVersion)pk.Version;
+
+        if (pk.FatefulEncounter)
+        {
+            foreach (var z in GetValidGifts(pk, chain, game))
+            { yield return z; ++ctr; }
+            if (ctr != 0) yield break;
         }
 
-        internal static IEnumerable<IEncounterable> GetEncountersGO(PKM pkm, EvoCriteria[] chain)
+        IEncounterable? deferred = null;
+        IEncounterable? partial = null;
+
+        foreach (var z in GetValidStaticEncounter(pk, chain, game))
         {
-            IEncounterable? deferred = null;
-            IEncounterable? partial = null;
-
-            int ctr = 0;
-            foreach (var z in GetValidWildEncounters(pkm, chain, GameVersion.GO))
+            var match = z.GetMatchRating(pk);
+            switch (match)
             {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; ++ctr; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
+                case Match: yield return z; ++ctr; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
             }
-            if (ctr != 0) yield break;
+        }
+        if (ctr != 0) yield break;
 
-            if (deferred != null)
-                yield return deferred;
+        foreach (var z in GetValidWildEncounters(pk, chain, game))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
+            {
+                case Match: yield return z; ++ctr; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
+        }
+        if (ctr != 0) yield break;
 
-            if (partial != null)
-                yield return partial;
+        foreach (var z in GetValidEncounterTrades(pk, chain, game))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
+            {
+                case Match: yield return z; /*++ctr*/ break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersGG(PKM pkm, EvoCriteria[] chain)
+        if (deferred != null)
+            yield return deferred;
+
+        if (partial != null)
+            yield return partial;
+    }
+
+    private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pk, EvoCriteria[] chain)
+    {
+        int ctr = 0;
+        var game = (GameVersion)pk.Version;
+
+        if (pk.FatefulEncounter)
         {
-            int ctr = 0;
-            var game = (GameVersion)pkm.Version;
-
-            if (pkm.FatefulEncounter)
-            {
-                foreach (var z in GetValidGifts(pkm, chain, game))
-                { yield return z; ++ctr; }
-                if (ctr != 0) yield break;
-            }
-
-            IEncounterable? deferred = null;
-            IEncounterable? partial = null;
-
-            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; ++ctr; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
+            foreach (var z in GetValidGifts(pk, chain, game))
+            { yield return z; ++ctr; }
             if (ctr != 0) yield break;
-
-            foreach (var z in GetValidWildEncounters(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; ++ctr; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
-            if (ctr != 0) yield break;
-
-            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; /*++ctr*/ break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
-
-            if (deferred != null)
-                yield return deferred;
-
-            if (partial != null)
-                yield return partial;
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, EvoCriteria[] chain)
+        if (Locations.IsEggLocationBred6(pk.Egg_Location))
         {
-            int ctr = 0;
-            var game = (GameVersion)pkm.Version;
-
-            if (pkm.FatefulEncounter)
-            {
-                foreach (var z in GetValidGifts(pkm, chain, game))
-                { yield return z; ++ctr; }
-                if (ctr != 0) yield break;
-            }
-
-            if (Locations.IsEggLocationBred6(pkm.Egg_Location))
-            {
-                foreach (var z in GenerateEggs(pkm, 7))
-                { yield return z; ++ctr; }
-                if (ctr == 0) yield break;
-            }
-
-            IEncounterable? deferred = null;
-            IEncounterable? partial = null;
-
-            foreach (var z in GetValidStaticEncounter(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; ++ctr; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
-            if (ctr != 0) yield break;
-
-            foreach (var z in GetValidWildEncounters(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; ++ctr; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
-            if (ctr != 0) yield break;
-
-            foreach (var z in GetValidEncounterTrades(pkm, chain, game))
-            {
-                var match = z.GetMatchRating(pkm);
-                switch (match)
-                {
-                    case Match: yield return z; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-                //++ctr;
-            }
-
-            if (deferred != null)
-                yield return deferred;
-
-            if (partial != null)
-                yield return partial;
+            foreach (var z in GenerateEggs(pk, 7))
+            { yield return z; ++ctr; }
+            if (ctr == 0) yield break;
         }
+
+        IEncounterable? deferred = null;
+        IEncounterable? partial = null;
+
+        foreach (var z in GetValidStaticEncounter(pk, chain, game))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
+            {
+                case Match: yield return z; ++ctr; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
+        }
+        if (ctr != 0) yield break;
+
+        foreach (var z in GetValidWildEncounters(pk, chain, game))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
+            {
+                case Match: yield return z; ++ctr; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
+        }
+        if (ctr != 0) yield break;
+
+        foreach (var z in GetValidEncounterTrades(pk, chain, game))
+        {
+            var match = z.GetMatchRating(pk);
+            switch (match)
+            {
+                case Match: yield return z; break;
+                case Deferred: deferred ??= z; break;
+                case PartialMatch: partial ??= z; break;
+            }
+            //++ctr;
+        }
+
+        if (deferred != null)
+            yield return deferred;
+
+        if (partial != null)
+            yield return partial;
     }
 }
