@@ -76,9 +76,17 @@ public sealed class HistoryVerifier : Verifier
             }
         }
 
+        if (!pk.IsUntraded && IsUntradeableEncounter(Info.EncounterMatch)) // Starter, untradeable
+            data.AddLine(GetInvalid(LegalityCheckStrings.LTransferCurrentHandlerInvalid));
         if ((Info.Generation != pk.Format || neverOT) && pk.CurrentHandler != 1)
             data.AddLine(GetInvalid(LegalityCheckStrings.LTransferHTFlagRequired));
     }
+
+    private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
+    {
+        EncounterStatic7b { Location: 28 } => true, // LGP/E Starter
+        _ => false,
+    };
 
     /// <summary>
     /// Checks the non-Memory data for the <see cref="PKM.OT_Name"/> details.
