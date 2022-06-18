@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -47,11 +46,13 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         int p1 = CB_BoxSelect.Location.X;
         CB_BoxSelect.HorizontallyCenter(this);
         int p2 = CB_BoxSelect.Location.X;
-        if (p1 == p2)
+
+        var delta = p2 - p1;
+        if (delta == 0)
             return;
 
-        B_BoxLeft.Location = new Point(B_BoxLeft.Location.X + p2 - p1, B_BoxLeft.Location.Y);
-        B_BoxRight.Location = new Point(B_BoxRight.Location.X + p2 - p1, B_BoxRight.Location.Y);
+        B_BoxLeft.SetBounds(B_BoxLeft.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
+        B_BoxRight.SetBounds(B_BoxRight.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
     }
 
     private void InitializeSlots()

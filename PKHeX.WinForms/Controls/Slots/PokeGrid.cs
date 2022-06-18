@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -51,7 +51,7 @@ public partial class PokeGrid : UserControl
         int colWidth = sizeW;
         int rowHeight = sizeH;
 
-        Location = new Point(0, Location.Y); // prevent auto-expanding parent if position changes (centered)
+        Location = Location with { X = 0 }; // prevent auto-expanding parent if position changes (centered)
         for (int row = 0; row < height; row++)
         {
             var y = padEdge + (row * (rowHeight + border));

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -70,7 +70,7 @@ public sealed class RibbonVerifier : Verifier
                 return true;
 
             static bool HasFlag(object o) => o is true;
-            static bool HasCount(object o) => o is int x && x > 0;
+            static bool HasCount(object o) => o is > 0;
         }
         return false;
     }

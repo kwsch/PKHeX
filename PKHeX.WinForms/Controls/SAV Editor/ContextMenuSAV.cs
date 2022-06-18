@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -15,7 +15,6 @@ public partial class ContextMenuSAV : UserControl
     public SlotChangeManager Manager { get; set; } = null!;
 
     public Action<LegalityAnalysis>? RequestEditorLegality;
-    public delegate void LegalityRequest(object sender, EventArgs e, LegalityAnalysis la);
 
     public void OmniClick(object sender, EventArgs e, Keys z)
     {

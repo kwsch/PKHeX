@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -34,7 +34,8 @@ public sealed class BulkAnalysis
         AllAnalysis = GetIndividualAnalysis(AllData);
         CloneFlags = new bool[AllData.Count];
 
-        Valid = ScanAll();
+        ScanAll();
+        Valid = Parse.Any(z => !z.Valid);
     }
 
     // Remove things that aren't actual stored data, or already flagged by legality checks.
@@ -48,11 +49,11 @@ public sealed class BulkAnalysis
         return false;
     }
 
-    private bool ScanAll()
+    private void ScanAll()
     {
         CheckClones();
         if (Trainer.Generation <= 2)
-            return Parse.All(z => z.Valid);
+            return;
 
         CheckIDReuse();
         CheckPIDReuse();
@@ -64,7 +65,6 @@ public sealed class BulkAnalysis
         }
 
         CheckDuplicateOwnedGifts();
-        return Parse.All(z => z.Valid);
     }
 
     private static string GetSummary(SlotCache entry) => $"[{entry.Identify()}] {entry.Entity.FileName}";

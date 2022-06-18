@@ -1923,8 +1923,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         // Recenter PKM SubEditors
         var firstTabArea = tabMain.TabPages[0]; // first is always initialized
-        FLP_PKMEditors.CenterWithin(firstTabArea);
-        FLP_MoveFlags.CenterWithin(firstTabArea);
+        FLP_PKMEditors.HorizontallyCenter(firstTabArea);
+        FLP_MoveFlags.HorizontallyCenter(firstTabArea);
     }
 
     public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)

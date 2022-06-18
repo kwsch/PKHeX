@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 

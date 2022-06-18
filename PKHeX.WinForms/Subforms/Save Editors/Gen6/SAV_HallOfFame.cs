@@ -256,15 +256,8 @@ public partial class SAV_HallOfFame : Form
         {
             // Fetch Current Species and set it as Nickname Text
             int species = WinFormsUtil.GetIndex(CB_Species);
-            if (species is 0 or > (int)Species.Volcanion)
-            {
-                TB_Nickname.Text = string.Empty;
-            }
-            else
-            {
-                // get language
-                TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, SAV.Language, 6);
-            }
+            bool isNone = species is 0 or > (int)Species.Volcanion;
+            TB_Nickname.Text = isNone ? string.Empty : SpeciesName.GetSpeciesNameGeneration(species, SAV.Language, 6);
         }
         TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 
@@ -373,14 +366,16 @@ public partial class SAV_HallOfFame : Form
 
     private void ChangeNickname(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender is TextBox box ? box : TB_Nickname;
+        TextBox tb = (TextBox)sender;
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        int offset = (LB_DataEntry.SelectedIndex * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value) - 1) * HallFame6Entity.SIZE);
+        var team = LB_DataEntry.SelectedIndex;
+        var member = (int)NUP_PartyIndex.Value - 1;
+        int offset = (team * (4 + (6 * HallFame6Entity.SIZE))) + (member * HallFame6Entity.SIZE);
         var nicktrash = data.AsSpan(offset + 0x18, 26);
-        var text = TB_Nickname.Text;
+        var text = tb.Text;
         SAV.SetString(nicktrash, text.AsSpan(), 12, StringConverterOption.ClearZero);
         var d = new TrashEditor(tb, nicktrash, SAV);
         d.ShowDialog();

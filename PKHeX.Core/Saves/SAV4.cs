@@ -437,21 +437,21 @@ public abstract class SAV4 : SaveFile, IEventFlag37
             {
                 case GameVersion.DP:
                     if (General[0x1413] != 0) return 4;
-                    else if (General[0x1415] != 0) return 3;
-                    else if (General[0x1404] != 0) return 2;
-                    else if (General[0x1414] != 0) return 1;
-                    else return 0;
+                    if (General[0x1415] != 0) return 3;
+                    if (General[0x1404] != 0) return 2;
+                    if (General[0x1414] != 0) return 1;
+                    return 0;
                 case GameVersion.HGSS:
                     if (General[0x15ED] != 0) return 3;
-                    else if (General[0x15EF] != 0) return 2;
-                    else if (General[0x15EE] != 0 && (General[0x10D1] & 8) != 0) return 1;
-                    else return 0;
+                    if (General[0x15EF] != 0) return 2;
+                    if (General[0x15EE] != 0 && (General[0x10D1] & 8) != 0) return 1;
+                    return 0;
                 case GameVersion.Pt:
                     if (General[0x1641] != 0) return 4;
-                    else if (General[0x1643] != 0) return 3;
-                    else if (General[0x1640] != 0) return 2;
-                    else if (General[0x1642] != 0) return 1;
-                    else return 0;
+                    if (General[0x1643] != 0) return 3;
+                    if (General[0x1640] != 0) return 2;
+                    if (General[0x1642] != 0) return 1;
+                    return 0;
                 default: return 0;
             }
         }

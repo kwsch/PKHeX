@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.ContestStatGranting;
 
 namespace PKHeX.Core;
@@ -211,7 +211,7 @@ public static class ContestStatInfo
 
     private static readonly DummyContestNone DummyNone = new();
 
-    public static IContestStats GetReferenceTemplate(IEncounterTemplate initial) => initial is IContestStats s ? s : DummyNone;
+    public static IContestStats GetReferenceTemplate(IEncounterTemplate initial) => initial as IContestStats ?? DummyNone;
 
     private sealed class DummyContestNone : IContestStats
     {

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using static PKHeX.Core.LegalityCheckStrings;
+
+namespace PKHeX.Core;
 
 /// <summary>
 /// Verifies the <see cref="PKM.OT_Name"/>.
@@ -17,40 +19,40 @@ public sealed class TrainerIDVerifier : Verifier
         {
             if (pk.TID == 0 && pk.SID == 0) // Game loops to ensure a nonzero full-ID
             {
-                data.AddLine(GetInvalid(LegalityCheckStrings.LOT_IDInvalid));
+                data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
             }
             if (pk.TID == 0xFFFF && pk.SID == 0x7FFF) // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
             {
-                data.AddLine(GetInvalid(LegalityCheckStrings.LOT_IDInvalid));
+                data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
             }
         }
         else if (pk.VC && pk.SID != 0)
         {
-            data.AddLine(GetInvalid(LegalityCheckStrings.LOT_SID0Invalid));
+            data.AddLine(GetInvalid(LOT_SID0Invalid));
             return;
         }
 
         if (pk.TID == 0 && pk.SID == 0)
         {
-            data.AddLine(Get(LegalityCheckStrings.LOT_IDs0, Severity.Fishy));
+            data.AddLine(Get(LOT_IDs0, Severity.Fishy));
         }
         else if (pk.TID == pk.SID)
         {
-            data.AddLine(Get(LegalityCheckStrings.LOT_IDEqual, Severity.Fishy));
+            data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
         }
         else if (pk.TID == 0)
         {
-            data.AddLine(Get(LegalityCheckStrings.LOT_TID0, Severity.Fishy));
+            data.AddLine(Get(LOT_TID0, Severity.Fishy));
         }
         else if (pk.SID == 0)
         {
-            data.AddLine(Get(LegalityCheckStrings.LOT_SID0, Severity.Fishy));
+            data.AddLine(Get(LOT_SID0, Severity.Fishy));
         }
         else if (IsOTIDSuspicious(pk.TID, pk.SID))
         {
-            data.AddLine(Get(LegalityCheckStrings.LOTSuspicious, Severity.Fishy));
+            data.AddLine(Get(LOTSuspicious, Severity.Fishy));
         }
     }
 

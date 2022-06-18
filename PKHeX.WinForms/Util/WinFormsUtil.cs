@@ -1,4 +1,4 @@
-﻿using PKHeX.Core;
+using PKHeX.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,18 +31,13 @@ public static class WinFormsUtil
         child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
     }
 
-    internal static void CenterWithin(this Control child, Control parent)
-    {
-        child.Location = new Point((parent.Width - child.Width) / 2, child.Location.Y);
-    }
-
     /// <summary>
     /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
     /// </summary>
     internal static void HorizontallyCenter(this Control child, Control parent)
     {
-        int x = ((parent.Width - child.Width) / 2);
-        child.Location = new Point(x, child.Location.Y);
+        int midpoint = (parent.Width - child.Width) / 2;
+        child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
     }
 
     public static T? FirstFormOfType<T>() where T : Form => (T?)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);

@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -93,15 +92,17 @@ public sealed partial class SAV_GroupViewer : Form
         if (Width < Box.Width)
             Width = Box.Width;
         Box.HorizontallyCenter(this);
-        Box.Location = new Point(Box.Location.X - 8, Box.Location.Y); // manual fudge
+        Box.Location = Box.Location with { X = Box.Location.X - 8 }; // manual fudge
         int p1 = CB_BoxSelect.Location.X;
         CB_BoxSelect.HorizontallyCenter(this);
         int p2 = CB_BoxSelect.Location.X;
-        if (p1 == p2)
+
+        var delta = p2 - p1;
+        if (delta == 0)
             return;
 
-        B_BoxLeft.Location = new Point(B_BoxLeft.Location.X + p2 - p1, B_BoxLeft.Location.Y);
-        B_BoxRight.Location = new Point(B_BoxRight.Location.X + p2 - p1, B_BoxRight.Location.Y);
+        B_BoxLeft.SetBounds(B_BoxLeft.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
+        B_BoxRight.SetBounds(B_BoxRight.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
     }
 
     private void LoadGroup(int index)
