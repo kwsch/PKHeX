@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -251,4 +251,7 @@ public sealed class SAV4HGSS : SAV4
 
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x68A8)); set => WriteUInt32LittleEndian(General.AsSpan(0x68A8), value); }
     public override uint SwarmMaxCountModulo => 20;
+
+    public Roamer4 Roamer1 => new(General, 0x68B4);
+    public Roamer4 Roamer2 => new(General, 0x68C8);
 }
