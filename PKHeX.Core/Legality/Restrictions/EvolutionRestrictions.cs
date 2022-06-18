@@ -176,10 +176,13 @@ namespace PKHeX.Core
 
         private static int GetMinLevelKnowRequiredMove(PKM pkm, int gen, int index, EvolutionHistory evos)
         {
-            if (gen == 8 && pkm.HasVisitedLA(evos.Gen8a)) // No Level Up required, and different levels than mainline SW/SH.
-                return MinLevelEvolutionWithMove_8LA[index];
-
             var lvl = GetLevelLearnMove(pkm, gen, index);
+            if (pkm.HasVisitedLA(evos.Gen8a)) // No Level Up required, and different levels than mainline SW/SH.
+            {
+                var la = MinLevelEvolutionWithMove_8LA[index];
+                if (la <= lvl)
+                    return la;
+            }
 
             // If has original met location the minimum evolution level is one level after met level
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
