@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -342,6 +342,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public XK3 ConvertToXK3()
     {
         var pk = ConvertTo<XK3>();
+        // Set these even if the settings don't SetPKM
+        pk.CurrentRegion = 2; // NTSC-U
+        pk.OriginalRegion = 2; // NTSC-U
         pk.ResetPartyStats();
         return pk;
     }
@@ -349,6 +352,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public CK3 ConvertToCK3()
     {
         var pk = ConvertTo<CK3>();
+        // Set these even if the settings don't SetPKM
+        pk.CurrentRegion = 2; // NTSC-U
+        pk.OriginalRegion = 2; // NTSC-U
         pk.ResetPartyStats();
         return pk;
     }
