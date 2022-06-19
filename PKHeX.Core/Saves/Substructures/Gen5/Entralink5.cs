@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -23,6 +23,12 @@ public abstract class Entralink5 : SaveBlock<SAV5>
 public sealed class Entralink5BW : Entralink5
 {
     public Entralink5BW(SAV5BW SAV, int offset) : base(SAV, offset) { }
+
+    public byte MissionsComplete
+    {
+        get => Data[Offset + 0x1A4];
+        set => Data[Offset + 0x1A4] = value;
+    }
 }
 
 public sealed class Entralink5B2W2 : Entralink5
