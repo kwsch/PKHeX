@@ -254,4 +254,5 @@ public sealed class SAV4HGSS : SAV4
 
     public Roamer4 Roamer1 => new(General, 0x68B4);
     public Roamer4 Roamer2 => new(General, 0x68C8);
-}
+    public Roamer4 Roamer3 => new(General, 0x68DC);
+}  
