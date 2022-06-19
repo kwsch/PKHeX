@@ -1,8 +1,10 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public abstract class Encount5 : SaveBlock<SAV5>
 {
     protected Encount5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
+
+    public Roamer5 Roamer => new(Data, Offset);
 
     public abstract byte SwarmSeed { get; set; }
     public abstract uint SwarmMaxCountModulo { get; }
