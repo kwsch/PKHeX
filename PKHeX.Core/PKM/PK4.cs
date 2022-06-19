@@ -355,10 +355,10 @@ public sealed class PK4 : G4PKM
         // if has defog, remove whirlpool.
         bool hasDefog = HasMove((int) Move.Defog);
         var banned = hasDefog ? Legal.HM_HGSS : Legal.HM_DPPt;
-        if (Array.IndexOf(banned, Move1) != -1) Move1 = 0;
-        if (Array.IndexOf(banned, Move2) != -1) Move2 = 0;
-        if (Array.IndexOf(banned, Move3) != -1) Move3 = 0;
-        if (Array.IndexOf(banned, Move4) != -1) Move4 = 0;
+        if (Array.IndexOf(banned, Move1) != -1) pk5.Move1 = 0;
+        if (Array.IndexOf(banned, Move2) != -1) pk5.Move2 = 0;
+        if (Array.IndexOf(banned, Move3) != -1) pk5.Move3 = 0;
+        if (Array.IndexOf(banned, Move4) != -1) pk5.Move4 = 0;
         pk5.FixMoves();
 
         // D/P(not Pt)/HG/SS created Shedinja forget to set Gender to Genderless.

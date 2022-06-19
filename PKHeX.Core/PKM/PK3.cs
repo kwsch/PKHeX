@@ -323,15 +323,11 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         }
 
         // Remove HM moves
-        int[] newMoves = pk4.Moves;
-        for (int i = 0; i < 4; i++)
-        {
-            var move = newMoves[i];
-            if (Array.IndexOf(Legal.HM_3, move) != -1)
-                newMoves[i] = 0;
-        }
-
-        pk4.Moves = newMoves;
+        var banned = Legal.HM_3;
+        if (Array.IndexOf(banned, Move1) != -1) pk4.Move1 = 0;
+        if (Array.IndexOf(banned, Move2) != -1) pk4.Move2 = 0;
+        if (Array.IndexOf(banned, Move3) != -1) pk4.Move3 = 0;
+        if (Array.IndexOf(banned, Move4) != -1) pk4.Move4 = 0;
         pk4.FixMoves();
         pk4.HealPP();
 
