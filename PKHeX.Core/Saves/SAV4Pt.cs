@@ -128,6 +128,10 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x5664)); set => WriteUInt32LittleEndian(General.AsSpan(0x5664), value); }
     public override uint SwarmMaxCountModulo => 22;
 
-    public Roamer4 Roamer1 => new(General, 0x8008);
-    public Roamer4 Roamer2 => new(General, 0x801C);
+    public Roamer4 RoamerMesprit   => new(General, 0x7FF4);
+    public Roamer4 RoamerCresselia => new(General, 0x8008);
+    public Roamer4 RoamerUnused    => new(General, 0x801C); // Darkrai
+    public Roamer4 RoamerArticuno  => new(General, 0x8030);
+    public Roamer4 RoamerZapdos    => new(General, 0x8044);
+    public Roamer4 RoamerMoltres   => new(General, 0x8058);
 }

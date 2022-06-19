@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -158,4 +158,8 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override uint SafariSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x53C4)); set => WriteUInt32LittleEndian(General.AsSpan(0x53C4), value); }
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x53C8)); set => WriteUInt32LittleEndian(General.AsSpan(0x53C8), value); }
     public override uint SwarmMaxCountModulo => 28;
+
+    public Roamer4 RoamerMesprit   => new(General, 0x73A0);
+    public Roamer4 RoamerCresselia => new(General, 0x73B4);
+    public Roamer4 RoamerUnused    => new(General, 0x73C8); // Darkrai
 }
