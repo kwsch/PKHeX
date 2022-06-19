@@ -52,9 +52,9 @@ public sealed class Roamer4
         IV_HP = value[0];
         IV_ATK = value[1];
         IV_DEF = value[2];
-        IV_SPE = value[3];
-        IV_SPA = value[4];
-        IV_SPD = value[5];
+        IV_SPA = value[3];
+        IV_SPD = value[4];
+        IV_SPE = value[5];
     }
 
     public void Clear() => Data.Clear();
