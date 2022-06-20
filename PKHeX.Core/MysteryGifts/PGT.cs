@@ -121,7 +121,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
     public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
     public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
-    public override bool HasFixedIVs => PK.IV32 != 0;
+    public override bool HasFixedIVs => (PK.IV32 & 0x3FFF_FFFFu) != 0;
     public override void GetIVs(Span<int> value)
     {
         if (HasFixedIVs)
@@ -206,11 +206,11 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
             seed = Util.Rand32(); // reseed, do not have method 1 correlation
 
         // Generate IVs
-        if (pk4.IV32 == 0) // Ignore Nickname/Egg flag bits; none are set for varied-IV gifts.
+        if ((pk4.IV32 & 0x3FFF_FFFFu) == 0) // Ignore Nickname/Egg flag bits
         {
             uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
             uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
-            pk4.IV32 = iv1 | (iv2 << 15);
+            pk4.IV32 |= iv1 | (iv2 << 15);
         }
     }
 
