@@ -6,9 +6,9 @@ public class EventUnlocker8b : EventUnlocker<SAV8BS>
 
     public bool UnlockReadySpiritomb => SAV.UgSaveData.TalkedNPC < 32;
     public bool UnlockReadyBoxLegend => SAV.FlagWork.GetFlag(308) && SAV.FlagWork.GetWork(84) != 5; // FE_D05R0114_SPPOKE_GET, WK_SCENE_D05R0114 (1-3 story related, 4 = captured, 5 = can retry)
-    public bool UnlockReadyShaymin => SAV.FlagWork.GetFlag(545) || !(SAV.FlagWork.GetWork(276) == 1 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(452) == 1 && SAV.FlagWork.GetSystemFlag(5)); // HAIHUEVENT_ID_D30, Oak's Letter
-    public bool UnlockReadyDarkrai => SAV.FlagWork.GetFlag(301) || !(SAV.FlagWork.GetWork(275) == 1 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(454) == 1); // HAIHUEVENT_ID_D18, Member Card
-    public bool UnlockReadyArceus => SAV.FlagWork.GetFlag(531) || !(SAV.FlagWork.GetWork(188) == 0 && SAV.Zukan.HasNationalDex && SAV.Items.GetItemQuantity(455) == 1 && SAV.FlagWork.GetSystemFlag(5)); // FE_D05R0116_LEGEND_CLEAR, Azure Flute
+    public bool UnlockReadyShaymin => SAV.FlagWork.GetFlag(545) || !(SAV.FlagWork.GetWork(276) == 1 && SAV.Items.GetItemQuantity(452) == 1); // HAIHUEVENT_ID_D30, Oak's Letter
+    public bool UnlockReadyDarkrai => SAV.FlagWork.GetFlag(301) || !(SAV.FlagWork.GetWork(275) == 1 && SAV.Items.GetItemQuantity(454) == 1); // HAIHUEVENT_ID_D18, Member Card
+    public bool UnlockReadyArceus => SAV.FlagWork.GetFlag(531) || !(SAV.FlagWork.GetWork(188) == 0 && SAV.Items.GetItemQuantity(455) == 1); // FE_D05R0116_LEGEND_CLEAR, Azure Flute
 
     // 0 = inactive, 1 = roaming, 2 = KOed, 3 = captured
     public bool UnlockReadyRoamerMesprit => SAV.Encounter.Roamer1Encount != 1;
@@ -33,8 +33,6 @@ public class EventUnlocker8b : EventUnlocker<SAV8BS>
 
     public void UnlockShaymin()
     {
-        SAV.Zukan.HasNationalDex = true; // dex
-        SAV.FlagWork.SetSystemFlag(5, true); // clear
         SAV.FlagWork.SetWork(276, 1); // haihu
         SAV.Items.SetItemQuantity(452, 1); // letter
         SAV.FlagWork.SetFlag(545, false); // clear vanish
@@ -42,7 +40,6 @@ public class EventUnlocker8b : EventUnlocker<SAV8BS>
 
     public void UnlockDarkrai()
     {
-        SAV.Zukan.HasNationalDex = true; // dex
         SAV.FlagWork.SetWork(275, 1); // haihu
         SAV.Items.SetItemQuantity(454, 1); // member
         SAV.FlagWork.SetFlag(301, false); // clear vanish
@@ -50,9 +47,7 @@ public class EventUnlocker8b : EventUnlocker<SAV8BS>
 
     public void UnlockArceus()
     {
-        SAV.Zukan.HasNationalDex = true; // dex
         SAV.Items.SetItemQuantity(455, 1); // flute
-        SAV.FlagWork.SetSystemFlag(5, true); // clear
         SAV.FlagWork.SetFlag(1508, true); // wildcard
         SAV.FlagWork.SetFlag(244, false); // captured
         SAV.FlagWork.SetFlag(531, false); // clear vanish
