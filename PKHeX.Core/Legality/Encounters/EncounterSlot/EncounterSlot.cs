@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -100,7 +100,7 @@ public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, 
 
         SetMetData(pk, level, Location);
         SetPINGA(pk, criteria);
-        SetEncounterMoves(pk, version, level);
+        SetEncounterMoves(pk, version, pk.CurrentLevel);
 
         SetFormatSpecificData(pk);
 
