@@ -246,7 +246,7 @@ public static class WinFormsUtil
         "gci", // Dolphin GameCubeImage
         "dsv", // DeSmuME
         "srm", // RetroArch save files
-        "fla", // flashcard
+        "fla", // flash
         "SaveRAM", // BizHawk
     };
 

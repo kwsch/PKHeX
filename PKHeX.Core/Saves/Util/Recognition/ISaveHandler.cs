@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 #if !(EXCLUDE_EMULATOR_FORMATS && EXCLUDE_HACKS)
 /// <summary>
 /// Provides handling for recognizing atypical save file formats.
@@ -17,7 +19,7 @@ public interface ISaveHandler
     /// </summary>
     /// <param name="input">Combined data</param>
     /// <returns>Null if not a valid save file for this handler's format. Returns an object containing header, footer, and inner data references.</returns>
-    SaveHandlerSplitResult? TrySplit(byte[] input);
+    SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input);
 }
 #endif
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -12,11 +12,11 @@ public sealed class SaveHandlerARDS : ISaveHandler
 
     public bool IsRecognized(int size) => size is ExpectedSize;
 
-    public SaveHandlerSplitResult TrySplit(byte[] input)
+    public SaveHandlerSplitResult TrySplit(ReadOnlySpan<byte> input)
     {
         // No authentication to see if it actually is a header; no size collisions expected.
-        var header = input.Slice(0, sizeHeader);
-        input = input.SliceEnd(sizeHeader);
-        return new SaveHandlerSplitResult(input, header, Array.Empty<byte>());
+        var header = input[..sizeHeader].ToArray();
+        var data = input[sizeHeader..].ToArray();
+        return new SaveHandlerSplitResult(data, header, Array.Empty<byte>());
     }
 }

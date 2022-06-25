@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -242,7 +242,8 @@ public sealed class SAV3GCMemoryCard
 
             SaveGameCount = 0;
             var gameCode = EncodingType.GetString(Data, offset, 4);
-            var ver = SaveHandlerGCI.GetGameCode(gameCode);
+            var header = Data.AsSpan(0, 4);
+            var ver = SaveHandlerGCI.GetGameCode(header);
             if (ver == GameVersion.COLO)
             {
                 if (HasCOLO) // another entry already exists

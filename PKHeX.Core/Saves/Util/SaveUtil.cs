@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -88,6 +88,7 @@ public static class SaveUtil
     {
         DolphinHandler,
         new SaveHandlerDeSmuME(),
+        new SaveHandlerBizHawk(),
         new SaveHandlerARDS(),
     };
 #endif
@@ -840,5 +841,17 @@ public static class SaveUtil
     /// </summary>
     /// <param name="size">Size in bytes of the save data</param>
     /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-    public static bool IsSizeValid(int size) => Sizes.Contains(size) || Handlers.Any(z => z.IsRecognized(size));
+    public static bool IsSizeValid(int size) => IsSizeValidNoHandler(size) || IsSizeValidHandler(size);
+
+    /// <summary>
+    /// Determines whether the save data size is valid for automatically detecting saves.
+    /// </summary>
+    /// <remarks>Only checks the <see cref="Handlers"/> list.</remarks>
+    public static bool IsSizeValidHandler(int size) => Handlers.Any(z => z.IsRecognized(size));
+
+    /// <summary>
+    /// Determines whether the save data size is valid for automatically detecting saves.
+    /// </summary>
+    /// <remarks>Does not check the <see cref="Handlers"/> list.</remarks>
+    public static bool IsSizeValidNoHandler(int size) => Sizes.Contains(size);
 }

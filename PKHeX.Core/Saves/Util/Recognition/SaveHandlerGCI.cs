@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 
 namespace PKHeX.Core;
 
@@ -19,11 +16,31 @@ public sealed class SaveHandlerGCI : ISaveHandler
     private static readonly string[] HEADER_XD    = { "GXXJ", "GXXE", "GXXP" }; // NTSC-J, NTSC-U, PAL
     private static readonly string[] HEADER_RSBOX = { "GPXJ", "GPXE", "GPXP" }; // NTSC-J, NTSC-U, PAL
 
-    private static bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
+    private static bool IsGameMatchHeader(ReadOnlySpan<string> headers, ReadOnlySpan<byte> data)
+    {
+        foreach (var header in headers)
+        {
+            if (!IsGameMatchHeader(data, header.AsSpan()))
+                return false;
+        }
+        return true;
+    }
+
+    private static bool IsGameMatchHeader(ReadOnlySpan<byte> data, ReadOnlySpan<char> header)
+    {
+        for (int i = 0; i < header.Length; i++)
+        {
+            var c = (byte)header[i];
+            if (data[i] != c)
+                return false;
+        }
+
+        return true;
+    }
 
     public bool IsRecognized(int size) => size is SIZE_G3BOXGCI or SIZE_G3COLOGCI or SIZE_G3XDGCI;
 
-    public SaveHandlerSplitResult? TrySplit(byte[] input)
+    public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
     {
         switch (input.Length)
         {
@@ -35,10 +52,10 @@ public sealed class SaveHandlerGCI : ISaveHandler
                 return null;
         }
 
-        byte[] header = input.Slice(0, headerSize);
-        input = input.SliceEnd(headerSize);
+        var header = input[..headerSize].ToArray();
+        var data = input[headerSize..].ToArray();
 
-        return new SaveHandlerSplitResult(input, header, Array.Empty<byte>());
+        return new SaveHandlerSplitResult(data, header, Array.Empty<byte>());
     }
 
     /// <summary>
@@ -46,13 +63,13 @@ public sealed class SaveHandlerGCI : ISaveHandler
     /// </summary>
     /// <param name="gameCode">4 character game code string</param>
     /// <returns>Magic version ID enumeration; <see cref="GameVersion.Unknown"/> if no match.</returns>
-    public static GameVersion GetGameCode(string gameCode)
+    public static GameVersion GetGameCode(ReadOnlySpan<byte> gameCode)
     {
-        if (HEADER_COLO.Contains(gameCode))
+        if (IsGameMatchHeader(HEADER_COLO, gameCode))
             return GameVersion.COLO;
-        if (HEADER_XD.Contains(gameCode))
+        if (IsGameMatchHeader(HEADER_XD, gameCode))
             return GameVersion.XD;
-        if (HEADER_RSBOX.Contains(gameCode))
+        if (IsGameMatchHeader(HEADER_RSBOX, gameCode))
             return GameVersion.RSBOX;
 
         return GameVersion.Unknown;
