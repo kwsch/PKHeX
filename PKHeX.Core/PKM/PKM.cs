@@ -1003,21 +1003,31 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     }
 
     /// <summary>
-    /// Applies all shared properties from the current <see cref="PKM"/> to <see cref="Destination"/> <see cref="PKM"/>.
+    /// Applies all shared properties from the current <see cref="PKM"/> to the <see cref="result"/> <see cref="PKM"/>.
     /// </summary>
-    /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
-    public void TransferPropertiesWithReflection(PKM Destination)
+    /// <param name="result"><see cref="PKM"/> that receives property values.</param>
+    public void TransferPropertiesWithReflection(PKM result)
     {
         // Only transfer declared properties not defined in PKM.cs but in the actual type
         var srcType = GetType();
-        var destType = Destination.GetType();
+        var destType = result.GetType();
 
-        var srcProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType);
-        var destProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(destType);
-        while (srcType.BaseType != typeof(PKM))
-            srcProperties = srcProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType = srcType.BaseType));
-        while (destType.BaseType != typeof(PKM))
-            destProperties = destProperties.Concat(ReflectUtil.GetPropertiesCanWritePublicDeclared(destType = destType.BaseType));
+        static IEnumerable<Type> GetImplementingTypes(Type t)
+        {
+            yield return t;
+            while (true)
+            {
+                var baseType = t.BaseType;
+                if (baseType is null || baseType == typeof(PKM))
+                    yield break;
+                yield return t = baseType;
+            }
+        }
+
+        var srcTypes = GetImplementingTypes(srcType);
+        var srcProperties = srcTypes.SelectMany(ReflectUtil.GetPropertiesCanWritePublicDeclared);
+        var destTypes = GetImplementingTypes(destType);
+        var destProperties = destTypes.SelectMany(ReflectUtil.GetPropertiesCanWritePublicDeclared);
 
         // Transfer properties in the order they are defined in the destination PKM format for best conversion
         var shared = destProperties.Intersect(srcProperties);
@@ -1026,12 +1036,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
             if (!BatchEditing.TryGetHasProperty(this, property, out var src))
                 continue;
             var prop = src.GetValue(this);
-            if (prop is not (byte[] or null) && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
-                ReflectUtil.SetValue(pi, Destination, prop);
+            if (prop is not (byte[] or null) && BatchEditing.TryGetHasProperty(result, property, out var pi))
+                ReflectUtil.SetValue(pi, result, prop);
         }
 
         // set shared properties for the Gen1/2 base class
-        if (Destination is GBPKM l)
+        if (result is GBPKM l)
             l.ImportFromFuture(this);
     }
 
