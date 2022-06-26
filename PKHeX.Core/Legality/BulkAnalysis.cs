@@ -35,7 +35,7 @@ public sealed class BulkAnalysis
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
-        Valid = Parse.Any(z => !z.Valid);
+        Valid = Parse.Count == 0 || Parse.All(z => z.Valid);
     }
 
     // Remove things that aren't actual stored data, or already flagged by legality checks.
