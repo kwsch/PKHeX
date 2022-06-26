@@ -395,18 +395,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         IV_SPD = value[5];
     }
 
-    public int[] EVs
-    {
-        get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
-        set
-        {
-            if (value.Length != 6)
-                return;
-            EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
-            EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
-        }
-    }
-
     public void GetEVs(Span<int> value)
     {
         if (value.Length != 6)
@@ -932,61 +920,64 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
             EncryptionConstant = PID;
     }
 
+    /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
+    public void SetRandomIVs(int minFlawless = -1) => SetRandomIVs(stackalloc int[6], minFlawless);
+
     /// <summary>
     /// Randomizes the IVs within game constraints.
     /// </summary>
-    /// <param name="flawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
-    /// <returns>Randomized IVs if desired.</returns>
-    public int[] SetRandomIVs(int? flawless = null)
+    /// <param name="ivs">Temporary variable storage</param>
+    /// <param name="minFlawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
+    public void SetRandomIVs(Span<int> ivs, int minFlawless = -1)
     {
-        if (Version == (int)GameVersion.GO && flawless != 6)
-            return SetRandomIVsGO();
+        if (Version == (int)GameVersion.GO && minFlawless != 6)
+            SetRandomIVsGO(ivs);
 
-        int[] ivs = new int[6];
         var rnd = Util.Rand;
         for (int i = 0; i < 6; i++)
             ivs[i] = rnd.Next(MaxIV + 1);
 
-        int count = flawless ?? GetFlawlessIVCount();
+        int count = minFlawless == -1 ? GetFlawlessIVCount() : minFlawless;
         if (count != 0)
         {
             for (int i = 0; i < count; i++)
                 ivs[i] = MaxIV;
-            Util.Shuffle(ivs.AsSpan(), 0, ivs.Length, rnd); // Randomize IV order
+            Util.Shuffle(ivs, 0, ivs.Length, rnd); // Randomize IV order
         }
-        return IVs = ivs;
+        SetIVs(ivs);
     }
 
-    public int[] SetRandomIVsGO(int minIV = 0, int maxIV = 15)
+    /// <inheritdoc cref="SetRandomIVsGO(Span{int},int,int)"/>
+    public void SetRandomIVsGO(int minIV = 0, int maxIV = 15) => SetRandomIVsGO(stackalloc int[6], minIV, maxIV);
+
+    public void SetRandomIVsGO(Span<int> ivs, int minIV = 0, int maxIV = 15)
     {
-        int[] ivs = new int[6];
         var rnd = Util.Rand;
         ivs[0] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // hp
         ivs[1] = ivs[4] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // attack
         ivs[2] = ivs[5] = (rnd.Next(minIV, maxIV + 1) << 1) | 1; // defense
         ivs[3] = rnd.Next(MaxIV + 1); // speed
-        return IVs = ivs;
+        SetIVs(ivs);
     }
 
     /// <summary>
     /// Randomizes the IVs within game constraints.
     /// </summary>
     /// <param name="template">IV template to generate from</param>
-    /// <param name="flawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
+    /// <param name="minFlawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
     /// <returns>Randomized IVs if desired.</returns>
-    public int[] SetRandomIVs(ReadOnlySpan<int> template, int? flawless = null)
+    public void SetRandomIVsTemplate(ReadOnlySpan<int> template, int minFlawless = -1)
     {
-        int count = flawless ?? GetFlawlessIVCount();
-        int[] ivs = new int[6];
+        int count = minFlawless == -1 ? GetFlawlessIVCount() : minFlawless;
+        Span<int> ivs = stackalloc int[6];
         var rnd = Util.Rand;
         do
         {
             for (int i = 0; i < 6; i++)
                 ivs[i] = template[i] < 0 ? rnd.Next(MaxIV + 1) : template[i];
-        } while (ivs.Count(z => z == MaxIV) < count);
+        } while (ivs.Count(MaxIV) < count);
 
-        IVs = ivs;
-        return ivs;
+        SetIVs(ivs);
     }
 
     /// <summary>
@@ -1088,12 +1079,26 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     };
 
     /// <summary>
+    /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its relearn move list.
+    /// </summary>
+    public bool HasRelearnMove(int move) => RelearnMove1 == move || RelearnMove2 == move || RelearnMove3 == move || RelearnMove4 == move;
+
+    public void GetRelearnMoves(Span<int> value)
+    {
+        value[3] = RelearnMove4;
+        value[2] = RelearnMove3;
+        value[1] = RelearnMove2;
+        value[0] = RelearnMove1;
+    }
+
+    /// <summary>
     /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
     /// </summary>
     public void ClearInvalidMoves()
     {
         uint invalid = 0;
-        var moves = Moves;
+        Span<int> moves = stackalloc int[4];
+        GetMoves(moves);
         for (var i = 0; i < moves.Length; i++)
         {
             if (moves[i] <= MaxMoveID)
@@ -1110,12 +1115,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
             Move1_PP = GetMovePP(1, Move1_PPUps);
         }
 
-        Moves = moves;
+        SetMoves(moves);
         FixMoves();
     }
 
     /// <summary>
-    /// Gets one of the <see cref="EVs"/> based on its index within the array.
+    /// Gets one of the <see cref="EffortValues"/> based on its index within the array.
     /// </summary>
     /// <param name="index">Index to get</param>
     public int GetEV(int index) => index switch

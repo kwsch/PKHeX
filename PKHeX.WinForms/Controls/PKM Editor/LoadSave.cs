@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -69,8 +69,20 @@ public partial class PKMEditor
         pk.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
     }
 
-    private void LoadIVs(PKM pk) => Stats.LoadIVs(pk.IVs);
-    private void LoadEVs(PKM pk) => Stats.LoadEVs(pk.EVs);
+    private void LoadIVs(PKM pk)
+    {
+        Span<int> span = stackalloc int[6];
+        pk.GetIVs(span);
+        Stats.LoadIVs(span);
+    }
+
+    private void LoadEVs(PKM pk)
+    {
+        Span<int> span = stackalloc int[6];
+        pk.GetEVs(span);
+        Stats.LoadEVs(span);
+    }
+
     private void LoadAVs(IAwakened pk) => Stats.LoadAVs(pk);
     private void LoadGVs(IGanbaru pk) => Stats.LoadGVs(pk);
 

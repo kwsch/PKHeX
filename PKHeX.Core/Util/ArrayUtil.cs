@@ -45,31 +45,13 @@ public static class ArrayUtil
     }
 
     public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
-    public static byte[] SliceEnd(this byte[] src, int offset) => src.AsSpan(offset).ToArray();
     public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
-    public static T[] SliceEnd<T>(this T[] src, int offset) => src.AsSpan(offset).ToArray();
 
     public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
-
-    public static T[][] Split<T>(this ReadOnlySpan<T> data, int size)
-    {
-        var result = new T[data.Length / size][];
-        for (int i = 0; i < data.Length; i += size)
-            result[i / size] = data.Slice(i, size).ToArray();
-        return result;
-    }
 
     public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)
     {
         for (int i = start; i < bin.Length; i += size)
-            yield return bin.Slice(i, size);
-    }
-
-    public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start, int end)
-    {
-        if (end < 0)
-            end = bin.Length;
-        for (int i = start; i < end; i += size)
             yield return bin.Slice(i, size);
     }
 

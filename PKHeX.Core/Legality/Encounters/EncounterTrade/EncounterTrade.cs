@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -151,9 +151,9 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     protected void SetIVs(PKM pk)
     {
         if (IVs.Count != 0)
-            pk.SetRandomIVs((int[])IVs, 0);
+            pk.SetRandomIVsTemplate((int[])IVs, 0);
         else
-            pk.SetRandomIVs(flawless: 3);
+            pk.SetRandomIVs(minFlawless: 3);
     }
 
     private void SetMoves(PKM pk, GameVersion version, int level)

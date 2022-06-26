@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -11,8 +11,8 @@ public static class MoveApplicator
     /// Sets the individual PP Up count values depending if a Move is present in the move's slot or not.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-    public static void SetMaximumPPUps(this PKM pk, int[] moves)
+    /// <param name="moves"><see cref="PKM.Moves"/> to use.</param>
+    public static void SetMaximumPPUps(this PKM pk, ReadOnlySpan<int> moves)
     {
         pk.Move1_PPUps = GetPPUpCount(moves[0]);
         pk.Move2_PPUps = GetPPUpCount(moves[1]);
@@ -27,22 +27,36 @@ public static class MoveApplicator
     /// Sets the individual PP Up count values depending if a Move is present in the move slot or not.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    public static void SetMaximumPPUps(this PKM pk) => pk.SetMaximumPPUps(pk.Moves);
+    public static void SetMaximumPPUps(this PKM pk)
+    {
+        Span<int> moves = stackalloc int[4];
+        pk.GetMoves(moves);
+        pk.SetMaximumPPUps(moves);
+    }
 
     /// <summary>
     /// Updates the <see cref="PKM.Moves"/> and updates the current PP counts.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="moves"><see cref="PKM.Moves"/> to set. Will be resized if 4 entries are not present.</param>
+    /// <param name="input"><see cref="PKM.Moves"/> to set.</param>
     /// <param name="maxPP">Option to maximize PP Ups</param>
-    public static void SetMoves(this PKM pk, int[] moves, bool maxPP = false)
+    public static void SetMoves(this PKM pk, ReadOnlySpan<int> input, bool maxPP = false)
     {
-        if (Array.FindIndex(moves, z => z > pk.MaxMoveID) != -1)
-            moves = Array.FindAll(moves, z => z <= pk.MaxMoveID);
-        if (moves.Length != 4)
-            Array.Resize(ref moves, 4);
+        Span<int> moves = stackalloc int[4];
+        if (input.Length <= 4)
+            input.CopyTo(moves);
+        else
+            input[..4].CopyTo(moves);
 
-        pk.Moves = moves;
+        // Remote all indexes with a value above the maximum move ID allowed by the format.
+        var max = pk.MaxMoveID;
+        for (int i = 0; i < moves.Length; i++)
+        {
+            if (moves[i] > max)
+                moves[i] = 0;
+        }
+
+        pk.SetMoves(moves);
         if (maxPP && Legal.IsPPUpAvailable(pk))
             pk.SetMaximumPPUps(moves);
         else
@@ -67,7 +81,12 @@ public static class MoveApplicator
     /// Updates the individual PP count values for each move slot based on the maximum possible value.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    public static void SetMaximumPPCurrent(this PKM pk) => pk.SetMaximumPPCurrent(pk.Moves);
+    public static void SetMaximumPPCurrent(this PKM pk)
+    {
+        Span<int> moves = stackalloc int[4];
+        pk.GetMoves(moves);
+        pk.SetMaximumPPCurrent(moves);
+    }
 
     /// <summary>
     /// Refreshes the Move PP for the desired move.

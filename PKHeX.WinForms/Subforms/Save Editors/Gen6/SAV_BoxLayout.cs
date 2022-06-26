@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
@@ -40,22 +39,36 @@ public partial class SAV_BoxLayout : Form
     private bool LoadWallpaperNames()
     {
         CB_BG.Items.Clear();
+
+        static void AddRange(ComboBox cb, ReadOnlySpan<string> names)
+        {
+            foreach (var name in names)
+                cb.Items.Add(name);
+        }
+
+        static void AddPlaceholder(ComboBox cb, int count)
+        {
+            for (int i = 1; i <= count; i++)
+                cb.Items.Add($"Wallpaper {i}");
+        }
+
+        var names = GameInfo.Strings.wallpapernames;
         switch (SAV.Generation)
         {
             case 3 when SAV is SAV3:
-                CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
+                AddRange(CB_BG, names.AsSpan(0, 16));
                 return true;
             case 4 or 5 or 6:
-                CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 24));
+                AddRange(CB_BG, names.AsSpan(0, 24));
                 return true;
             case 7:
-                CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
+                AddRange(CB_BG, names.AsSpan(0, 16));
                 return true;
             case 8 when SAV is SAV8BS:
-                CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
+                AddRange(CB_BG, names.AsSpan(0, 32));
                 return true;
             case 8:
-                CB_BG.Items.AddRange(Enumerable.Range(1, 19).Select(z => $"Wallpaper {z}").ToArray());
+                AddPlaceholder(CB_BG, 19);
                 return true;
             default:
                 return false;

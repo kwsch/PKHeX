@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies the <see cref="PKM.EVs"/>.
+/// Verifies the <see cref="EffortValues"/>.
 /// </summary>
 public sealed class EffortValueVerifier : Verifier
 {

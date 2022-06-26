@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -42,7 +42,7 @@ public sealed class RibbonInfo
         }
     }
 
-    public static IReadOnlyList<RibbonInfo> GetRibbonInfo(PKM pk)
+    public static List<RibbonInfo> GetRibbonInfo(PKM pk)
     {
         // Get a list of all Ribbon Attributes in the PKM
         var riblist = new List<RibbonInfo>();

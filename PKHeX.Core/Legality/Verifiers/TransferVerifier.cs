@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -190,7 +190,7 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    public IEnumerable<CheckResult> VerifyVCEncounter(PKM pk, IEncounterTemplate encounter, ILocation transfer, IList<CheckMoveResult> Moves)
+    public IEnumerable<CheckResult> VerifyVCEncounter(PKM pk, IEncounterTemplate encounter, ILocation transfer, IReadOnlyList<CheckMoveResult> Moves)
     {
         if (pk.Met_Location != transfer.Location)
             yield return GetInvalid(LTransferMetLocation);
@@ -219,9 +219,9 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, IList<CheckMoveResult> Moves, int move, int gen)
+    private static void FlagIncompatibleTransferMove(PKM pk, IReadOnlyList<CheckMoveResult> Moves, int move, int gen)
     {
-        int index = Array.IndexOf(pk.Moves, move);
+        int index = pk.GetMoveIndex(move);
         if (index < 0)
             return; // doesn't have move
 

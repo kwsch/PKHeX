@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -308,7 +308,7 @@ public sealed class MiscVerifier : Verifier
         var pk = data.Entity;
         if (pk.Move1_PPUps > 0 || pk.Move2_PPUps > 0 || pk.Move3_PPUps > 0 || pk.Move4_PPUps > 0)
             data.AddLine(GetInvalid(LEggPPUp, Egg));
-        if (pk.Move1_PP != pk.GetMovePP(pk.Move1, 0) || pk.Move2_PP != pk.GetMovePP(pk.Move2, 0) || pk.Move3_PP != pk.GetMovePP(pk.Move3, 0) || pk.Move4_PP != pk.GetMovePP(pk.Move4, 0))
+        if (!IsZeroMovePP(pk))
             data.AddLine(GetInvalid(LEggPP, Egg));
 
         var enc = data.EncounterMatch;
@@ -329,6 +329,19 @@ public sealed class MiscVerifier : Verifier
             if (pk.StatNature != pk.Nature)
                 data.AddLine(GetInvalid(LEggNature, Egg));
         }
+    }
+
+    private static bool IsZeroMovePP(PKM pk)
+    {
+        if (pk.Move1_PP != pk.GetMovePP(pk.Move1, 0))
+            return false;
+        if (pk.Move2_PP != pk.GetMovePP(pk.Move2, 0))
+            return false;
+        if (pk.Move3_PP != pk.GetMovePP(pk.Move3, 0))
+            return false;
+        if (pk.Move4_PP != pk.GetMovePP(pk.Move4, 0))
+            return false;
+        return true;
     }
 
     private static bool MovesMatchRelearn(PKM pk)

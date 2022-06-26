@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -25,7 +24,7 @@ public static class CommonEdits
     /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
     public static void SetNickname(this PKM pk, string nick)
     {
-        if (string.IsNullOrWhiteSpace(nick))
+        if (nick.Length == 0)
         {
             pk.ClearNickname();
             return;
@@ -179,19 +178,22 @@ public static class CommonEdits
         {
             // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
             // Under this scenario, just force the Hidden Power type.
-            if (Set.Moves.Contains(237) && pk.HPType != Set.HiddenPowerType && Set.IVs.Any(z => z >= 30))
-                pk.SetHiddenPower(Set.HiddenPowerType);
+            if (Array.IndexOf(Set.Moves, (int)Move.HiddenPower) != -1 && pk.HPType != Set.HiddenPowerType)
+            {
+                if (Array.FindIndex(Set.IVs, static z => z >= 30) != -1)
+                    pk.SetHiddenPower(Set.HiddenPowerType);
+            }
 
             // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
             // Under this scenario, just apply maximum EVs (65535).
-            if (Set.EVs.All(z => z == 0))
+            if (Array.FindIndex(Set.EVs, static z => z != 0) == -1)
                 gb.MaxEVs();
             else
-                pk.EVs = Set.EVs;
+                pk.SetEVs(Set.EVs);
         }
         else
         {
-            pk.EVs = Set.EVs;
+            pk.SetEVs(Set.EVs);
         }
 
         // IVs have no side effects such as hidden power type in gen 8
@@ -247,7 +249,7 @@ public static class CommonEdits
             pk.Nature = pk.StatNature;
 
         var legal = new LegalityAnalysis(pk);
-        if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
+        if (legal.Parsed && Array.FindIndex(legal.Info.Relearn, static z => !z.Valid) != -1)
             pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -266,7 +268,7 @@ public static class CommonEdits
     }
 
     /// <summary>
-    /// Sets one of the <see cref="PKM.EVs"/> based on its index within the array.
+    /// Sets one of the <see cref="EffortValues"/> based on its index within the array.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="index">Index to set to</param>
@@ -300,7 +302,7 @@ public static class CommonEdits
     };
 
     /// <summary>
-    /// Fetches the highest value the provided <see cref="PKM.EVs"/> index can be while considering others.
+    /// Fetches the highest value the provided <see cref="EffortValues"/> index can be while considering others.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="index">Index to fetch for</param>

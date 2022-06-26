@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Generic;
+using System.Text;
 
 namespace PKHeX.Core;
 
@@ -15,14 +15,25 @@ public static class QRPKM
         var s = GameInfo.Strings;
 
         var header = GetHeader(pk, s);
-        string moves = string.Join(" / ", pk.Moves.Select(move => move < s.movelist.Length ? s.movelist[move] : "ERROR"));
+        var sb = new StringBuilder(48);
+        for (int i = 0; i < 4; i++)
+        {
+            var move = pk.GetMove(i);
+            if (move == 0)
+                continue;
+            if (sb.Length != 0)
+                sb.Append(" / ");
+            var moveName = move < s.movelist.Length ? s.movelist[move] : "ERROR";
+            sb.Append(moveName);
+        }
+
         string IVs = $"IVs: {pk.IV_HP:00}/{pk.IV_ATK:00}/{pk.IV_DEF:00}/{pk.IV_SPA:00}/{pk.IV_SPD:00}/{pk.IV_SPE:00}";
         string EVs = $"EVs: {pk.EV_HP:00}/{pk.EV_ATK:00}/{pk.EV_DEF:00}/{pk.EV_SPA:00}/{pk.EV_SPD:00}/{pk.EV_SPE:00}";
 
         return new[]
         {
             string.Join(" ", header),
-            moves,
+            sb.ToString(),
             IVs + "   " + EVs,
         };
     }

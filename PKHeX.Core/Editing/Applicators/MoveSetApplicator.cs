@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -51,7 +51,7 @@ public static class MoveSetApplicator
 
         const int count = 4;
         if (m.Length > count)
-            return m.SliceEnd(m.Length - count);
+            return m.AsSpan(m.Length - count).ToArray();
         Array.Resize(ref m, count);
         return m;
     }

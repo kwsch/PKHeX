@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -304,10 +304,11 @@ public partial class StatEditor : UserControl
             return;
 
         // Change IVs to match the new Hidden Power
-        var ivs = Entity.IVs;
+        Span<int> ivs = stackalloc int[6];
+        Entity.GetIVs(ivs);
         int hpower = WinFormsUtil.GetIndex(CB_HPType);
         if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
-            ivs.AsSpan().Fill(Entity.MaxIV);
+            ivs.Fill(Entity.MaxIV);
         HiddenPower.SetIVs(hpower, ivs, Entity.Format);
         LoadIVs(ivs);
     }
@@ -406,16 +407,18 @@ public partial class StatEditor : UserControl
 
     public void UpdateRandomIVs(object sender, EventArgs e)
     {
-        var IVs = ModifierKeys switch
-        {
-            Keys.Control => Entity.SetRandomIVs(6),
-            Keys.Alt => new int[6],
-            _ => Entity.SetRandomIVs(),
-        };
-        LoadIVs(IVs);
+        Span<int> ivs = stackalloc int[6];
+        if (ModifierKeys == Keys.Control)
+            ivs.Fill(Entity.MaxIV);
+        else if (ModifierKeys == Keys.Alt)
+            ivs.Fill(0);
+        else
+            Entity.SetRandomIVs(ivs);
+
+        LoadIVs(ivs);
         if (Entity is IGanbaru g)
         {
-            Entity.SetIVs(IVs);
+            Entity.SetIVs(ivs);
             if (ModifierKeys == Keys.Control)
                 g.SetSuggestedGanbaruValues(Entity);
             else if (ModifierKeys == Keys.Alt)

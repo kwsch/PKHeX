@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
@@ -9,12 +9,12 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class ShowdownSet : IBattleTemplate
 {
-    private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+    private static readonly string[] StatNames = { "HP", "Atk", "Def", "Spe", "SpA", "SpD" };
     private static readonly string[] Splitters = {"\r\n", "\n"};
     private static readonly string[] StatSplitters = { " / ", " " };
-    private static readonly string[] LineSplit = {": "};
-    private static readonly string[] ItemSplit = {" @ "};
-    private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
+    private const string LineSplit = ": ";
+    private const string ItemSplit = " @ ";
+    private static readonly char[] ParenJunk = { '(', ')', '[', ']' };
     private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
@@ -26,7 +26,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int Format { get; private set; } = RecentTrainerCache.Format;
 
     /// <inheritdoc/>
-    public string Nickname { get; set; } = string.Empty;
+    public string Nickname { get; private set; } = string.Empty;
 
     /// <inheritdoc/>
     public int Gender { get; private set; } = -1;
@@ -56,10 +56,10 @@ public sealed class ShowdownSet : IBattleTemplate
     public int Form { get; private set; }
 
     /// <inheritdoc/>
-    public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
+    public int[] EVs { get; } = {00, 00, 00, 00, 00, 00};
 
     /// <inheritdoc/>
-    public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
+    public int[] IVs { get; } = {31, 31, 31, 31, 31, 31};
 
     /// <inheritdoc/>
     public int HiddenPowerType { get; set; } = -1;
@@ -76,11 +76,6 @@ public sealed class ShowdownSet : IBattleTemplate
     public readonly List<string> InvalidLines = new();
 
     private GameStrings Strings { get; set; } = DefaultStrings;
-
-    private int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
-    private int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
-    private int[] EVsSpeedFirst => new[] {EVs[0], EVs[1], EVs[2], EVs[5], EVs[3], EVs[4]};
-    private int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
 
     /// <summary>
     /// Loads a new <see cref="ShowdownSet"/> from the input string.
@@ -173,10 +168,18 @@ public sealed class ShowdownSet : IBattleTemplate
             if (movectr != 0)
                 break;
 
-            var split = line.Split(LineSplit, StringSplitOptions.None);
-            var valid = split.Length == 1
-                ? ParseSingle(line) // Nature
-                : ParseEntry(split[0].Trim(), split[1].Trim());
+            bool valid;
+            var split = line.IndexOf(LineSplit, StringComparison.Ordinal);
+            if (split == -1)
+            {
+                valid = ParseSingle(line); // Nature
+            }
+            else
+            {
+                var left = line[..split].Trim();
+                var right = line[(split + LineSplit.Length)..].Trim();
+                valid = ParseEntry(left, right);
+            }
             if (!valid)
                 InvalidLines.Add(line);
         }
@@ -186,7 +189,10 @@ public sealed class ShowdownSet : IBattleTemplate
     {
         if (!identifier.EndsWith("Nature", StringComparison.Ordinal))
             return false;
-        var naturestr = identifier.Split(' ')[0].Trim();
+        var firstSpace = identifier.IndexOf(' ');
+        if (firstSpace == -1)
+            return false;
+        var naturestr = identifier[..firstSpace];
         return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, naturestr)) >= 0;
     }
 
@@ -261,13 +267,13 @@ public sealed class ShowdownSet : IBattleTemplate
         result.Add(GetStringFirstLine(form));
 
         // IVs
-        var ivs = GetStringStats(IVsSpeedLast, Format < 3 ? 15 : 31);
-        if (ivs.Count > 0)
+        var ivs = GetStringStats(IVs, Format < 3 ? 15 : 31);
+        if (ivs.Length != 0)
             result.Add($"IVs: {string.Join(" / ", ivs)}");
 
         // EVs
-        var evs = GetStringStats(EVsSpeedLast, 0);
-        if (evs.Count > 0)
+        var evs = GetStringStats(EVs, 0);
+        if (evs.Length != 0)
             result.Add($"EVs: {string.Join(" / ", evs)}");
 
         // Secondary Stats
@@ -325,14 +331,22 @@ public sealed class ShowdownSet : IBattleTemplate
         return $"{Nickname} ({specForm})";
     }
 
-    private static IList<string> GetStringStats(ReadOnlySpan<int> stats, int ignore)
+    private static string[] GetStringStats(ReadOnlySpan<int> stats, int ignoreValue)
     {
-        var result = new List<string>();
+        var count = stats.Length - stats.Count(ignoreValue);
+        if (count == 0)
+            return Array.Empty<string>();
+
+        var result = new string[count];
+        int ctr = 0;
         for (int i = 0; i < stats.Length; i++)
         {
-            if (stats[i] == ignore)
+            var statIndex = GetStatIndexStored(i);
+            var statValue = stats[statIndex];
+            if (statValue == ignoreValue)
                 continue; // ignore unused stats
-            result.Add($"{stats[i]} {StatNames[i]}");
+            var statName = StatNames[statIndex];
+            result[ctr++] = $"{statValue} {statName}";
         }
         return result;
     }
@@ -345,15 +359,25 @@ public sealed class ShowdownSet : IBattleTemplate
             if (move == 0 || (uint)move >= moves.Count)
                 continue;
 
-            if (move == 237) // Hidden Power
+            if (move != (int)Move.HiddenPower)
             {
-                yield return $"- {moves[move]} [{Strings.Types[1 + HiddenPowerType]}]";
+                yield return $"- {moves[move]}";
                 continue;
             }
 
-            yield return $"- {moves[move]}";
+            var type = 1 + HiddenPowerType; // skip Normal
+            var typeName = Strings.Types[type];
+            yield return $"- {moves[move]} [{typeName}]";
         }
     }
+
+    private static int GetStatIndexStored(int displayIndex) => displayIndex switch
+    {
+        3 => 4,
+        4 => 5,
+        5 => 3,
+        _ => displayIndex,
+    };
 
     /// <summary>
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
@@ -371,19 +395,20 @@ public sealed class ShowdownSet : IBattleTemplate
         Species = pk.Species;
         HeldItem = pk.HeldItem;
         Ability = pk.Ability;
-        EVs = pk.EVs;
-        IVs = pk.IVs;
-        Moves = pk.Moves;
+        pk.GetEVs(EVs);
+        pk.GetIVs(IVs);
+        pk.GetMoves(Moves);
         Nature = pk.StatNature;
-        Gender = pk.Gender < 2 ? pk.Gender : 2;
+        Gender = (uint)pk.Gender < 2 ? pk.Gender : 2;
         Friendship = pk.CurrentFriendship;
-        Level = Experience.GetLevel(pk.EXP, pk.PersonalInfo.EXPGrowth);
+        Level = pk.CurrentLevel;
         Shiny = pk.IsShiny;
 
         if (pk is IGigantamax g)
             CanGigantamax = g.CanGigantamax;
 
-        HiddenPowerType = HiddenPower.GetType(IVs, Format);
+        if (Array.IndexOf(Moves, (int)Move.HiddenPower) != -1)
+            HiddenPowerType = HiddenPower.GetType(IVs, Format);
         if (pk is IHyperTrain h)
         {
             for (int i = 0; i < 6; i++)
@@ -398,13 +423,14 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private void ParseFirstLine(string first)
     {
-        if (first.Contains(" @ "))
+        int itemSplit = first.IndexOf(ItemSplit, StringComparison.Ordinal);
+        if (itemSplit != -1)
         {
-            string[] pieces = first.Split(ItemSplit, StringSplitOptions.None);
-            string itemName = pieces[^1].Trim();
+            var itemName = first[(itemSplit + ItemSplit.Length)..];
+            var speciesName = first[..itemSplit];
 
             ParseItemName(itemName);
-            ParseFirstLineNoItem(pieces[0]);
+            ParseFirstLineNoItem(speciesName);
         }
         else
         {
@@ -580,13 +606,15 @@ public sealed class ShowdownSet : IBattleTemplate
         for (int i = 0; i < list.Length / 2; i++)
         {
             int pos = i * 2;
-            int index = StringUtil.FindIndexIgnoreCase(StatNames, list[pos + 1]);
-            if (index >= 0 && ushort.TryParse(list[pos + 0], out var EV))
-                EVs[index] = EV;
-            else
+            var statName = list[pos + 1];
+            int index = StringUtil.FindIndexIgnoreCase(StatNames, statName);
+            if (index < 0 || !ushort.TryParse(list[pos + 0], out var value))
+            {
                 InvalidLines.Add($"Unknown EV stat: {list[pos]}");
+                continue;
+            }
+            EVs[index] = value;
         }
-        EVs = EVsSpeedFirst;
     }
 
     private void ParseLineIVs(string line)
@@ -597,22 +625,24 @@ public sealed class ShowdownSet : IBattleTemplate
         for (int i = 0; i < list.Length / 2; i++)
         {
             int pos = i * 2;
-            int index = StringUtil.FindIndexIgnoreCase(StatNames, list[pos + 1]);
-            if (index >= 0 && byte.TryParse(list[pos + 0], out var iv))
-                IVs[index] = iv;
-            else
+            var statName = list[pos + 1];
+            int index = StringUtil.FindIndexIgnoreCase(StatNames, statName);
+            if (index < 0 || !byte.TryParse(list[pos + 0], out var value))
+            {
                 InvalidLines.Add($"Unknown IV stat: {list[pos]}");
+                continue;
+            }
+            IVs[index] = value;
         }
-        IVs = IVsSpeedFirst;
     }
 
-    private static string RemoveAll(string original, char[] remove)
+    private static string RemoveAll(string original, ReadOnlySpan<char> remove)
     {
         Span<char> result = stackalloc char[original.Length];
         int ctr = 0;
         foreach (var c in original)
         {
-            if (Array.IndexOf(remove, c) == -1)
+            if (remove.IndexOf(c) == -1)
                 result[ctr++] = c;
         }
         if (ctr == original.Length)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -15,7 +15,7 @@ public sealed class WC6Full
     public WC6Full(byte[] data)
     {
         Data = data;
-        var wc6 = data.SliceEnd(GiftStart);
+        var wc6 = data.AsSpan(GiftStart).ToArray();
         Gift = new WC6(wc6);
         var now = DateTime.Now;
         Gift.RawDate = WC6.SetDate((uint)now.Year, (uint)now.Month, (uint)now.Day);

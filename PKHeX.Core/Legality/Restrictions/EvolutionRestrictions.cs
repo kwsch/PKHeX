@@ -215,8 +215,8 @@ internal static class EvolutionRestrictions
     private static bool IsMoveInherited(PKM pk, LegalInfo info, int move)
     {
         // In 3DS games, the inherited move must be in the relearn moves.
-        if (info.Generation >= 6)
-            return pk.RelearnMoves.Contains(move);
+        if (info.Generation >= 6 && !pk.IsOriginalMovesetDeleted())
+            return pk.HasRelearnMove(move);
 
         // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
         if (pk.HasMove(move))
@@ -229,10 +229,17 @@ internal static class EvolutionRestrictions
     {
         // In 3DS games, the inherited move must be in the relearn moves.
         if (info.Generation >= 6)
-            return pk.RelearnMoves.Any(moves.Contains);
+        {
+            Span<int> relearn = stackalloc int[4];
+            pk.GetRelearnMoves(relearn);
+            return relearn.IndexOfAny(moves) != -1;
+        }
 
         // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
-        if (pk.Moves.Any(moves.Contains))
+        Span<int> pkMoves = stackalloc int[4];
+        pk.GetMoves(pkMoves);
+        var index = pkMoves.IndexOfAny(moves);
+        if (index != -1)
             return true;
 
         return DidLearnAndForget(info);

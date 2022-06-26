@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
@@ -50,7 +50,7 @@ public sealed class EvolutionTree
         EntityContext.Gen7b => Evolves7b,
         EntityContext.Gen8a => Evolves8a,
         EntityContext.Gen8b => Evolves8b,
-        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
     private readonly IReadOnlyList<EvolutionMethod[]> Entries;

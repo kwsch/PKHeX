@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -486,11 +486,12 @@ internal static class GBRestrictions
         return PotentialGBOrigin.Gen1Only;
     }
 
-    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, IList<CheckMoveResult> moves, IEncounterTemplate enc)
+    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, IReadOnlyList<CheckMoveResult> moves, IEncounterTemplate enc)
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        if (moves.Any(z => z != null && z.Generation != enc.Generation && z.Generation <= 2))
+        foreach (var z in moves)
         {
+            if (z.Generation == enc.Generation || z.Generation > 2)
+                continue;
             if (pk is PK1 {Catch_Rate: not 0} g1 && !IsTradebackCatchRate(g1.Catch_Rate))
                 return TimeCapsuleEvaluation.BadCatchRate;
             return enc.Generation == 2 ? TimeCapsuleEvaluation.Transferred21 : TimeCapsuleEvaluation.Transferred12;

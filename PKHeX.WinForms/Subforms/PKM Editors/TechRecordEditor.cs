@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -54,11 +54,19 @@ public partial class TechRecordEditor : Form
     {
         Save();
         if (ModifierKeys == Keys.Shift)
+        {
             Record.SetRecordFlags(true);
+        }
         else if (ModifierKeys == Keys.Control)
-            Record.SetRecordFlags(Entity.Moves);
+        {
+            Span<int> moves = stackalloc int[4];
+            Entity.GetMoves(moves);
+            Record.SetRecordFlags(moves);
+        }
         else
+        {
             Record.SetRecordFlags();
+        }
         LoadRecords();
         Close();
     }

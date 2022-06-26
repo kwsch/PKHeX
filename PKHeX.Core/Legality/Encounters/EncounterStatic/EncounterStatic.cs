@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -166,9 +166,9 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     protected void SetIVs(PKM pk)
     {
         if (IVs.Count != 0)
-            pk.SetRandomIVs((int[])IVs, FlawlessIVCount);
+            pk.SetRandomIVsTemplate((int[])IVs, FlawlessIVCount);
         else if (FlawlessIVCount > 0)
-            pk.SetRandomIVs(flawless: FlawlessIVCount);
+            pk.SetRandomIVs(minFlawless: FlawlessIVCount);
     }
 
     private int GetEdgeCaseLanguage(PKM pk, int lang)

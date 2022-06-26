@@ -72,6 +72,7 @@ public static class BatchEditing
     internal const string PROP_LEGAL = "Legal";
     internal const string PROP_TYPENAME = "ObjectType";
     internal const string PROP_RIBBONS = "Ribbons";
+    internal const string PROP_EVS = "EVs";
     internal const string PROP_CONTESTSTATS = "ContestStats";
     internal const string PROP_MOVEMASTERY = "MoveMastery";
     internal const string IdentifierContains = nameof(IdentifierContains);

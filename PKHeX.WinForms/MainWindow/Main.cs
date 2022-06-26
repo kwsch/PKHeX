@@ -485,17 +485,12 @@ public partial class Main : Form
         if (Set.Species < 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-        var maxLength = C_SAV.SAV.NickLength;
-        if (Set.Nickname.Length > maxLength)
-            Set.Nickname = Set.Nickname[..maxLength];
-
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))
             return;
 
         if (Set.InvalidLines.Count > 0)
             WinFormsUtil.Alert(MsgSimulatorInvalid, string.Join(Environment.NewLine, Set.InvalidLines));
 
-        // Set Species & Nickname
         PKME_Tabs.LoadShowdownSet(Set);
     }
 

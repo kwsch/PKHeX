@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.EventWorkDiffCompatibility;
@@ -26,7 +26,7 @@ public static class EventWorkDiffCompatibilityExtensions
         FileTooBig2 => string.Format(MsgSaveNumberInvalid, 2),
         FileMissing1 => string.Format(MsgSaveNumberInvalid, 1),
         FileMissing2 => string.Format(MsgSaveNumberInvalid, 2),
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
     public static EventWorkDiffCompatibility SanityCheckFiles(string f1, string f2, int MAX_SAVEFILE_SIZE)

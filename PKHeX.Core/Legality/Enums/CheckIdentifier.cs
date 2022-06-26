@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary> Identification flair for what properties a <see cref="CheckResult"/> pertains to </summary>
 public enum CheckIdentifier : byte
@@ -39,7 +39,7 @@ public enum CheckIdentifier : byte
     Gender,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.EVs"/>.
+    /// The <see cref="CheckResult"/> pertains to the <see cref="EffortValues"/>.
     /// </summary>
     EVs,
 

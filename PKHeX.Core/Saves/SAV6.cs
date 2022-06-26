@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -133,7 +133,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
                 case (int) Species.Hoopa:
                 {
                     pk.Form = 0;
-                    var hsf = Array.IndexOf(pk.Moves, (int) Move.HyperspaceFury);
+                    var hsf = pk.GetMoveIndex((int) Move.HyperspaceFury);
                     if (hsf != -1)
                         pk.SetMove(hsf, (int) Move.HyperspaceHole);
                     break;

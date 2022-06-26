@@ -105,7 +105,7 @@ public sealed record EncounterEgg(int Species, int Form, byte Level, int Generat
 
     private static void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        pk.SetRandomIVs(flawless: 3);
+        pk.SetRandomIVs(minFlawless: 3);
         if (pk.Format <= 2)
             return;
 

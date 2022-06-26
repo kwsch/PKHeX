@@ -138,9 +138,9 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
 
     public bool CompressStorage()
     {
-        // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.
+        // Box Data is stored as a list, instead of an array. Empty interstitial values are not legal.
         // Fix stored slots!
-        var arr = PokeListInfo.Slice(0, 7);
+        var arr = PokeListInfo.AsSpan(0, 7);
         var result = SAV.CompressStorage(out int count, arr);
         Debug.Assert(count <= MAX_SLOTS);
         Count = count;
@@ -152,7 +152,6 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
             if (index >= 0)
                 arr[6] = index;
         }
-        arr.CopyTo(PokeListInfo);
 
         SetPointerData(PokeListInfo);
         return result;

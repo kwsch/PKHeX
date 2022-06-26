@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using static PKHeX.Core.PokeCrypto;
 using static PKHeX.Core.EntityFormatDetected;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -144,9 +143,11 @@ public static class EntityFormat
         // Check Ranges
         if (pk.Species > Legal.MaxSpeciesID_6)
             return FormatPK7;
-        if (pk.Moves.Any(move => move > Legal.MaxMoveID_6_AO))
+
+        const int maxMove = Legal.MaxMoveID_6_AO;
+        if (pk.Move1 > maxMove || pk.Move2 > maxMove || pk.Move3 > maxMove || pk.Move4 > maxMove)
             return FormatPK7;
-        if (pk.RelearnMoves.Any(move => move > Legal.MaxMoveID_6_AO))
+        if (pk.RelearnMove1 > maxMove || pk.RelearnMove2 > maxMove || pk.RelearnMove3 > maxMove || pk.RelearnMove4 > maxMove)
             return FormatPK7;
         if (pk.Ability > Legal.MaxAbilityID_6_AO)
             return FormatPK7;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -220,13 +220,12 @@ public static class VerifyCurrentMoves
             source.EggMoveSource = MoveEgg.GetEggMoves(pk.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
 
         ParseMoves(pk, source, info, parse);
-        var relearn = pk.RelearnMoves;
         for (int i = parse.Length - 1; i >= 0; i--)
         {
             var r = parse[i];
             if (!r.IsRelearn && !pk.IsEgg)
                 continue;
-            if (relearn.Contains(currentMoves[i]))
+            if (pk.HasRelearnMove(currentMoves[i]))
                 continue;
 
             r.FlagIllegal(string.Format(LMoveRelearnFMiss_0, r.Comment));

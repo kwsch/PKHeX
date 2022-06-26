@@ -17,9 +17,15 @@ internal static class BatchModifications
         {
             t.ClearRecordFlags();
             if (IsAll(propValue))
+            {
                 t.SetRecordFlags(); // all
+            }
             else if (!IsNone(propValue))
-                t.SetRecordFlags(pk.Moves); // whatever fit the current moves
+            {
+                Span<int> moves = stackalloc int[4];
+                pk.GetMoves(moves);
+                t.SetRecordFlags(moves); // whatever fit the current moves
+            }
         }
 
         pk.SetRelearnMoves(info.SuggestedRelearn);

@@ -732,7 +732,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return false;
         }
 
-        if (Entity.Moves.SequenceEqual(m))
+        Span<int> moves = stackalloc int[4];
+        Entity.SetMoves(moves);
+        if (moves.SequenceEqual(m))
             return false;
 
         if (!silent)
@@ -1498,7 +1500,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         else
         {
             Entity.SetShiny();
-            Stats.LoadIVs(Entity.IVs);
+            LoadIVs(Entity);
             Stats.UpdateIVs(this, EventArgs.Empty);
         }
 
@@ -1759,7 +1761,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (ModifierKeys == Keys.Shift)
         {
-            t.SetRecordFlags(Entity.Moves);
+            Span<int> moves = stackalloc int[4];
+            Entity.GetMoves(moves);
+            t.SetRecordFlags(moves);
             UpdateLegality();
             return;
         }

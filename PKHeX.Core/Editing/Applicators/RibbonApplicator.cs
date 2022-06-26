@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -9,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonApplicator
 {
-    private static List<string> GetAllRibbonNames(PKM pk) => RibbonInfo.GetRibbonInfo(pk).Select(z => z.Name).ToList();
+    private static List<string> GetAllRibbonNames(PKM pk) => RibbonInfo.GetRibbonInfo(pk).ConvertAll(z => z.Name);
 
     /// <summary>
     /// Gets a list of valid ribbons for the <see cref="pk"/>.
@@ -203,7 +202,12 @@ public static class RibbonApplicator
     private static bool UpdateIsValid(LegalityAnalysis la)
     {
         LegalityAnalyzers.Ribbon.Verify(la);
-        return la.Results.All(z => z.Valid);
+        foreach (var p in la.Results)
+        {
+            if (!p.Valid)
+                return false;
+        }
+        return true;
     }
 
     private static void SetRibbonValue(PKM pk, string rib, int value)

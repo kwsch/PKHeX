@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface containing details relevant for battling.
@@ -56,7 +56,7 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamax, INature
     int HiddenPowerType { get; }
 
     /// <summary>
-    /// <see cref="PKM.EVs"/> of the Set entity.
+    /// <see cref="EffortValues"/> of the Set entity.
     /// </summary>
     int[] EVs { get; }
 

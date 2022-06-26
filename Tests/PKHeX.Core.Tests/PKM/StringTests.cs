@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -63,7 +63,7 @@ public class StringTests
     {
         var sb = new System.Text.StringBuilder(outdata.Length);
         foreach (var b in outdata)
-            sb.AppendFormat("{0:X2}, ", b);
+            sb.Append(b.ToString("X2")).Append(' ');
         return sb.ToString();
     }
 

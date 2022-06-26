@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
@@ -735,7 +735,7 @@ public static class FormConverter
         {
             types[000], // Normal
             forms[Hisuian],
-        }
+        },
     };
 
     private static string[] GetFormsGalarSlowbro(IReadOnlyList<string> types, IReadOnlyList<string> forms)

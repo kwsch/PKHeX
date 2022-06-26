@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -726,12 +726,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// Compresses the <see cref="BoxData"/> by pulling out the empty storage slots and putting them at the end, retaining all existing data.
     /// </summary>
     /// <param name="storedCount">Count of actual <see cref="PKM"/> stored.</param>
-    /// <param name="slotPointers">Important slot pointers that need to be repointed if a slot moves.</param>
+    /// <param name="slotPointers">Important slot pointers that need to be re-pointed if a slot moves.</param>
     /// <returns>True if <see cref="BoxData"/> was updated, false if no update done.</returns>
-    public bool CompressStorage(out int storedCount, params IList<int>[] slotPointers) => this.CompressStorage(BoxBuffer, out storedCount, slotPointers);
+    public bool CompressStorage(out int storedCount, Span<int> slotPointers) => this.CompressStorage(BoxBuffer, out storedCount, slotPointers);
 
     /// <summary>
-    /// Removes all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> if the provied <see cref="deleteCriteria"/> is satisfied.
+    /// Removes all <see cref="PKM"/> present within the range specified by <see cref="BoxStart"/> and <see cref="BoxEnd"/> if the provided <see cref="deleteCriteria"/> is satisfied.
     /// </summary>
     /// <param name="BoxStart">Starting box; if not provided, will iterate from the first box.</param>
     /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
@@ -870,7 +870,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
 
 public static class StorageUtil
 {
-    public static bool CompressStorage(this SaveFile sav, Span<byte> storage, out int storedCount, IList<int>[] slotPointers)
+    public static bool CompressStorage(this SaveFile sav, Span<byte> storage, out int storedCount, Span<int> slotPointers)
     {
         // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
         var empty = new List<byte[]>();
