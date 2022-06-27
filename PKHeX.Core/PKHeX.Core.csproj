@@ -12,6 +12,7 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Company>Project Pokémon</Company>
     <Copyright>Kaphotics</Copyright>
+    <Version>22.06.26</Version>
   </PropertyGroup>
 
   <PropertyGroup>
