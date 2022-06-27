@@ -390,9 +390,11 @@ public sealed class PersonalTable
     {
         if ((uint)species > MaxSpeciesID)
             return false;
+
         var form0 = Table[species];
         if (form0.IsPresentInGame)
             return true;
+
         var fc = form0.FormCount;
         for (int i = 1; i < fc; i++)
         {
@@ -406,11 +408,14 @@ public sealed class PersonalTable
     {
         if ((uint)species > MaxSpeciesID)
             return false;
+
+        var form0 = Table[species];
+        if (form == 0)
+            return form0.IsPresentInGame;
+        if (!form0.HasForm(form))
+            return false;
+
         var entry = GetFormEntry(species, form);
-        if (!entry.IsPresentInGame)
-            return false;
-        if (form != 0 && !entry.HasForm(form))
-            return false;
-        return true;
+        return entry.IsPresentInGame;
     }
 }
