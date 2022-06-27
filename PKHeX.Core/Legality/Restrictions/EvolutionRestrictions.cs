@@ -177,12 +177,6 @@ internal static class EvolutionRestrictions
     private static int GetMinLevelKnowRequiredMove(PKM pk, int gen, int index, EvolutionHistory evos)
     {
         var lvl = GetLevelLearnMove(pk, gen, index);
-        if (pk.HasVisitedLA(evos.Gen8a)) // No Level Up required, and different levels than mainline SW/SH.
-        {
-            var la = MinLevelEvolutionWithMove_8LA[index];
-            if (la <= lvl)
-                return la;
-        }
 
         // If has original met location the minimum evolution level is one level after met level
         // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
@@ -190,6 +184,14 @@ internal static class EvolutionRestrictions
         // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
         if (pk.HasOriginalMetLocation || (pk.Format == 4 && gen == 3) || pk.VC || pk.Species == (int)Sylveon)
             lvl = Math.Max(pk.Met_Level + 1, lvl);
+
+        if (pk.HasVisitedLA(evos.Gen8a)) // No Level Up required, and different levels than mainline SW/SH.
+        {
+            var la = MinLevelEvolutionWithMove_8LA[index];
+            if (la <= lvl)
+                return la;
+        }
+
         return lvl;
     }
 
