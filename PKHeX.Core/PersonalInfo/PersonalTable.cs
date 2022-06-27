@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace PKHeX.Core;
@@ -407,6 +407,10 @@ public sealed class PersonalTable
         if ((uint)species > MaxSpeciesID)
             return false;
         var entry = GetFormEntry(species, form);
-        return entry.IsPresentInGame;
+        if (!entry.IsPresentInGame)
+            return false;
+        if (form != 0 && !entry.HasForm(form))
+            return false;
+        return true;
     }
 }

@@ -31,7 +31,7 @@ public sealed class BulkAnalysis
         SlotInfoLoader.AddFromSaveFile(sav, list);
         list.RemoveAll(IsEmptyData);
         AllData = list;
-        AllAnalysis = GetIndividualAnalysis(AllData);
+        AllAnalysis = GetIndividualAnalysis(list);
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
@@ -371,11 +371,9 @@ public sealed class BulkAnalysis
     {
         var results = new LegalityAnalysis[pkms.Count];
         for (int i = 0; i < pkms.Count; i++)
-        {
-            var entry = pkms[i];
-            var pk = entry.Entity;
-            results[i] = new LegalityAnalysis(pk);
-        }
+            results[i] = Get(pkms[i]);
         return results;
     }
+
+    private static LegalityAnalysis Get(SlotCache cache) => new(cache.Entity, cache.SAV.Personal, cache.Source.Origin);
 }

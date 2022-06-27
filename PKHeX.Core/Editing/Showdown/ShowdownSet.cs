@@ -146,7 +146,7 @@ public sealed class ShowdownSet : IBattleTemplate
         while (e.MoveNext())
         {
             var line = e.Current!;
-            if (string.IsNullOrWhiteSpace(line))
+            if (line.Length < 3)
                 continue;
 
             if (line[0] == '-')
@@ -187,7 +187,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseSingle(string identifier)
     {
-        if (!identifier.EndsWith("Nature", StringComparison.Ordinal))
+        if (!identifier.EndsWith("Nature", StringComparison.OrdinalIgnoreCase))
             return false;
         var firstSpace = identifier.IndexOf(' ');
         if (firstSpace == -1)
@@ -565,15 +565,17 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private string ParseLineMove(string line)
     {
-        string moveString = line[(line[1] == ' ' ? 2 : 1)..].Split('/')[0].Trim();
+        var startSearch = line[1] == ' ' ? 2 : 1;
+        var option = line.IndexOf('/');
+        line = option != -1 ? line[startSearch..option] : line[startSearch..];
 
-        const int hiddenPower = 237;
-        var hiddenPowerName = Strings.Move[hiddenPower];
-        if (!moveString.StartsWith(hiddenPowerName, StringComparison.Ordinal)) // Hidden Power
+        string moveString = line.Trim();
+
+        var hiddenPowerName = Strings.Move[(int)Move.HiddenPower];
+        if (!moveString.StartsWith(hiddenPowerName, StringComparison.OrdinalIgnoreCase))
             return moveString; // regular move
 
-        // Assumes English...
-        if (moveString.Length <= 13)
+        if (moveString.Length == hiddenPowerName.Length)
             return hiddenPowerName;
 
         // Defined Hidden Power
@@ -595,7 +597,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             InvalidLines.Add($"Invalid Hidden Power Type: {type}");
         }
-        return Strings.Move[hiddenPower];
+        return hiddenPowerName;
     }
 
     private void ParseLineEVs(string line)
