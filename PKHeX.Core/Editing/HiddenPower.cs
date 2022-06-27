@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -128,13 +128,14 @@ public static class HiddenPower
         int mutated = c.Length + 1; // result tracking
         for (int i = 1; i < c.Length;)
         {
-            if (c[i] >= i) // Reset the state and simulate popping the stack by incrementing the pointer.
+            ref int ci = ref c[i];
+            if (i <= ci) // Reset the state and simulate popping the stack by incrementing the pointer.
             {
-                c[i++] = 0;
+                ci = 0;
                 continue;
             }
 
-            var x = (i & 1) == 1 ? c[i] : 0;
+            var x = (i & 1) * ci; // if lowest bit set, ci : 0 (branch-less)
             Swap(ref indexes[i], ref indexes[x]);
 
             // Inlined continuance check
@@ -157,7 +158,7 @@ public static class HiddenPower
                 break; // any further flaws are always worse
             }
 
-            c[i]++;
+            ci++;
             i = 1;
         }
 
