@@ -130,7 +130,7 @@ namespace PKHeX.WinForms
 
         private static bool IsOldPkhexCorePresent(Exception? ex)
         {
-            return ex is MissingMethodException
+            return ex is MissingMethodException or TypeLoadException or TypeInitializationException
                 && File.Exists("PKHeX.Core.dll")
                 && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < Assembly.GetExecutingAssembly().GetName().Version;
         }
