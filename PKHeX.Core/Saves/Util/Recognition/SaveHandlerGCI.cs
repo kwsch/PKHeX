@@ -20,10 +20,10 @@ public sealed class SaveHandlerGCI : ISaveHandler
     {
         foreach (var header in headers)
         {
-            if (!IsGameMatchHeader(data, header.AsSpan()))
-                return false;
+            if (IsGameMatchHeader(data, header.AsSpan()))
+                return true;
         }
-        return true;
+        return false;
     }
 
     private static bool IsGameMatchHeader(ReadOnlySpan<byte> data, ReadOnlySpan<char> header)
