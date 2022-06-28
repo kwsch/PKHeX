@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -12,28 +12,26 @@ namespace PKHeX.WinForms;
 public partial class BatchEditor : Form
 {
     private readonly SaveFile SAV;
-    private readonly PKM Entity;
-    private int currentFormat = -1;
+
+    // Mass Editing
+    private Core.BatchEditor editor = new();
+    private readonly EntityInstructionBuilder UC_Builder;
 
     public BatchEditor(PKM pk, SaveFile sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Entity = pk;
+        var above = FLP_RB.Location;
+        UC_Builder = new EntityInstructionBuilder(() => pk)
+        {
+            Location = new() { Y = above.Y + FLP_RB.Height + 6, X = above.X + 1 },
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            Width = B_Add.Location.X - above.X - 6,
+        };
+        Controls.Add(UC_Builder);
         SAV = sav;
         DragDrop += TabMain_DragDrop;
         DragEnter += TabMain_DragEnter;
-
-        CB_Format.Items.Clear();
-        CB_Format.Items.Add(MsgAny);
-        foreach (Type t in BatchEditing.Types)
-            CB_Format.Items.Add(t.Name.ToLowerInvariant());
-        CB_Format.Items.Add(MsgAll);
-
-        CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
-        toolTip1.SetToolTip(CB_Property, MsgBEToolTipPropName);
-        toolTip2.SetToolTip(L_PropType, MsgBEToolTipPropType);
-        toolTip3.SetToolTip(L_PropValue, MsgBEToolTipPropValue);
     }
 
     private void B_Open_Click(object sender, EventArgs e)
@@ -60,42 +58,14 @@ public partial class BatchEditor : Form
 
     private void B_Add_Click(object sender, EventArgs e)
     {
-        if (CB_Property.SelectedIndex < 0)
+        var s = UC_Builder.Create();
+        if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-        var prefix = StringInstruction.Prefixes;
-        string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + StringInstruction.SplitInstruction;
         if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
             s = Environment.NewLine + s;
 
         RTB_Instructions.AppendText(s);
-    }
-
-    private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (currentFormat == CB_Format.SelectedIndex)
-            return;
-
-        int format = CB_Format.SelectedIndex;
-        CB_Property.Items.Clear();
-        CB_Property.Items.AddRange(BatchEditing.Properties[format]);
-        CB_Property.SelectedIndex = 0;
-        currentFormat = format;
-    }
-
-    private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
-        if (BatchEditing.TryGetHasProperty(Entity, CB_Property.Text, out var pi))
-        {
-            L_PropValue.Text = pi.GetValue(Entity)?.ToString();
-            L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
-        }
-        else // no property, flag
-        {
-            L_PropValue.Text = string.Empty;
-            L_PropType.ForeColor = Color.Red;
-        }
     }
 
     private static void TabMain_DragEnter(object? sender, DragEventArgs? e)
@@ -238,9 +208,6 @@ public partial class BatchEditor : Form
         else
             PB_Show.Value = position;
     }
-
-    // Mass Editing
-    private Core.BatchEditor editor = new();
 
     private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
     {

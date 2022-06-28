@@ -434,10 +434,13 @@
             // 
             // RTB_Instructions
             // 
-            this.RTB_Instructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RTB_Instructions.Location = new System.Drawing.Point(0, 0);
+            this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_Instructions.Location = new System.Drawing.Point(0, 42);
+            this.RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             this.RTB_Instructions.Name = "RTB_Instructions";
-            this.RTB_Instructions.Size = new System.Drawing.Size(256, 314);
+            this.RTB_Instructions.Size = new System.Drawing.Size(256, 272);
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,6 +24,14 @@ public partial class SAV_MysteryGiftDB : Form
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
+        var UC_Builder = new EntityInstructionBuilder(() => tabs.PreparePKM())
+        {
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            Width = Tab_Advanced.Width,
+            Dock = DockStyle.Top,
+            ReadOnly = true,
+        };
+        Tab_Advanced.Controls.Add(UC_Builder);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 

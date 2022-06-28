@@ -38,6 +38,7 @@
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
+            this.MysteryPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
@@ -72,7 +73,6 @@
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.MysteryPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.FLP_Egg.SuspendLayout();
@@ -132,7 +132,7 @@
             this.Menu_Export,
             this.Menu_Import});
             this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
+            this.Menu_Tools.Size = new System.Drawing.Size(46, 20);
             this.Menu_Tools.Text = "Tools";
             // 
             // Menu_OpenDB
@@ -172,6 +172,15 @@
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
+            // 
+            // MysteryPokeGrid
+            // 
+            this.MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
+            this.MysteryPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.MysteryPokeGrid.Name = "MysteryPokeGrid";
+            this.MysteryPokeGrid.Size = new System.Drawing.Size(251, 346);
+            this.MysteryPokeGrid.TabIndex = 2;
             // 
             // CB_HeldItem
             // 
@@ -590,22 +599,15 @@
             // 
             // RTB_Instructions
             // 
-            this.RTB_Instructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RTB_Instructions.Location = new System.Drawing.Point(0, 0);
+            this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_Instructions.Location = new System.Drawing.Point(0, 42);
             this.RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             this.RTB_Instructions.Name = "RTB_Instructions";
-            this.RTB_Instructions.Size = new System.Drawing.Size(256, 314);
+            this.RTB_Instructions.Size = new System.Drawing.Size(256, 272);
             this.RTB_Instructions.TabIndex = 120;
             this.RTB_Instructions.Text = "";
-            // 
-            // MysteryPokeGrid
-            // 
-            this.MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
-            this.MysteryPokeGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.MysteryPokeGrid.Name = "MysteryPokeGrid";
-            this.MysteryPokeGrid.Size = new System.Drawing.Size(251, 346);
-            this.MysteryPokeGrid.TabIndex = 2;
             // 
             // SAV_MysteryGiftDB
             // 

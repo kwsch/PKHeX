@@ -1,4 +1,4 @@
-﻿using PKHeX.Core;
+using PKHeX.Core;
 using PKHeX.Core.Searching;
 using PKHeX.WinForms.Controls;
 using System;
@@ -26,6 +26,16 @@ public partial class SAV_Encounters : Form
     public SAV_Encounters(PKMEditor f1, TrainerDatabase db)
     {
         InitializeComponent();
+        var UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
+        {
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            Width = Tab_Advanced.Width,
+            Dock = DockStyle.Top,
+            ReadOnly = true,
+        };
+        Tab_Advanced.Controls.Add(UC_Builder);
+
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         PKME_Tabs = f1;
         Trainers = db;

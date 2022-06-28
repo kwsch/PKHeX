@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +25,14 @@ public partial class SAV_Database : Form
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
         InitializeComponent();
+        var UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
+        {
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            Width = Tab_Advanced.Width,
+            Dock = DockStyle.Top,
+            ReadOnly = true,
+        };
+        Tab_Advanced.Controls.Add(UC_Builder);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 

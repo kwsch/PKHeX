@@ -36,8 +36,8 @@
             this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchBoxes = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_SearchBackups = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_SearchBackups = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchLegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchIllegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchClones = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +47,6 @@
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
-            this.DatabasePokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -100,6 +99,7 @@
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
+            this.DatabasePokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.FLP_Egg.SuspendLayout();
@@ -189,15 +189,6 @@
             this.Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
             this.Menu_SearchBoxes.Text = "Search Within Boxes";
             // 
-            // Menu_SearchBackups
-            // 
-            this.Menu_SearchBackups.Checked = true;
-            this.Menu_SearchBackups.CheckOnClick = true;
-            this.Menu_SearchBackups.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Menu_SearchBackups.Name = "Menu_SearchBackups";
-            this.Menu_SearchBackups.Size = new System.Drawing.Size(198, 22);
-            this.Menu_SearchBackups.Text = "Search Within Backups";
-            // 
             // Menu_SearchDatabase
             // 
             this.Menu_SearchDatabase.Checked = true;
@@ -206,6 +197,15 @@
             this.Menu_SearchDatabase.Name = "Menu_SearchDatabase";
             this.Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
             this.Menu_SearchDatabase.Text = "Search Within Database";
+            // 
+            // Menu_SearchBackups
+            // 
+            this.Menu_SearchBackups.Checked = true;
+            this.Menu_SearchBackups.CheckOnClick = true;
+            this.Menu_SearchBackups.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Menu_SearchBackups.Name = "Menu_SearchBackups";
+            this.Menu_SearchBackups.Size = new System.Drawing.Size(198, 22);
+            this.Menu_SearchBackups.Text = "Search Within Backups";
             // 
             // Menu_SearchLegal
             // 
@@ -285,15 +285,6 @@
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
-            // 
-            // DatabasePokeGrid
-            // 
-            this.DatabasePokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.DatabasePokeGrid.Location = new System.Drawing.Point(2, 2);
-            this.DatabasePokeGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.DatabasePokeGrid.Name = "DatabasePokeGrid";
-            this.DatabasePokeGrid.Size = new System.Drawing.Size(251, 346);
-            this.DatabasePokeGrid.TabIndex = 2;
             // 
             // CB_Ability
             // 
@@ -987,12 +978,24 @@
             // 
             // RTB_Instructions
             // 
-            this.RTB_Instructions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RTB_Instructions.Location = new System.Drawing.Point(0, 0);
+            this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_Instructions.Location = new System.Drawing.Point(0, 42);
+            this.RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             this.RTB_Instructions.Name = "RTB_Instructions";
-            this.RTB_Instructions.Size = new System.Drawing.Size(256, 362);
+            this.RTB_Instructions.Size = new System.Drawing.Size(256, 320);
             this.RTB_Instructions.TabIndex = 120;
             this.RTB_Instructions.Text = "";
+            // 
+            // DatabasePokeGrid
+            // 
+            this.DatabasePokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DatabasePokeGrid.Location = new System.Drawing.Point(2, 2);
+            this.DatabasePokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.DatabasePokeGrid.Name = "DatabasePokeGrid";
+            this.DatabasePokeGrid.Size = new System.Drawing.Size(251, 346);
+            this.DatabasePokeGrid.TabIndex = 2;
             // 
             // SAV_Database
             // 

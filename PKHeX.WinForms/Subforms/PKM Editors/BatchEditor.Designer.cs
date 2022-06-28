@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class BatchEditor
     {
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.RB_Boxes = new System.Windows.Forms.RadioButton();
             this.RB_Path = new System.Windows.Forms.RadioButton();
             this.FLP_RB = new System.Windows.Forms.FlowLayoutPanel();
@@ -37,16 +36,8 @@
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.B_Go = new System.Windows.Forms.Button();
             this.PB_Show = new System.Windows.Forms.ProgressBar();
-            this.CB_Format = new System.Windows.Forms.ComboBox();
-            this.CB_Property = new System.Windows.Forms.ComboBox();
-            this.CB_Require = new System.Windows.Forms.ComboBox();
             this.B_Add = new System.Windows.Forms.Button();
-            this.L_PropType = new System.Windows.Forms.Label();
-            this.L_PropValue = new System.Windows.Forms.Label();
             this.b = new System.ComponentModel.BackgroundWorker();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,44 +140,6 @@
             this.PB_Show.Size = new System.Drawing.Size(307, 21);
             this.PB_Show.TabIndex = 7;
             // 
-            // CB_Format
-            // 
-            this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Format.FormattingEnabled = true;
-            this.CB_Format.Location = new System.Drawing.Point(11, 40);
-            this.CB_Format.Name = "CB_Format";
-            this.CB_Format.Size = new System.Drawing.Size(44, 21);
-            this.CB_Format.TabIndex = 8;
-            this.CB_Format.SelectedIndexChanged += new System.EventHandler(this.CB_Format_SelectedIndexChanged);
-            // 
-            // CB_Property
-            // 
-            this.CB_Property.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Property.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Property.DropDownWidth = 200;
-            this.CB_Property.FormattingEnabled = true;
-            this.CB_Property.Location = new System.Drawing.Point(61, 40);
-            this.CB_Property.Name = "CB_Property";
-            this.CB_Property.Size = new System.Drawing.Size(140, 21);
-            this.CB_Property.TabIndex = 9;
-            this.CB_Property.SelectedIndexChanged += new System.EventHandler(this.CB_Property_SelectedIndexChanged);
-            // 
-            // CB_Require
-            // 
-            this.CB_Require.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Require.FormattingEnabled = true;
-            this.CB_Require.Items.AddRange(new object[] {
-            "Set Equal To",
-            "Require Equals",
-            "Require Not Equals"});
-            this.CB_Require.Location = new System.Drawing.Point(207, 40);
-            this.CB_Require.Name = "CB_Require";
-            this.CB_Require.Size = new System.Drawing.Size(111, 21);
-            this.CB_Require.TabIndex = 10;
-            // 
             // B_Add
             // 
             this.B_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -198,24 +151,6 @@
             this.B_Add.UseVisualStyleBackColor = true;
             this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
             // 
-            // L_PropType
-            // 
-            this.L_PropType.AutoSize = true;
-            this.L_PropType.Location = new System.Drawing.Point(58, 64);
-            this.L_PropType.Name = "L_PropType";
-            this.L_PropType.Size = new System.Drawing.Size(70, 13);
-            this.L_PropType.TabIndex = 12;
-            this.L_PropType.Text = "PropertyType";
-            // 
-            // L_PropValue
-            // 
-            this.L_PropValue.AutoSize = true;
-            this.L_PropValue.Location = new System.Drawing.Point(204, 64);
-            this.L_PropValue.Name = "L_PropValue";
-            this.L_PropValue.Size = new System.Drawing.Size(73, 13);
-            this.L_PropValue.TabIndex = 13;
-            this.L_PropValue.Text = "PropertyValue";
-            // 
             // b
             // 
             this.b.WorkerReportsProgress = true;
@@ -226,12 +161,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 261);
-            this.Controls.Add(this.L_PropValue);
-            this.Controls.Add(this.L_PropType);
             this.Controls.Add(this.B_Add);
-            this.Controls.Add(this.CB_Require);
-            this.Controls.Add(this.CB_Property);
-            this.Controls.Add(this.CB_Format);
             this.Controls.Add(this.PB_Show);
             this.Controls.Add(this.B_Go);
             this.Controls.Add(this.RTB_Instructions);
@@ -246,7 +176,6 @@
             this.FLP_RB.ResumeLayout(false);
             this.FLP_RB.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -259,16 +188,8 @@
         private System.Windows.Forms.RichTextBox RTB_Instructions;
         private System.Windows.Forms.Button B_Go;
         private System.Windows.Forms.ProgressBar PB_Show;
-        private System.Windows.Forms.ComboBox CB_Format;
-        private System.Windows.Forms.ComboBox CB_Property;
-        private System.Windows.Forms.ComboBox CB_Require;
         private System.Windows.Forms.Button B_Add;
-        private System.Windows.Forms.Label L_PropType;
-        private System.Windows.Forms.Label L_PropValue;
         private System.Windows.Forms.RadioButton RB_Party;
         private System.ComponentModel.BackgroundWorker b;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolTip toolTip2;
-        private System.Windows.Forms.ToolTip toolTip3;
     }
 }
