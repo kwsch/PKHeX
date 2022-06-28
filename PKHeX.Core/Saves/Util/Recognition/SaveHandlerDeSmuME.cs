@@ -33,7 +33,7 @@ public sealed class SaveHandlerDeSmuME : ISaveHandler
         if (!GetHasFooter(input))
             return null;
 
-        var footer = input[^RealSize..].ToArray();
+        var footer = input[RealSize..].ToArray();
         var data = input[..RealSize].ToArray();
 
         return new SaveHandlerSplitResult(data, Array.Empty<byte>(), footer);

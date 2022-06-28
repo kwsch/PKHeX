@@ -27,7 +27,7 @@ public sealed class SaveHandlerBizHawk : ISaveHandler
             return null;
 
         var realSize = input.Length - sizeFooter;
-        var footer = input[^realSize..].ToArray();
+        var footer = input[realSize..].ToArray();
         var data = input[..realSize].ToArray();
 
         return new SaveHandlerSplitResult(data, Array.Empty<byte>(), footer);
