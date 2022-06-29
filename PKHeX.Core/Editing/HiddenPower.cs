@@ -132,6 +132,7 @@ public static class HiddenPower
             if (i <= ci) // Reset the state and simulate popping the stack by incrementing the pointer.
             {
                 ci = 0;
+                ++i;
                 continue;
             }
 
