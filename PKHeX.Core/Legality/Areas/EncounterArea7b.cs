@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -23,7 +24,7 @@ public sealed record EncounterArea7b : EncounterArea
 
     private EncounterArea7b(ReadOnlySpan<byte> data, GameVersion game) : base(game)
     {
-        Location = data[0] | (data[1] << 8);
+        Location = ReadInt16LittleEndian(data);
         Slots = ReadSlots(data);
     }
 

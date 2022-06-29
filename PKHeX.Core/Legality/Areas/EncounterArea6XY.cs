@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -34,7 +34,7 @@ public sealed record EncounterArea6XY : EncounterArea
 
     private EncounterArea6XY(ReadOnlySpan<byte> data, GameVersion game) : base(game)
     {
-        Location = data[0] | (data[1] << 8);
+        Location = ReadInt16LittleEndian(data);
         Type = (SlotType)data[2];
 
         Slots = ReadSlots(data);
