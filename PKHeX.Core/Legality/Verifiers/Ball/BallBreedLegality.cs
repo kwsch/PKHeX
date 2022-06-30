@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Species;
 
@@ -20,22 +20,6 @@ internal static class BallBreedLegality
         (int)Tyrogue,
         (int)Sawk,
         (int)Throh,
-    };
-
-    internal static readonly HashSet<int> PastGenAlolanNativesUncapturable = new()
-    {
-        // Porygon++
-        (int)Porygon,
-        // Gen1 Fossils
-        (int)Aerodactyl, (int)Omanyte, (int)Kabuto,
-        // Gen3 Fossils
-        (int)Lileep, (int)Anorith,
-        // Gen4 Fossils
-        (int)Cranidos, (int)Shieldon,
-        // Gen5 Fossils
-        (int)Tirtouga, (int)Archen,
-        // Gen6 Fossils
-        (int)Tyrunt, (int)Amaura,
     };
 
     internal static readonly HashSet<int> PastGenAlolanScans = new()

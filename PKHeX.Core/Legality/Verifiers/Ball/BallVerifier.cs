@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;
 
@@ -255,7 +255,7 @@ public sealed class BallVerifier : Verifier
                 return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
             if (species == (int)Species.Voltorb && IsHiddenAndNotPossible(pk))
                 return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
-            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
+            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || BallBreedLegality.AlolanCaptureOffspring.Contains(species))
                 return GetValid(LBallSpeciesPass);
             if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                 return GetValid(LBallSpeciesPass);
@@ -341,6 +341,9 @@ public sealed class BallVerifier : Verifier
 
         if (ball == Beast)
         {
+            // Most were already caught by Galar ball logic. Check for stuff not in SW/SH.
+            if (BallBreedLegality.AlolanCaptureOffspring.Contains(species))
+                return GetValid(LBallSpeciesPass);
             if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                 return GetValid(LBallSpeciesPass);
         }
@@ -418,7 +421,7 @@ public sealed class BallVerifier : Verifier
         {
             if (species == (int)Species.Flabébé && pk.Form == 3 && IsHiddenAndNotPossible(pk))
                 return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || (BallBreedLegality.AlolanCaptureOffspring.Contains(species) && !BallBreedLegality.PastGenAlolanNativesUncapturable.Contains(species)))
+            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || BallBreedLegality.AlolanCaptureOffspring.Contains(species))
                 return GetValid(LBallSpeciesPass);
             if (BallBreedLegality.PastGenAlolanScans.Contains(species))
                 return GetValid(LBallSpeciesPass);
