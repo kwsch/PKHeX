@@ -241,8 +241,7 @@ public sealed class SAV3GCMemoryCard
                 continue;
 
             SaveGameCount = 0;
-            var gameCode = EncodingType.GetString(Data, offset, 4);
-            var header = Data.AsSpan(0, 4);
+            var header = Data.AsSpan(offset, 4);
             var ver = SaveHandlerGCI.GetGameCode(header);
             if (ver == GameVersion.COLO)
             {
