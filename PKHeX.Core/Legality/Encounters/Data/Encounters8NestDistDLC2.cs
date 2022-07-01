@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 // Distribution Nest Encounters (BCAT)
 internal static partial class Encounters8Nest
@@ -8,6 +8,23 @@ internal static partial class Encounters8Nest
     /// </summary>
     internal static readonly EncounterStatic8ND[] Dist_DLC2 =
     {
+        new(17,01,1) { Species = 183, Ability = A4, Moves = new[]{ 583, 392, 205, 021 }, Index = 109 }, // Marill
+        new(17,01,1) { Species = 060, Ability = A4, Moves = new[]{ 055, 001, 341, 061 }, Index = 109 }, // Poliwag
+        new(17,01,1) { Species = 363, Ability = A4, Moves = new[]{ 181, 055, 205, 111 }, Index = 109 }, // Spheal
+        new(30,03,2) { Species = 183, Ability = A4, Moves = new[]{ 583, 392, 231, 021 }, Index = 109 }, // Marill
+        new(30,03,2) { Species = 060, Ability = A4, Moves = new[]{ 061, 001, 341, 094 }, Index = 109 }, // Poliwag
+        new(30,03,2) { Species = 363, Ability = A4, Moves = new[]{ 062, 362, 205, 231 }, Index = 109 }, // Spheal
+        new(40,05,3) { Species = 183, Ability = A4, Moves = new[]{ 583, 056, 231, 021 }, Index = 109 }, // Marill
+        new(40,05,3) { Species = 060, Ability = A4, Moves = new[]{ 056, 058, 341, 094 }, Index = 109 }, // Poliwag
+        new(40,05,3) { Species = 363, Ability = A4, Moves = new[]{ 062, 057, 523, 231 }, Index = 109 }, // Spheal
+        new(50,08,4) { Species = 183, Ability = A4, Moves = new[]{ 583, 056, 276, 021 }, Index = 109 }, // Marill
+        new(50,08,4) { Species = 060, Ability = A4, Moves = new[]{ 056, 058, 414, 094 }, Index = 109 }, // Poliwag
+        new(50,08,4) { Species = 363, Ability = A4, Moves = new[]{ 058, 057, 523, 231 }, Index = 109 }, // Spheal
+        new(60,10,5) { Species = 183, Ability = A4, Moves = new[]{ 583, 056, 276, 059 }, Index = 109, Shiny = Shiny.Always }, // Marill
+        new(60,10,5) { Species = 183, Ability = A4, Moves = new[]{ 583, 056, 276, 059 }, Index = 109 }, // Marill
+        new(60,10,5) { Species = 060, Ability = A4, Moves = new[]{ 503, 058, 414, 094 }, Index = 109 }, // Poliwag
+        new(60,10,5) { Species = 363, Ability = A4, Moves = new[]{ 329, 057, 523, 231 }, Index = 109 }, // Spheal
+
         new(17,01,1) { Species = 824, Ability = A4, Moves = new[]{ 522, 000, 000, 000 }, Index = 106 }, // Blipbug
         new(30,03,2) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 029 }, Index = 106 }, // Chewtle
         new(40,05,3) { Species = 832, Ability = A4, Moves = new[]{ 036, 024, 428, 086 }, Index = 106 }, // Dubwool
