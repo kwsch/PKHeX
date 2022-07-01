@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -540,7 +540,13 @@ public static class MethodFinder
 
     private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        if (pk.Version != (int)GameVersion.CXD || pk.Species is not ((int)Species.Espeon or (int)Species.Umbreon))
+        bool starter = pk.Version == (int)GameVersion.CXD && pk.Species switch
+        {
+            (int)Species.Espeon when pk.Met_Level >= 25 => true,
+            (int)Species.Umbreon when pk.Met_Level >= 26 => true,
+            _ => false,
+        };
+        if (!starter)
             return GetNonMatch(out pidiv);
 
         var iv1 = GetIVChunk(IVs, 0);
