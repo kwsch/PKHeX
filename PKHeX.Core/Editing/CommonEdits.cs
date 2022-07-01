@@ -168,7 +168,8 @@ public static class CommonEdits
     {
         pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
         pk.Form = Set.Form;
-        pk.SetMoves(Set.Moves, true);
+        if (Set.Moves[0] != 0)
+            pk.SetMoves(Set.Moves, true);
         pk.ApplyHeldItem(Set.HeldItem, Set.Format);
         pk.CurrentLevel = Set.Level;
         pk.CurrentFriendship = Set.Friendship;
