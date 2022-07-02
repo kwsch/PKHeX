@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -70,7 +70,7 @@ public sealed class LegalInfo : IGeneration
     }
 
     public bool PIDParsed { get; private set; }
-    private PIDIV _pidiv = PIDIV.None;
+    private PIDIV _pidiv;
 
     /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/>.</summary>
     /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, after which it is false.</remarks>
