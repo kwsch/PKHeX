@@ -43,9 +43,18 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
             pk.Gender = (int)Gender;
 
         var para = GetParams();
-        var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
-        if (LevelMin != LevelMax)
-            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+        while (true)
+        {
+            var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
+            if (LevelMin != LevelMax)
+            {
+                var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+                if (criteria.ForceMinLevelRange && lvl != LevelMin)
+                    continue;
+                pk.CurrentLevel = pk.Met_Level = lvl;
+            }
+            break;
+        }
     }
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
