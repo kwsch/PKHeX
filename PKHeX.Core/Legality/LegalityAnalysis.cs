@@ -1,4 +1,4 @@
-﻿#define SUPPRESS
+#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -119,12 +119,12 @@ public sealed class LegalityAnalysis
             foreach (var p in Info.Moves)
             {
                 if (!p.IsParsed)
-                    p.Set(MoveSource.Unknown, pk.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                    p.Set(LearnMethod.Unobtainable, pk.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
             }
             foreach (var p in Info.Relearn)
             {
                 if (!p.IsParsed)
-                    p.Set(MoveSource.Unknown, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
+                    p.Set(LearnMethod.Unobtainable, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
             }
             AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
         }

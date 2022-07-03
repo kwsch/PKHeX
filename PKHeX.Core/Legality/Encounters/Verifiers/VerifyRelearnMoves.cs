@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.ParseSettings;
@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class VerifyRelearnMoves
 {
-    internal static void DummyValid(CheckMoveResult p) => p.Set(MoveSource.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
+    internal static void DummyValid(CheckMoveResult p) => p.Set(LearnMethod.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
 
     public static CheckMoveResult[] VerifyRelearn(PKM pk, IEncounterTemplate enc, CheckMoveResult[] result)
     {
@@ -45,7 +45,7 @@ public static class VerifyRelearnMoves
                 return;
             }
             var c = string.Format(LMoveFExpect_0, MoveStrings[require]);
-            p.Set(MoveSource.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
+            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
         }
     }
 
@@ -54,7 +54,7 @@ public static class VerifyRelearnMoves
         if (move == 0)
             DummyValid(p);
         else
-            p.Set(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
+            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
     }
 
     private static CheckMoveResult[] VerifyRelearnDexNav(PKM pk, CheckMoveResult[] result, EncounterSlot6AO slot)
@@ -67,7 +67,7 @@ public static class VerifyRelearnMoves
         // DexNav Pokémon can have 1 random egg move as a relearn move.
         var p = result[0];
         if (!slot.CanBeDexNavMove(pk.RelearnMove1)) // not found
-            p.Set(MoveSource.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove);
+            p.Set(LearnMethod.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove);
         else
             DummyValid(p);
 
@@ -84,7 +84,7 @@ public static class VerifyRelearnMoves
         // Underground Pokémon can have 1 random egg move as a relearn move.
         var p = result[0];
         if (!slot.CanBeUndergroundMove(pk.RelearnMove1)) // not found
-            p.Set(MoveSource.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove);
+            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove);
         else
             DummyValid(p);
 
@@ -110,7 +110,7 @@ public static class VerifyRelearnMoves
             for (int i = 0; i < result.Length; i++)
             {
                 var msg = EggSourceUtil.GetSource(origins, gen, i);
-                result[i].Set(MoveSource.EggMove, gen, Severity.Valid, msg, type);
+                result[i].Set(LearnMethod.EggMove, gen, Severity.Valid, msg, type);
             }
         }
         else
@@ -124,19 +124,19 @@ public static class VerifyRelearnMoves
                 var p = result[i];
                 if (moves[i] == expect)
                 {
-                    p.Set(MoveSource.EggMove, gen, Severity.Valid, msg, type);
+                    p.Set(LearnMethod.EggMove, gen, Severity.Valid, msg, type);
                 }
                 else
                 {
                     msg = string.Format(LMoveRelearnFExpect_0, MoveStrings[expect], msg);
-                    p.Set(MoveSource.EggMove, gen, Severity.Invalid, msg, type);
+                    p.Set(LearnMethod.EggMove, gen, Severity.Invalid, msg, type);
                 }
             }
         }
 
         var dupe = IsAnyMoveDuplicate(moves);
         if (dupe != NO_DUPE)
-            result[dupe].Set(MoveSource.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
+            result[dupe].Set(LearnMethod.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
         return result;
     }
 

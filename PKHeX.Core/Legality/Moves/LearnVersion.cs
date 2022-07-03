@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public readonly record struct LearnVersion(int Level, GameVersion Game = GameVersion.Any)
 {

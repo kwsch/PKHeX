@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Move specific <see cref="CheckResult"/> to contain in which Generation it was learned &amp; source.
@@ -13,28 +13,28 @@ public sealed record CheckMoveResult : ICheckResult
     public string Rating => Judgement.Description();
 
     /// <summary> Method of learning the move. </summary>
-    public MoveSource Source { get; private set; }
+    public LearnMethod Source { get; private set; }
 
     /// <summary> Generation the move was learned in. </summary>
     public int Generation { get; private set; }
 
     /// <summary> Indicates if the source of the move was validated from the <see cref="PKM.RelearnMoves"/> </summary>
-    public bool IsRelearn => Source == MoveSource.Relearn || (Source == MoveSource.EggMove && Generation >= 6);
+    public bool IsRelearn => Source == LearnMethod.Relearn || (Source == LearnMethod.EggMove && Generation >= 6);
 
     /// <summary> Indicates if the source of the move was validated as originating from an egg. </summary>
-    public bool IsEggSource => Source is MoveSource.EggMove or MoveSource.InheritLevelUp;
+    public bool IsEggSource => Source is LearnMethod.EggMove or LearnMethod.InheritLevelUp;
 
-    /// <summary> Indicates if the entry was parsed by the legality checker. Should never be true when the parent legality check is finalized. </summary>
-    internal bool IsParsed => Source is not MoveSource.NotParsed;
+    /// <summary> Indicates if the entry is obtainable via any learn method. </summary>
+    internal bool IsParsed => Source is not LearnMethod.None;
 
     /// <summary> Sets <see cref="IsParsed"/> to false. </summary>
-    internal void Reset() => Source = MoveSource.NotParsed;
+    internal void Reset() => Source = LearnMethod.None;
 
     /// <summary> Checks if the Move should be present in a Relearn move pool (assuming Gen6+ origins). </summary>
     /// <remarks>Invalid moves that can't be validated should be here, hence the inclusion.</remarks>
-    public bool ShouldBeInRelearnMoves() => Source != MoveSource.None && (!Valid || IsRelearn);
+    public bool ShouldBeInRelearnMoves() => Source != LearnMethod.None && (!Valid || IsRelearn);
 
-    internal void Set(MoveSource m, int g, Severity s, string c, CheckIdentifier i)
+    internal void Set(LearnMethod m, int g, Severity s, string c, CheckIdentifier i)
     {
         Judgement = s;
         Comment = c;

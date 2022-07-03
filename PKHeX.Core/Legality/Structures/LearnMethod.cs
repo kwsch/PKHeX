@@ -1,23 +1,23 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Indicates the method of learning a move
 /// </summary>
-public enum MoveSource : byte
+public enum LearnMethod : byte
 {
-    NotParsed,
-    Unknown,
     None,
+    Unobtainable,
+    Empty,
     Relearn,
     Initial,
     LevelUp,
     TMHM,
     Tutor,
+    Sketch,
     EggMove,
     InheritLevelUp,
     Special,
     SpecialEgg,
     ShedinjaEvo,
-    Sketch,
     Shared,
 }

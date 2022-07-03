@@ -4,7 +4,7 @@ using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.ParseSettings;
 
-using static PKHeX.Core.MoveSource;
+using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.Severity;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -106,11 +106,11 @@ public static class VerifyCurrentMoves
             var r = parse[i];
             var move = currentMoves[i];
             if (move == 0)
-                r.Set(None, pk.Format, Valid, LMoveSourceEmpty, CurrentMove);
+                r.Set(Empty, pk.Format, Valid, LMoveSourceEmpty, CurrentMove);
             else if (Legal.IsValidSketch(move, pk.Format))
                 r.Set(Sketch, pk.Format, Valid, L_AValid, CurrentMove);
             else
-                r.Set(Unknown, pk.Format, Invalid, LMoveSourceInvalidSketch, CurrentMove);
+                r.Set(Unobtainable, pk.Format, Invalid, LMoveSourceInvalidSketch, CurrentMove);
         }
     }
 
@@ -182,7 +182,7 @@ public static class VerifyCurrentMoves
                     // Evolution canceling also leads to incorrect assumptions in the above used method, so just indicate them as fishy in that case.
                     // Not leveled up? Not possible to be missing the move slot.
                     var severity = enc.LevelMin == pk.CurrentLevel ? Invalid : Fishy;
-                    parse[m].Set(None, pk.Format, severity, LMoveSourceEmpty, CurrentMove);
+                    parse[m].Set(Unobtainable, pk.Format, severity, LMoveSourceEmpty, CurrentMove);
                 }
             }
             if (Array.TrueForAll(parse, z => z.Valid))
@@ -250,7 +250,7 @@ public static class VerifyCurrentMoves
             var move = source.CurrentMoves[m];
             var r = parse[m];
             if (move == 0)
-                r.Set(None, pk.Format, Valid, LMoveSourceEmpty, CurrentMove);
+                r.Set(Empty, pk.Format, Valid, LMoveSourceEmpty, CurrentMove);
             else if (minGeneration == NoMinGeneration && info.EncounterMoves.Relearn.Contains(move))
                 r.Set(Relearn, info.Generation, Valid, LMoveSourceRelearn, CurrentMove);
         }
@@ -284,7 +284,7 @@ public static class VerifyCurrentMoves
         foreach (var r in parse)
         {
             if (!r.IsParsed)
-                r.Set(Unknown, info.Generation, Invalid, LMoveSourceInvalid, CurrentMove);
+                r.Set(Unobtainable, info.Generation, Invalid, LMoveSourceInvalid, CurrentMove);
         }
     }
 
@@ -327,7 +327,7 @@ public static class VerifyCurrentMoves
             {
                 if (gen == 2 && !native && move > Legal.MaxMoveID_1 && pk.VC1)
                 {
-                    r.Set(Unknown, gen, Invalid, LMoveSourceInvalid, CurrentMove);
+                    r.Set(Unobtainable, gen, Invalid, LMoveSourceInvalid, CurrentMove);
                     continue;
                 }
                 if (gen == 2 && learnInfo.Source.EggMoveSource.Contains(move))
