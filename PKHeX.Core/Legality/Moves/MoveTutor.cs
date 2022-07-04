@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using static PKHeX.Core.Legal;
@@ -26,7 +26,7 @@ public static class MoveTutor
     private static GameVersion GetIsTutor1(PKM pk, int species, int move)
     {
         // Surf Pikachu via Stadium
-        if (move != (int)Move.Surf || ParseSettings.AllowGBCartEra)
+        if (move != (int)Move.Surf || !ParseSettings.AllowGBCartEra)
             return NONE;
         if (pk.Format < 3 && species is (int)Species.Pikachu or (int)Species.Raichu)
             return GameVersion.Stadium;
@@ -59,16 +59,17 @@ public static class MoveTutor
         if (frlg != -1 && SpecialTutors_Compatibility_FRLG[frlg] == species)
             return GameVersion.FRLG;
 
-        // XD
-        var xd = Array.IndexOf(SpecialTutors_XD_Exclusive, move);
-        if (xd != -1 && SpecialTutors_Compatibility_XD_Exclusive[xd].AsSpan().IndexOf(species) != -1)
-            return GameVersion.XD;
-
         // XD (Mew)
         if (species == (int)Species.Mew && Tutor_3Mew.AsSpan().IndexOf(move) != -1)
             return GameVersion.XD;
 
-        return NONE;
+        return move switch
+        {
+            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, (ushort)species) != -1 ? GameVersion.XD : NONE,
+            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, (ushort)species) != -1 ? GameVersion.XD : NONE,
+            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, (ushort)species) != -1 ? GameVersion.XD : NONE,
+            _ => NONE,
+        };
     }
 
     private static GameVersion GetIsTutor4(int species, int form, int move)
@@ -241,16 +242,14 @@ public static class MoveTutor
         // Only special tutor moves, normal tutor moves are already included in Emerald data
         AddIfPermitted(moves, SpecialTutors_FRLG, SpecialTutors_Compatibility_FRLG, species);
         // XD
-        for (int i = 0; i < SpecialTutors_XD_Exclusive.Length; i++)
-        {
-            var allowed = SpecialTutors_Compatibility_XD_Exclusive[i].AsSpan();
-            var index = allowed.IndexOf(species);
-            if (index != -1)
-                moves.Add(SpecialTutors_XD_Exclusive[i]);
-        }
-        // XD (Mew)
         if (species == (int)Species.Mew)
             moves.AddRange(Tutor_3Mew);
+        if (Array.BinarySearch(SpecialTutors_XD_SelfDestruct, (ushort)species) != -1)
+            moves.Add((int)Move.SelfDestruct);
+        if (Array.BinarySearch(SpecialTutors_XD_SkyAttack, (ushort)species) != -1)
+            moves.Add((int)Move.SkyAttack);
+        if (Array.BinarySearch(SpecialTutors_XD_Nightmare, (ushort)species) != -1)
+            moves.Add((int)Move.Nightmare);
     }
 
     private static void AddMovesTutor4(List<int> moves, int species, int form)
@@ -376,17 +375,24 @@ public static class MoveTutor
     }
 
     /// <summary> Rotom Moves that correspond to a specific form (form-0 ignored). </summary>
-    private static readonly int[] RotomMoves = { (int)Move.Overheat, (int)Move.HydroPump, (int)Move.Blizzard, (int)Move.AirSlash, (int)Move.LeafStorm };
+    private static int GetRotomFormMove(int form) => form switch
+    {
+        1 => (int)Move.Overheat,
+        2 => (int)Move.HydroPump,
+        3 => (int)Move.Blizzard,
+        4 => (int)Move.AirSlash,
+        5 => (int)Move.LeafStorm,
+        _ => 0,
+    };
 
     internal static void AddSpecialFormChangeMoves(List<int> r, PKM pk, int generation, int species)
     {
         switch (species)
         {
             case (int)Species.Rotom when generation >= 4:
-                var formMoves = RotomMoves;
-                var form = pk.Form - 1;
-                if ((uint)form < formMoves.Length)
-                    r.Add(RotomMoves[form]);
+                var formMove = GetRotomFormMove(pk.Form);
+                if (formMove != 0)
+                    r.Add(formMove);
                 break;
             case (int)Species.Zygarde when generation == 7:
                 r.AddRange(ZygardeMoves);

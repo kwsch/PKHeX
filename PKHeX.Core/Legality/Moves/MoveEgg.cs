@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
@@ -46,7 +46,7 @@ public static class MoveEgg
         return moves[species].Moves;
     }
 
-    private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
+    public static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
     {
         if ((uint)species >= table.Count)
             return Array.Empty<int>();
