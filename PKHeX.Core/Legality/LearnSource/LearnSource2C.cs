@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.LearnMethod;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -9,10 +11,11 @@ public class LearnSource2C : ILearnSource, IEggSource
     public static readonly LearnSource2C Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.C;
     private static readonly EggMoves2[] EggMoves = Legal.EggMovesC;
-    private static readonly Learnset[] LevelUp = Legal.LevelUpC;
+    private static readonly Learnset[] Learnsets = Legal.LevelUpC;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
+    private const GameVersion Game = C;
 
-    public Learnset GetLearnset(int species, int form) => LevelUp[species];
+    public Learnset GetLearnset(int species, int form) => Learnsets[species];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
@@ -38,23 +41,23 @@ public class LearnSource2C : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public LearnMethod GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && level <= evo.LevelMax)
-                return LearnMethod.LevelUp;
+                return new(LevelUp, Game, (byte)level);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return LearnMethod.TMHM;
+            return new(TMHM, Game);
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pk, evo.Species, move))
-            return LearnMethod.Tutor;
+            return new(Tutor, Game);
 
-        return LearnMethod.None;
+        return default;
     }
 
     private static bool GetIsSpecialTutor(PKM pk, int species, int move)

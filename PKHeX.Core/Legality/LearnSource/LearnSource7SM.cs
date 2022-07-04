@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.LearnMethod;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -8,11 +10,12 @@ public class LearnSource7SM : ILearnSource, IEggSource
 {
     public static readonly LearnSource7SM Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.SM;
-    private static readonly Learnset[] LevelUp = Legal.LevelUpSM;
+    private static readonly Learnset[] Learnsets = Legal.LevelUpSM;
     private static readonly EggMoves7[] EggMoves = Legal.EggMovesSM;
     private const int MaxSpecies = Legal.MaxSpeciesID_7;
+    private const GameVersion Game = SM;
 
-    public Learnset GetLearnset(int species, int form) => LevelUp[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
@@ -38,26 +41,26 @@ public class LearnSource7SM : ILearnSource, IEggSource
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
 
-    public LearnMethod GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
             if (level != -1) // Can relearn at any level!
-                return LearnMethod.LevelUp;
+                return new(LevelUp, Game, (byte)level);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return LearnMethod.TMHM;
+            return new(TMHM, Game);
 
         if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
-            return LearnMethod.Tutor;
+            return new(Tutor, Game);
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
-            return LearnMethod.Tutor;
+            return new(Tutor, Game);
 
-        return LearnMethod.None;
+        return default;
     }
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)

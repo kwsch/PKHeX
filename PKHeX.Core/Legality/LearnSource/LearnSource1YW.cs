@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.LearnMethod;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -8,9 +10,10 @@ public class LearnSource1YW : ILearnSource
 {
     public static readonly LearnSource1RB Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.Y;
-    private static readonly Learnset[] LevelUp = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), Legal.MaxSpeciesID_1);
+    private static readonly Learnset[] Learnsets = Legal.LevelUpY;
+    private const GameVersion Game = YW;
 
-    public Learnset GetLearnset(int species, int form) => LevelUp[species];
+    public Learnset GetLearnset(int species, int form) => Learnsets[species];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
@@ -21,22 +24,22 @@ public class LearnSource1YW : ILearnSource
         return true;
     }
 
-    public LearnMethod GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, GameVersion.YW);
             if (info != default)
-                return LearnMethod.LevelUp;
+                return new(LevelUp, Game, (byte)info.Level);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return LearnMethod.TMHM;
+            return new(TMHM, Game);
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(pk, evo.Species, move))
-            return LearnMethod.Tutor;
+            return new(Tutor, Game);
 
-        return LearnMethod.None;
+        return default;
     }
 
     private static bool GetIsTutor(PKM pk, int species, int move)

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using static PKHeX.Core.LearnMethod;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -9,10 +11,11 @@ public class LearnSource2GS : ILearnSource, IEggSource
     public static readonly LearnSource2GS Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.GS;
     private static readonly EggMoves2[] EggMoves = Legal.EggMovesGS;
-    private static readonly Learnset[] LevelUp = Legal.LevelUpGS;
+    private static readonly Learnset[] Learnsets = Legal.LevelUpGS;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
+    private const GameVersion Game = GS;
 
-    public Learnset GetLearnset(int species, int form) => LevelUp[species];
+    public Learnset GetLearnset(int species, int form) => Learnsets[species];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
@@ -38,20 +41,20 @@ public class LearnSource2GS : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public LearnMethod GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && level <= evo.LevelMax)
-                return LearnMethod.LevelUp;
+                return new(LevelUp, Game, (byte)level);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return LearnMethod.TMHM;
+            return new(TMHM, Game);
 
-        return LearnMethod.None;
+        return default;
     }
 
     private static bool GetIsTM(PersonalInfo info, int move)
