@@ -14,6 +14,7 @@ public class LearnSource2C : ILearnSource, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpC;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const GameVersion Game = C;
+    private const int CountTMHM = 57;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[species];
 
@@ -68,7 +69,7 @@ public class LearnSource2C : ILearnSource, IEggSource
         if (tutor == -1)
             return false;
         var info = PersonalTable.C[species];
-        return info.TMHM[57 + tutor];
+        return info.TMHM[CountTMHM + tutor];
     }
 
     private static bool GetIsTM(PersonalInfo info, int move)
@@ -109,11 +110,11 @@ public class LearnSource2C : ILearnSource, IEggSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            var tutorSpan = pi.TMHM.AsSpan(57, 3);
-            for (int i = 0; i < tutorSpan.Length; i++)
+            var permit = pi.TMHM;
+            for (int i = CountTMHM; i < permit.Length; i++)
             {
-                if (tutorSpan[i])
-                    yield return Legal.Tutors_GSC[i];
+                if (permit[i])
+                    yield return Legal.Tutors_GSC[i - CountTMHM];
             }
         }
     }

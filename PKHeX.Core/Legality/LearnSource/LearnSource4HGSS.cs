@@ -57,7 +57,7 @@ public class LearnSource4HGSS : ILearnSource, IEggSource
         {
             if (GetIsTM(pi, move))
                 return new(TMHM, Game);
-            if (pk.Format == Generation && GetIsHM(pi, move))
+            if ((move is (int)Move.Whirlpool || pk.Format == Generation) && GetIsHM(pi, move))
                 return new(TMHM, Game);
         }
 
@@ -133,6 +133,12 @@ public class LearnSource4HGSS : ILearnSource, IEggSource
                     if (permit[CountTM + i])
                         yield return moveIDs[i];
                 }
+            }
+            else
+            {
+                // Permit Whirlpool to leak through if transferred to Gen5+ (via D/P/Pt)
+                if (permit[CountTM + 4])
+                    yield return (int)Move.Whirlpool;
             }
         }
 

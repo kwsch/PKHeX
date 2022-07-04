@@ -121,8 +121,8 @@ public class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var permit = pi.TMHM;
-            var moveIDs = Legal.TMHM_SWSH.AsSpan(0, PersonalInfoSWSH.CountTM);
-            for (int i = 0; i < moveIDs.Length; i++)
+            var moveIDs = Legal.TMHM_SWSH;
+            for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
             {
                 if (permit[i])
                     yield return moveIDs[i];
@@ -130,15 +130,15 @@ public class LearnSource8SWSH : ILearnSource, IEggSource
 
             if (pk is ITechRecord8 tr)
             {
-                moveIDs = Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
                 for (int index = 0; index < moveIDs.Length; index++)
                 {
+                    var move = moveIDs[PersonalInfoSWSH.CountTM + index];
                     if (!permit[PersonalInfoSWSH.CountTM + index])
-                        yield return moveIDs[index];
+                        yield return move;
                     if (tr.GetMoveRecordFlag(index))
-                        yield return moveIDs[index];
+                        yield return move;
                     else if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
-                        yield return moveIDs[index]; // Agility Calyrex without TR glitch.
+                        yield return move; // Agility Calyrex without TR glitch.
                 }
             }
         }
