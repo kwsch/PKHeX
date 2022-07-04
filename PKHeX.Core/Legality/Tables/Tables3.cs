@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -157,12 +157,14 @@ public static partial class Legal
     // 064 is an unused location for Meteor Falls
     // 084 is Inside of a truck, no possible pokemon can be hatched there
     // 071 is Mirage island, cannot be obtained as the player is technically still on Route 130's map.
+    // 075 is an unused location for Fiery Path
+    // 077 is an unused location for Jagged Pass
     internal static readonly HashSet<int> ValidMet_RS = new()
     {
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
         040, 041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051, 052, 053, 054, 055, 056, 057, 058, 059,
-        060, 061, 062, 063, 065, 066, 067, 068, 069, 070     , 072, 073, 074, 075, 076, 077, 078, 079, 080,
+        060, 061, 062, 063, 065, 066, 067, 068, 069, 070     , 072, 073, 074     , 076     , 078, 079, 080,
         081, 082, 083, 085, 086, 087,
     };
     // 155 - 158 Sevii Isle 6-9 Unused
