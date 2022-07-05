@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +12,7 @@ public static class MoveBreed
         return valid;
     }
 
-    public static object Process(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, out bool valid) => generation switch
+    public static Array Process(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, out bool valid) => generation switch
     {
         2 => MoveBreed2.Validate(species, version, moves, out valid),
         3 => MoveBreed3.Validate(species, version, moves, out valid),

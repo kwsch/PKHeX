@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -93,21 +93,17 @@ public static class EggSourceUtil
     /// <summary>
     /// Unboxes the parse result and returns a user friendly string for the move result.
     /// </summary>
-    public static string GetSource(object parse, int generation, int index)
+    public static string GetSource(Array parse, int generation, int index)
     {
-        static string GetLine<T>(T[] arr, Func<T, string> act, int index)
-        {
-            if ((uint)index >= arr.Length)
-                return LMoveSourceEmpty;
-            return act(arr[index]);
-        }
+        if (index > parse.Length)
+            return LMoveSourceEmpty;
 
         return generation switch
         {
-            2      => GetLine((EggSource2[]) parse, GetSource, index),
-            3 or 4 => GetLine((EggSource34[])parse, GetSource, index),
-            5      => GetLine((EggSource5[]) parse, GetSource, index),
-            >= 6   => GetLine((EggSource6[]) parse, GetSource, index),
+            2      => ((EggSource2[])parse)[index].GetSource(),
+            3 or 4 => ((EggSource34[])parse)[index].GetSource(),
+            5      => ((EggSource5[])parse)[index].GetSource(),
+            >= 6   => ((EggSource6[])parse)[index].GetSource(),
             _      => LMoveSourceEmpty,
         };
     }
