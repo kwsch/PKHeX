@@ -387,7 +387,6 @@ public static class VerifyCurrentMoves
         int gen = enc.Generation;
         ParseEggMovesInherited(parse, gen, learnInfo);
         ParseEggMoves(parse, gen, learnInfo);
-        ParseEggMovesRemaining(parse, learnInfo, enc);
     }
 
     private static void ParseEggMovesInherited(CheckMoveResult[] parse, int gen, LearnInfo learnInfo)
@@ -419,7 +418,6 @@ public static class VerifyCurrentMoves
             {
                 r.Set(InheritLevelUp, gen, Valid, LMoveEggLevelUp, CurrentMove);
             }
-            learnInfo.LevelUpEggMoves.Add(m);
             if (gen == 2 && learnInfo.Gen1Moves.Contains(m))
                 learnInfo.Gen1Moves.Remove(m);
         }
@@ -453,8 +451,6 @@ public static class VerifyCurrentMoves
                 {
                     r.Set(EggMove, gen, Valid, LMoveSourceEgg, CurrentMove);
                 }
-
-                learnInfo.EggMovesLearned.Add(m);
             }
             if (!learnInfo.Source.EggEventSource.Contains(move))
                 continue;
@@ -470,47 +466,6 @@ public static class VerifyCurrentMoves
                 {
                     r.Set(SpecialEgg, gen, Valid, LMoveSourceEggEvent, CurrentMove);
                 }
-            }
-            learnInfo.EventEggMoves.Add(m);
-        }
-    }
-
-    private static void ParseEggMovesRemaining(CheckMoveResult[] parse, LearnInfo learnInfo, IEncounterTemplate enc)
-    {
-        // A pokemon could have normal egg moves and regular egg moves
-        // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
-        var RegularEggMovesLearned = learnInfo.EggMovesLearned.FindAll(learnInfo.LevelUpEggMoves.Contains);
-        if (RegularEggMovesLearned.Count != 0 && learnInfo.EventEggMoves.Count != 0)
-        {
-            // Moves that are egg moves or event egg moves but not both
-            var IncompatibleEggMoves = RegularEggMovesLearned.Except(learnInfo.EventEggMoves).Union(learnInfo.EventEggMoves.Except(RegularEggMovesLearned));
-            foreach (int m in IncompatibleEggMoves)
-            {
-                bool isEvent = learnInfo.EventEggMoves.Contains(m);
-                if (isEvent)
-                {
-                    if (!learnInfo.EggMovesLearned.Contains(m))
-                        parse[m].FlagIllegal(LMoveEggIncompatibleEvent, CurrentMove);
-                }
-                else
-                {
-                    if (learnInfo.EggMovesLearned.Contains(m))
-                        parse[m].FlagIllegal(LMoveEggIncompatible, CurrentMove);
-                    else if (learnInfo.LevelUpEggMoves.Contains(m))
-                        parse[m].FlagIllegal(LMoveEventEggLevelUp, CurrentMove);
-                }
-            }
-        }
-        else if (enc is not EncounterEgg)
-        {
-            // Event eggs cannot inherit moves from parents; they are not bred.
-            var gift = enc is EncounterStatic {Gift: true}; // otherwise, EncounterInvalid
-            foreach (int m in RegularEggMovesLearned)
-            {
-                if (learnInfo.EggMovesLearned.Contains(m))
-                    parse[m].FlagIllegal(gift ? LMoveEggMoveGift : LMoveEggInvalidEvent, CurrentMove);
-                else if (learnInfo.LevelUpEggMoves.Contains(m))
-                    parse[m].FlagIllegal(gift ? LMoveEggInvalidEventLevelUpGift : LMoveEggInvalidEventLevelUp, CurrentMove);
             }
         }
     }
