@@ -38,7 +38,6 @@
             this.B_ApplyWork = new System.Windows.Forms.Button();
             this.NUD_Work = new System.Windows.Forms.NumericUpDown();
             this.NUD_Flag = new System.Windows.Forms.NumericUpDown();
-            this.CB_CustomWork = new System.Windows.Forms.ComboBox();
             this.L_CustomWork = new System.Windows.Forms.Label();
             this.B_Save = new System.Windows.Forms.Button();
             this.GB_Researcher = new System.Windows.Forms.GroupBox();
@@ -56,6 +55,7 @@
             this.GB_Work = new System.Windows.Forms.TabPage();
             this.TLP_Work = new System.Windows.Forms.TableLayoutPanel();
             this.GB_Research = new System.Windows.Forms.TabPage();
+            this.NUD_WorkIndex = new System.Windows.Forms.NumericUpDown();
             this.GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_System)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Work)).BeginInit();
@@ -66,6 +66,7 @@
             this.GB_System.SuspendLayout();
             this.GB_Work.SuspendLayout();
             this.GB_Research.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WorkIndex)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -81,6 +82,7 @@
             // 
             // GB_FlagStatus
             // 
+            this.GB_FlagStatus.Controls.Add(this.NUD_WorkIndex);
             this.GB_FlagStatus.Controls.Add(this.CHK_CustomFlag);
             this.GB_FlagStatus.Controls.Add(this.button1);
             this.GB_FlagStatus.Controls.Add(this.NUD_System);
@@ -89,7 +91,6 @@
             this.GB_FlagStatus.Controls.Add(this.B_ApplyWork);
             this.GB_FlagStatus.Controls.Add(this.NUD_Work);
             this.GB_FlagStatus.Controls.Add(this.NUD_Flag);
-            this.GB_FlagStatus.Controls.Add(this.CB_CustomWork);
             this.GB_FlagStatus.Controls.Add(this.L_CustomWork);
             this.GB_FlagStatus.Location = new System.Drawing.Point(3, 3);
             this.GB_FlagStatus.Name = "GB_FlagStatus";
@@ -192,19 +193,6 @@
             this.NUD_Flag.Size = new System.Drawing.Size(45, 20);
             this.NUD_Flag.TabIndex = 9;
             this.NUD_Flag.ValueChanged += new System.EventHandler(this.ChangeCustomFlag);
-            // 
-            // CB_CustomWork
-            // 
-            this.CB_CustomWork.DropDownHeight = 156;
-            this.CB_CustomWork.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_CustomWork.DropDownWidth = 180;
-            this.CB_CustomWork.FormattingEnabled = true;
-            this.CB_CustomWork.IntegralHeight = false;
-            this.CB_CustomWork.Location = new System.Drawing.Point(87, 69);
-            this.CB_CustomWork.Name = "CB_CustomWork";
-            this.CB_CustomWork.Size = new System.Drawing.Size(66, 21);
-            this.CB_CustomWork.TabIndex = 36;
-            this.CB_CustomWork.SelectedIndexChanged += new System.EventHandler(this.ChangeConstantIndex);
             // 
             // L_CustomWork
             // 
@@ -355,7 +343,7 @@
             this.GB_System.Location = new System.Drawing.Point(4, 22);
             this.GB_System.Name = "GB_System";
             this.GB_System.Padding = new System.Windows.Forms.Padding(3);
-            this.GB_System.Size = new System.Drawing.Size(422, 283);
+            this.GB_System.Size = new System.Drawing.Size(502, 283);
             this.GB_System.TabIndex = 3;
             this.GB_System.Text = "System Flags";
             this.GB_System.UseVisualStyleBackColor = true;
@@ -372,7 +360,7 @@
             this.TLP_System.RowCount = 2;
             this.TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_System.Size = new System.Drawing.Size(416, 277);
+            this.TLP_System.Size = new System.Drawing.Size(496, 277);
             this.TLP_System.TabIndex = 1;
             // 
             // GB_Work
@@ -381,7 +369,7 @@
             this.GB_Work.Location = new System.Drawing.Point(4, 22);
             this.GB_Work.Name = "GB_Work";
             this.GB_Work.Padding = new System.Windows.Forms.Padding(3);
-            this.GB_Work.Size = new System.Drawing.Size(422, 283);
+            this.GB_Work.Size = new System.Drawing.Size(502, 283);
             this.GB_Work.TabIndex = 1;
             this.GB_Work.Text = "Work Values";
             this.GB_Work.UseVisualStyleBackColor = true;
@@ -392,14 +380,14 @@
             this.TLP_Work.ColumnCount = 3;
             this.TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 416F));
+            this.TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 496F));
             this.TLP_Work.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Work.Location = new System.Drawing.Point(3, 3);
             this.TLP_Work.Name = "TLP_Work";
             this.TLP_Work.RowCount = 1;
             this.TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Work.Size = new System.Drawing.Size(416, 277);
+            this.TLP_Work.Size = new System.Drawing.Size(496, 277);
             this.TLP_Work.TabIndex = 2;
             // 
             // GB_Research
@@ -409,10 +397,23 @@
             this.GB_Research.Location = new System.Drawing.Point(4, 22);
             this.GB_Research.Name = "GB_Research";
             this.GB_Research.Padding = new System.Windows.Forms.Padding(3);
-            this.GB_Research.Size = new System.Drawing.Size(422, 283);
+            this.GB_Research.Size = new System.Drawing.Size(502, 283);
             this.GB_Research.TabIndex = 2;
             this.GB_Research.Text = "Research";
             this.GB_Research.UseVisualStyleBackColor = true;
+            // 
+            // NUD_WorkIndex
+            // 
+            this.NUD_WorkIndex.Location = new System.Drawing.Point(87, 70);
+            this.NUD_WorkIndex.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.NUD_WorkIndex.Name = "NUD_WorkIndex";
+            this.NUD_WorkIndex.Size = new System.Drawing.Size(45, 20);
+            this.NUD_WorkIndex.TabIndex = 46;
+            this.NUD_WorkIndex.ValueChanged += new System.EventHandler(this.ChangeConstantIndex);
             // 
             // SAV_FlagWork8b
             // 
@@ -443,6 +444,7 @@
             this.GB_System.ResumeLayout(false);
             this.GB_Work.ResumeLayout(false);
             this.GB_Research.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_WorkIndex)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -458,7 +460,6 @@
         private System.Windows.Forms.Button B_LoadNew;
         private System.Windows.Forms.Button B_LoadOld;
         private System.Windows.Forms.Label L_CustomWork;
-        private System.Windows.Forms.ComboBox CB_CustomWork;
         private System.Windows.Forms.Label L_EventFlagWarn;
         private System.Windows.Forms.TabControl TC_Features;
         private System.Windows.Forms.TabPage GB_Flags;
@@ -476,5 +477,6 @@
         private System.Windows.Forms.TableLayoutPanel TLP_Flags;
         private System.Windows.Forms.TableLayoutPanel TLP_System;
         private System.Windows.Forms.TableLayoutPanel TLP_Work;
+        private System.Windows.Forms.NumericUpDown NUD_WorkIndex;
     }
 }
