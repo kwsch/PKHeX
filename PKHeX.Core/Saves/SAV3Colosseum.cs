@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -295,10 +295,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         if (pk is not CK3 ck3)
             return;
 
-        if (ck3.CurrentRegion == 0)
-            ck3.CurrentRegion = 2; // NTSC-U
-        if (ck3.OriginalRegion == 0)
-            ck3.OriginalRegion = 2; // NTSC-U
+        ck3.CurrentRegion = (byte)CurrentRegion;
+        ck3.OriginalRegion = (byte)OriginalRegion;
     }
 
     protected override void SetDex(PKM pk)
@@ -325,15 +323,24 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         StrategyMemo.SetEntry(entry);
     }
 
+    // Config
+    private const int Config = 0x08;
+
+    public GCVersion GCGameIndex { get => (GCVersion)Data[Config + 0x00]; set => Data[Config + 0x00] = (byte)value; }
+    public GCRegion CurrentRegion { get => (GCRegion)Data[Config + 0x01]; set => Data[Config + 0x01] = (byte)value; }
+    public GCRegion OriginalRegion { get => (GCRegion)Data[Config + 0x02]; set => Data[Config + 0x02] = (byte)value; }
+    public LanguageGC GCLanguage { get => (LanguageGC)Data[Config + 0x03]; set => Data[Config + 0x03] = (byte)value; }
+    public override int Language { get => (int)GCLanguage.ToLanguageID(); set => GCLanguage = ((LanguageID)value).ToLanguageGC(); }
+
     private TimeSpan PlayedSpan
     {
-        get => TimeSpan.FromSeconds((double)(ReadUInt32BigEndian(Data.AsSpan(40)) - 0x47000000) / 128);
-        set => WriteUInt32BigEndian(Data.AsSpan(40), (uint)(value.TotalSeconds * 128) + 0x47000000);
+        get => TimeSpan.FromSeconds(ReadSingleBigEndian(Data.AsSpan(Config + 0x20)));
+        set => WriteSingleBigEndian(Data.AsSpan(Config + 0x20), (float)value.TotalSeconds);
     }
 
     public override int PlayedHours
     {
-        get => (ushort)PlayedSpan.Hours;
+        get => (ushort)PlayedSpan.Hours + (PlayedSpan.Days * 24);
         set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.Hours) + TimeSpan.FromHours(value); }
     }
 
