@@ -33,6 +33,8 @@ public static class ArrayUtil
         return default;
     }
 
+    public static bool Contains<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T> => data.IndexOf(value) != -1;
+
     public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
     {
         int count = 0;

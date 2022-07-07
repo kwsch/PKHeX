@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -69,11 +69,11 @@ public sealed class LegendsArceusVerifier : Verifier
         var minMoveCount = LoadBareMinimumMoveset(data.EncounterMatch, data.Info.EvoChainsAllGens, pa, expect);
 
         // Flag move slots that are empty.
+        var moves = data.Info.Moves;
         for (int i = moveCount; i < minMoveCount; i++)
         {
             // Expected move should never be empty, but just future-proof against any revisions.
-            var msg = expect[i] != 0 ? string.Format(LMoveFExpect_0, ParseSettings.MoveStrings[expect[i]]) : LMoveSourceEmpty;
-            data.Info.Moves[i].FlagIllegal(msg, CheckIdentifier.CurrentMove);
+            moves[i] = MoveResult.Unobtainable(expect[i]);
         }
     }
 

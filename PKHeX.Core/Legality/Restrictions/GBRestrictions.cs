@@ -139,21 +139,27 @@ internal static class GBRestrictions
         return result;
     }
 
-    private static List<int>[] GetExclusiveMovesG1(int species1, int species2, IEnumerable<int> tmhm, IEnumerable<int> moves)
+    private static List<int>[] GetExclusiveMovesG1(int species1, int species2, ReadOnlySpan<int> tmhm, ReadOnlySpan<int> moves)
     {
         // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
         var moves1 = MoveLevelUp.GetMovesLevelUp1(species1, 0, 1, 100);
         var moves2 = MoveLevelUp.GetMovesLevelUp1(species2, 0, 1, 100);
 
         // Remove common moves and remove tmhm, remove not learned moves
-        var common = new HashSet<int>(moves1.Intersect(moves2).Concat(tmhm));
-        var hashMoves = new HashSet<int>(moves);
+        var common = new HashSet<int>(moves1.Intersect(moves2));
+        foreach (var m in tmhm)
+            common.Add(m);
+
+        var hashMoves = new HashSet<int>();
+        foreach (var m in moves)
+            hashMoves.Add(m);
+        
         moves1.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
         moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
         return new[] { moves1, moves2 };
     }
 
-    internal static void GetIncompatibleEvolutionMoves(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int> tmhm, out int previousspecies, out IList<int> incompatible_previous, out IList<int> incompatible_current)
+    internal static void GetIncompatibleEvolutionMoves(PKM pk, ReadOnlySpan<int> moves, ReadOnlySpan<int> tmhm, out int previousspecies, out IList<int> incompatible_previous, out IList<int> incompatible_current)
     {
         switch (pk.Species)
         {
@@ -166,7 +172,7 @@ internal static class GBRestrictions
                 previousspecies = 33;
                 return;
 
-            case (int)Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(m)):
+            case (int)Exeggutor when moves.Contains(23) && moves.IndexOfAny(G1Exeggcute_IncompatibleMoves) != -1:
                 // Exeggutor learns Stomp at level 28
                 // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
                 incompatible_current = new[] { 23 };
@@ -486,7 +492,7 @@ internal static class GBRestrictions
         return PotentialGBOrigin.Gen1Only;
     }
 
-    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, IReadOnlyList<CheckMoveResult> moves, IEncounterTemplate enc)
+    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, MoveResult[] moves, IEncounterTemplate enc)
     {
         foreach (var z in moves)
         {

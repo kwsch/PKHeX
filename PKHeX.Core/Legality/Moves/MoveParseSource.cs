@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 internal sealed class MoveParseSource
 {
     private static readonly int[] Empty = Array.Empty<int>();
-    public IReadOnlyList<int> CurrentMoves { get; init; } = Empty;
+    public int[] CurrentMoves { get; init; } = Empty;
     public IReadOnlyList<int> SpecialSource { get; set; } = Empty;
     public int[] NonTradeBackLevelUpMoves { get; set; } = Empty;
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -41,7 +41,7 @@ public static class LegalityFormatting
         }
     }
 
-    public static void AddRelearn(CheckMoveResult[] relearn, List<string> lines, bool state)
+    public static void AddRelearn(MoveResult[] relearn, List<string> lines, bool state)
     {
         for (int i = 0; i < relearn.Length; i++)
         {
@@ -51,7 +51,7 @@ public static class LegalityFormatting
         }
     }
 
-    public static void AddMoves(CheckMoveResult[] moves, List<string> lines, in int currentFormat, bool state)
+    public static void AddMoves(MoveResult[] moves, List<string> lines, in int currentFormat, bool state)
     {
         for (int i = 0; i < moves.Length; i++)
         {

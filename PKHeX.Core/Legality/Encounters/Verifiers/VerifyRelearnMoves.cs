@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.ParseSettings;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -10,108 +9,81 @@ namespace PKHeX.Core;
 /// </summary>
 public static class VerifyRelearnMoves
 {
-    internal static void DummyValid(CheckMoveResult p) => p.Set(LearnMethod.Relearn, 0, Severity.Valid, L_AValid, CheckIdentifier.RelearnMove);
-
-    public static CheckMoveResult[] VerifyRelearn(PKM pk, IEncounterTemplate enc, CheckMoveResult[] result)
+    public static void VerifyRelearn(PKM pk, IEncounterTemplate enc, Span<MoveResult> result)
     {
         if (ShouldNotHaveRelearnMoves(enc, pk))
-            return VerifyRelearnNone(pk, result);
-
-        return enc switch
-        {
-            IRelearn s when s.Relearn.Count != 0 => VerifyRelearnSpecifiedMoveset(pk, s.Relearn, result),
-            EncounterEgg e => VerifyEggMoveset(e, result, pk.RelearnMoves),
-            EncounterSlot6AO {CanDexNav:true} z when pk.RelearnMove1 != 0 => VerifyRelearnDexNav(pk, result, z),
-            EncounterSlot8b {IsUnderground:true} u => VerifyRelearnUnderground(pk, result, u),
-            _ => VerifyRelearnNone(pk, result),
-        };
+            VerifyRelearnNone(pk, result);
+        else if (enc is IRelearn s && s.Relearn.Count != 0)
+            VerifyRelearnSpecifiedMoveset(pk, s.Relearn, result);
+        else if (enc is EncounterEgg e)
+            VerifyEggMoveset(e, result, pk.RelearnMoves);
+        else if (enc is EncounterSlot6AO { CanDexNav: true } z && pk.RelearnMove1 != 0)
+            VerifyRelearnDexNav(pk, result, z);
+        else if (enc is EncounterSlot8b { IsUnderground: true } u)
+            VerifyRelearnUnderground(pk, result, u);
+        else
+            VerifyRelearnNone(pk, result);
     }
 
     public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pk) => enc.Generation < 6 || pk.IsOriginalMovesetDeleted();
 
-    private static CheckMoveResult[] VerifyRelearnSpecifiedMoveset(PKM pk, IReadOnlyList<int> required, CheckMoveResult[] result)
+    private static void VerifyRelearnSpecifiedMoveset(PKM pk, IReadOnlyList<int> required, Span<MoveResult> result)
     {
-        CheckResult(pk.RelearnMove4, required[3], result[3]);
-        CheckResult(pk.RelearnMove3, required[2], result[2]);
-        CheckResult(pk.RelearnMove2, required[1], result[1]);
-        CheckResult(pk.RelearnMove1, required[0], result[0]);
-        return result;
-
-        static void CheckResult(int move, int require, CheckMoveResult p)
+        for (int i = result.Length - 1; i >= 0; i--)
         {
-            if (move == require)
-            {
-                DummyValid(p);
-                return;
-            }
-            var c = string.Format(LMoveFExpect_0, MoveStrings[require]);
-            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, c, CheckIdentifier.RelearnMove);
+            var current = pk.GetRelearnMove(i);
+            var expect = required[i];
+            result[i] = ParseExpect(current, expect);
         }
     }
 
-    private static void ParseExpectEmpty(CheckMoveResult p, int move)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static MoveResult ParseExpect(int move, int expect = 0)
     {
-        if (move == 0)
-            DummyValid(p);
-        else
-            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
+        if (move == expect)
+            return MoveResult.Relearn;
+        return MoveResult.Unobtainable(expect);
     }
 
-    private static CheckMoveResult[] VerifyRelearnDexNav(PKM pk, CheckMoveResult[] result, EncounterSlot6AO slot)
+    private static void VerifyRelearnDexNav(PKM pk, Span<MoveResult> result, EncounterSlot6AO slot)
     {
         // All other relearn moves must be empty.
-        ParseExpectEmpty(result[3], pk.RelearnMove4);
-        ParseExpectEmpty(result[2], pk.RelearnMove3);
-        ParseExpectEmpty(result[1], pk.RelearnMove2);
+        result[3] = ParseExpect(pk.RelearnMove4);
+        result[2] = ParseExpect(pk.RelearnMove3);
+        result[1] = ParseExpect(pk.RelearnMove2);
 
         // DexNav Pokémon can have 1 random egg move as a relearn move.
-        var p = result[0];
-        if (!slot.CanBeDexNavMove(pk.RelearnMove1)) // not found
-            p.Set(LearnMethod.Relearn, 6, Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove);
-        else
-            DummyValid(p);
-
-        return result;
+        result[0] = slot.CanBeDexNavMove(pk.RelearnMove1) ? MoveResult.Relearn : MoveResult.Unobtainable(); // DexNav
     }
 
-    private static CheckMoveResult[] VerifyRelearnUnderground(PKM pk, CheckMoveResult[] result, EncounterSlot8b slot)
+    private static void VerifyRelearnUnderground(PKM pk, Span<MoveResult> result, EncounterSlot8b slot)
     {
         // All other relearn moves must be empty.
-        ParseExpectEmpty(result[3], pk.RelearnMove4);
-        ParseExpectEmpty(result[2], pk.RelearnMove3);
-        ParseExpectEmpty(result[1], pk.RelearnMove2);
+        result[3] = ParseExpect(pk.RelearnMove4);
+        result[2] = ParseExpect(pk.RelearnMove3);
+        result[1] = ParseExpect(pk.RelearnMove2);
 
         // Underground Pokémon can have 1 random egg move as a relearn move.
-        var p = result[0];
-        if (!slot.CanBeUndergroundMove(pk.RelearnMove1)) // not found
-            p.Set(LearnMethod.Relearn, 0, Severity.Invalid, LMoveRelearnUnderground, CheckIdentifier.RelearnMove);
-        else
-            DummyValid(p);
-
-        return result;
+        result[0] = slot.CanBeUndergroundMove(pk.RelearnMove1) ? MoveResult.Relearn : MoveResult.Unobtainable(); // Underground
     }
 
-    private static CheckMoveResult[] VerifyRelearnNone(PKM pk, CheckMoveResult[] result)
+    private static void VerifyRelearnNone(PKM pk, Span<MoveResult> result)
     {
         // No relearn moves should be present.
-        ParseExpectEmpty(result[3], pk.RelearnMove4);
-        ParseExpectEmpty(result[2], pk.RelearnMove3);
-        ParseExpectEmpty(result[1], pk.RelearnMove2);
-        ParseExpectEmpty(result[0], pk.RelearnMove1);
-        return result;
+        result[3] = ParseExpect(pk.RelearnMove4);
+        result[2] = ParseExpect(pk.RelearnMove3);
+        result[1] = ParseExpect(pk.RelearnMove2);
+        result[0] = ParseExpect(pk.RelearnMove1);
     }
 
-    internal static CheckMoveResult[] VerifyEggMoveset(EncounterEgg e, CheckMoveResult[] result, int[] moves, CheckIdentifier type = CheckIdentifier.RelearnMove)
+    internal static void VerifyEggMoveset(EncounterEgg e, Span<MoveResult> result, ReadOnlySpan<int> moves)
     {
         int gen = e.Generation;
         var origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, moves, out var valid);
         if (valid)
         {
             for (int i = 0; i < result.Length; i++)
-            {
-                var msg = EggSourceUtil.GetSource(origins, gen, i);
-                result[i].Set(LearnMethod.EggMove, gen, Severity.Valid, msg, type);
-            }
+                result[i] = new(EggSourceUtil.GetSource(origins, gen, i));
         }
         else
         {
@@ -119,25 +91,16 @@ public static class VerifyRelearnMoves
             origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, expected, out _);
             for (int i = 0; i < moves.Length; i++)
             {
-                var msg = EggSourceUtil.GetSource(origins, gen, i);
                 var expect = expected[i];
-                var p = result[i];
-                if (moves[i] == expect)
-                {
-                    p.Set(LearnMethod.EggMove, gen, Severity.Valid, msg, type);
-                }
-                else
-                {
-                    msg = string.Format(LMoveRelearnFExpect_0, MoveStrings[expect], msg);
-                    p.Set(LearnMethod.EggMove, gen, Severity.Invalid, msg, type);
-                }
+                result[i] = moves[i] == expect
+                    ? new(EggSourceUtil.GetSource(origins, gen, i))
+                    : MoveResult.Unobtainable(expect);
             }
         }
 
         var dupe = IsAnyMoveDuplicate(moves);
         if (dupe != NO_DUPE)
-            result[dupe].Set(LearnMethod.EggMove, gen, Severity.Invalid, LMoveSourceDuplicate, type);
-        return result;
+            result[dupe] = MoveResult.Duplicate;
     }
 
     private const int NO_DUPE = -1;

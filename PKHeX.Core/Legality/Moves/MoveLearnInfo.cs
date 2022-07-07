@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -6,21 +7,22 @@ namespace PKHeX.Core;
 
 public readonly record struct MoveLearnInfo(LearnMethod Method, GameVersion Environment, byte Argument = 0)
 {
-    public readonly LearnMethod Method = Method;
-    public readonly byte Argument = Argument;
-    public readonly GameVersion Environment = Environment;
-
     public string Summarize()
     {
         var localized = GetLocalizedMethod();
         return Summarize(localized);
     }
 
-    private string Summarize(string localizedMethod) => Method switch
+    private string Summarize(string localizedMethod)
     {
-        LevelUp => $"{Environment}-{localizedMethod} @ lv{Argument}",
-        _       => $"{Environment}-{localizedMethod}",
-    };
+        var sb = new StringBuilder(48);
+        if (Environment is not GameVersion.Any)
+            sb.Append(Environment).Append('-');
+        sb.Append(localizedMethod);
+        if (Method is LevelUp)
+            sb.Append(" @ lv").Append(Argument);
+        return sb.ToString();
+    }
 
     private string GetLocalizedMethod() => Method switch
     {
@@ -45,6 +47,9 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, GameVersion Envi
         Unobtainable => LMoveSourceInvalid,
         Duplicate => LMoveSourceDuplicate,
         EmptyInvalid => LMoveSourceEmpty,
+
+        // Fishy
+        EmptyFishy => LMoveSourceEmpty,
         _ => throw new ArgumentOutOfRangeException(nameof(Method), Method, null),
     };
 }

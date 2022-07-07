@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -118,7 +118,7 @@ public static class MoveListSuggest
     private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk) => enc switch
     {
         IRelearn s when s.Relearn.Count > 0 => s.Relearn,
-        EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pk.RelearnMoves, enc),
+        EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pk.RelearnMoves, enc).ToArray(),
         _ => Empty,
     };
 
@@ -141,7 +141,7 @@ public static class MoveListSuggest
         return enc.GetSuggestedRelearnInternal(pk);
     }
 
-    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pk)
+    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, MoveResult[] parse, PKM pk)
     {
         var result = enc.GetEggRelearnMoves(parse, pk);
         int generation = enc.Generation;
@@ -168,12 +168,12 @@ public static class MoveListSuggest
         return incense.GetEggRelearnMoves(parse, pk);
     }
 
-    private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pk)
+    private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, MoveResult[] parse, PKM pk)
     {
         // Extract a list of the moves that should end up in the relearn move list.
         int ctr = 0;
         var moves = new int[4];
-        for (var i = 0; i < parse.Count; i++)
+        for (var i = 0; i < parse.Length; i++)
         {
             var m = parse[i];
             if (!m.ShouldBeInRelearnMoves())

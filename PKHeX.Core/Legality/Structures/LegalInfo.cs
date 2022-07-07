@@ -42,16 +42,8 @@ public sealed class LegalInfo : IGeneration
     internal readonly List<CheckResult> Parse;
 
     private const int MoveCount = 4;
-    public readonly CheckMoveResult[] Relearn = GetArray();
-    public readonly CheckMoveResult[] Moves = GetArray();
-
-    private static CheckMoveResult[] GetArray()
-    {
-        var result = new CheckMoveResult[MoveCount];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = new CheckMoveResult();
-        return result;
-    }
+    public readonly MoveResult[] Relearn = new MoveResult[MoveCount];
+    public readonly MoveResult[] Moves = new MoveResult[MoveCount];
 
     private static readonly ValidEncounterMoves NONE = new();
     public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;

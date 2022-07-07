@@ -1,4 +1,4 @@
-#define SUPPRESS
+//#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -121,11 +121,14 @@ public sealed class LegalityAnalysis
                 if (!p.IsParsed)
                     p.Set(LearnMethod.Unobtainable, pk.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
             }
-            foreach (var p in Info.Relearn)
+
+            for (var i = 0; i < Info.Relearn.Length; i++)
             {
+                var p = Info.Relearn[i];
                 if (!p.IsParsed)
-                    p.Set(LearnMethod.Unobtainable, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
+                    Info.Relearn[i] = new MoveResult(new(LearnMethod.Unobtainable, EncounterOriginal.Version), 0);
             }
+
             AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
         }
 #endif

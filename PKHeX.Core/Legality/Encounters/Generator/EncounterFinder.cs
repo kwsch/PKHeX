@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -86,17 +86,17 @@ public static class EncounterFinder
     /// <returns>Indication whether or not the encounter passes secondary checks</returns>
     private static bool VerifySecondaryChecks(PKM pk, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
     {
-        var relearn = info.Relearn;
+        var relearn = info.Relearn.AsSpan();
         if (pk.Format >= 6)
         {
             VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, relearn);
-            if (!Array.TrueForAll(relearn, z => z.Valid) && iterator.PeekIsNext())
+            if (!MoveResult.AllValid(relearn) && iterator.PeekIsNext())
                 return false;
         }
         else
         {
-            foreach (var p in relearn)
-                VerifyRelearnMoves.DummyValid(p);
+            // Dummy to something valid.
+            relearn.Fill(MoveResult.Relearn);
         }
 
         VerifyCurrentMoves.VerifyMoves(pk, info);
@@ -171,7 +171,7 @@ public static class EncounterFinder
 
     private static bool WasGiftEgg(PKM pk, int gen, int loc) => !pk.FatefulEncounter && gen switch
     {
-        3 => pk.IsEgg && pk.Met_Location == 253, // Gift Egg, indistinguible from normal eggs after hatch
+        3 => pk.IsEgg && pk.Met_Location == 253, // Gift Egg, indistinguishable from normal eggs after hatch
         4 => Legal.GiftEggLocation4.Contains(loc) || (pk.Format != 4 && (loc == Locations.Faraway4 && pk.HGSS)),
         5 => loc is Locations.Breeder5,
         _ => loc is Locations.Breeder6,

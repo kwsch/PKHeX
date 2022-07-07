@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
 using System.IO;
@@ -88,12 +89,7 @@ public class LegalityTest
             var fn = Path.Combine(dn, fi.Name);
             if (isValid)
             {
-                var info = legality.Info;
-                var result = legality.Results.Cast<ICheckResult>().Concat(info.Moves).Concat(info.Relearn);
-                // ReSharper disable once ConstantConditionalAccessQualifier
-                var invalid = result.Where(z => !z.Valid);
-                var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
-                legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
+                legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{string.Join(Environment.NewLine, GetIllegalLines(legality))}");
             }
             else
             {
@@ -101,5 +97,17 @@ public class LegalityTest
             }
         }
         ctr.Should().BeGreaterThan(0);
+    }
+
+    private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)
+    {
+        foreach (var l in legality.Results.Where(z => !z.Valid))
+            yield return l.Comment;
+
+        var info = legality.Info;
+        foreach (var m in info.Moves.Where(z => !z.Valid))
+            yield return m.Comment;
+        foreach (var r in info.Relearn.Where(z => !z.Valid))
+            yield return r.Comment;
     }
 }

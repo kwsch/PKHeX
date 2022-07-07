@@ -190,7 +190,7 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    public IEnumerable<CheckResult> VerifyVCEncounter(PKM pk, IEncounterTemplate encounter, ILocation transfer, IReadOnlyList<CheckMoveResult> Moves)
+    public IEnumerable<CheckResult> VerifyVCEncounter(PKM pk, IEncounterTemplate encounter, ILocation transfer, MoveResult[] Moves)
     {
         if (pk.Met_Location != transfer.Location)
             yield return GetInvalid(LTransferMetLocation);
@@ -219,14 +219,13 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, IReadOnlyList<CheckMoveResult> Moves, int move, int gen)
+    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, int move, int gen)
     {
         int index = pk.GetMoveIndex(move);
         if (index < 0)
             return; // doesn't have move
 
-        var chk = Moves[index];
-        if (chk.Generation == gen) // not obtained from a future gen
-            Moves[index].FlagIllegal(LTransferMove, CheckIdentifier.CurrentMove);
+        if (parse[index].Generation == gen) // not obtained from a future gen
+            parse[index] = new(LearnMethod.Unobtainable) { Expect = 0 };
     }
 }

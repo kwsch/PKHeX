@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 public static class MoveBreed
 {
-    public static bool Process(int generation, int species, int form, GameVersion version, int[] moves)
+    public static bool Process(int generation, int species, int form, GameVersion version, Span<int> moves)
     {
         _  = Process(generation, species, form, version, moves, out var valid);
         return valid;
@@ -21,15 +21,15 @@ public static class MoveBreed
         _ => MoveBreed6.Validate(generation, species, form, version, moves, out valid),
     };
 
-    public static int[] GetExpectedMoves(int[] moves, IEncounterTemplate enc)
+    public static int[] GetExpectedMoves(ReadOnlySpan<int> moves, IEncounterTemplate enc)
     {
         var parse = Process(enc.Generation, enc.Species, enc.Form, enc.Version, moves, out var valid);
         if (valid)
-            return moves;
+            return moves.ToArray();
         return GetExpectedMoves(enc.Generation, enc.Species, enc.Form, enc.Version, moves, parse);
     }
 
-    public static int[] GetExpectedMoves(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, object parse)
+    public static int[] GetExpectedMoves(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, Array parse)
     {
         // Try rearranging the order of the moves.
         // Build an info table
