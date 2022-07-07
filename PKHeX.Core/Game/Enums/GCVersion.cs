@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// <see cref="GameVersion"/> analogues used by Colosseum/XD instead of the main-series values.
@@ -12,6 +12,17 @@ public enum GCVersion : byte
     R = 9,
     E = 10,
     CXD = 11,
+}
+
+/// <summary>
+/// Console region analogues used by Colosseum/XD to track the region of the data.
+/// </summary>
+public enum GCRegion : byte
+{
+    NoRegion = 0,
+    NTSC_J = 1,
+    NTSC_U = 2,
+    PAL = 3,
 }
 
 public static class GCVersionExtensions

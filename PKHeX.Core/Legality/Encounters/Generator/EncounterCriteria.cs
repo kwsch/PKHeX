@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.AbilityPermission;
 
@@ -36,6 +36,11 @@ public sealed record EncounterCriteria
     public int IV_SPA { get; init; } = RandomIV;
     public int IV_SPD { get; init; } = RandomIV;
     public int IV_SPE { get; init; } = RandomIV;
+
+    /// <summary>
+    /// If the Encounter yields variable level ranges (e.g. RNG correlation), force the minimum level instead of yielding first match.
+    /// </summary>
+    public bool ForceMinLevelRange { get; set; }
 
     // unused
     public int HPType { get; init; } = -1;

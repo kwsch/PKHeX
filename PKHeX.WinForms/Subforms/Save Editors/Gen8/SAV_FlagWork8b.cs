@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -30,9 +30,8 @@ public sealed partial class SAV_FlagWork8b : Form
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
-        CB_CustomWork.Items.Clear();
-        for (int i = 0; i < SAV.FlagWork.CountWork; i++)
-            CB_CustomWork.Items.Add(i.ToString());
+        NUD_WorkIndex.Minimum = 0;
+        NUD_WorkIndex.Maximum = SAV.FlagWork.CountWork - 1;
 
         SuspendLayout();
         editing = true;
@@ -52,8 +51,7 @@ public sealed partial class SAV_FlagWork8b : Form
         NUD_System.Text = "0";
         CHK_CustomSystem.Checked = obj.GetSystemFlag(0);
 
-        NUD_Work.Maximum = obj.CountWork - 1;
-        CB_CustomWork.SelectedIndex = 0;
+        ChangeConstantIndex(this, EventArgs.Empty);
 
         Text = $"{Text} ({sav.Version})";
     }
@@ -187,7 +185,7 @@ public sealed partial class SAV_FlagWork8b : Form
                     cb.SelectedValue = valueID;
 
                 SAV.FlagWork.SetWork(entry.Index, value);
-                if (CB_CustomWork.SelectedIndex == entry.Index)
+                if (NUD_WorkIndex.Value == entry.Index)
                     mtb.Text = ((int)mtb.Value).ToString();
                 updating = false;
             }
@@ -227,7 +225,7 @@ public sealed partial class SAV_FlagWork8b : Form
 
     private void ChangeCustomFlag(object sender, EventArgs e) => CHK_CustomFlag.Checked = SAV.FlagWork.GetFlag((int)NUD_Flag.Value);
     private void ChangeCustomSystem(object sender, EventArgs e) => CHK_CustomSystem.Checked = SAV.FlagWork.GetSystemFlag((int)NUD_System.Value);
-    private void ChangeConstantIndex(object sender, EventArgs e) => NUD_Work.Value = SAV.FlagWork.GetWork(CB_CustomWork.SelectedIndex);
+    private void ChangeConstantIndex(object sender, EventArgs e) => NUD_Work.Value = SAV.FlagWork.GetWork((int)NUD_WorkIndex.Value);
 
     private void ChangeSAV()
     {
@@ -290,7 +288,6 @@ public sealed partial class SAV_FlagWork8b : Form
     {
         var index = (int)NUD_Flag.Value;
         SAV.FlagWork.SetFlag(index, CHK_CustomFlag.Checked);
-        Origin.State.Edited = true;
 
         editing = true;
         if (FlagDict.TryGetValue(index, out var chk))
@@ -302,7 +299,6 @@ public sealed partial class SAV_FlagWork8b : Form
     {
         var index = (int)NUD_System.Value;
         SAV.FlagWork.SetSystemFlag(index, CHK_CustomSystem.Checked);
-        Origin.State.Edited = true;
 
         editing = true;
         if (SystemDict.TryGetValue(index, out var chk))
@@ -312,9 +308,8 @@ public sealed partial class SAV_FlagWork8b : Form
 
     private void B_ApplyWork_Click(object sender, EventArgs e)
     {
-        var index = CB_CustomWork.SelectedIndex;
+        var index = (int)NUD_WorkIndex.Value;
         SAV.FlagWork.SetWork(index, (int)NUD_Work.Value);
-        Origin.State.Edited = true;
 
         editing = true;
         if (WorkDict.TryGetValue(index, out var nud))

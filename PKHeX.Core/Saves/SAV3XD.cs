@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SAV3XD : SaveFile, IGCSaveFile
 {
-    protected internal override string ShortSummary => $"{OT} ({Version}) #{SaveCount:0000}";
+    protected internal override string ShortSummary => $"{OT} ({Version}) {PlayTimeString}";
     public override string Extension => this.GCExtension();
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 
@@ -19,6 +19,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     private int SaveCount = -1;
     private int SaveIndex = -1;
+    private int Config;
     private int Trainer1;
     private int Memo;
     private int Shadow;
@@ -35,6 +36,13 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         // create fake objects
         StrategyMemo = new StrategyMemo();
         ShadowInfo = new ShadowInfoTableXD(false);
+        Config = 0xA8;
+        Trainer1 = 0xCCD8;
+        Party = 0xCD08;
+        Box = 0x10E08;
+        DaycareOffset = 0x1CA68;
+        Memo = 0xF678;
+        Shadow = 0x1CB48;
         Initialize();
         ClearBoxes();
     }
@@ -42,14 +50,16 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public SAV3XD(byte[] data) : base(data)
     {
         BAK = data;
-        InitializeData(out StrategyMemo, out ShadowInfo);
+        Japanese = InitializeData(out StrategyMemo, out ShadowInfo);
         Initialize();
     }
 
     public override PersonalTable Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
 
-    private void InitializeData(out StrategyMemo memo, out ShadowInfoTableXD info)
+    private readonly bool Japanese;
+
+    private bool InitializeData(out StrategyMemo memo, out ShadowInfoTableXD info)
     {
         // Scan all 3 save slots for the highest counter
         for (int i = 0; i < SLOT_COUNT; i++)
@@ -75,6 +85,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         }
 
         // Offsets are displaced by the 0xA8 savedata region
+        Config = subOffsets[0] + 0xA8;
         Trainer1 = subOffsets[1] + 0xA8;
         Party = Trainer1 + 0x30;
         Box = subOffsets[2] + 0xA8;
@@ -86,6 +97,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         bool jp = subLength[7] == 0x1E00;
         memo = new StrategyMemo(Data, Memo, xd: true);
         info = new ShadowInfoTableXD(Data.AsSpan(Shadow, subLength[7]), jp);
+        return jp;
     }
 
     private static byte[] ReadSlot(Span<byte> data, int index)
@@ -261,6 +273,55 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
         return data;
     }
+
+    // Config
+    public GCVersion GCGameIndex   { get => (GCVersion)Data[Config + 0x00];  set => Data[Config + 0x00] = (byte)value; }
+    public GCRegion CurrentRegion  { get => (GCRegion)Data[Config + 0x01];   set => Data[Config + 0x01] = (byte)value; }
+    public GCRegion OriginalRegion { get => (GCRegion)Data[Config + 0x02];   set => Data[Config + 0x02] = (byte)value; }
+    public LanguageGC GCLanguage   { get => (LanguageGC)Data[Config + 0x03]; set => Data[Config + 0x03] = (byte)value; }
+    public override int Language { get => (int)GCLanguage.ToLanguageID(); set => GCLanguage = ((LanguageID)value).ToLanguageGC(); }
+
+    private TimeSpan PlayedSpan
+    {
+        get => TimeSpan.FromSeconds(TotalSeconds);
+        set => TotalSeconds = value.TotalSeconds;
+    }
+
+    private double TotalSeconds
+    {
+        get
+        {
+            if (Japanese)
+                return ReadSingleBigEndian(Data.AsSpan(Config + 0x20));
+            return ReadDoubleBigEndian(Data.AsSpan(Config + 0x30));
+        }
+        set
+        {
+            if (Japanese)
+                WriteSingleBigEndian(Data.AsSpan(Config + 0x20), (float)value);
+            else
+                WriteDoubleBigEndian(Data.AsSpan(Config + 0x30), value);
+        }
+    }
+
+    public override int PlayedHours
+    {
+        get => (ushort)PlayedSpan.Hours + (PlayedSpan.Days * 24);
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.Hours) + TimeSpan.FromHours(value); }
+    }
+
+    public override int PlayedMinutes
+    {
+        get => (byte)PlayedSpan.Minutes;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromMinutes(time.Minutes) + TimeSpan.FromMinutes(value); }
+    }
+
+    public override int PlayedSeconds
+    {
+        get => (byte)PlayedSpan.Seconds;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
+    }
+
     // Trainer Info
     public override GameVersion Version { get => GameVersion.XD; protected set { } }
     public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
@@ -306,10 +367,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         if (pk is not XK3 xk3)
             return; // shouldn't ever hit
 
-        if (xk3.CurrentRegion == 0)
-            xk3.CurrentRegion = 2; // NTSC-U
-        if (xk3.OriginalRegion == 0)
-            xk3.OriginalRegion = 2; // NTSC-U
+        xk3.CurrentRegion = (byte)CurrentRegion;
+        xk3.OriginalRegion = (byte)OriginalRegion;
 
         // Set Shadow Data back to save
         if (xk3.ShadowID <= 0 || xk3.ShadowID >= ShadowInfo.Count)
