@@ -27,7 +27,7 @@ internal static class LearnVerifierHistory
         }
 
         // Iterate games to identify move sources.
-        if (Iterate(result, current, pk, history))
+        if (Iterate(result, current, pk, history, enc))
             return;
 
         // Mark remaining as unknown source.
@@ -44,6 +44,31 @@ internal static class LearnVerifierHistory
             return;
 
         var moves = m.Moves;
+        MarkInitialMoves(result, current, (int[])moves);
+    }
+
+    private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    {
+        // Basic gist of move source identification: check if the moves can be learned in the current format.
+        // If moves are still unverified, we step backwards in time to the previous game environment, until all moves are checked.
+        // If moves are STILL unverified, then they must not be legal.
+        var game = LearnCheckerUtil.GetCurrentSource(pk);
+        while (true)
+        {
+            bool finished = game.Check(result, current, pk, history, enc);
+            if (finished)
+                return true;
+
+            var next = game.GetPrevious(result, pk, history, enc);
+            if (next is null)
+                return false;
+
+            game = next;
+        }
+    }
+
+    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
+    {
         for (int i = current.Length - 1; i >= 0; i--)
         {
             if (result[i].Valid)
@@ -53,26 +78,6 @@ internal static class LearnVerifierHistory
             var index = current.IndexOf(move);
             if (index >= 0)
                 result[i] = new MoveResult(LearnMethod.Initial);
-        }
-    }
-
-    private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history)
-    {
-        // Basic gist of move source identification: check if the moves can be learned in the current format.
-        // If moves are still unverified, we step backwards in time to the previous game environment, until all moves are checked.
-        // If moves are STILL unverified, then they must not be legal.
-        var game = LearnCheckerUtil.GetCurrentSource(pk);
-        while (true)
-        {
-            bool finished = game.Check(result, current, pk, history);
-            if (finished)
-                return true;
-
-            var next = game.GetPrevious(result, pk, history);
-            if (next is null)
-                return false;
-
-            game = next;
         }
     }
 
@@ -121,21 +126,23 @@ internal static class LearnVerifierHistory
 
 public static class LearnCheckerUtil
 {
-    public static ILearnChecker GetCurrentSource(PKM pk) => GetCurrentSource(pk.Context);
+    public static ILearnGroup GetCurrentSource(PKM pk) => GetCurrentSource(pk.Context);
 
-    public static ILearnChecker GetCurrentSource(EntityContext context) => context switch
+    public static ILearnGroup GetCurrentSource(EntityContext context) => context switch
     {
-        Gen1  => null!,
-        Gen2  => null!,
-        Gen3  => null!,
-        Gen4  => null!,
-        Gen5  => null!,
-        Gen6  => null!,
-        Gen7  => null!,
-        Gen8  => null!,
-        Gen7b => null!,
-        Gen8a => null!,
-        Gen8b => null!,
-        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null)
+        Gen1  => LearnGroup1.Instance,
+        Gen2  => LearnGroup2.Instance,
+        Gen3  => LearnGroup3.Instance,
+        Gen4  => LearnGroup4.Instance,
+        Gen5  => LearnGroup5.Instance,
+        Gen6  => LearnGroup6.Instance,
+        Gen7  => LearnGroup7.Instance,
+        Gen8  => LearnGroup8.Instance,
+
+        Gen7b => LearnGroup7b.Instance,
+        Gen8a => LearnGroup8a.Instance,
+        Gen8b => LearnGroup8b.Instance,
+
+        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 }
