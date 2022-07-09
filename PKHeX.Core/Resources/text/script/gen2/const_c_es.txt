@@ -21,7 +21,7 @@
 31	s	Lass Bridget	0:Normal,1:Will inform you made Whitney cry
 34	s	Rival (Olivine City)	0:Not Encountered,1:Encountered
 37	s	Tin Tower Gate Sage	0:Disallows Passage,1:Allows Passage
-38	s	Wise Trio (Tin Tower Gate)	0:Disallows Tin Tower Passage:1:Allows Tin Tower Passage
+38	s	Wise Trio (Tin Tower Gate)	0:Disallows Tin Tower Passage,1:Allows Tin Tower Passage
 39	s	Ecruteak PokéCenter	0:Not Entered,1:Entered (Met Bill)
 40	s	Ecruteak Gym	0:Old Man pushes you out,1:Accessible
 41	s	RageCandyBar Man	0:Blocks Route 44 access,1:Disappeared (Can access Route 44)
