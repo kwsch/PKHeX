@@ -257,7 +257,7 @@ public static class EncounterMovesetGenerator
                 continue;
             }
 
-            IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
+            IEnumerable<int> em = MoveEgg.GetEggMoves(egg.Species, egg.Form, egg.Version, egg.Generation);
             if (egg.Generation <= 2)
                 em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
             else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && egg.CanHaveVoltTackle)

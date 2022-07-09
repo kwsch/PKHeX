@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Legal;
@@ -23,7 +23,7 @@ internal static class MoveList
         if (pk.Format == 6 && pk.Species != (int)Species.Meowstic)
             form = 0;
 
-        r.AddRange(MoveEgg.GetEggMoves(pk.PersonalInfo, species, form, version, Math.Max(2, generation)));
+        r.AddRange(MoveEgg.GetEggMoves(species, form, version, Math.Max(2, generation)));
         if (inheritlvlmoves)
             r.AddRange(MoveEgg.GetRelearnLVLMoves(pk, species, form, 100, version));
         return r.Distinct();

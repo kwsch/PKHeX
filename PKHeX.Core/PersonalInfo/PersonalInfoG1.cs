@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -71,5 +71,13 @@ public sealed class PersonalInfoG1 : PersonalInfo
             Move3 = value[2];
             Move4 = value[3];
         }
+    }
+
+    public void GetMoves(Span<int> value)
+    {
+        value[3] = Move4;
+        value[2] = Move3;
+        value[1] = Move2;
+        value[0] = Move1;
     }
 }

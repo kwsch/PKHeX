@@ -7,12 +7,9 @@ namespace PKHeX.Core;
 
 public static class MoveEgg
 {
-    public static int[] GetEggMoves(PersonalInfo pi, int species, int form, GameVersion version, int generation)
+    public static int[] GetEggMoves(int species, int form, GameVersion version, int generation)
     {
         if (species > GetMaxSpeciesOrigin(generation, version))
-            return Array.Empty<int>();
-
-        if (pi.Genderless && !FixedGenderFromBiGender.Contains(species))
             return Array.Empty<int>();
 
         if (!Breeding.CanGameGenerateEggs(version))

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -308,6 +308,8 @@ public sealed class Learnset
         }
         return -1;
     }
+
+    public ReadOnlySpan<int> GetAllMoves() => Moves;
 
     public ReadOnlySpan<int> GetBaseEggMoves(int level)
     {
