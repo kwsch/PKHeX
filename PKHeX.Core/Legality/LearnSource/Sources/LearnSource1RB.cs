@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource1RB : ILearnSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="RB"/>.
+/// </summary>
+public sealed class LearnSource1RB : ILearnSource
 {
     public static readonly LearnSource1RB Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.RB;
@@ -92,5 +95,17 @@ public class LearnSource1RB : ILearnSource
             if (GetIsTutor(pk, evo.Species, (int)Move.Surf))
                 yield return (int)Move.Surf;
         }
+    }
+
+    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    {
+        var species = enc.Species;
+        if (!TryGetPersonal(species, 0, out var personal))
+            return;
+
+        var pi = (PersonalInfoG1)personal;
+        var learn = Learnsets[species];
+        pi.GetMoves(init);
+        learn.SetEncounterMoves(enc.LevelMin, init, 4 - init.Count(0));
     }
 }

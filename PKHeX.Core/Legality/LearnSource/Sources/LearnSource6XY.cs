@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource6XY : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="XY"/>.
+/// </summary>
+public sealed class LearnSource6XY : ILearnSource, IEggSource
 {
     public static readonly LearnSource6XY Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.XY;

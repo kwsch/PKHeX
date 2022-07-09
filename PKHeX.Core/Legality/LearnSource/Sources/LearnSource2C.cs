@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource2C : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="C"/>.
+/// </summary>
+public sealed class LearnSource2C : ILearnSource, IEggSource
 {
     public static readonly LearnSource2C Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.C;
@@ -117,5 +120,11 @@ public class LearnSource2C : ILearnSource, IEggSource
                     yield return Legal.Tutors_GSC[i - CountTMHM];
             }
         }
+    }
+
+    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    {
+        var learn = Learnsets[enc.Species];
+        learn.SetEncounterMoves(enc.LevelMin, init);
     }
 }

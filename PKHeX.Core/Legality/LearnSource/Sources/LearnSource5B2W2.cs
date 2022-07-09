@@ -6,7 +6,7 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource5B2W2 : ILearnSource, IEggSource
+public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 {
     public static readonly LearnSource5B2W2 Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.B2W2;

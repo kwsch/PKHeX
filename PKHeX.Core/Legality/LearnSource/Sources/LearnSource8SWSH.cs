@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource8SWSH : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="SWSH"/>.
+/// </summary>
+public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 {
     public static readonly LearnSource8SWSH Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.SWSH;
@@ -47,7 +50,7 @@ public class LearnSource8SWSH : ILearnSource, IEggSource
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
-            if (level != -1) // Can relearn at any level!
+            if (level != -1 && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
         }
 
@@ -114,7 +117,7 @@ public class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(evo.LevelMin, 100))
+            foreach (var move in learn.GetMoves(evo.LevelMin, evo.LevelMax))
                 yield return move;
         }
 

@@ -9,14 +9,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="USUM"/>.
 /// </summary>
-public sealed class LearnSource7USUM : ILearnSource, IEggSource
+public sealed class LearnSource7GG : ILearnSource
 {
-    public static readonly LearnSource7USUM Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.USUM;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpUSUM;
-    private static readonly EggMoves7[] EggMoves = Legal.EggMovesUSUM;
-    private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;
-    private const GameVersion Game = USUM;
+    public static readonly LearnSource7GG Instance = new();
+    private static readonly PersonalTable Personal = PersonalTable.GG;
+    private static readonly Learnset[] Learnsets = Legal.LevelUpGG;
+    private const int MaxSpecies = Legal.MaxSpeciesID_7b;
+    private const GameVersion Game = GG;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
@@ -27,21 +26,6 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
             return false;
         pi = Personal[species, form];
         return true;
-    }
-
-    public bool GetIsEggMove(int species, int form, int move)
-    {
-        if ((uint)species > MaxSpecies)
-            return false;
-        var moves = MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
-        return moves.IndexOf(move) != -1;
-    }
-
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
-    {
-        if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
@@ -57,36 +41,24 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
-            return new(Tutor, Game);
-
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(evo.Species, evo.Form, move))
             return new(Tutor, Game);
 
         return default;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(int species, int form, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor6, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
-    {
-        // US/UM Tutors
-        var tutors = Legal.Tutors_USUM;
-        var tutor = Array.IndexOf(tutors, move);
-        if (tutor == -1)
-            return false;
-        return pi.SpecialTutors[0][tutor];
+        if (species == (int)Species.Pikachu && form == 8) // Partner
+            return Legal.Tutor_StarterPikachu.AsSpan().Contains(move);
+        if (species == (int)Species.Eevee && form == 1) // Partner
+            return Legal.Tutor_StarterEevee.AsSpan().Contains(move);
+        return false;
     }
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_SM, move);
+        var index = Array.IndexOf(Legal.TMHM_GG, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -100,7 +72,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(evo.LevelMin, 100))
+            foreach (var move in learn.GetMoves(evo.LevelMin, evo.LevelMax))
                 yield return move;
         }
 
@@ -117,22 +89,15 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            // Beams
-            var permit = pi.TypeTutors;
-            var moveIDs = Legal.TypeTutor6;
-            for (int i = 0; i < moveIDs.Length; i++)
+            if (evo.Species == (int)Species.Pikachu && evo.Form == 8) // Partner
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                foreach (var move in Legal.Tutor_StarterPikachu)
+                    yield return move;
             }
-
-            // US/UM Tutors
-            permit = pi.SpecialTutors[0];
-            moveIDs = Legal.Tutors_USUM;
-            for (int i = 0; i < permit.Length; i++)
+            else if (evo.Species == (int)Species.Eevee && evo.Form == 1) // Partner
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                foreach (var move in Legal.Tutor_StarterEevee)
+                    yield return move;
             }
         }
     }

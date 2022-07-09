@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource3LG : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="LG"/>.
+/// </summary>
+public sealed class LearnSource3LG : ILearnSource, IEggSource
 {
     public static readonly LearnSource3LG Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.LG;
@@ -18,6 +21,7 @@ public class LearnSource3LG : ILearnSource, IEggSource
     private const int CountTM = 50;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    internal PersonalInfo this[int species] => Personal[species];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {

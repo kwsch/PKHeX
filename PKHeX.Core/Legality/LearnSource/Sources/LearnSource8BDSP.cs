@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource8BDSP : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="BDSP"/>.
+/// </summary>
+public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 {
     public static readonly LearnSource8BDSP Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.BDSP;

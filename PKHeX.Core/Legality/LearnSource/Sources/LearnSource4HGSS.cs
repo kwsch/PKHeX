@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource4HGSS : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="HGSS"/>.
+/// </summary>
+public sealed class LearnSource4HGSS : ILearnSource, IEggSource
 {
     public static readonly LearnSource4HGSS Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.HGSS;

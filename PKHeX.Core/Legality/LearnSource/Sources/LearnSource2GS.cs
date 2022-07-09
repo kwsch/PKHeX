@@ -6,7 +6,10 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public class LearnSource2GS : ILearnSource, IEggSource
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="GS"/>.
+/// </summary>
+public sealed class LearnSource2GS : ILearnSource, IEggSource
 {
     public static readonly LearnSource2GS Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.GS;
@@ -92,5 +95,11 @@ public class LearnSource2GS : ILearnSource, IEggSource
                     yield return moveIDs[i];
             }
         }
+    }
+
+    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    {
+        var learn = Learnsets[enc.Species];
+        learn.SetEncounterMoves(enc.LevelMin, init);
     }
 }
