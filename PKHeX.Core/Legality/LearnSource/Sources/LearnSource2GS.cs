@@ -44,7 +44,7 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -95,11 +95,5 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
                     yield return moveIDs[i];
             }
         }
-    }
-
-    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
-    {
-        var learn = Learnsets[enc.Species];
-        learn.SetEncounterMoves(enc.LevelMin, init);
     }
 }

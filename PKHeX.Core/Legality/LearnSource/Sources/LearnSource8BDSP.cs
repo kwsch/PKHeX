@@ -44,7 +44,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -63,8 +63,21 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
             return new(Tutor, Game);
 
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+            return new(Tutor, Game);
+
         return default;
     }
+
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    {
+        (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
+        (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
+        (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
+        (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
+        (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+        _ => false,
+    };
 
     private bool GetIsSharedEggMove(PersonalInfo pi, int move)
     {
@@ -122,6 +135,13 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
                 if (permit[i])
                     yield return moveIDs[i];
             }
+        }
+
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        {
+            var species = evo.Species;
+            if (species is (int)Species.Rotom && evo.Form is not 0)
+                yield return MoveTutor.GetRotomFormMove(evo.Form);
         }
     }
 }

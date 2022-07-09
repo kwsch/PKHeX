@@ -27,7 +27,7 @@ public sealed class LearnSource1RB : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -39,18 +39,16 @@ public sealed class LearnSource1RB : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(pk, evo.Species, move))
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new (Tutor, Game);
 
         return default;
     }
 
-    private static bool GetIsTutor(PKM pk, int species, int move)
+    private static bool GetIsTutor(int species, int move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)
-            return false;
-        if (pk.Format >= 3)
             return false;
 
         // Surf Pikachu via Stadium
@@ -92,7 +90,7 @@ public sealed class LearnSource1RB : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            if (GetIsTutor(pk, evo.Species, (int)Move.Surf))
+            if (GetIsTutor(evo.Species, (int)Move.Surf))
                 yield return (int)Move.Surf;
         }
     }

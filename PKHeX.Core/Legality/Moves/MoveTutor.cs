@@ -375,7 +375,7 @@ public static class MoveTutor
     }
 
     /// <summary> Rotom Moves that correspond to a specific form (form-0 ignored). </summary>
-    private static int GetRotomFormMove(int form) => form switch
+    public static int GetRotomFormMove(int form) => form switch
     {
         1 => (int)Move.Overheat,
         2 => (int)Move.HydroPump,

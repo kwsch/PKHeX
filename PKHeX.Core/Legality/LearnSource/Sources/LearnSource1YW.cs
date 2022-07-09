@@ -27,11 +27,11 @@ public sealed class LearnSource1YW : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, GameVersion.YW);
+            var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, YW);
             if (info != default)
                 return new(LevelUp, Game, (byte)info.Level);
         }
@@ -39,18 +39,16 @@ public sealed class LearnSource1YW : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(pk, evo.Species, move))
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new(Tutor, Game);
 
         return default;
     }
 
-    private static bool GetIsTutor(PKM pk, int species, int move)
+    private static bool GetIsTutor(int species, int move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)
-            return false;
-        if (pk.Format >= 3)
             return false;
 
         // Surf Pikachu via Stadium
@@ -74,7 +72,7 @@ public sealed class LearnSource1YW : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            var moves = MoveLevelUp.GetMovesLevelUp1(evo.Species, evo.Form, evo.LevelMax, evo.LevelMin, GameVersion.YW);
+            var moves = MoveLevelUp.GetMovesLevelUp1(evo.Species, evo.Form, evo.LevelMax, evo.LevelMin, YW);
             foreach (var move in moves)
                 yield return move;
         }
@@ -92,20 +90,8 @@ public sealed class LearnSource1YW : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            if (GetIsTutor(pk, evo.Species, (int)Move.Surf))
+            if (GetIsTutor(evo.Species, (int)Move.Surf))
                 yield return (int)Move.Surf;
         }
-    }
-
-    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
-    {
-        var species = enc.Species;
-        if (!TryGetPersonal(species, 0, out var personal))
-            return;
-
-        var pi = (PersonalInfoG1)personal;
-        var learn = Learnsets[species];
-        pi.GetMoves(init);
-        learn.SetEncounterMoves(enc.LevelMin, init, 4 - init.Count(0));
     }
 }

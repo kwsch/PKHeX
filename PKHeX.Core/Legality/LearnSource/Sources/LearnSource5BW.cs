@@ -44,7 +44,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -60,8 +60,27 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
             return new(Tutor, Game);
 
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+            return new(Tutor, Game);
+
         return default;
     }
+
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
+    {
+        (int)Species.Keldeo => move is (int)Move.SecretSword,
+        (int)Species.Meloetta => move is (int)Move.RelicSong,
+        (int)Species.Rotom => move switch
+        {
+            (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
+            (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
+            (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
+            (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
+            (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+            _ => false,
+        },
+        _ => false,
+    };
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
@@ -102,7 +121,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             // Beams
             var permit = pi.TypeTutors;
@@ -112,19 +131,17 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
                 if (permit[i])
                     yield return moveIDs[i];
             }
+        }
 
-            // B2W2 Tutors
-            var tutors = Legal.Tutors_B2W2;
-            for (int i = 0; i < tutors.Length; i++)
-            {
-                permit = pi.SpecialTutors[i];
-                moveIDs = tutors[i];
-                for (int m = 0; m < moveIDs.Length; m++)
-                {
-                    if (permit[m])
-                        yield return moveIDs[m];
-                }
-            }
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        {
+            var species = evo.Species;
+            if (species is (int)Species.Rotom && evo.Form is not 0)
+                yield return MoveTutor.GetRotomFormMove(evo.Form);
+            else if (species is (int)Species.Keldeo)
+                yield return (int)Move.SecretSword;
+            else if (species is (int)Species.Meloetta)
+                yield return (int)Move.RelicSong;
         }
     }
 }

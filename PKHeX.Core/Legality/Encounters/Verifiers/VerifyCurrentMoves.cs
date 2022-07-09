@@ -77,7 +77,7 @@ public static class VerifyCurrentMoves
             ? MoveList.GetExclusivePreEvolutionMoves(pk, e.Species, info.EvoChainsAllGens.Gen2, 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
             : Array.Empty<int>();
 
-        var Egg = MoveEgg.GetEggMoves(pk.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
+        var Egg = MoveEgg.GetEggMoves(e.Species, e.Form, e.Version, e.Generation);
         if (info.Generation < 3 && pk.Format >= 7 && pk.VC1)
             Egg = Array.FindAll(Egg, m => m <= Legal.MaxMoveID_1);
 
@@ -212,7 +212,7 @@ public static class VerifyCurrentMoves
         };
 
         if (info.EncounterMatch is EncounterEgg e)
-            source.EggMoveSource = MoveEgg.GetEggMoves(pk.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
+            source.EggMoveSource = MoveEgg.GetEggMoves(e.Species, e.Form, e.Version, e.Generation);
 
         ParseMoves(pk, source, info, parse);
     }

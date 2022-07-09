@@ -46,7 +46,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -70,8 +70,21 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
             return new(Tutor, Game);
 
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+            return new(Tutor, Game);
+
         return default;
     }
+
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    {
+        (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
+        (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
+        (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
+        (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
+        (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+        _ => false,
+    };
 
     private static bool GetIsTypeTutor(int species, int move)
     {
@@ -144,6 +157,19 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
                     yield return (int)Move.Whirlpool;
             }
         }
+        
+        if (types.HasFlagFast(MoveSourceType.TypeTutor))
+        {
+            // Elemental Beams
+            var arr = Legal.SpecialTutors_Compatibility_4;
+            var moveIDs = Legal.SpecialTutors_4;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var index = Array.IndexOf(arr[i], evo.Species);
+                if (index != -1)
+                    yield return moveIDs[i];
+            }
+        }
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
@@ -154,16 +180,12 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
                 if (permit[i])
                     yield return moveIDs[i];
             }
+        }
 
-            // Elemental Beams
-            var arr = Legal.SpecialTutors_Compatibility_4;
-            moveIDs = Legal.SpecialTutors_4;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                var index = Array.IndexOf(arr[i], evo.Species);
-                if (index != -1)
-                    yield return moveIDs[i];
-            }
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        {
+            if (evo.Species is (int)Species.Rotom && evo.Form is not 0)
+                yield return MoveTutor.GetRotomFormMove(evo.Form);
         }
     }
 }

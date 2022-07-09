@@ -28,26 +28,26 @@ public sealed class LearnSource7GG : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
-            if (level != -1) // Can relearn at any level!
+            if (level != -1 && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(evo.Species, evo.Form, move))
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo.Species, evo.Form, move))
             return new(Tutor, Game);
 
         return default;
     }
 
-    private static bool GetIsSpecialTutor(int species, int form, int move)
+    private static bool GetIsEnhancedTutor(int species, int form, int move)
     {
         if (species == (int)Species.Pikachu && form == 8) // Partner
             return Legal.Tutor_StarterPikachu.AsSpan().Contains(move);
@@ -79,7 +79,7 @@ public sealed class LearnSource7GG : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var permit = pi.TMHM;
-            var moveIDs = Legal.TMHM_SM;
+            var moveIDs = Legal.TMHM_GG;
             for (int i = 0; i < moveIDs.Length; i++)
             {
                 if (permit[i])

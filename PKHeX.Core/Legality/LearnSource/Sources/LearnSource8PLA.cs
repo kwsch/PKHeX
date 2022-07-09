@@ -28,7 +28,7 @@ public sealed class LearnSource8LA : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -41,8 +41,21 @@ public sealed class LearnSource8LA : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsMoveShop(pi, move))
             return new(TMHM, Game);
 
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+            return new(Tutor, Game);
+
         return default;
     }
+
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    {
+        (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
+        (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
+        (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
+        (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
+        (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+        _ => false,
+    };
 
     private static bool GetIsMoveShop(PersonalInfo pi, int move)
     {
@@ -73,6 +86,13 @@ public sealed class LearnSource8LA : ILearnSource
                 if (permit[i])
                     yield return moveIDs[i];
             }
+        }
+
+        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        {
+            var species = evo.Species;
+            if (species is (int)Species.Rotom && evo.Form is not 0)
+                yield return MoveTutor.GetRotomFormMove(evo.Form);
         }
     }
 }
