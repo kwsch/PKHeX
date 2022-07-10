@@ -13,11 +13,6 @@ public sealed class EffortValueVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk is IAwakened a)
-        {
-            VerifyAwakenedValues(data, a);
-            return;
-        }
         var enc = data.EncounterMatch;
         if (pk.IsEgg)
         {
@@ -64,37 +59,5 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
         else if (evs[0] != 0 && evs.Count(evs[0]) == evs.Length)
             data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
-    }
-
-    private void VerifyAwakenedValues(LegalityAnalysis data, IAwakened awakened)
-    {
-        var pk = data.Entity;
-        int sum = pk.EVTotal;
-        if (sum != 0)
-            data.AddLine(GetInvalid(LEffortShouldBeZero));
-
-        if (!awakened.AwakeningAllValid())
-            data.AddLine(GetInvalid(LAwakenedCap));
-
-        var enc = data.EncounterMatch;
-
-        // go park transfers have 2 AVs for all stats.
-        if (enc is EncounterSlot7GO)
-        {
-            Span<byte> avs = stackalloc byte[6];
-            awakened.GetAVs(avs);
-            foreach (var av in avs)
-            {
-                if (av >= 2)
-                    continue;
-
-                data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2)));
-                break;
-            }
-            return;
-        }
-
-        if (awakened.AwakeningSum() == 0 && !enc.IsWithinEncounterRange(pk))
-            data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
     }
 }

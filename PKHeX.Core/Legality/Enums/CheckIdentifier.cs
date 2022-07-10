@@ -153,4 +153,9 @@ public enum CheckIdentifier : byte
     /// The <see cref="CheckResult"/> pertains to <see cref="PKM.MarkValue"/> values.
     /// </summary>
     Marking,
+
+    /// <summary>
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/> <see cref="IAwakened"/> values.
+    /// </summary>
+    AVs,
 }
