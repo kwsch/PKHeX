@@ -34,7 +34,7 @@ public sealed class LearnSource1YW : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new(Tutor, Game);
-        
+
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, YW);

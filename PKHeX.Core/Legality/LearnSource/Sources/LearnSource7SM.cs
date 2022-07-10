@@ -69,8 +69,12 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
     {
         (int)Species.Pikachu or (int)Species.Raichu => move is (int)Move.VoltTackle,
-        (int)Species.Solgaleo => move is (int)Move.SunsteelStrike && (option == LearnOption.AtAnyTime || current.Form == 1),
-        (int)Species.Lunala   => move is (int)Move.MoongeistBeam  && (option == LearnOption.AtAnyTime || current.Form == 2),
+        (int)Species.Necrozma => move switch
+        {
+            (int)Move.SunsteelStrike => (option == LearnOption.AtAnyTime || current.Form == 1), // Sun w/ Solgaleo
+            (int)Move.MoongeistBeam  => (option == LearnOption.AtAnyTime || current.Form == 2), // Moon w/ Lunala
+            _ => false,
+        },
         (int)Species.Keldeo   => move is (int)Move.SecretSword,
         (int)Species.Meloetta => move is (int)Move.RelicSong,
         (int)Species.Rotom => move switch
