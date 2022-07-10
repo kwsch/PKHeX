@@ -5,7 +5,7 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
-public readonly record struct MoveLearnInfo(LearnMethod Method, GameVersion Environment, byte Argument = 0)
+public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
     public string Summarize()
     {
@@ -16,7 +16,7 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, GameVersion Envi
     private string Summarize(string localizedMethod)
     {
         var sb = new StringBuilder(48);
-        if (Environment is not GameVersion.Any)
+        if (Environment.IsSpecified())
             sb.Append(Environment).Append('-');
         sb.Append(localizedMethod);
         if (Method is LevelUp)

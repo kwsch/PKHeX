@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -14,7 +14,7 @@ public sealed class LearnSource1YW : ILearnSource
     public static readonly LearnSource1YW Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.Y;
     private static readonly Learnset[] Learnsets = Legal.LevelUpY;
-    private const GameVersion Game = YW;
+    private const LearnEnvironment Game = YW;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[species];
 
@@ -37,9 +37,10 @@ public sealed class LearnSource1YW : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, YW);
-            if (info != default)
-                return new(LevelUp, Game, (byte)info.Level);
+            var learn = GetLearnset(evo.Species, evo.Form);
+            var level = learn.GetLevelLearnMove(move);
+            if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
+                return new(LevelUp, Game, (byte)level);
         }
 
         return default;
@@ -73,7 +74,8 @@ public sealed class LearnSource1YW : ILearnSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, evo.LevelMin);
+            var min = ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(min, evo.LevelMax);
             if (hasMoves)
             {
                 var moves = learn.Moves;

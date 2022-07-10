@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -16,7 +16,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpFR;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesRS; // same for all Gen3 games
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
-    private const GameVersion Game = FR;
+    private const LearnEnvironment Game = FR;
     private const int Generation = 3;
     private const int CountTM = 50;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -16,7 +16,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpSM;
     private static readonly EggMoves7[] EggMoves = Legal.EggMovesSM;
     private const int MaxSpecies = Legal.MaxSpeciesID_7;
-    private const GameVersion Game = SM;
+    private const LearnEnvironment Game = SM;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];

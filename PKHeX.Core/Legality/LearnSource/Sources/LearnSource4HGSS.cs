@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -16,7 +16,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpHGSS;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesHGSS;
     private const int MaxSpecies = Legal.MaxSpeciesID_4;
-    private const GameVersion Game = HGSS;
+    private const LearnEnvironment Game = HGSS;
     private const int Generation = 4;
     private const int CountTM = 92;
 

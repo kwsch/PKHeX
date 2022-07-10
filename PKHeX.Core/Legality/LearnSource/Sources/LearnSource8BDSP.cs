@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -16,7 +16,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpBDSP;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesBDSP;
     private const int MaxSpecies = Legal.MaxSpeciesID_8b;
-    private const GameVersion Game = BDSP;
+    private const LearnEnvironment Game = BDSP;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 

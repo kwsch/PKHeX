@@ -354,10 +354,10 @@ public static class VerifyCurrentMoves
         if (learnInfo.MixedGen12NonTradeback)
         {
             foreach (int m in learnInfo.Gen1Moves)
-                parse[m] = new(Unobtainable, GameVersion.Gen1); // LG1MoveExclusive
+                parse[m] = new(Unobtainable, LearnEnvironment.RB); // LG1MoveExclusive
 
             foreach (int m in learnInfo.Gen2PreevoMoves)
-                parse[m] = new(Unobtainable, GameVersion.Gen1); // LG1TradebackPreEvoMove
+                parse[m] = new(Unobtainable, LearnEnvironment.RB); // LG1TradebackPreEvoMove
         }
 
         if (gen == 1 && pk.Format == 1 && !AllowGen1Tradeback)
@@ -396,12 +396,12 @@ public static class VerifyCurrentMoves
 
             if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && move > Legal.MaxMoveID_1)
             {
-                r = new(Unobtainable, GameVersion.Gen2) { Generation = (byte)gen }; // LG1MoveTradeback
+                r = new(Unobtainable, LearnEnvironment.RB) { Generation = (byte)gen }; // LG1MoveTradeback
                 learnInfo.MixedGen12NonTradeback = true;
             }
             else
             {
-                r = new(InheritLevelUp, GameVersion.Gen2) { Generation = (byte)gen };
+                r = new(InheritLevelUp, LearnEnvironment.RB) { Generation = (byte)gen };
             }
             if (gen == 2 && learnInfo.Gen1Moves.Contains(m))
                 learnInfo.Gen1Moves.Remove(m);
@@ -429,12 +429,12 @@ public static class VerifyCurrentMoves
                 // without removing moves above MaxMoveID_1, egg moves above MaxMoveID_1 and gen 1 moves are incompatible
                 if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && move > Legal.MaxMoveID_1)
                 {
-                    r = new(Unobtainable, GameVersion.Gen2) { Generation = (byte)gen }; // LG1MoveTradeback
+                    r = new(Unobtainable, LearnEnvironment.RB) { Generation = (byte)gen }; // LG1MoveTradeback
                     learnInfo.MixedGen12NonTradeback = true;
                 }
                 else
                 {
-                    r = new(EggMove, GameVersion.Gen2) { Generation = (byte)gen };
+                    r = new(EggMove, LearnEnvironment.RB) { Generation = (byte)gen };
                 }
             }
             if (!learnInfo.Source.EggEventSource.Contains(move))
@@ -444,12 +444,12 @@ public static class VerifyCurrentMoves
             {
                 if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && move > Legal.MaxMoveID_1)
                 {
-                    r = new(Unobtainable, GameVersion.Gen2) { Generation = (byte)gen }; // LG1MoveTradeback
+                    r = new(Unobtainable, LearnEnvironment.RB) { Generation = (byte)gen }; // LG1MoveTradeback
                     learnInfo.MixedGen12NonTradeback = true;
                 }
                 else
                 {
-                    r = new(SpecialEgg, GameVersion.Gen2) { Generation = (byte)gen };
+                    r = new(SpecialEgg, LearnEnvironment.RB) { Generation = (byte)gen };
                 }
             }
         }
@@ -463,7 +463,7 @@ public static class VerifyCurrentMoves
         for (int m = parse.Length - 1; m >= 0; m--)
         {
             if (incompatible.Contains(currentMoves[m]))
-                parse[m] = new(Unobtainable, GameVersion.Gen1); // LG1MoveLearnSameLevel
+                parse[m] = new(Unobtainable, LearnEnvironment.RB); // LG1MoveLearnSameLevel
         }
     }
 
@@ -510,9 +510,9 @@ public static class VerifyCurrentMoves
         for (int m = parse.Length - 1; m >= 0; m--)
         {
             if (incompatCurr.Contains(moves[m]))
-                parse[m] = new(Unobtainable, GameVersion.Gen1); // LMoveEvoFLower
+                parse[m] = new(Unobtainable, LearnEnvironment.RB); // LMoveEvoFLower
             if (incompatPrev.Contains(moves[m]))
-                parse[m] = new(Unobtainable, GameVersion.Gen1); // LMoveEvoFHigher
+                parse[m] = new(Unobtainable, LearnEnvironment.RB); // LMoveEvoFHigher
         }
     }
 

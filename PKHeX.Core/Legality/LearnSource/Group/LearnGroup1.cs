@@ -162,6 +162,9 @@ public sealed class LearnGroup1 : ILearnGroup
         if (!yw.TryGetPersonal(evo.Species, evo.Form, out var yp))
             return; // should never happen.
 
+        if (ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk))
+            evo = evo with { LevelMin = 1 };
+
         for (int i = result.Length - 1; i >= 0; i--)
         {
             ref var entry = ref result[i];

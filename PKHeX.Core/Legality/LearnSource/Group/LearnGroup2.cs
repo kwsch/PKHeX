@@ -72,6 +72,9 @@ public sealed class LearnGroup2 : ILearnGroup
         if (!c.TryGetPersonal(evo.Species, evo.Form, out var cp))
             return; // should never happen.
 
+        if (ParseSettings.AllowGen2MoveReminder(pk))
+            evo = evo with { LevelMin = 1 };
+
         bool kor = pk.Korean; // Crystal is not available to Korean games.
 
         for (int i = result.Length - 1; i >= 0; i--)

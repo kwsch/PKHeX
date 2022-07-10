@@ -12,7 +12,7 @@ public readonly record struct MoveResult : ICheckResult
     public bool IsParsed => this != default;
     public bool Valid => Info.Method.IsValid();
 
-    internal MoveResult(LearnMethod method, GameVersion game = GameVersion.Any) : this(new MoveLearnInfo(method, game)) { }
+    internal MoveResult(LearnMethod method, LearnEnvironment game = LearnEnvironment.Any) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
 
     public MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, short Expect = 0)
     {

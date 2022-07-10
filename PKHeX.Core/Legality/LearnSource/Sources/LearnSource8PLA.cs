@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
-using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnEnvironment;
 
 namespace PKHeX.Core;
 
@@ -15,7 +15,7 @@ public sealed class LearnSource8LA : ILearnSource
     private static readonly PersonalTable Personal = PersonalTable.LA;
     private static readonly Learnset[] Learnsets = Legal.LevelUpLA;
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
-    private const GameVersion Game = PLA;
+    private const LearnEnvironment Game = PLA;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
