@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -108,9 +108,9 @@ public sealed class GameDataSource
         return Util.GetUnsortedCBList(list, games);
     }
 
-    public List<ComboItem> GetItemDataSource(GameVersion game, int generation, IReadOnlyList<ushort> allowed, bool HaX = false)
+    public List<ComboItem> GetItemDataSource(GameVersion game, EntityContext context, IReadOnlyList<ushort> allowed, bool HaX = false)
     {
-        var items = Strings.GetItemStrings(generation, game);
+        var items = Strings.GetItemStrings(context, game);
         return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);
     }
 

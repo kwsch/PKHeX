@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -136,7 +136,7 @@ public partial class SAV_PokedexGG : Form
         bool hasForms = FormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
         LB_Forms.Enabled = hasForms;
         if (!hasForms) return false;
-        var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+        var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).ToList();
         if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
         {
             // empty

@@ -272,7 +272,7 @@ public partial class SAV_HallOfFame : Form
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         CB_Form.InitializeBinding();
-        CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, SAV.Generation);
+        CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, SAV.Context);
     }
 
     private void UpdateSpecies(object sender, EventArgs e)

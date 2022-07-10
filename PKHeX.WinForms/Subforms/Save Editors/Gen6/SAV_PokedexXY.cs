@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -144,7 +144,7 @@ public partial class SAV_PokedexXY : Form
         int f = DexFormUtil.GetDexFormIndexXY(species, fc);
         if (f < 0)
             return;
-        string[] forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+        string[] forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         if (forms.Length < 1)
             return;
 

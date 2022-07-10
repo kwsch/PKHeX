@@ -18,14 +18,14 @@ public static class ShowdownParsing
     /// <param name="name"></param>
     /// <param name="strings"></param>
     /// <param name="species">Species ID the form belongs to</param>
-    /// <param name="format">Format the form name should appear in</param>
+    /// <param name="context">Format the form name should appear in</param>
     /// <returns>Zero (base form) if no form matches the input string.</returns>
-    public static int GetFormFromString(string name, GameStrings strings, int species, int format)
+    public static int GetFormFromString(string name, GameStrings strings, int species, EntityContext context)
     {
         if (name.Length == 0)
             return 0;
 
-        string[] formStrings = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, format);
+        var formStrings = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
         return Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(name)));
     }
 
@@ -35,13 +35,13 @@ public static class ShowdownParsing
     /// <param name="form"></param>
     /// <param name="strings"></param>
     /// <param name="species"></param>
-    /// <param name="format"></param>
-    public static string GetStringFromForm(int form, GameStrings strings, int species, int format)
+    /// <param name="context"></param>
+    public static string GetStringFromForm(int form, GameStrings strings, int species, EntityContext context)
     {
         if (form <= 0)
             return string.Empty;
 
-        var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, format);
+        var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
         return form >= forms.Length ? string.Empty : forms[form];
     }
 

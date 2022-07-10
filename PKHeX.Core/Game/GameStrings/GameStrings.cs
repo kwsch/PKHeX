@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -569,15 +569,18 @@ public sealed class GameStrings : IBasicStrings
         }
     }
 
-    public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any) => generation switch
+    public string[] GetItemStrings(EntityContext context, GameVersion game = GameVersion.Any) => context switch
     {
-        0 => Array.Empty<string>(),
-        1 => g1items,
-        2 => g2items,
-        3 => GetItemStrings3(game),
-        4 => g4items, // mail names changed 4->5
-        8 when game is GameVersion.BD or GameVersion.SP or GameVersion.BDSP => GetItemStrings8b(),
-        _ => itemlist,
+        EntityContext.Gen8b => GetItemStrings8b(),
+        _ => context.Generation() switch
+        {
+            0 => Array.Empty<string>(),
+            1 => g1items,
+            2 => g2items,
+            3 => GetItemStrings3(game),
+            4 => g4items, // mail names changed 4->5
+            _ => itemlist,
+        },
     };
 
     private string[] GetItemStrings8b()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -52,7 +52,7 @@ public static class SaveExtensions
                 msg = MsgIndexItemHeld;
             if (msg != null)
             {
-                var itemstr = GameInfo.Strings.GetItemStrings(pk.Format, (GameVersion)pk.Version);
+                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, (GameVersion)pk.Version);
                 errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
             }
         }

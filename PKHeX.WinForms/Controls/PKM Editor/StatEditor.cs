@@ -309,7 +309,7 @@ public partial class StatEditor : UserControl
         int hpower = WinFormsUtil.GetIndex(CB_HPType);
         if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
             ivs.Fill(Entity.MaxIV);
-        HiddenPower.SetIVs(hpower, ivs, Entity.Format);
+        HiddenPower.SetIVs(hpower, ivs, Entity.Context);
         LoadIVs(ivs);
     }
 

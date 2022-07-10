@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -13,7 +13,7 @@ public static class HiddenPowerApplicator
     {
         Span<int> IVs = stackalloc int[6];
         pk.GetIVs(IVs);
-        HiddenPower.SetIVsForType(hiddenPowerType, IVs, pk.Format);
+        HiddenPower.SetIVsForType(hiddenPowerType, IVs, pk.Context);
         pk.SetIVs(IVs);
     }
 

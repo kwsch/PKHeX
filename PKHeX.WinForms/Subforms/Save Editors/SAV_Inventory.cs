@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -18,7 +18,7 @@ public partial class SAV_Inventory : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version).ToArray();
+        itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
 
         for (int i = 0; i < itemlist.Length; i++)
         {

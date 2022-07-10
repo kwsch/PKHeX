@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -143,7 +143,7 @@ public partial class SAV_PokedexSWSH : Form
         var s = GameInfo.Strings;
         if (species == (int)Species.Alcremie)
             return FormConverter.GetAlcremieFormList(s.forms);
-        return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, 8).ToArray();
+        return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen8).ToArray();
     }
 
     private void SetEntry(int index)

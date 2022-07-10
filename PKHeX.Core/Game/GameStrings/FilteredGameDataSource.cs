@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +16,7 @@ public sealed class FilteredGameDataSource
         Moves = GetFilteredMoves(sav, source, HaX).ToList();
         if (sav.Generation > 1)
         {
-            var items = Source.GetItemDataSource(sav.Version, sav.Generation, sav.HeldItems, HaX);
+            var items = Source.GetItemDataSource(sav.Version, sav.Context, sav.HeldItems, HaX);
             items.RemoveAll(i => i.Value > sav.MaxItemID);
             Items = items;
         }

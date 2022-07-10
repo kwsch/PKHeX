@@ -610,7 +610,7 @@ public partial class SAV_Misc5 : Form
         L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         CB_Form.InitializeBinding();
-        var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+        var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         CB_Form.DataSource = new BindingSource(list, null);
     }
 

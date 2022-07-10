@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -115,7 +115,7 @@ public partial class SAV_Misc3 : Form
     private void B_GetTickets_Click(object sender, EventArgs e)
     {
         var Pouches = SAV.Inventory;
-        var itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version).ToArray();
+        var itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
         for (int i = 0; i < itemlist.Length; i++)
         {
             if (string.IsNullOrEmpty(itemlist[i]))

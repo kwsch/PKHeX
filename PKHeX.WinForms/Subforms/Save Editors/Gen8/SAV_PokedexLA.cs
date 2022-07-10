@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -167,7 +167,7 @@ public partial class SAV_PokedexLA : Form
         if (!hasForms)
             return false;
 
-        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).ToList();
         if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
         {
             // empty

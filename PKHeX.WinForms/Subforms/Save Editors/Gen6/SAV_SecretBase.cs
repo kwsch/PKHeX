@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -333,7 +333,7 @@ public partial class SAV_SecretBase : Form
         bool hasForms = FormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-        var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
+        var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         CB_Form.DataSource = new BindingSource(list, null);
     }
 
