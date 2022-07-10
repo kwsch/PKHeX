@@ -21,11 +21,14 @@ public sealed class LearnGroup8 : ILearnGroup
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen8.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen8;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i);
+            Check(result, current, pk, evos[i], i, option: option);
+
+        if (enc is EncounterStatic8N r && r.IsDownLeveled(pk))
+            Check(result, current, pk, evos[^1] with { LevelMax = r.LevelMax, LevelMin = evos[^1].LevelMax }, evos.Length - 1, MoveSourceType.LevelUp);
 
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
@@ -75,11 +78,29 @@ public sealed class LearnGroup8 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
+        {
+            CheckInternal(result, current, pk, evo, stage, type, option);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource8SWSH.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, type, option);
+    }
+
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type, LearnOption option)
     {
         var game = LearnSource8SWSH.Instance;
         if (!game.TryGetPersonal(evo.Species, evo.Form, out var pi))
-            return; // should never happen.
+            return;
 
         for (int i = result.Length - 1; i >= 0; i--)
         {
@@ -87,7 +108,7 @@ public sealed class LearnGroup8 : ILearnGroup
                 continue;
 
             var move = current[i];
-            var chk = game.GetCanLearn(pk, pi, evo, move);
+            var chk = game.GetCanLearn(pk, pi, evo, move, type, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }

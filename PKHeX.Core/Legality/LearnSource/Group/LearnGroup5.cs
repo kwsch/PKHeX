@@ -13,11 +13,11 @@ public sealed class LearnGroup5 : ILearnGroup
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup4.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen5.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen5;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i);
+            Check(result, current, pk, evos[i], i, option);
 
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
@@ -59,12 +59,30 @@ public sealed class LearnGroup5 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option)
+    {
+        if (evo.Species is not ((int)Species.Deoxys or (int)Species.Giratina or (int)Species.Shaymin))
+        {
+            CheckInternal(result, current, pk, evo, stage, option);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource5B2W2.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            CheckInternal(result, current, pk, evo with {Form = (byte)i}, stage, option);
+    }
+
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option)
     {
         var b2w2 = LearnSource5B2W2.Instance;
         var species = evo.Species;
         if (!b2w2.TryGetPersonal(species, evo.Form, out var b2w2_pi))
-            return; // should never happen.
+            return;
 
         var bw = LearnSource5BW.Instance;
 
@@ -75,14 +93,14 @@ public sealed class LearnGroup5 : ILearnGroup
 
             // Level Up moves are different for each game, but others (TM/Tutor) are same.
             var move = current[i];
-            var chk = b2w2.GetCanLearn(pk, b2w2_pi, evo, move);
+            var chk = b2w2.GetCanLearn(pk, b2w2_pi, evo, move, option: option);
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
 
-            chk = bw.GetCanLearn(pk, b2w2_pi, evo, move, MoveSourceType.LevelUp);
+            chk = bw.GetCanLearn(pk, b2w2_pi, evo, move, MoveSourceType.LevelUp, option: option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }

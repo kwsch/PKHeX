@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Encounters6;
@@ -75,9 +75,7 @@ public static class MemoryPermissions
 
     private static bool IsOtherFormMove(PKM pk, EvoCriteria[] evos, int move, int generation, GameVersion version, MoveSourceType types)
     {
-        if (!Legal.FormChangeMoves.TryGetValue(pk.Species, out var criteria))
-            return false;
-        if (!criteria(generation, pk.Form))
+        if (!FormChangeUtil.ShouldIterateForms((ushort)pk.Species, (byte)pk.Form, generation, LearnOption.AtAnyTime))
             return false;
         var list = new List<int>(8);
         MoveList.GetValidMovesAllForms(pk, evos, version, generation, types, false, pk.Species, list);

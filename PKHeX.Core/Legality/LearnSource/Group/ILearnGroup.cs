@@ -17,5 +17,5 @@ public interface ILearnGroup
     /// </summary>
     bool HasVisited(PKM pk, EvolutionHistory history);
 
-    bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc);
+    bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current);
 }

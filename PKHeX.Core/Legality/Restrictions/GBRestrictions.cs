@@ -153,7 +153,7 @@ internal static class GBRestrictions
         var hashMoves = new HashSet<int>();
         foreach (var m in moves)
             hashMoves.Add(m);
-        
+
         moves1.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
         moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
         return new[] { moves1, moves2 };

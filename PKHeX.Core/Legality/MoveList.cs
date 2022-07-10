@@ -223,7 +223,7 @@ internal static class MoveList
         var r = new List<int> { 0 };
         int species = pk.Species;
 
-        if (FormChangeMovesRetain.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
+        if (FormChangeUtil.IterateAllForms(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             return GetValidMovesAllForms(pk, chain, version, generation, types, RemoveTransferHM, species, r);
 
         // Generation 1 & 2 do not always have move relearning capability, so the bottom bound for learnable indexes needs to be determined.

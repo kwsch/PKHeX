@@ -29,18 +29,18 @@ public sealed class LearnSource1RB : ILearnSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
+        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+            return new(TMHM, Game);
+
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+            return new (Tutor, Game);
+
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var info = MoveLevelUp.GetIsLevelUp1(evo.Species, evo.Form, move, evo.LevelMax, evo.LevelMin, RD);
             if (info != default)
                 return new(LevelUp, Game, (byte)info.Level);
         }
-
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return new(TMHM, Game);
-
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
-            return new (Tutor, Game);
 
         return default;
     }

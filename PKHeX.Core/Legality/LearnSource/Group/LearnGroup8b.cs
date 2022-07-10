@@ -13,7 +13,7 @@ public sealed class LearnGroup8b : ILearnGroup
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen8b.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen8b;
         for (var i = 0; i < evos.Length; i++)

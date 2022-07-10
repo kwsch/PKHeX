@@ -10,16 +10,15 @@ public sealed class LearnGroup2 : ILearnGroup
     public static readonly LearnGroup2 Instance = new();
     private const int Generation = 2;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
     {
-        if (enc.Generation != 1 && history.Gen1.Length != 0 && !pk.Korean)
-            return LearnGroup1.Instance;
-        return null;
-    }
+        EntityContext.Gen1 => null,
+        _ =>  enc.Generation == 2 && !pk.Korean && history.Gen1.Length != 0 ? LearnGroup1.Instance : null,
+    };
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen2.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen2;
         for (var i = 0; i < evos.Length; i++)
@@ -77,14 +76,15 @@ public sealed class LearnGroup2 : ILearnGroup
 
         for (int i = result.Length - 1; i >= 0; i--)
         {
-            if (result[i].Valid)
+            ref var entry = ref result[i];
+            if (entry.Valid && entry.Generation > 2)
                 continue;
 
             var move = current[i];
             var chk = gs.GetCanLearn(pk, gp, evo, move);
-            if (chk != default)
+            if (chk != default && GetIsPreferable(entry, chk, stage))
             {
-                result[i] = new(chk, (byte)stage, Generation);
+                entry = new(chk, (byte)stage, Generation);
                 continue;
             }
 
@@ -92,8 +92,28 @@ public sealed class LearnGroup2 : ILearnGroup
                 continue;
 
             chk = c.GetCanLearn(pk, cp, evo, move);
-            if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+            if (chk != default && GetIsPreferable(entry, chk, stage))
+                entry = new(chk, (byte)stage, Generation);
         }
+    }
+
+    private static bool GetIsPreferable(in MoveResult entry, in MoveLearnInfo chk, int stage)
+    {
+        if (entry.Info.Method is LearnMethod.LevelUp)
+        {
+            if (chk.Method is not LearnMethod.LevelUp)
+                return true;
+            if (entry.EvoStage == stage)
+                return entry.Info.Argument < chk.Argument;
+        }
+        else if (entry.Info.Method.IsEggSource())
+        {
+            return true;
+        }
+        else if (chk.Method is LearnMethod.LevelUp)
+        {
+            return false;
+        }
+        return entry.EvoStage < stage;
     }
 }

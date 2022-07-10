@@ -18,7 +18,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     private const GameVersion Game = ORAS;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {

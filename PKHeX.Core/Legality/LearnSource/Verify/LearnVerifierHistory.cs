@@ -23,7 +23,7 @@ internal static class LearnVerifierHistory
                 MarkRelearnMoves(result, current, pk);
 
             // Knock off initial moves if available.
-            MarkSpecialMoves(result, current, enc);
+            MarkSpecialMoves(result, current, enc, pk);
         }
 
         // Iterate games to identify move sources.
@@ -38,13 +38,12 @@ internal static class LearnVerifierHistory
         }
     }
 
-    private static void MarkSpecialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
+    private static void MarkSpecialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
     {
-        if (enc is not IMoveset { Moves.Count: not 0 } m)
-            return;
-
-        var moves = m.Moves;
-        MarkInitialMoves(result, current, (int[])moves);
+        if (enc is IMoveset { Moves: int[] {Length: not 0} moves})
+            MarkInitialMoves(result, current, moves);
+        else if (enc is EncounterSlot8GO g)
+            MarkInitialMoves(result, current, g.GetInitialMoves(pk.Met_Level));
     }
 
     private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)

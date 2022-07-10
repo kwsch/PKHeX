@@ -13,7 +13,7 @@ public sealed class LearnGroup4 : ILearnGroup
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup3.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen4.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen4;
         for (var i = 0; i < evos.Length; i++)
@@ -68,6 +68,24 @@ public sealed class LearnGroup4 : ILearnGroup
     }
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
+    {
+        if (evo.Species is not ((int)Species.Deoxys or (int)Species.Giratina or (int)Species.Shaymin))
+        {
+            CheckInternal(result, current, pk, evo, stage);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource4HGSS.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage);
+    }
+
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
     {
         var hgss = LearnSource4HGSS.Instance;
         var species = evo.Species;

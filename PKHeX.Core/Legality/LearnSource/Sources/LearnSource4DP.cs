@@ -20,7 +20,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
     private const int Generation = 4;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {

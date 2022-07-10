@@ -118,10 +118,12 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = MoveLevelUp.GetEncounterMoves(pk, level, OriginGroup);
+        var moves = GetInitialMoves(level);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }
+
+    public ReadOnlySpan<int> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

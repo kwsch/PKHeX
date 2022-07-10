@@ -46,6 +46,9 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
+        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+            return new(TMHM, Game);
+
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
@@ -53,9 +56,6 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
             if (level != -1 && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
         }
-
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
-            return new(TMHM, Game);
 
         return default;
     }
