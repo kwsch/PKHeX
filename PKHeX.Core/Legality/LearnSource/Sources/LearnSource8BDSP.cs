@@ -111,7 +111,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(evo.LevelMin, evo.LevelMax))
+            foreach (var move in learn.GetMoves(evo.LevelMax))
                 yield return move;
         }
 

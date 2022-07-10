@@ -17,6 +17,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
     private static readonly EggMoves7[] EggMoves = Legal.EggMovesUSUM;
     private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;
     private const GameVersion Game = USUM;
+    private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
@@ -51,7 +52,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
             if (level != -1) // Can relearn at any level!
-                return new(LevelUp, Game, (byte)level);
+                return new(LevelUp, Game, 1);
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
@@ -127,7 +128,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(evo.LevelMin, 100))
+            foreach (var move in learn.GetMoves(ReminderBonus))
                 yield return move;
         }
 
