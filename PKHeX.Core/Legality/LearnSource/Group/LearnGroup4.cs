@@ -33,7 +33,7 @@ public sealed class LearnGroup4 : ILearnGroup
             var inst = LearnSource4HGSS.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
         else if (egg.Version is GameVersion.Pt)
@@ -41,7 +41,7 @@ public sealed class LearnGroup4 : ILearnGroup
             var inst = LearnSource4Pt.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
         else
@@ -49,7 +49,7 @@ public sealed class LearnGroup4 : ILearnGroup
             var inst = LearnSource4DP.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
 

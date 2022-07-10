@@ -115,8 +115,13 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(ReminderBonus))
-                yield return move;
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(ReminderBonus);
+            if (hasMoves)
+            {
+                var moves = learn.Moves;
+                for (int i = end; i >= start; i--)
+                    yield return moves[i];
+            }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))

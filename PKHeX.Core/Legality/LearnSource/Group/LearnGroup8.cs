@@ -61,7 +61,7 @@ public sealed class LearnGroup8 : ILearnGroup
         var game = LearnSource8SWSH.Instance;
         ReadOnlySpan<int> eggMoves = game.GetEggMoves(egg.Species, egg.Form);
         ReadOnlySpan<int> levelMoves = egg.CanInheritMoves
-            ? game.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+            ? game.GetLearnset(egg.Species, egg.Form).Moves
             : ReadOnlySpan<int>.Empty;
 
         for (var i = result.Length - 1; i >= 0; i--)

@@ -40,7 +40,7 @@ public sealed class LearnGroup7 : ILearnGroup
             var inst = LearnSource7USUM.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
         else
@@ -48,7 +48,7 @@ public sealed class LearnGroup7 : ILearnGroup
             var inst = LearnSource7SM.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
 

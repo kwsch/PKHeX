@@ -72,9 +72,14 @@ public sealed class LearnSource1RB : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            var moves = MoveLevelUp.GetMovesLevelUp1(evo.Species, evo.Form, evo.LevelMax, evo.LevelMin, RD);
-            foreach (var move in moves)
-                yield return move;
+            var learn = GetLearnset(evo.Species, evo.Form);
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, evo.LevelMin);
+            if (hasMoves)
+            {
+                var moves = learn.Moves;
+                for (int i = end; i >= start; i--)
+                    yield return moves[i];
+            }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))

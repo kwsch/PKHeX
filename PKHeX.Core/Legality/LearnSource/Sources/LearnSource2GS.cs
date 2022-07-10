@@ -77,11 +77,16 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
         {
             bool removeVC = pk.Format == 1 || pk.VC1;
             var learn = GetLearnset(evo.Species, evo.Form);
-            foreach (var move in learn.GetMoves(evo.LevelMin, evo.LevelMax))
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMin, evo.LevelMax);
+            if (hasMoves)
             {
-                if (removeVC && move >= Legal.MaxMoveID_1)
-                    continue;
-                yield return move;
+                var moves = learn.Moves;
+                for (int i = end; i >= start; i--)
+                {
+                    var move = moves[i];
+                    if (!removeVC || move < Legal.MaxMoveID_1)
+                        yield return move;
+                }
             }
         }
 

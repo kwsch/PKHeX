@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class LearnSource1YW : ILearnSource
 {
-    public static readonly LearnSource1RB Instance = new();
+    public static readonly LearnSource1YW Instance = new();
     private static readonly PersonalTable Personal = PersonalTable.Y;
     private static readonly Learnset[] Learnsets = Legal.LevelUpY;
     private const GameVersion Game = YW;
@@ -72,9 +72,14 @@ public sealed class LearnSource1YW : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            var moves = MoveLevelUp.GetMovesLevelUp1(evo.Species, evo.Form, evo.LevelMax, evo.LevelMin, YW);
-            foreach (var move in moves)
-                yield return move;
+            var learn = GetLearnset(evo.Species, evo.Form);
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, evo.LevelMin);
+            if (hasMoves)
+            {
+                var moves = learn.Moves;
+                for (int i = end; i >= start; i--)
+                    yield return moves[i];
+            }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
@@ -93,5 +98,17 @@ public sealed class LearnSource1YW : ILearnSource
             if (GetIsTutor(evo.Species, (int)Move.Surf))
                 yield return (int)Move.Surf;
         }
+    }
+
+    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    {
+        var species = enc.Species;
+        if (!TryGetPersonal(species, 0, out var personal))
+            return;
+
+        var pi = (PersonalInfoG1)personal;
+        var learn = Learnsets[species];
+        pi.GetMoves(init);
+        learn.SetEncounterMoves(enc.LevelMin, init, 4 - init.Count(0));
     }
 }

@@ -33,7 +33,7 @@ public sealed class LearnGroup5 : ILearnGroup
             var inst = LearnSource5B2W2.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
         else
@@ -41,7 +41,7 @@ public sealed class LearnGroup5 : ILearnGroup
             var inst = LearnSource5BW.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).GetAllMoves()
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
                 : ReadOnlySpan<int>.Empty;
         }
 
