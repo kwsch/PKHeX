@@ -22,15 +22,38 @@ public sealed class LearnGroup3 : ILearnGroup
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
+        if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+            CheckNincadaMoves(result, current);
+
         return MoveResult.AllParsed(result);
+    }
+
+    private static void CheckNincadaMoves(Span<MoveResult> result, ReadOnlySpan<int> current)
+    {
     }
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
     {
         ReadOnlySpan<int> eggMoves, levelMoves;
-        if (egg.Version is GameVersion.C)
+        if (egg.Version is GameVersion.E)
         {
-            var inst = LearnSource2C.Instance;
+            var inst = LearnSource3E.Instance;
+            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
+            levelMoves = egg.CanInheritMoves
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
+                : ReadOnlySpan<int>.Empty;
+        }
+        else if (egg.Version is GameVersion.FR)
+        {
+            var inst = LearnSource3FR.Instance;
+            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
+            levelMoves = egg.CanInheritMoves
+                ? inst.GetLearnset(egg.Species, egg.Form).Moves
+                : ReadOnlySpan<int>.Empty;
+        }
+        else if (egg.Version is GameVersion.LG)
+        {
+            var inst = LearnSource3LG.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves
@@ -38,7 +61,7 @@ public sealed class LearnGroup3 : ILearnGroup
         }
         else
         {
-            var inst = LearnSource2GS.Instance;
+            var inst = LearnSource3RS.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves

@@ -22,7 +22,14 @@ public sealed class LearnGroup4 : ILearnGroup
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
+        if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+            CheckNincadaMoves(result, current);
+
         return MoveResult.AllParsed(result);
+    }
+
+    private static void CheckNincadaMoves(Span<MoveResult> result, ReadOnlySpan<int> current)
+    {
     }
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
