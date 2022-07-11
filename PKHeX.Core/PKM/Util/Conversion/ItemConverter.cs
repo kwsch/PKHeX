@@ -140,7 +140,7 @@ internal static class ItemConverter
     /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</br>
     /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/data/items/catch_rate_items.asm#L5-L17</br>
     /// </remarks>
-    private static int GetTeruSamaItem(int value) => value switch
+    private static int GetTeruSamaItem(byte value) => value switch
     {
         0x19 => 0x92, // Leftovers
         0x2D => 0x53, // Bitter Berry
@@ -154,9 +154,9 @@ internal static class ItemConverter
     /// </summary>
     /// <param name="value">Gen1 Item</param>
     /// <returns>Gen2 Item</returns>
-    internal static int GetItemFuture1(int value)
+    internal static int GetItemFuture1(byte value)
     {
-        if (!IsItemTransferable12((ushort) value))
+        if (!IsItemTransferable12(value))
             return GetTeruSamaItem(value);
         return value;
     }

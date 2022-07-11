@@ -12,12 +12,6 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class GBRestrictions
 {
-    private static readonly int[] Stadium_CatchRate =
-    {
-        167, // Normal Box
-        168, // Gorgeous Box
-    };
-
     private static readonly HashSet<int> Stadium_GiftSpecies = new()
     {
         (int)Bulbasaur,
@@ -69,7 +63,7 @@ internal static class GBRestrictions
         (int)Haunter,
     };
 
-    public static bool RateMatchesEncounter(int species, GameVersion version, int rate)
+    public static bool RateMatchesEncounter(int species, GameVersion version, byte rate)
     {
         if (version.Contains(YW))
         {
@@ -81,7 +75,7 @@ internal static class GBRestrictions
         return rate == PersonalTable.RB[species].CatchRate;
     }
 
-    private static bool GetCatchRateMatchesPreEvolution(PK1 pk, int catch_rate)
+    private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
         var table = EvolutionTree.Evolves1;
@@ -100,7 +94,7 @@ internal static class GBRestrictions
         if (catch_rate == 204 && (species is (int)Krabby or (int)Kingler))
             return true;
 
-        if (Stadium_GiftSpecies.Contains(species) && Stadium_CatchRate.Contains(catch_rate))
+        if (catch_rate is (167 or 168) && Stadium_GiftSpecies.Contains(species))
             return true;
 
         return false;
@@ -164,11 +158,10 @@ internal static class GBRestrictions
             return PotentialGBOrigin.Either;
 
         bool matchAny = GetCatchRateMatchesPreEvolution(pk, catch_rate);
-
         if (!matchAny)
             return PotentialGBOrigin.Either;
 
-        if (HeldItems_GSC.Contains((ushort)catch_rate))
+        if (HeldItems_GSC.Contains(catch_rate))
             return PotentialGBOrigin.Either;
 
         return PotentialGBOrigin.Gen1Only;
@@ -227,10 +220,7 @@ internal static class GBRestrictions
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
     };
 
-    public static bool IsTradebackCatchRate(int rate)
-    {
-        return HeldItems_GSC.Contains((ushort)rate);
-    }
+    public static bool IsTradebackCatchRate(byte rate) => HeldItems_GSC.Contains(rate);
 }
 
 public enum PotentialGBOrigin

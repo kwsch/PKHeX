@@ -210,7 +210,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
+            if (catch_rate == 0 || Legal.HeldItems_GSC.Contains(catch_rate))
                 return GetValid(LG1CatchRateMatchTradeback);
             if (timeCapsuleEvalution == TimeCapsuleEvaluation.BadCatchRate)
                 return GetInvalid(LG1CatchRateItem);

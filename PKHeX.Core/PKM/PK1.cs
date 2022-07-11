@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -45,7 +45,7 @@ public sealed class PK1 : GBPKML
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
     public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
     public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
-    public int Catch_Rate { get => Data[7]; set => Data[7] = (byte)value; }
+    public byte Catch_Rate { get => Data[7]; set => Data[7] = value; }
     public override int Move1 { get => Data[8]; set => Data[8] = (byte)value; }
     public override int Move2 { get => Data[9]; set => Data[9] = (byte)value; }
     public override int Move3 { get => Data[10]; set => Data[10] = (byte)value; }
@@ -80,9 +80,9 @@ public sealed class PK1 : GBPKML
     public override int Stat_SPD { get => Stat_SPC; set { } }
     #endregion
 
-    public static bool IsCatchRateHeldItem(int rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
+    public static bool IsCatchRateHeldItem(byte rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, rate) >= 0;
 
-    private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, int rate)
+    private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, byte rate)
     {
         for (int species = baseSpecies; species <= finalSpecies; species++)
         {
@@ -108,10 +108,10 @@ public sealed class PK1 : GBPKML
             return;
 
         // Matches nothing possible; just reset to current Species' rate.
-        Catch_Rate = PersonalTable.RB[value].CatchRate;
+        Catch_Rate = (byte)PersonalTable.RB[value].CatchRate;
     }
 
-    private static bool IsValidCatchRateAnyPreEvo(int species, int rate)
+    private static bool IsValidCatchRateAnyPreEvo(int species, byte rate)
     {
         if (IsCatchRateHeldItem(rate))
             return true;

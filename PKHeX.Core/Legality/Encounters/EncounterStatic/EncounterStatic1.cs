@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 1 Static Encounter
@@ -30,7 +30,7 @@ public record EncounterStatic1 : EncounterStatic
 
         // Encounters can have different Catch Rates (RBG vs Y)
         var table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
-        pk1.Catch_Rate = table[Species].CatchRate;
+        pk1.Catch_Rate = (byte)table[Species].CatchRate;
     }
 
     protected override bool IsMatchLevel(PKM pk, EvoCriteria evo)
