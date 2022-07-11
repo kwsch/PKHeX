@@ -49,24 +49,33 @@ public static class AwakeningUtil
     {
         if (pk is not PB7 pb7)
             return;
+
         Span<byte> result = stackalloc byte[6];
         GetExpectedMinimumAVs(result, pb7);
 
         var rnd = Util.Rand;
-        int randClamp = max + 1;
         for (int i = 0; i < 6; i++)
-            result[i] = (byte)rnd.Next(result[i], randClamp);
+        {
+            var realMin = Math.Max(min, result[i]);
+            var realMax = Math.Min(result[i], max);
+            result[i] = (byte)rnd.Next(realMin, realMax + 1);
+        }
         AwakeningSetVisual(pb7, result);
     }
 
-    public static void AwakeningSetVisual(IAwakened pk, Span<byte> result)
+    /// <summary>
+    /// Sets the awakening values according to their displayed order.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    /// <param name="value"></param>
+    public static void AwakeningSetVisual(IAwakened pk, Span<byte> value)
     {
-        pk.AV_HP = result[0];
-        pk.AV_ATK = result[1];
-        pk.AV_DEF = result[2];
-        pk.AV_SPA = result[3];
-        pk.AV_SPD = result[4];
-        pk.AV_SPE = result[5];
+        pk.AV_HP = value[0];
+        pk.AV_ATK = value[1];
+        pk.AV_DEF = value[2];
+        pk.AV_SPA = value[3];
+        pk.AV_SPD = value[4];
+        pk.AV_SPE = value[5];
     }
 
     /// <summary>
@@ -157,6 +166,9 @@ public static class AwakeningUtil
 
     public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);
 
+    /// <summary>
+    /// Checks if the <see cref="current"/> has values greater or equal to the <see cref="initial"/>.
+    /// </summary>
     public static bool IsAwakeningAboveOrEqual(this IAwakened current, IAwakened initial)
     {
         if (current.AV_HP < initial.AV_HP)
@@ -174,6 +186,11 @@ public static class AwakeningUtil
         return true;
     }
 
+    /// <summary>
+    /// Updates the <see cref="result"/> span with the expected minimum values for each <see cref="IAwakened"/> index.
+    /// </summary>
+    /// <param name="result">Stat results</param>
+    /// <param name="pk">Entity to check</param>
     public static void GetExpectedMinimumAVs(Span<byte> result, PB7 pk)
     {
         // go park transfers have 2 AVs for all stats.
@@ -181,11 +198,15 @@ public static class AwakeningUtil
         if (pk.Version == (int)GameVersion.GO)
             result.Fill(2);
 
+        var start = pk.Met_Level;
+        var end = pk.CurrentLevel;
+        if (start == end)
+            return;
+
+        // Level up from met level to current level.
         var nature = pk.Nature;
         var character = pk.Characteristic;
         var ec = pk.EncryptionConstant;
-        var start = pk.Met_Level;
-        var end = pk.CurrentLevel;
 
         for (int i = start + 1; i <= end; i++)
         {
