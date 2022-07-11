@@ -66,10 +66,21 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
             return new(Tutor, Game);
 
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+            return new(Tutor, Game);
+
         if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
+    }
+
+    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    {
+        var tutor = Array.IndexOf(Legal.Tutors_SWSH_1, move);
+        if (tutor == -1)
+            return false;
+        return pi.SpecialTutors[0][tutor];
     }
 
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
@@ -174,7 +185,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             // Beams
             var permit = pi.TypeTutors;
@@ -184,10 +195,13 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                 if (permit[i])
                     yield return moveIDs[i];
             }
+        }
 
-            // US/UM Tutors
-            permit = pi.SpecialTutors[0];
-            moveIDs = Legal.Tutors_USUM;
+        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        {
+            // SW/SH Tutors
+            var permit = pi.SpecialTutors[0];
+            var moveIDs = Legal.Tutors_SWSH_1;
             for (int i = 0; i < permit.Length; i++)
             {
                 if (permit[i])

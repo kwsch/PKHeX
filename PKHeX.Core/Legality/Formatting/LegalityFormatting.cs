@@ -60,7 +60,7 @@ public static class LegalityFormatting
                 continue;
             var msg = move.Format(L_F0_M_1_2, i + 1);
             var gen = move.Generation;
-            if (currentFormat != gen)
+            if (currentFormat != gen && gen != 0)
                 msg += $" [Gen{gen}]";
             lines.Add(msg);
         }

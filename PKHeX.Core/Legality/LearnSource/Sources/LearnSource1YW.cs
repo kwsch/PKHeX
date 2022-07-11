@@ -111,6 +111,7 @@ public sealed class LearnSource1YW : ILearnSource
         var pi = (PersonalInfoG1)personal;
         var learn = Learnsets[species];
         pi.GetMoves(init);
-        learn.SetEncounterMoves(enc.LevelMin, init, 4 - init.Count(0));
+        var start = (4 - init.Count(0)) & 3;
+        learn.SetEncounterMoves(enc.LevelMin, init, start);
     }
 }

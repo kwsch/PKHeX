@@ -8,11 +8,12 @@ namespace PKHeX.Core;
 public sealed class LearnGroup1 : ILearnGroup
 {
     public static readonly LearnGroup1 Instance = new();
-    private const int Generation = 2;
+    private const int Generation = 1;
 
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
     {
         EntityContext.Gen1 when enc.Generation == 1 && pk is PK1 pk1 && HasDefinitelyVisitedGen2(pk1) => LearnGroup2.Instance,
+        EntityContext.Gen1 when enc.Generation == 2 => LearnGroup2.Instance,
         EntityContext.Gen2 => null,
         _ => enc.Generation == 1 ? LearnGroup2.Instance : null,
     };
@@ -21,7 +22,7 @@ public sealed class LearnGroup1 : ILearnGroup
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == 1)
+        if (enc.Generation == Generation)
             CheckEncounterMoves(result, current, enc, pk);
 
         var evos = history.Gen1;
@@ -83,30 +84,34 @@ public sealed class LearnGroup1 : ILearnGroup
 
     private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PK1 pk)
     {
-        var present = current.Length - current.Count(0);
-        if (present == 4)
+        var occupied = current.Length - current.Count(0);
+        if (occupied == 4)
             return;
 
         Span<int> moves = stackalloc int[4];
         GetEncounterMoves(enc, moves);
 
         // Count the amount of initial moves not present in the current list.
-        int count = CountPresent(current, moves);
+        int count = CountMissing(current, moves);
         if (count == 0)
             return;
 
         // There are ways to skip level up moves by leveling up more than once.
+        // Evolving at targeted levels can evade learning moves too.
         // https://bulbapedia.bulbagarden.net/wiki/List_of_glitches_(Generation_I)#Level-up_learnset_skipping
-        // Evolution canceling also leads to incorrect assumptions in the above used method, so just indicate them as fishy in that case.
-        // Not leveled up? Not possible to be missing the move slot.
-        var level = pk.CurrentLevel;
-        var invalid = enc.LevelMin == level;
-        var msg = invalid ? MoveResult.EmptyInvalid : MoveResult.EmptyFishy;
-        for (int i = present; i < present + count; i++)
-            result[i] = msg;
+        // Just flag missing initial move slots.
+        int ctr = count;
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (current[i] != 0)
+                continue;
+            result[i] = MoveResult.EmptyInvalid;
+            if (--ctr == 0)
+                break;
+        }
     }
 
-    private static int CountPresent(ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
+    private static int CountMissing(ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
     {
         int count = 0;
         foreach (int expect in moves)
@@ -186,6 +191,9 @@ public sealed class LearnGroup1 : ILearnGroup
 
     private static bool GetIsPreferable(in MoveResult entry, in MoveLearnInfo chk, int stage)
     {
+        if (entry == default)
+            return true;
+
         if (entry.Info.Method is LearnMethod.LevelUp)
         {
             if (chk.Method is not LearnMethod.LevelUp)

@@ -22,7 +22,7 @@ public sealed class LearnGroup7 : ILearnGroup
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
         var mode = GetCheckMode(enc, pk);
-        var evos = history.Gen6;
+        var evos = history.Gen7;
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, option, mode);
 

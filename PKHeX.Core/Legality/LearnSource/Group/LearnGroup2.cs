@@ -12,6 +12,7 @@ public sealed class LearnGroup2 : ILearnGroup
 
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
     {
+        EntityContext.Gen2 when enc.Generation == 1 => LearnGroup1.Instance,
         EntityContext.Gen1 => null,
         _ =>  enc.Generation == 2 && !pk.Korean && history.Gen1.Length != 0 ? LearnGroup1.Instance : null,
     };
@@ -20,6 +21,9 @@ public sealed class LearnGroup2 : ILearnGroup
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
     {
+        if (enc.Generation == Generation)
+            CheckEncounterMoves(result, current, enc);
+
         var evos = history.Gen2;
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
@@ -28,6 +32,24 @@ public sealed class LearnGroup2 : ILearnGroup
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
+    }
+
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
+    {
+        Span<int> moves = stackalloc int[4];
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+            x.CopyTo(moves);
+        else
+            GetEncounterMoves(enc, moves);
+        LearnVerifierHistory.MarkInitialMoves(result, current, moves);
+    }
+
+    private static void GetEncounterMoves(IEncounterTemplate enc, Span<int> moves)
+    {
+        if (enc.Version is GameVersion.C or GameVersion.GSC)
+            LearnSource2C.GetEncounterMoves(enc, moves);
+        else
+            LearnSource2GS.GetEncounterMoves(enc, moves);
     }
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)

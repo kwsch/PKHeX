@@ -102,4 +102,11 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
             }
         }
     }
+
+    public static void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    {
+        var species = enc.Species;
+        var learn = Learnsets[species];
+        learn.SetEncounterMoves(enc.LevelMin, init);
+    }
 }

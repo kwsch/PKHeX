@@ -68,20 +68,20 @@ internal static class LearnVerifierHistory
 
     public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
     {
-        for (int i = current.Length - 1; i >= 0; i--)
+        // If the initial move is present in the current moves, mark that current move index as an initial move.
+        foreach (var move in moves)
         {
-            if (result[i].Valid)
-                continue;
-
-            var move = moves[i];
+            if (move == 0)
+                break;
             var index = current.IndexOf(move);
-            if (index >= 0)
-                result[i] = new MoveResult(LearnMethod.Initial);
+            if (index != -1)
+                result[index] = new MoveResult(LearnMethod.Initial);
         }
     }
 
     private static void MarkEmptySlots(Span<MoveResult> result, ReadOnlySpan<int> current)
     {
+        // Iterate from last move, marking empty slots, until we hit a non-zero move ID.
         for (int i = current.Length - 1; i >= 0; i--)
         {
             var move = current[i];

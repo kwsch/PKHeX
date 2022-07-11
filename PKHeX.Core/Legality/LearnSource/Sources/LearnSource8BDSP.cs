@@ -31,17 +31,21 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
     public bool GetIsEggMove(int species, int form, int move)
     {
-        if ((uint)species > MaxSpecies)
+        // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
+        var arr = EggMoves;
+        if ((uint)species >= arr.Length)
             return false;
-        var moves = EggMoves[species];
+        var moves = arr[species];
         return moves.GetHasEggMove(move);
     }
 
     public ReadOnlySpan<int> GetEggMoves(int species, int form)
     {
-        if ((uint)species > MaxSpecies)
+        // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
+        var arr = EggMoves;
+        if ((uint)species >= arr.Length)
             return ReadOnlySpan<int>.Empty;
-        return EggMoves[species].Moves;
+        return arr[species].Moves;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
