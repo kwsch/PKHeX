@@ -12,8 +12,8 @@ public sealed class LearnGroup7 : ILearnGroup
 
     public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation switch
     {
-        1 => history.Gen2.Length != 0 ? LearnGroup2.Instance : LearnGroup1.Instance,
-        2 => history.Gen1.Length != 0 && !pk.Korean ? LearnGroup1.Instance : LearnGroup2.Instance,
+        1 when history.Gen1.Length != 0 => LearnGroup1.Instance,
+        2 when history.Gen2.Length != 0 => LearnGroup2.Instance,
         _ => null,
     };
 

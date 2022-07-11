@@ -26,19 +26,19 @@ internal static class LearnVerifierEgg
     private static void VerifyFromEncounter(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
     {
         ReadOnlySpan<int> initial;
-        if (enc is IMoveset { Moves.Count: not 0 } m)
-            initial = (int[])m.Moves;
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+            initial = x;
         else
             initial = GameData.GetLearnset(enc.Version, enc.Species, enc.Form).GetBaseEggMoves(enc.LevelMin);
         VerifyMovesInitial(result, current, initial);
     }
 
-    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
+    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> initial)
     {
         // Check that the sequence of current move matches the initial move sequence.
-        for (int i = 0; i < moves.Length; i++)
-            result[i] = GetMethodInitial(current[i], moves[i]);
-        for (int i = moves.Length; i < current.Length; i++)
+        for (int i = 0; i < initial.Length; i++)
+            result[i] = GetMethodInitial(current[i], initial[i]);
+        for (int i = initial.Length; i < current.Length; i++)
             result[i] = current[i] == 0 ? MoveResult.Empty : MoveResult.Unobtainable(0);
     }
 
@@ -46,8 +46,8 @@ internal static class LearnVerifierEgg
     {
         if (enc is EncounterEgg)
             VerifyMatchesRelearn(result, current, pk);
-        else if (enc is IMoveset { Moves.Count: not 0 } m)
-            VerifyMovesInitial(result, current, (int[])m.Moves);
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+            VerifyMovesInitial(result, current, x);
         else
             VerifyFromEncounter(result, current, enc);
     }
@@ -59,10 +59,10 @@ internal static class LearnVerifierEgg
             result[i] = GetMethodRelearn(current[i], pk.GetRelearnMove(i));
     }
 
-    private static MoveResult GetMethodInitial(int current, int relearn)
+    private static MoveResult GetMethodInitial(int current, int initial)
     {
-        if (current != relearn)
-            return MoveResult.Unobtainable(relearn);
+        if (current != initial)
+            return MoveResult.Unobtainable(initial);
         if (current == 0)
             return MoveResult.Empty;
         return MoveResult.Relearn;

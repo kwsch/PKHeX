@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -17,9 +17,9 @@ public class EvolutionHistory
     public EvoCriteria[] Gen5  = NONE;
     public EvoCriteria[] Gen6  = NONE;
     public EvoCriteria[] Gen7  = NONE;
-    public EvoCriteria[] Gen7b = NONE;
     public EvoCriteria[] Gen8  = NONE;
 
+    public EvoCriteria[] Gen7b => Gen7; // future: separate field instead of copy
     public EvoCriteria[] Gen8a => Gen8; // future: separate field instead of copy
     public EvoCriteria[] Gen8b => Gen8; // future: separate field instead of copy
 
