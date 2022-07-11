@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using static PKHeX.Core.Legal;
@@ -9,246 +9,25 @@ namespace PKHeX.Core;
 public static class MoveLevelUp
 {
     private static readonly LearnLookup
-        LearnLA   = new(PersonalTable.LA,   LevelUpLA,   PLA),
-        LearnBDSP = new(PersonalTable.BDSP, LevelUpBDSP, BDSP),
-        LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH, SWSH),
-        LearnSM   = new(PersonalTable.SM,   LevelUpSM,   SM),
-        LearnUSUM = new(PersonalTable.USUM, LevelUpUSUM, USUM),
-        LearnGG   = new(PersonalTable.GG,   LevelUpGG,   Gen7b),
-        LearnXY   = new(PersonalTable.XY,   LevelUpXY,   XY),
-        LearnAO   = new(PersonalTable.AO,   LevelUpAO,   ORAS),
-        LearnBW   = new(PersonalTable.BW,   LevelUpBW,   BW),
-        LearnB2W2 = new(PersonalTable.B2W2, LevelUpB2W2, B2W2),
-        LearnDP   = new(PersonalTable.DP,   LevelUpDP,   DP),
-        LearnPt   = new(PersonalTable.Pt,   LevelUpPt,   Pt),
-        LearnHGSS = new(PersonalTable.HGSS, LevelUpHGSS, HGSS),
-        LearnRSE  = new(PersonalTable.RS,   LevelUpRS,   RSE),
-        LearnFRLG = new(PersonalTable.LG,   LevelUpLG,   FRLG),
-        LearnGS   = new(PersonalTable.GS,   LevelUpGS,   GS),
-        LearnC    = new(PersonalTable.C,    LevelUpC,    C),
-        LearnRB   = new(PersonalTable.RB,   LevelUpRB,   RB),
-        LearnY    = new(PersonalTable.Y,    LevelUpY,    YW);
-
-    public static LearnVersion GetIsLevelUpMove(PKM pk, int species, int form, int maxLevel, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
-    {
-        var restrict = pk.IsMovesetRestricted();
-        if (restrict.IsRestricted)
-            version = restrict.Game;
-
-        return generation switch
-        {
-            1 => GetIsLevelUp1(species, form, move, maxLevel, minlvlG1, version),
-            2 when move > MaxMoveID_1 && pk.LearnMovesNew2Disallowed() => LearnNONE,
-            2 => GetIsLevelUp2(species, form, move, maxLevel, minlvlG2, version, pk.Korean),
-            3 => GetIsLevelUp3(species, form, move, maxLevel, version),
-            4 => GetIsLevelUp4(species, form, move, maxLevel, version),
-            5 => GetIsLevelUp5(species, form, move, maxLevel, version),
-            6 => GetIsLevelUp6(species, form, move, maxLevel, version),
-            7 => GetIsLevelUp7(species, form, move, (pk.LGPE || pk.GO) ? (GameVersion)pk.Version : version), // move reminder can give any move 1-100
-            8 => GetIsLevelUp8(species, form, move, maxLevel, version),
-            _ => LearnNONE,
-        };
-    }
-
-    internal static LearnVersion GetIsLevelUp1(int species, int form, int move, int maxLevel, int minLevel, GameVersion ver = Any)
-    {
-        if (move > MaxMoveID_1)
-            return LearnNONE;
-
-        switch (ver)
-        {
-            case Any: case RBY:
-                var first = LearnRB.GetIsLevelUpG1(species, form, move, maxLevel, minLevel);
-                var second = LearnY.GetIsLevelUpG1(species, form, move, maxLevel, minLevel);
-                if (!first.IsLevelUp)
-                    return second;
-                if (!second.IsLevelUp)
-                    return first;
-                return first.Level > second.Level ? second : first;
-
-            case RD or BU or GN or RB:
-                return LearnRB.GetIsLevelUpG1(species, form, move, maxLevel, minLevel);
-            case YW:
-                return LearnY.GetIsLevelUpG1(species, form, move, maxLevel, minLevel);
-        }
-
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp2(int species, int form, int move, int maxLevel, int minLevel, GameVersion ver = Any, bool korean = false)
-    {
-        // No Korean Crystal
-        switch (ver)
-        {
-            case Any: case GSC:
-                var first = LearnGS.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
-                if (first.IsLevelUp || korean)
-                    return first;
-                return LearnC.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
-
-            case GD or SI or GS:
-                return LearnGS.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
-            case C when !korean:
-                return LearnC.GetIsLevelUpMin(species, move, maxLevel, minLevel, form);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp3(int species, int form, int move, int lvlLevel, GameVersion ver = Any)
-    {
-        if (species == (int)Species.Deoxys)
-            return GetIsLevelUp3Deoxys(form, move, lvlLevel, ver);
-
-        // Emerald level up tables are equal to R/S level up tables
-        switch (ver)
-        {
-            case Any:
-                var first = LearnRSE.GetIsLevelUp(species, form, move, lvlLevel);
-                if (first.IsLevelUp)
-                    return first;
-                return LearnFRLG.GetIsLevelUp(species, form, move, lvlLevel);
-
-            case R or S or E or RS or RSE:
-                return LearnRSE.GetIsLevelUp(species, form, move, lvlLevel);
-            case FR or LG or FRLG:
-                return LearnFRLG.GetIsLevelUp(species, form, move, lvlLevel);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp4(int species, int form, int move, int maxLevel, GameVersion ver = Any)
-    {
-        switch (ver)
-        {
-            case Any: case DPPt:
-                var first = LearnDP.GetIsLevelUp(species, form, move, maxLevel);
-                if (first.IsLevelUp)
-                    return first;
-                var second = LearnPt.GetIsLevelUp(species, form, move, maxLevel);
-                if (second.IsLevelUp)
-                    return second;
-                if (ver == DPPt) // stop here
-                    return LearnNONE;
-                return LearnHGSS.GetIsLevelUp(species, form, move, maxLevel);
-
-            case D or P or DP:
-                return LearnDP.GetIsLevelUp(species, form, move, maxLevel);
-            case Pt:
-                return LearnPt.GetIsLevelUp(species, form, move, maxLevel);
-            case HG or SS or HGSS:
-                return LearnHGSS.GetIsLevelUp(species, form, move, maxLevel);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp5(int species, int form, int move, int maxLevel, GameVersion ver = Any)
-    {
-        switch (ver)
-        {
-            case Any:
-                var first = LearnBW.GetIsLevelUp(species, form, move, maxLevel);
-                if (first.IsLevelUp && species != 646)  // Kyurem moves are same for both versions, but form movepool not present.
-                    return first;
-                return LearnB2W2.GetIsLevelUp(species, form, move, maxLevel);
-            case B or W or BW:
-                return LearnBW.GetIsLevelUp(species, form, move, maxLevel);
-            case B2 or W2 or B2W2:
-                return LearnB2W2.GetIsLevelUp(species, form, move, maxLevel);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp6(int species, int form, int move, int maxLevel, GameVersion ver = Any)
-    {
-        switch (ver)
-        {
-            case Any:
-                var first = LearnXY.GetIsLevelUp(species, form, move, maxLevel);
-                if (first.IsLevelUp)
-                    return first;
-                return LearnAO.GetIsLevelUp(species, form, move, maxLevel);
-
-            case X or Y or XY:
-                return LearnXY.GetIsLevelUp(species, form, move, maxLevel);
-            case OR or AS or ORAS:
-                return LearnAO.GetIsLevelUp(species, form, move, maxLevel);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp7(int species, int form, int move, GameVersion ver = Any)
-    {
-        switch (ver)
-        {
-            case GP or GE or GG or GO:
-                return LearnGG.GetIsLevelUp(species, form, move);
-
-            case Any:
-                if (species > MaxSpeciesID_7_USUM)
-                    return LearnNONE;
-                var first = LearnUSUM.GetIsLevelUp(species, form, move);
-                if (first.IsLevelUp)
-                    return first;
-                if (species > MaxSpeciesID_7)
-                    return LearnNONE;
-                return LearnSM.GetIsLevelUp(species, form, move);
-
-            case SN or MN or SM:
-                if (species > MaxSpeciesID_7)
-                    return LearnNONE;
-                return LearnSM.GetIsLevelUp(species, form, move);
-
-            case US or UM or USUM:
-                if (species > MaxSpeciesID_7_USUM)
-                    return LearnNONE;
-                return LearnUSUM.GetIsLevelUp(species, form, move);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp8(int species, int form, int move, int maxLevel, GameVersion ver = Any)
-    {
-        switch (ver)
-        {
-            case Any:
-            case GO:
-            case SW or SH or SWSH:
-                if (species > MaxSpeciesID_8)
-                    return LearnNONE;
-                return LearnSWSH.GetIsLevelUp(species, form, move, maxLevel);
-
-            case PLA:
-                if (species > MaxSpeciesID_8a)
-                    return LearnNONE;
-                return LearnLA.GetIsLevelUp(species, form, move, maxLevel);
-
-            case BD or SP or BDSP:
-                if (species > MaxSpeciesID_8b)
-                    return LearnNONE;
-                return LearnBDSP.GetIsLevelUp(species, form, move, maxLevel);
-        }
-        return LearnNONE;
-    }
-
-    private static LearnVersion GetIsLevelUp3Deoxys(int form, int move, int lvl, GameVersion ver = Any)
-    {
-        var moveset = GetDeoxysLearn3(form, ver);
-        if (moveset == null)
-            return LearnNONE;
-        var lv = moveset.GetLevelLearnMove(move);
-        if (lv >= 0 && lv <= lvl)
-            return new LearnVersion(lv, GetDeoxysGameVersion3(form));
-        return LearnNONE;
-    }
-
-    private static GameVersion GetDeoxysGameVersion3(int form) => form switch
-    {
-        0 => RS,
-        1 => FR,
-        2 => LG,
-        3 => E,
-        _ => Invalid,
-    };
+        LearnLA   = new(PersonalTable.LA,   LevelUpLA),
+        LearnBDSP = new(PersonalTable.BDSP, LevelUpBDSP),
+        LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH),
+        LearnSM   = new(PersonalTable.SM,   LevelUpSM),
+        LearnUSUM = new(PersonalTable.USUM, LevelUpUSUM),
+        LearnGG   = new(PersonalTable.GG,   LevelUpGG),
+        LearnXY   = new(PersonalTable.XY,   LevelUpXY),
+        LearnAO   = new(PersonalTable.AO,   LevelUpAO),
+        LearnBW   = new(PersonalTable.BW,   LevelUpBW),
+        LearnB2W2 = new(PersonalTable.B2W2, LevelUpB2W2),
+        LearnDP   = new(PersonalTable.DP,   LevelUpDP),
+        LearnPt   = new(PersonalTable.Pt,   LevelUpPt),
+        LearnHGSS = new(PersonalTable.HGSS, LevelUpHGSS),
+        LearnRSE  = new(PersonalTable.RS,   LevelUpRS),
+        LearnFRLG = new(PersonalTable.LG,   LevelUpLG),
+        LearnGS   = new(PersonalTable.GS,   LevelUpGS),
+        LearnC    = new(PersonalTable.C,    LevelUpC),
+        LearnRB   = new(PersonalTable.RB,   LevelUpRB),
+        LearnY    = new(PersonalTable.Y,    LevelUpY);
 
     private static Learnset? GetDeoxysLearn3(int form, GameVersion ver = Any)
     {
