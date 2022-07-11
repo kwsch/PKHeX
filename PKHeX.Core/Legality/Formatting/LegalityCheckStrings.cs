@@ -1,4 +1,4 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace PKHeX.Core;
 
@@ -79,8 +79,7 @@ public static class LegalityCheckStrings
     public static string LAbilityUnexpected { get; set; } = "Ability is not valid for species/form.";
 
     public static string LAwakenedCap { get; set; } = "Individual AV cannot be greater than {0}.";
-    public static string LAwakenedShouldBeValue { get; set; } = "Individual AV should be greater than {0}.";
-    public static string LAwakenedEXPIncreased { get; set; } = "All AVs are zero, but leveled above Met Level.";
+    public static string LAwakenedShouldBeValue { get; set; } = "Individual AV ({1}) should be greater than {0}.";
 
     public static string LBallAbility { get; set; } = "Can't obtain Hidden Ability with Ball.";
     public static string LBallEggCherish { get; set; } = "Can't have Cherish Ball for regular Egg.";

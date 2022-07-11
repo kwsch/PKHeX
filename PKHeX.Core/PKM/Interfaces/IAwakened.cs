@@ -68,7 +68,22 @@ public static class AwakeningUtil
     /// </summary>
     /// <param name="pk">Data to set values for</param>
     /// <param name="value"></param>
-    public static void AwakeningSetVisual(IAwakened pk, Span<byte> value)
+    public static void AwakeningGetVisual(IAwakened pk, Span<byte> value)
+    {
+        value[0] = pk.AV_HP;
+        value[1] = pk.AV_ATK;
+        value[2] = pk.AV_DEF;
+        value[3] = pk.AV_SPA;
+        value[4] = pk.AV_SPD;
+        value[5] = pk.AV_SPE;
+    }
+
+    /// <summary>
+    /// Sets the awakening values according to their displayed order.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    /// <param name="value"></param>
+    public static void AwakeningSetVisual(IAwakened pk, ReadOnlySpan<byte> value)
     {
         pk.AV_HP = value[0];
         pk.AV_ATK = value[1];

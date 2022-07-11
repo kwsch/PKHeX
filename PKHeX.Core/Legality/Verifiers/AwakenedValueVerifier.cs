@@ -20,23 +20,21 @@ public sealed class AwakenedValueVerifier : Verifier
 
         Span<byte> required = stackalloc byte[6];
         AwakeningUtil.GetExpectedMinimumAVs(required, pb7);
-        ReadOnlySpan<byte> current = stackalloc byte[6]
-        {
-            pb7.GetAV(0),
-            pb7.GetAV(1),
-            pb7.GetAV(2),
-            pb7.GetAV(4),
-            pb7.GetAV(5),
-            pb7.GetAV(3), // Speed last!
-        };
+        Span<byte> current = stackalloc byte[6];
+        AwakeningUtil.AwakeningGetVisual(pb7, current);
 
-        for (int i = 0; i < required.Length; i++)
-        {
-            if (current[i] >= required[i])
-                continue;
-
-            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[i])));
-            break;
-        }
+        // For each index of current, the value should be >= the required value.
+        if (current[0] < required[0])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[0], nameof(IAwakened.AV_HP))));
+        if (current[1] < required[1])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[1], nameof(IAwakened.AV_ATK))));
+        if (current[2] < required[2])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[2], nameof(IAwakened.AV_DEF))));
+        if (current[3] < required[3])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[3], nameof(IAwakened.AV_SPA))));
+        if (current[4] < required[4])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[4], nameof(IAwakened.AV_SPD))));
+        if (current[5] < required[5])
+            data.AddLine(GetInvalid(string.Format(LegalityCheckStrings.LAwakenedShouldBeValue, required[5], nameof(IAwakened.AV_SPE))));
     }
 }
