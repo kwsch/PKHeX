@@ -108,7 +108,7 @@ public static class MoveListSuggest
     /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
     public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterTemplate enc, PKM pk)
     {
-        if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pk))
+        if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return Empty;
 
         return GetSuggestedRelearnInternal(enc, pk);
@@ -133,7 +133,7 @@ public static class MoveListSuggest
         enc ??= info.EncounterOriginal;
         var pk = analysis.Entity;
 
-        if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pk))
+        if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return Empty;
 
         if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})

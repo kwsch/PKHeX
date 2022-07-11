@@ -89,7 +89,7 @@ public static class EncounterFinder
         var relearn = info.Relearn.AsSpan();
         if (pk.Format >= 6)
         {
-            VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, relearn);
+            LearnVerifierRelearn.Verify(relearn, info.EncounterOriginal, pk);
             if (!MoveResult.AllValid(relearn) && iterator.PeekIsNext())
                 return false;
         }
@@ -154,7 +154,7 @@ public static class EncounterFinder
         string hint = GetHintWhyNotFound(pk, info.EncounterMatch.Generation);
 
         info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
-        VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, info.Relearn);
+        LearnVerifierRelearn.Verify(info.Relearn, info.EncounterOriginal, pk);
         LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }
 

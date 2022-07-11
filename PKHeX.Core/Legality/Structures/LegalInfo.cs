@@ -45,8 +45,6 @@ public sealed class LegalInfo : IGeneration
     public readonly MoveResult[] Relearn = new MoveResult[MoveCount];
     public readonly MoveResult[] Moves = new MoveResult[MoveCount];
 
-    private static readonly ValidEncounterMoves NONE = new();
-    public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
     public EvolutionHistory EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(Entity, EncounterMatch);
     private EvolutionHistory? _evochains;
 

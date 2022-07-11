@@ -7,14 +7,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// Logic to verify the current <see cref="PKM.RelearnMoves"/>.
 /// </summary>
-public static class VerifyRelearnMoves
+public static class LearnVerifierRelearn
 {
-    public static void VerifyRelearn(PKM pk, IEncounterTemplate enc, Span<MoveResult> result)
+    public static void Verify(Span<MoveResult> result, IEncounterTemplate enc, PKM pk)
     {
         if (ShouldNotHaveRelearnMoves(enc, pk))
             VerifyRelearnNone(pk, result);
-        else if (enc is IRelearn s && s.Relearn.Count != 0)
-            VerifyRelearnSpecifiedMoveset(pk, s.Relearn, result);
+        else if (enc is IRelearn {Relearn: int[] {Length: not 0} x})
+            VerifyRelearnSpecifiedMoveset(pk, x, result);
         else if (enc is EncounterEgg e)
             VerifyEggMoveset(e, result, pk.RelearnMoves);
         else if (enc is EncounterSlot6AO { CanDexNav: true } z && pk.RelearnMove1 != 0)

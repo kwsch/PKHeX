@@ -18,7 +18,7 @@ internal static class LearnVerifierEgg
     private static void VerifyPre3DS(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
     {
         if (enc is EncounterEgg e)
-            VerifyRelearnMoves.VerifyEggMoveset(e, result, current);
+            LearnVerifierRelearn.VerifyEggMoveset(e, result, current);
         else
             VerifyFromEncounter(result, current, enc);
     }
