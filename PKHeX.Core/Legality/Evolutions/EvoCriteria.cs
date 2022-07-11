@@ -12,5 +12,7 @@ public readonly record struct EvoCriteria
 
     public bool RequiresLvlUp => LevelUpRequired != 0;
 
+    public bool InsideLevelRange(int level) => LevelMin <= level && level <= LevelMax;
+
     public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{LevelMin},{LevelMax}] via {Method}";
 }

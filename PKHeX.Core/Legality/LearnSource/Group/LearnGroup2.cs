@@ -124,6 +124,9 @@ public sealed class LearnGroup2 : ILearnGroup
 
     private static bool GetIsPreferable(in MoveResult entry, in MoveLearnInfo chk, int stage)
     {
+        if (entry == default)
+            return true;
+
         if (entry.Info.Method is LearnMethod.LevelUp)
         {
             if (chk.Method is not LearnMethod.LevelUp)

@@ -35,13 +35,14 @@ internal static class LearnVerifierEgg
 
     private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
     {
-        // Check that the sequence of current move matches the relearn move sequence.
-        for (int i = 0; i < result.Length; i++)
+        // Check that the sequence of current move matches the initial move sequence.
+        for (int i = 0; i < moves.Length; i++)
             result[i] = GetMethodInitial(current[i], moves[i]);
+        for (int i = moves.Length; i < current.Length; i++)
+            result[i] = current[i] == 0 ? MoveResult.Empty : MoveResult.Unobtainable(0);
     }
 
-    private static void VerifyFromRelearn(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc,
-        PKM pk)
+    private static void VerifyFromRelearn(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
     {
         if (enc is EncounterEgg)
             VerifyMatchesRelearn(result, current, pk);

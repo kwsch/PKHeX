@@ -84,8 +84,6 @@ public sealed class LearnGroup5 : ILearnGroup
         if (!b2w2.TryGetPersonal(species, evo.Form, out var b2w2_pi))
             return;
 
-        var bw = LearnSource5BW.Instance;
-
         for (int i = result.Length - 1; i >= 0; i--)
         {
             if (result[i].Valid)
@@ -95,14 +93,9 @@ public sealed class LearnGroup5 : ILearnGroup
             var move = current[i];
             var chk = b2w2.GetCanLearn(pk, b2w2_pi, evo, move, option: option);
             if (chk != default)
-            {
                 result[i] = new(chk, (byte)stage, Generation);
-                continue;
-            }
 
-            chk = bw.GetCanLearn(pk, b2w2_pi, evo, move, MoveSourceType.LevelUp, option: option);
-            if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+            // B2/W2's learnset is a strict superset of B/W; don't check B/W!
         }
     }
 }

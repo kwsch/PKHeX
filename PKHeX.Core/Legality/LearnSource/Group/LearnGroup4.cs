@@ -23,13 +23,36 @@ public sealed class LearnGroup4 : ILearnGroup
             CheckEncounterMoves(result, current, egg);
 
         if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
-            CheckNincadaMoves(result, current);
+            CheckNincadaMoves(result, current, evos[^1]);
 
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckNincadaMoves(Span<MoveResult> result, ReadOnlySpan<int> current)
+    private static void CheckNincadaMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EvoCriteria nincada)
     {
+        if (MoveResult.AllParsed(result))
+            return;
+
+        // If a result is not valid, check to see if it is a Shedinja move.
+        // Ninjask's Gen4 learnset is a superset of Gen3, so don't bother re-checking in that group.
+        var shedinja = LearnSource4Pt.Instance;
+        var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);
+        for (var i = 0; i < result.Length; i++)
+        {
+            if (result[i].Valid)
+                continue;
+            var move = current[i];
+            if (move == 0)
+                break;
+
+            var level = moves.GetLevelLearnMove(move);
+            if (level == -1 || !nincada.InsideLevelRange(level))
+                continue;
+
+            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, (byte)level);
+            result[i] = new MoveResult(info, 0, Generation);
+            break; // Can only have one Ninjask move.
+        }
     }
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
