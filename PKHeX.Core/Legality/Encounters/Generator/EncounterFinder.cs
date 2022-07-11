@@ -99,7 +99,7 @@ public static class EncounterFinder
             relearn.Fill(MoveResult.Relearn);
         }
 
-        VerifyCurrentMoves.VerifyMoves(pk, info);
+        LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
         if (!Array.TrueForAll(info.Moves, z => z.Valid) && iterator.PeekIsNext())
             return false;
 
@@ -128,7 +128,7 @@ public static class EncounterFinder
         }
         else if (pk is PK1 pk1)
         {
-            var hasGen2 = Array.Exists(info.Moves, z => z.Generation is not 1);
+            var hasGen2 = Array.Exists(info.Moves, z => z.Generation is 2);
             if (hasGen2)
             {
                 if (!ParseSettings.AllowGen1Tradeback)
@@ -155,7 +155,7 @@ public static class EncounterFinder
 
         info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
         VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, info.Relearn);
-        VerifyCurrentMoves.VerifyMoves(pk, info);
+        LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }
 
     private static string GetHintWhyNotFound(PKM pk, int gen)

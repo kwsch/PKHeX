@@ -1,4 +1,4 @@
-#define SUPPRESS
+//#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -116,17 +116,20 @@ public sealed class LegalityAnalysis
             Valid = false;
 
             // Moves and Relearn arrays can potentially be empty on error.
-            foreach (var p in Info.Moves)
+            var moves = Info.Moves;
+            for (var i = 0; i < moves.Length; i++)
             {
+                ref var p = ref moves[i];
                 if (!p.IsParsed)
-                    p.Set(LearnMethod.Unobtainable, pk.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                    p = MoveResult.Unobtainable();
             }
 
-            for (var i = 0; i < Info.Relearn.Length; i++)
+            moves = Info.Relearn;
+            for (var i = 0; i < moves.Length; i++)
             {
-                var p = Info.Relearn[i];
+                ref var p = ref moves[i];
                 if (!p.IsParsed)
-                    Info.Relearn[i] = new MoveResult(new(LearnMethod.Unobtainable, EncounterOriginal.Version), 0);
+                    p = MoveResult.Unobtainable();
             }
 
             AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
