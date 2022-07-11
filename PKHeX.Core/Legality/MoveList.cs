@@ -29,28 +29,6 @@ internal static class MoveList
         return r.Distinct();
     }
 
-    internal static int[] GetShedinjaEvolveMoves(PKM pk, int generation, int lvl)
-    {
-        if (pk.Species != (int)Species.Shedinja || lvl < 20)
-            return Array.Empty<int>();
-
-        // If Nincada evolves into Ninjask and learns a move after evolution from Ninjask's LevelUp data, Shedinja would appear with that move.
-        // Only one move above level 20 is allowed; check the count of Ninjask moves elsewhere.
-        return generation switch
-        {
-            3 when pk.InhabitedGeneration(3) => LevelUpE[(int)Species.Ninjask].GetMoves(lvl, 20), // Same LevelUp data in all Gen3 games
-            4 when pk.InhabitedGeneration(4) => LevelUpPt[(int)Species.Ninjask].GetMoves(lvl, 20), // Same LevelUp data in all Gen4 games
-            _ => Array.Empty<int>(),
-        };
-    }
-
-    internal static int GetShedinjaMoveLevel(int species, int move, int generation)
-    {
-        var src = generation == 4 ? LevelUpPt : LevelUpE;
-        var moves = src[species];
-        return moves.GetLevelLearnMove(move);
-    }
-
     internal static int[] GetBaseEggMoves(PKM pk, int species, int form, GameVersion gameSource, int lvl)
     {
         if (gameSource == Any)
@@ -188,34 +166,6 @@ internal static class MoveList
     internal static IEnumerable<int> GetValidRelearn(PKM pk, int species, int form, GameVersion version = Any)
     {
         return GetValidRelearn(pk, species, form, Breeding.GetCanInheritMoves(species), version);
-    }
-
-    /// <summary>
-    /// ONLY CALL FOR GEN2 EGGS
-    /// </summary>
-    internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pk, int Species, EvoCriteria[] evoChain, int generation, GameVersion Version)
-    {
-        var preevomoves = new List<int>();
-        var evomoves = new List<int>();
-        var index = Array.FindIndex(evoChain, z => z.Species == Species);
-        for (int i = 0; i < evoChain.Length; i++)
-        {
-            int minLvLG2;
-            var evo = evoChain[i];
-            if (ParseSettings.AllowGen2MoveReminder(pk))
-                minLvLG2 = 0;
-            else if (i == evoChain.Length - 1) // minimum level, otherwise next learnable level
-                minLvLG2 = 5;
-            else if (evo.RequiresLvlUp)
-                minLvLG2 = evo.LevelMax + 1;
-            else
-                minLvLG2 = evo.LevelMax;
-
-            var moves = GetMoves(pk, evo.Species, evo.Form, evo.LevelMax, 0, minLvLG2, Version: Version, types: MoveSourceType.ExternalSources, RemoveTransferHM: false, generation: generation);
-            var list = i >= index ? preevomoves : evomoves;
-            list.AddRange(moves);
-        }
-        return preevomoves.Except(evomoves).Distinct();
     }
 
     internal static IEnumerable<int> GetValidMoves(PKM pk, GameVersion version, EvoCriteria[] chain, int generation, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)

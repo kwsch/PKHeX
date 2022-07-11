@@ -40,7 +40,6 @@ public readonly record struct MoveResult : ICheckResult
     public static readonly MoveResult Relearn = new(LearnMethod.Relearn);
     public static readonly MoveResult Empty = new(LearnMethod.Empty);
     public static readonly MoveResult Duplicate = new(LearnMethod.Duplicate);
-    public static readonly MoveResult EmptyFishy = new(LearnMethod.EmptyFishy);
     public static readonly MoveResult EmptyInvalid = new(LearnMethod.EmptyInvalid);
     public static readonly MoveResult Sketch = new(LearnMethod.Sketch);
     public static MoveResult Unobtainable(int expect) => new(LearnMethod.UnobtainableExpect) { Expect = (short)expect };
