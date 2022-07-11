@@ -1,5 +1,4 @@
 using System;
-using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
@@ -51,7 +50,7 @@ internal static class LearnVerifierHistory
         // Basic gist of move source identification: check if the moves can be learned in the current format.
         // If moves are still unverified, we step backwards in time to the previous game environment, until all moves are checked.
         // If moves are STILL unverified, then they must not be legal.
-        var game = LearnCheckerUtil.GetCurrentSource(pk);
+        var game = LearnGroupUtil.GetCurrentGroup(pk);
         while (true)
         {
             bool finished = game.Check(result, current, pk, history, enc);
@@ -121,27 +120,4 @@ internal static class LearnVerifierHistory
             result[i] = MoveResult.Relearn;
         }
     }
-}
-
-public static class LearnCheckerUtil
-{
-    public static ILearnGroup GetCurrentSource(PKM pk) => GetCurrentSource(pk.Context);
-
-    public static ILearnGroup GetCurrentSource(EntityContext context) => context switch
-    {
-        Gen1  => LearnGroup1.Instance,
-        Gen2  => LearnGroup2.Instance,
-        Gen3  => LearnGroup3.Instance,
-        Gen4  => LearnGroup4.Instance,
-        Gen5  => LearnGroup5.Instance,
-        Gen6  => LearnGroup6.Instance,
-        Gen7  => LearnGroup7.Instance,
-        Gen8  => LearnGroup8.Instance,
-
-        Gen7b => LearnGroup7b.Instance,
-        Gen8a => LearnGroup8a.Instance,
-        Gen8b => LearnGroup8b.Instance,
-
-        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
-    };
 }
