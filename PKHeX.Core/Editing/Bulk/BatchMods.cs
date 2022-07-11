@@ -15,8 +15,8 @@ public static class BatchMods
         new TypeSuggestion<IScaledSizeValue>(nameof(IScaledSizeValue.WeightAbsolute), p => p.ResetWeight()),
         new TypeSuggestion<IHyperTrain>(nameof(Extensions.HyperTrainClear), p => p.HyperTrainClear()),
         new TypeSuggestion<IGeoTrack>(nameof(Extensions.ClearGeoLocationData), p => p.ClearGeoLocationData()),
-        new TypeSuggestion<IAwakened>(nameof(Extensions.AwakeningClear), p => p.AwakeningClear()),
-        new TypeSuggestion<IAwakened>(nameof(Extensions.AwakeningMax), p => p.AwakeningMax()),
+        new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningClear), p => p.AwakeningClear()),
+        new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMax), p => p.AwakeningMax()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.ClearGanbaruValues), p => p.ClearGanbaruValues()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.SetSuggestedGanbaruValues), p => p.SetSuggestedGanbaruValues((PKM)p)),
 

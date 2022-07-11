@@ -1,4 +1,4 @@
-//#define SUPPRESS
+#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -232,6 +232,8 @@ public sealed class LegalityAnalysis
         UpdateChecks();
         if (Entity.Format >= 8)
             Transfer.VerifyTransferLegalityG8(this);
+        else if (Entity is PB7)
+            Awakening.Verify(this);
     }
 
     private void ParsePK8()

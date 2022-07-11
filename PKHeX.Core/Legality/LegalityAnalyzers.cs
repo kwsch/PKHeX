@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Collection of analyzers that are used for parsing secondary details.
@@ -34,4 +34,5 @@ internal static class LegalityAnalyzers
     public static readonly TransferVerifier Transfer = new();
     public static readonly MarkVerifier Mark = new();
     public static readonly LegendsArceusVerifier Arceus = new();
+    public static readonly AwakenedValueVerifier Awakening = new();
 }

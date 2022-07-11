@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -584,6 +584,31 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         int unsigned = value & ~(value >> 31);
         return (byte)Math.Min(255, unsigned);
     }
+
+    public static int GetRandomIndex(int bits, int characterIndex, int nature)
+    {
+        if (bits is 6 or 7)
+            return GetRandomIndex(characterIndex);
+        if (bits is 0)
+            return 0;
+        Span<sbyte> amps = NatureAmpTable.AsSpan(5 * nature, 5);
+        if (amps[bits - 1] != -1) // not a negative stat
+            return bits;
+
+        // remap a negative stat to positive
+        return 1 + amps.IndexOf((sbyte)1);
+    }
+
+    private static int GetRandomIndex(int characterIndex) => (characterIndex / 5) switch
+    {
+        0 => 0,
+        1 => 1,
+        2 => 2,
+        3 => 5,
+        4 => 3,
+        5 => 4,
+        _ => throw new ArgumentOutOfRangeException(nameof(characterIndex)), // never happens, characteristic is always 0-29
+    };
 
     public PK8 ConvertToPK8()
     {

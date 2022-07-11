@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -12,7 +12,7 @@ public interface IAwakened
     byte AV_SPD { get; set; }
 }
 
-public static partial class Extensions
+public static class AwakeningUtil
 {
     /// <summary>
     /// Sums all values.
@@ -47,10 +47,50 @@ public static partial class Extensions
     /// <param name="max">Maximum value to set</param>
     public static void AwakeningSetRandom(this IAwakened pk, byte min = 0, int max = Legal.AwakeningMax)
     {
+        if (pk is not PB7 pb7)
+            return;
+
+        Span<byte> result = stackalloc byte[6];
+        GetExpectedMinimumAVs(result, pb7);
+
         var rnd = Util.Rand;
-        int randClamp = max + 1;
-        for (int index = 0; index < 6; index++)
-            pk.SetAV(index, (byte)rnd.Next(min, randClamp));
+        for (int i = 0; i < 6; i++)
+        {
+            var realMin = Math.Max(min, result[i]);
+            var realMax = Math.Min(result[i], max);
+            result[i] = (byte)rnd.Next(realMin, realMax + 1);
+        }
+        AwakeningSetVisual(pb7, result);
+    }
+
+    /// <summary>
+    /// Sets the awakening values according to their displayed order.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    /// <param name="value"></param>
+    public static void AwakeningGetVisual(IAwakened pk, Span<byte> value)
+    {
+        value[0] = pk.AV_HP;
+        value[1] = pk.AV_ATK;
+        value[2] = pk.AV_DEF;
+        value[3] = pk.AV_SPA;
+        value[4] = pk.AV_SPD;
+        value[5] = pk.AV_SPE;
+    }
+
+    /// <summary>
+    /// Sets the awakening values according to their displayed order.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    /// <param name="value"></param>
+    public static void AwakeningSetVisual(IAwakened pk, ReadOnlySpan<byte> value)
+    {
+        pk.AV_HP = value[0];
+        pk.AV_ATK = value[1];
+        pk.AV_DEF = value[2];
+        pk.AV_SPA = value[3];
+        pk.AV_SPD = value[4];
+        pk.AV_SPE = value[5];
     }
 
     /// <summary>
@@ -96,7 +136,7 @@ public static partial class Extensions
     /// </summary>
     /// <param name="pk">Pokémon to check.</param>
     /// <param name="index">Index to get</param>
-    public static int GetAV(this IAwakened pk, int index) => index switch
+    public static byte GetAV(this IAwakened pk, int index) => index switch
     {
         0 => pk.AV_HP,
         1 => pk.AV_ATK,
@@ -129,16 +169,21 @@ public static partial class Extensions
     /// <param name="pk">Retriever for IVs</param>
     public static void SetSuggestedAwakenedValues(this IAwakened a, PKM pk)
     {
+        Span<byte> result = stackalloc byte[6];
+        GetExpectedMinimumAVs(result, (PB7)a);
         a.AV_HP  = Legal.AwakeningMax;
-        a.AV_ATK = pk.IV_ATK == 0 ? (byte)0 : Legal.AwakeningMax;
+        a.AV_ATK = pk.IV_ATK == 0 ? result[1] : Legal.AwakeningMax;
         a.AV_DEF = Legal.AwakeningMax;
-        a.AV_SPE = pk.IV_SPE == 0 ? (byte)0 : Legal.AwakeningMax;
         a.AV_SPA = Legal.AwakeningMax;
         a.AV_SPD = Legal.AwakeningMax;
+        a.AV_SPE = pk.IV_SPE == 0 ? result[5] : Legal.AwakeningMax;
     }
 
     public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);
 
+    /// <summary>
+    /// Checks if the <see cref="current"/> has values greater or equal to the <see cref="initial"/>.
+    /// </summary>
     public static bool IsAwakeningAboveOrEqual(this IAwakened current, IAwakened initial)
     {
         if (current.AV_HP < initial.AV_HP)
@@ -154,5 +199,36 @@ public static partial class Extensions
         if (current.AV_SPE < initial.AV_SPE)
             return false;
         return true;
+    }
+
+    /// <summary>
+    /// Updates the <see cref="result"/> span with the expected minimum values for each <see cref="IAwakened"/> index.
+    /// </summary>
+    /// <param name="result">Stat results</param>
+    /// <param name="pk">Entity to check</param>
+    public static void GetExpectedMinimumAVs(Span<byte> result, PB7 pk)
+    {
+        // go park transfers have 2 AVs for all stats.
+        // leveling up in-game applies 1 AV to a "random" index.
+        if (pk.Version == (int)GameVersion.GO)
+            result.Fill(2);
+
+        var start = pk.Met_Level;
+        var end = pk.CurrentLevel;
+        if (start == end)
+            return;
+
+        // Level up from met level to current level.
+        var nature = pk.Nature;
+        var character = pk.Characteristic;
+        var ec = pk.EncryptionConstant;
+
+        for (int i = start + 1; i <= end; i++)
+        {
+            var lm10 = i % 10;
+            var bits = (ec >> (3 * lm10)) & 7;
+            var index = PB7.GetRandomIndex((int)bits, character, nature);
+            ++result[index];
+        }
     }
 }
