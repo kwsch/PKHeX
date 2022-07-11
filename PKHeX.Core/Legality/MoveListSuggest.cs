@@ -117,7 +117,7 @@ public static class MoveListSuggest
     // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
     private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk) => enc switch
     {
-        IRelearn s when s.Relearn.Count > 0 => s.Relearn,
+        IRelearn { Relearn: int[] { Length: not 0 } r } => r,
         EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pk.RelearnMoves, enc).ToArray(),
         _ => Empty,
     };

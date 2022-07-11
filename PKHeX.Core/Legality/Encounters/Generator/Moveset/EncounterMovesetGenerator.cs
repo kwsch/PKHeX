@@ -1,4 +1,4 @@
-﻿//#define VERIFY_GEN
+//#define VERIFY_GEN
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -321,8 +321,8 @@ public static class EncounterMovesetGenerator
 
             // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
             IEnumerable<int> em = enc.Moves;
-            if (enc is IRelearn { Relearn.Count: not 0 } r)
-                em = em.Concat(r.Relearn);
+            if (enc is IRelearn { Relearn: int[] {Length: not 0} r})
+                em = em.Concat(r);
             if (enc.Generation <= 2)
                 em = em.Concat(MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version));
 
@@ -373,8 +373,8 @@ public static class EncounterMovesetGenerator
             IEnumerable<int> em = trade.Moves;
             if (trade.Generation <= 2)
                 em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
-            else if (trade is IRelearn { Relearn.Count: not 0 } r)
-                em = em.Concat(r.Relearn);
+            else if (trade is IRelearn { Relearn: int[] { Length: not 0 } r })
+                em = em.Concat(r);
             if (!needs.Except(em).Any())
                 yield return trade;
         }
