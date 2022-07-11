@@ -353,6 +353,7 @@ public static class LegalityCheckStrings
     public static string LMoveEvoFLower { get; set; } = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
     public static string LMoveFDefault_0 { get; set; } = "Default move in Generation {0}.";
     public static string LMoveFExpect_0 { get; set; } = "Expected the following Moves: {0}";
+    public static string LMoveFExpectSingle_0 { get; set; } = "Expected: {0}";
     public static string LMoveFLevelUp_0 { get; set; } = "Learned by Level-up in Generation {0}.";
     public static string LMoveFTMHM_0 { get; set; } = "Learned by TM/HM in Generation {0}.";
     public static string LMoveFTutor_0 { get; set; } = "Learned by Move Tutor in Generation {0}.";

@@ -7,21 +7,19 @@ namespace PKHeX.Core;
 
 public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
-    public string Summarize()
+    public void Summarize(StringBuilder sb)
     {
         var localized = GetLocalizedMethod();
-        return Summarize(localized);
+        Summarize(sb, localized);
     }
 
-    private string Summarize(string localizedMethod)
+    private void Summarize(StringBuilder sb, string localizedMethod)
     {
-        var sb = new StringBuilder(48);
         if (Environment.IsSpecified())
             sb.Append(Environment).Append('-');
         sb.Append(localizedMethod);
         if (Method is LevelUp)
             sb.Append(" @ lv").Append(Argument);
-        return sb.ToString();
     }
 
     private string GetLocalizedMethod() => Method switch
@@ -44,12 +42,10 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
 
         // Invalid
         None => LMoveSourceInvalid,
-        Unobtainable => LMoveSourceInvalid,
+        Unobtainable or UnobtainableExpect => LMoveSourceInvalid,
         Duplicate => LMoveSourceDuplicate,
         EmptyInvalid => LMoveSourceEmpty,
 
-        // Fishy
-        EmptyFishy => LMoveSourceEmpty,
         _ => throw new ArgumentOutOfRangeException(nameof(Method), Method, null),
     };
 }

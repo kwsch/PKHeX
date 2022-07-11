@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public sealed class LegalInfo : IGeneration
 {
     /// <summary>The <see cref="PKM"/> object used for comparisons.</summary>
-    private readonly PKM Entity;
+    public readonly PKM Entity;
 
     /// <summary>The generation of games the <see cref="PKM"/> originated from.</summary>
     public int Generation { get; private set; }

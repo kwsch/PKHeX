@@ -98,7 +98,7 @@ public class LegalityTest
         }
         ctr.Should().BeGreaterThan(0);
     }
-
+    
     private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)
     {
         foreach (var l in legality.Results.Where(z => !z.Valid))
@@ -106,8 +106,8 @@ public class LegalityTest
 
         var info = legality.Info;
         foreach (var m in info.Moves.Where(z => !z.Valid))
-            yield return m.Comment;
+            yield return m.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
         foreach (var r in info.Relearn.Where(z => !z.Valid))
-            yield return r.Comment;
+            yield return r.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
     }
 }

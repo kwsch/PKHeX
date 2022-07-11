@@ -32,15 +32,12 @@ public enum LearnMethod : byte
     EggMove,
     InheritLevelUp,
     SpecialEgg,
-
-    // Fishy
-    EmptyFishy,
 }
 
 public static class LearnMethodExtensions
 {
     public static bool IsValid(this LearnMethod method) => method >= Empty;
-    public static bool IsFishy(this LearnMethod method) => method >= EmptyFishy;
+    public static bool HasExpectedMove(this LearnMethod method) => method is UnobtainableExpect;
     public static bool IsRelearn(this LearnMethod method) => method is Relearn;
     public static bool IsEggSource(this LearnMethod method) => method is EggMove or InheritLevelUp or SpecialEgg;
 }

@@ -41,24 +41,24 @@ public static class LegalityFormatting
         }
     }
 
-    public static void AddRelearn(MoveResult[] relearn, List<string> lines, bool state)
+    public static void AddRelearn(MoveResult[] relearn, List<string> lines, bool state, PKM pk, EvolutionHistory history)
     {
         for (int i = 0; i < relearn.Length; i++)
         {
             var move = relearn[i];
             if (move.Valid == state)
-                lines.Add(move.Format(L_F0_RM_1_2, i + 1));
+                lines.Add(move.Format(L_F0_RM_1_2, i + 1, pk, history));
         }
     }
 
-    public static void AddMoves(MoveResult[] moves, List<string> lines, in int currentFormat, bool state)
+    public static void AddMoves(MoveResult[] moves, List<string> lines, in int currentFormat, bool state, PKM pk, EvolutionHistory history)
     {
         for (int i = 0; i < moves.Length; i++)
         {
             var move = moves[i];
             if (move.Valid != state)
                 continue;
-            var msg = move.Format(L_F0_M_1_2, i + 1);
+            var msg = move.Format(L_F0_M_1_2, i + 1, pk, history);
             var gen = move.Generation;
             if (currentFormat != gen && gen != 0)
                 msg += $" [Gen{gen}]";

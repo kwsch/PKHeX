@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -35,9 +35,9 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         var info = l.Info;
         var pk = l.Entity;
 
-        LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false);
+        LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false, pk, l.Info.EvoChainsAllGens);
         if (pk.Format >= 6)
-            LegalityFormatting.AddRelearn(info.Relearn, lines, false);
+            LegalityFormatting.AddRelearn(info.Relearn, lines, false, pk, l.Info.EvoChainsAllGens);
         LegalityFormatting.AddSecondaryChecksInvalid(l.Results, lines);
         return lines;
     }
@@ -53,10 +53,10 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         int initialCount = lines.Count;
 
         var format = pk.Format;
-        LegalityFormatting.AddMoves(info.Moves, lines, format, true);
+        LegalityFormatting.AddMoves(info.Moves, lines, format, true, pk, l.Info.EvoChainsAllGens);
 
         if (format >= 6)
-            LegalityFormatting.AddRelearn(info.Relearn, lines, true);
+            LegalityFormatting.AddRelearn(info.Relearn, lines, true, pk, l.Info.EvoChainsAllGens);
 
         if (lines.Count != initialCount) // move info added, break for next section
             lines.Add(string.Empty);

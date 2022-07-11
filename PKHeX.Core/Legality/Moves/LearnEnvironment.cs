@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 using static LearnEnvironment;
 
@@ -13,7 +15,7 @@ public enum LearnEnvironment : byte
     /* Gen6 */ XY, ORAS,
     /* Gen7 */ SM, USUM, GG,
     /* Gen8 */ SWSH, BDSP, PLA,
-    
+
     Any = byte.MaxValue,
 }
 
@@ -31,5 +33,21 @@ public static class LearnEnvironmentExtensions
         SM or USUM or GG => 7,
         SWSH or BDSP or PLA => 8,
         _ => 0,
+    };
+
+    public static ReadOnlySpan<EvoCriteria> GetEvolutions(this LearnEnvironment value, EvolutionHistory history) => value switch
+    {
+        RB or YW => history.Gen1,
+        GS or C => history.Gen2,
+        RS or E or FR or LG => history.Gen3,
+        DP or Pt or HGSS => history.Gen4,
+        BW or B2W2 => history.Gen5,
+        XY or ORAS => history.Gen6,
+        SM or USUM => history.Gen7,
+        GG => history.Gen7b,
+        SWSH => history.Gen8,
+        PLA => history.Gen8a,
+        BDSP => history.Gen8b,
+        _ => ReadOnlySpan<EvoCriteria>.Empty,
     };
 }
