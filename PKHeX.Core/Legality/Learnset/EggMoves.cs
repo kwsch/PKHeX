@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -8,7 +7,7 @@ public abstract class EggMoves
 {
     public readonly int[] Moves;
     protected EggMoves(int[] moves) => Moves = moves;
-    public bool GetHasEggMove(int move) => Moves.Contains(move);
+    public bool GetHasEggMove(int move) => Array.IndexOf(Moves, move) != -1;
 }
 
 public sealed class EggMoves2 : EggMoves
