@@ -32,7 +32,7 @@ PKHeX expects save files that are not encrypted with console-specific keys. Use 
 
 ## Building
 
-PKHeX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), with experimental support for [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX is a Windows Forms application which requires [.NET Framework v4.8](https://support.microsoft.com/en-us/topic/microsoft-net-framework-4-8-offline-installer-for-windows-9d23f658-3b97-68ab-d013-aa3c3e7495e0), with experimental support for [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
 
 The executable can be built with any compiler that supports C# 10.
 
