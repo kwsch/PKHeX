@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
@@ -56,7 +56,7 @@ public static class SwishCrypto
 
     private static byte[] ComputeHash(byte[] data)
     {
-#if !NET46
+#if !NET48
         using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         h.AppendData(IntroHashBytes);
         h.AppendData(data, 0, data.Length - SIZE_HASH);
