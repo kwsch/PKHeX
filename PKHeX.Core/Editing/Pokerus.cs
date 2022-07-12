@@ -19,12 +19,12 @@ public static class Pokerus
     /// <returns>True if Pokérus exists in the game format, or can be transmitted to the entity via another game.</returns>
     public static bool IsObtainable(PKM pk) => pk switch
     {
-        PA8 pa8 => HasVisitedBDSPorSWSH(pa8),
+        PA8 pa8 => HasVisitedAnother(pa8),
         PB7 => false,
         _ => true,
     };
 
-    private static bool HasVisitedBDSPorSWSH(PA8 pk)
+    private static bool HasVisitedAnother(PA8 pk)
     {
         if (pk.IsUntraded)
             return false;
@@ -32,7 +32,7 @@ public static class Pokerus
             return true;
         if (PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
             return true;
-        return false;
+        return pk.Generation is (< 8 and >= 1); // Transferred from prior game
     }
 
     /// <summary>
