@@ -3,7 +3,7 @@
 /// <summary>
 /// Result of a Legality Check
 /// </summary>
-public sealed record CheckResult(Severity Judgement, string Comment, CheckIdentifier Identifier) : ICheckResult
+public sealed record CheckResult(Severity Judgement, string Comment, CheckIdentifier Identifier)
 {
     public bool Valid => Judgement >= Severity.Fishy;
     public string Rating => Judgement.Description();

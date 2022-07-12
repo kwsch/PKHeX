@@ -139,24 +139,6 @@ internal static class MoveList
         return Array.Empty<int>();
     }
 
-    internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pk, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
-    {
-        var result = new IReadOnlyList<int>[evoChains.Length];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = Array.Empty<int>();
-
-        var min = pk is IBattleVersion b ? Math.Max(0, b.GetMinGeneration()) : 1;
-        for (int i = min; i < evoChains.Length; i++)
-        {
-            var evos = evoChains[i];
-            if (evos.Length == 0)
-                continue;
-
-            result[i] = GetValidMoves(pk, evos, i, types, RemoveTransferHM).ToList();
-        }
-        return result;
-    }
-
     internal static IEnumerable<int> GetValidMoves(PKM pk, EvoCriteria[] evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
     {
         var (_, version) = pk.IsMovesetRestricted();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Runtime.CompilerServices;
 using static PKHeX.Core.EggSource2;
 
@@ -144,7 +143,7 @@ public static class MoveBreed2
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ICollection<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
     {
         var possible = value.Possible;
         var learn = value.Learnset;
