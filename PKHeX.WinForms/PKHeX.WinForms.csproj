@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
 	<NeutralLanguage>en</NeutralLanguage>
     <PackageId>PKHeX</PackageId>
