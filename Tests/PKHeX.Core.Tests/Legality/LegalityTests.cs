@@ -10,14 +10,25 @@ namespace PKHeX.Tests.Legality;
 
 public class LegalityTest
 {
-    static LegalityTest()
-    {
-        if (EncounterEvent.Initialized)
-            return;
+    private static readonly string TestPath = TestUtil.GetRepoPath();
+    private static readonly object InitLock = new();
+    private static bool IsInitialized;
 
-        RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
-        EncounterEvent.RefreshMGDB();
+    private static void Init()
+    {
+        lock (InitLock)
+        {
+            if (IsInitialized)
+                return;
+            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            if (EncounterEvent.Initialized)
+                return;
+            EncounterEvent.RefreshMGDB();
+            IsInitialized = true;
+        }
     }
+
+    static LegalityTest() => Init();
 
     [Theory]
     [InlineData("censor")]
@@ -33,6 +44,7 @@ public class LegalityTest
     [InlineData("Illegal", false)]
     public void TestPublicFiles(string name, bool isValid)
     {
+        RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
         var folder = TestUtil.GetRepoPath();
         folder = Path.Combine(folder, "Legality");
         VerifyAll(folder, name, isValid);
@@ -45,8 +57,9 @@ public class LegalityTest
     [InlineData("FalseFlags", false)] // legal quirks, to be fixed in the future
     public void TestPrivateFiles(string name, bool isValid)
     {
-        var folder = TestUtil.GetRepoPath();
-        folder = Path.Combine(folder, "Legality", "Private");
+        if (!isValid)
+            Init();
+        var folder = Path.Combine(TestPath, "Legality", "Private");
         VerifyAll(folder, name, isValid, false);
     }
 
@@ -98,7 +111,7 @@ public class LegalityTest
         }
         ctr.Should().BeGreaterThan(0);
     }
-    
+
     private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)
     {
         foreach (var l in legality.Results.Where(z => !z.Valid))
