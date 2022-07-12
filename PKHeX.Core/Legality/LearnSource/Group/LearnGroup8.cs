@@ -28,12 +28,18 @@ public sealed class LearnGroup8 : ILearnGroup
             Check(result, current, pk, evos[i], i, option: option);
 
         if (enc is EncounterStatic8N r && r.IsDownLeveled(pk))
-            Check(result, current, pk, evos[^1] with { LevelMax = r.LevelMax, LevelMin = evos[^1].LevelMax }, evos.Length - 1, MoveSourceType.LevelUp);
+        {
+            // If the encounter was reduced in level for the OT that joined the encounter, check for the original moveset range.
+            var i = evos.Length - 1;
+            var exist = evos[i];
+            var original = exist with { LevelMax = r.LevelMax, LevelMin = exist.LevelMax };
+            Check(result, current, pk, original, i, MoveSourceType.LevelUp);
+        }
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
+        CheckSharedMoves(result, current, pk);
+
+        if (option is not LearnOption.Current && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
-        else // Check for shared egg moves.
-            CheckSharedMoves(result, current, pk);
 
         return MoveResult.AllParsed(result);
     }

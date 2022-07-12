@@ -17,12 +17,12 @@ public sealed class LearnGroup8a : ILearnGroup
     {
         var evos = history.Gen8a;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i, option);
+            Check(result, current, pk, evos[i], i);
 
         return MoveResult.AllParsed(result);
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
     {
         var game = LearnSource8LA.Instance;
         if (!game.TryGetPersonal(evo.Species, evo.Form, out var pi))

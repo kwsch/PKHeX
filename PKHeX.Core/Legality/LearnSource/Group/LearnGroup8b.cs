@@ -19,10 +19,7 @@ public sealed class LearnGroup8b : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
-            CheckEncounterMoves(result, current, egg);
-        else // Check for shared egg moves.
-            CheckSharedMoves(result, current, pk);
+        CheckSharedMoves(result, current, pk);
 
         return MoveResult.AllParsed(result);
     }
@@ -42,28 +39,6 @@ public sealed class LearnGroup8b : ILearnGroup
             var move = current[i];
             if (eggMoves.Contains(move))
                 result[i] = new(LearnMethod.Shared);
-        }
-    }
-
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
-    {
-        var game = LearnSource8BDSP.Instance;
-        ReadOnlySpan<int> eggMoves = game.GetEggMoves(egg.Species, egg.Form);
-        ReadOnlySpan<int> levelMoves = egg.CanInheritMoves
-            ? game.GetLearnset(egg.Species, egg.Form).Moves
-            : ReadOnlySpan<int>.Empty;
-
-        for (var i = result.Length - 1; i >= 0; i--)
-        {
-            if (result[i].Valid)
-                continue;
-            var move = current[i];
-            if (eggMoves.Contains(move))
-                result[i] = new(LearnMethod.EggMove);
-            else if (levelMoves.Contains(move))
-                result[i] = new(LearnMethod.InheritLevelUp);
-            else if (move is (int)Move.VoltTackle && egg.CanHaveVoltTackle)
-                result[i] = new(LearnMethod.SpecialEgg);
         }
     }
 

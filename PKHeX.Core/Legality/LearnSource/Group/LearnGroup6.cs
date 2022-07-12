@@ -20,7 +20,7 @@ public sealed class LearnGroup6 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, option, mode);
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
+        if (option is not LearnOption.Current && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);

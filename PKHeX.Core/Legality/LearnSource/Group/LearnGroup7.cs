@@ -26,7 +26,7 @@ public sealed class LearnGroup7 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, option, mode);
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
+        if (option is not LearnOption.Current && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
@@ -116,7 +116,7 @@ public sealed class LearnGroup7 : ILearnGroup
     {
         var uu = LearnSource7USUM.Instance;
         var species = evo.Species;
-        if (!uu.TryGetPersonal(species, evo.Form, out var ao_uu))
+        if (!uu.TryGetPersonal(species, evo.Form, out var uu_pi))
             return; // should never happen.
 
         var sm = LearnSource7SM.Instance;
@@ -127,13 +127,16 @@ public sealed class LearnGroup7 : ILearnGroup
 
             // Level Up moves are different for each game, but others (TM/Tutor) are same.
             var move = current[i];
-            var chk = uu.GetCanLearn(pk, ao_uu, evo, move, option: option);
+            var chk = uu.GetCanLearn(pk, uu_pi, evo, move, option: option);
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            sm.GetCanLearn(pk, ao_uu, evo, move, MoveSourceType.LevelUp, option: option);
+
+            if (evo.Species > Legal.MaxSpeciesID_7)
+                continue;
+            sm.GetCanLearn(pk, uu_pi, evo, move, MoveSourceType.LevelUp, option: option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
