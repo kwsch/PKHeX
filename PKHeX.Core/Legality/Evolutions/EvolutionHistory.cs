@@ -19,9 +19,9 @@ public class EvolutionHistory
     public EvoCriteria[] Gen7  = NONE;
     public EvoCriteria[] Gen8  = NONE;
 
-    public EvoCriteria[] Gen7b => Gen7; // future: separate field instead of copy
-    public EvoCriteria[] Gen8a => Gen8; // future: separate field instead of copy
-    public EvoCriteria[] Gen8b => Gen8; // future: separate field instead of copy
+    public ref EvoCriteria[] Gen7b => ref Gen7; // future: separate field instead of copy
+    public ref EvoCriteria[] Gen8a => ref Gen8; // future: separate field instead of copy
+    public ref EvoCriteria[] Gen8b => ref Gen8; // future: separate field instead of copy
 
     public readonly int Length;
     public readonly EvoCriteria[] FullChain;
@@ -48,9 +48,31 @@ public class EvolutionHistory
         }
     }
 
-    internal void Invalidate() => this[Length - 1] = NONE;
+    internal void Invalidate(EntityContext current) => Get(current) = NONE;
 
     public bool HasVisitedSWSH => Gen8.Length != 0;
     public bool HasVisitedPLA => Gen8a.Length != 0;
     public bool HasVisitedBDSP => Gen8b.Length != 0;
+
+    public ref EvoCriteria[] Get(EntityContext context)
+    {
+        if (context == EntityContext.Gen7b)
+            return ref Gen7b;
+        if (context == EntityContext.Gen8a)
+            return ref Gen8a;
+        if (context == EntityContext.Gen8b)
+            return ref Gen8b;
+        return ref this[context.Generation()];
+    }
+
+    public EvoCriteria[] Get(int generation, GameVersion version)
+    {
+        if (generation == 7 && (GameVersion.GG.Contains(version) || version == GameVersion.GO))
+            return Gen7b;
+        if (generation == 8 && GameVersion.BDSP.Contains(version))
+            return Gen8b;
+        if (generation == 8 && GameVersion.PLA == version)
+            return Gen8a;
+        return this[generation];
+    }
 }

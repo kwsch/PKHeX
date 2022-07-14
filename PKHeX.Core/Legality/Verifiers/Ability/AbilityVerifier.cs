@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -94,7 +95,7 @@ public sealed class AbilityVerifier : Verifier
 
     public static bool IsValidAbilityBits(int num) => num is 1 or 2 or 4;
 
-    private static bool GetWasDual(EvoCriteria[] evos, PersonalTable pt, ISpeciesForm pk)
+    private static bool GetWasDual(ReadOnlySpan<EvoCriteria> evos, PersonalTable pt, ISpeciesForm pk)
     {
         foreach (var evo in evos)
         {
@@ -303,7 +304,7 @@ public sealed class AbilityVerifier : Verifier
                 return GetValid(LAbilityCapsuleUsed);
 
             // Maybe was evolved after using ability capsule.
-            var evos = data.Info.EvoChainsAllGens[pk.Format];
+            var evos = data.Info.EvoChainsAllGens.Get(pk.Context);
             if (GetWasDual(evos, PKX.Personal, pk))
                 return GetValid(LAbilityCapsuleUsed);
         }

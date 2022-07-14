@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using static PKHeX.Core.Legal;
 
@@ -64,7 +64,7 @@ public static class EvolutionChain
                 if (head >= fullChain.Length)
                 {
                     if (g <= 2 && pk.VC1)
-                        GensEvoChains.Invalidate(); // invalidate here since we haven't reached the regular invalidation
+                        GensEvoChains.Invalidate(pk.Context); // invalidate here since we haven't reached the regular invalidation
                     return GensEvoChains;
                 }
                 if (mostEvolved.RequiresLvlUp)
@@ -135,7 +135,7 @@ public static class EvolutionChain
             var index = Array.FindLastIndex(chains.Gen7, z => z.Species <= MaxSpeciesID_1);
             if (index == -1)
             {
-                chains.Invalidate(); // needed a Gen1 species present; invalidate the chain.
+                chains.Invalidate(pk.Context); // needed a Gen1 species present; invalidate the chain.
                 return;
             }
         }

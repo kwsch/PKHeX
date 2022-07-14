@@ -51,7 +51,8 @@ public sealed class LearnGroup1 : ILearnGroup
             {
                 var level = info.Argument;
                 var stage = detail.EvoStage;
-                var species = history[detail.Generation][stage].Species;
+                var chain = detail.Generation is 1 ? history.Gen1 : history.Gen2;
+                var species = chain[stage].Species;
                 if (IsAnyOtherResultALowerEvolutionStageAndHigherLevel(result, i, history, level, species))
                     result[i] = MoveResult.Unobtainable();
             }
@@ -74,7 +75,8 @@ public sealed class LearnGroup1 : ILearnGroup
                 continue;
 
             var stage = detail.EvoStage;
-            var species2 = history[detail.Generation][stage].Species;
+            var chain = detail.Generation is 1 ? history.Gen1 : history.Gen2;
+            var species2 = chain[stage].Species;
             if (level2 > level && species2 <= species)
                 return true;
         }
@@ -82,7 +84,7 @@ public sealed class LearnGroup1 : ILearnGroup
         return false;
     }
 
-    private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PK1 pk)
+    private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
     {
         var occupied = current.Length - current.Count(0);
         if (occupied == 4)
@@ -138,7 +140,7 @@ public sealed class LearnGroup1 : ILearnGroup
             return;
         if (HasDefinitelyVisitedGen2(pk1))
             return;
-        FlagFishyMoveSlots(result, current, enc, pk1);
+        FlagFishyMoveSlots(result, current, enc);
     }
 
     private static bool HasDefinitelyVisitedGen2(PK1 pk1)
