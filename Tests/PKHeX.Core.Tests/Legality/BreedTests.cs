@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Common;
 using PKHeX.Core;
@@ -39,10 +40,11 @@ public class BreedTests
     {
         var gen = game.GetGeneration();
         var moves = GetMoves(movelist);
-        var test = MoveBreed.Process(gen, (int) species, form, game, moves, out var valid);
+        Span<byte> result = stackalloc byte[moves.Length];
+        var valid = MoveBreed.Validate(gen, (int) species, form, game, moves, result);
         valid.Should().BeTrue();
 
-        var x = ((byte[])test);
+        var x = result.ToArray();
 
         if (gen != 2)
             x.SequenceEqual(x.OrderBy(z => z)).Should().BeTrue();
@@ -59,7 +61,8 @@ public class BreedTests
     {
         var gen = game.GetGeneration();
         var moves = GetMoves(movelist);
-        var test = MoveBreed.Process(gen, (int)species, form, game, moves);
+        Span<byte> result = stackalloc byte[moves.Length];
+        var test = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
         test.Should().BeFalse();
     }
 
@@ -72,9 +75,10 @@ public class BreedTests
         var gen = game.GetGeneration();
         var moves = GetMoves(movelist);
 
-        var test = MoveBreed.Process(gen, (int)species, form, game, moves, out var valid);
+        Span<byte> result = stackalloc byte[moves.Length];
+        var valid = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
         valid.Should().BeFalse();
-        var reorder = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, test);
+        var reorder = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, result);
 
         // fixed order should be different now.
         reorder.SequenceEqual(moves).Should().BeFalse();

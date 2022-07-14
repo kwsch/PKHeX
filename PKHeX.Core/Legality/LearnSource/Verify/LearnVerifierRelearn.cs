@@ -79,22 +79,25 @@ public static class LearnVerifierRelearn
     internal static void VerifyEggMoveset(EncounterEgg e, Span<MoveResult> result, ReadOnlySpan<int> moves)
     {
         int gen = e.Generation;
-        var origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, moves, out var valid);
+        Span<byte> origins = stackalloc byte[moves.Length];
+        var valid = MoveBreed.Validate(gen, e.Species, e.Form, e.Version, moves, origins);
         if (valid)
         {
             for (int i = 0; i < result.Length; i++)
-                result[i] = new(EggSourceUtil.GetSource(origins, gen, i));
+                result[i] = new(moves[i] == 0 ? LearnMethod.Empty : EggSourceUtil.GetSource(origins[i], gen));
         }
         else
         {
             var expected = MoveBreed.GetExpectedMoves(moves, e);
-            origins = MoveBreed.Process(gen, e.Species, e.Form, e.Version, expected, out _);
+            _ = MoveBreed.Validate(gen, e.Species, e.Form, e.Version, expected, origins);
             for (int i = 0; i < moves.Length; i++)
             {
+                var current = moves[i];
                 var expect = expected[i];
-                result[i] = moves[i] == expect
-                    ? new(EggSourceUtil.GetSource(origins, gen, i))
-                    : MoveResult.Unobtainable(expect);
+                if (current == expect)
+                    result[i] = new(current == 0 ? LearnMethod.Empty : EggSourceUtil.GetSource(origins[i], gen));
+                else
+                    result[i] = MoveResult.Unobtainable(expect);
             }
         }
 

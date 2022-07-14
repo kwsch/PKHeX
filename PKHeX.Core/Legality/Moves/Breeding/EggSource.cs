@@ -153,22 +153,16 @@ public static class EggSourceUtil
     };
 
     /// <summary>
-    /// Unboxes the parse result and returns a user friendly string for the move result.
+    /// Converts the parse result and returns a user friendly string for the move result.
     /// </summary>
-    public static LearnMethod GetSource(Array parse, int generation, int index)
+    public static LearnMethod GetSource(byte value, int generation) => generation switch
     {
-        if (index >= parse.Length)
-            return Empty;
-
-        return generation switch
-        {
-            2      => ((EggSource2[])parse)[index].GetSource(),
-            3 or 4 => ((EggSource34[])parse)[index].GetSource(),
-            5      => ((EggSource5[])parse)[index].GetSource(),
-            >= 6   => ((EggSource6[])parse)[index].GetSource(),
-            _      => None,
-        };
-    }
+        2      => ((EggSource2)value).GetSource(),
+        3 or 4 => ((EggSource34)value).GetSource(),
+        5      => ((EggSource5)value).GetSource(),
+        >= 6   => ((EggSource6)value).GetSource(),
+        _ => None,
+    };
 
     public static LearnMethod GetSource(this EggSource2 source) => source switch
     {

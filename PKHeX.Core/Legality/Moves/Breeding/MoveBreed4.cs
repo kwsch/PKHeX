@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource34;
 using static PKHeX.Core.GameVersion;
 
@@ -13,14 +14,12 @@ public static class MoveBreed4
 {
     private const int level = 1;
 
-    public static EggSource34[] Validate(int species, GameVersion version, ReadOnlySpan<int> moves, out bool valid)
+    /// <inheritdoc cref="MoveBreed.Validate"/>
+    public static bool Validate(int species, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins)
     {
         var count = moves.IndexOf(0);
         if (count == 0)
-        {
-            valid = false; // empty moveset
-            return Array.Empty<EggSource34>();
-        }
+            return false;
         if (count == -1)
             count = moves.Length;
 
@@ -30,12 +29,13 @@ public static class MoveBreed4
         var pi = table[species];
         var egg = (version is HG or SS ? Legal.EggMovesHGSS : Legal.EggMovesDPPt)[species].Moves;
 
-        var actual = new EggSource34[count];
+        var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
         var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, level);
         if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
             actual[--count] = VoltTackle;
 
+        bool valid;
         if (count == 0)
         {
             valid = VerifyBaseMoves(value);
@@ -49,17 +49,17 @@ public static class MoveBreed4
 
         if (!valid)
             CleanResult(actual, possible);
-        return value.Actual;
+        return valid;
     }
 
-    private static void CleanResult(EggSource34[] valueActual, Span<byte> valuePossible)
+    private static void CleanResult(Span<EggSource34> valueActual, Span<byte> valuePossible)
     {
-        for (int i = 0; i < valueActual.Length; i++)
+        for (int i = 0; i < valuePossible.Length; i++)
         {
-            if (valueActual[i] != 0)
-                continue;
             var poss = valuePossible[i];
             if (poss == 0)
+                continue;
+            if (valueActual[i] != 0)
                 continue;
 
             for (int j = 0; j < (int)Max; j++)
