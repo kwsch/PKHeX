@@ -41,7 +41,7 @@ public static class LearnVerifierRelearn
     private static MoveResult ParseExpect(int move, int expect = 0)
     {
         if (move == expect)
-            return MoveResult.Relearn;
+            return move == 0 ? MoveResult.Empty : MoveResult.Relearn;
         return MoveResult.Unobtainable(expect);
     }
 
@@ -83,21 +83,29 @@ public static class LearnVerifierRelearn
         var valid = MoveBreed.Validate(gen, e.Species, e.Form, e.Version, moves, origins);
         if (valid)
         {
-            for (int i = 0; i < result.Length; i++)
-                result[i] = new(moves[i] == 0 ? LearnMethod.Empty : EggSourceUtil.GetSource(origins[i], gen));
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                if (moves[i] == 0)
+                    result[i] = MoveResult.Empty;
+                else
+                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen));
+            }
         }
         else
         {
-            var expected = MoveBreed.GetExpectedMoves(moves, e);
+            Span<int> expected = stackalloc int[moves.Length];
+            _ = MoveBreed.GetExpectedMoves(moves, e, expected);
             _ = MoveBreed.Validate(gen, e.Species, e.Form, e.Version, expected, origins);
-            for (int i = 0; i < moves.Length; i++)
+            for (int i = moves.Length - 1; i >= 0; i--)
             {
                 var current = moves[i];
                 var expect = expected[i];
-                if (current == expect)
-                    result[i] = new(current == 0 ? LearnMethod.Empty : EggSourceUtil.GetSource(origins[i], gen));
-                else
+                if (current != expect)
                     result[i] = MoveResult.Unobtainable(expect);
+                else if (current == 0)
+                    result[i] = MoveResult.Empty;
+                else
+                    result[i] = new(EggSourceUtil.GetSource(origins[i], gen));
             }
         }
 

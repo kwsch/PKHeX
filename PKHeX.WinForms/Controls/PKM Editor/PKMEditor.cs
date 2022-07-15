@@ -733,7 +733,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         Span<int> moves = stackalloc int[4];
-        Entity.SetMoves(moves);
+        Entity.GetMoves(moves);
         if (moves.SequenceEqual(m))
             return false;
 

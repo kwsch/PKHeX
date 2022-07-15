@@ -118,9 +118,18 @@ public static class MoveListSuggest
     private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk) => enc switch
     {
         IRelearn { Relearn: int[] { Length: not 0 } r } => r,
-        EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pk.RelearnMoves, enc).ToArray(),
+        EncounterEgg or EncounterInvalid {EggEncounter: true} => GetSuggestedRelearnEgg(enc, pk),
         _ => Empty,
     };
+
+    private static int[] GetSuggestedRelearnEgg(IEncounterTemplate enc, PKM pk)
+    {
+        Span<int> current = stackalloc int[4];
+        pk.GetRelearnMoves(current);
+        Span<int> expected = stackalloc int[current.Length];
+        _ = MoveBreed.GetExpectedMoves(current, enc, expected);
+        return expected.ToArray();
+    }
 
     private static readonly IReadOnlyList<int> Empty = new int[4];
 
@@ -141,7 +150,7 @@ public static class MoveListSuggest
         return enc.GetSuggestedRelearnInternal(pk);
     }
 
-    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, MoveResult[] parse, PKM pk)
+    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk)
     {
         var result = enc.GetEggRelearnMoves(parse, pk);
         int generation = enc.Generation;
@@ -168,27 +177,26 @@ public static class MoveListSuggest
         return incense.GetEggRelearnMoves(parse, pk);
     }
 
-    private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, MoveResult[] parse, PKM pk)
+    private static int[] GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk)
     {
         // Extract a list of the moves that should end up in the relearn move list.
-        int ctr = 0;
-        var moves = new int[4];
-        for (var i = 0; i < parse.Length; i++)
-        {
-            var m = parse[i];
-            if (!m.ShouldBeInRelearnMoves())
-                continue;
-            moves[ctr++] = pk.GetMove(i);
-        }
+        Span<int> moves = stackalloc int[parse.Length];
+        LoadRelearnFlagged(moves, parse, pk);
 
-        // Swap Volt Tackle to the end of the list.
-        int volt = Array.IndexOf(moves, (int) Move.VoltTackle, 0, ctr);
-        if (volt != -1)
+        Span<int> expected = stackalloc int[moves.Length];
+        _ = MoveBreed.GetExpectedMoves(moves, enc, expected);
+        return expected.ToArray();
+    }
+
+    private static void LoadRelearnFlagged(Span<int> moves, ReadOnlySpan<MoveResult> parse, PKM pk)
+    {
+        // Loads only indexes that are flagged as relearn moves
+        int count = 0;
+        for (int index = 0; index < parse.Length; index++)
         {
-            var dest = ctr - 1;
-            moves[volt] = moves[dest];
-            moves[dest] = (int) Move.VoltTackle;
+            var move = parse[index];
+            if (move.ShouldBeInRelearnMoves())
+                moves[count++] = pk.GetMove(index);
         }
-        return MoveBreed.GetExpectedMoves(moves, enc);
     }
 }
