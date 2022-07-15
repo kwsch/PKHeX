@@ -99,11 +99,12 @@ public static class EncounterFinder
             relearn.Fill(MoveResult.Relearn);
         }
 
-        LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
-        if (!Array.TrueForAll(info.Moves, z => z.Valid) && iterator.PeekIsNext())
+        var moves = info.Moves.AsSpan();
+        LearnVerifier.Verify(moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
+        if (!MoveResult.AllValid(moves) && iterator.PeekIsNext())
             return false;
 
-        if (!info.Parse.TrueForAll(z => z.Valid) && iterator.PeekIsNext())
+        if (!info.Parse.TrueForAll(static z => z.Valid) && iterator.PeekIsNext())
             return false;
 
         var evo = EvolutionVerifier.VerifyEvolution(pk, info);

@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -47,7 +49,7 @@ public sealed record EncounterSlot6AO : EncounterSlot
 
     protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
-    private int[] GetDexNavMoves()
+    private ReadOnlySpan<int> GetDexNavMoves()
     {
         var et = EvolutionTree.Evolves6;
         var sf = et.GetBaseSpeciesForm(Species, Form);
@@ -57,6 +59,6 @@ public sealed record EncounterSlot6AO : EncounterSlot
     public bool CanBeDexNavMove(int move)
     {
         var baseEgg = GetDexNavMoves();
-        return System.Array.IndexOf(baseEgg, move) >= 0;
+        return baseEgg.Contains(move);
     }
 }

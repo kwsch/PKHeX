@@ -166,7 +166,8 @@ public static class MoveListSuggest
         var tmp = pk.Clone();
         tmp.SetRelearnMoves(result);
         var la = new LegalityAnalysis(tmp);
-        if (la.Info.Moves.All(z => z.Valid))
+        var moves = la.Info.Moves;
+        if (MoveResult.AllValid(moves))
             return result;
 
         // Try again with the other split-breed species if possible.

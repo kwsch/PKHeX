@@ -8,7 +8,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public bool IsParsed => this != default;
     public bool Valid => Info.Method.IsValid();
 
-    internal MoveResult(LearnMethod method, LearnEnvironment game = LearnEnvironment.Any) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
+    internal MoveResult(LearnMethod method, LearnEnvironment game = 0) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
 
     public string Summary(ISpeciesForm current, EvolutionHistory history)
     {

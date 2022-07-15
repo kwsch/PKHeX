@@ -40,9 +40,11 @@ public static class LearnVerifierRelearn
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static MoveResult ParseExpect(int move, int expect = 0)
     {
-        if (move == expect)
-            return move == 0 ? MoveResult.Empty : MoveResult.Relearn;
-        return MoveResult.Unobtainable(expect);
+        if (move != expect)
+            return MoveResult.Unobtainable(expect);
+        if (move == 0)
+            return MoveResult.Empty;
+        return MoveResult.Relearn;
     }
 
     private static void VerifyRelearnDexNav(PKM pk, Span<MoveResult> result, EncounterSlot6AO slot)

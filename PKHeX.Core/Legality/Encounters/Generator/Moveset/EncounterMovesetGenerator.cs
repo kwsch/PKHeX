@@ -415,7 +415,7 @@ public static class EncounterMovesetGenerator
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsSane(EvoCriteria[] chain, IEncounterTemplate enc, int format)
+    private static bool IsSane(ReadOnlySpan<EvoCriteria> chain, IEncounterTemplate enc, int format)
     {
         foreach (var evo in chain)
         {

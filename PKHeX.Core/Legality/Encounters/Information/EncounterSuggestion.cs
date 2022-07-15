@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using static PKHeX.Core.GameVersion;
@@ -163,7 +163,8 @@ public static class EncounterSuggestion
             var la = new LegalityAnalysis(clone);
             if (la.Valid)
                 return i;
-            if (la.Info.Moves.All(z => z.Valid))
+            var moves = la.Info.Moves;
+            if (MoveResult.AllValid(moves))
                 minMove = i;
         }
         return Math.Max(minMove, minLevel);

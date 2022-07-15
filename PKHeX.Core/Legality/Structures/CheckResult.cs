@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Result of a Legality Check
@@ -12,5 +12,4 @@ public sealed record CheckResult(Severity Judgement, string Comment, CheckIdenti
 
     public override string ToString() => $"{Identifier}: {Comment}";
     public string Format(string format) => string.Format(format, Rating, Comment);
-    public string Format(string format, int index) => string.Format(format, Rating, index, Comment);
 }

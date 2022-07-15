@@ -101,8 +101,8 @@ public sealed class LegalityAnalysis
             GetParseMethod()();
 
             Valid = Parse.TrueForAll(chk => chk.Valid)
-                    && Array.TrueForAll(Info.Moves, m => m.Valid)
-                    && Array.TrueForAll(Info.Relearn, m => m.Valid);
+                    && MoveResult.AllValid(Info.Moves)
+                    && MoveResult.AllValid(Info.Relearn);
 
             if (!Valid && IsPotentiallyMysteryGift(Info, pk))
                 AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
@@ -147,7 +147,7 @@ public sealed class LegalityAnalysis
             return false;
         if (enc.Generation < 6)
             return true;
-        if (Array.TrueForAll(info.Relearn, chk => !chk.Valid))
+        if (!MoveResult.AllValid(info.Relearn))
             return true;
         return false;
     }
@@ -267,9 +267,7 @@ public sealed class LegalityAnalysis
         var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(Entity, enc, Info.EvoChainsAllGens.Gen7);
         Info.EncounterMatch = vc;
 
-        foreach (var z in Transfer.VerifyVCEncounter(Entity, enc, vc, Info.Moves))
-            AddLine(z);
-
+        Transfer.VerifyVCEncounter(Entity, enc, vc, this);
         Transfer.VerifyTransferLegalityG12(this);
     }
 

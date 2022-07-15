@@ -15,13 +15,11 @@ public enum LearnEnvironment : byte
     /* Gen6 */ XY, ORAS,
     /* Gen7 */ SM, USUM, GG,
     /* Gen8 */ SWSH, BDSP, PLA,
-
-    Any = byte.MaxValue,
 }
 
 public static class LearnEnvironmentExtensions
 {
-    public static bool IsSpecified(this LearnEnvironment value) => value is not (None or Any);
+    public static bool IsSpecified(this LearnEnvironment value) => value is not None;
     public static byte GetGeneration(this LearnEnvironment value) => value switch
     {
         RB or YW => 1,

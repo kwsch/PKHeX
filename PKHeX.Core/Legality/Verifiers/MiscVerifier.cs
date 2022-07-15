@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -210,7 +209,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (catch_rate == 0 || Legal.HeldItems_GSC.Contains(catch_rate))
+            if (PK1.IsCatchRateHeldItem(catch_rate))
                 return GetValid(LG1CatchRateMatchTradeback);
             if (timeCapsuleEvalution == TimeCapsuleEvaluation.BadCatchRate)
                 return GetInvalid(LG1CatchRateItem);
@@ -220,7 +219,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (data.Info.Moves.Any(z => z.Generation == 2))
+            if (Array.Exists(data.Info.Moves, z => z.Generation == 2))
                 return GetInvalid(LG1CatchRateItem);
             var e = data.EncounterMatch;
             if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)

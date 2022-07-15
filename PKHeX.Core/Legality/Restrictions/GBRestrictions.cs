@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -167,7 +168,7 @@ internal static class GBRestrictions
         return PotentialGBOrigin.Gen1Only;
     }
 
-    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, MoveResult[] moves, IEncounterTemplate enc)
+    public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, ReadOnlySpan<MoveResult> moves, IEncounterTemplate enc)
     {
         foreach (var z in moves)
         {

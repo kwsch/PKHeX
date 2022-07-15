@@ -250,7 +250,7 @@ public static class CommonEdits
             pk.Nature = pk.StatNature;
 
         var legal = new LegalityAnalysis(pk);
-        if (legal.Parsed && Array.FindIndex(legal.Info.Relearn, static z => !z.Valid) != -1)
+        if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
         pk.ResetPartyStats();
         pk.RefreshChecksum();

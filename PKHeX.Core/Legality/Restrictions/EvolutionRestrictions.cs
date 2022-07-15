@@ -251,7 +251,12 @@ internal static class EvolutionRestrictions
     {
         // If the pokemon does not currently have the move, it could have been an egg move that was forgotten.
         // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
-        var fromEggCount = info.Moves.Count(m => m.Info.Method.IsEggSource());
-        return fromEggCount < 4;
+        // If any move is not an egg source, then a slot could have been forgotten.
+        foreach (var move in info.Moves)
+        {
+            if (!move.Info.Method.IsEggSource())
+                return false;
+        }
+        return true;
     }
 }
