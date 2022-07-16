@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -143,10 +142,10 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return false;
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -156,31 +155,31 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.TMHM;
-            var moveIDs = Legal.TMHM_SWSH;
+            var flags = pi.TMHM;
+            var moves = Legal.TMHM_SWSH;
             for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
 
-            if (pk is ITechRecord8 tr)
+            if (pk is ITechRecord8)
             {
-                for (int index = 0; index < moveIDs.Length; index++)
+                var trFlags = flags.AsSpan(PersonalInfoSWSH.CountTM);
+                var trMoves = moves.AsSpan(PersonalInfoSWSH.CountTM);
+                for (int index = 0; index < trFlags.Length; index++)
                 {
-                    var move = moveIDs[PersonalInfoSWSH.CountTM + index];
-                    if (!permit[PersonalInfoSWSH.CountTM + index])
-                        yield return move;
-                    if (tr.GetMoveRecordFlag(index))
-                        yield return move;
+                    var move = trMoves[index];
+                    if (trFlags[index])
+                        result[move] = true;
                     else if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
-                        yield return move; // Agility Calyrex without TR glitch.
+                        result[move] = true; // Agility Calyrex without TR glitch.
                 }
             }
         }
@@ -188,24 +187,24 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             // Beams
-            var permit = pi.TypeTutors;
-            var moveIDs = Legal.TypeTutor6;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TypeTutors;
+            var moves = Legal.TypeTutor6;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
             // SW/SH Tutors
-            var permit = pi.SpecialTutors[0];
-            var moveIDs = Legal.Tutors_SWSH_1;
-            for (int i = 0; i < permit.Length; i++)
+            var flags = pi.SpecialTutors[0];
+            var moves = Legal.Tutors_SWSH_1;
+            for (int i = 0; i < flags.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
@@ -213,11 +212,11 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && pk.Form is not 0)
-                yield return MoveTutor.GetRotomFormMove(evo.Form);
+                result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
             else if (species is (int)Species.Necrozma && pk.Form is 1) // Sun
-                yield return (int)Move.SunsteelStrike;
+                result[(int)Move.SunsteelStrike] = true;
             else if (species is (int)Species.Necrozma && pk.Form is 2) // Moon
-                yield return (int)Move.MoongeistBeam;
+                result[(int)Move.MoongeistBeam] = true;
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -106,10 +105,10 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return info.TMHM[CountTM + index];
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -119,45 +118,45 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.TMHM;
-            var moveIDs = Legal.TM_4;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TMHM;
+            var moves = Legal.TM_4;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
 
             if (pk.Format == Generation)
             {
-                moveIDs = Legal.HM_DPPt;
-                for (int i = 0; i < moveIDs.Length; i++)
+                moves = Legal.HM_DPPt;
+                for (int i = 0; i < moves.Length; i++)
                 {
-                    if (permit[CountTM + i])
-                        yield return moveIDs[i];
+                    if (flags[CountTM + i])
+                        result[moves[i]] = true;
                 }
             }
             else
             {
                 // Permit Defog to leak through if transferred to Gen5+ (via HG/SS)
-                if (permit[CountTM + 4])
-                    yield return (int)Move.Defog;
+                if (flags[CountTM + 4])
+                    result[(int)Move.Defog] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            var permit = pi.TypeTutors;
-            var moveIDs = Legal.Tutors_4;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TypeTutors;
+            var moves = Legal.Tutors_4;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
     }

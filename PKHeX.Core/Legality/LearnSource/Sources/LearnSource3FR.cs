@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -95,10 +94,10 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return info.TMHM[CountTM + index];
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -108,27 +107,27 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.TMHM;
-            var moveIDs = Legal.TM_3;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TMHM;
+            var moves = Legal.TM_3;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
 
             if (pk.Format == 3)
             {
-                moveIDs = Legal.HM_3;
-                for (int i = 0; i < moveIDs.Length; i++)
+                moves = Legal.HM_3;
+                for (int i = 0; i < moves.Length; i++)
                 {
-                    if (permit[CountTM + i])
-                        yield return moveIDs[i];
+                    if (flags[CountTM + i])
+                        result[moves[i]] = true;
                 }
             }
         }
@@ -136,11 +135,11 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
             if (evo.Species == (int)Species.Charizard)
-                yield return (int)Move.BlastBurn;
+                result[(int)Move.BlastBurn] = true;
             else if (evo.Species == (int)Species.Blastoise)
-                yield return (int)Move.HydroCannon;
+                result[(int)Move.HydroCannon] = true;
             else if (evo.Species == (int)Species.Venusaur)
-                yield return (int)Move.FrenzyPlant;
+                result[(int)Move.FrenzyPlant] = true;
         }
     }
 }

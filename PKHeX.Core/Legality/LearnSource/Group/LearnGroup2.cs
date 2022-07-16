@@ -10,7 +10,7 @@ public sealed class LearnGroup2 : ILearnGroup
     public static readonly LearnGroup2 Instance = new();
     private const int Generation = 2;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
     {
         EntityContext.Gen2 when enc.Generation == 1 => LearnGroup1.Instance,
         EntityContext.Gen1 => null,
@@ -143,5 +143,41 @@ public sealed class LearnGroup2 : ILearnGroup
             return false;
         }
         return entry.EvoStage < stage;
+    }
+
+    public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (enc.Generation == Generation)
+            FlagEncounterMoves(enc, result);
+
+        foreach (var evo in history.Gen2)
+            GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
+    {
+        if (ParseSettings.AllowGen2MoveReminder(pk))
+            evo = evo with { LevelMin = 1 };
+
+        LearnSource2GS.Instance.GetAllMoves(result, pk, evo, types);
+        if (pk.Korean)
+            return;
+        LearnSource2C.Instance.GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    {
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        {
+            foreach (var move in x)
+                result[move] = true;
+        }
+        else
+        {
+            Span<int> moves = stackalloc int[4];
+            GetEncounterMoves(enc, moves);
+            foreach (var move in moves)
+                result[move] = true;
+        }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -64,10 +63,10 @@ public sealed class LearnSource7GG : ILearnSource
         return info.TMHM[index];
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -77,18 +76,18 @@ public sealed class LearnSource7GG : ILearnSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.TMHM;
-            var moveIDs = Legal.TMHM_GG;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TMHM;
+            var moves = Legal.TMHM_GG;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
@@ -97,12 +96,12 @@ public sealed class LearnSource7GG : ILearnSource
             if (evo.Species == (int)Species.Pikachu && evo.Form == 8) // Partner
             {
                 foreach (var move in Legal.Tutor_StarterPikachu)
-                    yield return move;
+                    result[move] = true;
             }
             else if (evo.Species == (int)Species.Eevee && evo.Form == 1) // Partner
             {
                 foreach (var move in Legal.Tutor_StarterEevee)
-                    yield return move;
+                    result[move] = true;
             }
         }
     }

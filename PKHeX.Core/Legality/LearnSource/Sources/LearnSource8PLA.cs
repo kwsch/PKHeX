@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -65,10 +64,10 @@ public sealed class LearnSource8LA : ILearnSource
         return pi.SpecialTutors[0][index];
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -78,18 +77,18 @@ public sealed class LearnSource8LA : ILearnSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.SpecialTutors[0];
-            var moveIDs = Legal.MoveShop8_LA;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.SpecialTutors[0];
+            var moves = Legal.MoveShop8_LA;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
@@ -97,7 +96,7 @@ public sealed class LearnSource8LA : ILearnSource
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && evo.Form is not 0)
-                yield return MoveTutor.GetRotomFormMove(evo.Form);
+                result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -23,10 +23,11 @@ public interface ILearnSource
     /// <summary>
     /// Yields an iterable list of all potential moves that an <see cref="evo"/> can learn from this <see cref="ILearnSource"/>.
     /// </summary>
+    /// <param name="result">Result storage for flags</param>
     /// <param name="pk">Entity reference</param>
     /// <param name="evo">Details about the state of the entity</param>
     /// <param name="types">Types of move sources to iterate</param>
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All);
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All);
 
     /// <summary>
     /// Gets the learnset for the given <see cref="species"/> and <see cref="form"/>.

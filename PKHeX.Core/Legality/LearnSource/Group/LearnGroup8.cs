@@ -10,7 +10,7 @@ public sealed class LearnGroup8 : ILearnGroup
     public static readonly LearnGroup8 Instance = new();
     private const int Generation = 8;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (enc.Generation >= Generation)
             return null;
@@ -117,6 +117,63 @@ public sealed class LearnGroup8 : ILearnGroup
             var chk = game.GetCanLearn(pk, pi, evo, move, type, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
+        }
+    }
+
+    public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        var evos = history.Gen8;
+        if (enc.Generation == Generation)
+        {
+            FlagEncounterMoves(enc, result);
+            if (enc is EncounterStatic8N r && r.IsDownLeveled(pk))
+            {
+                // If the encounter was reduced in level for the OT that joined the encounter, check for the original moveset range.
+                var i = evos.Length - 1;
+                var exist = evos[i];
+                var original = exist with { LevelMax = r.LevelMax, LevelMin = exist.LevelMax };
+                LearnSource8SWSH.Instance.GetAllMoves(result, pk, original, types);
+            }
+        }
+
+        foreach (var evo in evos)
+            GetAllMoves(result, pk, evo, types, option);
+    }
+
+    private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types, LearnOption option)
+    {
+        if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
+        {
+            GetAllMovesInternal(result, pk, evo, types);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource6AO.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            GetAllMovesInternal(result, pk, evo with { Form = (byte)i }, types);
+    }
+
+    private static void GetAllMovesInternal(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
+    {
+        LearnSource8SWSH.Instance.GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    {
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } m })
+        {
+            foreach (var move in m)
+                result[move] = true;
+        }
+        if (enc is IRelearn { Relearn: int[] { Length: not 0 } r })
+        {
+            foreach (var move in r)
+                result[move] = true;
         }
     }
 }

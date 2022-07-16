@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
@@ -98,10 +97,10 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    public IEnumerable<int> GetAllMoves(PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
+    public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
-            yield break;
+            return;
 
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -111,30 +110,30 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
             {
                 var moves = learn.Moves;
                 for (int i = end; i >= start; i--)
-                    yield return moves[i];
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            var permit = pi.TMHM;
-            var moveIDs = Legal.TMHM_BW;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TMHM;
+            var moves = Legal.TMHM_BW;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
         if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             // Beams
-            var permit = pi.TypeTutors;
-            var moveIDs = Legal.TypeTutor6;
-            for (int i = 0; i < moveIDs.Length; i++)
+            var flags = pi.TypeTutors;
+            var moves = Legal.TypeTutor6;
+            for (int i = 0; i < moves.Length; i++)
             {
-                if (permit[i])
-                    yield return moveIDs[i];
+                if (flags[i])
+                    result[moves[i]] = true;
             }
         }
 
@@ -142,11 +141,11 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && evo.Form is not 0)
-                yield return MoveTutor.GetRotomFormMove(evo.Form);
+                result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
             else if (species is (int)Species.Keldeo)
-                yield return (int)Move.SecretSword;
+                result[(int)Move.SecretSword] = true;
             else if (species is (int)Species.Meloetta)
-                yield return (int)Move.RelicSong;
+                result[(int)Move.RelicSong] = true;
         }
     }
 }

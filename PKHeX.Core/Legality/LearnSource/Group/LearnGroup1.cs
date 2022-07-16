@@ -10,7 +10,7 @@ public sealed class LearnGroup1 : ILearnGroup
     public static readonly LearnGroup1 Instance = new();
     private const int Generation = 1;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
     {
         EntityContext.Gen1 when enc.Generation == 1 && pk is PK1 pk1 && HasDefinitelyVisitedGen2(pk1) => LearnGroup2.Instance,
         EntityContext.Gen1 when enc.Generation == 2 => LearnGroup2.Instance,
@@ -29,7 +29,7 @@ public sealed class LearnGroup1 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        if (GetPrevious(result, pk, history, enc) is null)
+        if (GetPrevious(pk, history, enc) is null)
             FlagEvolutionSlots(result, current, history);
 
         return MoveResult.AllParsed(result);
@@ -212,5 +212,39 @@ public sealed class LearnGroup1 : ILearnGroup
             return false;
         }
         return entry.EvoStage < stage;
+    }
+
+    public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (enc.Generation == Generation)
+            FlagEncounterMoves(enc, result);
+        
+        foreach (var evo in history.Gen1)
+            GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
+    {
+        if (ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk))
+            evo = evo with { LevelMin = 1 };
+
+        LearnSource1YW.Instance.GetAllMoves(result, pk, evo, types);
+        LearnSource1RB.Instance.GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    {
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        {
+            foreach (var move in x)
+                result[move] = true;
+        }
+        else
+        {
+            Span<int> moves = stackalloc int[4];
+            GetEncounterMoves(enc, moves);
+            foreach (var move in moves)
+                result[move] = true;
+        }
     }
 }

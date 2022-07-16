@@ -10,7 +10,7 @@ public sealed class LearnGroup5 : ILearnGroup
     public static readonly LearnGroup5 Instance = new();
     private const int Generation = 5;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup4.Instance;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup4.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen5.Length != 0;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
@@ -96,6 +96,42 @@ public sealed class LearnGroup5 : ILearnGroup
                 result[i] = new(chk, (byte)stage, Generation);
 
             // B2/W2's learnset is a strict superset of B/W; don't check B/W!
+        }
+    }
+
+    public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (enc.Generation == Generation)
+            FlagEncounterMoves(enc, result);
+
+        foreach (var evo in history.Gen5)
+            GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
+    {
+        if (evo.Species is not ((int)Species.Deoxys or (int)Species.Giratina or (int)Species.Shaymin))
+        {
+            LearnSource5B2W2.Instance.GetAllMoves(result, pk, evo, types);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource5B2W2.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            LearnSource5B2W2.Instance.GetAllMoves(result, pk, evo with { Form = (byte)i }, types);
+    }
+
+    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    {
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        {
+            foreach (var move in x)
+                result[move] = true;
         }
     }
 }

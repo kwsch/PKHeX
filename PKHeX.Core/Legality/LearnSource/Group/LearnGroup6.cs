@@ -10,7 +10,7 @@ public sealed class LearnGroup6 : ILearnGroup
     public static readonly LearnGroup6 Instance = new();
     private const int Generation = 6;
 
-    public ILearnGroup? GetPrevious(Span<MoveResult> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup5.Instance;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup5.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen6.Length != 0;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
@@ -147,6 +147,69 @@ public sealed class LearnGroup6 : ILearnGroup
             var chk = game.GetCanLearn(pk, pi, evo, move, option: option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
+        }
+    }
+
+    public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (enc.Generation == Generation)
+            FlagEncounterMoves(enc, result);
+
+        var mode = GetCheckMode(enc, pk);
+        foreach (var evo in history.Gen6)
+            GetAllMoves(result, pk, evo, types, option, mode);
+    }
+
+    private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types, LearnOption option, CheckMode mode)
+    {
+        if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
+        {
+            GetAllMovesInternal(result, pk, evo, types, mode);
+            return;
+        }
+
+        // Check all forms
+        var inst = LearnSource6AO.Instance;
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            GetAllMovesInternal(result, pk, evo with { Form = (byte)i }, types, mode);
+    }
+
+    private static void GetAllMovesInternal(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types, CheckMode mode)
+    {
+        if (mode is CheckMode.Both)
+            GetAllMovesBoth(result, pk, evo, types);
+        else if (mode is CheckMode.AO)
+            GetAllMovesSingle(result, pk, evo, LearnSource6AO.Instance, types);
+        else
+            GetAllMovesSingle(result, pk, evo, LearnSource6XY.Instance, types);
+    }
+
+    private static void GetAllMovesSingle<T>(Span<bool> result, PKM pk, EvoCriteria evo, T instance, MoveSourceType types) where T : ILearnSource
+    {
+        instance.GetAllMoves(result, pk, evo, types);
+    }
+
+    private static void GetAllMovesBoth(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
+    {
+        LearnSource6AO.Instance.GetAllMoves(result, pk, evo, types);
+        LearnSource6XY.Instance.GetAllMoves(result, pk, evo, types & MoveSourceType.LevelUp);
+    }
+
+    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    {
+        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        {
+            foreach (var move in x)
+                result[move] = true;
+        }
+        if (enc is IRelearn { Relearn: int[] { Length: not 0 } r })
+        {
+            foreach (var move in r)
+                result[move] = true;
         }
     }
 }
