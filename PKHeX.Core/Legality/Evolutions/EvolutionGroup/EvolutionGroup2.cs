@@ -21,7 +21,14 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
             return false;
 
         // Get the evolution tree from this group and get the new chain from it.
-        var criteria = enc with { LevelMax = evo.LevelMax, LevelMin = evo.LevelMin };
+        byte min;
+        if (pk.Format > Generation)
+            min = enc.LevelMin;
+        else if (pk is ICaughtData2 { CaughtData: not 0 } c)
+            min = (byte)c.Met_Level;
+        else
+            min = enc.LevelMin;
+        var criteria = enc with { LevelMax = evo.LevelMax, LevelMin = min };
         var local = GetInitialChain(pk, criteria, evo.Species, evo.Form);
 
         // Revise the tree

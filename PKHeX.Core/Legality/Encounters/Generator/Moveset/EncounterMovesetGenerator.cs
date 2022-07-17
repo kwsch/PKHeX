@@ -182,7 +182,8 @@ public static class EncounterMovesetGenerator
         var length = pk.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
-        var history = EvolutionChain.GetEvolutionChainsAllGens(pk, EncounterInvalid.Default);
+        var enc = new EvolutionOrigin((GameVersion)ver, (byte)origin, 1, 100, true);
+        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc);
         LearnPossible.Get(pk, EncounterInvalid.Default, history, permitted);
 
         int ctr = 0; // count of moves that can be learned

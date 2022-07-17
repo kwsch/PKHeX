@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public class EvolutionHistory
 {
     private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
-    public static readonly EvolutionHistory Empty = new(NONE, 0);
+    public static readonly EvolutionHistory Empty = new();
 
     public EvoCriteria[] Gen1  = NONE;
     public EvoCriteria[] Gen2  = NONE;
@@ -19,36 +19,9 @@ public class EvolutionHistory
     public EvoCriteria[] Gen7  = NONE;
     public EvoCriteria[] Gen8  = NONE;
 
-    public ref EvoCriteria[] Gen7b => ref Gen7; // future: separate field instead of copy
-    public ref EvoCriteria[] Gen8a => ref Gen8; // future: separate field instead of copy
-    public ref EvoCriteria[] Gen8b => ref Gen8; // future: separate field instead of copy
-
-    public readonly int Length;
-    public readonly EvoCriteria[] FullChain;
-
-    public EvolutionHistory(EvoCriteria[] fullChain, int count)
-    {
-        FullChain = fullChain;
-        Length = count;
-    }
-
-    public ref EvoCriteria[] this[int index]
-    {
-        get
-        {
-            if (index == 1) return ref Gen1;
-            if (index == 2) return ref Gen2;
-            if (index == 3) return ref Gen3;
-            if (index == 4) return ref Gen4;
-            if (index == 5) return ref Gen5;
-            if (index == 6) return ref Gen6;
-            if (index == 7) return ref Gen7;
-            if (index == 8) return ref Gen8;
-            throw new ArgumentOutOfRangeException(nameof(index));
-        }
-    }
-
-    internal void Invalidate(EntityContext current) => Get(current) = NONE;
+    public EvoCriteria[] Gen7b = NONE;
+    public EvoCriteria[] Gen8a = NONE;
+    public EvoCriteria[] Gen8b = NONE;
 
     public bool HasVisitedSWSH => Gen8.Length != 0;
     public bool HasVisitedPLA => Gen8a.Length != 0;
@@ -56,23 +29,33 @@ public class EvolutionHistory
 
     public ref EvoCriteria[] Get(EntityContext context)
     {
-        if (context == EntityContext.Gen7b)
-            return ref Gen7b;
-        if (context == EntityContext.Gen8a)
-            return ref Gen8a;
-        if (context == EntityContext.Gen8b)
-            return ref Gen8b;
-        return ref this[context.Generation()];
+        if (context == EntityContext.Gen1) return ref Gen1;
+        if (context == EntityContext.Gen2) return ref Gen2;
+        if (context == EntityContext.Gen3) return ref Gen3;
+        if (context == EntityContext.Gen4) return ref Gen4;
+        if (context == EntityContext.Gen5) return ref Gen5;
+        if (context == EntityContext.Gen6) return ref Gen6;
+        if (context == EntityContext.Gen7) return ref Gen7;
+        if (context == EntityContext.Gen8) return ref Gen8;
+
+        if (context == EntityContext.Gen7b) return ref Gen7b;
+        if (context == EntityContext.Gen8a) return ref Gen8a;
+        if (context == EntityContext.Gen8b) return ref Gen8b;
+
+        throw new ArgumentOutOfRangeException(nameof(context));
     }
 
-    public EvoCriteria[] Get(int generation, GameVersion version)
+    public ref EvoCriteria[] Get(int generation, GameVersion version) => ref Get(generation switch
     {
-        if (generation == 7 && (GameVersion.GG.Contains(version) || version == GameVersion.GO))
-            return Gen7b;
-        if (generation == 8 && GameVersion.BDSP.Contains(version))
-            return Gen8b;
-        if (generation == 8 && GameVersion.PLA == version)
-            return Gen8a;
-        return this[generation];
+        7 when GameVersion.GG.Contains(version) || version == GameVersion.GO => EntityContext.Gen7b,
+        8 when GameVersion.BDSP.Contains(version) => EntityContext.Gen8b,
+        8 when GameVersion.PLA == version => EntityContext.Gen8a,
+        _ => (EntityContext)generation,
+    });
+
+    public void Set(EntityContext context, EvoCriteria[] chain)
+    {
+        ref var arr = ref Get(context);
+        arr = chain;
     }
 }
