@@ -11,7 +11,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
     private static PersonalTable Personal => PersonalTable.C;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup7.Instance : null;
-    public IEvolutionGroup GetPrevious(PKM pk, EvolutionOrigin enc) => EvolutionGroup1.Instance;
+    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format != 1 ? EvolutionGroup1.Instance : null;
 
     public bool Append(PKM pk, EvolutionHistory history, ref ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc)
     {

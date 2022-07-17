@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -61,7 +61,7 @@ public static class EncounterLearn
         if (moves.Any(z => z < 0))
             return Array.Empty<IEncounterable>();
 
-        var blank = EntityBlank.GetBlank(PKX.Generation);
+        var blank = EntityBlank.GetIdealBlank(species, form);
         blank.Species = species;
         blank.Form = form;
 

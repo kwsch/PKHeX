@@ -168,6 +168,9 @@ public static class EncounterMovesetGenerator
 
     private static int[] GetNeededMoves(PKM pk, ReadOnlySpan<int> moves)
     {
+        if (pk.Species == (int)Species.Smeargle)
+            return Array.Empty<int>();
+
         // Roughly determine the generation the PKM is originating from
         var ver = pk.Version;
         int origin = pk.Generation;
@@ -190,6 +193,8 @@ public static class EncounterMovesetGenerator
         Span<int> result = stackalloc int[moves.Length];
         foreach (var move in moves)
         {
+            if (move == 0)
+                continue;
             if (!permitted[move])
                 result[ctr++] = move;
         }
@@ -200,10 +205,12 @@ public static class EncounterMovesetGenerator
         if (vcBump)
             pk.Version = ver;
 
+        if (ctr == 0)
+            return Array.Empty<int>();
         return result[..ctr].ToArray();
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyList<int> needs, GameVersion version, EncounterOrder type, EvoCriteria[] chain)
+    private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, int[] needs, GameVersion version, EncounterOrder type, EvoCriteria[] chain)
     {
         return type switch
         {
@@ -224,7 +231,7 @@ public static class EncounterMovesetGenerator
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, int[] needs, EvoCriteria[] chain, GameVersion version)
     {
         if (!Breeding.CanGameGenerateEggs(version))
             yield break; // no eggs from these games
@@ -234,7 +241,7 @@ public static class EncounterMovesetGenerator
             : EncounterEggGenerator.GenerateEggs(pk, chain, gen, all: true);
         foreach (var egg in eggs)
         {
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return egg;
                 continue;
@@ -246,7 +253,7 @@ public static class EncounterMovesetGenerator
             else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && egg.CanHaveVoltTackle)
                 em = em.Concat(new[] { (int)Move.VoltTackle });
 
-            if (!needs.Except(em).Any())
+            if (HasAllMoves(needs, em))
                 yield return egg;
         }
     }
@@ -259,7 +266,7 @@ public static class EncounterMovesetGenerator
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<MysteryGift> GetGifts(PKM pk, int[] needs, EvoCriteria[] chain, GameVersion version)
     {
         var format = pk.Format;
         var gifts = MysteryGiftGenerator.GetPossible(pk, chain, version);
@@ -269,13 +276,13 @@ public static class EncounterMovesetGenerator
                 continue;
             if (!IsSane(chain, gift, format))
                 continue;
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return gift;
                 continue;
             }
             var em = gift.Moves.Concat(gift.Relearn);
-            if (!needs.Except(em).Any())
+            if (HasAllMoves(needs, em))
                 yield return gift;
         }
     }
@@ -288,7 +295,7 @@ public static class EncounterMovesetGenerator
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterStatic> GetStatic(PKM pk, int[] needs, EvoCriteria[] chain, GameVersion version)
     {
         var format = pk.Format;
         var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
@@ -296,7 +303,7 @@ public static class EncounterMovesetGenerator
         {
             if (!IsSane(chain, enc, format))
                 continue;
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return enc;
                 continue;
@@ -309,7 +316,7 @@ public static class EncounterMovesetGenerator
             if (enc.Generation <= 2)
                 em = em.Concat(MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version));
 
-            if (!needs.Except(em).Any())
+            if (HasAllMoves(needs, em))
                 yield return enc;
         }
 
@@ -320,14 +327,14 @@ public static class EncounterMovesetGenerator
         var gifts = EncounterStaticGenerator.GetPossibleGBGifts(chain, version);
         foreach (var enc in gifts)
         {
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return enc;
                 continue;
             }
 
             var em = enc.Moves;
-            if (!needs.Except(em).Any())
+            if (HasAllMoves(needs, em))
                 yield return enc;
         }
     }
@@ -340,7 +347,7 @@ public static class EncounterMovesetGenerator
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterTrade> GetTrades(PKM pk, int[] needs, EvoCriteria[] chain, GameVersion version)
     {
         var format = pk.Format;
         var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
@@ -348,7 +355,7 @@ public static class EncounterMovesetGenerator
         {
             if (!IsSane(chain, trade, format))
                 continue;
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return trade;
                 continue;
@@ -358,7 +365,7 @@ public static class EncounterMovesetGenerator
                 em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
             else if (trade is IRelearn { Relearn: int[] { Length: not 0 } r })
                 em = em.Concat(r);
-            if (!needs.Except(em).Any())
+            if (HasAllMoves(needs, em))
                 yield return trade;
         }
     }
@@ -371,7 +378,7 @@ public static class EncounterMovesetGenerator
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Origin version</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterSlot> GetSlots(PKM pk, int[] needs, EvoCriteria[] chain, GameVersion version)
     {
         var format = pk.Format;
         var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
@@ -380,19 +387,19 @@ public static class EncounterMovesetGenerator
             if (!IsSane(chain, slot, format))
                 continue;
 
-            if (needs.Count == 0)
+            if (needs.Length == 0)
             {
                 yield return slot;
                 continue;
             }
 
-            if (slot is IMoveset m && !needs.Except(m.Moves).Any())
+            if (slot is IMoveset m && HasAllMoves(needs, m.Moves))
                 yield return slot;
-            else if (needs.Count == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
+            else if (needs.Length == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
                 yield return slot;
-            else if (needs.Count == 1 && slot is EncounterSlot8b {IsUnderground: true} ug && ug.CanBeUndergroundMove(needs[0]))
+            else if (needs.Length == 1 && slot is EncounterSlot8b {IsUnderground: true} ug && ug.CanBeUndergroundMove(needs[0]))
                 yield return slot;
-            else if (slot.Generation <= 2 && !needs.Except(MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)).Any())
+            else if (slot.Generation <= 2 && HasAllMoves(needs, MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)))
                 yield return slot;
         }
     }
@@ -415,5 +422,19 @@ public static class EncounterMovesetGenerator
             break;
         }
         return false;
+    }
+
+    private static bool HasAllMoves(int[] needs, IEnumerable<int> extra)
+    {
+        // Flag each present index; having all moves will have all bitflags.
+        int flags = 0;
+        foreach (var move in extra)
+        {
+            var index = Array.IndexOf(needs, move);
+            if (index == -1)
+                continue;
+            flags |= 1 << index;
+        }
+        return flags == (1 << needs.Length) - 1;
     }
 }

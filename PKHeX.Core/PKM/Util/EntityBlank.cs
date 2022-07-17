@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -51,5 +51,18 @@ public static class EntityBlank
             throw new InvalidCastException($"Unable to get the type for PK{gen}.");
 
         return GetBlank(type);
+    }
+
+    public static PKM GetIdealBlank(int species, int form)
+    {
+        if (PersonalTable.LA.IsPresentInGame(species, form))
+            return new PA8();
+        if (PersonalTable.SWSH.IsPresentInGame(species, form))
+            return new PK8();
+        if (PersonalTable.BDSP.IsPresentInGame(species, form))
+            return new PB8();
+        if (PersonalTable.USUM.IsPresentInGame(species, form))
+            return new PK7();
+        return new PB7();
     }
 }

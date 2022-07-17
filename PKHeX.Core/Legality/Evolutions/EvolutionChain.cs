@@ -13,7 +13,7 @@ public static class EvolutionChain
             return GetEvolutionChainsSearch(pk, origin);
 
         var history = new EvolutionHistory();
-        var group = EvolutionGroupUtil.GetCurrentGroup(pk.Context);
+        var group = EvolutionGroupUtil.GetCurrentGroup(pk);
         var chain = group.GetInitialChain(pk, origin, (ushort)pk.Species, (byte)pk.Form);
         history.Set(pk.Context, chain);
         return history;
@@ -21,7 +21,7 @@ public static class EvolutionChain
 
     internal static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc)
     {
-        var group = EvolutionGroupUtil.GetCurrentGroup(pk.Context);
+        var group = EvolutionGroupUtil.GetCurrentGroup(pk);
         ReadOnlySpan<EvoCriteria> chain = group.GetInitialChain(pk, enc, (ushort)pk.Species, (byte)pk.Form);
 
         var history = new EvolutionHistory();

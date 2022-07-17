@@ -10,7 +10,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup
     private static PersonalTable Personal => PersonalTable.RB;
 
     public IEvolutionGroup GetNext(PKM pk, EvolutionOrigin enc) => EvolutionGroup2.Instance;
-    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => null;
+    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format == 1 ? EvolutionGroup2.Instance : null;
 
     public bool Append(PKM pk, EvolutionHistory history, ref ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc)
     {

@@ -12,6 +12,7 @@ public sealed class LearnGroup7 : ILearnGroup
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
     {
+        <= 0 when history.Gen2.Length != 0 => LearnGroup2.Instance,
         1 when history.Gen1.Length != 0 => LearnGroup1.Instance,
         2 when history.Gen2.Length != 0 => LearnGroup2.Instance,
         _ => null,
@@ -22,7 +23,7 @@ public sealed class LearnGroup7 : ILearnGroup
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        var mode = GetCheckMode(enc, pk);
+        var mode = GetCheckMode(pk);
         var evos = history.Gen7;
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option, mode);
@@ -67,10 +68,10 @@ public sealed class LearnGroup7 : ILearnGroup
         }
     }
 
-    private static CheckMode GetCheckMode(IGeneration enc, PKM pk)
+    private static CheckMode GetCheckMode(PKM pk)
     {
         // We can check if it has visited specific sources. We won't check the games it hasn't visited.
-        if (enc.Generation != Generation || !pk.IsUntraded)
+        if (!pk.IsUntraded)
             return CheckMode.Both;
         if (pk.USUM)
             return CheckMode.USUM;
@@ -166,8 +167,8 @@ public sealed class LearnGroup7 : ILearnGroup
         if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
-        var mode = GetCheckMode(enc, pk);
-        foreach (var evo in history.Gen6)
+        var mode = GetCheckMode(pk);
+        foreach (var evo in history.Gen7)
             GetAllMoves(result, pk, evo, types, option, mode);
     }
 
