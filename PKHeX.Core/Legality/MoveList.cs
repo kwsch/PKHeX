@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveList
 {
-    internal static IEnumerable<int> GetValidRelearn(PKM pk, int species, int form, bool inheritlvlmoves, GameVersion version = Any)
+    internal static IEnumerable<int> GetValidRelearn(PKM pk, int species, int form, GameVersion version = Any)
     {
         int generation = pk.Generation;
         if (generation < 6)
@@ -24,6 +24,7 @@ internal static class MoveList
             form = 0;
 
         r.AddRange(MoveEgg.GetEggMoves(species, form, version, Math.Max(2, generation)));
+        var inheritlvlmoves = Breeding.GetCanInheritMoves(species);
         if (inheritlvlmoves)
             r.AddRange(MoveEgg.GetRelearnLVLMoves(pk, species, form, 100, version));
         return r.Distinct();
@@ -137,94 +138,5 @@ internal static class MoveList
                 break;
         }
         return Array.Empty<int>();
-    }
-
-    internal static IEnumerable<int> GetValidMoves(PKM pk, EvoCriteria[] evoChain, int generation, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
-    {
-        var (_, version) = pk.IsMovesetRestricted();
-        return GetValidMoves(pk, version, evoChain, generation, types: types, RemoveTransferHM: RemoveTransferHM);
-    }
-
-    internal static IEnumerable<int> GetValidRelearn(PKM pk, int species, int form, GameVersion version = Any)
-    {
-        return GetValidRelearn(pk, species, form, Breeding.GetCanInheritMoves(species), version);
-    }
-
-    internal static IEnumerable<int> GetValidMoves(PKM pk, GameVersion version, EvoCriteria[] chain, int generation, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
-    {
-        var r = new List<int> { 0 };
-        int species = pk.Species;
-
-        if (FormChangeUtil.IterateAllForms(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
-            return GetValidMovesAllForms(pk, chain, version, generation, types, RemoveTransferHM, species, r);
-
-        // Generation 1 & 2 do not always have move relearning capability, so the bottom bound for learnable indexes needs to be determined.
-        var minLvLG1 = 0;
-        var minLvLG2 = 0;
-        for (var i = 0; i < chain.Length; i++)
-        {
-            var evo = chain[i];
-            bool encounteredEvo = i == chain.Length - 1;
-
-            if (generation <= 2)
-            {
-                if (encounteredEvo) // minimum level, otherwise next learnable level
-                    minLvLG1 = evo.LevelMin + 1;
-                else // learns level up moves immediately after evolving
-                    minLvLG1 = evo.LevelMin;
-
-                if (!ParseSettings.AllowGen2MoveReminder(pk))
-                    minLvLG2 = minLvLG1;
-            }
-
-            var maxLevel = evo.LevelMax;
-            if (!encounteredEvo) // evolution
-                ++maxLevel; // allow lvlmoves from the level it evolved to the next species
-            var moves = GetMoves(pk, evo.Species, evo.Form, maxLevel, minLvLG1, minLvLG2, version, types, RemoveTransferHM, generation);
-            r.AddRange(moves);
-        }
-
-        if (pk.Format <= 3)
-            return r.Distinct();
-
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
-            MoveTutor.AddSpecialFormChangeMoves(r, pk, generation, species);
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
-            MoveTutor.AddSpecialTutorMoves(r, pk, generation, species);
-        if (types.HasFlagFast(MoveSourceType.RelearnMoves) && generation >= 6)
-            r.AddRange(pk.RelearnMoves);
-        return r.Distinct();
-    }
-
-    internal static IEnumerable<int> GetValidMovesAllForms(PKM pk, EvoCriteria[] chain, GameVersion version, int generation, MoveSourceType types, bool RemoveTransferHM, int species, List<int> r)
-    {
-        // These don't evolve, so don't bother iterating for all entries in the evolution chain (should always be count==1).
-        int formCount;
-
-        // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
-        if (pk.Format == 3 && species == (int) Species.Deoxys)
-            formCount = 4;
-        else
-            formCount = pk.PersonalInfo.FormCount;
-
-        for (int form = 0; form < formCount; form++)
-            r.AddRange(GetMoves(pk, species, form, chain[0].LevelMax, 0, 0, version, types, RemoveTransferHM, generation));
-        if (types.HasFlagFast(MoveSourceType.RelearnMoves))
-            r.AddRange(pk.RelearnMoves);
-        return r.Distinct();
-    }
-
-    private static IEnumerable<int> GetMoves(PKM pk, int species, int form, int maxLevel, int minlvlG1, int minlvlG2, GameVersion Version, MoveSourceType types, bool RemoveTransferHM, int generation)
-    {
-        var r = new List<int>();
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
-            r.AddRange(MoveLevelUp.GetMovesLevelUp(pk, species, form, maxLevel, minlvlG1, minlvlG2, Version, types.HasFlagFast(MoveSourceType.Reminder), generation));
-        if (types.HasFlagFast(MoveSourceType.Machine))
-            r.AddRange(MoveTechnicalMachine.GetTMHM(pk, species, form, generation, Version, RemoveTransferHM));
-        if (types.HasFlagFast(MoveSourceType.TechnicalRecord))
-            r.AddRange(MoveTechnicalMachine.GetRecords(pk, species, form, generation));
-        if (types.HasFlagFast(MoveSourceType.AllTutors))
-            r.AddRange(MoveTutor.GetTutorMoves(pk, species, form, types.HasFlagFast(MoveSourceType.SpecialTutor), generation));
-        return r.Distinct();
     }
 }

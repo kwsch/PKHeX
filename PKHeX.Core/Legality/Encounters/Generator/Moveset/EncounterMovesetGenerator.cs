@@ -1,5 +1,6 @@
 //#define VERIFY_GEN
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -137,26 +138,36 @@ public static class EncounterMovesetGenerator
     /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
     /// <param name="version">Specific version to iterate for.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
+    public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlySpan<int> moves, GameVersion version)
     {
         if (pk.Species == 0) // can enter this method after failing to set a species ID that cannot exist in the format
             return Array.Empty<IEncounterable>();
+        if (pk.Species is (int)Species.Smeargle && !IsPlausibleSmeargleMoveset(pk, moves))
+            return Array.Empty<IEncounterable>();
+
         pk.Version = (int)version;
         var context = pk.Context;
         if (context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
             context = EntityContext.Gen1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
         var et = EvolutionTree.GetEvolutionTree(context);
         var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
-        int[] needs = GetNeededMoves(pk, moves, chain);
+        int[] needs = GetNeededMoves(pk, moves);
 
         return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
     }
 
-    private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, EvoCriteria[] chain)
+    private static bool IsPlausibleSmeargleMoveset(PKM pk, ReadOnlySpan<int> moves)
     {
-        if (pk.Species == (int)Species.Smeargle)
-            return moves.Where(z => !Legal.IsValidSketch(z, pk.Format)).ToArray(); // Can learn anything
+        foreach (var move in moves)
+        {
+            if (!Legal.IsValidSketch(move, pk.Format))
+                return false;
+        }
+        return true;
+    }
 
+    private static int[] GetNeededMoves(PKM pk, ReadOnlySpan<int> moves)
+    {
         // Roughly determine the generation the PKM is originating from
         var ver = pk.Version;
         int origin = pk.Generation;
@@ -168,56 +179,27 @@ public static class EncounterMovesetGenerator
         if (vcBump)
             pk.Version = (int)GameVersion.C;
 
-        var gens = GenerationTraversal.GetVisitedGenerationOrder(pk, origin);
-        var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-        if (origin is (1 or 2)) // gb initial moves
+        var length = pk.MaxMoveID + 1;
+        var rent = ArrayPool<bool>.Shared.Rent(length);
+        var permitted = rent.AsSpan(0, length);
+        var history = EvolutionChain.GetEvolutionChainsAllGens(pk, EncounterInvalid.Default);
+        LearnPossible.Get(pk, EncounterInvalid.Default, history, permitted);
+
+        int ctr = 0; // count of moves that can be learned
+        Span<int> result = stackalloc int[moves.Length];
+        foreach (var move in moves)
         {
-            var max = origin == 1 ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
-            foreach (var evo in chain)
-            {
-                var species = evo.Species;
-                if (species > max)
-                    continue;
-                var enc = MoveLevelUp.GetEncounterMoves(species, 0, 1, (GameVersion)ver);
-                canlearn = canlearn.Concat(enc);
-            }
+            if (!permitted[move])
+                result[ctr++] = move;
         }
-        var result = moves.Where(z => z != 0).Except(canlearn).ToArray();
+
+        permitted.Clear();
+        ArrayPool<bool>.Shared.Return(rent);
 
         if (vcBump)
             pk.Version = ver;
 
-        return result;
-    }
-
-    private static IEnumerable<int> GetMovesForGeneration(PKM pk, EvoCriteria[] chain, int generation)
-    {
-        IEnumerable<int> moves = MoveList.GetValidMoves(pk, chain, generation);
-        if (generation <= 2)
-            moves = moves.Concat(MoveList.GetValidMoves(pk, chain, generation, MoveSourceType.LevelUp));
-        if (pk.Format >= 8)
-        {
-            // Shared Egg Moves via daycare
-            // Any egg move can be obtained
-            moves = moves.Concat(MoveEgg.GetSharedEggMoves(pk, generation));
-
-            // TR moves -- default logic checks the TR flags, so we need to add all possible ones here.
-            if (!(pk.BDSP || pk.LA))
-                moves = moves.Concat(MoveTechnicalMachine.GetAllPossibleRecords(pk.Species, pk.Form));
-        }
-        if (pk.Species == (int)Species.Shedinja)
-        {
-            // Leveling up Nincada in Gen3/4 levels up, evolves to Ninjask, applies moves for Ninjask, then spawns Shedinja with the current moveset.
-            // Future games spawn the Shedinja before doing Ninjask moves, so this is a special case.
-            // Can't get more than the evolved-at level move; >=2 special moves will get caught by the legality checker later.
-            return generation switch
-            {
-                3 => moves.Concat(Legal.LevelUpE [(int)Species.Ninjask].GetMoves(100, 20)),
-                4 => moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20)),
-                _ => moves,
-            };
-        }
-        return moves;
+        return result[..ctr].ToArray();
     }
 
     private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyList<int> needs, GameVersion version, EncounterOrder type, EvoCriteria[] chain)

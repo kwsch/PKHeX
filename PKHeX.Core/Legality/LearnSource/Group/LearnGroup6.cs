@@ -10,17 +10,18 @@ public sealed class LearnGroup6 : ILearnGroup
     public static readonly LearnGroup6 Instance = new();
     private const int Generation = 6;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => enc.Generation is Generation ? null : LearnGroup5.Instance;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation is Generation ? null : LearnGroup5.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen6.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
+        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var mode = GetCheckMode(enc, pk);
         var evos = history.Gen6;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i, option, mode);
+            Check(result, current, pk, evos[i], i, types, option, mode);
 
-        if (option is not LearnOption.Current && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
+        if (option is not LearnOption.Current && types.HasFlagFast(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
@@ -60,11 +61,11 @@ public sealed class LearnGroup6 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option, CheckMode mode)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
     {
         if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
         {
-            CheckInternal(result, current, pk, evo, stage, option, mode);
+            CheckInternal(result, current, pk, evo, stage, types, option, mode);
             return;
         }
 
@@ -75,7 +76,7 @@ public sealed class LearnGroup6 : ILearnGroup
 
         var fc = pi.FormCount;
         for (int i = 0; i < fc; i++)
-            CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, option, mode);
+            CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, types, option, mode);
     }
 
     private static CheckMode GetCheckMode(IGeneration enc, PKM pk)
@@ -95,17 +96,17 @@ public sealed class LearnGroup6 : ILearnGroup
         AO,
     }
 
-    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option, CheckMode mode)
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
     {
         if (mode == CheckMode.Both)
-            CheckBoth(result, current, pk, evo, stage, option);
+            CheckBoth(result, current, pk, evo, stage, types, option);
         else if (mode == CheckMode.AO)
-            CheckSingle(result, current, pk, evo, stage, LearnSource6AO.Instance, option);
+            CheckSingle(result, current, pk, evo, stage, LearnSource6AO.Instance, types, option);
         else
-            CheckSingle(result, current, pk, evo, stage, LearnSource6XY.Instance, option);
+            CheckSingle(result, current, pk, evo, stage, LearnSource6XY.Instance, types, option);
     }
 
-    private static void CheckBoth(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option)
+    private static void CheckBoth(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
     {
         var ao = LearnSource6AO.Instance;
         var species = evo.Species;
@@ -120,19 +121,19 @@ public sealed class LearnGroup6 : ILearnGroup
 
             // Level Up moves are different for each game, but others (TM/Tutor) are same.
             var move = current[i];
-            var chk = ao.GetCanLearn(pk, ao_pi, evo, move, option: option);
+            var chk = ao.GetCanLearn(pk, ao_pi, evo, move, types, option);
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            xy.GetCanLearn(pk, ao_pi, evo, move, MoveSourceType.LevelUp, option: option);
+            xy.GetCanLearn(pk, ao_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
     }
 
-    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, T game, LearnOption option) where T : ILearnSource
+    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, T game, MoveSourceType types, LearnOption option) where T : ILearnSource
     {
         var species = evo.Species;
         if (!game.TryGetPersonal(species, evo.Form, out var pi))
@@ -144,7 +145,7 @@ public sealed class LearnGroup6 : ILearnGroup
                 continue;
 
             var move = current[i];
-            var chk = game.GetCanLearn(pk, pi, evo, move, option: option);
+            var chk = game.GetCanLearn(pk, pi, evo, move, types, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
@@ -152,7 +153,7 @@ public sealed class LearnGroup6 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation)
+        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         var mode = GetCheckMode(enc, pk);

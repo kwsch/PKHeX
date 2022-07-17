@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +13,7 @@ public static class MoveListSuggest
             return MoveList.GetBaseEggMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel);
 
         if (types != MoveSourceType.None)
-            return GetValidMoves(pk, evoChains, types).Skip(1).ToArray(); // skip move 0
+            return GetValidMoves(pk, enc, evoChains, types).ToArray();
 
         // try to give current moves
         if (enc.Generation <= 2)
@@ -27,36 +28,22 @@ public static class MoveListSuggest
             return MoveLevelUp.GetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
         }
 
-        return GetValidMoves(pk, evoChains, types).Skip(1).ToArray(); // skip move 0
+        return GetValidMoves(pk, enc, evoChains, types).ToArray();
     }
 
-    private static IEnumerable<int> GetValidMoves(PKM pk, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+    private static IEnumerable<int> GetValidMoves(PKM pk, IEncounterTemplate enc, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources)
     {
-        var (_, version) = pk.IsMovesetRestricted();
-        return GetValidMoves(pk, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
-    }
+        var length = pk.MaxMoveID + 1;
+        bool[] rent = ArrayPool<bool>.Shared.Rent(length);
+        LearnPossible.Get(pk, enc, evoChains, rent, types);
 
-    private static IEnumerable<int> GetValidMoves(PKM pk, GameVersion version, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
-    {
-        var r = new List<int> { 0 };
-        if (types.HasFlagFast(MoveSourceType.RelearnMoves) && pk.Format >= 6)
-            r.AddRange(pk.RelearnMoves);
-
-        int start = pk.Generation;
-        if (start < 0)
-            start = pk.Format; // be generous instead of returning nothing
-        if (pk is IBattleVersion b)
-            start = Math.Max(0, b.GetMinGeneration());
-
-        for (int generation = start; generation <= pk.Format; generation++)
+        for (int i = 1; i < length; i++)
         {
-            var chain = evoChains[generation];
-            if (chain.Length == 0)
-                continue;
-            r.AddRange(MoveList.GetValidMoves(pk, version, chain, generation, types: types, RemoveTransferHM: RemoveTransferHM));
+            if (rent[i])
+                yield return i;
         }
 
-        return r.Distinct();
+        ArrayPool<bool>.Shared.Return(rent, true);
     }
 
     private static IEnumerable<int> AllSuggestedMoves(this LegalityAnalysis analysis)

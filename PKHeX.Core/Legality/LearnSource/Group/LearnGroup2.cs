@@ -10,7 +10,7 @@ public sealed class LearnGroup2 : ILearnGroup
     public static readonly LearnGroup2 Instance = new();
     private const int Generation = 2;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => pk.Context switch
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => pk.Context switch
     {
         EntityContext.Gen2 when enc.Generation == 1 => LearnGroup1.Instance,
         EntityContext.Gen1 => null,
@@ -19,14 +19,15 @@ public sealed class LearnGroup2 : ILearnGroup
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen2.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
+        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation)
+        if (enc.Generation == Generation && types.HasFlagFast(MoveSourceType.Encounter))
             CheckEncounterMoves(result, current, enc);
 
         var evos = history.Gen2;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i);
+            Check(result, current, pk, evos[i], i, option, types);
 
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
@@ -84,7 +85,7 @@ public sealed class LearnGroup2 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option = LearnOption.Current, MoveSourceType types = MoveSourceType.All)
     {
         var gs = LearnSource2GS.Instance;
         if (!gs.TryGetPersonal(evo.Species, evo.Form, out var gp))
@@ -106,7 +107,7 @@ public sealed class LearnGroup2 : ILearnGroup
                 continue;
 
             var move = current[i];
-            var chk = gs.GetCanLearn(pk, gp, evo, move);
+            var chk = gs.GetCanLearn(pk, gp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
             {
                 entry = new(chk, (byte)stage, Generation);
@@ -116,7 +117,7 @@ public sealed class LearnGroup2 : ILearnGroup
             if (kor)
                 continue;
 
-            chk = c.GetCanLearn(pk, cp, evo, move);
+            chk = c.GetCanLearn(pk, cp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
                 entry = new(chk, (byte)stage, Generation);
         }
@@ -147,7 +148,7 @@ public sealed class LearnGroup2 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation)
+        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         foreach (var evo in history.Gen2)

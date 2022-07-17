@@ -15,7 +15,17 @@ internal static class LearnVerifierHistory
         // Empty moves are valid (unless the game does not have a deleter -- handled later).
         MarkEmptySlots(result, current);
 
-        if (!pk.IsOriginalMovesetDeleted())
+        // Basic gist of move source identification: check if the moves can be learned in the current format.
+        // If moves are still unverified, we step backwards in time to the previous game environment, until all moves are checked.
+        // If moves are STILL unverified, then they must not be legal.
+        var game = LearnGroupUtil.GetCurrentGroup(pk);
+        MarkAndIterate(result, current, enc, pk, history, game, MoveSourceType.All, LearnOption.Current);
+    }
+
+    public static void MarkAndIterate(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk, EvolutionHistory history, ILearnGroup game,
+        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    {
+        if (!pk.IsOriginalMovesetDeleted() && types.HasFlagFast(MoveSourceType.Encounter))
         {
             // Knock off relearn moves if available.
             if (pk.Format >= 6)
@@ -26,7 +36,7 @@ internal static class LearnVerifierHistory
         }
 
         // Iterate games to identify move sources.
-        if (Iterate(result, current, pk, history, enc))
+        if (Iterate(result, current, pk, history, enc, game, types, option))
             return;
 
         // Mark remaining as unknown source.
@@ -45,19 +55,15 @@ internal static class LearnVerifierHistory
             MarkInitialMoves(result, current, g.GetInitialMoves(pk.Met_Level));
     }
 
-    private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc)
+    private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, ILearnGroup game, MoveSourceType types, LearnOption option)
     {
-        // Basic gist of move source identification: check if the moves can be learned in the current format.
-        // If moves are still unverified, we step backwards in time to the previous game environment, until all moves are checked.
-        // If moves are STILL unverified, then they must not be legal.
-        var game = LearnGroupUtil.GetCurrentGroup(pk);
         while (true)
         {
-            bool finished = game.Check(result, current, pk, history, enc);
+            bool finished = game.Check(result, current, pk, history, enc, types, option);
             if (finished)
                 return true;
 
-            var next = game.GetPrevious(pk, history, enc);
+            var next = game.GetPrevious(pk, history, enc, LearnOption.Current);
             if (next is null)
                 return false;
 

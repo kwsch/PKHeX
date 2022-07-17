@@ -322,7 +322,7 @@ public sealed class EvolutionTree
     /// <param name="levelMax">Maximum level</param>
     /// <param name="maxSpeciesID">Clamp for maximum species ID</param>
     /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
-    private EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
+    public EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
     {
         if (pk.IsEgg && !skipChecks)
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.MemoryPermissions;
@@ -75,7 +75,7 @@ public sealed class MemoryVerifier : Verifier
             case 16 or 48 when !CanKnowMove(pk, memory, gen, info, memory.MemoryID == 16):
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, gen, info.EvoChainsAllGens[gen]):
+            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, gen, info.EvoChainsAllGens, info.EncounterOriginal):
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
             // Dynamaxing

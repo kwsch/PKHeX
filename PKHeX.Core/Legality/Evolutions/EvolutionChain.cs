@@ -15,6 +15,12 @@ public static class EvolutionChain
         return GetChainAll(pk, enc, chain);
     }
 
+    internal static EvolutionHistory GetEvolutionChainsSearch(PKM pk, IEncounterTemplate enc)
+    {
+        var chain = GetValidPreEvolutions(pk, minLevel: 1, maxLevel: 100, skipChecks: true);
+        return GetChainAll(pk, enc, chain);
+    }
+
     private static EvolutionHistory GetChainSingle(PKM pk, EvoCriteria[] fullChain)
     {
         var count = Math.Max(2, pk.Format) + 1;
@@ -38,6 +44,7 @@ public static class EvolutionChain
         // Iterate generations backwards
         // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
         int mingen = enc.Generation;
+        int encGen = enc.Generation;
         if (mingen is 1 or 2)
             mingen = GBRestrictions.GetTradebackStatusInitial(pk) == PotentialGBOrigin.Gen2Only ? 2 : 1;
 
@@ -92,9 +99,9 @@ public static class EvolutionChain
                 continue;
             }
 
-            if (g >= 3 && !pk.HasOriginalMetLocation && g >= enc.Generation && noxfrDecremented)
+            if (g >= 3 && !pk.HasOriginalMetLocation && g >= encGen && noxfrDecremented)
             {
-                bool isTransferred = HasMetLocationUpdatedTransfer(enc.Generation, g);
+                bool isTransferred = HasMetLocationUpdatedTransfer(encGen, g);
                 if (!isTransferred)
                     continue;
 

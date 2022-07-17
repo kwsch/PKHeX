@@ -10,19 +10,20 @@ public sealed class LearnGroup3 : ILearnGroup
     public static readonly LearnGroup3 Instance = new();
     private const int Generation = 3;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc) => null; // Gen3 is the end of the line!
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null; // Gen3 is the end of the line!
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen3.Length != 0;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option = LearnOption.Current)
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
+        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen3;
         for (var i = 0; i < evos.Length; i++)
-            Check(result, current, pk, evos[i], i);
+            Check(result, current, pk, evos[i], i, types);
 
-        if (enc is EncounterEgg { Generation: Generation } egg)
+        if (types.HasFlagFast(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
-        if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+        if (types.HasFlagFast(MoveSourceType.LevelUp) && enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
             CheckNincadaMoves(result, current, evos[^1]);
 
         return MoveResult.AllParsed(result);
@@ -113,7 +114,7 @@ public sealed class LearnGroup3 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types)
     {
         var rs = LearnSource3RS.Instance;
         var species = evo.Species;
@@ -134,25 +135,25 @@ public sealed class LearnGroup3 : ILearnGroup
 
             // Level Up moves are different for each game, but TM/HM is shared (use Emerald).
             var move = current[i];
-            var chk = e.GetCanLearn(pk, ep, evo, move);
+            var chk = e.GetCanLearn(pk, ep, evo, move, types);
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            chk = rs.GetCanLearn(pk, rp, evo, move, MoveSourceType.LevelUp | MoveSourceType.AllTutors);
+            chk = rs.GetCanLearn(pk, rp, evo, move, types & (MoveSourceType.LevelUp | MoveSourceType.AllTutors));
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            chk = fr.GetCanLearn(pk, fp, evo, move, MoveSourceType.LevelUp | MoveSourceType.AllTutors);
+            chk = fr.GetCanLearn(pk, fp, evo, move, types & (MoveSourceType.LevelUp | MoveSourceType.AllTutors));
             if (chk != default)
             {
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            chk = lg.GetCanLearn(pk, lp, evo, move, MoveSourceType.LevelUp); // Tutors same as FR
+            chk = lg.GetCanLearn(pk, lp, evo, move, types & MoveSourceType.LevelUp); // Tutors same as FR
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
@@ -160,7 +161,7 @@ public sealed class LearnGroup3 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation)
+        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         var evos = history.Gen3;
