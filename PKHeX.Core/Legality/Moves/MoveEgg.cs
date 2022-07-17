@@ -84,35 +84,4 @@ public static class MoveEgg
 
         int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, form)].GetMoves(lvl);
     }
-
-    public static bool GetIsSharedEggMove(PKM pk, int gen, int move)
-    {
-        if (gen < 8 || pk.IsEgg)
-            return false;
-        var egg = GetSharedEggMoves(pk, gen);
-        return Array.IndexOf(egg, move) >= 0;
-    }
-
-    public static int[] GetSharedEggMoves(PKM pk, int gen)
-    {
-        if (gen < 8 || pk.IsEgg)
-            return Array.Empty<int>();
-
-        if (pk is PB8 pb)
-        {
-            var entry = (PersonalInfoBDSP)pb.PersonalInfo;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndex;
-            return GetEggMoves(8, baseSpecies, baseForm, BD);
-        }
-        if (pk is PK8 pk8)
-        {
-            var entry = (PersonalInfoSWSH)pk8.PersonalInfo;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
-            return GetEggMoves(8, baseSpecies, baseForm, SW);
-        }
-
-        return Array.Empty<int>();
-    }
 }
