@@ -15,6 +15,7 @@ public sealed class LearnSource7GG : ILearnSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpGG;
     private const int MaxSpecies = Legal.MaxSpeciesID_7b;
     private const LearnEnvironment Game = GG;
+    private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
@@ -71,7 +72,7 @@ public sealed class LearnSource7GG : ILearnSource
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
-            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(ReminderBonus);
             if (hasMoves)
             {
                 var moves = learn.Moves;
