@@ -34,12 +34,37 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         if (!(swsh || pla || bdsp))
             return false;
 
+        // Block BD/SP transfers that are impossible
+        BlockBDSP(history, enc);
+
         if (!pk.IsUntraded)
             CrossPropagate(history);
 
         chain = GetMaxChain(history);
 
-        return true;
+        return chain.Length != 0;
+    }
+
+    private static void BlockBDSP(EvolutionHistory history, EvolutionOrigin enc)
+    {
+        var bdsp = history.Gen8b;
+        if (bdsp.Length == 0)
+            return;
+
+        // Spinda and Nincada cannot transfer in or out as the current species.
+        // Remove them from their non-origin game evolution chains.
+        var last = bdsp[^1];
+        if (last.Species == (int)Species.Nincada)
+            RemoveIfSpecies(history, enc);
+        else if (last.Species == (int)Species.Spinda)
+            RemoveIfSpecies(history, enc);
+
+        static void RemoveIfSpecies(EvolutionHistory history, EvolutionOrigin enc)
+        {
+            var wasBDSP = BDSP.Contains(enc.Version);
+            ref var evos = ref wasBDSP ? ref history.Gen8 : ref history.Gen8b;
+            evos = evos.Length < 2 ? Array.Empty<EvoCriteria>() : evos.AsSpan(0, evos.Length - 1).ToArray();
+        }
     }
 
     private static ReadOnlySpan<EvoCriteria> GetMaxChain(EvolutionHistory history)
