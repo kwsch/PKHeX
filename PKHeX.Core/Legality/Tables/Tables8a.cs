@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -10,6 +11,8 @@ public static partial class Legal
     internal const int MaxBallID_8a = (int)Ball.LAOrigin;
     internal const int MaxGameID_8a = (int)GameVersion.SP;
     internal const int MaxAbilityID_8a = MaxAbilityID_8_R2;
+
+    internal static readonly ushort[] HeldItems_LA = Array.Empty<ushort>();
 
     internal static readonly ushort[] Pouch_Items_LA =
     {
@@ -66,8 +69,6 @@ public static partial class Legal
         1805, 1806, 1807,
         1828,
     };
-
-    internal static readonly ushort[] HeldItems_LA = { 0 };
 
     internal static readonly HashSet<int> HisuiOriginForms = new()
     {
