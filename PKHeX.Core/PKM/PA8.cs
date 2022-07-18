@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -58,7 +58,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     // Simple Generated Attributes
     public ReadOnlySpan<bool> TechRecordPermitFlags => Span<bool>.Empty;
-    public ReadOnlySpan<int> TechRecordPermitIndexes => Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
+    public ReadOnlySpan<int> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
     public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
     public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;
 

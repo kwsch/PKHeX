@@ -83,7 +83,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor6, move);
+        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -91,7 +91,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_XY, move);
+        var index = Array.IndexOf(TMHM_XY, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -117,7 +117,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_XY;
+            var moves = TMHM_XY;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -129,7 +129,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
         {
             // Beams
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor6;
+            var moves = LearnSource5.TypeTutor567;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -148,4 +148,20 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
                 result[(int)Move.RelicSong] = true;
         }
     }
+
+    private static readonly int[] TMHM_XY =
+    {
+        468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
+        241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
+        218, 076, 479, 085, 087, 089, 216, 091, 094, 247,
+        280, 104, 115, 482, 053, 188, 201, 126, 317, 332,
+        259, 263, 488, 156, 213, 168, 490, 496, 497, 315,
+        211, 411, 412, 206, 503, 374, 451, 507, 510, 511,
+        261, 512, 373, 153, 421, 371, 514, 416, 397, 148,
+        444, 521, 086, 360, 014, 522, 244, 523, 524, 157,
+        404, 525, 611, 398, 138, 447, 207, 214, 369, 164,
+        430, 433, 528, 249, 555, 267, 399, 612, 605, 590,
+
+        15, 19, 57, 70, 127,
+    };
 }

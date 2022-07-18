@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource1;
 
 namespace PKHeX.Core;
 
@@ -59,7 +60,7 @@ public sealed class LearnSource1YW : ILearnSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_RBY, move);
+        var index = Array.IndexOf(TMHM_RBY, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -86,7 +87,7 @@ public sealed class LearnSource1YW : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_RBY;
+            var moves = TMHM_RBY;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -16,16 +16,6 @@ public static partial class Legal
     internal const int MaxMoveID_7_USUM = 728;
     internal const int MaxItemID_7_USUM = 959;
     internal const int MaxAbilityID_7_USUM = 233;
-
-    internal static readonly int[] Tutors_USUM =
-    {
-        450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
-        277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
-        020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
-        380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
-
-        477, 502, 432, 710, 707, 675, 673,
-    };
 
     internal static readonly ushort[] Pouch_Regular_SM = // 00
     {
@@ -148,8 +138,6 @@ public static partial class Legal
         (int)Marowak,
     };
 
-    public static bool HasAlolanForm(int species) => AlolanOriginForms.Contains(species) || AlolanVariantEvolutions12.Contains(species);
-
     public static readonly HashSet<int> PastGenAlolanNatives = new()
     {
         010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
@@ -195,15 +183,6 @@ public static partial class Legal
         194, 195, // Quagsire
 
         100, 101, // Voltorb & Electrode
-    };
-
-    internal static readonly int[] ZygardeMoves =
-    {
-        245, // Extreme Speed
-        349, // Dragon Dance
-        614, // Thousand Arrows
-        615, // Thousand Waves
-        687, // Core Enforcer
     };
 
     internal static readonly HashSet<int> Totem_Alolan = new()
@@ -252,22 +231,6 @@ public static partial class Legal
         // 194, 195, 196, 197, // Unobtainable new Locations
         198,
         200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
-    };
-
-    internal static readonly int[] TMHM_SM =
-    {
-        526, 337, 473, 347, 046, 092, 258, 339, 474, 237,
-        241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
-        218, 076, 479, 085, 087, 089, 216, 141, 094, 247,
-        280, 104, 115, 482, 053, 188, 201, 126, 317, 332,
-        259, 263, 488, 156, 213, 168, 490, 496, 497, 315,
-        211, 411, 412, 206, 503, 374, 451, 507, 693, 511,
-        261, 512, 373, 153, 421, 371, 684, 416, 397, 694,
-        444, 521, 086, 360, 014, 019, 244, 523, 524, 157,
-        404, 525, 611, 398, 138, 447, 207, 214, 369, 164,
-        430, 433, 528, 057, 555, 267, 399, 127, 605, 590,
-
-        // No HMs
     };
 
     #region Unreleased Items

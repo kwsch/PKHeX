@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource7;
 
 namespace PKHeX.Core;
 
@@ -95,7 +96,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor6, move);
+        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -104,7 +105,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
     private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
     {
         // US/UM Tutors
-        var tutors = Legal.Tutors_USUM;
+        var tutors = Tutors_USUM;
         var tutor = Array.IndexOf(tutors, move);
         if (tutor == -1)
             return false;
@@ -113,7 +114,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_SM, move);
+        var index = Array.IndexOf(TMHM_SM, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -139,7 +140,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_SM;
+            var moves = TMHM_SM;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -151,7 +152,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         {
             // Beams
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor6;
+            var moves = LearnSource5.TypeTutor567;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -163,7 +164,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         {
             // US/UM Tutors
             var flags = pi.SpecialTutors[0];
-            var moves = Legal.Tutors_USUM;
+            var moves = Tutors_USUM;
             for (int i = 0; i < flags.Length; i++)
             {
                 if (flags[i])
@@ -198,4 +199,14 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
                 result[(int)Move.MoongeistBeam] = true;
         }
     }
+
+    private static readonly int[] Tutors_USUM =
+    {
+        450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
+        277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
+        020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
+        380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
+
+        477, 502, 432, 710, 707, 675, 673,
+    };
 }

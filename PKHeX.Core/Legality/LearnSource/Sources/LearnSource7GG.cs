@@ -50,15 +50,15 @@ public sealed class LearnSource7GG : ILearnSource
     private static bool GetIsEnhancedTutor(int species, int form, int move)
     {
         if (species == (int)Species.Pikachu && form == 8) // Partner
-            return Legal.Tutor_StarterPikachu.AsSpan().Contains(move);
+            return Tutor_StarterPikachu.AsSpan().Contains(move);
         if (species == (int)Species.Eevee && form == 1) // Partner
-            return Legal.Tutor_StarterEevee.AsSpan().Contains(move);
+            return Tutor_StarterEevee.AsSpan().Contains(move);
         return false;
     }
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_GG, move);
+        var index = Array.IndexOf(TMHM_GG, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -84,7 +84,7 @@ public sealed class LearnSource7GG : ILearnSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_GG;
+            var moves = TMHM_GG;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -96,14 +96,48 @@ public sealed class LearnSource7GG : ILearnSource
         {
             if (evo.Species == (int)Species.Pikachu && evo.Form == 8) // Partner
             {
-                foreach (var move in Legal.Tutor_StarterPikachu)
+                foreach (var move in Tutor_StarterPikachu)
                     result[move] = true;
             }
             else if (evo.Species == (int)Species.Eevee && evo.Form == 1) // Partner
             {
-                foreach (var move in Legal.Tutor_StarterEevee)
+                foreach (var move in Tutor_StarterEevee)
                     result[move] = true;
             }
         }
     }
+
+    private static readonly int[] TMHM_GG =
+    {
+        029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
+        261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
+        492, 157, 009, 404, 127, 398, 092, 161, 503, 339,
+        007, 605, 347, 406, 008, 085, 053, 087, 200, 094,
+        089, 120, 247, 583, 076, 126, 057, 063, 276, 355,
+        059, 188, 072, 430, 058, 446, 006, 529, 138, 224,
+        // rest are same as SM, unused
+
+        // No HMs
+    };
+
+    private static readonly int[] Tutor_StarterPikachu =
+    {
+        (int)Move.ZippyZap,
+        (int)Move.SplishySplash,
+        (int)Move.FloatyFall,
+        //(int)Move.PikaPapow, // Joycon Shake
+    };
+
+    private static readonly int[] Tutor_StarterEevee =
+    {
+        (int)Move.BouncyBubble,
+        (int)Move.BuzzyBuzz,
+        (int)Move.SizzlySlide,
+        (int)Move.GlitzyGlow,
+        (int)Move.BaddyBad,
+        (int)Move.SappySeed,
+        (int)Move.FreezyFrost,
+        (int)Move.SparklySwirl,
+        //(int)Move.VeeveeVolley, // Joycon Shake
+    };
 }

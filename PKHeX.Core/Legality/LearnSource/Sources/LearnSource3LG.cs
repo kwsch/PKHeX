@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource3;
 
 namespace PKHeX.Core;
 
@@ -80,7 +81,7 @@ public sealed class LearnSource3LG : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TM_3, move);
+        var index = Array.IndexOf(TM_3, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -88,7 +89,7 @@ public sealed class LearnSource3LG : ILearnSource, IEggSource
 
     private static bool GetIsHM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.HM_3, move);
+        var index = Array.IndexOf(HM_3, move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];
@@ -114,7 +115,7 @@ public sealed class LearnSource3LG : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TM_3;
+            var moves = TM_3;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -123,7 +124,7 @@ public sealed class LearnSource3LG : ILearnSource, IEggSource
 
             if (pk.Format == 3)
             {
-                moves = Legal.HM_3;
+                moves = HM_3;
                 for (int i = 0; i < moves.Length; i++)
                 {
                     if (flags[CountTM + i])

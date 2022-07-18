@@ -354,11 +354,11 @@ public sealed class PK4 : G4PKM
         // Remove HM moves; Defog should be kept if both are learned.
         // if has defog, remove whirlpool.
         bool hasDefog = HasMove((int) Move.Defog);
-        var banned = hasDefog ? Legal.HM_HGSS : Legal.HM_DPPt;
-        if (Array.IndexOf(banned, Move1) != -1) pk5.Move1 = 0;
-        if (Array.IndexOf(banned, Move2) != -1) pk5.Move2 = 0;
-        if (Array.IndexOf(banned, Move3) != -1) pk5.Move3 = 0;
-        if (Array.IndexOf(banned, Move4) != -1) pk5.Move4 = 0;
+        var banned = LearnSource4.GetPreferredTransferHMs(hasDefog);
+        if (banned.Contains(Move1)) pk5.Move1 = 0;
+        if (banned.Contains(Move2)) pk5.Move2 = 0;
+        if (banned.Contains(Move3)) pk5.Move3 = 0;
+        if (banned.Contains(Move4)) pk5.Move4 = 0;
         pk5.FixMoves();
 
         // D/P(not Pt)/HG/SS created Shedinja forget to set Gender to Genderless.

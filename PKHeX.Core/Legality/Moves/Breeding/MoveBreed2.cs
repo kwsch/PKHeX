@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource2;
+using static PKHeX.Core.LearnSource2;
 
 namespace PKHeX.Core;
 
@@ -165,17 +166,17 @@ public static class MoveBreed2
             if (eggMoves.Contains(move))
                 possible[i] |= 1 << (int)FatherEgg;
 
-            var tmIndex = Array.IndexOf(Legal.TMHM_GSC, move, 0, 50);
+            var tmIndex = Array.IndexOf(TMHM_GSC, move, 0, 50);
             if (tmIndex != -1 && tm[tmIndex])
                 possible[i] |= 1 << (int)FatherTM;
 
-            var hmIndex = Array.IndexOf(Legal.TMHM_GSC, move, 50);
+            var hmIndex = Array.IndexOf(TMHM_GSC, move, 50);
             if (hmIndex != -1 && tm[hmIndex + 50])
                 possible[i] |= 1 << (int)FatherTM;
 
             if (version is GameVersion.C)
             {
-                var tutorIndex = Array.IndexOf(Legal.Tutors_GSC, move);
+                var tutorIndex = Array.IndexOf(Tutors_GSC, move);
                 if (tutorIndex != -1 && tm[57 + tutorIndex])
                     possible[i] |= 1 << (int)Tutor;
             }

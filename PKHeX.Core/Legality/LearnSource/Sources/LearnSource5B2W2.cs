@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource5;
 
 namespace PKHeX.Core;
 
@@ -67,7 +68,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 
     private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
     {
-        var tutors = Legal.Tutors_B2W2;
+        var tutors = Tutors_B2W2;
         for (int i = 0; i < tutors.Length; i++)
         {
             var tutor = Array.IndexOf(tutors[i], move);
@@ -98,7 +99,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor6, move);
+        var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -106,7 +107,8 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_BW, move);
+        var span = TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
+        var index = span.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -132,7 +134,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_BW;
+            var moves = TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -143,7 +145,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor6;
+            var moves = TypeTutor567;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -154,7 +156,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
             // B2W2 Tutors
-            var tutors = Legal.Tutors_B2W2;
+            var tutors = Tutors_B2W2;
             for (int i = 0; i < tutors.Length; i++)
             {
                 var flags = pi.SpecialTutors[i];
@@ -178,4 +180,12 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
                 result[(int)Move.RelicSong] = true;
         }
     }
+
+    internal static readonly int[][] Tutors_B2W2 =
+    {
+        new[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 },           // Driftveil City
+        new[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }, // Lentimas Town
+        new[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 },                     // Humilau City
+        new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 },           // Nacrene City
+    };
 }

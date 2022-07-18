@@ -561,7 +561,7 @@ public sealed class MiscVerifier : Verifier
                     continue;
             }
 
-            data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
+            data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[LearnSource8SWSH.TR_SWSH[i]])));
         }
 
         if (CheckHeightWeightOdds(data.EncounterMatch) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)

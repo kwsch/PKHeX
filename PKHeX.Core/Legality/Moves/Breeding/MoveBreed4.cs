@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource34;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.LearnSource4;
 
 namespace PKHeX.Core;
 
@@ -146,8 +147,8 @@ public static class MoveBreed4
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tm = info.TMHM;
-        var tmlist = Legal.TM_4.AsSpan(0, 92);
-        var hmlist = (gameVersion is HG or SS ? Legal.HM_HGSS : Legal.HM_DPPt).AsSpan();
+        var tmlist = TM_4.AsSpan(0, 92);
+        var hmlist = (gameVersion is HG or SS ? HM_HGSS : HM_DPPt).AsSpan();
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

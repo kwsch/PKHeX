@@ -76,7 +76,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
     {
-        var tutor = Array.IndexOf(Legal.Tutors_SWSH_1, move);
+        var tutor = Array.IndexOf(Tutors_SWSH, move);
         if (tutor == -1)
             return false;
         return pi.SpecialTutors[0][tutor];
@@ -112,7 +112,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor8, move);
+        var index = Array.IndexOf(TypeTutor8, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -120,7 +120,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Legal.TMHM_SWSH.AsSpan(0, PersonalInfoSWSH.CountTM).IndexOf(move);
+        var index = TM_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -128,7 +128,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private static bool GetIsTR(PersonalInfo info, ITechRecord8 tr, EvoCriteria evo, int move)
     {
-        var index = Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM).IndexOf(move);
+        var index = TR_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
             return false;
         if (!info.TMHM[PersonalInfoSWSH.CountTM + index])
@@ -162,7 +162,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_SWSH;
+            var moves = TM_SWSH;
             for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
             {
                 if (flags[i])
@@ -172,7 +172,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             if (pk is ITechRecord8)
             {
                 var trFlags = flags.AsSpan(PersonalInfoSWSH.CountTM);
-                var trMoves = moves.AsSpan(PersonalInfoSWSH.CountTM);
+                var trMoves = TR_SWSH.AsSpan();
                 for (int index = 0; index < trFlags.Length; index++)
                 {
                     var move = trMoves[index];
@@ -188,7 +188,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         {
             // Beams
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor6;
+            var moves = TypeTutor8;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -200,7 +200,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         {
             // SW/SH Tutors
             var flags = pi.SpecialTutors[0];
-            var moves = Legal.Tutors_SWSH_1;
+            var moves = Tutors_SWSH;
             for (int i = 0; i < flags.Length; i++)
             {
                 if (flags[i])
@@ -219,4 +219,53 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                 result[(int)Move.MoongeistBeam] = true;
         }
     }
+
+    public static readonly int[] TM_SWSH =
+    {
+        005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
+        345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
+        120, 156, 157, 168, 173, 182, 184, 196, 202, 204,
+        211, 213, 201, 240, 241, 258, 250, 251, 261, 263,
+        129, 270, 279, 280, 286, 291, 311, 313, 317, 328,
+        331, 333, 340, 341, 350, 362, 369, 371, 372, 374,
+        384, 385, 683, 409, 419, 421, 422, 423, 424, 427,
+        433, 472, 478, 440, 474, 490, 496, 506, 512, 514,
+        521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
+        604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
+    };
+
+    internal static readonly int[] TR_SWSH =
+    {
+        014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
+        089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
+        164, 179, 188, 191, 200, 473, 203, 214, 224, 226,
+        227, 231, 242, 247, 248, 253, 257, 269, 271, 276,
+        285, 299, 304, 315, 322, 330, 334, 337, 339, 347,
+        348, 349, 360, 370, 390, 394, 396, 398, 399, 402,
+        404, 405, 406, 408, 411, 412, 413, 414, 417, 428,
+        430, 437, 438, 441, 442, 444, 446, 447, 482, 484,
+        486, 492, 500, 502, 503, 526, 528, 529, 535, 542,
+        583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
+    };
+
+    internal static readonly int[] TypeTutor8 =
+    {
+        (int)Move.GrassPledge,
+        (int)Move.FirePledge,
+        (int)Move.WaterPledge,
+        (int)Move.FrenzyPlant,
+        (int)Move.BlastBurn,
+        (int)Move.HydroCannon,
+        (int)Move.DracoMeteor,
+        (int)Move.SteelBeam,
+    };
+
+    internal static readonly int[] Tutors_SWSH =
+    {
+        805, 807, 812, 804,
+        803, 813, 811, 810,
+        815, 814, 797, 806,
+        800, 809, 799, 808,
+        798, 802,
+    };
 }

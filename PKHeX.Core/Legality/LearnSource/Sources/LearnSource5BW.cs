@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource5;
 
 namespace PKHeX.Core;
 
@@ -83,7 +84,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor6, move);
+        var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -91,7 +92,8 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_BW, move);
+        var span = TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
+        var index = span.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -117,7 +119,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_BW;
+            var moves = TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -129,7 +131,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         {
             // Beams
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor6;
+            var moves = TypeTutor567;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])

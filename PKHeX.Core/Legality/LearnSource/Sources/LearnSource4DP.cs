@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource4;
 
 namespace PKHeX.Core;
 
@@ -74,16 +75,16 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(int species, int move)
     {
-        var index = Array.IndexOf(Legal.SpecialTutors_4, move);
+        var index = Array.IndexOf(SpecialTutors_4, move);
         if (index == -1)
             return false;
-        var list = Legal.SpecialTutors_Compatibility_4[index].AsSpan();
+        var list = SpecialTutors_Compatibility_4[index].AsSpan();
         return list.IndexOf(species) != -1;
     }
 
     private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.Tutors_4, move);
+        var index = Array.IndexOf(Tutors_4, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -91,7 +92,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TM_4, move);
+        var index = Array.IndexOf(TM_4, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -99,7 +100,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
 
     private static bool GetIsHM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.HM_DPPt, move);
+        var index = Array.IndexOf(HM_DPPt, move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];
@@ -125,7 +126,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TM_4;
+            var moves = TM_4;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -134,7 +135,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
 
             if (pk.Format == Generation)
             {
-                moves = Legal.HM_DPPt;
+                moves = HM_DPPt;
                 for (int i = 0; i < moves.Length; i++)
                 {
                     if (flags[CountTM + i])
@@ -152,7 +153,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
             var flags = pi.TypeTutors;
-            var moves = Legal.Tutors_4;
+            var moves = Tutors_4;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])

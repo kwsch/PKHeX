@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource2;
 
 namespace PKHeX.Core;
 
@@ -67,7 +68,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
     {
         if (!ParseSettings.AllowGen2Crystal(pk))
             return false;
-        var tutor = Array.IndexOf(Legal.Tutors_GSC, move);
+        var tutor = Array.IndexOf(Tutors_GSC, move);
         if (tutor == -1)
             return false;
         var info = PersonalTable.C[species];
@@ -76,7 +77,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_GSC, move);
+        var index = Array.IndexOf(TMHM_GSC, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -104,11 +105,11 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
                 }
             }
         }
-
+        
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_GSC;
+            var moves = TMHM_GSC;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -122,7 +123,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
             for (int i = CountTMHM; i < flags.Length; i++)
             {
                 if (flags[i])
-                    result[Legal.Tutors_GSC[i - CountTMHM]] = true;
+                    result[Tutors_GSC[i - CountTMHM]] = true;
             }
         }
     }

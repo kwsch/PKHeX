@@ -92,7 +92,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo pi, int move)
     {
-        var index = Array.IndexOf(Legal.TypeTutor8b, move);
+        var index = Array.IndexOf(TypeTutor8b, move);
         if (index == -1)
             return false;
         return pi.TypeTutors[index];
@@ -100,7 +100,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TMHM_BDSP, move);
+        var index = Array.IndexOf(TMHM_BDSP, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -126,7 +126,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TMHM_BDSP;
+            var moves = TMHM_BDSP;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -137,7 +137,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.TypeTutor))
         {
             var flags = pi.TypeTutors;
-            var moves = Legal.TypeTutor8b;
+            var moves = TypeTutor8b;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -152,4 +152,27 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
         }
     }
+
+    public static readonly int[] TMHM_BDSP =
+    {
+        264, 337, 352, 347, 046, 092, 258, 339, 331, 526,
+        241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
+        605, 076, 231, 085, 087, 089, 490, 091, 094, 247,
+        280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
+        259, 263, 521, 156, 213, 168, 211, 285, 503, 315,
+        355, 411, 412, 206, 362, 374, 451, 203, 406, 409,
+        261, 405, 417, 153, 421, 371, 278, 416, 397, 148,
+        444, 419, 086, 360, 014, 446, 244, 555, 399, 157,
+        404, 214, 523, 398, 138, 447, 207, 365, 369, 164,
+        430, 433,
+        015, 019, 057, 070, 432, 249, 127, 431,
+    };
+
+    internal static readonly int[] TypeTutor8b =
+    {
+        (int)Move.FrenzyPlant,
+        (int)Move.BlastBurn,
+        (int)Move.HydroCannon,
+        (int)Move.DracoMeteor,
+    };
 }

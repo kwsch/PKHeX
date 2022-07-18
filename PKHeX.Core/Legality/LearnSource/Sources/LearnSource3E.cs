@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
+using static PKHeX.Core.LearnSource3;
 
 namespace PKHeX.Core;
 
@@ -73,7 +74,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
     private static bool GetIsSpecialTutor(int species, int move)
     {
         var info = Personal[species];
-        var index = Array.IndexOf(Legal.Tutor_E, move);
+        var index = Array.IndexOf(Tutor_E, move);
         if (index == -1)
             return false;
         return info.TypeTutors[index];
@@ -81,7 +82,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.TM_3, move);
+        var index = Array.IndexOf(TM_3, move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -89,7 +90,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
 
     private static bool GetIsHM(PersonalInfo info, int move)
     {
-        var index = Array.IndexOf(Legal.HM_3, move);
+        var index = Array.IndexOf(HM_3, move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];
@@ -115,7 +116,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
-            var moves = Legal.TM_3;
+            var moves = TM_3;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -124,7 +125,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
 
             if (pk.Format == 3)
             {
-                moves = Legal.HM_3;
+                moves = HM_3;
                 for (int i = 0; i < moves.Length; i++)
                 {
                     if (flags[CountTM + i])
@@ -136,7 +137,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
             var flags = pi.TypeTutors;
-            var moves = Legal.Tutor_E;
+            var moves = Tutor_E;
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
@@ -144,4 +145,11 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
             }
         }
     }
+
+    private static readonly int[] Tutor_E =
+    {
+        005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
+        138, 086, 153, 157, 164, 223, 205, 244, 173, 196,
+        203, 189, 008, 207, 214, 129, 111, 009, 007, 210,
+    };
 }

@@ -145,7 +145,7 @@ public static class MoveBreed5
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tm = info.TMHM;
-        var tmlist = Legal.TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
+        var tmlist = LearnSource5.TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

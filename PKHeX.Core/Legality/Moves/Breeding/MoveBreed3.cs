@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource34;
+using static PKHeX.Core.LearnSource3;
 
 namespace PKHeX.Core;
 
@@ -145,8 +146,8 @@ public static class MoveBreed3
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tm = info.TMHM;
-        var tmlist = Legal.TM_3.AsSpan(0, 50);
-        var hmlist = Legal.HM_3.AsSpan();
+        var tmlist = TM_3.AsSpan(0, 50);
+        var hmlist = HM_3.AsSpan();
         var moves = value.Moves;
         for (int i = 0; i < count; i++)
         {
