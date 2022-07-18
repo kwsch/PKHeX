@@ -41,11 +41,6 @@ public static class MoveSetApplicator
     public static int[] GetMoveSet(this LegalityAnalysis la, bool random = false)
     {
         int[] m = la.GetSuggestedCurrentMoves(random ? MoveSourceType.All : MoveSourceType.Encounter);
-
-        var learn = la.GetSuggestedMovesAndRelearn();
-        if (!m.All(z => learn.Contains(z)))
-            m = m.Intersect(learn).ToArray();
-
         if (random && !la.Entity.IsEgg)
             Util.Shuffle(m.AsSpan());
 

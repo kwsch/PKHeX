@@ -347,7 +347,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         // Resort moves
         FieldsLoaded = false;
-        LegalMoveSource.ReloadMoves(Legality.GetSuggestedMovesAndRelearn());
+        LegalMoveSource.ReloadMoves(Legality);
         FieldsLoaded = true;
         LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
     }

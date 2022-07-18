@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
 
@@ -11,25 +9,6 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveList
 {
-    internal static IEnumerable<int> GetValidRelearn(PKM pk, int species, int form, GameVersion version = Any)
-    {
-        int generation = pk.Generation;
-        if (generation < 6)
-            return Array.Empty<int>();
-
-        var r = new List<int>();
-        r.AddRange(MoveEgg.GetRelearnLVLMoves(pk, species, form, 1, version));
-
-        if (pk.Format == 6 && pk.Species != (int)Species.Meowstic)
-            form = 0;
-
-        r.AddRange(MoveEgg.GetEggMoves(species, form, version, Math.Max(2, generation)));
-        var inheritlvlmoves = Breeding.GetCanInheritMoves(species);
-        if (inheritlvlmoves)
-            r.AddRange(MoveEgg.GetRelearnLVLMoves(pk, species, form, 100, version));
-        return r.Distinct();
-    }
-
     internal static int[] GetBaseEggMoves(PKM pk, int species, int form, GameVersion gameSource, int lvl)
     {
         if (gameSource == Any)

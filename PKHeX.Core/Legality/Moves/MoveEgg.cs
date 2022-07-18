@@ -63,25 +63,4 @@ public static class MoveEgg
 
         return entry.Moves;
     }
-
-    internal static int[] GetRelearnLVLMoves(PKM pk, int species, int form, int lvl, GameVersion version = Any)
-    {
-        if (version == Any)
-            version = (GameVersion)pk.Version;
-        // A pk can only have levelup relearn moves from the game it originated on
-        // eg Plusle/Minun have Charm/Fake Tears (respectively) only in OR/AS, not X/Y
-        return version switch
-        {
-            X or Y => getMoves(LevelUpXY, PersonalTable.XY),
-            OR or AS => getMoves(LevelUpAO, PersonalTable.AO),
-            SN or MN when species <= MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
-            US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
-            SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
-            BD or SP => getMoves(LevelUpBDSP, PersonalTable.BDSP),
-            PLA => getMoves(LevelUpLA, PersonalTable.LA),
-            _ => Array.Empty<int>(),
-        };
-
-        int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, form)].GetMoves(lvl);
-    }
 }

@@ -46,29 +46,6 @@ public static class MoveListSuggest
         ArrayPool<bool>.Shared.Return(rent, true);
     }
 
-    private static IEnumerable<int> AllSuggestedMoves(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        return analysis.GetSuggestedCurrentMoves();
-    }
-
-    private static IEnumerable<int> AllSuggestedRelearnMoves(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        var pk = analysis.Entity;
-        var enc = analysis.EncounterMatch;
-        return MoveList.GetValidRelearn(pk, enc.Species, enc.Form, (GameVersion)pk.Version).ToArray();
-    }
-
-    public static int[] GetSuggestedMovesAndRelearn(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        return analysis.AllSuggestedMoves().Concat(analysis.AllSuggestedRelearnMoves()).ToArray();
-    }
-
     /// <summary>
     /// Gets four moves which can be learned depending on the input arguments.
     /// </summary>
