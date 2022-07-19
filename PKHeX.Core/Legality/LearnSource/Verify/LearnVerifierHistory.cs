@@ -123,7 +123,7 @@ internal static class LearnVerifierHistory
             if (index == -1) // Not a relearn move.
                 continue;
 
-            result[i] = MoveResult.Relearn;
+            result[index] = MoveResult.Relearn;
         }
     }
 }
