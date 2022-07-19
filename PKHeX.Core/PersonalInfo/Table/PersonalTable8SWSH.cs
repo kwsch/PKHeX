@@ -44,7 +44,8 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
         var fc = form0.FormCount;
         for (int i = 1; i < fc; i++)
         {
-            if (GetFormEntry(species, i).IsPresentInGame)
+            var entry = GetFormEntry(species, i);
+            if (entry.IsPresentInGame)
                 return true;
         }
         return false;

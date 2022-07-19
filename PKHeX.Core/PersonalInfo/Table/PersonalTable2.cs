@@ -33,9 +33,7 @@ public sealed class PersonalTable2 : IPersonalTable, IPersonalTable<PersonalInfo
             return false;
         if (form == 0)
             return true;
-        if (species == (int)Species.Unown)
-            return form < 26;
-        return false;
+        return species == (int)Species.Unown && form < 26;
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];

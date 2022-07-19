@@ -27,7 +27,22 @@ public sealed class PersonalTable6AO : IPersonalTable, IPersonalTable<PersonalIn
 
     public int GetFormIndex(int species, int form) => species;
     public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpecies;
-    public bool IsPresentInGame(int species, int form) => form == 0 && IsSpeciesInGame(species);
+    public bool IsPresentInGame(int species, int form)
+    {
+        if (!IsSpeciesInGame(species))
+            return false;
+        if (form == 0)
+            return true;
+        if (Table[species].HasForm(form))
+            return true;
+        return species switch
+        {
+            (int)Species.Unown => form < 26,
+            (int)Species.Mothim => form < 3,
+            (int)Species.Scatterbug or (int)Species.Spewpa => form <= 17,
+            _ => false,
+        };
+    }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];
     PersonalInfo IPersonalTable.this[int species, int form] => this[species, form];

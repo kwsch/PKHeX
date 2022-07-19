@@ -31,9 +31,7 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
     {
         if (!IsSpeciesInGame(species))
             return false;
-        if (form == 0)
-            return true;
-        return species switch
+        return form == 0 || species switch
         {
             (int)Species.Unown => form < 26,
             (int)Species.Deoxys => form < 3,

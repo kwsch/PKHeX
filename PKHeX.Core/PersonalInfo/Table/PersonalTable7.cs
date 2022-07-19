@@ -6,13 +6,12 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
 {
     internal readonly PersonalInfo7[] Table;
     private const int SIZE = PersonalInfo7.SIZE;
-    private readonly int MaxSpecies;
-    public int MaxSpeciesID => MaxSpecies;
+    public int MaxSpeciesID { get; }
     public int Count => Table.Length;
 
     public PersonalTable7(ReadOnlySpan<byte> data, int maxSpecies)
     {
-        MaxSpecies = maxSpecies;
+        MaxSpeciesID = maxSpecies;
         Table = new PersonalInfo7[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
@@ -28,42 +27,26 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
 
     public int GetFormIndex(int species, int form)
     {
-        if ((uint)species <= MaxSpecies)
+        if ((uint)species <= MaxSpeciesID)
             return Table[species].FormIndex(species, form);
         return 0;
     }
-
-    public bool IsSpeciesInGame(int species)
-    {
-        if ((uint)species > MaxSpecies)
-            return false;
-
-        var form0 = Table[species];
-        if (form0.IsPresentInGame)
-            return true;
-
-        var fc = form0.FormCount;
-        for (int i = 1; i < fc; i++)
-        {
-            if (GetFormEntry(species, i).IsPresentInGame)
-                return true;
-        }
-        return false;
-    }
-
+    public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpeciesID;
     public bool IsPresentInGame(int species, int form)
     {
-        if ((uint)species > MaxSpecies)
+        if (!IsSpeciesInGame(species))
             return false;
-
-        var form0 = Table[species];
         if (form == 0)
-            return form0.IsPresentInGame;
-        if (!form0.HasForm(form))
-            return false;
-
-        var entry = GetFormEntry(species, form);
-        return entry.IsPresentInGame;
+            return true;
+        if (Table[species].HasForm(form))
+            return true;
+        return species switch
+        {
+            (int)Species.Unown => form < 26,
+            (int)Species.Mothim => form < 3,
+            (int)Species.Scatterbug or (int)Species.Spewpa => form <= 17,
+            _ => false,
+        };
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];

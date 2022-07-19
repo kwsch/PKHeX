@@ -32,37 +32,16 @@ public sealed class PersonalTable7GG : IPersonalTable, IPersonalTable<PersonalIn
         return 0;
     }
 
-    public bool IsSpeciesInGame(int species)
-    {
-        if ((uint)species > MaxSpecies)
-            return false;
-
-        var form0 = Table[species];
-        if (form0.IsPresentInGame)
-            return true;
-
-        var fc = form0.FormCount;
-        for (int i = 1; i < fc; i++)
-        {
-            if (GetFormEntry(species, i).IsPresentInGame)
-                return true;
-        }
-        return false;
-    }
-
+    public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpecies;
     public bool IsPresentInGame(int species, int form)
     {
-        if ((uint)species > MaxSpecies)
+        if (!IsSpeciesInGame(species))
             return false;
-
-        var form0 = Table[species];
         if (form == 0)
-            return form0.IsPresentInGame;
-        if (!form0.HasForm(form))
-            return false;
-
-        var entry = GetFormEntry(species, form);
-        return entry.IsPresentInGame;
+            return true;
+        if (Table[species].HasForm(form))
+            return true;
+        return false;
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];
