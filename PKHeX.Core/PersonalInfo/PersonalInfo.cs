@@ -15,7 +15,6 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int SPE { get; set; }
     public abstract int SPA { get; set; }
     public abstract int SPD { get; set; }
-    public IReadOnlyList<int> Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
     public abstract int EV_HP { get; set; }
     public abstract int EV_ATK { get; set; }
     public abstract int EV_DEF { get; set; }
@@ -39,8 +38,8 @@ public abstract class PersonalInfo : IPersonalInfo
     public virtual int FormStatsIndex { get; set; }
     public abstract int BaseEXP { get; set; }
     public abstract int Color { get; set; }
-    public virtual int Height { get; set; } = 0;
-    public virtual int Weight { get; set; } = 0;
+    public virtual int Height { get; set; }
+    public virtual int Weight { get; set; }
 
     /// <summary>
     /// TM/HM learn compatibility flags for individual moves.
@@ -56,8 +55,6 @@ public abstract class PersonalInfo : IPersonalInfo
     /// Special tutor learn compatibility flags for individual moves.
     /// </summary>
     public bool[][] SpecialTutors = Array.Empty<bool[]>();
-
-    public virtual bool IsPresentInGame { get => HP != 0; set { } }
 
     protected static bool[] GetBits(ReadOnlySpan<byte> data)
     {

@@ -16,9 +16,4 @@ public interface IPersonalInfo : IBaseStat, IEffortValueYield, IGenderDetail, IP
     /// Experience-Level Growth Rate type
     /// </summary>
     int EXPGrowth { get; set; }
-
-    /// <summary>
-    /// Checks if the entry is a valid entry that can exist in the game.
-    /// </summary>
-    bool IsPresentInGame { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Species;
@@ -144,9 +144,10 @@ public static class Breeding
         if ((uint)species > pt.MaxSpeciesID)
             return false;
 
-        var entry = pt.GetFormEntry(species, form);
-        if (!entry.IsPresentInGame)
+        if (!pt.IsPresentInGame(species, form))
             return false;
+
+        var entry = pt.GetFormEntry(species, form);
         return form < entry.FormCount || (species == (int)Rotom && form <= 5);
     }
 
