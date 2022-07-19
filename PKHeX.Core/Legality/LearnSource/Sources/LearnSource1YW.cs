@@ -75,7 +75,7 @@ public sealed class LearnSource1YW : ILearnSource
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var min = ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
-            (bool hasMoves, int start, int end) = learn.GetMoveRange(min, evo.LevelMax);
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
             if (hasMoves)
             {
                 var moves = learn.Moves;

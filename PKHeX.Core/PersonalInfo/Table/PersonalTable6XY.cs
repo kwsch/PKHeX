@@ -46,8 +46,9 @@ public sealed class PersonalTable6XY : IPersonalTable, IPersonalTable<PersonalIn
             (int)Species.Unown => form < 28,
             (int)Species.Mothim => form < 3,
             (int)Species.Arceus => form < 17,
-            (int)Species.Genesect => form <= 3,
+            (int)Species.Genesect => form <= 4,
             (int)Species.Scatterbug or (int)Species.Spewpa => form <= 17,
+            (int)Species.Vivillon => form <= 19,
             _ => false,
         };
     }

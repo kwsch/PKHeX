@@ -46,7 +46,7 @@ public sealed class PersonalTable5B2W2 : IPersonalTable, IPersonalTable<Personal
             (int)Species.Unown => form < 28,
             (int)Species.Mothim => form < 3,
             (int)Species.Arceus => form < 17,
-            (int)Species.Genesect => form <= 3,
+            (int)Species.Genesect => form <= 4,
             _ => false,
         };
     }

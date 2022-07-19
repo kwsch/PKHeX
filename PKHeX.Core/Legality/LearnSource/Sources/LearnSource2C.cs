@@ -93,7 +93,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
             bool removeVC = pk.Format == 1 || pk.VC1;
             var learn = GetLearnset(evo.Species, evo.Form);
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
-            (bool hasMoves, int start, int end) = learn.GetMoveRange(min, evo.LevelMax);
+            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
             if (hasMoves)
             {
                 var moves = learn.Moves;
