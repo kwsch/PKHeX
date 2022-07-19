@@ -41,7 +41,7 @@ public sealed record EncounterSlot8b : EncounterSlot
     public bool CanBeUndergroundMove(int move)
     {
         var et = PersonalTable.BDSP;
-        var sf = (PersonalInfo8BDSP)et.GetFormEntry(Species, Form);
+        var sf = et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
         if (IsBCAT && IgnoreEggMoves.TryGetValue(species, out var exclude) && Array.IndexOf(exclude, move) != -1)
             return false;
@@ -55,7 +55,7 @@ public sealed record EncounterSlot8b : EncounterSlot
     public bool GetBaseEggMove(out int move)
     {
         var et = PersonalTable.BDSP;
-        var sf = (PersonalInfo8BDSP)et.GetFormEntry(Species, Form);
+        var sf = et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
 
         int[] Exclude = IgnoreEggMoves.TryGetValue(species, out var exclude) ? exclude : Array.Empty<int>();
@@ -118,7 +118,7 @@ public sealed record EncounterSlot8b : EncounterSlot
         {066, new[] {282}}, // Machop
         {077, new[] {172}}, // Ponyta
         {079, new[] {428}}, // Slowpoke
-        {083, new[] {348}}, // Farfetch’d
+        {083, new[] {348}}, // Farfetchâ€™d
         {084, new[] {098,283}}, // Doduo
         {086, new[] {227}}, // Seel
         {098, new[] {175,021}}, // Krabby

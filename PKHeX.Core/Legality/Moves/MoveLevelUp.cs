@@ -18,11 +18,13 @@ public static class MoveLevelUp
         var learn = GameData.GetLearnsets(version);
         var table = GameData.GetPersonal(version);
         var index = table.GetFormIndex(species, 0);
-        var lvl0 = (int[])((PersonalInfo1) table[index]).Moves.Clone();
-        int start = Math.Max(0, Array.IndexOf(lvl0, 0));
+
+        Span<int> lvl0 = stackalloc int[4];
+        ((PersonalInfo1) table[index]).GetMoves(lvl0);
+        int start = Math.Max(0, lvl0.IndexOf(0));
 
         learn[index].SetEncounterMoves(level, lvl0, start);
-        return lvl0;
+        return lvl0.ToArray();
     }
 
     private static int[] GetEncounterMoves2(int species, int level, GameVersion version)

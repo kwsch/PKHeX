@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -82,7 +82,7 @@ public static class Overworld8aRNG
 
     private static void ApplyRandomAlphaMove(PKM pk, ulong seed)
     {
-        var pi = (PersonalInfo8LA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
+        var pi = PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
         var count = pi.GetMoveShopCount();
         if (count == 0 || pk is not PA8 pa8)
             return;

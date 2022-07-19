@@ -61,19 +61,6 @@ public sealed class PersonalInfo1 : PersonalInfo
     public override int EscapeRate { get => 0; set { } }
     public override int Color { get => 0; set { } }
 
-    public int[] Moves
-    {
-        get => new[] { Move1, Move2, Move3, Move4 };
-        set
-        {
-            if (value.Length != 4) return;
-            Move1 = value[0];
-            Move2 = value[1];
-            Move3 = value[2];
-            Move4 = value[3];
-        }
-    }
-
     public void GetMoves(Span<int> value)
     {
         value[3] = Move4;

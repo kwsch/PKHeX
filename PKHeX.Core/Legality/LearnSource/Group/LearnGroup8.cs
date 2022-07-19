@@ -37,7 +37,7 @@ public sealed class LearnGroup8 : ILearnGroup
             Check(result, current, pk, original, i, types & MoveSourceType.LevelUp);
         }
 
-        CheckSharedMoves(result, current, pk);
+        CheckSharedMoves(result, current, evos[0]);
 
         if (option is not LearnOption.Current && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
@@ -45,10 +45,10 @@ public sealed class LearnGroup8 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk)
+    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EvoCriteria evo)
     {
         var game = LearnSource8SWSH.Instance;
-        var entry = (PersonalInfo8SWSH)pk.PersonalInfo;
+        var entry = PersonalTable.SWSH.GetFormEntry(evo.Species, evo.Form);
         var baseSpecies = entry.HatchSpecies;
         var baseForm = entry.HatchFormIndexEverstone;
         var eggMoves = game.GetEggMoves(baseSpecies, baseForm);

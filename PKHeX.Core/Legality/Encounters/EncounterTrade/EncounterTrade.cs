@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -159,8 +158,6 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     private void SetMoves(PKM pk, GameVersion version, int level)
     {
         var moves = Moves.Count != 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-        if (pk.Format == 1 && moves.All(z => z == 0))
-            moves = ((PersonalInfo1)PersonalTable.RB[Species]).Moves;
         pk.SetMoves((int[])moves);
         pk.SetMaximumPPCurrent((int[])moves);
     }

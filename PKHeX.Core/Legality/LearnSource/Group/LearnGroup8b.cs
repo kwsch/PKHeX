@@ -20,15 +20,15 @@ public sealed class LearnGroup8b : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        CheckSharedMoves(result, current, pk);
+        CheckSharedMoves(result, current, evos[0]);
 
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk)
+    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EvoCriteria evo)
     {
         var game = LearnSource8BDSP.Instance;
-        var entry = (PersonalInfo8BDSP)pk.PersonalInfo;
+        var entry = PersonalTable.BDSP.GetFormEntry(evo.Species, evo.Form);
         var baseSpecies = entry.HatchSpecies;
         var baseForm = entry.HatchFormIndex;
         var eggMoves = game.GetEggMoves(baseSpecies, baseForm);
