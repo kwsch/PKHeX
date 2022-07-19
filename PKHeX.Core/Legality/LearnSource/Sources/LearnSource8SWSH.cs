@@ -59,7 +59,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TechnicalRecord) && pk is ITechRecord8 tr && GetIsTR(pi, tr, evo, move))
+        if (types.HasFlagFast(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, option))
             return new(TMHM, Game);
 
         if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
@@ -126,8 +126,11 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsTR(PersonalInfo info, ITechRecord8 tr, EvoCriteria evo, int move)
+    private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, int move, LearnOption option)
     {
+        if (pk is not ITechRecord8 tr)
+            return false;
+
         var index = TR_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
             return false;
@@ -135,6 +138,9 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             return false;
 
         if (tr.GetMoveRecordFlag(index))
+            return true;
+
+        if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())
             return true;
         if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
             return true; // Agility Calyrex without TR glitch.
