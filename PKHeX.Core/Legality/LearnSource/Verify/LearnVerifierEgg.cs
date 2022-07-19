@@ -46,7 +46,7 @@ internal static class LearnVerifierEgg
     {
         if (enc is EncounterEgg)
             VerifyMatchesRelearn(result, current, pk);
-        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        else if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
             VerifyMovesInitial(result, current, x);
         else
             VerifyFromEncounter(result, current, enc);
