@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -6,12 +6,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
 /// </summary>
-public sealed class PersonalInfoG2 : PersonalInfo
+public sealed class PersonalInfo2 : PersonalInfo
 {
     public const int SIZE = 0x20;
+    private readonly byte[] Data;
 
-    public PersonalInfoG2(byte[] data) : base(data)
+    public PersonalInfo2(byte[] data)
     {
+        Data = data;
         TMHM = GetBits(Data.AsSpan(0x18, 0x8));
     }
 
@@ -40,7 +42,7 @@ public sealed class PersonalInfoG2 : PersonalInfo
     public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }
     public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)((Data[0x17] & 0x0F) | (value << 4)); }
 
-    public override IReadOnlyList<int> Items
+    public IReadOnlyList<int> Items
     {
         get => new[] { Item1, Item2 };
         set

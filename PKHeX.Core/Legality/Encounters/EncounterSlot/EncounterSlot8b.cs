@@ -41,7 +41,7 @@ public sealed record EncounterSlot8b : EncounterSlot
     public bool CanBeUndergroundMove(int move)
     {
         var et = PersonalTable.BDSP;
-        var sf = (PersonalInfoBDSP)et.GetFormEntry(Species, Form);
+        var sf = (PersonalInfo8BDSP)et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
         if (IsBCAT && IgnoreEggMoves.TryGetValue(species, out var exclude) && Array.IndexOf(exclude, move) != -1)
             return false;
@@ -55,7 +55,7 @@ public sealed record EncounterSlot8b : EncounterSlot
     public bool GetBaseEggMove(out int move)
     {
         var et = PersonalTable.BDSP;
-        var sf = (PersonalInfoBDSP)et.GetFormEntry(Species, Form);
+        var sf = (PersonalInfo8BDSP)et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
 
         int[] Exclude = IgnoreEggMoves.TryGetValue(species, out var exclude) ? exclude : Array.Empty<int>();

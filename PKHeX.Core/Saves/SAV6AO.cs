@@ -23,7 +23,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
         ClearBoxes();
     }
 
-    public override PersonalTable Personal => PersonalTable.AO;
+    public override IPersonalTable Personal => PersonalTable.AO;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
     public SaveBlockAccessor6AO Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV6AO((byte[])Data.Clone());

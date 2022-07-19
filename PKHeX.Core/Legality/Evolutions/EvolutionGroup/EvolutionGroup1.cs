@@ -7,7 +7,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup
     public static readonly EvolutionGroup1 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves1;
     private const int MaxSpecies = Legal.MaxSpeciesID_1;
-    private static PersonalTable Personal => PersonalTable.RB;
+    private static PersonalTable1 Personal => PersonalTable.RB;
 
     public IEvolutionGroup GetNext(PKM pk, EvolutionOrigin enc) => EvolutionGroup2.Instance;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format == 1 ? EvolutionGroup2.Instance : null;

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -12,7 +12,7 @@ internal record DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, us
 
     private void AddTo(GameVersion game, EncounterStatic5[] result, ref int ctr)
     {
-        var p = (PersonalInfoBW)PersonalTable.B2W2[Species];
+        var p = PersonalTable.B2W2[Species];
         var a = p.HasHiddenAbility ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
         if (Move1 == 0)
         {

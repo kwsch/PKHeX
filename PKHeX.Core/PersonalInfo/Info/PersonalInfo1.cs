@@ -6,12 +6,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 1 games.
 /// </summary>
-public sealed class PersonalInfoG1 : PersonalInfo
+public sealed class PersonalInfo1 : PersonalInfo
 {
     public const int SIZE = 0x1C;
+    private readonly byte[] Data;
 
-    public PersonalInfoG1(byte[] data) : base(data)
+    public PersonalInfo1(byte[] data)
     {
+        Data = data;
         TMHM = GetBits(Data.AsSpan(0x14, 0x8));
     }
 
@@ -49,7 +51,6 @@ public sealed class PersonalInfoG1 : PersonalInfo
     public override int EV_SPD { get => EV_SPC; set { } }
 
     // Future game values, unused
-    public override IReadOnlyList<int> Items { get => Array.Empty<int>(); set { } }
     public override int EggGroup1 { get => 0; set { } }
     public override int EggGroup2 { get => 0; set { } }
     public override IReadOnlyList<int> Abilities { get => Array.Empty<int>(); set { } }

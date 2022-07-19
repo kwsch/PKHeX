@@ -345,7 +345,7 @@ public partial class SAV_SecretBase : Form
         var species = WinFormsUtil.GetIndex(CB_Species);
 
         // Set a sane gender
-        var gender = SAV.Personal[species].FixedGender;
+        var gender = SAV.Personal[species].RandomGender();
         if (gender == -1)
             gender = EntityGender.GetFromString(Label_Gender.Text);
         SetGenderLabel(gender);
@@ -366,13 +366,12 @@ public partial class SAV_SecretBase : Form
     {
         var species = WinFormsUtil.GetIndex(CB_Species);
         var pi = SAV.Personal[species];
-        var fg = pi.FixedGender;
-        if (fg == -1) // dual gender
-        {
-            fg = EntityGender.GetFromString(Label_Gender.Text);
-            fg = (fg ^ 1) & 1;
-        }
-        Label_Gender.Text = Main.GenderSymbols[fg];
+        int gender;
+        if (pi.IsDualGender) // dual gender
+            gender = (EntityGender.GetFromString(Label_Gender.Text) ^ 1) & 1;
+        else
+            gender = pi.FixedGender();
+        Label_Gender.Text = Main.GenderSymbols[gender];
     }
 
     private void SetGenderLabel(int gender)

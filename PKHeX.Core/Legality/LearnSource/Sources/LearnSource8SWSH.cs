@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 {
     public static readonly LearnSource8SWSH Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.SWSH;
+    private static readonly PersonalTable8SWSH Personal = PersonalTable.SWSH;
     private static readonly Learnset[] Learnsets = Legal.LevelUpSWSH;
     private static readonly EggMoves7[] EggMoves = Legal.EggMovesSWSH;
     private const int MaxSpecies = Legal.MaxSpeciesID_8_R2;
@@ -104,7 +104,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private bool GetIsSharedEggMove(PersonalInfo pi, int move)
     {
-        var entry = (PersonalInfoSWSH)pi;
+        var entry = (PersonalInfo8SWSH)pi;
         var baseSpecies = entry.HatchSpecies;
         var baseForm = entry.HatchFormIndexEverstone;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
@@ -131,7 +131,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         var index = TR_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
             return false;
-        if (!info.TMHM[PersonalInfoSWSH.CountTM + index])
+        if (!info.TMHM[PersonalInfo8SWSH.CountTM + index])
             return false;
 
         if (tr.GetMoveRecordFlag(index))
@@ -163,7 +163,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         {
             var flags = pi.TMHM;
             var moves = TM_SWSH;
-            for (int i = 0; i < PersonalInfoSWSH.CountTM; i++)
+            for (int i = 0; i < PersonalInfo8SWSH.CountTM; i++)
             {
                 if (flags[i])
                     result[moves[i]] = true;
@@ -171,7 +171,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
             if (pk is ITechRecord8)
             {
-                var trFlags = flags.AsSpan(PersonalInfoSWSH.CountTM);
+                var trFlags = flags.AsSpan(PersonalInfo8SWSH.CountTM);
                 var trMoves = TR_SWSH.AsSpan();
                 for (int index = 0; index < trFlags.Length; index++)
                 {

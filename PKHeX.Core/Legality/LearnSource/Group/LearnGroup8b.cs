@@ -28,7 +28,7 @@ public sealed class LearnGroup8b : ILearnGroup
     private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk)
     {
         var game = LearnSource8BDSP.Instance;
-        var entry = (PersonalInfoBDSP)pk.PersonalInfo;
+        var entry = (PersonalInfo8BDSP)pk.PersonalInfo;
         var baseSpecies = entry.HatchSpecies;
         var baseForm = entry.HatchFormIndex;
         var eggMoves = game.GetEggMoves(baseSpecies, baseForm);

@@ -143,7 +143,7 @@ public sealed class TransferVerifier : Verifier
         }
 
         // Starting in Generation 8, games have a selective amount of species/forms from prior games.
-        var pt = pk switch
+        IPersonalTable pt = pk switch
         {
             PA8 => PersonalTable.LA,
             PB8 => PersonalTable.BDSP,

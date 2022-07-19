@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource2C : ILearnSource, IEggSource
 {
     public static readonly LearnSource2C Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.C;
+    private static readonly PersonalTable2 Personal = PersonalTable.C;
     private static readonly EggMoves2[] EggMoves = Legal.EggMovesC;
     private static readonly Learnset[] Learnsets = Legal.LevelUpC;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
@@ -105,7 +105,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
                 }
             }
         }
-        
+
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;

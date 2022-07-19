@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource1RB : ILearnSource
 {
     public static readonly LearnSource1RB Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.RB;
+    private static readonly PersonalTable1 Personal = PersonalTable.RB;
     private static readonly Learnset[] Learnsets = Legal.LevelUpRB;
     private const LearnEnvironment Game = RB;
 
@@ -108,7 +108,7 @@ public sealed class LearnSource1RB : ILearnSource
         if (!TryGetPersonal(species, 0, out var personal))
             return;
 
-        var pi = (PersonalInfoG1)personal;
+        var pi = (PersonalInfo1)personal;
         var learn = Learnsets[species];
         pi.GetMoves(init);
         var start = (4 - init.Count(0)) & 3;

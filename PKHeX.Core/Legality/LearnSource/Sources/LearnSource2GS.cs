@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource2GS : ILearnSource, IEggSource
 {
     public static readonly LearnSource2GS Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.GS;
+    private static readonly PersonalTable2 Personal = PersonalTable.GS;
     private static readonly EggMoves2[] EggMoves = Legal.EggMovesGS;
     private static readonly Learnset[] Learnsets = Legal.LevelUpGS;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;

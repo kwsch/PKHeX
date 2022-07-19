@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource4DP : ILearnSource, IEggSource
 {
     public static readonly LearnSource4DP Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.DP;
+    private static readonly PersonalTable4 Personal = PersonalTable.DP;
     private static readonly Learnset[] Learnsets = Legal.LevelUpDP;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesDPPt;
     private const int MaxSpecies = Legal.MaxSpeciesID_4;

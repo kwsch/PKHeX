@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource4HGSS : ILearnSource, IEggSource
 {
     public static readonly LearnSource4HGSS Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.HGSS;
+    private static readonly PersonalTable4 Personal = PersonalTable.HGSS;
     private static readonly Learnset[] Learnsets = Legal.LevelUpHGSS;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesHGSS;
     private const int MaxSpecies = Legal.MaxSpeciesID_4;

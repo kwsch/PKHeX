@@ -9,7 +9,7 @@ public sealed class Bank4 : BulkStorage
 {
     public Bank4(byte[] data) : base(data, typeof(PK4), 0) => Version = GameVersion.HGSS;
 
-    public override PersonalTable Personal => PersonalTable.HGSS;
+    public override IPersonalTable Personal => PersonalTable.HGSS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
     protected override SaveFile CloneInternal() => new Bank4((byte[])Data.Clone());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");

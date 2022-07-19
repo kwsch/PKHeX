@@ -33,7 +33,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
         ReloadBattleTeams();
     }
 
-    public override PersonalTable Personal => PersonalTable.SM;
+    public override IPersonalTable Personal => PersonalTable.SM;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
     protected override SaveFile CloneInternal() => new SAV7SM((byte[])Data.Clone());
 

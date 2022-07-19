@@ -271,7 +271,7 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
-    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, PersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
+    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {

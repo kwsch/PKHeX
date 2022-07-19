@@ -125,7 +125,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         return -1;
     }
 
-    private static bool Append(PKM pk, ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc, PersonalTable pt, EvolutionTree tree, ref EvoCriteria[] dest)
+    private static bool Append<T>(PKM pk, ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc, T pt, EvolutionTree tree, ref EvoCriteria[] dest) where T : IPersonalTable
     {
         // Get the first evolution in the chain that can be present in this group
         var any = GetFirstEvolution(pt, chain, out var evo);
@@ -188,7 +188,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         BDSP,
     }
 
-    private static bool GetFirstEvolution(PersonalTable pt, ReadOnlySpan<EvoCriteria> chain, out EvoCriteria result)
+    private static bool GetFirstEvolution<T>(T pt, ReadOnlySpan<EvoCriteria> chain, out EvoCriteria result) where T : IPersonalTable
     {
         foreach (var evo in chain)
         {

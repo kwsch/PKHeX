@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+using System;
 
 namespace PKHeX.Core;
 
@@ -48,15 +47,14 @@ public static class EffortValues
 
     private static void SetMax252(Span<int> evs, PKM entity)
     {
-        var stats = entity.PersonalInfo.Stats;
-        var ordered = stats
-            .Select((z, i) => (Stat: z, Index: i))
-            .OrderByDescending(z => z.Stat)
-            .ToArray();
+        // Get the 3 highest base stat indexes from the entity PersonalInfo
+        var pi = entity.PersonalInfo;
+        Span<(int Index, int Stat)> tuples = stackalloc (int, int)[6];
+        pi.GetSortedStatIndexes(tuples);
 
-        evs[ordered[0].Index] = 252;
-        evs[ordered[1].Index] = 252;
-        evs[ordered[2].Index] = 6;
+        evs[tuples[0].Index] = 252;
+        evs[tuples[1].Index] = 252;
+        evs[tuples[2].Index] = 6;
     }
 
     private static void SetMax12(Span<int> evs)

@@ -19,7 +19,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public override int BoxCount { get; }
     public override int SlotCount { get; }
 
-    public override PersonalTable Personal => PersonalTable.Pt;
+    public override IPersonalTable Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
     protected override SaveFile CloneInternal() => new SAV4Ranch((byte[])Data.Clone());
     public override string PlayTimeString => $"{Checksums.CRC16Invert(Data):X4}";

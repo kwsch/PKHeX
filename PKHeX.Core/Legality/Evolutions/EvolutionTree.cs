@@ -55,14 +55,14 @@ public sealed class EvolutionTree
 
     private readonly IReadOnlyList<EvolutionMethod[]> Entries;
     private readonly GameVersion Game;
-    private readonly PersonalTable Personal;
+    private readonly IPersonalTable Personal;
     private readonly int MaxSpeciesTree;
     private readonly ILookup<int, EvolutionLink> Lineage;
     private static int GetLookupKey(int species, int form) => species | (form << 11);
 
     #region Constructor
 
-    private EvolutionTree(ReadOnlySpan<byte> data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
+    private EvolutionTree(ReadOnlySpan<byte> data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
     {
         Game = game;
         Personal = personal;
@@ -77,7 +77,7 @@ public sealed class EvolutionTree
         Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
     }
 
-    private EvolutionTree(BinLinkerAccessor data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
+    private EvolutionTree(BinLinkerAccessor data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
     {
         Game = game;
         Personal = personal;

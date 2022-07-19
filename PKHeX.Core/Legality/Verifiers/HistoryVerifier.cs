@@ -134,7 +134,7 @@ public sealed class HistoryVerifier : Verifier
             data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
     }
 
-    private static bool IsMatchFriendship(EvoCriteria[] evos, PersonalTable pt, int fs)
+    private static bool IsMatchFriendship(EvoCriteria[] evos, IPersonalTable pt, int fs)
     {
         foreach (var z in evos)
         {

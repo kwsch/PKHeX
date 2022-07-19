@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 {
     public static readonly LearnSource8BDSP Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.BDSP;
+    private static readonly PersonalTable8BDSP Personal = PersonalTable.BDSP;
     private static readonly Learnset[] Learnsets = Legal.LevelUpBDSP;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesBDSP;
     private const int MaxSpecies = Legal.MaxSpeciesID_8b;
@@ -84,7 +84,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
     private bool GetIsSharedEggMove(PersonalInfo pi, int move)
     {
-        var entry = (PersonalInfoBDSP)pi;
+        var entry = (PersonalInfo8BDSP)pi;
         var baseSpecies = entry.HatchSpecies;
         var baseForm = entry.HatchFormIndex;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;

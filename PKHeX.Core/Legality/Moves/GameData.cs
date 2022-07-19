@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public static class GameData
 {
     public static Learnset[] GetLearnsets(GameVersion game) => Learnsets(game);
-    public static PersonalTable GetPersonal(GameVersion game) => Personal(game);
+    public static IPersonalTable GetPersonal(GameVersion game) => Personal(game);
 
     public static Learnset GetLearnset(GameVersion game, int species, int form)
     {
@@ -62,7 +62,7 @@ public static class GameData
         _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
     };
 
-    private static PersonalTable Personal(GameVersion game) => game switch
+    private static IPersonalTable Personal(GameVersion game) => game switch
     {
         RD or GN or BU or RB => PersonalTable.RB,
         YW or RBY => PersonalTable.Y,

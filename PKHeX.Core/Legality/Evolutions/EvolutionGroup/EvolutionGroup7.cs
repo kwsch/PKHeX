@@ -8,7 +8,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves7;
     private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;
     private const int Generation = 7;
-    private static PersonalTable Personal => PersonalTable.USUM;
+    private static PersonalTable7 Personal => PersonalTable.USUM;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup8.Instance : null;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)

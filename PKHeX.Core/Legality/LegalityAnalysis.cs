@@ -69,7 +69,7 @@ public sealed class LegalityAnalysis
     /// <param name="pk">Input data to check</param>
     /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, PersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
+    public LegalityAnalysis(PKM pk, IPersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
 
     /// <summary>
     /// Checks the input <see cref="PKM"/> data for legality.

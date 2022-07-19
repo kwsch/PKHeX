@@ -543,7 +543,7 @@ public sealed class MiscVerifier : Verifier
         }
 
         PersonalInfo? pi = null;
-        for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
+        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
         {
             if (!pk8.GetMoveRecordFlag(i))
                 continue;
@@ -666,6 +666,6 @@ public sealed class MiscVerifier : Verifier
     private static bool CanLearnTR(int species, int form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-        return pi.TMHM[tr + PersonalInfoSWSH.CountTM];
+        return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];
     }
 }

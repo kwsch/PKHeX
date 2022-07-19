@@ -316,7 +316,7 @@ public partial class SAV_HallOfFame : Form
         }
         else
         {
-            var fg = pi.FixedGender;
+            var fg = pi.FixedGender();
             Label_Gender.Text = gendersymbols[fg];
             return;
         }

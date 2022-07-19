@@ -20,7 +20,7 @@ public sealed class SAV5BW : SAV5
         Initialize();
     }
 
-    public override PersonalTable Personal => PersonalTable.BW;
+    public override IPersonalTable Personal => PersonalTable.BW;
     public SaveBlockAccessor5BW Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV5BW((byte[])Data.Clone());
     public override int EventWorkCount => 0x13E;

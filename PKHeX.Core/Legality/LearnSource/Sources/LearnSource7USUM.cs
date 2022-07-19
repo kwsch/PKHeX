@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource7USUM : ILearnSource, IEggSource
 {
     public static readonly LearnSource7USUM Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.USUM;
+    private static readonly PersonalTable7 Personal = PersonalTable.USUM;
     private static readonly Learnset[] Learnsets = Legal.LevelUpUSUM;
     private static readonly EggMoves7[] EggMoves = Legal.EggMovesUSUM;
     private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;

@@ -8,7 +8,7 @@ public sealed class EvolutionGroup5 : IEvolutionGroup
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves5;
     private const int MaxSpecies = Legal.MaxSpeciesID_5;
     private const int Generation = 5;
-    private static PersonalTable Personal => PersonalTable.B2W2;
+    private static PersonalTable5B2W2 Personal => PersonalTable.B2W2;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup6.Instance : null;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => enc.Generation < Generation ? EvolutionGroup4.Instance : null;

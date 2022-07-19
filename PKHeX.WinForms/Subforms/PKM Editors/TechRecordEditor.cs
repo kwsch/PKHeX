@@ -40,13 +40,13 @@ public partial class TechRecordEditor : Form
 
     private void LoadRecords()
     {
-        for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
+        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
             CLB_Flags.SetItemChecked(i, Record.GetMoveRecordFlag(i));
     }
 
     private void Save()
     {
-        for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
+        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
             Record.SetMoveRecordFlag(i, CLB_Flags.GetItemChecked(i));
     }
 

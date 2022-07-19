@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource8LA : ILearnSource
 {
     public static readonly LearnSource8LA Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.LA;
+    private static readonly PersonalTable8LA Personal = PersonalTable.LA;
     private static readonly Learnset[] Learnsets = Legal.LevelUpLA;
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const LearnEnvironment Game = PLA;

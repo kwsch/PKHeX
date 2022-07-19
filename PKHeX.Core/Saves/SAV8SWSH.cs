@@ -53,7 +53,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     protected override void SetChecksums() { } // None!
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
-    public override PersonalTable Personal => PersonalTable.SWSH;
+    public override IPersonalTable Personal => PersonalTable.SWSH;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SWSH;
 
     #region Blocks

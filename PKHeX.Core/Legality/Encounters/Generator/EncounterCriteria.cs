@@ -76,7 +76,7 @@ public sealed record EncounterCriteria
     /// <inheritdoc cref="GetCriteria(IBattleTemplate, PersonalInfo)"/>
     /// <param name="s">Template data (end result).</param>
     /// <param name="t">Personal table the end result will exist with.</param>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalTable t)
+    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalTable t)
     {
         var pi = t.GetFormEntry(s.Species, s.Form);
         return GetCriteria(s, pi);
@@ -144,7 +144,7 @@ public sealed record EncounterCriteria
         if ((uint)gender < 3)
             return gender;
         if (!pkPersonalInfo.IsDualGender)
-            return pkPersonalInfo.FixedGender;
+            return pkPersonalInfo.FixedGender();
         if (Gender >= 0)
             return Gender;
         return pkPersonalInfo.RandomGender();

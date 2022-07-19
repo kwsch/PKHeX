@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 {
     public static readonly LearnSource5B2W2 Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.B2W2;
+    private static readonly PersonalTable5B2W2 Personal = PersonalTable.B2W2;
     private static readonly Learnset[] Learnsets = Legal.LevelUpB2W2;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesBW; // same
     private const int MaxSpecies = Legal.MaxSpeciesID_5;

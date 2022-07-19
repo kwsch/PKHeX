@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource6AO : ILearnSource, IEggSource
 {
     public static readonly LearnSource6AO Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.AO;
+    private static readonly PersonalTable6AO Personal = PersonalTable.AO;
     private static readonly Learnset[] Learnsets = Legal.LevelUpAO;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesAO;
     private const int MaxSpecies = Legal.MaxSpeciesID_6;

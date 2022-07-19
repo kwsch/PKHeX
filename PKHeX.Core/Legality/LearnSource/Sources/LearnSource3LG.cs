@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class LearnSource3LG : ILearnSource, IEggSource
 {
     public static readonly LearnSource3LG Instance = new();
-    private static readonly PersonalTable Personal = PersonalTable.LG;
+    private static readonly PersonalTable3 Personal = PersonalTable.LG;
     private static readonly Learnset[] Learnsets = Legal.LevelUpLG;
     private static readonly EggMoves6[] EggMoves = Legal.EggMovesRS; // same for all Gen3 games
     private const int MaxSpecies = Legal.MaxSpeciesID_3;

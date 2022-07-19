@@ -481,7 +481,7 @@ public sealed class Zukan4 : ZukanBase
         }
         else
         {
-            SetSeenGender(species, pi.FixedGender & 1);
+            SetSeenGender(species, pi.FixedGender() & 1);
         }
     }
 
