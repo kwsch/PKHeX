@@ -21,7 +21,7 @@ public sealed class PersonalTable5B2W2 : IPersonalTable, IPersonalTable<Personal
         }
     }
 
-    public PersonalInfo5B2W2 this[int index] => Table[index];
+    public PersonalInfo5B2W2 this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo5B2W2 this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo5B2W2 GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 

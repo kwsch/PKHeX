@@ -21,7 +21,7 @@ public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<Personal
         }
     }
 
-    public PersonalInfo8BDSP this[int index] => Table[index];
+    public PersonalInfo8BDSP this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo8BDSP this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo8BDSP GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 

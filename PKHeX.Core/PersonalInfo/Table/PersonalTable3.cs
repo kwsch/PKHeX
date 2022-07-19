@@ -21,11 +21,11 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
         }
     }
 
-    public PersonalInfo3 this[int index] => Table[index];
-    public PersonalInfo3 this[int species, int form] => Table[species];
+    public PersonalInfo3 this[int index] => Table[(uint)index < Table.Length ? index : 0];
+    public PersonalInfo3 this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo3 GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
-    public int GetFormIndex(int species, int form) => species;
+    public int GetFormIndex(int species, int form) => IsSpeciesInGame(species) ? species : 0;
     public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpecies;
     public bool IsPresentInGame(int species, int form)
     {

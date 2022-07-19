@@ -21,7 +21,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
         }
     }
 
-    public PersonalInfo7 this[int index] => Table[index];
+    public PersonalInfo7 this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo7 this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo7 GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
@@ -49,6 +49,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
             (int)Species.Genesect => form <= 4,
             (int)Species.Scatterbug or (int)Species.Spewpa => form <= 17,
             (int)Species.Vivillon => form <= 19,
+            (int)Species.Silvally => form < 17,
             _ => false,
         };
     }

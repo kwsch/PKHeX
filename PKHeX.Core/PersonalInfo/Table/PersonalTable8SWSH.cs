@@ -21,7 +21,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
         }
     }
 
-    public PersonalInfo8SWSH this[int index] => Table[index];
+    public PersonalInfo8SWSH this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo8SWSH this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo8SWSH GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 

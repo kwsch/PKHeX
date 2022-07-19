@@ -21,7 +21,7 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
         }
     }
 
-    public PersonalInfo8LA this[int index] => Table[index];
+    public PersonalInfo8LA this[int index] => Table[(uint)index < Table.Length ? index : 0];
     public PersonalInfo8LA this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo8LA GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
