@@ -43,8 +43,9 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
             return true;
         return species switch
         {
-            (int)Species.Unown => form < 26,
+            (int)Species.Unown => form < 28,
             (int)Species.Mothim => form < 3,
+            (int)Species.Arceus => form is < 18 and not 9, // Curse type does not exist legally.
             _ => false,
         };
     }

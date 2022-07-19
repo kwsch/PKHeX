@@ -41,12 +41,7 @@ public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<Personal
             return true;
         if (Table[species].HasForm(form))
             return true;
-        return species switch
-        {
-            (int)Species.Unown => form < 26,
-            (int)Species.Mothim => form < 3,
-            _ => false,
-        };
+        return false;
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];

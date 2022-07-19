@@ -33,7 +33,7 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
             return false;
         return form == 0 || species switch
         {
-            (int)Species.Unown => form < 26,
+            (int)Species.Unown => form < 28,
             (int)Species.Deoxys => form < 3,
             _ => false,
         };

@@ -43,8 +43,10 @@ public sealed class PersonalTable6AO : IPersonalTable, IPersonalTable<PersonalIn
             return true;
         return species switch
         {
-            (int)Species.Unown => form < 26,
+            (int)Species.Unown => form < 28,
             (int)Species.Mothim => form < 3,
+            (int)Species.Arceus => form < 17,
+            (int)Species.Genesect => form <= 3,
             (int)Species.Scatterbug or (int)Species.Spewpa => form <= 17,
             _ => false,
         };
