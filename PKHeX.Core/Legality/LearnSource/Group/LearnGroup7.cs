@@ -15,6 +15,7 @@ public sealed class LearnGroup7 : ILearnGroup
         <= 0 when history.Gen2.Length != 0 => LearnGroup2.Instance,
         1 when history.Gen1.Length != 0 => LearnGroup1.Instance,
         2 when history.Gen2.Length != 0 => LearnGroup2.Instance,
+        >= 3 when history.Gen6.Length != 0 => LearnGroup6.Instance,
         _ => null,
     };
 
