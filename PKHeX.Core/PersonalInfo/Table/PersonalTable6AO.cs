@@ -22,10 +22,16 @@ public sealed class PersonalTable6AO : IPersonalTable, IPersonalTable<PersonalIn
     }
 
     public PersonalInfo6AO this[int index] => Table[index];
-    public PersonalInfo6AO this[int species, int form] => Table[species];
+    public PersonalInfo6AO this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo6AO GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
-    public int GetFormIndex(int species, int form) => species;
+    public int GetFormIndex(int species, int form)
+    {
+        if ((uint)species <= MaxSpeciesID)
+            return Table[species].FormIndex(species, form);
+        return 0;
+    }
+
     public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpecies;
     public bool IsPresentInGame(int species, int form)
     {

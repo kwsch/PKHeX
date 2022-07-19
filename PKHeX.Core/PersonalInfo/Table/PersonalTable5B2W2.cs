@@ -22,7 +22,7 @@ public sealed class PersonalTable5B2W2 : IPersonalTable, IPersonalTable<Personal
     }
 
     public PersonalInfo5B2W2 this[int index] => Table[index];
-    public PersonalInfo5B2W2 this[int species, int form] => Table[species];
+    public PersonalInfo5B2W2 this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo5B2W2 GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
     public int GetFormIndex(int species, int form)

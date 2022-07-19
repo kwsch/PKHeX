@@ -22,7 +22,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
     }
 
     public PersonalInfo7 this[int index] => Table[index];
-    public PersonalInfo7 this[int species, int form] => Table[species];
+    public PersonalInfo7 this[int species, int form] => Table[GetFormIndex(species, form)];
     public PersonalInfo7 GetFormEntry(int species, int form) => Table[GetFormIndex(species, form)];
 
     public int GetFormIndex(int species, int form)
@@ -31,6 +31,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
             return Table[species].FormIndex(species, form);
         return 0;
     }
+
     public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpeciesID;
     public bool IsPresentInGame(int species, int form)
     {
