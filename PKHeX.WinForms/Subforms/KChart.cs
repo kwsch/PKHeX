@@ -89,7 +89,7 @@ public partial class KChart : Form
         return abilities[abilityIDs[index]];
     }
 
-    private static bool GetIsNative(PersonalInfo personalInfo, int s) => personalInfo switch
+    private static bool GetIsNative(IPersonalInfo personalInfo, int s) => personalInfo switch
     {
         PersonalInfo7 => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
         PersonalInfo8SWSH ss => ss.IsInDex,

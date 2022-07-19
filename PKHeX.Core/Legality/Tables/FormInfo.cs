@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -279,7 +279,7 @@ public static class FormInfo
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
     /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
-    public static bool HasFormSelection(PersonalInfo pi, int species, int format)
+    public static bool HasFormSelection(IPersonalFormInfo pi, int species, int format)
     {
         if (format <= 3 && species != (int)Unown)
             return false;

@@ -15,9 +15,9 @@ public sealed class LegalityAnalysis
     /// <summary> The entity we are checking. </summary>
     internal readonly PKM Entity;
 
-    /// <summary> The entity's <see cref="PersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
+    /// <summary> The entity's <see cref="IPersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
     /// <remarks>We store this rather than re-fetching, as some games that use the same <see cref="PKM"/> format have different values.</remarks>
-    internal readonly PersonalInfo PersonalInfo;
+    internal readonly IPersonalInfo PersonalInfo;
 
     private readonly List<CheckResult> Parse = new(8);
 
@@ -84,7 +84,7 @@ public sealed class LegalityAnalysis
     /// <param name="pk">Input data to check</param>
     /// <param name="pi">Personal info to parse with</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, PersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
+    public LegalityAnalysis(PKM pk, IPersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
     {
         Entity = pk;
         PersonalInfo = pi;

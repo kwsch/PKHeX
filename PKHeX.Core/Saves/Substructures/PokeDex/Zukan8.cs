@@ -555,7 +555,7 @@ public sealed class Zukan8 : ZukanBase
             ClearGigantamaxFlags(species);
     }
 
-    private void SeenAll(int species, int bitIndex, bool value, PersonalInfo pi, bool shinyToo)
+    private void SeenAll(int species, int bitIndex, bool value, IGenderDetail pi, bool shinyToo)
     {
         if (pi.IsDualGender || !value)
         {

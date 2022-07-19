@@ -45,7 +45,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
-    private PersonalInfo GetPersonal() => OriginFormat switch
+    private IPersonalInfo GetPersonal() => OriginFormat switch
     {
         PogoImportFormat.PK7 => PersonalTable.USUM.GetFormEntry(Species, Form),
         PogoImportFormat.PB7 => PersonalTable.GG.GetFormEntry(Species, Form),

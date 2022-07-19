@@ -358,7 +358,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int MaxBallID => Legal.MaxBallID_7;
     public override int MaxGameID => Legal.MaxGameID_7b;
 
-    public override void LoadStats(PersonalInfo p, Span<ushort> stats)
+    public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         int level = CurrentLevel;
         int nature = Nature;
@@ -538,14 +538,14 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetHeightAbsolute(PersonalInfo p, int heightScalar)
+    public static float GetHeightAbsolute(IPersonalMisc p, int heightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         return HeightRatio * p.Height;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetWeightAbsolute(PersonalInfo p, int heightScalar, int weightScalar)
+    public static float GetWeightAbsolute(IPersonalMisc p, int heightScalar, int weightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         float WeightRatio = GetWeightRatio(weightScalar);

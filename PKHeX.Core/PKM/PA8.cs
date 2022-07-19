@@ -564,7 +564,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0x174)); set => WriteUInt16LittleEndian(Data.AsSpan(0x174), (ushort)value); }
     #endregion
 
-    public override void LoadStats(PersonalInfo p, Span<ushort> stats)
+    public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         int level = CurrentLevel;
         int nature = StatNature;
@@ -771,14 +771,14 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetHeightAbsolute(PersonalInfo p, int heightScalar)
+    public static float GetHeightAbsolute(IPersonalMisc p, int heightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         return HeightRatio * p.Height;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetWeightAbsolute(PersonalInfo p, int heightScalar, int weightScalar)
+    public static float GetWeightAbsolute(IPersonalMisc p, int heightScalar, int weightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         float WeightRatio = GetWeightRatio(weightScalar);

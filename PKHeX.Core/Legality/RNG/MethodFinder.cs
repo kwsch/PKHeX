@@ -362,12 +362,15 @@ public static class MethodFinder
             return GetNonMatch(out pidiv);
 
         (int species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
-        int getRatio() => PersonalTable.HGSS[species].Gender;
+        if ((uint)species > Legal.MaxSpeciesID_4)
+            return GetNonMatch(out pidiv);
+        
+        static int getRatio(int species) => PersonalTable.HGSS[species].Gender;
         switch (genderValue)
         {
             case 2: break; // can't cute charm a genderless pk
             case 0: // male
-                var gr = getRatio();
+                var gr = getRatio(species);
                 if (gr >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
                 var rate = 25*((gr / 25) + 1); // buffered
@@ -380,7 +383,7 @@ public static class MethodFinder
             case 1: // female
                 if (pid >= 25)
                     break; // nope, this isn't a valid nature
-                if (getRatio() >= PersonalInfo.RatioMagicFemale) // no modification for PID
+                if (getRatio(species) >= PersonalInfo.RatioMagicFemale) // no modification for PID
                     break;
 
                 pidiv = PIDIV.CuteCharm;

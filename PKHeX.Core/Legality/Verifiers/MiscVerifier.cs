@@ -542,12 +542,12 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
         }
 
-        PersonalInfo? pi = null;
+        PersonalInfo8SWSH? pi = null;
         for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
         {
             if (!pk8.GetMoveRecordFlag(i))
                 continue;
-            if ((pi ??= pk8.PersonalInfo).TMHM[i + 100])
+            if ((pi ??= (PersonalInfo8SWSH)pk8.PersonalInfo).TMHM[i + 100])
                 continue;
 
             // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
