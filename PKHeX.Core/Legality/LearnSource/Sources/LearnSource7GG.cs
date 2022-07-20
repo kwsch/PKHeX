@@ -34,7 +34,7 @@ public sealed class LearnSource7GG : ILearnSource
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && level <= evo.LevelMax)
+            if (level != -1) // Can relearn at any level!
                 return new(LevelUp, Game, (byte)level);
         }
 
