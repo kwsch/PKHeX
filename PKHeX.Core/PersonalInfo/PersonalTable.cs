@@ -138,7 +138,7 @@ public static class PersonalTable
         var machine = BinLinkerAccessor.Get(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
         var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
         var table = E.Table;
-        for (int i = Legal.MaxSpeciesID_3; i >= 0; i--)
+        for (int i = Legal.MaxSpeciesID_3; i >= 1; i--)
         {
             var entry = table[i];
             entry.AddTMHM(machine[i]);
@@ -155,7 +155,7 @@ public static class PersonalTable
         var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
         var table = HGSS.Table;
         var count = tutors.Length;
-        for (int i = 0; i < count; i++)
+        for (int i = 1; i < count; i++)
             table[i].AddTypeTutors(tutors[i]);
     }
 

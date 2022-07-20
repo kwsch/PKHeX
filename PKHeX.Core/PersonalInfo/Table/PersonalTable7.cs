@@ -45,6 +45,7 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
         return species switch
         {
             (int)Unown => form < 28,
+            (int)Burmy => form < 3,
             (int)Mothim => form < 3,
             (int)Arceus => form < 18,
             (int)Genesect => form <= 4,

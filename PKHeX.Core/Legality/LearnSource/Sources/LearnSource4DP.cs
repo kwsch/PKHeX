@@ -18,7 +18,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_4;
     private const LearnEnvironment Game = DP;
     private const int Generation = 4;
-    private const int CountTM = 50;
+    private const int CountTM = 92;
 
     public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 

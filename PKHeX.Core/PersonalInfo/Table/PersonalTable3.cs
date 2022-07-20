@@ -35,7 +35,7 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
         {
             (int)Species.Unown => form < 28,
             (int)Species.Castform => form < 4,
-            (int)Species.Deoxys => form < 3,
+            (int)Species.Deoxys => form < 4,
             _ => false,
         };
     }
