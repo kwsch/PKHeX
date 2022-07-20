@@ -38,7 +38,7 @@ public sealed class EvolutionGroup5 : IEvolutionGroup
 
     public EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form)
     {
-        return Tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks);
+        return Tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
     }
 
     private static EvoCriteria[] Prune(EvoCriteria[] chain) => chain;

@@ -8,7 +8,7 @@ public static class EvolutionChain
 {
     internal static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
-        var origin = new EvolutionOrigin(enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
+        var origin = new EvolutionOrigin((ushort)enc.Species, (byte)enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
         if (!pk.IsEgg && enc is not EncounterInvalid)
             return GetEvolutionChainsSearch(pk, origin);
 
@@ -50,6 +50,6 @@ public static class EvolutionChain
         if (context < EntityContext.Gen2)
             context = EntityContext.Gen2;
         var et = EvolutionTree.GetEvolutionTree(context);
-        return et.GetValidPreEvolutions(pk, maxLevel: (byte)maxLevel, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, minLevel: (byte)minLevel);
+        return et.GetValidPreEvolutions(pk, levelMax: (byte)maxLevel, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, levelMin: (byte)minLevel);
     }
 }

@@ -80,7 +80,7 @@ internal static class GBRestrictions
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
         var table = EvolutionTree.Evolves1;
-        var chain = table.GetValidPreEvolutions(pk, maxLevel: (byte)pk.CurrentLevel);
+        var chain = table.GetValidPreEvolutions(pk, levelMax: (byte)pk.CurrentLevel);
         foreach (var entry in chain)
         {
             var s = entry.Species;

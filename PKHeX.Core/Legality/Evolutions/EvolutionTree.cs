@@ -207,11 +207,12 @@ public sealed class EvolutionTree
     /// Gets a list of evolutions for the input <see cref="PKM"/> by checking each evolution in the chain.
     /// </summary>
     /// <param name="pk">Pokémon data to check with.</param>
-    /// <param name="maxLevel">Maximum level to permit before the chain breaks.</param>
+    /// <param name="levelMax">Maximum level to permit before the chain breaks.</param>
     /// <param name="maxSpeciesOrigin">Maximum species ID to permit within the chain.</param>
     /// <param name="skipChecks">Ignores an evolution's criteria, causing the returned list to have all possible evolutions.</param>
-    /// <param name="minLevel">Minimum level to permit before the chain breaks.</param>
-    public EvoCriteria[] GetValidPreEvolutions(PKM pk, byte maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, byte minLevel = 1)
+    /// <param name="levelMin">Minimum level to permit before the chain breaks.</param>
+    /// <param name="stopSpecies">Final species to stop at, if known</param>
+    public EvoCriteria[] GetValidPreEvolutions(PKM pk, byte levelMax, int maxSpeciesOrigin = -1, bool skipChecks = false, byte levelMin = 1, int stopSpecies = 0)
     {
         if (maxSpeciesOrigin <= 0)
             maxSpeciesOrigin = GetMaxSpeciesOrigin(pk);
@@ -219,7 +220,7 @@ public sealed class EvolutionTree
         ushort species = (ushort)pk.Species;
         byte form = (byte)pk.Form;
 
-        return GetExplicitLineage(species, form, pk, minLevel, maxLevel, maxSpeciesOrigin, skipChecks);
+        return GetExplicitLineage(species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
     }
 
     public bool IsSpeciesDerivedFrom(int species, int form, int otherSpecies, int otherForm, bool ignoreForm = true)
@@ -322,7 +323,8 @@ public sealed class EvolutionTree
     /// <param name="levelMax">Maximum level</param>
     /// <param name="maxSpeciesID">Clamp for maximum species ID</param>
     /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
-    public EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
+    /// <param name="stopSpecies">Final species to stop at, if known</param>
+    public EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
         if (pk.IsEgg && !skipChecks)
         {
@@ -342,10 +344,10 @@ public sealed class EvolutionTree
                 new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin },
             };
         }
-        return GetLineage(species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks);
+        return GetLineage(species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
     }
 
-    private EvoCriteria[] GetLineage(int species, int form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks)
+    private EvoCriteria[] GetLineage(int species, int form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
         var lvl = levelMax;
         var first = new EvoCriteria { Species = (ushort)species, Form = (byte)form, LevelMax = lvl };
@@ -366,6 +368,9 @@ public sealed class EvolutionTree
         int ctr = 1;
         while (true)
         {
+            if (species == stopSpecies)
+                break;
+            
             var key = GetLookupKey(species, form);
             bool oneValid = false;
             var node = Lineage[key];

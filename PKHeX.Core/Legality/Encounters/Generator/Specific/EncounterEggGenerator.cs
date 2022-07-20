@@ -10,7 +10,7 @@ public static class EncounterEggGenerator
     {
         var table = EvolutionTree.GetEvolutionTree(pk.Context);
         int maxSpeciesOrigin = GetMaxSpeciesOrigin(generation);
-        var evos = table.GetValidPreEvolutions(pk, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+        var evos = table.GetValidPreEvolutions(pk, levelMax: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
         return GenerateEggs(pk, evos, generation, all);
     }
 

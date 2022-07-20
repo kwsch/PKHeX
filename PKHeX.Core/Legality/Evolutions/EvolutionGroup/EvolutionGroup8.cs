@@ -17,7 +17,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
     {
         if (enc.Generation >= Generation)
             return null;
-        if (enc.Version is GP or GE or GG or GO)
+        if ((GameVersion)enc.Version is GP or GE or GG or GO)
             return EvolutionGroup7b.Instance;
         return EvolutionGroup7.Instance;
     }
@@ -155,7 +155,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
 
     private static EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form, EvolutionTree tree)
     {
-        return tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks);
+        return tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
     }
 
     private static EvolutionTree GetTree(PreferredGroup group) => group switch

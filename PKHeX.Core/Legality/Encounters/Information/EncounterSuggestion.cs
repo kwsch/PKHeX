@@ -106,7 +106,7 @@ public static class EncounterSuggestion
         int count = 1;
         for (byte i = 100; i >= startLevel; i--)
         {
-            var evos = table.GetValidPreEvolutions(pk, maxLevel: i, minLevel: startLevel, skipChecks: true);
+            var evos = table.GetValidPreEvolutions(pk, levelMax: i, skipChecks: true, levelMin: startLevel);
             if (evos.Length < count) // lost an evolution, prior level was minimum current level
                 return evos.Max(evo => evo.LevelMax) + 1;
             count = evos.Length;
