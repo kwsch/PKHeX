@@ -155,6 +155,8 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
 
     private static EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form, EvolutionTree tree)
     {
+        if (species is (int)Species.Dialga or (int)Species.Palkia or (int)Species.Arceus)
+            form = 0; // PLA forms; play nice for yielding SW/SH context
         return tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
     }
 

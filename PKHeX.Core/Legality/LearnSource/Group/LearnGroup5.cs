@@ -97,7 +97,10 @@ public sealed class LearnGroup5 : ILearnGroup
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
 
-            // B2/W2's learnset is a strict superset of B/W; don't check B/W!
+            // B2/W2 is the same besides some level up moves.
+            chk = LearnSource5BW.Instance.GetCanLearn(pk, b2w2_pi, evo, move, types & MoveSourceType.LevelUp, option);
+            if (chk != default)
+                result[i] = new(chk, (byte)stage, Generation);
         }
     }
 
@@ -115,6 +118,7 @@ public sealed class LearnGroup5 : ILearnGroup
         if (evo.Species is not ((int)Species.Deoxys or (int)Species.Giratina or (int)Species.Shaymin))
         {
             LearnSource5B2W2.Instance.GetAllMoves(result, pk, evo, types);
+            LearnSource5BW.Instance.GetAllMoves(result, pk, evo, types & MoveSourceType.LevelUp);
             return;
         }
 
@@ -123,6 +127,7 @@ public sealed class LearnGroup5 : ILearnGroup
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
+        // Above species have same level up moves on BW & B2/W2; just check B2/W2.
         var fc = pi.FormCount;
         for (int i = 0; i < fc; i++)
             LearnSource5B2W2.Instance.GetAllMoves(result, pk, evo with { Form = (byte)i }, types);
