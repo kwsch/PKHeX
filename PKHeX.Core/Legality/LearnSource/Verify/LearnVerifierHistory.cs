@@ -63,7 +63,7 @@ internal static class LearnVerifierHistory
             if (finished)
                 return true;
 
-            var next = game.GetPrevious(pk, history, enc, LearnOption.Current);
+            var next = game.GetPrevious(pk, history, enc, option);
             if (next is null)
                 return false;
 
