@@ -16,6 +16,8 @@ public sealed class LearnGroup8 : ILearnGroup
             return null;
         if (option == LearnOption.Current && pk.IsOriginalMovesetDeleted())
             return null;
+        if (history.Gen7b.Length != 0)
+            return LearnGroup7b.Instance;
         return LearnGroup7.Instance;
     }
 
