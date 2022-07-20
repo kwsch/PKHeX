@@ -32,13 +32,15 @@ public sealed class PersonalTable7GG : IPersonalTable, IPersonalTable<PersonalIn
         return 0;
     }
 
-    public bool IsSpeciesInGame(int species) => (uint)species <= MaxSpecies;
+    public bool IsSpeciesInGame(int species) => (uint)species is <= Legal.MaxSpeciesID_1 or (int)Species.Meltan or (int)Species.Melmetal;
     public bool IsPresentInGame(int species, int form)
     {
         if (!IsSpeciesInGame(species))
             return false;
         if (form == 0)
             return true;
+        if (species == (int)Species.Pikachu)
+            return form == 8;
         if (Table[species].HasForm(form))
             return true;
         return false;

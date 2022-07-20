@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -43,10 +44,14 @@ public sealed class PersonalTable5BW : IPersonalTable, IPersonalTable<PersonalIn
             return true;
         return species switch
         {
-            (int)Species.Unown => form < 28,
-            (int)Species.Mothim => form < 3,
-            (int)Species.Arceus => form < 17,
-            (int)Species.Genesect => form <= 4,
+            (int)Unown => form < 28,
+            (int)Burmy => form < 3,
+            (int)Mothim => form < 3,
+            (int)Cherrim => form == 1,
+            (int)Shellos or (int)Gastrodon => form == 1,
+            (int)Arceus => form < 17,
+            (int)Deerling or (int)Sawsbuck => form < 4,
+            (int)Genesect => form <= 4,
             _ => false,
         };
     }
