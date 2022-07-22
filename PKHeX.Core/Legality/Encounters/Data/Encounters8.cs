@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AreaWeather8;
@@ -442,6 +442,7 @@ internal static class Encounters8
         new EncounterStatic8S(SWSH) { Species = 342, Level = 42, Locations = new[] {170, 180}, Weather = Overcast }, // Crawdaunt on Challenge Beach, Training Lowlands
         new(SWSH) { Species = 091, Level = 42, Location = 170, Weather = Raining | Heavy_Fog }, // Cloyster on Challenge Beach
         new(SWSH) { Species = 130, Level = 50, Location = 170, Weather = Normal | Raining | Intense_Sun }, // Gyarados on Challenge Beach
+        new(SWSH) { Species = 130, Level = 50, Location = 178, Weather = Normal | Stormy | Intense_Sun }, // Gyarados in Loop Lagoon
         new(SWSH) { Species = 062, Level = 36, Location = 172 }, // Poliwrath in Brawlers’ Cave
         new(SWSH) { Species = 294, Level = 26, Location = 172 }, // Loudred in Brawlers’ Cave
         new(SWSH) { Species = 528, Level = 26, Location = 172 }, // Swoobat in Brawlers’ Cave
