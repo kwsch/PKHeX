@@ -23,8 +23,8 @@ public sealed class EvolutionTree
     public static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
     public static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
     public static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-    public static readonly EvolutionTree Evolves8a = new(GetReader("la"), Gen8, PersonalTable.LA, MaxSpeciesID_8a);
-    public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), Gen8, PersonalTable.BDSP, MaxSpeciesID_8b);
+    public static readonly EvolutionTree Evolves8a = new(GetReader("la"), PLA, PersonalTable.LA, MaxSpeciesID_8a);
+    public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), BDSP, PersonalTable.BDSP, MaxSpeciesID_8b);
 
     private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
     private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
@@ -344,10 +344,10 @@ public sealed class EvolutionTree
                 new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin },
             };
         }
-        return GetLineage(species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
+        return GetLineageReverse(species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
     }
 
-    private EvoCriteria[] GetLineage(int species, int form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
+    private EvoCriteria[] GetLineageReverse(int species, int form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
         var lvl = levelMax;
         var first = new EvoCriteria { Species = (ushort)species, Form = (byte)form, LevelMax = lvl };
@@ -366,22 +366,19 @@ public sealed class EvolutionTree
         // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
         // There aren't any convergent evolution paths, so only yield the first connection.
         int ctr = 1;
-        while (true)
+        while (species != stopSpecies)
         {
-            if (species == stopSpecies)
-                break;
-            
             var key = GetLookupKey(species, form);
-            bool oneValid = false;
             var node = Lineage[key];
 
+            bool oneValid = false;
             foreach (var link in node)
             {
                 if (link.IsEvolutionBanned(pk) && !skipChecks)
                     continue;
 
                 var evo = link.Method;
-                if (!evo.Valid(pk, lvl, skipChecks))
+                if (!evo.Valid(pk, lvl, skipChecks, Game))
                     continue;
 
                 if (evo.RequiresLevelUp && levelMin >= lvl)

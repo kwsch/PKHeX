@@ -50,7 +50,7 @@ public sealed class EvolutionMethod
     public override string ToString() => $"{(Species) Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
 
     /// <summary>
-    /// Returns the form that the Pokémon will have after evolution.
+    /// Returns the form that the PokÃ©mon will have after evolution.
     /// </summary>
     /// <param name="form">Un-evolved Form ID</param>
     public int GetDestinationForm(int form)
@@ -68,8 +68,9 @@ public sealed class EvolutionMethod
     /// <param name="pk">Entity to check</param>
     /// <param name="lvl">Current level</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
+    /// <param name="game">Game environment in which the evolution occurs.</param>
     /// <returns>True if a evolution criteria is valid.</returns>
-    public bool Valid(PKM pk, int lvl, bool skipChecks)
+    public bool Valid(PKM pk, in byte lvl, in bool skipChecks, in GameVersion game)
     {
         RequiresLevelUp = false;
         switch ((EvolutionType)Method)
@@ -105,7 +106,7 @@ public sealed class EvolutionMethod
 
             // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
             default:
-                if (IsThresholdCheckMode(pk))
+                if (IsThresholdCheckMode(game))
                     return lvl >= Level;
 
                 if (Level == 0 && lvl < 2)
@@ -122,11 +123,11 @@ public sealed class EvolutionMethod
         }
     }
 
-    private static bool IsThresholdCheckMode(PKM pk)
+    private static bool IsThresholdCheckMode(GameVersion game)
     {
         // Starting in Legends: Arceus, level-up evolutions can be triggered if the current level is >= criteria.
         // This allows for evolving over-leveled captures immediately without leveling up from capture level.
-        return pk is PA8;
+        return game is GameVersion.PLA;
     }
 
     private bool HasMetLevelIncreased(PKM pk, int lvl)

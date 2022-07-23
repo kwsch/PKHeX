@@ -3,6 +3,9 @@ using static PKHeX.Core.EvolutionType;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Describes how an evolution can be triggered.
+/// </summary>
 public enum EvolutionType : byte
 {
     None = 0,
