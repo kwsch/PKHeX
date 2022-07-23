@@ -92,11 +92,10 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
     private static bool GetIsTM(PersonalInfo info, int move)
     {
-        var span = TMHM_BW.AsSpan();
-        var index = span.IndexOf(move);
+        var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)
             return false;
-        return info.TMHM[index] && move is not (int)Move.Snarl;
+        return info.TMHM[index] && index != 94; // TM95 not available in this game
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -118,18 +117,15 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
-            Span<bool> flags = pi.TMHM;
-            var moves = TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
-            for (int i = 0; i < moves.Length; i++)
+            var flags = pi.TMHM;
+            var moves = TMHM_BW;
+            for (int i = 95; i < moves.Length; i++)
             {
                 if (flags[i])
                     result[moves[i]] = true;
             }
-
-            // HMs
-            moves = TMHM_BW.AsSpan(96);
-            flags = flags[96..];
-            for (int i = 0; i < moves.Length; i++)
+            // TM95 is unavailable (Snarl - Lock Capsule)
+            for (int i = 0; i < 94; i++)
             {
                 if (flags[i])
                     result[moves[i]] = true;
