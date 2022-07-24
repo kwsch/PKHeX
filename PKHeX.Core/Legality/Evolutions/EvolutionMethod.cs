@@ -5,55 +5,44 @@ namespace PKHeX.Core;
 /// <summary>
 /// Criteria for evolving to this branch in the <see cref="EvolutionTree"/>
 /// </summary>
-public sealed class EvolutionMethod
+/// <param name="Method">Evolution Method</param>
+/// <param name="Species">Evolve to Species</param>
+/// <param name="Form">Destination Form</param>
+/// <param name="Argument">Conditional Argument (different from <see cref="Level"/>)</param>
+/// <param name="Level">Conditional Argument (different from <see cref="Argument"/>)</param>
+/// <param name="LevelUp">Indicates if a level up is required to trigger evolution.</param>
+public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = 0, ushort Argument = 0, byte Level = 0, byte LevelUp = 0)
 {
-    /// <summary>
-    /// Evolution Method
-    /// </summary>
-    public readonly EvolutionType Method;
+    /// <summary>Evolve to Species</summary>
+    public ushort Species { get; } = Species;
 
-    /// <summary>
-    /// Evolve to Species
-    /// </summary>
-    public readonly ushort Species;
+    /// <summary>Conditional Argument (different from <see cref="Level"/>)</summary>
+    public ushort Argument { get; } = Argument;
 
-    /// <summary>
-    /// Conditional Argument (different from <see cref="Level"/>)
-    /// </summary>
-    public readonly ushort Argument;
+    /// <summary>Evolution Method</summary>
+    public EvolutionType Method { get; } = Method;
 
-    /// <summary>
-    /// Conditional Argument (different from <see cref="Argument"/>)
-    /// </summary>
-    public readonly byte Level;
+    /// <summary>Destination Form</summary>
+    public byte Form { get; } = Form;
 
-    /// <summary>
-    /// Destination Form
-    /// </summary>
-    /// <remarks>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</remarks>
-    public readonly sbyte Form;
+    /// <summary>Conditional Argument (different from <see cref="Argument"/>)</summary>
+    public byte Level { get; } = Level;
 
-    private const sbyte AnyForm = -1;
+    /// <summary>Indicates if a level up is required to trigger evolution.</summary>
+    public byte LevelUp { get; } = LevelUp;
 
-    // Not stored in binary data
-    public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
+    public override string ToString() => $"{(Species)Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
 
-    public EvolutionMethod(EvolutionType method, ushort species, ushort argument = 0, byte level = 0, sbyte form = AnyForm)
-    {
-        Method = method;
-        Species = species;
-        Argument = argument;
-        Form = form;
-        Level = level;
-    }
+    /// <summary>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</summary>
+    private const byte AnyForm = byte.MaxValue;
 
-    public override string ToString() => $"{(Species) Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
+    public bool RequiresLevelUp => LevelUp != 0;
 
     /// <summary>
     /// Returns the form that the Pokémon will have after evolution.
     /// </summary>
     /// <param name="form">Un-evolved Form ID</param>
-    public int GetDestinationForm(int form)
+    public byte GetDestinationForm(byte form)
     {
         if (Method == LevelUpFormFemale1)
             return 1;
@@ -68,11 +57,9 @@ public sealed class EvolutionMethod
     /// <param name="pk">Entity to check</param>
     /// <param name="lvl">Current level</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
-    /// <param name="game">Game environment in which the evolution occurs.</param>
     /// <returns>True if a evolution criteria is valid.</returns>
-    public bool Valid(PKM pk, in byte lvl, in bool skipChecks, in GameVersion game)
+    public bool Valid(PKM pk, byte lvl, bool skipChecks)
     {
-        RequiresLevelUp = false;
         switch (Method)
         {
             case UseItem or UseItemWormhole or UseItemFullMoon:
@@ -106,7 +93,7 @@ public sealed class EvolutionMethod
 
             // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
             default:
-                if (IsThresholdCheckMode(game))
+                if (!RequiresLevelUp)
                     return lvl >= Level;
 
                 if (Level == 0 && lvl < 2)
@@ -114,20 +101,12 @@ public sealed class EvolutionMethod
                 if (lvl < Level)
                     return false;
 
-                RequiresLevelUp = true;
                 if (skipChecks)
                     return lvl >= Level;
 
                 // Check Met Level for extra validity
                 return HasMetLevelIncreased(pk, lvl);
         }
-    }
-
-    private static bool IsThresholdCheckMode(GameVersion game)
-    {
-        // Starting in Legends: Arceus, level-up evolutions can be triggered if the current level is >= criteria.
-        // This allows for evolving over-leveled captures immediately without leveling up from capture level.
-        return game is GameVersion.PLA;
     }
 
     private bool HasMetLevelIncreased(PKM pk, int lvl)

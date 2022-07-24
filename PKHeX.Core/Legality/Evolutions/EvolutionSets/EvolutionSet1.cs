@@ -15,8 +15,8 @@ public static class EvolutionSet1
         var arg = data[2];
 
         return method == 1
-            ? new EvolutionMethod(EvolutionType.LevelUp, species, level: arg)
-            : new EvolutionMethod((EvolutionType)method, species, argument: arg);
+            ? new EvolutionMethod(EvolutionType.LevelUp, species, Level: arg, LevelUp: 1)
+            : new EvolutionMethod((EvolutionType)method, species, Argument: arg);
     }
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data, int maxSpecies)

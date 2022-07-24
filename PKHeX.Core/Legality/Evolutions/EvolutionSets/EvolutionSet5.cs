@@ -19,7 +19,9 @@ public static class EvolutionSet5
             throw new ArgumentOutOfRangeException(nameof(method));
 
         var lvl = EvolutionSet6.IsMethodWithArg(method) ? 0 : arg;
-        return new EvolutionMethod((EvolutionType)method, species, argument: arg, level: (byte)lvl);
+        var type = (EvolutionType)method;
+        var lvlup = type.IsLevelUpRequired() ? (byte)1 : (byte)0;
+        return new EvolutionMethod(type, species, Argument: arg, Level: (byte)lvl, LevelUp: lvlup);
     }
 
     private const int bpe = 6; // bytes per evolution entry

@@ -32,8 +32,9 @@ public static class EvolutionSet6
 
         // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
         var lvl = IsMethodWithArg(method) ? 0 : arg;
-
-        return new EvolutionMethod((EvolutionType)method, species, argument: arg, level: (byte)lvl);
+        var type = (EvolutionType)method;
+        var lvlup = type.IsLevelUpRequired() ? (byte)1 : (byte)0;
+        return new EvolutionMethod(type, species, Argument: arg, Level: (byte)lvl, LevelUp: lvlup);
     }
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)
