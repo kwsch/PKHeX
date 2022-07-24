@@ -162,7 +162,7 @@ public partial class SAV_Encounters : Form
 
         var editor = PKME_Tabs.Data;
         var tree = EvolutionTree.GetEvolutionTree(editor.Context);
-        bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
+        bool isInChain = tree.IsSpeciesDerivedFrom((ushort)editor.Species, (byte)editor.Form, enc.Species, enc.Form);
 
         if (!settings.UseTabsAsCriteriaAnySpecies)
         {

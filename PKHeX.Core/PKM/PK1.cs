@@ -100,18 +100,19 @@ public sealed class PK1 : GBPKML
 
         SpeciesID1 = updated;
 
-        Type_A = PersonalInfo.Type1;
-        Type_B = PersonalInfo.Type2;
+        var pi = PersonalTable.RB[value];
+        Type_A = pi.Type1;
+        Type_B = pi.Type2;
 
         // Before updating catch rate, check if non-standard
-        if (IsValidCatchRateAnyPreEvo(value, Catch_Rate))
+        if (IsValidCatchRateAnyPreEvo((byte)value, Catch_Rate))
             return;
 
         // Matches nothing possible; just reset to current Species' rate.
-        Catch_Rate = (byte)PersonalTable.RB[value].CatchRate;
+        Catch_Rate = (byte)pi.CatchRate;
     }
 
-    private static bool IsValidCatchRateAnyPreEvo(int species, byte rate)
+    private static bool IsValidCatchRateAnyPreEvo(byte species, byte rate)
     {
         if (IsCatchRateHeldItem(rate))
             return true;
