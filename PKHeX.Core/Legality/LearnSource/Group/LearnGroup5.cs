@@ -86,6 +86,10 @@ public sealed class LearnGroup5 : ILearnGroup
         if (!b2w2.TryGetPersonal(species, evo.Form, out var b2w2_pi))
             return;
 
+        // Some forms don't exist in B/W (Kyurem)
+        var bw = LearnSource5BW.Instance;
+        _ = bw.TryGetPersonal(species, evo.Form, out var bw_pi);
+
         for (int i = result.Length - 1; i >= 0; i--)
         {
             if (result[i].Valid)
@@ -97,8 +101,11 @@ public sealed class LearnGroup5 : ILearnGroup
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
 
+            if (bw_pi is null)
+                continue;
+
             // B2/W2 is the same besides some level up moves.
-            chk = LearnSource5BW.Instance.GetCanLearn(pk, b2w2_pi, evo, move, types & MoveSourceType.LevelUp, option);
+            chk = LearnSource5BW.Instance.GetCanLearn(pk, bw_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }

@@ -23,7 +23,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
     public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (!Personal.IsPresentInGame(species, form))
             return false;
         pi = Personal[species];
         return true;
