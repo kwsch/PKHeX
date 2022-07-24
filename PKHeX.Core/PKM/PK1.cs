@@ -121,7 +121,7 @@ public sealed class PK1 : GBPKML
 
         var table = EvolutionTree.Evolves1;
         var baby = table.GetBaseSpeciesForm(species, 0);
-        return IsCatchRatePreEvolutionRate(baby, species, rate);
+        return IsCatchRatePreEvolutionRate(baby.Species, species, rate);
     }
 
     public override int Version { get => (int)GameVersion.RBY; set { } }

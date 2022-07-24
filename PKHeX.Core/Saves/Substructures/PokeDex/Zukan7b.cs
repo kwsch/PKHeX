@@ -111,12 +111,8 @@ public sealed class Zukan7b : Zukan7
 
         // update for all species in potential lineage
         var allspec = tree.GetEvolutionsAndPreEvolutions((ushort)species, (byte)form);
-        foreach (var sf in allspec)
-        {
-            var s = sf & 0x7FF;
-            var f = sf >> 11;
+        foreach (var (s, f) in allspec)
             SetSizeData(group, s, f, height, weight);
-        }
     }
 
     public void SetSizeData(DexSizeType group, int species, int form, int height, int weight)
