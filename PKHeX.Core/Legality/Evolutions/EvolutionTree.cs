@@ -68,12 +68,7 @@ public sealed class EvolutionTree
         Personal = personal;
         MaxSpeciesTree = maxSpeciesTree;
         Entries = GetEntries(data, game);
-
-        // Starting in Generation 7, forms have separate evolution data.
-        int format = Game - Gen1 + 1;
-        var oldStyle = format < 7;
-        var connections = oldStyle ? CreateTreeOld() : CreateTree();
-
+        var connections = CreateTreeOld();
         Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
     }
 
@@ -85,8 +80,7 @@ public sealed class EvolutionTree
         Entries = GetEntries(data, game);
 
         // Starting in Generation 7, forms have separate evolution data.
-        int format = Game - Gen1 + 1;
-        var oldStyle = format < 7;
+        var oldStyle = game == Gen6;
         var connections = oldStyle ? CreateTreeOld() : CreateTree();
 
         Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
@@ -107,7 +101,7 @@ public sealed class EvolutionTree
                     if (dSpecies == 0)
                         continue;
 
-                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == (int)EvolutionType.LevelUpFormFemale1 ? 1 : sForm;
+                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == EvolutionType.LevelUpFormFemale1 ? 1 : sForm;
                     var key = GetLookupKey(dSpecies, dForm);
 
                     var link = new EvolutionLink(sSpecies, sForm, evo);
@@ -156,7 +150,7 @@ public sealed class EvolutionTree
     {
         Gen6 => EvolutionSet6.GetArray(data),
         Gen7 => EvolutionSet7.GetArray(data),
-        Gen8 => EvolutionSet7.GetArray(data),
+        Gen8 or PLA or BDSP => EvolutionSet7.GetArray(data),
         _ => throw new ArgumentOutOfRangeException(nameof(game)),
     };
 

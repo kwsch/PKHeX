@@ -11,9 +11,9 @@ public static class EvolutionSet3
 {
     private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
     {
-        int method = ReadUInt16LittleEndian(data);
-        int arg =  ReadUInt16LittleEndian(data[2..]);
-        int species = SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(data[4..]));
+        var method = data[0];
+        var arg =  ReadUInt16LittleEndian(data[2..]);
+        var species = SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(data[4..]));
         //2 bytes padding
 
         switch (method)
@@ -23,12 +23,12 @@ public static class EvolutionSet3
             case 3: /* Friendship night*/
             case 5: /* Trade   */
             case 6: /* Trade while holding */
-                return new EvolutionMethod(method, species, argument: arg);
+                return new EvolutionMethod((EvolutionType)method, species, argument: arg);
             case 4: /* Level Up */
-                return new EvolutionMethod(4, species, argument: arg, level: (byte)arg);
+                return new EvolutionMethod(EvolutionType.LevelUp, species, argument: arg, level: (byte)arg);
             case 7: /* Use item */
             case 15: /* Beauty evolution*/
-                return new EvolutionMethod(method + 1, species, argument: arg);
+                return new EvolutionMethod((EvolutionType)(method + 1), species, argument: arg);
             case 8: /* Tyrogue -> Hitmonchan */
             case 9: /* Tyrogue -> Hitmonlee */
             case 10: /* Tyrogue -> Hitmontop*/
@@ -36,7 +36,7 @@ public static class EvolutionSet3
             case 12: /* Wurmple -> Cascoon evolution */
             case 13: /* Nincada -> Ninjask evolution */
             case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
-                return new EvolutionMethod(method + 1, species, argument: arg, level: (byte)arg);
+                return new EvolutionMethod((EvolutionType)(method + 1), species, argument: arg, level: (byte)arg);
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(method));

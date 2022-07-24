@@ -24,12 +24,12 @@ public static class EvolutionSet7
 
     private static EvolutionMethod ReadEvolution(ReadOnlySpan<byte> entry)
     {
-        var method = ReadUInt16LittleEndian(entry);
+        var method = entry[0];
         var arg = ReadUInt16LittleEndian(entry[2..]);
         var species = ReadUInt16LittleEndian(entry[4..]);
         var form = (sbyte)entry[6];
         var level = entry[7];
-        return new EvolutionMethod(method, species, argument: arg, level: level, form: form);
+        return new EvolutionMethod((EvolutionType)method, species, argument: arg, level: level, form: form);
     }
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)

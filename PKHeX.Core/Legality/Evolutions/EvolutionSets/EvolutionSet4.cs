@@ -12,8 +12,8 @@ public static class EvolutionSet4
     private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
     {
         var method = data[0]; // other byte unnecessary
-        int arg = ReadUInt16LittleEndian(data[2..]);
-        int species = ReadUInt16LittleEndian(data[4..]);
+        var arg = ReadUInt16LittleEndian(data[2..]);
+        var species = ReadUInt16LittleEndian(data[4..]);
 
         if (method == 0)
             throw new ArgumentOutOfRangeException(nameof(method));
@@ -23,8 +23,8 @@ public static class EvolutionSet4
         if (method > 6)
             method++;
 
-        var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
-        return new EvolutionMethod(method, species, argument: arg, level: (byte)lvl);
+        var lvl = EvolutionSet6.IsMethodWithArg(method) ? 0 : arg;
+        return new EvolutionMethod((EvolutionType)method, species, argument: arg, level: (byte)lvl);
     }
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)

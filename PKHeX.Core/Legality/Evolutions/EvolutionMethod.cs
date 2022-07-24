@@ -10,17 +10,17 @@ public sealed class EvolutionMethod
     /// <summary>
     /// Evolution Method
     /// </summary>
-    public readonly int Method;
+    public readonly EvolutionType Method;
 
     /// <summary>
     /// Evolve to Species
     /// </summary>
-    public readonly int Species;
+    public readonly ushort Species;
 
     /// <summary>
     /// Conditional Argument (different from <see cref="Level"/>)
     /// </summary>
-    public readonly int Argument;
+    public readonly ushort Argument;
 
     /// <summary>
     /// Conditional Argument (different from <see cref="Argument"/>)
@@ -31,14 +31,14 @@ public sealed class EvolutionMethod
     /// Destination Form
     /// </summary>
     /// <remarks>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</remarks>
-    public readonly int Form;
+    public readonly sbyte Form;
 
-    private const int AnyForm = -1;
+    private const sbyte AnyForm = -1;
 
     // Not stored in binary data
     public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
-    public EvolutionMethod(int method, int species, int argument = 0, byte level = 0, int form = AnyForm)
+    public EvolutionMethod(EvolutionType method, ushort species, ushort argument = 0, byte level = 0, sbyte form = AnyForm)
     {
         Method = method;
         Species = species;
@@ -55,7 +55,7 @@ public sealed class EvolutionMethod
     /// <param name="form">Un-evolved Form ID</param>
     public int GetDestinationForm(int form)
     {
-        if (Method == (int)LevelUpFormFemale1)
+        if (Method == LevelUpFormFemale1)
             return 1;
         if (Form == AnyForm)
             return form;
@@ -73,7 +73,7 @@ public sealed class EvolutionMethod
     public bool Valid(PKM pk, in byte lvl, in bool skipChecks, in GameVersion game)
     {
         RequiresLevelUp = false;
-        switch ((EvolutionType)Method)
+        switch (Method)
         {
             case UseItem or UseItemWormhole or UseItemFullMoon:
             case CriticalHitsInBattle or HitPointsLostInBattle or Spin:
@@ -154,7 +154,7 @@ public sealed class EvolutionMethod
         Form = form,
         LevelMax = lvl,
         LevelMin = 0,
-        Method = (EvolutionType)Method,
+        Method = Method,
     };
 
     public static int GetAmpLowKeyResult(int n)
