@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.GroundTileAllowed;
 using static PKHeX.Core.AbilityPermission;
@@ -297,7 +297,7 @@ internal static class Encounters4
         new(HGSS) { Gift = true, Species = 133, Level = 05, Location = 131, GroundTile = Max_Pt }, // Eevee @ Goldenrod City
         new(HGSS) { Gift = true, Species = 147, Level = 15, Location = 222, GroundTile = Max_Pt, Moves = new[] {245} }, // Dratini @ Dragon's Den (ExtremeSpeed)
         new(HGSS) { Gift = true, Species = 236, Level = 10, Location = 216, GroundTile = Max_Pt }, // Tyrogue @ Mt. Mortar
-        new(HGSS) { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
+        new(HGSS) { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {(int)Move.Growl, (int)Move.Charm, (int)Move.Extrasensory} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
         new(HGSS) { Gift = true, Species = 179, Level = 01, EggLocation = 2014 }, // Mareep Egg from Primo
         new(HGSS) { Gift = true, Species = 194, Level = 01, EggLocation = 2014 }, // Wooper Egg from Primo
         new(HGSS) { Gift = true, Species = 218, Level = 01, EggLocation = 2014 }, // Slugma Egg from Primo

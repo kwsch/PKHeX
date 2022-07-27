@@ -80,7 +80,7 @@ internal static class LearnVerifierHistory
                 break;
             var index = current.IndexOf(move);
             if (index != -1)
-                result[index] = new MoveResult(LearnMethod.Initial);
+                result[index] = MoveResult.Initial;
         }
     }
 

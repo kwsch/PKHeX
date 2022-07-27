@@ -53,6 +53,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
 
     public string Format(string format, int index, PKM pk, EvolutionHistory history) => string.Format(format, Rating, index, Summary(pk, history));
 
+    public static readonly MoveResult Initial = new(LearnMethod.Initial);
     public static readonly MoveResult Relearn = new(LearnMethod.Relearn);
     public static readonly MoveResult Empty = new(LearnMethod.Empty);
     public static readonly MoveResult Duplicate = new(LearnMethod.Duplicate);

@@ -65,7 +65,7 @@ internal static class LearnVerifierEgg
             return MoveResult.Unobtainable(initial);
         if (current == 0)
             return MoveResult.Empty;
-        return MoveResult.Relearn;
+        return MoveResult.Initial;
     }
 
     private static MoveResult GetMethodRelearn(int current, int relearn)
