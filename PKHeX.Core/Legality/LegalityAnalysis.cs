@@ -105,7 +105,7 @@ public sealed class LegalityAnalysis
                     && MoveResult.AllValid(Info.Relearn);
 
             if (!Valid && IsPotentiallyMysteryGift(Info, pk))
-                AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
+                AddLine(Severity.Invalid, LFatefulGiftMissing, CheckIdentifier.Fateful);
             Parsed = true;
         }
 #if SUPPRESS

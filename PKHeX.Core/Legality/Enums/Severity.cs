@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -10,11 +10,6 @@ namespace PKHeX.Core;
 /// </remarks>
 public enum Severity : sbyte
 {
-    /// <summary>
-    /// Cannot determine validity; not valid.
-    /// </summary>
-    Indeterminate = -2,
-
     /// <summary>
     /// Definitively not valid.
     /// </summary>
@@ -40,7 +35,6 @@ public static partial class Extensions
     /// <returns>Localized <see cref="string"/>.</returns>
     public static string Description(this Severity s) => s switch
     {
-        Severity.Indeterminate => L_SIndeterminate,
         Severity.Invalid => L_SInvalid,
         Severity.Fishy => L_SFishy,
         Severity.Valid => L_SValid,

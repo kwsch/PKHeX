@@ -26,7 +26,7 @@ public sealed class NicknameVerifier : Verifier
         }
         if (pk.Species > SpeciesName.SpeciesLang[0].Count)
         {
-            data.AddLine(Get(LNickLengthShort, Severity.Indeterminate));
+            data.AddLine(Get(LNickLengthShort, Severity.Invalid));
             return;
         }
 
