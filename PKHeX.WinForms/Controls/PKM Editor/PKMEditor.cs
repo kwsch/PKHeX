@@ -1403,7 +1403,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             }
 
             CHK_Nicknamed.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
-            TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format);
+            TB_Nickname.Text = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
 
             // Wipe egg memories
             if (Entity.Format >= 6 && ModifyPKM)
@@ -1429,7 +1429,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 CB_MetLocation.SelectedValue = EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
             }
 
-            if (TB_Nickname.Text == SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format))
+            var nick = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
+            if (TB_Nickname.Text == nick)
                 CHK_Nicknamed.Checked = false;
         }
 

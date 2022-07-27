@@ -244,7 +244,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         pk4.IsEgg = true;
         pk4.IsNicknamed = false;
-        pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Generation);
+        pk4.Nickname = SpeciesName.GetEggName(pk4.Language, Generation);
         pk4.EggMetDate = DateTime.Now;
     }
 
