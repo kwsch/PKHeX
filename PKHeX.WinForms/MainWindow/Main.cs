@@ -755,6 +755,7 @@ public partial class Main : Form
 
         Text = GetProgramTitle(sav);
         TryBackupExportCheck(sav, path);
+        CheckLoadPath(path);
 
         Menu_ShowdownExportParty.Visible = sav.HasParty;
         Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
@@ -829,27 +830,44 @@ public partial class Main : Form
 
     private static bool TryBackupExportCheck(SaveFile sav, string path)
     {
-        if (string.IsNullOrWhiteSpace(path) || !Settings.Backup.BAKEnabled) // not actual save
+        // If backup folder exists, save a backup.
+        if (string.IsNullOrWhiteSpace(path))
+            return false; // not actual save
+        if (!Settings.Backup.BAKEnabled)
+            return false;
+        if (!sav.State.Exportable)
+            return false; // not actual save
+        var dir = BackupPath;
+        if (!Directory.Exists(dir))
             return false;
 
-        // If backup folder exists, save a backup.
-        string backupName = Path.Combine(BackupPath, Util.CleanFileName(sav.Metadata.BAKName));
-        if (sav.State.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
+        var meta = sav.Metadata;
+        string backupName = Path.Combine(dir, Util.CleanFileName(meta.BAKName));
+        if (File.Exists(backupName))
+            return false; // Already backed up.
+
+        // Ensure the file we are copying exists.
+        var src = meta.FilePath;
+        if (src is not { } x || !File.Exists(x))
+            return false;
+
+        try
         {
-            var src = sav.Metadata.FilePath;
-            if (src is { } x && File.Exists(x))
-            {
-                try
-                {
-                    File.Copy(x, backupName);
-                }
-                catch (Exception ex)
-                {
-                    WinFormsUtil.Error(MsgBackupUnable, ex);
-                    return false;
-                }
-            }
+            // Don't need to force overwrite, but on the off-chance it was written externally, we force ours.
+            File.Copy(x, backupName, true);
+            return true;
         }
+        catch (Exception ex)
+        {
+            WinFormsUtil.Error(MsgBackupUnable, ex);
+            return false;
+        }
+    }
+
+    private static bool CheckLoadPath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return false; // not actual save
         if (!FileUtil.IsFileLocked(path))
             return true;
 
