@@ -51,7 +51,7 @@ public static class EvolutionVerifier
             return false;
 
         // Double check that our encounter was able to exist as the encounter species.
-        foreach (var z in chains.Get(enc.Generation, enc.Version))
+        foreach (var z in chains.Get(enc.Context))
         {
             if (z.Species == enc.Species)
                 return true;

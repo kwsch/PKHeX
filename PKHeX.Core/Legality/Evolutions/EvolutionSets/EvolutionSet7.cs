@@ -29,7 +29,7 @@ public static class EvolutionSet7
         var species = ReadUInt16LittleEndian(entry[4..]);
         var form = entry[6];
         var level = entry[7];
-        var lvlup = type.IsLevelUpRequired() ? (byte)1 : (byte)0;
+        var lvlup = !levelUpBypass && type.IsLevelUpRequired() ? (byte)1 : (byte)0;
         return new EvolutionMethod(type, species, form, arg, level, lvlup);
     }
 

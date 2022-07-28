@@ -45,14 +45,6 @@ public class EvolutionHistory
         throw new ArgumentOutOfRangeException(nameof(context));
     }
 
-    public ref EvoCriteria[] Get(int generation, GameVersion version) => ref Get(generation switch
-    {
-        7 when GameVersion.GG.Contains(version) || version == GameVersion.GO => EntityContext.Gen7b,
-        8 when GameVersion.BDSP.Contains(version) => EntityContext.Gen8b,
-        8 when GameVersion.PLA == version => EntityContext.Gen8a,
-        _ => (EntityContext)generation,
-    });
-
     public void Set(EntityContext context, EvoCriteria[] chain)
     {
         ref var arr = ref Get(context);
