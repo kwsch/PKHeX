@@ -424,13 +424,13 @@ public static class EncounterMovesetGenerator
         return false;
     }
 
-    private static bool HasAllMoves(int[] needs, IEnumerable<int> extra)
+    private static bool HasAllMoves(ReadOnlySpan<int> needs, IEnumerable<int> extra)
     {
         // Flag each present index; having all moves will have all bitflags.
         int flags = 0;
         foreach (var move in extra)
         {
-            var index = Array.IndexOf(needs, move);
+            var index = needs.IndexOf(move);
             if (index == -1)
                 continue;
             flags |= 1 << index;

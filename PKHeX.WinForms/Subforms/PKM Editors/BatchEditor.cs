@@ -91,14 +91,15 @@ public partial class BatchEditor : Form
 
     private void RunBackgroundWorker()
     {
-        if (RTB_Instructions.Lines.Any(line => line.Length == 0))
+        var lines = RTB_Instructions.Lines;
+        if (Array.Exists(lines, line => line.Length == 0))
         { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
 
-        var sets = StringInstructionSet.GetBatchSets(RTB_Instructions.Lines).ToArray();
-        if (sets.Any(s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
+        var sets = StringInstructionSet.GetBatchSets(lines).ToArray();
+        if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
         { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 
-        if (sets.Any(z => z.Instructions.Count == 0))
+        if (Array.Exists(sets, z => z.Instructions.Count == 0))
         { WinFormsUtil.Error(MsgBEInstructionNone); return; }
 
         var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();

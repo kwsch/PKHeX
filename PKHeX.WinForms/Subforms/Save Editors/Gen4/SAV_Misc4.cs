@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -249,9 +249,15 @@ public partial class SAV_Misc4 : Form
         s.SetPoketchDotArtistData(DotArtistByte);
     }
 
-    private void SetPictureBoxFromFlags(byte[] inp)
+    private void SetPictureBoxFromFlags(ReadOnlySpan<byte> inp)
     {
-        if (inp.Length != 120) return;
+        if (inp.Length != 120)
+            return;
+        PB_DotArtist.Image = GetDotArt(inp);
+    }
+
+    private Bitmap GetDotArt(ReadOnlySpan<byte> inp)
+    {
         byte[] dupbyte = new byte[23040];
         for (int iy = 0; iy < 20; iy++)
         {
@@ -275,7 +281,7 @@ public partial class SAV_Misc4 : Form
         BitmapData dabdata = dabmp.LockBits(new Rectangle(0, 0, dabmp.Width, dabmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
         System.Runtime.InteropServices.Marshal.Copy(dupbyte, 0, dabdata.Scan0, dupbyte.Length);
         dabmp.UnlockBits(dabdata);
-        PB_DotArtist.Image = dabmp;
+        return dabmp;
     }
 
     private void SetFlagsFromFileName(string inpFileName)

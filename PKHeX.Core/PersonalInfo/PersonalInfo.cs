@@ -64,7 +64,7 @@ public abstract class PersonalInfo : IPersonalInfo
         return result;
     }
 
-    protected static void SetBits(bool[] bits, Span<byte> data)
+    protected static void SetBits(ReadOnlySpan<bool> bits, Span<byte> data)
     {
         for (int i = bits.Length - 1; i >= 0; i--)
             data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);

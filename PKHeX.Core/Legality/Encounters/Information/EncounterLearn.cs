@@ -58,7 +58,7 @@ public static class EncounterLearn
     {
         if (species <= 0)
             return Array.Empty<IEncounterable>();
-        if (moves.Any(z => z < 0))
+        if (Array.Exists(moves, z => z < 0))
             return Array.Empty<IEncounterable>();
 
         var blank = EntityBlank.GetIdealBlank(species, form);

@@ -49,8 +49,8 @@ public sealed class Zukan8 : ZukanBase
         _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null),
     };
 
-    private static bool GetFlag(byte[] data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset + (bitIndex >> 3), bitIndex);
-    private static void SetFlag(byte[] data, int offset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, offset + (bitIndex >> 3), bitIndex, value);
+    private static bool GetFlag(byte[] data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
+    private static void SetFlag(byte[] data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
 
     private static Dictionary<int, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision)
     {

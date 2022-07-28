@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -78,7 +78,7 @@ public sealed class WB7Records : SaveBlock<SAV7b>
         return value;
     }
 
-    public void SetFlags(bool[] value)
+    public void SetFlags(ReadOnlySpan<bool> value)
     {
         for (int i = 0; i < value.Length; i++)
             SetFlag(i, value[i]);

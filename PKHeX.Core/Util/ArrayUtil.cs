@@ -63,7 +63,7 @@ public static class ArrayUtil
         return result;
     }
 
-    public static void SetBitFlagArray(Span<byte> data, bool[] value)
+    public static void SetBitFlagArray(Span<byte> data, ReadOnlySpan<bool> value)
     {
         for (int i = 0; i < value.Length; i++)
         {

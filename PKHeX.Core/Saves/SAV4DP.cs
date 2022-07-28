@@ -113,7 +113,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         return active;
     }
 
-    public void SetMysteryGiftDPSlotActiveFlags(bool[] value)
+    public void SetMysteryGiftDPSlotActiveFlags(ReadOnlySpan<bool> value)
     {
         if (value.Length != GiftCountMax)
             return;

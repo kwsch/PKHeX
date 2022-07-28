@@ -164,7 +164,8 @@ internal static class EvolutionRestrictions
         }
         else if (enc is IMoveset s)
         {
-            var result = move == 0 ? s.Moves.Any(FairyMoves.Contains) : s.Moves.Contains(move);
+            var moves = s.Moves;
+            var result = move == 0 ? moves.Any(FairyMoves.Contains) : moves.Contains(move);
             if (result)
                 return true;
         }
@@ -227,7 +228,7 @@ internal static class EvolutionRestrictions
         return DidLearnAndForget(info);
     }
 
-    private static bool IsMoveInherited(PKM pk, LegalInfo info, int[] moves)
+    private static bool IsMoveInherited(PKM pk, LegalInfo info, ReadOnlySpan<int> moves)
     {
         // In 3DS games, the inherited move must be in the relearn moves.
         if (info.Generation >= 6)
