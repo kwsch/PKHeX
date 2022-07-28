@@ -63,6 +63,18 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
+    public override EntityContext Context => OriginFormat switch
+    {
+        PogoImportFormat.PK7 =>
+              PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
+            : PersonalTable.LA.IsPresentInGame(Species, Form) ? EntityContext.Gen8a
+            : throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+        PogoImportFormat.PB7 => EntityContext.Gen7b,
+        PogoImportFormat.PK8 => EntityContext.Gen8,
+        PogoImportFormat.PA8 => EntityContext.Gen8a,
+        _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+    };
+
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {
         pk.HT_Name = "PKHeX";

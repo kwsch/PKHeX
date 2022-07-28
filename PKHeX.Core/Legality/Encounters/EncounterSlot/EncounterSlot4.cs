@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType
 {
     public override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
     public GroundTileAllowed GroundTile => ((EncounterArea4)Area).GroundTile;
 
     public byte StaticIndex { get; }

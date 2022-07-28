@@ -17,6 +17,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     public virtual byte LevelMin => Level;
     public byte LevelMax => 100;
     public abstract int Generation { get; }
+    public abstract EntityContext Context { get; }
 
     public int CurrentLevel { get; init; } = -1;
     public abstract int Location { get; }

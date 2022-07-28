@@ -15,6 +15,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public const int CardStart = 0x0;
 
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8;
 
     public enum GiftType : byte
     {

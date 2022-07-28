@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.OverworldCorrelation8Requirement;
 
@@ -11,6 +11,7 @@ namespace PKHeX.Core;
 public record EncounterStatic8(GameVersion Version) : EncounterStatic(Version), IDynamaxLevel, IGigantamax, IRelearn, IOverworldCorrelation8
 {
     public sealed override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8;
     public bool ScriptedNoMarks { get; init; }
     public bool CanGigantamax { get; set; }
     public byte DynamaxLevel { get; set; }

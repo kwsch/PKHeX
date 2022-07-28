@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public record EncounterStatic1 : EncounterStatic
 {
     public override int Generation => 1;
+    public override EntityContext Context => EntityContext.Gen1;
     public sealed override byte Level { get; init; }
 
     private const int LightBallPikachuCatchRate = 0xA3; // 163

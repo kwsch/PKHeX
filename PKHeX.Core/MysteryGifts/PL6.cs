@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -200,6 +200,7 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public bool IsShiny => false;
     public bool EggEncounter => false;
     public GameVersion Version => GameVersion.Gen6;
+    public EntityContext Context => EntityContext.Gen6;
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 

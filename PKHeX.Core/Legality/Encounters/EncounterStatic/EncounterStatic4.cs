@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.GroundTileAllowed;
 
@@ -11,6 +11,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Version), IGroundTypeTile
 {
     public override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
 
     /// <summary> Indicates if the encounter is a Roamer (variable met location) </summary>
     public bool Roaming { get; init; }

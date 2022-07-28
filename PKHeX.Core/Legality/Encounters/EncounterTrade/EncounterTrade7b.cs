@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 LGP/E Trade Encounter
@@ -7,6 +7,7 @@
 public sealed record EncounterTrade7b : EncounterTrade
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7b;
     public override int Location => Locations.LinkTrade6NPC;
     public override Shiny Shiny => Shiny.Random;
 

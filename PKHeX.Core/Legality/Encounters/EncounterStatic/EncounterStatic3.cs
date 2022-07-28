@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic3 : EncounterStatic
 {
     public override int Generation => 3;
+    public override EntityContext Context => EntityContext.Gen3;
     public bool Roaming { get; init; }
 
     public EncounterStatic3(ushort species, byte level, GameVersion game) : base(game)

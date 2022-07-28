@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -14,6 +14,7 @@ public sealed record EncounterStaticShadow(GameVersion Version, byte ID, short G
 {
     // ReSharper restore NotAccessedPositionalProperty.Global
     public override int Generation => 3;
+    public override EntityContext Context => EntityContext.Gen3;
 
     /// <summary>
     /// Originates from the EReader scans (Japanese Only)

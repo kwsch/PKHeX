@@ -17,6 +17,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
 {
     public const int Size = 0x358; // 856
     public override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
 
     public override byte Level
     {

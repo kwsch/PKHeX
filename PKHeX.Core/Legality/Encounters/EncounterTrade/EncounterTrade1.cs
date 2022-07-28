@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -12,6 +12,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade1 : EncounterTradeGB
 {
     public override int Generation => 1;
+    public override EntityContext Context => EntityContext.Gen1;
     public override byte LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
 
     private readonly byte LevelMinRBY;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Version), IRelearn
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7;
     public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
     public bool IsTotem => FormInfo.IsTotemForm(Species, Form);

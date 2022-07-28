@@ -17,6 +17,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     public virtual byte LevelMin => Level;
     public virtual byte LevelMax => Level;
     public abstract int Generation { get; }
+    public abstract EntityContext Context { get; }
 
     public virtual int Location { get; init; }
     public AbilityPermission Ability { get; init; }

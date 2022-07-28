@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade3 : EncounterTrade, IContestStats
 {
     public override int Generation => 3;
+    public override EntityContext Context => EntityContext.Gen3;
     public override int Location => Locations.LinkTrade3NPC;
 
     /// <summary>

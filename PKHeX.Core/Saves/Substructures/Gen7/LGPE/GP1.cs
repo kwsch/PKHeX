@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -18,6 +18,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public int Generation => 7;
+    public EntityContext Context => EntityContext.Gen7b;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPB7(tr);
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPB7(tr, criteria);

@@ -60,4 +60,12 @@ public static class EntityContextExtensions
 
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
+
+    public static EntityContext GetContext(this GameVersion version) => version switch
+    {
+        GameVersion.GP or GameVersion.GE => Gen7b,
+        GameVersion.PLA => Gen8a,
+        GameVersion.BD or GameVersion.SP => Gen8b,
+        _ => (EntityContext)version.GetGeneration(),
+    };
 }

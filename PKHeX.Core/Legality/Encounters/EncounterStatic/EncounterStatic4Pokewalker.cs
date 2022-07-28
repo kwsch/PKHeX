@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 4 Pokéwalker  Encounter
@@ -7,6 +7,7 @@
 public sealed record EncounterStatic4Pokewalker : EncounterStatic
 {
     public override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
 
     public EncounterStatic4Pokewalker(ushort species, sbyte gender, byte level) : base(GameVersion.HGSS)
     {

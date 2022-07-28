@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8b : EncounterSlot
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8b;
     public bool IsUnderground => Area.Location is (>= 508 and <= 617);
     public bool IsMarsh => Area.Location is (>= 219 and <= 224);
     public readonly bool IsBCAT;

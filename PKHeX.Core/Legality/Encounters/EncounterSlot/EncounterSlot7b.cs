@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7b : EncounterSlot
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7b;
 
     public EncounterSlot7b(EncounterArea7b area, int species, byte min, byte max) : base(area, species, 0, min, max)
     {

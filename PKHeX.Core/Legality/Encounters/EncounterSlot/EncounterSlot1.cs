@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot1 : EncounterSlot, INumberedSlot
 {
     public override int Generation => 1;
+    public override EntityContext Context => EntityContext.Gen1;
     public byte SlotNumber { get; }
     public override Ball FixedBall => Ball.Poke;
 

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 6 Trade Encounter
@@ -7,6 +7,7 @@
 public sealed record EncounterTrade6(GameVersion Version, byte OT_Memory, byte OT_Intensity, byte OT_Feeling, ushort OT_TextVar) : EncounterTrade(Version), IMemoryOT
 {
     public override int Generation => 6;
+    public override EntityContext Context => EntityContext.Gen6;
     public override int Location => Locations.LinkTrade6NPC;
     public byte OT_Memory { get; set; } = OT_Memory;
     public byte OT_Intensity { get; set; } = OT_Intensity;

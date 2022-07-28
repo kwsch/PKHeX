@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 Trade Encounter
@@ -7,6 +7,7 @@
 public sealed record EncounterTrade8b : EncounterTrade, IContestStats, IScaledSize, IFixedOTFriendship
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8b;
     public override int Location => Locations.LinkTrade6NPC;
 
     public EncounterTrade8b(GameVersion game) : base(game) => EggLocation = Locations.Default8bNone;

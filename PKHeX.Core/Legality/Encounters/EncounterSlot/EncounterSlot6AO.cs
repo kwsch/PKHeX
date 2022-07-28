@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot6AO : EncounterSlot
 {
     public override int Generation => 6;
+    public override EntityContext Context => EntityContext.Gen6;
     public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
     public bool IsHorde => Area.Type == SlotType.Horde;
 

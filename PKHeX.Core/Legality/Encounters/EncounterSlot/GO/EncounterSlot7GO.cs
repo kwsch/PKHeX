@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot7GO : EncounterSlotGO
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7b;
     public override Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
 
     public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type)

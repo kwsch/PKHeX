@@ -11,6 +11,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public const int Size = 0xCC;
     public override int Generation => 5;
+    public override EntityContext Context => EntityContext.Gen5;
 
     public PGF() : this(new byte[Size]) { }
     public PGF(byte[] data) : base(data) { }
