@@ -499,16 +499,13 @@ public sealed class RibbonVerifier : Verifier
         var species = pk.Species;
         if (species > Legal.MaxSpeciesID_8_R2)
             return false;
+        
+        // Series 13 rule-set was the first time Ranked Battles allowed the use of Mythical Pokémon.
         if (Legal.Legends.Contains(species))
         {
-            // Box Legends were only allowed for a single rule-set until May 1st.
-            // This rule-set disallowed Mythicals, but everything else present in the game was usable.
-            if (Legal.Mythicals.Contains(species))
-                return false;
-
             if (enc.Version == GameVersion.GO || enc is IEncounterServerDate { IsDateRestricted: true }) // Capture date is global time, and not console changeable.
             {
-                if (pk.MetDate > new DateTime(2022, 9, 1)) // Series 12 end date
+                if (pk.MetDate > new DateTime(2022, 11, 1)) // Series 13 end date
                     return false;
             }
         }
