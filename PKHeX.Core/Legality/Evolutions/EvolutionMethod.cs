@@ -60,54 +60,53 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
     /// <returns>True if a evolution criteria is valid.</returns>
     public bool Valid(PKM pk, byte lvl, bool skipChecks)
     {
-        switch (Method)
-        {
-            case UseItem or UseItemWormhole or UseItemFullMoon:
-            case CriticalHitsInBattle or HitPointsLostInBattle or Spin:
-            case UseAgileStyleMoves or UseStrongStyleMoves:
-            case TowerOfDarkness or TowerOfWaters:
-                return true;
-            case UseItemMale or RecoilDamageMale:
-                return pk.Gender == 0;
-            case UseItemFemale or RecoilDamageFemale:
-                return pk.Gender == 1;
+        if (!Method.IsLevelUpRequired())
+            return ValidNotLevelUp(pk, skipChecks);
 
-            case Trade or TradeHeldItem or TradeShelmetKarrablast:
-                return !pk.IsUntraded || skipChecks;
+        if (!IsLevelUpMethodSecondarySatisfied(pk, skipChecks))
+            return false;
 
-            // Special Level Up Cases -- return false if invalid
-            case LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form && !skipChecks:
-                return false;
+        // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
+        if (!RequiresLevelUp)
+            return lvl >= Level;
 
-            case LevelUpBeauty when pk is not IContestStats s || s.CNT_Beauty < Argument:
-                return skipChecks;
-            case LevelUpMale when pk.Gender != 0:
-                return false;
-            case LevelUpFemale when pk.Gender != 1:
-                return false;
-            case LevelUpFormFemale1 when pk.Gender != 1 || pk.Form != 1:
-                return false;
+        if (Level == 0 && lvl < 2)
+            return false;
+        if (lvl < Level)
+            return false;
 
-            case LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) || skipChecks:
-                return skipChecks; // Version checks come in pairs, check for any pair match
+        if (skipChecks)
+            return lvl >= Level;
 
-            // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
-            default:
-                if (!RequiresLevelUp)
-                    return lvl >= Level;
-
-                if (Level == 0 && lvl < 2)
-                    return false;
-                if (lvl < Level)
-                    return false;
-
-                if (skipChecks)
-                    return lvl >= Level;
-
-                // Check Met Level for extra validity
-                return HasMetLevelIncreased(pk, lvl);
-        }
+        // Check Met Level for extra validity
+        return HasMetLevelIncreased(pk, lvl);
     }
+
+    private bool IsLevelUpMethodSecondarySatisfied(PKM pk, bool skipChecks) => Method switch
+    {
+        // Special Level Up Cases -- return false if invalid
+        LevelUpMale when pk.Gender != 0 => false,
+        LevelUpFemale when pk.Gender != 1 => false,
+        LevelUpFormFemale1 when pk.Gender != 1 || pk.Form != 1 => false,
+
+        // Permit the evolution if we're exploring for mistakes.
+        LevelUpBeauty when pk is IContestStats s && s.CNT_Beauty < Argument => skipChecks,
+        LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks,
+
+        // Version checks come in pairs, check for any pair match
+        LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks,
+
+        _ => true,
+    };
+
+    private bool ValidNotLevelUp(PKM pk, bool skipChecks) => Method switch
+    {
+        UseItemMale or RecoilDamageMale => pk.Gender == 0,
+        UseItemFemale or RecoilDamageFemale => pk.Gender == 1,
+
+        Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks,
+        _ => true, // no conditions
+    };
 
     private bool HasMetLevelIncreased(PKM pk, int lvl)
     {
