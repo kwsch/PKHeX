@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -12,15 +12,14 @@ public static class Roaming8bRNG
 {
     private const int UNSET = -1;
 
-    public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
+    public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
     {
         if (shiny == Shiny.FixedValue)
-            shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : Shiny.Always;
+            shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : criteria.Shiny;
         if (flawless == -1)
             flawless = 0;
 
         int ctr = 0;
-        const int maxAttempts = 50_000;
         var rnd = Util.Rand;
         do
         {
@@ -44,19 +43,21 @@ public static class Roaming8bRNG
         var fakeTID = xoro.NextUInt(); // fakeTID
         var pid = xoro.NextUInt();
         pid = GetRevisedPID(fakeTID, pid, pk);
+        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var type = GetRareType(xor);
         if (shiny == Shiny.Never)
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (type != Shiny.Never)
                 return false;
         }
         else if (shiny != Shiny.Random)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
+            if (type == Shiny.Never)
                 return false;
 
-            if (shiny == Shiny.AlwaysSquare && pk.ShinyXor != 0)
+            if (shiny == Shiny.AlwaysSquare && type != Shiny.AlwaysSquare)
                 return false;
-            if (shiny == Shiny.AlwaysStar && pk.ShinyXor == 0)
+            if (shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
         pk.PID = pid;
@@ -257,12 +258,10 @@ public static class Roaming8bRNG
         _ => Shiny.Never,
     };
 
-    private static bool GetIsShiny(int tid, int sid, uint pid)
+    private static uint GetShinyXor(int tid, int sid, uint pid)
     {
-        return GetIsShiny(pid, (uint)((sid << 16) | tid));
+        return GetShinyXor(pid, (uint)((sid << 16) | tid));
     }
-
-    private static bool GetIsShiny(uint pid, uint oid) => GetShinyXor(pid, oid) < 16;
 
     private static uint GetShinyXor(uint pid, uint oid)
     {

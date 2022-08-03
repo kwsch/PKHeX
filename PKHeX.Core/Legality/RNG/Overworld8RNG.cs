@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -10,15 +10,14 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class Overworld8RNG
 {
-    public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
+    public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1, int maxAttempts = 70_000)
     {
         if (shiny == Shiny.FixedValue)
-            shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : Shiny.Always;
+            shiny = criteria.Shiny is Shiny.Random or Shiny.Never ? Shiny.Never : criteria.Shiny;
         if (flawless == -1)
             flawless = 0;
 
         int ctr = 0;
-        const int maxAttempts = 50_000;
         var rnd = Util.Rand;
         do
         {
@@ -38,19 +37,21 @@ public static class Overworld8RNG
 
         // PID
         var pid = (uint) xoro.NextInt(uint.MaxValue);
+        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var type = GetRareType(xor);
         if (shiny == Shiny.Never)
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
-                pid ^= 0x1000_0000;
+            if (type != Shiny.Never)
+                return false;
         }
         else if (shiny != Shiny.Random)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
-
-            if (shiny == Shiny.AlwaysSquare && pk.ShinyXor != 0)
+            if (type == Shiny.Never)
                 return false;
-            if (shiny == Shiny.AlwaysStar && pk.ShinyXor == 0)
+
+            if (shiny == Shiny.AlwaysSquare && type != Shiny.AlwaysSquare)
+                return false;
+            if (shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
 
@@ -91,6 +92,13 @@ public static class Overworld8RNG
 
         return true;
     }
+
+    private static Shiny GetRareType(uint xor) => xor switch
+    {
+        0 => Shiny.AlwaysSquare,
+        < 16 => Shiny.AlwaysStar,
+        _ => Shiny.Never,
+    };
 
     public static bool ValidateOverworldEncounter(PKM pk, Shiny shiny = Shiny.FixedValue, int flawless = -1)
     {
@@ -199,6 +207,11 @@ public static class Overworld8RNG
     private static bool GetIsShiny(int tid, int sid, uint pid)
     {
         return GetShinyXor(pid, (uint)((sid << 16) | tid)) < 16;
+    }
+
+    private static uint GetShinyXor(int tid, int sid, uint pid)
+    {
+        return GetShinyXor(pid, (uint)((sid << 16) | tid));
     }
 
     private static uint GetShinyXor(uint pid, uint oid)

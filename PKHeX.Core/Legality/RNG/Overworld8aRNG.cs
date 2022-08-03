@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -15,7 +15,12 @@ public static class Overworld8aRNG
 
     private static bool GetIsShiny(int tid, int sid, uint pid)
     {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid)) < 16;
+        return GetShinyXor(tid, sid, pid) < 16;
+    }
+
+    private static uint GetShinyXor(int tid, int sid, uint pid)
+    {
+        return GetShinyXor(pid, (uint)((sid << 16) | tid));
     }
 
     private static uint GetShinyXor(uint pid, uint oid)
@@ -129,19 +134,21 @@ public static class Overworld8aRNG
 
         ForceShinyState(pk, isShiny, ref pid);
 
+        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var type = GetRareType(xor);
         if (para.Shiny == Shiny.Never)
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (type != Shiny.Never)
                 return false;
         }
         else if (para.Shiny != Shiny.Random)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
+            if (type == Shiny.Never)
                 return false;
 
-            if (para.Shiny == Shiny.AlwaysSquare && pk.ShinyXor != 0)
+            if (para.Shiny == Shiny.AlwaysSquare && type != Shiny.AlwaysSquare)
                 return false;
-            if (para.Shiny == Shiny.AlwaysStar && pk.ShinyXor == 0)
+            if (para.Shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
         pk.PID = pid;
@@ -207,6 +214,13 @@ public static class Overworld8aRNG
 
         return true;
     }
+
+    private static Shiny GetRareType(uint xor) => xor switch
+    {
+        0 => Shiny.AlwaysSquare,
+        < 16 => Shiny.AlwaysStar,
+        _ => Shiny.Never,
+    };
 
     public static bool Verify(PKM pk, ulong seed, in OverworldParam8a para)
     {
