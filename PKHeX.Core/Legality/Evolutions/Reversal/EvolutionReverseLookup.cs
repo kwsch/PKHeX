@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object storing a reversal path for evolution nodes.
 /// </summary>
-public class EvolutionReverseLookup
+public class EvolutionReverseLookup : IEvolutionLookup
 {
     private readonly EvolutionNode[] Nodes;
     private readonly int MaxSpecies;
@@ -36,4 +36,9 @@ public class EvolutionReverseLookup
     }
 
     public ref EvolutionNode this[int key] => ref Nodes[GetIndex(key)];
+}
+
+public interface IEvolutionLookup
+{
+    ref EvolutionNode this[int key] { get; }
 }
