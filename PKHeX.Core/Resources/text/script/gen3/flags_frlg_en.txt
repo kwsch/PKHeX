@@ -320,7 +320,7 @@
 580	m	Good Rod received
 581	m	TM29 in Saffron City received
 582	m	Received Lapras
-
+583 m   Poké Balls from Prof. Oak received (after Route 22 Rival battle, no Poké Balls in Bag, no Pokémon catched)
 584	m	Traded on Route 2
 585	m	Purchased Magikarp
 586	m	Traded in Cerulean City
@@ -328,7 +328,7 @@
 
 589	m	Traded in Vermilion City
 590	m	TM38 from Blaine received
-
+591 m	Change text of Prof. Oak (after Poké Balls received)
 592	m	Master Ball from Silph Co. President received
 593	m	Traded on Route 11
 594	m	Received Itemfinder (Oak's Aide, Route 11)
@@ -400,8 +400,8 @@
 
 666	m	TM04 from Sabrina received
 667	s	Received Fame Checker
-
-669	m	Change text of shop owner on Tow Island
+668 m	Set Magikarp Length Record
+669	m	Change text of shop owner on Two Island
 
 673	m	Change text of certain NPCs because PCs are working again
 
@@ -432,7 +432,7 @@
 716	*	Used Move Tutor on Cinnabar Island (Metronome)
 717	*	Used Move Tutor in Saffron City (Mimic)
 718	*	Used Move Tutor on Four Island (Body Slam)
-
+719	m   Is in Prof. Oak's Lab (for Help System)
 720	r	Electrode (south) in Power Plant defeated/ran/caught
 721	r	Electrode (north) in Power Plant defeated/ran/caught
 722	m	Boulder Puzzle in Seafoam Islands to south exit solved
@@ -440,7 +440,7 @@
 724	m	Change text of Lorelei in her house
 725	s	Team Rocket driven off from Sevii Islands
 726	s	Rocket Warehouse Door Opened
-
+727	m   Change text of Tectonix owner (no room for TM42)
 728	s	Sapphire in Dotte Hole stolen by Scientist/Can enter Rocket Warehouse
 729	m	Set Heracross Length Record
 730	m	Togepi Egg from Gentleman in Water Labyrinth received
@@ -467,7 +467,7 @@
 757	r	Defeated Lugia
 758	r	Defeated Ho-Oh
 759	r	Defeated Deoxys
-
+760	m   Change text of old woman in Celadon Mansion (after HoF)
 761	s	Spoke to Prof. Oak's Aide in Vermilion City
 762	*	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
 763	s	Gave Meteroite and received Moon Stone from Lostelle's daddy
@@ -633,7 +633,7 @@
 1157	h	Pinap Berry (hidden) on Route 14 found
 1158	h	Fire Stone (hidden) on Mt. Ember found
 1159	h	Soothe Bell (hidden) in Pokémon Tower found
-
+1160	h   Sacred Ash (hidden) on Navel Rock found
 1161	h	PP Max (hidden) on Cape Brink found
 1162	h	Utlra Ball (hidden) on Mt. Ember found
 1163	h	Nugget (hidden) in Three Isle Path found
@@ -662,7 +662,7 @@
 1186	h	Pearl (hidden, recurring) outside of Trainer Tower found
 1187	h	Nanab Berry (hidden) outside of Trainer Tower found
 1188	h	Raws Berry (hidden) in Canyon Entrance found
-
+1189	h   Macho Brace (hidden) in Viridian Gym found
 1190	h	Lava Cookie (hidden) at S.S. Anne Port found
 
 1200	m	Change Text of Gym Guide in Pewter City Gym
