@@ -26,7 +26,7 @@ public class EntitySummary // do NOT seal, allow inheritance
     public string Move2 => Get(Strings.movelist, pk.Move2);
     public string Move3 => Get(Strings.movelist, pk.Move3);
     public string Move4 => Get(Strings.movelist, pk.Move4);
-    public string HeldItem => GetSpan(Strings.GetItemStrings(pk.Format), pk.HeldItem);
+    public string HeldItem => GetSpan(Strings.GetItemStrings(pk.Context), pk.HeldItem);
     public string HP => Stats[0].ToString();
     public string ATK => Stats[1].ToString();
     public string DEF => Stats[2].ToString();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -26,7 +26,7 @@ public sealed class NicknameVerifier : Verifier
         }
         if (pk.Species > SpeciesName.SpeciesLang[0].Count)
         {
-            data.AddLine(Get(LNickLengthShort, Severity.Indeterminate));
+            data.AddLine(Get(LNickLengthShort, Severity.Invalid));
             return;
         }
 
@@ -261,7 +261,7 @@ public sealed class NicknameVerifier : Verifier
         var nick = pk.Nickname;
         if (pk.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nick, 2))
             data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
-        else if (nick != SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Info.Generation))
+        else if (nick != SpeciesName.GetEggName(pk.Language, Info.Generation))
             data.AddLine(GetInvalid(LNickMatchLanguageEggFail, CheckIdentifier.Egg));
         else
             data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));

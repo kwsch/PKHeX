@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
 using System.IO;
@@ -9,14 +10,25 @@ namespace PKHeX.Tests.Legality;
 
 public class LegalityTest
 {
-    static LegalityTest()
-    {
-        if (EncounterEvent.Initialized)
-            return;
+    private static readonly string TestPath = TestUtil.GetRepoPath();
+    private static readonly object InitLock = new();
+    private static bool IsInitialized;
 
-        RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
-        EncounterEvent.RefreshMGDB();
+    private static void Init()
+    {
+        lock (InitLock)
+        {
+            if (IsInitialized)
+                return;
+            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            if (EncounterEvent.Initialized)
+                return;
+            EncounterEvent.RefreshMGDB();
+            IsInitialized = true;
+        }
     }
+
+    static LegalityTest() => Init();
 
     [Theory]
     [InlineData("censor")]
@@ -32,6 +44,7 @@ public class LegalityTest
     [InlineData("Illegal", false)]
     public void TestPublicFiles(string name, bool isValid)
     {
+        RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
         var folder = TestUtil.GetRepoPath();
         folder = Path.Combine(folder, "Legality");
         VerifyAll(folder, name, isValid);
@@ -44,8 +57,9 @@ public class LegalityTest
     [InlineData("FalseFlags", false)] // legal quirks, to be fixed in the future
     public void TestPrivateFiles(string name, bool isValid)
     {
-        var folder = TestUtil.GetRepoPath();
-        folder = Path.Combine(folder, "Legality", "Private");
+        if (!isValid)
+            Init();
+        var folder = Path.Combine(TestPath, "Legality", "Private");
         VerifyAll(folder, name, isValid, false);
     }
 
@@ -88,12 +102,7 @@ public class LegalityTest
             var fn = Path.Combine(dn, fi.Name);
             if (isValid)
             {
-                var info = legality.Info;
-                var result = legality.Results.Cast<ICheckResult>().Concat(info.Moves).Concat(info.Relearn);
-                // ReSharper disable once ConstantConditionalAccessQualifier
-                var invalid = result.Where(z => !z.Valid);
-                var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
-                legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
+                legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{string.Join(Environment.NewLine, GetIllegalLines(legality))}");
             }
             else
             {
@@ -101,5 +110,17 @@ public class LegalityTest
             }
         }
         ctr.Should().BeGreaterThan(0);
+    }
+
+    private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)
+    {
+        foreach (var l in legality.Results.Where(z => !z.Valid))
+            yield return l.Comment;
+
+        var info = legality.Info;
+        foreach (var m in info.Moves.Where(z => !z.Valid))
+            yield return m.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
+        foreach (var r in info.Relearn.Where(z => !z.Valid))
+            yield return r.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
     }
 }

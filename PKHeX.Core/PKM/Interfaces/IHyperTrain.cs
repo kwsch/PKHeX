@@ -84,7 +84,15 @@ public static partial class Extensions
     }
 
     /// <inheritdoc cref="SetSuggestedHyperTrainingData(PKM,EvolutionHistory,ReadOnlySpan{int})"/>
-    public static void SetSuggestedHyperTrainingData(this PKM pk, int[]? IVs = null) => pk.SetSuggestedHyperTrainingData(EvolutionHistory.Empty, IVs ?? pk.IVs);
+    public static void SetSuggestedHyperTrainingData(this PKM pk, ReadOnlySpan<int> IVs) => pk.SetSuggestedHyperTrainingData(EvolutionHistory.Empty, IVs);
+
+    /// <inheritdoc cref="SetSuggestedHyperTrainingData(PKM,EvolutionHistory,ReadOnlySpan{int})"/>
+    public static void SetSuggestedHyperTrainingData(this PKM pk)
+    {
+        Span<int> ivs = stackalloc int[6];
+        pk.GetIVs(ivs);
+        pk.SetSuggestedHyperTrainingData(ivs);
+    }
 
     /// <summary>
     /// Indicates if Hyper Training is available for toggling.

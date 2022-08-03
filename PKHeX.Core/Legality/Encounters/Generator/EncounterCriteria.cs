@@ -73,10 +73,10 @@ public sealed record EncounterCriteria
         return true;
     }
 
-    /// <inheritdoc cref="GetCriteria(IBattleTemplate, PersonalInfo)"/>
+    /// <inheritdoc cref="GetCriteria(IBattleTemplate, IPersonalInfo)"/>
     /// <param name="s">Template data (end result).</param>
     /// <param name="t">Personal table the end result will exist with.</param>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalTable t)
+    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalTable t)
     {
         var pi = t.GetFormEntry(s.Species, s.Form);
         return GetCriteria(s, pi);
@@ -88,7 +88,7 @@ public sealed record EncounterCriteria
     /// <param name="s">Template data (end result).</param>
     /// <param name="pi">Personal info the end result will exist with.</param>
     /// <returns>Initialized criteria data to be passed to generators.</returns>
-    public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalInfo pi) => new()
+    public static EncounterCriteria GetCriteria(IBattleTemplate s, IPersonalInfo pi) => new()
     {
         Gender = s.Gender,
         IV_HP = s.IVs[0],
@@ -104,7 +104,7 @@ public sealed record EncounterCriteria
         Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
     };
 
-    private static AbilityPermission GetAbilityNumber(int ability, PersonalInfo pi)
+    private static AbilityPermission GetAbilityNumber(int ability, IPersonalAbility pi)
     {
         var abilities = pi.Abilities;
         if (abilities.Count < 2)
@@ -139,12 +139,12 @@ public sealed record EncounterCriteria
     /// <summary>
     /// Gets a random gender to generate, based off an encounter's <see cref="gender"/>.
     /// </summary>
-    public int GetGender(int gender, PersonalInfo pkPersonalInfo)
+    public int GetGender(int gender, IGenderDetail pkPersonalInfo)
     {
         if ((uint)gender < 3)
             return gender;
         if (!pkPersonalInfo.IsDualGender)
-            return pkPersonalInfo.FixedGender;
+            return pkPersonalInfo.FixedGender();
         if (Gender >= 0)
             return Gender;
         return pkPersonalInfo.RandomGender();

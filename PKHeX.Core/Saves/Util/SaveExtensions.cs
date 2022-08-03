@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 using static PKHeX.Core.MessageStrings;
 
@@ -52,7 +51,7 @@ public static class SaveExtensions
                 msg = MsgIndexItemHeld;
             if (msg != null)
             {
-                var itemstr = GameInfo.Strings.GetItemStrings(pk.Format, (GameVersion)pk.Version);
+                var itemstr = GameInfo.Strings.GetItemStrings(pk.Context, (GameVersion)pk.Version);
                 errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
             }
         }
@@ -65,10 +64,15 @@ public static class SaveExtensions
         if (!sav.Personal[pk.Species].IsFormWithinRange(pk.Form) && !FormInfo.IsValidOutOfBoundsForm(pk.Species, pk.Form, pk.Generation))
             errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pk.Species].FormCount - 1), pk.Form));
 
-        if (pk.Moves.Any(m => m > strings.Move.Count))
-            errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pk.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");
-        else if (pk.Moves.Any(m => m > sav.MaxMoveID))
-            errata.Add($"{MsgIndexMoveGame} {string.Join(", ", pk.Moves.Where(m => m > sav.MaxMoveID).Select(m => strings.Move[m]))}");
+        var movestr = strings.Move;
+        for (int i = 0; i < 4; i++)
+        {
+            var move = pk.GetMove(i);
+            if ((uint)move > movestr.Count)
+                errata.Add($"{MsgIndexMoveRange} {move}");
+            else if (move > sav.MaxMoveID)
+                errata.Add($"{MsgIndexMoveGame} {movestr[move]}");
+        }
 
         if (pk.Ability > strings.Ability.Count)
             errata.Add($"{MsgIndexAbilityRange} {pk.Ability}");

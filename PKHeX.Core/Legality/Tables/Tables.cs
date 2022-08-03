@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 using static PKHeX.Core.Move;
@@ -7,41 +6,6 @@ namespace PKHeX.Core;
 
 public static partial class Legal
 {
-    /// <summary>
-    /// Species that can change between their forms and get access to form-specific moves.
-    /// </summary>
-    public static readonly HashSet<int> FormChangeMovesRetain = new()
-    {
-        (int)Deoxys,
-        (int)Giratina,
-        (int)Shaymin,
-        (int)Hoopa,
-    };
-
-    /// <summary>
-    /// Species that can change between their forms and get access to form-specific moves.
-    /// </summary>
-    public static readonly Dictionary<int, Func<int, int, bool>> FormChangeMoves = new()
-    {
-        {(int)Deoxys,   (g, _) => g >= 6},
-        {(int)Giratina, (g, _) => g >= 6},
-        {(int)Shaymin,  (g, _) => g >= 6},
-        {(int)Rotom,    (g, _) => g >= 6},
-        {(int)Hoopa,    (g, _) => g >= 6},
-        {(int)Tornadus, (g, _) => g >= 6},
-        {(int)Thundurus,(g, _) => g >= 6},
-        {(int)Landorus, (g, _) => g >= 6},
-        {(int)Urshifu,  (g, _) => g >= 8},
-        {(int)Enamorus, (g, _) => g >= 8},
-
-        // Fused
-        {(int)Kyurem,   (g, _) => g >= 6},
-        {(int)Necrozma, (g, _) => g >= 8},
-        {(int)Calyrex,  (g, _) => g >= 8},
-
-        {(int)Pikachu,  (g, f) => g == 6 && f != 0},
-    };
-
     /// <summary>
     /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
     /// </summary>

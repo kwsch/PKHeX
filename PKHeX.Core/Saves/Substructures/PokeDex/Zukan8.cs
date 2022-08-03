@@ -5,13 +5,15 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Pokédex structure used for <see cref="GameVersion.SWSH"/>.
+/// PokÃ©dex structure used for <see cref="GameVersion.SWSH"/>.
 /// </summary>>
 public sealed class Zukan8 : ZukanBase
 {
     private readonly SCBlock Galar;
     private readonly SCBlock Rigel1;
     private readonly SCBlock Rigel2;
+
+    private const int MaxSpeciesID = Legal.MaxSpeciesID_8_R2;
 
     /// <summary>
     /// Reverses a Species into the component <see cref="Zukan8Index"/> information.
@@ -47,15 +49,15 @@ public sealed class Zukan8 : ZukanBase
         _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null),
     };
 
-    private static bool GetFlag(byte[] data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset + (bitIndex >> 3), bitIndex);
-    private static void SetFlag(byte[] data, int offset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, offset + (bitIndex >> 3), bitIndex, value);
+    private static bool GetFlag(byte[] data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
+    private static void SetFlag(byte[] data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
 
-    private static Dictionary<int, Zukan8Index> GetDexLookup(PersonalTable pt, int dexRevision)
+    private static Dictionary<int, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision)
     {
         var lookup = new Dictionary<int, Zukan8Index>();
-        for (int i = 1; i <= pt.MaxSpeciesID; i++)
+        for (int i = 1; i <= MaxSpeciesID; i++)
         {
-            var p = (PersonalInfoSWSH) pt[i];
+            var p = pt[i];
             var index = p.PokeDexIndex;
             if (index != 0)
             {
@@ -86,12 +88,12 @@ public sealed class Zukan8 : ZukanBase
         return lookup;
     }
 
-    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable pt, int dexRevision)
+    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable8SWSH pt, int dexRevision)
     {
         var result = new List<Zukan8EntryInfo>();
-        for (int i = 1; i <= pt.MaxSpeciesID; i++)
+        for (int i = 1; i <= MaxSpeciesID; i++)
         {
-            var p = (PersonalInfoSWSH)pt[i];
+            var p = pt[i];
             var index = p.PokeDexIndex;
             if (index != 0)
                 result.Add(new Zukan8EntryInfo(i, new Zukan8Index(Zukan8Type.Galar, index)));
@@ -99,9 +101,9 @@ public sealed class Zukan8 : ZukanBase
         if (dexRevision == 0)
             return result;
 
-        for (int i = 1; i <= pt.MaxSpeciesID; i++)
+        for (int i = 1; i <= MaxSpeciesID; i++)
         {
-            var p = (PersonalInfoSWSH)pt[i];
+            var p = pt[i];
             var index = p.ArmorDexIndex;
             if (index != 0)
                 result.Add(new Zukan8EntryInfo(i, new Zukan8Index(Zukan8Type.Armor, index)));
@@ -109,9 +111,9 @@ public sealed class Zukan8 : ZukanBase
         if (dexRevision == 1)
             return result;
 
-        for (int i = 1; i <= pt.MaxSpeciesID; i++)
+        for (int i = 1; i <= MaxSpeciesID; i++)
         {
-            var p = (PersonalInfoSWSH)pt[i];
+            var p = pt[i];
             var index = p.CrownDexIndex;
             if (index != 0)
                 result.Add(new Zukan8EntryInfo(i, new Zukan8Index(Zukan8Type.Crown, index)));
@@ -553,7 +555,7 @@ public sealed class Zukan8 : ZukanBase
             ClearGigantamaxFlags(species);
     }
 
-    private void SeenAll(int species, int bitIndex, bool value, PersonalInfo pi, bool shinyToo)
+    private void SeenAll(int species, int bitIndex, bool value, IGenderDetail pi, bool shinyToo)
     {
         if (pi.IsDualGender || !value)
         {
@@ -728,8 +730,8 @@ public sealed class Zukan8 : ZukanBase
 /// <summary>
 /// Indicates which <see cref="Zukan8Type"/> block will store the entry, and at what index.
 /// </summary>
-/// <param name="DexType">Which block stores the Pokédex entry.</param>
-/// <param name="Index">Index that the Pokédex entry is stored at.</param>
+/// <param name="DexType">Which block stores the PokÃ©dex entry.</param>
+/// <param name="Index">Index that the PokÃ©dex entry is stored at.</param>
 public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
 {
     public override string ToString() => $"{Index:000} - {DexType}";
@@ -753,7 +755,7 @@ public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
     /// <summary>
     /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
     /// </summary>
-    /// <param name="index">Unique Pokédex index (incremental). Should be 0-indexed.</param>
+    /// <param name="index">Unique PokÃ©dex index (incremental). Should be 0-indexed.</param>
     public static Zukan8Index GetFromAbsoluteIndex(int index)
     {
         if (index < 0)

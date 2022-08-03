@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch
 {
     public abstract int Generation { get; }
+    public abstract EntityContext Context { get; }
     public bool EggEncounter => false;
     public virtual bool IsShiny => false;
 

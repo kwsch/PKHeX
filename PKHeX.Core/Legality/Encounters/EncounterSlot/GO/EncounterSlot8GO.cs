@@ -45,7 +45,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
-    private PersonalInfo GetPersonal() => OriginFormat switch
+    private IPersonalInfo GetPersonal() => OriginFormat switch
     {
         PogoImportFormat.PK7 => PersonalTable.USUM.GetFormEntry(Species, Form),
         PogoImportFormat.PB7 => PersonalTable.GG.GetFormEntry(Species, Form),
@@ -60,6 +60,18 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         PogoImportFormat.PB7 => GameVersion.GG,
         PogoImportFormat.PK8 => GameVersion.SWSH,
         PogoImportFormat.PA8 => GameVersion.PLA,
+        _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+    };
+
+    public override EntityContext Context => OriginFormat switch
+    {
+        PogoImportFormat.PK7 =>
+              PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
+            : PersonalTable.LA.IsPresentInGame(Species, Form) ? EntityContext.Gen8a
+            : throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+        PogoImportFormat.PB7 => EntityContext.Gen7b,
+        PogoImportFormat.PK8 => EntityContext.Gen8,
+        PogoImportFormat.PA8 => EntityContext.Gen8a,
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
@@ -118,10 +130,12 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = MoveLevelUp.GetEncounterMoves(pk, level, OriginGroup);
+        var moves = GetInitialMoves(level);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }
+
+    public ReadOnlySpan<int> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

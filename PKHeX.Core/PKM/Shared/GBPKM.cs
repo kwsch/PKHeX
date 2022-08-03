@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -196,7 +196,7 @@ public abstract class GBPKM : PKM
         return GuessedLanguage(destLanguage);
     }
 
-    public override void LoadStats(PersonalInfo p, Span<ushort> stats)
+    public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         var lv = Stat_Level;
         stats[0] = (ushort)(GetStat(p.HP, IV_HP, EV_HP, lv) + (5 + lv)); // HP

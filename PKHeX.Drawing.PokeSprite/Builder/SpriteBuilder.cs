@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Properties;
 
@@ -57,14 +57,20 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     protected abstract Bitmap GetEggSprite(int species);
     public abstract Bitmap ShadowLugia { get; }
 
+    /// <summary>
+    /// Ensures all data is set up to generate sprites for the save file.
+    /// </summary>
+    /// <param name="sav"></param>
     public void Initialize(SaveFile sav)
     {
         if (sav.Generation != 3)
             return;
 
+        // If the game is indeterminate, we might have different form sprites.
+        // Currently, this only applies to Gen3's FireRed / LeafGreen
         Game = sav.Version;
         if (Game == GameVersion.FRLG)
-            Game = sav.Personal == PersonalTable.FR ? GameVersion.FR : GameVersion.LG;
+            Game = ReferenceEquals(sav.Personal, PersonalTable.FR) ? GameVersion.FR : GameVersion.LG;
     }
 
     private GameVersion Game;
@@ -84,7 +90,20 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         _ => form,
     };
 
-    public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
+    /// <summary>
+    /// Builds a new sprite image with the requested parameters.
+    /// </summary>
+    /// <param name="species">Entity Species ID</param>
+    /// <param name="form">Entity Form index</param>
+    /// <param name="gender">Entity gender</param>
+    /// <param name="formarg">Entity <see cref="IFormArgument.FormArgument"/> raw value</param>
+    /// <param name="heldItem">Entity held item ID</param>
+    /// <param name="isEgg">Is currently in an egg</param>
+    /// <param name="isShiny">Is it shiny</param>
+    /// <param name="generation"></param>
+    /// <param name="tweak"></param>
+    /// <returns></returns>
+    public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         if (species == 0)
             return None;
@@ -94,18 +113,18 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         else if (generation == 4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
             form = GetArceusForm4(form);
 
-        var baseImage = GetBaseImage(species, form, gender, formarg, isShiny, generation);
-        return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed, isAltShiny);
+        var baseImage = GetBaseImage(species, form, gender, formarg, shiny.IsShiny(), generation);
+        return GetSprite(baseImage, species, heldItem, isEgg, shiny, generation, tweak);
     }
 
-    public Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
+    public Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, Shiny shiny, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         if (isEgg)
             baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
         if (heldItem > 0)
             baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
-        if (isShiny)
-            baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed, generation >= 8 && isAltShiny);
+        if (shiny.IsShiny())
+            baseSprite = LayerOverImageShiny(baseSprite, tweak, generation >= 8 && shiny == Shiny.AlwaysSquare ? Shiny.AlwaysSquare : Shiny.Always);
         return baseSprite;
     }
 
@@ -170,12 +189,16 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         return ImageUtil.LayerImage(baseImage, itemimg, x, y);
     }
 
-    private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed, bool altShiny)
+    private static Image LayerOverImageShiny(Image baseImage, SpriteBuilderTweak tweak, Shiny shiny)
     {
         // Add shiny star to top left of image.
-        var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
-        if (altShiny)
+        Bitmap rare;
+        if (shiny is Shiny.AlwaysSquare)
             rare = Resources.rare_icon_2;
+        else if (tweak.HasFlagFast(SpriteBuilderTweak.BoxBackgroundRed))
+            rare = Resources.rare_icon_alt;
+        else
+            rare = Resources.rare_icon;
         return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
     }
 

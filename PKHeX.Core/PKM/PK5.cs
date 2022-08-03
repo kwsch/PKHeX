@@ -539,7 +539,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private int CalculateAbilityIndex()
     {
-        var pi = (PersonalInfoB2W2) PersonalInfo;
+        var pi = (PersonalInfo5B2W2) PersonalInfo;
         if (HiddenAbility)
             return 2;
         if (pi.Ability1 == Ability)

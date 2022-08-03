@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -7,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot6AO : EncounterSlot
 {
     public override int Generation => 6;
+    public override EntityContext Context => EntityContext.Gen6;
     public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
     public bool IsHorde => Area.Type == SlotType.Horde;
 
@@ -47,16 +50,16 @@ public sealed record EncounterSlot6AO : EncounterSlot
 
     protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
-    private int[] GetDexNavMoves()
+    private ReadOnlySpan<int> GetDexNavMoves()
     {
         var et = EvolutionTree.Evolves6;
-        var sf = et.GetBaseSpeciesForm(Species, Form);
-        return MoveEgg.GetEggMoves(6, sf & 0x7FF, sf >> 11, Version);
+        var baby = et.GetBaseSpeciesForm((ushort)Species, (byte)Form);
+        return MoveEgg.GetEggMoves(6, baby.Species, baby.Form, Version);
     }
 
     public bool CanBeDexNavMove(int move)
     {
         var baseEgg = GetDexNavMoves();
-        return System.Array.IndexOf(baseEgg, move) >= 0;
+        return baseEgg.Contains(move);
     }
 }

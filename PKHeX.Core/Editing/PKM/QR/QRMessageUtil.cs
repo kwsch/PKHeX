@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+using System;
+using System.Text;
 
 namespace PKHeX.Core;
 
@@ -51,7 +51,13 @@ public static class QRMessageUtil
     /// </summary>
     /// <param name="payload">Data to encode</param>
     /// <returns>QR Message</returns>
-    public static string GetMessage(byte[] payload) => string.Concat(payload.Select(z => (char) z));
+    public static string GetMessage(ReadOnlySpan<byte> payload)
+    {
+        var sb = new StringBuilder(payload.Length);
+        foreach (var b in payload)
+            sb.Append((char)b);
+        return sb.ToString();
+    }
 
     /// <summary>
     /// Gets a QR Message from the input <see cref="MysteryGift"/> data.
@@ -79,8 +85,11 @@ public static class QRMessageUtil
             return DecodeMessageDataBase64(message);
         if (message.StartsWith("http", StringComparison.Ordinal)) // inject url
             return DecodeMessageDataBase64(message);
-        if (message.StartsWith("POKE", StringComparison.Ordinal) && message.Length > 0x30 + 0xE8) // G7 data
-            return GetBytesFromMessage(message, 0x30, 0xE8);
+
+        const int g7size = 0xE8;
+        const int g7intro = 0x30;
+        if (message.StartsWith("POKE", StringComparison.Ordinal) && message.Length > g7intro + g7size) // G7 data
+            return GetBytesFromMessage(message.AsSpan(g7intro), g7size);
         return null;
     }
 
@@ -103,11 +112,11 @@ public static class QRMessageUtil
         }
     }
 
-    private static byte[] GetBytesFromMessage(string seed, int skip, int take)
+    private static byte[] GetBytesFromMessage(ReadOnlySpan<char> input, int count)
     {
-        byte[] data = new byte[take];
-        for (int i = 0; i < take; i++)
-            data[i] = (byte)seed[i + skip];
+        byte[] data = new byte[count];
+        for (int i = data.Length - 1; i >= 0; i--)
+            data[i] = (byte)input[i];
         return data;
     }
 }

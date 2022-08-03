@@ -149,7 +149,7 @@ public partial class SAV_MailBox : Form
             }, null);
         }
 
-        var ItemList = GameInfo.Strings.GetItemStrings(Gen, SAV.Version);
+        var ItemList = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
         CB_MailType.Items.Clear();
         CB_MailType.Items.Add(ItemList[0]);
         foreach (int item in MailItemID)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -333,7 +333,7 @@ public partial class SAV_SecretBase : Form
         bool hasForms = FormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 
-        var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
+        var list = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         CB_Form.DataSource = new BindingSource(list, null);
     }
 
@@ -345,7 +345,7 @@ public partial class SAV_SecretBase : Form
         var species = WinFormsUtil.GetIndex(CB_Species);
 
         // Set a sane gender
-        var gender = SAV.Personal[species].FixedGender;
+        var gender = SAV.Personal[species].RandomGender();
         if (gender == -1)
             gender = EntityGender.GetFromString(Label_Gender.Text);
         SetGenderLabel(gender);
@@ -366,13 +366,12 @@ public partial class SAV_SecretBase : Form
     {
         var species = WinFormsUtil.GetIndex(CB_Species);
         var pi = SAV.Personal[species];
-        var fg = pi.FixedGender;
-        if (fg == -1) // dual gender
-        {
-            fg = EntityGender.GetFromString(Label_Gender.Text);
-            fg = (fg ^ 1) & 1;
-        }
-        Label_Gender.Text = Main.GenderSymbols[fg];
+        int gender;
+        if (pi.IsDualGender) // dual gender
+            gender = (EntityGender.GetFromString(Label_Gender.Text) ^ 1) & 1;
+        else
+            gender = pi.FixedGender();
+        Label_Gender.Text = Main.GenderSymbols[gender];
     }
 
     private void SetGenderLabel(int gender)

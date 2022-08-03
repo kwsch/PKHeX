@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +13,7 @@ public static class MoveListSuggest
             return MoveList.GetBaseEggMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel);
 
         if (types != MoveSourceType.None)
-            return GetValidMoves(pk, evoChains, types).Skip(1).ToArray(); // skip move 0
+            return GetValidMoves(pk, enc, evoChains, types).ToArray();
 
         // try to give current moves
         if (enc.Generation <= 2)
@@ -27,59 +28,22 @@ public static class MoveListSuggest
             return MoveLevelUp.GetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
         }
 
-        return GetValidMoves(pk, evoChains, types).Skip(1).ToArray(); // skip move 0
+        return GetValidMoves(pk, enc, evoChains, types).ToArray();
     }
 
-    private static IEnumerable<int> GetValidMoves(PKM pk, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources, bool RemoveTransferHM = true)
+    private static IEnumerable<int> GetValidMoves(PKM pk, IEncounterTemplate enc, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources)
     {
-        var (_, version) = pk.IsMovesetRestricted();
-        return GetValidMoves(pk, version, evoChains, types: types, RemoveTransferHM: RemoveTransferHM);
-    }
+        var length = pk.MaxMoveID + 1;
+        bool[] rent = ArrayPool<bool>.Shared.Rent(length);
+        LearnPossible.Get(pk, enc, evoChains, rent, types);
 
-    private static IEnumerable<int> GetValidMoves(PKM pk, GameVersion version, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.Reminder, bool RemoveTransferHM = true)
-    {
-        var r = new List<int> { 0 };
-        if (types.HasFlagFast(MoveSourceType.RelearnMoves) && pk.Format >= 6)
-            r.AddRange(pk.RelearnMoves);
-
-        int start = pk.Generation;
-        if (start < 0)
-            start = pk.Format; // be generous instead of returning nothing
-        if (pk is IBattleVersion b)
-            start = Math.Max(0, b.GetMinGeneration());
-
-        for (int generation = start; generation <= pk.Format; generation++)
+        for (int i = 1; i < length; i++)
         {
-            var chain = evoChains[generation];
-            if (chain.Length == 0)
-                continue;
-            r.AddRange(MoveList.GetValidMoves(pk, version, chain, generation, types: types, RemoveTransferHM: RemoveTransferHM));
+            if (rent[i])
+                yield return i;
         }
 
-        return r.Distinct();
-    }
-
-    private static IEnumerable<int> AllSuggestedMoves(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        return analysis.GetSuggestedCurrentMoves();
-    }
-
-    private static IEnumerable<int> AllSuggestedRelearnMoves(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        var pk = analysis.Entity;
-        var enc = analysis.EncounterMatch;
-        return MoveList.GetValidRelearn(pk, enc.Species, enc.Form, (GameVersion)pk.Version).ToArray();
-    }
-
-    public static int[] GetSuggestedMovesAndRelearn(this LegalityAnalysis analysis)
-    {
-        if (!analysis.Parsed)
-            return new int[4];
-        return analysis.AllSuggestedMoves().Concat(analysis.AllSuggestedRelearnMoves()).ToArray();
+        ArrayPool<bool>.Shared.Return(rent, true);
     }
 
     /// <summary>
@@ -108,7 +72,7 @@ public static class MoveListSuggest
     /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
     public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterTemplate enc, PKM pk)
     {
-        if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pk))
+        if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return Empty;
 
         return GetSuggestedRelearnInternal(enc, pk);
@@ -117,10 +81,19 @@ public static class MoveListSuggest
     // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
     private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk) => enc switch
     {
-        IRelearn s when s.Relearn.Count > 0 => s.Relearn,
-        EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pk.RelearnMoves, enc),
+        IRelearn { Relearn: int[] { Length: not 0 } r } => r,
+        EncounterEgg or EncounterInvalid {EggEncounter: true} => GetSuggestedRelearnEgg(enc, pk),
         _ => Empty,
     };
+
+    private static int[] GetSuggestedRelearnEgg(IEncounterTemplate enc, PKM pk)
+    {
+        Span<int> current = stackalloc int[4];
+        pk.GetRelearnMoves(current);
+        Span<int> expected = stackalloc int[current.Length];
+        _ = MoveBreed.GetExpectedMoves(current, enc, expected);
+        return expected.ToArray();
+    }
 
     private static readonly IReadOnlyList<int> Empty = new int[4];
 
@@ -133,7 +106,7 @@ public static class MoveListSuggest
         enc ??= info.EncounterOriginal;
         var pk = analysis.Entity;
 
-        if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pk))
+        if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return Empty;
 
         if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
@@ -141,7 +114,7 @@ public static class MoveListSuggest
         return enc.GetSuggestedRelearnInternal(pk);
     }
 
-    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pk)
+    private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk)
     {
         var result = enc.GetEggRelearnMoves(parse, pk);
         int generation = enc.Generation;
@@ -157,7 +130,8 @@ public static class MoveListSuggest
         var tmp = pk.Clone();
         tmp.SetRelearnMoves(result);
         var la = new LegalityAnalysis(tmp);
-        if (la.Info.Moves.All(z => z.Valid))
+        var moves = la.Info.Moves;
+        if (MoveResult.AllValid(moves))
             return result;
 
         // Try again with the other split-breed species if possible.
@@ -168,27 +142,26 @@ public static class MoveListSuggest
         return incense.GetEggRelearnMoves(parse, pk);
     }
 
-    private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pk)
+    private static int[] GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk)
     {
         // Extract a list of the moves that should end up in the relearn move list.
-        int ctr = 0;
-        var moves = new int[4];
-        for (var i = 0; i < parse.Count; i++)
-        {
-            var m = parse[i];
-            if (!m.ShouldBeInRelearnMoves())
-                continue;
-            moves[ctr++] = pk.GetMove(i);
-        }
+        Span<int> moves = stackalloc int[parse.Length];
+        LoadRelearnFlagged(moves, parse, pk);
 
-        // Swap Volt Tackle to the end of the list.
-        int volt = Array.IndexOf(moves, (int) Move.VoltTackle, 0, ctr);
-        if (volt != -1)
+        Span<int> expected = stackalloc int[moves.Length];
+        _ = MoveBreed.GetExpectedMoves(moves, enc, expected);
+        return expected.ToArray();
+    }
+
+    private static void LoadRelearnFlagged(Span<int> moves, ReadOnlySpan<MoveResult> parse, PKM pk)
+    {
+        // Loads only indexes that are flagged as relearn moves
+        int count = 0;
+        for (int index = 0; index < parse.Length; index++)
         {
-            var dest = ctr - 1;
-            moves[volt] = moves[dest];
-            moves[dest] = (int) Move.VoltTackle;
+            var move = parse[index];
+            if (move.ShouldBeInRelearnMoves())
+                moves[count++] = pk.GetMove(index);
         }
-        return MoveBreed.GetExpectedMoves(moves, enc);
     }
 }

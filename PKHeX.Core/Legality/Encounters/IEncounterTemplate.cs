@@ -1,7 +1,12 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShiny
 {
+    /// <summary>
+    /// Original Context
+    /// </summary>
+    EntityContext Context { get; }
+    
     /// <summary>
     /// Indicates if the encounter originated as an egg.
     /// </summary>

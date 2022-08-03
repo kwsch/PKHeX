@@ -347,7 +347,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         // Resort moves
         FieldsLoaded = false;
-        LegalMoveSource.ReloadMoves(Legality.GetSuggestedMovesAndRelearn());
+        LegalMoveSource.ReloadMoves(Legality);
         FieldsLoaded = true;
         LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
     }
@@ -455,7 +455,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, Entity.Format);
+        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, Entity.Context);
         if (ds.Length == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
         else
@@ -733,7 +733,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         Span<int> moves = stackalloc int[4];
-        Entity.SetMoves(moves);
+        Entity.GetMoves(moves);
         if (moves.SequenceEqual(m))
             return false;
 
@@ -972,7 +972,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         else if (CB_Form.Enabled && EntityGender.GetFromString(CB_Form.Text) < 2)
         {
-            if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
+            if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo forms in German are S,M,L,XL
             {
                 Entity.Gender = CB_Form.SelectedIndex;
                 UC_Gender.Gender = Entity.GetSaneGender();
@@ -1403,7 +1403,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             }
 
             CHK_Nicknamed.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
-            TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format);
+            TB_Nickname.Text = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
 
             // Wipe egg memories
             if (Entity.Format >= 6 && ModifyPKM)
@@ -1429,7 +1429,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 CB_MetLocation.SelectedValue = EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
             }
 
-            if (TB_Nickname.Text == SpeciesName.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), Entity.Format))
+            var nick = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
+            if (TB_Nickname.Text == nick)
                 CHK_Nicknamed.Checked = false;
         }
 

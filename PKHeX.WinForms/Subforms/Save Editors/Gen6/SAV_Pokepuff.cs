@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -55,7 +55,7 @@ public partial class SAV_Pokepuff : Form
         dgv.Rows.Add(rowCount);
     }
 
-    private void LoadPuffs(byte[] Puffs)
+    private void LoadPuffs(ReadOnlySpan<byte> Puffs)
     {
         for (int i = 0; i < Puffs.Length; i++)
         {

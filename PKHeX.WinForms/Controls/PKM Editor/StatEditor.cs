@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -309,7 +308,7 @@ public partial class StatEditor : UserControl
         int hpower = WinFormsUtil.GetIndex(CB_HPType);
         if (Main.Settings.EntityEditor.HiddenPowerOnChangeMaxPower)
             ivs.Fill(Entity.MaxIV);
-        HiddenPower.SetIVs(hpower, ivs, Entity.Format);
+        HiddenPower.SetIVs(hpower, ivs, Entity.Context);
         LoadIVs(ivs);
     }
 
@@ -392,15 +391,18 @@ public partial class StatEditor : UserControl
         }
     }
 
-    private void LoadBST(PersonalInfo pi)
+    private void LoadBST(IBaseStat pi)
     {
-        var stats = pi.Stats;
-        for (int i = 0; i < stats.Count; i++)
+        int bst = 0;
+        for (int index = 0; index < 6; index++)
         {
-            MT_Base[i].Text = stats[i].ToString("000");
-            MT_Base[i].BackColor = ColorUtil.ColorBaseStat(stats[i]);
+            var value = pi.GetBaseStatValue(index);
+            var s = MT_Base[index];
+            s.Text = value.ToString("000");
+            s.BackColor = ColorUtil.ColorBaseStat(value);
+            bst += value;
         }
-        var bst = pi.Stats.Sum();
+
         TB_BST.Text = bst.ToString("000");
         TB_BST.BackColor = ColorUtil.ColorBaseStatTotal(bst);
     }

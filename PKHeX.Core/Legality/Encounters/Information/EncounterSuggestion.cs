@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using static PKHeX.Core.GameVersion;
@@ -106,7 +106,7 @@ public static class EncounterSuggestion
         int count = 1;
         for (byte i = 100; i >= startLevel; i--)
         {
-            var evos = table.GetValidPreEvolutions(pk, maxLevel: i, minLevel: startLevel, skipChecks: true);
+            var evos = table.GetValidPreEvolutions(pk, levelMax: i, skipChecks: true, levelMin: startLevel);
             if (evos.Length < count) // lost an evolution, prior level was minimum current level
                 return evos.Max(evo => evo.LevelMax) + 1;
             count = evos.Length;
@@ -163,7 +163,8 @@ public static class EncounterSuggestion
             var la = new LegalityAnalysis(clone);
             if (la.Valid)
                 return i;
-            if (la.Info.Moves.All(z => z.Valid))
+            var moves = la.Info.Moves;
+            if (MoveResult.AllValid(moves))
                 minMove = i;
         }
         return Math.Max(minMove, minLevel);

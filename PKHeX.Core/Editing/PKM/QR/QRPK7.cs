@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -10,6 +10,7 @@ public sealed class QRPK7 : IEncounterInfo
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public int Generation => Version.GetGeneration();
+    public EntityContext Context => EntityContext.Gen7;
     public bool IsShiny => false;
 
     private readonly byte[] Data;

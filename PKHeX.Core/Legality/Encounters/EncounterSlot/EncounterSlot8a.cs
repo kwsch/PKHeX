@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMoveShop8
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8a;
     public SlotType Type => Area.Type;
 
     public bool IsAlpha { get => AlphaType is not 0; set => throw new InvalidOperationException("Do not mutate this field."); }

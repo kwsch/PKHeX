@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public readonly record struct EvoCriteria
 {
@@ -11,6 +11,8 @@ public readonly record struct EvoCriteria
     public EvolutionType Method { get; init; }
 
     public bool RequiresLvlUp => LevelUpRequired != 0;
+
+    public bool InsideLevelRange(int level) => LevelMin <= level && level <= LevelMax;
 
     public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{LevelMin},{LevelMax}] via {Method}";
 }

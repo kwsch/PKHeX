@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -24,10 +24,11 @@ public partial class KChart : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = sav;
 
-        Array.Resize(ref species, SAV.Personal.TableLength);
+        IPersonalTable pt = SAV.Personal;
+        Array.Resize(ref species, pt.Count);
 
-        var forms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
-        species = SAV.Personal.GetPersonalEntryList(forms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
+        var forms = pt.GetFormList(species, SAV.MaxSpeciesID);
+        species = pt.GetPersonalEntryList(forms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
 
         DGV.Rows.Clear();
         for (int i = 1; i < species.Length; i++)
@@ -51,12 +52,13 @@ public partial class KChart : Form
         row.CreateCells(DGV);
 
         int r = 0;
+        var bst = p.GetBaseStatTotal();
         row.Cells[r++].Value = s.ToString("000") + (f > 0 ? $"-{f:00}" : "");
-        row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, 0, false, false, SAV.Generation);
+        row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, 0, false, Shiny.Never, SAV.Generation);
         row.Cells[r++].Value = species[index];
         row.Cells[r++].Value = GetIsNative(p, s);
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStatTotal(p.BST);
-        row.Cells[r++].Value = p.BST.ToString("000");
+        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);
+        row.Cells[r++].Value = bst.ToString("000");
         row.Cells[r++].Value = p.CatchRate.ToString("000");
         row.Cells[r++].Value = TypeSpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
         row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
@@ -87,11 +89,11 @@ public partial class KChart : Form
         return abilities[abilityIDs[index]];
     }
 
-    private static bool GetIsNative(PersonalInfo personalInfo, int s) => personalInfo switch
+    private static bool GetIsNative(IPersonalInfo personalInfo, int s) => personalInfo switch
     {
-        PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
-        PersonalInfoSWSH ss => ss.IsInDex,
-        PersonalInfoBDSP bs => bs.IsInDex,
+        PersonalInfo7 => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
+        PersonalInfo8SWSH ss => ss.IsInDex,
+        PersonalInfo8BDSP bs => bs.IsInDex,
         _ => true,
     };
 }

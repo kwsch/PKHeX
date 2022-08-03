@@ -13,10 +13,10 @@ public static class HiddenPower
     /// </summary>
     /// <param name="IVs">Current IVs</param>
     /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
-    /// <param name="format">Generation format</param>
-    public static int GetType(ReadOnlySpan<int> IVs, int format)
+    /// <param name="context">Generation format</param>
+    public static int GetType(ReadOnlySpan<int> IVs, EntityContext context)
     {
-        if (format <= 2)
+        if (context.Generation() <= 2)
             return GetTypeGB(IVs);
         return GetType(IVs);
     }
@@ -66,11 +66,11 @@ public static class HiddenPower
     /// </summary>
     /// <param name="hiddenPowerType">Hidden Power Type</param>
     /// <param name="IVs">Current IVs (6 total)</param>
-    /// <param name="format">Generation format</param>
+    /// <param name="context">Generation format</param>
     /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
-    public static bool SetIVsForType(int hiddenPowerType, Span<int> IVs, int format)
+    public static bool SetIVsForType(int hiddenPowerType, Span<int> IVs, EntityContext context)
     {
-        if (format <= 2)
+        if (context.Generation() <= 2)
             return SetTypeGB(hiddenPowerType, IVs);
         return SetIVsForType(hiddenPowerType, IVs);
     }
@@ -172,10 +172,10 @@ public static class HiddenPower
     /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
     /// <param name="type">Hidden Power Type</param>
     /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
-    /// <param name="format">Generation specific format</param>
-    public static void SetIVs(int type, Span<int> ivs, int format = PKX.Generation)
+    /// <param name="context">Generation specific format</param>
+    public static void SetIVs(int type, Span<int> ivs, EntityContext context = PKX.Context)
     {
-        if (format <= 2)
+        if (context.Generation() <= 2)
         {
             ivs[1] = (ivs[1] & ~3) | (type >> 2);
             ivs[2] = (ivs[2] & ~3) | (type & 3);

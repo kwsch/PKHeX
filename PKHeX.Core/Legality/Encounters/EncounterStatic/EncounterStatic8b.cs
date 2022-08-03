@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.StaticCorrelation8bRequirement;
 
 namespace PKHeX.Core;
@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8b;
 
     public bool Roaming { get; init; }
     public override bool EggEncounter => EggLocation != Locations.Default8bNone;

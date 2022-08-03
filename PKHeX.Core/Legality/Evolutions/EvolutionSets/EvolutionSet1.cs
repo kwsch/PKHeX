@@ -10,13 +10,13 @@ public static class EvolutionSet1
 {
     private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
     {
-        int method = data[0];
-        int species = data[1];
+        var method = data[0];
+        var species = data[1];
         var arg = data[2];
 
-        return (method == 1)
-            ? new EvolutionMethod(method, species, level: arg)
-            : new EvolutionMethod(method, species, argument: arg);
+        return method == 1
+            ? new EvolutionMethod(EvolutionType.LevelUp, species, Level: arg, LevelUp: 1)
+            : new EvolutionMethod((EvolutionType)method, species, Argument: arg);
     }
 
     public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data, int maxSpecies)

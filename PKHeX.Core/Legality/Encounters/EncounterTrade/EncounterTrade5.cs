@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 5 Trade Encounter
@@ -7,6 +7,7 @@
 public sealed record EncounterTrade5(GameVersion Version) : EncounterTrade(Version)
 {
     public override int Generation => 5;
+    public override EntityContext Context => EntityContext.Gen5;
     public override int Location => Locations.LinkTrade5NPC;
 }
 
@@ -15,6 +16,7 @@ public sealed record EncounterTrade5(GameVersion Version) : EncounterTrade(Versi
 public sealed record EncounterTrade5PID(GameVersion Version, uint PID) : EncounterTrade(Version)
 {
     public override int Generation => 5;
+    public override EntityContext Context => EntityContext.Gen5;
     public override int Location => Locations.LinkTrade5NPC;
 
     public override Shiny Shiny => Shiny.FixedValue;

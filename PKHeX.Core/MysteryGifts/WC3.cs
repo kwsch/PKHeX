@@ -37,6 +37,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
     // Mystery Gift Properties
     public override int Generation => 3;
+    public override EntityContext Context => EntityContext.Gen3;
     public override byte Level { get; set; }
     public override int Ball { get; set; } = 4;
     public override bool IsShiny => Shiny == Shiny.Always;

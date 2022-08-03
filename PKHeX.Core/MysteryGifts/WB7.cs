@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary. BinaryPrimitives;
 
@@ -14,6 +14,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     private const int CardStart = SizeFull - Size;
 
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7b;
 
     public WB7() : this(new byte[SizeFull]) { }
     public WB7(byte[] data) : base(data) { }
@@ -426,7 +427,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     {
         pk.IsEgg = true;
         pk.EggMetDate = Date;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
 

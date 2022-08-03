@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -15,7 +15,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
 
     public bool[] GetReceivedFlags() => ArrayUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
 
-    public void SetReceivedFlags(bool[] value)
+    public void SetReceivedFlags(ReadOnlySpan<bool> value)
     {
         if (value.Length != MaxReceivedFlag)
             return;

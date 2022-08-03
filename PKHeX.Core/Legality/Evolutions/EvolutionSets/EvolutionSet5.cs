@@ -12,14 +12,16 @@ public static class EvolutionSet5
     private static EvolutionMethod GetMethod(ReadOnlySpan<byte> data)
     {
         var method = data[0]; // other byte unnecessary
-        int arg = ReadUInt16LittleEndian(data[2..]);
-        int species = ReadUInt16LittleEndian(data[4..]);
+        var arg = ReadUInt16LittleEndian(data[2..]);
+        var species = ReadUInt16LittleEndian(data[4..]);
 
         if (method == 0)
             throw new ArgumentOutOfRangeException(nameof(method));
 
-        var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
-        return new EvolutionMethod(method, species, argument: arg, level: (byte)lvl);
+        var lvl = EvolutionSet6.IsMethodWithArg(method) ? 0 : arg;
+        var type = (EvolutionType)method;
+        var lvlup = type.IsLevelUpRequired() ? (byte)1 : (byte)0;
+        return new EvolutionMethod(type, species, Argument: arg, Level: (byte)lvl, LevelUp: lvlup);
     }
 
     private const int bpe = 6; // bytes per evolution entry

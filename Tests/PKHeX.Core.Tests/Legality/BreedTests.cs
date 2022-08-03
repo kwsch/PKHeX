@@ -1,6 +1,6 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using FluentAssertions;
-using FluentAssertions.Common;
 using PKHeX.Core;
 using Xunit;
 using static PKHeX.Core.Move;
@@ -11,12 +11,12 @@ namespace PKHeX.Tests.Legality;
 
 public class BreedTests
 {
-    private static int[] GetMoves(Move[] moves)
+    private const int MovesetCount = 4; // Four moves; zeroed empty slots.
+
+    private static void GetMoves(Span<Move> moves, Span<int> result)
     {
-        var result = new int[4];
         for (int i = 0; i < moves.Length; i++)
             result[i] = (int) moves[i];
-        return result;
     }
 
     [Theory]
@@ -38,11 +38,13 @@ public class BreedTests
     public void VerifyBreed(GameVersion game, Species species, int form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
-        var moves = GetMoves(movelist);
-        var test = MoveBreed.Process(gen, (int) species, form, game, moves, out var valid);
+        Span<int> moves = stackalloc int[MovesetCount];
+        GetMoves(movelist, moves);
+        var origins = new byte[moves.Length];
+        var valid = MoveBreed.Validate(gen, (int) species, form, game, moves, origins);
         valid.Should().BeTrue();
 
-        var x = ((byte[])test);
+        var x = origins;
 
         if (gen != 2)
             x.SequenceEqual(x.OrderBy(z => z)).Should().BeTrue();
@@ -58,8 +60,10 @@ public class BreedTests
     public void CheckBad(GameVersion game, Species species, int form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
-        var moves = GetMoves(movelist);
-        var test = MoveBreed.Process(gen, (int)species, form, game, moves);
+        Span<int> moves = stackalloc int[MovesetCount];
+        GetMoves(movelist, moves);
+        Span<byte> result = stackalloc byte[moves.Length];
+        var test = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
         test.Should().BeFalse();
     }
 
@@ -70,15 +74,20 @@ public class BreedTests
     public void CheckFix(GameVersion game, Species species, int form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
-        var moves = GetMoves(movelist);
+        Span<int> moves = stackalloc int[MovesetCount];
+        GetMoves(movelist, moves);
 
-        var test = MoveBreed.Process(gen, (int)species, form, game, moves, out var valid);
+        Span<byte> result = stackalloc byte[moves.Length];
+        var valid = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
         valid.Should().BeFalse();
-        var reorder = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, test);
+
+        Span<int> expected = stackalloc int[moves.Length];
+        var useNew = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, result, expected);
+        useNew.Should().BeTrue();
 
         // fixed order should be different now.
-        reorder.SequenceEqual(moves).Should().BeFalse();
+        expected.SequenceEqual(moves).Should().BeFalse();
         // nonzero move count should be same
-        reorder.Count(z => z != 0).Should().IsSameOrEqualTo(moves.Count(z => z != 0));
+        expected.Count(0).Should().Be(moves.Count(0));
     }
 }

@@ -15,6 +15,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public const int Size = 0x2C8;
 
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8a;
 
     public enum GiftType : byte
     {
@@ -507,7 +508,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     {
         pk.IsEgg = true;
         pk.EggMetDate = DateTime.Now;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
 

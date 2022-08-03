@@ -87,7 +87,7 @@ public static class Overworld8aRNG
 
     private static void ApplyRandomAlphaMove(PKM pk, ulong seed)
     {
-        var pi = (PersonalInfoLA)PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
+        var pi = PersonalTable.LA.GetFormEntry(pk.Species, pk.Form);
         var count = pi.GetMoveShopCount();
         if (count == 0 || pk is not PA8 pa8)
             return;

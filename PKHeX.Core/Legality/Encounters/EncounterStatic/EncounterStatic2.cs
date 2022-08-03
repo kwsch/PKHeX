@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public record EncounterStatic2 : EncounterStatic
 {
     public sealed override int Generation => 2;
+    public override EntityContext Context => EntityContext.Gen2;
     public sealed override byte Level { get; init; }
 
     public EncounterStatic2(byte species, byte level, GameVersion game) : base(game)

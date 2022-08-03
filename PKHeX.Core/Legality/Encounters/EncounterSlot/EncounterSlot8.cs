@@ -12,6 +12,7 @@ public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
     public readonly AreaSlotType8 SlotType;
     public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8;
 
     // Fishing are only from the hidden table (not symbol).
     public bool CanEncounterViaFishing => SlotType.CanEncounterViaFishing(Weather);

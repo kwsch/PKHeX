@@ -74,7 +74,7 @@ public sealed class Zukan4 : ZukanBase
 
     public static string[] GetFormNames4Dex(int species)
     {
-        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Array.Empty<string>(), 4);
+        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Array.Empty<string>(), EntityContext.Gen4);
         if (species == (int)Species.Pichu)
             formNames = new[] { MALE, FEMALE, formNames[1] }; // Spiky
         return formNames;
@@ -481,7 +481,7 @@ public sealed class Zukan4 : ZukanBase
         }
         else
         {
-            SetSeenGender(species, pi.FixedGender & 1);
+            SetSeenGender(species, pi.FixedGender() & 1);
         }
     }
 

@@ -454,7 +454,7 @@ public sealed class BallVerifier : Verifier
 
         // Everything breed-able that is in the Galar Dex can be captured in-game.
         var pt = PersonalTable.SWSH;
-        var pi = (PersonalInfoSWSH) pt.GetFormEntry(species, 0);
+        var pi = pt.GetFormEntry(species, 0);
         if (pi.IsInDex)
             return true;
 

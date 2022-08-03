@@ -15,9 +15,9 @@ public sealed class LegalityAnalysis
     /// <summary> The entity we are checking. </summary>
     internal readonly PKM Entity;
 
-    /// <summary> The entity's <see cref="PersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
+    /// <summary> The entity's <see cref="IPersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
     /// <remarks>We store this rather than re-fetching, as some games that use the same <see cref="PKM"/> format have different values.</remarks>
-    internal readonly PersonalInfo PersonalInfo;
+    internal readonly IPersonalInfo PersonalInfo;
 
     private readonly List<CheckResult> Parse = new(8);
 
@@ -69,7 +69,7 @@ public sealed class LegalityAnalysis
     /// <param name="pk">Input data to check</param>
     /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, PersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
+    public LegalityAnalysis(PKM pk, IPersonalTable table, SlotOrigin source = SlotOrigin.Party) : this(pk, table.GetFormEntry(pk.Species, pk.Form), source) { }
 
     /// <summary>
     /// Checks the input <see cref="PKM"/> data for legality.
@@ -84,7 +84,7 @@ public sealed class LegalityAnalysis
     /// <param name="pk">Input data to check</param>
     /// <param name="pi">Personal info to parse with</param>
     /// <param name="source">Details about where the <see cref="Entity"/> originated from.</param>
-    public LegalityAnalysis(PKM pk, PersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
+    public LegalityAnalysis(PKM pk, IPersonalInfo pi, SlotOrigin source = SlotOrigin.Party)
     {
         Entity = pk;
         PersonalInfo = pi;
@@ -101,11 +101,11 @@ public sealed class LegalityAnalysis
             GetParseMethod()();
 
             Valid = Parse.TrueForAll(chk => chk.Valid)
-                    && Array.TrueForAll(Info.Moves, m => m.Valid)
-                    && Array.TrueForAll(Info.Relearn, m => m.Valid);
+                    && MoveResult.AllValid(Info.Moves)
+                    && MoveResult.AllValid(Info.Relearn);
 
             if (!Valid && IsPotentiallyMysteryGift(Info, pk))
-                AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
+                AddLine(Severity.Invalid, LFatefulGiftMissing, CheckIdentifier.Fateful);
             Parsed = true;
         }
 #if SUPPRESS
@@ -116,16 +116,22 @@ public sealed class LegalityAnalysis
             Valid = false;
 
             // Moves and Relearn arrays can potentially be empty on error.
-            foreach (var p in Info.Moves)
+            var moves = Info.Moves;
+            for (var i = 0; i < moves.Length; i++)
             {
+                ref var p = ref moves[i];
                 if (!p.IsParsed)
-                    p.Set(MoveSource.Unknown, pk.Format, Severity.Indeterminate, L_AError, CheckIdentifier.CurrentMove);
+                    p = MoveResult.Unobtainable();
             }
-            foreach (var p in Info.Relearn)
+
+            moves = Info.Relearn;
+            for (var i = 0; i < moves.Length; i++)
             {
+                ref var p = ref moves[i];
                 if (!p.IsParsed)
-                    p.Set(MoveSource.Unknown, 0, Severity.Indeterminate, L_AError, CheckIdentifier.RelearnMove);
+                    p = MoveResult.Unobtainable();
             }
+
             AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
         }
 #endif
@@ -141,7 +147,7 @@ public sealed class LegalityAnalysis
             return false;
         if (enc.Generation < 6)
             return true;
-        if (Array.TrueForAll(info.Relearn, chk => !chk.Valid))
+        if (!MoveResult.AllValid(info.Relearn))
             return true;
         return false;
     }
@@ -261,9 +267,7 @@ public sealed class LegalityAnalysis
         var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(Entity, enc, Info.EvoChainsAllGens.Gen7);
         Info.EncounterMatch = vc;
 
-        foreach (var z in Transfer.VerifyVCEncounter(Entity, enc, vc, Info.Moves))
-            AddLine(z);
-
+        Transfer.VerifyVCEncounter(Entity, enc, vc, this);
         Transfer.VerifyTransferLegalityG12(this);
     }
 

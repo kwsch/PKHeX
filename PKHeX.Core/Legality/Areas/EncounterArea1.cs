@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -47,7 +47,7 @@ public sealed record EncounterArea1 : EncounterArea
 
     public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
-        int rate = pk is PK1 pk1 ? pk1.Catch_Rate : -1;
+        (bool useCatchRate, byte rate) = pk is PK1 pk1 ? (true, pk1.Catch_Rate) : (false, (byte)0);
         foreach (var slot in Slots)
         {
             foreach (var evo in chain)
@@ -60,7 +60,7 @@ public sealed record EncounterArea1 : EncounterArea
                 if (slot.Form != evo.Form)
                     break;
 
-                if (rate != -1)
+                if (useCatchRate)
                 {
                     var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
                     if (expect != rate && !(ParseSettings.AllowGen1Tradeback && GBRestrictions.IsTradebackCatchRate(rate)))

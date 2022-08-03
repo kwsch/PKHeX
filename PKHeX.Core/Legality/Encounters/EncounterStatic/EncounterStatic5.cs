@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public record EncounterStatic5(GameVersion Version) : EncounterStatic(Version)
 {
     public sealed override int Generation => 5;
+    public override EntityContext Context => EntityContext.Gen5;
     public bool Roaming { get; init; }
     public bool IsWildCorrelationPID => !Roaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle;
 

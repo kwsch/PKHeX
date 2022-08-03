@@ -15,6 +15,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
     public const int CardStart = 0x0;
 
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8b;
 
     public bool IsDateRestricted => IsHOMEGift;
     public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;
@@ -503,7 +504,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
     {
         pk.IsEgg = true;
         pk.EggMetDate = DateTime.Now;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
     }
 

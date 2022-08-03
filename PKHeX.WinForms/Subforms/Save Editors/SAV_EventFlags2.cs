@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -148,7 +148,7 @@ public sealed partial class SAV_EventFlags2 : Form
         };
     }
 
-    private void AddConstList(EventLabelCollection list, byte[] values)
+    private void AddConstList(EventLabelCollection list, ReadOnlySpan<byte> values)
     {
         var labels = list.Work;
         if (labels.Count == 0)

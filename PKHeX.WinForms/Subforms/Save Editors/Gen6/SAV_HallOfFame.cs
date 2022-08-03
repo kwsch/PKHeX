@@ -188,7 +188,8 @@ public partial class SAV_HallOfFame : Form
         SetGenderLabel((int)entry.Gender);
         Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
         UpdateNickname(sender, e);
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, entry.IsShiny, 6);
+        var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
         editing = true;
     }
 
@@ -238,7 +239,8 @@ public partial class SAV_HallOfFame : Form
         vnd |= rawvnd & 0x80000000;
         WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
 
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, CHK_Shiny.Checked, 6);
+        var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
         DisplayEntry(this, EventArgs.Empty); // refresh text view
     }
 
@@ -272,7 +274,7 @@ public partial class SAV_HallOfFame : Form
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         CB_Form.InitializeBinding();
-        CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, SAV.Generation);
+        CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, SAV.Context);
     }
 
     private void UpdateSpecies(object sender, EventArgs e)
@@ -290,7 +292,8 @@ public partial class SAV_HallOfFame : Form
         var form = CB_Form.SelectedIndex & 0x1F;
         var gender = EntityGender.GetFromString(Label_Gender.Text);
         var item = WinFormsUtil.GetIndex(CB_HeldItem);
-        bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked, 6);
+        var shiny = CHK_Shiny.Checked ? Shiny.Always : Shiny.Never;
+        bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, shiny, 6);
 
         Write_Entry(this, EventArgs.Empty);
     }
@@ -316,7 +319,7 @@ public partial class SAV_HallOfFame : Form
         }
         else
         {
-            var fg = pi.FixedGender;
+            var fg = pi.FixedGender();
             Label_Gender.Text = gendersymbols[fg];
             return;
         }

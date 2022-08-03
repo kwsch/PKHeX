@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
+/// PokÃ©dex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
 /// </summary>>
 public sealed class Zukan7b : Zukan7
 {
@@ -110,13 +110,9 @@ public sealed class Zukan7b : Zukan7
         int weight = pk.WeightScalar;
 
         // update for all species in potential lineage
-        var allspec = tree.GetEvolutionsAndPreEvolutions(species, form);
-        foreach (var sf in allspec)
-        {
-            var s = sf & 0x7FF;
-            var f = sf >> 11;
+        var allspec = tree.GetEvolutionsAndPreEvolutions((ushort)species, (byte)form);
+        foreach (var (s, f) in allspec)
             SetSizeData(group, s, f, height, weight);
-        }
     }
 
     public void SetSizeData(DexSizeType group, int species, int form, int height, int weight)

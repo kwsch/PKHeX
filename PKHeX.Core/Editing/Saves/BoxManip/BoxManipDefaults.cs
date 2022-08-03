@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using PKHeX.Core.Searching;
 using static PKHeX.Core.BoxManipType;
 
@@ -37,7 +37,7 @@ public static class BoxManipDefaults
         new BoxManipSortComplex(SortOwner, (list, sav) => list.OrderByOwnership(sav)),
         new BoxManipSort(SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
         new BoxManipSort(SortVersion, list => list.OrderByCustom(pk => pk.Generation, pk => pk.Version, pk => pk.Met_Location), s => s.Generation >= 3),
-        new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
+        new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.GetBaseStatTotal())),
         new BoxManipSort(SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
         new BoxManipSort(SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
         new BoxManipSort(SortEncounterType, list => list.OrderByCustom(pk => new LegalityAnalysis(pk).Info.EncounterMatch.LongName)),

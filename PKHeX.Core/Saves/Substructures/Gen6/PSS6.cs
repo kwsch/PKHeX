@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -27,13 +27,13 @@ public static class PSS6
         return result;
     }
 
-    private static void ReadTrainers(ICollection<string> result, byte[] data, int offset, int count)
+    private static void ReadTrainers(ICollection<string> result, Span<byte> data, int offset, int count)
     {
         int r_offset = offset;
         const int size = 0xC8;
         for (int i = 0; i < count; i++)
         {
-            if (!ReadTrainer(result, data.AsSpan(r_offset, size)))
+            if (!ReadTrainer(result, data.Slice(r_offset, size)))
                 break; // No data present here
 
             if (i > 0)

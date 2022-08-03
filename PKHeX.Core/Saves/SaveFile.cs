@@ -87,7 +87,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     // Offsets
 
     #region Stored PKM Limits
-    public abstract PersonalTable Personal { get; }
+    public abstract IPersonalTable Personal { get; }
     public abstract int OTLength { get; }
     public abstract int NickLength { get; }
     public abstract int MaxMoveID { get; }

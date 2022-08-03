@@ -803,7 +803,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             WinFormsUtil.Error(MsgSaveBackupNotFound, file);
             return false;
         }
-        File.Copy(file, path);
+        File.Copy(file, path, true);
         WinFormsUtil.Alert(MsgSaveBackup, path);
 
         return true;

@@ -11,7 +11,7 @@ public sealed class SAV4BR : SaveFile
 {
     protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
     public override string Extension => string.Empty;
-    public override PersonalTable Personal => PersonalTable.DP;
+    public override IPersonalTable Personal => PersonalTable.DP;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 
     private const int SAVE_COUNT = 4;

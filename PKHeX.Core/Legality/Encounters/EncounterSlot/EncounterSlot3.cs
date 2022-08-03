@@ -7,6 +7,7 @@ namespace PKHeX.Core;
 public record EncounterSlot3 : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
 {
     public sealed override int Generation => 3;
+    public override EntityContext Context => EntityContext.Gen3;
 
     public byte StaticIndex { get; }
     public byte MagnetPullIndex { get; }

@@ -19,7 +19,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
-    public override PersonalTable Personal => PersonalTable.GG;
+    public override IPersonalTable Personal => PersonalTable.GG;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
 
     protected override SaveFile CloneInternal() => new SAV7b((byte[])Data.Clone());

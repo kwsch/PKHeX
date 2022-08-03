@@ -19,7 +19,8 @@ public sealed class PokedexSave8a
     public const int MAX_SPECIES = 981;
     public const int MAX_FORM = 120;
 
-    private static PersonalTable Personal => PersonalTable.LA;
+    private static PersonalTable8LA Personal => PersonalTable.LA;
+    private const int MaxSpeciesID = Legal.MaxSpeciesID_8a;
 
     public PokedexSave8a(SAV8LA sav, SCBlock block)
     {
@@ -31,17 +32,16 @@ public sealed class PokedexSave8a
 
     public static int GetDexIndex(PokedexType8a which, int species)
     {
-        var table = Personal;
-
         // Check species is valid
-        if ((uint)species > table.MaxSpeciesID)
+        if ((uint)species > MaxSpeciesID)
             return DexInvalid;
 
         // Check each form
+        var table = Personal;
         var formCount = table[species].FormCount;
         for (var form = 0; form < formCount; form++)
         {
-            var entry = (PersonalInfoLA)table.GetFormEntry(species, form);
+            var entry = table.GetFormEntry(species, form);
             if (entry.DexIndexHisui == 0)
                 continue;
 
@@ -61,7 +61,7 @@ public sealed class PokedexSave8a
         return DexInvalid;
     }
 
-    private static int GetLocalIndex(PokedexType8a which, PersonalInfoLA entry) => which switch
+    private static int GetLocalIndex(PokedexType8a which, PersonalInfo8LA entry) => which switch
     {
         Local1 => entry.DexIndexLocal1,
         Local2 => entry.DexIndexLocal2,
@@ -78,7 +78,7 @@ public sealed class PokedexSave8a
     public static int GetDexTotalCount(PokedexType8a which)
     {
         var count = 0;
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(which, species) != DexInvalid)
                 count++;
@@ -89,7 +89,7 @@ public sealed class PokedexSave8a
     public int GetDexTotalEverBeenUpdated()
     {
         var count = 0;
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             if (SaveData.GetResearchEntry(species).HasEverBeenUpdated)
                 count++;
@@ -101,7 +101,7 @@ public sealed class PokedexSave8a
     {
         all = true;
         var count = 0;
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(which, species) == DexInvalid)
                 continue;
@@ -123,7 +123,7 @@ public sealed class PokedexSave8a
     public int GetCompletePokeAnyDexNum()
     {
         var complete = 0;
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             if (IsComplete(species))
                 complete++;
@@ -153,7 +153,7 @@ public sealed class PokedexSave8a
     public int GetCompletePokeNum()
     {
         var complete = 0;
-        for (var species = 0; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 0; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(Hisui, species) != 0 && IsComplete(species))
                 complete++;
@@ -165,7 +165,7 @@ public sealed class PokedexSave8a
     {
         var count = 0;
 
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             // Only allow reports of pokemon in hisui dex
             if (GetDexIndex(Hisui, species) == 0)
@@ -187,7 +187,7 @@ public sealed class PokedexSave8a
     {
         var count = 0;
 
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             // Only allow reports of pokemon which have been caught
             if (SaveData.GetPokeGetCount(species) == 0)
@@ -218,7 +218,7 @@ public sealed class PokedexSave8a
 
     public void UpdateAllReportPoke() => UpdateAllReportPoke(out _);
 
-    public void UpdateAllReportPoke(out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, Enumerable.Range(1, Personal.MaxSpeciesID));
+    public void UpdateAllReportPoke(out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, Enumerable.Range(1, MaxSpeciesID));
 
     public void UpdateSpecificReportPoke(int species) => UpdateSpecificReportPoke(species, out _);
     public void UpdateSpecificReportPoke(int species, out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, Enumerable.Range(species, 1));
@@ -424,7 +424,7 @@ public sealed class PokedexSave8a
     {
         var allPokeResearchPoint = 0;
 
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             // Only return pokemon with all required tasks complete
             if (!IsAllRequiredTasksComplete(species))
@@ -550,7 +550,7 @@ public sealed class PokedexSave8a
         Span<bool> localComplete = stackalloc bool[] { true, true, true, true, true };
         Span<bool> localPerfect = stackalloc bool[] { true, true, true, true, true };
 
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             var dexHisui = GetDexIndex(Hisui, species);
             if (dexHisui == DexInvalid)
@@ -790,8 +790,7 @@ public sealed class PokedexSave8a
 
     public void SetSolitudeAll(bool value = true)
     {
-        var pt = Personal;
-        for (int i = pt.MaxSpeciesID; i >= 1; i--)
+        for (int i = MaxSpeciesID; i >= 1; i--)
         {
             // Set only species captures with dex indexes.
             var index = GetDexIndex(Hisui, i);
@@ -922,7 +921,7 @@ public sealed class PokedexSave8a
     public int GetTotalGetAnyDexCount()
     {
         var count = 0;
-        for (var species = 1; species <= Personal.MaxSpeciesID; species++)
+        for (var species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetPokeGetCount(species) > 0)
                 count++;

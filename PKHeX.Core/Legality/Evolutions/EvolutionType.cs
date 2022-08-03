@@ -3,6 +3,9 @@ using static PKHeX.Core.EvolutionType;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Describes how an evolution can be triggered.
+/// </summary>
 public enum EvolutionType : byte
 {
     None = 0,
@@ -65,5 +68,64 @@ public enum EvolutionType : byte
 public static class EvolutionTypeExtensions
 {
     public static bool IsTrade(this EvolutionType t) => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
-    public static bool IsLevelUpRequired(this EvolutionType t) => t.ToString().StartsWith("LevelUp", StringComparison.Ordinal); // don't use this
+
+    public static bool IsLevelUpRequired(this EvolutionType type) => type switch
+    {
+        None => false,
+        LevelUpFriendship => true,
+        LevelUpFriendshipMorning => true,
+        LevelUpFriendshipNight => true,
+        LevelUp => true,
+        Trade => false,
+        TradeHeldItem => false,
+        TradeShelmetKarrablast => false,
+        UseItem => false,
+        LevelUpATK => true,
+        LevelUpAeqD => true,
+        LevelUpDEF => true,
+        LevelUpECl5 => true,
+        LevelUpECgeq5 => true,
+        LevelUpNinjask => true,
+        LevelUpShedinja => true,
+        LevelUpBeauty => true,
+        UseItemMale => false,
+        UseItemFemale => false,
+        LevelUpHeldItemDay => true,
+        LevelUpHeldItemNight => true,
+        LevelUpKnowMove => true,
+        LevelUpWithTeammate => true,
+        LevelUpMale => true,
+        LevelUpFemale => true,
+        LevelUpElectric => true,
+        LevelUpForest => true,
+        LevelUpCold => true,
+        LevelUpInverted => true,
+        LevelUpAffection50MoveType => true,
+        LevelUpMoveType => true,
+        LevelUpWeather => true,
+        LevelUpMorning => true,
+        LevelUpNight => true,
+        LevelUpFormFemale1 => true,
+        UNUSED => false,
+        LevelUpVersion => true,
+        LevelUpVersionDay => true,
+        LevelUpVersionNight => true,
+        LevelUpSummit => true,
+        LevelUpDusk => true,
+        LevelUpWormhole => true,
+        UseItemWormhole => false,
+        CriticalHitsInBattle => false,
+        HitPointsLostInBattle => false,
+        Spin => false,
+        LevelUpNatureAmped => true,
+        LevelUpNatureLowKey => true,
+        TowerOfDarkness => false,
+        TowerOfWaters => false,
+        UseItemFullMoon => false,
+        UseAgileStyleMoves => false,
+        UseStrongStyleMoves => false,
+        RecoilDamageMale => false,
+        RecoilDamageFemale => false,
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
 }

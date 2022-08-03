@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -12,9 +12,9 @@ public sealed class LegalMoveSource<T>
 
     public LegalMoveSource(ILegalMoveDisplaySource<T> display) => Display = display;
 
-    public void ReloadMoves(IReadOnlyList<int> moves)
+    public void ReloadMoves(LegalityAnalysis source)
     {
-        if (!Info.ReloadMoves(moves))
+        if (!Info.ReloadMoves(source))
             return;
         Display.ReloadMoves(Info);
     }

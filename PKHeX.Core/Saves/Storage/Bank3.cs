@@ -9,7 +9,7 @@ public sealed class Bank3 : BulkStorage
 {
     public Bank3(byte[] data) : base(data, typeof(PK3), 0) => Version = GameVersion.RS;
 
-    public override PersonalTable Personal => PersonalTable.RS;
+    public override IPersonalTable Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
     protected override SaveFile CloneInternal() => new Bank3((byte[])Data.Clone());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");

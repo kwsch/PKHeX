@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.MemoryPermissions;
@@ -48,8 +48,8 @@ public sealed class MemoryVerifier : Verifier
                 // All AO hidden machine permissions are super-sets of Gen 3-5 games.
                 // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
                 var evos = info.EvoChainsAllGens.Gen6;
-                var indexLearn = Array.FindIndex(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).TMHM[100 + hmIndex]);
-                if (indexLearn == -1)
+                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).TMHM[100 + hmIndex]);
+                if (!exists)
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
         }
@@ -75,7 +75,7 @@ public sealed class MemoryVerifier : Verifier
             case 16 or 48 when !CanKnowMove(pk, memory, gen, info, memory.MemoryID == 16):
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, gen, info.EvoChainsAllGens[gen]):
+            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, gen, info.EvoChainsAllGens, info.EncounterOriginal):
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
             // Dynamaxing

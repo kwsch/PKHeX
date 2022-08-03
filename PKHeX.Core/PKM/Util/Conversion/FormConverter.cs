@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
+using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
@@ -16,63 +17,63 @@ public static class FormConverter
     /// <param name="types">List of type names</param>
     /// <param name="forms">List of form names</param>
     /// <param name="genders">List of genders names</param>
-    /// <param name="generation">Generation number for exclusive forms</param>
+    /// <param name="context">Current context for exclusive forms</param>
     /// <returns>A list of strings corresponding to the forms that a Pokémon can have.</returns>
-    public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
+    public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
         // Mega List
-        if (generation < 8 && IsFormListSingleMega(species))
+        if (context.IsMegaGeneration() && IsFormListSingleMega(species))
             return GetMegaSingle(types, forms);
 
-        if (generation == 7 && Legal.Totem_USUM.Contains(species))
+        if (context is Gen7 && Legal.Totem_USUM.Contains(species))
             return GetFormsTotem(species, types, forms);
 
         return species switch
         {
-            <= Legal.MaxSpeciesID_1 => GetFormsGen1(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_2 => GetFormsGen2(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation),
-            <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
-            _ => GetFormsGen8(species, generation, types, forms, genders),
+            <= Legal.MaxSpeciesID_1 => GetFormsGen1(species, types, forms, context),
+            <= Legal.MaxSpeciesID_2 => GetFormsGen2(species, types, forms, context),
+            <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, context.Generation()),
+            <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, context.Generation()),
+            <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, context.Generation()),
+            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, context.Generation()),
+            <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, context.Generation()),
+            _ => GetFormsGen8(species, context.Generation(), types, forms, genders),
         };
     }
 
-    // this is a hack; depends on currently loaded SaveFile's Game ID
-    private static bool IsGG() => RecentTrainerCache.Game is (int)GameVersion.GP or (int)GameVersion.GE;
+    private static bool IsMegaGeneration(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
     private static readonly string[] EMPTY = { string.Empty };
     private const string Starter = nameof(Starter);
 
-    private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
     {
         return (Species)species switch
         {
-            Charizard or Mewtwo when generation < 8 => GetMegaXY(types, forms),
-            Eevee when IsGG() => new[]
+            Charizard or Mewtwo when context.IsMegaGeneration() => GetMegaXY(types, forms),
+            Eevee when context is Gen7b => new[]
             {
                 types[000], // Normal
                 Starter,
             },
-            Pikachu => GetFormsPikachu(generation, types, forms),
-            Slowbro when generation >= 8 => GetFormsGalarSlowbro(types, forms),
+            Pikachu => GetFormsPikachu(context, types, forms),
+            Slowbro when context.Generation() >= 8 => GetFormsGalarSlowbro(types, forms),
 
             Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd
-                or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
+                or Articuno or Zapdos or Moltres when context.Generation() >= 8 => GetFormsGalar(types, forms),
 
-            Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, generation, types, forms),
+            Growlithe or Arcanine or Voltorb or Electrode when context.Generation() >= 8 => GetFormsHisui(species, context.Generation(), types, forms),
 
-            _ => GetFormsAlolan(generation, types, forms, species),
+            _ => GetFormsAlolan(context, types, forms, species),
         };
     }
 
-    private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
     {
+        int generation = context.Generation();
         return (Species)species switch
         {
-            Pichu when generation == 4 => GetFormsPichu(types, forms),
+            Pichu when context is Gen4 => GetFormsPichu(types, forms),
             Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
             Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, generation, types, forms),
             Unown => GetFormsUnown(generation),
@@ -434,8 +435,9 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsAlolan(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
+    private static string[] GetFormsAlolan(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
     {
+        int generation = context.Generation();
         if (generation < 7)
             return EMPTY;
 
@@ -465,8 +467,9 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsPikachu(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    private static string[] GetFormsPikachu(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms)
     {
+        int generation = context.Generation();
         return generation switch
         {
             6 => new[] {
@@ -478,7 +481,7 @@ public static class FormConverter
                 forms[733], // Libre
                 forms[734], // Cosplay
             },
-            7 when IsGG() => new[] {
+            7 when context is Gen7b => new[] {
                 types[000], // Normal
                 forms[813], // Original
                 forms[814], // Hoenn
@@ -642,32 +645,29 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsUnown(int generation)
+    private static string[] GetFormsUnown(int generation) => generation switch
     {
-        return generation switch
+        2 => new[]
         {
-            2 => new[]
-            {
-                "A", "B", "C", "D", "E",
-                "F", "G", "H", "I", "J",
-                "K", "L", "M", "N", "O",
-                "P", "Q", "R", "S", "T",
-                "U", "V", "W", "X", "Y",
-                "Z",
-                // "!", "?", not in Gen II
-            },
-            _ => new[]
-            {
-                "A", "B", "C", "D", "E",
-                "F", "G", "H", "I", "J",
-                "K", "L", "M", "N", "O",
-                "P", "Q", "R", "S", "T",
-                "U", "V", "W", "X", "Y",
-                "Z",
-                "!", "?",
-            },
-        };
-    }
+            "A", "B", "C", "D", "E",
+            "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O",
+            "P", "Q", "R", "S", "T",
+            "U", "V", "W", "X", "Y",
+            "Z",
+            // "!", "?", not in Gen II
+        },
+        _ => new[]
+        {
+            "A", "B", "C", "D", "E",
+            "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O",
+            "P", "Q", "R", "S", "T",
+            "U", "V", "W", "X", "Y",
+            "Z",
+            "!", "?",
+        },
+    };
 
     private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);
 

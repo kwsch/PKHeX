@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// Previous implementations of a "Format Generation" were unable to differentiate if a class object was present in one of these different-rule contexts.
 /// The "Format Generation" is still a useful generalization to check if certain fields are present in the entity data, or if certain mutations are possible.
 /// </remarks>
-public enum EntityContext
+public enum EntityContext : byte
 {
     None = 0,
     Gen1 = 1,
@@ -59,5 +59,13 @@ public static class EntityContextExtensions
         Gen8b => GameVersion.BD,
 
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+    };
+
+    public static EntityContext GetContext(this GameVersion version) => version switch
+    {
+        GameVersion.GP or GameVersion.GE => Gen7b,
+        GameVersion.PLA => Gen8a,
+        GameVersion.BD or GameVersion.SP => Gen8b,
+        _ => (EntityContext)version.GetGeneration(),
     };
 }

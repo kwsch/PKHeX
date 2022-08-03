@@ -59,7 +59,7 @@ public static class QRPKM
 
         if (pk.HeldItem > 0)
         {
-            var items = s.GetItemStrings(pk.Format);
+            var items = s.GetItemStrings(pk.Context);
             if ((uint)pk.HeldItem < items.Length)
                 yield return $" @ {items[pk.HeldItem]}";
         }

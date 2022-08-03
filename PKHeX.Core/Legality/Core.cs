@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.BinLinkerAccessor;
 
 namespace PKHeX.Core;
@@ -150,13 +150,6 @@ public static partial class Legal
         _ => -1,
     };
 
-    internal const GameVersion NONE = GameVersion.Invalid;
-    internal static readonly LearnVersion LearnNONE = new(-1);
-
-    internal static bool HasVisitedB2W2(this PKM pk, int species) => pk.InhabitedGeneration(5, species);
-    internal static bool HasVisitedORAS(this PKM pk, int species) => pk.InhabitedGeneration(6, species) && (pk.AO || !pk.IsUntraded);
-    internal static bool HasVisitedUSUM(this PKM pk, int species) => pk.InhabitedGeneration(7, species) && (pk.USUM || !pk.IsUntraded);
-
     internal static bool HasVisitedSWSH(this PKM pk, EvoCriteria[] evos)
     {
         if (pk.SWSH)
@@ -208,22 +201,6 @@ public static partial class Legal
         }
         return false;
     }
-
-    /// <summary>
-    /// Checks if the moveset is restricted to only a specific version.
-    /// </summary>
-    /// <param name="pk">Entity to check</param>
-    internal static (bool IsRestricted, GameVersion Game) IsMovesetRestricted(this PKM pk) => pk switch
-    {
-        PB7 => (true, GameVersion.GP),
-        PA8 => (true, GameVersion.PLA),
-        PB8 => (true, GameVersion.BD),
-        PK8 when pk.Version > (int)GameVersion.SH => (true, GameVersion.SH), // Permit past generation moves.
-
-        IBattleVersion { BattleVersion: not 0 } bv => (true, (GameVersion)bv.BattleVersion),
-        _ when pk.IsUntraded => (true, (GameVersion)pk.Version),
-        _ => (false, GameVersion.Any),
-    };
 
     /// <summary>
     /// Checks if the relearn moves should be wiped.

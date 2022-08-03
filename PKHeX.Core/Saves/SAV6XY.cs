@@ -23,7 +23,7 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
         ClearBoxes();
     }
 
-    public override PersonalTable Personal => PersonalTable.XY;
+    public override IPersonalTable Personal => PersonalTable.XY;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_XY;
     public SaveBlockAccessor6XY Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV6XY((byte[])Data.Clone());

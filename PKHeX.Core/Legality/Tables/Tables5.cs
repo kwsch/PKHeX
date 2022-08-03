@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -38,22 +38,6 @@ public static partial class Legal
         437, 442, 447, 450, 453, 458, 465, 466, 471, 504, 578, 616, 617, 621, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638,
     };
 
-    internal static readonly int[] TMHM_BW =
-    {
-        468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
-        241, 269, 058, 059, 063, 113, 182, 240, 477, 219,
-        218, 076, 479, 085, 087, 089, 216, 091, 094, 247,
-        280, 104, 115, 482, 053, 188, 201, 126, 317, 332,
-        259, 263, 488, 156, 213, 168, 490, 496, 497, 315,
-        502, 411, 412, 206, 503, 374, 451, 507, 510, 511,
-        261, 512, 373, 153, 421, 371, 514, 416, 397, 148,
-        444, 521, 086, 360, 014, 522, 244, 523, 524, 157,
-        404, 525, 526, 398, 138, 447, 207, 365, 369, 164,
-        430, 433, 528, 249, 555,
-
-        015, 019, 057, 070, 127, 291,
-    };
-
     internal static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, new ushort[]
     {
         005, // Safari Ball
@@ -74,14 +58,6 @@ public static partial class Legal
         500, // Park Ball
         576, // Dream Ball
     });
-
-    internal static readonly int[][] Tutors_B2W2 =
-    {
-        new[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 }, // Driftveil City
-        new[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }, // Lentimas Town
-        new[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 }, // Humilau City
-        new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 }, // Nacrene City
-    };
 
     internal static readonly HashSet<int> ValidMet_BW = new()
     {

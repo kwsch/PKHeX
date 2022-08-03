@@ -25,7 +25,7 @@ public sealed class SAV4HGSS : SAV4
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
 
-    public override PersonalTable Personal => PersonalTable.HGSS;
+    public override IPersonalTable Personal => PersonalTable.HGSS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     private const int GeneralSize = 0xF628;
@@ -245,7 +245,7 @@ public sealed class SAV4HGSS : SAV4
     public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 4), value); }
 
     public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
-    public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
+    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => ArrayUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
 
     public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x8), value);
 

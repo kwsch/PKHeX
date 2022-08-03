@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -15,12 +15,12 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
     public int[] GetIndexesOwnedFlag(int region) => GetIndexes(GetArrayOwnedFlag(region));
     public int[] GetIndexesNewFlag(int region) => GetIndexes(GetArrayNewFlag(region));
 
-    public void SetArrayOwnedFlag(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), value);
-    public void SetArrayNewFlag(int region, bool[] value) => ArrayUtil.SetBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), value);
-    public void SetIndexesOwnedFlag(int region, int[] value) => SetArrayOwnedFlag(region, SetIndexes(value));
-    public void SetIndexesNewFlag(int region, int[] value) => SetArrayNewFlag(region, SetIndexes(value));
+    public void SetArrayOwnedFlag(int region, Span<bool> value) => ArrayUtil.SetBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), value);
+    public void SetArrayNewFlag(int region, Span<bool> value) => ArrayUtil.SetBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), value);
+    public void SetIndexesOwnedFlag(int region, ReadOnlySpan<int> value) => SetArrayOwnedFlag(region, SetIndexes(value));
+    public void SetIndexesNewFlag(int region, ReadOnlySpan<int> value) => SetArrayNewFlag(region, SetIndexes(value));
 
-    public static int[] GetIndexes(bool[] arr)
+    public static int[] GetIndexes(ReadOnlySpan<bool> arr)
     {
         var list = new List<int>();
         for (int i = 0; i < arr.Length; i++)
@@ -31,7 +31,7 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
         return list.ToArray();
     }
 
-    public static bool[] SetIndexes(int[] arr)
+    public static bool[] SetIndexes(ReadOnlySpan<int> arr)
     {
         var max = GetMax(arr);
         var result = new bool[max];
@@ -40,7 +40,7 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
         return result;
     }
 
-    private static int GetMax(int[] arr)
+    private static int GetMax(ReadOnlySpan<int> arr)
     {
         int max = -1;
         foreach (var x in arr)

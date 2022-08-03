@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using static PKHeX.Core.Legal;
 
@@ -10,7 +10,7 @@ public static class EncounterEggGenerator
     {
         var table = EvolutionTree.GetEvolutionTree(pk.Context);
         int maxSpeciesOrigin = GetMaxSpeciesOrigin(generation);
-        var evos = table.GetValidPreEvolutions(pk, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+        var evos = table.GetValidPreEvolutions(pk, levelMax: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
         return GenerateEggs(pk, evos, generation, all);
     }
 
@@ -30,6 +30,7 @@ public static class EncounterEggGenerator
         if (!Breeding.CanGameGenerateEggs(ver))
             yield break;
 
+        var context = ver.GetContext();
         var lvl = EggStateLegality.GetEggLevel(generation);
         int max = GetMaxSpeciesOrigin(generation);
 
@@ -41,9 +42,9 @@ public static class EncounterEggGenerator
                 form = FormInfo.GetOutOfBattleForm(species, form, generation);
             if (Breeding.CanHatchAsEgg(species, form, ver))
             {
-                yield return new EncounterEgg(species, form, lvl, generation, ver);
+                yield return new EncounterEgg(species, form, lvl, generation, ver, context);
                 if (generation > 5 && (pk.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver));
+                    yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver), context);
             }
         }
 
@@ -62,9 +63,9 @@ public static class EncounterEggGenerator
                 form = FormInfo.GetOutOfBattleForm(species, form, generation);
             if (Breeding.CanHatchAsEgg(species, form, ver))
             {
-                yield return new EncounterEgg(species, form, lvl, generation, ver);
+                yield return new EncounterEgg(species, form, lvl, generation, ver, context);
                 if (generation > 5 && (pk.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver));
+                    yield return new EncounterEgg(species, form, lvl, generation, GetOtherTradePair(ver), context);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Encounters6;
@@ -66,24 +67,6 @@ public static class MemoryPermissions
         return context.CanBuyItem(item, version);
     }
 
-    public static bool GetCanLearnMachineMove(PKM pk, EvoCriteria[] evos, int move, int generation, GameVersion version = GameVersion.Any)
-    {
-        if (IsOtherFormMove(pk, evos, move, generation, version, types: MoveSourceType.AllMachines))
-            return true;
-        return MoveList.GetValidMoves(pk, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
-    }
-
-    private static bool IsOtherFormMove(PKM pk, EvoCriteria[] evos, int move, int generation, GameVersion version, MoveSourceType types)
-    {
-        if (!Legal.FormChangeMoves.TryGetValue(pk.Species, out var criteria))
-            return false;
-        if (!criteria(generation, pk.Form))
-            return false;
-        var list = new List<int>(8);
-        MoveList.GetValidMovesAllForms(pk, evos, version, generation, types, false, pk.Species, list);
-        return list.Contains(move);
-    }
-
     public static bool CanKnowMove(PKM pk, MemoryVariableSet memory, int gen, LegalInfo info, bool battleOnly = false)
     {
         var move = memory.Variable;
@@ -96,7 +79,7 @@ public static class MemoryPermissions
         if (pk.IsEgg)
             return false;
 
-        if (GetCanKnowMove(pk, move, gen, info.EvoChainsAllGens))
+        if (GetCanKnowMove(pk, move, gen, info.EvoChainsAllGens, info.EncounterOriginal))
             return true;
 
         var enc = info.EncounterMatch;
@@ -146,37 +129,42 @@ public static class MemoryPermissions
         return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
     }
 
-    public static bool GetCanRelearnMove(PKM pk, int move, int generation, EvoCriteria[] evos, GameVersion version = GameVersion.Any)
+    public static bool GetCanRelearnMove(PKM pk, int move, int generation, EvolutionHistory history, IEncounterTemplate enc)
     {
-        if (IsOtherFormMove(pk, evos, move, generation, version, types: MoveSourceType.Reminder))
-            return true;
-        return MoveList.GetValidMoves(pk, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
+        if (generation == 6)
+        {
+            Span<MoveResult> result = stackalloc MoveResult[1];
+            Span<int> moves = stackalloc int[] { move };
+            LearnGroup6.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
+            return result[0].Valid;
+        }
+        if (generation == 8)
+        {
+            Span<MoveResult> result = stackalloc MoveResult[1];
+            Span<int> moves = stackalloc int[] { move };
+            LearnGroup8.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
+            return result[0].Valid;
+        }
+        return false;
     }
 
-    private static bool GetCanKnowMove(PKM pk, int move, int generation, EvolutionHistory evos, GameVersion version = GameVersion.Any)
+    private static bool GetCanKnowMove(PKM pk, int move, int generation, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (pk.Species == (int)Smeargle)
             return Legal.IsValidSketch(move, generation);
 
-        if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pk, generation, move))
-            return true;
-
-        if (evos.Length <= generation)
+        ILearnGroup game;
+        if (generation == 6)
+            game = LearnGroup6.Instance;
+        else if (generation == 8)
+            game = LearnGroup8.Instance;
+        else
             return false;
-        for (int i = 1; i <= generation; i++)
-        {
-            var chain = evos[i];
-            if (chain.Length == 0)
-                continue;
 
-            var moves = MoveList.GetValidMoves(pk, version, chain, i, types: MoveSourceType.All);
-            if (moves.Contains(move))
-                return true;
-
-            if (IsOtherFormMove(pk, chain, move, i, GameVersion.Any, types: MoveSourceType.All))
-                return true;
-        }
-        return false;
+        Span<MoveResult> result = stackalloc MoveResult[1];
+        Span<int> moves = stackalloc int[] { move };
+        LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);
+        return result[0].Valid;
     }
 
     public static bool GetCanBeCaptured(int species, int gen, GameVersion version) => gen switch

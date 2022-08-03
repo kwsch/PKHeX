@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -18,7 +18,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public bool Japanese { get; }
     public bool Korean => false;
 
-    public override PersonalTable Personal { get; }
+    private readonly PersonalTable1 Table;
+    public override IPersonalTable Personal => Table;
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -32,7 +33,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Version = version;
         Japanese = japanese;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-        Personal = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Table = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         Initialize(version);
         ClearBoxes();
     }
@@ -43,7 +44,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
         Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
-        Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         if (Version == GameVersion.Invalid)
             return;
 

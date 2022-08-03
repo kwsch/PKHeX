@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
@@ -7,12 +7,9 @@ namespace PKHeX.Core;
 
 public static class MoveEgg
 {
-    public static int[] GetEggMoves(PersonalInfo pi, int species, int form, GameVersion version, int generation)
+    public static int[] GetEggMoves(int species, int form, GameVersion version, int generation)
     {
         if (species > GetMaxSpeciesOrigin(generation, version))
-            return Array.Empty<int>();
-
-        if (pi.Genderless && !FixedGenderFromBiGender.Contains(species))
             return Array.Empty<int>();
 
         if (!Breeding.CanGameGenerateEggs(version))
@@ -46,7 +43,7 @@ public static class MoveEgg
         return moves[species].Moves;
     }
 
-    private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
+    public static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
     {
         if ((uint)species >= table.Count)
             return Array.Empty<int>();
@@ -65,57 +62,5 @@ public static class MoveEgg
             return Array.Empty<int>();
 
         return entry.Moves;
-    }
-
-    internal static int[] GetRelearnLVLMoves(PKM pk, int species, int form, int lvl, GameVersion version = Any)
-    {
-        if (version == Any)
-            version = (GameVersion)pk.Version;
-        // A pk can only have levelup relearn moves from the game it originated on
-        // eg Plusle/Minun have Charm/Fake Tears (respectively) only in OR/AS, not X/Y
-        return version switch
-        {
-            X or Y => getMoves(LevelUpXY, PersonalTable.XY),
-            OR or AS => getMoves(LevelUpAO, PersonalTable.AO),
-            SN or MN when species <= MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
-            US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
-            SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
-            BD or SP => getMoves(LevelUpBDSP, PersonalTable.BDSP),
-            PLA => getMoves(LevelUpLA, PersonalTable.LA),
-            _ => Array.Empty<int>(),
-        };
-
-        int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, form)].GetMoves(lvl);
-    }
-
-    public static bool GetIsSharedEggMove(PKM pk, int gen, int move)
-    {
-        if (gen < 8 || pk.IsEgg)
-            return false;
-        var egg = GetSharedEggMoves(pk, gen);
-        return Array.IndexOf(egg, move) >= 0;
-    }
-
-    public static int[] GetSharedEggMoves(PKM pk, int gen)
-    {
-        if (gen < 8 || pk.IsEgg)
-            return Array.Empty<int>();
-
-        if (pk is PB8 pb)
-        {
-            var entry = (PersonalInfoBDSP)pb.PersonalInfo;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndex;
-            return GetEggMoves(8, baseSpecies, baseForm, BD);
-        }
-        if (pk is PK8 pk8)
-        {
-            var entry = (PersonalInfoSWSH)pk8.PersonalInfo;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
-            return GetEggMoves(8, baseSpecies, baseForm, SW);
-        }
-
-        return Array.Empty<int>();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlpha, IMasteryInitialMoveShop8
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8a;
 
     public byte HeightScalar { get; }
     public byte WeightScalar { get; }

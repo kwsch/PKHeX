@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -11,7 +11,7 @@ internal static class EncounterEggGenerator2
     {
         var table = EvolutionTree.Evolves2;
         int maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(2);
-        var evos = table.GetValidPreEvolutions(pk, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+        var evos = table.GetValidPreEvolutions(pk, levelMax: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
         return GenerateEggs(pk, evos, all);
     }
 
@@ -38,8 +38,8 @@ internal static class EncounterEggGenerator2
         if (species > Legal.MaxSpeciesID_2)
             yield break;
         if (GetCanBeCrystalEgg(pk, species, all))
-            yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
-        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
+            yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C, EntityContext.Gen2); // gen2 egg
+        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS, EntityContext.Gen2); // gen2 egg
     }
 
     private static bool GetCanBeCrystalEgg(PKM pk, int species, bool all)

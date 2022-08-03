@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -11,7 +11,7 @@ public sealed class Learnset
     /// <summary>
     /// Moves that can be learned.
     /// </summary>
-    private readonly int[] Moves;
+    internal readonly int[] Moves;
 
     /// <summary>
     /// Levels at which a move at a given index can be learned.
@@ -47,6 +47,22 @@ public sealed class Learnset
         if (length == Moves.Length)
             return Moves;
         return Moves.AsSpan(start, length).ToArray();
+    }
+
+    public (bool HasMoves, int Start, int End) GetMoveRange(int maxLevel, int minLevel = 0)
+    {
+        if (minLevel <= 1 && maxLevel >= 100)
+            return (true, 0, Moves.Length - 1);
+        if (minLevel > maxLevel)
+            return default;
+        int start = Array.FindIndex(Levels, z => z >= minLevel);
+        if (start < 0)
+            return default;
+        int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
+        if (end < 0)
+            return default;
+
+        return (true, start, end);
     }
 
     /// <summary>

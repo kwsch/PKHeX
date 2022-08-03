@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -93,7 +93,7 @@ public partial class SAV_PokedexBDSP : Form
         if (fc <= 0)
             return;
 
-        var forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).Take(fc).ToArray();
+        var forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).Take(fc).ToArray();
         f1.Items.AddRange(forms);
         f2.Items.AddRange(forms);
         for (int i = 0; i < f1.Items.Count; i++)

@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using static PKHeX.Core.EvolutionRestrictions;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -38,21 +37,25 @@ public static class EvolutionVerifier
     private static bool IsValidEvolution(PKM pk, LegalInfo info)
     {
         var chains = info.EvoChainsAllGens;
-        if (chains[pk.Format].Length == 0)
+        if (chains.Get(pk.Context).Length == 0)
             return false; // Can't exist as current species
 
         // OK if un-evolved from original encounter
         int species = pk.Species;
-        if (info.EncounterMatch.Species == species)
+        var enc = info.EncounterMatch;
+        if (species == enc.Species) // never evolved
             return true;
 
         // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
-        if (species == (int)Species.Vespiquen && info.Generation < 6 && (pk.PID & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
+        if (species == (int)Species.Vespiquen && enc.Generation < 6 && (pk.EncryptionConstant & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
             return false;
 
-        if (chains[info.Generation].All(z => z.Species != info.EncounterMatch.Species))
-            return false; // Can't exist as origin species
-
-        return true;
+        // Double check that our encounter was able to exist as the encounter species.
+        foreach (var z in chains.Get(enc.Context))
+        {
+            if (z.Species == enc.Species)
+                return true;
+        }
+        return false;
     }
 }

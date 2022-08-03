@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.Encounters8Nest;
 using static PKHeX.Core.AbilityPermission;
 
@@ -11,6 +11,7 @@ namespace PKHeX.Core;
 public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterStatic(Version), IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
 {
     public sealed override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8;
     public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
     public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 

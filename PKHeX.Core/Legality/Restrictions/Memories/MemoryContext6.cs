@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -37,7 +37,7 @@ public sealed partial class MemoryContext6 : MemoryContext
 
     public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Distinct()
         .Concat(GetKeyItemParams())
-        .Concat(Legal.TMHM_AO.Take(100).Select(z => (ushort)z))
+        .Concat(Legal.Pouch_TMHM_AO.Take(100))
         .Where(z => z <= Legal.MaxItemID_6_AO);
 
     public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserve6.Contains((ushort)item);

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Egg Encounter Data
 /// </summary>
-public sealed record EncounterEgg(int Species, int Form, byte Level, int Generation, GameVersion Version) : IEncounterable
+public sealed record EncounterEgg(int Species, int Form, byte Level, int Generation, GameVersion Version, EntityContext Context) : IEncounterable
 {
     public string Name => "Egg";
     public string LongName => "Egg";
@@ -21,6 +21,7 @@ public sealed record EncounterEgg(int Species, int Form, byte Level, int Generat
     public AbilityPermission Ability => AbilityPermission.Any12H;
 
     public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
+    public bool CanInheritMoves => Breeding.GetCanInheritMoves(Species);
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 

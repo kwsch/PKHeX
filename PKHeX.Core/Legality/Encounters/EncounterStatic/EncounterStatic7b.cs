@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 7 Static Encounter (<see cref="GameVersion.GG"/>
@@ -7,6 +7,7 @@
 public sealed record EncounterStatic7b(GameVersion Version) : EncounterStatic(Version)
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7b;
 
     protected override void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)
     {

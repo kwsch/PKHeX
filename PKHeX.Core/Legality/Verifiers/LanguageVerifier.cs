@@ -66,11 +66,13 @@ public sealed class LanguageVerifier : Verifier
     /// <param name="currentLanguage"></param>
     public static bool IsValidG4Korean(int currentLanguage)
     {
-        bool savKOR = ParseSettings.ActiveTrainer.Language == (int) LanguageID.Korean;
+        var activeTr = ParseSettings.ActiveTrainer;
+        var activeLang = activeTr.Language;
+        bool savKOR = activeLang == (int) LanguageID.Korean;
         bool pkmKOR = currentLanguage == (int) LanguageID.Korean;
         if (savKOR == pkmKOR)
             return true;
 
-        return ParseSettings.ActiveTrainer.Language < 0; // check not overriden by Legality settings
+        return activeLang < 0; // check not overriden by Legality settings
     }
 }

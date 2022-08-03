@@ -170,7 +170,7 @@ public static class CommonEdits
         pk.Form = Set.Form;
         if (Set.Moves[0] != 0)
             pk.SetMoves(Set.Moves, true);
-        pk.ApplyHeldItem(Set.HeldItem, Set.Format);
+        pk.ApplyHeldItem(Set.HeldItem, Set.Context);
         pk.CurrentLevel = Set.Level;
         pk.CurrentFriendship = Set.Friendship;
         pk.SetIVs(Set.IVs);
@@ -250,7 +250,7 @@ public static class CommonEdits
             pk.Nature = pk.StatNature;
 
         var legal = new LegalityAnalysis(pk);
-        if (legal.Parsed && Array.FindIndex(legal.Info.Relearn, static z => !z.Valid) != -1)
+        if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -261,10 +261,10 @@ public static class CommonEdits
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="item">Held Item to apply</param>
-    /// <param name="format">Format required for importing</param>
-    public static void ApplyHeldItem(this PKM pk, int item, int format)
+    /// <param name="context">Format required for importing</param>
+    public static void ApplyHeldItem(this PKM pk, int item, EntityContext context)
     {
-        item = ItemConverter.GetItemForFormat(item, format, pk.Format);
+        item = ItemConverter.GetItemForFormat(item, context, pk.Context);
         pk.HeldItem = ((uint)item > pk.MaxItemID) ? 0 : item;
     }
 

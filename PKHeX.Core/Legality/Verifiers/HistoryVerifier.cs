@@ -129,13 +129,14 @@ public sealed class HistoryVerifier : Verifier
         // Since some evolutions have different base friendship values, check all possible evolutions for a match.
         // If none match, then it is not a valid OT friendship.
         // VC transfers use SM personal info
-        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, PersonalTable.USUM, pk.OT_Friendship);
+        var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OT_Friendship);
         if (!any)
             data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
     }
 
-    private static bool IsMatchFriendship(EvoCriteria[] evos, PersonalTable pt, int fs)
+    private static bool IsMatchFriendship(EvoCriteria[] evos, int fs)
     {
+        var pt = PersonalTable.USUM;
         foreach (var z in evos)
         {
             if (!pt.IsPresentInGame(z.Species, z.Form))

@@ -164,7 +164,8 @@ internal static class EvolutionRestrictions
         }
         else if (enc is IMoveset s)
         {
-            var result = move == 0 ? s.Moves.Any(FairyMoves.Contains) : s.Moves.Contains(move);
+            var moves = s.Moves;
+            var result = move == 0 ? moves.Any(FairyMoves.Contains) : moves.Contains(move);
             if (result)
                 return true;
         }
@@ -227,7 +228,7 @@ internal static class EvolutionRestrictions
         return DidLearnAndForget(info);
     }
 
-    private static bool IsMoveInherited(PKM pk, LegalInfo info, int[] moves)
+    private static bool IsMoveInherited(PKM pk, LegalInfo info, ReadOnlySpan<int> moves)
     {
         // In 3DS games, the inherited move must be in the relearn moves.
         if (info.Generation >= 6)
@@ -251,7 +252,12 @@ internal static class EvolutionRestrictions
     {
         // If the pokemon does not currently have the move, it could have been an egg move that was forgotten.
         // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
-        var fromEggCount = info.Moves.Count(m => m.IsEggSource);
-        return fromEggCount < 4;
+        // If any move is not an egg source, then a slot could have been forgotten.
+        foreach (var move in info.Moves)
+        {
+            if (!move.Info.Method.IsEggSource())
+                return false;
+        }
+        return true;
     }
 }

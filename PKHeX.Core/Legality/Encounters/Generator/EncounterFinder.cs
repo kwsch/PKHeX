@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -86,24 +86,25 @@ public static class EncounterFinder
     /// <returns>Indication whether or not the encounter passes secondary checks</returns>
     private static bool VerifySecondaryChecks(PKM pk, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
     {
-        var relearn = info.Relearn;
+        var relearn = info.Relearn.AsSpan();
         if (pk.Format >= 6)
         {
-            VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, relearn);
-            if (!Array.TrueForAll(relearn, z => z.Valid) && iterator.PeekIsNext())
+            LearnVerifierRelearn.Verify(relearn, info.EncounterOriginal, pk);
+            if (!MoveResult.AllValid(relearn) && iterator.PeekIsNext())
                 return false;
         }
         else
         {
-            foreach (var p in relearn)
-                VerifyRelearnMoves.DummyValid(p);
+            // Dummy to something valid.
+            relearn.Fill(MoveResult.Relearn);
         }
 
-        VerifyCurrentMoves.VerifyMoves(pk, info);
-        if (!Array.TrueForAll(info.Moves, z => z.Valid) && iterator.PeekIsNext())
+        var moves = info.Moves.AsSpan();
+        LearnVerifier.Verify(moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
+        if (!MoveResult.AllValid(moves) && iterator.PeekIsNext())
             return false;
 
-        if (!info.Parse.TrueForAll(z => z.Valid) && iterator.PeekIsNext())
+        if (!info.Parse.TrueForAll(static z => z.Valid) && iterator.PeekIsNext())
             return false;
 
         var evo = EvolutionVerifier.VerifyEvolution(pk, info);
@@ -128,7 +129,7 @@ public static class EncounterFinder
         }
         else if (pk is PK1 pk1)
         {
-            var hasGen2 = Array.Exists(info.Moves, z => z.Generation is not 1);
+            var hasGen2 = Array.Exists(info.Moves, z => z.Generation is 2);
             if (hasGen2)
             {
                 if (!ParseSettings.AllowGen1Tradeback)
@@ -154,8 +155,8 @@ public static class EncounterFinder
         string hint = GetHintWhyNotFound(pk, info.EncounterMatch.Generation);
 
         info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
-        VerifyRelearnMoves.VerifyRelearn(pk, info.EncounterOriginal, info.Relearn);
-        VerifyCurrentMoves.VerifyMoves(pk, info);
+        LearnVerifierRelearn.Verify(info.Relearn, info.EncounterOriginal, pk);
+        LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }
 
     private static string GetHintWhyNotFound(PKM pk, int gen)
@@ -171,7 +172,7 @@ public static class EncounterFinder
 
     private static bool WasGiftEgg(PKM pk, int gen, int loc) => !pk.FatefulEncounter && gen switch
     {
-        3 => pk.IsEgg && pk.Met_Location == 253, // Gift Egg, indistinguible from normal eggs after hatch
+        3 => pk.IsEgg && pk.Met_Location == 253, // Gift Egg, indistinguishable from normal eggs after hatch
         4 => Legal.GiftEggLocation4.Contains(loc) || (pk.Format != 4 && (loc == Locations.Faraway4 && pk.HGSS)),
         5 => loc is Locations.Breeder5,
         _ => loc is Locations.Breeder6,

@@ -272,14 +272,14 @@ public abstract class InventoryPouch
 
 public static class InventoryPouchExtensions
 {
-    public static IReadOnlyList<InventoryPouch> LoadAll(this IReadOnlyList<InventoryPouch> value, byte[] data)
+    public static IReadOnlyList<InventoryPouch> LoadAll(this IReadOnlyList<InventoryPouch> value, ReadOnlySpan<byte> data)
     {
         foreach (var p in value)
             p.GetPouch(data);
         return value;
     }
 
-    public static void SaveAll(this IReadOnlyList<InventoryPouch> value, byte[] data)
+    public static void SaveAll(this IReadOnlyList<InventoryPouch> value, Span<byte> data)
     {
         foreach (var p in value)
             p.SetPouch(data);

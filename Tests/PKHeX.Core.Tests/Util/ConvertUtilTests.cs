@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -46,7 +46,7 @@ public class ConvertUtilTests
         var u32 = ReadUInt32LittleEndian(convert);
         u32.Should().Be(result);
 
-        var remake = Core.Util.GetHexStringFromBytes(convert, 0, convert.Length);
+        var remake = Core.Util.GetHexStringFromBytes(convert);
         remake.Should().Be(v);
     }
 

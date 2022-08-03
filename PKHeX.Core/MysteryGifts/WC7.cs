@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,6 +11,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 {
     public const int Size = 0x108;
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7;
 
     public WC7() : this(new byte[Size]) { }
     public WC7(byte[] data) : base(data) { }
@@ -469,7 +470,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         pk.IsEgg = true;
         pk.EggMetDate = Date;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
 

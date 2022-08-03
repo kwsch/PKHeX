@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 4 Trade Encounter
@@ -7,6 +7,7 @@
 public abstract record EncounterTrade4(GameVersion Version) : EncounterTrade(Version)
 {
     public sealed override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
 
     protected static readonly string[] RanchOTNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };
 }

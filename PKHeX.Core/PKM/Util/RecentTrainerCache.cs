@@ -26,6 +26,9 @@ public static class RecentTrainerCache
     /// <summary> Most recently loaded <see cref="ITrainerInfo.Game"/>. </summary>
     public static int Game => Trainer.Game;
 
+    /// <summary> Most recently loaded <see cref="ITrainerInfo.Context"/>. </summary>
+    public static EntityContext Context => Trainer.Context;
+
     /// <summary>
     /// Updates the cache with the most recently loaded trainer reference.
     /// </summary>

@@ -23,7 +23,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int Species { get; private set; } = -1;
 
     /// <inheritdoc/>
-    public int Format { get; private set; } = RecentTrainerCache.Format;
+    public EntityContext Context { get; private set; } = RecentTrainerCache.Context;
 
     /// <inheritdoc/>
     public string Nickname { get; private set; } = string.Empty;
@@ -94,7 +94,7 @@ public sealed class ShowdownSet : IBattleTemplate
         ParseLines(lines);
 
         FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
-        Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Format);
+        Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
         if (Species is (int) Meowstic or (int) Indeedee)
@@ -267,7 +267,7 @@ public sealed class ShowdownSet : IBattleTemplate
         result.Add(GetStringFirstLine(form));
 
         // IVs
-        var ivs = GetStringStats(IVs, Format < 3 ? 15 : 31);
+        var ivs = GetStringStats(IVs, Context.Generation() < 3 ? 15 : 31);
         if (ivs.Length != 0)
             result.Add($"IVs: {string.Join(" / ", ivs)}");
 
@@ -314,7 +314,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
         if (HeldItem > 0)
         {
-            var items = Strings.GetItemStrings(Format);
+            var items = Strings.GetItemStrings(Context);
             if ((uint)HeldItem < items.Length)
                 result += $" @ {items[HeldItem]}";
         }
@@ -325,7 +325,7 @@ public sealed class ShowdownSet : IBattleTemplate
     {
         if (Nickname.Length == 0)
             return specForm;
-        bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(Species, Nickname, Format);
+        bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(Species, Nickname, Context.Generation());
         if (!isNicknamed)
             return specForm;
         return $"{Nickname} ({specForm})";
@@ -389,7 +389,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (pk.Species <= 0)
             return;
 
-        Format = pk.Format;
+        Context = pk.Context;
 
         Nickname = pk.Nickname;
         Species = pk.Species;
@@ -408,7 +408,7 @@ public sealed class ShowdownSet : IBattleTemplate
             CanGigantamax = g.CanGigantamax;
 
         if (Array.IndexOf(Moves, (int)Move.HiddenPower) != -1)
-            HiddenPowerType = HiddenPower.GetType(IVs, Format);
+            HiddenPowerType = HiddenPower.GetType(IVs, Context);
         if (pk is IHyperTrain h)
         {
             for (int i = 0; i < 6; i++)
@@ -418,7 +418,7 @@ public sealed class ShowdownSet : IBattleTemplate
             }
         }
 
-        FormName = ShowdownParsing.GetStringFromForm(Form = pk.Form, Strings, Species, Format);
+        FormName = ShowdownParsing.GetStringFromForm(Form = pk.Form, Strings, Species, Context);
     }
 
     private void ParseFirstLine(string first)
@@ -440,22 +440,22 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private void ParseItemName(string itemName)
     {
-        if (TrySetItem(Format))
+        if (TrySetItem(Context))
             return;
-        if (TrySetItem(3))
+        if (TrySetItem(EntityContext.Gen3))
             return;
-        if (TrySetItem(2))
+        if (TrySetItem(EntityContext.Gen2))
             return;
         InvalidLines.Add($"Unknown Item: {itemName}");
 
-        bool TrySetItem(int format)
+        bool TrySetItem(EntityContext context)
         {
-            var items = Strings.GetItemStrings(format);
+            var items = Strings.GetItemStrings(context);
             int item = StringUtil.FindIndexIgnoreCase(items, itemName);
             if (item < 0)
                 return false;
             HeldItem = item;
-            Format = format;
+            Context = context;
             return true;
         }
     }
@@ -586,12 +586,12 @@ public sealed class ShowdownSet : IBattleTemplate
         HiddenPowerType = hpVal;
         if (!Array.TrueForAll(IVs, z => z == 31))
         {
-            if (!HiddenPower.SetIVsForType(hpVal, IVs, Format))
+            if (!HiddenPower.SetIVsForType(hpVal, IVs, Context))
                 InvalidLines.Add($"Invalid IVs for Hidden Power Type: {type}");
         }
         else if (hpVal >= 0)
         {
-            HiddenPower.SetIVs(hpVal, IVs, Format); // Alter IVs
+            HiddenPower.SetIVs(hpVal, IVs, Context); // Alter IVs
         }
         else
         {

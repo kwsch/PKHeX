@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -210,7 +209,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (catch_rate == 0 || Legal.HeldItems_GSC.Contains((ushort)catch_rate))
+            if (PK1.IsCatchRateHeldItem(catch_rate))
                 return GetValid(LG1CatchRateMatchTradeback);
             if (timeCapsuleEvalution == TimeCapsuleEvaluation.BadCatchRate)
                 return GetInvalid(LG1CatchRateItem);
@@ -220,7 +219,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (data.Info.Moves.Any(z => z.Generation == 2))
+            if (Array.Exists(data.Info.Moves, z => z.Generation == 2))
                 return GetInvalid(LG1CatchRateItem);
             var e = data.EncounterMatch;
             if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
@@ -543,12 +542,12 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
         }
 
-        PersonalInfo? pi = null;
-        for (int i = 0; i < PersonalInfoSWSH.CountTR; i++)
+        PersonalInfo8SWSH? pi = null;
+        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
         {
             if (!pk8.GetMoveRecordFlag(i))
                 continue;
-            if ((pi ??= pk8.PersonalInfo).TMHM[i + 100])
+            if ((pi ??= (PersonalInfo8SWSH)pk8.PersonalInfo).TMHM[i + 100])
                 continue;
 
             // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
@@ -562,7 +561,7 @@ public sealed class MiscVerifier : Verifier
                     continue;
             }
 
-            data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + PersonalInfoSWSH.CountTM]])));
+            data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[LearnSource8SWSH.TR_SWSH[i]])));
         }
 
         if (CheckHeightWeightOdds(data.EncounterMatch) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
@@ -667,6 +666,6 @@ public sealed class MiscVerifier : Verifier
     private static bool CanLearnTR(int species, int form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-        return pi.TMHM[tr + PersonalInfoSWSH.CountTM];
+        return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];
     }
 }

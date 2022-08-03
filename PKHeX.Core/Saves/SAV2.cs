@@ -18,7 +18,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public bool Japanese { get; }
     public bool Korean { get; }
 
-    public override PersonalTable Personal { get; }
+    public override IPersonalTable Personal { get; }
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GSC;
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>

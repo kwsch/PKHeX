@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 internal readonly ref struct BreedInfo<T> where T : unmanaged
 {
     /// <summary> Indicates the analyzed source of each move. </summary>
-    public readonly T[] Actual;
+    public readonly Span<T> Actual;
 
     /// <summary> Indicates all possible sources of each move. </summary>
     public readonly Span<byte> Possible;
@@ -23,7 +23,7 @@ internal readonly ref struct BreedInfo<T> where T : unmanaged
     /// <summary> Level the egg originated at. </summary>
     public readonly int Level;
 
-    public BreedInfo(T[] actual, Span<byte> possible, Learnset learnset, ReadOnlySpan<int> moves, int level)
+    public BreedInfo(Span<T> actual, Span<byte> possible, Learnset learnset, ReadOnlySpan<int> moves, int level)
     {
         Actual = actual;
         Possible = possible;

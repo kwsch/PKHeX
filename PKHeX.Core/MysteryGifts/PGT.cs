@@ -12,6 +12,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
 {
     public const int Size = 0x104; // 260
     public override int Generation => 4;
+    public override EntityContext Context => EntityContext.Gen4;
 
     public override byte Level
     {
@@ -244,7 +245,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         pk4.IsEgg = true;
         pk4.IsNicknamed = false;
-        pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Generation);
+        pk4.Nickname = SpeciesName.GetEggName(pk4.Language, Generation);
         pk4.EggMetDate = DateTime.Now;
     }
 

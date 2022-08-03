@@ -12,6 +12,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public const int Size = 0x108;
     public const uint EonTicketConst = 0x225D73C2;
     public override int Generation => 6;
+    public override EntityContext Context => EntityContext.Gen6;
 
     public WC6() : this(new byte[Size]) { }
     public WC6(byte[] data) : base(data) { }
@@ -426,7 +427,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         pk.IsEgg = true;
         pk.EggMetDate = Date;
-        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
+        pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
 

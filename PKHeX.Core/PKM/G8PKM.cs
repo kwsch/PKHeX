@@ -29,8 +29,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Simple Generated Attributes
-    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfoSWSH.CountTM);
-    public ReadOnlySpan<int> TechRecordPermitIndexes => Legal.TMHM_SWSH.AsSpan(PersonalInfoSWSH.CountTM);
+    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfo8SWSH.CountTM);
+    public ReadOnlySpan<int> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
     public override int CurrentFriendship
     {
         get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;

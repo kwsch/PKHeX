@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -150,40 +150,6 @@ public static partial class Legal
     #endregion
 
     #region Moves
-
-    internal static readonly int[] TMHM_GG =
-    {
-        029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
-        261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
-        492, 157, 009, 404, 127, 398, 092, 161, 503, 339,
-        007, 605, 347, 406, 008, 085, 053, 087, 200, 094,
-        089, 120, 247, 583, 076, 126, 057, 063, 276, 355,
-        059, 188, 072, 430, 058, 446, 006, 529, 138, 224,
-        // rest are same as SM, unused
-
-        // No HMs
-    };
-
-    internal static readonly int[] Tutor_StarterPikachu =
-    {
-        (int)Move.ZippyZap,
-        (int)Move.SplishySplash,
-        (int)Move.FloatyFall,
-        //(int)Move.PikaPapow, // Joycon Shake
-    };
-
-    internal static readonly int[] Tutor_StarterEevee =
-    {
-        (int)Move.BouncyBubble,
-        (int)Move.BuzzyBuzz,
-        (int)Move.SizzlySlide,
-        (int)Move.GlitzyGlow,
-        (int)Move.BaddyBad,
-        (int)Move.SappySeed,
-        (int)Move.FreezyFrost,
-        (int)Move.SparklySwirl,
-        //(int)Move.VeeveeVolley, // Joycon Shake
-    };
 
     internal static readonly HashSet<short> AllowedMovesGG = new()
     {

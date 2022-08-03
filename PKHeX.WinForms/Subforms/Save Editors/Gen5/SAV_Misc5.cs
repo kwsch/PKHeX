@@ -558,7 +558,7 @@ public partial class SAV_Misc5 : Form
 
     private void SetSprite(EntreeSlot slot)
     {
-        PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, 0, false, false, 5);
+        PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, 0, false, Shiny.Never, 5);
     }
 
     private void SetGenders(EntreeSlot slot)
@@ -610,7 +610,7 @@ public partial class SAV_Misc5 : Form
         L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
         CB_Form.InitializeBinding();
-        var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+        var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
         CB_Form.DataSource = new BindingSource(list, null);
     }
 

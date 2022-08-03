@@ -162,7 +162,7 @@ public partial class SAV_Encounters : Form
 
         var editor = PKME_Tabs.Data;
         var tree = EvolutionTree.GetEvolutionTree(editor.Context);
-        bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
+        bool isInChain = tree.IsSpeciesDerivedFrom((ushort)editor.Species, (byte)editor.Form, enc.Species, enc.Form);
 
         if (!settings.UseTabsAsCriteriaAnySpecies)
         {
@@ -271,7 +271,7 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
-    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, PersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
+    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {

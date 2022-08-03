@@ -686,14 +686,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// </summary>
     /// <param name="p"><see cref="PersonalInfo"/> entry containing Base Stat Info</param>
     /// <returns>Battle Stats (H/A/B/S/C/D)</returns>
-    public ushort[] GetStats(PersonalInfo p)
+    public ushort[] GetStats(IBaseStat p)
     {
         ushort[] stats = new ushort[6];
         LoadStats(p, stats);
         return stats;
     }
 
-    public virtual void LoadStats(PersonalInfo p, Span<ushort> stats)
+    public virtual void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         int level = CurrentLevel; // recalculate instead of checking Stat_Level
         if (this is IHyperTrain t)
@@ -705,7 +705,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         NatureAmp.ModifyStatsForNature(stats, StatNature);
     }
 
-    private void LoadStats(Span<ushort> stats, PersonalInfo p, IHyperTrain t, int level)
+    private void LoadStats(Span<ushort> stats, IBaseStat p, IHyperTrain t, int level)
     {
         stats[0] = (ushort)(p.HP == 1 ? 1 : (((t.HT_HP ? 31 : IV_HP) + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
         stats[1] = (ushort)((((t.HT_ATK ? 31 : IV_ATK) + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);
@@ -715,7 +715,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         stats[3] = (ushort)((((t.HT_SPE ? 31 : IV_SPE) + (2 * p.SPE) + (EV_SPE / 4)) * level / 100) + 5);
     }
 
-    private void LoadStats(Span<ushort> stats, PersonalInfo p, int level)
+    private void LoadStats(Span<ushort> stats, IBaseStat p, int level)
     {
         stats[0] = (ushort)(p.HP == 1 ? 1 : ((IV_HP + (2 * p.HP) + (EV_HP / 4) + 100) * level / 100) + 10);
         stats[1] = (ushort)(((IV_ATK + (2 * p.ATK) + (EV_ATK / 4)) * level / 100) + 5);

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.Gen1"/>.
@@ -7,6 +7,7 @@
 public sealed record EncounterSlot1 : EncounterSlot, INumberedSlot
 {
     public override int Generation => 1;
+    public override EntityContext Context => EntityContext.Gen1;
     public byte SlotNumber { get; }
     public override Ball FixedBall => Ball.Poke;
 
@@ -27,12 +28,12 @@ public sealed record EncounterSlot1 : EncounterSlot, INumberedSlot
             {
                 (int) Core.Species.Kadabra => 96,
                 (int) Core.Species.Dragonair => 27,
-                _ => PersonalTable.RB[Species].CatchRate,
+                _ => (byte)PersonalTable.RB[Species].CatchRate,
             };
         }
         else
         {
-            pk1.Catch_Rate = PersonalTable.RB[Species].CatchRate; // RB
+            pk1.Catch_Rate = (byte)PersonalTable.RB[Species].CatchRate; // RB
         }
     }
 }

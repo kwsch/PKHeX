@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -144,7 +143,7 @@ public sealed class TransferVerifier : Verifier
         }
 
         // Starting in Generation 8, games have a selective amount of species/forms from prior games.
-        var pt = pk switch
+        IPersonalTable pt = pk switch
         {
             PA8 => PersonalTable.LA,
             PB8 => PersonalTable.BDSP,
@@ -190,43 +189,42 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    public IEnumerable<CheckResult> VerifyVCEncounter(PKM pk, IEncounterTemplate encounter, ILocation transfer, IReadOnlyList<CheckMoveResult> Moves)
+    public void VerifyVCEncounter(PKM pk, IEncounterTemplate original, ILocation transfer, LegalityAnalysis data)
     {
         if (pk.Met_Location != transfer.Location)
-            yield return GetInvalid(LTransferMetLocation);
+            data.AddLine(GetInvalid(LTransferMetLocation));
 
         var expecteEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
         if (pk.Egg_Location != expecteEgg)
-            yield return GetInvalid(LEggLocationNone);
+            data.AddLine(GetInvalid(LEggLocationNone));
 
         // Flag Moves that cannot be transferred
-        if (encounter is EncounterStatic2Odd) // Dizzy Punch Gifts
-            FlagIncompatibleTransferMove(pk, Moves, 146, 2); // can't have Dizzy Punch at all
+        if (original is EncounterStatic2Odd) // Dizzy Punch Gifts
+            FlagIncompatibleTransferMove(pk, data.Info.Moves, 146, 2); // can't have Dizzy Punch at all
 
-        bool checkShiny = pk.VC2 || (pk.VC1 && GBRestrictions.IsTimeCapsuleTransferred(pk, Moves, encounter).WasTimeCapsuleTransferred());
+        bool checkShiny = pk.VC2 || (pk.VC1 && GBRestrictions.IsTimeCapsuleTransferred(pk, data.Info.Moves, original).WasTimeCapsuleTransferred());
         if (!checkShiny)
-            yield break;
+            return;
 
         if (pk.Gender == 1) // female
         {
             if (pk.PersonalInfo.Gender == 31 && pk.IsShiny) // impossible gender-shiny
-                yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
+                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
         else if (pk.Species == (int)Species.Unown)
         {
             if (pk.Form is not (8 or 21) && pk.IsShiny) // impossibly form-shiny (not I or V)
-                yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
+                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, IReadOnlyList<CheckMoveResult> Moves, int move, int gen)
+    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, int move, int gen)
     {
         int index = pk.GetMoveIndex(move);
         if (index < 0)
             return; // doesn't have move
 
-        var chk = Moves[index];
-        if (chk.Generation == gen) // not obtained from a future gen
-            Moves[index].FlagIllegal(LTransferMove, CheckIdentifier.CurrentMove);
+        if (parse[index].Generation == gen) // not obtained from a future gen
+            parse[index] = MoveResult.Unobtainable(0);
     }
 }

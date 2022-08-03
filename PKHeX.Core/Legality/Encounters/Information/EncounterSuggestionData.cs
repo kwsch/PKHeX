@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -7,7 +7,7 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
 {
     private readonly IEncounterable? Encounter;
 
-    public IReadOnlyList<int> Relearn => Encounter is IRelearn r ? r.Relearn : Array.Empty<int>();
+    public IReadOnlyList<int> Relearn => Encounter is IRelearn { Relearn: int[] { Length: not 0 } r } ? r : Array.Empty<int>();
 
     public EncounterSuggestionData(PKM pk, IEncounterable enc, int met)
     {

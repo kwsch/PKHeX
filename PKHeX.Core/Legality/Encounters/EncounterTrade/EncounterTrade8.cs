@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
 {
     public override int Generation => 8;
+    public override EntityContext Context => EntityContext.Gen8;
     public override int Location => Locations.LinkTrade6NPC;
     public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 

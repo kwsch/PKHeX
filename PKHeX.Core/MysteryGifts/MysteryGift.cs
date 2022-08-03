@@ -70,6 +70,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public string Extension => GetType().Name.ToLowerInvariant();
     public string FileName => $"{CardHeader}.{Extension}";
     public abstract int Generation { get; }
+    public abstract EntityContext Context { get; }
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public abstract PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria);

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -98,7 +98,7 @@ public static partial class Legal
         1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
     };
 
-    internal static readonly ushort[] TM_SWSH =
+    internal static readonly ushort[] Pouch_TM_SWSH =
     {
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
@@ -113,7 +113,7 @@ public static partial class Legal
         1230, // TM00
     };
 
-    internal static readonly ushort[] TR_SWSH =
+    internal static readonly ushort[] Pouch_TR_SWSH =
     {
         1130, 1131, 1132, 1133, 1134, 1135, 1136, 1137, 1138, 1139,
         1140, 1141, 1142, 1143, 1144, 1145, 1146, 1147, 1148, 1149,
@@ -127,7 +127,7 @@ public static partial class Legal
         1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
     };
 
-    internal static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(TM_SWSH, TR_SWSH);
+    internal static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(Pouch_TM_SWSH, Pouch_TR_SWSH);
 
     internal static readonly ushort[] Pouch_Medicine_SWSH =
     {
@@ -166,16 +166,7 @@ public static partial class Legal
         1105, 1106, 1107, 1108,
     };
 
-    internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
-
-    internal static readonly int[] Tutors_SWSH_1 =
-    {
-        805, 807, 812, 804,
-        803, 813, 811, 810,
-        815, 814, 797, 806,
-        800, 809, 799, 808,
-        798, 802,
-    };
+    internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, Pouch_TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
     internal static readonly HashSet<int> GalarOriginForms = new()
     {
@@ -239,33 +230,6 @@ public static partial class Legal
         222, 224, 226, 228, 230,
         232, 234, 236, 238, 240,
         242, 244, 246,
-    };
-
-    public static readonly int[] TMHM_SWSH =
-    {
-        // TM
-        005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
-        345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
-        120, 156, 157, 168, 173, 182, 184, 196, 202, 204,
-        211, 213, 201, 240, 241, 258, 250, 251, 261, 263,
-        129, 270, 279, 280, 286, 291, 311, 313, 317, 328,
-        331, 333, 340, 341, 350, 362, 369, 371, 372, 374,
-        384, 385, 683, 409, 419, 421, 422, 423, 424, 427,
-        433, 472, 478, 440, 474, 490, 496, 506, 512, 514,
-        521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
-        604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
-
-        // TR
-        014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
-        089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
-        164, 179, 188, 191, 200, 473, 203, 214, 224, 226,
-        227, 231, 242, 247, 248, 253, 257, 269, 271, 276,
-        285, 299, 304, 315, 322, 330, 334, 337, 339, 347,
-        348, 349, 360, 370, 390, 394, 396, 398, 399, 402,
-        404, 405, 406, 408, 411, 412, 413, 414, 417, 428,
-        430, 437, 438, 441, 442, 444, 446, 447, 482, 484,
-        486, 492, 500, 502, 503, 526, 528, 529, 535, 542,
-        583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
     };
 
     #region Unreleased Items
@@ -601,16 +565,4 @@ public static partial class Legal
         500, // Park Ball
     });
     #endregion
-
-    internal static readonly int[] TypeTutor8 =
-    {
-        (int)Move.GrassPledge,
-        (int)Move.FirePledge,
-        (int)Move.WaterPledge,
-        (int)Move.FrenzyPlant,
-        (int)Move.BlastBurn,
-        (int)Move.HydroCannon,
-        (int)Move.DracoMeteor,
-        (int)Move.SteelBeam,
-    };
 }

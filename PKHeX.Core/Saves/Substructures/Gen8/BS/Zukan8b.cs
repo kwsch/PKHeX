@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -131,7 +131,7 @@ public sealed class Zukan8b : ZukanBase
         (1 << ((int)LanguageID.ChineseS - 2)) |
         (1 << ((int)LanguageID.ChineseT - 2));
 
-    private static PersonalTable Personal => PersonalTable.BDSP;
+    private static PersonalTable8BDSP Personal => PersonalTable.BDSP;
 
     public Zukan8b(SAV8BS sav, int dex) : base(sav, dex) { }
 

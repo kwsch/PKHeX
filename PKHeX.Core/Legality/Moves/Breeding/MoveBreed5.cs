@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.EggSource5;
 
 namespace PKHeX.Core;
@@ -13,14 +13,12 @@ public static class MoveBreed5
 {
     private const int level = 1;
 
-    public static EggSource5[] Validate(int species, GameVersion version, ReadOnlySpan<int> moves, out bool valid)
+    /// <inheritdoc cref="MoveBreed.Validate"/>
+    public static bool Validate(int species, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins)
     {
         var count = moves.IndexOf(0);
         if (count == 0)
-        {
-            valid = false; // empty moveset
-            return Array.Empty<EggSource5>();
-        }
+            return false;
         if (count == -1)
             count = moves.Length;
 
@@ -30,12 +28,13 @@ public static class MoveBreed5
         var pi = table[species];
         var egg = Legal.EggMovesBW[species].Moves;
 
-        var actual = new EggSource5[count];
+        var actual = MemoryMarshal.Cast<byte, EggSource5>(origins);
         Span<byte> possible = stackalloc byte[count];
         var value = new BreedInfo<EggSource5>(actual, possible, learnset, moves, level);
         if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle)
             actual[--count] = VoltTackle;
 
+        bool valid;
         if (count == 0)
         {
             valid = VerifyBaseMoves(value);
@@ -49,17 +48,17 @@ public static class MoveBreed5
 
         if (!valid)
             CleanResult(actual, possible);
-        return value.Actual;
+        return valid;
     }
 
-    private static void CleanResult(EggSource5[] valueActual, Span<byte> valuePossible)
+    private static void CleanResult(Span<EggSource5> valueActual, Span<byte> valuePossible)
     {
-        for (int i = 0; i < valueActual.Length; i++)
+        for (int i = 0; i < valuePossible.Length; i++)
         {
-            if (valueActual[i] != 0)
-                continue;
             var poss = valuePossible[i];
             if (poss == 0)
+                continue;
+            if (valueActual[i] != 0)
                 continue;
 
             for (int j = 0; j < (int)Max; j++)
@@ -140,13 +139,13 @@ public static class MoveBreed5
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource5> value, ICollection<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource5> value, ReadOnlySpan<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info)
     {
         var possible = value.Possible;
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tm = info.TMHM;
-        var tmlist = Legal.TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
+        var tmlist = LearnSource5.TMHM_BW.AsSpan(0, 95); // actually 96, but TM96 is unavailable (Snarl - Lock Capsule)
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

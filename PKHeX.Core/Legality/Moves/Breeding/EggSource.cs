@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -93,26 +94,22 @@ public static class EggSourceUtil
     /// <summary>
     /// Unboxes the parse result and returns a user friendly string for the move result.
     /// </summary>
-    public static string GetSource(object parse, int generation, int index)
+    public static string GetSourceString(Array parse, int generation, int index)
     {
-        static string GetLine<T>(T[] arr, Func<T, string> act, int index)
-        {
-            if ((uint)index >= arr.Length)
-                return LMoveSourceEmpty;
-            return act(arr[index]);
-        }
+        if (index >= parse.Length)
+            return LMoveSourceEmpty;
 
         return generation switch
         {
-            2      => GetLine((EggSource2[]) parse, GetSource, index),
-            3 or 4 => GetLine((EggSource34[])parse, GetSource, index),
-            5      => GetLine((EggSource5[]) parse, GetSource, index),
-            >= 6   => GetLine((EggSource6[]) parse, GetSource, index),
+            2      => ((EggSource2[])parse)[index].GetSourceString(),
+            3 or 4 => ((EggSource34[])parse)[index].GetSourceString(),
+            5      => ((EggSource5[])parse)[index].GetSourceString(),
+            >= 6   => ((EggSource6[])parse)[index].GetSourceString(),
             _      => LMoveSourceEmpty,
         };
     }
 
-    public static string GetSource(this EggSource2 source) => source switch
+    public static string GetSourceString(this EggSource2 source) => source switch
     {
         EggSource2.Base => LMoveRelearnEgg,
         EggSource2.FatherEgg => LMoveEggInherited,
@@ -123,7 +120,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSource(this EggSource34 source) => source switch
+    public static string GetSourceString(this EggSource34 source) => source switch
     {
         EggSource34.Base => LMoveRelearnEgg,
         EggSource34.FatherEgg => LMoveEggInherited,
@@ -134,7 +131,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSource(this EggSource5 source) => source switch
+    public static string GetSourceString(this EggSource5 source) => source switch
     {
         EggSource5.Base => LMoveRelearnEgg,
         EggSource5.FatherEgg => LMoveEggInherited,
@@ -145,7 +142,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSource(this EggSource6 source) => source switch
+    public static string GetSourceString(this EggSource6 source) => source switch
     {
         EggSource6.Base => LMoveRelearnEgg,
         EggSource6.ParentLevelUp => LMoveEggLevelUp,
@@ -153,5 +150,56 @@ public static class EggSourceUtil
         EggSource6.Max => "Any",
         EggSource6.VoltTackle => LMoveSourceSpecial,
         _ => LMoveEggInvalid,
+    };
+
+    /// <summary>
+    /// Converts the parse result and returns a user friendly string for the move result.
+    /// </summary>
+    public static LearnMethod GetSource(byte value, int generation) => generation switch
+    {
+        2      => ((EggSource2)value).GetSource(),
+        3 or 4 => ((EggSource34)value).GetSource(),
+        5      => ((EggSource5)value).GetSource(),
+        >= 6   => ((EggSource6)value).GetSource(),
+        _ => None,
+    };
+
+    public static LearnMethod GetSource(this EggSource2 source) => source switch
+    {
+        EggSource2.Base => Initial,
+        EggSource2.FatherEgg => EggMove,
+        EggSource2.FatherTM => TMHM,
+        EggSource2.ParentLevelUp => InheritLevelUp,
+        EggSource2.Tutor => Tutor,
+        _ => None,
+    };
+
+    public static LearnMethod GetSource(this EggSource34 source) => source switch
+    {
+        EggSource34.Base => Initial,
+        EggSource34.FatherEgg => EggMove,
+        EggSource34.FatherTM => TMHM,
+        EggSource34.ParentLevelUp => InheritLevelUp,
+        EggSource34.VoltTackle => SpecialEgg,
+        _ => None,
+    };
+
+    public static LearnMethod GetSource(this EggSource5 source) => source switch
+    {
+        EggSource5.Base => Initial,
+        EggSource5.FatherEgg => EggMove,
+        EggSource5.ParentLevelUp => InheritLevelUp,
+        EggSource5.FatherTM => TMHM,
+        EggSource5.VoltTackle => SpecialEgg,
+        _ => None,
+    };
+
+    public static LearnMethod GetSource(this EggSource6 source) => source switch
+    {
+        EggSource6.Base => Initial,
+        EggSource6.ParentLevelUp => InheritLevelUp,
+        EggSource6.ParentEgg => EggMove,
+        EggSource6.VoltTackle => SpecialEgg,
+        _ => None,
     };
 }

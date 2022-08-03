@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -18,6 +17,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     public virtual byte LevelMin => Level;
     public byte LevelMax => 100;
     public abstract int Generation { get; }
+    public abstract EntityContext Context { get; }
 
     public int CurrentLevel { get; init; } = -1;
     public abstract int Location { get; }
@@ -159,8 +159,6 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     private void SetMoves(PKM pk, GameVersion version, int level)
     {
         var moves = Moves.Count != 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-        if (pk.Format == 1 && moves.All(z => z == 0))
-            moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
         pk.SetMoves((int[])moves);
         pk.SetMaximumPPCurrent((int[])moves);
     }

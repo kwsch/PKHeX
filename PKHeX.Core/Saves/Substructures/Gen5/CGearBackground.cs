@@ -264,7 +264,7 @@ public sealed class CGearBackground
         return tiles;
     }
 
-    private static Tile GetTile(IReadOnlyList<int> colors, int[] palette, int tileIndex)
+    private static Tile GetTile(IReadOnlyList<int> colors, ReadOnlySpan<int> palette, int tileIndex)
     {
         int x = (tileIndex * 8) % Width;
         int y = 8 * ((tileIndex * 8) / Width);
@@ -277,7 +277,7 @@ public sealed class CGearBackground
                 int index = ((int) (y + iy) * Width) + (int) (x + ix);
                 int c = colors[index];
 
-                t.ColorChoices[(ix % 8) + (iy * 8)] = Array.IndexOf(palette, c);
+                t.ColorChoices[(ix % 8) + (iy * 8)] = palette.IndexOf(c);
             }
         }
 
@@ -369,9 +369,9 @@ public sealed class Tile
         PixelData = Array.Empty<byte>();
     }
 
-    internal void SetTile(int[] Palette) => PixelData = GetTileData(Palette);
+    internal void SetTile(ReadOnlySpan<int> palette) => PixelData = GetTileData(palette);
 
-    private byte[] GetTileData(IReadOnlyList<int> Palette)
+    private byte[] GetTileData(ReadOnlySpan<int> Palette)
     {
         const int pixels = TileWidth * TileHeight;
         byte[] data = new byte[pixels * 4];

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public sealed record EncounterTrade7(GameVersion Version) : EncounterTrade(Version), IMemoryOT
 {
     public override int Generation => 7;
+    public override EntityContext Context => EntityContext.Gen7;
     public override int Location => Locations.LinkTrade6NPC;
     // immutable setters
     public byte OT_Memory { get => 1; set => throw new InvalidOperationException(); }
