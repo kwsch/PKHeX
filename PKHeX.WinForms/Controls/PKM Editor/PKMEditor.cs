@@ -972,7 +972,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         else if (CB_Form.Enabled && EntityGender.GetFromString(CB_Form.Text) < 2)
         {
-            if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
+            if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo forms in German are S,M,L,XL
             {
                 Entity.Gender = CB_Form.SelectedIndex;
                 UC_Gender.Gender = Entity.GetSaneGender();

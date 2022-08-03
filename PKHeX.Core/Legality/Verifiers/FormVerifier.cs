@@ -93,7 +93,7 @@ public sealed class FormVerifier : Verifier
             case Greninja:
                 if (form > 1) // Ash Battle Bond active
                     return GetInvalid(LFormBattle);
-                if (form != 0 && enc is not MysteryGift) // Formes are not breedable, MysteryGift already checked
+                if (form != 0 && enc is not MysteryGift) // Forms are not breedable, MysteryGift already checked
                     return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                 break;
 
