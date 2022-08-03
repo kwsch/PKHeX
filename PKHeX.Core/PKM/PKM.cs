@@ -931,7 +931,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public void SetRandomIVs(Span<int> ivs, int minFlawless = -1)
     {
         if (Version == (int)GameVersion.GO && minFlawless != 6)
+        {
             SetRandomIVsGO(ivs);
+            return;
+        }
 
         var rnd = Util.Rand;
         for (int i = 0; i < 6; i++)
