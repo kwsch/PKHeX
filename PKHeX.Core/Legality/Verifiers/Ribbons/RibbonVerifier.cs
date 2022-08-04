@@ -429,16 +429,11 @@ public sealed class RibbonVerifier : Verifier
 
     private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pk, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
     {
-        bool swsh = evos.HasVisitedSWSH;
-        bool bdsp = evos.HasVisitedBDSP;
-        bool pla = evos.HasVisitedPLA;
-
-        if (!swsh && !bdsp)
+        if (!CanObtainTowerMaster(evos) && s8.RibbonTowerMaster)
         {
-            if (s8.RibbonTowerMaster)
-                yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
+            yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
         }
-        if (!swsh)
+        if (!evos.HasVisitedSWSH)
         {
             if (s8.RibbonChampionGalar)
                 yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
@@ -473,16 +468,27 @@ public sealed class RibbonVerifier : Verifier
             }
         }
 
-        if (s8.RibbonTwinklingStar && (!bdsp || pk is IRibbonSetCommon6 {RibbonContestStar:false}))
+        if (s8.RibbonTwinklingStar && (!evos.HasVisitedBDSP || pk is IRibbonSetCommon6 {RibbonContestStar:false}))
         {
             yield return new RibbonResult(nameof(s8.RibbonTwinklingStar));
         }
 
         // received when capturing photos with Pokémon in the Photography Studio
-        if (s8.RibbonPioneer && !pla)
+        if (!evos.HasVisitedPLA && s8.RibbonPioneer)
         {
             yield return new RibbonResult(nameof(s8.RibbonPioneer));
         }
+    }
+
+    private static bool CanObtainTowerMaster(EvolutionHistory evos)
+    {
+        if (evos.HasVisitedSWSH)
+            return true; // Anything in SW/SH can be used in battle tower.
+
+        if (!evos.HasVisitedBDSP)
+            return false;
+        // Mythicals cannot be used in BD/SP's Battle Tower
+        return !Legal.Mythicals.Contains(evos.Gen8b[0].Species);
     }
 
     private static bool CanParticipateInRankedSWSH(PKM pk, IEncounterTemplate enc, EvolutionHistory evos)
