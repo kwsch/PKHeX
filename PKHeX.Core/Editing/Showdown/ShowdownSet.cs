@@ -209,7 +209,7 @@ public sealed class ShowdownSet : IBattleTemplate
             case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
             case "EV" or "EVs": ParseLineEVs(value); return true;
             case "IV" or "IVs": ParseLineIVs(value); return true;
-            case "Dynamax Level": return (DynamaxLevel = (byte)Util.ToInt32(value)) is (>= 0 and <= 10);
+            case "Dynamax Level": return ParseDynamax(value);
             case "Level":
             {
                 if (!int.TryParse(value.Trim(), out int val))
@@ -227,6 +227,14 @@ public sealed class ShowdownSet : IBattleTemplate
             default:
                 return false;
         }
+    }
+
+    private bool ParseDynamax(string value)
+    {
+        var val = Util.ToInt32(value);
+        if ((uint)val > 10)
+            return false;
+        return (DynamaxLevel = (byte)val) is (>= 0 and <= 10);
     }
 
     /// <summary>
