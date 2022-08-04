@@ -23,7 +23,16 @@ public class EvolutionHistory
     public EvoCriteria[] Gen8a = NONE;
     public EvoCriteria[] Gen8b = NONE;
 
+    public bool HasVisitedGen1 => Gen1.Length != 0;
+    public bool HasVisitedGen2 => Gen2.Length != 0;
+    public bool HasVisitedGen3 => Gen3.Length != 0;
+    public bool HasVisitedGen4 => Gen4.Length != 0;
+    public bool HasVisitedGen5 => Gen5.Length != 0;
+    public bool HasVisitedGen6 => Gen6.Length != 0;
+    public bool HasVisitedGen7 => Gen7.Length != 0;
     public bool HasVisitedSWSH => Gen8.Length != 0;
+
+    public bool HasVisitedLGPE => Gen7b.Length != 0;
     public bool HasVisitedPLA => Gen8a.Length != 0;
     public bool HasVisitedBDSP => Gen8b.Length != 0;
 

@@ -100,7 +100,7 @@ public sealed class LegendsArceusVerifier : Verifier
         LoadPurchasedMoves(pa, purchased);
 
         // If it can be leveled up in other games, level it up in other games.
-        if (pa.HasVisitedSWSH(h.Gen8) || pa.HasVisitedBDSP(h.Gen8b))
+        if (h.HasVisitedSWSH || h.HasVisitedBDSP)
             return count;
 
         // Level up to current level

@@ -11,7 +11,7 @@ public sealed class LearnGroup3 : ILearnGroup
     private const int Generation = 3;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null; // Gen3 is the end of the line!
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen3.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen3;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

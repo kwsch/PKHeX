@@ -11,7 +11,7 @@ public sealed class LearnGroup7b : ILearnGroup
     private const int Generation = 7;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen7b.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedLGPE;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

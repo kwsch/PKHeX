@@ -16,12 +16,12 @@ public sealed class LearnGroup8 : ILearnGroup
             return null;
         if (option == LearnOption.Current && pk.IsOriginalMovesetDeleted())
             return null;
-        if (history.Gen7b.Length != 0)
+        if (history.HasVisitedLGPE)
             return LearnGroup7b.Instance;
         return LearnGroup7.Instance;
     }
 
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen8.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedSWSH;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

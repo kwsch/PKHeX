@@ -70,7 +70,7 @@ public sealed class AbilityVerifier : Verifier
         if (format >= 8) // Ability Patch
         {
             var evos = data.Info.EvoChainsAllGens;
-            if (pk.AbilityNumber == 4 && IsAccessibleAbilityPatch(pk, evos))
+            if (pk.AbilityNumber == 4 && IsAccessibleAbilityPatch(evos))
             {
                 if (CanAbilityPatch(format, abilities, pk.Species))
                     return GetValid(LAbilityPatchUsed);
@@ -447,22 +447,22 @@ public sealed class AbilityVerifier : Verifier
         return VALID;
     }
 
-    private static bool IsAccessibleAbilityPatch(PKM pk, EvolutionHistory evosAll)
+    private static bool IsAccessibleAbilityPatch(EvolutionHistory evosAll)
     {
-        return pk.HasVisitedSWSH(evosAll.Gen8) || pk.HasVisitedBDSP(evosAll.Gen8b);
+        return evosAll.HasVisitedSWSH || evosAll.HasVisitedBDSP;
     }
 
-    private static bool IsAccessibleAbilityCapsule(PKM pk, EvolutionHistory evosAll)
+    private static bool IsAccessibleAbilityCapsule(EvolutionHistory evosAll)
     {
-        if (evosAll.Gen6.Length > 0 || evosAll.Gen7.Length > 0)
+        if (evosAll.HasVisitedGen6 || evosAll.HasVisitedGen7)
             return true;
-        return pk.HasVisitedSWSH(evosAll.Gen8) || pk.HasVisitedBDSP(evosAll.Gen8b);
+        return evosAll.HasVisitedSWSH || evosAll.HasVisitedBDSP;
     }
 
     // Ability Capsule can change between 1/2
     private static bool IsAbilityCapsuleModified(PKM pk, IReadOnlyList<int> abilities, AbilityPermission encounterAbility, EvolutionHistory evos)
     {
-        if (!IsAccessibleAbilityCapsule(pk, evos))
+        if (!IsAccessibleAbilityCapsule(evos))
             return false; // Not available.
         if (!CanAbilityCapsule(pk.Format, abilities))
             return false;

@@ -28,7 +28,7 @@ public sealed class MemoryVerifier : Verifier
     private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pk)
     {
         if (pk.BDSP || pk.LA)
-            return !pk.HasVisitedSWSH(data.Info.EvoChainsAllGens.Gen8);
+            return !data.Info.EvoChainsAllGens.HasVisitedSWSH;
         return false;
     }
 
@@ -270,8 +270,8 @@ public sealed class MemoryVerifier : Verifier
             case 7 when pk.GG: // LGPE does not set memories.
             case 8 when pk.GO_HOME: // HOME does not set memories.
             case 8 when pk.Met_Location == Locations.HOME8: // HOME does not set memories.
-            case 8 when pk.BDSP && !pk.HasVisitedSWSH(evos.Gen8): // BDSP does not set memories.
-            case 8 when pk.LA   && !pk.HasVisitedSWSH(evos.Gen8): // LA does not set memories.
+            case 8 when pk.BDSP && !evos.HasVisitedSWSH: // BDSP does not set memories.
+            case 8 when pk.LA   && !evos.HasVisitedSWSH: // LA does not set memories.
                 return false;
 
             // Eggs cannot have memories

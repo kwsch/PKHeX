@@ -150,58 +150,6 @@ public static partial class Legal
         _ => -1,
     };
 
-    internal static bool HasVisitedSWSH(this PKM pk, EvoCriteria[] evos)
-    {
-        if (pk.SWSH)
-            return true;
-        if (pk.IsUntraded)
-            return false;
-        if (pk.BDSP && pk.Species is (int)Species.Spinda or (int)Species.Nincada)
-            return false;
-
-        var pt = PersonalTable.SWSH;
-        foreach (var evo in evos)
-        {
-            if (pt.IsPresentInGame(evo.Species, evo.Form))
-                return true;
-        }
-        return false;
-    }
-
-    internal static bool HasVisitedBDSP(this PKM pk, EvoCriteria[] evos)
-    {
-        if (pk.BDSP)
-            return true;
-        if (pk.IsUntraded)
-            return false;
-        if (pk.Species is (int)Species.Spinda or (int)Species.Nincada)
-            return false;
-
-        var pt = PersonalTable.BDSP;
-        foreach (var evo in evos)
-        {
-            if (pt.IsPresentInGame(evo.Species, evo.Form))
-                return true;
-        }
-        return false;
-    }
-
-    internal static bool HasVisitedLA(this PKM pk, EvoCriteria[] evos)
-    {
-        if (pk.LA)
-            return true;
-        if (pk.IsUntraded)
-            return false;
-
-        var pt = PersonalTable.LA;
-        foreach (var evo in evos)
-        {
-            if (pt.IsPresentInGame(evo.Species, evo.Form))
-                return true;
-        }
-        return false;
-    }
-
     /// <summary>
     /// Checks if the relearn moves should be wiped.
     /// </summary>

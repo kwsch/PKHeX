@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface that exposes a <see cref="BattleVersion"/> for allowing a Pokémon into ranked battles if it originated from a prior game.
@@ -16,7 +16,7 @@ public static class BattleVersionExtensions
     public static bool IsBattleVersionValid<T>(this T pk, EvolutionHistory h) where T : PKM, IBattleVersion => pk.BattleVersion switch
     {
         0 => true,
-        (int)GameVersion.SW or (int)GameVersion.SH => !(pk.SWSH || pk.BDSP || pk.LA) && pk.HasVisitedSWSH(h.Gen8),
+        (int)GameVersion.SW or (int)GameVersion.SH => !(pk.SWSH || pk.BDSP || pk.LA) && h.HasVisitedSWSH,
         _ => false,
     };
 

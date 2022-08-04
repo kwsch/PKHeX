@@ -13,12 +13,12 @@ public sealed class LearnGroup7 : ILearnGroup
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
     {
         Generation => null,
-        1 => history.Gen1.Length != 0 ? LearnGroup1.Instance : null,
-     <= 2 => history.Gen2.Length != 0 ? LearnGroup2.Instance : null,
-        _ => history.Gen6.Length != 0 ? LearnGroup6.Instance : null,
+        1 => history.HasVisitedGen1 ? LearnGroup1.Instance : null,
+     <= 2 => history.HasVisitedGen2 ? LearnGroup2.Instance : null,
+        _ => history.HasVisitedGen6 ? LearnGroup6.Instance : null,
     };
 
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen7.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen7;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

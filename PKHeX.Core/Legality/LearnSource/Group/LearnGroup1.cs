@@ -18,7 +18,7 @@ public sealed class LearnGroup1 : ILearnGroup
         _ => enc.Generation == 1 ? LearnGroup2.Instance : null,
     };
 
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen1.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen1;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

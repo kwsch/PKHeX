@@ -312,7 +312,7 @@ public sealed class FormVerifier : Verifier
                 > 9_999 => GetInvalid(LFormArgumentHigh),
                 _ => GetValid(LFormArgumentValid),
             },
-            Stantler when pk is PA8 || pk.HasVisitedLA(data.Info.EvoChainsAllGens.Gen8a) => arg switch
+            Stantler when pk is PA8 || data.Info.EvoChainsAllGens.HasVisitedPLA => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
                 not 0 when pk.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),

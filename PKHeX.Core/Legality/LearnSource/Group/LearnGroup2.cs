@@ -14,10 +14,10 @@ public sealed class LearnGroup2 : ILearnGroup
     {
         EntityContext.Gen2 when enc.Generation == 1 => LearnGroup1.Instance,
         EntityContext.Gen1 => null,
-        _ =>  enc.Generation != 1 && !pk.Korean && history.Gen1.Length != 0 ? LearnGroup1.Instance : null,
+        _ =>  enc.Generation != 1 && !pk.Korean && history.HasVisitedGen1 ? LearnGroup1.Instance : null,
     };
 
-    public bool HasVisited(PKM pk, EvolutionHistory history) => history.Gen2.Length != 0;
+    public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen2;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

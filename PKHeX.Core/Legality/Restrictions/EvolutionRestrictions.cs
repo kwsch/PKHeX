@@ -186,7 +186,7 @@ internal static class EvolutionRestrictions
         if (pk.HasOriginalMetLocation || (pk.Format == 4 && gen == 3) || pk.VC || pk.Species == (int)Sylveon)
             lvl = Math.Max(pk.Met_Level + 1, lvl);
 
-        if (pk.HasVisitedLA(evos.Gen8a)) // No Level Up required, and different levels than mainline SW/SH.
+        if (evos.HasVisitedPLA) // No Level Up required, and different levels than mainline SW/SH.
         {
             var la = MinLevelEvolutionWithMove_8LA[index];
             if (la <= lvl)
