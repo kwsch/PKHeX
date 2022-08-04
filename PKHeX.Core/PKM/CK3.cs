@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -134,7 +134,10 @@ public sealed class CK3 : G3PKM, IShadowPKM
         get => Math.Min((ushort)31, ReadUInt16BigEndian(Data.AsSpan(0xAE)));
         set => WriteUInt16BigEndian(Data.AsSpan(0xAE), (ushort)(value & 0x1F)); }
 
-    public override int OT_Friendship { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
+    public override int OT_Friendship {
+        get => Math.Min((ushort)0xFF, ReadUInt16BigEndian(Data.AsSpan(0xB0)));
+        set => WriteUInt16BigEndian(Data.AsSpan(0xB0), (ushort)(value & 0xFF));
+    }
 
     // Contest
     public override byte CNT_Cool   { get => Data[0xB2]; set => Data[0xB2] = value; }
