@@ -236,7 +236,7 @@ public static class CommonEdits
         if (pk is IGigantamax c)
             c.CanGigantamax = Set.CanGigantamax;
         if (pk is IDynamaxLevel d)
-            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk);
+            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: Set.DynamaxLevel);
 
         if (pk is ITechRecord8 t)
         {

@@ -70,6 +70,9 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <inheritdoc/>
     public bool CanGigantamax { get; set; }
 
+    /// <inheritdoc/>
+    public byte DynamaxLevel { get; set; } = 10;
+
     /// <summary>
     /// Any lines that failed to be parsed.
     /// </summary>
@@ -97,7 +100,7 @@ public sealed class ShowdownSet : IBattleTemplate
         Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
-        if (Species is (int) Meowstic or (int) Indeedee)
+        if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion)
             ReviseGenderedForms();
     }
 
@@ -206,6 +209,7 @@ public sealed class ShowdownSet : IBattleTemplate
             case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
             case "EV" or "EVs": ParseLineEVs(value); return true;
             case "IV" or "IVs": ParseLineIVs(value); return true;
+            case "Dynamax Level": return (DynamaxLevel = (byte)Util.ToInt32(value)) is (>= 0 and <= 10);
             case "Level":
             {
                 if (!int.TryParse(value.Trim(), out int val))
@@ -281,10 +285,12 @@ public sealed class ShowdownSet : IBattleTemplate
             result.Add($"Ability: {Strings.Ability[Ability]}");
         if (Level != 100)
             result.Add($"Level: {Level}");
-        if (CanGigantamax)
-            result.Add("Gigantamax: Yes");
         if (Shiny)
             result.Add("Shiny: Yes");
+        if (DynamaxLevel != 10)
+            result.Add($"Dynamax Level: {DynamaxLevel}");
+        if (CanGigantamax)
+            result.Add("Gigantamax: Yes");
 
         if ((uint)Nature < Strings.Natures.Count)
             result.Add($"{Strings.Natures[Nature]} Nature");
@@ -406,6 +412,8 @@ public sealed class ShowdownSet : IBattleTemplate
 
         if (pk is IGigantamax g)
             CanGigantamax = g.CanGigantamax;
+        if (pk is IDynamaxLevel d)
+            DynamaxLevel = d.DynamaxLevel;
 
         if (Array.IndexOf(Moves, (int)Move.HiddenPower) != -1)
             HiddenPowerType = HiddenPower.GetType(IVs, Context);

@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Interface containing details relevant for battling.
 /// </summary>
-public interface IBattleTemplate : ISpeciesForm, IGigantamax, INature
+public interface IBattleTemplate : ISpeciesForm, IGigantamax, IDynamaxLevel, INature
 {
     /// <summary>
     /// <see cref="PKM.Context"/> of the Set entity it is specific to.

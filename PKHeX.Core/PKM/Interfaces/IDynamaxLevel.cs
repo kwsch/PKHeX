@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.Species;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -22,7 +22,7 @@ public static class DynamaxLevelExtensions
         return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
     }
 
-    public static byte GetSuggestedDynamaxLevel(this IDynamaxLevel _, PKM pk) => _.CanHaveDynamaxLevel(pk) ? (byte)10 : (byte)0;
+    public static byte GetSuggestedDynamaxLevel(this IDynamaxLevel _, PKM pk, byte requested = 10) => _.CanHaveDynamaxLevel(pk) ? requested : (byte)0;
 
     /// <summary>
     /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevel.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.
