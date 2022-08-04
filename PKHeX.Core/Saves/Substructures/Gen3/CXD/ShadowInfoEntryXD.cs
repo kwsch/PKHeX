@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,7 +21,7 @@ public abstract class ShadowInfoEntryXD
 
     // Gen3 Species ID
     public ushort RawSpecies { get => ReadUInt16BigEndian(Data.AsSpan(0x1A)); set => WriteUInt16BigEndian(Data.AsSpan(0x1A), value); }
-    public int Species { get => SpeciesConverter.GetG4Species(RawSpecies); set => RawSpecies = (ushort)SpeciesConverter.GetG3Species(value); }
+    public int Species { get => SpeciesConverter.GetG4Species(RawSpecies); set => RawSpecies = SpeciesConverter.GetG3Species(value); }
     public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x1C)); set => WriteUInt32BigEndian(Data.AsSpan(0x1C), value); }
     public int Purification { get => ReadInt32BigEndian(Data.AsSpan(0x24)); set => WriteInt32BigEndian(Data.AsSpan(0x24), value); }
 

@@ -75,7 +75,7 @@ public partial class SAV_Misc3 : Form
             {
                 var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
                 var g3Species = SpeciesConverter.GetG3Species(species);
-                SAV.SetWork(0x43 + i, (ushort)g3Species);
+                SAV.SetWork(0x43 + i, g3Species);
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -37,7 +37,7 @@ public sealed class Roamer3 : IContestStats, IContestStatsMutable
     public int Species
     {
         get => SpeciesConverter.GetG4Species(ReadInt16LittleEndian(Data.AsSpan(Offset + 8)));
-        set => WriteInt16LittleEndian(Data.AsSpan(Offset + 8), (short)SpeciesConverter.GetG3Species(value));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetG3Species(value));
     }
 
     public int HP_Current

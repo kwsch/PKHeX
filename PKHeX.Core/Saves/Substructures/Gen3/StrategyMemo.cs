@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -83,15 +83,15 @@ public sealed class StrategyMemoEntry
     {
         get
         {
-            int val = ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF;
+            var val = ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF;
             return SpeciesConverter.GetG4Species(val);
         }
         set
         {
-            value = SpeciesConverter.GetG3Species(value);
-            int cval = ReadUInt16BigEndian(Data.AsSpan(0));
-            cval &= 0xE00; value &= 0x1FF; cval |= value;
-            WriteUInt16BigEndian(Data.AsSpan(0x00), (ushort)cval);
+            var val = SpeciesConverter.GetG3Species(value);
+            var cval = ReadUInt16BigEndian(Data.AsSpan(0));
+            cval &= 0xE00; val &= 0x1FF; cval |= val;
+            WriteUInt16BigEndian(Data.AsSpan(0x00), cval);
         }
     }
 

@@ -35,7 +35,7 @@ public sealed class CK3 : G3PKM, IShadowPKM
 
     // Future Attributes
     public override ushort SpeciesID3 { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
-    public override int Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = (ushort)SpeciesConverter.GetG3Species(value); }
+    public override int Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = SpeciesConverter.GetG3Species(value); }
     // 02-04 unused
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }
     public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
@@ -192,6 +192,7 @@ public sealed class CK3 : G3PKM, IShadowPKM
     public PK3 ConvertToPK3()
     {
         var pk = ConvertTo<PK3>();
+        pk.FlagHasSpecies = pk.SpeciesID3 != 0; // Update Flag
         pk.RefreshChecksum();
         return pk;
     }

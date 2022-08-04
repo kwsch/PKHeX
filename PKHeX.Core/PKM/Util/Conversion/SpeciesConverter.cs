@@ -25,7 +25,7 @@ public static class SpeciesConverter
     /// </summary>
     /// <param name="species">National Dex ID</param>
     /// <returns>Generation 3 species ID.</returns>
-    public static int GetG3Species(int species) => (uint)species >= table3_Internal.Length ? 0 : table3_Internal[species];
+    public static ushort GetG3Species(int species) => (uint)species >= table3_Internal.Length ? (ushort)0 : table3_Internal[species];
 
     /// <summary>
     /// Converts Generation 3 species ID to National Dex ID.

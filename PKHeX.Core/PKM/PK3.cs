@@ -76,8 +76,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         get => SpeciesConverter.GetG4Species(SpeciesID3);
         set
         {
-            SpeciesID3 = (ushort)SpeciesConverter.GetG3Species(value);
-            FlagHasSpecies = Species > 0;
+            var s3 = SpeciesConverter.GetG3Species(value);
+            FlagHasSpecies = (SpeciesID3 = s3) != 0;
         }
     }
 
