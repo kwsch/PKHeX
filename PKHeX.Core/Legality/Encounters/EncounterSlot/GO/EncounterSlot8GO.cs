@@ -68,7 +68,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         PogoImportFormat.PK7 =>
               PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
             : PersonalTable.LA.IsPresentInGame(Species, Form) ? EntityContext.Gen8a
-            : throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
+            : EntityContext.Gen8, // don't throw an exception, just give them a context.
         PogoImportFormat.PB7 => EntityContext.Gen7b,
         PogoImportFormat.PK8 => EntityContext.Gen8,
         PogoImportFormat.PA8 => EntityContext.Gen8a,
