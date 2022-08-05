@@ -681,7 +681,7 @@ public partial class SAV_Database : Form
         }
 
         var boxClear = new BoxManipClearDuplicate<string>(BoxManipType.DeleteClones, pk => SearchUtil.GetCloneDetectMethod(method)(pk));
-        var param = new BoxManipParam(0, SAV.BoxCount);
+        var param = new BoxManipParam(0, SAV.BoxCount - 1);
         int count = boxClear.Execute(SAV, param);
         deleted += count;
 

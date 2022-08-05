@@ -741,7 +741,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     {
         var storage = BoxBuffer.AsSpan();
 
-        if (BoxEnd < 0)
+        if ((uint)BoxEnd >= BoxCount)
             BoxEnd = BoxCount - 1;
 
         var blank = GetDataForBox(BlankPKM);
@@ -778,7 +778,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
     public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
     {
-        if (BoxEnd < 0)
+        if ((uint)BoxEnd >= BoxCount)
             BoxEnd = BoxCount - 1;
 
         var storage = BoxBuffer.AsSpan();
