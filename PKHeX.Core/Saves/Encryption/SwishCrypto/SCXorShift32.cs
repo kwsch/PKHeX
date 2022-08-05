@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -15,8 +15,8 @@ public ref struct SCXorShift32
 
     public SCXorShift32(uint seed)
     {
-#if NET5
-            var pop_count = System.Numerics.BitOperations.PopCount(seed);
+#if NET6_0_OR_GREATER
+        var pop_count = System.Numerics.BitOperations.PopCount(seed);
 #else
         var pop_count = PopCount(seed);
 #endif
@@ -63,7 +63,7 @@ public ref struct SCXorShift32
         return key;
     }
 
-#if !NET5
+#if !NET6_0_OR_GREATER
     /// <summary>
     /// Count of bits set in value
     /// </summary>

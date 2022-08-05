@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using PKHeX.Core;
-using PKHeX.Drawing;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using PKHeX.Core;
+using PKHeX.Drawing;
 using PKHeX.Drawing.PokeSprite;
 using PKHeX.Drawing.PokeSprite.Properties;
 using static PKHeX.Core.MessageStrings;
@@ -242,20 +242,23 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         (GetFieldsfromPKM, GetPKMfromFields) = GetLoadSet(pk);
     }
 
-    private (Action, Func<PKM>) GetLoadSet(PKM pk) => pk.Format switch
+    private (Action Load, Func<PKM> Set) GetLoadSet(PKM pk) => GetLoadSet(pk.Context);
+
+    private (Action Load, Func<PKM> Set) GetLoadSet(EntityContext context) => context switch
     {
-        1 => (PopulateFieldsPK1, PreparePK1),
-        2 => (PopulateFieldsPK2, PreparePK2),
-        3 => (PopulateFieldsPK3, PreparePK3),
-        4 => (PopulateFieldsPK4, PreparePK4),
-        5 => (PopulateFieldsPK5, PreparePK5),
-        6 => (PopulateFieldsPK6, PreparePK6),
-        7 when pk is PK7 => (PopulateFieldsPK7, PreparePK7),
-        7 when pk is PB7 => (PopulateFieldsPB7, PreparePB7),
-        8 when pk is PK8 => (PopulateFieldsPK8, PreparePK8),
-        8 when pk is PA8 => (PopulateFieldsPA8, PreparePA8),
-        8 when pk is PB8 => (PopulateFieldsPB8, PreparePB8),
-        _ => throw new FormatException($"Unrecognized Type: {pk.GetType()}"),
+        EntityContext.Gen1 => (PopulateFieldsPK1, PreparePK1),
+        EntityContext.Gen2 => (PopulateFieldsPK2, PreparePK2),
+        EntityContext.Gen3 => (PopulateFieldsPK3, PreparePK3),
+        EntityContext.Gen4 => (PopulateFieldsPK4, PreparePK4),
+        EntityContext.Gen5 => (PopulateFieldsPK5, PreparePK5),
+        EntityContext.Gen6 => (PopulateFieldsPK6, PreparePK6),
+        EntityContext.Gen7 => (PopulateFieldsPK7, PreparePK7),
+        EntityContext.Gen8 => (PopulateFieldsPK8, PreparePK8),
+
+        EntityContext.Gen7b => (PopulateFieldsPB7, PreparePB7),
+        EntityContext.Gen8a => (PopulateFieldsPA8, PreparePA8),
+        EntityContext.Gen8b => (PopulateFieldsPB8, PreparePB8),
+        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
     private void SetPKMFormatExtraBytes(PKM pk)
@@ -519,33 +522,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
     }
 
-    private static Image? GetOriginSprite(PKM pk)
+    private static Bitmap? GetOriginSprite(PKM pk) => OriginMarkUtil.GetOriginMark(pk) switch
     {
-        if (pk.Format < 6)
-            return null;
-
-        // Specific Markings
-        if (pk.VC)
-            return Properties.Resources.gen_vc;
-        if (pk.GO)
-            return Properties.Resources.gen_go;
-        if (pk.LGPE)
-            return Properties.Resources.gen_gg;
-
-        // Lumped Generations
-        if (pk.Gen6)
-            return Properties.Resources.gen_6;
-        if (pk.Gen7)
-            return Properties.Resources.gen_7;
-        if (pk.SWSH)
-            return Properties.Resources.gen_8;
-        if (pk.BDSP)
-            return Properties.Resources.gen_bs;
-        if (pk.LA)
-            return Properties.Resources.gen_la;
-
-        return null;
-    }
+        OriginMark.Gen6Pentagon => Properties.Resources.gen_6,
+        OriginMark.Gen7Clover   => Properties.Resources.gen_7,
+        OriginMark.Gen8Galar    => Properties.Resources.gen_8,
+        OriginMark.Gen8Trio     => Properties.Resources.gen_bs,
+        OriginMark.Gen8Arc      => Properties.Resources.gen_la,
+        OriginMark.GameBoy      => Properties.Resources.gen_vc,
+        OriginMark.GO           => Properties.Resources.gen_go,
+        OriginMark.LetsGo       => Properties.Resources.gen_gg,
+        _ => null,
+    };
 
     private static void SetCountrySubRegion(ComboBox cb, string type)
     {

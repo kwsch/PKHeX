@@ -136,7 +136,7 @@ public partial class Main : Form
 #if !NET6_0_OR_GREATER
         var path = Process.GetCurrentProcess().MainModule!.FileName!;
 #else
-            var path = Environment.ProcessPath!;
+        var path = Environment.ProcessPath!;
 #endif
         return Path.GetFileNameWithoutExtension(path).EndsWith(nameof(HaX));
     }

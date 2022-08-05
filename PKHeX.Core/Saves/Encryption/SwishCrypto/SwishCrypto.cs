@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
@@ -63,15 +63,15 @@ public static class SwishCrypto
         h.AppendData(OutroHashBytes);
         return h.GetHashAndReset();
 #else
-            var intro = IntroHashBytes;
-            var outro = OutroHashBytes;
-            using var stream = new MemoryStream(intro.Length + data.Length - SIZE_HASH + outro.Length);
-            stream.Write(intro, 0, intro.Length);
-            stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
-            stream.Write(outro, 0, outro.Length);
-            stream.Seek(0, SeekOrigin.Begin);
-            using var sha = SHA256.Create();
-            return sha.ComputeHash(stream);
+        var intro = IntroHashBytes;
+        var outro = OutroHashBytes;
+        using var stream = new MemoryStream(intro.Length + data.Length - SIZE_HASH + outro.Length);
+        stream.Write(intro, 0, intro.Length);
+        stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
+        stream.Write(outro, 0, outro.Length);
+        stream.Seek(0, SeekOrigin.Begin);
+        using var sha = SHA256.Create();
+        return sha.ComputeHash(stream);
 #endif
     }
 

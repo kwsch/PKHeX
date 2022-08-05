@@ -410,8 +410,8 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public int SuperTrainingMedalCount(int maxCount = 30)
     {
         uint value = SuperTrainBitFlags >> 2;
-#if NET5
-            return System.Numerics.BitOperations.PopCount(value);
+#if NET6_0_OR_GREATER
+        return System.Numerics.BitOperations.PopCount(value);
 #else
         int TrainCount = 0;
         for (int i = 0; i < maxCount; i++)

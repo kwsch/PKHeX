@@ -1,4 +1,4 @@
-#if !NET6
+#if !NET6_0_OR_GREATER
 global using static PKHeX.Core.Buffers.Binary.Extra.BinaryPrimitives;
 using System;
 using System.Runtime.InteropServices;

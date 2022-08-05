@@ -1,4 +1,4 @@
-#if !NET6
+#if !NET6_0_OR_GREATER
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 

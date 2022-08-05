@@ -1,4 +1,4 @@
-#if !NET6
+#if !NET6_0_OR_GREATER
 namespace System.Diagnostics.CodeAnalysis;
 
 [AttributeUsage(AttributeTargets.Parameter)]

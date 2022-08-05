@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -201,12 +201,16 @@ public static class BoxUtil
                 case MysteryGift {IsEntity: true} g:
                     yield return g.ConvertToPKM(sav);
                     break;
-                case GP1 g when g.Species != 0:
-                    yield return g.ConvertToPB7(sav);
+                case IEncounterInfo g when g.Species != 0:
+                    yield return g.ConvertToPKM(sav);
                     break;
                 case IPokeGroup g:
                     foreach (var p in g.Contents)
                         yield return p;
+                    break;
+                case IEnumerable<PKM> contents:
+                    foreach (var pk in contents)
+                        yield return pk;
                     break;
             }
         }
