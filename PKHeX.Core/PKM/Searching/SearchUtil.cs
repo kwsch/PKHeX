@@ -61,7 +61,7 @@ public static class SearchUtil
         _ => true,
     };
 
-    public static bool SatisfiesFilterMoves(PKM pk, IEnumerable<int> requiredMoves)
+    public static bool SatisfiesFilterMoves(PKM pk, IReadOnlyList<int> requiredMoves)
     {
         foreach (var m in requiredMoves)
         {
@@ -86,8 +86,11 @@ public static class SearchUtil
     {
         1 => $"{pk.Species:000}{((PK1) pk).DV16:X4}",
         2 => $"{pk.Species:000}{((PK2) pk).DV16:X4}",
-        _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.Form:00}",
+        _ => $"{pk.Species:000}{pk.PID:X8}{GetIVString(pk)}{pk.Form:00}",
     };
+
+    // use a space so we don't merge single digit IVs and potentially get incorrect collisions
+    private static string GetIVString(PKM pk) => $"{pk.IV_HP} {pk.IV_ATK} {pk.IV_DEF} {pk.IV_SPE} {pk.IV_SPA} {pk.IV_SPD}";
 
     public static string HashByPID(PKM pk) => pk.Format switch
     {

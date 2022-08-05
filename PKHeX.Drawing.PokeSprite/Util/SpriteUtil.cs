@@ -71,7 +71,7 @@ public static class SpriteUtil
         {
             const int Lugia = (int)Species.Lugia;
             if (pk.Species == Lugia) // show XD shadow sprite
-                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.HeldItem, pk.IsEgg, shiny, pk.Format, tweak);
+                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Format, tweak);
 
             GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
             var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);

@@ -117,10 +117,10 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
             1 or 2 => true,
 
             // Pal Park / PokeTransfer updates Met Level
-            3 or 4 => pk.Format > origin || pk.Met_Level < lvl,
+            3 or 4 => pk.Format > origin || lvl > pk.Met_Level,
 
             // 5=>6 and later transfers keep current level
-            >=5 => lvl >= Level && (!pk.IsNative || pk.Met_Level < lvl),
+            >=5 => lvl >= Level && (!pk.IsNative || lvl > pk.Met_Level),
 
             _ => false,
         };

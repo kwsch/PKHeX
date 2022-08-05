@@ -45,6 +45,9 @@ public sealed class LegalityAnalysis
     /// </remarks>
     public IEncounterable EncounterOriginal => Info.EncounterOriginal;
 
+    /// <summary>
+    /// Indicates where the <see cref="Entity"/> originated.
+    /// </summary>
     public readonly SlotOrigin SlotOrigin;
 
     /// <summary>

@@ -53,7 +53,7 @@ public sealed class PersonalInfo2 : PersonalInfo
         }
     }
 
-    // EV Yields are just aliases for base stats in Gen I
+    // EV Yields are just aliases for base stats in Gen II
     public override int EV_HP { get => HP; set { } }
     public override int EV_ATK { get => ATK; set { } }
     public override int EV_DEF { get => DEF; set { } }

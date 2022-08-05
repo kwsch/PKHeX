@@ -2,17 +2,27 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Evolution Reversal logic
+/// </summary>
 public static class EvolutionReversal
 {
+    /// <summary>
+    /// Reverses from current state to see what evolutions the <see cref="pk"/> may have existed as.
+    /// </summary>
+    /// <param name="lineage">Evolution Method lineage reversal object</param>
+    /// <param name="species">Species to devolve from</param>
+    /// <param name="form">Form to devolve from</param>
+    /// <param name="pk">Entity reference to sanity check evolutions with</param>
+    /// <param name="levelMin">Minimum level the entity may exist as</param>
+    /// <param name="levelMax">Maximum the entity may exist as</param>
+    /// <param name="maxSpeciesID">Maximum species ID that may exist</param>
+    /// <param name="skipChecks">Option to bypass some evolution criteria</param>
+    /// <param name="stopSpecies">Species ID that should be the last node, if at all.</param>
+    /// <returns>Reversed evolution lineage, with the lowest index being the current species-form.</returns>
     public static EvoCriteria[] Reverse(this IEvolutionLookup lineage, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
-        var lvl = levelMax;
-        var first = new EvoCriteria { Species = species, Form = form, LevelMax = lvl };
-
-        const int maxEvolutions = 3;
-        Span<EvoCriteria> evos = stackalloc EvoCriteria[maxEvolutions];
-        evos[0] = first;
-
+        // Sometimes we have to sanitize the inputs.
         switch (species)
         {
             case (int)Species.Silvally:
@@ -20,9 +30,16 @@ public static class EvolutionReversal
                 break;
         }
 
+        // Store our results -- trim at the end when we place it on the heap.
+        const int maxEvolutions = 3;
+        Span<EvoCriteria> evos = stackalloc EvoCriteria[maxEvolutions];
+
+        var lvl = levelMax; // highest level, any level-up method will decrease.
+        evos[0] = new EvoCriteria { Species = species, Form = form, LevelMax = lvl }; // current species-form
+
         // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
         // There aren't any convergent evolution paths, so only yield the first connection.
-        int ctr = 1;
+        int ctr = 1; // count in the 'evos' span
         while (species != stopSpecies)
         {
             var key = EvolutionTree.GetLookupKey(species, form);

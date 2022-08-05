@@ -26,10 +26,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     protected PKM(byte[] data) => Data = data;
     protected PKM(int size) => Data = new byte[size];
 
-    public virtual byte[] EncryptedPartyData => Encrypt().AsSpan()[..SIZE_PARTY].ToArray();
-    public virtual byte[] EncryptedBoxData => Encrypt().AsSpan()[..SIZE_STORED].ToArray();
-    public virtual byte[] DecryptedPartyData => Write().AsSpan()[..SIZE_PARTY].ToArray();
-    public virtual byte[] DecryptedBoxData => Write().AsSpan()[..SIZE_STORED].ToArray();
+    public virtual byte[] EncryptedPartyData => Encrypt().AsSpan(0, SIZE_PARTY).ToArray();
+    public virtual byte[] EncryptedBoxData => Encrypt().AsSpan(0, SIZE_STORED).ToArray();
+    public virtual byte[] DecryptedPartyData => Write().AsSpan(0, SIZE_PARTY).ToArray();
+    public virtual byte[] DecryptedBoxData => Write().AsSpan(0, SIZE_STORED).ToArray();
 
     /// <summary>
     /// Rough indication if the data is junk or not.
@@ -242,7 +242,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public abstract int NickLength { get; }
 
     // Derived
-    public int SpecForm { get => Species + (Form << 11); set { Species = value & 0x7FF; Form = value >> 11; } }
     public virtual int SpriteItem => HeldItem;
     public virtual bool IsShiny => TSV == PSV;
     public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
@@ -434,7 +433,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public int[] Moves
     {
         get => new[] { Move1, Move2, Move3, Move4 };
-        set => SetMoves(value.AsSpan());
+        set => SetMoves(value);
     }
 
     public void PushMove(int move)
