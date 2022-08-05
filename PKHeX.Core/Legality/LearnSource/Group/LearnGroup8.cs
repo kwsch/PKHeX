@@ -27,6 +27,9 @@ public sealed class LearnGroup8 : ILearnGroup
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen8;
+        if (evos.Length == 0)
+            return false;
+
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option);
 
