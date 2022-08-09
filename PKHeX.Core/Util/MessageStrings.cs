@@ -1,4 +1,4 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace PKHeX.Core;
 
@@ -152,6 +152,7 @@ public static class MessageStrings
     public static string MsgSaveBoxClearAll { get; set; } = "Clear ALL Boxes?!";
     public static string MsgSaveBoxClearAllFailBattle { get; set; } = "Battle Box slots prevent the clearing of all boxes.";
     public static string MsgSaveBoxClearAllSuccess { get; set; } = "Boxes cleared!";
+    public static string MsgSaveBoxUseClipboard { get; set; } = "Use this folder found in your clipboard? {0}";
 
     public static string MsgSaveBoxFailNone { get; set; } = "The currently loaded save file does not have boxes!";
     public static string MsgSaveBoxExportYes { get; set; } = "Yes: Export All Boxes";

@@ -766,6 +766,17 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private static bool IsFolderPath(out string path)
     {
+        if (Clipboard.ContainsText())
+        {
+            var directory = Clipboard.GetText();
+            // Ask user if they want to use clipboard directory before showing folder browser
+            if (Directory.Exists(directory) && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Format(MsgSaveBoxUseClipboard, directory)) == DialogResult.Yes)
+            {
+                path = directory;
+                return true;
+            }
+        }
+
         using var fbd = new FolderBrowserDialog();
         var result = fbd.ShowDialog() == DialogResult.OK;
         path = fbd.SelectedPath;
