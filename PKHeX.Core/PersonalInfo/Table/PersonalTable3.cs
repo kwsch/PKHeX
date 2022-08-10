@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo3"/> used in Generation 3 games.
+/// </summary>
 public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo3>
 {
     internal readonly PersonalInfo3[] Table; // internal to share with Gen1 tables

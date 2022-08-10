@@ -3,12 +3,14 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo7"/> used in Generation 7 games.
+/// </summary>
 public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo7>
 {
     internal readonly PersonalInfo7[] Table;
     private const int SIZE = PersonalInfo7.SIZE;
     public int MaxSpeciesID { get; }
-    public int Count => Table.Length;
 
     public PersonalTable7(ReadOnlySpan<byte> data, int maxSpecies)
     {

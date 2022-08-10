@@ -57,6 +57,10 @@ public interface IPersonalTable
     bool IsPresentInGame(int species, int form);
 }
 
+/// <summary>
+/// Generic interface for exposing specific <see cref="IPersonalInfo"/> retrieval methods.
+/// </summary>
+/// <typeparam name="T">Specific type of <see cref="IPersonalInfo"/> the table contains.</typeparam>
 public interface IPersonalTable<out T> where T : IPersonalInfo
 {
     T this[int index] { get; }

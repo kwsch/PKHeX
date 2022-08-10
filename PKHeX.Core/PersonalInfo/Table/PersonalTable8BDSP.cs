@@ -2,13 +2,15 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo8BDSP"/> used in <see cref="GameVersion.BDSP"/>.
+/// </summary>
 public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<PersonalInfo8BDSP>
 {
     private readonly PersonalInfo8BDSP[] Table;
     private const int SIZE = PersonalInfo8BDSP.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_8b;
     public int MaxSpeciesID => MaxSpecies;
-    public int Count => Table.Length;
 
     public PersonalTable8BDSP(ReadOnlySpan<byte> data)
     {
