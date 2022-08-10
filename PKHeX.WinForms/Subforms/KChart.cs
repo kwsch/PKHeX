@@ -12,10 +12,7 @@ namespace PKHeX.WinForms;
 public partial class KChart : Form
 {
     private readonly SaveFile SAV;
-    private readonly string[] species = GameInfo.Strings.specieslist;
-    private readonly string[] abilities = GameInfo.Strings.abilitylist;
-    private readonly int[] baseForm;
-    private readonly int[] formVal;
+    private readonly string[] abilities;
 
     public KChart(SaveFile sav)
     {
@@ -24,60 +21,69 @@ public partial class KChart : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = sav;
 
-        IPersonalTable pt = SAV.Personal;
-        Array.Resize(ref species, pt.Count);
-
-        var forms = pt.GetFormList(species, SAV.MaxSpeciesID);
-        species = pt.GetPersonalEntryList(forms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
+        var pt = SAV.Personal;
+        var strings = GameInfo.Strings;
+        var species = strings.specieslist;
+        abilities = strings.abilitylist;
 
         DGV.Rows.Clear();
-        for (int i = 1; i < species.Length; i++)
-            PopEntry(i);
+        for (int s = 1; s <= pt.MaxSpeciesID; s++)
+        {
+            var fc = pt[s, 0].FormCount;
+            var formNames = fc <= 1
+                ? Array.Empty<string>()
+                : FormConverter.GetFormList(s, strings.Types, strings.forms, Main.GenderSymbols, SAV.Context);
+            
+            for (int f = 0; f < fc; f++)
+            {
+                var name = f == 0 ? species[s] : $"{species[s]}-{(f < formNames.Length ? formNames[f] : f.ToString())}";
+                PopEntry(s, f, name);
+            }
+        }
 
         DGV.DoubleBuffered(true);
 
         DGV.Sort(DGV.Columns[0], ListSortDirection.Ascending);
     }
 
-    private void PopEntry(int index)
+    private void PopEntry(int species, int form, string name)
     {
-        var p = SAV.Personal[index];
+        var p = SAV.Personal.GetFormEntry(species, form);
         if (p.HP == 0)
             return;
 
-        int s = index > SAV.MaxSpeciesID ? baseForm[index] : index;
-        var f = index <= SAV.MaxSpeciesID ? 0 : formVal[index];
-
         var row = new DataGridViewRow();
         row.CreateCells(DGV);
-
-        int r = 0;
+        var cells = row.Cells;
+        int c = 0;
+        
         var bst = p.GetBaseStatTotal();
-        row.Cells[r++].Value = s.ToString("000") + (f > 0 ? $"-{f:00}" : "");
-        row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, 0, false, Shiny.Never, SAV.Generation);
-        row.Cells[r++].Value = species[index];
-        row.Cells[r++].Value = GetIsNative(p, s);
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);
-        row.Cells[r++].Value = bst.ToString("000");
-        row.Cells[r++].Value = p.CatchRate.ToString("000");
-        row.Cells[r++].Value = TypeSpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
-        row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.HP);
-        row.Cells[r++].Value = p.HP.ToString("000");
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.ATK);
-        row.Cells[r++].Value = p.ATK.ToString("000");
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.DEF);
-        row.Cells[r++].Value = p.DEF.ToString("000");
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.SPA);
-        row.Cells[r++].Value = p.SPA.ToString("000");
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.SPD);
-        row.Cells[r++].Value = p.SPD.ToString("000");
-        row.Cells[r].Style.BackColor = ColorUtil.ColorBaseStat(p.SPE);
-        row.Cells[r++].Value = p.SPE.ToString("000");
+        cells[c++].Value = species.ToString("000") + (form > 0 ? $"-{form:00}" : "");
+        cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Generation);
+        cells[c++].Value = name;
+        cells[c++].Value = GetIsNative(p, species);
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);
+        cells[c++].Value = bst.ToString("000");
+        cells[c++].Value = p.CatchRate.ToString("000");
+        cells[c++].Value = TypeSpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
+        cells[c++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.HP);
+        cells[c++].Value = p.HP.ToString("000");
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.ATK);
+        cells[c++].Value = p.ATK.ToString("000");
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.DEF);
+        cells[c++].Value = p.DEF.ToString("000");
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPA);
+        cells[c++].Value = p.SPA.ToString("000");
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPD);
+        cells[c++].Value = p.SPD.ToString("000");
+        cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPE);
+        cells[c++].Value = p.SPE.ToString("000");
         var abils = p.Abilities;
-        row.Cells[r++].Value = GetAbility(abils, 0);
-        row.Cells[r++].Value = GetAbility(abils, 1);
-        row.Cells[r].Value = GetAbility(abils, 2);
+        cells[c++].Value = GetAbility(abils, 0);
+        cells[c++].Value = GetAbility(abils, 1);
+        cells[c].Value = GetAbility(abils, 2);
+        
         row.Height = SpriteUtil.Spriter.Height + 1;
         DGV.Rows.Add(row);
     }
