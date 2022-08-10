@@ -2,13 +2,15 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo3"/> used in Generation 3 games.
+/// </summary>
 public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo3>
 {
     internal readonly PersonalInfo3[] Table; // internal to share with Gen1 tables
     private const int SIZE = PersonalInfo3.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     public int MaxSpeciesID => MaxSpecies;
-    public int Count => Table.Length;
 
     public PersonalTable3(ReadOnlySpan<byte> data)
     {

@@ -33,7 +33,7 @@ public partial class KChart : Form
             var formNames = fc <= 1
                 ? Array.Empty<string>()
                 : FormConverter.GetFormList(s, strings.Types, strings.forms, Main.GenderSymbols, SAV.Context);
-            
+
             for (int f = 0; f < fc; f++)
             {
                 var name = f == 0 ? species[s] : $"{species[s]}-{(f < formNames.Length ? formNames[f] : f.ToString())}";
@@ -56,7 +56,7 @@ public partial class KChart : Form
         row.CreateCells(DGV);
         var cells = row.Cells;
         int c = 0;
-        
+
         var bst = p.GetBaseStatTotal();
         cells[c++].Value = species.ToString("000") + (form > 0 ? $"-{form:00}" : "");
         cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Generation);
@@ -83,7 +83,7 @@ public partial class KChart : Form
         cells[c++].Value = GetAbility(abils, 0);
         cells[c++].Value = GetAbility(abils, 1);
         cells[c].Value = GetAbility(abils, 2);
-        
+
         row.Height = SpriteUtil.Spriter.Height + 1;
         DGV.Rows.Add(row);
     }

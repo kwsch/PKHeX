@@ -3,13 +3,15 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo6XY"/> used in Generation 6 games.
+/// </summary>
 public sealed class PersonalTable6XY : IPersonalTable, IPersonalTable<PersonalInfo6XY>
 {
     private readonly PersonalInfo6XY[] Table;
     private const int SIZE = PersonalInfo6XY.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     public int MaxSpeciesID => MaxSpecies;
-    public int Count => Table.Length;
 
     public PersonalTable6XY(ReadOnlySpan<byte> data)
     {

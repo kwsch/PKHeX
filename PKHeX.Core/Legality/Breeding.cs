@@ -141,9 +141,6 @@ public static class Breeding
     {
         // Sanity check form for origin
         var pt = GameData.GetPersonal(game);
-        if ((uint)species > pt.MaxSpeciesID)
-            return false;
-
         if (!pt.IsPresentInGame(species, form))
             return false;
 

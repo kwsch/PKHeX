@@ -2,13 +2,15 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Personal Table storing <see cref="PersonalInfo1"/> used in Generation 1 games.
+/// </summary>
 public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo1>
 {
     private readonly PersonalInfo1[] Table;
     private const int SIZE = PersonalInfo1.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_1;
     public int MaxSpeciesID => MaxSpecies;
-    public int Count => Table.Length;
 
     public PersonalTable1(ReadOnlySpan<byte> data)
     {

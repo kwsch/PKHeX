@@ -8,11 +8,6 @@ public interface IPersonalTable
     int MaxSpeciesID { get; }
 
     /// <summary>
-    /// Count of entries in the table.
-    /// </summary>
-    int Count { get; }
-
-    /// <summary>
     /// Gets an index from the inner array.
     /// </summary>
     /// <remarks>Has built in length checks; returns empty (0) entry if out of range.</remarks>
@@ -57,6 +52,10 @@ public interface IPersonalTable
     bool IsPresentInGame(int species, int form);
 }
 
+/// <summary>
+/// Generic interface for exposing specific <see cref="IPersonalInfo"/> retrieval methods.
+/// </summary>
+/// <typeparam name="T">Specific type of <see cref="IPersonalInfo"/> the table contains.</typeparam>
 public interface IPersonalTable<out T> where T : IPersonalInfo
 {
     T this[int index] { get; }
