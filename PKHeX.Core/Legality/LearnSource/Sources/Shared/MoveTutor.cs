@@ -1,8 +1,11 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// <see cref="ILearnSource"/> shared logic for tutor moves.
+/// </summary>
 public static class MoveTutor
 {
-    /// <summary> Rotom Moves that correspond to a specific form (form-0 ignored). </summary>
+    /// <summary> Gets the move that a Rotom form is permitted to have while existing as a specific <see cref="form"/>. </summary>
     public static int GetRotomFormMove(int form) => form switch
     {
         1 => (int)Move.Overheat,
