@@ -1,5 +1,3 @@
-﻿using static PKHeX.Core.PIDType;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -190,25 +188,4 @@ public enum PIDType
     Roaming8b,
 
     #endregion
-}
-
-public static class PIDTypeExtensions
-{
-    public static RNGType GetRNGType(this PIDType type) => type switch
-    {
-        0 => RNGType.None,
-        <= ChainShiny => RNGType.LCRNG,
-        <= PokeSpot => RNGType.XDRNG,
-        G4MGAntiShiny => RNGType.ARNG,
-        _ => RNGType.None,
-    };
-
-    public static bool IsReversedPID(this PIDType type) => type switch
-    {
-        CXD or CXDAnti => true,
-        BACD_R or BACD_R_A or BACD_R_S => true,
-        BACD_U or BACD_U_A or BACD_U_S => true,
-        Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown => true,
-        _ => false,
-    };
 }
