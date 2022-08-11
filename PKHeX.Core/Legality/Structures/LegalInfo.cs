@@ -10,10 +10,10 @@ public sealed class LegalInfo : IGeneration
     /// <summary>The <see cref="PKM"/> object used for comparisons.</summary>
     public readonly PKM Entity;
 
-    /// <summary>The generation of games the <see cref="PKM"/> originated from.</summary>
+    /// <summary>The generation of games the <see cref="Entity"/> originated from.</summary>
     public int Generation { get; private set; }
 
-    /// <summary>The matched Encounter details for the <see cref="PKM"/>. </summary>
+    /// <summary>The matched Encounter details for the <see cref="Entity"/>. </summary>
     public IEncounterable EncounterMatch
     {
         get => _match;

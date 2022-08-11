@@ -2,10 +2,13 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic to check the possible moves a Pokémon can learn.
+/// </summary>
 public static class LearnPossible
 {
     /// <summary>
-    /// Populates a list of move indexes that can be learned based on the inputs.
+    /// Populates the permission <see cref="result"/> list indicating the move ID indexes that can be learned based on the inputs.
     /// </summary>
     /// <param name="pk">Entity to check</param>
     /// <param name="enc">Encounter it has been matched to</param>

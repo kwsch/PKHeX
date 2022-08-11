@@ -3,6 +3,9 @@ using System;
 namespace PKHeX.Core;
 using static LearnEnvironment;
 
+/// <summary>
+/// Indicates the group of game(s) that the move was learned in.
+/// </summary>
 public enum LearnEnvironment : byte
 {
     None,

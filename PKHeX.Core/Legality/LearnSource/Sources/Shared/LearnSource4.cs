@@ -4,6 +4,14 @@ namespace PKHeX.Core;
 
 internal static class LearnSource4
 {
+    /// <summary>
+    /// Gets the preferred list of HM moves to disallow on transfer from <see cref="PK4"/> to <see cref="PK5"/>.
+    /// </summary>
+    /// <remarks>
+    /// If the moveset has Defog, then we prefer HG/SS (remove Whirlpool) over D/P/Pt.
+    /// Defog is a competitively viable move, while Whirlpool is not really useful.
+    /// </remarks>
+    /// <param name="hasDefog">True if the current moveset has <see cref="Move.Defog"/>.</param>
     public static ReadOnlySpan<int> GetPreferredTransferHMs(bool hasDefog) => hasDefog ? HM_HGSS : HM_DPPt;
 
     internal static readonly int[] SpecialTutors_4 =

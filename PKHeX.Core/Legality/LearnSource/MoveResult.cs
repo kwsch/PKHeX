@@ -3,6 +3,13 @@ using System.Text;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Stores parsed data about how a move was learned.
+/// </summary>
+/// <param name="Info">Info about the game it was learned in.</param>
+/// <param name="EvoStage">Evolution stage index within the <see cref="MoveLearnInfo.Environment"/> evolution list it existed in.</param>
+/// <param name="Generation">Rough indicator of generation the <see cref="MoveLearnInfo.Environment"/> was.</param>
+/// <param name="Expect">Optional value used when the move is not legal, to indicate that another move ID should have been in that move slot instead.</param>
 public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, short Expect = 0)
 {
     public bool IsParsed => this != default;
