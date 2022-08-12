@@ -31,7 +31,7 @@ public sealed class Situation6 : SaveBlock<SAV6>
 
     public float Z
     {
-        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14));
+        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14)) / 18;
         set
         {
             var span = Data.AsSpan(Offset + 0x14);
