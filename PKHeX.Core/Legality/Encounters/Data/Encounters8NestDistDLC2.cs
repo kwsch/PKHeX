@@ -8,6 +8,16 @@ internal static partial class Encounters8Nest
     /// </summary>
     internal static readonly EncounterStatic8ND[] Dist_DLC2 =
     {
+        new(17,01,1) { Species = 859, Ability = A4, Moves = new[]{ 372, 044, 252, 590 }, Index = 111 }, // Impidimp
+        new(30,03,2) { Species = 859, Ability = A4, Moves = new[]{ 399, 583, 252, 005 }, Index = 111 }, // Impidimp
+        new(40,05,3) { Species = 860, Ability = A4, Moves = new[]{ 793, 583, 421, 025 }, Index = 111 }, // Morgrem
+        new(40,05,3) { Species = 859, Ability = A4, Moves = new[]{ 399, 583, 252, 005 }, Index = 111 }, // Impidimp
+        new(50,08,4) { Species = 861, Ability = A4, Moves = new[]{ 789, 492, 359, 025 }, Index = 111 }, // Grimmsnarl
+        new(50,08,4) { Species = 860, Ability = A4, Moves = new[]{ 793, 583, 421, 025 }, Index = 111 }, // Morgrem
+        new(50,08,4) { Species = 859, Ability = A4, Moves = new[]{ 399, 583, 252, 005 }, Index = 111 }, // Impidimp
+        new(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 663, 359, 025 }, Index = 111, Shiny = Shiny.Always }, // Grimmsnarl
+        new(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 663, 359, 025 }, Index = 111 }, // Grimmsnarl
+
         new(17,01,1) { Species = 183, Ability = A4, Moves = new[]{ 583, 392, 205, 021 }, Index = 109 }, // Marill
         new(17,01,1) { Species = 060, Ability = A4, Moves = new[]{ 055, 001, 341, 061 }, Index = 109 }, // Poliwag
         new(17,01,1) { Species = 363, Ability = A4, Moves = new[]{ 181, 055, 205, 111 }, Index = 109 }, // Spheal
