@@ -166,8 +166,9 @@ public sealed class RibbonVerifier : Verifier
         }
         if (pk is IRibbonSetCommon7 s7)
         {
-            bool inhabited7 = gen <= 7 && !pk.GG;
-            if (!inhabited7 && enc is not IRibbonSetCommon7 { RibbonChampionAlola: true })
+            bool inhabited7 = evos.HasVisitedGen7;
+            bool alolaValid = GetIsAlolaChampValid(s7, enc, inhabited7);
+            if (!alolaValid)
                 yield return new RibbonResult(nameof(s7.RibbonChampionAlola));
 
             if (!inhabited7 || !IsAllowedBattleFrontier(pk.Species))
@@ -196,6 +197,18 @@ public sealed class RibbonVerifier : Verifier
             foreach (var z in iterate)
                 yield return z;
         }
+    }
+
+    private static bool GetIsAlolaChampValid(IRibbonSetCommon7 s7, IEncounterTemplate enc, bool inhabited7)
+    {
+        // If the encounter comes with the ribbon, it must have the ribbon.
+        if (enc is IRibbonSetCommon7 { RibbonChampionAlola: true })
+            return s7.RibbonChampionAlola;
+        // If it has visited, it can be either state.
+        if (inhabited7)
+            return true;
+        // If it has not visited, it must not have it.
+        return !s7.RibbonChampionAlola;
     }
 
     private static bool IsRibbonValidEffort(PKM pk, EvolutionHistory evos, int gen) => gen switch
