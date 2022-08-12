@@ -167,9 +167,18 @@ public sealed class RibbonVerifier : Verifier
         if (pk is IRibbonSetCommon7 s7)
         {
             bool inhabited7 = gen <= 7 && !pk.GG;
-            var iterate = inhabited7 ? GetInvalidRibbons7Any(pk, s7) : GetInvalidRibbonsNone(s7.RibbonBits(), s7.RibbonNames());
-            foreach (var z in iterate)
-                yield return z;
+            if (!inhabited7 && enc is not IRibbonSetCommon7 { RibbonChampionAlola: true })
+                yield return new RibbonResult(nameof(s7.RibbonChampionAlola));
+
+            if (!inhabited7 || !IsAllowedBattleFrontier(pk.Species))
+            {
+                if (s7.RibbonBattleRoyale)
+                    yield return new RibbonResult(nameof(s7.RibbonBattleRoyale));
+                if (s7.RibbonBattleTreeGreat && !pk.USUM && pk.IsUntraded)
+                    yield return new RibbonResult(nameof(s7.RibbonBattleTreeGreat));
+                if (s7.RibbonBattleTreeMaster)
+                    yield return new RibbonResult(nameof(s7.RibbonBattleTreeMaster));
+            }
         }
         if (pk is IRibbonSetCommon3 s3)
         {
@@ -412,19 +421,6 @@ public sealed class RibbonVerifier : Verifier
         var result = new RibbonResult(nameof(s6.RibbonChampionKalos), false);
         result.Combine(new RibbonResult(nameof(s6.RibbonChampionG6Hoenn)));
         yield return result;
-    }
-
-    private static IEnumerable<RibbonResult> GetInvalidRibbons7Any(PKM pk, IRibbonSetCommon7 s7)
-    {
-        if (!IsAllowedBattleFrontier(pk.Species))
-        {
-            if (s7.RibbonBattleRoyale)
-                yield return new RibbonResult(nameof(s7.RibbonBattleRoyale));
-            if (s7.RibbonBattleTreeGreat && !pk.USUM && pk.IsUntraded)
-                yield return new RibbonResult(nameof(s7.RibbonBattleTreeGreat));
-            if (s7.RibbonBattleTreeMaster)
-                yield return new RibbonResult(nameof(s7.RibbonBattleTreeMaster));
-        }
     }
 
     private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pk, IRibbonSetCommon8 s8, IEncounterTemplate enc, EvolutionHistory evos)
