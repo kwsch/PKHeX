@@ -11,7 +11,7 @@ public readonly record struct RibbonResult
     public bool IsRequired => (Flags & Required) != 0;
     private RibbonParseFlags Type => Flags & ~Required;
 
-    public RibbonResult(RibbonIndex index, bool required = false) { Value = (byte)index; Flags = required ? Required : Mainline; }
+    public RibbonResult(RibbonIndex index, bool required = false) { Value = (byte)index; Flags = required ? RequiredM : Mainline; }
     public RibbonResult(RibbonIndex3 index, bool required = false) { Value = (byte)index; Flags = required ? Required3 : Index3; }
     public RibbonResult(RibbonIndex4 index, bool required = false) { Value = (byte)index; Flags = required ? Required4 : Index4; }
     public bool Equals(RibbonIndex index) => Type == Mainline && Value == (byte)index;
@@ -47,6 +47,7 @@ public enum RibbonParseFlags : byte
     Index4,
 
     Required = 0x80,
+    RequiredM = Required | Mainline,
     Required3 = Required | Index3,
     Required4 = Required | Index4,
 }

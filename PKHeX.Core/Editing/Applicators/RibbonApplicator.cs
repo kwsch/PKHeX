@@ -51,12 +51,17 @@ public static class RibbonApplicator
 
     private static void SetAllRibbonState(RibbonVerifierArguments args, bool state)
     {
-        for (int i = 0; i < (int)RibbonIndex.MAX_COUNT; i++)
-            new RibbonResult((RibbonIndex)i, state).Fix(args);
         for (int i = 0; i < (int)RibbonIndex3.MAX_COUNT; i++)
             new RibbonResult((RibbonIndex3)i, state).Fix(args);
         for (int i = 0; i < (int)RibbonIndex4.MAX_COUNT; i++)
             new RibbonResult((RibbonIndex4)i, state).Fix(args);
+        for (int i = 0; i < (int)RibbonIndex.MAX_COUNT; i++)
+        {
+            var value = (RibbonIndex)i;
+            if (state && value.IsMark())
+                continue; // We're not here to set Marks.
+            new RibbonResult(value, state).Fix(args);
+        }
     }
 
     private static void InvertDeadlockContest(IRibbonSetCommon6 c6, bool desiredState, RibbonVerifierArguments args)
