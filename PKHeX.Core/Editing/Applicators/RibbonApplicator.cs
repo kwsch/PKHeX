@@ -11,7 +11,6 @@ public static class RibbonApplicator
     /// Sets all valid ribbons to the <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Entity to set ribbons for.</param>
-    /// <returns>True if any ribbons were applied.</returns>
     public static void SetAllValidRibbons(PKM pk) => SetAllValidRibbons(new LegalityAnalysis(pk));
 
     /// <inheritdoc cref="SetAllValidRibbons(PKM)"/>
@@ -30,7 +29,6 @@ public static class RibbonApplicator
     /// Sets all valid ribbons to the <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Entity to set ribbons for.</param>
-    /// <returns>True if any ribbons were removed.</returns>
     public static void RemoveAllValidRibbons(PKM pk) => RemoveAllValidRibbons(new LegalityAnalysis(pk));
 
     /// <inheritdoc cref="RemoveAllValidRibbons(PKM)"/>
@@ -41,7 +39,10 @@ public static class RibbonApplicator
         FixInvalidRibbons(args);
     }
 
-    private static void FixInvalidRibbons(RibbonVerifierArguments args)
+    /// <summary>
+    /// Parses the Entity for all ribbons, then fixes any ribbon that was invalid.
+    /// </summary>
+    public static void FixInvalidRibbons(RibbonVerifierArguments args)
     {
         Span<RibbonResult> result = stackalloc RibbonResult[RibbonVerifier.MaxRibbonCount];
         var count = RibbonVerifier.GetRibbonResults(args, result);
