@@ -231,6 +231,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseDynamax(string value)
     {
+        Context = EntityContext.Gen8;
         var val = Util.ToInt32(value);
         if ((uint)val > 10)
             return false;
@@ -295,7 +296,7 @@ public sealed class ShowdownSet : IBattleTemplate
             result.Add($"Level: {Level}");
         if (Shiny)
             result.Add("Shiny: Yes");
-        if (DynamaxLevel != 10)
+        if (DynamaxLevel != 10 && Context == EntityContext.Gen8)
             result.Add($"Dynamax Level: {DynamaxLevel}");
         if (CanGigantamax)
             result.Add("Gigantamax: Yes");
