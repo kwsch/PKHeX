@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -183,9 +182,9 @@ public sealed class MarkVerifier : Verifier
         var clone = pk.Clone();
         clone.Species = (int) Species.Nincada;
         ((IRibbonIndex) clone).SetRibbon(affix);
-        var parse = RibbonVerifier.GetRibbonResults(clone, data.Info.EvoChainsAllGens, enc);
+        var args = new RibbonVerifierArguments(clone, enc, data.Info.EvoChainsAllGens);
         var name = GetRibbonNameSafe((RibbonIndex)affix);
-        bool invalid = parse.FirstOrDefault(z => z.Name == name)?.Invalid == true;
+        bool invalid = RibbonVerifier.IsValidExtra((RibbonIndex)affix, args);
         var severity = invalid ? Severity.Invalid : Severity.Fishy;
         data.AddLine(Get(string.Format(LRibbonMarkingAffixedF_0, name), severity));
     }

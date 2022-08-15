@@ -347,8 +347,8 @@ LPokerusDaysTooHigh_0 = Pokérus Days Remaining value is too high; expected <= {
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} cannot be obtained.
 LRibbonAllValid = 所有奖章合法。
 LRibbonEgg = 蛋不能接受奖章。
-LRibbonFInvalid_0 = 不合法奖章: {0}
-LRibbonFMissing_0 = 缺失奖章: {0}
+LRibbonFInvalid_0 = 不合法奖章: 
+LRibbonFMissing_0 = 缺失奖章: 
 LRibbonMarkingAffixedF_0 = 无效的奖章/证章: {0}
 LRibbonMarkingFInvalid_0 = 无效标记: {0}
 LStatAlphaInvalid = Alpha Flag mismatch.

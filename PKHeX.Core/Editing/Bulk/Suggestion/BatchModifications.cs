@@ -54,11 +54,10 @@ internal static class BatchModifications
 
     public static ModifyResult SetSuggestedRibbons(BatchInfo info, string value)
     {
-        var pk = info.Entity;
         if (IsNone(value))
-            RibbonApplicator.RemoveAllValidRibbons(pk);
+            RibbonApplicator.RemoveAllValidRibbons(info.Legality);
         else // All
-            RibbonApplicator.SetAllValidRibbons(pk);
+            RibbonApplicator.SetAllValidRibbons(info.Legality);
         return ModifyResult.Modified;
     }
 

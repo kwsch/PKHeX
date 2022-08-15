@@ -347,8 +347,8 @@ LPokerusDaysTooHigh_0 = Pokérus Days Remaining value is too high; expected <= {
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} cannot be obtained.
 LRibbonAllValid = Tous les rubans ont été comptabilisés.
 LRibbonEgg = L'Œuf ne peut pas recevoir de Rubans.
-LRibbonFInvalid_0 = Rubans invalides : {0}
-LRibbonFMissing_0 = Rubans manquants : {0}
+LRibbonFInvalid_0 = Rubans invalides : 
+LRibbonFMissing_0 = Rubans manquants : 
 LRibbonMarkingAffixedF_0 = Ruban / marquage apposé non valide: {0}
 LRibbonMarkingFInvalid_0 = Marquage non valide: {0}
 LStatAlphaInvalid = Alpha Flag mismatch.
