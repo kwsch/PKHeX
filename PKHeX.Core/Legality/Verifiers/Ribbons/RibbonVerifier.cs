@@ -156,7 +156,7 @@ public sealed class RibbonVerifier : Verifier
         if (pk is IRibbonSetEvent3 e3)
             e3.ParseEgg(ref list);
         if (pk is IRibbonSetEvent4 e4)
-            e4.ParseEgg(args, ref list);
+            e4.ParseEgg(args, ref list); // Some event eggs can have ribbons!
         if (pk is IRibbonSetUnique3 u3)
             u3.ParseEgg(ref list);
         if (pk is IRibbonSetCommon3 s3)
@@ -166,10 +166,10 @@ public sealed class RibbonVerifier : Verifier
         if (pk is IRibbonSetCommon4 s4)
             s4.ParseEgg(ref list);
         if (pk is IRibbonSetCommon6 s6)
-            s6.ParseEgg(args, ref list);
+            s6.ParseEgg(ref list);
         if (pk is IRibbonSetCommon7 s7)
             s7.ParseEgg(ref list);
         if (pk is IRibbonSetCommon8 s8)
-            s8.ParseEgg(args, ref list);
+            s8.ParseEgg(ref list);
     }
 }

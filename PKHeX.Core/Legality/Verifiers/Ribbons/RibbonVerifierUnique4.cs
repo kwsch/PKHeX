@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Parsing logic for <see cref="IRibbonSetUnique4"/>.
+/// </summary>
 public static class RibbonVerifierUnique4
 {
     public static void Parse(this IRibbonSetUnique4 r, RibbonVerifierArguments args, ref RibbonResultList list)

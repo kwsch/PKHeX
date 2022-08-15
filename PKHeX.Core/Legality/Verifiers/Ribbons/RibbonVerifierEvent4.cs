@@ -2,6 +2,9 @@ using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Parsing logic for <see cref="IRibbonSetEvent4"/>.
+/// </summary>
 public static class RibbonVerifierEvent4
 {
     public static void Parse(this IRibbonSetEvent4 r, RibbonVerifierArguments args, ref RibbonResultList list)

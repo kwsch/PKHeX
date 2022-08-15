@@ -2,6 +2,9 @@ using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Parsing logic for <see cref="IRibbonSetCommon7"/>.
+/// </summary>
 public static class RibbonVerifierCommon7
 {
     public static void Parse(this IRibbonSetCommon7 r, RibbonVerifierArguments args, ref RibbonResultList list)
@@ -27,6 +30,7 @@ public static class RibbonVerifierCommon7
     {
         if (r.RibbonChampionAlola)
             list.Add(ChampionAlola);
+
         if (r.RibbonBattleRoyale)
             list.Add(BattleRoyale);
         if (r.RibbonBattleTreeGreat)

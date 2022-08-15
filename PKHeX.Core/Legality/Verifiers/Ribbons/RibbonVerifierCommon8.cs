@@ -2,6 +2,9 @@ using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Parsing logic for <see cref="IRibbonSetCommon8"/>.
+/// </summary>
 public static class RibbonVerifierCommon8
 {
     public static void Parse(this IRibbonSetCommon8 r, RibbonVerifierArguments args, ref RibbonResultList list)
@@ -27,7 +30,7 @@ public static class RibbonVerifierCommon8
             {
                 const int memChampion = 27;
                 bool hasChampMemory = (enc.Generation == 8 && pk is IMemoryOT { OT_Memory: memChampion })
-                                      || (pk.Format == 8 && pk is IMemoryHT { HT_Memory: memChampion });
+                                        || (pk.Format == 8 && pk is IMemoryHT { HT_Memory: memChampion });
                 if (hasChampMemory)
                     list.Add(ChampionGalar);
             }
@@ -45,7 +48,7 @@ public static class RibbonVerifierCommon8
                 if (pk is IMemoryOT { OT_Memory: strongest } or IMemoryHT { HT_Memory: strongest })
                 {
                     if (enc.Generation == 8 || !RibbonRules.IsAllowedBattleFrontier(pk.Species) || pk is IRibbonSetCommon6 { RibbonBattlerSkillful: false })
-                        list.Add(TowerMaster);
+                        list.Add(TowerMaster, true);
                 }
             }
         }
@@ -58,7 +61,7 @@ public static class RibbonVerifierCommon8
             list.Add(Pioneer);
     }
 
-    public static void ParseEgg(this IRibbonSetCommon8 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void ParseEgg(this IRibbonSetCommon8 r, ref RibbonResultList list)
     {
         if (r.RibbonChampionGalar)
             list.Add(ChampionGalar);
