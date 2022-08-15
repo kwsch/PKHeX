@@ -7,6 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonRules
 {
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetCommon7.RibbonChampionAlola"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidAlolaChamp(IRibbonSetCommon7 s7, IEncounterTemplate enc, bool inhabited7)
     {
         // If the encounter comes with the ribbon, it must have the ribbon.
@@ -19,15 +22,20 @@ public static class RibbonRules
         return !s7.RibbonChampionAlola;
     }
 
-    // Ribbon is available to all games except for Gen5 and PLA.
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetCommon3.RibbonEffort"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidEffort(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
-        5 when pk.Format == 5 => false,
-        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false,
+        5 when pk.Format == 5 => false, // Not available in BW/B2W2
+        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // not available in PLA
         _ => true,
     };
 
-    public static bool IsRibbonValidBestFriend(PKM pk, EvolutionHistory evos, int gen) => gen switch
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonBestFriends"/> ribbon.
+    /// </summary>
+    public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
         < 7 when pk is { IsUntraded: true } and IAffection { OT_Affection: < 255 } => false, // Gen6/7 uses affection. Can't lower it on OT!
         8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // Gen8+ replaced with Max Friendship.
@@ -90,13 +98,21 @@ public static class RibbonRules
         return true;
     }
 
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonTraining"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidSuperTraining(ISuperTrain pk)
     {
+        // It is assumed that the entity existed in the Gen6 game to receive the ribbon.
+        // We only enter this method if the entity implements the interface.
         const int req = 12; // only first 12 are required to get the ribbon.
         int count = pk.SuperTrainingMedalCount(req);
         return count >= req;
     }
 
+    /// <summary>
+    /// Checks if the entity participated in battles for the <see cref="IRibbonSetCommon8.RibbonTowerMaster"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidTowerMaster(EvolutionHistory evos)
     {
         if (evos.HasVisitedSWSH)
@@ -108,6 +124,9 @@ public static class RibbonRules
         return !Legal.Mythicals.Contains(evos.Gen8b[0].Species);
     }
 
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetUnique3.RibbonWinning"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidWinning(PKM pk, IEncounterTemplate enc, EvolutionHistory evos)
     {
         if (!evos.HasVisitedGen3)
@@ -127,6 +146,9 @@ public static class RibbonRules
         return enc is not (EncounterStaticShadow or WC3);
     }
 
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetUnique3.RibbonVictory"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidVictory(EvolutionHistory evos)
     {
         if (evos.HasVisitedGen3)
@@ -134,6 +156,9 @@ public static class RibbonRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetCommon8.RibbonTwinklingStar"/> ribbon.
+    /// </summary>
     public static bool IsRibbonValidTwinklingStar(EvolutionHistory evos, PKM pk)
     {
         // Can currently only obtain from BD/SP.
@@ -220,6 +245,12 @@ public static class RibbonRules
         true,  true,  true,  true,
     };
 
+    /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetEvent3.RibbonNational"/> ribbon.
+    /// </summary>
+    /// <remarks>
+    /// If returns true, must have the ribbon. If returns false, must not have the ribbon.
+    /// </remarks>
     public static bool GetValidRibbonStateNational(PKM pk, IEncounterTemplate enc)
     {
         // Can only obtain from Generation 3 Shadow Pokémon
@@ -232,10 +263,13 @@ public static class RibbonRules
         // Ribbon is awarded when the Pokémon is purified in the game of origin.
         if (pk is IShadowPKM { IsShadow: true })
             return false;
-        
+
         return true;
     }
 
+    /// <summary>
+    /// Gets the max count values the input can receive for the <see cref="IRibbonSetCommon6.RibbonCountMemoryContest"/> and <see cref="IRibbonSetCommon6.RibbonCountMemoryBattle"/> ribbon counts.
+    /// </summary>
     public static (byte Contest, byte Battle) GetMaxMemoryCounts(EvolutionHistory evos, PKM pk, IEncounterTemplate enc)
     {
         // Contest: 20 in both Generations.

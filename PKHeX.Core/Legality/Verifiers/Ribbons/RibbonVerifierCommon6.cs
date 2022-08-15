@@ -19,12 +19,13 @@ public static class RibbonVerifierCommon6
         bool oras6 = gen6 && !(pk.IsUntraded && pk.XY);
         bool contest = oras6 || bdsp;
 
-        bool champ = false;
-        if ((champ |= r.RibbonChampionKalos) && !kalos6)
+        bool k = r.RibbonChampionKalos;
+        bool h = r.RibbonChampionG6Hoenn;
+        if (k && !kalos6)
             list.Add(ChampionKalos);
-        if ((champ |= r.RibbonChampionG6Hoenn) && !oras6)
+        if (h && !oras6)
             list.Add(ChampionG6Hoenn);
-        if (!champ)
+        if (!k && !h) // no champ ribbon, check memory.
             CheckChampionMemory(args, ref list);
 
         if (!contest)
@@ -45,7 +46,7 @@ public static class RibbonVerifierCommon6
                 list.Add(ContestStar, !r.RibbonContestStar);
         }
 
-        if (r.RibbonBestFriends && !RibbonRules.IsRibbonValidBestFriend(args.Entity, evos, args.Encounter.Generation))
+        if (r.RibbonBestFriends && !RibbonRules.IsRibbonValidBestFriends(args.Entity, evos, args.Encounter.Generation))
             list.Add(BestFriends);
 
         if (!gen6)

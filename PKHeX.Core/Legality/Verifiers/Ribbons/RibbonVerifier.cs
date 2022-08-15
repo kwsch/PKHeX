@@ -32,6 +32,12 @@ public sealed class RibbonVerifier : Verifier
         data.AddLine(GetInvalid(msg));
     }
 
+    /// <summary>
+    /// Checks if the <see cref="index"/> is not an invalid/missing ribbon in the result parse.
+    /// </summary>
+    /// <param name="index">Ribbon Index to check for</param>
+    /// <param name="args">Inputs to analyze</param>
+    /// <returns>True if not present in the flagged result span.</returns>
     public static bool IsValidExtra(RibbonIndex index, RibbonVerifierArguments args)
     {
         Span<RibbonResult> result = stackalloc RibbonResult[MaxRibbonCount];
@@ -48,6 +54,12 @@ public sealed class RibbonVerifier : Verifier
         return true;
     }
 
+    /// <summary>
+    /// Uses the input <see cref="args"/> and stores results in the <see cref="result"/> span.
+    /// </summary>
+    /// <param name="args">Inputs to analyze</param>
+    /// <param name="result">Result storage</param>
+    /// <returns>Count of elements filled in the <see cref="result"/> span.</returns>
     public static int GetRibbonResults(RibbonVerifierArguments args, Span<RibbonResult> result)
     {
         var list = new RibbonResultList(result);
@@ -64,62 +76,48 @@ public sealed class RibbonVerifier : Verifier
         return list.Count;
     }
 
-    private static string GetMessage(Span<RibbonResult> result)
+    private static string GetMessage(ReadOnlySpan<RibbonResult> result)
     {
-        var count = result.Length;
-        var sb = new StringBuilder(count * 20);
-
-        // Count the amount of missing Ribbons.
-        int required = 0;
-        foreach (var x in result)
+        var total = result.Length;
+        int missing = GetCountMissing(result);
+        int invalid = total - missing;
+        var sb = new StringBuilder(total * 20);
+        if (missing != 0)
+            AppendAll(result, sb, LRibbonFMissing_0, true);
+        if (invalid != 0)
         {
-            if (x.IsRequired)
-                required++;
+            if (missing != 0) // need to visually separate the message
+                sb.Append(Environment.NewLine);
+            AppendAll(result, sb, LRibbonFInvalid_0, false);
         }
-
-        if (required != 0)
-            AppendRequired(result, sb);
-        if (count - required != 0)
-            AppendInvalid(sb, result, required != 0);
         return sb.ToString();
     }
 
-    private static void AppendInvalid(StringBuilder sb, Span<RibbonResult> result, bool hasRequired)
+    private static int GetCountMissing(ReadOnlySpan<RibbonResult> result)
     {
-        if (hasRequired)
-            sb.Append(Environment.NewLine);
-
-        var intro = LRibbonFInvalid_0;
-        int added = 0;
-        sb.Append(intro);
+        int count = 0;
         foreach (var x in result)
         {
-            if (x.IsRequired)
-                continue;
-            var name = x.Name;
-            var localized = RibbonStrings.GetName(name);
-            if (added != 0)
-                sb.Append(", ");
-            sb.Append(localized);
-            added++;
+            if (x.IsMissing)
+                count++;
         }
+        return count;
     }
 
-    private static void AppendRequired(Span<RibbonResult> result, StringBuilder sb)
+    private const string MessageSplitNextRibbon = ", ";
+
+    private static void AppendAll(ReadOnlySpan<RibbonResult> result, StringBuilder sb, string startText, bool stateMissing)
     {
-        var intro = LRibbonFMissing_0;
         int added = 0;
-        sb.Append(intro);
+        sb.Append(startText);
         foreach (var x in result)
         {
-            if (!x.IsRequired)
+            if (x.IsMissing != stateMissing)
                 continue;
-            var name = x.Name;
-            var localized = RibbonStrings.GetName(name);
-            if (added != 0)
-                sb.Append(", ");
+            if (added++ != 0)
+                sb.Append(MessageSplitNextRibbon);
+            var localized = RibbonStrings.GetName(x.PropertyName);
             sb.Append(localized);
-            added++;
         }
     }
 

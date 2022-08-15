@@ -19,7 +19,7 @@ public ref struct RibbonResultList
         ++Count;
     }
 
-    public void Add(RibbonIndex index, bool required = false) => Add(new(index, required));
-    public void Add(RibbonIndex3 index, bool required = false) => Add(new(index, required));
-    public void Add(RibbonIndex4 index, bool required = false) => Add(new(index, required));
+    public void Add(RibbonIndex index, bool missing = false) => Add(new(index, missing));
+    public void Add(RibbonIndex3 index, bool missing = false) => Add(new(index, missing));
+    public void Add(RibbonIndex4 index, bool missing = false) => Add(new(index, missing));
 }

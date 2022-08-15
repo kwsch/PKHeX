@@ -181,8 +181,8 @@ public sealed class MarkVerifier : Verifier
 
         var clone = pk.Clone();
         clone.Species = (int) Species.Nincada;
-        ((IRibbonIndex) clone).SetRibbon(affix);
         var args = new RibbonVerifierArguments(clone, enc, data.Info.EvoChainsAllGens);
+        ((RibbonIndex)affix).Fix(args, true);
         var name = GetRibbonNameSafe((RibbonIndex)affix);
         bool invalid = RibbonVerifier.IsValidExtra((RibbonIndex)affix, args);
         var severity = invalid ? Severity.Invalid : Severity.Fishy;
