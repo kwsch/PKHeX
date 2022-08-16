@@ -50,18 +50,27 @@ public static class RibbonApplicator
             ribbon.Fix(args);
     }
 
-    private static void SetAllRibbonState(RibbonVerifierArguments args, bool state)
+    private static void SetAllRibbonState(RibbonVerifierArguments args, bool desiredState)
     {
         for (RibbonIndex3 r = 0; r < RibbonIndex3.MAX_COUNT; r++)
-            r.Fix(args, state);
+            r.Fix(args, desiredState);
         for (RibbonIndex4 r = 0; r < RibbonIndex4.MAX_COUNT; r++)
-            r.Fix(args, state);
+            r.Fix(args, desiredState);
 
-        // Skip Marks
-        for (RibbonIndex r = 0; r <= RibbonIndex.MasterRank; r++)
-            r.Fix(args, state);
-        for (RibbonIndex r = RibbonIndex.Pioneer; r < RibbonIndex.MAX_COUNT; r++)
-            r.Fix(args, state);
+        if (desiredState)
+        {
+            // Skip Marks, don't set them.
+            for (RibbonIndex r = 0; r <= RibbonIndex.MasterRank; r++)
+                r.Fix(args, desiredState);
+            for (RibbonIndex r = RibbonIndex.Pioneer; r < RibbonIndex.MAX_COUNT; r++)
+                r.Fix(args, desiredState);
+        }
+        else
+        {
+            // Remove Marks too.
+            for (RibbonIndex r = 0; r < RibbonIndex.MAX_COUNT; r++)
+                r.Fix(args, desiredState);
+        }
     }
 
     private static void InvertDeadlockContest(IRibbonSetCommon6 c6, bool desiredState, RibbonVerifierArguments args)

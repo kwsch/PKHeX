@@ -10,7 +10,17 @@ namespace PKHeX.Core;
 public sealed class RibbonVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.Ribbon;
-    public const int MaxRibbonCount = (int)RibbonIndex.MAX_COUNT + (int)RibbonIndex3.MAX_COUNT + (int)RibbonIndex4.MAX_COUNT;
+
+    /// <summary>
+    /// Maximum amount of ribbons to consider when allocating a span for parsing.
+    /// </summary>
+    /// <remarks>
+    /// Minor optimization is to stackalloc as little as possible, without too much calculation.
+    /// <see cref="RibbonIndex3.MAX_COUNT"/> + <see cref="RibbonIndex4.MAX_COUNT"/> is 48, but are not present after Gen5.
+    /// <see cref="PK5"/> only has 80 ribbons implemented.
+    /// Instead of using the sum of all 3 enums, we can use <see cref="RibbonIndex.MAX_COUNT"/> as the true maximum count.
+    /// </remarks>
+    public const int MaxRibbonCount = (int)RibbonIndex.MAX_COUNT;
 
     public override void Verify(LegalityAnalysis data)
     {
