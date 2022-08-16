@@ -37,12 +37,36 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         // Block BD/SP transfers that are impossible
         BlockBDSP(history, enc);
 
-        if (!pk.IsUntraded)
+        if (!pk.IsUntraded && !(ParseSettings.IgnoreTransferIfNoTracker && pk is IHomeTrack { Tracker: 0 }))
+        {
             CrossPropagate(history);
+        }
+        else
+        {
+            DeleteAdjacent(pk, history);
+
+            if (!HasVisited(history))
+                return false;
+        }
 
         chain = GetMaxChain(history);
 
         return chain.Length != 0;
+    }
+
+    private static bool HasVisited(EvolutionHistory history)
+    {
+        return history.Gen8.Length != 0 || history.Gen8a.Length != 0 || history.Gen8b.Length != 0;
+    }
+
+    private static void DeleteAdjacent(PKM pk, EvolutionHistory history)
+    {
+        if (pk is not PK8)
+            history.Gen8 = Array.Empty<EvoCriteria>();
+        if (pk is not PA8)
+            history.Gen8a = Array.Empty<EvoCriteria>();
+        if (pk is not PB8)
+            history.Gen8b = Array.Empty<EvoCriteria>();
     }
 
     private static void BlockBDSP(EvolutionHistory history, EvolutionOrigin enc)

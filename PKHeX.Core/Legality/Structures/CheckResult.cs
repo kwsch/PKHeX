@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 // ReSharper disable once NotAccessedPositionalProperty.Global
 public sealed record CheckResult(Severity Judgement, string Comment, CheckIdentifier Identifier)
 {
-    public bool Valid => Judgement >= Severity.Fishy;
+    public bool Valid => Judgement != Severity.Invalid;
     public string Rating => Judgement.Description();
 
     internal CheckResult(CheckIdentifier i) : this(Severity.Valid, LegalityCheckStrings.L_AValid, i) { }

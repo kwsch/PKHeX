@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -86,6 +86,8 @@ public static class ParseSettings
             _ => false,
         };
     }
+
+    internal static bool IgnoreTransferIfNoTracker => Gen8TransferTrackerNotPresent == Severity.Invalid;
 
     public static void InitFromSettings(IParseSettings settings)
     {
