@@ -111,6 +111,7 @@ MsgSaveBoxClearCurrentSuccess = Boîte actuelle vidée.
 MsgSaveBoxClearAll = Vider toutes les boîtes ?
 MsgSaveBoxClearAllFailBattle = Vous ne pouvez pas vider les emplacements de la Boîte de Combat.
 MsgSaveBoxClearAllSuccess = Boîtes vidées.
+MsgSaveBoxUseClipboard = Use this folder found in your clipboard? {0}
 MsgSaveBoxFailNone = Cette sauvegarde ne contient pas de Boîtes.
 MsgSaveBoxExportYes = Oui: Exporter toutes les Boîtes
 MsgSaveBoxExportNo = Non: Exporter {0} (Boîte {1})

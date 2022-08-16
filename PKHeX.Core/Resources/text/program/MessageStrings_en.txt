@@ -111,6 +111,7 @@ MsgSaveBoxClearCurrentSuccess = Current Box cleared!
 MsgSaveBoxClearAll = Clear ALL Boxes?!
 MsgSaveBoxClearAllFailBattle = Battle Box slots prevent the clearing of all boxes.
 MsgSaveBoxClearAllSuccess = Boxes cleared!
+MsgSaveBoxUseClipboard = Use this folder found in your clipboard? {0}
 MsgSaveBoxFailNone = The currently loaded save file does not have boxes!
 MsgSaveBoxExportYes = Yes: Export All Boxes
 MsgSaveBoxExportNo = No: Export {0} (Box {1})
