@@ -123,6 +123,16 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
             }
         }
 
+        if (types.HasFlagFast(MoveSourceType.SharedEggMove))
+        {
+            var entry = (PersonalInfo8BDSP)pi;
+            var baseSpecies = entry.HatchSpecies;
+            var baseForm = entry.HatchFormIndex;
+            var egg = GetEggMoves(baseSpecies, baseForm);
+            foreach (var move in egg)
+                result[move] = true;
+        }
+
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;

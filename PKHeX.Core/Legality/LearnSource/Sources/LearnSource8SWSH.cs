@@ -165,6 +165,16 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             }
         }
 
+        if (types.HasFlagFast(MoveSourceType.SharedEggMove))
+        {
+            var entry = (PersonalInfo8SWSH)pi;
+            var baseSpecies = entry.HatchSpecies;
+            var baseForm = entry.HatchFormIndexEverstone;
+            var egg = GetEggMoves(baseSpecies, baseForm);
+            foreach (var move in egg)
+                result[move] = true;
+        }
+
         if (types.HasFlagFast(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
