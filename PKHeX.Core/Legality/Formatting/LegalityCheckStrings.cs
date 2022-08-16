@@ -40,9 +40,6 @@ public static class LegalityCheckStrings
     /// <summary>Format text for exporting the <see cref="PIDIV.Type"/> that was matched for the <see cref="PKM"/></summary>
     public static string L_FPIDType_0 { get; set; } = "PID Type: {0}";
 
-    /// <summary>Severity string for <see cref="Severity.Indeterminate"/></summary>
-    public static string L_SIndeterminate { get; set; } = "Indeterminate";
-
     /// <summary>Severity string for <see cref="Severity.Invalid"/></summary>
     public static string L_SInvalid { get; set; } = "Invalid";
 
@@ -436,8 +433,8 @@ public static class LegalityCheckStrings
 
     public static string LRibbonAllValid { get; set; } = "All ribbons accounted for.";
     public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-    public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
-    public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
+    public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: ";
+    public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: ";
     public static string LRibbonMarkingFInvalid_0 { get; set; } = "Invalid Marking: {0}";
     public static string LRibbonMarkingAffixedF_0 { get; set; } = "Invalid Affixed Ribbon/Marking: {0}";
 

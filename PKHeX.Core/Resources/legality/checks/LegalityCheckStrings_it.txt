@@ -347,8 +347,8 @@ LPokerusDaysTooHigh_0 = I giorni di Pokérus rimanenti sono troppi, previsto <= 
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} non può essere ottenuta.
 LRibbonAllValid = Tutti i fiocchi sono stati contabilizzati.
 LRibbonEgg = Non può avere fiocchi da Uovo.
-LRibbonFInvalid_0 = Fiocchi invalidi: {0}
-LRibbonFMissing_0 = Fiocchi mancanti: {0}
+LRibbonFInvalid_0 = Fiocchi invalidi: 
+LRibbonFMissing_0 = Fiocchi mancanti: 
 LRibbonMarkingAffixedF_0 = Fioccho o Emblema fissato invalido: {0}
 LRibbonMarkingFInvalid_0 = Emblema invalido: {0}
 LStatAlphaInvalid = Alfa non corrispondente.

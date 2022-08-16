@@ -347,8 +347,8 @@ LPokerusDaysTooHigh_0 = Pokérus Days Remaining value is too high; expected <= {
 LPokerusStrainUnobtainable_0 = Pokérus Strain {0} cannot be obtained.
 LRibbonAllValid = Todas las cintas están justificadas.
 LRibbonEgg = No se pueden recibir Cintas siendo un Huevo.
-LRibbonFInvalid_0 = Cintas inválidas: {0}
-LRibbonFMissing_0 = Cintas que faltan: {0}
+LRibbonFInvalid_0 = Cintas inválidas: 
+LRibbonFMissing_0 = Cintas que faltan: 
 LRibbonMarkingAffixedF_0 = Cinta / marca pegada no válida: {0}
 LRibbonMarkingFInvalid_0 = Marca Inválida: {0}
 LStatAlphaInvalid = Alpha Flag mismatch.
