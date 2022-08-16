@@ -14,7 +14,7 @@ public sealed record EncounterInvalid : IEncounterable
     public byte LevelMin { get; }
     public byte LevelMax { get; }
     public bool EggEncounter { get; }
-    public int Generation { get; }
+    public int Generation { get; init; }
     public EntityContext Context { get; }
     public GameVersion Version { get; }
     public bool IsShiny => false;

@@ -187,7 +187,8 @@ public static class EncounterMovesetGenerator
         var permitted = rent.AsSpan(0, length);
         var enc = new EvolutionOrigin(0, (byte)ver, (byte)origin, 1, 100, true);
         var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc);
-        LearnPossible.Get(pk, EncounterInvalid.Default, history, permitted);
+        var e = EncounterInvalid.Default with { Generation = origin };
+        LearnPossible.Get(pk, e, history, permitted);
 
         int ctr = 0; // count of moves that can be learned
         Span<int> result = stackalloc int[moves.Length];
