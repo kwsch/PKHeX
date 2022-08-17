@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -270,6 +270,9 @@ public sealed class EntityEditorSettings
 {
     [LocalizedDescription("When changing the Hidden Power type, automatically maximize the IVs to ensure the highest Base Power result. Otherwise, keep the IVs as close as possible to the original.")]
     public bool HiddenPowerOnChangeMaxPower { get; set; } = true;
+
+    [LocalizedDescription("When showing the list of balls to select, show the legal balls before the illegal balls rather than sorting by Ball ID.")]
+    public bool ShowLegalBallsFirst { get; set; } = true;
 }
 
 [Serializable]
