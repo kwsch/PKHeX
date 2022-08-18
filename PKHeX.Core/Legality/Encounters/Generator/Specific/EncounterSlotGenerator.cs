@@ -26,7 +26,11 @@ public static class EncounterSlotGenerator
     public static IEnumerable<EncounterSlot> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion gameSource)
     {
         var possibleAreas = GetAreasByGame(pk, gameSource);
-        return possibleAreas.SelectMany(z => z.GetSpecies(chain));
+        foreach (var area in possibleAreas)
+        {
+            foreach (var result in area.GetSpecies(chain))
+                yield return result;
+        }
     }
 
     private static IEnumerable<EncounterArea> GetAreasByGame(PKM pk, GameVersion gameSource) => gameSource switch
@@ -81,16 +85,23 @@ public static class EncounterSlotGenerator
         bool noMet = !pk.HasOriginalMetLocation || (pk.Format == 2 && gameSource != C);
         if (noMet)
             return slots;
+        return GetIsMatchLocation(pk, slots);
+    }
+
+    private static IEnumerable<EncounterArea> GetIsMatchLocation(PKM pk, IEnumerable<EncounterArea> areas)
+    {
         var metLocation = pk.Met_Location;
-        return slots.Where(z => z.IsMatchLocation(metLocation));
+        foreach (var area in areas)
+        {
+            if (area.IsMatchLocation(metLocation))
+                yield return area;
+        }
     }
 
     internal static EncounterSlot? GetCaptureLocation(PKM pk, EvoCriteria[] chain)
     {
-        return GetPossible(pk, chain, (GameVersion)pk.Version)
-            .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
-            .ThenBy(z => z.LevelMin)
-            .FirstOrDefault();
+        var possible = GetPossible(pk, chain, (GameVersion)pk.Version);
+        return EncounterUtil.GetMinByLevel(chain, possible);
     }
 
     private static IEnumerable<EncounterArea> GetEncounterTable(PKM pk, GameVersion game) => game switch

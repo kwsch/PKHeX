@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.LanguageID;
 
@@ -92,9 +91,11 @@ public sealed class NicknameVerifier : Verifier
             {
                 // Gen3 gifts transferred to Generation 4 from another language can set the nickname flag.
                 var evos = data.Info.EvoChainsAllGens.Gen3;
-                bool matchAny = evos.Any(evo => !SpeciesName.IsNicknamedAnyLanguage(evo.Species, nickname, 3));
-                if (matchAny)
-                    return;
+                foreach (var evo in evos)
+                {
+                    if (!SpeciesName.IsNicknamedAnyLanguage(evo.Species, nickname, 3))
+                        return;
+                }
             }
 
             if (pk.IsNicknamed)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using static PKHeX.Core.EReaderBerryMatch;
 
 namespace PKHeX.Core;
@@ -15,7 +16,7 @@ public static class EReaderBerrySettings
     private static string Name { get; set; } = string.Empty;
 
     /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-    public static string DisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(Name));
+    public static string DisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(Name.AsSpan()));
 
     private static int Language { get; set; }
 

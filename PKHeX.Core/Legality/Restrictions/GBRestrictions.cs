@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
@@ -162,7 +161,7 @@ internal static class GBRestrictions
         if (!matchAny)
             return PotentialGBOrigin.Either;
 
-        if (HeldItems_GSC.Contains(catch_rate))
+        if (IsTradebackCatchRate(catch_rate))
             return PotentialGBOrigin.Either;
 
         return PotentialGBOrigin.Gen1Only;
@@ -221,7 +220,7 @@ internal static class GBRestrictions
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
     };
 
-    public static bool IsTradebackCatchRate(byte rate) => HeldItems_GSC.Contains(rate);
+    public static bool IsTradebackCatchRate(byte rate) => Array.IndexOf(HeldItems_GSC, rate) != -1;
 }
 
 public enum PotentialGBOrigin

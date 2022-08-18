@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
@@ -17,13 +17,33 @@ public static class EncounterTradeGenerator
     private static IEnumerable<EncounterTradeGB> GetPossibleVC(EvoCriteria[] chain, GameVersion game)
     {
         var table = GetTableVC(game);
-        return table.Where(e => chain.Any(c => c.Species == e.Species && c.Form == 0));
+        foreach (var enc in table)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (evo.Form != 0)
+                    break;
+                yield return enc;
+                break;
+            }
+        }
     }
 
     private static IEnumerable<EncounterTrade> GetPossible(EvoCriteria[] chain, GameVersion game)
     {
         var table = GetTable(game);
-        return table.Where(e => chain.Any(c => c.Species == e.Species));
+        foreach (var enc in table)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                yield return enc;
+                break;
+            }
+        }
     }
 
     public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pk, EvoCriteria[] chain, GameVersion game)

@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.EncounterEvent;
 
 namespace PKHeX.Core;
@@ -15,9 +14,16 @@ public static class MysteryGiftGenerator
             yield return RangerManaphy;
 
         var table = GetTable(gen, game);
-        var possible = table.Where(wc => chain.Any(evo => evo.Species == wc.Species));
-        foreach (var enc in possible)
-            yield return enc;
+        foreach (var enc in table)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                yield return enc;
+                break;
+            }
+        }
     }
 
     public static IEnumerable<MysteryGift> GetValidGifts(PKM pk, EvoCriteria[] chain, GameVersion game)

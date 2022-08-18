@@ -1,7 +1,6 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -13,7 +12,7 @@ public static class MoveListSuggest
             return MoveList.GetBaseEggMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel);
 
         if (types != MoveSourceType.None)
-            return GetValidMoves(pk, enc, evoChains, types).ToArray();
+            return GetValidMoves(pk, enc, evoChains, types);
 
         // try to give current moves
         if (enc.Generation <= 2)
@@ -28,22 +27,28 @@ public static class MoveListSuggest
             return MoveLevelUp.GetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
         }
 
-        return GetValidMoves(pk, enc, evoChains, types).ToArray();
+        return GetValidMoves(pk, enc, evoChains, types);
     }
 
-    private static IEnumerable<int> GetValidMoves(PKM pk, IEncounterTemplate enc, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources)
+    private static int[] GetValidMoves(PKM pk, IEncounterTemplate enc, EvolutionHistory evoChains, MoveSourceType types = MoveSourceType.ExternalSources)
     {
         var length = pk.MaxMoveID + 1;
         bool[] rent = ArrayPool<bool>.Shared.Rent(length);
-        LearnPossible.Get(pk, enc, evoChains, rent, types);
+        var span = rent.AsSpan(0, length);
+        LearnPossible.Get(pk, enc, evoChains, span, types);
 
-        for (int i = 1; i < length; i++)
+        var count = span[1..].Count(true);
+        var result = new int[count];
+        int ctr = 0;
+        for (int i = 1; i < span.Length; i++)
         {
             if (rent[i])
-                yield return i;
+                result[ctr++] = i;
         }
 
-        ArrayPool<bool>.Shared.Return(rent, true);
+        span.Clear();
+        ArrayPool<bool>.Shared.Return(rent);
+        return result;
     }
 
     /// <summary>
@@ -135,11 +140,13 @@ public static class MoveListSuggest
             return result;
 
         // Try again with the other split-breed species if possible.
-        var incense = EncounterEggGenerator.GenerateEggs(tmp, generation).FirstOrDefault();
-        if (incense is null || incense.Species == enc.Species)
-            return result;
-
-        return incense.GetEggRelearnMoves(parse, pk);
+        var other = EncounterEggGenerator.GenerateEggs(tmp, generation);
+        foreach (var incense in other)
+        {
+            if (incense.Species != enc.Species)
+                return incense.GetEggRelearnMoves(parse, pk);
+        }
+        return result;
     }
 
     private static int[] GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk)

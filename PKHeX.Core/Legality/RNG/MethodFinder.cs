@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using static PKHeX.Core.PIDType;
 
@@ -364,7 +363,7 @@ public static class MethodFinder
         (int species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
         if ((uint)species > Legal.MaxSpeciesID_4)
             return GetNonMatch(out pidiv);
-        
+
         static int getRatio(int species) => PersonalTable.HGSS[species].Gender;
         switch (genderValue)
         {
@@ -669,9 +668,15 @@ public static class MethodFinder
         Debug.Assert(b >> 15 == 0);
         uint second = a << 16;
         uint first = b << 16;
-        var pairs = method.RecoverLower16Bits(first, second)
-            .Concat(method.RecoverLower16Bits(first, second ^ 0x80000000));
-        foreach (var z in pairs)
+
+        var attempt1 = method.RecoverLower16Bits(first, second);
+        foreach (var z in attempt1)
+        {
+            yield return z;
+            yield return z ^ 0x80000000; // sister bitflip
+        }
+        var attempt2 = method.RecoverLower16Bits(first, second ^ 0x80000000);
+        foreach (var z in attempt2)
         {
             yield return z;
             yield return z ^ 0x80000000; // sister bitflip
@@ -684,9 +689,14 @@ public static class MethodFinder
         Debug.Assert(rand3 >> 15 == 0);
         rand1 <<= 16;
         rand3 <<= 16;
-        var seeds = method.RecoverLower16BitsGap(rand1, rand3)
-            .Concat(method.RecoverLower16BitsGap(rand1, rand3 ^ 0x80000000));
-        foreach (var z in seeds)
+        var attempt1 = method.RecoverLower16Bits(rand1, rand3);
+        foreach (var z in attempt1)
+        {
+            yield return z;
+            yield return z ^ 0x80000000; // sister bitflip
+        }
+        var attempt2 = method.RecoverLower16Bits(rand1, rand3 ^ 0x80000000);
+        foreach (var z in attempt2)
         {
             yield return z;
             yield return z ^ 0x80000000; // sister bitflip
@@ -824,25 +834,27 @@ public static class MethodFinder
     {
         WC3 g                  => IsCompatible3Mystery(val, pk, g),
         EncounterStatic3 s     => IsCompatible3Static(val, pk, s),
-        EncounterSlot3 w       => (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val),
-        EncounterStaticShadow  => val is CXD or CXDAnti,
-        EncounterSlot3PokeSpot => val == PokeSpot,
-        _ => val == None,
+        EncounterStaticShadow  => val is (CXD or CXDAnti),
+        EncounterSlot3PokeSpot => val is PokeSpot,
+        EncounterSlot3 w       => w.Species != (int)Species.Unown
+            ? val is (Method_1       or Method_2       or Method_3       or Method_4)
+            : val is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown),
+        _  => val is None,
     };
 
     private static bool IsCompatible3Static(PIDType val, PKM pk, EncounterStatic3 s) => pk.Version switch
     {
-        (int)GameVersion.CXD                        => val is CXD or CXD_ColoStarter or CXDAnti,
-        (int)GameVersion.E                          => val == Method_1, // no roamer glitch
-        (int)GameVersion.FR or (int) GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pk) : val == Method_1, // roamer glitch
-        _ => s.Roaming ? val.IsRoamerPIDIV(pk) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
+        (int)GameVersion.CXD                        => val is (CXD or CXD_ColoStarter or CXDAnti),
+        (int)GameVersion.E                          => val is Method_1, // no roamer glitch
+        (int)GameVersion.FR or (int) GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pk) : val is Method_1, // roamer glitch
+        _ => s.Roaming ? val.IsRoamerPIDIV(pk) : val is (Method_1 or Method_4), // RS, roamer glitch && RSBox s/w emulation => method 4 available
     };
 
     private static bool IsCompatible3Mystery(PIDType val, PKM pk, WC3 g) => val == g.Method || val switch
     {
         // forced shiny eggs, when hatched, can lose their detectable correlation.
-        None    => (g.Method is BACD_R_S or BACD_U_S) && g.IsEgg && !pk.IsEgg,
-        CXDAnti => g.Method == CXD && g.Shiny == Shiny.Never,
+        None    => (g.Method is (BACD_R_S or BACD_U_S)) && g.IsEgg && !pk.IsEgg,
+        CXDAnti => g.Method is CXD && g.Shiny == Shiny.Never,
         _       => false,
     };
 
@@ -864,24 +876,24 @@ public static class MethodFinder
     {
         // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
         EncounterStatic4Pokewalker when val is CuteCharm => GetCuteCharmMatch(pk, pk.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pk),
-        EncounterStatic4Pokewalker => val == Pokewalker,
+        EncounterStatic4Pokewalker => val is Pokewalker,
 
-        EncounterStatic4 {Species: (int)Species.Pichu} => val == Pokewalker,
-        EncounterStatic4 {Shiny: Shiny.Always} => val == ChainShiny,
+        EncounterStatic4 {Species: (int)Species.Pichu} => val is Pokewalker,
+        EncounterStatic4 {Shiny: Shiny.Always} => val is ChainShiny,
         EncounterStatic4 when val is CuteCharm => IsCuteCharm4Valid(encounter, pk),
-        EncounterStatic4 => val == Method_1,
+        EncounterStatic4 => val is Method_1,
 
         EncounterSlot4 w => val switch
         {
             // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
             ChainShiny => pk.IsShiny && !pk.HGSS && (w.GroundTile & GroundTileAllowed.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
             CuteCharm => IsCuteCharm4Valid(encounter, pk),
-            _ => val == Method_1,
+            _ => val is Method_1,
         },
 
         PGT => IsG4ManaphyPIDValid(val, pk), // Manaphy is the only PGT in the database
         PCD d when d.Gift.PK.PID != 1 => true, // Already matches PCD's fixed PID requirement
-        _ => val == None,
+        _ => val is None,
     };
 
     private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
@@ -945,8 +957,4 @@ public static class MethodFinder
 
         _ => (currentSpecies, pk.Gender),
     };
-
-    private static readonly PIDType[] MethodH = { Method_1, Method_2, Method_3, Method_4 };
-    private static readonly PIDType[] MethodH14 = { Method_1, Method_4 };
-    private static readonly PIDType[] MethodH_Unown = { Method_1_Unown, Method_2_Unown, Method_3_Unown, Method_4_Unown };
 }

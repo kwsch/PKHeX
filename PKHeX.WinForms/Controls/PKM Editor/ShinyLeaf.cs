@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Drawing;
 using PKHeX.WinForms.Properties;
@@ -17,7 +16,8 @@ public partial class ShinyLeaf : UserControl
 
     private readonly CheckBox[] Flags;
 
-    public void CheckAll(bool all = true) => SetValue(all ? 0b00111111 : 0);
+    private const byte CrownAndFiveLeafs = 0b00_1_11111;
+    public void CheckAll(bool all = true) => SetValue(all ? CrownAndFiveLeafs : 0);
 
     public int GetValue()
     {
@@ -51,11 +51,21 @@ public partial class ShinyLeaf : UserControl
             resource = Resources.leaf;
             if (!c.Checked)
                 CHK_C.Checked = CHK_C.Enabled = false;
-            else if (Flags.Take(5).All(z => z.Checked))
+            else if (HasAllFiveLeafs())
                 CHK_C.Enabled = true;
         }
         if (!c.Checked)
             resource = ImageUtil.ChangeOpacity(resource, 0.4);
         c.Image = resource;
+    }
+
+    private bool HasAllFiveLeafs()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (!Flags[i].Checked)
+                return false;
+        }
+        return true;
     }
 }

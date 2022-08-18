@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 using static PKHeX.Core.GameVersion;
 
@@ -28,8 +27,8 @@ public static class EncounterSuggestion
         if (s is null)
             return GetSuggestedEncounter(pk, w, loc);
 
-        bool isDefinitelySlot = chain.Any(z => z.Species == w.Species && z.Form == w.Form);
-        bool isDefinitelyStatic = chain.Any(z => z.Species == s.Species && z.Form == s.Form);
+        bool isDefinitelySlot = Array.Exists(chain, z => z.Species == w.Species && z.Form == w.Form);
+        bool isDefinitelyStatic = Array.Exists(chain, z => z.Species == s.Species && z.Form == s.Form);
         IEncounterable obj = (isDefinitelySlot || !isDefinitelyStatic) ? w : s;
         return GetSuggestedEncounter(pk, obj, loc);
     }
@@ -108,10 +107,18 @@ public static class EncounterSuggestion
         {
             var evos = table.GetValidPreEvolutions(pk, levelMax: i, skipChecks: true, levelMin: startLevel);
             if (evos.Length < count) // lost an evolution, prior level was minimum current level
-                return evos.Max(evo => evo.LevelMax) + 1;
+                return GetMaxLevelMax(evos) + 1;
             count = evos.Length;
         }
         return startLevel;
+    }
+
+    private static int GetMaxLevelMax(EvoCriteria[] evos)
+    {
+        int max = 0;
+        foreach (var evo in evos)
+            max = Math.Max(evo.LevelMax, max);
+        return max;
     }
 
     public static bool IterateMinimumCurrentLevel(PKM pk, bool isLegal, int max = 100)
