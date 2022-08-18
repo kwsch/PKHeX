@@ -43,7 +43,7 @@ public static class RibbonVerifierCommon6
             // If we have the star and not all are present, flag it as invalid.
             bool allContest = r.HasAllContestRibbons();
             if (allContest != r.RibbonContestStar)
-                list.Add(ContestStar, !r.RibbonContestStar);
+                list.Add(ContestStar, allContest);
         }
 
         if (r.RibbonBestFriends && !RibbonRules.IsRibbonValidBestFriends(args.Entity, evos, args.Encounter.Generation))

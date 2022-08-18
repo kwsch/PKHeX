@@ -32,7 +32,7 @@ public static class RibbonVerifierCommon8
                 bool hasChampMemory = (enc.Generation == 8 && pk is IMemoryOT { OT_Memory: memChampion })
                                         || (pk.Format == 8 && pk is IMemoryHT { HT_Memory: memChampion });
                 if (hasChampMemory)
-                    list.Add(ChampionGalar);
+                    list.Add(ChampionGalar, true);
             }
 
             // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.

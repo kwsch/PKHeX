@@ -17,7 +17,7 @@ public static class RibbonVerifierEvent3
             if (e.RibbonEarth)
             {
                 if (!r.RibbonEarth)
-                    list.Add(Earth);
+                    list.Add(Earth, true);
             }
             else if (r.RibbonEarth && enc.Generation != 3)
             {
@@ -25,15 +25,15 @@ public static class RibbonVerifierEvent3
             }
 
             if (r.RibbonNational != e.RibbonNational)
-                list.Add(National);
+                list.Add(National, e.RibbonNational);
             if (r.RibbonCountry != e.RibbonCountry)
-                list.Add(Country);
+                list.Add(Country, e.RibbonCountry);
             if (r.RibbonChampionBattle != e.RibbonChampionBattle)
-                list.Add(ChampionBattle);
+                list.Add(ChampionBattle, e.RibbonChampionBattle);
             if (r.RibbonChampionRegional != e.RibbonChampionRegional)
-                list.Add(ChampionRegional);
+                list.Add(ChampionRegional, e.RibbonChampionRegional);
             if (r.RibbonChampionNational != e.RibbonChampionNational)
-                list.Add(ChampionNational);
+                list.Add(ChampionNational, e.RibbonChampionNational);
         }
         else
         {

@@ -12,7 +12,7 @@ public static class RibbonVerifierCommon7
         bool inhabited7 = args.History.HasVisitedGen7;
         bool alolaValid = RibbonRules.IsRibbonValidAlolaChamp(r, args.Encounter, inhabited7);
         if (!alolaValid)
-            list.Add(ChampionAlola);
+            list.Add(ChampionAlola, !r.RibbonChampionAlola);
 
         var pk = args.Entity;
         if (inhabited7 && RibbonRules.IsAllowedBattleFrontier(args.History.Gen7[0].Species))

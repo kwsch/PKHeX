@@ -12,12 +12,15 @@ public static class RibbonVerifierOnly3
         if (r.RibbonWorld)
             list.Add(RibbonIndex.World);
 
-        var max = RibbonRules.IsAllowedContest3(args.History) ? 4 : 0;
-        FlagContest(r, ref list, max);
+        if (!RibbonRules.IsAllowedContest3(args.History))
+            FlagContestAny(r, ref list);
+        else
+            FlagContest(r, ref list);
     }
 
-    private static void FlagContest(IRibbonSetOnly3 r, ref RibbonResultList list, int max = 4)
+    private static void FlagContest(IRibbonSetOnly3 r, ref RibbonResultList list)
     {
+        const byte max = 4;
         if (r.RibbonCountG3Cool > max)
             list.Add(Cool);
         if (r.RibbonCountG3Beauty > max)
@@ -35,6 +38,11 @@ public static class RibbonVerifierOnly3
         if (r.RibbonWorld)
             list.Add(RibbonIndex.World);
 
+        FlagContestAny(r, ref list);
+    }
+
+    private static void FlagContestAny(IRibbonSetOnly3 r, ref RibbonResultList list)
+    {
         if (r.RibbonCountG3Cool != 0)
             list.Add(Cool);
         if (r.RibbonCountG3Beauty != 0)
