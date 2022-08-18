@@ -17,7 +17,8 @@ public sealed class ShowdownSet : IBattleTemplate
     private static readonly char[] ParenJunk = { '(', ')', '[', ']' };
     private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
-    private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
+    internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
+    private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
 
     /// <inheritdoc/>
     public int Species { get; private set; } = -1;
@@ -247,7 +248,7 @@ public sealed class ShowdownSet : IBattleTemplate
     /// Gets the localized Text representation of the set details.
     /// </summary>
     /// <param name="lang">2 character language code</param>
-    public string LocalizedText(string lang) => LocalizedText(GameLanguage.GetLanguageIndex(lang));
+    public string LocalizedText(string lang = DefaultLanguage) => LocalizedText(GameLanguage.GetLanguageIndex(lang));
 
     /// <summary>
     /// Gets the localized Text representation of the set details.
