@@ -65,7 +65,7 @@ public class PIDIVTest
         Assert.Equal(pk3.PID, gk3.PID);
         Assert.True(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to CXD spread");
     }
-        
+
     [Fact]
     public void PIDIVMatchingTest3MiscChannel()
     {

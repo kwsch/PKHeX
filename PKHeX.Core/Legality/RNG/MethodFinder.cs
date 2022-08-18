@@ -689,13 +689,13 @@ public static class MethodFinder
         Debug.Assert(rand3 >> 15 == 0);
         rand1 <<= 16;
         rand3 <<= 16;
-        var attempt1 = method.RecoverLower16Bits(rand1, rand3);
+        var attempt1 = method.RecoverLower16BitsGap(rand1, rand3);
         foreach (var z in attempt1)
         {
             yield return z;
             yield return z ^ 0x80000000; // sister bitflip
         }
-        var attempt2 = method.RecoverLower16Bits(rand1, rand3 ^ 0x80000000);
+        var attempt2 = method.RecoverLower16BitsGap(rand1, rand3 ^ 0x80000000);
         foreach (var z in attempt2)
         {
             yield return z;
