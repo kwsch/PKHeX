@@ -16,11 +16,16 @@ public static class RibbonVerifierCommon7
 
         var pk = args.Entity;
         if (inhabited7 && RibbonRules.IsAllowedBattleFrontier(args.History.Gen7[0].Species))
+        {
+            // Great ribbon is only available in US/UM.
+            if (r.RibbonBattleTreeGreat && pk.IsUntraded && !pk.USUM)
+                list.Add(BattleTreeGreat);
             return; // Can have all 3 ribbons.
+        }
 
         if (r.RibbonBattleRoyale)
             list.Add(BattleRoyale);
-        if (r.RibbonBattleTreeGreat && pk.IsUntraded && !pk.USUM)
+        if (r.RibbonBattleTreeGreat)
             list.Add(BattleTreeGreat);
         if (r.RibbonBattleTreeMaster)
             list.Add(BattleTreeMaster);
