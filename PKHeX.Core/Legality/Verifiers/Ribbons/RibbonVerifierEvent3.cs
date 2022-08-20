@@ -42,8 +42,9 @@ public static class RibbonVerifierEvent3
             if (r.RibbonEarth && enc.Generation != 3)
                 list.Add(Earth);
 
-            if (r.RibbonNational != RibbonRules.GetValidRibbonStateNational(args.Entity, enc))
-                list.Add(National);
+            var nationalRequired = RibbonRules.GetValidRibbonStateNational(args.Entity, enc);
+            if (r.RibbonNational != nationalRequired)
+                list.Add(National, nationalRequired);
             if (r.RibbonCountry)
                 list.Add(Country);
             if (r.RibbonChampionBattle)

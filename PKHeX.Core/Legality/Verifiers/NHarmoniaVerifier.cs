@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -27,12 +27,18 @@ public sealed class NHarmoniaVerifier : Verifier
 
         if (pk.OT_Gender != 0)
             data.AddLine(GetInvalid(LG5OTGenderN, CheckIdentifier.Trainer));
-        if (pk.IVTotal != 30*6)
+        if (!VerifyNsPKMIVsValid(pk))
             data.AddLine(GetInvalid(LG5IVAll30, CheckIdentifier.IVs));
         if (!VerifyNsPKMOTValid(pk))
             data.AddLine(GetInvalid(LG5ID_N, CheckIdentifier.Trainer));
         if (pk.IsShiny)
             data.AddLine(GetInvalid(LG5PIDShinyN, CheckIdentifier.Shiny));
+    }
+
+    private static bool VerifyNsPKMIVsValid(PKM pk)
+    {
+        // All are 30.
+        return pk.IV_HP == 30 && pk.IV_ATK == 30 && pk.IV_DEF == 30 && pk.IV_SPA == 30 && pk.IV_SPD == 30 && pk.IV_SPE == 30;
     }
 
     private static bool VerifyNsPKMOTValid(PKM pk)

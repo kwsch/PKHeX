@@ -113,11 +113,12 @@ public sealed class BallVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyBallInherited(LegalityAnalysis data) => data.Info.Generation switch
+    private CheckResult VerifyBallInherited(LegalityAnalysis data) => data.Info.EncounterMatch.Context switch
     {
-        6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
-        7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
-        8 => data.Entity.BDSP ? VerifyBallEggGen8BDSP(data) : VerifyBallEggGen8(data),
+        EntityContext.Gen6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
+        EntityContext.Gen7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
+        EntityContext.Gen8 => VerifyBallEggGen8(data),
+        EntityContext.Gen8b => VerifyBallEggGen8BDSP(data),
         _ => NONE,
     };
 

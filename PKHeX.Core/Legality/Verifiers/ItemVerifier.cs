@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -12,14 +12,22 @@ public sealed class ItemVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (!ItemRestrictions.IsHeldItemAllowed(pk))
-            data.AddLine(GetInvalid(LItemUnreleased));
-
-        if (pk.Format == 3 && pk.HeldItem == 175) // Enigma Berry
-            VerifyEReaderBerry(data);
-
-        if (pk.IsEgg && pk.HeldItem != 0)
+        var item = pk.HeldItem;
+        if (pk.IsEgg && item != 0)
             data.AddLine(GetInvalid(LItemEgg));
+
+        if (!ItemRestrictions.IsHeldItemAllowed(item, context: pk.Context))
+        {
+            data.AddLine(GetInvalid(LItemUnreleased));
+        }
+        else if (pk.Format == 3 && item == 175) // Enigma Berry
+        {
+            // A Pokémon holding this Berry cannot be traded to Pokémon Colosseum or Pokémon XD: Gale of Darkness, nor can it be stored in Pokémon Box Ruby & Sapphire.
+            if (pk is CK3 or XK3)
+                data.AddLine(GetInvalid(LItemUnreleased));
+            else
+                VerifyEReaderBerry(data);
+        }
     }
 
     private void VerifyEReaderBerry(LegalityAnalysis data)

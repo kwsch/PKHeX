@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -32,8 +32,6 @@ public sealed class IndividualValueVerifier : Verifier
                 data.AddLine(Get(string.Format(LIVAllEqual_0, hpiv), Severity.Fishy));
         }
     }
-
-    public static bool AllIVsEqual(PKM pk) => AllIVsEqual(pk, pk.IV_HP);
 
     private static bool AllIVsEqual(PKM pk, int hpiv)
     {
@@ -94,7 +92,7 @@ public sealed class IndividualValueVerifier : Verifier
     {
         if (w is EncounterSlot6XY xy)
         {
-            if (PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
+            if (PersonalTable.XY[xy.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
             if (xy.IsFriendSafari)
                 VerifyIVsFlawless(data, 2);

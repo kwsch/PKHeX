@@ -154,25 +154,6 @@ public sealed class PIDVerifier : Verifier
     }
 
     /// <summary>
-    /// Returns the expected <see cref="PKM.PID"/> for a Gen3-5 transfer to Gen6.
-    /// </summary>
-    /// <param name="pk">Entity to check</param>
-    /// <param name="pid">PID result</param>
-    /// <returns>True if the <see cref="pid"/> is appropriate to use.</returns>
-    public static bool GetTransferPID(PKM pk, out uint pid)
-    {
-        var ver = pk.Version;
-        if (ver is 0 or >= (int) GameVersion.X) // Gen6+ ignored
-        {
-            pid = 0;
-            return false;
-        }
-
-        var _ = GetExpectedTransferPID(pk, out pid);
-        return true;
-    }
-
-    /// <summary>
     /// Returns the expected <see cref="PKM.EncryptionConstant"/> for a Gen3-5 transfer to Gen6.
     /// </summary>
     /// <param name="pk">Entity to check</param>
