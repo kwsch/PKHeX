@@ -25,6 +25,7 @@ public partial class SAV_Database : Form
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         var UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
@@ -33,8 +34,6 @@ public partial class SAV_Database : Form
             ReadOnly = true,
         };
         Tab_Advanced.Controls.Add(UC_Builder);
-
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         SAV = saveditor.SAV;
         BoxView = saveditor;

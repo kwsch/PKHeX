@@ -24,6 +24,7 @@ public partial class SAV_MysteryGiftDB : Form
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         var UC_Builder = new EntityInstructionBuilder(() => tabs.PreparePKM())
         {
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
@@ -32,8 +33,6 @@ public partial class SAV_MysteryGiftDB : Form
             ReadOnly = true,
         };
         Tab_Advanced.Controls.Add(UC_Builder);
-
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         SAV = sav.SAV;
         BoxView = sav;
