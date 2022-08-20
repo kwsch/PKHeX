@@ -1,46 +1,59 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Reflection;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Localization utility for changing all properties of a static type.
+/// </summary>
 public static class LocalizationUtil
 {
     private const string TranslationSplitter = " = ";
+    private const char TranslationFirst = ' '; // perf; no properties contain spaces.
 
     /// <summary>
     /// Gets the names of the properties defined in the given input
     /// </summary>
     /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
-    private static string[] GetProperties(IEnumerable<string> input)
+    private static string[] GetProperties(ReadOnlySpan<string> input)
     {
-        static string AfterSplit(string l)
+        var result = new string[input.Length];
+        for (int i = 0; i < input.Length; i++)
         {
-            var split = l.IndexOf(TranslationSplitter, StringComparison.Ordinal);
-            return l[..split];
+            var l = input[i];
+            var split = l.IndexOf(TranslationFirst);
+            result[i] = l[..split];
         }
-        return input.Select(AfterSplit).ToArray();
+        return result;
     }
 
-    private static IEnumerable<string> DumpStrings(Type t)
+    private static string[] DumpStrings(Type t)
     {
-        var props = ReflectUtil.GetPropertiesStartWithPrefix(t, string.Empty);
-        return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p)}");
+        var ti = t.GetTypeInfo();
+        var props = (PropertyInfo[])ti.DeclaredProperties;
+        var result = new string[props.Length];
+        for (int i = 0; i < props.Length; i++)
+        {
+            var p = props[i];
+            var value = p.GetValue(null);
+            result[i] = $"{p}{TranslationSplitter}{value}";
+        }
+        return result;
     }
 
     /// <summary>
     /// Gets the current localization in a static class containing language-specific strings
     /// </summary>
     /// <param name="t"></param>
-    public static string[] GetLocalization(Type t) => DumpStrings(t).ToArray();
+    public static string[] GetLocalization(Type t) => DumpStrings(t);
 
     /// <summary>
     /// Gets the current localization in a static class containing language-specific strings
     /// </summary>
     /// <param name="t"></param>
     /// <param name="existingLines">Existing localization lines (if provided)</param>
-    public static string[] GetLocalization(Type t, string[] existingLines)
+    public static string[] GetLocalization(Type t, ReadOnlySpan<string> existingLines)
     {
         var currentLines = GetLocalization(t);
         var existing = GetProperties(existingLines);
@@ -60,28 +73,27 @@ public static class LocalizationUtil
     /// </summary>
     /// <param name="t">Type of the static class containing the desired strings.</param>
     /// <param name="lines">Lines containing the localized strings</param>
-    private static void SetLocalization(Type t, IReadOnlyCollection<string> lines)
+    private static void SetLocalization(Type t, ReadOnlySpan<string> lines)
     {
-        if (lines.Count == 0)
+        if (lines.Length == 0)
             return;
+
+        var translatable = new Dictionary<string, string>(lines.Length);
         foreach (var line in lines)
         {
-            var index = line.IndexOf(TranslationSplitter, StringComparison.Ordinal);
+            var index = line.IndexOf(TranslationFirst);
             if (index < 0)
                 continue;
             var prop = line[..index];
-            var value = line[(index + TranslationSplitter.Length)..];
+            translatable[prop] = line[(index + TranslationSplitter.Length)..];
+        }
 
-            try
-            {
-                ReflectUtil.SetValue(t, prop, value);
-            }
-            // Malformed translation files, log
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Property not present: {prop} || Value written: {value}");
-                Debug.WriteLine(e.Message);
-            }
+        var ti = t.GetTypeInfo();
+        var props = (PropertyInfo[])ti.DeclaredProperties;
+        foreach (var p in props)
+        {
+            if (translatable.TryGetValue(p.Name, out var value))
+                p.SetValue(null, value);
         }
     }
 
