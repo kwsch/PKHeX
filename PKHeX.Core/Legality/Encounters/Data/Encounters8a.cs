@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EncounterStatic8aCorrelation;
@@ -25,16 +25,16 @@ internal static class Encounters8a
         new(493,000,75,M,M) { Location = 109, FlawlessIVCount = 3, Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke, Fateful = true }, // Arceus
 
         // Static Encounters - Scripted Table Slots
-        new(480,000,70,M,M) { Location = 111, FlawlessIVCount = 3, Moves = new[] {129,326,832,095} }, // Uxie
-        new(481,000,70,M,M) { Location = 104, FlawlessIVCount = 3, Moves = new[] {129,326,832,105} }, // Mesprit
-        new(482,000,70,M,M) { Location = 105, FlawlessIVCount = 3, Moves = new[] {129,458,326,832} }, // Azelf
-        new(485,000,70,M,M) { Location = 068, FlawlessIVCount = 3, Moves = new[] {442,242,414,463} }, // Heatran
-        new(488,000,70,M,M) { Location = 082, FlawlessIVCount = 3, Moves = new[] {427,094,585,849} }, // Cresselia
+        new(480,000,70,M,M) { Location = 111, FlawlessIVCount = 3, Moves = new(129,326,832,095) }, // Uxie
+        new(481,000,70,M,M) { Location = 104, FlawlessIVCount = 3, Moves = new(129,326,832,105) }, // Mesprit
+        new(482,000,70,M,M) { Location = 105, FlawlessIVCount = 3, Moves = new(129,458,326,832) }, // Azelf
+        new(485,000,70,M,M) { Location = 068, FlawlessIVCount = 3, Moves = new(442,242,414,463) }, // Heatran
+        new(488,000,70,M,M) { Location = 082, FlawlessIVCount = 3, Moves = new(427,094,585,849) }, // Cresselia
 
-        new(641,000,70,M,M) { Location = 090, FlawlessIVCount = 3, Moves = new[] {326,242,542,846} }, // Tornadus
-        new(642,000,70,M,M) { Location = 009, FlawlessIVCount = 3, Moves = new[] {326,242,087,847} }, // Thundurus
-        new(645,000,70,M,M) { Location = 027, FlawlessIVCount = 3, Moves = new[] {326,242,414,848} }, // Landorus
-        new(905,000,70,M,M) { Location = 038, FlawlessIVCount = 3, Moves = new[] {326,242,585,831} }, // Enamorus
+        new(641,000,70,M,M) { Location = 090, FlawlessIVCount = 3, Moves = new(326,242,542,846) }, // Tornadus
+        new(642,000,70,M,M) { Location = 009, FlawlessIVCount = 3, Moves = new(326,242,087,847) }, // Thundurus
+        new(645,000,70,M,M) { Location = 027, FlawlessIVCount = 3, Moves = new(326,242,414,848) }, // Landorus
+        new(905,000,70,M,M) { Location = 038, FlawlessIVCount = 3, Moves = new(326,242,585,831) }, // Enamorus
 
         new(077,000,15    ) { Location = 014, Shiny = Always}, // Ponyta*
         new(442,000,60,M,M) { Location = 043, FlawlessIVCount = 3 }, // Spiritomb
@@ -42,13 +42,13 @@ internal static class Encounters8a
         new(570,001,28    ) { Location = 027 }, // Zorua
         new(570,001,29    ) { Location = 027 }, // Zorua
 
-        new(489,000,33    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
-        new(489,000,34    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
-        new(489,000,35    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
-        new(489,000,36    ) { Location = 064, Fateful = true,                      Moves = new[] {145,352,151,428} }, // Phione
-        new(490,000,50,M,M) { Location = 064, FlawlessIVCount = 3, Fateful = true, Moves = new[] {352,428,585,145} }, // Manaphy
-        new(491,000,70,M,M) { Location = 010, FlawlessIVCount = 3, Fateful = true, Moves = new[] {506,399,094,464} }, // Darkrai
-        new(492,000,70,M,M) { Location = 026, FlawlessIVCount = 3, Fateful = true, Moves = new[] {403,412,414,465} }, // Shaymin
+        new(489,000,33    ) { Location = 064, Fateful = true,                      Moves = new(145,352,151,428) }, // Phione
+        new(489,000,34    ) { Location = 064, Fateful = true,                      Moves = new(145,352,151,428) }, // Phione
+        new(489,000,35    ) { Location = 064, Fateful = true,                      Moves = new(145,352,151,428) }, // Phione
+        new(489,000,36    ) { Location = 064, Fateful = true,                      Moves = new(145,352,151,428) }, // Phione
+        new(490,000,50,M,M) { Location = 064, FlawlessIVCount = 3, Fateful = true, Moves = new(352,428,585,145) }, // Manaphy
+        new(491,000,70,M,M) { Location = 010, FlawlessIVCount = 3, Fateful = true, Moves = new(506,399,094,464) }, // Darkrai
+        new(492,000,70,M,M) { Location = 026, FlawlessIVCount = 3, Fateful = true, Moves = new(403,412,414,465) }, // Shaymin
 
         // Unown Notes
         new(201,000,25,U) { Location = 040, Method = Fixed }, // Unown A
@@ -88,10 +88,10 @@ internal static class Encounters8a
         new(201,024,25,U) { Location = 097, Method = Fixed }, // Unown Y
         new(201,006,25,U) { Location = 007, Method = Fixed }, // Unown G
 
-        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                 Moves = new[] {326,242,087,847} }, // Thundurus (Lunker’s Lair)
-        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                 Moves = new[] {326,242,087,847} }, // Thundurus (Sand’s Reach)
-        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3,                 Moves = new[] {427,094,585,849} }, // Cresselia (Coronet Highlands)
-        new(491,000,70,M,M) { Location = 074, FlawlessIVCount = 3, Fateful = true, Moves = new[] {506,399,094,464} }, // Darkrai (Lonely Spring)
+        new(642,000,70,M,M) { Location = 059, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Lunker’s Lair)
+        new(642,000,70,M,M) { Location = 129, FlawlessIVCount = 3,                 Moves = new(326,242,087,847) }, // Thundurus (Sand’s Reach)
+        new(488,000,70,M,M) { Location = 010, FlawlessIVCount = 3,                 Moves = new(427,094,585,849) }, // Cresselia (Coronet Highlands)
+        new(491,000,70,M,M) { Location = 074, FlawlessIVCount = 3, Fateful = true, Moves = new(506,399,094,464) }, // Darkrai (Lonely Spring)
 
         // Static Encounters
         new(046,000,50,M,M) { Location = 019, Method = Fixed }, // paras01: Paras
@@ -106,11 +106,11 @@ internal static class Encounters8a
         new(486,000,70,M,M) { Location = 095, Method = Fixed, FlawlessIVCount = 3 }, // regigigas01: Regigigas
         new(487,001,70,M,M) { Location = 067, Method = Fixed, FlawlessIVCount = 3 }, // giratina02: Giratina-1
 
-        new(362,000,64,A,A) { Location = 011, Method = Fixed, IsAlpha = true,                                  Moves = new[] {442,059,556,242} }, // onigohri01: Glalie
-        new(402,000,12,A,A) { Location = 007, Method = Fixed, IsAlpha = true, Gender = 0,                      Moves = new[] {206,071,033,332} }, // mev002: Kricketune
-        new(416,000,60,A,A) { Location = 022, Method = Fixed, IsAlpha = true, Gender = 1, FlawlessIVCount = 3, Moves = new[] {188,403,408,405} }, // beequen01: Vespiquen
-        new(571,001,58,M,M) { Location = 111, Method = Fixed, IsAlpha = true,                                  Moves = new[] {555,421,841,417} }, // zoroark01: Zoroark-1
-        new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new[] {231,406,842,056} }, // numelgon01: Goodra-1
-        new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new[] {301,398,401,038} }, // harysen01: Overqwil
+        new(362,000,64,A,A) { Location = 011, Method = Fixed, IsAlpha = true,                                  Moves = new(442,059,556,242) }, // onigohri01: Glalie
+        new(402,000,12,A,A) { Location = 007, Method = Fixed, IsAlpha = true, Gender = 0,                      Moves = new(206,071,033,332) }, // mev002: Kricketune
+        new(416,000,60,A,A) { Location = 022, Method = Fixed, IsAlpha = true, Gender = 1, FlawlessIVCount = 3, Moves = new(188,403,408,405) }, // beequen01: Vespiquen
+        new(571,001,58,M,M) { Location = 111, Method = Fixed, IsAlpha = true,                                  Moves = new(555,421,841,417) }, // zoroark01: Zoroark-1
+        new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new(231,406,842,056) }, // numelgon01: Goodra-1
+        new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new(301,398,401,038) }, // harysen01: Overqwil
     };
 }

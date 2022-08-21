@@ -14,5 +14,6 @@ public class MarshalTests
         Marshal.SizeOf(typeof(PIDIV)).Should().Be(8);
         Marshal.SizeOf(typeof(MoveResult)).Should().Be(8);
         Marshal.SizeOf(typeof(EvolutionMethod)).Should().Be(8);
+        Marshal.SizeOf(typeof(Moveset)).Should().Be(8);
     }
 }

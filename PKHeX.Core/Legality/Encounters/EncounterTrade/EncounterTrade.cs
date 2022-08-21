@@ -37,7 +37,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     public ushort TID { get; init; }
     public ushort SID { get; init; }
 
-    public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
+    public Moveset Moves { get; init; }
     public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
 
     public Ball FixedBall => (Ball)Ball;
@@ -158,9 +158,17 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
     private void SetMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = Moves.Count != 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-        pk.SetMoves((int[])moves);
-        pk.SetMaximumPPCurrent((int[])moves);
+        if (Moves.HasMoves)
+        {
+            pk.SetMoves(Moves);
+            pk.SetMaximumPPCurrent(Moves);
+        }
+        else
+        {
+            var moves = MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.SetMoves(moves);
+            pk.SetMaximumPPCurrent(moves);
+        }
     }
 
     private void SetEggMetData(PKM pk, DateTime time)

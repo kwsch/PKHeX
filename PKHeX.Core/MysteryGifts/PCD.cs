@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -80,7 +79,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
 
     public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
-    public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }
+    public override Moveset Moves { get => Gift.Moves; set => Gift.Moves = value; }
     public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
     public override bool IsShiny => Gift.IsShiny;
     public override Shiny Shiny => Gift.Shiny;

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -17,7 +14,7 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
     public byte LevelMin { get; }
     public byte LevelMax { get; }
 
-    public IReadOnlyList<int> Relearn => Encounter is IRelearn { Relearn: int[] { Length: not 0 } r } ? r : Array.Empty<int>();
+    public Moveset Relearn => Encounter is IRelearn r ? r.Relearn : default;
 
     public EncounterSuggestionData(PKM pk, IEncounterable enc, int met)
     {

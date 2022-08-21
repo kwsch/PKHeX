@@ -49,7 +49,7 @@ internal static class LearnVerifierHistory
 
     private static void MarkSpecialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
     {
-        if (enc is IMoveset { Moves: int[] {Length: not 0} moves})
+        if (enc is IMoveset { Moves: {HasMoves: true} moves})
             MarkInitialMoves(result, current, moves);
         else if (enc is EncounterSlot8GO g)
             MarkInitialMoves(result, current, g.GetInitialMoves(pk.Met_Level));
@@ -69,6 +69,22 @@ internal static class LearnVerifierHistory
 
             game = next;
         }
+    }
+
+    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, Moveset moves)
+    {
+        // If the initial move is present in the current moves, mark that current move index as an initial move.
+        if (moves.Move1 == 0) return;
+        var index = current.IndexOf(moves.Move1); if (index != -1) result[index] = MoveResult.Initial;
+
+        if (moves.Move2 == 0) return;
+        index = current.IndexOf(moves.Move2); if (index != -1) result[index] = MoveResult.Initial;
+
+        if (moves.Move3 == 0) return;
+        index = current.IndexOf(moves.Move3); if (index != -1) result[index] = MoveResult.Initial;
+
+        if (moves.Move4 == 0) return;
+        index = current.IndexOf(moves.Move4); if (index != -1) result[index] = MoveResult.Initial;
     }
 
     public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> moves)

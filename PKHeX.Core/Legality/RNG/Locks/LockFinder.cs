@@ -32,7 +32,6 @@ public static class LockFinder
     /// <param name="pv">RNG result PID and IV seed state</param>
     /// <param name="teams">Possible team data setups the NPC trainer has that need to generate before the shadow.</param>
     /// <param name="tsv">Trainer shiny value that is disallowed in XD</param>
-    /// <returns></returns>
     public static bool IsAllShadowLockValid(PIDIV pv, IEnumerable<TeamLock> teams, int tsv = -1)
     {
         foreach (var t in teams)
@@ -69,7 +68,6 @@ public static class LockFinder
     /// <param name="pkPID">PID of the entity</param>
     /// <param name="IV1">First 3 IVs combined</param>
     /// <param name="IV2">Last 3 IVs combined</param>
-    /// <returns></returns>
     public static bool IsColoStarterValid(int species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
     {
         // reverse the seed the bare minimum

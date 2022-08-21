@@ -10,5 +10,5 @@ public interface IRelearn
     /// <summary>
     /// Move IDs are in the relearn moves list on encounter.
     /// </summary>
-    IReadOnlyList<int> Relearn { get; }
+    Moveset Relearn { get; }
 }

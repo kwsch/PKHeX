@@ -124,9 +124,9 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     public bool IsForcedMasteryCorrect(PKM pk)
     {
         ushort alpha = 0;
-        if (IsAlpha && Moves.Count != 0)
+        if (IsAlpha && Moves.HasMoves)
         {
-            if (pk is PA8 pa && (alpha = pa.AlphaMove) != Moves[0])
+            if (pk is PA8 pa && (alpha = pa.AlphaMove) != Moves.Move1)
                 return false;
         }
 
@@ -142,8 +142,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         Span<int> moves = stackalloc int[4];
         var mastery = Legal.MasteryLA[index];
-        if (Moves.Count != 0)
-            moves = (int[])Moves;
+        if (Moves.HasMoves)
+            Moves.CopyTo(moves);
         else
             learn.SetEncounterMoves(level, moves);
 
@@ -171,10 +171,10 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
     {
-        if (Moves.Count == 0)
-            learn.SetEncounterMoves(level, moves);
+        if (Moves.HasMoves)
+            Moves.CopyTo(moves);
         else
-            ((int[])Moves).CopyTo(moves);
+            learn.SetEncounterMoves(level, moves);
         if (IsAlpha)
             pa8.AlphaMove = (ushort)moves[0];
     }

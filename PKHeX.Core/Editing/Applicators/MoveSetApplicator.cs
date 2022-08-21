@@ -107,8 +107,8 @@ public static class MoveSetApplicator
         }
 
         var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.Entity);
-        if (encounter is IRelearn {Relearn: int[] {Length: not 0} r})
-            return r;
+        if (encounter is IRelearn {Relearn: {HasMoves:true} r})
+            return r.ToArray();
 
         return m;
     }

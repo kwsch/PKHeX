@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
 
@@ -209,11 +209,11 @@ internal static class Encounters6
         new(ORAS) { Species = 425, Level = 45, Location = 348 }, // Drifloon
         new(ORAS) { Species = 628, Level = 45, Location = 348 }, // Braviary
 
-        BaseCosplay with {Form = 1, Moves = new [] {098, 486, 086, (int)Move.MeteorMash}}, // Rock Star
-        BaseCosplay with {Form = 2, Moves = new [] {098, 486, 086, (int)Move.IcicleCrash}}, // Belle
-        BaseCosplay with {Form = 3, Moves = new [] {098, 486, 086, (int)Move.DrainingKiss}}, // Pop Star
-        BaseCosplay with {Form = 4, Moves = new [] {098, 486, 086, (int)Move.ElectricTerrain}}, // Ph.D.
-        BaseCosplay with {Form = 5, Moves = new [] {098, 486, 086, (int)Move.FlyingPress}}, // Libre
+        BaseCosplay with {Form = 1, Moves = new(098, 486, 086, (int)Move.MeteorMash)}, // Rock Star
+        BaseCosplay with {Form = 2, Moves = new(098, 486, 086, (int)Move.IcicleCrash)}, // Belle
+        BaseCosplay with {Form = 3, Moves = new(098, 486, 086, (int)Move.DrainingKiss)}, // Pop Star
+        BaseCosplay with {Form = 4, Moves = new(098, 486, 086, (int)Move.ElectricTerrain)}, // Ph.D.
+        BaseCosplay with {Form = 5, Moves = new(098, 486, 086, (int)Move.FlyingPress)}, // Libre
         BaseCosplay, // Cosplay, same 3 level up moves.
     };
 

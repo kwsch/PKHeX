@@ -23,7 +23,7 @@ public record EncounterStatic1 : EncounterStatic
         base.ApplyDetails(tr, criteria, pk);
 
         var pk1 = (PK1) pk;
-        if (Species == (int) Core.Species.Pikachu && Version == GameVersion.YW && Level == 5 && Moves.Count == 0)
+        if (Species == (int) Core.Species.Pikachu && Version == GameVersion.YW && Level == 5 && !Moves.HasMoves)
         {
             pk1.Catch_Rate = LightBallPikachuCatchRate; // Light Ball
             return;

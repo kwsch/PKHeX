@@ -37,7 +37,7 @@ internal record DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, us
         result[ctr++] = Create(game, a, Move3);
     }
 
-    private EncounterStatic5 Create(GameVersion game, AbilityPermission ability, int move) => new(game)
+    private EncounterStatic5 Create(GameVersion game, AbilityPermission ability, ushort move) => new(game)
     {
         Species = Species,
         Form = Form,
@@ -46,7 +46,7 @@ internal record DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, us
         Ability = ability,
         Location = 075,
         Shiny = Shiny.Never,
-        Moves = new[] { move },
+        Moves = new(move),
     };
 
     public static EncounterStatic5[] GetArray(GameVersion game, IReadOnlyList<DreamWorldEntry> t)

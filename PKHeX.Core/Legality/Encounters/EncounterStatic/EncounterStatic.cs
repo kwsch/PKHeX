@@ -37,7 +37,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     public Ball FixedBall => Gift ? (Ball)Ball : Core.Ball.None;
 
-    public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
+    public Moveset Moves { get; init; }
     public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
 
     public virtual bool EggEncounter => EggLocation != 0;
@@ -159,9 +159,17 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = Moves.Count > 0 ? (int[])Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-        pk.SetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
+        if (Moves.HasMoves)
+        {
+            pk.SetMoves(Moves);
+            pk.SetMaximumPPCurrent(Moves);
+        }
+        else
+        {
+            var moves = MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.SetMoves(moves);
+            pk.SetMaximumPPCurrent(moves);
+        }
     }
 
     protected void SetIVs(PKM pk)

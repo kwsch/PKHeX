@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using static PKHeX.Core.MessageStrings;
 
@@ -109,7 +108,7 @@ public static class MysteryUtil
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
             + (gift.IsEgg ? strings.EggName : $"{gift.OT_Name} - {id}");
         result.Add(first);
-        result.Add(string.Join(" / ", gift.Moves.Select(z => strings.Move[z])));
+        result.Add(gift.Moves.GetMovesetLine(strings.Move));
 
         if (gift is WC7 wc7)
         {
@@ -163,7 +162,7 @@ public static class MysteryUtil
     {
         if (gift.Species > sav.MaxSpeciesID)
             return false;
-        if (gift.Moves.Any(move => move > sav.MaxMoveID))
+        if (gift.Moves.AnyAbove(sav.MaxMoveID))
             return false;
         if (gift.HeldItem > sav.MaxItemID)
             return false;
