@@ -37,7 +37,7 @@ internal static class Encounters8
         new(SWSH) { Gift = true, Species = 816, Shiny = Never, Level = 05, Location = 006 }, // Sobble
 
         new(SWSH) { Gift = true, Species = 772, Shiny = Never, Level = 50, Location = 158, FlawlessIVCount = 3 }, // Type: Null
-        new(SWSH) { Gift = true, Species = 848, Shiny = Never, Level = 01, Location = 040, IVs = new[]{-1,31,-1,-1,31,-1}, Ball = 11 }, // Toxel, Attack flawless
+        new(SWSH) { Gift = true, Species = 848, Shiny = Never, Level = 01, Location = 040, IVs = new(-1,31,-1,-1,31,-1), Ball = 11 }, // Toxel, Attack flawless
 
         new(SWSH) { Gift = true, Species = 880, FlawlessIVCount = 3, Level = 10, Location = 068 }, // Dracozolt @ Route 6
         new(SWSH) { Gift = true, Species = 881, FlawlessIVCount = 3, Level = 10, Location = 068 }, // Arctozolt @ Route 6
@@ -764,7 +764,7 @@ internal static class Encounters8
     private const string tradeSWSH = "tradeswsh";
     private static readonly string[][] TradeSWSH = Util.GetLanguageStrings10(tradeSWSH, "zh2");
     private static readonly string[] TradeOT_R1 = { string.Empty, "チホコ", "Regina", "Régiona", "Regionalia", "Regine", string.Empty, "Tatiana", "지민", "易蒂", "易蒂" };
-    private static readonly int[] TradeIVs = {15, 15, 15, 15, 15, 15};
+    private static readonly IndividualValueSet TradeIVs = new(15, 15, 15, 15, 15, 15);
 
     private static readonly EncounterTrade8[] TradeGift_Regular =
     {

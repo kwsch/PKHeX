@@ -398,30 +398,30 @@ internal static class Encounters4
 
     private static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =
     {
-        new(DPPt, 0x0000008E, 063, 01) { Ability = OnlyFirst,  TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25} }, // Machop -> Abra
-        new(DPPt, 0x00000867, 441, 01) { Ability = OnlySecond, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Contest = 20 }, // Buizel -> Chatot
-        new(DPPt, 0x00000088, 093, 35) { Ability = OnlyFirst,  TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15} }, // Medicham (35 from Route 217) -> Haunter
-        new(DPPt, 0x0000045C, 129, 01) { Ability = OnlyFirst,  TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15} }, // Finneon -> Magikarp
+        new(DPPt, 0x0000008E, 063, 01) { Ability = OnlyFirst,  TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new(15,15,15,20,25,25) }, // Machop -> Abra
+        new(DPPt, 0x00000867, 441, 01) { Ability = OnlySecond, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new(15,20,15,25,25,15), Contest = 20 }, // Buizel -> Chatot
+        new(DPPt, 0x00000088, 093, 35) { Ability = OnlyFirst,  TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new(20,25,15,25,15,15) }, // Medicham (35 from Route 217) -> Haunter
+        new(DPPt, 0x0000045C, 129, 01) { Ability = OnlyFirst,  TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new(15,25,15,20,25,15) }, // Finneon -> Magikarp
     };
 
     internal static readonly EncounterTrade4[] TradeGift_DPPt = ArrayUtil.ConcatAll(TradeGift_DPPtIngame, RanchGifts);
 
     internal static readonly EncounterTrade4PID[] TradeGift_HGSS =
     {
-        new(HGSS, 0x000025EF, 095, 01) { Ability = OnlySecond, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15} }, // Bellsprout -> Onix
-        new(HGSS, 0x00002310, 066, 01) { Ability = OnlyFirst,  TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15} }, // Drowzee -> Machop
-        new(HGSS, 0x000001DB, 100, 01) { Ability = OnlySecond, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15} }, // Krabby -> Voltorb
-        new(HGSS, 0x0001FC0A, 085, 15) { Ability = OnlyFirst,  TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15} }, // Dragonair (15 from DPPt) -> Dodrio
-        new(HGSS, 0x0000D136, 082, 19) { Ability = OnlyFirst,  TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20} }, // Dugtrio (19 from Diglett's Cave) -> Magneton
-        new(HGSS, 0x000034E4, 178, 16) { Ability = OnlyFirst,  TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20} }, // Haunter (16 from Old Chateau) -> Xatu
-        new(HGSS, 0x00485876, 025, 02) { Ability = OnlyFirst,  TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13} }, // Pikachu
-        new(HGSS, 0x0012B6D4, 374, 31) { Ability = OnlyFirst,  TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25} }, // Forretress -> Beldum
-        new(HGSS, 0x0012971C, 111, 01) { Ability = OnlyFirst,  TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, Moves = new(422) }, // Bonsly -> Rhyhorn
-        new(HGSS, 0x00101596, 208, 01) { Ability = OnlyFirst,  TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20} }, // Any -> Steelix
+        new(HGSS, 0x000025EF, 095, 01) { Ability = OnlySecond, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new(25,20,25,15,15,15) }, // Bellsprout -> Onix
+        new(HGSS, 0x00002310, 066, 01) { Ability = OnlyFirst,  TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new(15,25,20,20,15,15) }, // Drowzee -> Machop
+        new(HGSS, 0x000001DB, 100, 01) { Ability = OnlySecond, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new(15,20,15,25,25,15) }, // Krabby -> Voltorb
+        new(HGSS, 0x0001FC0A, 085, 15) { Ability = OnlyFirst,  TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,15,15,15) }, // Dragonair (15 from DPPt) -> Dodrio
+        new(HGSS, 0x0000D136, 082, 19) { Ability = OnlyFirst,  TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new(15,20,15,20,20,20) }, // Dugtrio (19 from Diglett's Cave) -> Magneton
+        new(HGSS, 0x000034E4, 178, 16) { Ability = OnlyFirst,  TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new(15,20,15,20,20,20) }, // Haunter (16 from Old Chateau) -> Xatu
+        new(HGSS, 0x00485876, 025, 02) { Ability = OnlyFirst,  TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new(20,25,18,31,25,13) }, // Pikachu
+        new(HGSS, 0x0012B6D4, 374, 31) { Ability = OnlyFirst,  TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new(28,29,24,23,24,25) }, // Forretress -> Beldum
+        new(HGSS, 0x0012971C, 111, 01) { Ability = OnlyFirst,  TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new(22,31,13,00,22,09), Moves = new(422) }, // Bonsly -> Rhyhorn
+        new(HGSS, 0x00101596, 208, 01) { Ability = OnlyFirst,  TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new(08,30,28,06,18,20) }, // Any -> Steelix
 
         //Gift
-        new(HGSS, 0x00006B5E, 021, 20) { Ability = OnlyFirst,  TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, MetLocation = 183, Moves = new(043,031,228,332) },// Webster's Spearow
-        new(HGSS, 0x000214D7, 213, 20) { Ability = OnlySecond, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, MetLocation = 130, Moves = new(132,117,227,219) },// Kirk's Shuckle
+        new(HGSS, 0x00006B5E, 021, 20) { Ability = OnlyFirst,  TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new(15,20,15,20,20,20), MetLocation = 183, Moves = new(043,031,228,332) },// Webster's Spearow
+        new(HGSS, 0x000214D7, 213, 20) { Ability = OnlySecond, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new(15,20,15,20,20,20), MetLocation = 130, Moves = new(132,117,227,219) },// Kirk's Shuckle
     };
 
     private const string tradeDPPt = "tradedppt";

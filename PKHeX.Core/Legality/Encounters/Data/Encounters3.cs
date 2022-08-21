@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
 
@@ -150,30 +150,30 @@ internal static class Encounters3
 
     internal static readonly EncounterTrade3[] TradeGift_RSE =
     {
-        new(RS, 0x00009C40, 296, 05) { Ability = OnlySecond, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Contest = TradeContest_Tough }, // Slakoth (Level 5 Breeding) -> Makuhita
-        new(RS, 0x498A2E17, 300, 03) { Ability = OnlyFirst,  TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Contest = TradeContest_Cute }, // Pikachu (Level 3 Viridian Forest) -> Skitty
-        new(RS, 0x4C970B7F, 222, 21) { Ability = OnlySecond, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Contest = TradeContest_Beauty }, // Bellossom (Level 21 Oddish -> Gloom -> Bellossom) -> Corsola
-        new(E , 0x00000084, 273, 04) { Ability = OnlySecond, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Contest = TradeContest_Cool }, // Ralts (Level 4 Route 102) -> Seedot
-        new(E , 0x0000006F, 311, 05) { Ability = OnlyFirst,  TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Contest = TradeContest_Cute }, // Volbeat (Level 5 Breeding) -> Plusle
-        new(E , 0x0000007F, 116, 05) { Ability = OnlyFirst,  TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Contest = TradeContest_Tough }, // Bagon (Level 5 Breeding) -> Horsea*
-        new(E , 0x0000008B, 052, 03) { Ability = OnlyFirst,  TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Contest = TradeContest_Clever }, // Skitty (Level 3 Trade)-> Meowth*
+        new(RS, 0x00009C40, 296, 05) { Ability = OnlySecond, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,5,4,4,4,4), Contest = TradeContest_Tough }, // Slakoth (Level 5 Breeding) -> Makuhita
+        new(RS, 0x498A2E17, 300, 03) { Ability = OnlyFirst,  TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new(5,4,4,5,4,4), Contest = TradeContest_Cute }, // Pikachu (Level 3 Viridian Forest) -> Skitty
+        new(RS, 0x4C970B7F, 222, 21) { Ability = OnlySecond, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new(4,4,5,4,4,5), Contest = TradeContest_Beauty }, // Bellossom (Level 21 Oddish -> Gloom -> Bellossom) -> Corsola
+        new(E , 0x00000084, 273, 04) { Ability = OnlySecond, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,5,4,4,4), Contest = TradeContest_Cool }, // Ralts (Level 4 Route 102) -> Seedot
+        new(E , 0x0000006F, 311, 05) { Ability = OnlyFirst,  TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new(4,4,4,5,5,4), Contest = TradeContest_Cute }, // Volbeat (Level 5 Breeding) -> Plusle
+        new(E , 0x0000007F, 116, 05) { Ability = OnlyFirst,  TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,4,4,5,4), Contest = TradeContest_Tough }, // Bagon (Level 5 Breeding) -> Horsea*
+        new(E , 0x0000008B, 052, 03) { Ability = OnlyFirst,  TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new(4,5,4,5,4,4), Contest = TradeContest_Clever }, // Skitty (Level 3 Trade)-> Meowth*
         //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
     };
 
     internal static readonly EncounterTrade3[] TradeGift_FRLG =
     {
-        new(FRLG, 0x00009CAE, 122, 05) { Ability = OnlyFirst,  TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Contest = TradeContest_Clever }, // Abra (Level 5 Breeding) -> Mr. Mime
-        new(FR  , 0x4C970B89, 029, 05) { Ability = OnlyFirst,  TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Contest = TradeContest_Tough }, // Nidoran♀
-        new(  LG, 0x4C970B9E, 032, 05) { Ability = OnlyFirst,  TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Contest = TradeContest_Cool }, // Nidoran♂ *
-        new(FR  , 0x00EECA15, 030, 16) { Ability = OnlyFirst,  TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Contest = TradeContest_Cute }, // Nidorina *
-        new(  LG, 0x00EECA19, 033, 16) { Ability = OnlyFirst,  TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Contest = TradeContest_Tough }, // Nidorino  *
-        new(FR  , 0x451308AB, 108, 25) { Ability = OnlyFirst,  TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Contest = TradeContest_Tough }, // Golduck (Level 25) -> Lickitung  *
-        new(  LG, 0x451308AB, 108, 25) { Ability = OnlyFirst,  TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Contest = TradeContest_Tough }, // Slowbro (Level 25) -> Lickitung  *
-        new(FRLG, 0x498A2E1D, 124, 20) { Ability = OnlyFirst,  TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Contest = TradeContest_Beauty }, // Poliwhirl (Level 20) -> Jynx
-        new(FRLG, 0x151943D7, 083, 03) { Ability = OnlyFirst,  TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Contest = TradeContest_Cool }, // Spearow (Level 3 Capture) -> Farfetch'd
-        new(FRLG, 0x06341016, 101, 03) { Ability = OnlySecond, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Contest = TradeContest_Cool }, // Raichu (Level 3) -> Electrode
-        new(FRLG, 0x5C77ECFA, 114, 05) { Ability = OnlyFirst,  TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Contest = TradeContest_Cute }, // Venonat (Level 5 Breeding) -> Tangela
-        new(FRLG, 0x482CAC89, 086, 05) { Ability = OnlyFirst,  TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Contest = TradeContest_Tough }, // Ponyta (Level 5 Breeding) -> Seel *
+        new(FRLG, 0x00009CAE, 122, 05) { Ability = OnlyFirst,  TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,15,17,24,23,22), Contest = TradeContest_Clever }, // Abra (Level 5 Breeding) -> Mr. Mime
+        new(FR  , 0x4C970B89, 029, 05) { Ability = OnlyFirst,  TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new(22,18,25,19,15,22), Contest = TradeContest_Tough }, // Nidoran♀
+        new(  LG, 0x4C970B9E, 032, 05) { Ability = OnlyFirst,  TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new(19,25,18,22,22,15), Contest = TradeContest_Cool }, // Nidoran♂ *
+        new(FR  , 0x00EECA15, 030, 16) { Ability = OnlyFirst,  TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new(22,25,18,19,22,15), Contest = TradeContest_Cute }, // Nidorina *
+        new(  LG, 0x00EECA19, 033, 16) { Ability = OnlyFirst,  TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new(19,18,25,22,15,22), Contest = TradeContest_Tough }, // Nidorino  *
+        new(FR  , 0x451308AB, 108, 25) { Ability = OnlyFirst,  TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new(24,19,21,15,23,21), Contest = TradeContest_Tough }, // Golduck (Level 25) -> Lickitung  *
+        new(  LG, 0x451308AB, 108, 25) { Ability = OnlyFirst,  TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new(24,19,21,15,23,21), Contest = TradeContest_Tough }, // Slowbro (Level 25) -> Lickitung  *
+        new(FRLG, 0x498A2E1D, 124, 20) { Ability = OnlyFirst,  TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new(18,17,18,22,25,21), Contest = TradeContest_Beauty }, // Poliwhirl (Level 20) -> Jynx
+        new(FRLG, 0x151943D7, 083, 03) { Ability = OnlyFirst,  TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,25,21,24,15,20), Contest = TradeContest_Cool }, // Spearow (Level 3 Capture) -> Farfetch'd
+        new(FRLG, 0x06341016, 101, 03) { Ability = OnlySecond, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new(19,16,18,25,25,19), Contest = TradeContest_Cool }, // Raichu (Level 3) -> Electrode
+        new(FRLG, 0x5C77ECFA, 114, 05) { Ability = OnlyFirst,  TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new(22,17,25,16,23,20), Contest = TradeContest_Cute }, // Venonat (Level 5 Breeding) -> Tangela
+        new(FRLG, 0x482CAC89, 086, 05) { Ability = OnlyFirst,  TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new(24,15,22,16,23,22), Contest = TradeContest_Tough }, // Ponyta (Level 5 Breeding) -> Seel *
         //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
     };
 

@@ -38,7 +38,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     public ushort SID { get; init; }
 
     public Moveset Moves { get; init; }
-    public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
+    public IndividualValueSet IVs { get; init; }
 
     public Ball FixedBall => (Ball)Ball;
     public bool EggEncounter => false;
@@ -150,8 +150,8 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
     protected void SetIVs(PKM pk)
     {
-        if (IVs.Count != 0)
-            pk.SetRandomIVsTemplate((int[])IVs, 0);
+        if (IVs.IsSpecified)
+            pk.SetRandomIVsTemplate(IVs, 0);
         else
             pk.SetRandomIVs(minFlawless: 3);
     }
@@ -186,9 +186,9 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
     public virtual bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (IVs.Count != 0)
+        if (IVs.IsSpecified)
         {
-            if (!Legal.GetIsFixedIVSequenceValidSkipRand((int[])IVs, pk))
+            if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
                 return false;
         }
 

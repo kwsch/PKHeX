@@ -118,8 +118,8 @@ internal static class Encounters1
     private const string tradeRBY = "traderby";
     private static readonly string[][] TradeGift_RBY_OTs = Util.GetLanguageStrings7(tradeRBY);
 
-    private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
-    private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
+    private static readonly IndividualValueSet Flawless15 = new(15, 15, 15, 15, 15, 15);
+    private static readonly IndividualValueSet Yoshira = new(5, 10, 1, 12, 5, 5);
     private static readonly string[] YoshiOT = { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
     private static readonly string[] TourOT = { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
     private static readonly string[] StadiumOT_Int = { "STADIUM", "STADE", "STADIO", "ESTADIO" };

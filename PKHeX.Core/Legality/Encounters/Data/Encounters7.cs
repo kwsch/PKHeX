@@ -126,13 +126,13 @@ internal static class Encounters7
     internal static readonly EncounterTrade7[] TradeGift_SM = // @ a\1\5\5
     {
         // Trades - 4.bin
-        new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
-        new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
-        new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
-        new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
-        new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-        new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
-        new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
+        new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
+        new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
+        new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
+        new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID = 10913, SID = 00000, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
+        new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+        new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID = 20679, SID = 00009, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
+        new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID = 56734, SID = 00008, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
     };
 
     private static readonly EncounterStatic7[] Encounter_USUM =
@@ -313,11 +313,11 @@ internal static class Encounters7
         new(US  ) { Species = 806, Level = 60, Location = 164, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Blacephalon @ Poni Grove
 
         // Ditto Five
-        new(USUM) { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,00,30,-1}, Nature = Nature.Bold }, // Ditto @ Route 9
-        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,31,30,-1}, Nature = Nature.Jolly }, // Ditto @ Konikoni City
-        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,30,-1,-1}, Nature = Nature.Adamant }, // Ditto @ Konikoni City
-        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,-1,31,30}, Nature = Nature.Modest }, // Ditto @ Konikoni City
-        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,31,-1,30}, Nature = Nature.Timid }, // Ditto @ Konikoni City
+        new(USUM) { Species = 132, Level = 29, Location = 060, IVs = new(-1,-1,31,00,30,-1), Nature = Nature.Bold }, // Ditto @ Route 9
+        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new(-1,-1,30,31,30,-1), Nature = Nature.Jolly }, // Ditto @ Konikoni City
+        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new(-1,31,30,30,-1,-1), Nature = Nature.Adamant }, // Ditto @ Konikoni City
+        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new(-1,00,-1,-1,31,30), Nature = Nature.Modest }, // Ditto @ Konikoni City
+        new(USUM) { Species = 132, Level = 29, Location = 072, IVs = new(-1,30,-1,31,-1,30), Nature = Nature.Timid }, // Ditto @ Konikoni City
 
         // Miscellaneous Static
         new(USUM) { Species = 760, Level = 28, Location = 020, Shiny = Shiny.Never }, // Bewear @ Hau’oli City (Shopping District)
@@ -340,13 +340,13 @@ internal static class Encounters7
     internal static readonly EncounterTrade7[] TradeGift_USUM =
     {
         // Trades - 4.bin
-        new(USUM) { Species = 701, Form = 0, Level = 08, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
-        new(USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
-        new(USUM) { Species = 339, Form = 0, Level = 21, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
-        new(USUM) { Species = 024, Form = 0, Level = 22, Ability = OnlyFirst,  TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
-        new(USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
-        new(USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
-        new(USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
+        new(USUM) { Species = 701, Form = 0, Level = 08, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
+        new(USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
+        new(USUM) { Species = 339, Form = 0, Level = 21, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
+        new(USUM) { Species = 024, Form = 0, Level = 22, Ability = OnlyFirst,  TID = 10913, SID = 00000, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
+        new(USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
+        new(USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, TID = 20679, SID = 00009, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
+        new(USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  TID = 56734, SID = 00008, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
     };
 
     private const string tradeSM = "tradesm";

@@ -32,7 +32,7 @@ internal static class Encounters2
         new(185, 20, GSC) { Location = 020 }, // Sudowoodo @ Route 36
         new(236, 10, GSC) { Location = 035 }, // Tyrogue @ Mt. Mortar
 
-        new(130, 30, GSC) { Location = 038, Shiny = Shiny.Always, Gender = 0, IVs = new []{0, 14, 10, 10, 10, 10} }, // Gyarados @ Lake of Rage (forcing shiny IVs result in always Male)
+        new(130, 30, GSC) { Location = 038, Shiny = Shiny.Always, Gender = 0, IVs = new(0, 14, 10, 10, 10, 10) }, // Gyarados @ Lake of Rage (forcing shiny IVs result in always Male)
         new(074, 21, GSC) { Location = 036 }, // Geodude @ Rocket Hideout (Mahogany Town)
         new(109, 21, GSC) { Location = 036 }, // Koffing @ Rocket Hideout (Mahogany Town)
         new(100, 23, GSC) { Location = 036 }, // Voltorb @ Rocket Hideout (Mahogany Town)
@@ -107,16 +107,16 @@ internal static class Encounters2
 
     internal static readonly EncounterTrade2[] TradeGift_GSC =
     {
-        new(095, 03, 48926) { Gender = 0, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
-        new(066, 05, 37460) { Gender = 1, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
-        new(100, 05, 29189) { Gender = 2, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
-        new(112, 10, 00283) { Gender = 1, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [wild]
-        new(142, 05, 26491) { Gender = 0, IVs = new[] {08, 09, 06, 06, 06, 06}, OTGender = 1}, // Aerodactyl @ Route 14 for Chansey [egg]
-        new(078, 14, 15616) { Gender = 0, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
+        new(095, 03, 48926) { Gender = 0, IVs = new(08, 09, 06, 06, 06, 06) }, // Onix @ Violet City for Bellsprout [wild]
+        new(066, 05, 37460) { Gender = 1, IVs = new(12, 03, 07, 06, 06, 06) }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
+        new(100, 05, 29189) { Gender = 2, IVs = new(08, 09, 08, 08, 08, 08) }, // Voltorb @ Olivine City for Krabby [egg]
+        new(112, 10, 00283) { Gender = 1, IVs = new(12, 07, 07, 06, 06, 06) }, // Rhydon @ Blackthorn City for Dragonair [wild]
+        new(142, 05, 26491) { Gender = 0, IVs = new(08, 09, 06, 06, 06, 06), OTGender = 1}, // Aerodactyl @ Route 14 for Chansey [egg]
+        new(078, 14, 15616) { Gender = 0, IVs = new(08, 09, 06, 06, 06, 06) }, // Rapidash @ Pewter City for Gloom [wild]
 
-        new(085, 10, 00283) { Gender = 1, IVs = new[] {12, 07, 07, 06, 06, 06}, OTGender = 1}, // Dodrio @ Blackthorn City for Dragonair [wild]
-        new(178, 15, 15616) { Gender = 0, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
-        new(082, 05, 50082) { Gender = 2, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
+        new(085, 10, 00283) { Gender = 1, IVs = new(12, 07, 07, 06, 06, 06), OTGender = 1}, // Dodrio @ Blackthorn City for Dragonair [wild]
+        new(178, 15, 15616) { Gender = 0, IVs = new(08, 09, 06, 08, 06, 06) }, // Xatu @ Pewter City for Haunter [wild]
+        new(082, 05, 50082) { Gender = 2, IVs = new(08, 09, 06, 06, 06, 06) }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
 
         new(021, 10, 01001) { Moves = new(64,45,43) }, // Spearow @ Goldenrod City for free
         new(213, 15, 00518), // Shuckle @ Cianwood City for free

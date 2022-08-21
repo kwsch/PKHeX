@@ -984,7 +984,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <param name="template">IV template to generate from</param>
     /// <param name="minFlawless">Count of flawless IVs to set. If none provided, a count will be detected.</param>
     /// <returns>Randomized IVs if desired.</returns>
-    public void SetRandomIVsTemplate(ReadOnlySpan<int> template, int minFlawless = -1)
+    public void SetRandomIVsTemplate(IndividualValueSet template, int minFlawless = -1)
     {
         int count = minFlawless == -1 ? GetFlawlessIVCount() : minFlawless;
         Span<int> ivs = stackalloc int[6];

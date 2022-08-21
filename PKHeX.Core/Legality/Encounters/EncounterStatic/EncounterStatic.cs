@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -38,7 +37,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     public Ball FixedBall => Gift ? (Ball)Ball : Core.Ball.None;
 
     public Moveset Moves { get; init; }
-    public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
+    public IndividualValueSet IVs { get; init; }
 
     public virtual bool EggEncounter => EggLocation != 0;
 
@@ -174,8 +173,8 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     protected void SetIVs(PKM pk)
     {
-        if (IVs.Count != 0)
-            pk.SetRandomIVsTemplate((int[])IVs, FlawlessIVCount);
+        if (IVs.IsSpecified)
+            pk.SetRandomIVsTemplate(IVs, FlawlessIVCount);
         else if (FlawlessIVCount > 0)
             pk.SetRandomIVs(minFlawless: FlawlessIVCount);
     }
@@ -257,12 +256,12 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     private bool IsMatchIVs(PKM pk)
     {
-        if (IVs.Count == 0)
+        if (!IVs.IsSpecified)
             return true; // nothing to check, IVs are random
         if (Generation <= 2 && pk.Format > 2)
             return true; // IVs are regenerated on VC transfer upward
 
-        return Legal.GetIsFixedIVSequenceValidSkipRand((int[])IVs, pk);
+        return Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk);
     }
 
     protected virtual bool IsMatchForm(PKM pk, EvoCriteria evo)

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.MysteryGiftGenerator;
@@ -225,7 +225,7 @@ public static class EncounterGenerator3
 
     private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, EncounterStaticShadow s)
     {
-        if (s.IVs.Count == 0) // not E-Reader
+        if (!s.EReader)
             return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk);
 
         // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).

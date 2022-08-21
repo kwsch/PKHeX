@@ -101,9 +101,9 @@ internal static class Encounters3GC
 
         new(GameVersion.COLO, 67, 05000, First)     { Species = 176, Level = 20, Moves = new(118,204,186,281), Location = 001 }, // Togetic: Cipher Peon Fein @ Outskirt Stand
 
-        new(GameVersion.COLO, 00, 00000, CTogepi)   { Species = 175, Level = 20, Moves = new(118,204,186,281), Location = 128, IVs = EncounterStaticShadow.EReaderEmpty }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
-        new(GameVersion.COLO, 00, 00000, CMareep)   { Species = 179, Level = 37, Moves = new(087,084,086,178), Location = 128, IVs = EncounterStaticShadow.EReaderEmpty }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
-        new(GameVersion.COLO, 00, 00000, CScizor)   { Species = 212, Level = 50, Moves = new(210,232,014,163), Location = 128, IVs = EncounterStaticShadow.EReaderEmpty }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
+        new(GameVersion.COLO, 00, 00000, CTogepi)   { Species = 175, Level = 20, Moves = new(118,204,186,281), Location = 128, IVs = new(0, 0, 0, 0, 0, 0) }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
+        new(GameVersion.COLO, 00, 00000, CMareep)   { Species = 179, Level = 37, Moves = new(087,084,086,178), Location = 128, IVs = new(0, 0, 0, 0, 0, 0) }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
+        new(GameVersion.COLO, 00, 00000, CScizor)   { Species = 212, Level = 50, Moves = new(210,232,014,163), Location = 128, IVs = new(0, 0, 0, 0, 0, 0) }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
     };
     #endregion
 
