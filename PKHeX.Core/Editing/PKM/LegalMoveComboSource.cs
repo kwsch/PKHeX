@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Tracks the state of displaying selectable movesets, and indicates if they are ordered.
+/// </summary>
 public sealed class LegalMoveComboSource : ILegalMoveDisplaySource<ComboItem>
 {
     private readonly bool[] IsMoveBoxOrdered = new bool[4];

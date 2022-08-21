@@ -1,7 +1,10 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes permissions about the Move Shop 
+/// </summary>
 public interface IMasteryInitialMoveShop8
 {
     (Learnset Learn, Learnset Mastery) GetLevelUpInfo();

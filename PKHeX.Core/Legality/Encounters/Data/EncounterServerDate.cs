@@ -1,21 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.EncounterServerDateCheck;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides indication that the encounter may or may not have a specific date range to consider.
+/// </summary>
 public interface IEncounterServerDate
 {
+    /// <summary>
+    /// If true, the date range it may be acquired at is restricted to a specific date range.
+    /// </summary>
     bool IsDateRestricted { get; }
 }
 
+/// <summary>
+/// Enumeration indicating if a date range check is satisfied.
+/// </summary>
 public enum EncounterServerDateCheck
 {
+    /// <summary> No need to consider date range. </summary>
     None,
+    /// <summary> Date does fall within the range it was available. </summary>
     Valid,
+    /// <summary> Date does NOT fall within the range it was available. </summary>
     Invalid,
 }
 
+/// <summary>
+/// Logic to check if a date obtained is within the date of availability.
+/// </summary>
 public static class EncounterServerDate
 {
     private static bool IsValidDate(DateTime obtained, DateTime start) => obtained >= start && obtained <= DateTime.UtcNow;

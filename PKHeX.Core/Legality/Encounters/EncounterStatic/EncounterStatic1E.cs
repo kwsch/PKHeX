@@ -91,8 +91,14 @@ public sealed record EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
     }
 }
 
+/// <summary>
+/// Exposes info on language restriction for Gen1/2.
+/// </summary>
 public interface IFixedGBLanguage
 {
+    /// <summary>
+    /// Language restriction for the encounter template.
+    /// </summary>
     EncounterGBLanguage Language { get; }
 }
 
@@ -101,7 +107,12 @@ public interface IFixedGBLanguage
 /// </summary>
 public enum EncounterGBLanguage
 {
+    /// <summary> Can only be obtained in Japanese games. </summary>
     Japanese,
+
+    /// <summary> Can only be obtained in International (not Japanese) games. </summary>
     International,
+
+    /// <summary> Can be obtained in any localization. </summary>
     Any,
 }

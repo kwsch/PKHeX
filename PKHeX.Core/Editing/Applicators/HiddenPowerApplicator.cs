@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic to apply a Hidden Power type to a <see cref="PKM"/>.
+/// </summary>
 public static class HiddenPowerApplicator
 {
     /// <summary>

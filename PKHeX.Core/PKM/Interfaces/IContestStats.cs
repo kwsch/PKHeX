@@ -1,5 +1,8 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes contest stat value retrieval.
+/// </summary>
 public interface IContestStats
 {
     byte CNT_Cool { get; }
@@ -10,6 +13,9 @@ public interface IContestStats
     byte CNT_Sheen { get; }
 }
 
+/// <summary>
+/// Exposes contest stat value setters.
+/// </summary>
 public interface IContestStatsMutable
 {
     byte CNT_Cool { set; }

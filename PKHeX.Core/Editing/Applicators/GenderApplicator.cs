@@ -1,7 +1,10 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for manipulating <see cref="PKM.Gender"/> data.
+/// </summary>
 public static class GenderApplicator
 {
     /// <summary>

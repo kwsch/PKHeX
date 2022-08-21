@@ -3,6 +3,9 @@ using static PKHeX.Core.BinLinkerAccessor;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Loosely aggregated legality logic.
+/// </summary>
 public static partial class Legal
 {
     // Gen 1

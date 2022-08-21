@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Represents all details that an entity may be encountered with.
+/// </summary>
 public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShiny
 {
     /// <summary>

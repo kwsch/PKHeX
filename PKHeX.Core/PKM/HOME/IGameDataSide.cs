@@ -1,5 +1,8 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Common properties stored by HOME's side game data formats.
+/// </summary>
 public interface IGameDataSide
 {
     int Move1 { get; set; } int Move1_PP { get; set; } int Move1_PPUps { get; set; } int RelearnMove1 { get; set; }
@@ -10,12 +13,25 @@ public interface IGameDataSide
     int Met_Location { get; set; }
     int Egg_Location { get; set; }
 
+    /// <summary>
+    /// Gets the personal info for the input arguments.
+    /// </summary>
     PersonalInfo GetPersonalInfo(int species, int form);
+
+    /// <summary>
+    /// Converts the data to a <see cref="PKM"/>.
+    /// </summary>
+    /// <param name="pkh">HOME entity</param>
     PKM ConvertToPKM(PKH pkh);
 }
 
 public static class GameDataSideExtensions
 {
+    /// <summary>
+    /// Copies the shared properties into a destination.
+    /// </summary>
+    /// <param name="data">Source side game data</param>
+    /// <param name="pk">Destination entity</param>
     public static void CopyTo(this IGameDataSide data, PKM pk)
     {
         pk.Move1 = data.Move1; pk.Move1_PP = data.Move1_PP; pk.Move1_PPUps = data.Move1_PPUps; pk.RelearnMove1 = data.RelearnMove1;

@@ -3,10 +3,13 @@ using static PKHeX.Core.Species;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Dynamax Level used by <see cref="GameVersion.SWSH"/> format entity data.
+/// Exposes info about Dynamax potential
 /// </summary>
 public interface IDynamaxLevel
 {
+    /// <summary>
+    /// Dynamax Level used by <see cref="GameVersion.SWSH"/> format entity data.
+    /// </summary>
     byte DynamaxLevel { get; set; }
 }
 

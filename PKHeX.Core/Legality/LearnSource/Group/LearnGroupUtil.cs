@@ -3,6 +3,9 @@ using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for fetching a specific <see cref="ILearnGroup"/>.
+/// </summary>
 public static class LearnGroupUtil
 {
     public static ILearnGroup GetCurrentGroup(PKM pk) => GetCurrentGroup(pk.Context);

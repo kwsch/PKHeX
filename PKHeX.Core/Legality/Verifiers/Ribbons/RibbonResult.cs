@@ -3,8 +3,12 @@ using static PKHeX.Core.RibbonParseFlags;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Stores info about if a ribbon is valid or not.
+/// </summary>
 public readonly record struct RibbonResult
 {
+    // TWO BYTES USED
     private readonly byte Value;
     private readonly RibbonParseFlags Flags;
 

@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes flags to indicate if a stat index has been hyper trained.
+/// </summary>
 public interface IHyperTrain
 {
     byte HyperTrainFlags { get; set; }

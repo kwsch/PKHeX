@@ -4,6 +4,9 @@ using System.IO;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Loads <see cref="SlotCache"/> from sources into a storage collection.
+/// </summary>
 public static class SlotInfoLoader
 {
     // The "Add" method isn't shared for any interface... so we'll just do this twice.

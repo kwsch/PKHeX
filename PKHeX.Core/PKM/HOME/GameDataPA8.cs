@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Side game data for <see cref="PA8"/> data transferred into HOME.
+/// </summary>
 public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute
 {
     private const int SIZE = HomeCrypto.SIZE_1GAME_PA8;

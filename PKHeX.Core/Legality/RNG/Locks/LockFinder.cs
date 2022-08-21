@@ -1,9 +1,19 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for finding the RNG criteria pattern in Colosseum/XD.
+/// </summary>
 public static class LockFinder
 {
+    /// <summary>
+    /// Checks if the encounter template can be obtained with the resulting PID and IV detail.
+    /// </summary>
+    /// <param name="s">Encounter template with lock info</param>
+    /// <param name="pv">RNG result PID and IV seed state</param>
+    /// <param name="pk">Entity to check</param>
+    /// <returns>True if all valid.</returns>
     public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv, PKM pk)
     {
         if (s.Version == GameVersion.XD && pk.IsShiny)
@@ -16,6 +26,13 @@ public static class LockFinder
         return IsAllShadowLockValid(pv, teams, tsv);
     }
 
+    /// <summary>
+    /// Checks all <see cref="teams"/> to see if they can be reversed from the <see cref="pv"/>.
+    /// </summary>
+    /// <param name="pv">RNG result PID and IV seed state</param>
+    /// <param name="teams">Possible team data setups the NPC trainer has that need to generate before the shadow.</param>
+    /// <param name="tsv">Trainer shiny value that is disallowed in XD</param>
+    /// <returns></returns>
     public static bool IsAllShadowLockValid(PIDIV pv, IEnumerable<TeamLock> teams, int tsv = -1)
     {
         foreach (var t in teams)
@@ -27,7 +44,13 @@ public static class LockFinder
         return false;
     }
 
-    // Colosseum/XD Starters
+    /// <summary>
+    /// Checks if the XD starter Eevee can be obtained with the trainer's IDs.
+    /// </summary>
+    /// <param name="seed">Seed that generated the PID and IV</param>
+    /// <param name="TID">Trainer ID</param>
+    /// <param name="SID">Trainer Secret ID</param>
+    /// <returns>True if the starter ID correlation is correct</returns>
     public static bool IsXDStarterValid(uint seed, int TID, int SID)
     {
         // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
@@ -36,6 +59,17 @@ public static class LockFinder
         return SIDf >> 16 == SID && TIDf >> 16 == TID;
     }
 
+    /// <summary>
+    /// Checks if the Colosseum starter correlation can be obtained with the trainer's IDs.
+    /// </summary>
+    /// <param name="species">Species of the starter, to indicate Espeon vs Umbreon</param>
+    /// <param name="seed">Seed the PID/IV is generated with</param>
+    /// <param name="TID">Trainer ID of the trainer</param>
+    /// <param name="SID">Secret ID of the trainer</param>
+    /// <param name="pkPID">PID of the entity</param>
+    /// <param name="IV1">First 3 IVs combined</param>
+    /// <param name="IV2">Last 3 IVs combined</param>
+    /// <returns></returns>
     public static bool IsColoStarterValid(int species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
     {
         // reverse the seed the bare minimum
@@ -43,6 +77,7 @@ public static class LockFinder
         if (species == (int)Species.Espeon)
             rev += 7;
 
+        // reverse until we find the TID/SID, then run the generation forward to see if it matches our inputs.
         var rng = RNG.XDRNG;
         var SIDf = rng.Reverse(seed, rev);
         int ctr = 0;

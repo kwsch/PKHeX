@@ -3,6 +3,9 @@ using System.Buffers;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Caches move learn data via <see cref="ReloadMoves"/>
+/// </summary>
 public sealed class LegalMoveInfo
 {
     // Use a bool array instead of a HashSet; we have a limited range of moves.

@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for finding a <see cref="Frame"/> from inputs.
+/// </summary>
 public static class FrameFinder
 {
     /// <summary>

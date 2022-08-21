@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// General interface for describing a Species/Form in general.
+/// </summary>
 public interface IPersonalInfo : IBaseStat, IEffortValueYield, IGenderDetail, IPersonalFormInfo, IPersonalAbility, IPersonalEgg, IPersonalEncounter, IPersonalType, IPersonalMisc
 {
     /// <summary>

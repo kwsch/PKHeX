@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes info about <see cref="MoveType"/> that an entity has.
+/// </summary>
 public interface IPersonalType
 {
     /// <summary>

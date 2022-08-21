@@ -151,6 +151,8 @@ namespace PKHeX.WinForms
 
         private static string GetResourcePath(params string[] subdir)
         {
+            // Starting from the executable path, crawl upwards until we get to the repository/sln root
+            const string repo = "PKHeX";
             var path = Application.StartupPath;
             while (true)
             {
@@ -158,7 +160,7 @@ namespace PKHeX.WinForms
                 if (parent is null)
                     throw new DirectoryNotFoundException();
                 path = parent.FullName;
-                if (path.EndsWith("HeX"))
+                if (path.EndsWith(repo))
                     return Path.Combine(path, Path.Combine(subdir));
             }
         }

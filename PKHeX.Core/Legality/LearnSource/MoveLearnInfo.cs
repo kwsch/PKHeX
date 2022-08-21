@@ -5,6 +5,12 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Small struct that stores the where &amp; how details a move can be learned.
+/// </summary>
+/// <param name="Method">How the move was learned</param>
+/// <param name="Environment">Where the move was learned</param>
+/// <param name="Argument">Conditions in which the move was learned</param>
 public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment Environment, byte Argument = 0)
 {
     public void Summarize(StringBuilder sb)

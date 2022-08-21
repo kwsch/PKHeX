@@ -46,7 +46,7 @@ internal static class EncounterGenerator8
         }
 
         IEncounterable? cache = null;
-        EncounterMatchRating rating = None;
+        EncounterMatchRating rating = MaxNotMatch;
 
         // Trades
         if (pk.Met_Location == Locations.LinkTrade6NPC)

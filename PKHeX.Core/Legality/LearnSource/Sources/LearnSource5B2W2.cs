@@ -6,6 +6,9 @@ using static PKHeX.Core.LearnSource5;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes information about how moves are learned in <see cref="B2W2"/>.
+/// </summary>
 public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 {
     public static readonly LearnSource5B2W2 Instance = new();

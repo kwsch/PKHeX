@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic to check if things can learn specific moves.
+/// </summary>
 public static class EncounterLearn
 {
     static EncounterLearn()

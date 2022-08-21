@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using static PKHeX.Core.MysteryGiftGenerator;
 using static PKHeX.Core.EncounterTradeGenerator;
@@ -33,7 +33,7 @@ internal static class EncounterGenerator8b
         }
 
         IEncounterable? cache = null;
-        EncounterMatchRating rating = None;
+        EncounterMatchRating rating = MaxNotMatch;
 
         // Trades
         if (!pk.IsEgg && pk.Met_Location == Locations.LinkTrade6NPC)
@@ -110,7 +110,7 @@ internal static class EncounterGenerator8b
         }
 
         IEncounterable? cache = null;
-        EncounterMatchRating rating = None;
+        EncounterMatchRating rating = MaxNotMatch;
 
         // Trades
         if (!pk.IsEgg)

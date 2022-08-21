@@ -25,7 +25,7 @@ internal static class EncounterGenerator8a
         }
 
         IEncounterable? cache = null;
-        EncounterMatchRating rating = None;
+        EncounterMatchRating rating = MaxNotMatch;
 
         // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
         var encs = GetValidStaticEncounter(pk, chain, GameVersion.PLA);

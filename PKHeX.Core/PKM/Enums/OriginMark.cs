@@ -1,5 +1,10 @@
+using static PKHeX.Core.OriginMark;
+
 namespace PKHeX.Core;
 
+/// <summary>
+/// Displayed origin mark, indicating the group of games it originated from.
+/// </summary>
 public enum OriginMark
 {
     None,
@@ -21,24 +26,24 @@ public static class OriginMarkUtil
     {
         // Specific Markings
         if (pk.VC)
-            return OriginMark.GameBoy;
+            return GameBoy;
         if (pk.GO)
-            return OriginMark.GO;
+            return GO;
         if (pk.LGPE)
-            return OriginMark.LetsGo;
+            return LetsGo;
 
         // Lumped Generations
         if (pk.Gen6)
-            return OriginMark.Gen6Pentagon;
+            return Gen6Pentagon;
         if (pk.Gen7)
-            return OriginMark.Gen7Clover;
+            return Gen7Clover;
         if (pk.SWSH)
-            return OriginMark.Gen8Galar;
+            return Gen8Galar;
         if (pk.BDSP)
-            return OriginMark.Gen8Trio;
+            return Gen8Trio;
         if (pk.LA)
-            return OriginMark.Gen8Arc;
+            return Gen8Arc;
 
-        return OriginMark.None;
+        return None;
     }
 }

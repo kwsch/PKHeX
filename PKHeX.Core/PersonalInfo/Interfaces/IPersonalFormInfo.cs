@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes info about the entry's form(s).
+/// </summary>
 public interface IPersonalFormInfo
 {
     /// <summary>

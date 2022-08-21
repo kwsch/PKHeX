@@ -193,6 +193,9 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
     }
 }
 
+/// <summary>
+/// Enumerates the possible ways Pokémon GO data can be initialized with when imported to HOME.
+/// </summary>
 public enum PogoImportFormat : byte
 {
     PK7 = 0,

@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Settings for Parsing Legality
+/// </summary>
+/// <remarks><see cref="LegalityAnalysis"/></remarks>
 public static class ParseSettings
 {
     internal static ITrainerInfo ActiveTrainer { get; set; } = new SimpleTrainerInfo(GameVersion.Any) { OT = string.Empty, Language = -1 };

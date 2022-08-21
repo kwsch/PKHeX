@@ -2,6 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary> Generation 4 <see cref="PKM"/> format. </summary>
 public abstract class G4PKM : PKM,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
     IContestStats, IContestStatsMutable, IGroundTile

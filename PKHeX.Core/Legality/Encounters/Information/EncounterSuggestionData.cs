@@ -3,9 +3,19 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Wrapper result to store suggestion data related to encounters.
+/// </summary>
 public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
 {
     private readonly IEncounterable? Encounter;
+
+    public int Species { get; }
+    public int Form { get; }
+    public int Location { get; }
+
+    public byte LevelMin { get; }
+    public byte LevelMax { get; }
 
     public IReadOnlyList<int> Relearn => Encounter is IRelearn { Relearn: int[] { Length: not 0 } r } ? r : Array.Empty<int>();
 
@@ -29,13 +39,6 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
         LevelMin = lvl;
         LevelMax = lvl;
     }
-
-    public int Species { get; }
-    public int Form { get; }
-    public int Location { get; }
-
-    public byte LevelMin { get; }
-    public byte LevelMax { get; }
 
     public int GetSuggestedMetLevel(PKM pk) => EncounterSuggestion.GetSuggestedMetLevel(pk, LevelMin);
     public GroundTileType GetSuggestedGroundTile() => Encounter is IGroundTypeTile t ? t.GroundTile.GetIndex() : 0;

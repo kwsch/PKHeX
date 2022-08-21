@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Enumerates encounter match quality.
+/// </summary>
 public enum EncounterMatchRating
 {
     /// <summary> Matches all data, no other matches will be better. </summary>
@@ -14,6 +17,6 @@ public enum EncounterMatchRating
     /// <summary> Matches some data, but will likely have a better match later. </summary>
     PartialMatch,
 
-    /// <summary> Unused </summary>
-    None,
+    /// <summary> Unused -- only used as an initial "max" value that anything else will be more suitable of a match. </summary>
+    MaxNotMatch,
 }

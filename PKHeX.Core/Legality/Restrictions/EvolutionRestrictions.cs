@@ -182,7 +182,7 @@ internal static class EvolutionRestrictions
         // If has original met location the minimum evolution level is one level after met level
         // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
         // VC pokemon: minimum level is one level after transfer to generation 7
-        // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
+        // Sylveon: always one level after met level, for gen 4 and 5 Eevee in gen 6 games minimum for evolution is one level after transfer to generation 5
         if (pk.HasOriginalMetLocation || (pk.Format == 4 && gen == 3) || pk.VC || pk.Species == (int)Sylveon)
             lvl = Math.Max(pk.Met_Level + 1, lvl);
 

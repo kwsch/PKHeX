@@ -1,21 +1,69 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes info about the Move Shop in Legends: Arceus
+/// </summary>
 public interface IMoveShop8
 {
+    /// <summary>
+    /// Individual accessed indexes indicate if they can be learned.
+    /// </summary>
     ReadOnlySpan<bool> MoveShopPermitFlags { get; }
+
+    /// <summary>
+    /// Individual accessed move IDs that are provided by the Move Shop.
+    /// </summary>
     ReadOnlySpan<ushort> MoveShopPermitIndexes { get; }
+
+    /// <summary>
+    /// Indicates if the move shop offering at the requested index has been purchased.
+    /// </summary>
+    /// <param name="index">Move shop offering</param>
+    /// <returns>True if purchased</returns>
     bool GetPurchasedRecordFlag(int index);
+
+    /// <summary>
+    /// Sets the flag indicating that the move shop offering at the requested index has been purchased.
+    /// </summary>
+    /// <param name="index">Move shop offering</param>
+    /// <param name="value">True if purchased</param>
     void SetPurchasedRecordFlag(int index, bool value);
+
+    /// <summary>
+    /// Indicates if any move has been purchased from the move shop.
+    /// </summary>
     bool GetPurchasedRecordFlagAny();
+
+    /// <summary>
+    /// Gets a count of move shop flags that are present in the entity.
+    /// </summary>
     int GetPurchasedCount();
 }
 
+/// <summary>
+/// Exposes info about the Move Shop Mastery (via Seed of Mastery) in Legends: Arceus
+/// </summary>
 public interface IMoveShop8Mastery : IMoveShop8
 {
+    /// <summary>
+    /// Indicates if the move shop offering at the requested index has been flagged as mastered.
+    /// </summary>
+    /// <param name="index">Move shop offering</param>
+    /// <returns>True if mastered</returns>
     bool GetMasteredRecordFlag(int index);
+
+    /// <summary>
+    /// Sets the flag indicating that the move shop offering at the requested index has been flagged as mastered.
+    /// </summary>
+    /// <param name="index">Move shop offering</param>
+    /// <param name="value">True if purchased</param>
     void SetMasteredRecordFlag(int index, bool value);
+
+    /// <summary>
+    /// Indicates if any move has been flagged as mastered.
+    /// </summary>
     bool GetMasteredRecordFlagAny();
 }
 

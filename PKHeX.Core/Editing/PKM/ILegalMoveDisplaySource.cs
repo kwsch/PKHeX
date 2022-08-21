@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Source that stores move display state.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public interface ILegalMoveDisplaySource<T>
 {
     void ReloadMoves(LegalMoveInfo info);

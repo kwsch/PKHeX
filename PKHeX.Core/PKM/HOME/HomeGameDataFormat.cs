@@ -1,5 +1,8 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Enumerates the various side game data formats that can enter HOME.
+/// </summary>
 public enum HomeGameDataFormat : byte
 {
     None = 0,

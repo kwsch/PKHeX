@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Generation 7 PGL QR Code encoded <see cref="PKM"/> entities.
+/// </summary>
 public sealed class QRPK7 : IEncounterInfo
 {
     public GameVersion Version => (GameVersion)CassetteVersion;

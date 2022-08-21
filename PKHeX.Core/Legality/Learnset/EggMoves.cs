@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Stores the valid Move IDs the entry can be obtained with.
+/// </summary>
 public abstract class EggMoves
 {
     public readonly int[] Moves;
@@ -10,6 +13,9 @@ public abstract class EggMoves
     public bool GetHasEggMove(int move) => Array.IndexOf(Moves, move) != -1;
 }
 
+/// <summary>
+/// Specialized Egg Move storage for Generation 2.
+/// </summary>
 public sealed class EggMoves2 : EggMoves
 {
     private EggMoves2(int[] moves) : base(moves) { }
@@ -42,6 +48,9 @@ public sealed class EggMoves2 : EggMoves
     }
 }
 
+/// <summary>
+/// Specialized Egg Move storage for Generation 3-6.
+/// </summary>
 public sealed class EggMoves6 : EggMoves
 {
     private EggMoves6(int[] moves) : base(moves) { }
@@ -70,8 +79,15 @@ public sealed class EggMoves6 : EggMoves
     }
 }
 
+
+/// <summary>
+/// Specialized Egg Move storage for Generation 7+.
+/// </summary>
 public sealed class EggMoves7 : EggMoves
 {
+    /// <summary>
+    /// Points to the index where form data is, within the parent Egg Move object array.
+    /// </summary>
     public readonly int FormTableIndex;
 
     private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;

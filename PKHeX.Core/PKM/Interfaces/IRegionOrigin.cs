@@ -1,5 +1,8 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes details about the 3DS Console geolocation settings the trainer has set.
+/// </summary>
 public interface IRegionOrigin
 {
     /// <summary> Console hardware region. </summary>

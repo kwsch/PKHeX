@@ -3,6 +3,9 @@ using System.Text;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for encoding and decoding QR codes used to visually transfer data between other applications.
+/// </summary>
 public static class QRPKM
 {
     /// <summary>

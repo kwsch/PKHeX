@@ -4,9 +4,12 @@ using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core;
 
-public static class EvolutionChain
+/// <summary>
+/// Logic to create an <see cref="EvolutionHistory"/>.
+/// </summary>
+internal static class EvolutionChain
 {
-    internal static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
+    public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
         var origin = new EvolutionOrigin((ushort)enc.Species, (byte)enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
         if (!pk.IsEgg && enc is not EncounterInvalid)
@@ -19,7 +22,7 @@ public static class EvolutionChain
         return history;
     }
 
-    internal static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc)
+    public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc)
     {
         var group = EvolutionGroupUtil.GetCurrentGroup(pk);
         ReadOnlySpan<EvoCriteria> chain = group.GetInitialChain(pk, enc, (ushort)pk.Species, (byte)pk.Form);
@@ -38,7 +41,7 @@ public static class EvolutionChain
         return history;
     }
 
-    internal static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
+    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
     {
         if (maxLevel < 0)
             maxLevel = pk.CurrentLevel;

@@ -5,6 +5,9 @@ using static PKHeX.Core.BatchEditing;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Modifications for Batch Editing
+/// </summary>
 public static class BatchMods
 {
     public static readonly List<ISuggestModification> SuggestionMods = new()

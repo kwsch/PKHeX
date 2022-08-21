@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility to store all possible box manipulation types.
+/// </summary>
 public static class BoxManipUtil
 {
     /// <summary>
@@ -29,7 +32,18 @@ public static class BoxManipUtil
     /// </summary>
     /// <param name="type">Manipulation type.</param>
     /// <returns>Reference to <see cref="IBoxManip"/>.</returns>
-    public static IBoxManip GetManip(this BoxManipType type) => ManipCategories.SelectMany(c => c).First(m => m.Type == type);
+    public static IBoxManip GetManip(this BoxManipType type)
+    {
+        foreach (var category in ManipCategories)
+        {
+            foreach (var manip in category)
+            {
+                if (manip.Type == type)
+                    return manip;
+            }
+        }
+        throw new ArgumentOutOfRangeException(nameof(type), type, null);
+    }
 
     /// <summary>
     /// Gets the corresponding name from <see cref="ManipCategoryNames"/> for the requested <see cref="type"/>.
@@ -40,8 +54,11 @@ public static class BoxManipUtil
     {
         for (int i = 0; i < ManipCategories.Length; i++)
         {
-            if (ManipCategories[i].Any(z => z.Type == type))
-                return ManipCategoryNames[i];
+            foreach (var manip in ManipCategories[i])
+            {
+                if (manip.Type == type)
+                    return ManipCategoryNames[i];
+            }
         }
         return null;
     }
@@ -55,8 +72,11 @@ public static class BoxManipUtil
     {
         for (int i = 0; i < ManipCategories.Length; i++)
         {
-            if (ManipCategories[i].Any(z => z == manip))
-                return ManipCategoryNames[i];
+            foreach (var m in ManipCategories[i])
+            {
+                if (m == manip)
+                    return ManipCategoryNames[i];
+            }
         }
         return null;
     }

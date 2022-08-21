@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes info about all <see cref="IPersonalInfo"/> contained in the object.
+/// </summary>
 public interface IPersonalTable
 {
     /// <summary>

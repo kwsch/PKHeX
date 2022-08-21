@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes miscellaneous metadata about an entity species/form.
+/// </summary>
 public interface IPersonalMisc
 {
     /// <summary>

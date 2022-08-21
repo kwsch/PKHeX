@@ -1,9 +1,13 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Evolution Info tracking how an evolution was performed, and the end result species and form.
+/// </summary>
 public readonly record struct EvoCriteria
 {
     public ushort Species { get; init; }
     public byte Form { get; init; }
+
     public byte LevelUpRequired { get; init; }
     public byte LevelMax { get; init; }
     public byte LevelMin { get; init; }

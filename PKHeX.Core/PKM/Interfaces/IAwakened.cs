@@ -2,6 +2,10 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes information about the amount of Awakened stat boosts gained.
+/// </summary>
+/// <remarks>Used only in LGP/E.</remarks>
 public interface IAwakened
 {
     byte AV_HP { get; set; }

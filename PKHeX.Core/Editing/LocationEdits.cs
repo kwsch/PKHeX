@@ -1,10 +1,21 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for locations of a <see cref="PKM"/>.
+/// </summary>
 public static class LocationEdits
 {
-    public static int GetNoneLocation(PKM pk) => pk switch
+    /// <summary>
+    /// Gets the "None" location index for a specific <see cref="PKM"/> context.
+    /// </summary>
+    public static int GetNoneLocation(PKM pk) => GetNoneLocation(pk.Context);
+
+    /// <summary>
+    /// Gets the "None" location index for a specific <see cref="PKM"/> context.
+    /// </summary>
+    public static int GetNoneLocation(EntityContext context) => context switch
     {
-        PB8 => Locations.Default8bNone,
+        EntityContext.Gen8b => Locations.Default8bNone,
         _ => 0,
     };
 }

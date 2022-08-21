@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Represents an RNG seed and the conditions of which it occurs.
+/// </summary>
 public sealed class Frame
 {
     /// <summary>

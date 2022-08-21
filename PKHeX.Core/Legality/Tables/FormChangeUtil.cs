@@ -3,8 +3,19 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for checking if an entity can freely change <see cref="PKM.Form"/>.
+/// </summary>
 public static class FormChangeUtil
 {
+    /// <summary>
+    /// Checks if all forms should be iterated when checking for moves.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    /// <param name="generation">Generation we're checking in</param>
+    /// <param name="option">Conditions we're checking with</param>
+    /// <returns></returns>
     public static bool ShouldIterateForms(ushort species, byte form, int generation, LearnOption option)
     {
         if (option is not LearnOption.Current)
@@ -12,7 +23,7 @@ public static class FormChangeUtil
         return IterateAllForms(species);
     }
 
-    public static bool IterateAllForms(int species) => FormChangeMovesRetain.Contains(species);
+    private static bool IterateAllForms(int species) => FormChangeMovesRetain.Contains(species);
 
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.

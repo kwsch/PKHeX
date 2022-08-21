@@ -22,7 +22,10 @@ public sealed class BallVerifier : Verifier
 
     private static int IsReplacedBall(IVersion enc, PKM pk) => pk switch
     {
+        // Trading from PLA origin -> SW/SH will replace the Legends: Arceus ball with a regular Poké Ball
         PK8 when enc.Version == GameVersion.PLA => (int)Poke,
+
+        // No replacement done.
         _ => (int)None,
     };
 
@@ -54,17 +57,18 @@ public sealed class BallVerifier : Verifier
         var pk = data.Entity;
         if (pk.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
         {
-            // Only Gen3 origin Shedinja can copy the wild ball.
+            // Only a Gen3 origin Shedinja can copy the wild ball.
             // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
             // The special move verifier has a similar check!
-            if (pk.HGSS && pk.Ball == (int)Sport) // Can evolve in DP to retain the HG/SS ball -- not able to be captured in any other ball
+            if (pk.HGSS && pk.Ball == (int)Sport) // Can evolve in DP to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
                 return VerifyBallEquals(data, (int)Sport);
-            if (Info.Generation != 3 || Info.EvoChainsAllGens.Gen3.Length != 2)
-                return VerifyBallEquals(data, (int)Poke); // Pokeball Only
+            if (Info.Generation != 3 || Info.EvoChainsAllGens.Gen3.Length != 2) // not evolved in Gen3 Nincada->Shedinja
+                return VerifyBallEquals(data, (int)Poke); // Poké ball Only
         }
 
-        if (pk.Ball == (int)Heavy && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species) && !enc.EggEncounter && pk.SM)
-            return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
+        // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
+        if (pk.Ball == (int)Heavy && pk.SM && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species))
+            return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
         {
@@ -78,7 +82,7 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
     {
-        if (g.Generation == 4 && g.Species == (int)Species.Manaphy && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
+        if (g.Generation == 4 && g.Species == (int)Species.Manaphy && g.Ball == 0) // there is no ball data in Manaphy PGT Mystery Gift from Gen4
             return VerifyBallEquals(data, (int)Poke); // Pokeball
         return VerifyBallEquals(data, g.Ball);
     }

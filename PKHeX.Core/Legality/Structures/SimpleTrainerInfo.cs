@@ -1,5 +1,8 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
+/// <summary>
+/// Simple record containing trainer data
+/// </summary>
 public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
 {
     public string OT { get; set; } = "PKHeX";

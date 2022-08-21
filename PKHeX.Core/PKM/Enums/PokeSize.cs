@@ -1,5 +1,10 @@
-﻿namespace PKHeX.Core;
+using static PKHeX.Core.PokeSize;
 
+namespace PKHeX.Core;
+
+/// <summary>
+/// Size Groupings for an entity's Height and Weight
+/// </summary>
 public enum PokeSize
 {
     XS,
@@ -18,20 +23,20 @@ public static class PokeSizeUtil
     /// <returns>0-4 rating</returns>
     public static PokeSize GetSizeRating(byte scalar) => scalar switch
     {
-        < 0x10 => PokeSize.XS, // 1/16 = XS
-        < 0x30 => PokeSize.S,  // 2/16 = S
-        < 0xD0 => PokeSize.AV, // average (10/16)
-        < 0xF0 => PokeSize.L,  // 2/16 = L
-        _ => PokeSize.XL, // 1/16 = XL
+        < 0x10 => XS, // 1/16 = XS
+        < 0x30 => S,  // 2/16 = S
+        < 0xD0 => AV, // average (10/16)
+        < 0xF0 => L,  // 2/16 = L
+        _ => XL, // 1/16 = XL
     };
 
     public static byte GetRandomScalar(this PokeSize size) => size switch
     {
-        PokeSize.XS => (byte)(Util.Rand.Next(0x10)),
-        PokeSize.S  => (byte)(Util.Rand.Next(0x20) + 0x10),
-        PokeSize.AV => (byte)(Util.Rand.Next(0xA0) + 0x30),
-        PokeSize.L  => (byte)(Util.Rand.Next(0x20) + 0xD0),
-        PokeSize.XL => (byte)(Util.Rand.Next(0x10) + 0xF0),
+        XS => (byte)(Util.Rand.Next(0x10)),
+        S  => (byte)(Util.Rand.Next(0x20) + 0x10),
+        AV => (byte)(Util.Rand.Next(0xA0) + 0x30),
+        L  => (byte)(Util.Rand.Next(0x20) + 0xD0),
+        XL => (byte)(Util.Rand.Next(0x10) + 0xF0),
         _ => GetRandomScalar(),
     };
 

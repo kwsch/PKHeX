@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -35,7 +35,7 @@ public static class RNGUtil
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void GetSequentialIVsInt32(this LCRNG rng, uint seed, Span<int> ivs)
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < ivs.Length; i++)
         {
             seed = rng.Next(seed);
             ivs[i] = (int)(seed >> 27);

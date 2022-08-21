@@ -3,6 +3,9 @@ using static PKHeX.Core.BatchEditing;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Filters for Batch Editing
+/// </summary>
 public static class BatchFilters
 {
     public static readonly List<IComplexFilter> FilterMods = new()

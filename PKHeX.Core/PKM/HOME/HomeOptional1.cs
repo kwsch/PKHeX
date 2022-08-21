@@ -1,13 +1,16 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Side game data base class for <see cref="PKM"/> data transferred into HOME.
+/// </summary>
 public abstract class HomeOptional1
 {
     // Internal Attributes set on creation
-    public readonly byte[] Data; // Raw Storage
-    public readonly int Offset;
+    protected readonly byte[] Data; // Raw Storage
+    protected readonly int Offset;
 
     private const int HeaderBias = 3;
 

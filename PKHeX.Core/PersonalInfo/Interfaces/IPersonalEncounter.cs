@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes info about encounter details that an entity has when encountered.
+/// </summary>
 public interface IPersonalEncounter
 {
     /// <summary>
