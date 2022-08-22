@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -112,7 +110,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override bool IsEntity { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
 
     public override int Species { get => IsManaphyEgg ? 490 : PK.Species; set => PK.Species = value; }
-    public override IReadOnlyList<int> Moves { get => PK.Moves; set => PK.SetMoves(value.ToArray()); }
+    public override Moveset Moves { get => new((ushort)PK.Move1, (ushort)PK.Move2, (ushort)PK.Move3, (ushort)PK.Move4); set => PK.SetMoves(value); }
     public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
     public override bool IsShiny => PK.IsShiny;
     public override int Gender { get => PK.Gender; set => PK.Gender = value; }

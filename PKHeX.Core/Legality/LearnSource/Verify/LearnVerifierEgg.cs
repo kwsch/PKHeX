@@ -25,12 +25,39 @@ internal static class LearnVerifierEgg
 
     private static void VerifyFromEncounter(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
     {
-        ReadOnlySpan<int> initial;
-        if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
-            initial = x;
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
+        {
+            VerifyMovesInitial(result, current, x);
+        }
         else
-            initial = GameData.GetLearnset(enc.Version, enc.Species, enc.Form).GetBaseEggMoves(enc.LevelMin);
-        VerifyMovesInitial(result, current, initial);
+        {
+            ReadOnlySpan<int> initial = GameData.GetLearnset(enc.Version, enc.Species, enc.Form).GetBaseEggMoves(enc.LevelMin);
+            VerifyMovesInitial(result, current, initial);
+        }
+    }
+
+    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, Moveset initial)
+    {
+        // Check that the sequence of current move matches the initial move sequence.
+        int i = 0;
+        if (initial.Move1 != 0)
+        {
+            result[i++] = GetMethodInitial(current[i], initial.Move1);
+            if (initial.Move2 != 0)
+            {
+                result[i++] = GetMethodInitial(current[i], initial.Move2);
+                if (initial.Move3 != 0)
+                {
+                    result[i++] = GetMethodInitial(current[i], initial.Move3);
+                    if (initial.Move4 != 0)
+                    {
+                        result[i++] = GetMethodInitial(current[i], initial.Move4);
+                    }
+                }
+            }
+        }
+        for (; i < current.Length; i++)
+            result[i] = current[i] == 0 ? MoveResult.Empty : MoveResult.Unobtainable(0);
     }
 
     private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> initial)
@@ -46,7 +73,7 @@ internal static class LearnVerifierEgg
     {
         if (enc is EncounterEgg)
             VerifyMatchesRelearn(result, current, pk);
-        else if (enc is IMoveset { Moves: int[] { Length: not 0 } x })
+        else if (enc is IMoveset { Moves: { HasMoves: true } x })
             VerifyMovesInitial(result, current, x);
         else
             VerifyFromEncounter(result, current, enc);

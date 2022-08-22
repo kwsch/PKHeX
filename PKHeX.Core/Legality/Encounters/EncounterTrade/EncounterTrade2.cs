@@ -28,7 +28,7 @@ public sealed record EncounterTrade2 : EncounterTradeGB
         {
             if (Gender >= 0 && Gender != pk.Gender)
                 return false;
-            if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand((int[])IVs, pk))
+            if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pk))
                 return false;
             if (pk.Format == 2 && pk.Met_Location is not (0 or 126))
                 return false;

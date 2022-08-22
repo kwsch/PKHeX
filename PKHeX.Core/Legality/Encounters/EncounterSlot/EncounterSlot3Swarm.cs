@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -11,15 +9,14 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="EncounterSlot"/>
 internal sealed record EncounterSlot3Swarm : EncounterSlot3, IMoveset
 {
-    public IReadOnlyList<int> Moves { get; }
+    public Moveset Moves { get; }
 
     public EncounterSlot3Swarm(EncounterArea3 area, ushort species, byte min, byte max, byte slot,
-        IReadOnlyList<int> moves) : base(area, species, 0, min, max, slot, 0, 0, 0, 0) => Moves = moves;
+        Moveset moves) : base(area, species, 0, min, max, slot, 0, 0, 0, 0) => Moves = moves;
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = (int[])Moves;
-        pk.SetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
+        pk.SetMoves(Moves);
+        pk.SetMaximumPPCurrent(Moves);
     }
 }

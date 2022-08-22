@@ -99,10 +99,9 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     /// <param name="formarg">Entity <see cref="IFormArgument.FormArgument"/> raw value</param>
     /// <param name="heldItem">Entity held item ID</param>
     /// <param name="isEgg">Is currently in an egg</param>
-    /// <param name="isShiny">Is it shiny</param>
+    /// <param name="shiny">Is it shiny</param>
     /// <param name="generation"></param>
     /// <param name="tweak"></param>
-    /// <returns></returns>
     public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         if (species == 0)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -33,23 +33,14 @@ public static class RaidRNG
         ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
     }
 
-    private static void LoadIVs<T>(T raid, Span<int> IVs) where T : EncounterStatic8Nest<T>
+    private static void LoadIVs<T>(T raid, Span<int> span) where T : EncounterStatic8Nest<T>
     {
-        if (raid.IVs.Count == 0)
-        {
-            IVs.Fill(-1);
-        }
+        // Template stores with speed in middle (standard), convert for generator purpose.
+        var ivs = raid.IVs;
+        if (ivs.IsSpecified)
+            ivs.CopyToSpeedLast(span);
         else
-        {
-            // Template stores with speed in middle (standard), convert for generator purpose.
-            var value = raid.IVs;
-            IVs[5] = value[3]; // spe
-            IVs[4] = value[5]; // spd
-            IVs[3] = value[4]; // spa
-            IVs[2] = value[2]; // def
-            IVs[1] = value[1]; // atk
-            IVs[0] = value[0]; // hp
-        }
+            span.Fill(-1);
     }
 
     private static int RemapAbilityToParam(AbilityPermission a) => a switch

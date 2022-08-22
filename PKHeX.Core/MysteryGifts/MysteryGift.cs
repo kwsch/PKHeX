@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -131,8 +130,8 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
     // Search Properties
-    public virtual IReadOnlyList<int> Moves { get => Array.Empty<int>(); set { } }
-    public virtual IReadOnlyList<int> Relearn { get => Array.Empty<int>(); set { } }
+    public virtual Moveset Moves { get => default; set { } }
+    public virtual Moveset Relearn { get => default; set { } }
     public virtual int[] IVs { get => Array.Empty<int>(); set { } }
     public virtual bool HasFixedIVs => true;
     public virtual void GetIVs(Span<int> value) { }

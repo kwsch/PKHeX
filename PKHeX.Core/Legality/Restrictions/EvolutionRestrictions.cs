@@ -165,7 +165,7 @@ internal static class EvolutionRestrictions
         else if (enc is IMoveset s)
         {
             var moves = s.Moves;
-            var result = move == 0 ? moves.Any(FairyMoves.Contains) : moves.Contains(move);
+            var result = move == 0 ? moves.ContainsAny(FairyMoves) : moves.Contains(move);
             if (result)
                 return true;
         }

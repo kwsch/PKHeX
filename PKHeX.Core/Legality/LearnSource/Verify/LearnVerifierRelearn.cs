@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -13,7 +12,7 @@ public static class LearnVerifierRelearn
     {
         if (ShouldNotHaveRelearnMoves(enc, pk))
             VerifyRelearnNone(pk, result);
-        else if (enc is IRelearn {Relearn: int[] {Length: not 0} x})
+        else if (enc is IRelearn {Relearn: {HasMoves: true} x})
             VerifyRelearnSpecifiedMoveset(pk, x, result);
         else if (enc is EncounterEgg e)
             VerifyEggMoveset(e, result, pk.RelearnMoves);
@@ -27,14 +26,12 @@ public static class LearnVerifierRelearn
 
     public static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pk) => enc.Generation < 6 || pk.IsOriginalMovesetDeleted();
 
-    private static void VerifyRelearnSpecifiedMoveset(PKM pk, IReadOnlyList<int> required, Span<MoveResult> result)
+    private static void VerifyRelearnSpecifiedMoveset(PKM pk, Moveset required, Span<MoveResult> result)
     {
-        for (int i = result.Length - 1; i >= 0; i--)
-        {
-            var current = pk.GetRelearnMove(i);
-            var expect = required[i];
-            result[i] = ParseExpect(current, expect);
-        }
+        result[3] = ParseExpect(pk.RelearnMove4, required.Move4);
+        result[2] = ParseExpect(pk.RelearnMove3, required.Move3);
+        result[1] = ParseExpect(pk.RelearnMove2, required.Move2);
+        result[0] = ParseExpect(pk.RelearnMove1, required.Move1);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

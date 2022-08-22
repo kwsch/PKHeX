@@ -171,15 +171,19 @@ public sealed class LearnGroup8 : ILearnGroup
 
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
-        if (enc is IMoveset { Moves: int[] { Length: not 0 } m })
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
-            foreach (var move in m)
-                result[move] = true;
+            result[x.Move4] = true;
+            result[x.Move3] = true;
+            result[x.Move2] = true;
+            result[x.Move1] = true;
         }
-        if (enc is IRelearn { Relearn: int[] { Length: not 0 } r })
+        if (enc is IRelearn { Relearn: { HasMoves: true } r })
         {
-            foreach (var move in r)
-                result[move] = true;
+            result[r.Move4] = true;
+            result[r.Move3] = true;
+            result[r.Move2] = true;
+            result[r.Move1] = true;
         }
     }
 }

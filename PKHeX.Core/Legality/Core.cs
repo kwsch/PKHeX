@@ -210,13 +210,26 @@ public static partial class Legal
         return true;
     }
 
-    public static bool GetIsFixedIVSequenceValidNoRand(ReadOnlySpan<int> IVs, PKM pk)
+    public static bool GetIsFixedIVSequenceValidSkipRand(IndividualValueSet IVs, PKM pk, int max = 31)
     {
-        for (int i = 0; i < 6; i++)
-        {
-            if (IVs[i] != pk.GetIV(i))
-                return false;
-        }
+        // Template IVs not in the [0,max] range are random. Only check for IVs within the "specified" range.
+        if ((uint)IVs.HP  <= max && IVs.HP  != pk.IV_HP ) return false;
+        if ((uint)IVs.ATK <= max && IVs.ATK != pk.IV_ATK) return false;
+        if ((uint)IVs.DEF <= max && IVs.DEF != pk.IV_DEF) return false;
+        if ((uint)IVs.SPE <= max && IVs.SPE != pk.IV_SPE) return false;
+        if ((uint)IVs.SPA <= max && IVs.SPA != pk.IV_SPA) return false;
+        if ((uint)IVs.SPD <= max && IVs.SPD != pk.IV_SPD) return false;
+        return true;
+    }
+
+    public static bool GetIsFixedIVSequenceValidNoRand(IndividualValueSet IVs, PKM pk)
+    {
+        if (IVs.HP  != pk.IV_HP ) return false;
+        if (IVs.ATK != pk.IV_ATK) return false;
+        if (IVs.DEF != pk.IV_DEF) return false;
+        if (IVs.SPE != pk.IV_SPE) return false;
+        if (IVs.SPA != pk.IV_SPA) return false;
+        if (IVs.SPD != pk.IV_SPD) return false;
         return true;
     }
 

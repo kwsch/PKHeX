@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
@@ -94,9 +94,9 @@ internal static class Encounters8b
 
     internal static readonly EncounterTrade8b[] TradeGift_BDSP =
     {
-        new(BDSP) { Species = 063, EncryptionConstant = 0x0000008E, PID = 0xFF50A8F5, Level = 09, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 25643, IVs = new[] {28,10,09,31,11,03}, Moves = new[] {100,000,000,000}, HeightScalar = 029, WeightScalar = 202, Nature = Nature.Quiet  }, // Abra
-        new(BDSP) { Species = 441, EncryptionConstant = 0x00000867, PID = 0x17DAAB19, Level = 15, Ability = OnlySecond, Gender = 1, OTGender = 0, TID = 44142, IVs = new[] {17,08,29,25,17,23}, Moves = new[] {448,047,064,045}, HeightScalar = 088, WeightScalar = 091, Nature = Nature.Lonely }, // Chatot
-        new(BDSP) { Species = 093, EncryptionConstant = 0x00000088, PID = 0xF60AB5BB, Level = 33, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 19248, IVs = new[] {18,24,28,02,22,30}, Moves = new[] {247,371,389,109}, HeightScalar = 096, WeightScalar = 208, Nature = Nature.Hasty  }, // Haunter
-        new(BDSP) { Species = 129, EncryptionConstant = 0x0000045C, PID = 0xFCE82F88, Level = 45, Ability = OnlyFirst,  Gender = 1, OTGender = 0, TID = 53277, IVs = new[] {03,03,31,02,11,03}, Moves = new[] {150,000,000,000}, HeightScalar = 169, WeightScalar = 068, Nature = Nature.Mild   }, // Magikarp
+        new(BDSP) { Species = 063, EncryptionConstant = 0x0000008E, PID = 0xFF50A8F5, Level = 09, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 25643, IVs = new(28,10,09,31,11,03), Moves = new(100,000,000,000), HeightScalar = 029, WeightScalar = 202, Nature = Nature.Quiet  }, // Abra
+        new(BDSP) { Species = 441, EncryptionConstant = 0x00000867, PID = 0x17DAAB19, Level = 15, Ability = OnlySecond, Gender = 1, OTGender = 0, TID = 44142, IVs = new(17,08,29,25,17,23), Moves = new(448,047,064,045), HeightScalar = 088, WeightScalar = 091, Nature = Nature.Lonely }, // Chatot
+        new(BDSP) { Species = 093, EncryptionConstant = 0x00000088, PID = 0xF60AB5BB, Level = 33, Ability = OnlyFirst,  Gender = 0, OTGender = 0, TID = 19248, IVs = new(18,24,28,02,22,30), Moves = new(247,371,389,109), HeightScalar = 096, WeightScalar = 208, Nature = Nature.Hasty  }, // Haunter
+        new(BDSP) { Species = 129, EncryptionConstant = 0x0000045C, PID = 0xFCE82F88, Level = 45, Ability = OnlyFirst,  Gender = 1, OTGender = 0, TID = 53277, IVs = new(03,03,31,02,11,03), Moves = new(150,000,000,000), HeightScalar = 169, WeightScalar = 068, Nature = Nature.Mild   }, // Magikarp
     };
 }

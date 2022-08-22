@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -30,7 +28,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public int Language { get; init; } = -1;
     public override int Species { get; set; }
     public override bool IsEgg { get; set; }
-    public override IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
+    public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
     public bool Fateful { get; init; } // Obedience Flag
@@ -160,18 +158,15 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
     private void SetMoves(PK3 pk)
     {
-        if (Moves.Count == 0) // not completely defined
-            Moves = MoveList.GetBaseEggMoves(pk, Species, Form, (GameVersion)pk.Version, Level);
-        if (Moves.Count != 4)
+        if (!Moves.HasMoves) // not completely defined
         {
-            int[] moves = Moves.ToArray();
-            Array.Resize(ref moves, 4);
-            Moves = moves;
+            Span<int> moves = stackalloc int[4];
+            MoveList.GetCurrentMoves(pk, Species, Form, (GameVersion)pk.Version, Level, moves);
+            Moves = new((ushort)moves[0], (ushort)moves[1], (ushort)moves[2], (ushort)moves[3]);
         }
 
-        var m = (int[])Moves;
-        pk.SetMoves(m);
-        pk.SetMaximumPPCurrent(m);
+        pk.SetMoves(Moves);
+        pk.SetMaximumPPCurrent(Moves);
     }
 
     private void SetPINGA(PK3 pk, EncounterCriteria _)

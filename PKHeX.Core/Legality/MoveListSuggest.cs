@@ -12,7 +12,11 @@ public static class MoveListSuggest
     private static int[] GetSuggestedMoves(PKM pk, EvolutionHistory evoChains, MoveSourceType types, IEncounterTemplate enc)
     {
         if (pk.IsEgg && pk.Format <= 5) // pre relearn
-            return MoveList.GetBaseEggMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel);
+        {
+            int[] moves = new int[4];
+            MoveList.GetCurrentMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel, moves);
+            return moves;
+        }
 
         if (types != MoveSourceType.None)
             return GetValidMoves(pk, enc, evoChains, types);
@@ -89,7 +93,7 @@ public static class MoveListSuggest
     // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
     private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk) => enc switch
     {
-        IRelearn { Relearn: int[] { Length: not 0 } r } => r,
+        IRelearn { Relearn: { HasMoves: true } r } => r.ToArray(),
         EncounterEgg or EncounterInvalid {EggEncounter: true} => GetSuggestedRelearnEgg(enc, pk),
         _ => Empty,
     };

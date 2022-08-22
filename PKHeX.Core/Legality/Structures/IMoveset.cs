@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -7,5 +5,5 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IMoveset
 {
-    IReadOnlyList<int> Moves { get; }
+    Moveset Moves { get; }
 }

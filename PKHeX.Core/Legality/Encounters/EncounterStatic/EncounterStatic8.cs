@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using static PKHeX.Core.OverworldCorrelation8Requirement;
 
 namespace PKHeX.Core;
@@ -15,7 +13,7 @@ public record EncounterStatic8(GameVersion Version) : EncounterStatic(Version), 
     public bool ScriptedNoMarks { get; init; }
     public bool CanGigantamax { get; set; }
     public byte DynamaxLevel { get; set; }
-    public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
+    public Moveset Relearn { get; init; }
 
     public AreaWeather8 Weather {get; init; } = AreaWeather8.Normal;
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -11,7 +8,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
 {
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
-    public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
+    public Moveset Relearn { get; init; }
 
     public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
     public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains(Species);
@@ -19,7 +16,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (EggLocation == Locations.Daycare5 && Relearn.Count == 0 && pk.RelearnMove1 != 0) // Gift Eevee edge case
+        if (EggLocation == Locations.Daycare5 && !Relearn.HasMoves && pk.RelearnMove1 != 0) // Gift Eevee edge case
             return false;
         return base.IsMatchLocation(pk);
     }

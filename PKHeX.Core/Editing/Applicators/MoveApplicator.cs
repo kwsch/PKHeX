@@ -81,6 +81,19 @@ public static class MoveApplicator
     /// Updates the individual PP count values for each move slot based on the maximum possible value.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
+    public static void SetMaximumPPCurrent(this PKM pk, Moveset moves)
+    {
+        pk.Move1_PP = moves.Move1 == 0 ? 0 : pk.GetMovePP(moves.Move1, pk.Move1_PPUps);
+        pk.Move2_PP = moves.Move2 == 0 ? 0 : pk.GetMovePP(moves.Move2, pk.Move2_PPUps);
+        pk.Move3_PP = moves.Move3 == 0 ? 0 : pk.GetMovePP(moves.Move3, pk.Move3_PPUps);
+        pk.Move4_PP = moves.Move4 == 0 ? 0 : pk.GetMovePP(moves.Move4, pk.Move4_PPUps);
+    }
+
+    /// <summary>
+    /// Updates the individual PP count values for each move slot based on the maximum possible value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
     public static void SetMaximumPPCurrent(this PKM pk)
     {
         Span<int> moves = stackalloc int[4];

@@ -65,45 +65,6 @@ public sealed class Learnset
         return (true, start, end);
     }
 
-    /// <summary>
-    /// Adds the moves a Pokémon can learn between the specified level range.
-    /// </summary>
-    /// <param name="moves">Movepool</param>
-    /// <param name="maxLevel">Maximum level</param>
-    /// <param name="minLevel">Minimum level</param>
-    /// <returns>Array of Move IDs</returns>
-    public List<int> AddMoves(List<int> moves, int maxLevel, int minLevel = 0)
-    {
-        if (minLevel <= 1 && maxLevel >= 100)
-        {
-            moves.AddRange(Moves);
-            return moves;
-        }
-        if (minLevel > maxLevel)
-            return moves;
-        int start = Array.FindIndex(Levels, z => z >= minLevel);
-        if (start < 0)
-            return moves;
-        int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
-        if (end < 0)
-            return moves;
-        for (int i = start; i < end + 1; i++)
-            moves.Add(Moves[i]);
-        return moves;
-    }
-
-    /// <summary>
-    /// Gets the moves a Pokémon can learn between the specified level range as a list.
-    /// </summary>
-    /// <param name="maxLevel">Maximum level</param>
-    /// <param name="minLevel">Minimum level</param>
-    /// <returns>Array of Move IDs</returns>
-    public List<int> GetMoveList(int maxLevel, int minLevel = 0)
-    {
-        var list = new List<int>();
-        return AddMoves(list, maxLevel, minLevel);
-    }
-
     /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
     /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
     /// <param name="level">The level the Pokémon was encountered at.</param>

@@ -15,7 +15,6 @@ public static class FormChangeUtil
     /// <param name="form">Entity form</param>
     /// <param name="generation">Generation we're checking in</param>
     /// <param name="option">Conditions we're checking with</param>
-    /// <returns></returns>
     public static bool ShouldIterateForms(ushort species, byte form, int generation, LearnOption option)
     {
         if (option is not LearnOption.Current)

@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
 
@@ -546,24 +546,24 @@ public static class Encounters5
 
     internal static readonly EncounterTrade5PID[] TradeGift_BW =
     {
-        new(B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Petilil
-        new( W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
-        new(B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
-        new( W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
-        new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax }, // Emolga
-        new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Gentle }, // Rotom
-        new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious }, // Munchlax
+        new(B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
+        new( W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
+        new(B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
+        new( W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
+        new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
+        new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
+        new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
     };
 
     internal static readonly EncounterTrade5[] TradeGift_B2W2_Regular =
     {
-        new(B2  ) { Species = 548, Level = 20, Ability = OnlySecond, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid }, // Petilil
-        new(  W2) { Species = 546, Level = 20, Ability = OnlyFirst,  TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest }, // Cottonee
-        new(B2W2) { Species = 526, Level = 35, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
-        new(B2W2) { Species = 465, Level = 45, Ability = OnlyFirst,  TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy }, // Tangrowth
-        new(B2W2) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm }, // Rotom
-        new(B2W2) { Species = 424, Level = 40, Ability = OnlySecond, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly }, // Ambipom
-        new(B2W2) { Species = 065, Level = 40, Ability = OnlyFirst,  TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid }, // Alakazam
+        new(B2  ) { Species = 548, Level = 20, Ability = OnlySecond, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Timid }, // Petilil
+        new(  W2) { Species = 546, Level = 20, Ability = OnlyFirst,  TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
+        new(B2W2) { Species = 526, Level = 35, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
+        new(B2W2) { Species = 465, Level = 45, Ability = OnlyFirst,  TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Hardy }, // Tangrowth
+        new(B2W2) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Calm }, // Rotom
+        new(B2W2) { Species = 424, Level = 40, Ability = OnlySecond, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new(20,20,20,31,20,20), Nature = Nature.Jolly }, // Ambipom
+        new(B2W2) { Species = 065, Level = 40, Ability = OnlyFirst,  TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new(20,20,20,31,20,20), Nature = Nature.Timid }, // Alakazam
     };
 
     internal const int YancyTID = 10303;

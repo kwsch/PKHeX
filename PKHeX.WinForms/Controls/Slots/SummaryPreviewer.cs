@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -66,9 +65,12 @@ public sealed class SummaryPreviewer
         }
         else if (enc is IMoveset m)
         {
-            var nonzero = m.Moves.Where(z => z != 0).ToList();
-            if (nonzero.Count != 0)
-                lines.Add(string.Join(" / ", nonzero.Select(z => GameInfo.Strings.Move[z])));
+            var moves = m.Moves;
+            if (moves.HasMoves)
+            {
+                string result = moves.GetMovesetLine(GameInfo.Strings.movelist);
+                lines.Add(result);
+            }
         }
 
         var el = enc as ILocation;

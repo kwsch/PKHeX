@@ -102,13 +102,12 @@ public sealed record EncounterArea3 : EncounterArea
         byte min = entry[4];
         byte max = entry[5];
 
-        int[] moves =
-        {
+        var moves = new Moveset(
             ReadUInt16LittleEndian(entry[06..]),
             ReadUInt16LittleEndian(entry[08..]),
             ReadUInt16LittleEndian(entry[10..]),
-            ReadUInt16LittleEndian(entry[12..]),
-        };
+            ReadUInt16LittleEndian(entry[12..])
+        );
 
         return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
     }

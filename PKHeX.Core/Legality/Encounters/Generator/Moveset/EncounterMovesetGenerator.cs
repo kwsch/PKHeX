@@ -248,13 +248,19 @@ public static class EncounterMovesetGenerator
                 continue;
             }
 
-            IEnumerable<int> em = MoveEgg.GetEggMoves(egg.Species, egg.Form, egg.Version, egg.Generation);
-            if (egg.Generation <= 2)
-                em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
-            else if (egg.Species is (int)Species.Pichu && needs.Contains((int)Move.VoltTackle) && egg.CanHaveVoltTackle)
-                em = em.Concat(new[] { (int)Move.VoltTackle });
+            var eggMoves = MoveEgg.GetEggMoves(egg.Species, egg.Form, egg.Version, egg.Generation);
+            int flags = Moveset.BitOverlap(eggMoves, needs);
+            var vt = Array.IndexOf(needs, (int)Move.VoltTackle);
+            if (vt != -1 && egg.CanHaveVoltTackle)
+                flags |= 1 << vt;
 
-            if (HasAllMoves(needs, em))
+            if (egg.Generation <= 2)
+            {
+                var tmp = MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version);
+                flags |= Moveset.BitOverlap(tmp, needs);
+            }
+
+            if (flags == (1 << needs.Length) - 1)
                 yield return egg;
         }
     }
@@ -282,8 +288,9 @@ public static class EncounterMovesetGenerator
                 yield return gift;
                 continue;
             }
-            var em = gift.Moves.Concat(gift.Relearn);
-            if (HasAllMoves(needs, em))
+
+            var flags = gift.Moves.BitOverlap(needs) | gift.Relearn.BitOverlap(needs);
+            if (flags == (1 << needs.Length) - 1)
                 yield return gift;
         }
     }
@@ -311,13 +318,17 @@ public static class EncounterMovesetGenerator
             }
 
             // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
-            IEnumerable<int> em = enc.Moves;
-            if (enc is IRelearn { Relearn: int[] {Length: not 0} r})
-                em = em.Concat(r);
-            if (enc.Generation <= 2)
-                em = em.Concat(MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version));
+            var flags = enc.Moves.BitOverlap(needs);
+            if (enc is IRelearn { Relearn: { HasMoves: true } r })
+                flags |= r.BitOverlap(needs);
 
-            if (HasAllMoves(needs, em))
+            if (enc.Generation <= 2)
+            {
+                var tmp = MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version);
+                flags |= Moveset.BitOverlap(tmp, needs);
+            }
+
+            if (flags == (1 << needs.Length) - 1)
                 yield return enc;
         }
 
@@ -333,9 +344,8 @@ public static class EncounterMovesetGenerator
                 yield return enc;
                 continue;
             }
-
-            var em = enc.Moves;
-            if (HasAllMoves(needs, em))
+            var flags = enc.Moves.BitOverlap(needs);
+            if (flags == (1 << needs.Length) - 1)
                 yield return enc;
         }
     }
@@ -361,12 +371,18 @@ public static class EncounterMovesetGenerator
                 yield return trade;
                 continue;
             }
-            IEnumerable<int> em = trade.Moves;
+
+            var flags = trade.Moves.BitOverlap(needs);
+            if (trade is IRelearn { Relearn: { HasMoves: true } r })
+                flags |= r.BitOverlap(needs);
+
             if (trade.Generation <= 2)
-                em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
-            else if (trade is IRelearn { Relearn: int[] { Length: not 0 } r })
-                em = em.Concat(r);
-            if (HasAllMoves(needs, em))
+            {
+                var tmp = MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version);
+                flags |= Moveset.BitOverlap(tmp, needs);
+            }
+
+            if (flags == (1 << needs.Length) - 1)
                 yield return trade;
         }
     }
@@ -394,7 +410,7 @@ public static class EncounterMovesetGenerator
                 continue;
             }
 
-            if (slot is IMoveset m && HasAllMoves(needs, m.Moves))
+            if (slot is IMoveset m && m.Moves.ContainsAll(needs))
                 yield return slot;
             else if (needs.Length == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
                 yield return slot;

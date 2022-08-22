@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -171,7 +170,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public bool IsNicknamed => Nickname.Length > 0;
     public override bool IsShiny => PIDType == 2;
     public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
-    public override IReadOnlyList<int> Moves => new[] { Move1, Move2, Move3, Move4 };
+    public override Moveset Moves => new((ushort)Move1, (ushort)Move2, (ushort)Move3, (ushort)Move4);
     public override bool IsEntity { get => CardType == 1; set { if (value) CardType = 1; } }
     public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
     public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
