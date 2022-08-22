@@ -1002,7 +1002,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void RefreshMovePP(int index)
     {
-        int move = WinFormsUtil.GetIndex(Moves[index]);
+        var cb = Moves[index];
+        int move = WinFormsUtil.GetIndex(cb);
         var ppUpControl = PPUps[index];
         int ppUpCount = ppUpControl.SelectedIndex;
         if (move <= 0)
@@ -1702,9 +1703,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void SetMoveDataSource(ComboBox c)
     {
+        FieldsLoaded = false;
         var index = WinFormsUtil.GetIndex(c);
         c.DataSource = new BindingSource(LegalMoveSource.Display.DataSource, null);
         c.SelectedValue = index;
+        FieldsLoaded = true;
     }
 
     private void ValidateLocation(object sender, EventArgs e)
