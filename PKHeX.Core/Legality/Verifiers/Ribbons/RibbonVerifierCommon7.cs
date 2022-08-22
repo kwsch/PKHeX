@@ -15,12 +15,22 @@ public static class RibbonVerifierCommon7
             list.Add(ChampionAlola, !r.RibbonChampionAlola);
 
         var pk = args.Entity;
-        if (inhabited7 && RibbonRules.IsAllowedBattleFrontier(args.History.Gen7[0].Species))
+        if (inhabited7)
         {
-            // Great ribbon is only available in US/UM.
-            if (r.RibbonBattleTreeGreat && pk.IsUntraded && !pk.USUM)
+            var species = args.History.Gen7[0].Species;
+            bool allowed = RibbonRules.IsAllowedBattleFrontier(species);
+            if (allowed)
+                return; // Can have all 3 ribbons.
+
+            if (r.RibbonBattleRoyale)
+                list.Add(BattleRoyale);
+            if (r.RibbonBattleTreeMaster)
+                list.Add(BattleTreeMaster);
+
+            // Great ribbon is only available in US/UM for banned species.
+            if (r.RibbonBattleTreeGreat && !(pk.USUM || !pk.IsUntraded))
                 list.Add(BattleTreeGreat);
-            return; // Can have all 3 ribbons.
+            return;
         }
 
         if (r.RibbonBattleRoyale)

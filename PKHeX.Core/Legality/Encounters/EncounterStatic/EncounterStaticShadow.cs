@@ -17,7 +17,7 @@ public sealed record EncounterStaticShadow(GameVersion Version, byte ID, short G
     /// <summary>
     /// Originates from the EReader scans (Japanese Only)
     /// </summary>
-    public bool EReader => IVs.IsSpecified;
+    public bool EReader => Location == 128; // @ Card e Room (Japanese games only)
 
     protected override bool IsMatchLocation(PKM pk)
     {
