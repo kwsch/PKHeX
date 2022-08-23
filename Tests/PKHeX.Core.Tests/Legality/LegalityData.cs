@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,8 +29,8 @@ public class LegalityData
             if (feebas.Length == 0)
                 continue;
 
-            var t1 = (EvolutionType)feebas[0].Method;
-            var t2 = (EvolutionType)feebas[1].Method;
+            var t1 = feebas[0].Method;
+            var t2 = feebas[1].Method;
 
             t1.IsLevelUpRequired().Should().BeFalse();
             t2.IsLevelUpRequired().Should().BeTrue();

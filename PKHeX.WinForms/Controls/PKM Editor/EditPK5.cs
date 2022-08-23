@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -41,8 +41,15 @@ public partial class PKMEditor
 
         pk5.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
         pk5.NSparkle = CHK_NSparkle.Checked;
-        if (!HaX) // specify via extra 0x42 instead
+        if (!HaX)
+        {
             pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
+        }
+        else
+        {
+            var pi = (IPersonalAbility12H)pk5.PersonalInfo;
+            pk5.HiddenAbility = pk5.Ability == pi.AbilityH;
+        }
 
         SavePartyStats(pk5);
         pk5.FixMoves();

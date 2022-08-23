@@ -155,18 +155,18 @@ public sealed class Zukan8b : ZukanBase
         WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), (int)state);
     }
 
-    private bool GetBoolean(int index, int baseOffset, int max)
+    private bool GetBoolean(int index, int baseOffset)
     {
-        if ((uint)index > (uint)max)
+        if ((uint)index >= COUNT_SPECIES)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = baseOffset + (ALIGN_BOOLARRAY * index);
         return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
     }
 
-    private void SetBoolean(int index, int baseOffset, int max, bool value)
+    private void SetBoolean(int index, int baseOffset, bool value)
     {
-        if ((uint)index > (uint)max)
+        if ((uint)index >= COUNT_SPECIES)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = baseOffset + (ALIGN_BOOLARRAY * index);
@@ -175,18 +175,18 @@ public sealed class Zukan8b : ZukanBase
 
     public void GetGenderFlags(int species, out bool m, out bool f, out bool ms, out bool fs)
     {
-        m  = GetBoolean(species - 1, OFS_MALE, COUNT_SPECIES - 1);
-        f  = GetBoolean(species - 1, OFS_FEMALE, COUNT_SPECIES - 1);
-        ms = GetBoolean(species - 1, OFS_MALESHINY, COUNT_SPECIES - 1);
-        fs = GetBoolean(species - 1, OFS_FEMALESHINY, COUNT_SPECIES - 1);
+        m  = GetBoolean(species - 1, OFS_MALE);
+        f  = GetBoolean(species - 1, OFS_FEMALE);
+        ms = GetBoolean(species - 1, OFS_MALESHINY);
+        fs = GetBoolean(species - 1, OFS_FEMALESHINY);
     }
 
     public void SetGenderFlags(int species, bool m, bool f, bool ms, bool fs)
     {
-        SetBoolean(species - 1, OFS_MALE, COUNT_SPECIES - 1, m);
-        SetBoolean(species - 1, OFS_FEMALE, COUNT_SPECIES - 1, f);
-        SetBoolean(species - 1, OFS_MALESHINY, COUNT_SPECIES - 1, ms);
-        SetBoolean(species - 1, OFS_FEMALESHINY, COUNT_SPECIES - 1, fs);
+        SetBoolean(species - 1, OFS_MALE, m);
+        SetBoolean(species - 1, OFS_FEMALE, f);
+        SetBoolean(species - 1, OFS_MALESHINY, ms);
+        SetBoolean(species - 1, OFS_FEMALESHINY, fs);
     }
 
     public bool GetLanguageFlag(int species, int language)
@@ -363,8 +363,8 @@ public sealed class Zukan8b : ZukanBase
         }
     }
 
-    private void SetGenderFlagMale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, COUNT_SPECIES - 1, true);
-    private void SetGenderFlagFemale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, COUNT_SPECIES - 1, true);
+    private void SetGenderFlagMale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, true);
+    private void SetGenderFlagFemale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, true);
 
     public override void SeenNone()
     {

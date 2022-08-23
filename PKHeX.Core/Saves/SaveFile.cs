@@ -119,8 +119,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual IReadOnlyList<InventoryPouch> Inventory { get => Array.Empty<InventoryPouch>(); set { } }
 
     #region Mystery Gift
-    protected virtual int GiftCountMax { get; } = int.MinValue;
-    protected virtual int GiftFlagMax { get; } = 0x800;
+    protected virtual int GiftCountMax => int.MinValue;
+    protected virtual int GiftFlagMax => 0x800;
     protected int WondercardData { get; set; } = int.MinValue;
     public bool HasWondercards => WondercardData > -1;
     protected virtual bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
@@ -244,8 +244,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Daycare
     public bool HasDaycare => DaycareOffset > -1;
     protected int DaycareOffset { get; set; } = int.MinValue;
-    public virtual int DaycareSeedSize { get; } = 0;
-    public int DaycareIndex = 0;
+    public virtual int DaycareSeedSize => 0;
+    public int DaycareIndex;
     public virtual bool HasTwoDaycares => false;
     public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
     public virtual uint? GetDaycareEXP(int loc, int slot) => null;

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 internal sealed class SAV1Offsets
 {
@@ -57,7 +57,7 @@ internal sealed class SAV1Offsets
         ChecksumOfs = 0x3594,
     };
 
-    public int OT { get; } = 0x2598;
+    public int OT => 0x2598;
     public int DexCaught { get; private init; }
     public int DexSeen { get; private init; }
     public int Items { get; private init; }

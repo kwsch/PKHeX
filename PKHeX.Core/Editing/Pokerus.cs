@@ -28,6 +28,8 @@ public static class Pokerus
     {
         if (pk.IsUntraded)
             return false;
+        if (pk.Tracker == 0)
+            return false;
         if (PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form))
             return true;
         if (PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))

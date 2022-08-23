@@ -1,5 +1,4 @@
 using System;
-// ReSharper disable RedundantExplicitPositionalPropertyDeclaration
 
 namespace PKHeX.Core;
 
@@ -16,14 +15,6 @@ namespace PKHeX.Core;
 public readonly record struct IndividualValueSet(sbyte HP, sbyte ATK, sbyte DEF, sbyte SPE, sbyte SPA, sbyte SPD, byte Type = 1)
 {
     // 8 BYTES MAX STRUCTURE
-    public byte Type { get; init; } = Type;
-
-    public sbyte HP { get; init; } = HP;
-    public sbyte ATK { get; init; } = ATK;
-    public sbyte DEF { get; init; } = DEF;
-    public sbyte SPE { get; init; } = SPE;
-    public sbyte SPA { get; init; } = SPA;
-    public sbyte SPD { get; init; } = SPD;
 
     // Default struct will be zero type.
     public bool IsSpecified => Type != 0;

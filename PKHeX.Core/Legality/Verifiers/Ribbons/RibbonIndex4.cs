@@ -77,7 +77,7 @@ public static class RibbonIndex4Extensions
             ToughGreat => u4.RibbonG4ToughGreat = state,
             ToughUltra => u4.RibbonG4ToughUltra = state,
             ToughMaster => u4.RibbonG4ToughMaster = state,
-            _ => throw new ArgumentOutOfRangeException(nameof(r), r, null)
+            _ => throw new ArgumentOutOfRangeException(nameof(r), r, null),
         };
     }
 

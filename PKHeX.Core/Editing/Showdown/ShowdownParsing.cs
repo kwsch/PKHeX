@@ -24,8 +24,21 @@ public static class ShowdownParsing
         if (name.Length == 0)
             return 0;
 
-        var formStrings = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
-        return Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(name)));
+        var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
+        if (forms.Length < 1)
+            return 0;
+
+        // Find first matching index that matches any case.
+        for (int i = 0; i < forms.Length; i++)
+        {
+            var form = forms[i];
+            var index = form.IndexOf(name, StringComparison.OrdinalIgnoreCase);
+            if (index != -1)
+                return i;
+        }
+
+        // No match, assume default 0 form.
+        return 0;
     }
 
     /// <summary>
@@ -67,7 +80,7 @@ public static class ShowdownParsing
             (int)Basculin when form is "Blue"         => "Blue-Striped",
             (int)Vivillon when form is "Poké Ball"    => "Pokeball",
             (int)Zygarde                              => form.Replace("-C", string.Empty).Replace("50%", string.Empty),
-            (int)Minior   when form.StartsWith("M-", StringComparison.Ordinal)  => MiniorFormName,
+            (int)Minior   when form.StartsWith("M-", StringComparison.OrdinalIgnoreCase)  => MiniorFormName,
             (int)Minior                               => form.Replace("C-", string.Empty),
             (int)Necrozma when form is "Dusk"         => $"{form}-Mane",
             (int)Necrozma when form is "Dawn"         => $"{form}-Wings",
@@ -107,7 +120,7 @@ public static class ShowdownParsing
             (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
-            _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem", StringComparison.Ordinal) ? "Large" : form,
+            _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
         };
     }
 

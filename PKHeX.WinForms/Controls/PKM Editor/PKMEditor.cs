@@ -458,11 +458,12 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, Entity.Context);
-        if (ds.Length == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
+        var str = GameInfo.Strings;
+        var forms = FormConverter.GetFormList(species, str.types, str.forms, gendersymbols, Entity.Context);
+        if (forms.Length <= 1) // no choices
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
         else
-            CB_Form.DataSource = ds;
+            CB_Form.DataSource = forms;
     }
 
     private void SetAbilityList()
