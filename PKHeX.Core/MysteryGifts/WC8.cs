@@ -576,9 +576,9 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.Find(iv => (byte)(iv - 0xFC) < 3);
+        var ivflag = finalIVs.Find(static iv => (byte)(iv - 0xFC) < 3);
         var rng = Util.Rand;
-        if (ivflag == 0) // Random IVs
+        if (ivflag == default) // Random IVs
         {
             for (int i = 0; i < finalIVs.Length; i++)
             {

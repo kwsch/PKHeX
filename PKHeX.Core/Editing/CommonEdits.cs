@@ -181,13 +181,13 @@ public static class CommonEdits
             // Under this scenario, just force the Hidden Power type.
             if (Array.IndexOf(Set.Moves, (int)Move.HiddenPower) != -1 && pk.HPType != Set.HiddenPowerType)
             {
-                if (Array.FindIndex(Set.IVs, static z => z >= 30) != -1)
+                if (Array.Exists(Set.IVs, static iv => iv >= 30))
                     pk.SetHiddenPower(Set.HiddenPowerType);
             }
 
             // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
             // Under this scenario, just apply maximum EVs (65535).
-            if (Array.FindIndex(Set.EVs, static z => z != 0) == -1)
+            if (Array.TrueForAll(Set.EVs, static ev => ev == 0))
                 gb.MaxEVs();
             else
                 pk.SetEVs(Set.EVs);

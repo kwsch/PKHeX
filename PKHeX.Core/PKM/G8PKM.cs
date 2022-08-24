@@ -410,7 +410,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0xCE + ofs, index & 7, value);
     }
 
-    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, z => z != 0) >= 0;
+    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, static z => z != 0) >= 0;
 
     public void ClearPokeJobFlags() => Data.AsSpan(0xCE, 14).Clear();
 
@@ -479,7 +479,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, static z => z != 0) >= 0;
 
     public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 14).Clear();
 

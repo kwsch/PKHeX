@@ -79,7 +79,6 @@ public sealed class EggMoves6 : EggMoves
     }
 }
 
-
 /// <summary>
 /// Specialized Egg Move storage for Generation 7+.
 /// </summary>

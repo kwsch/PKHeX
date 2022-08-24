@@ -498,7 +498,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x13F + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x13F, 14, z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x13F, 14, static z => z != 0) >= 0;
 
     // Why did you mis-align this field, GameFreak?
     public ulong Tracker
@@ -550,7 +550,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x15D + ofs, index & 7, value);
     }
 
-    public bool GetMasteredRecordFlagAny() => Array.FindIndex(Data, 0x15D, 8, z => z != 0) >= 0;
+    public bool GetMasteredRecordFlagAny() => Array.FindIndex(Data, 0x15D, 8, static z => z != 0) >= 0;
 
     #endregion
     #region Battle Stats

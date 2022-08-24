@@ -52,7 +52,7 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
         FlagUtil.SetFlag(Data, Offset + 0x18 + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, Offset + 0x18, 14, z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, Offset + 0x18, 14, static z => z != 0) >= 0;
 
     public int Ball { get => Data[Offset + 0x26]; set => Data[Offset + 0x26] = (byte)value; }
     public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x27)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x27), (ushort)value); }

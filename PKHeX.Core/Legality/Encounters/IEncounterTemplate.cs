@@ -9,7 +9,7 @@ public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShin
     /// Original Context
     /// </summary>
     EntityContext Context { get; }
-    
+
     /// <summary>
     /// Indicates if the encounter originated as an egg.
     /// </summary>

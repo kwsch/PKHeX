@@ -31,7 +31,7 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(GetInvalid(LEffortAbove510));
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
-        if (format >= 6 && evs.Find(ev => ev > 252) != default)
+        if (format >= 6 && evs.Find(static ev => ev > 252) != default)
             data.AddLine(GetInvalid(LEffortAbove252));
 
         const int vitaMax = 100; // Vitamin Max
@@ -40,14 +40,14 @@ public sealed class EffortValueVerifier : Verifier
             if (enc.LevelMin == 100) // only true for Gen4 and Format=4
             {
                 // Cannot EV train at level 100 -- Certain events are distributed at level 100.
-                if (evs.Find(ev => ev > vitaMax) != default) // EVs can only be increased by vitamins to a max of 100.
+                if (evs.Find(static ev => ev > vitaMax) != default) // EVs can only be increased by vitamins to a max of 100.
                     data.AddLine(GetInvalid(LEffortCap100));
             }
             else // check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
             {
                 var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
                 var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
-                if (baseEXP == pk.EXP && evs.Find(ev => ev > vitaMax) != default)
+                if (baseEXP == pk.EXP && evs.Find(static ev => ev > vitaMax) != default)
                     data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
             }
         }

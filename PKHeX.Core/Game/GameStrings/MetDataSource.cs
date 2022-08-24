@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 
@@ -76,7 +76,7 @@ public sealed class MetDataSource
     {
         // Pal Park to front
         var met = MetGen4.ToArray();
-        var index = Array.FindIndex(met, z => z.Value == Locations.Transfer3);
+        var index = Array.FindIndex(met, static z => z.Value == Locations.Transfer3);
         var pal = met[index];
         Array.Copy(met, 0, met, 1, index);
         met[0] = pal;
@@ -99,7 +99,7 @@ public sealed class MetDataSource
     {
         // PokéTransfer to front
         var met = MetGen5.ToArray();
-        var index = Array.FindIndex(met, z => z.Value == Locations.Transfer4);
+        var index = Array.FindIndex(met, static z => z.Value == Locations.Transfer4);
         var xfr = met[index];
         Array.Copy(met, 0, met, 1, index);
         met[0] = xfr;

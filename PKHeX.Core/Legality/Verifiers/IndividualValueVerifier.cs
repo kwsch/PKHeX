@@ -45,8 +45,8 @@ public sealed class IndividualValueVerifier : Verifier
 
         Span<int> IVs = stackalloc int[6];
         g.GetIVs(IVs);
-        var ivflag = IVs.Find(iv => (byte)(iv - 0xFC) < 3);
-        if (ivflag == 0) // Random IVs
+        var ivflag = IVs.Find(static iv => (byte)(iv - 0xFC) < 3);
+        if (ivflag == default) // Random IVs
         {
             bool valid = Legal.GetIsFixedIVSequenceValidSkipRand(IVs, data.Entity);
             if (!valid)

@@ -517,7 +517,7 @@ public partial class SAV_Wondercard : Form
             if (s2 is PCD { CanConvertToPGT: true } && s1 is PGT)
             {
                 // Get first empty slot
-                var firstEmpty = Array.FindIndex(gifts, z => z.Empty);
+                var firstEmpty = Array.FindIndex(gifts, static z => z.Empty);
                 if ((uint)firstEmpty < dest)
                     dest = firstEmpty;
 

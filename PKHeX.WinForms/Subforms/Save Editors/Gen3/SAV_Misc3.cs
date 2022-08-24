@@ -142,7 +142,7 @@ public partial class SAV_Misc3 : Form
         }
 
         // check for space
-        int end = Array.FindIndex(p.Items, z => z.Index == 0);
+        int end = Array.FindIndex(p.Items, static z => z.Index == 0);
         if (end + missing.Count >= p.Items.Length)
         {
             WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -122,7 +122,7 @@ public abstract class PokeListGB<T> where T : GBPKML
     public byte[] Write()
     {
         // Rebuild GB Species ID table
-        int count = Array.FindIndex(Pokemon, pk => pk.Species == 0);
+        int count = Array.FindIndex(Pokemon, static pk => pk.Species == 0);
         Count = count < 0 ? Capacity : (byte)count;
         int base_ofs = 1 + 1 + Capacity;
         for (int i = 0; i < Count; i++)

@@ -57,7 +57,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         FlagUtil.SetFlag(Data, Offset + 0x1E + ofs, index & 7, value);
     }
 
-    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, Offset + 0x1E, 14, z => z != 0) >= 0;
+    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, Offset + 0x1E, 14, static z => z != 0) >= 0;
     public byte Fullness { get => Data[Offset + 0x2C]; set => Data[Offset + 0x2C] = value; }
 
     public bool GetMoveRecordFlag(int index)
@@ -76,7 +76,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         FlagUtil.SetFlag(Data, Offset + 0x2D + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, Offset + 0x2D, 14, z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, Offset + 0x2D, 14, static z => z != 0) >= 0;
 
     public int Palma { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x3B)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x3B), value); }
     public int Ball { get => Data[Offset + 0x3F]; set => Data[Offset + 0x3F] = (byte)value; }

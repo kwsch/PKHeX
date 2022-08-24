@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Exposes permissions about the Move Shop 
+/// Exposes permissions about the Move Shop
 /// </summary>
 public interface IMasteryInitialMoveShop8
 {

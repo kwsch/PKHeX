@@ -62,7 +62,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         FlagUtil.SetFlag(Data, Offset + 0x28 + ofs, index & 7, value);
     }
 
-    public bool GetPurchasedRecordFlagAny() => Array.FindIndex(Data, Offset + 0x28, 8, z => z != 0) >= 0;
+    public bool GetPurchasedRecordFlagAny() => Array.FindIndex(Data, Offset + 0x28, 8, static z => z != 0) >= 0;
 
     public int GetPurchasedCount()
     {
@@ -89,7 +89,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         FlagUtil.SetFlag(Data, Offset + 0x30 + ofs, index & 7, value);
     }
 
-    public bool GetMasteredRecordFlagAny() => Array.FindIndex(Data, Offset + 0x30, 8, z => z != 0) >= 0;
+    public bool GetMasteredRecordFlagAny() => Array.FindIndex(Data, Offset + 0x30, 8, static z => z != 0) >= 0;
 
     public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x38)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x38), (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x3A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x3A), (ushort)value); }
