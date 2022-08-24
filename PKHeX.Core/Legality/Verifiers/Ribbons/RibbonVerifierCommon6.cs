@@ -9,7 +9,8 @@ public static class RibbonVerifierCommon6
 {
     public static void Parse(this IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
-        GetInvalidRibbons6Memory(r, args, ref list);
+        if (r is IRibbonSetMemory6 m)
+            GetInvalidRibbons6Memory(m, args, ref list);
         var pk = args.Entity;
         var evos = args.History;
 
@@ -88,12 +89,12 @@ public static class RibbonVerifierCommon6
         FlagContest(r, ref list);
     }
 
-    private static void GetInvalidRibbons6Memory(IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
         (int contest, int battle) = RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter);
-        if (r.RibbonCountMemoryContest > contest)
+        if (r.RibbonCountMemoryContest > contest || r.HasContestMemoryRibbon != (r.RibbonCountMemoryContest != 0))
             list.Add(CountMemoryContest);
-        if (r.RibbonCountMemoryBattle > battle)
+        if (r.RibbonCountMemoryBattle > battle || r.HasBattleMemoryRibbon != (r.RibbonCountMemoryBattle != 0))
             list.Add(CountMemoryBattle);
     }
 

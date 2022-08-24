@@ -16,9 +16,6 @@ public interface IRibbonSetCommon6
     bool RibbonMasterCuteness { get; set; }
     bool RibbonMasterCleverness { get; set; }
     bool RibbonMasterToughness { get; set; }
-
-    int RibbonCountMemoryContest { get; set; }
-    int RibbonCountMemoryBattle { get; set; }
 }
 
 internal static partial class RibbonExtensions
@@ -42,7 +39,5 @@ internal static partial class RibbonExtensions
         dest.RibbonMasterCuteness = set.RibbonMasterCuteness;
         dest.RibbonMasterCleverness = set.RibbonMasterCleverness;
         dest.RibbonMasterToughness = set.RibbonMasterToughness;
-        dest.RibbonCountMemoryContest = set.RibbonCountMemoryContest;
-        dest.RibbonCountMemoryBattle = set.RibbonCountMemoryBattle;
     }
 }

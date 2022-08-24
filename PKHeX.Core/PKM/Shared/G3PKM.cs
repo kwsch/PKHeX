@@ -92,11 +92,11 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public abstract bool RibbonEffort { get; set; }
     public abstract bool RibbonWinning { get; set; }
     public abstract bool RibbonVictory { get; set; }
-    public abstract int RibbonCountG3Cool { get; set; }
-    public abstract int RibbonCountG3Beauty { get; set; }
-    public abstract int RibbonCountG3Cute { get; set; }
-    public abstract int RibbonCountG3Smart { get; set; }
-    public abstract int RibbonCountG3Tough { get; set; }
+    public abstract byte RibbonCountG3Cool { get; set; }
+    public abstract byte RibbonCountG3Beauty { get; set; }
+    public abstract byte RibbonCountG3Cute { get; set; }
+    public abstract byte RibbonCountG3Smart { get; set; }
+    public abstract byte RibbonCountG3Tough { get; set; }
     public abstract bool RibbonWorld { get; set; }
     public abstract bool Unused1 { get; set; }
     public abstract bool Unused2 { get; set; }

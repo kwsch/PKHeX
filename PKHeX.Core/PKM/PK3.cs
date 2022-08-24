@@ -158,11 +158,11 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override bool AbilityBit { get => IV32 >> 31 == 1; set => IV32 = (IV32 & 0x7FFFFFFF) | (value ? 1u << 31 : 0u); }
 
     private uint RIB0 { get => ReadUInt32LittleEndian(Data.AsSpan(0x4C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x4C), value); }
-    public override int RibbonCountG3Cool        { get => (int)(RIB0 >> 00) & 7; set => RIB0 = ((RIB0 & ~(7u << 00)) | ((uint)(value & 7) << 00)); }
-    public override int RibbonCountG3Beauty      { get => (int)(RIB0 >> 03) & 7; set => RIB0 = ((RIB0 & ~(7u << 03)) | ((uint)(value & 7) << 03)); }
-    public override int RibbonCountG3Cute        { get => (int)(RIB0 >> 06) & 7; set => RIB0 = ((RIB0 & ~(7u << 06)) | ((uint)(value & 7) << 06)); }
-    public override int RibbonCountG3Smart       { get => (int)(RIB0 >> 09) & 7; set => RIB0 = ((RIB0 & ~(7u << 09)) | ((uint)(value & 7) << 09)); }
-    public override int RibbonCountG3Tough       { get => (int)(RIB0 >> 12) & 7; set => RIB0 = ((RIB0 & ~(7u << 12)) | ((uint)(value & 7) << 12)); }
+    public override byte RibbonCountG3Cool        { get => (byte)((RIB0 >> 00) & 7); set => RIB0 = ((RIB0 & ~(7u << 00)) | ((uint)(value & 7) << 00)); }
+    public override byte RibbonCountG3Beauty      { get => (byte)((RIB0 >> 03) & 7); set => RIB0 = ((RIB0 & ~(7u << 03)) | ((uint)(value & 7) << 03)); }
+    public override byte RibbonCountG3Cute        { get => (byte)((RIB0 >> 06) & 7); set => RIB0 = ((RIB0 & ~(7u << 06)) | ((uint)(value & 7) << 06)); }
+    public override byte RibbonCountG3Smart       { get => (byte)((RIB0 >> 09) & 7); set => RIB0 = ((RIB0 & ~(7u << 09)) | ((uint)(value & 7) << 09)); }
+    public override byte RibbonCountG3Tough       { get => (byte)((RIB0 >> 12) & 7); set => RIB0 = ((RIB0 & ~(7u << 12)) | ((uint)(value & 7) << 12)); }
     public override bool RibbonChampionG3        { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = ((RIB0 & ~(1u << 15)) | (value ? 1u << 15 : 0u)); }
     public override bool RibbonWinning           { get => (RIB0 & (1 << 16)) == 1 << 16; set => RIB0 = ((RIB0 & ~(1u << 16)) | (value ? 1u << 16 : 0u)); }
     public override bool RibbonVictory           { get => (RIB0 & (1 << 17)) == 1 << 17; set => RIB0 = ((RIB0 & ~(1u << 17)) | (value ? 1u << 17 : 0u)); }

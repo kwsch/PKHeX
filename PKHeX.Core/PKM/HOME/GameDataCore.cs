@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Core game data storage, format 1.
 /// </summary>
 public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IContestStats, IContestStatsMutable, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
 {
     // Internal Attributes set on creation
     public readonly byte[] Data; // Raw Storage
@@ -131,8 +131,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RibbonMarkDry          { get => GetFlag(0x3B, 6); set => SetFlag(0x3B, 6, value); }
     public bool RibbonMarkSandstorm    { get => GetFlag(0x3B, 7); set => SetFlag(0x3B, 7, value); }
 
-    public int RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = (byte)value) != 0; }
-    public int RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon = (Data[0x3D] = (byte)value) != 0; }
+    public byte RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = value) != 0; }
+    public byte RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon  = (Data[0x3D] = value) != 0; }
 
     // 0x3E Ribbon 3
     public bool RibbonMarkMisty        { get => GetFlag(0x3E, 0); set => SetFlag(0x3E, 0, value); }
@@ -421,6 +421,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
             this.CopyRibbonSetCommon4(c4);
         if (pk is IRibbonSetCommon6 c6)
             this.CopyRibbonSetCommon6(c6);
+        if (pk is IRibbonSetMemory6 m6)
+            this.CopyRibbonSetMemory6(m6);
         if (pk is IRibbonSetCommon7 c7)
             this.CopyRibbonSetCommon7(c7);
         if (pk is IRibbonSetCommon8 c8)

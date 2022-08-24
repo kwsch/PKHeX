@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -45,10 +45,13 @@ public partial class RibbonEditor : Form
             return;
         }
 
-        var ds = new List<ComboItem> { new(GameInfo.GetStrings(Main.CurrentLanguage).Move[0], -1) };
-        var list = Enumerable.Range(0, (int)RibbonIndex.MAX_COUNT)
-            .Select(z => new ComboItem(RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}"), z))
-            .OrderBy(z => z.Text);
+        const int count = (int)RibbonIndex.MAX_COUNT;
+        static string GetRibbonPropertyName(int z) => RibbonStrings.GetName($"Ribbon{(RibbonIndex)z}");
+        static ComboItem GetComboItem(int ribbonIndex) => new(GetRibbonPropertyName(ribbonIndex), ribbonIndex);
+
+        var none = GameInfo.GetStrings(Main.CurrentLanguage).Move[0];
+        var ds = new List<ComboItem>(1 + count) { new(none, -1) };
+        var list = Enumerable.Range(0, count).Select(GetComboItem).OrderBy(z => z.Text);
         ds.AddRange(list);
 
         CB_Affixed.InitializeBinding();
@@ -111,7 +114,7 @@ public partial class RibbonEditor : Form
         };
         TLP_Ribbons.Controls.Add(label, 1, row);
 
-        if (rib.RibbonCount >= 0) // numeric count ribbon
+        if (rib.Type is RibbonValueType.Byte) // numeric count ribbon
             AddRibbonNumericUpDown(rib, row);
         else // boolean ribbon
             AddRibbonCheckBox(rib, row, label);
@@ -133,8 +136,9 @@ public partial class RibbonEditor : Form
 
         nud.ValueChanged += (sender, e) =>
         {
-            FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = (rib.RibbonCount = (int)nud.Value) > 0;
-            FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
+            var pb = FLP_Ribbons.Controls[PrefixPB + rib.Name];
+            pb.Visible = (rib.RibbonCount = (byte)nud.Value) != 0;
+            pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
         };
         nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
         TLP_Ribbons.Controls.Add(nud, 0, row);
@@ -164,7 +168,7 @@ public partial class RibbonEditor : Form
     private void Save()
     {
         foreach (var rib in riblist)
-            ReflectUtil.SetValue(Entity, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : rib.RibbonCount);
+            ReflectUtil.SetValue(Entity, rib.Name, rib.Type is RibbonValueType.Boolean ? rib.HasRibbon : rib.RibbonCount);
 
         if (Entity is IRibbonSetAffixed affixed)
             affixed.AffixedRibbon = (sbyte)WinFormsUtil.GetIndex(CB_Affixed);

@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, ITechRecord8, ISociability,
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, ITechRecord8, ISociability,
     IContestStats, IContestStatsMutable, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
 {
     protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
@@ -227,8 +227,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public bool RibbonMarkBlizzard { get => FlagUtil.GetFlag(Data, 0x3B, 5); set => FlagUtil.SetFlag(Data, 0x3B, 5, value); }
     public bool RibbonMarkDry { get => FlagUtil.GetFlag(Data, 0x3B, 6); set => FlagUtil.SetFlag(Data, 0x3B, 6, value); }
     public bool RibbonMarkSandstorm { get => FlagUtil.GetFlag(Data, 0x3B, 7); set => FlagUtil.SetFlag(Data, 0x3B, 7, value); }
-    public int RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = (byte)value) != 0; }
-    public int RibbonCountMemoryBattle { get => Data[0x3D]; set => HasBattleMemoryRibbon = (Data[0x3D] = (byte)value) != 0; }
+    public byte RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = value) != 0; }
+    public byte RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon =  (Data[0x3D] = value) != 0; }
     // 0x3E padding
     // 0x3F padding
 

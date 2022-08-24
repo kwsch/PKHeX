@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -10,20 +11,22 @@ public sealed class RibbonInfo
     public const string PropertyPrefix = "Ribbon";
 
     public readonly string Name;
+    public readonly RibbonValueType Type;
+
     public bool HasRibbon { get; set; }
-    public int RibbonCount { get; set; }
+    public byte RibbonCount { get; set; }
 
     private RibbonInfo(string name, bool hasRibbon)
     {
         Name = name;
         HasRibbon = hasRibbon;
-        RibbonCount = -1;
+        Type = RibbonValueType.Boolean;
     }
 
-    private RibbonInfo(string name, int count)
+    private RibbonInfo(string name, byte count)
     {
         Name = name;
-        HasRibbon = false;
+        Type = RibbonValueType.Byte;
         RibbonCount = count;
     }
 
@@ -31,13 +34,14 @@ public sealed class RibbonInfo
     {
         get
         {
-            if (RibbonCount < 0)
-                return -1;
+            if (Type is RibbonValueType.Boolean)
+                throw new ArgumentOutOfRangeException(nameof(Type));
+
             return Name switch
             {
-                nameof(IRibbonSetCommon6.RibbonCountMemoryContest) => 40,
-                nameof(IRibbonSetCommon6.RibbonCountMemoryBattle) => 8,
-                _ => 4,
+                nameof(IRibbonSetMemory6.RibbonCountMemoryContest) => 40,
+                nameof(IRibbonSetMemory6.RibbonCountMemoryBattle) => 8,
+                _ => 4, // Gen3/4 Contest Ribbons
             };
         }
     }
@@ -50,12 +54,20 @@ public sealed class RibbonInfo
         foreach (var name in names)
         {
             object? RibbonValue = ReflectUtil.GetValue(pk, name);
-            if (RibbonValue is int x)
-                riblist.Add(new RibbonInfo(name, x));
             if (RibbonValue is bool b)
                 riblist.Add(new RibbonInfo(name, b));
+            else if (RibbonValue is byte x)
+                riblist.Add(new RibbonInfo(name, x));
         }
-
         return riblist;
     }
+}
+
+/// <summary>
+/// Type of Ribbon Value
+/// </summary>
+public enum RibbonValueType
+{
+    Boolean,
+    Byte,
 }

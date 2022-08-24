@@ -55,7 +55,9 @@ public static class RibbonIndex3Extensions
 
         if (pk is IRibbonSetOnly3 o3)
         {
-            var value = state ? 4 : 0;
+            const byte max = 4;
+            const byte min = 0;
+            byte value = state ? max : min;
             if (r is Cool)
                 o3.RibbonCountG3Cool = value;
             else if (r is Beauty)

@@ -56,15 +56,15 @@ public static class RibbonVerifierUnique4
 
     private static void AddMissingContest4(IRibbonSetUnique4 r, ref RibbonResultList list)
     {
-        static void CheckSet(bool Master, bool Hyper, bool Super, bool Initial, ref RibbonResultList list, RibbonIndex4 index)
+        static void CheckSet(bool Master, bool Ultra, bool Great, bool Initial, ref RibbonResultList list, RibbonIndex4 index)
         {
             bool top = Master;
-            if (Hyper)
+            if (Ultra)
                 top = true;
             else if (top)
                 list.Add((RibbonIndex4)((byte)index + 2));
 
-            if (Super)
+            if (Great)
                 top = true;
             else if (top)
                 list.Add((RibbonIndex4)((byte)index + 1));
@@ -72,11 +72,11 @@ public static class RibbonVerifierUnique4
             if (top && !Initial)
                 list.Add(index);
         }
-        CheckSet(r.RibbonG3CoolMaster,   r.RibbonG3CoolHyper,   r.RibbonG3CoolSuper,   r.RibbonG3Cool,   ref list, RibbonIndex4.Cool);
-        CheckSet(r.RibbonG3BeautyMaster, r.RibbonG3BeautyHyper, r.RibbonG3BeautySuper, r.RibbonG3Beauty, ref list, RibbonIndex4.Beauty);
-        CheckSet(r.RibbonG3CuteMaster ,  r.RibbonG3CuteHyper,   r.RibbonG3CuteSuper,   r.RibbonG3Cute,   ref list, RibbonIndex4.Cute);
-        CheckSet(r.RibbonG3SmartMaster,  r.RibbonG3SmartHyper,  r.RibbonG3SmartSuper,  r.RibbonG3Smart,  ref list, RibbonIndex4.Smart);
-        CheckSet(r.RibbonG3ToughMaster,  r.RibbonG3ToughHyper,  r.RibbonG3ToughSuper,  r.RibbonG3Tough,  ref list, RibbonIndex4.Tough);
+        CheckSet(r.RibbonG4CoolMaster,   r.RibbonG4CoolUltra,   r.RibbonG4CoolGreat,   r.RibbonG4Cool,   ref list, RibbonIndex4.Cool);
+        CheckSet(r.RibbonG4BeautyMaster, r.RibbonG4BeautyUltra, r.RibbonG4BeautyGreat, r.RibbonG4Beauty, ref list, RibbonIndex4.Beauty);
+        CheckSet(r.RibbonG4CuteMaster ,  r.RibbonG4CuteUltra,   r.RibbonG4CuteGreat,   r.RibbonG4Cute,   ref list, RibbonIndex4.Cute);
+        CheckSet(r.RibbonG4SmartMaster,  r.RibbonG4SmartUltra,  r.RibbonG4SmartGreat,  r.RibbonG4Smart,  ref list, RibbonIndex4.Smart);
+        CheckSet(r.RibbonG4ToughMaster,  r.RibbonG4ToughUltra,  r.RibbonG4ToughGreat,  r.RibbonG4Tough,  ref list, RibbonIndex4.Tough);
     }
 
     private static void FlagAnyAbility(IRibbonSetUnique4 r, ref RibbonResultList list)
@@ -115,21 +115,21 @@ public static class RibbonVerifierUnique4
 
     private static void FlagAnyContest4(IRibbonSetUnique4 r, ref RibbonResultList list)
     {
-        static void CheckSet(bool Master, bool Hyper, bool Super, bool Initial, ref RibbonResultList list, RibbonIndex4 index)
+        static void CheckSet(bool Master, bool Ultra, bool Great, bool Initial, ref RibbonResultList list, RibbonIndex4 index)
         {
             if (Master)
                 list.Add((RibbonIndex4)((byte)index + 3));
-            if (Hyper)
+            if (Ultra)
                 list.Add((RibbonIndex4)((byte)index + 2));
-            if (Super)
+            if (Great)
                 list.Add((RibbonIndex4)((byte)index + 1));
             if (Initial)
                 list.Add(index);
         }
-        CheckSet(r.RibbonG3CoolMaster,   r.RibbonG3CoolHyper,   r.RibbonG3CoolSuper,   r.RibbonG3Cool,   ref list, RibbonIndex4.Cool);
-        CheckSet(r.RibbonG3BeautyMaster, r.RibbonG3BeautyHyper, r.RibbonG3BeautySuper, r.RibbonG3Beauty, ref list, RibbonIndex4.Beauty);
-        CheckSet(r.RibbonG3CuteMaster ,  r.RibbonG3CuteHyper,   r.RibbonG3CuteSuper,   r.RibbonG3Cute,   ref list, RibbonIndex4.Cute);
-        CheckSet(r.RibbonG3SmartMaster,  r.RibbonG3SmartHyper,  r.RibbonG3SmartSuper,  r.RibbonG3Smart,  ref list, RibbonIndex4.Smart);
-        CheckSet(r.RibbonG3ToughMaster,  r.RibbonG3ToughHyper,  r.RibbonG3ToughSuper,  r.RibbonG3Tough,  ref list, RibbonIndex4.Tough);
+        CheckSet(r.RibbonG4CoolMaster,   r.RibbonG4CoolUltra,   r.RibbonG4CoolGreat,   r.RibbonG4Cool,   ref list, RibbonIndex4.Cool);
+        CheckSet(r.RibbonG4BeautyMaster, r.RibbonG4BeautyUltra, r.RibbonG4BeautyGreat, r.RibbonG4Beauty, ref list, RibbonIndex4.Beauty);
+        CheckSet(r.RibbonG4CuteMaster ,  r.RibbonG4CuteUltra,   r.RibbonG4CuteGreat,   r.RibbonG4Cute,   ref list, RibbonIndex4.Cute);
+        CheckSet(r.RibbonG4SmartMaster,  r.RibbonG4SmartUltra,  r.RibbonG4SmartGreat,  r.RibbonG4Smart,  ref list, RibbonIndex4.Smart);
+        CheckSet(r.RibbonG4ToughMaster,  r.RibbonG4ToughUltra,  r.RibbonG4ToughGreat,  r.RibbonG4Tough,  ref list, RibbonIndex4.Tough);
     }
 }

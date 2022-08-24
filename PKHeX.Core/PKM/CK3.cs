@@ -145,11 +145,11 @@ public sealed class CK3 : G3PKM, IShadowPKM
     public override byte CNT_Cute   { get => Data[0xB4]; set => Data[0xB4] = value; }
     public override byte CNT_Smart  { get => Data[0xB5]; set => Data[0xB5] = value; }
     public override byte CNT_Tough  { get => Data[0xB6]; set => Data[0xB6] = value; }
-    public override int RibbonCountG3Cool { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
-    public override int RibbonCountG3Beauty { get => Data[0xB8]; set => Data[0xB8] = (byte)value; }
-    public override int RibbonCountG3Cute { get => Data[0xB9]; set => Data[0xB9] = (byte)value; }
-    public override int RibbonCountG3Smart { get => Data[0xBA]; set => Data[0xBA] = (byte)value; }
-    public override int RibbonCountG3Tough { get => Data[0xBB]; set => Data[0xBB] = (byte)value; }
+    public override byte RibbonCountG3Cool   { get => Data[0xB7]; set => Data[0xB7] = value; }
+    public override byte RibbonCountG3Beauty { get => Data[0xB8]; set => Data[0xB8] = value; }
+    public override byte RibbonCountG3Cute   { get => Data[0xB9]; set => Data[0xB9] = value; }
+    public override byte RibbonCountG3Smart  { get => Data[0xBA]; set => Data[0xBA] = value; }
+    public override byte RibbonCountG3Tough  { get => Data[0xBB]; set => Data[0xBB] = value; }
     public override byte CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = value; }
 
     // Ribbons

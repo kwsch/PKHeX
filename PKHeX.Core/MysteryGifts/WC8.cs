@@ -764,9 +764,6 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public bool RibbonMasterCleverness { get => this.GetRibbonIndex(MasterCleverness); set => this.SetRibbonIndex(MasterCleverness, value); }
     public bool RibbonMasterToughness { get => this.GetRibbonIndex(MasterToughness); set => this.SetRibbonIndex(MasterToughness, value); }
 
-    public int RibbonCountMemoryContest { get => 0; set { } }
-    public int RibbonCountMemoryBattle { get => 0; set { } }
-
     public bool RibbonChampionAlola { get => this.GetRibbonIndex(ChampionAlola); set => this.SetRibbonIndex(ChampionAlola, value); }
     public bool RibbonBattleRoyale { get => this.GetRibbonIndex(BattleRoyale); set => this.SetRibbonIndex(BattleRoyale, value); }
     public bool RibbonBattleTreeGreat { get => this.GetRibbonIndex(BattleTreeGreat); set => this.SetRibbonIndex(BattleTreeGreat, value); }
@@ -822,7 +819,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public bool RibbonTwinklingStar { get => this.GetRibbonIndex(TwinklingStar); set => this.SetRibbonIndex(TwinklingStar, value); }
     public bool RibbonPioneer { get => this.GetRibbonIndex(Pioneer); set => this.SetRibbonIndex(Pioneer, value); }
 
-    public int GetRibbonByte(int index) => Array.FindIndex(Data, RibbonBytesOffset, RibbonBytesCount, z => z == index);
+    public int GetRibbonByte(int index) => Array.IndexOf(Data, (byte)index, RibbonBytesOffset, RibbonBytesCount);
     public bool GetRibbon(int index) => GetRibbonByte(index) >= 0;
 
     public void SetRibbon(int index, bool value = true)
@@ -834,8 +831,8 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         {
             if (GetRibbon(index))
                 return;
-            var openIndex = Array.FindIndex(Data, RibbonBytesOffset, RibbonBytesCount, z => z != RibbonByteNone);
-            if (openIndex < 0)
+            var openIndex = Array.IndexOf(Data, RibbonByteNone, RibbonBytesOffset, RibbonBytesCount);
+            if (openIndex == -1) // Full?
                 throw new ArgumentOutOfRangeException(nameof(index));
             SetRibbonAtIndex(openIndex, (byte)index);
         }

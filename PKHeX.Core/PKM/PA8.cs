@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, IGanbaru, IAlpha, INoble, ITechRecord8, ISociability, IMoveShop8Mastery,
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, IGanbaru, IAlpha, INoble, ITechRecord8, ISociability, IMoveShop8Mastery,
     IContestStats, IContestStatsMutable, IHyperTrain, IScaledSizeValue, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
 {
     private static readonly ushort[] Unused =
@@ -256,8 +256,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public bool RibbonMarkBlizzard { get => FlagUtil.GetFlag(Data, 0x3B, 5); set => FlagUtil.SetFlag(Data, 0x3B, 5, value); }
     public bool RibbonMarkDry { get => FlagUtil.GetFlag(Data, 0x3B, 6); set => FlagUtil.SetFlag(Data, 0x3B, 6, value); }
     public bool RibbonMarkSandstorm { get => FlagUtil.GetFlag(Data, 0x3B, 7); set => FlagUtil.SetFlag(Data, 0x3B, 7, value); }
-    public int RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = (byte)value) != 0; }
-    public int RibbonCountMemoryBattle { get => Data[0x3D]; set => HasBattleMemoryRibbon = (Data[0x3D] = (byte)value) != 0; }
+    public byte RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = value) != 0; }
+    public byte RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon  = (Data[0x3D] = value) != 0; }
 
     public ushort AlphaMove { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), value); }
 
@@ -523,7 +523,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x155 + ofs, index & 7, value);
     }
 
-    public bool GetPurchasedRecordFlagAny() => Array.FindIndex(Data, 0x155, 8, z => z != 0) >= 0;
+    public bool GetPurchasedRecordFlagAny() => Array.FindIndex(Data, 0x155, 8, static z => z != 0) >= 0;
 
     public int GetPurchasedCount()
     {

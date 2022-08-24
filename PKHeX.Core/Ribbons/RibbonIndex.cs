@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
@@ -229,7 +229,7 @@ public static class RibbonIndexExtensions
                 r.FixMark(pk, state);
                 return;
             case RibbonIndexGroup.CountMemory:
-                if (pk is not IRibbonSetCommon6 m6)
+                if (pk is not IRibbonSetMemory6 m6)
                     return;
                 (byte contest, byte battle) = state ? RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter) : default;
                 if (r is CountMemoryContest)
@@ -417,8 +417,8 @@ public static class RibbonIndexExtensions
         ChampionRegional => nameof(IRibbonSetEvent3.RibbonChampionRegional),
         ChampionNational => nameof(IRibbonSetEvent3.RibbonChampionNational),
         ChampionWorld => nameof(IRibbonSetEvent4.RibbonChampionWorld),
-        CountMemoryContest => nameof(IRibbonSetCommon6.RibbonCountMemoryContest),
-        CountMemoryBattle => nameof(IRibbonSetCommon6.RibbonCountMemoryBattle),
+        CountMemoryContest => nameof(IRibbonSetMemory6.RibbonCountMemoryContest),
+        CountMemoryBattle => nameof(IRibbonSetMemory6.RibbonCountMemoryBattle),
         ChampionG6Hoenn => nameof(IRibbonSetCommon6.RibbonChampionG6Hoenn),
         ContestStar => nameof(IRibbonSetCommon6.RibbonContestStar),
         MasterCoolness => nameof(IRibbonSetCommon6.RibbonMasterCoolness),

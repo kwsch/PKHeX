@@ -184,11 +184,11 @@ public sealed class XK3 : G3PKM, IShadowPKM
     public override byte CNT_Cute   { get => Data[0xB0]; set => Data[0xB0] = value; }
     public override byte CNT_Smart  { get => Data[0xB1]; set => Data[0xB1] = value; }
     public override byte CNT_Tough  { get => Data[0xB2]; set => Data[0xB2] = value; }
-    public override int RibbonCountG3Cool { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
-    public override int RibbonCountG3Beauty { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
-    public override int RibbonCountG3Cute { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
-    public override int RibbonCountG3Smart { get => Data[0xB6]; set => Data[0xB6] = (byte)value; }
-    public override int RibbonCountG3Tough { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
+    public override byte RibbonCountG3Cool   { get => Data[0xB3]; set => Data[0xB3] = value; }
+    public override byte RibbonCountG3Beauty { get => Data[0xB4]; set => Data[0xB4] = value; }
+    public override byte RibbonCountG3Cute   { get => Data[0xB5]; set => Data[0xB5] = value; }
+    public override byte RibbonCountG3Smart  { get => Data[0xB6]; set => Data[0xB6] = value; }
+    public override byte RibbonCountG3Tough  { get => Data[0xB7]; set => Data[0xB7] = value; }
 
     public ushort ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xBA)); set => WriteUInt16BigEndian(Data.AsSpan(0xBA), value); }
 

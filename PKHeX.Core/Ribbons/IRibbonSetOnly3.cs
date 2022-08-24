@@ -3,11 +3,11 @@ namespace PKHeX.Core;
 /// <summary> Ribbons that originated in Generation 3 and were only present within that Generation. </summary>
 public interface IRibbonSetOnly3
 {
-    int RibbonCountG3Cool { get; set; }
-    int RibbonCountG3Beauty { get; set; }
-    int RibbonCountG3Cute { get; set; }
-    int RibbonCountG3Smart { get; set; }
-    int RibbonCountG3Tough { get; set; }
+    byte RibbonCountG3Cool { get; set; }
+    byte RibbonCountG3Beauty { get; set; }
+    byte RibbonCountG3Cute { get; set; }
+    byte RibbonCountG3Smart { get; set; }
+    byte RibbonCountG3Tough { get; set; }
 
     bool RibbonWorld { get; set; }
     bool Unused1 { get; set; }
