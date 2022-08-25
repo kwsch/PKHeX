@@ -28,9 +28,16 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public WC8() : this(new byte[Size]) { }
     public WC8(byte[] data) : base(data) { }
 
-    // TODO: public byte RestrictVersion?
+    public byte RestrictVersion { get => Data[0xE]; set => Data[0xE] = value; }
 
-    public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.SW or (int) GameVersion.SH;
+    public bool CanBeReceivedByVersion(int v) => RestrictVersion switch
+    {
+        0 when !IsEntity => true, // Whatever, essentially unrestricted for SW/SH receipt. No Entity gifts are 0.
+        1 => v is (int)GameVersion.SW,
+        2 => v is (int)GameVersion.SH,
+        3 => v is (int)GameVersion.SW or (int)GameVersion.SH,
+        _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
+    };
 
     // General Card Properties
     public override int CardID
@@ -381,6 +388,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var language = tr.Language;
         var OT = GetOT(language);
         bool hasOT = GetHasOT(language);
+        var version = OriginGame != 0 ? OriginGame : (int)this.GetCompatibleVersion((GameVersion)tr.Game);
 
         var pk = new PK8
         {
@@ -405,7 +413,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             RelearnMove3 = RelearnMove3,
             RelearnMove4 = RelearnMove4,
 
-            Version = OriginGame != 0 ? OriginGame : tr.Game,
+            Version = version,
 
             OT_Name = OT.Length > 0 ? OT : tr.OT,
             OT_Gender = OTGender < 2 ? OTGender : tr.Gender,
