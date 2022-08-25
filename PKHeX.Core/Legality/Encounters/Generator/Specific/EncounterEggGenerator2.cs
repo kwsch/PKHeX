@@ -10,7 +10,7 @@ internal static class EncounterEggGenerator2
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, bool all = false)
     {
         var table = EvolutionTree.Evolves2;
-        int maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(2);
+        const int maxSpeciesOrigin = Legal.MaxSpeciesID_2;
         var evos = table.GetValidPreEvolutions(pk, levelMax: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
         return GenerateEggs(pk, evos, all);
     }

@@ -61,45 +61,11 @@ public static partial class Legal
     internal static int GetMaxSpeciesOrigin(PKM pk)
     {
         if (pk.Format == 1)
-            return GetMaxSpeciesOrigin(1);
+            return MaxSpeciesID_1;
         if (pk.Format == 2 || pk.VC)
-            return GetMaxSpeciesOrigin(2);
+            return MaxSpeciesID_2;
         return GetMaxSpeciesOrigin(pk.Generation);
     }
-
-    internal static int GetMaxSpeciesOrigin(int generation, GameVersion version) => generation switch
-    {
-        1 => MaxSpeciesID_1,
-        2 => MaxSpeciesID_2,
-        3 => MaxSpeciesID_3,
-        4 => MaxSpeciesID_4,
-        5 => MaxSpeciesID_5,
-        6 => MaxSpeciesID_6,
-        7 when GameVersion.GG.Contains(version) => MaxSpeciesID_7b,
-        7 when GameVersion.USUM.Contains(version) => MaxSpeciesID_7_USUM,
-        7 => MaxSpeciesID_7,
-        8 when version is GameVersion.PLA => MaxSpeciesID_8a,
-        8 when GameVersion.BDSP.Contains(version) => MaxSpeciesID_8b,
-        8 => MaxSpeciesID_8_R2,
-        _ => -1,
-    };
-
-    internal static int GetMaxSpeciesOrigin(EntityContext context) => context switch
-    {
-        EntityContext.Gen1 => MaxSpeciesID_1,
-        EntityContext.Gen2 => MaxSpeciesID_2,
-        EntityContext.Gen3 => MaxSpeciesID_3,
-        EntityContext.Gen4 => MaxSpeciesID_4,
-        EntityContext.Gen5 => MaxSpeciesID_5,
-        EntityContext.Gen6 => MaxSpeciesID_6,
-        EntityContext.Gen7 => MaxSpeciesID_7_USUM,
-        EntityContext.Gen8 => MaxSpeciesID_8_R2,
-
-        EntityContext.Gen7b => MaxSpeciesID_7b,
-        EntityContext.Gen8a => MaxSpeciesID_8a,
-        EntityContext.Gen8b => MaxSpeciesID_8b,
-        _ => -1,
-    };
 
     internal static int GetMaxSpeciesOrigin(int generation) => generation switch
     {
@@ -111,19 +77,6 @@ public static partial class Legal
         6 => MaxSpeciesID_6,
         7 => MaxSpeciesID_7b,
         8 => MaxSpeciesID_8a,
-        _ => -1,
-    };
-
-    internal static int GetDebutGeneration(int species) => species switch
-    {
-        <= MaxSpeciesID_1 => 1,
-        <= MaxSpeciesID_2 => 2,
-        <= MaxSpeciesID_3 => 3,
-        <= MaxSpeciesID_4 => 4,
-        <= MaxSpeciesID_5 => 5,
-        <= MaxSpeciesID_6 => 6,
-        <= MaxSpeciesID_7b => 7,
-        <= MaxSpeciesID_8a => 8,
         _ => -1,
     };
 
@@ -147,20 +100,18 @@ public static partial class Legal
     /// <param name="pk">Entity to check</param>
     internal static bool IsOriginalMovesetDeleted(this PKM pk)
     {
-        if (pk is PA8 {LA: false} or PB8 {BDSP: false})
-            return true;
         if (pk.IsNative)
-        {
-            if (pk is PK8 {LA: true} or PK8 {BDSP: true})
-                return true;
-            return false;
-        }
-
-        if (pk is IBattleVersion { BattleVersion: not 0 })
-            return true;
-
-        return false;
+            return IsSideGameTransferDeletedMoveset(pk);
+        return pk is IBattleVersion { BattleVersion: not 0 };
     }
+
+    private static bool IsSideGameTransferDeletedMoveset(PKM pk) => pk switch
+    {
+        PA8 pa8 => !pa8.LA,
+        PB8 pb8 => !pb8.BDSP,
+        PK8 pk8 => pk8.IsSideTransfer,
+        _ => false,
+    };
 
     /// <summary>
     /// Indicates if PP Ups are available for use.

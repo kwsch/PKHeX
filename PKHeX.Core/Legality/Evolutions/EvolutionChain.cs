@@ -46,7 +46,7 @@ internal static class EvolutionChain
         if (maxLevel < 0)
             maxLevel = pk.CurrentLevel;
 
-        if (maxspeciesorigin == -1 && pk.InhabitedGeneration(2) && pk.Format <= 2 && pk.Generation == 1)
+        if (maxspeciesorigin == -1 && ParseSettings.AllowGen1Tradeback && pk.Format <= 2 && pk.Generation == 1)
             maxspeciesorigin = MaxSpeciesID_2;
 
         var context = pk.Context;

@@ -9,9 +9,6 @@ public static class MoveEgg
 {
     public static int[] GetEggMoves(int species, int form, GameVersion version, int generation)
     {
-        if (species > GetMaxSpeciesOrigin(generation, version))
-            return Array.Empty<int>();
-
         if (!Breeding.CanGameGenerateEggs(version))
             return Array.Empty<int>();
 

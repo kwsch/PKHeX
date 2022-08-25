@@ -326,7 +326,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         }
     }
 
-    public int DebutGeneration => Legal.GetDebutGeneration(Species);
     public bool PKRS_Infected { get => PKRS_Strain != 0; set => PKRS_Strain = value ? Math.Max(PKRS_Strain, 1) : 0; }
 
     public bool PKRS_Cured
@@ -543,54 +542,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public virtual bool IsUntraded => false;
     public virtual bool IsNative => Generation == Format;
     public bool IsOriginValid => Species <= MaxSpeciesID;
-
-    /// <summary>
-    /// Checks if the <see cref="PKM"/> could inhabit a set of games.
-    /// </summary>
-    /// <param name="generation">Set of games.</param>
-    /// <param name="species"></param>
-    /// <returns>True if could inhabit, False if not.</returns>
-    public bool InhabitedGeneration(int generation, int species = -1)
-    {
-        if (species < 0)
-            species = Species;
-
-        var format = Format;
-        if (format == generation)
-            return true;
-
-        if (!IsOriginValid)
-            return false;
-
-        // Sanity Check Species ID
-        if (species > Legal.GetMaxSpeciesOrigin(generation) && !EvolutionLegality.GetFutureGenEvolutions(generation).Contains(species))
-            return false;
-
-        // Trade generation 1 -> 2
-        if (format == 2 && generation == 1 && !Korean)
-            return true;
-
-        // Trade generation 2 -> 1
-        if (format == 1 && generation == 2 && ParseSettings.AllowGen1Tradeback)
-            return true;
-
-        if (format < generation)
-            return false; // Future
-
-        int gen = Generation;
-        return generation switch
-        {
-            1 => format == 1 || VC, // species compat checked via sanity above
-            2 => format == 2 || VC,
-            3 => Gen3,
-            4 => gen is >= 3 and <= 4,
-            5 => gen is >= 3 and <= 5,
-            6 => gen is >= 3 and <= 6,
-            7 => gen is >= 3 and <= 7 || VC,
-            8 => gen is >= 3 and <= 8 || VC,
-            _ => false,
-        };
-    }
 
     /// <summary>
     /// Checks if the PKM has its original met location.

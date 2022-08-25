@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -155,6 +155,7 @@ public sealed class PK8 : G8PKM
         this.SetMaximumPPCurrent(moves);
     }
 
+    public bool IsSideTransfer => Met_Location is Locations.HOME_SHSP or Locations.HOME_SWBD or Locations.HOME_SWLA;
     public override bool BDSP => Met_Location is Locations.HOME_SWBD or Locations.HOME_SHSP;
     public override bool LA => Met_Location is Locations.HOME_SWLA;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
