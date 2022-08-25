@@ -6,6 +6,8 @@ namespace PKHeX.Core;
 public sealed partial class MemoryContext8 : MemoryContext
 {
     private const int MAX_MEMORY_ID_SWSH = 89;
+    public static readonly MemoryContext8 Instance = new();
+    private MemoryContext8() { }
 
     public override IEnumerable<ushort> GetKeyItemParams() => (KeyItemMemoryArgsGen8.Values).SelectMany(z => z).Distinct();
 
@@ -33,7 +35,8 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override bool IsInvalidGeneralLocationMemoryValue(byte memory, ushort variable, IEncounterTemplate enc, PKM pk)
     {
-        if (!Memories.MemoryGeneral.Contains(memory))
+        var type = Memories.GetMemoryArgType(memory, 8);
+        if (type is not MemoryArgType.GeneralLocation)
             return false;
 
         if (memory is 1 or 2 or 3) // Encounter only

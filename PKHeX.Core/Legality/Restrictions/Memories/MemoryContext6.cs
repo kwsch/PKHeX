@@ -7,6 +7,8 @@ public sealed partial class MemoryContext6 : MemoryContext
 {
     private const int MAX_MEMORY_ID_XY = 64;
     private const int MAX_MEMORY_ID_AO = 69;
+    public static readonly MemoryContext6 Instance = new();
+    private MemoryContext6() { }
 
     private static ICollection<int> GetPokeCenterLocations(GameVersion game)
     {
