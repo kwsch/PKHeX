@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public static class MoveInfo8a
+/// <summary>
+/// Details about moves in <see cref="EntityContext.Gen8a"/>
+/// </summary>
+internal static class MoveInfo8a
 {
-    internal static readonly byte[] MovePP_LA =
+    public static readonly byte[] MovePP_LA =
     {
         00,
         35, 25, 10, 15, 20, 20, 10, 10, 10, 35, 30, 05, 10, 20, 30, 25, 35, 20, 15, 20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 30, 15, 20, 20, 10, 05, 30, 20, 20, 20, 30, 20, 40, 20, 15, 20, 20, 20,
@@ -29,7 +32,7 @@ public static class MoveInfo8a
     /// <summary>
     /// Moves that are kill
     /// </summary>
-    public static readonly HashSet<int> DummiedMoves_LA = new()
+    public static readonly HashSet<ushort> DummiedMoves_LA = new()
     {
         001, 002, 003, 004, 005, 006, 010, 011, 012, 013,
         015, 017, 018, 019, 020, 021, 022, 023, 024, 025,

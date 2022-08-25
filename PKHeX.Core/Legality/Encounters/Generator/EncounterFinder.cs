@@ -117,13 +117,13 @@ public static class EncounterFinder
             if (m is IMemoryOT o && MemoryPermissions.IsMemoryOfKnownMove(o.OT_Memory))
             {
                 var mem = MemoryVariableSet.Read(m, 0);
-                if (!MemoryPermissions.CanKnowMove(pk, mem, info.EncounterMatch.Generation, info))
+                if (!MemoryPermissions.CanKnowMove(pk, mem, info.EncounterMatch.Context, info))
                     return false;
             }
             if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pk.HasMove(h.HT_TextVar))
             {
                 var mem = MemoryVariableSet.Read(m, 1);
-                if (!MemoryPermissions.CanKnowMove(pk, mem, pk.Format, info))
+                if (!MemoryPermissions.CanKnowMove(pk, mem, pk.Context, info))
                     return false;
             }
         }

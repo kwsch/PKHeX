@@ -22,30 +22,6 @@ public static partial class Legal
     };
 
     /// <summary>
-    /// Checks if Sketch can obtain the <see cref="move"/> in the requested <see cref="generation"/>
-    /// </summary>
-    /// <remarks>Doesn't bounds check the <see cref="generation"/> for max move ID.</remarks>
-    /// <param name="move">Move ID</param>
-    /// <param name="generation">Generation to check</param>
-    /// <returns>True if can be sketched, false if not available.</returns>
-    public static bool IsValidSketch(int move, int generation)
-    {
-        if (MoveInfo.InvalidSketch.Contains(move))
-            return false;
-        if (generation is 6 && move is ((int)ThousandArrows or (int)ThousandWaves))
-            return false;
-        if (generation is 8) // can't Sketch unusable moves in BDSP, no Sketch in PLA
-        {
-            if (DummiedMoves_BDSP.Contains(move))
-                return false;
-            if (move > MaxMoveID_8)
-                return false;
-        }
-
-        return move <= GetMaxMoveID(generation);
-    }
-
-    /// <summary>
     /// Species that are from Mythical Distributions (disallowed species for competitive rulesets)
     /// </summary>
     public static readonly HashSet<int> Mythicals = new()

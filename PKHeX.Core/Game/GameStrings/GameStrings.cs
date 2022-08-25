@@ -43,6 +43,7 @@ public sealed class GameStrings : IBasicStrings
 
     private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
     private const string NPC = "NPC";
+    private const string EmptyIndex = "---";
 
     /// <summary>
     /// Item IDs that correspond to the <see cref="Ball"/> value.
@@ -81,9 +82,14 @@ public sealed class GameStrings : IBasicStrings
         abilitylist = Get("abilities");
 
         movelist = Get("moves");
-        string[] ps = { "P", "S" }; // Distinguish Physical/Special
+        // Differentiate Physical/Special Z-Moves
         for (int i = 622; i < 658; i++)
-            movelist[i] += $" ({ps[i % 2]})";
+        {
+            const string p = " (P)";
+            const string s = " (S)";
+            bool isPhysicalZMove = (i & 1) == 0;
+            movelist[i] += isPhysicalZMove ? p : s;
+        }
 
         itemlist = Get("items");
         characteristics = Get("character");
@@ -159,6 +165,8 @@ public sealed class GameStrings : IBasicStrings
 
     private string[] GetG3CXD(string[] arr, string fileName)
     {
+        // Concatenate the Gen3 Item list with the CXD item array; CXD items starting at index 500.
+        // Empty slots between the two lists are marked as unused.
         string[] item500 = Get(fileName);
         var result = new string[500 + item500.Length];
         for (int i = arr.Length; i < result.Length; i++)
@@ -190,7 +198,7 @@ public sealed class GameStrings : IBasicStrings
         abilitylist[(int)Core.Ability.AsOneG] += $" ({specieslist[(int)Core.Species.Spectrier]})";
 
         // Replace the Egg Name with ---; egg name already stored to eggname
-        specieslist[0] = "---";
+        specieslist[0] = EmptyIndex;
         // Fix (None) tags
         var none = $"({itemlist[0]})";
         abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = puffs[0] = none;

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public static class MoveInfo8b
+/// <summary>
+/// Details about moves in <see cref="EntityContext.Gen8b"/>
+/// </summary>
+internal static class MoveInfo8b
 {
     /// <summary>
     /// Moves that are kill
     /// </summary>
-    public static readonly HashSet<int> DummiedMoves_BDSP = new()
+    public static readonly HashSet<ushort> DummiedMoves_BDSP = new()
     {
         002, 003, 004, 013, 026, 027, 041, 049, 082, 096,
         099, 112, 117, 119, 121, 125, 128, 131, 132, 140,

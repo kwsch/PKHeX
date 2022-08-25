@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Overall information about Moves
+/// </summary>
 public static class MoveInfo
 {
     /// <summary>
@@ -13,7 +16,7 @@ public static class MoveInfo
     /// <param name="context">Game context</param>
     /// <param name="move">Move ID</param>
     /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-    public static byte GetPP(EntityContext context, int move)
+    public static byte GetPP(EntityContext context, ushort move)
     {
         var table = GetPPTable(context);
         if ((uint)move >= table.Length)
@@ -21,8 +24,9 @@ public static class MoveInfo
         return table[move];
     }
 
-    public static ReadOnlySpan<byte> GetPPTable(PKM pk) => GetPPTable(pk.Context);
-
+    /// <summary>
+    /// Gets the move PP table for the <see cref="context"/>.
+    /// </summary>
     public static ReadOnlySpan<byte> GetPPTable(EntityContext context) => context switch
     {
         Gen1 => MoveInfo1.MovePP_RBY,
@@ -40,96 +44,67 @@ public static class MoveInfo
         _ => throw new ArgumentOutOfRangeException(nameof(context)),
     };
 
-    public static ICollection<int> GetDummiedMovesHashSet(EntityContext context) => context switch
+    /// <summary>
+    /// Gets a collection that can be used to check if a move cannot be used in battle.
+    /// </summary>
+    public static ICollection<ushort> GetDummiedMovesHashSet(EntityContext context) => context switch
     {
         Gen8 => MoveInfo8.DummiedMoves_SWSH,
         Gen8a => MoveInfo8a.DummiedMoves_LA,
         Gen8b => MoveInfo8b.DummiedMoves_BDSP,
-        _ => Array.Empty<int>(),
+        _ => Array.Empty<ushort>(),
     };
 
     /// <summary>
-    /// Generation 7 Z Moves
+    /// Checks if the move is a Z-move.
     /// </summary>
-    public static readonly HashSet<int> Z_Moves = new()
+    public static bool IsMoveZ(ushort move) => move switch
     {
-        (int)BreakneckBlitzP,
-        (int)BreakneckBlitzS,
-        (int)AllOutPummelingP,
-        (int)AllOutPummelingS,
-        (int)SupersonicSkystrikeP,
-        (int)SupersonicSkystrikeS,
-        (int)AcidDownpourP,
-        (int)AcidDownpourS,
-        (int)TectonicRageP,
-        (int)TectonicRageS,
-        (int)ContinentalCrushP,
-        (int)ContinentalCrushS,
-        (int)SavageSpinOutP,
-        (int)SavageSpinOutS,
-        (int)NeverEndingNightmareP,
-        (int)NeverEndingNightmareS,
-        (int)CorkscrewCrashP,
-        (int)CorkscrewCrashS,
-        (int)InfernoOverdriveP,
-        (int)InfernoOverdriveS,
-        (int)HydroVortexP,
-        (int)HydroVortexS,
-        (int)BloomDoomP,
-        (int)BloomDoomS,
-        (int)GigavoltHavocP,
-        (int)GigavoltHavocS,
-        (int)ShatteredPsycheP,
-        (int)ShatteredPsycheS,
-        (int)SubzeroSlammerP,
-        (int)SubzeroSlammerS,
-        (int)DevastatingDrakeP,
-        (int)DevastatingDrakeS,
-        (int)BlackHoleEclipseP,
-        (int)BlackHoleEclipseS,
-        (int)TwinkleTackleP,
-        (int)TwinkleTackleS,
-
-        (int)Catastropika,
-        (int)SinisterArrowRaid,
-        (int)MaliciousMoonsault,
-        (int)OceanicOperetta,
-        (int)GuardianofAlola,
-        (int)SoulStealing7StarStrike,
-        (int)StokedSparksurfer,
-        (int)PulverizingPancake,
-        (int)ExtremeEvoboost,
-        (int)GenesisSupernova,
-        (int)TenMVoltThunderbolt,
-        (int)LightThatBurnstheSky,
-        (int)SearingSunrazeSmash,
-        (int)MenacingMoonrazeMaelstrom,
-        (int)LetsSnuggleForever,
-        (int)SplinteredStormshards,
-        (int)ClangorousSoulblaze,
+        >= (int)BreakneckBlitzP      and <= (int)Catastropika        => true, // [622-658]
+        >= (int)SinisterArrowRaid    and <= (int)GenesisSupernova    => true, // [695-703]
+           (int)TenMVoltThunderbolt                                  => true, // [719]
+        >= (int)LightThatBurnstheSky and <= (int)ClangorousSoulblaze => true, // [723-728]
+        _ => false,
     };
 
-    public static bool IsDynamaxMove(int move) => move is (>= (int)MaxFlare and <= (int)MaxSteelspike);
+    /// <summary>
+    /// Checks if the move is a Dynamax-only move.
+    /// </summary>
+    public static bool IsMoveDynamax(ushort move) => move is (>= (int)MaxFlare and <= (int)MaxSteelspike);
 
     /// <summary>
-    /// Moves that can not be obtained by using Sketch with Smeargle in any game.
+    /// Checks if the move can be known by anything in any context.
     /// </summary>
-    internal static readonly HashSet<int> InvalidSketch = new(Z_Moves)
+    /// <remarks> Assumes the move ID is within [0,max]. </remarks>
+    public static bool IsMoveKnowable(ushort move) => !IsMoveZ(move) && !IsMoveDynamax(move);
+
+    /// <summary>
+    /// Checks if the move can be sketched in any game.
+    /// </summary>
+    public static bool IsMoveSketch(ushort move) => move switch
     {
         // Can't Sketch
-        (int)Struggle,
-        (int)Chatter,
+        (int)Struggle => false,
+        (int)Chatter => false,
 
         // Unreleased
-        (int)LightofRuin,
+        (int)LightofRuin => false,
+
+        _ => IsMoveKnowable(move),
     };
 
+    /// <summary>
+    /// Checks if the <see cref="move"/> is unable to be used in battle.
+    /// </summary>
     public static bool IsDummiedMove(PKM pk, ushort move)
     {
         var hashSet = GetDummiedMovesHashSet(pk.Context);
         return hashSet.Contains(move);
     }
 
+    /// <summary>
+    /// Checks if any Move in the currently known moves is an unusable move (yellow triangle).
+    /// </summary>
     public static bool IsDummiedMoveAny(PKM pk)
     {
         var hs = GetDummiedMovesHashSet(pk.Context);
@@ -144,4 +119,43 @@ public static class MoveInfo
         }
         return false;
     }
+
+    /// <summary>
+    /// Checks if Sketch can obtain the <see cref="move"/> in the requested <see cref="context"/>
+    /// </summary>
+    /// <param name="move">Move ID</param>
+    /// <param name="context">Generation to check</param>
+    /// <returns>True if can be sketched, false if not available.</returns>
+    public static bool IsValidSketch(ushort move, EntityContext context)
+    {
+        if (!IsMoveSketch(move))
+            return false;
+        if (context is Gen6 && move is ((int)ThousandArrows or (int)ThousandWaves))
+            return false;
+        if (context is Gen8b) // can't Sketch unusable moves in BDSP, no Sketch in PLA
+        {
+            if (MoveInfo8b.DummiedMoves_BDSP.Contains(move))
+                return false;
+            if (move > Legal.MaxMoveID_8)
+                return false;
+        }
+
+        return move <= GetMaxMoveID(context);
+    }
+
+    private static int GetMaxMoveID(EntityContext context) => context switch
+    {
+        Gen1 => Legal.MaxMoveID_1,
+        Gen2 => Legal.MaxMoveID_2,
+        Gen3 => Legal.MaxMoveID_3,
+        Gen4 => Legal.MaxMoveID_4,
+        Gen5 => Legal.MaxMoveID_5,
+        Gen6 => Legal.MaxMoveID_6_AO,
+        Gen7 => Legal.MaxMoveID_7_USUM,
+        Gen7b => Legal.MaxMoveID_7b,
+        Gen8 => Legal.MaxMoveID_8a,
+        Gen8a => Legal.MaxMoveID_8a,
+        Gen8b => Legal.MaxMoveID_8b,
+        _ => -1,
+    };
 }

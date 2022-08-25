@@ -42,15 +42,19 @@ public sealed class GameDataSource
 
         var moves = Util.GetCBList(s.movelist);
         HaXMoveDataSource = moves;
-        var legal = new List<ComboItem>(moves);
-        legal.RemoveAll(m => MoveInfo.Z_Moves.Contains(m.Value));
+        var legal = new List<ComboItem>(moves.Count);
+        foreach (var m in moves)
+        {
+            if (MoveInfo.IsMoveKnowable((ushort)m.Value))
+                legal.Add(m);
+        }
         LegalMoveDataSource = legal;
 
         VersionDataSource = GetVersionList(s);
 
         Met = new MetDataSource(s);
 
-        Empty = new ComboItem(s.Species[0], 0);
+        Empty = new ComboItem(s.itemlist[0], 0);
     }
 
     /// <summary> Strings that this object's lists were generated with. </summary>

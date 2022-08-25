@@ -140,19 +140,6 @@ public static partial class Legal
         _ => -1,
     };
 
-    internal static int GetMaxMoveID(int generation) => generation switch
-    {
-        1 => MaxMoveID_1,
-        2 => MaxMoveID_2,
-        3 => MaxMoveID_3,
-        4 => MaxMoveID_4,
-        5 => MaxMoveID_5,
-        6 => MaxMoveID_6_AO,
-        7 => MaxMoveID_7b,
-        8 => MaxMoveID_8a,
-        _ => -1,
-    };
-
     /// <summary>
     /// Checks if the relearn moves should be wiped.
     /// </summary>

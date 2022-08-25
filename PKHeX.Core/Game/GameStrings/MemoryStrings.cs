@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,16 +20,16 @@ public sealed class MemoryStrings
         memories = new Lazy<List<ComboItem>>(GetMemories);
         none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
         species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist));
-        item6 = new Lazy<List<ComboItem>>(() => GetItems(6));
-        item8 = new Lazy<List<ComboItem>>(() => GetItems(8));
+        item6 = new Lazy<List<ComboItem>>(() => GetItems(EntityContext.Gen6));
+        item8 = new Lazy<List<ComboItem>>(() => GetItems(EntityContext.Gen8));
         genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
         moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist));
         specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Locations6.Met0));
     }
 
-    private List<ComboItem> GetItems(int memoryGen)
+    private List<ComboItem> GetItems(EntityContext context)
     {
-        var permit = Memories.GetMemoryItemParams(memoryGen);
+        var permit = Memories.GetMemoryItemParams(context);
         var asInt = permit.ToArray();
         return Util.GetCBList(s.itemlist, asInt);
     }

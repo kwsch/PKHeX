@@ -1,8 +1,11 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-public static class MoveInfo7b
+/// <summary>
+/// Details about moves in <see cref="EntityContext.Gen7b"/>
+/// </summary>
+internal static class MoveInfo7b
 {
-    internal static readonly byte[] MovePP_GG =
+    public static readonly byte[] MovePP_GG =
     {
         // Absorb: 25 -> 15 (damage buffed from 20->40)
         // Mega Drain: 15 -> 10 (damage buffed from 40->75)

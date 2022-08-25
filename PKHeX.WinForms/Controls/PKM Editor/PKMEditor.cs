@@ -360,7 +360,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (isIllegal)
             return Resources.warn;
-        if (pk.Format >= 8 && MoveInfo.GetDummiedMovesHashSet(pk.Context).Contains(pk.GetMove(index)))
+        if (pk.Format >= 8 && MoveInfo.GetDummiedMovesHashSet(pk.Context).Contains((ushort)pk.GetMove(index)))
             return Resources.hint;
         return null;
     }

@@ -1,8 +1,11 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-public static class MoveInfo2
+/// <summary>
+/// Details about moves in <see cref="EntityContext.Gen2"/>
+/// </summary>
+internal static class MoveInfo2
 {
-    internal static readonly byte[] MovePP_GSC =
+    public static readonly byte[] MovePP_GSC =
     {
         00,
         35, 25, 10, 15, 20, 20, 15, 15, 15, 35, 30, 05, 10, 30, 30, 35, 35, 20, 15, 20, 20, 10, 20, 30, 05, 25, 15, 15, 15, 25, 20, 05, 35, 15, 20, 20, 20, 15, 30, 35, 20, 20, 30, 25, 40, 20, 15, 20, 20, 20,

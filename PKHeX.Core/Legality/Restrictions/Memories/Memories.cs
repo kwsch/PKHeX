@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -33,11 +33,11 @@ public static class Memories
         return MemoryArgType.None;
     }
 
-    public static MemoryContext GetContext(int memoryGen) => memoryGen switch
+    public static MemoryContext GetContext(EntityContext context) => context.Generation() switch
     {
         <=7 => Memory6,
         _ => Memory8,
     };
 
-    public static IEnumerable<ushort> GetMemoryItemParams(int memoryGen) => GetContext(memoryGen).GetMemoryItemParams();
+    public static IEnumerable<ushort> GetMemoryItemParams(EntityContext context) => GetContext(context).GetMemoryItemParams();
 }
