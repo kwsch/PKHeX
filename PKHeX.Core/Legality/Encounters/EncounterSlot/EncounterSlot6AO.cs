@@ -53,7 +53,7 @@ public sealed record EncounterSlot6AO : EncounterSlot
     private ReadOnlySpan<ushort> GetDexNavMoves()
     {
         var et = EvolutionTree.Evolves6;
-        var baby = et.GetBaseSpeciesForm((ushort)Species, (byte)Form);
+        var baby = et.GetBaseSpeciesForm(Species, Form);
         return MoveEgg.GetEggMoves(6, baby.Species, baby.Form, Version);
     }
 

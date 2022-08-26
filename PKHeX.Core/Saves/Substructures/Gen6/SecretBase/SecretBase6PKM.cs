@@ -32,7 +32,7 @@ public sealed class SecretBase6PKM : ISanityChecksum
     public ushort Species
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);
     }
 
     public int HeldItem

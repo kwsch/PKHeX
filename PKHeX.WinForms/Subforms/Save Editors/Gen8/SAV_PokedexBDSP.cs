@@ -96,7 +96,7 @@ public partial class SAV_PokedexBDSP : Form
         var forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).Take(fc).ToArray();
         f1.Items.AddRange(forms);
         f2.Items.AddRange(forms);
-        for (int i = 0; i < f1.Items.Count; i++)
+        for (byte i = 0; i < f1.Items.Count; i++)
         {
             f1.SetItemChecked(i, Zukan.GetHasFormFlag(species, i, false));
             f2.SetItemChecked(i, Zukan.GetHasFormFlag(species, i, true));
@@ -123,7 +123,7 @@ public partial class SAV_PokedexBDSP : Form
 
         var f1 = CLB_FormRegular;
         var f2 = CLB_FormShiny;
-        for (int i = 0; i < f1.Items.Count; i++)
+        for (byte i = 0; i < f1.Items.Count; i++)
         {
             Zukan.SetHasFormFlag(species, i, false, f1.GetItemChecked(i));
             Zukan.SetHasFormFlag(species, i, true , f2.GetItemChecked(i));

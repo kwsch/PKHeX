@@ -285,7 +285,7 @@ public sealed class Zukan4 : ZukanBase
 
     public override void SetDex(PKM pk)
     {
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
         if (species is 0 or > Legal.MaxSpeciesID_4)
             return;
         if (pk.IsEgg) // do not add

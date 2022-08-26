@@ -343,7 +343,7 @@ public sealed class AbilityVerifier : Verifier
         // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
         return enc switch
         {
-            EncounterEgg e when pk.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains((ushort)e.Species) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg e when pk.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
             _ => CheckMatch(data.Entity, abilities, 5, pk.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc),
         };
     }

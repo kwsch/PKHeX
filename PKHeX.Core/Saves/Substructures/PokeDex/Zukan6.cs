@@ -60,7 +60,7 @@ public abstract class Zukan6 : Zukan
             SetFlag(PokeDexLanguageFlags, lbit, value);
     }
 
-    protected override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
+    protected override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
     {
         var shiny = isShiny ? 1 : 0;
         SetDexFlags(baseBit, baseBit, gender, shiny);
@@ -92,13 +92,13 @@ public abstract class Zukan6 : Zukan
 
     private void SetFormFlags(PKM pk)
     {
-        ushort species = pk.Species;
-        int form = pk.Form;
+        var species = pk.Species;
+        var form = pk.Form;
         var shiny = pk.IsShiny ? 1 : 0;
         SetFormFlags(species, form, shiny);
     }
 
-    private void SetFormFlags(ushort species, int form, int shiny, bool value = true)
+    private void SetFormFlags(ushort species, byte form, int shiny, bool value = true)
     {
         int fc = SAV.Personal[species].FormCount;
         int f = DexFormIndexFetcher(species, fc);

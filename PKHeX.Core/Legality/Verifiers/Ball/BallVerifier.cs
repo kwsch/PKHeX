@@ -66,7 +66,7 @@ public sealed class BallVerifier : Verifier
         }
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
-        if (pk.Ball == (int)Heavy && pk.SM && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains((ushort)enc.Species))
+        if (pk.Ball == (int)Heavy && pk.SM && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species))
             return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
@@ -132,7 +132,7 @@ public sealed class BallVerifier : Verifier
             return GetValid(LBallEnc); // Poké Ball
 
         var enc = data.EncounterMatch;
-        var species = (ushort)enc.Species;
+        var species = enc.Species;
         if (pk.Gender == 2 || BallBreedLegality.BreedMaleOnly6.Contains(species)) // Genderless
             return VerifyBallEquals(data, (int)Poke); // Must be Pokéball as ball can only pass via mother (not Ditto!)
 
@@ -204,7 +204,7 @@ public sealed class BallVerifier : Verifier
         if (pk.Ball == (int)Poke)
             return GetValid(LBallEnc); // Poké Ball
 
-        var species = (ushort)data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species is >= 722 and <= 730) // G7 Starters
             return VerifyBallEquals(data, (int)Poke);
 
@@ -277,7 +277,7 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
     {
-        var species = (ushort)data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species == (int)Species.Phione)
             return VerifyBallEquals(data, (int)Poke);
 
@@ -364,7 +364,7 @@ public sealed class BallVerifier : Verifier
         if (pk.Ball == (int)Poke)
             return GetValid(LBallEnc); // Poké Ball
 
-        var species = (ushort)data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
             return VerifyBallEquals(data, (int)Poke);
 

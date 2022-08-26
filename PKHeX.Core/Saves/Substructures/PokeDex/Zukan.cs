@@ -97,7 +97,7 @@ public abstract class Zukan : ZukanBase
     protected abstract bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn);
     protected virtual void SetSpindaDexData(PKM pk, bool alreadySeen) { }
     protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
-    protected abstract void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true);
+    protected abstract void SetAllDexSeenFlags(int baseBit, byte b, int gender, bool isShiny, bool value = true);
 
     protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
     protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
@@ -152,24 +152,24 @@ public abstract class Zukan : ZukanBase
 
     public override void SetDex(PKM pk)
     {
-        if ((uint)(pk.Species - 1) >= (uint)SAV.MaxSpeciesID) // out of range
+        if ((uint)(pk.Species - 1) >= SAV.MaxSpeciesID) // out of range
             return;
         if (pk.IsEgg) // do not add
             return;
 
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
         if (species == (int)Species.Spinda)
             SetSpindaDexData(pk, GetSeen(species));
 
         int bit = pk.Species - 1;
-        int form = pk.Form;
+        var form = pk.Form;
         int gender = pk.Gender & 1;
         bool shiny = pk.IsShiny;
         int lang = pk.Language;
         SetDex(species, bit, form, gender, shiny, lang);
     }
 
-    protected virtual void SetDex(ushort species, int bit, int form, int gender, bool shiny, int lang)
+    protected virtual void SetDex(ushort species, int bit, byte form, int gender, bool shiny, int lang)
     {
         SetCaught(species); // Set the Owned Flag
         SetAllDexSeenFlags(bit, form, gender, shiny); // genderless -> male
@@ -288,7 +288,7 @@ public abstract class Zukan : ZukanBase
         var entry = SAV.Personal[species];
         int baseBit = species - 1;
         int fc = entry.FormCount;
-        for (int f = 0; f < fc; f++)
+        for (byte f = 0; f < fc; f++)
         {
             if (!entry.OnlyFemale)
             {

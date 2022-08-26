@@ -38,7 +38,7 @@ public class Zukan7 : Zukan
 
     public Func<ushort, int, int, int> DexFormIndexFetcher { get; }
 
-    protected sealed override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
+    protected sealed override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
     {
         var species = (ushort)(baseBit + 1);
         if (species == (int)Species.Castform)

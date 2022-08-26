@@ -166,7 +166,7 @@ public static class CommonEdits
     /// <param name="Set"><see cref="IBattleTemplate"/> details to copy from.</param>
     public static void ApplySetDetails(this PKM pk, IBattleTemplate Set)
     {
-        pk.Species = (ushort)Math.Min(pk.MaxSpeciesID, Set.Species);
+        pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
         pk.Form = Set.Form;
         if (Set.Moves[0] != 0)
             pk.SetMoves(Set.Moves, true);

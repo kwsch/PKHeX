@@ -35,7 +35,7 @@ public sealed class FormVerifier : Verifier
         if (count <= 1 && form == 0)
             return VALID; // no forms to check
 
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
         var enc = data.EncounterMatch;
         var Info = data.Info;
 
@@ -173,7 +173,7 @@ public sealed class FormVerifier : Verifier
         // everything below here is not Form 0, so it has a form.
         if (format >= 7 && Info.Generation < 7)
         {
-            if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains((ushort)enc.Species))
+            if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(enc.Species))
                 return GetInvalid(LFormInvalidGame);
         }
         if (format >= 8 && Info.Generation < 8)

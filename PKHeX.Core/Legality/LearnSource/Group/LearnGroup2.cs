@@ -77,7 +77,7 @@ public sealed class LearnGroup2 : ILearnGroup
         {
             if (result[i].Valid)
                 continue;
-            var move = (ushort)current[i];
+            var move = current[i];
             if (eggMoves.Contains(move))
                 result[i] = new(LearnMethod.EggMove);
             else if (levelMoves.Contains(move))

@@ -147,7 +147,7 @@ public static class RibbonVerifierCommon6
         var enc = args.Encounter;
         bool hasChatelaine6Memory = GetHasGen6ChatelaineMemory(pk, enc);
 
-        if (!RibbonRules.IsAllowedBattleFrontier((ushort)pk.Species))
+        if (!RibbonRules.IsAllowedBattleFrontier(pk.Species))
         {
             if (hasChatelaine6Memory || r.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
                 list.Add(BattlerSkillful);

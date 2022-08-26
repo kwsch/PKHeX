@@ -250,7 +250,7 @@ public sealed class Zukan8b : ZukanBase
         set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_NATIONAL), value ? 1u : 0u);
     }
 
-    public bool GetHasFormFlag(ushort species, int form, bool shiny)
+    public bool GetHasFormFlag(ushort species, byte form, bool shiny)
     {
         var ct = GetFormCount(species);
         if (ct == 0)
@@ -262,10 +262,10 @@ public sealed class Zukan8b : ZukanBase
         return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
     }
 
-    public void SetHasFormFlag(ushort species, int form, bool shiny, bool value)
+    public void SetHasFormFlag(ushort species, byte form, bool shiny, bool value)
     {
         var formCount = GetFormCount(species);
-        if (formCount is 0 || (uint)form >= formCount)
+        if (formCount is 0 || form >= formCount)
             return;
 
         var baseOffset = GetFormOffset(species);
@@ -450,7 +450,7 @@ public sealed class Zukan8b : ZukanBase
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {
-            for (int form = 0; form < formCount; form++)
+            for (byte form = 0; form < formCount; form++)
             {
                 SetHasFormFlag(species, form, false, true);
                 if (shinyToo)
@@ -464,11 +464,11 @@ public sealed class Zukan8b : ZukanBase
     {
         SetState(species, ZukanState8b.None);
         SetGenderFlags(species, false, false, false, false);
-
+        
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {
-            for (int form = 0; form < formCount; form++)
+            for (byte form = 0; form < formCount; form++)
             {
                 SetHasFormFlag(species, form, false, false);
                 SetHasFormFlag(species, form, true, false);

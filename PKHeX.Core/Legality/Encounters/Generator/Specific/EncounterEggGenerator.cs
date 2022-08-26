@@ -17,7 +17,7 @@ public static class EncounterEggGenerator
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, EvoCriteria[] chain, int generation, bool all = false)
     {
         System.Diagnostics.Debug.Assert(generation >= 3); // if generating Gen2 eggs, use the other generator.
-        var currentSpecies = (ushort)pk.Species;
+        var currentSpecies = pk.Species;
         if (!Breeding.CanHatchAsEgg(currentSpecies))
             yield break;
 

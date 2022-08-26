@@ -208,8 +208,8 @@ public sealed class EvolutionTree
         if (maxSpeciesOrigin <= 0)
             maxSpeciesOrigin = GetMaxSpeciesOrigin(pk);
 
-        ushort species = (ushort)pk.Species;
-        byte form = (byte)pk.Form;
+        ushort species = pk.Species;
+        byte form = pk.Form;
 
         return GetExplicitLineage(species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
     }

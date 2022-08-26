@@ -111,7 +111,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override bool IsEntity { get => PGTGiftType is GiftType.Pokémon or GiftType.PokémonEgg or GiftType.ManaphyEgg; set { } }
 
     public override ushort Species { get => IsManaphyEgg ? (ushort)490 : PK.Species; set => PK.Species = value; }
-    public override Moveset Moves { get => new((ushort)PK.Move1, (ushort)PK.Move2, (ushort)PK.Move3, (ushort)PK.Move4); set => PK.SetMoves(value); }
+    public override Moveset Moves { get => new(PK.Move1, PK.Move2, PK.Move3, PK.Move4); set => PK.SetMoves(value); }
     public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
     public override bool IsShiny => PK.IsShiny;
     public override int Gender { get => PK.Gender; set => PK.Gender = value; }

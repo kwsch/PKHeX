@@ -39,7 +39,7 @@ public static class EncounterOrigin
         if (pk is ICaughtData2 pk2)
         {
             hasOriginMet = pk2.CaughtData != 0;
-            maxLevel = rby && Future_LevelUp2.Contains((ushort)pk.Species) ? pk.CurrentLevel - 1 : pk.CurrentLevel;
+            maxLevel = rby && Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : pk.CurrentLevel;
             minLevel = !hasOriginMet ? 2 : pk.IsEgg ? 5 : pk2.Met_Level;
         }
         else if (pk is PK1 pk1)
@@ -51,7 +51,7 @@ public static class EncounterOrigin
         else if (rby)
         {
             hasOriginMet = false;
-            maxLevel = Future_LevelUp2.Contains((ushort)pk.Species) ? pk.CurrentLevel - 1 : GetLevelOriginMaxTransfer(pk, pk.Met_Level, 1);
+            maxLevel = Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : GetLevelOriginMaxTransfer(pk, pk.Met_Level, 1);
             minLevel = 2;
         }
         else // GSC
@@ -111,7 +111,7 @@ public static class EncounterOrigin
 
     private static int GetLevelOriginMaxTransfer(PKM pk, int met, int generation)
     {
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
 
         if (Future_LevelUp.TryGetValue((ushort)(species | (pk.Form << 11)), out var delta))
             return met - delta;

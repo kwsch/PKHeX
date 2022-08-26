@@ -689,7 +689,7 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    private static readonly HashSet<int> SpeciesWithGigantamaxData = new()
+    private static readonly HashSet<ushort> SpeciesWithGigantamaxData = new()
     {
         (int)Species.Charizard,
         (int)Species.Butterfree,

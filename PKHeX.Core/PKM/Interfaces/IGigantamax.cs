@@ -40,7 +40,7 @@ public static class GigantamaxExtensions
     /// <param name="currentSpecies">The current species</param>
     /// <param name="currentForm">The current form of the species</param>
     /// <returns>True if the species can toggle Gigantamax potential</returns>
-    public static bool CanToggleGigantamax(this IGigantamax _, ushort currentSpecies, int currentForm)
+    public static bool CanToggleGigantamax(this IGigantamax _, ushort currentSpecies, byte currentForm)
     {
         if (currentSpecies is (int)Species.Meowth or (int)Species.Pikachu)
             return currentForm == 0;

@@ -70,7 +70,7 @@ public class EntitySummary // do NOT seal, allow inheritance
 
     public int AbilityNum => pk.Format > 5 ? pk.AbilityNumber : -1;
     public int GenderFlag => pk.Gender;
-    public int Form => pk.Form;
+    public byte Form => pk.Form;
     public int PKRS_Strain => pk.PKRS_Strain;
     public int PKRS_Days => pk.PKRS_Days;
     public int MetLevel => pk.Met_Level;

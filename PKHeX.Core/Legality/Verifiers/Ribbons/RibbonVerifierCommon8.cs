@@ -47,7 +47,7 @@ public static class RibbonVerifierCommon8
                 const int strongest = 30;
                 if (pk is IMemoryOT { OT_Memory: strongest } or IMemoryHT { HT_Memory: strongest })
                 {
-                    if (enc.Generation == 8 || !RibbonRules.IsAllowedBattleFrontier((ushort)pk.Species) || pk is IRibbonSetCommon6 { RibbonBattlerSkillful: false })
+                    if (enc.Generation == 8 || !RibbonRules.IsAllowedBattleFrontier(pk.Species) || pk is IRibbonSetCommon6 { RibbonBattlerSkillful: false })
                         list.Add(TowerMaster, true);
                 }
             }

@@ -17,7 +17,7 @@ internal static class EncounterEggGenerator2
 
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, EvoCriteria[] chain, bool all = false)
     {
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
         if (!Breeding.CanHatchAsEgg(species))
             yield break;
 

@@ -97,7 +97,7 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value); }
     public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value); }
-    public byte Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public byte Form { get => Data[0x1C]; set => Data[0x1C] = value; }
     public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
 
     public string Nickname

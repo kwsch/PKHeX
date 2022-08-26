@@ -60,7 +60,7 @@ public sealed class WR7 : DataMysteryGift
     public override ushort Species 
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x10C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x10C), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x10C), value);
     }
 
     public override bool GiftUsed { get; set; }

@@ -14,13 +14,13 @@ public sealed class Zukan7b : Zukan7
 
     public override void SetDex(PKM pk)
     {
-        if (!TryGetSizeEntryIndex((ushort)pk.Species, pk.Form, out _))
+        if (!TryGetSizeEntryIndex(pk.Species, pk.Form, out _))
             return;
         SetSizeData((PB7)pk);
         base.SetDex(pk);
     }
 
-    protected override void SetDex(ushort species, int bit, int form, int gender, bool shiny, int lang)
+    protected override void SetDex(ushort species, int bit, byte form, int gender, bool shiny, int lang)
     {
         if (IsBuddy(species, form))
             form = 0;
@@ -52,7 +52,7 @@ public sealed class Zukan7b : Zukan7
 
     private void SetSizeData(PB7 pk)
     {
-        var species = (ushort)pk.Species;
+        var species = pk.Species;
         int form = pk.Form;
         if (!TryGetSizeEntryIndex(species, form, out int index))
             return;
@@ -104,13 +104,13 @@ public sealed class Zukan7b : Zukan7
     {
         var tree = EvolutionTree.Evolves7b;
         ushort species = pk.Species;
-        int form = pk.Form;
+        var form = pk.Form;
 
         int height = pk.HeightScalar;
         int weight = pk.WeightScalar;
 
         // update for all species in potential lineage
-        var allspec = tree.GetEvolutionsAndPreEvolutions((ushort)species, (byte)form);
+        var allspec = tree.GetEvolutionsAndPreEvolutions(species, form);
         foreach (var (s, f) in allspec)
             SetSizeData(group, s, f, height, weight);
     }
