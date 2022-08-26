@@ -216,7 +216,7 @@ public static partial class Legal
         (int)Ribombee,
     };
 
-    internal static readonly HashSet<int> ValidMet_SM = new()
+    internal static readonly HashSet<ushort> ValidMet_SM = new()
     {
         006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
         050, 052, 054, 056, 058, 060, 062, 064, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
@@ -226,7 +226,7 @@ public static partial class Legal
         Locations.Pelago7, // 30016
     };
 
-    internal static readonly HashSet<int> ValidMet_USUM = new(ValidMet_SM)
+    internal static readonly HashSet<ushort> ValidMet_USUM = new(ValidMet_SM)
     {
         // 194, 195, 196, 197, // Unobtainable new Locations
         198,

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
-using static PKHeX.Core.Move;
 
 namespace PKHeX.Core;
 

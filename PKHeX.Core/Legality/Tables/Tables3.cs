@@ -89,7 +89,7 @@ public static partial class Legal
     // 071 is Mirage island, cannot be obtained as the player is technically still on Route 130's map.
     // 075 is an unused location for Fiery Path
     // 077 is an unused location for Jagged Pass
-    internal static readonly HashSet<int> ValidMet_RS = new()
+    internal static readonly HashSet<byte> ValidMet_RS = new()
     {
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
@@ -99,7 +99,7 @@ public static partial class Legal
     };
     // 155 - 158 Sevii Isle 6-9 Unused
     // 171 - 173 Sevii Isle 22-24 Unused
-    internal static readonly HashSet<int> ValidMet_FRLG = new()
+    internal static readonly HashSet<byte> ValidMet_FRLG = new()
     {
         087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099,
         100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
@@ -109,81 +109,8 @@ public static partial class Legal
         187, 188, 189, 190, 191, 192, 193, 194, 195, 196,
     };
 
-    internal static readonly HashSet<int> ValidMet_E = new(ValidMet_RS)
+    internal static readonly HashSet<byte> ValidMet_E = new(ValidMet_RS)
     {
         196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
-    };
-
-    /// <summary>
-    /// Species ID that can be originated from Colosseum (using only Generation 3 max Species ID values).
-    /// </summary>
-    internal static readonly HashSet<ushort> ValidSpecies_Colo = new()
-    {
-        025, // Pikachu
-        153, // Bayleef
-        154, // Meganium
-        156, // Quilava
-        157, // Typhlosion
-        159, // Croconaw
-        160, // Feraligatr
-        162, // Furret
-        164, // Noctowl
-        166, // Ledian
-        168, // Ariados
-        175, // Togepi
-        176, // Togetic
-        179, // Mareep
-        180, // Flaaffy
-        185, // Sudowoodo
-        188, // Skiploom
-        189, // Jumpluff
-        190, // Aipom
-        192, // Sunflora
-        193, // Yanma
-        195, // Quagsire
-        196, // Espeon
-        197, // Umbreon
-        198, // Murkrow
-        200, // Misdreavus
-        205, // Forretress
-        206, // Dunsparce
-        207, // Gligar
-        210, // Granbull
-        211, // Qwilfish
-        212, // Scizor
-        213, // Shuckle
-        214, // Heracross
-        215, // Sneasel
-        217, // Ursaring
-        218, // Slugma
-        219, // Magcargo
-        221, // Piloswine
-        223, // Remoraid
-        225, // Delibird
-        226, // Mantine
-        227, // Skarmory
-        229, // Houndoom
-        234, // Stantler
-        235, // Smeargle
-        237, // Hitmontop
-        241, // Miltank
-        243, // Raikou
-        244, // Entei
-        245, // Suicune
-        248, // Tyranitar
-        250, // Ho-Oh
-        251, // Celebi
-        296, // Makuhita
-        297, // Hariyama
-        307, // Meditite
-        308, // Medicham
-        311, // Plusle
-        329, // Vibrava
-        330, // Flygon
-        333, // Swablu
-        334, // Altaria
-        357, // Tropius
-        359, // Absol
-        376, // Metagross
     };
 }

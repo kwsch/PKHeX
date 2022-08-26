@@ -212,45 +212,24 @@ public sealed class XK3 : G3PKM, IShadowPKM
         {
             // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
             if (ShadowID != 0)
+            {
                 pk.RibbonNational = true; // must be purified before trading away; force purify
-            if (IsOriginXD())
                 pk.FatefulEncounter = true;
+            }
+            else if (IsGiftXD(Met_Location))
+            {
+                pk.FatefulEncounter = true;
+            }
         }
         pk.FlagHasSpecies = pk.SpeciesID3 != 0; // Update Flag
         pk.RefreshChecksum();
         return pk;
     }
 
-    private bool IsOriginXD()
+    private static bool IsGiftXD(int met) => met switch
     {
-        if (ShadowID != 0)
-            return true;
-        return IsOriginXD((ushort)Species, Met_Level);
-    }
-
-    private static bool IsOriginXD(ushort species, int metLevel) => species switch
-    {
-        296 or 297 => metLevel != 30, // Makuhita    30 Colo 18 XD
-        175 or 176 => metLevel != 20, // Togepi      20 Colo 25 XD, also 20 as Togetic in Colo
-        179 or 180 or 181 => metLevel is not (37 or 30), // Mareep: 37 Colo 17 XD, Flaafy: 30 Colo
-        219 => metLevel != 30, // Magcargo    30 Colo 38 XD (Slugma in Colo)
-        195 => metLevel != 30, // Quagsire    30 Colo // ** Wooper XD
-        334 => metLevel != 33, // Altaria     33 Colo // 36 XD (Swablu in Colo)
-        167 => metLevel != 40, // Ledian      40 Colo // 10 Ledyba XD
-        207 => metLevel != 43, // Gligar      43 Colo // ** Gligar XD
-        221 => metLevel != 43, // Piloswine   43 Colo // 22 Swinub XD
-        205 => metLevel != 43, // Forretress  43 Colo // 20 Pineco XD
-        168 => metLevel != 43, // Ariados     43 Colo // 14 Spinarak XD
-        229 => metLevel != 48, // Houndoom    48 Colo // 17 Houndour XD
-        217 => metLevel != 45, // Ursaring    45 Colo // 11 Teddiursa XD
-        212 => metLevel != 50, // Scizor      50 Colo // 40 Scyther XD
-        196 => metLevel != 25, // Espeon
-        197 => metLevel != 26, // Umbreon
-
-        // Shuckle, Elekid, Larvitar, Meditite
-        213 or 239 or 240 or 246 or 247 or 248 or 307 or 308 => metLevel == 20,
-
-        // all other cases handled, if not in Colo's table it's from XD.
-        _ => !Legal.ValidSpecies_Colo.Contains(species),
+        0 or 16 => true, // Starter Eevee / Hordel Gift
+        90 or 91 or 92 => true, // Pokespot: Rock / Oasis / Cave
+        _ => false,
     };
 }
