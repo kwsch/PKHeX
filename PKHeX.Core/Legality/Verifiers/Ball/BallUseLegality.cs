@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Ball;
 
 namespace PKHeX.Core;
 
 internal static class BallUseLegality
 {
-    internal static ICollection<int> GetWildBalls(int generation, GameVersion game) => generation switch
+    internal static ulong GetWildBalls(int generation, GameVersion game) => generation switch
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,
@@ -18,68 +16,58 @@ internal static class BallUseLegality
         8 when GameVersion.BDSP.Contains(game) => WildPokeBalls4_HGSS,
         8 when GameVersion.PLA == game => WildPokeBalls8a,
         8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
-        _ => Array.Empty<int>(),
+        _ => default,
     };
 
-    private static readonly int[] WildPokeBalls1 = { 4 };
-    private static readonly int[] WildPokeBalls2 = WildPokeBalls1;
+    private const ulong WildPokeRegular = (1 << (int)Master)
+                                        | (1 << (int)Ultra)
+                                        | (1 << (int)Great)
+                                        | (1 << (int)Poke);
 
-    private static readonly HashSet<int> WildPokeBalls3 = new()
-    {
-        (int)Master, (int)Ultra, (int)Great, (int)Poke, (int)Net, (int)Dive,
-        (int)Nest, (int)Repeat, (int)Timer, (int)Luxury, (int)Premier,
-    };
+    private const ulong WildPokeKurt4 = (1 << (int)Fast)
+                                      | (1 << (int)Level)
+                                      | (1 << (int)Lure)
+                                      | (1 << (int)Heavy)
+                                      | (1 << (int)Love)
+                                      | (1 << (int)Friend)
+                                      | (1 << (int)Moon);
 
-    private static readonly HashSet<int> WildPokeBalls4_DPPt = new(WildPokeBalls3)
-    {
-        (int)Dusk, (int)Heal, (int)Quick,
-    };
+    private const ulong WildPokeEnhance3 = (1 << (int)Net)
+                                         | (1 << (int)Dive)
+                                         | (1 << (int)Nest)
+                                         | (1 << (int)Repeat)
+                                         | (1 << (int)Timer)
+                                         | (1 << (int)Luxury)
+                                         | (1 << (int)Premier);
 
-    private static readonly HashSet<int> WildPokeBalls4_HGSS = new(WildPokeBalls4_DPPt)
-    {
-        (int)Fast, (int)Level, (int)Lure, (int)Heavy, (int)Love, (int)Friend, (int)Moon,
-    };
+    private const ulong WildPokeEnhance4 = (1 << (int)Dusk) | (1 << (int)Heal) | (1 << (int)Quick);
+    private const ulong WildPokeEnhance5 = (1 << (int)Dream);
+    private const ulong WildPokeEnhance7 = (1 << (int)Beast);
+    private const ulong WildPokeEnhance8 = (1 << (int)Dream) | (1 << (int)Safari) | (1 << (int)Sport);
 
-    private static readonly HashSet<int> WildPokeBalls5 = WildPokeBalls4_DPPt;
+    private const ulong WildPokeBalls8a =
+      (1ul << (int)LAPoke)
+    | (1ul << (int)LAGreat)
+    | (1ul << (int)LAUltra)
+    | (1ul << (int)LAFeather)
+    | (1ul << (int)LAWing)
+    | (1ul << (int)LAJet)
+    | (1ul << (int)LAHeavy)
+    | (1ul << (int)LALeaden)
+    | (1ul << (int)LAGigaton);
 
-    internal static readonly HashSet<int> DreamWorldBalls = new(WildPokeBalls5) {(int)Dream};
+    private const ulong WildPokeBalls1 = 1 << (int)Poke;
+    private const ulong WildPokeBalls2 = WildPokeBalls1;
+    private const ulong WildPokeBalls3 = WildPokeRegular | WildPokeEnhance3;
+    private const ulong WildPokeBalls4_DPPt = WildPokeBalls3 | WildPokeEnhance4;
+    private const ulong WildPokeBalls4_HGSS = WildPokeBalls4_DPPt | WildPokeKurt4;
+    private const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;
 
-    internal static readonly HashSet<int> WildPokeballs6 = WildPokeBalls5; // Same as Gen5
+    internal const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
+    internal const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
+    internal const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HGSS + Beast
+    internal const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
-    internal static readonly HashSet<int> WildPokeballs7 = new(WildPokeBalls4_HGSS) {(int)Beast}; // Same as HGSS + Beast
-
-    private static readonly HashSet<int> WildPokeballs7b = new()
-    {
-        (int)Master, (int)Ultra, (int)Great, (int)Poke,
-        (int)Premier,
-    };
-
-    private static readonly HashSet<int> WildPokeballs8g = new()
-    {
-        (int)Ultra, (int)Great, (int)Poke,
-        (int)Premier,
-    };
-
-    internal static readonly HashSet<int> WildPokeballs8 = new(WildPokeballs7) // All Except Cherish
-    {
-        (int)Dream,
-        (int)Safari,
-        (int)Sport,
-        // no cherish ball
-    };
-
-    private static readonly HashSet<int> WildPokeBalls8a = new()
-    {
-        (int)LAPoke,
-        (int)LAGreat,
-        (int)LAUltra,
-
-        (int)LAFeather,
-        (int)LAWing,
-        (int)LAJet,
-
-        (int)LAHeavy,
-        (int)LALeaden,
-        (int)LAGigaton,
-    };
+    private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
+    private const ulong WildPokeballs8g = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;
 
@@ -188,7 +187,7 @@ public sealed class BallVerifier : Verifier
 
         if (species > 650 && species != 700) // Sylveon
         {
-            if (BallUseLegality.WildPokeballs6.Contains(pk.Ball))
+            if (IsBallPermitted(BallUseLegality.WildPokeballs6, pk.Ball))
                 return GetValid(LBallSpeciesPass);
             return GetInvalid(LBallSpecies);
         }
@@ -288,7 +287,7 @@ public sealed class BallVerifier : Verifier
         var pk = data.Entity;
         Ball ball = (Ball)pk.Ball;
         var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
-        if (balls.Contains((int)ball))
+        if (IsBallPermitted(balls, (int)ball))
             return GetValid(LBallSpeciesPass);
 
         if (species is (int)Species.Spinda)
@@ -297,7 +296,7 @@ public sealed class BallVerifier : Verifier
         // Cross-game inheritance
         if (IsGalarCatchAndBreed(species))
         {
-            if (BallUseLegality.WildPokeballs8.Contains(pk.Ball))
+            if (IsBallPermitted(BallUseLegality.WildPokeballs8, (int)ball))
                 return GetValid(LBallSpeciesPass);
         }
 
@@ -371,7 +370,7 @@ public sealed class BallVerifier : Verifier
 
         if (IsGalarCatchAndBreed(species))
         {
-            if (BallUseLegality.WildPokeballs8.Contains(pk.Ball))
+            if (IsBallPermitted(BallUseLegality.WildPokeballs8, pk.Ball))
                 return GetValid(LBallSpeciesPass);
             if (species >= (int)Species.Grookey)
                 return GetInvalid(LBallSpecies);
@@ -473,7 +472,14 @@ public sealed class BallVerifier : Verifier
     }
 
     private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, HashSet<int> balls) => GetResult(balls.Contains(data.Entity.Ball));
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, ICollection<int> balls) => GetResult(balls.Contains(data.Entity.Ball));
+    private CheckResult VerifyBallEquals(LegalityAnalysis data, ulong permit) => GetResult(IsBallPermitted(permit, data.Entity.Ball));
+
+    private static bool IsBallPermitted(ulong permit, int ball)
+    {
+        if ((uint)ball >= 64)
+            return false;
+        return (permit & (1ul << ball)) != 0;
+    }
+
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }
