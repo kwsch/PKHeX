@@ -36,10 +36,10 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override int Species { get => Data[0]; set => Data[0] = (byte)value; }
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
     public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
-    public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
-    public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
-    public override int Move3 { get => Data[4]; set => Data[4] = (byte)value; }
-    public override int Move4 { get => Data[5]; set => Data[5] = (byte)value; }
+    public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
+    public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
+    public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
+    public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
     public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); } // not 3 bytes like in PK2
     public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }

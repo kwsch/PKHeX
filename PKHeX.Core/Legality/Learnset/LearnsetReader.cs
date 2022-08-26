@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class LearnsetReader
 {
-    private static readonly Learnset EMPTY = new(Array.Empty<int>(), Array.Empty<int>());
+    private static readonly Learnset EMPTY = new(Array.Empty<ushort>(), Array.Empty<byte>());
 
     /// <summary>
     /// Loads a learnset using the 8-bit-per-move storage structure used by Generation 1 &amp; 2 games.
@@ -51,8 +51,8 @@ public static class LearnsetReader
         do { end += 2; } while (data[end] != 0);
 
         var count = (end - offset) / 2;
-        var moves = new int[count];
-        var levels = new int[count];
+        var moves = new ushort[count];
+        var levels = new byte[count];
         for (int i = 0; i < moves.Length; i++)
         {
             levels[i] = data[offset++];
@@ -71,13 +71,13 @@ public static class LearnsetReader
         if (data.Length == 0)
             return EMPTY;
         var count = (data.Length / 4) - 1;
-        var moves = new int[count];
-        var levels = new int[count];
+        var moves = new ushort[count];
+        var levels = new byte[count];
         for (int i = 0; i < count; i++)
         {
             var move = data.Slice(i * 4, 4);
-            levels[i] = ReadInt16LittleEndian(move[2..]);
-            moves[i] = ReadInt16LittleEndian(move);
+            levels[i] = move[2];
+            moves[i] = ReadUInt16LittleEndian(move);
         }
         return new Learnset(moves, levels);
     }

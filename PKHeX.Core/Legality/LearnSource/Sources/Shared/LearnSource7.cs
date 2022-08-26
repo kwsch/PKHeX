@@ -2,7 +2,7 @@ namespace PKHeX.Core;
 
 internal static class LearnSource7
 {
-    internal static readonly int[] TMHM_SM =
+    internal static readonly ushort[] TMHM_SM =
     {
         526, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

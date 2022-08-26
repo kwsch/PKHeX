@@ -71,10 +71,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public abstract int Met_Level { get; set; }
 
     // Battle
-    public abstract int Move1 { get; set; }
-    public abstract int Move2 { get; set; }
-    public abstract int Move3 { get; set; }
-    public abstract int Move4 { get; set; }
+    public abstract ushort Move1 { get; set; }
+    public abstract ushort Move2 { get; set; }
+    public abstract ushort Move3 { get; set; }
+    public abstract ushort Move4 { get; set; }
     public abstract int Move1_PP { get; set; }
     public abstract int Move2_PP { get; set; }
     public abstract int Move3_PP { get; set; }
@@ -220,10 +220,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         }
     }
 
-    public virtual int RelearnMove1 { get => 0; set { } }
-    public virtual int RelearnMove2 { get => 0; set { } }
-    public virtual int RelearnMove3 { get => 0; set { } }
-    public virtual int RelearnMove4 { get => 0; set { } }
+    public virtual ushort RelearnMove1 { get => 0; set { } }
+    public virtual ushort RelearnMove2 { get => 0; set { } }
+    public virtual ushort RelearnMove3 { get => 0; set { } }
+    public virtual ushort RelearnMove4 { get => 0; set { } }
 
     // Exposed but not Present in all
     public abstract int CurrentHandler { get; set; }
@@ -429,15 +429,15 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         }
     }
 
-    public int[] Moves
+    public ushort[] Moves
     {
         get => new[] { Move1, Move2, Move3, Move4 };
         set => SetMoves(value);
     }
 
-    public void PushMove(int move)
+    public void PushMove(ushort move)
     {
-        if (move == 0 || (uint)move >= MaxMoveID || HasMove(move))
+        if (move == 0 || move >= MaxMoveID || HasMove(move))
             return;
 
         var ct = MoveCount;
@@ -449,7 +449,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
 
     public int MoveCount => Convert.ToInt32(Move1 != 0) + Convert.ToInt32(Move2 != 0) + Convert.ToInt32(Move3 != 0) + Convert.ToInt32(Move4 != 0);
 
-    public void GetMoves(Span<int> value)
+    public void GetMoves(Span<ushort> value)
     {
         value[3] = Move4;
         value[2] = Move3;
@@ -465,15 +465,15 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         Move4 = value.Move4;
     }
 
-    public void SetMoves(ReadOnlySpan<int> value)
+    public void SetMoves(ReadOnlySpan<ushort> value)
     {
-        Move1 = value.Length > 0 ? value[0] : 0;
-        Move2 = value.Length > 1 ? value[1] : 0;
-        Move3 = value.Length > 2 ? value[2] : 0;
-        Move4 = value.Length > 3 ? value[3] : 0;
+        Move1 = value.Length > 0 ? value[0] : default;
+        Move2 = value.Length > 1 ? value[1] : default;
+        Move3 = value.Length > 2 ? value[2] : default;
+        Move4 = value.Length > 3 ? value[3] : default;
     }
 
-    public int[] RelearnMoves
+    public ushort[] RelearnMoves
     {
         get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
         set => SetRelearnMoves(value);
@@ -487,12 +487,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         RelearnMove4 = value.Move4;
     }
 
-    public void SetRelearnMoves(IReadOnlyList<int> value)
+    public void SetRelearnMoves(IReadOnlyList<ushort> value)
     {
-        RelearnMove1 = value.Count > 0 ? value[0] : 0;
-        RelearnMove2 = value.Count > 1 ? value[1] : 0;
-        RelearnMove3 = value.Count > 2 ? value[2] : 0;
-        RelearnMove4 = value.Count > 3 ? value[3] : 0;
+        RelearnMove1 = value.Count > 0 ? value[0] : default;
+        RelearnMove2 = value.Count > 1 ? value[1] : default;
+        RelearnMove3 = value.Count > 2 ? value[2] : default;
+        RelearnMove4 = value.Count > 3 ? value[3] : default;
     }
 
     public int PIDAbility
@@ -1017,11 +1017,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
     /// </summary>
-    public bool HasMove(int move) => Move1 == move || Move2 == move || Move3 == move || Move4 == move;
+    public bool HasMove(ushort move) => Move1 == move || Move2 == move || Move3 == move || Move4 == move;
 
-    public int GetMoveIndex(int move) => Move1 == move ? 0 : Move2 == move ? 1 : Move3 == move ? 2 : Move4 == move ? 3 : -1;
+    public int GetMoveIndex(ushort move) => Move1 == move ? 0 : Move2 == move ? 1 : Move3 == move ? 2 : Move4 == move ? 3 : -1;
 
-    public int GetMove(int index) => index switch
+    public ushort GetMove(int index) => index switch
     {
         0 => Move1,
         1 => Move2,
@@ -1030,7 +1030,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         _ => throw new IndexOutOfRangeException(nameof(index)),
     };
 
-    public int SetMove(int index, int value) => index switch
+    public ushort SetMove(int index, ushort value) => index switch
     {
         0 => Move1 = value,
         1 => Move2 = value,
@@ -1039,7 +1039,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         _ => throw new IndexOutOfRangeException(nameof(index)),
     };
 
-    public int GetRelearnMove(int index) => index switch
+    public ushort GetRelearnMove(int index) => index switch
     {
         0 => RelearnMove1,
         1 => RelearnMove2,
@@ -1048,7 +1048,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         _ => throw new IndexOutOfRangeException(nameof(index)),
     };
 
-    public int SetRelearnMove(int index, int value) => index switch
+    public ushort SetRelearnMove(int index, ushort value) => index switch
     {
         0 => RelearnMove1 = value,
         1 => RelearnMove2 = value,
@@ -1060,9 +1060,9 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its relearn move list.
     /// </summary>
-    public bool HasRelearnMove(int move) => RelearnMove1 == move || RelearnMove2 == move || RelearnMove3 == move || RelearnMove4 == move;
+    public bool HasRelearnMove(ushort move) => RelearnMove1 == move || RelearnMove2 == move || RelearnMove3 == move || RelearnMove4 == move;
 
-    public void GetRelearnMoves(Span<int> value)
+    public void GetRelearnMoves(Span<ushort> value)
     {
         value[3] = RelearnMove4;
         value[2] = RelearnMove3;
@@ -1076,7 +1076,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public void ClearInvalidMoves()
     {
         uint invalid = 0;
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         GetMoves(moves);
         for (var i = 0; i < moves.Length; i++)
         {

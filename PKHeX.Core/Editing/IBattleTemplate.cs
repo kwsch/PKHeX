@@ -68,5 +68,5 @@ public interface IBattleTemplate : ISpeciesForm, IGigantamax, IDynamaxLevel, INa
     /// <summary>
     /// <see cref="PKM.Moves"/> of the Set entity.
     /// </summary>
-    int[] Moves { get; }
+    ushort[] Moves { get; }
 }

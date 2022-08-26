@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
@@ -35,7 +35,7 @@ public sealed class SearchSettings
     public IList<string> BatchInstructions { get; init; } = Array.Empty<string>();
     private StringInstruction[] BatchFilters { get; set; } = Array.Empty<StringInstruction>();
 
-    public readonly List<int> Moves = new();
+    public readonly List<ushort> Moves = new();
 
     // ReSharper disable once CollectionNeverUpdated.Global
     /// <summary>
@@ -48,9 +48,9 @@ public sealed class SearchSettings
     /// Adds a move to the required move list.
     /// </summary>
     /// <param name="move"></param>
-    public void AddMove(int move)
+    public void AddMove(ushort move)
     {
-        if (move > 0 && !Moves.Contains(move))
+        if (move != 0 && !Moves.Contains(move))
             Moves.Add(move);
     }
 

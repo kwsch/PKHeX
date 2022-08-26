@@ -31,7 +31,7 @@ public class GeneratorTests
 
         var pk = new PK7 { Species = species };
         pk.Gender = pk.GetSaneGender();
-        var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr);
+        var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr, pk.Moves);
         foreach (var e in ez)
         {
             var la = new LegalityAnalysis(e);

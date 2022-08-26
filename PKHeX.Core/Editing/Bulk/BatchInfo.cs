@@ -14,5 +14,5 @@ public sealed class BatchInfo
     internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
     public bool Legal => Legality.Valid;
-    internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
+    internal IReadOnlyList<ushort> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
 }

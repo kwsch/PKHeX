@@ -160,7 +160,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     {
         if (!Moves.HasMoves) // not completely defined
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             MoveList.GetCurrentMoves(pk, Species, Form, (GameVersion)pk.Version, Level, moves);
             Moves = new((ushort)moves[0], (ushort)moves[1], (ushort)moves[2], (ushort)moves[3]);
         }

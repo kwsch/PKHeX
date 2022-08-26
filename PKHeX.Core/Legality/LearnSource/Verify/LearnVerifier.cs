@@ -16,7 +16,7 @@ internal static class LearnVerifier
         result.Clear();
 
         // Load moves.
-        Span<int> current = stackalloc int[4];
+        Span<ushort> current = stackalloc ushort[4];
         pk.GetMoves(current);
 
         // Verify the moves.
@@ -26,7 +26,7 @@ internal static class LearnVerifier
         Finalize(result, current);
     }
 
-    private static void VerifyMoves(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, IEncounterTemplate enc, EvolutionHistory history)
+    private static void VerifyMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, IEncounterTemplate enc, EvolutionHistory history)
     {
         if (pk.IsEgg)
             LearnVerifierEgg.Verify(result, current, enc, pk);
@@ -34,7 +34,7 @@ internal static class LearnVerifier
             LearnVerifierHistory.Verify(result, current, enc, pk, history);
     }
 
-    private static void Finalize(Span<MoveResult> result, ReadOnlySpan<int> current)
+    private static void Finalize(Span<MoveResult> result, ReadOnlySpan<ushort> current)
     {
         // Flag duplicate move indexes.
         VerifyNoEmptyDuplicates(result, current);
@@ -44,7 +44,7 @@ internal static class LearnVerifier
             result[0] = EmptyInvalid;
     }
 
-    private static void VerifyNoEmptyDuplicates(Span<MoveResult> result, ReadOnlySpan<int> current)
+    private static void VerifyNoEmptyDuplicates(Span<MoveResult> result, ReadOnlySpan<ushort> current)
     {
         bool emptySlot = false;
         for (int i = 0; i < result.Length; i++)
@@ -69,7 +69,7 @@ internal static class LearnVerifier
         }
     }
 
-    private static void FlagDuplicateMovesAfterIndex(Span<MoveResult> result, ReadOnlySpan<int> current, int index, int move)
+    private static void FlagDuplicateMovesAfterIndex(Span<MoveResult> result, ReadOnlySpan<ushort> current, int index, ushort move)
     {
         for (int i = result.Length - 1; i > index; i--)
         {
@@ -80,7 +80,7 @@ internal static class LearnVerifier
         }
     }
 
-    private static void FlagEmptySlotsBeforeIndex(Span<MoveResult> result, ReadOnlySpan<int> current, int index)
+    private static void FlagEmptySlotsBeforeIndex(Span<MoveResult> result, ReadOnlySpan<ushort> current, int index)
     {
         for (int i = index - 1; i >= 0; i--)
         {

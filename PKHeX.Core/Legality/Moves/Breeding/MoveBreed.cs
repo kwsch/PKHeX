@@ -18,7 +18,7 @@ public static class MoveBreed
     /// <param name="moves">Moves the egg supposedly originated with</param>
     /// <param name="origins">Output buffer indicating the origin of each index within <see cref="moves"/></param>
     /// <returns>True if the moves are ordered correctly, without missing moves.</returns>
-    public static bool Validate(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins) => generation switch
+    public static bool Validate(int generation, int species, int form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins) => generation switch
     {
         2 => MoveBreed2.Validate(species, version, moves, origins),
         3 => MoveBreed3.Validate(species, version, moves, origins),
@@ -35,7 +35,7 @@ public static class MoveBreed
     /// <param name="result">Result moves that are valid</param>
     /// <remarks>Validates the requested moves first prior to trying a more expensive computation.</remarks>
     /// <returns>True if the <see cref="result"/> is valid using the input <see cref="moves"/>. If not valid, the <see cref="result"/> will be base egg moves, probably valid.</returns>
-    public static bool GetExpectedMoves(ReadOnlySpan<int> moves, IEncounterTemplate enc, Span<int> result)
+    public static bool GetExpectedMoves(ReadOnlySpan<ushort> moves, IEncounterTemplate enc, Span<ushort> result)
     {
         Span<byte> origins = stackalloc byte[moves.Length];
         var valid = Validate(enc.Generation, enc.Species, enc.Form, enc.Version, moves, origins);
@@ -53,7 +53,7 @@ public static class MoveBreed
     /// <remarks>Uses inputs calculated from <see cref="Validate"/>. Don't call this directly unless already parsed the input as invalid.</remarks>
     /// <returns>Expected moves for the encounter</returns>
     /// <inheritdoc cref="Validate"/>
-    public static bool GetExpectedMoves(int generation, int species, int form, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins, Span<int> result)
+    public static bool GetExpectedMoves(int generation, int species, int form, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<ushort> result)
     {
         // Try rearranging the order of the moves.
         // Group and order moves by their possible origin flags.
@@ -89,13 +89,14 @@ public static class MoveBreed
             return true;
 
         // Total failure; just return the base moves.
-        baseMoves.CopyTo(result);
+        for (int i = 0; i < baseMoves.Length; i++)
+            result[i] = baseMoves[i];
         for (int i = baseMoves.Length; i < result.Length; i++)
             result[i] = 0;
         return false;
     }
 
-    private static void GetSortedMoveOrder(int generation, ReadOnlySpan<int> moves, Span<byte> origins, Span<MoveOrder> expected)
+    private static void GetSortedMoveOrder(int generation, ReadOnlySpan<ushort> moves, Span<byte> origins, Span<MoveOrder> expected)
     {
         if (generation == 2)
         {
@@ -112,7 +113,7 @@ public static class MoveBreed
             int insertIndex = GetInsertIndex(expected, origin, count);
             if (insertIndex < count)
                 ShiftAllItems(expected, insertIndex);
-            expected[insertIndex] = new MoveOrder((ushort)moves[i], origin);
+            expected[insertIndex] = new MoveOrder(moves[i], origin);
             count++;
         }
     }
@@ -125,7 +126,7 @@ public static class MoveBreed
             details[i] = details[i - 1];
     }
 
-    private static void GetSortedMoveOrder2(ReadOnlySpan<int> moves, Span<byte> origins, Span<MoveOrder> expected)
+    private static void GetSortedMoveOrder2(ReadOnlySpan<ushort> moves, Span<byte> origins, Span<MoveOrder> expected)
     {
         // Base moves first, then non-base.
         // Empty/invalid move slots are ignored -- default struct value is an empty move.
@@ -139,7 +140,7 @@ public static class MoveBreed
                 continue;
 
             int index = origin == (byte)EggSource2.Base ? ctrBase++ : baseMoves + ctrNonBase++;
-            expected[index] = new MoveOrder((ushort)moves[i], origin);
+            expected[index] = new MoveOrder(moves[i], origin);
         }
     }
 
@@ -156,11 +157,11 @@ public static class MoveBreed
         return i;
     }
 
-    private static void RebuildMoves(ReadOnlySpan<int> baseMoves, ReadOnlySpan<MoveOrder> expected, Span<int> result)
+    private static void RebuildMoves(ReadOnlySpan<ushort> baseMoves, ReadOnlySpan<MoveOrder> expected, Span<ushort> result)
     {
         // Build a list of moves that are not present in the base moves list.
         // Use the expected order (sorted by origin flags) when assembling the result.
-        Span<int> notBase = stackalloc int[expected.Length];
+        Span<ushort> notBase = stackalloc ushort[expected.Length];
         int notBaseCount = 0;
         foreach (var (move, origin) in expected)
         {

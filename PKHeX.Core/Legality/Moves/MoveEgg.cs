@@ -7,15 +7,15 @@ namespace PKHeX.Core;
 
 public static class MoveEgg
 {
-    public static int[] GetEggMoves(int species, int form, GameVersion version, int generation)
+    public static ushort[] GetEggMoves(int species, int form, GameVersion version, int generation)
     {
         if (!Breeding.CanGameGenerateEggs(version))
-            return Array.Empty<int>();
+            return Array.Empty<ushort>();
 
         return GetEggMoves(generation, species, form, version);
     }
 
-    public static int[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
+    public static ushort[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
     {
         1 or 2 => GetMovesSafe(version == C ? EggMovesC : EggMovesGS, species),
         3 => GetMovesSafe(EggMovesRS, species),
@@ -30,20 +30,20 @@ public static class MoveEgg
         7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
         8 when version is SW or SH => GetFormEggMoves(species, form, EggMovesSWSH),
         8 when version is BD or SP => GetMovesSafe(EggMovesBDSP, species),
-        _ => Array.Empty<int>(),
+        _ => Array.Empty<ushort>(),
     };
 
-    private static int[] GetMovesSafe<T>(IReadOnlyList<T> moves, int species) where T : EggMoves
+    private static ushort[] GetMovesSafe<T>(IReadOnlyList<T> moves, int species) where T : EggMoves
     {
         if ((uint)species >= moves.Count)
-            return Array.Empty<int>();
+            return Array.Empty<ushort>();
         return moves[species].Moves;
     }
 
-    public static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
+    public static ushort[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
     {
         if ((uint)species >= table.Count)
-            return Array.Empty<int>();
+            return Array.Empty<ushort>();
 
         var entry = table[species];
         if (form <= 0 || entry.FormTableIndex <= species)
@@ -53,10 +53,10 @@ public static class MoveEgg
         var baseIndex = entry.FormTableIndex;
         var index = baseIndex + form - 1;
         if ((uint)index >= table.Count)
-            return Array.Empty<int>();
+            return Array.Empty<ushort>();
         entry = table[index];
         if (entry.FormTableIndex != baseIndex)
-            return Array.Empty<int>();
+            return Array.Empty<ushort>();
 
         return entry.Moves;
     }

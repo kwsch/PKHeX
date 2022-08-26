@@ -2,7 +2,7 @@ namespace PKHeX.Core;
 
 internal static class LearnSource2
 {
-    internal static readonly int[] TMHM_GSC =
+    internal static readonly ushort[] TMHM_GSC =
     {
         223, 029, 174, 205, 046, 092, 192, 249, 244, 237,
         241, 230, 173, 059, 063, 196, 182, 240, 202, 203,
@@ -13,5 +13,5 @@ internal static class LearnSource2
         015, 019, 057, 070, 148, 250, 127,
     };
 
-    internal static readonly int[] Tutors_GSC = { (int)Move.Flamethrower, (int)Move.Thunderbolt, (int)Move.IceBeam };
+    internal static readonly ushort[] Tutors_GSC = { (int)Move.Flamethrower, (int)Move.Thunderbolt, (int)Move.IceBeam };
 }

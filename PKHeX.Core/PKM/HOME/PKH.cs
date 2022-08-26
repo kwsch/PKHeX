@@ -183,10 +183,10 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
 
     #region Children
 
-    public override int Move1       { get => LatestGameData.Move1      ; set => LatestGameData.Move1       = value; }
-    public override int Move2       { get => LatestGameData.Move2      ; set => LatestGameData.Move2       = value; }
-    public override int Move3       { get => LatestGameData.Move3      ; set => LatestGameData.Move3       = value; }
-    public override int Move4       { get => LatestGameData.Move4      ; set => LatestGameData.Move4       = value; }
+    public override ushort Move1       { get => LatestGameData.Move1      ; set => LatestGameData.Move1       = value; }
+    public override ushort Move2       { get => LatestGameData.Move2      ; set => LatestGameData.Move2       = value; }
+    public override ushort Move3       { get => LatestGameData.Move3      ; set => LatestGameData.Move3       = value; }
+    public override ushort Move4       { get => LatestGameData.Move4      ; set => LatestGameData.Move4       = value; }
     public override int Move1_PP    { get => LatestGameData.Move1_PP   ; set => LatestGameData.Move1_PP    = value; }
     public override int Move2_PP    { get => LatestGameData.Move2_PP   ; set => LatestGameData.Move2_PP    = value; }
     public override int Move3_PP    { get => LatestGameData.Move3_PP   ; set => LatestGameData.Move3_PP    = value; }

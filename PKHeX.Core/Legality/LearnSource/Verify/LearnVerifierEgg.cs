@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class LearnVerifierEgg
 {
-    public static void Verify(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
+    public static void Verify(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk)
     {
         if (enc.Generation >= 6)
             VerifyFromRelearn(result, current, enc, pk);
@@ -15,7 +15,7 @@ internal static class LearnVerifierEgg
             VerifyPre3DS(result, current, enc);
     }
 
-    private static void VerifyPre3DS(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
+    private static void VerifyPre3DS(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
         if (enc is EncounterEgg e)
             LearnVerifierRelearn.VerifyEggMoveset(e, result, current);
@@ -23,7 +23,7 @@ internal static class LearnVerifierEgg
             VerifyFromEncounter(result, current, enc);
     }
 
-    private static void VerifyFromEncounter(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
+    private static void VerifyFromEncounter(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
@@ -31,12 +31,12 @@ internal static class LearnVerifierEgg
         }
         else
         {
-            ReadOnlySpan<int> initial = GameData.GetLearnset(enc.Version, enc.Species, enc.Form).GetBaseEggMoves(enc.LevelMin);
+            ReadOnlySpan<ushort> initial = GameData.GetLearnset(enc.Version, enc.Species, enc.Form).GetBaseEggMoves(enc.LevelMin);
             VerifyMovesInitial(result, current, initial);
         }
     }
 
-    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, Moveset initial)
+    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<ushort> current, Moveset initial)
     {
         // Check that the sequence of current move matches the initial move sequence.
         int i = 0;
@@ -60,7 +60,7 @@ internal static class LearnVerifierEgg
             result[i] = current[i] == 0 ? MoveResult.Empty : MoveResult.Unobtainable(0);
     }
 
-    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<int> current, ReadOnlySpan<int> initial)
+    private static void VerifyMovesInitial(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> initial)
     {
         // Check that the sequence of current move matches the initial move sequence.
         for (int i = 0; i < initial.Length; i++)
@@ -69,7 +69,7 @@ internal static class LearnVerifierEgg
             result[i] = current[i] == 0 ? MoveResult.Empty : MoveResult.Unobtainable(0);
     }
 
-    private static void VerifyFromRelearn(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
+    private static void VerifyFromRelearn(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk)
     {
         if (enc is EncounterEgg)
             VerifyMatchesRelearn(result, current, pk);
@@ -79,14 +79,14 @@ internal static class LearnVerifierEgg
             VerifyFromEncounter(result, current, enc);
     }
 
-    private static void VerifyMatchesRelearn(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk)
+    private static void VerifyMatchesRelearn(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk)
     {
         // Check that the sequence of current move matches the relearn move sequence.
         for (int i = 0; i < result.Length; i++)
             result[i] = GetMethodRelearn(current[i], pk.GetRelearnMove(i));
     }
 
-    private static MoveResult GetMethodInitial(int current, int initial)
+    private static MoveResult GetMethodInitial(ushort current, ushort initial)
     {
         if (current != initial)
             return MoveResult.Unobtainable(initial);
@@ -95,7 +95,7 @@ internal static class LearnVerifierEgg
         return MoveResult.Initial;
     }
 
-    private static MoveResult GetMethodRelearn(int current, int relearn)
+    private static MoveResult GetMethodRelearn(ushort current, ushort relearn)
     {
         if (current != relearn)
             return MoveResult.Unobtainable(relearn);

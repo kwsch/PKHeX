@@ -270,7 +270,7 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
-    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
+    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, ushort[] moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {
@@ -314,7 +314,7 @@ public partial class SAV_Encounters : Form
         }
     }
 
-    private static IEnumerable<IEncounterInfo> GetEncounters(int species, int form, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
+    private static IEnumerable<IEncounterInfo> GetEncounters(int species, int form, ushort[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
     {
         pk.Species = species;
         pk.Form = form;
@@ -335,10 +335,10 @@ public partial class SAV_Encounters : Form
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move4));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
 
         if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
             settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;

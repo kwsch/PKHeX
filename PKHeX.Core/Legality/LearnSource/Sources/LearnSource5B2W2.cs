@@ -29,7 +29,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(int species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -37,14 +37,14 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -69,7 +69,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
     {
         var tutors = Tutors_B2W2;
         for (int i = 0; i < tutors.Length; i++)
@@ -84,7 +84,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return false;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
     {
         (int)Species.Keldeo => move is (int)Move.SecretSword,
         (int)Species.Meloetta => move is (int)Move.RelicSong,
@@ -100,7 +100,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, int move)
+    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
@@ -108,7 +108,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)
@@ -183,11 +183,11 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         }
     }
 
-    internal static readonly int[][] Tutors_B2W2 =
+    internal static readonly ushort[][] Tutors_B2W2 =
     {
-        new[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 },           // Driftveil City
-        new[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }, // Lentimas Town
-        new[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 },                     // Humilau City
-        new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 },           // Nacrene City
+        new ushort[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 },           // Driftveil City
+        new ushort[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }, // Lentimas Town
+        new ushort[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 },                     // Humilau City
+        new ushort[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 },           // Nacrene City
     };
 }

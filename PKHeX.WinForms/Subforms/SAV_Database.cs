@@ -504,10 +504,10 @@ public partial class SAV_Database : Form
             IVType = CB_IV.SelectedIndex,
         };
 
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move4));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
 
         if (CHK_Shiny.CheckState != CheckState.Indeterminate)
             settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;

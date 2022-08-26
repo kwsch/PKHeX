@@ -61,7 +61,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
         var pa8 = (PA8)pk;
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         var (learn, mastery) = GetLevelUpInfo();
         LoadInitialMoveset(pa8, moves, learn, level);
         pk.SetMoves(moves);
@@ -69,7 +69,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         pa8.SetEncounterMasteryFlags(moves, mastery, level);
     }
 
-    public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
+    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)
     {
         if (pa8.AlphaMove != 0)
         {
@@ -177,7 +177,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
             return false;
 
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         var mastery = Legal.MasteryLA[index];
         if (pk is PA8 { AlphaMove: not 0 } pa8)
         {

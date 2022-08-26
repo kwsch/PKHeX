@@ -174,5 +174,5 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
     /// </summary>
-    public bool HasMove(int move) => Moves.Contains(move);
+    public bool HasMove(ushort move) => Moves.Contains(move);
 }

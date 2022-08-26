@@ -135,7 +135,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         pk.SetMaximumPPCurrent(moves);
     }
 
-    public ReadOnlySpan<int> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
+    public ReadOnlySpan<ushort> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

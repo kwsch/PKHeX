@@ -66,7 +66,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int HiddenPowerType { get; set; } = -1;
 
     /// <inheritdoc/>
-    public int[] Moves { get; } = {0, 0, 0, 0};
+    public ushort[] Moves { get; } = {0, 0, 0, 0};
 
     /// <inheritdoc/>
     public bool CanGigantamax { get; set; }
@@ -159,10 +159,10 @@ public sealed class ShowdownSet : IBattleTemplate
                 int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
                 if (move < 0)
                     InvalidLines.Add($"Unknown Move: {moveString}");
-                else if (Array.IndexOf(Moves, move) != -1)
+                else if (Array.IndexOf(Moves, (ushort)move) != -1)
                     InvalidLines.Add($"Duplicate Move: {moveString}");
                 else
-                    Moves[movectr++] = move;
+                    Moves[movectr++] = (ushort)move;
 
                 if (movectr == MaxMoveCount)
                     return; // End of moves, end of set data
@@ -370,7 +370,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private IEnumerable<string> GetStringMoves()
     {
         var moves = Strings.Move;
-        foreach (int move in Moves)
+        foreach (var move in Moves)
         {
             if (move == 0 || (uint)move >= moves.Count)
                 continue;
@@ -425,7 +425,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (pk is IDynamaxLevel d)
             DynamaxLevel = d.DynamaxLevel;
 
-        if (Array.IndexOf(Moves, (int)Move.HiddenPower) != -1)
+        if (Array.IndexOf(Moves, (ushort)Move.HiddenPower) != -1)
             HiddenPowerType = HiddenPower.GetType(IVs, Context);
         if (pk is IHyperTrain h)
         {

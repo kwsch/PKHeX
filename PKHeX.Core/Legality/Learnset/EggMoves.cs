@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class EggMoves
 {
-    public readonly int[] Moves;
-    protected EggMoves(int[] moves) => Moves = moves;
-    public bool GetHasEggMove(int move) => Array.IndexOf(Moves, move) != -1;
+    public readonly ushort[] Moves;
+    protected EggMoves(ushort[] moves) => Moves = moves;
+    public bool GetHasEggMove(ushort move) => Array.IndexOf(Moves, move) != -1;
 }
 
 /// <summary>
@@ -18,12 +18,12 @@ public abstract class EggMoves
 /// </summary>
 public sealed class EggMoves2 : EggMoves
 {
-    private EggMoves2(int[] moves) : base(moves) { }
+    private EggMoves2(ushort[] moves) : base(moves) { }
 
     public static EggMoves2[] GetArray(ReadOnlySpan<byte> data, int count)
     {
         var entries = new EggMoves2[count + 1];
-        var empty = entries[0] = new EggMoves2(Array.Empty<int>());
+        var empty = entries[0] = new EggMoves2(Array.Empty<ushort>());
 
         int baseOffset = ReadInt16LittleEndian(data) - (count * 2);
         for (int i = 1; i < entries.Length; i++)
@@ -37,7 +37,7 @@ public sealed class EggMoves2 : EggMoves
                 continue;
             }
 
-            int[] moves = new int[moveCount];
+            var moves = new ushort[moveCount];
             for (int m = 0; m < moves.Length; m++)
                 moves[m] = slice[m];
 
@@ -53,12 +53,12 @@ public sealed class EggMoves2 : EggMoves
 /// </summary>
 public sealed class EggMoves6 : EggMoves
 {
-    private EggMoves6(int[] moves) : base(moves) { }
+    private EggMoves6(ushort[] moves) : base(moves) { }
 
     public static EggMoves6[] GetArray(BinLinkerAccessor entries)
     {
         var result = new EggMoves6[entries.Length];
-        var empty = result[0] = new EggMoves6(Array.Empty<int>());
+        var empty = result[0] = new EggMoves6(Array.Empty<ushort>());
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];
@@ -69,10 +69,10 @@ public sealed class EggMoves6 : EggMoves
                 continue;
             }
 
-            var moves = new int[count];
+            var moves = new ushort[count];
             var span = data[2..];
             for (int j = 0; j < moves.Length; j++)
-                moves[j] = ReadInt16LittleEndian(span[(j * 2)..]);
+                moves[j] = ReadUInt16LittleEndian(span[(j * 2)..]);
             result[i] = new EggMoves6(moves);
         }
         return result;
@@ -89,12 +89,12 @@ public sealed class EggMoves7 : EggMoves
     /// </summary>
     public readonly int FormTableIndex;
 
-    private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
+    private EggMoves7(ushort[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
 
     public static EggMoves7[] GetArray(BinLinkerAccessor entries)
     {
         var result = new EggMoves7[entries.Length];
-        var empty = result[0] = new EggMoves7(Array.Empty<int>());
+        var empty = result[0] = new EggMoves7(Array.Empty<ushort>());
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];
@@ -104,16 +104,16 @@ public sealed class EggMoves7 : EggMoves
             {
                 // Might need to keep track of the Form Index for unavailable forms pointing to valid forms.
                 if (formIndex != 0)
-                    result[i] = new EggMoves7(Array.Empty<int>(), formIndex);
+                    result[i] = new EggMoves7(Array.Empty<ushort>(), formIndex);
                 else
                     result[i] = empty;
                 continue;
             }
 
-            var moves = new int[count];
+            var moves = new ushort[count];
             var span = data[4..];
             for (int j = 0; j < moves.Length; j++)
-                moves[j] = ReadInt16LittleEndian(span[(j * 2)..]);
+                moves[j] = ReadUInt16LittleEndian(span[(j * 2)..]);
             result[i] = new EggMoves7(moves, formIndex);
         }
         return result;

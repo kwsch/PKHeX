@@ -46,10 +46,10 @@ public sealed class PK1 : GBPKML
     public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
     public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
     public byte Catch_Rate { get => Data[7]; set => Data[7] = value; }
-    public override int Move1 { get => Data[8]; set => Data[8] = (byte)value; }
-    public override int Move2 { get => Data[9]; set => Data[9] = (byte)value; }
-    public override int Move3 { get => Data[10]; set => Data[10] = (byte)value; }
-    public override int Move4 { get => Data[11]; set => Data[11] = (byte)value; }
+    public override ushort Move1 { get => Data[8]; set => Data[8] = (byte)value; }
+    public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
+    public override ushort Move3 { get => Data[10]; set => Data[10] = (byte)value; }
+    public override ushort Move4 { get => Data[11]; set => Data[11] = (byte)value; }
     public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), (ushort)value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0xE)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(0xE), (value << 8) | Data[0x11]); }
     public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x11)); set => WriteUInt16BigEndian(Data.AsSpan(0x11), (ushort)value); }

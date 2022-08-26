@@ -141,28 +141,28 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
     }
 
-    public override int Move1
+    public override ushort Move1
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x5A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value);
     }
 
-    public override int Move2
+    public override ushort Move2
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x5C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value);
     }
 
-    public override int Move3
+    public override ushort Move3
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x5E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value);
     }
 
-    public override int Move4
+    public override ushort Move4
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x60));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x60), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x60), value);
     }
 
     public override int Move1_PP { get => Data[0x62]; set => Data[0x62] = (byte)value; }
@@ -174,28 +174,28 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int Move3_PPUps { get => Data[0x68]; set => Data[0x68] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x69]; set => Data[0x69] = (byte)value; }
 
-    public override int RelearnMove1
+    public override ushort RelearnMove1
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value);
     }
 
-    public override int RelearnMove2
+    public override ushort RelearnMove2
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x6C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6C), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x6C), value);
     }
 
-    public override int RelearnMove3
+    public override ushort RelearnMove3
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x6E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6E), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x6E), value);
     }
 
-    public override int RelearnMove4
+    public override ushort RelearnMove4
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x70));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x70), value);
     }
 
     // 0x72 Unused

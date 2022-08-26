@@ -129,29 +129,29 @@ public static class MemoryPermissions
         return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
     }
 
-    public static bool GetCanRelearnMove(PKM pk, int move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
+    public static bool GetCanRelearnMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (context == EntityContext.Gen6)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<int> moves = stackalloc int[] { move };
+            Span<ushort> moves = stackalloc ushort[] { move };
             LearnGroup6.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         if (context == EntityContext.Gen8)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<int> moves = stackalloc int[] { move };
+            Span<ushort> moves = stackalloc ushort[] { move };
             LearnGroup8.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         return false;
     }
 
-    private static bool GetCanKnowMove(PKM pk, int move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
+    private static bool GetCanKnowMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (pk.Species == (int)Smeargle)
-            return MoveInfo.IsValidSketch((ushort)move, context);
+            return MoveInfo.IsValidSketch(move, context);
 
         ILearnGroup game;
         if (context == EntityContext.Gen6)
@@ -162,7 +162,7 @@ public static class MemoryPermissions
             return false;
 
         Span<MoveResult> result = stackalloc MoveResult[1];
-        Span<int> moves = stackalloc int[] { move };
+        Span<ushort> moves = stackalloc ushort[] { move };
         LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);
         return result[0].Valid;
     }

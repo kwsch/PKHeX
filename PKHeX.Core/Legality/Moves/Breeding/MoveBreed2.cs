@@ -15,9 +15,9 @@ public static class MoveBreed2
     private const int level = 5;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
-    public static bool Validate(int species, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins)
+    public static bool Validate(int species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
     {
-        var count = moves.IndexOf(0);
+        var count = moves.IndexOf((ushort)0);
         if (count == 0)
             return false;
         if (count == -1)
@@ -136,7 +136,7 @@ public static class MoveBreed2
             if (!isBase)
                 continue;
 
-            var baseIndex = baseMoves.IndexOf(moves[i]);
+            var baseIndex = baseMoves.IndexOf((ushort)moves[i]);
             var min = moves.Length - baseMoves.Length + baseIndex;
             if (i < min + count)
                 return false;
@@ -145,7 +145,7 @@ public static class MoveBreed2
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
     {
         var possible = value.Possible;
         var learn = value.Learnset;
@@ -155,7 +155,7 @@ public static class MoveBreed2
         var moves = value.Moves;
         for (int i = 0; i < count; i++)
         {
-            var move = moves[i];
+            var move = (ushort)moves[i];
 
             if (baseEgg.IndexOf(move) != -1)
                 possible[i] |= 1 << (int)Base;

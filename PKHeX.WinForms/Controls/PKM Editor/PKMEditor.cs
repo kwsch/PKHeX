@@ -360,7 +360,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (isIllegal)
             return Resources.warn;
-        if (pk.Format >= 8 && MoveInfo.GetDummiedMovesHashSet(pk.Context).Contains((ushort)pk.GetMove(index)))
+        if (pk.Format >= 8 && MoveInfo.GetDummiedMovesHashSet(pk.Context).Contains(pk.GetMove(index)))
             return Resources.hint;
         return null;
     }
@@ -721,7 +721,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return false;
         }
 
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         Entity.GetMoves(moves);
         if (moves.SequenceEqual(m))
             return false;
@@ -761,10 +761,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 return false;
         }
 
-        CB_RelearnMove1.SelectedValue = m[0];
-        CB_RelearnMove2.SelectedValue = m[1];
-        CB_RelearnMove3.SelectedValue = m[2];
-        CB_RelearnMove4.SelectedValue = m[3];
+        CB_RelearnMove4.SelectedValue = (int)m[3];
+        CB_RelearnMove3.SelectedValue = (int)m[2];
+        CB_RelearnMove2.SelectedValue = (int)m[1];
+        CB_RelearnMove1.SelectedValue = (int)m[0];
         return true;
     }
 
@@ -1640,7 +1640,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         ValidateComboBox(cb);
 
         // Store value back, repopulate legality.
-        int value = WinFormsUtil.GetIndex(cb);
+        var value = (ushort)WinFormsUtil.GetIndex(cb);
         int index = Array.IndexOf(Moves, cb);
         if (index != -1)
         {
@@ -1653,7 +1653,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         else if (cb == CB_AlphaMastered && Entity is PA8 pa8)
         {
-            pa8.AlphaMove = (ushort)value;
+            pa8.AlphaMove = value;
         }
         else
         {
@@ -1669,7 +1669,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         var (text, value) = (ComboItem)((ComboBox)sender).Items[e.Index];
-        var valid = LegalMoveSource.Info.CanLearn(value) && !HaX;
+        var valid = LegalMoveSource.Info.CanLearn((ushort)value) && !HaX;
 
         var current = (e.State & DrawItemState.Selected) != 0;
         var brush = Draw.Brushes.GetBackground(valid, current);
@@ -1754,7 +1754,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (ModifierKeys == Keys.Shift)
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             Entity.GetMoves(moves);
             t.SetRecordFlags(moves);
             UpdateLegality();

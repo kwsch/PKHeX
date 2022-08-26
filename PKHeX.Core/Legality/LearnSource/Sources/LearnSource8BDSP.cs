@@ -28,7 +28,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(int species, int form, ushort move)
     {
         // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
         var arr = EggMoves;
@@ -38,16 +38,16 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
     {
         // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
         var arr = EggMoves;
         if ((uint)species >= arr.Length)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return arr[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -72,7 +72,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
     {
         (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
         (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
@@ -82,7 +82,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         _ => false,
     };
 
-    private bool GetIsSharedEggMove(PersonalInfo pi, int move)
+    private bool GetIsSharedEggMove(PersonalInfo pi, ushort move)
     {
         var entry = (PersonalInfo8BDSP)pi;
         var baseSpecies = entry.HatchSpecies;
@@ -90,7 +90,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, int move)
+    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor8b, move);
         if (index == -1)
@@ -98,7 +98,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BDSP, move);
         if (index == -1)
@@ -163,7 +163,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         }
     }
 
-    public static readonly int[] TMHM_BDSP =
+    public static readonly ushort[] TMHM_BDSP =
     {
         264, 337, 352, 347, 046, 092, 258, 339, 331, 526,
         241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
@@ -178,7 +178,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         015, 019, 057, 070, 432, 249, 127, 431,
     };
 
-    internal static readonly int[] TypeTutor8b =
+    internal static readonly ushort[] TypeTutor8b =
     {
         (int)Move.FrenzyPlant,
         (int)Move.BlastBurn,

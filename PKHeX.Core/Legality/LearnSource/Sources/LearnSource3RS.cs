@@ -31,7 +31,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(int species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,14 +39,14 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -70,7 +70,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsTutor(int species, int move)
+    private static bool GetIsTutor(int species, ushort move)
     {
         // XD (Mew)
         if (species == (int)Species.Mew && Tutor_3Mew.AsSpan().IndexOf(move) != -1)
@@ -85,7 +85,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         };
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TM_3, move);
         if (index == -1)
@@ -93,7 +93,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, int move)
+    private static bool GetIsHM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(HM_3, move);
         if (index == -1)
@@ -156,7 +156,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         }
     }
 
-    private static readonly int[] Tutor_3Mew =
+    private static readonly ushort[] Tutor_3Mew =
     {
         (int)Move.FeintAttack,
         (int)Move.FakeOut,

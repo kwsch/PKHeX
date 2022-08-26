@@ -37,13 +37,13 @@ public sealed class LegalMoveComboSource : ILegalMoveDisplaySource<ComboItem>
     // defer re-population until dropdown is opened; handled by dropdown event
     private void ClearUpdateCheck() => Array.Clear(IsMoveBoxOrdered, 0, IsMoveBoxOrdered.Length);
 
-    private static int Compare(ComboItem i1, ComboItem i2, Func<int, bool> check)
+    private static int Compare(ComboItem i1, ComboItem i2, Func<ushort, bool> check)
     {
         // split into 2 groups: Allowed & Not, and sort each sublist
         var (strA, value1) = i1;
         var (strB, value2) = i2;
-        var c1 = check(value1);
-        var c2 = check(value2);
+        var c1 = check((ushort)value1);
+        var c2 = check((ushort)value2);
         if (c1)
             return c2 ? string.CompareOrdinal(strA, strB) : -1;
         return c2 ? 1 : string.CompareOrdinal(strA, strB);

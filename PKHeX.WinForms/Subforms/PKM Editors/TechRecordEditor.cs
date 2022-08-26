@@ -59,7 +59,7 @@ public partial class TechRecordEditor : Form
         }
         else if (ModifierKeys == Keys.Control)
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             Entity.GetMoves(moves);
             Record.SetRecordFlags(moves);
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,7 +49,7 @@ public static class BulkGenerator
         template.Form = form;
         template.Gender = template.GetSaneGender();
 
-        var f = EncounterMovesetGenerator.GeneratePKMs(template, tr).FirstOrDefault();
+        var f = EncounterMovesetGenerator.GeneratePKMs(template, tr, template.Moves).FirstOrDefault();
         if (f == null)
             return null;
 

@@ -112,16 +112,16 @@ public sealed class XK3 : G3PKM, IShadowPKM
     // 0x7E-0x7F Unknown
 
     // Moves
-    public override int Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x80)); set => WriteUInt16BigEndian(Data.AsSpan(0x80), (ushort)value); }
+    public override ushort Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x80)); set => WriteUInt16BigEndian(Data.AsSpan(0x80), (ushort)value); }
     public override int Move1_PP { get => Data[0x82]; set => Data[0x82] = (byte)value; }
     public override int Move1_PPUps { get => Data[0x83]; set => Data[0x83] = (byte)value; }
-    public override int Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x84)); set => WriteUInt16BigEndian(Data.AsSpan(0x84), (ushort)value); }
+    public override ushort Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x84)); set => WriteUInt16BigEndian(Data.AsSpan(0x84), (ushort)value); }
     public override int Move2_PP { get => Data[0x86]; set => Data[0x86] = (byte)value; }
     public override int Move2_PPUps { get => Data[0x87]; set => Data[0x87] = (byte)value; }
-    public override int Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x88)); set => WriteUInt16BigEndian(Data.AsSpan(0x88), (ushort)value); }
+    public override ushort Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x88)); set => WriteUInt16BigEndian(Data.AsSpan(0x88), (ushort)value); }
     public override int Move3_PP { get => Data[0x8A]; set => Data[0x8A] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x8B]; set => Data[0x8B] = (byte)value; }
-    public override int Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x8C)); set => WriteUInt16BigEndian(Data.AsSpan(0x8C), (ushort)value); }
+    public override ushort Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x8C)); set => WriteUInt16BigEndian(Data.AsSpan(0x8C), (ushort)value); }
     public override int Move4_PP { get => Data[0x8E]; set => Data[0x8E] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x8F]; set => Data[0x8F] = (byte)value; }
 

@@ -28,7 +28,7 @@ public sealed class LearnSource7GG : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -47,7 +47,7 @@ public sealed class LearnSource7GG : ILearnSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(int species, int form, int move)
+    private static bool GetIsEnhancedTutor(int species, int form, ushort move)
     {
         if (species == (int)Species.Pikachu && form == 8) // Partner
             return Tutor_StarterPikachu.AsSpan().Contains(move);
@@ -56,7 +56,7 @@ public sealed class LearnSource7GG : ILearnSource
         return false;
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_GG, move);
         if (index == -1)
@@ -107,7 +107,7 @@ public sealed class LearnSource7GG : ILearnSource
         }
     }
 
-    private static readonly int[] TMHM_GG =
+    private static readonly ushort[] TMHM_GG =
     {
         029, 269, 270, 100, 156, 113, 182, 164, 115, 091,
         261, 263, 280, 019, 069, 086, 525, 369, 231, 399,
@@ -120,7 +120,7 @@ public sealed class LearnSource7GG : ILearnSource
         // No HMs
     };
 
-    private static readonly int[] Tutor_StarterPikachu =
+    private static readonly ushort[] Tutor_StarterPikachu =
     {
         (int)Move.ZippyZap,
         (int)Move.SplishySplash,
@@ -128,7 +128,7 @@ public sealed class LearnSource7GG : ILearnSource
         //(int)Move.PikaPapow, // Joycon Shake
     };
 
-    private static readonly int[] Tutor_StarterEevee =
+    private static readonly ushort[] Tutor_StarterEevee =
     {
         (int)Move.BouncyBubble,
         (int)Move.BuzzyBuzz,

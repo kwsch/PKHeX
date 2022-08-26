@@ -13,7 +13,7 @@ public sealed class LearnGroup8b : ILearnGroup
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedBDSP;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history,
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen8b;
@@ -28,7 +28,7 @@ public sealed class LearnGroup8b : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EvoCriteria evo)
+    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvoCriteria evo)
     {
         var game = LearnSource8BDSP.Instance;
         var entry = PersonalTable.BDSP.GetFormEntry(evo.Species, evo.Form);
@@ -46,7 +46,7 @@ public sealed class LearnGroup8b : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
         {
@@ -64,7 +64,7 @@ public sealed class LearnGroup8b : ILearnGroup
             CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, i == 0 ? type : type & MoveSourceType.LevelUp, option);
     }
 
-    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type, LearnOption option)
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type, LearnOption option)
     {
         var game = LearnSource8BDSP.Instance;
         if (!game.TryGetPersonal(evo.Species, evo.Form, out var pi))

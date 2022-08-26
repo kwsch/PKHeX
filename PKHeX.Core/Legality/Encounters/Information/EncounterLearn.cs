@@ -50,18 +50,22 @@ public static class EncounterLearn
 
         var speciesID = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
         var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
+        if (Array.Exists(moveIDs, static z => z <= 0))
+            return Array.Empty<IEncounterable>();
 
-        return GetLearn(speciesID, moveIDs, form);
+        var span = new ushort[moveIDs.Length];
+        for (int i = 0; i < moveIDs.Length; i++)
+            span[i] = (ushort)moveIDs[i];
+
+        return GetLearn(speciesID, span, form);
     }
 
     /// <summary>
     /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static IEnumerable<IEncounterable> GetLearn(int species, int[] moves, int form = 0)
+    public static IEnumerable<IEncounterable> GetLearn(int species, ushort[] moves, int form = 0)
     {
         if (species <= 0)
-            return Array.Empty<IEncounterable>();
-        if (Array.Exists(moves, z => z < 0))
             return Array.Empty<IEncounterable>();
 
         var blank = EntityBlank.GetIdealBlank(species, form);

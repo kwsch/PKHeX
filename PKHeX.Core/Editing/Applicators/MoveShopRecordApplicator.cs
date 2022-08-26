@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -26,12 +26,12 @@ public static class MoveShopRecordApplicator
 
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, PKM pk)
     {
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         pk.GetMoves(moves);
         shop.SetMoveShopFlags(moves, pk);
     }
 
-    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, PKM pk)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, PKM pk)
     {
         var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
         var learn = Legal.LevelUpLA[index];
@@ -66,13 +66,13 @@ public static class MoveShopRecordApplicator
         }
     }
 
-    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, Learnset learn, Learnset mastery, int level)
+    public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, int level)
     {
         var possible = shop.MoveShopPermitIndexes;
         var permit = shop.MoveShopPermitFlags;
         foreach (var move in moves)
         {
-            var index = possible.IndexOf((ushort)move);
+            var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
             if (!permit[index])
@@ -81,7 +81,7 @@ public static class MoveShopRecordApplicator
         }
     }
 
-    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, int move)
+    public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, ushort move)
     {
         if (shop.GetMasteredRecordFlag(index))
             return;
@@ -97,13 +97,13 @@ public static class MoveShopRecordApplicator
             shop.SetMasteredRecordFlag(index, true);
     }
 
-    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<int> moves, Learnset mastery, int level)
+    public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, int level)
     {
         var possible = shop.MoveShopPermitIndexes;
         var permit = shop.MoveShopPermitFlags;
         foreach (var move in moves)
         {
-            var index = possible.IndexOf((ushort)move);
+            var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
             if (!permit[index])

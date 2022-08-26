@@ -31,7 +31,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(int species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,14 +39,14 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -73,16 +73,16 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsTypeTutor(int species, int move)
+    private static bool GetIsTypeTutor(int species, ushort move)
     {
         var index = Array.IndexOf(SpecialTutors_4, move);
         if (index == -1)
             return false;
         var list = SpecialTutors_Compatibility_4[index].AsSpan();
-        return list.IndexOf(species) != -1;
+        return list.IndexOf((ushort)species) != -1;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
     {
         var index = Array.IndexOf(Tutors_4, move);
         if (index == -1)
@@ -90,7 +90,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TM_4, move);
         if (index == -1)
@@ -98,7 +98,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, int move)
+    private static bool GetIsHM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(HM_DPPt, move);
         if (index == -1)

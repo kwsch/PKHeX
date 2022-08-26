@@ -118,10 +118,10 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block B
-    public override int Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
-    public override int Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
-    public override int Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), (ushort)value); }
-    public override int Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), (ushort)value); }
+    public override ushort Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
+    public override ushort Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
+    public override ushort Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), (ushort)value); }
+    public override ushort Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), (ushort)value); }
     public override int Move1_PP { get => Data[0x30]; set => Data[0x30] = (byte)value; }
     public override int Move2_PP { get => Data[0x31]; set => Data[0x31] = (byte)value; }
     public override int Move3_PP { get => Data[0x32]; set => Data[0x32] = (byte)value; }

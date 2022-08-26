@@ -96,13 +96,13 @@ public static class MoveShop8MasteryExtensions
         return true;
     }
 
-    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<int> moves, Learnset learn, Learnset mastery, int level, ushort alpha, bool allowPurchasedAlpha)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<ushort> moves, Learnset learn, Learnset mastery, int level, ushort alpha, bool allowPurchasedAlpha)
     {
         foreach (var move in moves)
         {
             if (move == 0)
                 continue;
-            var index = shop.MoveShopPermitIndexes.IndexOf((ushort)move);
+            var index = shop.MoveShopPermitIndexes.IndexOf(move);
             if (index == -1)
                 continue; // manually mastered for encounter, not a tutor
 

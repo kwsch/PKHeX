@@ -17,7 +17,7 @@ public sealed class LegalMoveInfo
     /// </summary>
     /// <param name="move">Move to check if can be learned</param>
     /// <returns>True if can learn the move</returns>
-    public bool CanLearn(int move) => AllowedMoves[move];
+    public bool CanLearn(ushort move) => AllowedMoves[move];
 
     /// <summary>
     /// Reloads the legality sources to permit the provided legal info.

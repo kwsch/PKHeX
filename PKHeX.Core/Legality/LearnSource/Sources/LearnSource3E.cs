@@ -32,7 +32,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(int species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -40,14 +40,14 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -71,7 +71,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(int species, int move)
+    private static bool GetIsSpecialTutor(int species, ushort move)
     {
         var info = Personal[species];
         var index = Array.IndexOf(Tutor_E, move);
@@ -80,7 +80,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return info.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TM_3, move);
         if (index == -1)
@@ -88,7 +88,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, int move)
+    private static bool GetIsHM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(HM_3, move);
         if (index == -1)
@@ -146,7 +146,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         }
     }
 
-    private static readonly int[] Tutor_E =
+    private static readonly ushort[] Tutor_E =
     {
         005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
         138, 086, 153, 157, 164, 223, 205, 244, 173, 196,

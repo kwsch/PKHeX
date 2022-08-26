@@ -98,10 +98,10 @@ public partial class PKMEditor
 
     private void LoadMoves(PKM pk)
     {
-        CB_Move1.SelectedValue = pk.Move1;
-        CB_Move2.SelectedValue = pk.Move2;
-        CB_Move3.SelectedValue = pk.Move3;
-        CB_Move4.SelectedValue = pk.Move4;
+        CB_Move1.SelectedValue = (int)pk.Move1;
+        CB_Move2.SelectedValue = (int)pk.Move2;
+        CB_Move3.SelectedValue = (int)pk.Move3;
+        CB_Move4.SelectedValue = (int)pk.Move4;
         LoadClamp(CB_PPu1, pk.Move1_PPUps);
         LoadClamp(CB_PPu2, pk.Move2_PPUps);
         LoadClamp(CB_PPu3, pk.Move3_PPUps);
@@ -114,10 +114,10 @@ public partial class PKMEditor
 
     private void SaveMoves(PKM pk)
     {
-        pk.Move1 = WinFormsUtil.GetIndex(CB_Move1);
-        pk.Move2 = WinFormsUtil.GetIndex(CB_Move2);
-        pk.Move3 = WinFormsUtil.GetIndex(CB_Move3);
-        pk.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+        pk.Move1 = (ushort)WinFormsUtil.GetIndex(CB_Move1);
+        pk.Move2 = (ushort)WinFormsUtil.GetIndex(CB_Move2);
+        pk.Move3 = (ushort)WinFormsUtil.GetIndex(CB_Move3);
+        pk.Move4 = (ushort)WinFormsUtil.GetIndex(CB_Move4);
         pk.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
         pk.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
         pk.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
@@ -160,18 +160,18 @@ public partial class PKMEditor
 
     private void LoadRelearnMoves(PKM pk)
     {
-        CB_RelearnMove1.SelectedValue = pk.RelearnMove1;
-        CB_RelearnMove2.SelectedValue = pk.RelearnMove2;
-        CB_RelearnMove3.SelectedValue = pk.RelearnMove3;
-        CB_RelearnMove4.SelectedValue = pk.RelearnMove4;
+        CB_RelearnMove1.SelectedValue = (int)pk.RelearnMove1;
+        CB_RelearnMove2.SelectedValue = (int)pk.RelearnMove2;
+        CB_RelearnMove3.SelectedValue = (int)pk.RelearnMove3;
+        CB_RelearnMove4.SelectedValue = (int)pk.RelearnMove4;
     }
 
     private void SaveRelearnMoves(PKM pk)
     {
-        pk.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
-        pk.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
-        pk.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
-        pk.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
+        pk.RelearnMove1 = (ushort)WinFormsUtil.GetIndex(CB_RelearnMove1);
+        pk.RelearnMove2 = (ushort)WinFormsUtil.GetIndex(CB_RelearnMove2);
+        pk.RelearnMove3 = (ushort)WinFormsUtil.GetIndex(CB_RelearnMove3);
+        pk.RelearnMove4 = (ushort)WinFormsUtil.GetIndex(CB_RelearnMove4);
     }
 
     private void LoadMisc1(PKM pk)
