@@ -200,7 +200,7 @@ public static class MemoryPermissions
         return false;
     }
 
-    public static bool GetCanDynamaxTrainer(int species, int gen, GameVersion version)
+    public static bool GetCanDynamaxTrainer(ushort species, int gen, GameVersion version)
     {
         if (gen != 8)
             return false;
@@ -214,11 +214,11 @@ public static class MemoryPermissions
     }
 
     // exclusive to version
-    private static bool IsDynamaxSW(int species) => species is (int)Machamp or (int)Gigalith or (int)Conkeldurr or (int)Coalossal or (int)Flapple;
-    private static bool IsDynamaxSH(int species) => species is (int)Gengar or (int)Lapras or (int)Dusknoir or (int)Froslass or (int)Appletun;
+    private static bool IsDynamaxSW(ushort species) => species is (int)Machamp or (int)Gigalith or (int)Conkeldurr or (int)Coalossal or (int)Flapple;
+    private static bool IsDynamaxSH(ushort species) => species is (int)Gengar or (int)Lapras or (int)Dusknoir or (int)Froslass or (int)Appletun;
 
     // common to SW & SH
-    private static readonly HashSet<int> DynamaxTrainer_SWSH = new()
+    private static readonly HashSet<ushort> DynamaxTrainer_SWSH = new()
     {
         (int)Venusaur,
         (int)Blastoise,
@@ -249,7 +249,7 @@ public static class MemoryPermissions
         (int)Urshifu,
     };
 
-    public static bool GetCanFishSpecies(int species, EntityContext context, GameVersion version) => context switch
+    public static bool GetCanFishSpecies(ushort species, EntityContext context, GameVersion version) => context switch
     {
         EntityContext.Gen6 => version switch
         {
@@ -270,7 +270,7 @@ public static class MemoryPermissions
         _ => false,
     };
 
-    private static readonly HashSet<int> FishingSpecies_SWSH = new()
+    private static readonly HashSet<ushort> FishingSpecies_SWSH = new()
     {
         (int)Shellder, (int)Cloyster,
         (int)Krabby,
@@ -297,7 +297,7 @@ public static class MemoryPermissions
         (int)Arrokuda, (int)Barraskewda,
     };
 
-    private static readonly HashSet<int> FishingSpecies_AO = new()
+    private static readonly HashSet<ushort> FishingSpecies_AO = new()
     {
         (int)Tentacool,
         (int)Horsea, (int)Seadra,
@@ -315,11 +315,11 @@ public static class MemoryPermissions
     };
 
     // exclusive to version
-    private static bool IsFishingSpeciesX(int species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
-    private static bool IsFishingSpeciesY(int species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
+    private static bool IsFishingSpeciesX(ushort species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
+    private static bool IsFishingSpeciesY(ushort species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
 
     // common to X & Y
-    private static readonly HashSet<int> FishingSpecies_XY = new()
+    private static readonly HashSet<ushort> FishingSpecies_XY = new()
     {
         (int)Poliwag, (int)Poliwhirl, (int)Poliwrath, (int)Politoed,
         (int)Horsea, (int)Seadra,

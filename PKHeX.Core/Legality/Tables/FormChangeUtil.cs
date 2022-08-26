@@ -22,12 +22,12 @@ public static class FormChangeUtil
         return IterateAllForms(species);
     }
 
-    private static bool IterateAllForms(int species) => FormChangeMovesRetain.Contains(species);
+    private static bool IterateAllForms(ushort species) => FormChangeMovesRetain.Contains(species);
 
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static readonly HashSet<int> FormChangeMovesRetain = new()
+    private static readonly HashSet<ushort> FormChangeMovesRetain = new()
     {
         (int)Species.Deoxys,
         (int)Species.Giratina,
@@ -38,7 +38,7 @@ public static class FormChangeUtil
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static readonly Dictionary<int, Func<(int Generation, int Form), bool>> FormChangeMoves = new()
+    private static readonly Dictionary<ushort, Func<(int Generation, int Form), bool>> FormChangeMoves = new()
     {
         {(int)Species.Deoxys,   g => g.Generation >= 6},
         {(int)Species.Giratina, g => g.Generation >= 6},

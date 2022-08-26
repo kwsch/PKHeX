@@ -150,7 +150,7 @@ internal static class AbilityBreedLegality
     // internal static readonly HashSet<int> BanHidden8 = new(); // none as of DLC 1!
 
     /// <summary>
-    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen7"/>
+    /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.BDSP"/>
     /// </summary>
     internal static readonly HashSet<int> BanHidden8b = new()
     {
