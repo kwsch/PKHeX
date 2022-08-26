@@ -52,7 +52,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     }
 
     // Surface Properties
-    public abstract int Species { get; set; }
+    public abstract ushort Species { get; set; }
     public abstract string Nickname { get; set; }
     public abstract int HeldItem { get; set; }
     public abstract int Gender { get; set; }
@@ -60,7 +60,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public virtual int StatNature { get => Nature; set => Nature = value; }
     public abstract int Ability { get; set; }
     public abstract int CurrentFriendship { get; set; }
-    public abstract int Form { get; set; }
+    public abstract byte Form { get; set; }
     public abstract bool IsEgg { get; set; }
     public abstract bool IsNicknamed { get; set; }
     public abstract uint EXP { get; set; }
@@ -229,8 +229,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public abstract int CurrentHandler { get; set; }
 
     // Maximums
-    public abstract int MaxMoveID { get; }
-    public abstract int MaxSpeciesID { get; }
+    public abstract ushort MaxMoveID { get; }
+    public abstract ushort MaxSpeciesID { get; }
     public abstract int MaxItemID { get; }
     public abstract int MaxAbilityID { get; }
     public abstract int MaxBallID { get; }
@@ -955,8 +955,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <returns>Count of IVs that should be max.</returns>
     public int GetFlawlessIVCount()
     {
-        if (Generation >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
-            return 3;
+        if (Generation >= 6)
+        {
+            var species = Species;
+            if (Legal.Legends.Contains(species) || Legal.SubLegends.Contains(species))
+                return 3;
+        }
         if (XY)
         {
             if (PersonalInfo.EggGroup1 == 15) // Undiscovered

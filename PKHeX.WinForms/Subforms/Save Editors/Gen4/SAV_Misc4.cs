@@ -723,11 +723,11 @@ public partial class SAV_Misc4 : Form
         StatAddrControl(SetValToSav: -1, SetSavToVal: false);
     }
 
-    private int species = -1;
+    private ushort species = ushort.MaxValue;
 
     private void ChangeSpecies(object sender, EventArgs e)
     {
-        species = (int)CB_Species.SelectedValue;
+        species = (ushort)CB_Species.SelectedValue;
         if (editing)
             return;
         editing = true;
@@ -761,7 +761,7 @@ public partial class SAV_Misc4 : Form
     private void GetHallStat()
     {
         int ofscur = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex);
-        int curspe = ReadInt16LittleEndian(SAV.General.AsSpan(ofscur + 4));
+        var curspe = ReadUInt16LittleEndian(SAV.General.AsSpan(ofscur + 4));
         bool c = curspe == species;
         CHK_HallCurrent.Checked = c;
         CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID

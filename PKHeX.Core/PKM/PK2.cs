@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -38,7 +38,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
     protected override byte[] Encrypt() => new PokeList2(this).Write();
 
     #region Stored Attributes
-    public override int Species { get => Data[0]; set => Data[0] = (byte)value; }
+    public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
     public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
     public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
@@ -98,8 +98,8 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override int Version { get => (int)GameVersion.GSC; set { } }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_2;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
+    public override ushort MaxMoveID => Legal.MaxMoveID_2;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
 

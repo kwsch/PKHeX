@@ -79,11 +79,11 @@ public sealed class StrategyMemoEntry
         XD = xd;
     }
 
-    public int Species
+    public ushort Species
     {
         get
         {
-            var val = ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF;
+            var val = (ushort)(ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF);
             return SpeciesConverter.GetG4Species(val);
         }
         set
@@ -133,5 +133,5 @@ public sealed class StrategyMemoEntry
     }
 
     public bool IsEmpty => Species == 0;
-    public bool Matches(int species, uint pid, int tid, int sid) => Species == species && PID == pid && TID == tid && SID == sid;
+    public bool Matches(ushort species, uint pid, int tid, int sid) => Species == species && PID == pid && TID == tid && SID == sid;
 }

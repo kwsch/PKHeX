@@ -184,12 +184,12 @@ public partial class SAV_HallOfFame : Form
         CHK_Nicknamed.Checked = entry.IsNicknamed;
 
         SetForms();
-        CB_Form.SelectedIndex = (int)entry.Form;
+        CB_Form.SelectedIndex = entry.Form;
         SetGenderLabel((int)entry.Gender);
         Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
         UpdateNickname(sender, e);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
         editing = true;
     }
 
@@ -215,7 +215,7 @@ public partial class SAV_HallOfFame : Form
             EncryptionConstant = Util.GetHexValue(TB_EC.Text),
             TID = Convert.ToUInt16(TB_TID.Text),
             SID = Convert.ToUInt16(TB_SID.Text),
-            Form = (uint)CB_Form.SelectedIndex,
+            Form = (byte)CB_Form.SelectedIndex,
             Gender = (uint)EntityGender.GetFromString(Label_Gender.Text) & 0x3,
             Level = Convert.ToUInt16(TB_Level.Text),
             IsShiny = CHK_Shiny.Checked,
@@ -240,7 +240,7 @@ public partial class SAV_HallOfFame : Form
         WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, (int)entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
         DisplayEntry(this, EventArgs.Empty); // refresh text view
     }
 
@@ -257,7 +257,7 @@ public partial class SAV_HallOfFame : Form
         if (!CHK_Nicknamed.Checked)
         {
             // Fetch Current Species and set it as Nickname Text
-            int species = WinFormsUtil.GetIndex(CB_Species);
+            var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
             bool isNone = species is 0 or > (int)Species.Volcanion;
             TB_Nickname.Text = isNone ? string.Empty : SpeciesName.GetSpeciesNameGeneration(species, SAV.Language, 6);
         }
@@ -268,7 +268,7 @@ public partial class SAV_HallOfFame : Form
 
     private void SetForms()
     {
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         var pi = PersonalTable.AO[species];
         bool hasForms = FormInfo.HasFormSelection(pi, species, 6);
         CB_Form.Enabled = CB_Form.Visible = hasForms;
@@ -288,8 +288,8 @@ public partial class SAV_HallOfFame : Form
         if (!editing)
             return; //Don't do writing until loaded
 
-        var species = WinFormsUtil.GetIndex(CB_Species);
-        var form = CB_Form.SelectedIndex & 0x1F;
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        var form = (byte)(CB_Form.SelectedIndex & 0x1F);
         var gender = EntityGender.GetFromString(Label_Gender.Text);
         var item = WinFormsUtil.GetIndex(CB_HeldItem);
         var shiny = CHK_Shiny.Checked ? Shiny.Always : Shiny.Never;
@@ -309,7 +309,7 @@ public partial class SAV_HallOfFame : Form
     private void UpdateGender(object sender, EventArgs e)
     {
         // Get Gender Threshold
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         var pi = SAV.Personal[species];
         if (pi.IsDualGender)
         {

@@ -28,8 +28,8 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override int BoxCount => 4; // 8 boxes stored sequentially; latter 4 are backups
     public override int BoxSlotCount => 30;
 
-    public override int MaxMoveID => Legal.MaxMoveID_1;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
+    public override ushort MaxMoveID => Legal.MaxMoveID_1;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_1;
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
     private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLength); // 0x2D

@@ -160,8 +160,8 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x234)); set => WriteUInt16LittleEndian(Data.AsSpan(0x234), value); }
     public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x236)); set => WriteUInt16LittleEndian(Data.AsSpan(0x236), value); }
 
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x238)); set => WriteUInt16LittleEndian(Data.AsSpan(0x238), (ushort)value); }
-    public override int Form   { get => Data[0x23A]; set => Data[0x23A] = (byte)value; }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x238)); set => WriteUInt16LittleEndian(Data.AsSpan(0x238), (ushort)value); }
+    public override byte Form   { get => Data[0x23A]; set => Data[0x23A] = (byte)value; }
     public override int Gender { get => Data[0x23B]; set => Data[0x23B] = (byte)value; }
     public override byte Level  { get => Data[0x23C]; set => Data[0x23C] = value; }
     public override bool IsEgg { get => Data[0x23D] == 1; set => Data[0x23D] = value ? (byte)1 : (byte)0; }

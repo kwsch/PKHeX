@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -44,7 +44,7 @@ public static class QR7
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
-    private static byte[] GetRawQR(int species, int form, bool shiny, int gender)
+    private static byte[] GetRawQR(ushort species, int form, bool shiny, int gender)
     {
         var basedata = (byte[])BaseQR.Clone();
         WriteUInt16LittleEndian(basedata.AsSpan(0x28), (ushort)species);

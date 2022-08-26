@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -66,8 +66,8 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     // Feature Overrides
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
-    public override int MaxMoveID => Legal.MaxMoveID_7b;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_7b;
+    public override ushort MaxMoveID => Legal.MaxMoveID_7b;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7b;
     public override int MaxItemID => Legal.MaxItemID_7b;
     public override int MaxBallID => Legal.MaxBallID_7b;
     public override int MaxGameID => Legal.MaxGameID_7b;
@@ -99,8 +99,8 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     }
 
     protected override void SetDex(PKM pk) => Blocks.Zukan.SetDex(pk);
-    public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Blocks.Zukan.GetSeen(species);
+    public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);
 
     protected override PKM GetPKM(byte[] data) => new PB7(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);

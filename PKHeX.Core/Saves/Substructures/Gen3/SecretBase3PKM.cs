@@ -10,7 +10,7 @@ public sealed class SecretBase3PKM
     public int Move2 { get; set; }
     public int Move3 { get; set; }
     public int Move4 { get; set; }
-    public int Species { get; set; }
+    public ushort Species { get; set; }
     public int HeldItem { get; set; }
     public int Level { get; set; }
     public int EVAll { get; set; }

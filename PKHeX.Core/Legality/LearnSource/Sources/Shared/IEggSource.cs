@@ -13,12 +13,12 @@ public interface IEggSource
     /// <param name="species">Entity base species</param>
     /// <param name="form">Entity base form</param>
     /// <param name="move">Move to check</param>
-    bool GetIsEggMove(int species, int form, ushort move);
+    bool GetIsEggMove(ushort species, int form, ushort move);
 
     /// <summary>
     /// Gets the egg move list that is permitted to be inherited.
     /// </summary>
     /// <param name="species">Entity base species</param>
     /// <param name="form">Entity base form</param>
-    ReadOnlySpan<ushort> GetEggMoves(int species, int form);
+    ReadOnlySpan<ushort> GetEggMoves(ushort species, int form);
 }

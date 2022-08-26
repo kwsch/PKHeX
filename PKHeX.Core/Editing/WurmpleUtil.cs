@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Indicates or coerces values pertaining to <see cref="Species.Wurmple"/> and its branched evolutions.
@@ -21,7 +21,7 @@ public static class WurmpleUtil
     /// </summary>
     /// <param name="species">Current species</param>
     /// <returns>-1 if not a Wurmple Evo, 0 if Silcoon chain, 1 if Cascoon chain</returns>
-    public static int GetWurmpleEvoGroup(int species)
+    public static int GetWurmpleEvoGroup(ushort species)
     {
         int wIndex = species - (int)Species.Silcoon;
         if ((wIndex & 3) != wIndex) // Wurmple evo, [0,3]

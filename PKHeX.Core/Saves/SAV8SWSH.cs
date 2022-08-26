@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -89,9 +89,9 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         return new SAV8SWSH(blockCopy);
     }
 
-    private int m_spec, m_item, m_move, m_abil;
-    public override int MaxMoveID => m_move;
-    public override int MaxSpeciesID => m_spec;
+    private ushort m_spec, m_item, m_move, m_abil;
+    public override ushort MaxMoveID => m_move;
+    public override ushort MaxSpeciesID => m_spec;
     public override int MaxItemID => m_item;
     public override int MaxBallID => Legal.MaxBallID_8;
     public override int MaxGameID => Legal.MaxGameID_8;
@@ -236,8 +236,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
-    public override bool GetCaught(int species) => Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Zukan.GetSeen(species);
+    public override bool GetCaught(ushort species) => Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Zukan.GetSeen(species);
 
     public override int PartyCount
     {

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 
 public static class MoveEgg
 {
-    public static ushort[] GetEggMoves(int species, int form, GameVersion version, int generation)
+    public static ushort[] GetEggMoves(ushort species, int form, GameVersion version, int generation)
     {
         if (!Breeding.CanGameGenerateEggs(version))
             return Array.Empty<ushort>();
@@ -15,7 +15,7 @@ public static class MoveEgg
         return GetEggMoves(generation, species, form, version);
     }
 
-    public static ushort[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
+    public static ushort[] GetEggMoves(int generation, ushort species, int form, GameVersion version) => generation switch
     {
         1 or 2 => GetMovesSafe(version == C ? EggMovesC : EggMovesGS, species),
         3 => GetMovesSafe(EggMovesRS, species),
@@ -33,14 +33,14 @@ public static class MoveEgg
         _ => Array.Empty<ushort>(),
     };
 
-    private static ushort[] GetMovesSafe<T>(IReadOnlyList<T> moves, int species) where T : EggMoves
+    private static ushort[] GetMovesSafe<T>(IReadOnlyList<T> moves, ushort species) where T : EggMoves
     {
         if ((uint)species >= moves.Count)
             return Array.Empty<ushort>();
         return moves[species].Moves;
     }
 
-    public static ushort[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
+    public static ushort[] GetFormEggMoves(ushort species, int form, IReadOnlyList<EggMoves7> table)
     {
         if ((uint)species >= table.Count)
             return Array.Empty<ushort>();

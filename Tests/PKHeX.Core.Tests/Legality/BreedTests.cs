@@ -41,7 +41,7 @@ public class BreedTests
         Span<ushort> moves = stackalloc ushort[MovesetCount];
         GetMoves(movelist, moves);
         var origins = new byte[moves.Length];
-        var valid = MoveBreed.Validate(gen, (int) species, form, game, moves, origins);
+        var valid = MoveBreed.Validate(gen, (ushort) species, form, game, moves, origins);
         valid.Should().BeTrue();
 
         var x = origins;
@@ -63,7 +63,7 @@ public class BreedTests
         Span<ushort> moves = stackalloc ushort[MovesetCount];
         GetMoves(movelist, moves);
         Span<byte> result = stackalloc byte[moves.Length];
-        var test = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
+        var test = MoveBreed.Validate(gen, (ushort)species, form, game, moves, result);
         test.Should().BeFalse();
     }
 
@@ -78,11 +78,11 @@ public class BreedTests
         GetMoves(movelist, moves);
 
         Span<byte> result = stackalloc byte[moves.Length];
-        var valid = MoveBreed.Validate(gen, (int)species, form, game, moves, result);
+        var valid = MoveBreed.Validate(gen, (ushort)species, form, game, moves, result);
         valid.Should().BeFalse();
 
         Span<ushort> expected = stackalloc ushort[moves.Length];
-        var useNew = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, result, expected);
+        var useNew = MoveBreed.GetExpectedMoves(gen, (ushort)species, form, game, moves, result, expected);
         useNew.Should().BeTrue();
 
         // fixed order should be different now.

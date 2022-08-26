@@ -17,9 +17,9 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_8b;
     private const LearnEnvironment Game = BDSP;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -28,7 +28,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
         var arr = EggMoves;
@@ -38,7 +38,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
         var arr = EggMoves;

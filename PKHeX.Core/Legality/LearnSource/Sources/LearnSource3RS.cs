@@ -20,9 +20,9 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
     private const int Generation = 3;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -31,7 +31,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,7 +39,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
@@ -70,7 +70,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsTutor(int species, ushort move)
+    private static bool GetIsTutor(ushort species, ushort move)
     {
         // XD (Mew)
         if (species == (int)Species.Mew && Tutor_3Mew.AsSpan().IndexOf(move) != -1)
@@ -78,9 +78,9 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
 
         return move switch
         {
-            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, (ushort)species) != -1,
-            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, (ushort)species) != -1,
-            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, (ushort)species) != -1,
+            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, species) != -1,
+            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, species) != -1,
+            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, species) != -1,
             _ => false,
         };
     }

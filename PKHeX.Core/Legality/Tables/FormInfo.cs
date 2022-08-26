@@ -15,7 +15,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
-    public static bool IsBattleOnlyForm(int species, int form, int format)
+    public static bool IsBattleOnlyForm(ushort species, int form, int format)
     {
         if (!BattleOnly.Contains(species))
             return false;
@@ -44,11 +44,11 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>Suggested alt form value.</returns>
-    public static int GetOutOfBattleForm(int species, int form, int format) => species switch
+    public static byte GetOutOfBattleForm(ushort species, byte form, int format) => species switch
     {
-        (int)Darmanitan => form & 2,
+        (int)Darmanitan => (byte)(form & 2),
         (int)Zygarde when format > 6 => 3,
-        (int)Minior => form + 7,
+        (int)Minior => (byte)(form + 7),
         _ => 0,
     };
 
@@ -59,7 +59,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it is a fused species-form, false if it is not fused.</returns>
-    public static bool IsFusedForm(int species, int form, int format) => species switch
+    public static bool IsFusedForm(ushort species, int form, int format) => species switch
     {
         (int)Kyurem when form != 0 && format >= 5 => true,
         (int)Necrozma when form != 0 && format >= 7 => true,
@@ -72,7 +72,7 @@ public static class FormInfo
     /// <param name="oldForm">Original form</param>
     /// <param name="newForm">Current form</param>
     /// <param name="format">Current format</param>
-    public static bool IsFormChangeable(int species, int oldForm, int newForm, int format)
+    public static bool IsFormChangeable(ushort species, int oldForm, int newForm, int format)
     {
         if (FormChange.Contains(species))
             return true;
@@ -97,7 +97,7 @@ public static class FormInfo
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<int> FormChange = new()
+    private static readonly HashSet<ushort> FormChange = new()
     {
         // Sometimes considered for wild encounters
         (int)Burmy,
@@ -127,7 +127,7 @@ public static class FormInfo
     /// <summary>
     /// Species that have an alternate form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<int> BattleForms = new()
+    private static readonly HashSet<ushort> BattleForms = new()
     {
         (int)Castform,
         (int)Cherrim,
@@ -154,7 +154,7 @@ public static class FormInfo
     /// Species that have a mega form that cannot exist outside of battle.
     /// </summary>
     /// <remarks>Using a held item to change form during battle, via an in-battle transformation feature.</remarks>
-    private static readonly HashSet<int> BattleMegas = new()
+    private static readonly HashSet<ushort> BattleMegas = new()
     {
         // XY
         (int)Venusaur, (int)Charizard, (int)Blastoise,
@@ -186,13 +186,13 @@ public static class FormInfo
     /// <summary>
     /// Species that have a primal form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<int> BattlePrimals = new() { (int)Kyogre, (int)Groudon };
+    private static readonly HashSet<ushort> BattlePrimals = new() { (int)Kyogre, (int)Groudon };
 
-    private static readonly HashSet<int> BattleOnly = GetBattleFormSet();
+    private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
 
-    private static HashSet<int> GetBattleFormSet()
+    private static HashSet<ushort> GetBattleFormSet()
     {
-        var hs = new HashSet<int>(BattleForms);
+        var hs = new HashSet<ushort>(BattleForms);
         hs.UnionWith(BattleMegas);
         hs.UnionWith(BattlePrimals);
         return hs;
@@ -204,15 +204,15 @@ public static class FormInfo
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
-    public static bool IsTotemForm(int species, int form, int format) => format == 7 && IsTotemForm(species, form);
+    public static bool IsTotemForm(ushort species, int form, int format) => format == 7 && IsTotemForm(species, form);
 
     /// <summary>
     /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
     /// </summary>
-    /// <remarks>Use <see cref="IsTotemForm(int,int,int)"/> if you aren't 100% sure the format is 7.</remarks>
+    /// <remarks>Use <see cref="IsTotemForm(ushort,int,int)"/> if you aren't 100% sure the format is 7.</remarks>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    public static bool IsTotemForm(int species, int form)
+    public static bool IsTotemForm(ushort species, int form)
     {
         if (form == 0)
             return false;
@@ -230,21 +230,21 @@ public static class FormInfo
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    public static int GetTotemBaseForm(int species, int form)
+    public static byte GetTotemBaseForm(ushort species, byte form)
     {
         if (species == (int)Mimikyu)
-            return form - 2;
-        return form - 1;
+            return 0;
+        return --form;
     }
 
-    public static bool IsLordForm(int species, int form, int generation)
+    public static bool IsLordForm(ushort species, int form, int generation)
     {
         if (generation != 8)
             return false;
         return IsLordForm(species, form);
     }
 
-    private static bool IsLordForm(int species, int form) => form != 0 && species switch
+    private static bool IsLordForm(ushort species, int form) => form != 0 && species switch
     {
         (int)Arcanine when form == 2 => true,
         (int)Electrode when form == 2 => true,
@@ -261,7 +261,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <seealso cref="HasFormValuesNotIndicatedByPersonal"/>
-    public static bool IsValidOutOfBoundsForm(int species, int form, int format) => (Species) species switch
+    public static bool IsValidOutOfBoundsForm(ushort species, int form, int format) => (Species) species switch
     {
         Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
         Mothim => form < 3, // Burmy base form is kept
@@ -279,7 +279,7 @@ public static class FormInfo
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
     /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
-    public static bool HasFormSelection(IPersonalFormInfo pi, int species, int format)
+    public static bool HasFormSelection(IPersonalFormInfo pi, ushort species, int format)
     {
         if (format <= 3 && species != (int)Unown)
             return false;
@@ -294,7 +294,7 @@ public static class FormInfo
     /// <summary>
     /// <seealso cref="IsValidOutOfBoundsForm"/>
     /// </summary>
-    private static readonly HashSet<int> HasFormValuesNotIndicatedByPersonal = new()
+    private static readonly HashSet<ushort> HasFormValuesNotIndicatedByPersonal = new()
     {
         (int)Unown,
         (int)Mothim, // (Burmy form is not cleared on evolution)

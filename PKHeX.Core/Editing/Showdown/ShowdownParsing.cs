@@ -19,7 +19,7 @@ public static class ShowdownParsing
     /// <param name="species">Species ID the form belongs to</param>
     /// <param name="context">Format the form name should appear in</param>
     /// <returns>Zero (base form) if no form matches the input string.</returns>
-    public static int GetFormFromString(string name, GameStrings strings, int species, EntityContext context)
+    public static byte GetFormFromString(string name, GameStrings strings, ushort species, EntityContext context)
     {
         if (name.Length == 0)
             return 0;
@@ -29,7 +29,7 @@ public static class ShowdownParsing
             return 0;
 
         // Find first matching index that matches any case.
-        for (int i = 0; i < forms.Length; i++)
+        for (byte i = 0; i < forms.Length; i++)
         {
             var form = forms[i];
             var index = form.IndexOf(name, StringComparison.OrdinalIgnoreCase);
@@ -48,7 +48,7 @@ public static class ShowdownParsing
     /// <param name="strings"></param>
     /// <param name="species"></param>
     /// <param name="context"></param>
-    public static string GetStringFromForm(int form, GameStrings strings, int species, EntityContext context)
+    public static string GetStringFromForm(int form, GameStrings strings, ushort species, EntityContext context)
     {
         if (form <= 0)
             return string.Empty;
@@ -64,7 +64,7 @@ public static class ShowdownParsing
     /// </summary>
     /// <param name="species">Species ID</param>
     /// <param name="form">PKHeX form name</param>
-    public static string GetShowdownFormName(int species, string form)
+    public static string GetShowdownFormName(ushort species, string form)
     {
         if (form.Length == 0)
         {
@@ -100,7 +100,7 @@ public static class ShowdownParsing
     /// <param name="species">Species ID</param>
     /// <param name="form">Showdown form name</param>
     /// <param name="ability">Showdown ability ID</param>
-    public static string SetShowdownFormName(int species, string form, int ability)
+    public static string SetShowdownFormName(ushort species, string form, int ability)
     {
         if (form.Length != 0)
             form = form.Replace(' ', '-'); // inconsistencies are great

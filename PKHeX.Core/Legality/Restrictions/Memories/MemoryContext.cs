@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -9,7 +9,7 @@ public abstract class MemoryContext
 
     public abstract bool CanUseItemGeneric(int item);
     public abstract bool IsUsedKeyItemUnspecific(int item);
-    public abstract bool IsUsedKeyItemSpecific(int item, int species);
+    public abstract bool IsUsedKeyItemSpecific(int item, ushort species);
     public abstract bool CanBuyItem(int item, GameVersion version);
     public abstract bool CanWinLotoID(int item);
     public virtual bool CanPlantBerry(int item) => false;

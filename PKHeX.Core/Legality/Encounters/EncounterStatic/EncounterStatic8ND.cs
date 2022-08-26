@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.Encounters8Nest;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core;
 
@@ -26,7 +26,8 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
 
         if (lvl <= 25) // 1 or 2 stars
         {
-            if (InaccessibleRank12DistributionLocations.Contains(pk.Met_Location))
+            var met = pk.Met_Location;
+            if (met <= byte.MaxValue && InaccessibleRank12DistributionLocations.Contains((byte)met))
                 return false;
         }
 

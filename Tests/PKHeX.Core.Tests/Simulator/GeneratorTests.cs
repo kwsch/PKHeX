@@ -24,7 +24,7 @@ public class GeneratorTests
 
     [Theory(Skip = "Feature not ready yet")]
     [MemberData(nameof(PokemonGenerationTestData))]
-    public void PokemonGenerationReturnsLegalPokemon(int species)
+    public void PokemonGenerationReturnsLegalPokemon(ushort species)
     {
         int count = 0;
         var tr = new SimpleTrainerInfo(GameVersion.SN);

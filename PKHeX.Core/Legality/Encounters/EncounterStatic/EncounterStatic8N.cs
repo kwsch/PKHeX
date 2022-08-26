@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Encounters8Nest;
 
@@ -50,7 +50,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         if (rank <= 1)
         {
-            if (InaccessibleRank12Nests.TryGetValue(pk.Met_Location, out var nests) && nests.Contains(NestID))
+            if (met <= byte.MaxValue && InaccessibleRank12Nests.TryGetValue((byte)met, out var nests) && nests.Contains(NestID))
                 return false;
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
@@ -122,7 +122,7 @@ public static class GameUtil
     /// </summary>
     /// <param name="game">Game to retrieve the generation for</param>
     /// <returns>Generation ID</returns>
-    public static int GetMaxSpeciesID(this GameVersion game)
+    public static ushort GetMaxSpeciesID(this GameVersion game)
     {
         if (Gen1.Contains(game)) return Legal.MaxSpeciesID_1;
         if (Gen2.Contains(game)) return Legal.MaxSpeciesID_2;
@@ -142,7 +142,7 @@ public static class GameUtil
         if (PLA == game) return Legal.MaxSpeciesID_8a;
         if (BDSP.Contains(game)) return Legal.MaxSpeciesID_8b;
         if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
-        return -1;
+        return 0;
     }
 
     /// <summary>

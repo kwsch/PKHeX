@@ -30,14 +30,14 @@ public partial class PKMEditor
                 pk.CurrentLevel = 100;
         }
 
-        CB_Species.SelectedValue = pk.Species;
+        CB_Species.SelectedValue = (int)pk.Species;
         TB_Level.Text = pk.Stat_Level.ToString();
         TB_EXP.Text = pk.EXP.ToString();
     }
 
     private void SaveSpeciesLevelEXP(PKM pk)
     {
-        pk.Species = WinFormsUtil.GetIndex(CB_Species);
+        pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         pk.EXP = Util.ToUInt32(TB_EXP.Text);
         pk.Stat_Level = Util.ToInt32(TB_Level.Text);
     }
@@ -219,7 +219,7 @@ public partial class PKMEditor
         SavePKRS(pk);
         pk.IsEgg = CHK_IsEgg.Checked;
         pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
-        pk.Form = CB_Form.Enabled ? CB_Form.SelectedIndex & 0x1F : 0;
+        pk.Form = (byte)(CB_Form.Enabled ? CB_Form.SelectedIndex & 0x1F : 0);
         if (Entity is IFormArgument f)
             FA_Form.SaveArgument(f);
 

@@ -20,10 +20,10 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
     private const int Generation = 3;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
-    internal PersonalInfo this[int species] => Personal[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
+    internal PersonalInfo this[ushort species] => Personal[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -32,7 +32,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -40,7 +40,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
@@ -71,7 +71,7 @@ public sealed class LearnSource3E : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(int species, ushort move)
+    private static bool GetIsSpecialTutor(ushort species, ushort move)
     {
         var info = Personal[species];
         var index = Array.IndexOf(Tutor_E, move);

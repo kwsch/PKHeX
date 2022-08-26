@@ -15,7 +15,7 @@ public static class MoveBreed3
     private const int level = 5;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
-    public static bool Validate(int species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
+    public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
     {
         var count = moves.IndexOf((ushort)0);
         if (count == 0)

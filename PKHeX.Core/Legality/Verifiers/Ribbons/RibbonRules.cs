@@ -268,7 +268,7 @@ public static class RibbonRules
     }
 
     /// <summary>
-    /// Gets the max count values the input can receive for the <see cref="IRibbonSetCommon6.RibbonCountMemoryContest"/> and <see cref="IRibbonSetCommon6.RibbonCountMemoryBattle"/> ribbon counts.
+    /// Gets the max count values the input can receive for the <see cref="IRibbonSetMemory6.RibbonCountMemoryContest"/> and <see cref="IRibbonSetMemory6.RibbonCountMemoryBattle"/> ribbon counts.
     /// </summary>
     public static (byte Contest, byte Battle) GetMaxMemoryCounts(EvolutionHistory evos, PKM pk, IEncounterTemplate enc)
     {
@@ -314,7 +314,7 @@ public static class RibbonRules
         return IsAllowedContest4(head.Species, head.Form);
     }
 
-    public static bool IsAllowedContest4(int species, int form) => species switch
+    public static bool IsAllowedContest4(ushort species, int form) => species switch
     {
         // Disallow Unown and Ditto, and Spiky Pichu (cannot trade)
         (int)Species.Ditto => false,
@@ -323,7 +323,7 @@ public static class RibbonRules
         _ => true,
     };
 
-    public static bool IsAllowedBattleFrontier(int species) => !Legal.BattleFrontierBanlist.Contains(species);
+    public static bool IsAllowedBattleFrontier(ushort species) => !Legal.BattleFrontierBanlist.Contains(species);
 
     public static bool IsAllowedBattleFrontier4(EvolutionHistory evos)
     {
@@ -333,7 +333,7 @@ public static class RibbonRules
         return IsAllowedBattleFrontier(head.Species, head.Form, 4);
     }
 
-    public static bool IsAllowedBattleFrontier(int species, int form, int gen)
+    public static bool IsAllowedBattleFrontier(ushort species, int form, int gen)
     {
         if (gen == 4 && species == (int)Species.Pichu && form == 1) // spiky
             return false;

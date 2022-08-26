@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -151,7 +150,9 @@ public static partial class Legal
 
     #region Moves
 
-    internal static readonly HashSet<short> AllowedMovesGG = new()
+    public static bool IsAllowedMoveGG(ushort move) => Array.BinarySearch(AllowedMovesGG, move) != -1;
+
+    private static readonly ushort[] AllowedMovesGG =
     {
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,

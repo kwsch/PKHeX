@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -143,14 +143,16 @@ public partial class TrashEditor : Form
 
     private void B_ApplyTrash_Click(object sender, EventArgs e)
     {
-        string species = SpeciesName.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
-            WinFormsUtil.GetIndex(CB_Language), (int) NUD_Generation.Value);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        var language = WinFormsUtil.GetIndex(CB_Language);
+        var gen = (int)NUD_Generation.Value;
+        string speciesName = SpeciesName.GetSpeciesNameGeneration(species, language, gen);
 
-        if (string.IsNullOrEmpty(species)) // no result
-            species = CB_Species.Text;
+        if (string.IsNullOrEmpty(speciesName)) // no result
+            speciesName = CB_Species.Text;
 
         byte[] current = SetString(TB_Text.Text);
-        byte[] data = SetString(species);
+        byte[] data = SetString(speciesName);
         if (data.Length <= current.Length)
         {
             WinFormsUtil.Alert("Trash byte layer is hidden by current text.",

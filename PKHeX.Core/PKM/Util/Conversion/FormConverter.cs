@@ -19,7 +19,7 @@ public static class FormConverter
     /// <param name="genders">List of genders names</param>
     /// <param name="context">Current context for exclusive forms</param>
     /// <returns>A list of strings corresponding to the forms that a Pokémon can have.</returns>
-    public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
+    public static string[] GetFormList(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
         // Mega List
         if (context.IsMegaGeneration() && IsFormListSingleMega(species))
@@ -46,7 +46,7 @@ public static class FormConverter
     private static readonly string[] EMPTY = { string.Empty };
     private const string Starter = nameof(Starter);
 
-    private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
+    private static string[] GetFormsGen1(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
     {
         return (Species)species switch
         {
@@ -68,7 +68,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
+    private static string[] GetFormsGen2(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
     {
         int generation = context.Generation();
         return (Species)species switch
@@ -81,7 +81,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen3(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
     {
         return (Species)species switch
         {
@@ -110,7 +110,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen4(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen4(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
     {
         return (Species)species switch
         {
@@ -152,7 +152,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen5(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
     {
         return (Species)species switch
         {
@@ -211,7 +211,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
+    private static string[] GetFormsGen6(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
     {
         return (Species)species switch
         {
@@ -303,7 +303,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
+    private static string[] GetFormsGen7(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
     {
         return (Species)species switch
         {
@@ -362,7 +362,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen8(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
+    private static string[] GetFormsGen8(ushort species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
     {
         return (Species)species switch
         {
@@ -435,7 +435,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsAlolan(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
+    private static string[] GetFormsAlolan(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms, ushort species)
     {
         int generation = context.Generation();
         if (generation < 7)
@@ -527,7 +527,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsArceus(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    private static string[] GetFormsArceus(ushort species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
     {
         return generation switch
         {
@@ -615,7 +615,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsTotem(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    private static string[] GetFormsTotem(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
     {
         if ((Species)species == Mimikyu) // Mimikyu
         {
@@ -669,9 +669,9 @@ public static class FormConverter
         },
     };
 
-    private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);
+    private static bool IsFormListSingleMega(ushort species) => Mega_6_Single.Contains(species);
 
-    private static readonly HashSet<int> Mega_6_Single = new()
+    private static readonly HashSet<ushort> Mega_6_Single = new()
     {
         // XY
         003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359,
@@ -709,7 +709,7 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsHisui(int species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms) => generation switch
+    private static string[] GetFormsHisui(ushort species, int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms) => generation switch
     {
         8 => (Species)species switch
         {
@@ -814,9 +814,9 @@ public static class FormConverter
         return result;
     }
 
-    public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
+    public static bool GetFormArgumentIsNamedIndex(ushort species) => species == (int)Alcremie;
 
-    public static string[] GetFormArgumentStrings(int species) => species switch
+    public static string[] GetFormArgumentStrings(ushort species) => species switch
     {
         (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
         _ => EMPTY,

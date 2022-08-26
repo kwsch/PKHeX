@@ -26,7 +26,7 @@ public interface IPersonalFormInfo
     /// <param name="species"><see cref="PKM.Species"/> to retrieve for</param>
     /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
     /// <returns>Index the <see cref="PKM.Form"/> exists as in the <see cref="PersonalTable"/>.</returns>
-    int FormIndex(int species, int form);
+    int FormIndex(ushort species, int form);
 
     /// <summary>
     /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.Form"/> entry index available.

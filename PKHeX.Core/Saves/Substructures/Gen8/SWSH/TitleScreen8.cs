@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -47,15 +47,15 @@ public sealed class TitleScreen8Poke : ISpeciesForm
         Offset = offset;
     }
 
-    public int Species
+    public ushort Species
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x00));
-        set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
     }
 
-    public int Form
+    public byte Form
     {
-        get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
+        get => Data[Offset + 0x04];
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
     }
 

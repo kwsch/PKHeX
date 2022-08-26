@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,7 +13,7 @@ public partial class SAV_Capture7GG : Form
 
     private readonly Zukan7b Dex;
     private readonly CaptureRecords Captured;
-    private int Index;
+    private ushort Index = ushort.MaxValue;
     private bool Loading;
 
     public SAV_Capture7GG(SaveFile sav)
@@ -25,7 +25,6 @@ public partial class SAV_Capture7GG : Form
         Captured = SAV.Blocks.Captured;
 
         Loading = true;
-        Index = -1;
         // Clear Listbox and ComboBox
         LB_Species.Items.Clear();
         CB_Species.Items.Clear();
@@ -59,7 +58,7 @@ public partial class SAV_Capture7GG : Form
             return;
         SetEntry();
 
-        Index = CaptureRecords.GetSpeciesIndex((int)CB_Species.SelectedValue);
+        Index = CaptureRecords.GetSpeciesIndex((ushort)CB_Species.SelectedValue);
         Loading = true;
         LB_Species.SelectedIndex = Index;
         LB_Species.TopIndex = LB_Species.SelectedIndex;
@@ -73,9 +72,9 @@ public partial class SAV_Capture7GG : Form
             return;
         SetEntry();
 
-        Index = LB_Species.SelectedIndex;
+        Index = (ushort)LB_Species.SelectedIndex;
         Loading = true;
-        CB_Species.SelectedValue = CaptureRecords.GetIndexSpecies(Index);
+        CB_Species.SelectedValue = (int)CaptureRecords.GetIndexSpecies(Index);
         GetEntry();
         Loading = false;
     }
@@ -83,7 +82,7 @@ public partial class SAV_Capture7GG : Form
     private void GetEntry()
     {
         var index = Index;
-        if (index < 0)
+        if (index > CaptureRecords.MaxIndex)
             return;
         NUD_SpeciesCaptured.Value = Captured.GetCapturedCountIndex(index);
         NUD_SpeciesTransferred.Value = Captured.GetTransferredCountIndex(index);
@@ -92,7 +91,7 @@ public partial class SAV_Capture7GG : Form
     private void SetEntry()
     {
         var index = Index;
-        if (index < 0)
+        if (index > CaptureRecords.MaxIndex)
             return;
         Captured.SetCapturedCountIndex(index, (uint)NUD_SpeciesCaptured.Value);
         Captured.SetTransferredCountIndex(index, (uint)NUD_SpeciesTransferred.Value);

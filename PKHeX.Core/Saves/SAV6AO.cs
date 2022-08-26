@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -27,7 +27,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
     public SaveBlockAccessor6AO Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV6AO((byte[])Data.Clone());
-    public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+    public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;
     public override int MaxItemID => Legal.MaxItemID_6_AO;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
 
@@ -93,10 +93,10 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
         _ => GameVersion.Invalid,
     };
 
-    public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Blocks.Zukan.GetSeen(species);
-    public override void SetSeen(int species, bool seen) => Blocks.Zukan.SetSeen(species, seen);
-    public override void SetCaught(int species, bool caught) => Blocks.Zukan.SetCaught(species, caught);
+    public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);
+    public override void SetSeen(ushort species, bool seen) => Blocks.Zukan.SetSeen(species, seen);
+    public override void SetCaught(ushort species, bool caught) => Blocks.Zukan.SetCaught(species, caught);
     protected override void SetDex(PKM pk) => Blocks.Zukan.SetDex(pk);
 
     public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }

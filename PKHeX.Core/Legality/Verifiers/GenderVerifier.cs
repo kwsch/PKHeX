@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -57,14 +57,14 @@ public sealed class GenderVerifier : Verifier
             return IsValidGenderMismatch(pk);
 
         // check for mixed->fixed gender incompatibility by checking the gender of the original species
-        int original = data.EncounterMatch.Species;
+        var original = data.EncounterMatch.Species;
         if (Legal.FixedGenderFromBiGender.Contains(original))
             return IsValidFixedGenderFromBiGender(pk, original);
 
         return true;
     }
 
-    private static bool IsValidFixedGenderFromBiGender(PKM pk, int original)
+    private static bool IsValidFixedGenderFromBiGender(PKM pk, ushort original)
     {
         var current = pk.Gender;
         if (current == 2) // shedinja, genderless

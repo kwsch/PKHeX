@@ -225,7 +225,7 @@ public sealed class MiscVerifier : Verifier
             if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
                 return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
-            int species = pk1.Species;
+            ushort species = pk1.Species;
             if (GBRestrictions.Species_NotAvailable_CatchRate.Contains((byte)species) && catch_rate == PersonalTable.RB[species].CatchRate)
             {
                 if (species != (int) Species.Dragonite || catch_rate != 45 || !e.Version.Contains(GameVersion.YW))
@@ -470,11 +470,11 @@ public sealed class MiscVerifier : Verifier
         if (pk.Species != data.EncounterMatch.Species)
             return; // evolved
 
-        if (Unfeedable.Contains(pk.Species))
+        if (Unfeedable.Contains((ushort)pk.Species))
             data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
     }
 
-    private static readonly HashSet<int> Unfeedable = new()
+    private static readonly HashSet<ushort> Unfeedable = new()
     {
         (int)Species.Metapod,
         (int)Species.Kakuna,
@@ -663,7 +663,7 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatNatureInvalid));
     }
 
-    private static bool CanLearnTR(int species, int form, int tr)
+    private static bool CanLearnTR(ushort species, int form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
         return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];

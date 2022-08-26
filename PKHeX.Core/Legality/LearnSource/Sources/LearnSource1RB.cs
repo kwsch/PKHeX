@@ -16,9 +16,9 @@ public sealed class LearnSource1RB : ILearnSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpRB;
     private const LearnEnvironment Game = RB;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if (form is not 0 || species > Legal.MaxSpeciesID_1)
@@ -46,7 +46,7 @@ public sealed class LearnSource1RB : ILearnSource
         return default;
     }
 
-    private static bool GetIsTutor(int species, ushort move)
+    private static bool GetIsTutor(ushort species, ushort move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)

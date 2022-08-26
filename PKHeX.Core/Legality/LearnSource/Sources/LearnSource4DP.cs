@@ -20,9 +20,9 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
     private const int Generation = 4;
     private const int CountTM = 92;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -31,7 +31,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,7 +39,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
@@ -73,13 +73,13 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsTypeTutor(int species, ushort move)
+    private static bool GetIsTypeTutor(ushort species, ushort move)
     {
         var index = Array.IndexOf(SpecialTutors_4, move);
         if (index == -1)
             return false;
         var list = SpecialTutors_Compatibility_4[index].AsSpan();
-        return list.IndexOf((ushort)species) != -1;
+        return list.IndexOf(species) != -1;
     }
 
     private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)

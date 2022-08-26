@@ -19,9 +19,9 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
     private const LearnEnvironment Game = C;
     private const int CountTMHM = 57;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if (species > Legal.MaxSpeciesID_2)
@@ -30,7 +30,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -38,7 +38,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
@@ -64,7 +64,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PKM pk, int species, ushort move)
+    private static bool GetIsSpecialTutor(PKM pk, ushort species, ushort move)
     {
         if (!ParseSettings.AllowGen2Crystal(pk))
             return false;

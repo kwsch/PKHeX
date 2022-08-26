@@ -62,7 +62,7 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
 
     #region Conversion
 
-    public PersonalInfo GetPersonalInfo(int species, int form) => PersonalTable.BDSP.GetFormEntry(species, form);
+    public PersonalInfo GetPersonalInfo(ushort species, int form) => PersonalTable.BDSP.GetFormEntry(species, form);
 
     public void CopyTo(PB8 pk)
     {

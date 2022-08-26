@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -33,8 +33,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     protected abstract int EventFlagOffset { get; }
     protected abstract int EventWorkOffset { get; }
 
-    public override int MaxMoveID => Legal.MaxMoveID_5;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
+    public override ushort MaxMoveID => Legal.MaxMoveID_5;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_5;
     public override int MaxAbilityID => Legal.MaxAbilityID_5;
     public override int MaxBallID => Legal.MaxBallID_5;
     public override int MaxGameID => Legal.MaxGameID_5; // B2
@@ -136,8 +136,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
-    public override bool GetCaught(int species) => Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Zukan.GetSeen(species);
+    public override bool GetCaught(ushort species) => Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Zukan.GetSeen(species);
 
     public sealed override string GetString(ReadOnlySpan<byte> data) => StringConverter5.GetString(data);
 

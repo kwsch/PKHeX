@@ -46,8 +46,8 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), value); }
     public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value); }
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), (ushort)value); }
-    public override int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value); }
+    public override byte Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
 
     public string Nickname

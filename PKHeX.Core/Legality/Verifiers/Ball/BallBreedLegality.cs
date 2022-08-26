@@ -12,7 +12,7 @@ internal static class BallBreedLegality
     /// <summary>
     /// Species that are male only in Generation 6; for ball inheritance, these behave the same as Genderless species (no ball inherited).
     /// </summary>
-    internal static readonly HashSet<int> BreedMaleOnly6 = new()
+    internal static readonly HashSet<ushort> BreedMaleOnly6 = new()
     {
         (int)Tauros,
         (int)Rufflet,
@@ -22,7 +22,7 @@ internal static class BallBreedLegality
         (int)Throh,
     };
 
-    internal static readonly HashSet<int> PastGenAlolanScans = new()
+    internal static readonly HashSet<ushort> PastGenAlolanScans = new()
     {
         (int)Bellsprout,
         (int)Rhyhorn,
@@ -74,7 +74,7 @@ internal static class BallBreedLegality
         (int)Froakie,
     };
 
-    internal static readonly HashSet<int> Inherit_Sport = new()
+    internal static readonly HashSet<ushort> Inherit_Sport = new()
     {
         (int)Caterpie,
         (int)Weedle,
@@ -90,7 +90,7 @@ internal static class BallBreedLegality
         (int)Volbeat,
     };
 
-    internal static readonly HashSet<int> Inherit_Safari = new()
+    internal static readonly HashSet<ushort> Inherit_Safari = new()
     {
         (int)Pidgey,
         (int)Rattata,
@@ -224,7 +224,7 @@ internal static class BallBreedLegality
         (int)Happiny,
     };
 
-    internal static readonly HashSet<int> Inherit_Dream = new()
+    internal static readonly HashSet<ushort> Inherit_Dream = new()
     {
         (int)Caterpie,
         (int)Weedle,
@@ -466,7 +466,7 @@ internal static class BallBreedLegality
         (int)Mantyke,
     };
 
-    internal static readonly HashSet<int> Ban_DreamHidden = new()
+    internal static readonly HashSet<ushort> Ban_DreamHidden = new()
     {
         (int)Plusle,
         (int)Minun,
@@ -474,7 +474,7 @@ internal static class BallBreedLegality
         (int)Duskull,
     };
 
-    internal static readonly HashSet<int> Ban_Gen3Ball = new()
+    internal static readonly HashSet<ushort> Ban_Gen3Ball = new()
     {
         (int)Treecko, (int)Torchic, (int)Mudkip,
         (int)Turtwig, (int)Chimchar, (int)Piplup,
@@ -484,7 +484,7 @@ internal static class BallBreedLegality
         (int)Archen, (int)Tyrunt, (int)Amaura,
     };
 
-    internal static readonly HashSet<int> Ban_Gen3BallHidden = new()
+    internal static readonly HashSet<ushort> Ban_Gen3BallHidden = new()
     {
         // can have HA and can be in gen 3 ball as eggs but can not at same time.
         (int)Chikorita, (int)Cyndaquil, (int)Totodile,
@@ -494,7 +494,7 @@ internal static class BallBreedLegality
         (int)Pumpkaboo + (3 << 11), //Pumpkaboo-Super
     };
 
-    internal static readonly HashSet<int> Ban_Gen4Ball_6 = new()
+    internal static readonly HashSet<ushort> Ban_Gen4Ball_6 = new()
     {
         (int)Chikorita, (int)Cyndaquil, (int)Totodile,
         (int)Treecko, (int)Torchic, (int)Mudkip,
@@ -505,7 +505,7 @@ internal static class BallBreedLegality
         (int)Archen, (int)Tyrunt, (int)Amaura,
     };
 
-    internal static readonly HashSet<int> Inherit_Apricorn6 = new()
+    internal static readonly HashSet<ushort> Inherit_Apricorn6 = new()
     {
         (int)Caterpie,
         (int)Weedle,
@@ -653,7 +653,7 @@ internal static class BallBreedLegality
         (int)Igglybuff, // Via Jigglypuff
     };
 
-    internal static readonly HashSet<int> AlolanCaptureOffspring = new()
+    internal static readonly HashSet<ushort> AlolanCaptureOffspring = new()
     {
         (int)Caterpie,
         (int)Rattata,
@@ -864,7 +864,7 @@ internal static class BallBreedLegality
         (int)Voltorb,
     };
 
-    internal static readonly HashSet<int> Ban_NoHidden7Apricorn = new()
+    internal static readonly HashSet<ushort> Ban_NoHidden7Apricorn = new()
     {
         (int)NidoranF,
         (int)NidoranM,
@@ -873,9 +873,9 @@ internal static class BallBreedLegality
         (int)Flabébé + (3 << 11), // Flabébé-Blue
     };
 
-    internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new() { (int)Beldum, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini };
+    internal static readonly HashSet<ushort> AlolanCaptureNoHeavyBall = new() { (int)Beldum, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini };
 
-    private static readonly HashSet<int> Inherit_ApricornMale7 = new()
+    private static readonly HashSet<ushort> Inherit_ApricornMale7 = new()
     {
         (int)Voltorb,
         (int)Baltoy,
@@ -885,9 +885,9 @@ internal static class BallBreedLegality
         // Magnemite, Staryu, Tauros
     };
 
-    internal static readonly HashSet<int> Inherit_Apricorn7 = new(Inherit_Apricorn6.Concat(Inherit_ApricornMale7).Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct());
+    internal static readonly HashSet<ushort> Inherit_Apricorn7 = new(Inherit_Apricorn6.Concat(Inherit_ApricornMale7).Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct());
 
-    internal static readonly HashSet<int> Inherit_SafariMale = new()
+    internal static readonly HashSet<ushort> Inherit_SafariMale = new()
     {
         (int)Tauros,
 
@@ -899,7 +899,7 @@ internal static class BallBreedLegality
         (int)Bronzor,
     };
 
-    internal static readonly HashSet<int> Inherit_DreamMale = new()
+    internal static readonly HashSet<ushort> Inherit_DreamMale = new()
     {
         // Starting with Gen7, Males pass Ball via breeding with Ditto.
         (int)Bulbasaur, (int)Charmander, (int)Squirtle,
@@ -927,7 +927,7 @@ internal static class BallBreedLegality
         (int)Golett,
     };
 
-    internal static readonly HashSet<int> Ban_Gen3Ball_7 = new()
+    internal static readonly HashSet<ushort> Ban_Gen3Ball_7 = new()
     {
         (int)Phione,
         (int)Archen,
@@ -936,9 +936,9 @@ internal static class BallBreedLegality
     };
 
     // Same as Gen3 Balls
-    internal static readonly HashSet<int> Ban_Gen4Ball_7 = Ban_Gen3Ball_7;
+    internal static readonly HashSet<ushort> Ban_Gen4Ball_7 = Ban_Gen3Ball_7;
 
-    internal static readonly HashSet<int> Ban_SafariBallHidden_7 = new()
+    internal static readonly HashSet<ushort> Ban_SafariBallHidden_7 = new()
     {
         (int)NidoranF,
         (int)NidoranM,
@@ -961,7 +961,7 @@ internal static class BallBreedLegality
         (int)Golett,
     };
 
-    internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new()
+    internal static readonly HashSet<ushort> Ban_NoHidden8Apricorn = new()
     {
         // Nidoran, Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
         (int)Voltorb, // Voltorb
@@ -976,7 +976,7 @@ internal static class BallBreedLegality
     /// <returns>Valid ball to hatch with.</returns>
     /// <remarks>Not all things can hatch with a Poké Ball!</remarks>
 #pragma warning disable RCS1163, IDE0060 // Unused parameter.
-    public static Ball GetDefaultBall(GameVersion version, int species)
+    public static Ball GetDefaultBall(GameVersion version, ushort species)
     {
         return Ball.None;
     }

@@ -8,7 +8,7 @@ public static class GameData
     public static Learnset[] GetLearnsets(GameVersion game) => Learnsets(game);
     public static IPersonalTable GetPersonal(GameVersion game) => Personal(game);
 
-    public static Learnset GetLearnset(GameVersion game, int species, int form)
+    public static Learnset GetLearnset(GameVersion game, ushort species, int form)
     {
         var pt = Personal(game);
         var index = pt.GetFormIndex(species, form);

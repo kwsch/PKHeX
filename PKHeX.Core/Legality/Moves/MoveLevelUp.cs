@@ -13,7 +13,7 @@ public static class MoveLevelUp
         return GetEncounterMoves(pk.Species, pk.Form, level, version);
     }
 
-    private static ushort[] GetEncounterMoves1(int species, int level, GameVersion version)
+    private static ushort[] GetEncounterMoves1(ushort species, int level, GameVersion version)
     {
         var learn = GameData.GetLearnsets(version);
         var table = GameData.GetPersonal(version);
@@ -27,7 +27,7 @@ public static class MoveLevelUp
         return lvl0.ToArray();
     }
 
-    private static ushort[] GetEncounterMoves2(int species, int level, GameVersion version)
+    private static ushort[] GetEncounterMoves2(ushort species, int level, GameVersion version)
     {
         var learn = GameData.GetLearnsets(version);
         var table = GameData.GetPersonal(version);
@@ -39,7 +39,7 @@ public static class MoveLevelUp
         return lvl0;
     }
 
-    public static ushort[] GetEncounterMoves(int species, int form, int level, GameVersion version)
+    public static ushort[] GetEncounterMoves(ushort species, int form, int level, GameVersion version)
     {
         if (RBY.Contains(version))
             return GetEncounterMoves1(species, level, version);

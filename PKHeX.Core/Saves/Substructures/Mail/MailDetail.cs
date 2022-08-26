@@ -24,7 +24,7 @@ public abstract class MailDetail
     public virtual byte AuthorVersion { get; set; }
     public virtual byte AuthorLanguage { get; set; }
     public virtual byte AuthorGender { get; set; }
-    public virtual int AppearPKM { get; set; }
+    public virtual ushort AppearPKM { get; set; }
     public virtual int MailType { get; set; }
     public abstract bool? IsEmpty { get; } // true: empty, false: legal mail, null: illegal mail
     public virtual void SetBlank() { }

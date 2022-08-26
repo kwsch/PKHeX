@@ -29,8 +29,8 @@ public sealed class SAV1Stadium : SAV_STADIUM
     public override int BoxCount => Japanese ? 8 : 12;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
-    public override int MaxMoveID => Legal.MaxMoveID_1;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
+    public override ushort MaxMoveID => Legal.MaxMoveID_1;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_1;
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
 

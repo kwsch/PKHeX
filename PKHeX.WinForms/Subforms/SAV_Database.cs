@@ -240,7 +240,7 @@ public partial class SAV_Database : Form
         CB_GameOrigin.InitializeBinding();
         CB_HPType.InitializeBinding();
 
-        var comboAny = new ComboItem(MsgAny, -1);
+        var comboAny = new ComboItem(MsgAny, 0);
 
         var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         species.RemoveAt(0);
@@ -491,7 +491,7 @@ public partial class SAV_Database : Form
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
             HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
 
-            Species = WinFormsUtil.GetIndex(CB_Species),
+            Species = (ushort)WinFormsUtil.GetIndex(CB_Species),
             Ability = WinFormsUtil.GetIndex(CB_Ability),
             Nature = WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),

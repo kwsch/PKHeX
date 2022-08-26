@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -24,7 +24,7 @@ public static class GigantamaxExtensions
     /// <param name="originSpecies">The original species (what species it was encountered as)</param>
     /// <param name="originForm">The original form of the original species</param>
     /// <returns>True if either species can toggle Gigantamax potential</returns>
-    public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm, int originSpecies, int originForm)
+    public static bool CanToggleGigantamax(this IGigantamax _, ushort currentSpecies, int currentForm, ushort originSpecies, int originForm)
     {
         if (currentSpecies is (int)Species.Meowth or (int)Species.Pikachu)
             return currentForm == 0;
@@ -40,7 +40,7 @@ public static class GigantamaxExtensions
     /// <param name="currentSpecies">The current species</param>
     /// <param name="currentForm">The current form of the species</param>
     /// <returns>True if the species can toggle Gigantamax potential</returns>
-    public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm)
+    public static bool CanToggleGigantamax(this IGigantamax _, ushort currentSpecies, int currentForm)
     {
         if (currentSpecies is (int)Species.Meowth or (int)Species.Pikachu)
             return currentForm == 0;
@@ -48,7 +48,7 @@ public static class GigantamaxExtensions
         return soup.Contains(currentSpecies);
     }
 
-    private static readonly HashSet<int> CanEatMaxSoup = new()
+    private static readonly HashSet<ushort> CanEatMaxSoup = new()
     {
         (int)Species.Venusaur,
         (int)Species.Charizard,

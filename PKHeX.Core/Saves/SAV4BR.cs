@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -97,8 +97,8 @@ public sealed class SAV4BR : SaveFile
     public override PKM BlankPKM => new BK4();
     public override Type PKMType => typeof(BK4);
 
-    public override int MaxMoveID => 467;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+    public override ushort MaxMoveID => 467;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_4;
     public override int MaxAbilityID => Legal.MaxAbilityID_4;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public override int MaxBallID => Legal.MaxBallID_4;

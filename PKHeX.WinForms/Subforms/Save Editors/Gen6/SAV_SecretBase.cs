@@ -185,13 +185,13 @@ public partial class SAV_SecretBase : Form
     private void SavePKM(SecretBase6PKM pk)
     {
         pk.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
-        pk.Species = WinFormsUtil.GetIndex(CB_Species);
+        pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
         pk.Ability = WinFormsUtil.GetIndex(CB_Ability);
         pk.AbilityNumber = CB_Ability.SelectedIndex << 1;
         pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
         pk.Gender = EntityGender.GetFromString(Label_Gender.Text);
-        pk.Form = CB_Form.SelectedIndex;
+        pk.Form = (byte)CB_Form.SelectedIndex;
         pk.EV_HP = Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
         pk.EV_ATK = Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
         pk.EV_DEF = Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
@@ -225,7 +225,7 @@ public partial class SAV_SecretBase : Form
         // Put data into fields.
         TB_EC.Text = pk.EncryptionConstant.ToString("X8");
         SetGenderLabel(pk.Gender);
-        CB_Species.SelectedValue = pk.Species;
+        CB_Species.SelectedValue = (int)pk.Species;
         CB_HeldItem.SelectedValue = pk.HeldItem;
         CB_Form.SelectedIndex = pk.Form;
 
@@ -313,13 +313,13 @@ public partial class SAV_SecretBase : Form
     #region PKM
     private void SetAbilityList()
     {
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         var form = CB_Form.SelectedIndex;
         var index = CB_Ability.SelectedIndex;
         SetAbilityList(species, form, index);
     }
 
-    private void SetAbilityList(int species, int form, int abilityIndex)
+    private void SetAbilityList(ushort species, int form, int abilityIndex)
     {
         var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
         var list = GameInfo.FilteredSources.GetAbilityList(abilities, 6);
@@ -329,7 +329,7 @@ public partial class SAV_SecretBase : Form
 
     private void SetForms()
     {
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         bool hasForms = FormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
         CB_Form.Enabled = CB_Form.Visible = hasForms;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -297,35 +297,38 @@ public sealed class SuperTrainingSpeciesRecord : ISpeciesForm
     /// <summary>
     /// <see cref="PKM.Species"/> of the Record Holder.
     /// </summary>
-    public int Species
+    public ushort Species
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
     }
 
     /// <summary>
     /// <see cref="PKM.Form"/> of the Record Holder.
     /// </summary>
-    public int Form
+    public byte Form
     {
         get => Data[Offset + 2];
-        set => Data[Offset + 2] = (byte)value;
+        set => Data[Offset + 2] = value;
     }
 
     /// <summary>
     /// <see cref="PKM.Gender"/> of the Record Holder.
     /// </summary>
     /// <seealso cref="Core.Gender"/>
-    public int Gender
+    public byte Gender
     {
         get => Data[Offset + 3];
-        set => Data[Offset + 3] = (byte)value;
+        set => Data[Offset + 3] = value;
     }
 
     /// <summary>
     /// Wipes the record holder's pk-related data.
     /// </summary>
-    public void Clear() => Species = Form = Gender = 0;
+    public void Clear()
+    {
+        Species = 0; Form = Gender = 0;
+    }
 
     /// <summary>
     /// Sets the data to match what is in the provided reference.
@@ -335,6 +338,6 @@ public sealed class SuperTrainingSpeciesRecord : ISpeciesForm
     {
         Species = pk.Species;
         Form = pk.Form;
-        Gender = pk.Gender;
+        Gender = (byte)pk.Gender;
     }
 }

@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Egg Encounter Data
 /// </summary>
-public sealed record EncounterEgg(int Species, int Form, byte Level, int Generation, GameVersion Version, EntityContext Context) : IEncounterable
+public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Generation, GameVersion Version, EntityContext Context) : IEncounterable
 {
     public string Name => "Egg";
     public string LongName => "Egg";
@@ -94,7 +94,7 @@ public sealed record EncounterEgg(int Species, int Form, byte Level, int Generat
         switch (Species)
         {
             case (int)Core.Species.Minior:
-                pk.Form = Util.Rand.Next(7, 14);
+                pk.Form = (byte)Util.Rand.Next(7, 14);
                 break;
             case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
                 if (sav is IRegionOrigin o)

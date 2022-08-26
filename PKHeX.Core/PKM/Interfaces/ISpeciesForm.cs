@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Simple identification values for an Pokémon Entity.
@@ -6,8 +6,8 @@
 public interface ISpeciesForm
 {
     /// <summary> Species ID of the entity (National Dex). </summary>
-    int Species { get; }
+    ushort Species { get; }
 
     /// <summary> Form ID of the entity. </summary>
-    int Form { get; }
+    byte Form { get; }
 }

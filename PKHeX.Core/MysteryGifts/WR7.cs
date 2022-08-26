@@ -57,7 +57,7 @@ public sealed class WR7 : DataMysteryGift
 
     // unknown: region from 0x10 to 0xFF ?
 
-    public override int Species
+    public override ushort Species 
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x10C));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x10C), (ushort)value);
@@ -85,7 +85,7 @@ public sealed class WR7 : DataMysteryGift
     public ushort ItemSet6Count { get => ReadUInt16LittleEndian(Data.AsSpan(0x126)); set => WriteUInt16LittleEndian(Data.AsSpan(0x126), value); }
 
     public override int Gender { get; set; }
-    public override int Form { get; set; }
+    public override byte Form { get; set; }
     public override int TID { get; set; }
     public override int SID { get; set; }
 

@@ -138,8 +138,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     public override PKM BlankPKM => new CK3();
     public override Type PKMType => typeof(CK3);
 
-    public override int MaxMoveID => Legal.MaxMoveID_3;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+    public override ushort MaxMoveID => Legal.MaxMoveID_3;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
     public override int MaxBallID => Legal.MaxBallID_3;
     public override int MaxItemID => Legal.MaxItemID_3_COLO;

@@ -73,7 +73,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = GetBits(data);
     public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = GetBits(data);
 
-    public int FormIndex(int species, int form)
+    public int FormIndex(ushort species, int form)
     {
         if (!HasForm(form))
             return species;

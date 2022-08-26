@@ -28,11 +28,12 @@ public sealed class Mail4 : MailDetail
         MailType = 0xFF;
         AuthorName = string.Empty;
         for (int i = 0; i < 3; i++)
-            SetAppearSpecies(i, 0xFFFF);
+            SetAppearSpecies(i, ushort.MaxValue);
+
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 4; x++)
-                SetMessage(y, x, x == 1 ? (ushort)0 : (ushort)0xFFFF);
+                SetMessage(y, x, x == 1 ? (ushort)0 : ushort.MaxValue);
         }
     }
 
@@ -44,8 +45,8 @@ public sealed class Mail4 : MailDetail
     public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
     public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
     public override string AuthorName { get => StringConverter4.GetString(Data.AsSpan(8, 0x10)); set => StringConverter4.SetString(Data.AsSpan(8, 0x10), value.AsSpan(), 7, StringConverterOption.ClearFF); }
-    public int GetAppearSpecies(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
-    public void SetAppearSpecies(int index, int value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)(value == 0 ? 0xFFFF : value));
+    public ushort GetAppearSpecies(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
+    public void SetAppearSpecies(int index, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)(value == 0 ? 0xFFFF : value));
     public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data.AsSpan(0x20 + (((index1 * 4) + index2) * 2)));
     public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data.AsSpan(0x20 + (((index1 * 4) + index2) * 2)), value);
 

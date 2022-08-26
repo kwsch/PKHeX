@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 using FluentAssertions;
 using PKHeX.Core;
@@ -14,7 +14,7 @@ public static class PokeDex
     public static void Gen5(Species species)
     {
         var bw = new SAV5B2W2();
-        SetDexSpecies(bw, (int)species, 0x54);
+        SetDexSpecies(bw, (ushort)species, 0x54);
     }
 
     [Theory]
@@ -22,11 +22,11 @@ public static class PokeDex
     public static void Gen5Form(Species species)
     {
         var bw = new SAV5B2W2();
-        SetDexSpecies(bw, (int)species, 0x54);
-        CheckDexFlags5(bw, (int)species, 0, 0x54, 0xB);
+        SetDexSpecies(bw, (ushort)species, 0x54);
+        CheckDexFlags5(bw, (ushort)species, 0, 0x54, 0xB);
     }
 
-    private static void SetDexSpecies(SaveFile sav, int species, int regionSize)
+    private static void SetDexSpecies(SaveFile sav, ushort species, int regionSize)
     {
         var pk5 = new PK5 {Species = species, TID = 1337}; // non-shiny
         pk5.Gender = pk5.GetSaneGender();
@@ -36,7 +36,7 @@ public static class PokeDex
         CheckFlags(sav, species, regionSize);
     }
 
-    private static void CheckFlags(SaveFile sav, int species, int regionSize)
+    private static void CheckFlags(SaveFile sav, ushort species, int regionSize)
     {
         var dex = sav.PokeDex;
         var data = sav.Data;
@@ -52,7 +52,7 @@ public static class PokeDex
         span[offset + regionSize + (regionSize * 4)].Should().Be(value, "displayed flag");
     }
 
-    private static void CheckDexFlags5(SaveFile sav, int species, int form, int regionSize, int formRegionSize)
+    private static void CheckDexFlags5(SaveFile sav, ushort species, int form, int regionSize, int formRegionSize)
     {
         var dex = sav.PokeDex;
         var data = sav.Data;

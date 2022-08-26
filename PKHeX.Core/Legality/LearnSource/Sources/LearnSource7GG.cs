@@ -17,9 +17,9 @@ public sealed class LearnSource7GG : ILearnSource
     private const LearnEnvironment Game = GG;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -47,7 +47,7 @@ public sealed class LearnSource7GG : ILearnSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(int species, int form, ushort move)
+    private static bool GetIsEnhancedTutor(ushort species, int form, ushort move)
     {
         if (species == (int)Species.Pikachu && form == 8) // Partner
             return Tutor_StarterPikachu.AsSpan().Contains(move);

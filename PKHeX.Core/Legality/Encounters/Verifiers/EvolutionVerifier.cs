@@ -41,7 +41,7 @@ public static class EvolutionVerifier
             return false; // Can't exist as current species
 
         // OK if un-evolved from original encounter
-        int species = pk.Species;
+        ushort species = pk.Species;
         var enc = info.EncounterMatch;
         if (species == enc.Species) // never evolved
             return true;

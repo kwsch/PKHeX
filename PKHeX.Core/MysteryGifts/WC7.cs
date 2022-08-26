@@ -202,8 +202,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7C), value); }
     public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7E), value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(0x80), value); }
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(0x82), (ushort)value); }
-    public override int Form { get => Data[0x84]; set => Data[0x84] = (byte)value; }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(0x82), value); }
+    public override byte Form { get => Data[0x84]; set => Data[0x84] = (byte)value; }
     public int Language { get => Data[0x85]; set => Data[0x85] = (byte)value; }
 
     public string Nickname

@@ -11,8 +11,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     protected G3PKM(int size) : base(size) { }
 
     // Maximums
-    public sealed override int MaxMoveID => Legal.MaxMoveID_3;
-    public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+    public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
+    public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
     public sealed override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
@@ -54,9 +54,9 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
 
     public abstract ushort SpeciesID3 { get; set; } // raw access
 
-    public sealed override int Form
+    public sealed override byte Form
     {
-        get => Species == (int)Core.Species.Unown ? EntityPID.GetUnownForm3(PID) : 0;
+        get => Species == (int)Core.Species.Unown ? EntityPID.GetUnownForm3(PID) : (byte)0;
         set
         {
             if (Species != (int)Core.Species.Unown)

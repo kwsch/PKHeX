@@ -12,7 +12,7 @@ public sealed class SearchSettings
 {
     public int Format { get; init; }
     public int Generation { get; init; }
-    public int Species { get; init; } = -1;
+    public ushort Species { get; init; }
     public int Ability { get; init; } = -1;
     public int Nature { get; init; } = -1;
     public int Item { get; init; } = -1;
@@ -135,7 +135,7 @@ public sealed class SearchSettings
     {
         if (Format > 0 && !SearchUtil.SatisfiesFilterFormat(pk, Format, SearchFormat))
             return false;
-        if (Species > -1 && pk.Species != Species)
+        if (Species != 0 && pk.Species != Species)
             return false;
         if (Ability > -1 && pk.Ability != Ability)
             return false;

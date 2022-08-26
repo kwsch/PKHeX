@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -164,7 +164,7 @@ public static class EncounterSlotGenerator
 
         // Format 2 without met location but pokemon could not be tradeback to gen 1,
         // encounter should be from gold or silver
-        if (pk.Species > MaxSpeciesID_1 && !EvolutionLegality.FutureEvolutionsGen1.Contains(pk.Species))
+        if (pk.Species > MaxSpeciesID_1 && !EvolutionLegality.FutureEvolutionsGen1.Contains((ushort)pk.Species))
             return SlotsGS;
 
         // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin

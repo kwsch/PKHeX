@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -103,10 +103,10 @@ public partial class SAV_SuperTrain : Form
         loading = true;
         var holder1 = STB.GetHolder1(index);
         var holder2 = STB.GetHolder2(index);
-        CB_Species1.SelectedValue = holder1.Species;
+        CB_Species1.SelectedValue = (int)holder1.Species;
         MTB_Gender1.Text = holder1.Gender.ToString();
         MTB_Form1.Text = holder1.Form.ToString();
-        CB_Species2.SelectedValue = holder2.Species;
+        CB_Species2.SelectedValue = (int)holder2.Species;
         MTB_Gender2.Text = holder2.Gender.ToString();
         MTB_Form2.Text = holder2.Form.ToString();
         TB_Time1.Text = STB.GetTime1(index).ToString(CultureInfo.InvariantCulture);
@@ -144,7 +144,7 @@ public partial class SAV_SuperTrain : Form
         if (index < 0 || loading)
             return;
         var holder = STB.GetHolder1(index);
-        holder.Species = WinFormsUtil.GetIndex(CB_Species1);
+        holder.Species = (ushort)WinFormsUtil.GetIndex(CB_Species1);
     }
 
     private void ChangeRecordMisc1(object sender, EventArgs e)
@@ -165,7 +165,7 @@ public partial class SAV_SuperTrain : Form
         if (index < 0 || loading)
             return;
         var holder = STB.GetHolder2(index);
-        holder.Species = WinFormsUtil.GetIndex(CB_Species2);
+        holder.Species = (ushort)WinFormsUtil.GetIndex(CB_Species2);
     }
 
     private void ChangeRecordMisc2(object sender, EventArgs e)

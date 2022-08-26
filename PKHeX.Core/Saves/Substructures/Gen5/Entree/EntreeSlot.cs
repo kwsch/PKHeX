@@ -11,18 +11,18 @@ public sealed class EntreeSlot : ISpeciesForm
     /// <summary>
     /// <see cref="PKM.Species"/> index
     /// </summary>
-    public int Species // bits 0-10
+    public ushort Species // bits 0-10
     {
-        get => (int)(RawValue & 0x3FF) >> 0;
+        get => (ushort)((RawValue & 0x3FF) >> 0);
         set => RawValue = (RawValue & 0xFFFF_F800) | ((uint)(value & 0x3FF) << 0);
     }
 
     /// <summary>
     /// Special Move
     /// </summary>
-    public int Move // bits 11-20
+    public ushort Move // bits 11-20
     {
-        get => (int)(RawValue & 0x001F_F800) >> 11;
+        get => (ushort)((RawValue & 0x001F_F800) >> 11);
         set => RawValue = (RawValue & 0xFFE0_07FF) | ((uint)(value & 0x3FF) << 11);
     }
 
@@ -38,9 +38,9 @@ public sealed class EntreeSlot : ISpeciesForm
     /// <summary>
     /// <see cref="PKM.Form"/> index
     /// </summary>
-    public int Form // bits 23-27
+    public byte Form // bits 23-27
     {
-        get => (int)(RawValue & 0x0F80_0000) >> 23;
+        get => (byte)((RawValue & 0x0F80_0000) >> 23);
         set => RawValue = (RawValue & 0xF07F_FFFF) | ((uint)(value & 0x1F) << 23);
     }
 

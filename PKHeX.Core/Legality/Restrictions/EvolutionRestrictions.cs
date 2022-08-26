@@ -132,7 +132,7 @@ internal static class EvolutionRestrictions
             return true;
 
         // OK if un-evolved from original encounter
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (info.EncounterMatch.Species == species)
             return true;
 

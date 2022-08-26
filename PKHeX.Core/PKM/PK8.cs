@@ -100,8 +100,8 @@ public sealed class PK8 : G8PKM
     }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_8;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_8;
+    public override ushort MaxMoveID => Legal.MaxMoveID_8;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8;
     public override int MaxAbilityID => Legal.MaxAbilityID_8;
     public override int MaxItemID => Legal.MaxItemID_8;
     public override int MaxBallID => Legal.MaxBallID_8;

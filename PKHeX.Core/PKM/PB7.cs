@@ -62,10 +62,10 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
     }
 
-    public override int Species
+    public override ushort Species 
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);
     }
 
     public override int HeldItem
@@ -106,7 +106,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
     public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
-    public override int Form { get => Data[0x1D] >> 3; set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
+    public override byte Form { get => (byte)(Data[0x1D] >> 3); set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
     public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
     public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
     public override int EV_DEF { get => Data[0x20]; set => Data[0x20] = (byte)value; }
@@ -351,8 +351,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_7b;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_7b;
+    public override ushort MaxMoveID => Legal.MaxMoveID_7b;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7b;
     public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;

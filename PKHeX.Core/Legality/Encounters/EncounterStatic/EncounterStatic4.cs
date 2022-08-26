@@ -100,7 +100,7 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         pk.MetDate = today;
     }
 
-    private static int[] GetRoamLocations(int species, GroundTileType type) => species switch
+    private static int[] GetRoamLocations(ushort species, GroundTileType type) => species switch
     {
         481 or 488 or 144 or 145 or 146 => type == GroundTileType.Grass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
         243 or 244 => type == GroundTileType.Grass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,

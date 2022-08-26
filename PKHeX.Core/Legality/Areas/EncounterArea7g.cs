@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -12,9 +12,9 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
 {
     /// <summary> Species for the area </summary>
     /// <remarks> Due to how the encounter data is packaged by PKHeX, each species-form is grouped together. </remarks>
-    public int Species { get; }
+    public ushort Species { get; }
     /// <summary> Form of the Species </summary>
-    public int Form { get; }
+    public byte Form { get; }
     public readonly EncounterSlot7GO[] Slots;
 
     protected override IReadOnlyList<EncounterSlot> Raw => Slots;

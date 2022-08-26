@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc.Properties;
 using PKHeX.Drawing.PokeSprite;
@@ -31,8 +31,8 @@ public static class MysteryGiftSpriteUtil
 
         if (gift.IsItem)
         {
-            int item = gift.ItemID;
-            if (Legal.ZCrystalDictionary.TryGetValue(item, out int value))
+            var item = (ushort)gift.ItemID;
+            if (Legal.ZCrystalDictionary.TryGetValue(item, out var value))
                 item = value;
             return SpriteUtil.GetItemSprite(item) ?? Resources.Bag_Key;
         }

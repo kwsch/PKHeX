@@ -40,7 +40,7 @@ public static class MemoryPermissions
         return mem.CanUseItemGeneric(item);
     }
 
-    public static bool CanUseItem(EntityContext context, int item, int species)
+    public static bool CanUseItem(EntityContext context, int item, ushort species)
     {
         if (IsUsedKeyItemUnspecific(context, item))
             return true;
@@ -55,7 +55,7 @@ public static class MemoryPermissions
         return mem.IsUsedKeyItemUnspecific(item);
     }
 
-    private static bool IsUsedKeyItemSpecific(EntityContext context, int item, int species)
+    private static bool IsUsedKeyItemSpecific(EntityContext context, int item, ushort species)
     {
         var mem = Memories.GetContext(context);
         return mem.IsUsedKeyItemSpecific(item, species);
@@ -167,7 +167,7 @@ public static class MemoryPermissions
         return result[0].Valid;
     }
 
-    public static bool GetCanBeCaptured(int species, EntityContext gen, GameVersion version) => gen switch
+    public static bool GetCanBeCaptured(ushort species, EntityContext gen, GameVersion version) => gen switch
     {
         EntityContext.Gen6 => version switch
         {
@@ -191,7 +191,7 @@ public static class MemoryPermissions
         _ => false,
     };
 
-    private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
+    private static bool GetCanBeCaptured(ushort species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
     {
         if (area.Any(loc => loc.HasSpecies(species)))
             return true;

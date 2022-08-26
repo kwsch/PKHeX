@@ -43,7 +43,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         .Where(z => z <= Legal.MaxItemID_6_AO);
 
     public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserve6.Contains((ushort)item);
-    public override bool IsUsedKeyItemSpecific(int item, int species) => KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort)item);
+    public override bool IsUsedKeyItemSpecific(int item, ushort species) => KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort)item);
 
     public override bool CanPlantBerry(int item) => Legal.Pouch_Berry_XY.Contains((ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItem_AO.Contains((ushort)item);

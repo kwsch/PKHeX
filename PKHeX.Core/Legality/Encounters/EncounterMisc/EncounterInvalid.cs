@@ -9,8 +9,8 @@ public sealed record EncounterInvalid : IEncounterable
 {
     public static readonly EncounterInvalid Default = new();
 
-    public int Species { get; }
-    public int Form { get; }
+    public ushort Species { get; }
+    public byte Form { get; }
     public byte LevelMin { get; }
     public byte LevelMax { get; }
     public bool EggEncounter { get; }

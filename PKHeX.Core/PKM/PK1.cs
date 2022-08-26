@@ -39,7 +39,7 @@ public sealed class PK1 : GBPKML
 
     #region Stored Attributes
     public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
-    public override int Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
+    public override ushort Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x1)); set => WriteUInt16BigEndian(Data.AsSpan(0x1), (ushort)value); }
     public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
@@ -82,9 +82,9 @@ public sealed class PK1 : GBPKML
 
     public static bool IsCatchRateHeldItem(byte rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, rate) >= 0;
 
-    private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, byte rate)
+    private static bool IsCatchRatePreEvolutionRate(ushort baseSpecies, int finalSpecies, byte rate)
     {
-        for (int species = baseSpecies; species <= finalSpecies; species++)
+        for (ushort species = baseSpecies; species <= finalSpecies; species++)
         {
             if (rate == PersonalTable.RB[species].CatchRate || rate == PersonalTable.Y[species].CatchRate)
                 return true;
@@ -92,7 +92,7 @@ public sealed class PK1 : GBPKML
         return false;
     }
 
-    private void SetSpeciesValues(int value)
+    private void SetSpeciesValues(ushort value)
     {
         var updated = SpeciesConverter.SetG1Species(value);
         if (SpeciesID1 == updated)
@@ -137,8 +137,8 @@ public sealed class PK1 : GBPKML
     public override int OT_Friendship { get => 0; set { } }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_1;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
+    public override ushort MaxMoveID => Legal.MaxMoveID_1;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_1;
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
 

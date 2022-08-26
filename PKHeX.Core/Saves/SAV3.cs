@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -141,8 +141,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override PKM BlankPKM => new PK3();
     public sealed override Type PKMType => typeof(PK3);
 
-    public sealed override int MaxMoveID => Legal.MaxMoveID_3;
-    public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+    public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
+    public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
     public sealed override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
@@ -459,7 +459,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     #region Pokédex
     protected sealed override void SetDex(PKM pk)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (species is 0 or > Legal.MaxSpeciesID_3)
             return;
         if (pk.IsEgg)
@@ -482,7 +482,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8)); set => WriteUInt32LittleEndian(Small.AsSpan(PokeDex + 0x8), value); }
     public int DexUnownForm => EntityPID.GetUnownForm3(DexPIDUnown);
 
-    public sealed override bool GetCaught(int species)
+    public sealed override bool GetCaught(ushort species)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
@@ -490,7 +490,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         return FlagUtil.GetFlag(Small, caughtOffset + ofs, bit & 7);
     }
 
-    public sealed override void SetCaught(int species, bool caught)
+    public sealed override void SetCaught(ushort species, bool caught)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
@@ -498,7 +498,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         FlagUtil.SetFlag(Small, caughtOffset + ofs, bit & 7, caught);
     }
 
-    public sealed override bool GetSeen(int species)
+    public sealed override bool GetSeen(ushort species)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
@@ -509,7 +509,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     protected abstract int SeenOffset2 { get; }
     protected abstract int SeenOffset3 { get; }
 
-    public sealed override void SetSeen(int species, bool seen)
+    public sealed override void SetSeen(ushort species, bool seen)
     {
         int bit = species - 1;
         int ofs = bit >> 3;

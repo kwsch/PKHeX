@@ -343,7 +343,7 @@ public sealed class AbilityVerifier : Verifier
         // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
         return enc switch
         {
-            EncounterEgg e when pk.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains(e.Species) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg e when pk.AbilityNumber == 4 && AbilityBreedLegality.BanHidden5.Contains((ushort)e.Species) => GetInvalid(LAbilityHiddenUnavailable),
             _ => CheckMatch(data.Entity, abilities, 5, pk.Format == 5 ? AbilityState.MustMatch : AbilityState.CanMismatch, enc),
         };
     }
@@ -357,7 +357,7 @@ public sealed class AbilityVerifier : Verifier
         // Eggs and Encounter Slots are not yet checked for Hidden Ability potential.
         return enc switch
         {
-            EncounterEgg egg when AbilityBreedLegality.BanHidden6.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg egg when AbilityBreedLegality.BanHidden6.Contains((ushort)(egg.Species | (egg.Form << 11))) => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }
@@ -370,7 +370,7 @@ public sealed class AbilityVerifier : Verifier
 
         return enc switch
         {
-            EncounterEgg egg when AbilityBreedLegality.BanHidden7.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg egg when AbilityBreedLegality.BanHidden7.Contains((ushort)(egg.Species | (egg.Form << 11))) => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }
@@ -383,7 +383,7 @@ public sealed class AbilityVerifier : Verifier
 
         return enc switch
         {
-            EncounterEgg egg when AbilityBreedLegality.BanHidden8b.Contains(egg.Species | (egg.Form << 11)) => GetInvalid(LAbilityHiddenUnavailable),
+            EncounterEgg egg when AbilityBreedLegality.BanHidden8b.Contains((ushort)(egg.Species | (egg.Form << 11))) => GetInvalid(LAbilityHiddenUnavailable),
             _ => VALID,
         };
     }
@@ -480,7 +480,7 @@ public sealed class AbilityVerifier : Verifier
         return abilities[0] != abilities[1]; // Cannot alter ability index if it is the same as the other ability.
     }
 
-    public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities, int species)
+    public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities, ushort species)
     {
         if (format < 8) // Ability Patch does not exist
             return false;

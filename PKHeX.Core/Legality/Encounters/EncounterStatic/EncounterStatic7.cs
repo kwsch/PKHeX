@@ -10,9 +10,9 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
     public override EntityContext Context => EntityContext.Gen7;
     public Moveset Relearn { get; init; }
 
-    public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
-    public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains(Species);
-    public int GetTotemBaseForm() => FormInfo.GetTotemBaseForm(Species, Form);
+    public bool IsTotem => FormInfo.IsTotemForm((ushort)Species, Form);
+    public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains((ushort)Species);
+    public int GetTotemBaseForm() => FormInfo.GetTotemBaseForm((ushort)Species, Form);
 
     protected override bool IsMatchLocation(PKM pk)
     {
@@ -42,7 +42,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
     {
         if (IsTotem)
         {
-            var expectForm = pk.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
+            var expectForm = pk.Format == 7 ? Form : FormInfo.GetTotemBaseForm((ushort)Species, Form);
             return expectForm == evo.Form;
         }
         return base.IsMatchForm(pk, evo);
@@ -58,7 +58,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         pk.SetRandomEC();
     }
 
-    internal static EncounterStatic7 GetVC1(int species, byte metLevel)
+    internal static EncounterStatic7 GetVC1(ushort species, byte metLevel)
     {
         bool mew = species == (int)Core.Species.Mew;
         return new EncounterStatic7(GameVersion.RBY)
@@ -74,7 +74,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         };
     }
 
-    internal static EncounterStatic7 GetVC2(int species, byte metLevel)
+    internal static EncounterStatic7 GetVC2(ushort species, byte metLevel)
     {
         bool mew = species == (int)Core.Species.Mew;
         bool fateful = mew || species == (int)Core.Species.Celebi;

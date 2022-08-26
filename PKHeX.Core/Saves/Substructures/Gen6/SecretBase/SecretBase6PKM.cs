@@ -29,7 +29,7 @@ public sealed class SecretBase6PKM : ISanityChecksum
         set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
     }
 
-    public int Species
+    public ushort Species
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value);
@@ -54,7 +54,7 @@ public sealed class SecretBase6PKM : ISanityChecksum
 
     public bool FatefulEncounter { get => (Data[0x15] & 1) == 1; set => Data[0x15] = (byte)((Data[0x15] & ~0x01) | (value ? 1 : 0)); }
     public int Gender { get => (Data[0x15] >> 1) & 0x3; set => Data[0x15] = (byte)((Data[0x15] & ~0x06) | (value << 1)); }
-    public int Form { get => Data[0x15] >> 3; set => Data[0x15] = (byte)((Data[0x15] & 0x07) | (value << 3)); }
+    public byte Form { get => (byte)(Data[0x15] >> 3); set => Data[0x15] = (byte)((Data[0x15] & 0x07) | (value << 3)); }
 
     public int EV_HP { get => Data[0x16]; set => Data[0x16] = (byte)value; }
     public int EV_ATK { get => Data[0x17]; set => Data[0x17] = (byte)value; }

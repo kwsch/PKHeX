@@ -47,11 +47,11 @@ public sealed class Zukan4 : ZukanBase
 
     public uint Magic { get => ReadUInt32LittleEndian(Data.AsSpan(Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
-    public override bool GetCaught(int species) => GetRegionFlag(0, species - 1);
-    public override bool GetSeen(int species) => GetRegionFlag(1, species - 1);
-    public int GetSeenGenderFirst(int species) => GetRegionFlag(2, species - 1) ? 1 : 0;
-    public int GetSeenGenderSecond(int species) => GetRegionFlag(3, species - 1) ? 1 : 0;
-    public bool GetSeenSingleGender(int species) => GetSeenGenderFirst(species) == GetSeenGenderSecond(species);
+    public override bool GetCaught(ushort species) => GetRegionFlag(0, species - 1);
+    public override bool GetSeen(ushort species) => GetRegionFlag(1, species - 1);
+    public int GetSeenGenderFirst(ushort species) => GetRegionFlag(2, species - 1) ? 1 : 0;
+    public int GetSeenGenderSecond(ushort species) => GetRegionFlag(3, species - 1) ? 1 : 0;
+    public bool GetSeenSingleGender(ushort species) => GetSeenGenderFirst(species) == GetSeenGenderSecond(species);
 
     private bool GetRegionFlag(int region, int index)
     {
@@ -59,10 +59,10 @@ public sealed class Zukan4 : ZukanBase
         return FlagUtil.GetFlag(Data, ofs, index);
     }
 
-    public void SetCaught(int species, bool value = true) => SetRegionFlag(0, species - 1, value);
-    public void SetSeen(int species, bool value = true) => SetRegionFlag(1, species - 1, value);
-    public void SetSeenGenderFirst(int species, int value = 0) => SetRegionFlag(2, species - 1, value == 1);
-    public void SetSeenGenderSecond(int species, int value = 0) => SetRegionFlag(3, species - 1, value == 1);
+    public void SetCaught(ushort species, bool value = true) => SetRegionFlag(0, species - 1, value);
+    public void SetSeen(ushort species, bool value = true) => SetRegionFlag(1, species - 1, value);
+    public void SetSeenGenderFirst(ushort species, int value = 0) => SetRegionFlag(2, species - 1, value == 1);
+    public void SetSeenGenderSecond(ushort species, int value = 0) => SetRegionFlag(3, species - 1, value == 1);
 
     private void SetRegionFlag(int region, int index, bool value)
     {
@@ -72,7 +72,7 @@ public sealed class Zukan4 : ZukanBase
 
     public uint SpindaPID { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + OFS_SPINDA)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset), value); }
 
-    public static string[] GetFormNames4Dex(int species)
+    public static string[] GetFormNames4Dex(ushort species)
     {
         string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Array.Empty<string>(), EntityContext.Gen4);
         if (species == (int)Species.Pichu)
@@ -80,7 +80,7 @@ public sealed class Zukan4 : ZukanBase
         return formNames;
     }
 
-    public int[] GetForms(int species)
+    public int[] GetForms(ushort species)
     {
         const int brSize = 0x40;
         if (species == (int)Species.Deoxys)
@@ -122,7 +122,7 @@ public sealed class Zukan4 : ZukanBase
         };
     }
 
-    public void SetForms(int species, ReadOnlySpan<int> forms)
+    public void SetForms(ushort species, ReadOnlySpan<int> forms)
     {
         const int brSize = 0x40;
         switch (species)
@@ -285,7 +285,7 @@ public sealed class Zukan4 : ZukanBase
 
     public override void SetDex(PKM pk)
     {
-        int species = pk.Species;
+        var species = (ushort)pk.Species;
         if (species is 0 or > Legal.MaxSpeciesID_4)
             return;
         if (pk.IsEgg) // do not add
@@ -297,7 +297,7 @@ public sealed class Zukan4 : ZukanBase
         SetDex(species, gender, form, language);
     }
 
-    private void SetDex(int species, int gender, int form, int language)
+    private void SetDex(ushort species, int gender, int form, int language)
     {
         SetCaught(species);
         SetSeenGender(species, gender);
@@ -306,7 +306,7 @@ public sealed class Zukan4 : ZukanBase
         SetLanguage(species, language);
     }
 
-    public void SetSeenGender(int species, int gender)
+    public void SetSeenGender(ushort species, int gender)
     {
         if (!GetSeen(species))
             SetSeenGenderNewFlag(species, gender);
@@ -314,19 +314,19 @@ public sealed class Zukan4 : ZukanBase
             SetSeenGenderSecond(species, gender);
     }
 
-    public void SetSeenGenderNewFlag(int species, int gender)
+    public void SetSeenGenderNewFlag(ushort species, int gender)
     {
         SetSeenGenderFirst(species, gender);
         SetSeenGenderSecond(species, gender);
     }
 
-    public void SetSeenGenderNeither(int species)
+    public void SetSeenGenderNeither(ushort species)
     {
         SetSeenGenderFirst(species, 0);
         SetSeenGenderSecond(species, 0);
     }
 
-    private void SetForms(int species, int form, int gender)
+    private void SetForms(ushort species, int form, int gender)
     {
         if (species == (int)Species.Unown) // Unown
         {
@@ -351,13 +351,13 @@ public sealed class Zukan4 : ZukanBase
         }
     }
 
-    public void SetLanguage(int species, int language, bool value = true)
+    public void SetLanguage(ushort species, int language, bool value = true)
     {
         int lang = GetGen4LanguageBitIndex(language);
         SetLanguageBitIndex(species, lang, value);
     }
 
-    public bool GetLanguageBitIndex(int species, int lang)
+    public bool GetLanguageBitIndex(ushort species, int lang)
     {
         int dpl = 1 + Array.IndexOf(DPLangSpecies, species);
         if (DP && dpl < 0)
@@ -369,7 +369,7 @@ public sealed class Zukan4 : ZukanBase
         return FlagUtil.GetFlag(Data, ofs, lang & 7);
     }
 
-    public void SetLanguageBitIndex(int species, int lang, bool value)
+    public void SetLanguageBitIndex(ushort species, int lang, bool value)
     {
         int dpl = 1 + Array.IndexOf(DPLangSpecies, species);
         if (DP && dpl <= 0)
@@ -381,9 +381,9 @@ public sealed class Zukan4 : ZukanBase
         FlagUtil.SetFlag(Data, ofs, lang & 7, value);
     }
 
-    public bool HasLanguage(int species) => GetSpeciesLanguageByteIndex(species) >= 0;
+    public bool HasLanguage(ushort species) => GetSpeciesLanguageByteIndex(species) >= 0;
 
-    private int GetSpeciesLanguageByteIndex(int species)
+    private int GetSpeciesLanguageByteIndex(ushort species)
     {
         if (DP)
             return Array.IndexOf(DPLangSpecies, species);
@@ -419,7 +419,7 @@ public sealed class Zukan4 : ZukanBase
         Complete = SeenAll | CaughtAll | SetAllLanguages | SetAllForms,
     }
 
-    public void ModifyAll(int species, SetDexArgs args, int lang = 0)
+    public void ModifyAll(ushort species, SetDexArgs args, int lang = 0)
     {
         if (args == SetDexArgs.None)
         {
@@ -458,7 +458,7 @@ public sealed class Zukan4 : ZukanBase
         }
     }
 
-    private void CompleteForms(int species)
+    private void CompleteForms(ushort species)
     {
         var forms = GetFormNames4Dex(species);
         if (forms.Length <= 1)
@@ -470,7 +470,7 @@ public sealed class Zukan4 : ZukanBase
         SetForms(species, values);
     }
 
-    private void CompleteSeen(int species)
+    private void CompleteSeen(ushort species)
     {
         SetSeen(species);
         var pi = PersonalTable.HGSS[species];
@@ -485,7 +485,7 @@ public sealed class Zukan4 : ZukanBase
         }
     }
 
-    public void ClearSeen(int species)
+    public void ClearSeen(ushort species)
     {
         SetCaught(species, false);
         SetSeen(species, false);
@@ -496,13 +496,13 @@ public sealed class Zukan4 : ZukanBase
     }
 
     private const int LangCount = 6;
-    private void ClearLanguages(int species)
+    private void ClearLanguages(ushort species)
     {
         for (int i = 0; i < 8; i++)
             SetLanguageBitIndex(species, i, false);
     }
 
-    private void SetLanguages(int species, bool value = true)
+    private void SetLanguages(ushort species, bool value = true)
     {
         for (int i = 0; i < LangCount; i++)
             SetLanguageBitIndex(species, i, value);
@@ -514,12 +514,12 @@ public sealed class Zukan4 : ZukanBase
     public override void CaughtNone() => IterateAll(z => SetCaught(z, false));
     public override void SeenAll(bool shinyToo = false) => IterateAll(CompleteSeen);
 
-    public override void SetDexEntryAll(int species, bool shinyToo = false) => ModifyAll(species, SetDexArgs.Complete);
-    public override void ClearDexEntryAll(int species) => ModifyAll(species, SetDexArgs.None);
+    public override void SetDexEntryAll(ushort species, bool shinyToo = false) => ModifyAll(species, SetDexArgs.Complete);
+    public override void ClearDexEntryAll(ushort species) => ModifyAll(species, SetDexArgs.None);
 
-    private static void IterateAll(Action<int> a)
+    private static void IterateAll(Action<ushort> a)
     {
-        for (int i = 1; i <= Legal.MaxSpeciesID_4; i++)
+        for (ushort i = 1; i <= Legal.MaxSpeciesID_4; i++)
             a(i);
     }
 

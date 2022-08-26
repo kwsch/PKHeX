@@ -20,7 +20,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     public bool HasFixedWeight => WeightScalar != NoScalar;
     private const byte NoScalar = 0;
 
-    public EncounterStatic8a(ushort species, ushort form, byte level, byte h = NoScalar, byte w = NoScalar) : this(GameVersion.PLA)
+    public EncounterStatic8a(ushort species, byte form, byte level, byte h = NoScalar, byte w = NoScalar) : this(GameVersion.PLA)
     {
         Species = species;
         Form = form;
@@ -176,7 +176,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         else
             learn.SetEncounterMoves(level, moves);
         if (IsAlpha)
-            pa8.AlphaMove = (ushort)moves[0];
+            pa8.AlphaMove = moves[0];
     }
 
     private OverworldParam8a GetParams()

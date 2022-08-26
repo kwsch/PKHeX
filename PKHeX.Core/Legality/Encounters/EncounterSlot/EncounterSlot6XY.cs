@@ -12,7 +12,7 @@ public sealed record EncounterSlot6XY : EncounterSlot
     public bool IsFriendSafari => Area.Type == SlotType.FriendSafari;
     public bool IsHorde => Area.Type == SlotType.Horde;
 
-    public EncounterSlot6XY(EncounterArea6XY area, int species, int form, byte min, byte max) : base(area, species, form, min, max)
+    public EncounterSlot6XY(EncounterArea6XY area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
     {
     }
 
@@ -29,7 +29,7 @@ public sealed record EncounterSlot6XY : EncounterSlot
         return Pressure ? LegalityCheckStrings.LEncConditionLead : LegalityCheckStrings.LEncCondition;
     }
 
-    public EncounterSlot6XY CreatePressureFormCopy(int form) => this with {Form = form, Pressure = true};
+    public EncounterSlot6XY CreatePressureFormCopy(byte form) => this with {Form = form, Pressure = true};
 
     protected override HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde || IsFriendSafari ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 }

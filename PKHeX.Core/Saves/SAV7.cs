@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -216,8 +216,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);
-    public override bool GetCaught(int species) => Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Zukan.GetSeen(species);
+    public override bool GetCaught(ushort species) => Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Zukan.GetSeen(species);
 
     public override int PartyCount
     {

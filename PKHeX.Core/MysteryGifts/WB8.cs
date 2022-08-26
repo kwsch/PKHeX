@@ -171,8 +171,8 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
     public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x284)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x284), value); }
     public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x286)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x286), value); }
 
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), (ushort)value); }
-    public override int Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = (byte)value; }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), (ushort)value); }
+    public override byte Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = (byte)value; }
     public override int Gender { get => Data[CardStart + 0x28B]; set => Data[CardStart + 0x28B] = (byte)value; }
     public override byte Level { get => Data[CardStart + 0x28C]; set => Data[CardStart + 0x28C] = value; }
     public override bool IsEgg { get => Data[CardStart + 0x28D] == 1; set => Data[CardStart + 0x28D] = value ? (byte)1 : (byte)0; }

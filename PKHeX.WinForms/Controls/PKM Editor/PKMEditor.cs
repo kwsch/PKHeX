@@ -440,7 +440,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void SetForms()
     {
-        int species = Entity.Species;
+        var species = Entity.Species;
         var pi = RequestSaveFile.Personal[species];
         bool hasForms = FormInfo.HasFormSelection(pi, species, Entity.Format);
         CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
@@ -472,7 +472,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         if (Entity.Format > 3 && FieldsLoaded) // has forms
-            Entity.Form = CB_Form.SelectedIndex; // update pk field for form specific abilities
+            Entity.Form = (byte)CB_Form.SelectedIndex; // update pk field for form specific abilities
 
         int abil = CB_Ability.SelectedIndex;
 
@@ -580,7 +580,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             Entity.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            Entity.Form = CB_Form.SelectedIndex;
+            Entity.Form = (byte)CB_Form.SelectedIndex;
 
             Entity.SetPIDGender(gender);
             TB_PID.Text = Entity.PID.ToString("X8");
@@ -932,7 +932,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         if (FieldsLoaded && sender == CB_Form)
         {
-            Entity.Form = CB_Form.SelectedIndex;
+            Entity.Form = (byte)CB_Form.SelectedIndex;
             uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
             TB_EXP.Text = EXP.ToString();
         }
@@ -1117,7 +1117,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         // Get Species dependent information
         if (FieldsLoaded)
-            Entity.Species = WinFormsUtil.GetIndex(CB_Species);
+            Entity.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         SpeciesIDTip.SetToolTip(CB_Species, Entity.Species.ToString("000"));
         SetAbilityList();
         SetForms();
@@ -1257,7 +1257,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (CHK_Nicknamed.Checked)
             return;
 
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         if (species < 1 || species > Entity.MaxSpeciesID)
             return;
 
@@ -1285,7 +1285,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         // Fetch Current Species and set it as Nickname Text
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         if ((uint)(species - 1) >= Entity.MaxSpeciesID)
         { TB_Nickname.Text = string.Empty; return; }
 
@@ -1461,7 +1461,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Entity.PID = Util.GetHexValue(TB_PID.Text);
         Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
         Entity.Gender = UC_Gender.Gender;
-        Entity.Form = CB_Form.SelectedIndex;
+        Entity.Form = (byte)CB_Form.SelectedIndex;
         Entity.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
         if (Entity.Format > 2)

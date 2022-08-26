@@ -31,7 +31,7 @@ public static partial class Legal
 
     internal static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
 
-    internal static bool TransferSpeciesDefaultAbilityGen2(int species)
+    internal static bool TransferSpeciesDefaultAbilityGen2(ushort species)
     {
         System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_2);
         return species is (int)Gastly or (int)Haunter or (int)Gengar
