@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -132,12 +132,22 @@ public sealed class PB8 : G8PKM
     public PK8 ConvertToPK8()
     {
         var pk = ConvertTo<PK8>();
-        if (pk.Egg_Location == Locations.Default8bNone)
-            pk.Egg_Location = 0;
-        else
-            pk.Egg_Location = Locations.HOME_SWSHBDSPEgg;
         pk.SanitizeImport();
+        pk.Egg_Location = GetEggLocationPK8();
         return pk;
+    }
+
+    private int GetEggLocationPK8()
+    {
+        var egg = Egg_Location;
+        if (egg == Locations.Default8bNone)
+            return 0;
+        return Version switch
+        {
+            (int)GameVersion.BD => egg is Locations.LinkTrade6NPC ? Locations.HOME_SWBD : Locations.HOME_SWSHBDSPEgg,
+            (int)GameVersion.SH => egg is Locations.LinkTrade6NPC ? Locations.HOME_SHSP : Locations.HOME_SWSHBDSPEgg,
+            _ => egg,
+        };
     }
 
     public override PA8 ConvertToPA8()

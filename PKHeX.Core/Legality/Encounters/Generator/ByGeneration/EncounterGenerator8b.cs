@@ -102,7 +102,14 @@ internal static class EncounterGenerator8b
             if (ctr != 0) yield break;
         }
 
-        if (pk.Egg_Location == Locations.HOME_SWSHBDSPEgg && pk.Met_Level == 1)
+        var wasEgg = pk.Egg_Location switch
+        {
+            Locations.HOME_SWSHBDSPEgg => true, // Regular hatch location (not link trade)
+            Locations.HOME_SWBD => pk.Met_Location == Locations.HOME_SWBD, // Link Trade transferred over must match Met Location
+            Locations.HOME_SHSP => pk.Met_Location == Locations.HOME_SHSP, // Link Trade transferred over must match Met Location
+            _ => false,
+        };
+        if (wasEgg && pk.Met_Level == 1)
         {
             foreach (var z in GenerateEggs(pk, 8))
             { yield return z; ++ctr; }
