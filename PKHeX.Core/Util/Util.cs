@@ -255,16 +255,19 @@ public static partial class Util
         }
     }
 
-    public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray)
+    public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray, int start)
     {
         var result = new Dictionary<string, int>[nameArray.Count];
         for (int i = 0; i < result.Length; i++)
-        {
-            var dict = result[i] = new Dictionary<string, int>();
-            var names = nameArray[i];
-            for (int j = 0; j < names.Count; j++)
-                dict.Add(names[j], j);
-        }
+            result[i] = GetDictionary(nameArray[i], start);
+        return result;
+    }
+
+    private static Dictionary<string, int> GetDictionary(IReadOnlyList<string> names, int start)
+    {
+        var result = new Dictionary<string, int>(names.Count - start);
+        for (int i = start; i < names.Count; i++)
+            result.Add(names[i], i);
         return result;
     }
 }

@@ -26,7 +26,7 @@ public sealed class Zukan8 : ZukanBase
         Rigel1 = rigel1;
         Rigel2 = rigel2;
         var revision = GetRevision();
-        DexLookup = GetDexLookup(PersonalTable.SWSH, revision);
+        DexLookup = GetDexLookup(PersonalTable.SWSH, revision, Zukan8Index.TotalCount);
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public sealed class Zukan8 : ZukanBase
     private static bool GetFlag(byte[] data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
     private static void SetFlag(byte[] data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
 
-    private static Dictionary<ushort, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision)
+    private static Dictionary<ushort, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision, int count)
     {
-        var lookup = new Dictionary<ushort, Zukan8Index>();
+        var lookup = new Dictionary<ushort, Zukan8Index>(count);
         for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];
@@ -88,9 +88,9 @@ public sealed class Zukan8 : ZukanBase
         return lookup;
     }
 
-    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable8SWSH pt, int dexRevision)
+    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable8SWSH pt, int dexRevision, int count)
     {
-        var result = new List<Zukan8EntryInfo>();
+        var result = new List<Zukan8EntryInfo>(count);
         for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];

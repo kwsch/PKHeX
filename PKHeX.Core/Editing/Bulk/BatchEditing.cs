@@ -52,7 +52,8 @@ public static class BatchEditing
 
     private static Dictionary<string, PropertyInfo> GetPropertyDictionary(Type type, Func<Type, IEnumerable<PropertyInfo>> selector)
     {
-        var dict = new Dictionary<string, PropertyInfo>();
+        const int expectedMax = 0x200; // currently 0x160 as of 2022
+        var dict = new Dictionary<string, PropertyInfo>(expectedMax);
         var props = selector(type);
         foreach (var p in props)
         {

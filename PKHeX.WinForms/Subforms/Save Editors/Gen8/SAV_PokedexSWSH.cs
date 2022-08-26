@@ -26,7 +26,7 @@ public partial class SAV_PokedexSWSH : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV8SWSH)(Origin = sav).Clone();
         Dex = SAV.Blocks.Zukan;
-        var indexes = Zukan8.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision());
+        var indexes = Zukan8.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision(), Zukan8Index.TotalCount);
         var speciesNames = GameInfo.Strings.Species;
         Indexes = indexes.OrderBy(z => z.GetEntryName(speciesNames)).ToArray();
         CL = new[] {CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9};

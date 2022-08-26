@@ -226,12 +226,11 @@ public sealed class Learnset
 
     private Dictionary<ushort, byte> GetDictionary()
     {
-        var dict = new Dictionary<ushort, byte>();
-        for (int i = 0; i < Moves.Length; i++)
-        {
-            if (!dict.ContainsKey(Moves[i]))
-                dict.Add(Moves[i], Levels[i]);
-        }
+        // Create a dictionary, with the move as the key and the level as the value.
+        // Due to the ordering of the object, this will result in fetching the lowest level for a move.
+        var dict = new Dictionary<ushort, byte>(Moves.Length);
+        for (int i = Moves.Length - 1; i >= 0; i--)
+            dict[Moves[i]] = Levels[i];
         return dict;
     }
 
