@@ -59,7 +59,7 @@ public static partial class Legal
         576, // Dream Ball
     });
 
-    internal static readonly HashSet<int> ValidMet_BW = new()
+    internal static readonly HashSet<ushort> ValidMet_BW = new()
     {
         004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
         021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040,
@@ -69,7 +69,7 @@ public static partial class Legal
         101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
     };
 
-    internal static readonly HashSet<int> ValidMet_B2W2 = new()
+    internal static readonly HashSet<ushort> ValidMet_B2W2 = new()
     {
         004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
         021, 022,      024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,      //023 Route 10, 040->134 Victory Road

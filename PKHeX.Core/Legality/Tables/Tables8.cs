@@ -201,7 +201,7 @@ public static partial class Legal
         {(int)Species.Cursola, 1},
     };
 
-    internal static readonly HashSet<int> ValidMet_SWSH = new()
+    internal static readonly HashSet<ushort> ValidMet_SWSH = new()
     {
         006, 008,
         012, 014, 016, 018,
