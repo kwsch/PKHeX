@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Evolution Info tracking how an evolution was performed, and the end result species and form.
 /// </summary>
-public readonly record struct EvoCriteria
+public readonly record struct EvoCriteria : ISpeciesForm
 {
     public ushort Species { get; init; }
     public byte Form { get; init; }

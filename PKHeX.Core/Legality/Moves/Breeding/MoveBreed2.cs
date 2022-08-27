@@ -23,8 +23,12 @@ public static class MoveBreed2
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnsets(version);
-        var table = GameData.GetPersonal(version);
+        (Learnset[] learn, PersonalTable2 table) = version == GameVersion.C
+            ? (Legal.LevelUpC, PersonalTable.C)
+            : (Legal.LevelUpGS, PersonalTable.GS);
+        if (!table.IsSpeciesInGame(species))
+            return false;
+
         var learnset = learn[species];
         var pi = table[species];
         var egg = (version == GameVersion.C ? Legal.EggMovesC : Legal.EggMovesGS)[species].Moves;
@@ -145,7 +149,7 @@ public static class MoveBreed2
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo2 info, GameVersion version)
     {
         var possible = value.Possible;
         var learn = value.Learnset;
