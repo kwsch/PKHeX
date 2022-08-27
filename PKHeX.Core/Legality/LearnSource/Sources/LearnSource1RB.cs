@@ -16,9 +16,9 @@ public sealed class LearnSource1RB : ILearnSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpRB;
     private const LearnEnvironment Game = RB;
 
-    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if (form is not 0 || species > Legal.MaxSpeciesID_1)

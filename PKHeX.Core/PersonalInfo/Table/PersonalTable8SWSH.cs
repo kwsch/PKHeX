@@ -24,10 +24,10 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
     }
 
     public PersonalInfo8SWSH this[int index] => Table[(uint)index < Table.Length ? index : 0];
-    public PersonalInfo8SWSH this[ushort species, int form] => Table[GetFormIndex(species, form)];
-    public PersonalInfo8SWSH GetFormEntry(ushort species, int form) => Table[GetFormIndex(species, form)];
+    public PersonalInfo8SWSH this[ushort species, byte form] => Table[GetFormIndex(species, form)];
+    public PersonalInfo8SWSH GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
 
-    public int GetFormIndex(ushort species, int form)
+    public int GetFormIndex(ushort species, byte form)
     {
         if ((uint)species <= MaxSpeciesID)
             return Table[species].FormIndex(species, form);
@@ -44,7 +44,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
             return true;
 
         var fc = form0.FormCount;
-        for (int i = 1; i < fc; i++)
+        for (byte i = 1; i < fc; i++)
         {
             var entry = GetFormEntry(species, i);
             if (entry.IsPresentInGame)
@@ -53,7 +53,7 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
         return false;
     }
 
-    public bool IsPresentInGame(ushort species, int form)
+    public bool IsPresentInGame(ushort species, byte form)
     {
         if ((uint)species > MaxSpeciesID)
             return false;
@@ -69,6 +69,6 @@ public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<Personal
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];
-    PersonalInfo IPersonalTable.this[ushort species, int form] => this[species, form];
-    PersonalInfo IPersonalTable.GetFormEntry(ushort species, int form) => GetFormEntry(species, form);
+    PersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
+    PersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
 }

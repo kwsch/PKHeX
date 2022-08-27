@@ -34,7 +34,7 @@ public interface ILearnSource
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    public Learnset GetLearnset(ushort species, int form);
+    public Learnset GetLearnset(ushort species, byte form);
 
     /// <summary>
     /// Gets the <see cref="PersonalInfo"/> for the given <see cref="species"/> and <see cref="form"/>.
@@ -43,5 +43,5 @@ public interface ILearnSource
     /// <param name="form">Entity form</param>
     /// <param name="pi">Result value</param>
     /// <returns>True if the <see cref="PersonalInfo"/> reference is a valid entity reference.</returns>
-    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi);
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi);
 }

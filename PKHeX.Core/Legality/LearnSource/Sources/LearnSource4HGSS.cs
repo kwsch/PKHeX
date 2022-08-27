@@ -20,9 +20,9 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
     private const int Generation = 4;
     private const int CountTM = 92;
 
-    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -31,7 +31,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(ushort species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,7 +39,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;

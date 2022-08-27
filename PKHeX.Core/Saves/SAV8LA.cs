@@ -172,7 +172,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
             return false;
 
         var formCount = Personal[species].FormCount;
-        for (var form = 0; form < formCount; form++)
+        for (byte form = 0; form < formCount; form++)
         {
             if (PokedexSave.HasAnyPokeObtainFlags(species, form))
                 return true;

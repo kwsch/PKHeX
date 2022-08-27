@@ -16,7 +16,7 @@ public interface IGameDataSide
     /// <summary>
     /// Gets the personal info for the input arguments.
     /// </summary>
-    PersonalInfo GetPersonalInfo(ushort species, int form);
+    PersonalInfo GetPersonalInfo(ushort species, byte form);
 
     /// <summary>
     /// Converts the data to a <see cref="PKM"/>.

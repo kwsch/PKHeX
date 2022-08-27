@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -241,7 +241,7 @@ public partial class MemoryAmie : Form
             if (memoryGen < 0)
                 memoryGen = Entity.Format;
 
-            int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+            var memory = (byte)WinFormsUtil.GetIndex((ComboBox)sender);
             var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
             var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
             CB_OTVar.InitializeBinding();
@@ -252,7 +252,7 @@ public partial class MemoryAmie : Form
         else
         {
             int memoryGen = Entity.Format;
-            int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+            var memory = (byte)WinFormsUtil.GetIndex((ComboBox)sender);
             var memIndex = Memories.GetMemoryArgType(memory, memoryGen);
             var argvals = MemStrings.GetArgumentStrings(memIndex, memoryGen);
             CB_CTVar.InitializeBinding();

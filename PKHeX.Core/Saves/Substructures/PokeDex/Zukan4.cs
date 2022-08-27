@@ -221,7 +221,7 @@ public sealed class Zukan4 : ZukanBase
         return Value;
     }
 
-    private static bool TryInsertForm(Span<int> forms, int form)
+    private static bool TryInsertForm(Span<int> forms, byte form)
     {
         if (forms.IndexOf(form) >= 0)
             return false; // already in list
@@ -235,21 +235,23 @@ public sealed class Zukan4 : ZukanBase
         return true;
     }
 
-    public int GetUnownFormIndex(int form)
+    private const byte UnownEmpty = byte.MaxValue;
+
+    public int GetUnownFormIndex(byte form)
     {
         var ofs = Offset + OFS_FORM1 + 4;
-        for (int i = 0; i < 0x1C; i++)
+        for (byte i = 0; i < 0x1C; i++)
         {
             byte val = Data[ofs + i];
             if (val == form)
                 return i;
-            if (val == 0xFF)
-                return -1;
+            if (val == 0xFF) // end of populated indexes
+                return UnownEmpty;
         }
-        return -1;
+        return UnownEmpty;
     }
 
-    public int GetUnownFormIndexNext(int form)
+    public int GetUnownFormIndexNext(byte form)
     {
         var ofs = Offset + OFS_FORM1 + 4;
         for (int i = 0; i < 0x1C; i++)
@@ -261,7 +263,7 @@ public sealed class Zukan4 : ZukanBase
                 return i;
         }
 
-        return -1;
+        return UnownEmpty;
     }
 
     public void ClearUnownForms()
@@ -271,16 +273,16 @@ public sealed class Zukan4 : ZukanBase
             Data[ofs + i] = 0xFF;
     }
 
-    public bool GetUnownForm(int form) => GetUnownFormIndex(form) != -1;
+    public bool GetUnownForm(byte form) => GetUnownFormIndex(form) != UnownEmpty;
 
-    public void AddUnownForm(int form)
+    public void AddUnownForm(byte form)
     {
         var index = GetUnownFormIndexNext(form);
-        if (index == -1)
+        if (index == UnownEmpty)
             return;
 
         var ofs = Offset + OFS_FORM1 + 4;
-        Data[ofs + index] = (byte)form;
+        Data[ofs + index] = form;
     }
 
     public override void SetDex(PKM pk)
@@ -297,7 +299,7 @@ public sealed class Zukan4 : ZukanBase
         SetDex(species, gender, form, language);
     }
 
-    private void SetDex(ushort species, int gender, int form, int language)
+    private void SetDex(ushort species, int gender, byte form, int language)
     {
         SetCaught(species);
         SetSeenGender(species, gender);
@@ -326,7 +328,7 @@ public sealed class Zukan4 : ZukanBase
         SetSeenGenderSecond(species, 0);
     }
 
-    private void SetForms(ushort species, int form, int gender)
+    private void SetForms(ushort species, byte form, int gender)
     {
         if (species == (int)Species.Unown) // Unown
         {
@@ -340,7 +342,7 @@ public sealed class Zukan4 : ZukanBase
 
         if (species == (int)Species.Pichu && HGSS) // Pichu (HGSS Only)
         {
-            int formID = form == 1 ? 2 : gender;
+            var formID = form == 1 ? (byte)2 : (byte)gender;
             if (TryInsertForm(forms, formID))
                 SetForms(species, forms);
         }

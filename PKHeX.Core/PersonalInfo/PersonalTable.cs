@@ -180,7 +180,7 @@ public static class PersonalTable
         {
             var e = la.Table[i];
             var fc = e.FormCount;
-            for (int f = 0; f < fc; f++)
+            for (byte f = 0; f < fc; f++)
             {
                 var l = la.GetFormEntry(i, f);
                 if (l.HP != 0)

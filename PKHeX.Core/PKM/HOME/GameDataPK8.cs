@@ -87,7 +87,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
 
     #region Conversion
 
-    public PersonalInfo GetPersonalInfo(ushort species, int form) => PersonalTable.SWSH.GetFormEntry(species, form);
+    public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.SWSH.GetFormEntry(species, form);
 
     public void CopyTo(PK8 pk)
     {

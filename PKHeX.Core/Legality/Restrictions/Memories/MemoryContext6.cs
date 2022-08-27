@@ -24,7 +24,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         return GetPokeCenterLocations(game).Contains((byte)loc);
     }
 
-    public static int GetMemoryRarity(int memory) => (uint)memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];
+    public static int GetMemoryRarity(byte memory) => memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];
 
     public override IEnumerable<ushort> GetKeyItemParams() => KeyItemUsableObserve6.Concat(KeyItemMemoryArgsGen6.Values.SelectMany(z => z)).Distinct();
 

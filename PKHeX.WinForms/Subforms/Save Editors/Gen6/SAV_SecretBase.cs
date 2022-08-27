@@ -314,12 +314,12 @@ public partial class SAV_SecretBase : Form
     private void SetAbilityList()
     {
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        var form = CB_Form.SelectedIndex;
+        var form = (byte)CB_Form.SelectedIndex;
         var index = CB_Ability.SelectedIndex;
         SetAbilityList(species, form, index);
     }
 
-    private void SetAbilityList(ushort species, int form, int abilityIndex)
+    private void SetAbilityList(ushort species, byte form, int abilityIndex)
     {
         var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
         var list = GameInfo.FilteredSources.GetAbilityList(abilities, 6);

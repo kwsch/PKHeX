@@ -38,7 +38,7 @@ public sealed class PokedexSave8a
         // Check each form
         var table = Personal;
         var formCount = table[species].FormCount;
-        for (var form = 0; form < formCount; form++)
+        for (byte form = 0; form < formCount; form++)
         {
             var entry = table.GetFormEntry(species, form);
             if (entry.DexIndexHisui == 0)
@@ -509,7 +509,7 @@ public sealed class PokedexSave8a
     {
         int count = 0;
         var formCount = Personal[species].FormCount;
-        for (var form = 0; form < formCount; form++)
+        for (byte form = 0; form < formCount; form++)
         {
             var index = Array.BinarySearch(PokedexConstants8a.PokemonInfoIds, (ushort)(species | (form << 11)));
             if (index < 0)
@@ -632,7 +632,7 @@ public sealed class PokedexSave8a
 
     public void SetPokeHasBeenUpdated(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return;
 
         var entry = SaveData.GetResearchEntry(species);
@@ -659,7 +659,7 @@ public sealed class PokedexSave8a
     private void IncreaseResearchTaskProgress(ushort species, PokedexResearchTaskType8a task, ushort delta, bool doIncrease = true, int idx = -1)
     {
         // Only perform research updates for valid species
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return;
 
         // All research increases set the update flag whether or not they increment the value
@@ -680,7 +680,7 @@ public sealed class PokedexSave8a
     {
         curValue = 0;
 
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         // Get the species research value
@@ -691,7 +691,7 @@ public sealed class PokedexSave8a
     public void SetResearchTaskProgressByForce(ushort species, PokedexResearchTaskType8a task, int value, int idx)
     {
         // Only perform research updates for valid species
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return;
 
         // All research increases set the update flag whether or not they increment the value
@@ -712,31 +712,31 @@ public sealed class PokedexSave8a
 
     public bool HasPokeEverBeenUpdated(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         return SaveData.GetResearchEntry(species).HasEverBeenUpdated;
     }
 
-    public byte GetPokeSeenInWildFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.SeenInWildFlags : (byte)0;
-    public byte GetPokeObtainFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.ObtainFlags : (byte)0;
-    public byte GetPokeCaughtInWildFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.CaughtInWildFlags : (byte)0;
+    public byte GetPokeSeenInWildFlags(ushort species, byte form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.SeenInWildFlags : (byte)0;
+    public byte GetPokeObtainFlags(ushort species, byte form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.ObtainFlags : (byte)0;
+    public byte GetPokeCaughtInWildFlags(ushort species, byte form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.CaughtInWildFlags : (byte)0;
 
-    public void SetPokeSeenInWildFlags(ushort species, int form, byte flags)
+    public void SetPokeSeenInWildFlags(ushort species, byte form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
             statEntry.SeenInWildFlags = flags;
         }
     }
-    public void SetPokeObtainFlags(ushort species, int form, byte flags)
+    public void SetPokeObtainFlags(ushort species, byte form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
             statEntry.ObtainFlags = flags;
         }
     }
-    public void SetPokeCaughtInWildFlags(ushort species, int form, byte flags)
+    public void SetPokeCaughtInWildFlags(ushort species, byte form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
@@ -744,15 +744,15 @@ public sealed class PokedexSave8a
         }
     }
 
-    public bool HasAnyPokeSeenInWildFlags(ushort species, int form) => GetPokeSeenInWildFlags(species, form) != 0;
+    public bool HasAnyPokeSeenInWildFlags(ushort species, byte form) => GetPokeSeenInWildFlags(species, form) != 0;
 
-    public bool HasAnyPokeObtainFlags(ushort species, int form) => GetPokeObtainFlags(species, form) != 0;
+    public bool HasAnyPokeObtainFlags(ushort species, byte form) => GetPokeObtainFlags(species, form) != 0;
 
-    public bool HasAnyPokeCaughtInWildFlags(ushort species, int form) => GetPokeCaughtInWildFlags(species, form) != 0;
+    public bool HasAnyPokeCaughtInWildFlags(ushort species, byte form) => GetPokeCaughtInWildFlags(species, form) != 0;
 
     public int GetSelectedForm(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return 0;
 
         return SaveData.GetResearchEntry(species).SelectedForm;
@@ -760,7 +760,7 @@ public sealed class PokedexSave8a
 
     public bool GetSelectedAlpha(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         return SaveData.GetResearchEntry(species).SelectedAlpha;
@@ -768,7 +768,7 @@ public sealed class PokedexSave8a
 
     public bool GetSelectedShiny(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         return SaveData.GetResearchEntry(species).SelectedShiny;
@@ -776,7 +776,7 @@ public sealed class PokedexSave8a
 
     public bool GetSelectedGender1(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         return SaveData.GetResearchEntry(species).SelectedGender1;
@@ -784,7 +784,7 @@ public sealed class PokedexSave8a
 
     public bool GetSolitudeComplete(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         return SaveData.GetResearchEntry(species).IsSolitudeComplete;
@@ -792,7 +792,7 @@ public sealed class PokedexSave8a
 
     public void SetSolitudeComplete(ushort species, bool value)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return;
 
         SaveData.GetResearchEntry(species).IsSolitudeComplete = value;
@@ -941,7 +941,7 @@ public sealed class PokedexSave8a
 
     public bool IsNewUnreportedPoke(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return false;
 
         var researchEntry = SaveData.GetResearchEntry(species);
@@ -1183,9 +1183,9 @@ public sealed class PokedexSave8a
 
     public void SetSelectedGenderForm(PKM pk) => SetSelectedGenderForm(pk.Species, pk.Form, pk.Gender == 1, pk.IsShiny, ((PA8)pk).IsAlpha);
 
-    public void SetSelectedGenderForm(ushort species, int form, bool gender1, bool shiny, bool alpha)
+    public void SetSelectedGenderForm(ushort species, byte form, bool gender1, bool shiny, bool alpha)
     {
-        if ((uint)species >= MAX_SPECIES || (uint)form >= MAX_FORM)
+        if (species >= MAX_SPECIES || form >= MAX_FORM)
             return;
 
         var speciesEntry = SaveData.GetResearchEntry(species);
@@ -1215,7 +1215,7 @@ public sealed class PokedexSave8a
         speciesEntry.SelectedGender1 = gender1;
         speciesEntry.SelectedShiny = shiny;
         speciesEntry.SelectedAlpha = alpha;
-        speciesEntry.SelectedForm = (byte)form;
+        speciesEntry.SelectedForm = form;
     }
 
     private void SetPokeObtained(PKM pk, bool caught)
@@ -1304,7 +1304,7 @@ public sealed class PokedexSave8a
         }
     }
 
-    public void SetGlobalFormField(int form)
+    public void SetGlobalFormField(byte form)
     {
         if (form < MAX_FORM)
             SaveData.SetGlobalFormField(form);
@@ -1312,11 +1312,11 @@ public sealed class PokedexSave8a
 
     public int GetGlobalFormField() => SaveData.GetGlobalFormField();
 
-    public bool HasFormStorage(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out _);
+    public bool HasFormStorage(ushort species, byte form) => SaveData.TryGetStatisticsEntry(species, form, out _);
 
-    public bool IsBlacklisted(ushort species, int form) => IsNoblePokemon(species, form);
+    public bool IsBlacklisted(ushort species, byte form) => IsNoblePokemon(species, form);
 
-    public bool GetSizeStatistics(ushort species, int form, out bool hasMax, out float minHeight, out float maxHeight, out float minWeight, out float maxWeight)
+    public bool GetSizeStatistics(ushort species, byte form, out bool hasMax, out float minHeight, out float maxHeight, out float minWeight, out float maxWeight)
     {
         hasMax = false;
         minHeight = 0;
@@ -1336,7 +1336,7 @@ public sealed class PokedexSave8a
         return true;
     }
 
-    public void SetSizeStatistics(ushort species, int form, bool hasMax, float minHeight, float maxHeight, float minWeight, float maxWeight)
+    public void SetSizeStatistics(ushort species, byte form, bool hasMax, float minHeight, float maxHeight, float minWeight, float maxWeight)
     {
         if (minHeight < 0)
             minHeight = 0;
@@ -1361,7 +1361,7 @@ public sealed class PokedexSave8a
             SetPokeHasBeenUpdated(species);
     }
 
-    public static bool IsNoblePokemon(ushort species, int form) => form switch
+    public static bool IsNoblePokemon(ushort species, byte form) => form switch
     {
         1 => species == 900,
         2 => species is 59 or 101 or 549 or 713,

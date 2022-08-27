@@ -729,7 +729,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!silent)
         {
             var mv = GameInfo.Strings.Move;
-            var movestrings = m.Select(v => (uint)v >= mv.Count ? MsgProgramError : mv[v]);
+            var movestrings = m.Select(v => v >= mv.Count ? MsgProgramError : mv[v]);
             var msg = string.Join(Environment.NewLine, movestrings);
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, msg))
                 return false;
@@ -755,7 +755,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!silent)
         {
             var mv = GameInfo.Strings.Move;
-            var movestrings = m.Select(v => (uint)v >= mv.Count ? MsgProgramError : mv[v]);
+            var movestrings = m.Select(v => v >= mv.Count ? MsgProgramError : mv[v]);
             var msg = string.Join(Environment.NewLine, movestrings);
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, msg))
                 return false;
@@ -945,7 +945,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             if (Entity.Format == 3)
             {
-                Entity.SetPIDUnown3(CB_Form.SelectedIndex);
+                Entity.SetPIDUnown3((byte)CB_Form.SelectedIndex);
                 TB_PID.Text = Entity.PID.ToString("X8");
             }
             else if (Entity.Format == 2)
@@ -1286,18 +1286,29 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         // Fetch Current Species and set it as Nickname Text
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        if ((uint)(species - 1) >= Entity.MaxSpeciesID)
-        { TB_Nickname.Text = string.Empty; return; }
-
-        if (CHK_IsEgg.Checked)
-            species = 0; // get the egg name.
-
-        // If name is that of another language, don't replace the nickname
-        if (sender != CB_Language && species != 0 && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
+        if (species is 0 || species > Entity.MaxSpeciesID)
+        {
+            TB_Nickname.Text = string.Empty;
             return;
+        }
 
-        int lang = WinFormsUtil.GetIndex(CB_Language);
-        TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, lang, Entity.Format);
+        string nick;
+        if (CHK_IsEgg.Checked)
+        {
+            // Get the egg name.
+            int language = WinFormsUtil.GetIndex(CB_Language);
+            nick = SpeciesName.GetEggName(language, Entity.Format);
+        }
+        else
+        {
+            // If name is that of another language, don't replace the nickname
+            if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
+                return;
+            int lang = WinFormsUtil.GetIndex(CB_Language);
+            nick = SpeciesName.GetSpeciesNameGeneration(species, lang, Entity.Format);
+        }
+
+        TB_Nickname.Text = nick;
         if (Entity is GBPKM pk)
             pk.SetNotNicknamed();
     }

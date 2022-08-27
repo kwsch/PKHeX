@@ -205,7 +205,7 @@ public sealed class Zukan8 : ZukanBase
         return false;
     }
 
-    public bool GetSeenRegion(ushort species, int form, int region)
+    public bool GetSeenRegion(ushort species, byte form, int region)
     {
         if (!GetEntry(species, out var entry))
             return false;
@@ -213,7 +213,7 @@ public sealed class Zukan8 : ZukanBase
         return GetSeenRegion(entry, form, region);
     }
 
-    public bool GetSeenRegion(Zukan8Index entry, int form, int region)
+    public bool GetSeenRegion(Zukan8Index entry, byte form, int region)
     {
         if ((uint)region >= SeenRegionCount)
             throw new ArgumentOutOfRangeException(nameof(region));
@@ -227,7 +227,7 @@ public sealed class Zukan8 : ZukanBase
         return GetFlag(data, offset + ofs, form);
     }
 
-    public void SetSeenRegion(ushort species, int form, int region, bool value = true)
+    public void SetSeenRegion(ushort species, byte form, int region, bool value = true)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -235,7 +235,7 @@ public sealed class Zukan8 : ZukanBase
         SetSeenRegion(entry, form, region, value);
     }
 
-    public void SetSeenRegion(Zukan8Index entry, int form, int region, bool value = true)
+    public void SetSeenRegion(Zukan8Index entry, byte form, int region, bool value = true)
     {
         if ((uint) region >= SeenRegionCount)
             throw new ArgumentOutOfRangeException(nameof(region));
@@ -482,7 +482,7 @@ public sealed class Zukan8 : ZukanBase
 
         var gender = pk.Gender;
         bool shiny = pk.IsShiny;
-        int form = pk.Form;
+        var form = pk.Form;
         var language = pk.Language;
 
         var g = gender & 1;
@@ -490,7 +490,7 @@ public sealed class Zukan8 : ZukanBase
         if (species == (int)Species.Alcremie)
         {
             form *= 7;
-            form += (int)((PK8)pk).FormArgument; // alteration byte
+            form += (byte)((PK8)pk).FormArgument; // alteration byte
         }
         else if (species == (int) Species.Eternatus && form == 1)
         {
@@ -503,7 +503,7 @@ public sealed class Zukan8 : ZukanBase
         SetIsLanguageObtained(species, language);
         if (!owned)
         {
-            SetFormDisplayed(species, (byte)form);
+            SetFormDisplayed(species, form);
             if (shiny)
                 SetDisplayShiny(species);
             SetGenderDisplayed(species, (uint)g);
@@ -533,16 +533,16 @@ public sealed class Zukan8 : ZukanBase
         SetUnk1Count(species, 0);
         SetUnk2Count(species, 0);
     }
-
+    
     public override void SeenAll(bool shinyToo = false)
     {
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(ushort species, int fc, bool shinyToo, bool value = true)
+    private void SeenAll(ushort species, byte fc, bool shinyToo, bool value = true)
     {
         var pt = PersonalTable.SWSH;
-        for (int form = 0; form < fc; form++)
+        for (byte form = 0; form < fc; form++)
         {
             var pi = pt.GetFormEntry(species, form);
             SeenAll(species, form, value, pi, shinyToo);
@@ -555,7 +555,7 @@ public sealed class Zukan8 : ZukanBase
             ClearGigantamaxFlags(species);
     }
 
-    private void SeenAll(ushort species, int bitIndex, bool value, IGenderDetail pi, bool shinyToo)
+    private void SeenAll(ushort species, byte bitIndex, bool value, IGenderDetail pi, bool shinyToo)
     {
         if (pi.IsDualGender || !value)
         {
@@ -644,7 +644,7 @@ public sealed class Zukan8 : ZukanBase
             // Alcremie forms
             const int deco = 7;
             const int forms = 9;
-            for (int i = 0; i < deco * forms; i++) // 0-62
+            for (byte i = 0; i < deco * forms; i++) // 0-62
                 SeenAll(species, i, value, pi, shinyToo);
         }
 

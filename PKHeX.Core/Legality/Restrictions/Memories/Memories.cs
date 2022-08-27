@@ -20,10 +20,10 @@ public static class Memories
         4, 4, 3, 3, 5, 0, 1, 3, 5, 4,
     };
 
-    public static MemoryArgType GetMemoryArgType(int memory, int memoryGen)
+    public static MemoryArgType GetMemoryArgType(byte memory, int memoryGen)
     {
         var arr = ArgTypes;
-        if ((uint)memory >= arr.Length)
+        if (memory >= arr.Length)
             return MemoryArgType.None;
 
         var type = arr[memory];

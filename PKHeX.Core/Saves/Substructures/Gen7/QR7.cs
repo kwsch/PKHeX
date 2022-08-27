@@ -44,7 +44,7 @@ public static class QR7
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
-    private static byte[] GetRawQR(ushort species, int form, bool shiny, int gender)
+    private static byte[] GetRawQR(ushort species, byte form, bool shiny, int gender)
     {
         var basedata = (byte[])BaseQR.Clone();
         WriteUInt16LittleEndian(basedata.AsSpan(0x28), species);

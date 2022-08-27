@@ -39,7 +39,7 @@ public static class MoveLevelUp
         return lvl0;
     }
 
-    public static ushort[] GetEncounterMoves(ushort species, int form, int level, GameVersion version)
+    public static ushort[] GetEncounterMoves(ushort species, byte form, int level, GameVersion version)
     {
         if (RBY.Contains(version))
             return GetEncounterMoves1(species, level, version);

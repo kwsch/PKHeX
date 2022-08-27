@@ -24,12 +24,12 @@ public sealed class PersonalTable2 : IPersonalTable, IPersonalTable<PersonalInfo
     }
 
     public PersonalInfo2 this[int index] => Table[(uint)index < Table.Length ? index : 0];
-    public PersonalInfo2 this[ushort species, int form] => Table[GetFormIndex(species, form)];
-    public PersonalInfo2 GetFormEntry(ushort species, int form) => Table[GetFormIndex(species, form)];
+    public PersonalInfo2 this[ushort species, byte form] => Table[GetFormIndex(species, form)];
+    public PersonalInfo2 GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
 
-    public int GetFormIndex(ushort species, int form) => IsSpeciesInGame(species) ? species : 0;
+    public int GetFormIndex(ushort species, byte form) => IsSpeciesInGame(species) ? species : 0;
     public bool IsSpeciesInGame(ushort species) => (uint)species <= MaxSpecies;
-    public bool IsPresentInGame(ushort species, int form)
+    public bool IsPresentInGame(ushort species, byte form)
     {
         if (!IsSpeciesInGame(species))
             return false;
@@ -39,6 +39,6 @@ public sealed class PersonalTable2 : IPersonalTable, IPersonalTable<PersonalInfo
     }
 
     PersonalInfo IPersonalTable.this[int index] => this[index];
-    PersonalInfo IPersonalTable.this[ushort species, int form] => this[species, form];
-    PersonalInfo IPersonalTable.GetFormEntry(ushort species, int form) => GetFormEntry(species, form);
+    PersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
+    PersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
 }

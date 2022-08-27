@@ -179,7 +179,7 @@ public partial class SAV_PokedexLA : Form
         var formCount = SAV.Personal[species].FormCount;
         var sanitized = new List<string>();
         DisplayedForms.Clear();
-        for (var form = 0; form < formCount; form++)
+        for (byte form = 0; form < formCount; form++)
         {
             if (!Dex.HasFormStorage(species, form) || Dex.IsBlacklisted(species, form))
                 continue;
@@ -216,7 +216,7 @@ public partial class SAV_PokedexLA : Form
     private void GetEntry(int index, int formIndex)
     {
         var species = DexToSpecies[index + 1];
-        var form = DisplayedForms[formIndex].Value;
+        var form = (byte)DisplayedForms[formIndex].Value;
 
         // Flags
         var seenWild = Dex.GetPokeSeenInWildFlags(species, form);
@@ -291,7 +291,7 @@ public partial class SAV_PokedexLA : Form
     private bool IsEntryEmpty(int index, int formIndex)
     {
         var species = DexToSpecies[index + 1];
-        var form = DisplayedForms[formIndex].Value;
+        byte form = (byte)DisplayedForms[formIndex].Value;
 
         // Any seen/obtain flags
         for (var i = 0; i < CHK_SeenWild.Length; i++)
@@ -353,7 +353,7 @@ public partial class SAV_PokedexLA : Form
             return;
 
         var species = DexToSpecies[index + 1];
-        var form = DisplayedForms[formIndex].Value;
+        var form = (byte)DisplayedForms[formIndex].Value;
 
         if (!empty)
             Dex.SetPokeHasBeenUpdated(species);
@@ -377,7 +377,7 @@ public partial class SAV_PokedexLA : Form
         // Display
         var dispForm = form;
         if (CB_DisplayForm.Enabled)
-            dispForm = WinFormsUtil.GetIndex(CB_DisplayForm);
+            dispForm = (byte)WinFormsUtil.GetIndex(CB_DisplayForm);
 
         Dex.SetSelectedGenderForm(species, dispForm, CHK_G.Checked, CHK_S.Checked, CHK_A.Checked);
 

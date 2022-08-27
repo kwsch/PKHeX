@@ -50,8 +50,8 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
 
     protected abstract string GetSpriteStringSpeciesOnly(ushort species);
 
-    protected abstract string GetSpriteAll(ushort species, int form, int gender, uint formarg, bool shiny, int generation);
-    protected abstract string GetSpriteAllSecondary(ushort species, int form, int gender, uint formarg, bool shiny, int generation);
+    protected abstract string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, int generation);
+    protected abstract string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, int generation);
     protected abstract string GetItemResourceName(int item);
     protected abstract Bitmap Unknown { get; }
     protected abstract Bitmap GetEggSprite(ushort species);

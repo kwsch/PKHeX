@@ -16,9 +16,9 @@ public sealed class LearnSource8LA : ILearnSource
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const LearnEnvironment Game = PLA;
 
-    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)

@@ -95,7 +95,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x3A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x3A), (ushort)value); }
 
     // Not stored.
-    public PersonalInfo GetPersonalInfo(ushort species, int form) => PersonalTable.LA.GetFormEntry(species, form);
+    public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.LA.GetFormEntry(species, form);
     public int Move1_PPUps { get => 0; set { } }
     public int Move2_PPUps { get => 0; set { } }
     public int Move3_PPUps { get => 0; set { } }

@@ -95,7 +95,7 @@ public partial class SAV_PokedexSWSH : Form
         for (int i = 0; i < CHK.Length; i++)
         {
             var c = CHK[i];
-            for (int j = 0; j < 64; j++)
+            for (byte j = 0; j < 64; j++)
             {
                 if (j < 63)
                     c.Items[j] = $"{j:00} - {(j < forms.Length ? forms[j] : "N/A")}";
@@ -158,7 +158,7 @@ public partial class SAV_PokedexSWSH : Form
         for (int i = 0; i < CHK.Length; i++)
         {
             var c = CHK[i];
-            for (int j = 0; j < 64; j++)
+            for (byte j = 0; j < 64; j++)
             {
                 var value = c.GetItemChecked(j);
                 Dex.SetSeenRegion(entry, j, i, value);

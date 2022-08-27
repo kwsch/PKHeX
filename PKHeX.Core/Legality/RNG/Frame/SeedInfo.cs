@@ -59,7 +59,7 @@ public readonly record struct SeedInfo(uint Seed, bool Charm3 = false)
         foreach (var seed in seeds)
             yield return new SeedInfo(seed);
     }
-
+    
     /// <summary>
     /// Yields an enumerable list of seeds until another valid PID breaks the chain.
     /// </summary>
@@ -67,7 +67,7 @@ public readonly record struct SeedInfo(uint Seed, bool Charm3 = false)
     /// <param name="info">Verification information</param>
     /// <param name="form">Unown Form lock value</param>
     /// <returns>Seed information data, which needs to be unrolled once for the nature call.</returns>
-    public static IEnumerable<SeedInfo> GetSeedsUntilUnownForm(PIDIV pidiv, FrameGenerator info, int form)
+    public static IEnumerable<SeedInfo> GetSeedsUntilUnownForm(PIDIV pidiv, FrameGenerator info, byte form)
     {
         var seed = pidiv.OriginSeed;
         yield return new SeedInfo(seed);

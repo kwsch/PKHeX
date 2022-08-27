@@ -103,7 +103,7 @@ public static class Breeding
     /// <param name="species">Current species</param>
     /// <param name="form">Current form</param>
     /// <param name="generation">Generation of origin</param>
-    public static bool CanHatchAsEgg(ushort species, int form, int generation)
+    public static bool CanHatchAsEgg(ushort species, byte form, int generation)
     {
         if (form == 0)
             return true;
@@ -121,7 +121,7 @@ public static class Breeding
     /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,int,int)"/>
     /// </summary>
     /// <returns>True if can be bred.</returns>
-    private static bool IsBreedableForm(ushort species, int form) => species switch
+    private static bool IsBreedableForm(ushort species, byte form) => species switch
     {
         (int)Pikachu or (int)Eevee => false, // can't get these forms as egg
         (int)Pichu => false, // can't get Spiky Ear Pichu eggs
@@ -137,7 +137,7 @@ public static class Breeding
     /// <param name="species">Current species</param>
     /// <param name="form">Current form</param>
     /// <param name="game">Game of origin</param>
-    public static bool CanHatchAsEgg(ushort species, int form, GameVersion game)
+    public static bool CanHatchAsEgg(ushort species, byte form, GameVersion game)
     {
         // Sanity check form for origin
         var pt = GameData.GetPersonal(game);

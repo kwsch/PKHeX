@@ -48,9 +48,9 @@ public static class ShowdownParsing
     /// <param name="strings"></param>
     /// <param name="species"></param>
     /// <param name="context"></param>
-    public static string GetStringFromForm(int form, GameStrings strings, ushort species, EntityContext context)
+    public static string GetStringFromForm(byte form, GameStrings strings, ushort species, EntityContext context)
     {
-        if (form <= 0)
+        if (form == 0)
             return string.Empty;
 
         var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);

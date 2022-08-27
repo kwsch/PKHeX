@@ -67,7 +67,7 @@ public sealed class PersonalInfo8BDSP : PersonalInfo
     public int AbilityH { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), (ushort)value); }
     public override int EscapeRate { get => 0; set { } } // moved?
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); }
-    public override int FormCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+    public override byte FormCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
     public override int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
     public bool IsPresentInGame { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
     public override int BaseEXP { get => ReadUInt16LittleEndian(Data.AsSpan(0x22)); set => WriteUInt16LittleEndian(Data.AsSpan(0x22), (ushort)value); }
@@ -82,7 +82,7 @@ public sealed class PersonalInfo8BDSP : PersonalInfo
 
     public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), value); }
     public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), value); }
-    public ushort HatchFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(0x40), value); }
+    public byte HatchFormIndex { get => (byte)ReadUInt16LittleEndian(Data.AsSpan(0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(0x40), value); }
     public ushort PokeDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(0x42), value); }
 
     public IReadOnlyList<int> Items

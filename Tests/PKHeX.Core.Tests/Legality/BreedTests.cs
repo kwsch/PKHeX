@@ -35,7 +35,7 @@ public class BreedTests
     [InlineData(BD, Gible, 0, IronHead, BodySlam, SandTomb, Outrage)]
     [InlineData(BD, Gible, 0, IronHead, BodySlam, Outrage, SandTomb)]
     [InlineData(BD, Gible, 0, BodySlam, Outrage, SandTomb, DragonBreath)]
-    public void VerifyBreed(GameVersion game, Species species, int form, params Move[] movelist)
+    public void VerifyBreed(GameVersion game, Species species, byte form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
         Span<ushort> moves = stackalloc ushort[MovesetCount];
@@ -57,7 +57,7 @@ public class BreedTests
     [InlineData(SH, Honedge, 0, FuryCutter, WideGuard, DestinyBond)] // insufficient move count
     [InlineData(OR, Rotom, 0, Discharge, Charge, Trick, ConfuseRay)] // invalid push-out order
     [InlineData(OR, Rotom, 0, ThunderWave, ThunderShock, ConfuseRay, Discharge)] // no inheriting levelup
-    public void CheckBad(GameVersion game, Species species, int form, params Move[] movelist)
+    public void CheckBad(GameVersion game, Species species, byte form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
         Span<ushort> moves = stackalloc ushort[MovesetCount];
@@ -66,12 +66,12 @@ public class BreedTests
         var test = MoveBreed.Validate(gen, (ushort)species, form, game, moves, result);
         test.Should().BeFalse();
     }
-
+    
     [Theory]
     [InlineData(GD, Bulbasaur, 0, Growl, Tackle)] // swap order, two base moves
     [InlineData(UM, Charmander, 0, Ember, BellyDrum, Scratch, Growl)] // swap order, inherit + egg moves
     [InlineData(BD, Gible, 0, BodySlam, SandTomb, Outrage, DragonBreath)]
-    public void CheckFix(GameVersion game, Species species, int form, params Move[] movelist)
+    public void CheckFix(GameVersion game, Species species, byte form, params Move[] movelist)
     {
         var gen = game.GetGeneration();
         Span<ushort> moves = stackalloc ushort[MovesetCount];

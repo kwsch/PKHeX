@@ -8,7 +8,7 @@ public interface IPersonalFormInfo
     /// <summary>
     /// Count of <see cref="PKM.Form"/> values the entry can have.
     /// </summary>
-    int FormCount { get; set; }
+    byte FormCount { get; set; }
 
     /// <summary>
     /// Pointer to the first <see cref="PKM.Form"/> <see cref="PersonalInfo"/> index
@@ -26,17 +26,17 @@ public interface IPersonalFormInfo
     /// <param name="species"><see cref="PKM.Species"/> to retrieve for</param>
     /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
     /// <returns>Index the <see cref="PKM.Form"/> exists as in the <see cref="PersonalTable"/>.</returns>
-    int FormIndex(ushort species, int form);
+    int FormIndex(ushort species, byte form);
 
     /// <summary>
     /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.Form"/> entry index available.
     /// </summary>
     /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
-    bool HasForm(int form);
+    bool HasForm(byte form);
 
     /// <summary>
     /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="PersonalInfo.FormCount"/>
     /// </summary>
     /// <param name="form"></param>
-    bool IsFormWithinRange(int form);
+    bool IsFormWithinRange(byte form);
 }

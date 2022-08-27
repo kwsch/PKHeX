@@ -878,7 +878,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// This method should only be used for Unown originating in Generation 3 games.
     /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
     /// </remarks>
-    public void SetPIDUnown3(int form)
+    public void SetPIDUnown3(byte form)
     {
         var rnd = Util.Rand;
         do PID = rnd.Rand32(); while (EntityPID.GetUnownForm3(PID) != form);

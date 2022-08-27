@@ -45,7 +45,7 @@ public sealed class PokedexSaveData
 
     public PokedexSaveResearchEntry GetResearchEntry(ushort species) => ResearchEntries[species];
 
-    public bool TryGetStatisticsEntry(ushort species, int form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
+    public bool TryGetStatisticsEntry(ushort species, byte form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
     {
         var fstIdIndex = Array.BinarySearch(PokedexConstants8a.FormStorageIndexIds, (ushort)(species | (form << 11)));
         if (fstIdIndex >= 0)
@@ -129,6 +129,6 @@ public sealed class PokedexSaveData
         outField0C = local.Field_0C;
     }
 
-    public void SetGlobalFormField(int form) => GlobalData.FormField = (byte)form;
+    public void SetGlobalFormField(byte form) => GlobalData.FormField = form;
     public int GetGlobalFormField() => GlobalData.FormField;
 }

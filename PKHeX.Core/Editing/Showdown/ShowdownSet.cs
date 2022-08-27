@@ -372,7 +372,7 @@ public sealed class ShowdownSet : IBattleTemplate
         var moves = Strings.Move;
         foreach (var move in Moves)
         {
-            if (move == 0 || (uint)move >= moves.Count)
+            if (move == 0 || move >= moves.Count)
                 continue;
 
             if (move != (int)Move.HiddenPower)

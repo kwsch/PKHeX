@@ -52,7 +52,7 @@ public static class PokeDex
         span[offset + regionSize + (regionSize * 4)].Should().Be(value, "displayed flag");
     }
 
-    private static void CheckDexFlags5(SaveFile sav, ushort species, int form, int regionSize, int formRegionSize)
+    private static void CheckDexFlags5(SaveFile sav, ushort species, byte form, int regionSize, int formRegionSize)
     {
         var dex = sav.PokeDex;
         var data = sav.Data;

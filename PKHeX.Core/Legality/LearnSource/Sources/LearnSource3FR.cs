@@ -20,10 +20,10 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
     private const int Generation = 3;
     private const int CountTM = 50;
 
-    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
     internal PersonalInfo this[ushort species] => Personal[species];
 
-    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -32,7 +32,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(ushort species, int form, ushort move)
+    public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -40,7 +40,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if ((uint)species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;

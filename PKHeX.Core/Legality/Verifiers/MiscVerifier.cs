@@ -663,7 +663,7 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatNatureInvalid));
     }
 
-    private static bool CanLearnTR(ushort species, int form, int tr)
+    private static bool CanLearnTR(ushort species, byte form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
         return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];

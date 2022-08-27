@@ -27,11 +27,11 @@ public sealed class Zukan7b : Zukan7
         base.SetDex(species, bit, form, gender, shiny, lang);
     }
 
-    private static bool IsBuddy(ushort species, int form) => (species == (int)Species.Pikachu && form == 8) || (species == (int)Species.Eevee && form == 1);
+    private static bool IsBuddy(ushort species, byte form) => (species == (int)Species.Pikachu && form == 8) || (species == (int)Species.Eevee && form == 1);
 
     public const int DefaultEntryValue = 0x7F;
 
-    public bool GetSizeData(DexSizeType group, ushort species, int form, out int height, out int weight)
+    public bool GetSizeData(DexSizeType group, ushort species, byte form, out int height, out int weight)
     {
         height = weight = DefaultEntryValue;
         if (TryGetSizeEntryIndex(species, form, out var index))
@@ -53,7 +53,7 @@ public sealed class Zukan7b : Zukan7
     private void SetSizeData(PB7 pk)
     {
         var species = pk.Species;
-        int form = pk.Form;
+        var form = pk.Form;
         if (!TryGetSizeEntryIndex(species, form, out int index))
             return;
 
@@ -115,7 +115,7 @@ public sealed class Zukan7b : Zukan7
             SetSizeData(group, s, f, height, weight);
     }
 
-    public void SetSizeData(DexSizeType group, ushort species, int form, int height, int weight)
+    public void SetSizeData(DexSizeType group, ushort species, byte form, int height, int weight)
     {
         if (TryGetSizeEntryIndex(species, form, out var index))
             SetSizeData(group, index, height, weight);
@@ -129,7 +129,7 @@ public sealed class Zukan7b : Zukan7
         WriteUInt16LittleEndian(span[2..], (ushort)weight);
     }
 
-    public static bool TryGetSizeEntryIndex(ushort species, int form, out int index)
+    public static bool TryGetSizeEntryIndex(ushort species, byte form, out int index)
     {
         index = -1;
         if (form == 0 && species <= 151)

@@ -181,7 +181,7 @@ public static class RibbonRules
         foreach (var evo in evos)
         {
             var species = evo.Species;
-            if ((uint)species >= arr.Length)
+            if (species >= arr.Length)
                 continue;
             if (!arr[species])
                 return true;
@@ -314,7 +314,7 @@ public static class RibbonRules
         return IsAllowedContest4(head.Species, head.Form);
     }
 
-    public static bool IsAllowedContest4(ushort species, int form) => species switch
+    public static bool IsAllowedContest4(ushort species, byte form) => species switch
     {
         // Disallow Unown and Ditto, and Spiky Pichu (cannot trade)
         (int)Species.Ditto => false,
@@ -333,7 +333,7 @@ public static class RibbonRules
         return IsAllowedBattleFrontier(head.Species, head.Form, 4);
     }
 
-    public static bool IsAllowedBattleFrontier(ushort species, int form, int gen)
+    public static bool IsAllowedBattleFrontier(ushort species, byte form, int gen)
     {
         if (gen == 4 && species == (int)Species.Pichu && form == 1) // spiky
             return false;

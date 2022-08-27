@@ -53,7 +53,7 @@ public static class EntityBlank
         return GetBlank(type);
     }
 
-    public static PKM GetIdealBlank(ushort species, int form)
+    public static PKM GetIdealBlank(ushort species, byte form)
     {
         if (PersonalTable.LA.IsPresentInGame(species, form))
             return new PA8();

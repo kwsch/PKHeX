@@ -99,7 +99,7 @@ public partial class SAV_PokedexGG : Form
         int form = LB_Forms.SelectedIndex;
         if (form > 0)
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc > 1) // actually has forms
             {
                 int f = Dex.DexFormIndexFetcher(bspecies, fc, SAV.MaxSpeciesID - 1);
@@ -234,7 +234,7 @@ public partial class SAV_PokedexGG : Form
         }
 
         var speciesID = Dex.GetBaseSpecies(currentSpecies);
-        LoadRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
+        LoadRecord(speciesID, (byte)Math.Max(0, LB_Forms.SelectedIndex));
 
         editing = false;
     }
@@ -261,10 +261,10 @@ public partial class SAV_PokedexGG : Form
             Dex.SetLanguageFlag(pk, i, CL[i].Checked);
 
         var speciesID = Dex.GetBaseSpecies(currentSpecies);
-        SetRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
+        SetRecord(speciesID, (byte)Math.Max(0, LB_Forms.SelectedIndex));
     }
 
-    private void LoadRecord(ushort species, int form)
+    private void LoadRecord(ushort species, byte form)
     {
         bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
         GB_SizeRecords.Visible = hasRecord;
@@ -283,7 +283,7 @@ public partial class SAV_PokedexGG : Form
         set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight);
     }
 
-    private void SetRecord(ushort species, int form)
+    private void SetRecord(ushort species, byte form)
     {
         bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
         if (!hasRecord)

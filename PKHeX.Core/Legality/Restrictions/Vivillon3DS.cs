@@ -208,7 +208,7 @@ public static class Vivillon3DS
     /// <summary>
     /// Compares the Vivillon pattern against its console region to determine if the pattern is legal.
     /// </summary>
-    public static bool IsPatternValid(int form, int consoleRegion)
+    public static bool IsPatternValid(byte form, int consoleRegion)
     {
         if ((uint)form > MaxWildFormID)
             return false;
@@ -223,7 +223,7 @@ public static class Vivillon3DS
     /// <param name="country">Country ID</param>
     /// <param name="region">Subregion ID</param>
     /// <returns>True if valid</returns>
-    public static bool IsPatternNative(int form, byte country, byte region)
+    public static bool IsPatternNative(byte form, byte country, byte region)
     {
         if ((uint)form > MaxWildFormID)
             return false;
@@ -256,7 +256,6 @@ public static class Vivillon3DS
             if (sub.Regions.Contains(region))
                 return sub.Form;
         }
-        
         return ct.BaseForm;
     }
 

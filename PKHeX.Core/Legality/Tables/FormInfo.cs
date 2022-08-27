@@ -15,7 +15,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
-    public static bool IsBattleOnlyForm(ushort species, int form, int format)
+    public static bool IsBattleOnlyForm(ushort species, byte form, int format)
     {
         if (!BattleOnly.Contains(species))
             return false;
@@ -59,7 +59,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it is a fused species-form, false if it is not fused.</returns>
-    public static bool IsFusedForm(ushort species, int form, int format) => species switch
+    public static bool IsFusedForm(ushort species, byte form, int format) => species switch
     {
         (int)Kyurem when form != 0 && format >= 5 => true,
         (int)Necrozma when form != 0 && format >= 7 => true,
@@ -72,7 +72,7 @@ public static class FormInfo
     /// <param name="oldForm">Original form</param>
     /// <param name="newForm">Current form</param>
     /// <param name="format">Current format</param>
-    public static bool IsFormChangeable(ushort species, int oldForm, int newForm, int format)
+    public static bool IsFormChangeable(ushort species, byte oldForm, byte newForm, int format)
     {
         if (FormChange.Contains(species))
             return true;
@@ -204,15 +204,15 @@ public static class FormInfo
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
-    public static bool IsTotemForm(ushort species, int form, int format) => format == 7 && IsTotemForm(species, form);
+    public static bool IsTotemForm(ushort species, byte form, int format) => format == 7 && IsTotemForm(species, form);
 
     /// <summary>
     /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
     /// </summary>
-    /// <remarks>Use <see cref="IsTotemForm(ushort,int,int)"/> if you aren't 100% sure the format is 7.</remarks>
+    /// <remarks>Use <see cref="IsTotemForm(ushort,byte,int)"/> if you aren't 100% sure the format is 7.</remarks>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    public static bool IsTotemForm(ushort species, int form)
+    public static bool IsTotemForm(ushort species, byte form)
     {
         if (form == 0)
             return false;
@@ -237,14 +237,14 @@ public static class FormInfo
         return --form;
     }
 
-    public static bool IsLordForm(ushort species, int form, int generation)
+    public static bool IsLordForm(ushort species, byte form, int generation)
     {
         if (generation != 8)
             return false;
         return IsLordForm(species, form);
     }
 
-    private static bool IsLordForm(ushort species, int form) => form != 0 && species switch
+    private static bool IsLordForm(ushort species, byte form) => form != 0 && species switch
     {
         (int)Arcanine when form == 2 => true,
         (int)Electrode when form == 2 => true,
@@ -261,7 +261,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <seealso cref="HasFormValuesNotIndicatedByPersonal"/>
-    public static bool IsValidOutOfBoundsForm(ushort species, int form, int format) => (Species) species switch
+    public static bool IsValidOutOfBoundsForm(ushort species, byte form, int format) => (Species) species switch
     {
         Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
         Mothim => form < 3, // Burmy base form is kept

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveList
 {
-    internal static void GetCurrentMoves(PKM pk, ushort species, int form, GameVersion gameSource, int lvl, Span<ushort> moves)
+    internal static void GetCurrentMoves(PKM pk, ushort species, byte form, GameVersion gameSource, int lvl, Span<ushort> moves)
     {
         if (gameSource == Any)
             gameSource = (GameVersion)pk.Version;
@@ -44,13 +44,13 @@ internal static class MoveList
 
     private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, ushort species, int lvl)
     {
-        if ((uint)species >= source.Length)
+        if (species >= source.Length)
             return moves;
         source[species].SetLevelUpMoves(1, lvl, moves);
         return moves;
     }
 
-    private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, IPersonalTable pt, ushort species, int form, int lvl)
+    private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, IPersonalTable pt, ushort species, byte form, int lvl)
     {
         if (!pt.IsPresentInGame(species, form))
             return moves;

@@ -85,6 +85,6 @@ public sealed class PersonalInfo4 : PersonalInfo
     public bool HasSecondAbility => Ability1 != Ability2;
 
     // Manually added attributes
-    public override int FormCount { get => Data[0x29]; set {} }
+    public override byte FormCount { get => Data[0x29]; set {} }
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set {} }
 }

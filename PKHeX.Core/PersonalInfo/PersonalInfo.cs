@@ -34,7 +34,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract IReadOnlyList<int> Abilities { get; set; }
     public abstract int GetAbilityIndex(int abilityID);
     public abstract int EscapeRate { get; set; }
-    public virtual int FormCount { get; set; } = 1;
+    public virtual byte FormCount { get; set; } = 1;
     public virtual int FormStatsIndex { get; set; }
     public abstract int BaseEXP { get; set; }
     public abstract int Color { get; set; }
@@ -73,14 +73,14 @@ public abstract class PersonalInfo : IPersonalInfo
     public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = GetBits(data);
     public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = GetBits(data);
 
-    public int FormIndex(ushort species, int form)
+    public int FormIndex(ushort species, byte form)
     {
         if (!HasForm(form))
             return species;
         return FormStatsIndex + form - 1;
     }
 
-    public bool HasForm(int form)
+    public bool HasForm(byte form)
     {
         if (form <= 0) // no form requested
             return false;
@@ -108,7 +108,7 @@ public abstract class PersonalInfo : IPersonalInfo
     /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="FormCount"/>
     /// </summary>
     /// <param name="form"></param>
-    public bool IsFormWithinRange(int form)
+    public bool IsFormWithinRange(byte form)
     {
         if (form == 0)
             return true;

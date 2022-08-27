@@ -66,7 +66,7 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
 
     #region Conversion
 
-    public PersonalInfo GetPersonalInfo(ushort species, int form) => PersonalTable.GG.GetFormEntry(species, form);
+    public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.GG.GetFormEntry(species, form);
 
     public void CopyTo(PB7 pk)
     {

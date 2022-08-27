@@ -8,13 +8,13 @@ public partial class FormArgument : UserControl
 {
     private bool IsRawMode;
     private ushort CurrentSpecies;
-    private int CurrentForm;
+    private byte CurrentForm;
     private int CurrentGeneration;
     private bool FieldsLoaded;
 
     public FormArgument() => InitializeComponent();
 
-    public void LoadArgument(IFormArgument f, ushort species, int form, int generation)
+    public void LoadArgument(IFormArgument f, ushort species, byte form, int generation)
     {
         FieldsLoaded = false;
         var max = FormArgumentUtil.GetFormArgumentMax(species, form, generation);

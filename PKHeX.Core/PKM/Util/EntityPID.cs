@@ -16,7 +16,7 @@ public static class EntityPID
     /// <param name="oldPID">Current PID</param>
     /// <remarks>Used to retain ability bits.</remarks>
     /// <returns>Rerolled PID.</returns>
-    public static uint GetRandomPID(Random rnd, ushort species, int gender, int origin, int nature, int form, uint oldPID)
+    public static uint GetRandomPID(Random rnd, ushort species, int gender, int origin, int nature, byte form, uint oldPID)
     {
         // Gen6+ (and VC) PIDs do not tie PID to Nature/Gender/Ability
         if (origin >= 24)

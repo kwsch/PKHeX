@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public static class MoveTutor
 {
     /// <summary> Gets the move that a Rotom form is permitted to have while existing as a specific <see cref="form"/>. </summary>
-    public static int GetRotomFormMove(int form) => form switch
+    public static int GetRotomFormMove(byte form) => form switch
     {
         1 => (int)Move.Overheat,
         2 => (int)Move.HydroPump,
