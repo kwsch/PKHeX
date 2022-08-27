@@ -750,8 +750,8 @@ public readonly record struct Zukan8Index(Zukan8Type DexType, ushort Index)
     private const int GalarCount = 400; // Count within Galar dex
     private const int Rigel1Count = 211; // Count within Armor dex
     private const int Rigel2Count = 210; // Count within Crown dex
-#if DEBUG
     public const int TotalCount = GalarCount + Rigel1Count + Rigel2Count;
+#if DEBUG
     /// <summary>
     /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
     /// </summary>
